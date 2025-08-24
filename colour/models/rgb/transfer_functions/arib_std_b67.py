@@ -3,7 +3,7 @@ ARIB STD-B67 (Hybrid Log-Gamma)
 ===============================
 
 Define the *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer function
-(OETF) and its inverse:
+(OETF) and its inverse.
 
 -   :func:`colour.models.oetf_ARIBSTDB67`
 -   :func:`colour.models.oetf_inverse_ARIBSTDB67`
@@ -33,6 +33,7 @@ from colour.utilities import (
     as_float_array,
     domain_range_scale,
     from_range_1,
+    optional,
     to_domain_1,
 )
 
@@ -56,10 +57,10 @@ CONSTANTS_ARIBSTDB67: Structure = Structure(a=0.17883277, b=0.28466892, c=0.5599
 def oetf_ARIBSTDB67(
     E: ArrayLike,
     r: ArrayLike = 0.5,
-    constants: Structure = CONSTANTS_ARIBSTDB67,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer
+    Apply the *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electronic transfer
     function (OETF).
 
     Parameters
@@ -67,7 +68,7 @@ def oetf_ARIBSTDB67(
     E
         Voltage normalised by the reference white level and proportional to
         the implicit light intensity that would be detected with a reference
-        camera color channel R, G, B.
+        camera colour channel R, G, B.
     r
         Video level corresponding to reference white level.
     constants
@@ -76,7 +77,7 @@ def oetf_ARIBSTDB67(
     Returns
     -------
     :class:`numpy.ndarray`
-        Resulting non-linear signal :math:`E'`.
+        Non-linear signal :math:`E'`.
 
     Notes
     -----
@@ -93,8 +94,8 @@ def oetf_ARIBSTDB67(
     +------------+-----------------------+---------------+
 
     -   This definition uses the *mirror* negative number handling mode of
-        :func:`colour.models.gamma_function` definition to the sign of negative
-        numbers.
+        :func:`colour.models.gamma_function` definition to preserve the sign
+        of negative numbers.
 
     References
     ----------
@@ -108,6 +109,7 @@ def oetf_ARIBSTDB67(
 
     E = to_domain_1(E)
     r = as_float_array(r)
+    constants = optional(constants, CONSTANTS_ARIBSTDB67)
 
     a = constants.a
     b = constants.b
@@ -121,11 +123,11 @@ def oetf_ARIBSTDB67(
 def oetf_inverse_ARIBSTDB67(
     E_p: ArrayLike,
     r: ArrayLike = 0.5,
-    constants: Structure = CONSTANTS_ARIBSTDB67,
+    constants: Structure | None = None,
 ) -> NDArrayFloat:
     """
-    Define *ARIB STD-B67 (Hybrid Log-Gamma)* inverse opto-electrical transfer
-    function (OETF).
+    Apply the *ARIB STD-B67 (Hybrid Log-Gamma)* inverse opto-electronic
+    transfer function (OETF).
 
     Parameters
     ----------
@@ -139,9 +141,9 @@ def oetf_inverse_ARIBSTDB67(
     Returns
     -------
     :class:`numpy.ndarray`
-        Voltage :math:`E` normalised by the reference white level and
-        proportional to the implicit light intensity that would be detected
-        with a reference camera color channel R, G, B.
+        Voltage normalised by the reference white level and proportional to
+        the implicit light intensity that would be detected with a reference
+        camera colour channel R, G, B.
 
     Notes
     -----
@@ -157,9 +159,9 @@ def oetf_inverse_ARIBSTDB67(
     | ``E``      | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
-    -   This definition uses the *mirror* negative number handling mode of
-        :func:`colour.models.gamma_function` definition to the sign of negative
-        numbers.
+    -   This definition uses the *mirror* negative number handling mode
+        of :func:`colour.models.gamma_function` definition to preserve
+        the sign of negative numbers.
 
     References
     ----------
@@ -172,6 +174,7 @@ def oetf_inverse_ARIBSTDB67(
     """
 
     E_p = to_domain_1(E_p)
+    constants = optional(constants, CONSTANTS_ARIBSTDB67)
 
     a = constants.a
     b = constants.b

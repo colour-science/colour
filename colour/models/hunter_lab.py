@@ -2,7 +2,7 @@
 Hunter L,a,b Colour Scale
 =========================
 
-Define the *Hunter L,a,b* colour scale transformations:
+Define the *Hunter L,a,b* colour scale transformations.
 
 -   :func:`colour.XYZ_to_K_ab_HunterLab1966`
 -   :func:`colour.XYZ_to_Hunter_Lab`
@@ -91,7 +91,8 @@ def XYZ_to_Hunter_Lab(
     ]["D65"].K_ab,
 ) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour scale.
+    Convert from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour
+    scale.
 
     Parameters
     ----------
@@ -100,8 +101,8 @@ def XYZ_to_Hunter_Lab(
     XYZ_n
         Reference *illuminant* tristimulus values.
     K_ab
-        Reference *illuminant* chromaticity coefficients, if ``K_ab`` is set to
-        *None* it will be computed using
+        Reference *illuminant* chromaticity coefficients. If ``K_ab`` is
+        set to *None*, it will be computed using
         :func:`colour.XYZ_to_K_ab_HunterLab1966`.
 
     Returns
@@ -169,7 +170,8 @@ def Hunter_Lab_to_XYZ(
     ]["D65"].K_ab,
 ) -> NDArrayFloat:
     """
-    Convert from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus values.
+    Convert from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus
+    values.
 
     Parameters
     ----------
@@ -178,8 +180,8 @@ def Hunter_Lab_to_XYZ(
     XYZ_n
         Reference *illuminant* tristimulus values.
     K_ab
-        Reference *illuminant* chromaticity coefficients, if ``K_ab`` is set to
-        *None* it will be computed using
+        Reference *illuminant* chromaticity coefficients. If ``K_ab`` is
+        set to *None*, it will be computed using
         :func:`colour.XYZ_to_K_ab_HunterLab1966`.
 
     Returns

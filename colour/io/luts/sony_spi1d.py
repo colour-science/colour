@@ -48,7 +48,7 @@ def read_LUT_SonySPI1D(path: str | PathLike) -> LUT1D | LUT3x1D:
     Parameters
     ----------
     path
-        *LUT* path.
+        *LUT* file path.
 
     Returns
     -------
@@ -167,22 +167,22 @@ def write_LUT_SonySPI1D(
     Parameters
     ----------
     LUT
-        :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUTSequence` class instance
-        to write at specified path.
+        :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUTSequence` class
+        instance to write at the specified path.
     path
-        *LUT* path.
+        *LUT* file path.
     decimals
-        Formatting decimals.
+        Number of decimal places for formatting numeric values.
 
     Returns
     -------
     :class:`bool`
-        Definition success.
+        Whether the write operation was successful.
 
     Warnings
     --------
-    -   If a :class:`LUTSequence` class instance is passed as ``LUT``, the
-        first *LUT* in the *LUT* sequence will be used.
+    -   If a :class:`LUTSequence` class instance is passed as ``LUT``,
+        the first *LUT* in the *LUT* sequence will be used.
 
     Examples
     --------
@@ -196,7 +196,7 @@ def write_LUT_SonySPI1D(
     ...     domain,
     ...     comments=["A first comment.", "A second comment."],
     ... )
-    >>> write_LUT_SonySPI1D(LUT, "My_LUT.cube")  # doctest: +SKIP
+    >>> write_LUT_SonySPI1D(LUT, "My_LUT.spi1d")  # doctest: +SKIP
 
     Writing a 3x1D *Sony* *.spi1d* *LUT*:
 
@@ -207,7 +207,7 @@ def write_LUT_SonySPI1D(
     ...     domain,
     ...     comments=["A first comment.", "A second comment."],
     ... )
-    >>> write_LUT_SonySPI1D(LUT, "My_LUT.cube")  # doctest: +SKIP
+    >>> write_LUT_SonySPI1D(LUT, "My_LUT.spi1d")  # doctest: +SKIP
     """
 
     path = str(path)

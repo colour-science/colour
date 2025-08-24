@@ -2,7 +2,8 @@
 Fairchild (1990) Chromatic Adaptation Model
 ===========================================
 
-Define the *Fairchild (1990)* chromatic adaptation model objects:
+Define the *Fairchild (1990)* chromatic adaptation model for predicting
+corresponding colours under different viewing conditions.
 
 -   :func:`colour.adaptation.chromatic_adaptation_Fairchild1990`
 
@@ -73,9 +74,9 @@ def chromatic_adaptation_Fairchild1990(
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
-    Adapt the specified stimulus *CIE XYZ_1* tristimulus values from test viewing
-    conditions to reference viewing conditions using *Fairchild (1990)*
-    chromatic adaptation model.
+    Adapt the specified stimulus *CIE XYZ* tristimulus values from test
+    viewing conditions to reference viewing conditions using the
+    *Fairchild (1990)* chromatic adaptation model.
 
     Parameters
     ----------
@@ -88,14 +89,14 @@ def chromatic_adaptation_Fairchild1990(
         Reference viewing condition *CIE XYZ_r* tristimulus values of the
         whitepoint.
     Y_n
-        luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
+        Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Adapted *CIE XYZ_2* tristimulus values of the stimulus.
+        *CIE XYZ* tristimulus values of the stimulus corresponding colour.
 
     Notes
     -----
@@ -163,7 +164,8 @@ def chromatic_adaptation_Fairchild1990(
 
 def XYZ_to_RGB_Fairchild1990(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Convert *CIE XYZ* tristimulus values to cone responses.
+    Convert from *CIE XYZ* tristimulus values to cone responses using the
+    *Fairchild (1990)* chromatic adaptation model.
 
     Parameters
     ----------
@@ -224,7 +226,7 @@ def degrees_of_adaptation(
     LMS
         Cone responses.
     Y_n
-        luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
+        Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
     v
         Exponent :math:`v`.
     discount_illuminant

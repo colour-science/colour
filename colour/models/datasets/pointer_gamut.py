@@ -2,7 +2,11 @@
 Pointer's Gamut
 ===============
 
-Define the *Pointer's Gamut* data.
+Define the *Pointer's Gamut* data for real surface colours.
+
+This module provides the data representing the gamut of real surface colours
+as measured by Pointer (1980). The data includes the gamut volume in
+*CIE L\\*C\\*Hab* colourspace and boundary chromaticity coordinates.
 
 References
 ----------

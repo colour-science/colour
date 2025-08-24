@@ -431,13 +431,12 @@ def log_encoding(
     value: ArrayLike, function: LiteralLogEncoding | str = "Cineon", **kwargs: Any
 ) -> NDArrayFloat | NDArrayInt:
     """
-    Encode *scene-referred* exposure values to :math:`R'G'B'` video component
-    signal value using specified *log* encoding function.
+    Apply the specified log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     value
-        *Scene-referred* exposure values.
+        Scene-linear value.
     function
         *Log* encoding function.
 
@@ -480,7 +479,7 @@ def log_encoding(
     Returns
     -------
     :class:`numpy.ndarray`
-        *Log* values.
+        Logarithmic encoded value.
 
     Examples
     --------
@@ -552,13 +551,12 @@ def log_decoding(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Decode :math:`R'G'B'` video component signal value to *scene-referred*
-    exposure values using specified *log* decoding function.
+    Apply the specified log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     value
-        *Log* values.
+        Logarithmic encoded value.
     function
         *Log* decoding function.
 
@@ -601,7 +599,7 @@ def log_decoding(
     Returns
     -------
     :class:`numpy.ndarray`
-        *Scene-referred* exposure values.
+        Scene-linear value.
 
     Examples
     --------
@@ -663,14 +661,12 @@ def oetf(
     value: ArrayLike, function: LiteralOETF | str = "ITU-R BT.709", **kwargs: Any
 ) -> NDArrayFloat:
     """
-    Encode estimated tristimulus values in a scene to :math:`R'G'B'` video
-    component signal value using specified opto-electronic transfer function
-    (OETF).
+    Apply the specified opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     value
-        Value.
+        Scene-linear value.
     function
         Opto-electronic transfer function (OETF).
 
@@ -691,7 +687,7 @@ def oetf(
     Returns
     -------
     :class:`numpy.ndarray`
-        :math:`R'G'B'` video component signal value.
+        Non-linear signal value.
 
     Examples
     --------
@@ -738,14 +734,12 @@ def oetf_inverse(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Decode :math:`R'G'B'` video component signal value to tristimulus values
-    at the display using specified inverse opto-electronic transfer function
-    (OETF).
+    Apply the specified inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     value
-        Value.
+        Non-linear signal value.
     function
         Inverse opto-electronic transfer function (OETF).
 
@@ -762,11 +756,10 @@ def oetf_inverse(
         :func:`colour.models.oetf_inverse_BT709`},
         See the documentation of the previously listed definitions.
 
-
     Returns
     -------
     :class:`numpy.ndarray`
-        Tristimulus values at the display.
+        Scene-linear value.
 
     Examples
     --------
@@ -813,13 +806,12 @@ def eotf(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Decode :math:`R'G'B'` video component signal value to tristimulus values
-    at the display using specified electro-optical transfer function (EOTF).
+    Apply the specified electro-optical transfer function (EOTF).
 
     Parameters
     ----------
     value
-        Value.
+        Non-linear signal value.
     function
         Electro-optical transfer function (EOTF).
 
@@ -839,7 +831,7 @@ def eotf(
     Returns
     -------
     :class:`numpy.ndarray`
-        Tristimulus values at the display.
+        Display-linear value.
 
     Examples
     --------
@@ -884,14 +876,12 @@ def eotf_inverse(
     **kwargs: Any,
 ) -> NDArrayFloat | NDArrayInt:
     """
-    Encode estimated tristimulus values in a scene to :math:`R'G'B'` video
-    component signal value using specified inverse electro-optical transfer
-    function (EOTF).
+    Apply the specified inverse electro-optical transfer function (EOTF).
 
     Parameters
     ----------
     value
-        Value.
+        Display-linear value.
     function
         Inverse electro-optical transfer function (EOTF).
 
@@ -910,7 +900,7 @@ def eotf_inverse(
     Returns
     -------
     :class:`numpy.ndarray`
-        :math:`R'G'B'` video component signal value.
+        Non-linear signal value.
 
     Examples
     --------
@@ -960,20 +950,19 @@ CCTF_ENCODINGS.update(LOG_ENCODINGS)
 CCTF_ENCODINGS.update(OETFS)
 CCTF_ENCODINGS.update(EOTF_INVERSES)
 CCTF_ENCODINGS.__doc__ = """
-Supported encoding colour component transfer functions (Encoding CCTFs), a
-collection of the functions defined by :attr:`colour.LOG_ENCODINGS`,
-:attr:`colour.OETFS`, :attr:`colour.EOTF_INVERSES` attributes, the
+Supported encoding colour component transfer functions (encoding CCTFs), a
+collection comprising functions from :attr:`colour.LOG_ENCODINGS`,
+:attr:`colour.OETFS`, :attr:`colour.EOTF_INVERSES`,
 :func:`colour.models.cctf_encoding_ProPhotoRGB`,
 :func:`colour.models.cctf_encoding_RIMMRGB`,
-:func:`colour.models.cctf_encoding_ROMMRGB` definitions and 3 gamma encoding
-functions (1 / 2.2, 1 / 2.4, 1 / 2.6).
+:func:`colour.models.cctf_encoding_ROMMRGB`, and three gamma encoding
+functions (1/2.2, 1/2.4, 1/2.6).
 
 Warnings
 --------
 For *ITU-R BT.2100*, only the inverse electro-optical transfer functions
-(EOTFs / EOCFs) are exposed by this attribute, See the
-:attr:`colour.OETFS` attribute for the opto-electronic transfer functions
-(OETF).
+(EOTFs) are exposed by this definition, See the :func:`colour.oetf`
+definition for the opto-electronic transfer functions (OETF).
 """
 
 
@@ -981,15 +970,14 @@ def cctf_encoding(
     value: ArrayLike, function: LiteralCCTFEncoding | str = "sRGB", **kwargs: Any
 ) -> NDArrayFloat | NDArrayInt:
     """
-    Encode linear :math:`RGB` values to non-linear :math:`R'G'B'` values using
-    specified encoding colour component transfer function (Encoding CCTF).
+    Apply the specified encoding colour component transfer function (Encoding
+    CCTF).
 
     Parameters
     ----------
     value
-        Linear :math:`RGB` values.
+        Linear RGB value.
     function
-        {:attr:`colour.CCTF_ENCODINGS`},
         Encoding colour component transfer function.
 
     Other Parameters
@@ -1001,14 +989,13 @@ def cctf_encoding(
     Warnings
     --------
     For *ITU-R BT.2100*, only the inverse electro-optical transfer functions
-    (EOTFs / EOCFs) are exposed by this definition, See the
-    :func:`colour.oetf` definition for the opto-electronic transfer functions
-    (OETF).
+    (EOTFs) are exposed by this definition, See the :func:`colour.oetf`
+    definition for the opto-electronic transfer functions (OETF).
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear :math:`R'G'B'` values.
+        Non-linear RGB value.
 
     Examples
     --------
@@ -1057,25 +1044,19 @@ CCTF_DECODINGS.update(LOG_DECODINGS)
 CCTF_DECODINGS.update(OETF_INVERSES)
 CCTF_DECODINGS.update(EOTFS)
 CCTF_DECODINGS.__doc__ = """
-Supported decoding colour component transfer functions (Decoding CCTFs), a
-collection of the functions defined by :attr:`colour.LOG_DECODINGS`,
-:attr:`colour.EOTFS`, :attr:`colour.OETF_INVERSES` attributes, the
+Supported decoding colour component transfer functions (decoding CCTFs), a
+collection comprising functions from :attr:`colour.LOG_DECODINGS`,
+:attr:`colour.OETF_INVERSES`, :attr:`colour.EOTFS`,
 :func:`colour.models.cctf_decoding_ProPhotoRGB`,
 :func:`colour.models.cctf_decoding_RIMMRGB`,
-:func:`colour.models.cctf_decoding_ROMMRGB` definitions and 3 gamma decoding
+:func:`colour.models.cctf_decoding_ROMMRGB`, and three gamma decoding
 functions (2.2, 2.4, 2.6).
 
 Warnings
 --------
 For *ITU-R BT.2100*, only the electro-optical transfer functions
-(EOTFs / EOCFs) are exposed by this attribute, See the
-:attr:`colour.OETF_INVERSES` attribute for the inverse opto-electronic
-transfer functions (OETF).
-
-Notes
------
--   The order by which this attribute is defined and updated is critically
-    important to ensure that *ITU-R BT.2100* definitions are reciprocal.
+(EOTFs) are exposed by this attribute. See :attr:`colour.OETF_INVERSES`
+for the inverse opto-electronic transfer functions (OETFs).
 """
 
 
@@ -1085,15 +1066,14 @@ def cctf_decoding(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Decode non-linear :math:`R'G'B'` values to linear :math:`RGB` values using
-    specified decoding colour component transfer function (Decoding CCTF).
+    Apply the specified decoding colour component transfer function (Decoding
+    CCTF).
 
     Parameters
     ----------
     value
-        Non-linear :math:`R'G'B'` values.
+        Non-linear RGB value.
     function
-        {:attr:`colour.CCTF_DECODINGS`},
         Decoding colour component transfer function.
 
     Other Parameters
@@ -1105,14 +1085,13 @@ def cctf_decoding(
     Warnings
     --------
     For *ITU-R BT.2100*, only the electro-optical transfer functions
-    (EOTFs / EOCFs) are exposed by this definition, See the
-    :func:`colour.oetf_inverse` definition for the inverse opto-electronic
-    transfer functions (OETF).
+    (EOTFs) are exposed by this attribute. See :attr:`colour.OETF_INVERSES`
+    for the inverse opto-electronic transfer functions (OETFs).
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Linear :math:`RGB` values.
+        Linear RGB value.
 
     Examples
     --------
@@ -1173,15 +1152,14 @@ def ootf(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Map relative scene linear light to display linear light using specified
-    opto-optical transfer function (OOTF / OOCF).
+    Apply the specified opto-optical transfer function (OOTF).
 
     Parameters
     ----------
     value
-        Value.
+        Scene-linear value.
     function
-        Opto-optical transfer function (OOTF / OOCF).
+        Opto-optical transfer function (OOTF).
 
     Other Parameters
     ----------------
@@ -1193,7 +1171,7 @@ def ootf(
     Returns
     -------
     :class:`numpy.ndarray`
-        Luminance of a displayed linear component.
+        Display-linear value.
 
     Examples
     --------
@@ -1231,15 +1209,14 @@ def ootf_inverse(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Map relative display linear light to scene linear light using specified
-    inverse opto-optical transfer function (OOTF / OOCF).
+    Apply the specified inverse opto-optical transfer function (OOTF).
 
     Parameters
     ----------
     value
-        Value.
+        Display-linear value.
     function
-        Inverse opto-optical transfer function (OOTF / OOCF).
+        Inverse opto-optical transfer function (OOTF).
 
     Other Parameters
     ----------------
@@ -1251,7 +1228,7 @@ def ootf_inverse(
     Returns
     -------
     :class:`numpy.ndarray`
-        Luminance of scene linear light.
+        Scene-linear value.
 
     Examples
     --------

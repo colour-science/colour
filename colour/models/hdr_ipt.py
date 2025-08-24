@@ -1,11 +1,10 @@
 """
-Hdr-IPT Colourspace
+hdr-IPT Colourspace
 ===================
 
-Define the *hdr-IPT* colourspace transformations:
+Define the *hdr-IPT* colourspace transformations.
 
--   :attr:`colour.HDR_IPT_METHODS`: Supported *hdr-IPT* colourspace computation
-    methods.
+-   :attr:`colour.HDR_IPT_METHODS`
 -   :func:`colour.XYZ_to_hdr_IPT`
 -   :func:`colour.hdr_IPT_to_XYZ`
 
@@ -87,8 +86,9 @@ def exponent_hdr_IPT(
     method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
 ) -> NDArrayFloat:
     """
-    Compute *hdr-IPT* colourspace *Lightness* :math:`\\epsilon` exponent using
-    *Fairchild and Wyble (2010)* or *Fairchild and Chen (2011)* method.
+    Compute the *hdr-IPT* colourspace *Lightness* :math:`\\epsilon` exponent
+    using the *Fairchild and Wyble (2010)* or *Fairchild and Chen (2011)*
+    methods.
 
     Parameters
     ----------

@@ -2,7 +2,7 @@
 Spectral Bandpass Dependence Correction
 =======================================
 
-Define the objects to perform spectral bandpass dependence correction.
+Define objects to perform spectral bandpass dependence correction.
 
 The following correction methods are available:
 
@@ -12,7 +12,7 @@ The following correction methods are available:
 -   :attr:`colour.BANDPASS_CORRECTION_METHODS`: Supported spectral bandpass
     dependence correction methods.
 -   :func:`colour.bandpass_correction`: Spectral bandpass dependence
-    correction using specified method.
+    correction using the specified method.
 
 References
 ----------
@@ -54,8 +54,8 @@ def bandpass_correction_Stearns1988(
     sd: SpectralDistribution,
 ) -> SpectralDistribution:
     """
-    Perform spectral bandpass dependence correction on spectral distribution
-    using *Stearns and Stearns (1988)* method.
+    Apply spectral bandpass dependence correction to the specified spectral
+    distribution using *Stearns and Stearns (1988)* method.
 
     Parameters
     ----------
@@ -126,20 +126,26 @@ def bandpass_correction(
     method: Literal["Stearns 1988"] | str = "Stearns 1988",
 ) -> SpectralDistribution:
     """
-    Perform spectral bandpass dependence correction on spectral distribution
-    using specified method.
+    Apply spectral bandpass dependence correction to the specified spectral
+    distribution.
+
+    Correct for the systematic errors introduced by finite bandpass
+    measurements in spectrophotometry. The correction compensates for the
+    deviation between the measured spectral values and the true spectral
+    values that would be obtained with infinitesimal bandpass width.
 
     Parameters
     ----------
     sd
-        Spectral distribution.
+        Spectral distribution requiring bandpass correction.
     method
-        Correction method.
+        Bandpass correction method to apply.
 
     Returns
     -------
     :class:`colour.SpectralDistribution`
-        Spectral bandpass dependence corrected spectral distribution.
+        Spectral distribution with bandpass dependence correction applied,
+        preserving the original wavelength sampling.
 
     References
     ----------

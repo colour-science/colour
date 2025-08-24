@@ -2,7 +2,7 @@
 Deprecation Utilities
 =====================
 
-Various deprecation management related objects.
+Define deprecation management utilities for the Colour library.
 """
 
 from __future__ import annotations
@@ -46,14 +46,14 @@ __all__ = [
 @dataclass(frozen=True)
 class ObjectRenamed(MixinDataclassIterable):
     """
-    A class used for an object that has been renamed.
+    Represent an object that has been renamed in the API.
 
     Parameters
     ----------
     name
-        Object name that changed.
+        Object name that has been changed.
     new_name
-        Object new name.
+        New object name.
     """
 
     name: str
@@ -75,7 +75,7 @@ class ObjectRenamed(MixinDataclassIterable):
 @dataclass(frozen=True)
 class ObjectRemoved(MixinDataclassIterable):
     """
-    A class used for an object that has been removed.
+    Represent an object that has been removed from the API.
 
     Parameters
     ----------
@@ -101,15 +101,14 @@ class ObjectRemoved(MixinDataclassIterable):
 @dataclass(frozen=True)
 class ObjectFutureRename(MixinDataclassIterable):
     """
-    A class used for future object name deprecation, i.e., object name will
-    change in a future release.
+    Represent an object that will be renamed in a future release.
 
     Parameters
     ----------
     name
         Object name that will change in a future release.
     new_name
-        Object future release name.
+        New object name.
     """
 
     name: str
@@ -117,7 +116,7 @@ class ObjectFutureRename(MixinDataclassIterable):
 
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the deprecation type.
+        Return a formatted string representation of the class.
 
         Returns
         -------
@@ -134,7 +133,7 @@ class ObjectFutureRename(MixinDataclassIterable):
 @dataclass(frozen=True)
 class ObjectFutureRemove(MixinDataclassIterable):
     """
-    A class used for future object removal.
+    Represent an object that will be removed in a future release.
 
     Parameters
     ----------
@@ -146,7 +145,7 @@ class ObjectFutureRemove(MixinDataclassIterable):
 
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the deprecation type.
+        Return a formatted string representation of the class.
 
         Returns
         -------
@@ -163,15 +162,15 @@ class ObjectFutureRemove(MixinDataclassIterable):
 @dataclass(frozen=True)
 class ObjectFutureAccessChange(MixinDataclassIterable):
     """
-    A class used for future object access deprecation, i.e., object access will
-    change in a future release.
+    Represent an object whose access pattern will change in a future
+    release.
 
     Parameters
     ----------
     access
         Object access that will change in a future release.
     new_access
-        Object future release access.
+        New object access pattern.
     """
 
     access: str
@@ -179,7 +178,7 @@ class ObjectFutureAccessChange(MixinDataclassIterable):
 
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the deprecation type.
+        Return a formatted string representation of the class.
 
         Returns
         -------
@@ -196,20 +195,20 @@ class ObjectFutureAccessChange(MixinDataclassIterable):
 @dataclass(frozen=True)
 class ObjectFutureAccessRemove(MixinDataclassIterable):
     """
-    A class used for future object access removal, i.e., object access will
+    Represent an object whose access will be removed in a future release.
     be removed in a future release.
 
     Parameters
     ----------
     name
-        Object name whose access will removed in a future release.
+        Object name whose access will be removed in a future release.
     """
 
     name: str
 
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the deprecation type.
+        Return a formatted string representation of the class.
 
         Returns
         -------
@@ -223,14 +222,14 @@ class ObjectFutureAccessRemove(MixinDataclassIterable):
 @dataclass(frozen=True)
 class ArgumentRenamed(MixinDataclassIterable):
     """
-    A class used for an argument that has been renamed.
+    Represent an argument that has been renamed in the API.
 
     Parameters
     ----------
     name
-        Argument name that changed.
+        Argument name that has been changed.
     new_name
-        Argument new name.
+        New argument name.
     """
 
     name: str
@@ -252,7 +251,7 @@ class ArgumentRenamed(MixinDataclassIterable):
 @dataclass(frozen=True)
 class ArgumentRemoved(MixinDataclassIterable):
     """
-    A class used for an argument that has been removed.
+    Represent an argument that has been removed from the API.
 
     Parameters
     ----------
@@ -278,7 +277,7 @@ class ArgumentRemoved(MixinDataclassIterable):
 @dataclass(frozen=True)
 class ArgumentFutureRename(MixinDataclassIterable):
     """
-    A class used for future argument name deprecation, i.e., argument name will
+    Represent an argument that will be renamed in a future release.
     change in a future release.
 
     Parameters
@@ -286,7 +285,7 @@ class ArgumentFutureRename(MixinDataclassIterable):
     name
         Argument name that will change in a future release.
     new_name
-        Argument future release name.
+        New argument name.
     """
 
     name: str
@@ -294,7 +293,7 @@ class ArgumentFutureRename(MixinDataclassIterable):
 
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the deprecation type.
+        Return a formatted string representation of the class.
 
         Returns
         -------
@@ -311,7 +310,7 @@ class ArgumentFutureRename(MixinDataclassIterable):
 @dataclass(frozen=True)
 class ArgumentFutureRemove(MixinDataclassIterable):
     """
-    A class used for future argument removal.
+    Represent an argument that will be removed in a future release.
 
     Parameters
     ----------
@@ -323,7 +322,7 @@ class ArgumentFutureRemove(MixinDataclassIterable):
 
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the deprecation type.
+        Return a formatted string representation of the class.
 
         Returns
         -------
@@ -339,13 +338,13 @@ class ArgumentFutureRemove(MixinDataclassIterable):
 
 class ModuleAPI:
     """
-    Define a class that allows customisation of module attributes access with
-    deprecation management.
+    Define a class enabling customisation of module attribute access with
+    built-in deprecation management functionality.
 
     Parameters
     ----------
     module
-        Module to customise attributes access.
+        Module for which to customise attribute access behaviour.
 
     Methods
     -------
@@ -366,7 +365,7 @@ class ModuleAPI:
 
     def __getattr__(self, attribute: str) -> Any:
         """
-        Return specified attribute value while handling deprecation.
+        Return the specified attribute value while handling deprecation.
 
         Parameters
         ----------
@@ -420,13 +419,13 @@ class ModuleAPI:
 
 def get_attribute(attribute: str) -> Any:
     """
-    Return specified attribute value.
+    Retrieve the value of the specified attribute from its namespace.
 
     Parameters
     ----------
     attribute
-        Attribute to retrieve, ``attribute`` must have a namespace module, e.g.,
-        *colour.models.oetf_inverse_BT2020*.
+        Attribute to retrieve, ``attribute`` must have a namespace
+        module, e.g., *colour.models.oetf_inverse_BT2020*.
 
     Returns
     -------
@@ -455,7 +454,7 @@ def get_attribute(attribute: str) -> Any:
 
 def build_API_changes(changes: dict) -> dict:
     """
-    Build the effective API changes for a desired API changes mapping.
+    Build effective API changes from specified API changes mapping.
 
     Parameters
     ----------
@@ -532,22 +531,24 @@ name='module.object_6_access')}
 
 def handle_arguments_deprecation(changes: dict, **kwargs: Any) -> dict:
     """
-    Handle arguments deprecation according to desired API changes mapping.
+    Handle argument deprecation according to the specified API changes
+    mapping.
 
     Parameters
     ----------
     changes
-        Dictionary of desired API changes.
+        Dictionary of specified API changes defining how arguments should
+        be handled during deprecation.
 
     Other Parameters
     ----------------
     kwargs
-        Keywords arguments to handle.
+        Keyword arguments to process for deprecation handling.
 
     Returns
     -------
     :class:`dict`
-        Handled keywords arguments.
+        Processed keyword arguments with deprecation rules applied.
 
     Examples
     --------

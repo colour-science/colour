@@ -2,7 +2,7 @@
 LUT Processing Common Utilities
 ===============================
 
-Define the *LUT* processing common utilities objects that don't fall in any
+Define *LUT* processing common utilities objects that do not fall within any
 specific category.
 """
 
@@ -29,7 +29,11 @@ __all__ = [
 
 def path_to_title(path: str | PathLike) -> str:
     """
-    Convert the specified file path to a title.
+    Convert the specified file path to a human-readable title.
+
+    Extract the base filename from the specified path, remove the file
+    extension, and replace underscores, hyphens, and dots with spaces to
+    create a readable title format.
 
     Parameters
     ----------

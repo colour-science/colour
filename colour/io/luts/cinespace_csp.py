@@ -54,14 +54,14 @@ def read_LUT_Cinespace(path: str | PathLike) -> LUT3x1D | LUT3D | LUTSequence:
     Parameters
     ----------
     path
-        *LUT* path.
+        *LUT* file path.
 
     Returns
     -------
     :class:`colour.LUT3x1D` or :class:`colour.LUT3D` or \
-:class:`colour.LUTSequence`
-        :class:`LUT3x1D` or :class:`LUT3D` or :class:`LUTSequence` class
-        instance.
+    :class:`colour.LUTSequence`
+        :class:`LUT3x1D`, :class:`LUT3D`, or :class:`LUTSequence`
+        class instance.
 
     References
     ----------
@@ -253,11 +253,11 @@ def write_LUT_Cinespace(
     ----------
     LUT
         :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUT3D` or
-        :class:`LUTSequence` class instance to write at specified path.
+        :class:`LUTSequence` class instance to write at the specified path.
     path
-        *LUT* path.
+        *LUT* file path.
     decimals
-        Formatting decimals.
+        Number of decimal places for formatting numeric values.
 
     Returns
     -------
@@ -339,7 +339,7 @@ def write_LUT_Cinespace(
         attest(2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!")
 
     def _ragged_size(table: ArrayLike) -> list:
-        """Return the ragged size of specified table."""
+        """Return the ragged size of the specified table."""
 
         R, G, B = tsplit(table)
 

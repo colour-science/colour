@@ -2,7 +2,7 @@
 FiLMiC Pro 6 Encoding
 =====================
 
-Define the *FiLMiC Pro 6* encoding:
+Define the *FiLMiC Pro 6* encoding.
 
 -   :func:`colour.models.log_encoding_FilmicPro6`
 -   :func:`colour.models.log_decoding_FilmicPro6`
@@ -41,8 +41,7 @@ __all__ = [
 
 def log_encoding_FilmicPro6(t: ArrayLike) -> NDArrayFloat:
     """
-    Define the *FiLMiC Pro 6* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *FiLMiC Pro 6* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -52,7 +51,7 @@ def log_encoding_FilmicPro6(t: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`y`.
+        Non-linear encoded data :math:`y`.
 
     Notes
     -----
@@ -68,8 +67,8 @@ def log_encoding_FilmicPro6(t: ArrayLike) -> NDArrayFloat:
     | ``y``      | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
-    -   The *FiLMiC Pro 6* log encoding curve / opto-electronic transfer
-        function is only defined for domain (0, 1].
+    -   The *FiLMiC Pro 6* log encoding curve / opto-electronic
+        transfer function is only defined for domain (0, 1].
 
     References
     ----------
@@ -77,10 +76,11 @@ def log_encoding_FilmicPro6(t: ArrayLike) -> NDArrayFloat:
 
     Warnings
     --------
-    The *FiLMiC Pro 6* log encoding curve / opto-electronic transfer function
-    was fitted with poor precision and has :math:`Y=1.000000819999999` value
-    for :math:`t=1`. It also has no linear segment near zero and will thus be
-    undefined for :math:`t=0` when computing its logarithm.
+    The *FiLMiC Pro 6* log encoding curve / opto-electronic transfer
+    function was fitted with poor precision and has
+    :math:`Y=1.000000819999999` value for :math:`t=1`. It also has no
+    linear segment near zero and will thus be undefined for :math:`t=0`
+    when computing its logarithm.
 
     Examples
     --------
@@ -101,7 +101,7 @@ _CACHE_LOG_DECODING_FILMICPRO_INTERPOLATOR: Extrapolator | None = None
 def _log_decoding_FilmicPro6_interpolator() -> Extrapolator:
     """
     Return the *FiLMiC Pro 6* log decoding curve / electro-optical transfer
-    function interpolator and caches it if not existing.
+    function interpolator, caching it if not already existing.
 
     Returns
     -------
@@ -123,13 +123,13 @@ def _log_decoding_FilmicPro6_interpolator() -> Extrapolator:
 
 def log_decoding_FilmicPro6(y: ArrayLike) -> NDArrayFloat:
     """
-    Define the *FiLMiC Pro 6* log decoding curve / electro-optical transfer
-    function.
+    Apply the *FiLMiC Pro 6* log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     y
-        Non-linear data :math:`y`.
+        Non-linear encoded data :math:`y`.
 
     Returns
     -------
@@ -160,7 +160,8 @@ def log_decoding_FilmicPro6(y: ArrayLike) -> NDArrayFloat:
     Warnings
     --------
     The *FiLMiC Pro 6* log encoding curve / opto-electronic transfer function
-    has no inverse in :math:`R`, we thus use a *LUT* based inversion.
+    has no inverse in :math:`\\mathbb{R}`, we thus use a *LUT* based
+    inversion.
 
     Examples
     --------

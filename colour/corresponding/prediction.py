@@ -2,7 +2,8 @@
 Corresponding Chromaticities Prediction
 =======================================
 
-Define the objects to compute corresponding chromaticities prediction.
+Define objects for computing corresponding chromaticities prediction under
+different chromatic adaptation conditions.
 
 References
 ----------
@@ -108,7 +109,7 @@ __all__ = [
 @dataclass(frozen=True)
 class CorrespondingColourDataset(MixinDataclassIterable):
     """
-    Define a corresponding colour dataset.
+    Define a corresponding colour dataset for chromatic adaptation studies.
 
     Parameters
     ----------
@@ -128,11 +129,11 @@ class CorrespondingColourDataset(MixinDataclassIterable):
     Y_t
         Test white luminance :math:`Y_t` in :math:`cd/m^2`.
     B_r
-         Luminance factor :math:`B_r` of reference achromatic background as
-         percentage.
+        Luminance factor :math:`B_r` of reference achromatic background as
+        percentage.
     B_t
-         Luminance factor :math:`B_t` of test achromatic background as
-         percentage.
+        Luminance factor :math:`B_t` of test achromatic background as
+        percentage.
     metadata
         Dataset metadata.
 
@@ -169,18 +170,22 @@ class CorrespondingColourDataset(MixinDataclassIterable):
 @dataclass(frozen=True)
 class CorrespondingChromaticitiesPrediction(MixinDataclassIterable):
     """
-    Define a chromatic adaptation model prediction.
+    Define a chromatic adaptation model prediction for corresponding
+    chromaticities.
 
     Parameters
     ----------
     name
-        Test colour name.
+        Test colour name used to identify the prediction instance.
     uv_t
-        Chromaticity coordinates :math:`uv_t^p` of test colour.
+        Chromaticity coordinates :math:`uv_t^p` of the test colour under
+        the test illuminant.
     uv_m
-        Chromaticity coordinates :math:`uv_m^p` of matching colour.
+        Chromaticity coordinates :math:`uv_m^p` of the matching colour
+        under the reference illuminant.
     uv_p
-        Chromaticity coordinates :math:`uv_p^p` of predicted colour.
+        Chromaticity coordinates :math:`uv_p^p` of the predicted colour
+        as computed by the chromatic adaptation model.
     """
 
     name: int
@@ -324,7 +329,7 @@ def corresponding_chromaticities_prediction_Fairchild1990(
     experiment: (Literal[1, 2, 3, 4, 6, 8, 9, 11, 12] | CorrespondingColourDataset) = 1,
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Return the corresponding chromaticities prediction for *Fairchild (1990)*
+    Predict corresponding chromaticities using the *Fairchild (1990)*
     chromatic adaptation model.
 
     Parameters
@@ -393,7 +398,7 @@ def corresponding_chromaticities_prediction_CIE1994(
     experiment: (Literal[1, 2, 3, 4, 6, 8, 9, 11, 12] | CorrespondingColourDataset) = 1,
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Return the corresponding chromaticities prediction for *CIE 1994*
+    Predict corresponding chromaticities using the *CIE 1994*
     chromatic adaptation model.
 
     Parameters
@@ -463,7 +468,7 @@ def corresponding_chromaticities_prediction_CMCCAT2000(
     experiment: (Literal[1, 2, 3, 4, 6, 8, 9, 11, 12] | CorrespondingColourDataset) = 1,
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Return the corresponding chromaticities prediction for *CMCCAT2000*
+    Predict corresponding chromaticities using the *CMCCAT2000*
     chromatic adaptation model.
 
     Parameters
@@ -534,8 +539,8 @@ def corresponding_chromaticities_prediction_VonKries(
     transform: LiteralChromaticAdaptationTransform | str = "CAT02",
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Return the corresponding chromaticities prediction for *Von Kries*
-    chromatic adaptation model using specified transform.
+    Predict corresponding chromaticities using the *Von Kries*
+    chromatic adaptation model.
 
     Parameters
     ----------
@@ -566,7 +571,7 @@ def corresponding_chromaticities_prediction_VonKries(
      (array([ 0.322,  0.545]), array([ 0.3348730...,  0.5471220...])),
      (array([ 0.316,  0.537]), array([ 0.3248758...,  0.5390589...])),
      (array([ 0.265,  0.553]), array([ 0.2733105...,  0.5555028...])),
-     (array([ 0.221,  0.538]), array([ 0.227148 ...,  0.5331318...)),
+     (array([ 0.221,  0.538]), array([ 0.227148 ...,  0.5331318...])),
      (array([ 0.135,  0.532]), array([ 0.1442730...,  0.5226804...])),
      (array([ 0.145,  0.472]), array([ 0.1498745...,  0.4550785...])),
      (array([ 0.163,  0.331]), array([ 0.1564975...,  0.3148796...])),
@@ -607,8 +612,8 @@ def corresponding_chromaticities_prediction_Zhai2018(
     transform: Literal["CAT02", "CAT16"] | str = "CAT02",
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Return the corresponding chromaticities prediction for
-    *Zhai and Luo (2018)* chromatic adaptation model using specified transform.
+    Predict corresponding chromaticities using the *Zhai and Luo (2018)*
+    chromatic adaptation model.
 
     Parameters
     ----------
@@ -692,7 +697,7 @@ CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS = CanonicalMapping(
     }
 )
 CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS.__doc__ = """
-Aggregated corresponding chromaticities prediction models.
+Supported corresponding chromaticities prediction models.
 
 References
 ----------
@@ -724,8 +729,7 @@ def corresponding_chromaticities_prediction(
     **kwargs: Any,
 ) -> Tuple[CorrespondingChromaticitiesPrediction, ...]:
     """
-    Return the corresponding chromaticities prediction for specified chromatic
-    adaptation model.
+    Predict corresponding chromaticities.
 
     Parameters
     ----------

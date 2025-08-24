@@ -2,7 +2,7 @@
 Viper Log Encoding
 ==================
 
-Define the *Viper Log* encoding:
+Define the *Viper Log* encoding.
 
 -   :func:`colour.models.log_encoding_ViperLog`
 -   :func:`colour.models.log_decoding_ViperLog`
@@ -41,8 +41,7 @@ __all__ = [
 
 def log_encoding_ViperLog(x: ArrayLike) -> NDArrayFloat:
     """
-    Define the *Viper Log* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Viper Log* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -52,7 +51,7 @@ def log_encoding_ViperLog(x: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`y`.
+        Non-linear encoded data :math:`y`.
 
     Notes
     -----
@@ -87,13 +86,12 @@ def log_encoding_ViperLog(x: ArrayLike) -> NDArrayFloat:
 
 def log_decoding_ViperLog(y: ArrayLike) -> NDArrayFloat:
     """
-    Define the *Viper Log* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Viper Log* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     y
-        Non-linear data :math:`y`.
+        Non-linear encoded data :math:`y`.
 
     Returns
     -------

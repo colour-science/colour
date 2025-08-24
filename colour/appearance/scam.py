@@ -2,7 +2,8 @@
 sCAM Colour Appearance Model
 ============================
 
-Define the *sCAM* colour appearance model objects:
+Define the *sCAM* colour appearance model for predicting perceptual colour
+attributes under varying viewing conditions.
 
 -   :class:`colour.appearance.InductionFactors_sCAM`
 -   :attr:`colour.VIEWING_CONDITIONS_sCAM`
@@ -10,8 +11,8 @@ Define the *sCAM* colour appearance model objects:
 -   :func:`colour.XYZ_to_sCAM`
 -   :func:`colour.sCAM_to_XYZ`
 
-The sCAM (Simple Colour Appearance Model) is based on the sUCS (Simple Uniform
-Colour Space).
+The *sCAM* (Simple Colour Appearance Model) is based on the *sUCS* (Simple
+Uniform Colour Space).
 
 References
 ----------
@@ -87,7 +88,7 @@ HUE_DATA_FOR_HUE_QUADRATURE_sCAM: dict = {
 @dataclass(frozen=True)
 class InductionFactors_sCAM(MixinDataclassIterable):
     """
-    *sCAM* colour appearance model induction factors.
+    Define the *sCAM* colour appearance model induction factors.
 
     Parameters
     ----------
@@ -116,14 +117,20 @@ VIEWING_CONDITIONS_sCAM: CanonicalMapping = CanonicalMapping(
     }
 )
 VIEWING_CONDITIONS_sCAM.__doc__ = """
-Reference *sCAM* colour appearance model viewing conditions.
+Define the reference *sCAM* colour appearance model
+viewing conditions.
+
+Provide standardized surround conditions (*Average*, *Dim*, *Dark*) with
+their corresponding induction factors that characterize chromatic
+adaptation and perceptual non-linearities under different viewing
+environments.
 """
 
 
 @dataclass
 class CAM_Specification_sCAM(MixinDataclassArithmetic):
     """
-    Define the *sCAM* colour appearance model specification.
+    Define the specification for the *sCAM* colour appearance model.
 
     Parameters
     ----------
@@ -140,7 +147,8 @@ class CAM_Specification_sCAM(MixinDataclassArithmetic):
     H
         *Hue* :math:`h` composition :math:`H`.
     HC
-        *Hue* :math:`h` composition :math:`H^C` (currently not implemented).
+        *Hue* :math:`h` composition :math:`H^C` (currently not
+        implemented).
     V
         Correlate of *vividness* :math:`V`.
     K
@@ -191,11 +199,12 @@ def XYZ_to_sCAM(
         taken to be 20% of the luminance of a white object in the scene).
     Y_b
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of
-        the light source and :math:`L_b` is the luminance of the background.
-        For viewing images, :math:`Y_b` can be the average :math:`Y` value
-        for the pixels in the entire image, or frequently, a :math:`Y` value
-        of 20, approximate an :math:`L^*` of 50 is used.
+        :math:`Y_b = 100 \\times L_b / L_w` where :math:`L_w` is the
+        luminance of the light source and :math:`L_b` is the luminance of
+        the background. For viewing images, :math:`Y_b` can be the average
+        :math:`Y` value for the pixels in the entire image, or frequently,
+        a :math:`Y` value of 20, approximating an :math:`L^*` of 50 is
+        used.
     surround
         Surround viewing conditions induction factors.
     discount_illuminant
@@ -329,7 +338,7 @@ def sCAM_to_XYZ(
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
-    Convert from *sCAM* colour appearance model specification to *CIE XYZ*
+    Convert the *sCAM* colour appearance model specification to *CIE XYZ*
     tristimulus values.
 
     Parameters
@@ -343,8 +352,9 @@ def sCAM_to_XYZ(
         taken to be 20% of the luminance of a white object in the scene).
     Y_b
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of
-        the light source and :math:`L_b` is the luminance of the background.
+        :math:`Y_b = 100 \\times L_b / L_w` where :math:`L_w` is the
+        luminance of the light source and :math:`L_b` is the luminance of
+        the background.
     surround
         Surround viewing conditions induction factors.
     discount_illuminant
@@ -462,7 +472,8 @@ def sCAM_to_XYZ(
 
 def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     """
-    Compute the *hue* quadrature :math:`H` from *hue* angle :math:`h`.
+    Compute the *hue* quadrature :math:`H` from the specified *hue* angle
+    :math:`h`.
 
     Parameters
     ----------

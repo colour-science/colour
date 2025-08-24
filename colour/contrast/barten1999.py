@@ -2,7 +2,8 @@
 Barten (1999) Contrast Sensitivity Function
 ===========================================
 
-Define the *Barten (1999)* contrast sensitivity function:
+Define the *Barten (1999)* contrast sensitivity function model for predicting
+human visual contrast perception thresholds.
 
 -   :func:`colour.contrast.contrast_sensitivity_function_Barten1999`
 
@@ -58,7 +59,7 @@ __all__ = [
 
 def optical_MTF_Barten1999(u: ArrayLike, sigma: ArrayLike = 0.01) -> NDArrayFloat:
     """
-    Return the optical modulation transfer function (MTF) :math:`M_{opt}` of
+    Compute the optical modulation transfer function (MTF) :math:`M_{opt}` of
     the eye using *Barten (1999)* method.
 
     Parameters
@@ -98,8 +99,8 @@ def pupil_diameter_Barten1999(
     Y_0: ArrayLike | None = None,
 ) -> NDArrayFloat:
     """
-    Return the pupil diameter for specified luminance and object or stimulus
-    angular size using *Barten (1999)* method.
+    Compute the pupil diameter for the specified luminance and object or
+    stimulus angular size using the *Barten (1999)* method.
 
     Parameters
     ----------
@@ -108,7 +109,7 @@ def pupil_diameter_Barten1999(
     X_0
         Angular size of the object :math:`X_0` in degrees in the x direction.
     Y_0
-        Angular size of the object :math:`X_0` in degrees in the y direction.
+        Angular size of the object :math:`Y_0` in degrees in the y direction.
 
     Returns
     -------
@@ -143,15 +144,15 @@ def sigma_Barten1999(
     d: ArrayLike = 2.1,
 ) -> NDArrayFloat:
     """
-    Return the standard deviation :math:`\\sigma` of the line-spread function
-    resulting from the convolution of the different elements of the convolution
-    process using *Barten (1999)* method.
+    Compute the standard deviation :math:`\\sigma` of the line-spread
+    function resulting from the convolution of the different elements of
+    the convolution process using *Barten (1999)* method.
 
-    The :math:`\\sigma` quantity depends on the pupil diameter :math:`d` of the
-    eye lens. For very small pupil diameters, :math:`\\sigma` increases
-    inversely proportionally with pupil size because of diffraction, and for
-    large pupil diameters, :math:`\\sigma` increases about linearly with pupil
-    size because of chromatic aberration and others aberrations.
+    The :math:`\\sigma` quantity depends on the pupil diameter :math:`d` of
+    the eye lens. For very small pupil diameters, :math:`\\sigma` increases
+    inversely proportionally with pupil size because of diffraction, and
+    for large pupil diameters, :math:`\\sigma` increases about linearly
+    with pupil size because of chromatic aberration and other aberrations.
 
     Parameters
     ----------
@@ -173,9 +174,9 @@ def sigma_Barten1999(
     Warnings
     --------
     This definition expects :math:`\\sigma_{0}` and :math:`C_{ab}` to be
-    specified in degrees and :math:`degrees\\div mm` respectively. However, in
-    the literature, the values for :math:`\\sigma_{0}` and :math:`C_{ab}` are
-    usually specified in :math:`arc min` and :math:`arc min\\div mm`
+    specified in degrees and :math:`degrees\\div mm` respectively. However,
+    in the literature, the values for :math:`\\sigma_{0}` and :math:`C_{ab}`
+    are usually specified in :math:`arc min` and :math:`arc min\\div mm`
     respectively, thus they need to be divided by 60.
 
     References
@@ -202,8 +203,8 @@ def retinal_illuminance_Barten1999(
     apply_stiles_crawford_effect_correction: bool = True,
 ) -> NDArrayFloat:
     """
-    Return the retinal illuminance :math:`E` in Trolands for specified
-    average luminance :math:`L` and pupil diameter :math:`d` using
+    Compute the retinal illuminance :math:`E` in Trolands for the specified
+    average luminance :math:`L` and pupil diameter :math:`d` using the
     *Barten (1999)* method.
 
     Parameters
@@ -213,7 +214,7 @@ def retinal_illuminance_Barten1999(
     d
         Pupil diameter :math:`d` in millimeters.
     apply_stiles_crawford_effect_correction
-        Whether to apply the correction for *Stiles-Crawford* effect.
+        Whether to apply the correction for the *Stiles-Crawford* effect.
 
     Returns
     -------
@@ -222,10 +223,11 @@ def retinal_illuminance_Barten1999(
 
     Notes
     -----
-    -   This definition is for use with photopic viewing conditions and thus
-        corrects for the Stiles-Crawford effect by default, i.e., directional
-        sensitivity of the cone cells with lower response of cone cells
-        receiving light from the edge of the pupil.
+    -   This definition is designed for photopic viewing conditions and
+        applies the *Stiles-Crawford* effect correction by default. This
+        effect accounts for the directional sensitivity of cone cells,
+        which exhibit reduced response to light entering from the edge
+        of the pupil.
 
     References
     ----------
@@ -258,7 +260,7 @@ def maximum_angular_size_Barten1999(
     N_max: ArrayLike = 15,
 ) -> NDArrayFloat:
     """
-    Return the maximum angular size :math:`X` of the object considered using
+    Compute the maximum angular size :math:`X` of the object considered using
     *Barten (1999)* method.
 
     Parameters
@@ -326,17 +328,17 @@ def contrast_sensitivity_function_Barten1999(
     u_0: ArrayLike = 7,
 ) -> NDArrayFloat:
     """
-    Return the contrast sensitivity :math:`S` of the human eye according to
-    the contrast sensitivity function (CSF) described by *Barten (1999)*.
+    Compute the contrast sensitivity :math:`S` of the human eye according
+    to the contrast sensitivity function (CSF) described by *Barten (1999)*.
 
-    Contrast sensitivity is defined as the inverse of the modulation threshold
-    of a sinusoidal luminance pattern. The modulation threshold of this pattern
-    is generally defined by 50% probability of detection. The contrast
-    sensitivity function or CSF gives the contrast sensitivity as a function of
-    spatial frequency. In the CSF, the spatial frequency is expressed in
-    angular units with respect to the eye. It reaches a maximum between 1 and
-    10 cycles per degree with a fall off at higher and lower spatial
-    frequencies.
+    Contrast sensitivity is defined as the inverse of the modulation
+    threshold of a sinusoidal luminance pattern. The modulation threshold
+    of this pattern is generally defined by 50% probability of detection.
+    The contrast sensitivity function or CSF gives the contrast sensitivity
+    as a function of spatial frequency. In the CSF, the spatial frequency
+    is expressed in angular units with respect to the eye. It reaches a
+    maximum between 1 and 10 cycles per degree with a fall-off at higher
+    and lower spatial frequencies.
 
     Parameters
     ----------
@@ -351,9 +353,11 @@ def contrast_sensitivity_function_Barten1999(
     T
         Integration time :math:`T` in seconds of the eye.
     X_0
-        Angular size :math:`X_0` in degrees of the object in the x direction.
+        Angular size :math:`X_0` in degrees of the object in the x
+        direction.
     Y_0
-        Angular size :math:`Y_0` in degrees of the object in the y direction.
+        Angular size :math:`Y_0` in degrees of the object in the y
+        direction.
     X_max
         Maximum angular size :math:`X_{max}` in degrees of the integration
         area in the x direction.
@@ -372,8 +376,8 @@ def contrast_sensitivity_function_Barten1999(
     E
         Retinal illuminance :math:`E` in Trolands.
     phi_0
-        Spectral density :math:`\\phi_0` in :math:`seconds degrees^2` of the
-        neural noise.
+        Spectral density :math:`\\phi_0` in :math:`seconds degrees^2` of
+        the neural noise.
     u_0
         Spatial frequency :math:`u_0` in :math:`cycles\\div degrees` above
         which the lateral inhibition ceases.
@@ -385,12 +389,12 @@ def contrast_sensitivity_function_Barten1999(
 
     Warnings
     --------
-    This definition expects :math:`\\sigma_{0}` and :math:`C_{ab}` used in the
-    computation of :math:`\\sigma` to be specified in degrees and
+    This definition expects :math:`\\sigma_{0}` and :math:`C_{ab}` used in
+    the computation of :math:`\\sigma` to be specified in degrees and
     :math:`degrees\\div mm` respectively. However, in the literature, the
-    values for :math:`\\sigma_{0}` and :math:`C_{ab}` are usually specified in
-    :math:`arc min` and :math:`arc min\\div mm` respectively, thus they need to
-    be divided by 60.
+    values for :math:`\\sigma_{0}` and :math:`C_{ab}` are usually specified
+    in :math:`arc min` and :math:`arc min\\div mm` respectively, thus they
+    need to be divided by 60.
 
     Notes
     -----
@@ -399,9 +403,9 @@ def contrast_sensitivity_function_Barten1999(
         sensitivity is a factor :math:`\\sqrt{2}` smaller.
     -   *Barten (1999)* CSF default values for the :math:`k`,
         :math:`\\sigma_{0}`, :math:`C_{ab}`, :math:`T`, :math:`X_{max}`,
-        :math:`N_{max}`, :math:`n`, :math:`\\phi_{0}` and :math:`u_0` constants
-        are valid for a standard observer with good vision and with an age
-        between 20 and 30 years.
+        :math:`N_{max}`, :math:`n`, :math:`\\phi_{0}` and :math:`u_0`
+        constants are valid for a standard observer with good vision and
+        with an age between 20 and 30 years.
     -   The other constants have been filled using reference data from
         *Figure 31* in :cite:`InternationalTelecommunicationUnion2015` but
         must be adapted to the current use case.

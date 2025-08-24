@@ -2,7 +2,8 @@
 :math:`LLAB(l:c)` Colour Appearance Model
 =========================================
 
-Define the *:math:`LLAB(l:c)`* colour appearance model objects:
+Define the *:math:`LLAB(l:c)`* colour appearance model for predicting
+perceptual colour attributes under varying viewing conditions.
 
 -   :class:`colour.appearance.InductionFactors_LLAB`
 -   :attr:`colour.VIEWING_CONDITIONS_LLAB`
@@ -79,7 +80,7 @@ __all__ = [
 @dataclass(frozen=True)
 class InductionFactors_LLAB(MixinDataclassIterable):
     """
-    *:math:`LLAB(l:c)`* colour appearance model induction factors.
+    Define the *:math:`LLAB(l:c)`* colour appearance model induction factors.
 
     Parameters
     ----------
@@ -121,7 +122,8 @@ VIEWING_CONDITIONS_LLAB: CanonicalMapping = CanonicalMapping(
     }
 )
 VIEWING_CONDITIONS_LLAB.__doc__ = """
-Reference :math:`LLAB(l:c)` colour appearance model viewing conditions.
+Define the reference :math:`LLAB(l:c)` colour appearance model viewing
+conditions.
 
 References
 ----------
@@ -178,8 +180,8 @@ class CAM_ReferenceSpecification_LLAB(MixinDataclassArithmetic):
     Define the *:math:`LLAB(l:c)`* colour appearance model reference
     specification.
 
-    This specification has field names consistent with *Fairchild (2013)*
-    reference.
+    This specification contains field names consistent with the *Fairchild
+    (2013)* reference.
 
     Parameters
     ----------
@@ -220,14 +222,16 @@ class CAM_Specification_LLAB(MixinDataclassArithmetic):
     """
     Define the *:math:`LLAB(l:c)`* colour appearance model specification.
 
-    This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from
-    *Fairchild (2013)* reference.
+    This specification provides a standardized interface for the *LLAB(l:c)*
+    model with field names consistent across all colour appearance models in
+    :mod:`colour.appearance`. While the field names differ from the original
+    *Fairchild (2013)* reference notation, they map directly to the model's
+    perceptual correlates.
 
     Parameters
     ----------
     J
-        Correlate of *Lightness* :math:`L_L`.
+        Correlate of *lightness* :math:`L_L`.
     C
         Correlate of *chroma* :math:`Ch_L`.
     h
@@ -272,7 +276,8 @@ def XYZ_to_LLAB(
     ],
 ) -> CAM_Specification_LLAB:
     """
-    Compute the *:math:`LLAB(l:c)`* colour appearance model correlates.
+    Compute the *:math:`LLAB(l:c)`* colour appearance model correlates from
+    the specified *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -283,9 +288,10 @@ def XYZ_to_LLAB(
     Y_b
         Luminance factor of the background in :math:`cd/m^2`.
     L
-        Absolute luminance :math:`L` of reference white in :math:`cd/m^2`.
+        Absolute luminance :math:`L` of reference white in
+        :math:`cd/m^2`.
     surround
-         Surround viewing conditions induction factors.
+        Surround viewing conditions induction factors.
 
     Returns
     -------
@@ -384,7 +390,7 @@ s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
 
 def XYZ_to_RGB_LLAB(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Convert *CIE XYZ* tristimulus values to normalised cone responses.
+    Convert from *CIE XYZ* tristimulus values to normalised cone responses.
 
     Parameters
     ----------
@@ -417,22 +423,23 @@ def chromatic_adaptation(
     D: ArrayLike = 1,
 ) -> NDArrayFloat:
     """
-    Apply chromatic adaptation to the specified *RGB* normalised cone responses
-    array.
+    Apply chromatic adaptation to the specified *RGB* normalised cone
+    responses array.
 
     Parameters
     ----------
     RGB
-        *RGB* normalised cone responses array of test sample / stimulus.
+        *RGB* normalised cone responses array of the test sample / stimulus.
     RGB_0
-        *RGB* normalised cone responses array of reference white.
+        *RGB* normalised cone responses array of the reference white.
     RGB_0r
-        *RGB* normalised cone responses array of reference illuminant
+        *RGB* normalised cone responses array of the reference illuminant
         *CIE Standard Illuminant D Series* *D65*.
     Y
-        Tristimulus values :math:`Y` of the stimulus.
+        Tristimulus value :math:`Y` of the stimulus.
     D
-         *Discounting-the-Illuminant* factor normalised to domain [0, 1].
+        *Discounting-the-Illuminant* factor normalised to domain [0, 1].
+        Default is 1.
 
     Returns
     -------
@@ -470,8 +477,8 @@ def chromatic_adaptation(
 
 def f(x: ArrayLike, F_S: ArrayLike) -> NDArrayFloat:
     """
-    Define the nonlinear response function of the *:math:`LLAB(l:c)`* colour
-    appearance model used to model the nonlinear behaviour of various visual
+    Model the nonlinear response function of the *:math:`LLAB(l:c)`* colour
+    appearance model to simulate the nonlinear behaviour of various visual
     responses.
 
     Parameters
@@ -513,11 +520,11 @@ def opponent_colour_dimensions(
     F_S: ArrayLike,
     F_L: ArrayLike,
 ) -> NDArrayFloat:
-    """
-    Compute opponent colour dimensions from the specified adapted *CIE XYZ* tristimulus
-    values.
+    r"""
+    Compute opponent colour dimensions from the specified adapted *CIE XYZ*
+    tristimulus values.
 
-    The opponent colour dimensions are based on a modified *CIE L\\*a\\*b\\**
+    The opponent colour dimensions are based on a modified *CIE L\*a\*b\**
     colourspace formulae.
 
     Parameters
@@ -564,7 +571,8 @@ def opponent_colour_dimensions(
 
 def hue_angle(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     """
-    Compute the *hue* angle :math:`h_L` in degrees.
+    Compute the *hue* angle :math:`h_L` in degrees from the specified
+    opponent colour dimensions.
 
     Parameters
     ----------
@@ -594,7 +602,8 @@ def hue_angle(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
 
 def chroma_correlate(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     """
-    Compute the correlate of *chroma* :math:`Ch_L`.
+    Compute the correlate of *chroma* :math:`Ch_L` from the specified
+    opponent colour dimensions.
 
     Parameters
     ----------
@@ -637,7 +646,8 @@ def colourfulness_correlate(
     Parameters
     ----------
     L
-        Absolute luminance :math:`L` of reference white in :math:`cd/m^2`.
+        Absolute luminance :math:`L` of the reference white in
+        :math:`cd/m^2`.
     L_L
         Correlate of *Lightness* :math:`L_L`.
     Ch_L
@@ -681,7 +691,7 @@ def saturation_correlate(Ch_L: ArrayLike, L_L: ArrayLike) -> NDArrayFloat:
     Ch_L
         Correlate of *chroma* :math:`Ch_L`.
     L_L
-        Correlate of *Lightness* :math:`L_L`.
+        Correlate of *lightness* :math:`L_L`.
 
     Returns
     -------

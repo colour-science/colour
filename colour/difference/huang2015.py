@@ -3,7 +3,7 @@ Huang et al. (2015) Power-Functions
 ===================================
 
 Define the *Huang, Cui, Melgosa, Sanchez-Maranon, Li, Luo and Liu (2015)*
-power-functions improving the performance of colour-difference formulas:
+power-functions for improving the performance of colour-difference formulas.
 
 -   :func:`colour.difference.power_function_Huang2015`
 
@@ -67,8 +67,8 @@ References
 Notes
 -----
 -   :cite:`Li2017` does not give the coefficients for the *CAM16-LCD* and
-    *CAM16-SCD* colourspaces. *Ronnie Luo* has been contacted to know if they
-    have been computed.
+    *CAM16-SCD* colourspaces. *Ronnie Luo* has been contacted to know if
+    they have been computed.
 
 Aliases:
 
@@ -101,10 +101,9 @@ def power_function_Huang2015(
     ) = "CIE 2000",
 ) -> NDArrayFloat:
     """
-    Improve the performance of the :math:`\\Delta E` value for specified
-    coefficients using
-    *Huang, Cui, Melgosa, Sanchez-Maranon, Li, Luo and Liu (2015)*
-    power-function: :math:`d_E^{\\prime}=a*d_{E^b}`.
+    Apply the *Huang, Cui, Melgosa, Sanchez-Maranon, Li, Luo and Liu
+    (2015)* power-function to improve colour difference values for
+    specified coefficients: :math:`d_E^{\\prime}=a \\cdot d_{E}^{b}`.
 
     Parameters
     ----------
@@ -116,7 +115,7 @@ def power_function_Huang2015(
     Returns
     -------
     :class:`numpy.ndarray`
-        Improved math:`\\Delta E` value.
+        Improved :math:`\\Delta E` value.
 
     References
     ----------

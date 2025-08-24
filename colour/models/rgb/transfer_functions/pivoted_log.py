@@ -2,7 +2,7 @@
 Pivoted Log Encoding
 ====================
 
-Define the *Pivoted Log* encoding:
+Define the *Pivoted Log* encoding.
 
 -   :func:`colour.models.log_encoding_PivotedLog`
 -   :func:`colour.models.log_decoding_PivotedLog`
@@ -47,26 +47,33 @@ def log_encoding_PivotedLog(
     density_per_code_value: float = 0.002,
 ) -> NDArrayFloat:
     """
-    Define the *Josh Pines* style *Pivoted Log* log encoding curve /
-    opto-electronic transfer function.
+    Apply the *Josh Pines* style *Pivoted Log* log encoding
+    opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     x
         Linear data :math:`x`.
     log_reference
-        Log reference.
+        Log reference that defines the pivot point in code values where
+        the logarithmic encoding is centred. Typical value is 445.
     linear_reference
-        Linear reference.
+        Linear reference that establishes the relationship between linear
+        scene-referred values and the logarithmic code values. Typical
+        value is 0.18, representing 18% grey.
     negative_gamma
-        Negative gamma.
+        Negative gamma that controls the slope and curvature of the
+        logarithmic portion of the encoding curve. Lower values produce
+        steeper curves with more contrast in the shadows.
     density_per_code_value
-        Density per code value.
+        Density per code value that determines the logarithmic step size
+        and affects the overall contrast and dynamic range of the encoded
+        values.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`y`.
+        Logarithmically encoded data :math:`y`.
 
     Notes
     -----
@@ -110,21 +117,28 @@ def log_decoding_PivotedLog(
     density_per_code_value: float = 0.002,
 ) -> NDArrayFloat:
     """
-    Define the *Josh Pines* style *Pivoted Log* log decoding curve /
-    electro-optical transfer function.
+    Apply the *Josh Pines* style *Pivoted Log* log decoding inverse
+    opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     y
-        Non-linear data :math:`y`.
+        Logarithmically encoded data :math:`y`.
     log_reference
-        Log reference.
+        Log reference that defines the pivot point in code values where
+        the logarithmic encoding is centred. Typical value is 445.
     linear_reference
-        Linear reference.
+        Linear reference that establishes the relationship between linear
+        scene-referred values and the logarithmic code values. Typical
+        value is 0.18, representing 18% grey.
     negative_gamma
-        Negative gamma.
+        Negative gamma that controls the slope and curvature of the
+        logarithmic portion of the encoding curve. Lower values produce
+        steeper curves with more contrast in the shadows.
     density_per_code_value
-        Density per code value.
+        Density per code value that determines the logarithmic step size
+        and affects the overall contrast and dynamic range of the encoded
+        values.
 
     Returns
     -------

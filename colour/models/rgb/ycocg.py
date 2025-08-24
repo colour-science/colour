@@ -1,6 +1,6 @@
 """
 YCoCg Colour Encoding
-======================
+=====================
 
 Define the *YCoCg* colour encoding related transformations:
 

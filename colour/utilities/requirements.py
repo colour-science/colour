@@ -2,7 +2,7 @@
 Requirements Utilities
 ======================
 
-Requirements utilities objects.
+Define utilities for checking the availability of optional dependencies.
 """
 
 from __future__ import annotations
@@ -47,7 +47,7 @@ __all__ = [
 
 def is_ctlrender_installed(raise_exception: bool = False) -> bool:
     """
-    Return whether *ctlrender* is installed and available.
+    Determine whether *ctlrender* is installed and available.
 
     Parameters
     ----------
@@ -91,7 +91,7 @@ def is_ctlrender_installed(raise_exception: bool = False) -> bool:
 
 def is_imageio_installed(raise_exception: bool = False) -> bool:
     """
-    Return whether *Imageio* is installed and available.
+    Determine whether *Imageio* is installed and available.
 
     Parameters
     ----------
@@ -128,7 +128,7 @@ def is_imageio_installed(raise_exception: bool = False) -> bool:
 
 def is_openimageio_installed(raise_exception: bool = False) -> bool:
     """
-    Return whether *OpenImageIO* is installed and available.
+    Determine whether *OpenImageIO* is installed and available.
 
     Parameters
     ----------
@@ -165,7 +165,7 @@ def is_openimageio_installed(raise_exception: bool = False) -> bool:
 
 def is_matplotlib_installed(raise_exception: bool = False) -> bool:
     """
-    Return whether *Matplotlib* is installed and available.
+    Determine whether *Matplotlib* is installed and available.
 
     Parameters
     ----------
@@ -202,7 +202,7 @@ def is_matplotlib_installed(raise_exception: bool = False) -> bool:
 
 def is_networkx_installed(raise_exception: bool = False) -> bool:
     """
-    Return whether *NetworkX* is installed and available.
+    Determine whether *NetworkX* is installed and available.
 
     Parameters
     ----------
@@ -240,7 +240,7 @@ def is_networkx_installed(raise_exception: bool = False) -> bool:
 
 def is_opencolorio_installed(raise_exception: bool = False) -> bool:
     """
-    Return whether *OpenColorIO* is installed and available.
+    Determine whether *OpenColorIO* is installed and available.
 
     Parameters
     ----------
@@ -277,7 +277,7 @@ def is_opencolorio_installed(raise_exception: bool = False) -> bool:
 
 def is_pandas_installed(raise_exception: bool = False) -> bool:
     """
-    Return whether *Pandas* is installed and available.
+    Determine whether *Pandas* is installed and available.
 
     Parameters
     ----------
@@ -314,8 +314,9 @@ def is_pandas_installed(raise_exception: bool = False) -> bool:
 
 def is_pydot_installed(raise_exception: bool = False) -> bool:
     """
-    Return whether *Pydot* is installed and available. The presence of
-    *Graphviz* will also be tested.
+    Determine whether *Pydot* is installed and available.
+
+    The presence of *Graphviz* will also be tested.
 
     Parameters
     ----------
@@ -364,7 +365,7 @@ def is_pydot_installed(raise_exception: bool = False) -> bool:
 
 def is_tqdm_installed(raise_exception: bool = False) -> bool:
     """
-    Return whether *tqdm* is installed and available.
+    Determine whether *tqdm* is installed and available.
 
     Parameters
     ----------
@@ -401,7 +402,7 @@ def is_tqdm_installed(raise_exception: bool = False) -> bool:
 
 def is_trimesh_installed(raise_exception: bool = False) -> bool:
     """
-    Return whether *Trimesh* is installed and available.
+    Determine whether *Trimesh* is installed and available.
 
     Parameters
     ----------
@@ -438,7 +439,7 @@ def is_trimesh_installed(raise_exception: bool = False) -> bool:
 
 def is_xxhash_installed(raise_exception: bool = False) -> bool:
     """
-    Return whether *xxhash* is installed and available.
+    Determine whether *xxhash* is installed and available.
 
     Parameters
     ----------
@@ -509,17 +510,18 @@ def required(
     ],
 ) -> Callable:
     """
-    Decorate a function to check whether various ancillary package requirements
-    are satisfied.
+    Check whether specified ancillary package requirements are satisfied
+    and decorate the function accordingly.
 
     Other Parameters
     ----------------
     requirements
-        Requirements to check whether they are satisfied.
+        Package requirements to check for satisfaction.
 
     Returns
     -------
     Callable
+        Decorated function that validates package availability.
     """
 
     def wrapper(function: Callable) -> Callable:

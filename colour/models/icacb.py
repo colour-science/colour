@@ -2,7 +2,7 @@
 :math:`IC_AC_B` Colourspace
 ===========================
 
-Define the :math:`IC_AC_B` colourspace transformations:
+Define the :math:`IC_AC_B` colourspace transformations.
 
 -   :func:`colour.XYZ_to_ICaCb`
 -   :func:`colour.ICaCb_to_XYZ`
@@ -109,8 +109,8 @@ def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-    >>> XYZ_to_ICaCb(XYZ)
-    array([ 0.06875297,  0.05753352,  0.02081548])
+    >>> XYZ_to_ICaCb(XYZ)  # doctest: +ELLIPSIS
+    array([ 0.0687529...,  0.0575335...,  0.0208154...])
     """
 
     def LMS_to_LMS_p_callable(LMS: ArrayLike) -> NDArrayFloat:
@@ -132,17 +132,17 @@ def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArrayFloat:
 
 def ICaCb_to_XYZ(ICaCb: ArrayLike) -> NDArrayFloat:
     """
-    Convert from :math:`IC_AC_B` tristimulus values to *CIE XYZ* colourspace.
+    Convert from :math:`IC_AC_B` colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
     ICaCb
-        :math:`IC_AC_B` tristimulus values.
+        :math:`IC_AC_B` colourspace array.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *CIE XYZ* colourspace array.
+        *CIE XYZ* tristimulus values.
 
     Notes
     -----
@@ -162,15 +162,18 @@ def ICaCb_to_XYZ(ICaCb: ArrayLike) -> NDArrayFloat:
     | ``XYZ``    | [0, 1]                | [0, 1]          |
     +------------+-----------------------+-----------------+
 
+    -   Output *CIE XYZ* tristimulus values are adapted to
+        *CIE Standard Illuminant D Series* *D65*.
+
     References
     ----------
     :cite:`Frohlich2017`
 
     Examples
     --------
-    >>> XYZ = np.array([0.06875297, 0.05753352, 0.02081548])
-    >>> ICaCb_to_XYZ(XYZ)
-    array([ 0.20654008,  0.12197225,  0.05136951])
+    >>> ICaCb = np.array([0.06875297, 0.05753352, 0.02081548])
+    >>> ICaCb_to_XYZ(ICaCb)  # doctest: +ELLIPSIS
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
     def LMS_p_to_LMS_callable(LMS_p: ArrayLike) -> NDArrayFloat:

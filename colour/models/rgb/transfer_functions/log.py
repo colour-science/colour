@@ -2,7 +2,7 @@
 Common Log Encodings
 ====================
 
-Define the common log encodings:
+Define the common log encodings.
 
 -   :func:`colour.models.logarithmic_function_basic`
 -   :func:`colour.models.logarithmic_function_quasilog`
@@ -87,14 +87,14 @@ def logarithmic_function_basic(
     base: int = 2,
 ) -> NDArrayFloat:
     """
-    Define the basic logarithmic function.
+    Apply a logarithmic or anti-logarithmic transformation to the specified array.
 
     Parameters
     ----------
     x
-        The data to undergo basic logarithmic conversion.
+        Logarithmically encoded data :math:`x`.
     style
-        Defines the behaviour for the logarithmic function to operate:
+        Specifies the behaviour for the logarithmic function to operate:
 
         -   *log10*: Applies a base 10 logarithm to the passed value.
         -   *antiLog10*: Applies a base 10 anti-logarithm to the passed value.
@@ -109,7 +109,7 @@ def logarithmic_function_basic(
     Returns
     -------
     :class:`numpy.ndarray`
-        Logarithmically converted data.
+        Logarithmically transformed data.
 
     Examples
     --------
@@ -171,18 +171,21 @@ def logarithmic_function_quasilog(
     lin_side_offset: float = 0,
 ) -> NDArrayFloat:
     """
-    Define the quasilog logarithmic function.
+    Apply the *Quasilog* logarithmic function for encoding and decoding.
+
+    This function implements a logarithmic transformation with configurable
+    slopes and offsets for both linear and logarithmic sides.
 
     Parameters
     ----------
     x
-        Linear/non-linear data to undergo encoding/decoding.
+        Logarithmically encoded data :math:`x`.
     style
-        Defines the behaviour for the logarithmic function to operate:
+        Specifies the behaviour for the logarithmic function to operate:
 
-        -   *linToLog*: Applies a logarithm to convert linear data to
+        -   *linToLog*: Apply a logarithm to convert linear data to
             logarithmic data.
-        -   *logToLin*: Applies an anti-logarithm to convert logarithmic
+        -   *logToLin*: Apply an anti-logarithm to convert logarithmic
             data to linear data.
     base
         Logarithmic base used for the conversion.
@@ -190,11 +193,11 @@ def logarithmic_function_quasilog(
         Slope (or gain) applied to the log side of the logarithmic function.
         The default value is 1.
     lin_side_slope
-        Slope of the linear side of the logarithmic function. The default value
-        is 1.
+        Slope of the linear side of the logarithmic function. The default
+        value is 1.
     log_side_offset
-        Offset applied to the log side of the logarithmic function. The default
-        value is 0.
+        Offset applied to the log side of the logarithmic function. The
+        default value is 0.
     lin_side_offset
         Offset applied to the linear side of the logarithmic function. The
         default value is 0.
@@ -252,14 +255,17 @@ def logarithmic_function_camera(
     linear_slope: float | None = None,
 ) -> NDArrayFloat:
     """
-    Define the camera logarithmic function.
+    Apply a camera logarithmic function to the specified array.
+
+    Apply a piece-wise function with logarithmic and linear segments
+    for encoding or decoding camera data.
 
     Parameters
     ----------
     x
-        Linear/non-linear data to undergo encoding/decoding.
+        Logarithmically encoded data :math:`x`.
     style
-        Defines the behaviour for the logarithmic function to operate:
+        Specifies the behaviour for the logarithmic function to operate:
 
         -   *cameraLinToLog*: Applies a piece-wise function with logarithmic
             and linear segments on linear values, converting them to non-linear
@@ -270,22 +276,24 @@ def logarithmic_function_camera(
     base
         Logarithmic base used for the conversion.
     log_side_slope
-        Slope (or gain) applied to the log side of the logarithmic segment. The
-        default value is 1.
+        Slope (or gain) applied to the log side of the logarithmic function.
+        The default value is 1.
     lin_side_slope
-        Slope of the linear side of the logarithmic segment. The default value
-        is 1.
+        Slope of the linear side of the logarithmic function. The
+        default value is 1.
     log_side_offset
-        Offset applied to the log side of the logarithmic segment. The default
-        value is 0.
-    lin_side_offset
-        Offset applied to the linear side of the logarithmic segment. The
+        Offset applied to the log side of the logarithmic function. The
         default value is 0.
+    lin_side_offset
+        Offset applied to the linear side of the logarithmic function.
+        The default value is 0.
     lin_side_break
-        Break-point, defined in linear space, at which the piece-wise function
-        transitions between the logarithmic and linear segments.
+        Break-point, defined in linear space, at which the piece-wise
+        function transitions between the logarithmic and linear
+        segments.
     linear_slope
-        Slope of the linear portion of the curve. The default value is *None*.
+        Slope of the linear portion of the curve. The default value is
+        *None*.
 
     Returns
     -------
@@ -374,18 +382,18 @@ def log_encoding_Log2(
     max_exposure: float = 6.5,
 ) -> NDArrayFloat:
     """
-    Define the common *Log2* encoding function.
+    Apply the common *Log2* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     lin
-          Linear data to undergo encoding.
+        Linear *Log2* decoded data.
     middle_grey
-          *Middle Grey* exposure value.
+        *Middle Grey* exposure value.
     min_exposure
-          Minimum exposure level.
+        Minimum exposure level.
     max_exposure
-          Maximum exposure level.
+        Maximum exposure level.
 
     Returns
     -------
@@ -430,12 +438,13 @@ def log_decoding_Log2(
     max_exposure: float = 6.5,
 ) -> NDArrayFloat:
     """
-    Define the common *Log2* decoding function.
+    Apply the common *Log2* log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     log_norm
-        Logarithmic data to undergo decoding.
+        Non-linear *Log2* encoded data.
     middle_grey
         *Middle Grey* exposure value.
     min_exposure
@@ -450,8 +459,8 @@ def log_decoding_Log2(
 
     Notes
     -----
-    -   The common *Log2* decoding function can be used to build logarithmic to
-        linear shapers in the *ACES OCIO configuration*.
+    -   The common *Log2* decoding function can be used to build logarithmic
+        to linear shapers in the *ACES OCIO configuration*.
     -   The shaper with logarithmic encoded values can be decoded back to
         linear domain:
 

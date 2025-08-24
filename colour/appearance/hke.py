@@ -2,19 +2,20 @@
 Helmholtz—Kohlrausch Effect
 ===========================
 
-Define the following methods for estimating Helmholtz-Kohlrausch effect (HKE):
+Define methods for estimating the Helmholtz—Kohlrausch effect (HKE).
 
--   :attr:`colour.HKE_NAYATANI1997_METHODS`: Nayatani HKE computation methods,
-    choice between variable achromatic colour ('VAC') and variable chromatic
-    colour ('VCC').
+-   :attr:`colour.HKE_NAYATANI1997_METHODS`: *Nayatani (1997)* HKE
+    computation methods, choice between variable achromatic colour (VAC)
+    and variable chromatic colour (VCC).
 -   :func:`colour.HelmholtzKohlrausch_effect_object_Nayatani1997`:
-    *Nayatani (1997)* HKE estimation for object colours.
+    Compute HKE value for object colours using *Nayatani (1997)* method.
 -   :func:`colour.HelmholtzKohlrausch_effect_luminous_Nayatani1997`:
-    *Nayatani (1997)* HKE estimation for luminous colours.
+    Compute HKE value for luminous colours using *Nayatani (1997)* method.
 -   :func:`colour.appearance.coefficient_q_Nayatani1997`:
-    Calculates :math:`WI` coefficient for *Nayatani 1997* HKE estimation.
+    Calculate :math:`q` coefficient for *Nayatani (1997)* HKE estimation.
 -   :func:`colour.appearance.coefficient_K_Br_Nayatani1997`:
-    Calculates :math:`K_{Br}` coefficient for *Nayatani 1997* HKE estimation.
+    Calculate :math:`K_{Br}` coefficient for *Nayatani (1997)* HKE
+    estimation.
 
 References
 ----------
@@ -58,8 +59,9 @@ HKE_NAYATANI1997_METHODS = CanonicalMapping(
     }
 )
 HKE_NAYATANI1997_METHODS.__doc__ = """
-*Nayatani (1997)* *HKE* computation methods, choice between variable
-achromatic colour ('VAC') and variable chromatic colour ('VCC')
+Define *Nayatani (1997)* *Helmholtz-Kohlrausch effect* (HKE) computation
+methods: variable achromatic colour ('VAC') and variable chromatic
+colour ('VCC').
 
 References
 ----------
@@ -74,24 +76,28 @@ def HelmholtzKohlrausch_effect_object_Nayatani1997(
     method: Literal["VAC", "VCC"] | str = "VCC",
 ) -> NDArrayFloat:
     """
-    Compute the *HKE* value for object colours using *Nayatani (1997)* method.
+    Compute the *Helmholtz-Kohlrausch effect* (HKE) value for object
+    colours using the *Nayatani (1997)* method.
 
     Parameters
     ----------
     uv
-        *CIE uv* chromaticity coordinates of samples.
+         *CIE L\\*u\\*v\\** colourspace :math:`uv^p` chromaticity coordinates
+         of the test samples.
     uv_c
-        *CIE uv* chromaticity coordinates of reference white.
+         *CIE L\\*u\\*v\\** colourspace :math:`uv^p` chromaticity coordinates
+         of the reference white.
     L_a
         Adapting luminance in :math:`cd/m^2`.
     method
-        Which estimation method to use, *VCC* or *VAC*.
+        Estimation method to use: *VCC* (Variable-Chromatic-Colour) or
+        *VAC* (Variable-Achromatic-Colour).
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Luminance factor (:math:`\\Gamma`) value(s) computed with Nayatani
-        object colour estimation method.
+        Luminance factor (:math:`\\Gamma`) values computed using the
+        *Nayatani (1997)* object colour estimation method.
 
     References
     ----------
@@ -131,24 +137,28 @@ def HelmholtzKohlrausch_effect_luminous_Nayatani1997(
     method: Literal["VAC", "VCC"] | str = "VCC",
 ) -> NDArrayFloat:
     """
-    Compute the *HKE* factor for luminous colours using *Nayatani (1997)* method.
+    Compute the *HKE* factor for luminous colours using the
+    *Nayatani (1997)* method.
 
     Parameters
     ----------
     uv
-        *CIE uv* chromaticity coordinates of samples.
+        *CIE L\\*u\\*v\\** colourspace :math:`uv^p` chromaticity coordinates of
+        test samples.
     uv_c
-        *CIE uv* chromaticity coordinates of reference white.
+        *CIE L\\*u\\*v\\** colourspace :math:`uv^p` chromaticity coordinates of
+        reference white.
     L_a
         Adapting luminance in :math:`cd/m^2`.
     method
-        Which estimation method to use, *VCC* or *VAC*.
+        Estimation method to use: *VCC* (Variable-Chromatic-Colour) or
+        *VAC* (Variable-Achromatic-Colour).
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Luminance factor (:math:`\\Gamma`) value(s) computed with Nayatani
-        luminous colour estimation method.
+        Luminance factor (:math:`\\Gamma`) values computed using the
+        Nayatani luminous colour estimation method.
 
     References
     ----------
@@ -190,9 +200,11 @@ def coefficient_q_Nayatani1997(
 
     :math:`tan^{-1}\\cfrac{v' - v'_c}{u' - u'_c}`
 
-    where :math:`u'` and :math:`v'` are the CIE 1976 chromaticity coordinates
-    of the test chromatic light and :math:`u'_c` and :math:`v'_c` are the CIE
-    1976 chromaticity coordinates of the reference white light.
+    where :math:`u'` and :math:`v'` are the *CIE L\\*u\\*v\\** colourspace
+    :math:`uv^p` chromaticity coordinates of the test chromatic light and
+    :math:`u'_c` and :math:`v'_c` are the *CIE L\\*u\\*v\\**
+    colourspace :math:`uv^p` chromaticity coordinates of the reference
+    white light.
 
     Parameters
     ----------

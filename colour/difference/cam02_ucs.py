@@ -47,15 +47,15 @@ def delta_E_Luo2006(
     Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike, coefficients: Coefficients_UCS_Luo2006
 ) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E'` between two specified
-    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspaces
-    :math:`J'a'b'` arrays.
+    Compute the colour difference :math:`\\Delta E'` between two specified
+    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
+    colourspaces :math:`J'a'b'` arrays.
 
     Parameters
     ----------
     Jpapbp_1
-        Standard / reference *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or
-        *CAM02-UCS* colourspaces :math:`J'a'b'` array.
+        Standard / reference *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*,
+        or *CAM02-UCS* colourspaces :math:`J'a'b'` array.
     Jpapbp_2
         Sample / test *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or
         *CAM02-UCS* colourspaces :math:`J'a'b'` array.
@@ -71,8 +71,8 @@ def delta_E_Luo2006(
     Warnings
     --------
     The :math:`J'a'b'` array should have been computed with a
-    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspace
-    and not with the *CIE L\\*a\\*b\\** colourspace.
+    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
+    colourspace and not with the *CIE L\\*a\\*b\\** colourspace.
 
     Notes
     -----
@@ -114,17 +114,18 @@ def delta_E_Luo2006(
 
 def delta_E_CAM02LCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E'` between two specified
-    *Luo et al. (2006)* *CAM02-LCD* colourspaces :math:`J'a'b'` arrays.
+    Compute the colour difference :math:`\\Delta E'` between two specified
+    *CAM02-LCD* colourspace :math:`J'a'b'` arrays using the
+    *Luo et al. (2006)* formula.
 
     Parameters
     ----------
     Jpapbp_1
-        Standard / reference *Luo et al. (2006)* *CAM02-LCD* colourspaces
-        :math:`J'a'b'` array.
+        Standard / reference *CAM02-LCD* colourspace :math:`J'a'b'` array as
+        computed by the *Luo et al. (2006)* uniform colour space model.
     Jpapbp_2
-        Sample / test *Luo et al. (2006)* *CAM02-LCD* colourspaces
-        :math:`J'a'b'` array.
+        Sample / test *CAM02-LCD* colourspace :math:`J'a'b'` array as computed
+        by the *Luo et al. (2006)* uniform colour space model.
 
     Returns
     -------
@@ -133,9 +134,9 @@ def delta_E_CAM02LCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
 
     Warnings
     --------
-    The :math:`J'a'b'` array should have been computed with a
-    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspace
-    and not with the *CIE L\\*a\\*b\\** colourspace.
+    The :math:`J'a'b'` arrays should have been computed with the
+    *Luo et al. (2006)* *CAM02-LCD* colourspace and not with the
+    *CIE L\\*a\\*b\\** colourspace.
 
     Notes
     -----
@@ -172,17 +173,18 @@ def delta_E_CAM02LCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
 
 def delta_E_CAM02SCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E'` between two specified
-    *Luo et al. (2006)* *CAM02-SCD* colourspaces :math:`J'a'b'` arrays.
+    Compute the colour difference :math:`\\Delta E'` between two specified
+    *CAM02-SCD* colourspace :math:`J'a'b'` arrays using the
+    *Luo et al. (2006)* formula.
 
     Parameters
     ----------
     Jpapbp_1
-        Standard / reference *Luo et al. (2006)* *CAM02-SCD* colourspaces
-        :math:`J'a'b'` array.
+        Standard / reference *CAM02-SCD* colourspace :math:`J'a'b'` array as
+        computed by the *Luo et al. (2006)* uniform colour space model.
     Jpapbp_2
-        Sample / test *Luo et al. (2006)* *CAM02-SCD* colourspaces
-        :math:`J'a'b'` array.
+        Sample / test *CAM02-SCD* colourspace :math:`J'a'b'` array as computed
+        by the *Luo et al. (2006)* uniform colour space model.
 
     Returns
     -------
@@ -191,9 +193,9 @@ def delta_E_CAM02SCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
 
     Warnings
     --------
-    The :math:`J'a'b'` array should have been computed with a
-    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspace
-    and not with the *CIE L\\*a\\*b\\** colourspace.
+    The :math:`J'a'b'` arrays should have been computed with the
+    *Luo et al. (2006)* *CAM02-SCD* colourspace and not with the
+    *CIE L\\*a\\*b\\** colourspace.
 
     Notes
     -----
@@ -230,17 +232,18 @@ def delta_E_CAM02SCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
 
 def delta_E_CAM02UCS(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E'` between two specified
-    *Luo et al. (2006)* *CAM02-UCS* colourspaces :math:`J'a'b'` arrays.
+    Compute the colour difference :math:`\\Delta E'` between two specified
+    *CAM02-UCS* colourspace :math:`J'a'b'` arrays using the
+    *Luo et al. (2006)* formula.
 
     Parameters
     ----------
     Jpapbp_1
-        Standard / reference *Luo et al. (2006)* *CAM02-UCS* colourspaces
-        :math:`J'a'b'` array.
+        Standard / reference *CAM02-UCS* colourspace :math:`J'a'b'` array as
+        computed by the *Luo et al. (2006)* uniform colour space model.
     Jpapbp_2
-        Sample / test *Luo et al. (2006)* *CAM02-UCS* colourspaces
-        :math:`J'a'b'` array.
+        Sample / test *CAM02-UCS* colourspace :math:`J'a'b'` array as computed
+        by the *Luo et al. (2006)* uniform colour space model.
 
     Returns
     -------
@@ -249,9 +252,9 @@ def delta_E_CAM02UCS(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
 
     Warnings
     --------
-    The :math:`J'a'b'` array should have been computed with a
-    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspace
-    and not with the *CIE L\\*a\\*b\\** colourspace.
+    The :math:`J'a'b'` arrays should have been computed with the
+    *Luo et al. (2006)* *CAM02-UCS* colourspace and not with the
+    *CIE L\\*a\\*b\\** colourspace.
 
     Notes
     -----

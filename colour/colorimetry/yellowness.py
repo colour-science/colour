@@ -2,21 +2,18 @@
 Yellowness Index :math:`Y`
 ==========================
 
-Define the *yellowness* index :math:`Y` computation objects:
+Define the *yellowness* index :math:`Y` computation methods.
 
--   :func:`colour.colorimetry.yellowness_ASTMD1925`: *Yellowness* index
-    :math:`YI` computation of specified sample *CIE XYZ* tristimulus values using
-    *ASTM D1925* method.
--   :func:`colour.colorimetry.yellowness_ASTME313_alternative`: *Yellowness*
-    index :math:`YI` computation of specified sample *CIE XYZ* tristimulus values
-    using the alternative *ASTM E313* method.
--   :func:`colour.colorimetry.yellowness_ASTME313`: *Yellowness*
-    index :math:`YI` computation of specified sample *CIE XYZ* tristimulus values
-    using the recommended *ASTM E313* method.
--   :attr:`colour.YELLOWNESS_METHODS`: Supported *yellowness* computations
+-   :func:`colour.colorimetry.yellowness_ASTMD1925`: Compute *yellowness*
+    index :math:`YI` using *ASTM D1925* method for plastics.
+-   :func:`colour.colorimetry.yellowness_ASTME313_alternative`: Compute
+    *yellowness* index :math:`YI` using the alternative *ASTM E313* method.
+-   :func:`colour.colorimetry.yellowness_ASTME313`: Compute *yellowness*
+    index :math:`YI` using the recommended *ASTM E313* method.
+-   :attr:`colour.YELLOWNESS_METHODS`: Supported *yellowness* computation
     methods.
--   :func:`colour.yellownes`: *Yellowness* :math:`YI` computation using specified
-    method.
+-   :func:`colour.yellowness`: Compute *yellowness* :math:`YI` using
+    specified method.
 
 References
 ----------
@@ -69,14 +66,14 @@ __all__ = [
 
 def yellowness_ASTMD1925(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Return the *yellowness* index :math:`YI` of specified sample *CIE XYZ*
-    tristimulus values using *ASTM D1925* method.
+    Compute the *yellowness* index :math:`YI` of the specified sample *CIE XYZ*
+    tristimulus values using the *ASTM D1925* method.
 
-    ASTM D1925 has been specifically developed for the definition of the
+    The *ASTM D1925* method has been specifically developed for defining the
     yellowness of homogeneous, non-fluorescent, almost neutral-transparent,
-    white-scattering or opaque plastics as they will be reviewed under daylight
-    condition. It can be other materials as well, as long as they fit into this
-    description.
+    white-scattering or opaque plastics as they will be evaluated under
+    daylight conditions. The method can be applied to other materials as
+    well, provided they fit this description.
 
     Parameters
     ----------
@@ -85,8 +82,8 @@ def yellowness_ASTMD1925(XYZ: ArrayLike) -> NDArrayFloat:
 
     Returns
     -------
-    :class:`np.float` or :class:`numpy.ndarray`
-        *Yellowness* :math:`YI`.
+    :class:`numpy.ndarray`
+        *Yellowness* index :math:`YI`.
 
     Notes
     -----
@@ -126,16 +123,17 @@ def yellowness_ASTMD1925(XYZ: ArrayLike) -> NDArrayFloat:
 
 def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Return the *yellowness* index :math:`YI` of specified sample *CIE XYZ*
+    Compute the *yellowness* index :math:`YI` of the specified sample *CIE XYZ*
     tristimulus values using the alternative *ASTM E313* method.
 
     In the original form of *Test Method E313*, an alternative equation was
     recommended for a *yellowness* index. In terms of colorimeter readings,
     it was :math:`YI = 100(1 - B/G)` where :math:`B` and :math:`G` are,
-    respectively, blue and green colorimeter readings. Its derivation assumed
-    that, because of the limitation of the concept to yellow (or blue) colors,
-    it was not necessary to take account of variations in the amber or red
-    colorimeter reading :math:`A`. This equation is no longer recommended.
+    respectively, blue and green colorimeter readings. Its derivation
+    assumed that, because of the limitation of the concept to yellow (or
+    blue) colors, it was not necessary to take account of variations in the
+    amber or red colorimeter reading :math:`A`. This equation is no longer
+    recommended.
 
     Parameters
     ----------
@@ -144,8 +142,8 @@ def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> NDArrayFloat:
 
     Returns
     -------
-    :class:`np.float` or :class:`numpy.ndarray`
-        *Yellowness* :math:`YI`.
+    :class:`numpy.ndarray`
+        *Yellowness* index :math:`YI`.
 
     Notes
     -----
@@ -178,9 +176,9 @@ def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> NDArrayFloat:
     _X, Y, Z = tsplit(to_domain_100(XYZ))
 
     with sdiv_mode():
-        WI = 100 * (1 - sdiv(0.847 * Z, Y))
+        YI = 100 * (1 - sdiv(0.847 * Z, Y))
 
-    return as_float(from_range_100(WI))
+    return as_float(from_range_100(YI))
 
 
 YELLOWNESS_COEFFICIENTS_ASTME313: CanonicalMapping = CanonicalMapping(
@@ -200,8 +198,8 @@ YELLOWNESS_COEFFICIENTS_ASTME313: CanonicalMapping = CanonicalMapping(
     }
 )
 YELLOWNESS_COEFFICIENTS_ASTME313.__doc__ = """
-Coefficients :math:`C_X` and :math:`C_Z` for the *ASTM E313* *yellowness* index
-:math:`YI` computation method.
+Coefficients :math:`C_X` and :math:`C_Z` for the *ASTM E313*
+*yellowness* index :math:`YI` computation method.
 
 References
 ----------
@@ -227,11 +225,11 @@ def yellowness_ASTME313(
     ]["D65"],
 ) -> NDArrayFloat:
     """
-    Return the *yellowness* index :math:`YI` of specified sample *CIE XYZ*
-    tristimulus values using *ASTM E313* method.
+    Compute the *yellowness* index :math:`YI` of the specified sample *CIE XYZ*
+    tristimulus values using the *ASTM E313* method.
 
-    ASTM E313 has successfully been used for a variety of white or near white
-    materials. This includes coatings, plastics, textiles.
+    *ASTM E313* has been successfully used for a variety of white or near white
+    materials. This includes coatings, plastics, and textiles.
 
     Parameters
     ----------
@@ -240,13 +238,13 @@ def yellowness_ASTME313(
     C_XZ
         Coefficients :math:`C_X` and :math:`C_Z` for the
         *CIE 1931 2 Degree Standard Observer* and
-        *CIE 1964 10 Degree Standard Observer* and *CIE Illuminant C* and
+        *CIE 1964 10 Degree Standard Observer* with *CIE Illuminant C* and
         *CIE Standard Illuminant D65*.
 
     Returns
     -------
-    :class:`np.float` or :class:`numpy.ndarray`
-        *Yellowness* :math:`YI`.
+    :class:`numpy.ndarray`
+        *Yellowness* index :math:`YI`.
 
     Notes
     -----
@@ -277,9 +275,9 @@ def yellowness_ASTME313(
     C_X, C_Z = tsplit(C_XZ)
 
     with sdiv_mode():
-        WI = 100 * sdiv(C_X * X - C_Z * Z, Y)
+        YI = 100 * sdiv(C_X * X - C_Z * Z, Y)
 
-    return as_float(from_range_100(WI))
+    return as_float(from_range_100(YI))
 
 
 YELLOWNESS_METHODS = CanonicalMapping(
@@ -306,7 +304,7 @@ def yellowness(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Return the *yellowness* :math:`W` using specified method.
+    Compute the *yellowness* index :math:`YI` using the specified method.
 
     Parameters
     ----------
@@ -321,13 +319,13 @@ def yellowness(
         {:func:`colour.colorimetry.yellowness_ASTME313`},
         Coefficients :math:`C_X` and :math:`C_Z` for the
         *CIE 1931 2 Degree Standard Observer* and
-        *CIE 1964 10 Degree Standard Observer* and *CIE Illuminant C* and
+        *CIE 1964 10 Degree Standard Observer* with *CIE Illuminant C* and
         *CIE Standard Illuminant D65*.
 
     Returns
     -------
-    :class:`np.float` or :class:`numpy.ndarray`
-        *Yellowness* :math:`Y`.
+    :class:`numpy.ndarray`
+        *Yellowness* index :math:`YI`.
 
     Notes
     -----

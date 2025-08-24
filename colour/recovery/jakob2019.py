@@ -3,7 +3,7 @@ Jakob and Hanika (2019) - Reflectance Recovery
 ==============================================
 
 Define the objects for reflectance recovery, i.e., spectral upsampling, using
-*Jakob and Hanika (2019)* method:
+*Jakob and Hanika (2019)* method.
 
 -   :func:`colour.recovery.sd_Jakob2019`
 -   :func:`colour.recovery.find_coefficients_Jakob2019`
@@ -95,9 +95,11 @@ SPECTRAL_SHAPE_JAKOB2019: SpectralShape = SpectralShape(360, 780, 5)
 
 class StopMinimizationEarlyError(Exception):
     """
-    The exception used to stop :func:`scipy.optimize.minimize` once the
-    value of the minimized function is small enough. *SciPy* doesn't currently
-    offer a better way of doing it.
+    Define an exception to halt :func:`scipy.optimize.minimize` when the
+    minimized function value becomes sufficiently small.
+
+    *SciPy* does not currently provide a native mechanism for early
+    termination based on function value thresholds.
 
     Attributes
     ----------
@@ -112,8 +114,7 @@ class StopMinimizationEarlyError(Exception):
     @property
     def coefficients(self) -> NDArrayFloat:
         """
-        Getter property for the *Jakob and Hanika (2019)* exception
-        coefficients.
+        Getter for the *Jakob and Hanika (2019)* exception coefficients.
 
         Returns
         -------
@@ -126,13 +127,14 @@ class StopMinimizationEarlyError(Exception):
     @property
     def error(self) -> float:
         """
-        Getter property for the *Jakob and Hanika (2019)* exception error
+        Getter for the *Jakob and Hanika (2019)* spectral upsampling error
         value.
 
         Returns
         -------
         :class:`float`
-            *Jakob and Hanika (2019)* exception coefficients.
+            *Jakob and Hanika (2019)* spectral upsampling error value
+            representing the quality of the coefficient fitting process.
         """
 
         return self._error
@@ -142,14 +144,14 @@ def sd_Jakob2019(
     coefficients: ArrayLike, shape: SpectralShape = SPECTRAL_SHAPE_JAKOB2019
 ) -> SpectralDistribution:
     """
-    Generate a spectral distribution following the spectral model specified by
+    Generate a spectral distribution using the spectral model specified by
     *Jakob and Hanika (2019)*.
 
     Parameters
     ----------
     coefficients
-        Dimensionless coefficients for *Jakob and Hanika (2019)* reflectance
-        spectral model.
+        Dimensionless coefficients for the *Jakob and Hanika (2019)*
+        reflectance spectral model.
     shape
         Shape used by the spectral distribution.
 
@@ -241,13 +243,13 @@ def error_function(
 ):
     """
     Compute :math:`\\Delta E_{76}` between the target colour and the colour
-    defined by specified spectral model, along with its gradient.
+    defined by the specified spectral model, along with its gradient.
 
     Parameters
     ----------
     coefficients
-        Dimensionless coefficients for *Jakob and Hanika (2019)* reflectance
-        spectral model.
+        Dimensionless coefficients for *Jakob and Hanika (2019)*
+        reflectance spectral model.
     target
         *CIE L\\*a\\*b\\** colourspace array of the target colour.
     cmfs
@@ -255,8 +257,9 @@ def error_function(
     illuminant
         Illuminant spectral distribution.
     max_error
-        Raise ``StopMinimizationEarlyError`` if the error is smaller than this.
-        The default is *None* and the function doesn't raise anything.
+        Raise ``StopMinimizationEarlyError`` if the error is smaller than
+        this. The default is *None* and the function doesn't raise
+        anything.
     additional_data
         If *True*, some intermediate calculations are returned, for use in
         correctness tests: R, XYZ and Lab.
@@ -264,12 +267,12 @@ def error_function(
     Returns
     -------
     :class:`tuple` or :class:`tuple`
-        Tuple of computed :math:`\\Delta E_{76}` error and gradient of error,
-        i.e., the first derivatives of error with respect to the input
-        coefficients or tuple of computed :math:`\\Delta E_{76}` error,
-        gradient of error, computed spectral reflectance, *CIE XYZ* tristimulus
-        values corresponding to ``R`` and *CIE L\\*a\\*b\\** colourspace array
-        corresponding to ``XYZ``.
+        Tuple of computed :math:`\\Delta E_{76}` error and gradient of
+        error, i.e., the first derivatives of error with respect to the
+        input coefficients or tuple of computed :math:`\\Delta E_{76}`
+        error, gradient of error, computed spectral reflectance, *CIE XYZ*
+        tristimulus values corresponding to ``R`` and *CIE L\\*a\\*b\\**
+        colourspace array corresponding to ``XYZ``.
 
     Raises
     ------
@@ -340,13 +343,14 @@ def dimensionalise_coefficients(
     coefficients: ArrayLike, shape: SpectralShape
 ) -> NDArrayFloat:
     """
-    Rescale the dimensionless coefficients to specified spectral shape.
+    Rescale dimensionless coefficients to the specified spectral shape.
 
     A dimensionless form of the reflectance spectral model is used in the
     optimisation process. Instead of the usual spectral shape, specified in
-    nanometers, it is normalised to the [0, 1] range. A side effect is that
-    computed coefficients work only with the normalised range and need to be
-    rescaled to regain units and be compatible with standard shapes.
+    nanometres, it is normalised to the [0, 1] range. A side effect is
+    that computed coefficients work only with the normalised range and
+    need to be rescaled to regain units and be compatible with standard
+    shapes.
 
     Parameters
     ----------
@@ -375,20 +379,22 @@ def dimensionalise_coefficients(
 
 def lightness_scale(steps: int) -> NDArrayFloat:
     """
-    Create a non-linear lightness scale, as described in *Jakob and Hanika
-    (2019)*. The spacing between very dark and very bright (and saturated)
-    colours is made smaller, because in those regions coefficients tend to
-    change rapidly and a finer resolution is needed.
+    Generate a non-linear lightness scale as described in *Jakob and Hanika
+    (2019)*.
+
+    The scale reduces spacing between very dark and very bright (and
+    saturated) colours, providing finer resolution in regions where
+    coefficients change rapidly.
 
     Parameters
     ----------
     steps
-        Samples/steps count along the non-linear lightness scale.
+        Number of samples along the non-linear lightness scale.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear lightness scale.
+        Non-linear lightness scale array.
 
     Examples
     --------
@@ -411,7 +417,7 @@ def find_coefficients_Jakob2019(
     dimensionalise: bool = True,
 ) -> Tuple[NDArrayFloat, float]:
     """
-    Compute the coefficients for *Jakob and Hanika (2019)* reflectance
+    Find the coefficients for the *Jakob and Hanika (2019)* reflectance
     spectral model.
 
     Parameters
@@ -428,18 +434,19 @@ def find_coefficients_Jakob2019(
         Starting coefficients for the solver.
     max_error
         Maximal acceptable error. Set higher to save computational time.
-        If *None*, the solver will keep going until it is very close to the
-        minimum. The default is ``ACCEPTABLE_DELTA_E``.
+        If *None*, the solver will keep going until it is very close to
+        the minimum. The default is ``ACCEPTABLE_DELTA_E``.
     dimensionalise
-        If *True*, returned coefficients are dimensionful and will not work
-        correctly if fed back as ``coefficients_0``. The default is *True*.
+        If *True*, returned coefficients are dimensionful and will not
+        work correctly if fed back as ``coefficients_0``. The default
+        is *True*.
 
     Returns
     -------
     :class:`tuple`
-        Tuple of computed coefficients that best fit the specified colour and
-        :math:`\\Delta E_{76}` between the target colour and the colour
-        corresponding to the computed coefficients.
+        Tuple of computed coefficients that best fit the specified
+        colour and :math:`\\Delta E_{76}` between the target colour and
+        the colour corresponding to the computed coefficients.
 
     References
     ----------
@@ -555,13 +562,14 @@ def XYZ_to_sd_Jakob2019(
     additional_data: bool = False,
 ) -> Tuple[SpectralDistribution, float] | SpectralDistribution:
     """
-    Recover the spectral distribution of specified *CIE XYZ* tristimulus
+    Recover the spectral distribution from the specified *CIE XYZ* tristimulus
     values using *Jakob and Hanika (2019)* method.
 
     Parameters
     ----------
     XYZ
-        *CIE XYZ* tristimulus values to recover the spectral distribution from.
+        *CIE XYZ* tristimulus values to recover the spectral distribution
+        from.
     cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
@@ -572,15 +580,15 @@ def XYZ_to_sd_Jakob2019(
         Parameters for :func:`colour.recovery.find_coefficients_Jakob2019`
         definition.
     additional_data
-        If *True*, ``error`` will be returned alongside the recovered spectral
-        distribution.
+        If *True*, ``error`` will be returned alongside the recovered
+        spectral distribution.
 
     Returns
     -------
     :class:`tuple` or :class:`colour.SpectralDistribution`
         Tuple of recovered spectral distribution and :math:`\\Delta E_{76}`
-        between the target colour and the colour corresponding to the computed
-        coefficients or recovered spectral distribution.
+        between the target colour and the colour corresponding to the
+        computed coefficients or recovered spectral distribution.
 
     References
     ----------
@@ -680,15 +688,15 @@ def XYZ_to_sd_Jakob2019(
 
 
 class LUT3D_Jakob2019:
-    """
+    r"""
     Define a class for working with pre-computed lookup tables for the
-    *Jakob and Hanika (2019)* spectral upsampling method. It allows significant
-    time savings by performing the expensive numerical optimisation ahead of
-    time and storing the results in a file.
+    *Jakob and Hanika (2019)* spectral upsampling method. This class
+    enables significant time savings by performing expensive numerical
+    optimisation ahead of time and storing the results in a file.
 
-    The file format is compatible with the code and *\\*.coeff* files in the
-    supplemental material published alongside the article. They are directly
-    available from
+    The file format is compatible with the code and *\*.coeff* files in the
+    supplemental material published alongside the article. These files are
+    directly available from
     `Colour - Datasets <https://github.com/colour-science/colour-datasets>`__
     under the record *4050598*.
 
@@ -799,8 +807,10 @@ class LUT3D_Jakob2019:
     @property
     def size(self) -> int:
         """
-        Getter property for the *Jakob and Hanika (2019)* interpolator
-        size, i.e., the sample count on one side of the 3D table.
+        Getter for the *Jakob and Hanika (2019)* interpolator size.
+
+        The size represents the sample count on one side of the 3D lookup
+        table used for spectral upsampling.
 
         Returns
         -------
@@ -813,8 +823,8 @@ class LUT3D_Jakob2019:
     @property
     def lightness_scale(self) -> NDArrayFloat:
         """
-        Getter property for the *Jakob and Hanika (2019)* interpolator
-        lightness scale.
+        Getter for the *Jakob and Hanika (2019)* interpolator lightness
+        scale.
 
         Returns
         -------
@@ -827,8 +837,7 @@ class LUT3D_Jakob2019:
     @property
     def coefficients(self) -> NDArrayFloat:
         """
-        Getter property for the *Jakob and Hanika (2019)* interpolator
-        coefficients.
+        Getter for the *Jakob and Hanika (2019)* interpolator coefficients.
 
         Returns
         -------
@@ -841,7 +850,7 @@ class LUT3D_Jakob2019:
     @property
     def interpolator(self) -> RegularGridInterpolator:
         """
-        Getter property for the *Jakob and Hanika (2019)* interpolator.
+        Getter for the *Jakob and Hanika (2019)* interpolator.
 
         Returns
         -------
@@ -873,8 +882,8 @@ class LUT3D_Jakob2019:
         print_callable: Callable = print,
     ) -> None:
         """
-        Generate the lookup table data for specified *RGB* colourspace, colour
-        matching functions, illuminant and specified size.
+        Generate the lookup table data for the specified *RGB* colourspace,
+        colour matching functions, illuminant and resolution.
 
         Parameters
         ----------
@@ -1023,8 +1032,10 @@ class LUT3D_Jakob2019:
 
     def RGB_to_coefficients(self, RGB: ArrayLike) -> NDArrayFloat:
         """
-        Look up a specified *RGB* colourspace array and return corresponding
-        coefficients. Interpolation is used for colours not on the table grid.
+        Look up the specified *RGB* colourspace array and return the
+        corresponding coefficients.
+
+        Interpolation is used for colours not on the table grid.
 
         Parameters
         ----------
@@ -1035,8 +1046,8 @@ class LUT3D_Jakob2019:
         -------
         :class:`numpy.ndarray`
             Corresponding coefficients that can be passed to
-            :func:`colour.recovery.jakob2019.sd_Jakob2019` to obtain a spectral
-            distribution.
+            :func:`colour.recovery.jakob2019.sd_Jakob2019` to obtain a
+            spectral distribution.
 
         Raises
         ------
@@ -1083,8 +1094,8 @@ class LUT3D_Jakob2019:
         self, RGB: ArrayLike, shape: SpectralShape = SPECTRAL_SHAPE_JAKOB2019
     ) -> SpectralDistribution:
         """
-        Look up a specified *RGB* colourspace array and return the corresponding
-        spectral distribution.
+        Look up a specified *RGB* colourspace array and return the
+        corresponding spectral distribution.
 
         Parameters
         ----------
@@ -1096,7 +1107,7 @@ class LUT3D_Jakob2019:
         Returns
         -------
         :class:`colour.SpectralDistribution`
-            Spectral distribution corresponding with the RGB* colourspace
+            Spectral distribution corresponding with the *RGB* colourspace
             array.
 
         Examples

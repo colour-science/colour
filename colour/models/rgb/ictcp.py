@@ -167,8 +167,8 @@ def RGB_to_ICtCp(
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
             -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF) and the :math:`IC_TC_P` matrix
-                from :cite:`Dolby2016a`: *ITU-R BT.2100-1 HLG* method.
+                transfer function (OETF) and the :math:`IC_TC_P` matrix from
+                :cite:`Dolby2016a`: *ITU-R BT.2100-1 HLG* method.
 
         -   *ITU-R BT.2100-2*
 
@@ -177,15 +177,15 @@ def RGB_to_ICtCp(
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
             -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF) and a custom :math:`IC_TC_P`
-                matrix from :cite:`InternationalTelecommunicationUnion2018`:
+                transfer function (OETF) and a custom :math:`IC_TC_P` matrix
+                from :cite:`InternationalTelecommunicationUnion2018`:
                 *ITU-R BT.2100-2 HLG* method.
 
     L_p
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
-        non-linear encoding. This parameter should stay at its default
-        :math:`10000 cd/m^2` value for practical applications. It is exposed so
-        that the definition can be used as a fitting function.
+        non-linear encoding. This parameter should remain at its default
+        :math:`10000 cd/m^2` value for practical applications. It is exposed
+        to enable the definition to be used as a fitting function.
 
     Returns
     -------
@@ -199,14 +199,14 @@ def RGB_to_ICtCp(
 
     Notes
     -----
-    -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are aliases
-        for the *Dolby 2016* method.
+    -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are
+        aliases for the *Dolby 2016* method.
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations. The effective domain of *SMPTE ST 2084:2014*
-        inverse electro-optical transfer function (EOTF) is
-        [0.0001, 10000].
+        transfer function, thus the domain and range values for the
+        *Reference* and *1* scales are only indicative that the data is not
+        affected by scale transformations. The effective domain of
+        *SMPTE ST 2084:2014* inverse electro-optical transfer function (EOTF)
+        is [0.0001, 10000].
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
@@ -296,9 +296,10 @@ def ICtCp_to_RGB(
                 function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
-            -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF) and the :math:`IC_TC_P` matrix
-                from :cite:`Dolby2016a`: *ITU-R BT.2100-1 HLG* method.
+            -   *Recommendation ITU-R BT.2100* *Reference HLG*
+                opto-electrical transfer function (OETF) and the
+                :math:`IC_TC_P` matrix from :cite:`Dolby2016a`:
+                *ITU-R BT.2100-1 HLG* method.
 
         -   *ITU-R BT.2100-2*
 
@@ -306,16 +307,17 @@ def ICtCp_to_RGB(
                 function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
-            -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF) and a custom :math:`IC_TC_P`
-                matrix from :cite:`InternationalTelecommunicationUnion2018`:
+            -   *Recommendation ITU-R BT.2100* *Reference HLG*
+                opto-electrical transfer function (OETF) and a custom
+                :math:`IC_TC_P` matrix from
+                :cite:`InternationalTelecommunicationUnion2018`:
                 *ITU-R BT.2100-2 HLG* method.
 
     L_p
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
-        non-linear encoding. This parameter should stay at its default
-        :math:`10000 cd/m^2` value for practical applications. It is exposed so
-        that the definition can be used as a fitting function.
+        non-linear encoding. This parameter should remain at its default
+        :math:`10000 cd/m^2` value for practical applications. It is exposed
+        to enable the definition to be used as a fitting function.
 
     Returns
     -------
@@ -329,12 +331,12 @@ def ICtCp_to_RGB(
 
     Notes
     -----
-    -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are aliases
-        for the *Dolby 2016* method.
-    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations.
+    -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are
+        aliases for the *Dolby 2016* method.
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an
+        absolute transfer function, thus the domain and range values for
+        the *Reference* and *1* scales are only indicative that the data is
+        not affected by scale transformations.
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
@@ -437,9 +439,10 @@ def XYZ_to_ICtCp(
                 function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
-            -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF) and the :math:`IC_TC_P` matrix
-                from :cite:`Dolby2016a`: *ITU-R BT.2100-1 HLG* method.
+            -   *Recommendation ITU-R BT.2100* *Reference HLG*
+                opto-electrical transfer function (OETF) and the
+                :math:`IC_TC_P` matrix from :cite:`Dolby2016a`:
+                *ITU-R BT.2100-1 HLG* method.
 
         -   *ITU-R BT.2100-2*
 
@@ -447,16 +450,17 @@ def XYZ_to_ICtCp(
                 function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
-            -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF) and a custom :math:`IC_TC_P`
-                matrix from :cite:`InternationalTelecommunicationUnion2018`:
+            -   *Recommendation ITU-R BT.2100* *Reference HLG*
+                opto-electrical transfer function (OETF) and a custom
+                :math:`IC_TC_P` matrix from
+                :cite:`InternationalTelecommunicationUnion2018`:
                 *ITU-R BT.2100-2 HLG* method.
 
     L_p
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
-        non-linear encoding. This parameter should stay at its default
-        :math:`10000 cd/m^2` value for practical applications. It is exposed so
-        that the definition can be used as a fitting function.
+        non-linear encoding. This parameter should remain at its default
+        :math:`10000 cd/m^2` value for practical applications. It is exposed
+        to enable the definition to be used as a fitting function.
 
     Returns
     -------
@@ -470,14 +474,14 @@ def XYZ_to_ICtCp(
 
     Notes
     -----
-    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-    -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are aliases
-        for the *Dolby 2016* method.
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations. The effective domain of *SMPTE ST 2084:2014*
-        inverse electro-optical transfer function (EOTF) is
-        [0.0001, 10000].
+    -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are
+        aliases for the *Dolby 2016* method.
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an
+        absolute transfer function, thus the domain and range values for
+        the *Reference* and *1* scales are only indicative that the data
+        is not affected by scale transformations. The effective domain of
+        *SMPTE ST 2084:2014* inverse electro-optical transfer function
+        (EOTF) is [0.0001, 10000].
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
@@ -560,9 +564,10 @@ def ICtCp_to_XYZ(
                 function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
-            -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF) and the :math:`IC_TC_P` matrix
-                from :cite:`Dolby2016a`: *ITU-R BT.2100-1 HLG* method.
+            -   *Recommendation ITU-R BT.2100* *Reference HLG*
+                opto-electrical transfer function (OETF) and the
+                :math:`IC_TC_P` matrix from :cite:`Dolby2016a`:
+                *ITU-R BT.2100-1 HLG* method.
 
         -   *ITU-R BT.2100-2*
 
@@ -570,16 +575,17 @@ def ICtCp_to_XYZ(
                 function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
-            -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF) and a custom :math:`IC_TC_P`
-                matrix from :cite:`InternationalTelecommunicationUnion2018`:
+            -   *Recommendation ITU-R BT.2100* *Reference HLG*
+                opto-electrical transfer function (OETF) and a custom
+                :math:`IC_TC_P` matrix from
+                :cite:`InternationalTelecommunicationUnion2018`:
                 *ITU-R BT.2100-2 HLG* method.
 
     L_p
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
-        non-linear encoding. This parameter should stay at its default
-        :math:`10000 cd/m^2` value for practical applications. It is exposed so
-        that the definition can be used as a fitting function.
+        non-linear encoding. This parameter should remain at its default
+        :math:`10000 cd/m^2` value for practical applications. It is exposed
+        to enable the definition to be used as a fitting function.
 
     Returns
     -------
@@ -593,12 +599,12 @@ def ICtCp_to_XYZ(
 
     Notes
     -----
-    -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are aliases
-        for the *Dolby 2016* method.
+    -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are
+        aliases for the *Dolby 2016* method.
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations.
+        transfer function, thus the domain and range values for the
+        *Reference* and *1* scales are only indicative that the data is not
+        affected by scale transformations.
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |

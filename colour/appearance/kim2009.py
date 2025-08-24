@@ -2,7 +2,11 @@
 Kim, Weyrich and Kautz (2009) Colour Appearance Model
 =====================================================
 
-Define the *Kim, Weyrich and Kautz (2009)* colour appearance model objects:
+Define the *Kim, Weyrich and Kautz (2009)* colour appearance model for
+predicting perceptual colour attributes under varying viewing conditions.
+
+This model extends *CIECAM02* to handle high dynamic range viewing conditions
+by introducing media-specific parameters that modulate lightness prediction.
 
 -   :class:`colour.appearance.InductionFactors_Kim2009`
 -   :attr:`colour.VIEWING_CONDITIONS_KIM2009`
@@ -79,7 +83,8 @@ __all__ = [
 @dataclass(frozen=True)
 class InductionFactors_Kim2009(MixinDataclassIterable):
     """
-    *Kim, Weyrich and Kautz (2009)* colour appearance model induction factors.
+    Define the *Kim, Weyrich and Kautz (2009)* colour appearance model
+    surround induction factors.
 
     Parameters
     ----------
@@ -93,11 +98,11 @@ class InductionFactors_Kim2009(MixinDataclassIterable):
     Notes
     -----
     -   The *Kim, Weyrich and Kautz (2009)* colour appearance model induction
-        factors are the same as *CIECAM02* colour appearance model.
+        factors are the same as the *CIECAM02* colour appearance model.
     -   The *Kim, Weyrich and Kautz (2009)* colour appearance model separates
         the surround modelled by the
-        :class:`colour.appearance.InductionFactors_Kim2009` class instance from
-        the media, modeled with the
+        :class:`colour.appearance.InductionFactors_Kim2009` class instance
+        from the media, modelled with the
         :class:`colour.appearance.MediaParameters_Kim2009` class instance.
 
     References
@@ -114,8 +119,8 @@ VIEWING_CONDITIONS_KIM2009: CanonicalMapping = CanonicalMapping(
     VIEWING_CONDITIONS_CIECAM02
 )
 VIEWING_CONDITIONS_KIM2009.__doc__ = """
-Reference *Kim, Weyrich and Kautz (2009)* colour appearance model viewing
-conditions.
+Define the reference *Kim, Weyrich and Kautz (2009)* colour appearance model
+viewing conditions inherited from *CIECAM02*.
 
 References
 ----------
@@ -126,7 +131,8 @@ References
 @dataclass(frozen=True)
 class MediaParameters_Kim2009:
     """
-    *Kim, Weyrich and Kautz (2009)* colour appearance model media parameters.
+    Define the media parameters for the *Kim, Weyrich and Kautz (2009)* colour
+    appearance model.
 
     Parameters
     ----------
@@ -150,8 +156,8 @@ MEDIA_PARAMETERS_KIM2009: CanonicalMapping = CanonicalMapping(
     }
 )
 MEDIA_PARAMETERS_KIM2009.__doc__ = """
-Reference *Kim, Weyrich and Kautz (2009)* colour appearance model media
-parameters.
+Define the reference *Kim, Weyrich and Kautz (2009)* colour appearance model
+media parameters.
 
 References
 ----------
@@ -177,8 +183,8 @@ MEDIA_PARAMETERS_KIM2009["paper"] = MEDIA_PARAMETERS_KIM2009["Reflective Paper"]
 @dataclass
 class CAM_Specification_Kim2009(MixinDataclassArithmetic):
     """
-    Define the *Kim, Weyrich and Kautz (2009)* colour appearance model
-    specification.
+    Represent the *Kim, Weyrich and Kautz (2009)* colour appearance model
+    output specification.
 
     Parameters
     ----------
@@ -235,8 +241,8 @@ def XYZ_to_Kim2009(
     XYZ_w
         *CIE XYZ* tristimulus values of reference white.
     L_A
-        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
-        to be 20% of the luminance of a white object in the scene).
+        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often
+        taken to be 20% of the luminance of a white object in the scene).
     media
         Media parameters.
     surround
@@ -244,15 +250,16 @@ def XYZ_to_Kim2009(
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
     compute_H
-        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H` is
-        rarely used, and expensive to compute.
+        Whether to compute *Hue* :math:`h` quadrature :math:`H`.
+        :math:`H` is rarely used, and expensive to compute.
     n_c
         Cone response sigmoidal curve modulating factor :math:`n_c`.
 
     Returns
     -------
     :class:`colour.CAM_Specification_Kim2009`
-       *Kim, Weyrich and Kautz (2009)* colour appearance model specification.
+       *Kim, Weyrich and Kautz (2009)* colour appearance model
+       specification.
 
     Notes
     -----
@@ -392,8 +399,8 @@ def Kim2009_to_XYZ(
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
-    Convert *Kim, Weyrich and Kautz (2009)* specification to *CIE XYZ*
-    tristimulus values.
+    Convert the *Kim, Weyrich and Kautz (2009)* colour appearance model
+    specification to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -409,12 +416,12 @@ def Kim2009_to_XYZ(
         to be 20% of the luminance of a white object in the scene).
     media
         Media parameters.
-    surroundl
+    surround
         Surround viewing conditions induction factors.
-    discount_illuminant
-        Discount the illuminant.
     n_c
         Cone response sigmoidal curve modulating factor :math:`n_c`.
+    discount_illuminant
+        Truth value indicating if the illuminant should be discounted.
 
     Returns
     -------
@@ -424,7 +431,7 @@ def Kim2009_to_XYZ(
     Raises
     ------
     ValueError
-        If neither :math:`C` or :math:`M` correlates have been defined in the
+        If neither :math:`C` nor :math:`M` correlates have been defined in the
         ``specification`` argument.
 
     Notes

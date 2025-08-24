@@ -2,7 +2,7 @@
 Pointer's Gamut Volume Computations
 ===================================
 
-Objects related to *Pointer's Gamut* volume computations.
+Define objects and computations for *Pointer's Gamut* volume analysis.
 """
 
 from __future__ import annotations
@@ -38,8 +38,8 @@ def is_within_pointer_gamut(
     XYZ: ArrayLike, tolerance: float = 100 * EPSILON
 ) -> NDArrayFloat:
     """
-    Return whether specified *CIE XYZ* tristimulus values are within Pointer's
-    Gamut volume.
+    Determine whether the specified *CIE XYZ* tristimulus values are within
+    Pointer's Gamut volume.
 
     Parameters
     ----------
@@ -51,8 +51,8 @@ def is_within_pointer_gamut(
     Returns
     -------
     :class:`numpy.ndarray`
-        Whether specified *CIE XYZ* tristimulus values are within Pointer's Gamut
-        volume.
+        Boolean array indicating whether specified *CIE XYZ* tristimulus
+        values are within Pointer's Gamut volume.
 
     Notes
     -----

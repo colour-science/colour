@@ -2,7 +2,7 @@
 Colour Rendering Index
 ======================
 
-Define the *Colour Rendering Index* (CRI) computation objects:
+Define the *Colour Rendering Index* (CRI) computation objects.
 
 -   :class:`colour.quality.ColourRendering_Specification_CRI`
 -   :func:`colour.colour_rendering_index`
@@ -65,7 +65,27 @@ __all__ = [
 
 @dataclass
 class DataColorimetry_TCS:
-    """Define the class storing *test colour samples* colorimetry data."""
+    """
+    Store colorimetric data for *test colour samples* used in colour
+    rendering index calculations.
+
+    This dataclass encapsulates the colorimetric properties of test colour
+    samples, including their tristimulus values, chromaticity coordinates,
+    and colour appearance attributes required for evaluating light source
+    colour rendering performance.
+
+    Attributes
+    ----------
+    name
+        Identifier for the test colour sample.
+    XYZ
+        *CIE XYZ* tristimulus values of the test colour sample.
+    uv
+        *CIE 1960 UCS* chromaticity coordinates of the test colour sample.
+    UVW
+        *CIE 1964 U*V*W** colour space coordinates of the test colour
+        sample.
+    """
 
     name: str
     XYZ: NDArrayFloat
@@ -76,7 +96,15 @@ class DataColorimetry_TCS:
 @dataclass
 class DataColourQualityScale_TCS:
     """
-    Define the class storing *test colour samples* colour rendering index data.
+    Store colour rendering index quality scale data for individual *test
+    colour samples*.
+
+    Attributes
+    ----------
+    name
+        Identifier of the test colour sample.
+    Q_a
+        Colour rendering index :math:`Q_a` value for the test colour sample.
     """
 
     name: str
@@ -88,16 +116,22 @@ class ColourRendering_Specification_CRI:
     """
     Define the *Colour Rendering Index* (CRI) colour quality specification.
 
+    This dataclass represents the colour quality assessment results using
+    the CRI method, which evaluates how accurately a light source renders
+    colours compared to a reference illuminant.
+
     Parameters
     ----------
     name
         Name of the test spectral distribution.
     Q_a
-        *Colour Rendering Index* (CRI) :math:`Q_a`.
+        *Colour Rendering Index* (CRI) :math:`Q_a` general index value.
     Q_as
-        Individual *colour rendering indexes* data for each sample.
+        Individual *colour rendering indexes* data for each test colour
+        sample.
     colorimetry_data
-        Colorimetry data for the test and reference computations.
+        Colorimetry data for the test and reference illuminant
+        computations.
 
     References
     ----------
@@ -155,8 +189,8 @@ def colour_rendering_index(
     method: Literal["CIE 1995", "CIE 2024"] | str = "CIE 1995",
 ) -> float | ColourRendering_Specification_CRI:
     """
-    Compute the *Colour Rendering Index* (CRI) :math:`Q_a` of specified spectral
-    distribution.
+    Compute the *Colour Rendering Index* (CRI) :math:`Q_a` of the specified
+    spectral distribution.
 
     Parameters
     ----------
@@ -169,8 +203,7 @@ def colour_rendering_index(
 
     Returns
     -------
-    :class:`float` or \
-:class:`colour.quality.ColourRendering_Specification_CRI`
+    :class:`float` or :class:`colour.quality.ColourRendering_Specification_CRI`
         *Colour Rendering Index* (CRI).
 
     References
@@ -340,14 +373,15 @@ def colour_rendering_indexes(
     Parameters
     ----------
     test_data
-        Test data.
+        Test data colorimetry for the *test colour samples*.
     reference_data
-        Reference data.
+        Reference data colorimetry for the *test colour samples*.
 
     Returns
     -------
     :class:`dict`
-        *Test colour samples* *Colour Rendering Index* (CRI).
+        *Test colour samples* *Colour Rendering Index* (CRI) values
+        mapped by sample number.
     """
 
     Q_as = {}

@@ -1,8 +1,9 @@
 """
-LUT Operator
+LUT Sequence
 ============
 
-Define the *LUT* sequence class:
+Define the *LUT* sequence container for Look-Up Table (LUT) processing
+pipelines:
 
 -   :class:`colour.LUTSequence`
 """
@@ -42,11 +43,12 @@ class LUTSequence(MutableSequence):
     """
     Define the base class for a *LUT* sequence.
 
-    A *LUT* sequence is a series of *LUTs*, *LUT* operators or objects
-    implementing the :class:`colour.hints.ProtocolLUTSequenceItem` protocol.
+    A *LUT* sequence represents a series of *LUTs*, *LUT* operators or
+    objects implementing the :class:`colour.hints.ProtocolLUTSequenceItem`
+    protocol.
 
-    The :class:`colour.LUTSequence` class can be used to model series of *LUTs*
-    such as when a shaper *LUT* is combined with a 3D *LUT*.
+    The :class:`colour.LUTSequence` class can be used to model series of
+    *LUTs* such as when a shaper *LUT* is combined with a 3D *LUT*.
 
     Other Parameters
     ----------------
@@ -120,7 +122,10 @@ class LUTSequence(MutableSequence):
     @property
     def sequence(self) -> List[ProtocolLUTSequenceItem]:
         """
-        Getter and setter property for the underlying *LUT* sequence.
+        Getter and setter for the underlying *LUT* sequence.
+
+        Access and modify the sequence of lookup table operations that
+        define the transformation pipeline.
 
         Parameters
         ----------
@@ -149,29 +154,30 @@ class LUTSequence(MutableSequence):
 
     def __getitem__(self, index: int | slice) -> Any:
         """
-        Return the *LUT* sequence item(s) at specified index (or slice).
+        Return *LUT* sequence item(s) at specified index or slice.
 
         Parameters
         ----------
         index
-            Index (or slice) to return the *LUT* sequence item(s) at.
+            Index or slice to return *LUT* sequence item(s) at.
 
         Returns
         -------
         ProtocolLUTSequenceItem
-            *LUT* sequence item(s) at specified index (or slice).
+            *LUT* sequence item(s) at specified index or slice.
         """
 
         return self._sequence[index]
 
     def __setitem__(self, index: int | slice, value: Any) -> None:
         """
-        Set the *LUT* sequence at specified index (or slice) with specified value.
+        Set the *LUT* sequence at the specified index or slice with the
+        specified value.
 
         Parameters
         ----------
         index
-            Index (or slice) to set the *LUT* sequence value at.
+            Index or slice to set the *LUT* sequence value at.
         value
             Value to set the *LUT* sequence with.
         """
@@ -186,7 +192,7 @@ class LUTSequence(MutableSequence):
 
     def __delitem__(self, index: int | slice) -> None:
         """
-        Delete the *LUT* sequence item(s) at specified index (or slice).
+        Delete the *LUT* sequence item(s) at the specified index (or slice).
 
         Parameters
         ----------
@@ -247,6 +253,9 @@ class LUTSequence(MutableSequence):
         """
         Return an evaluable string representation of the *LUT* sequence.
 
+        Generate a string representation that can be evaluated to recreate
+        the *LUT* sequence with its current state.
+
         Returns
         -------
         :class:`str`
@@ -267,7 +276,10 @@ class LUTSequence(MutableSequence):
 
     def __eq__(self, other: object) -> bool:
         """
-        Return whether the *LUT* sequence is equal to specified other object.
+        Test whether the *LUT* sequence is equal to the specified other object.
+
+        Compare this *LUT* sequence with another object for equality. The
+        comparison evaluates structural and content equivalence.
 
         Parameters
         ----------
@@ -290,7 +302,8 @@ class LUTSequence(MutableSequence):
 
     def __ne__(self, other: object) -> bool:
         """
-        Return whether the *LUT* sequence is not equal to specified other object.
+        Return whether the *LUT* sequence is not equal to the specified other
+        object.
 
         Parameters
         ----------
@@ -300,19 +313,20 @@ class LUTSequence(MutableSequence):
         Returns
         -------
         :class:`bool`
-            Whether specified object is not equal to the *LUT* sequence.
+            Whether the specified object is not equal to the *LUT* sequence.
         """
 
         return not (self == other)
 
     def insert(self, index: int, value: ProtocolLUTSequenceItem) -> None:
         """
-        Insert specified *LUT* at specified index into the *LUT* sequence.
+        Insert the specified *LUT* at the specified index in the *LUT*
+        sequence.
 
         Parameters
         ----------
         index
-            Index to insert the item at into the *LUT* sequence.
+            Index at which to insert the item in the *LUT* sequence.
         value
             *LUT* to insert into the *LUT* sequence.
         """
@@ -326,13 +340,14 @@ class LUTSequence(MutableSequence):
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArrayFloat:
         """
-        Apply the *LUT* sequence sequentially to specified *RGB* colourspace array.
+        Apply the *LUT* sequence sequentially to the specified *RGB* colourspace
+        array.
 
         Parameters
         ----------
         RGB
-            *RGB* colourspace array to apply the *LUT* sequence
-            sequentially onto.
+            *RGB* colourspace array to apply the *LUT* sequence sequentially
+            onto.
 
         Other Parameters
         ----------------

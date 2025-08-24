@@ -79,8 +79,8 @@ def colour_fidelity_index(
     | ColourQuality_Specification_ANSIIESTM3018
 ):
     """
-    Compute the *Colour Fidelity Index* (CFI) :math:`R_f` of specified
-    spectral distribution using specified method.
+    Compute the *Colour Fidelity Index* (CFI) :math:`R_f` of the specified
+    spectral distribution using the specified method.
 
     Parameters
     ----------

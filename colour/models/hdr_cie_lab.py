@@ -1,24 +1,23 @@
 """
-Hdr-CIELAB Colourspace
+hdr-CIELAB Colourspace
 ======================
 
-Define the *hdr-CIELAB* colourspace transformations:
+Define the *hdr-CIELAB* colourspace transformations.
 
--   :attr:`colour.HDR_CIELAB_METHODS`: Supported *hdr-CIELAB* colourspace
-    computation methods.
+-   :attr:`colour.HDR_CIELAB_METHODS`
 -   :func:`colour.XYZ_to_hdr_CIELab`
 -   :func:`colour.hdr_CIELab_to_XYZ`
 
 References
 ----------
--   :cite:`Fairchild2010` : Fairchild, M. D., & Wyble, D. R. (2010). hdr-CIELAB
-    and hdr-IPT: Simple Models for Describing the Color of High-Dynamic-Range
-    and Wide-Color-Gamut Images. Proc. of Color and Imaging Conference,
-    322-326. ISBN:978-1-62993-215-6
--   :cite:`Fairchild2011` : Fairchild, M. D., & Chen, P. (2011). Brightness,
-    lightness, and specifying color in high-dynamic-range scenes and images. In
-    S. P. Farnand & F. Gaykema (Eds.), Proc. SPIE 7867, Image Quality and
-    System Performance VIII (p. 78670O). doi:10.1117/12.872075
+-   :cite:`Fairchild2010` : Fairchild, M. D., & Wyble, D. R. (2010).
+    hdr-CIELAB and hdr-IPT: Simple Models for Describing the Color of
+    High-Dynamic-Range and Wide-Color-Gamut Images. Proc. of Color and
+    Imaging Conference, 322-326. ISBN:978-1-62993-215-6
+-   :cite:`Fairchild2011` : Fairchild, M. D., & Chen, P. (2011).
+    Brightness, lightness, and specifying color in high-dynamic-range scenes
+    and images. In S. P. Farnand & F. Gaykema (Eds.), Proc. SPIE 7867, Image
+    Quality and System Performance VIII (p. 78670O). doi:10.1117/12.872075
 """
 
 from __future__ import annotations
@@ -84,8 +83,9 @@ def exponent_hdr_CIELab(
     method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
 ) -> NDArrayFloat:
     """
-    Compute *hdr-CIELAB* colourspace *Lightness* :math:`\\epsilon` exponent
-    using *Fairchild and Wyble (2010)* or *Fairchild and Chen (2011)* method.
+    Compute the *hdr-CIELAB* colourspace *Lightness* :math:`\\epsilon`
+    exponent using the *Fairchild and Wyble (2010)* or *Fairchild and Chen
+    (2011)* methods.
 
     Parameters
     ----------
@@ -189,13 +189,13 @@ def XYZ_to_hdr_CIELab(
     |                | ``b_hdr`` : [-100, 100] | ``b_hdr`` : [-1, 1] |
     +----------------+-------------------------+---------------------+
 
-    -   Conversion to polar coordinates to compute the *chroma* :math:`C_{hdr}`
-        and *hue* :math:`h_{hdr}` correlates can be safely performed with
-        :func:`colour.Lab_to_LCHab` definition.
+    -   Conversion to polar coordinates to compute the *chroma*
+        :math:`C_{hdr}` and *hue* :math:`h_{hdr}` correlates can be
+        safely performed with :func:`colour.Lab_to_LCHab` definition.
     -   Conversion to cartesian coordinates from the *Lightness*
-        :math:`L_{hdr}`, *chroma* :math:`C_{hdr}` and *hue* :math:`h_{hdr}`
-        correlates can be safely performed with :func:`colour.LCHab_to_Lab`
-        definition.
+        :math:`L_{hdr}`, *chroma* :math:`C_{hdr}` and *hue*
+        :math:`h_{hdr}` correlates can be safely performed with
+        :func:`colour.LCHab_to_Lab` definition.
 
     References
     ----------

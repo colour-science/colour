@@ -51,17 +51,22 @@ def read_LUT_ResolveCube(path: str | PathLike) -> LUT3x1D | LUT3D | LUTSequence:
     """
     Read the specified *Resolve* *.cube* *LUT* file.
 
+    Read and parse a *DaVinci Resolve* *.cube* lookup table file, which may
+    contain a 1D LUT, a 3D LUT, or a sequence of both. The *.cube* format
+    supports configurable precision and domain ranges, making it suitable for
+    colour grading and colour space transformations.
+
     Parameters
     ----------
     path
-        *LUT* path.
+        Path to the *.cube* *LUT* file to read.
 
     Returns
     -------
-    :class:`colour.LUT3x1D` or :class:`colour.LUT3D` or \
-:class:`colour.LUTSequence`
-        :class:`LUT3x1D` or :class:`LUT3D` or :class:`LUTSequence` class
-        instance.
+    :class:`colour.LUT3x1D` or :class:`colour.LUT3D` or :class:`colour.LUTSequence`
+        :class:`LUT3x1D` instance for 1D shaper LUTs, :class:`LUT3D` instance
+        for 3D colour transformation LUTs, or :class:`LUTSequence` instance
+        when the file contains both shaper and 3D LUT data.
 
     References
     ----------
@@ -245,17 +250,17 @@ def write_LUT_ResolveCube(
     decimals: int = 7,
 ) -> bool:
     """
-    Write the specified *LUT* to specified the *Resolve* *.cube* *LUT* file.
+    Write the specified *LUT* to the specified *Resolve* *.cube* *LUT* file.
 
     Parameters
     ----------
     LUT
         :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUT3D` or
-        :class:`LUTSequence` class instance to write at specified path.
+        :class:`LUTSequence` class instance to write at the specified path.
     path
-        *LUT* path.
+        *LUT* file path.
     decimals
-        Formatting decimals.
+        Number of decimal places for formatting numeric values.
 
     Returns
     -------

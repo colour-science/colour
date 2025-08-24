@@ -3,7 +3,7 @@ RIMM, ROMM and ERIMM Encodings
 ==============================
 
 Define the *RIMM, ROMM and ERIMM* encodings opto-electrical transfer functions
-(OETF) and electro-optical transfer functions (EOTF):
+(OETF) and electro-optical transfer functions (EOTF).
 
 -   :func:`colour.models.cctf_encoding_ROMMRGB`
 -   :func:`colour.models.cctf_decoding_ROMMRGB`
@@ -67,7 +67,7 @@ def cctf_encoding_ROMMRGB(
     X: ArrayLike, bit_depth: int = 8, out_int: bool = False
 ) -> NDArrayReal:
     """
-    Define the *ROMM RGB* encoding colour component transfer function
+    Apply the *ROMM RGB* encoding colour component transfer function
     (Encoding CCTF).
 
     Parameters
@@ -77,13 +77,13 @@ def cctf_encoding_ROMMRGB(
     bit_depth
         Bit-depth used for conversion.
     out_int
-        Whether to return value as int code value or float equivalent of a
-        code value at a specified bit-depth.
+        Whether to return value as integer code value or floating point
+        equivalent of a code value at a specified bit-depth.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`X'_{ROMM}`.
+        Non-linear encoded data :math:`X'_{ROMM}`.
 
     Notes
     -----
@@ -134,18 +134,18 @@ def cctf_decoding_ROMMRGB(
     in_int: bool = False,
 ) -> NDArrayFloat:
     """
-    Define the *ROMM RGB* decoding colour component transfer function
-    (Encoding CCTF).
+    Apply the *ROMM RGB* decoding colour component transfer function
+    (Decoding CCTF).
 
     Parameters
     ----------
     X_p
-        Non-linear data :math:`X'_{ROMM}`.
+        Non-linear encoded data :math:`X'_{ROMM}`.
     bit_depth
         Bit-depth used for conversion.
     in_int
-        Whether to treat the input value as int code value or float
-        equivalent of a code value at a specified bit-depth.
+        Whether to treat the input value as integer code value or floating
+        point equivalent of a code value at a specified bit-depth.
 
     Returns
     -------
@@ -224,11 +224,8 @@ def cctf_encoding_RIMMRGB(
     E_clip: float = 2.0,
 ) -> NDArrayReal:
     """
-    Define the *RIMM RGB* encoding colour component transfer function
+    Apply the *RIMM RGB* encoding colour component transfer function
     (Encoding CCTF).
-
-    *RIMM RGB* encoding non-linearity is based on that specified by
-    *Recommendation ITU-R BT.709-6*.
 
     Parameters
     ----------
@@ -237,15 +234,15 @@ def cctf_encoding_RIMMRGB(
     bit_depth
         Bit-depth used for conversion.
     out_int
-        Whether to return value as int code value or float equivalent of a
-        code value at a specified bit-depth.
+        Whether to return value as integer code value or floating point
+        equivalent of a code value at a specified bit-depth.
     E_clip
-        Maximum exposure level.
+        Maximum exposure limit.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`X'_{RIMM}`.
+        Non-linear encoded data :math:`X'_{RIMM}`.
 
     Notes
     -----
@@ -301,20 +298,20 @@ def cctf_decoding_RIMMRGB(
     E_clip: float = 2.0,
 ) -> NDArrayFloat:
     """
-    Define the *RIMM RGB* decoding colour component transfer function
-    (Encoding CCTF).
+    Apply the *RIMM RGB* decoding colour component transfer function
+    (Decoding CCTF).
 
     Parameters
     ----------
     X_p
-        Non-linear data :math:`X'_{RIMM}`.
+        Non-linear encoded data :math:`X'_{RIMM}`.
     bit_depth
         Bit-depth used for conversion.
     in_int
-        Whether to treat the input value as int code value or float
-        equivalent of a code value at a specified bit-depth.
+        Whether to treat the input value as integer code value or floating
+        point equivalent of a code value at a specified bit-depth.
     E_clip
-        Maximum exposure level.
+        Maximum exposure limit.
 
     Returns
     -------
@@ -379,8 +376,7 @@ def log_encoding_ERIMMRGB(
     E_clip: float = 316.2,
 ) -> NDArrayReal:
     """
-    Define the *ERIMM RGB* log encoding curve / opto-electronic transfer
-    function (OETF).
+    Apply the *ERIMM RGB* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -389,8 +385,8 @@ def log_encoding_ERIMMRGB(
     bit_depth
         Bit-depth used for conversion.
     out_int
-        Whether to return value as int code value or float equivalent of a
-        code value at a specified bit-depth.
+        Whether to return value as integer code value or floating point
+        equivalent of a code value at a specified bit-depth.
     E_min
         Minimum exposure limit.
     E_clip
@@ -399,7 +395,7 @@ def log_encoding_ERIMMRGB(
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`X'_{ERIMM}`.
+        Non-linear encoded data :math:`X'_{ERIMM}`.
 
     Notes
     -----
@@ -468,18 +464,17 @@ def log_decoding_ERIMMRGB(
     E_clip: float = 316.2,
 ) -> NDArrayFloat:
     """
-    Define the *ERIMM RGB* log decoding curve / electro-optical transfer
-    function (EOTF).
+    Apply the *ERIMM RGB* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     X_p
-        Non-linear data :math:`X'_{ERIMM}`.
+        Non-linear encoded data :math:`X'_{ERIMM}`.
     bit_depth
         Bit-depth used for conversion.
     in_int
-        Whether to treat the input value as int code value or float
-        equivalent of a code value at a specified bit-depth.
+        Whether to treat the input value as integer code value or floating
+        point equivalent of a code value at a specified bit-depth.
     E_min
         Minimum exposure limit.
     E_clip

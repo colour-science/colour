@@ -2,7 +2,7 @@
 Common Plotting
 ===============
 
-Define the common plotting objects:
+Define the common plotting objects.
 
 -   :func:`colour.plotting.colour_style`
 -   :func:`colour.plotting.override_style`
@@ -240,17 +240,17 @@ CONSTANTS_ARROW_STYLE: Structure = Structure(
 
 def colour_style(use_style: bool = True) -> dict:
     """
-    Get *Colour* plotting style.
+    Return the *Colour* plotting style configuration.
 
     Parameters
     ----------
     use_style
-        Whether to use the style and load it into *Matplotlib*.
+        Whether to apply the style configuration to *Matplotlib*.
 
     Returns
     -------
     :class:`dict`
-        *Colour* style.
+        *Colour* plotting style configuration dictionary.
     """
 
     constants = CONSTANTS_COLOUR_STYLE
@@ -328,11 +328,12 @@ def override_style(**kwargs: Any) -> Callable:
     Other Parameters
     ----------------
     kwargs
-        Keywords arguments.
+        Keywords arguments for *Matplotlib* style configuration.
 
     Returns
     -------
     Callable
+        Decorated function with overridden *Matplotlib* style.
 
     Examples
     --------
@@ -369,7 +370,7 @@ def override_style(**kwargs: Any) -> Callable:
 @contextmanager
 def font_scaling(scaling: LiteralFontScaling, value: float) -> Generator:
     """
-    Define a context manager setting temporarily a *Matplotlib* font scaling.
+    Set a temporary *Matplotlib* font scaling using a context manager.
 
     Parameters
     ----------
@@ -421,8 +422,9 @@ def XYZ_to_plotting_colourspace(
     chromatic_adaptation_transform
         *Chromatic adaptation* transform.
     apply_cctf_encoding
-        Apply the default plotting colourspace encoding colour component
-        transfer function / opto-electronic transfer function.
+        Apply the default plotting colourspace encoding colour
+        component transfer function / opto-electronic transfer
+        function.
 
     Returns
     -------
@@ -454,9 +456,9 @@ class ColourSwatch:
     Parameters
     ----------
     RGB
-        RGB Colour.
+        RGB colour values representing the swatch.
     name
-        Colour name.
+        Name identifier for the colour swatch.
     """
 
     RGB: ArrayLike
@@ -465,7 +467,7 @@ class ColourSwatch:
 
 def colour_cycle(**kwargs: Any) -> itertools.cycle:
     """
-    Create a colour cycle iterator using specified colour map.
+    Create a colour cycle iterator using the specified colour map.
 
     Other Parameters
     ----------------
@@ -497,7 +499,7 @@ def colour_cycle(**kwargs: Any) -> itertools.cycle:
 
 class KwargsArtist(TypedDict):
     """
-    Define the keyword argument types for the :func:`colour.plotting.artist`
+    Define keyword argument types for the :func:`colour.plotting.artist`
     definition.
 
     Parameters
@@ -514,7 +516,7 @@ class KwargsArtist(TypedDict):
 
 def artist(**kwargs: KwargsArtist | Any) -> Tuple[Figure, Axes]:
     """
-    Get the current figure and its axes or create a new one.
+    Return the current figure and its axes or create a new one.
 
     Other Parameters
     ----------------
@@ -549,8 +551,8 @@ def artist(**kwargs: KwargsArtist | Any) -> Tuple[Figure, Axes]:
 
 class KwargsCamera(TypedDict):
     """
-    Define the keyword argument types for the :func:`colour.plotting.camera`
-    definition.
+    Define the keyword argument types for the
+    :func:`colour.plotting.camera` definition.
 
     Parameters
     ----------
@@ -575,7 +577,7 @@ class KwargsCamera(TypedDict):
 
 def camera(**kwargs: KwargsCamera | Any) -> Tuple[Figure, Axes3D]:
     """
-    Set the camera settings.
+    Configure camera settings for the current 3D visualization.
 
     Other Parameters
     ----------------
@@ -605,8 +607,8 @@ def camera(**kwargs: KwargsCamera | Any) -> Tuple[Figure, Axes3D]:
 
 class KwargsRender(TypedDict):
     """
-    Define the keyword argument types for the :func:`colour.plotting.render`
-    definition.
+    Define the keyword argument types for the
+    :func:`colour.plotting.render` definition.
 
     Parameters
     ----------
@@ -615,25 +617,24 @@ class KwargsRender(TypedDict):
     axes
         Axes to apply the render elements onto.
     filename
-        Figure will be saved using specified ``filename`` argument.
+        Figure will be saved using the specified ``filename`` argument.
     show
-        Whether to show the figure and call :func:`matplotlib.pyplot.show`
-        definition.
+        Whether to show the figure and call
+        :func:`matplotlib.pyplot.show` definition.
     block
         Whether to wait for all figures to be closed before returning.
-        If `True` block and run the GUI main loop until all figure windows
-        are closed.
-        If `False` ensure that all figure windows are displayed and return
-        immediately.  In this case, you are responsible for ensuring
-        that the event loop is running to have responsive figures.
-        Defaults to True in non-interactive mode and to False in interactive
-        mode.
+        If `True` block and run the GUI main loop until all figure
+        windows are closed. If `False` ensure that all figure windows
+        are displayed and return immediately. In this case, you are
+        responsible for ensuring that the event loop is running to have
+        responsive figures. Defaults to True in non-interactive mode and
+        to False in interactive mode.
     aspect
         Matplotlib axes aspect.
     axes_visible
         Whether the axes are visible. Default is *True*.
     bounding_box
-        Array defining current axes limits such
+        Array defining current axes limits such as
         `bounding_box = (x min, x max, y min, y max)`.
     tight_layout
         Whether to invoke the :func:`matplotlib.pyplot.tight_layout`
@@ -683,7 +684,7 @@ def render(
 ) -> Tuple[Figure, Axes] | Tuple[Figure, Axes3D]:
     """
     Render the current figure while adjusting various settings such as the
-    bounding box, the title or background transparency.
+    bounding box, title, or background transparency.
 
     Other Parameters
     ----------------
@@ -777,15 +778,15 @@ def label_rectangles(
     Parameters
     ----------
     labels
-        Labels to display.
+        Text labels to display above the rectangles.
     rectangles
-        Rectangles to used to set the labels value and position.
+        Rectangle patches used to determine label positions and values.
     rotation
-        Labels orientation.
+        Orientation of the labels.
     text_size
-        Labels text size.
+        Font size for the labels.
     offset
-        Labels offset as percentages of the largest rectangle dimensions.
+        Label offset as percentages of the largest rectangle dimensions.
 
     Other Parameters
     ----------------
@@ -837,7 +838,7 @@ def label_rectangles(
 
 def uniform_axes3d(**kwargs: Any) -> Tuple[Figure, Axes3D]:
     """
-    Set equal aspect ratio to specified 3d axes.
+    Set equal aspect ratio to the specified 3D axes.
 
     Other Parameters
     ----------------
@@ -880,11 +881,12 @@ def filter_passthrough(
     Filter mapping objects matching specified filterers while passing through
     class instances whose type is one of the mapping element types.
 
-    This definition allows passing custom but compatible objects to the various
-    plotting definitions that by default expect the key from a dataset element.
+    Enable passing custom but compatible objects to plotting definitions that
+    by default expect keys from dataset elements.
 
-    For example, a typical call to :func:`colour.plotting.\
-plot_multi_illuminant_sds` definition is as follows:
+    For example, a typical call to the
+    :func:`colour.plotting.plot_multi_illuminant_sds` definition is as
+    follows:
 
     >>> import colour
     >>> colour.plotting.plot_multi_illuminant_sds(["A"])
@@ -906,12 +908,11 @@ plot_multi_illuminant_sds` definition is as follows:
     ... )
     ... # doctest: +SKIP
 
-    Similarly, a typical call to :func:`colour.plotting.\
-plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
+    Similarly, a typical call to the
+    :func:`colour.plotting.plot_planckian_locus_in_chromaticity_diagram_CIE1931`
+    definition is as follows:
 
-    >>> colour.plotting.plot_planckian_locus_in_chromaticity_diagram_CIE1931(
-    ...     ["A"]
-    ... )
+    >>> colour.plotting.plot_planckian_locus_in_chromaticity_diagram_CIE1931(["A"])
     ... # doctest: +SKIP
 
     But it is also possible to pass a custom whitepoint as follows:
@@ -926,9 +927,9 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
     mapping
         Mapping to filter.
     filterers
-        Filterer or object class instance (which is passed through directly if
-        its type is one of the mapping element types) or list
-        of filterers.
+        Filterer or object class instance (which is passed through directly
+        if its type is one of the mapping element types) or list of
+        filterers.
     allow_non_siblings
         Whether to allow non-siblings to be also passed through.
 
@@ -940,8 +941,8 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
     Notes
     -----
     -   If the mapping passed is a :class:`colour.utilities.CanonicalMapping`
-        class instance, then the lower, slugified and canonical keys are also
-        used for matching.
+        class instance, then the lower, slugified and canonical keys are
+        also used for matching.
     """
 
     if isinstance(filterers, str) or not isinstance(filterers, (list, tuple)):
@@ -1000,16 +1001,16 @@ def filter_RGB_colourspaces(
     allow_non_siblings: bool = True,
 ) -> Dict[str, RGB_Colourspace]:
     """
-    Filter the *RGB* colourspaces matching specified filterers.
+    Filter the *RGB* colourspaces matching the specified filterers.
 
     Parameters
     ----------
     filterers
-        Filterer or :class:`colour.RGB_Colourspace` class instance (which is
+        Filterer, :class:`colour.RGB_Colourspace` class instance (which is
         passed through directly if its type is one of the mapping element
-        types) or list of filterers. ``filterers`` elements can also be of any
-        form supported by the :func:`colour.plotting.common.filter_passthrough`
-        definition.
+        types), or list of filterers. The ``filterers`` elements can also
+        be of any form supported by the
+        :func:`colour.plotting.common.filter_passthrough` definition.
     allow_non_siblings
         Whether to allow non-siblings to be also passed through.
 
@@ -1029,7 +1030,7 @@ def filter_cmfs(
     allow_non_siblings: bool = True,
 ) -> Dict[str, MultiSpectralDistributions]:
     """
-    Filter the colour matching functions matching specified filterers.
+    Filter the colour matching functions matching the specified filterers.
 
     Parameters
     ----------
@@ -1038,9 +1039,9 @@ def filter_cmfs(
         :class:`colour.RGB_ColourMatchingFunctions` or
         :class:`colour.XYZ_ColourMatchingFunctions` class instance (which is
         passed through directly if its type is one of the mapping element
-        types) or list of filterers. ``filterers`` elements can also be of any
-        form supported by the :func:`colour.plotting.common.filter_passthrough`
-        definition.
+        types) or list of filterers. ``filterers`` elements can also be of
+        any form supported by the
+        :func:`colour.plotting.common.filter_passthrough` definition.
     allow_non_siblings
         Whether to allow non-siblings to be also passed through.
 
@@ -1058,15 +1059,15 @@ def filter_illuminants(
     allow_non_siblings: bool = True,
 ) -> Dict[str, SpectralDistribution]:
     """
-    Filter the illuminants matching specified filterers.
+    Filter the illuminants matching the specified filterers.
 
     Parameters
     ----------
     filterers
         Filterer or :class:`colour.SpectralDistribution` class instance
-        (which is passed through directly if its type is one of the mapping
-        element types) or list of filterers. ``filterers`` elements can also be
-        of any form supported by the
+        (which is passed through directly if its type is one of the
+        mapping element types) or list of filterers. ``filterers``
+        elements can also be of any form supported by the
         :func:`colour.plotting.common.filter_passthrough` definition.
     allow_non_siblings
         Whether to allow non-siblings to be also passed through.
@@ -1095,15 +1096,15 @@ def filter_colour_checkers(
     allow_non_siblings: bool = True,
 ) -> Dict[str, ColourChecker]:
     """
-    Filter the colour checkers matching specified filterers.
+    Filter the colour checkers matching the specified filterers.
 
     Parameters
     ----------
     filterers
         Filterer or :class:`colour.characterisation.ColourChecker` class
-        instance (which is passed through directly if its type is one of the
-        mapping element types) or list of filterers. ``filterers`` elements
-        can also be of any form supported by the
+        instance (which is passed through directly if its type is one of
+        the mapping element types) or list of filterers. ``filterers``
+        elements can also be of any form supported by the
         :func:`colour.plotting.common.filter_passthrough` definition.
     allow_non_siblings
         Whether to allow non-siblings to be also passed through.
@@ -1123,8 +1124,8 @@ def update_settings_collection(
     expected_count: int,
 ) -> None:
     """
-    Update specified settings collection, *in-place*, with specified keyword
-    arguments and expected count of settings collection elements.
+    Update the specified settings collection *in-place* with the specified
+    keyword arguments and expected count of settings collection elements.
 
     Parameters
     ----------
@@ -1176,12 +1177,12 @@ def plot_single_colour_swatch(
     colour_swatch: ArrayLike | ColourSwatch, **kwargs: Any
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified colour swatch.
+    Plot a single colour swatch.
 
     Parameters
     ----------
     colour_swatch
-        Colour swatch, either a regular `ArrayLike` or a
+        Colour swatch to plot, either a regular `ArrayLike` or a
         :class:`colour.plotting.ColourSwatch` class instance.
 
     Other Parameters
@@ -1233,13 +1234,13 @@ def plot_multi_colour_swatches(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified colours swatches.
+    Plot colour swatches with configurable layout and comparison options.
 
     Parameters
     ----------
     colour_swatches
-        Colour swatch sequence, either a regular `ArrayLike` or a sequence of
-        :class:`colour.plotting.ColourSwatch` class instances.
+        Colour swatch sequence, either a regular `ArrayLike` or a sequence
+        of :class:`colour.plotting.ColourSwatch` class instances.
     width
         Colour swatch width.
     height
@@ -1247,13 +1248,13 @@ def plot_multi_colour_swatches(
     spacing
         Colour swatches spacing.
     columns
-        Colour swatches columns count, defaults to the colour swatch count or
-        half of it if comparing.
+        Colour swatches columns count, defaults to the colour swatch count
+        or half of it if comparing.
     direction
         Row stacking direction.
     text_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.text` definition.
-        The following special keywords can also be used:
+        Keyword arguments for the :func:`matplotlib.pyplot.text`
+        definition. The following special keywords can also be used:
 
         -   ``offset``: Sets the text offset.
         -   ``visible``: Sets the text visibility.
@@ -1261,16 +1262,18 @@ def plot_multi_colour_swatches(
         Background colour.
     compare_swatches
         Whether to compare the swatches, in which case the colour swatch
-        count must be an even number with alternating reference colour swatches
-        and test colour swatches. *Stacked* will draw the test colour swatch in
-        the center of the reference colour swatch, *Diagonal* will draw
-        the reference colour swatch in the upper left diagonal area and the
-        test colour swatch in the bottom right diagonal area.
+        count must be an even number with alternating reference colour
+        swatches and test colour swatches. *Stacked* will draw the test
+        colour swatch in the center of the reference colour swatch,
+        *Diagonal* will draw the reference colour swatch in the upper left
+        diagonal area and the test colour swatch in the bottom right
+        diagonal area.
 
     Other Parameters
     ----------------
     kwargs
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
 
     Returns
@@ -1441,7 +1444,7 @@ def plot_single_function(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified function.
+    Plot the specified function.
 
     Parameters
     ----------
@@ -1450,14 +1453,14 @@ def plot_single_function(
     samples
         Samples to evaluate the functions with.
     log_x
-        Log base to use for the *x* axis scale, if *None*, the *x* axis scale
-        will be linear.
+        Log base to use for the *x* axis scale, if *None*, the *x* axis
+        scale will be linear.
     log_y
-        Log base to use for the *y* axis scale, if *None*, the *y* axis scale
-        will be linear.
+        Log base to use for the *y* axis scale, if *None*, the *y* axis
+        scale will be linear.
     plot_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
-        used to control the style of the plotted function.
+        Keyword arguments for the :func:`matplotlib.pyplot.plot`
+        definition, used to control the style of the plotted function.
 
     Other Parameters
     ----------------
@@ -1519,22 +1522,23 @@ def plot_multi_functions(
     samples
         Samples to evaluate the functions with.
     log_x
-        Log base to use for the *x* axis scale, if *None*, the *x* axis scale
-        will be linear.
+        Log base to use for the *x* axis scale, if *None*, the *x* axis
+        scale will be linear.
     log_y
-        Log base to use for the *y* axis scale, if *None*, the *y* axis scale
-        will be linear.
+        Log base to use for the *y* axis scale, if *None*, the *y* axis
+        scale will be linear.
     plot_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
-        used to control the style of the plotted functions. ``plot_kwargs``
-        can be either a single dictionary applied to all the plotted functions
-        with the same settings or a sequence of dictionaries with different
-        settings for each plotted function.
+        Keyword arguments for the :func:`matplotlib.pyplot.plot`
+        definition, used to control the style of the plotted functions.
+        ``plot_kwargs`` can be either a single dictionary applied to all
+        the plotted functions with the same settings or a sequence of
+        dictionaries with different settings for each plotted function.
 
     Other Parameters
     ----------------
     kwargs
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
 
     Returns
@@ -1623,30 +1627,33 @@ def plot_image(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified image.
+    Plot the specified image using matplotlib.
 
     Parameters
     ----------
     image
-        Image to plot.
+        Image array to plot, typically as RGB or grayscale data.
     imshow_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.imshow` definition.
+        Keyword arguments for the :func:`matplotlib.pyplot.imshow`
+        definition, controlling image display properties.
     text_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.text` definition.
-        The following special keyword arguments can also be used:
+        Keyword arguments for the :func:`matplotlib.pyplot.text`
+        definition, controlling text overlay properties. The following
+        special keyword arguments can also be used:
 
-        -   ``offset`` : Sets the text offset.
+        -   ``offset`` : Sets the text offset position.
 
     Other Parameters
     ----------------
     kwargs
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
-        See the documentation of the previously listed definitions.
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.render`}, See the documentation of the
+        previously listed definitions for additional plotting controls.
 
     Returns
     -------
     :class:`tuple`
-        Current figure and axes.
+        Current figure and axes objects from matplotlib.
 
     Examples
     --------

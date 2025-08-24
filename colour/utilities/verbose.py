@@ -2,7 +2,7 @@
 Verbose
 =======
 
-Verbose related objects.
+Define verbose output, logging, and warning management utilities.
 """
 
 from __future__ import annotations
@@ -76,7 +76,10 @@ LOGGER = logging.getLogger(__name__)
 
 class MixinLogging:
     """
-    A mixin providing a convenient logging method.
+    Provide logging capabilities through mixin inheritance.
+
+    This mixin extends class functionality to enable structured logging,
+    allowing consistent logging behaviour across the codebase.
 
     Attributes
     ----------
@@ -107,7 +110,7 @@ class MixinLogging:
         ] = "info",
     ) -> None:
         """
-        Log specified message using specified verbosity level.
+        Log the specified message using the specified verbosity level.
 
         Parameters
         ----------
@@ -126,25 +129,33 @@ class MixinLogging:
 
 class ColourWarning(Warning):
     """
-    Base class of *Colour* warnings.
+    Define the base class for *Colour* warnings.
 
-    It is a subclass of the :class:`Warning` class.
+    This class serves as the foundational warning type for the *Colour*
+    library, inheriting from the standard :class:`Warning` class to provide
+    consistent warning behaviour across the library.
     """
 
 
 class ColourUsageWarning(Warning):
     """
-    Base class of *Colour* usage warnings.
+    Define the base class for *Colour* usage warnings.
 
-    It is a subclass of the :class:`colour.utilities.ColourWarning` class.
+    This class serves as the foundation for all usage-related warnings in the
+    *Colour* library, providing a consistent interface for alerting users to
+    non-critical issues during runtime operations. It is a subclass of the
+    :class:`colour.utilities.ColourWarning` class.
     """
 
 
 class ColourRuntimeWarning(Warning):
     """
-    Base class of *Colour* runtime warnings.
+    Define the base class for *Colour* runtime warnings.
 
-    It is a subclass of the :class:`colour.utilities.ColourWarning` class.
+    This class serves as the foundation for all runtime warnings in the
+    *Colour* library, providing a consistent interface for alerting users to
+    runtime issues. It is a subclass of the
+    :class:`colour.utilities.ColourWarning` class.
     """
 
 
@@ -155,18 +166,18 @@ def message_box(
     print_callable: Callable = print,
 ) -> None:
     """
-    Print a message inside a box.
+    Print a message inside a formatted box.
 
     Parameters
     ----------
     message
-        Message to print.
+        Message to print inside the box.
     width
-        Message box width.
+        Width of the message box in characters.
     padding
-        Padding on each side of the message.
+        Number of spaces for padding on each side of the message.
     print_callable
-        Callable used to print the message box.
+        Callable used to print the formatted message box.
 
     Examples
     --------
@@ -236,12 +247,12 @@ def show_warning(
     line: str | None = None,
 ) -> None:
     """
-    Alternative :func:`warnings.showwarning` definition that allows traceback
-    printing.
+    Display a warning message with enhanced formatting that enables
+    traceback printing.
 
-    This definition is expected to be used by setting the
-    *COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK* environment variable
-    prior to importing *colour*.
+    This definition is activated by setting the
+    *COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK* environment
+    variable before importing *colour*.
 
     Parameters
     ----------
@@ -250,9 +261,11 @@ def show_warning(
     category
         :class:`Warning` sub-class.
     filename
-        File path to read the line at ``lineno`` from if ``line`` is None.
+        File path to read the line at ``lineno`` from if ``line`` is
+        None.
     lineno
-        Line number to read the line at in ``filename`` if ``line`` is None.
+        Line number to read the line at in ``filename`` if ``line`` is
+        None.
     file
         :class:`file` object to write the warning to, defaults to
         :attr:`sys.stderr` attribute.
@@ -261,11 +274,12 @@ def show_warning(
 
     Notes
     -----
-    -   Setting the *COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK*
-        environment variable will result in the :func:`warnings.showwarning`
-        definition to be replaced with the
-        :func:`colour.utilities.show_warning` definition and thus providing
-        complete traceback from the point where the warning occurred.
+    -   Setting the
+        *COLOUR_SCIENCE__COLOUR__SHOW_WARNINGS_WITH_TRACEBACK*
+        environment variable replaces the :func:`warnings.showwarning`
+        definition with the :func:`colour.utilities.show_warning`
+        definition, providing complete traceback from the point where
+        the warning occurred.
     """
 
     frame_range = (1, None)
@@ -311,9 +325,10 @@ def warning(*args: Any, **kwargs: Any) -> None:
     Other Parameters
     ----------------
     args
-        Arguments.
+        Warning message and optional arguments for message formatting.
     kwargs
-        Keywords arguments.
+        Keyword arguments for controlling warning behaviour, including
+        category, stacklevel, and source filtering options.
 
     Examples
     --------
@@ -332,13 +347,13 @@ def runtime_warning(*args: Any, **kwargs: Any) -> None:
     Other Parameters
     ----------------
     args
-        Arguments.
+        Warning message and optional arguments for message formatting.
     kwargs
-        Keywords arguments.
+        Keyword arguments for controlling warning behaviour.
 
     Examples
     --------
-    >>> usage_warning("This is a runtime warning!")  # doctest: +SKIP
+    >>> runtime_warning("This is a runtime warning!")  # doctest: +SKIP
     """
 
     kwargs["category"] = ColourRuntimeWarning
@@ -353,9 +368,9 @@ def usage_warning(*args: Any, **kwargs: Any) -> None:
     Other Parameters
     ----------------
     args
-        Arguments.
+        Warning message and optional arguments for message formatting.
     kwargs
-        Keywords arguments.
+        Keyword arguments for controlling warning behaviour.
 
     Examples
     --------
@@ -374,7 +389,7 @@ def filter_warnings(
     python_warnings: bool | LiteralWarning | None = None,
 ) -> None:
     """
-    Filter *Colour* and also optionally overall Python warnings.
+    Filter *Colour* and optionally overall Python warnings.
 
     The possible values for all the actions, i.e., each argument, are as
     follows:
@@ -392,16 +407,17 @@ def filter_warnings(
     Parameters
     ----------
     colour_runtime_warnings
-        Whether to filter *Colour* runtime warnings according to the action
-        value.
+        Whether to filter *Colour* runtime warnings using the specified
+        action value.
     colour_usage_warnings
-        Whether to filter *Colour* usage warnings according to the action
-        value.
+        Whether to filter *Colour* usage warnings using the specified
+        action value.
     colour_warnings
-        Whether to filter *Colour* warnings, this also filters *Colour* usage
-        and runtime warnings according to the action value.
+        Whether to filter *Colour* warnings, this also filters *Colour*
+        usage and runtime warnings using the specified action value.
     python_warnings
-        Whether to filter *Python* warnings according to the action value.
+        Whether to filter *Python* warnings using the specified action
+        value.
 
     Examples
     --------
@@ -453,19 +469,20 @@ def filter_warnings(
 
 def as_bool(a: str) -> bool:
     """
-    Convert specified string to bool.
+    Convert the specified string to a boolean value.
 
     The following string values evaluate to *True*: "1", "On", and "True".
+    All other string values evaluate to *False*.
 
     Parameters
     ----------
     a
-        String to convert to bool.
+        String to convert to boolean.
 
     Returns
     -------
     :class:`bool`
-        Whether the specified string is *True*.
+        Boolean representation of the specified string.
 
     Examples
     --------
@@ -529,8 +546,8 @@ def suppress_warnings(
     python_warnings: bool | LiteralWarning | None = None,
 ) -> Generator:
     """
-    Context manager filtering *Colour* and also optionally overall
-    Python warnings.
+    Suppress *Colour* and optionally overall Python warnings within a
+    context.
 
     The possible values for all the actions, i.e., each argument, are as
     follows:
@@ -548,16 +565,18 @@ def suppress_warnings(
     Parameters
     ----------
     colour_runtime_warnings
-        Whether to filter *Colour* runtime warnings according to the action
-        value.
+        Whether to filter *Colour* runtime warnings according to the
+        specified action value.
     colour_usage_warnings
-        Whether to filter *Colour* usage warnings according to the action
-        value.
+        Whether to filter *Colour* usage warnings according to the
+        specified action value.
     colour_warnings
-        Whether to filter *Colour* warnings, this also filters *Colour* usage
-        and runtime warnings according to the action value.
+        Whether to filter *Colour* warnings, this also filters *Colour*
+        usage and runtime warnings according to the specified action
+        value.
     python_warnings
-        Whether to filter *Python* warnings  according to the action value.
+        Whether to filter *Python* warnings according to the specified
+        action value.
     """
 
     filters = warnings.filters
@@ -579,8 +598,7 @@ def suppress_warnings(
 
 class suppress_stdout:
     """
-    Context manager and decorator temporarily suppressing standard
-    output.
+    Define a context manager and decorator to temporarily suppress standard output.
 
     Examples
     --------
@@ -591,7 +609,9 @@ class suppress_stdout:
     """
 
     def __enter__(self) -> Self:
-        """Redirect the standard output upon entering the context manager."""
+        """
+        Redirect standard output to null device upon context manager entry.
+        """
 
         self._stdout = sys.stdout
         sys.stdout = open(os.devnull, "w")
@@ -599,13 +619,15 @@ class suppress_stdout:
         return self
 
     def __exit__(self, *args: Any) -> None:
-        """Restore the standard output upon exiting the context manager."""
+        """
+        Restore standard output upon context manager exit.
+        """
 
         sys.stdout.close()
         sys.stdout = self._stdout
 
     def __call__(self, function: Callable) -> Callable:  # pragma: no cover
-        """Call the wrapped definition."""
+        """Call the wrapped definition with suppressed output."""
 
         @functools.wraps(function)
         def wrapper(*args: Any, **kwargs: Any) -> Callable:
@@ -618,15 +640,15 @@ class suppress_stdout:
 @contextmanager
 def numpy_print_options(*args: Any, **kwargs: Any) -> Generator:
     """
-    Context manager implementing context changes to *Numpy* print
-    behaviour.
+    Implement a context manager for temporarily modifying *NumPy* array
+    print options.
 
     Other Parameters
     ----------------
     args
-        Arguments.
+        Positional arguments passed to :func:`numpy.set_printoptions`.
     kwargs
-        Keywords arguments.
+        Keyword arguments passed to :func:`numpy.set_printoptions`.
 
     Examples
     --------
@@ -682,8 +704,8 @@ def describe_environment(
     **kwargs: Any,
 ) -> defaultdict:
     """
-    Describe *Colour* running environment, i.e., interpreter, runtime and
-    development packages.
+    Describe the *Colour* runtime environment, including interpreter details
+    and package versions.
 
     Parameters
     ----------
@@ -943,25 +965,27 @@ def multiline_str(
     separator: str = " : ",
 ) -> str:
     """
-    Return a formatted string representation of the specified object.
+    Generate a formatted multi-line string representation of the specified
+    object.
 
     Parameters
     ----------
     object_
-        Object to format.
+        Object to format into a string representation.
     attributes
-        Attributes to format.
+        Attributes to format, provided as a list of dictionaries with
+        formatting specifications.
     header_underline
-        Underline character to use for a header.
+        Underline character to use for header sections.
     section_underline
-        Underline character to use for a section.
+        Underline character to use for subsections.
     separator
         Separator to use when formatting the attributes and their values.
 
     Returns
     -------
     :class:`str`
-        Formatted string representation.
+        Formatted multi-line string representation.
 
     Examples
     --------
@@ -1088,7 +1112,7 @@ def multiline_repr(
     reduce_array_representation: bool = True,
 ) -> str:
     """
-    Return an (almost) evaluable string representation of the specified object.
+    Generate an evaluable string representation of the specified object.
 
     Parameters
     ----------
@@ -1101,7 +1125,7 @@ def multiline_repr(
 
     Returns
     -------
-    :class`str`
+    :class:`str`
         (Almost) evaluable string representation.
 
     Examples

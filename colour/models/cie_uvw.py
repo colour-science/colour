@@ -2,7 +2,7 @@
 CIE 1964 U*V*W* Colourspace
 ===========================
 
-Define the *CIE 1964 U\\*V\\*W\\** colourspace transformations:
+Define the *CIE 1964 U\\*V\\*W\\** colourspace transformations.
 
 -   :func:`colour.XYZ_to_UVW`
 -   :func:`colour.UVW_to_XYZ`
@@ -119,7 +119,7 @@ def UVW_to_XYZ(
     ],
 ) -> NDArrayFloat:
     """
-    Convert *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus
+    Convert from *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters

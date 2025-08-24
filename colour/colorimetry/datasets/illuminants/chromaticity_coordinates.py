@@ -31,7 +31,7 @@ The following *ISO* illuminants are available:
 -   ISO 7589 Sensitometric Photoflood
 -   ISO 7589 Sensitometric Printer
 
-The following other illuminants are available for the
+The following additional illuminants are available for the
 *CIE 1931 2 Degree Standard Observer* only:
 
 -   ACES
@@ -40,8 +40,8 @@ The following other illuminants are available for the
 -   ICC D50
 -   PLASA ANSI E1.54
 
-Illuminants whose chromaticity coordinates are defined at 15 decimal places
-have been computed according to practise *ASTM E308-15* method.
+Illuminants whose chromaticity coordinates are defined at 15 decimal
+places have been computed using practise *ASTM E308-15* method.
 
 References
 ----------
@@ -414,11 +414,11 @@ computed as follows::
         )
     )
 
--   *CIE Illuminant D Series D50* illuminant and
-    *CIE Standard Illuminant D Series D65* chromaticity coordinates are rounded
-    to 4 decimals as specified in the typical RGB colourspaces literature. Their
-    chromaticity coordinates as specified in :cite:`CIETC1-482004h` are
-    (0.34567, 0.35851) and (0.31272, 0.32903) respectively.
+-   *CIE Illuminant D Series D50* illuminant and *CIE Standard Illuminant
+    D Series D65* chromaticity coordinates are rounded to 4 decimals as
+    specified in typical RGB colourspaces literature. Their chromaticity
+    coordinates as specified in :cite:`CIETC1-482004h` are (0.34567,
+    0.35851) and (0.31272, 0.32903) respectively.
 -   *CIE* illuminants with chromaticity coordinates not defined in the
     reference :cite:`Wikipedia2006a` have been calculated using their
     correlated colour temperature and
@@ -426,15 +426,16 @@ computed as follows::
     :func:`colour.sd_CIE_illuminant_D_series` and / or
     :func:`colour.sd_to_XYZ` definitions.
 -   *ICC D50* chromaticity coordinates were computed with
-    :func:`colour.XYZ_to_xy` definition from the *CIE XYZ* tristimulus values
-    as specified by *ICC*: [96.42, 100.00, 82.49].
+    :func:`colour.XYZ_to_xy` definition from the *CIE XYZ* tristimulus
+    values as specified by *ICC*: [96.42, 100.00, 82.49].
 
 References
 ----------
 :cite:`CIETC1-482004h`, :cite:`DigitalCinemaInitiatives2007b`,
 :cite:`InternationalOrganizationforStandardization2002`,
 :cite:`InternationalColorConsortium2010`, :cite:`PLASANorthAmerica2015`
-:cite:`TheAcademyofMotionPictureArtsandSciences2014q`, :cite:`Wikipedia2006a`
+:cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+:cite:`Wikipedia2006a`
 
 Aliases:
 

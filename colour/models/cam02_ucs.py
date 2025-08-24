@@ -3,7 +3,7 @@ CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
 =========================================================================
 
 Define the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS*
-colourspaces transformations:
+colourspaces transformations.
 
 -   :func:`colour.JMh_CIECAM02_to_CAM02LCD`
 -   :func:`colour.CAM02LCD_to_JMh_CIECAM02`
@@ -83,8 +83,17 @@ __all__ = [
 @dataclass(frozen=True)
 class Coefficients_UCS_Luo2006(MixinDataclassIterable):
     """
-    Define the class storing *Luo et al. (2006)* fitting coefficients for
-    the *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces.
+    Store *Luo et al. (2006)* fitting coefficients for the *CAM02-LCD*,
+    *CAM02-SCD*, and *CAM02-UCS* colourspaces.
+
+    Attributes
+    ----------
+    K_L
+        Lightness coefficient.
+    c_1
+        First chroma coefficient.
+    c_2
+        Second chroma coefficient.
     """
 
     K_L: float
@@ -110,13 +119,13 @@ def JMh_CIECAM02_to_UCS_Luo2006(
 ) -> NDArrayFloat:
     """
     Convert from *CIECAM02* :math:`JMh` correlates array to one of the
-    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspaces
-    :math:`J'a'b'` array.
+    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
+    colourspaces :math:`J'a'b'` array.
 
-    The :math:`JMh` correlates array is constructed using the CIECAM02
+    The :math:`JMh` correlates array is constructed using the *CIECAM02*
     correlate of *Lightness* :math:`J`, the *CIECAM02* correlate of
-    *colourfulness* :math:`M` and the *CIECAM02* *Hue* angle :math:`h` in
-    degrees.
+    *colourfulness* :math:`M` and the *CIECAM02* *Hue* angle :math:`h`
+    in degrees.
 
     Parameters
     ----------
@@ -193,9 +202,9 @@ def UCS_Luo2006_to_JMh_CIECAM02(
     Jpapbp: ArrayLike, coefficients: Coefficients_UCS_Luo2006
 ) -> NDArrayFloat:
     """
-    Convert from one of the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or
-    *CAM02-UCS* colourspaces :math:`J'a'b'` array to *CIECAM02* :math:`JMh`
-    correlates array.
+    Convert from one of the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*,
+    or *CAM02-UCS* colourspaces :math:`J'a'b'` array to *CIECAM02*
+    :math:`JMh` correlates array.
 
     Parameters
     ----------
@@ -261,8 +270,8 @@ def UCS_Luo2006_to_JMh_CIECAM02(
 
 def JMh_CIECAM02_to_CAM02LCD(JMh: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *CIECAM02* :math:`JMh` correlates array to
-    *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
+    Convert from *CIECAM02* :math:`JMh` correlates array to *Luo et al.
+    (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
 
     Parameters
     ----------
@@ -326,8 +335,8 @@ def JMh_CIECAM02_to_CAM02LCD(JMh: ArrayLike) -> NDArrayFloat:
 
 def CAM02LCD_to_JMh_CIECAM02(Jpapbp: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'`
-    array to *CIECAM02* :math:`JMh` correlates array.
+    Convert from *Luo et al. (2006)* *CAM02-LCD* colourspace
+    :math:`J'a'b'` array to *CIECAM02* :math:`JMh` correlates array.
 
     Parameters
     ----------
@@ -381,8 +390,8 @@ def CAM02LCD_to_JMh_CIECAM02(Jpapbp: ArrayLike) -> NDArrayFloat:
 
 def JMh_CIECAM02_to_CAM02SCD(JMh: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *CIECAM02* :math:`JMh` correlates array to
-    *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
+    Convert from *CIECAM02* :math:`JMh` correlates array to *Luo et al.
+    (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
 
     Parameters
     ----------
@@ -446,13 +455,14 @@ def JMh_CIECAM02_to_CAM02SCD(JMh: ArrayLike) -> NDArrayFloat:
 
 def CAM02SCD_to_JMh_CIECAM02(Jpapbp: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'`
-    array to *CIECAM02* :math:`JMh` correlates array.
+    Convert from *Luo et al. (2006)* *CAM02-SCD* colourspace
+    :math:`J'a'b'` array to *CIECAM02* :math:`JMh` correlates array.
 
     Parameters
     ----------
     Jpapbp
-        *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
+        *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'`
+        array.
 
     Returns
     -------
@@ -501,8 +511,8 @@ def CAM02SCD_to_JMh_CIECAM02(Jpapbp: ArrayLike) -> NDArrayFloat:
 
 def JMh_CIECAM02_to_CAM02UCS(JMh: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *CIECAM02* :math:`JMh` correlates array to
-    *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
+    Convert from *CIECAM02* :math:`JMh` correlates array to *Luo et al.
+    (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
 
     Parameters
     ----------
@@ -516,7 +526,7 @@ def JMh_CIECAM02_to_CAM02UCS(JMh: ArrayLike) -> NDArrayFloat:
 
     Notes
     -----
-    -   *UCS* in *CAM02-UCS* stands for *Uniform Colour Colourspace*.
+    -   *UCS* in *CAM02-UCS* stands for *Uniform Colour Space*.
 
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
@@ -581,7 +591,7 @@ def CAM02UCS_to_JMh_CIECAM02(Jpapbp: ArrayLike) -> NDArrayFloat:
 
     Notes
     -----
-    -   *UCS* in *CAM02-UCS* stands for *Uniform Colour Colourspace*.
+    -   *UCS* in *CAM02-UCS* stands for *Uniform Colour Space*.
 
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
@@ -624,8 +634,8 @@ def XYZ_to_UCS_Luo2006(
 ) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to one of the
-    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspaces
-    :math:`J'a'b'` array.
+    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
+    colourspaces :math:`J'a'b'` array.
 
     Parameters
     ----------
@@ -639,10 +649,11 @@ def XYZ_to_UCS_Luo2006(
     ----------------
     kwargs
         {:func:`colour.XYZ_to_CIECAM02`},
-        See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
-        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
-        20% of a white object in the scene.
+        See the documentation of the previously listed definition. The
+        default viewing conditions are those of *IEC 61966-2-1:1999*,
+        i.e., *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`,
+        adapting field luminance about 20% of a white object in the
+        scene.
 
     Returns
     -------
@@ -652,8 +663,8 @@ def XYZ_to_UCS_Luo2006(
 
     Warnings
     --------
-    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    specified in the same domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must
+    be specified in the same domain-range scale than the ``XYZ`` parameter.
 
     Notes
     -----
@@ -731,10 +742,11 @@ def UCS_Luo2006_to_XYZ(
     ----------------
     kwargs
         {:func:`colour.CIECAM02_to_XYZ`},
-        See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
-        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
-        20% of a white object in the scene.
+        See the documentation of the previously listed definition. The
+        default viewing conditions are those of *IEC 61966-2-1:1999*,
+        i.e., *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`,
+        adapting field luminance about 20% of a white object in the
+        scene.
 
     Returns
     -------
@@ -743,8 +755,8 @@ def UCS_Luo2006_to_XYZ(
 
     Warnings
     --------
-    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    specified in the same domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must
+    be specified in the same domain-range scale as the ``XYZ`` parameter.
 
     Notes
     -----
@@ -813,20 +825,23 @@ def XYZ_to_CAM02LCD(XYZ: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     ----------------
     kwargs
         {:func:`colour.XYZ_to_CIECAM02`},
-        See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
-        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
-        20% of a white object in the scene.
+        See the documentation of the previously listed definition. The
+        default viewing conditions are those of *IEC 61966-2-1:1999*,
+        i.e., *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`,
+        adapting field luminance about 20% of a white object in the
+        scene.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
+        *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'`
+        array.
 
     Warnings
     --------
-    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    specified in the same domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition
+    must be specified in the same domain-range scale as the ``XYZ``
+    parameter.
 
     Notes
     -----
@@ -878,10 +893,11 @@ def CAM02LCD_to_XYZ(Jpapbp: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     ----------------
     kwargs
         {:func:`colour.CIECAM02_to_XYZ`},
-        See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
-        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
-        20% of a white object in the scene.
+        See the documentation of the previously listed definition. The
+        default viewing conditions are those of *IEC 61966-2-1:1999*,
+        i.e., *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`,
+        adapting field luminance about 20% of a white object in the
+        scene.
 
     Returns
     -------
@@ -890,8 +906,8 @@ def CAM02LCD_to_XYZ(Jpapbp: ArrayLike, **kwargs: Any) -> NDArrayFloat:
 
     Warnings
     --------
-    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    specified in the same domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must
+    be specified in the same domain-range scale as the ``XYZ`` parameter.
 
     Notes
     -----
@@ -943,20 +959,23 @@ def XYZ_to_CAM02SCD(XYZ: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     ----------------
     kwargs
         {:func:`colour.XYZ_to_CIECAM02`},
-        See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
-        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
-        20% of a white object in the scene.
+        See the documentation of the previously listed definition. The
+        default viewing conditions are those of *IEC 61966-2-1:1999*,
+        i.e., *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`,
+        adapting field luminance about 20% of a white object in the
+        scene.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
+        *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'`
+        array.
 
     Warnings
     --------
-    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    specified in the same domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition
+    must be specified in the same domain-range scale as the ``XYZ``
+    parameter.
 
     Notes
     -----
@@ -1008,10 +1027,11 @@ def CAM02SCD_to_XYZ(Jpapbp: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     ----------------
     kwargs
         {:func:`colour.CIECAM02_to_XYZ`},
-        See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
-        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
-        20% of a white object in the scene.
+        See the documentation of the previously listed definition. The
+        default viewing conditions are those of *IEC 61966-2-1:1999*,
+        i.e., *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`,
+        adapting field luminance about 20% of a white object in the
+        scene.
 
     Returns
     -------
@@ -1021,7 +1041,7 @@ def CAM02SCD_to_XYZ(Jpapbp: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     Warnings
     --------
     The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    specified in the same domain-range scale than the ``XYZ`` parameter.
+    specified in the same domain-range scale as the ``XYZ`` parameter.
 
     Notes
     -----
@@ -1073,20 +1093,23 @@ def XYZ_to_CAM02UCS(XYZ: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     ----------------
     kwargs
         {:func:`colour.XYZ_to_CIECAM02`},
-        See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
-        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
-        20% of a white object in the scene.
+        See the documentation of the previously listed definition. The
+        default viewing conditions are those of *IEC 61966-2-1:1999*,
+        i.e., *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`,
+        adapting field luminance about 20% of a white object in the
+        scene.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
+        *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'`
+        array.
 
     Warnings
     --------
-    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    specified in the same domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition
+    must be specified in the same domain-range scale as the ``XYZ``
+    parameter.
 
     Notes
     -----
@@ -1138,10 +1161,11 @@ def CAM02UCS_to_XYZ(Jpapbp: ArrayLike, **kwargs: Any) -> NDArrayFloat:
     ----------------
     kwargs
         {:func:`colour.CIECAM02_to_XYZ`},
-        See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
-        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
-        20% of a white object in the scene.
+        See the documentation of the previously listed definition. The
+        default viewing conditions are those of *IEC 61966-2-1:1999*,
+        i.e., *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`,
+        adapting field luminance about 20% of a white object in the
+        scene.
 
     Returns
     -------
@@ -1150,8 +1174,8 @@ def CAM02UCS_to_XYZ(Jpapbp: ArrayLike, **kwargs: Any) -> NDArrayFloat:
 
     Warnings
     --------
-    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    specified in the same domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must
+    be specified in the same domain-range scale as the ``XYZ`` parameter.
 
     Notes
     -----

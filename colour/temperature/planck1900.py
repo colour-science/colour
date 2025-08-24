@@ -3,7 +3,8 @@ Blackbody - Planck (1900) - Correlated Colour Temperature
 =========================================================
 
 Define the *Planck (1900)* correlated colour temperature :math:`T_{cp}`
-computations objects based on the spectral radiance of a planckian radiator:
+computation objects based on the spectral radiance of a planckian
+radiator:
 
 -   :func:`colour.temperature.uv_to_CCT_Planck1900`
 -   :func:`colour.temperature.CCT_to_uv_Planck1900`
@@ -54,9 +55,9 @@ def uv_to_CCT_Planck1900(
     optimisation_kwargs: dict | None = None,
 ) -> NDArrayFloat:
     """
-    Compute the correlated colour temperature :math:`T_{cp}` of a blackbody from
-    specified *CIE UCS* colourspace *uv* chromaticity coordinates and colour
-    matching functions.
+    Compute the correlated colour temperature :math:`T_{cp}` of a blackbody
+    from specified *CIE UCS* colourspace *uv* chromaticity coordinates using
+    colour matching functions.
 
     Parameters
     ----------
@@ -76,8 +77,8 @@ def uv_to_CCT_Planck1900(
     Warnings
     --------
     The current implementation relies on optimisation using
-    :func:`scipy.optimize.minimize` definition and thus has reduced precision
-    and poor performance.
+    :func:`scipy.optimize.minimize` definition and thus has reduced
+    precision and poor performance.
 
     References
     ----------
@@ -131,15 +132,15 @@ def CCT_to_uv_Planck1900(
     CCT: ArrayLike, cmfs: MultiSpectralDistributions | None = None
 ) -> NDArrayFloat:
     """
-    Compute the *CIE UCS* colourspace *uv* chromaticity coordinates from specified
-    correlated colour temperature :math:`T_{cp}` and colour matching functions
-    using the spectral radiance of a blackbody at the specified thermodynamic
-    temperature.
+    Compute the *CIE UCS* colourspace *uv* chromaticity coordinates from the
+    specified correlated colour temperature :math:`T_{cp}` and colour
+    matching functions using the spectral radiance of a blackbody at the
+    specified thermodynamic temperature.
 
     Parameters
     ----------
     CCT
-        Colour temperature :math:`T_{cp}`.
+        Correlated colour temperature :math:`T_{cp}`.
     cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.

@@ -2,7 +2,9 @@
 Mesh Volume Computation Helpers
 ===============================
 
-Helper objects related to volume computations.
+Define helper objects for computing volumes of three-dimensional meshes
+and polyhedra using Delaunay triangulation and related computational
+geometry methods.
 """
 
 from __future__ import annotations
@@ -34,8 +36,8 @@ def is_within_mesh_volume(
     points: ArrayLike, mesh: ArrayLike, tolerance: float = 100 * EPSILON
 ) -> NDArrayFloat:
     """
-    Return whether specified points are within specified mesh volume using Delaunay
-    triangulation.
+    Determine whether the specified points are within the volume defined by a mesh
+    using Delaunay triangulation.
 
     Parameters
     ----------
@@ -49,7 +51,8 @@ def is_within_mesh_volume(
     Returns
     -------
     :class:`numpy.ndarray`
-        Whether specified points are within specified mesh volume.
+        Boolean array indicating whether specified points are within
+        specified mesh volume.
 
     Examples
     --------

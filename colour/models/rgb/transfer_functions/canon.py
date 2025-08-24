@@ -2,7 +2,7 @@
 Canon Log Encodings
 ===================
 
-Define the *Canon Log* encodings:
+Define the *Canon Log* encodings.
 
 -   :attr:`colour.models.CANON_LOG_ENCODING_METHODS`
 -   :func:`colour.models.log_encoding_CanonLog`
@@ -100,8 +100,7 @@ def log_encoding_CanonLog_v1(
     in_reflection: bool = True,
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log* v1 log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Canon Log* v1 log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -110,15 +109,15 @@ def log_encoding_CanonLog_v1(
     bit_depth
         Bit-depth used for conversion.
     out_normalised_code_value
-        Whether the *Canon Log* non-linear data is encoded as normalised code
-        values.
+        Whether the *Canon Log* v1 non-linear data is encoded as normalised
+        code values.
     in_reflection
         Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *Canon Log* non-linear data.
+        *Canon Log* v1 non-linear encoded data.
 
     References
     ----------
@@ -143,8 +142,8 @@ def log_encoding_CanonLog_v1(
     >>> log_encoding_CanonLog_v1(0.18) * 100  # doctest: +ELLIPSIS
     34.3389651...
 
-    The values of *Table 2 Canon-Log Code Values* table in :cite:`Thorpe2012a`
-    are obtained as follows:
+    The values of *Table 2 Canon-Log Code Values* table in
+    :cite:`Thorpe2012a` are obtained as follows:
 
     >>> x = np.array([0, 2, 18, 90, 720]) / 100
     >>> np.around(log_encoding_CanonLog_v1(x) * (2**10 - 1)).astype(np.int_)
@@ -177,17 +176,17 @@ def log_decoding_CanonLog_v1(
     out_reflection: bool = True,
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log* v1 log decoding curve / electro-optical transfer
-    function.
+    Apply the *Canon Log* v1 log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     clog
-        *Canon Log* non-linear data.
+        *Canon Log* v1 non-linear encoded data.
     bit_depth
         Bit-depth used for conversion.
     in_normalised_code_value
-        Whether the *Canon Log* non-linear data is encoded with normalised
+        Whether the *Canon Log* v1 non-linear data is encoded with normalised
         code values.
     out_reflection
         Whether the light level :math:`x` to a camera is reflection.
@@ -244,8 +243,7 @@ def log_encoding_CanonLog_v1_2(
     in_reflection: bool = True,
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log* v1.2 log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Canon Log* v1.2 log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -254,15 +252,15 @@ def log_encoding_CanonLog_v1_2(
     bit_depth
         Bit-depth used for conversion.
     out_normalised_code_value
-        Whether the *Canon Log* non-linear data is encoded as normalised code
-        values.
+        Whether the *Canon Log* v1.2 non-linear data is encoded as
+        normalised code values.
     in_reflection
         Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *Canon Log* non-linear data.
+        *Canon Log* v1.2 non-linear encoded data.
 
     References
     ----------
@@ -314,17 +312,18 @@ def log_decoding_CanonLog_v1_2(
     out_reflection: bool = True,
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log* v1.2 log decoding curve / electro-optical transfer
-    function.
+    Apply the *Canon Log* v1.2 log decoding inverse opto-electronic transfer
+
+    function (OETF).
 
     Parameters
     ----------
     clog
-        *Canon Log* non-linear data.
+        *Canon Log* v1.2 non-linear encoded data.
     bit_depth
         Bit-depth used for conversion.
     in_normalised_code_value
-        Whether the *Canon Log* non-linear data is encoded with normalised
+        Whether the *Canon Log* v1.2 non-linear data is encoded with normalised
         code values.
     out_reflection
         Whether the light level :math:`x` to a camera is reflection.
@@ -384,8 +383,8 @@ CANON_LOG_ENCODING_METHODS: CanonicalMapping = CanonicalMapping(
     }
 )
 CANON_LOG_ENCODING_METHODS.__doc__ = """
-Supported *CanonLog* log encoding curve / opto-electronic transfer function
-methods.
+Supported *Canon Log* log encoding curve / opto-electronic transfer function
+(OETF) methods.
 
 References
 ----------
@@ -401,8 +400,7 @@ def log_encoding_CanonLog(
     method: Literal["v1", "v1.2"] | str = "v1.2",
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Canon Log* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -411,8 +409,8 @@ def log_encoding_CanonLog(
     bit_depth
         Bit-depth used for conversion.
     out_normalised_code_value
-        Whether the *Canon Log* non-linear data is encoded as normalised code
-        values.
+        Whether the *Canon Log* non-linear data is encoded as normalised
+        code values.
     in_reflection
         Whether the light level :math:`x` to a camera is reflection.
     method
@@ -421,7 +419,7 @@ def log_encoding_CanonLog(
     Returns
     -------
     :class:`numpy.ndarray`
-        *Canon Log* non-linear data.
+        *Canon Log* non-linear encoded data.
 
     References
     ----------
@@ -448,8 +446,8 @@ def log_encoding_CanonLog(
     >>> log_encoding_CanonLog(0.18, method="v1") * 100  # doctest: +ELLIPSIS
     34.3389651...
 
-    The values of *Table 2 Canon-Log Code Values* table in :cite:`Thorpe2012a`
-    are obtained as follows:
+    The values of *Table 2 Canon-Log Code Values* table in
+    :cite:`Thorpe2012a` are obtained as follows:
 
     >>> x = np.array([0, 2, 18, 90, 720]) / 100
     >>> np.around(log_encoding_CanonLog(x, method="v1") * (2**10 - 1)).astype(np.int_)
@@ -472,8 +470,8 @@ CANON_LOG_DECODING_METHODS: CanonicalMapping = CanonicalMapping(
     }
 )
 CANON_LOG_DECODING_METHODS.__doc__ = """
-Supported *CanonLog* log decoding curve / electro-optical transfer function
-methods.
+Supported *Canon Log* log decoding curve / electro-optical transfer function
+(EOTF) methods.
 
 References
 ----------
@@ -489,13 +487,12 @@ def log_decoding_CanonLog(
     method: Literal["v1", "v1.2"] | str = "v1.2",
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Canon Log* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     clog
-        *Canon Log* non-linear data.
+        *Canon Log* non-linear encoded data.
     bit_depth
         Bit-depth used for conversion.
     in_normalised_code_value
@@ -552,8 +549,7 @@ def log_encoding_CanonLog2_v1(
     in_reflection: bool = True,
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log 2* v1 log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Canon Log 2* v1 log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -562,7 +558,7 @@ def log_encoding_CanonLog2_v1(
     bit_depth
         Bit-depth used for conversion.
     out_normalised_code_value
-        Whether the *Canon Log 2* non-linear data is encoded as normalised
+        Whether the *Canon Log 2* v1 non-linear data is encoded as normalised
         code values.
     in_reflection
         Whether the light level :math:`x` to a camera is reflection.
@@ -570,7 +566,7 @@ def log_encoding_CanonLog2_v1(
     Returns
     -------
     :class:`numpy.ndarray`
-        *Canon Log 2* non-linear data.
+        *Canon Log 2* v1 non-linear encoded data.
 
     Notes
     -----
@@ -620,18 +616,18 @@ def log_decoding_CanonLog2_v1(
     out_reflection: bool = True,
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log 2* v1 log decoding curve / electro-optical transfer
-    function.
+    Apply the *Canon Log 2* v1 log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     clog2
-        *Canon Log 2* non-linear data.
+        *Canon Log 2* v1 non-linear encoded data.
     bit_depth
         Bit-depth used for conversion.
     in_normalised_code_value
-        Whether the *Canon Log 2* non-linear data is encoded with normalised
-        code values.
+        Whether the *Canon Log 2* v1 non-linear data is encoded with
+        normalised code values.
     out_reflection
         Whether the light level :math:`x` to a camera is reflection.
 
@@ -687,8 +683,8 @@ def log_encoding_CanonLog2_v1_2(
     in_reflection: bool = True,
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log 2* v1.2 log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Canon Log 2* v1.2 log encoding opto-electronic transfer function
+    (OETF).
 
     Parameters
     ----------
@@ -697,15 +693,15 @@ def log_encoding_CanonLog2_v1_2(
     bit_depth
         Bit-depth used for conversion.
     out_normalised_code_value
-        Whether the *Canon Log 2* non-linear data is encoded as normalised
-        code values.
+        Whether the *Canon Log 2* v1.2 non-linear data is encoded as
+        normalised code values.
     in_reflection
         Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *Canon Log 2* non-linear data.
+        *Canon Log 2* v1.2 non-linear encoded data.
 
     Notes
     -----
@@ -757,17 +753,17 @@ def log_decoding_CanonLog2_v1_2(
     out_reflection: bool = True,
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log 2* v1.2 log decoding curve / electro-optical transfer
-    function.
+    Apply the *Canon Log 2* v1.2 log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     clog2
-        *Canon Log 2* non-linear data.
+        *Canon Log 2* v1.2 non-linear encoded data.
     bit_depth
         Bit-depth used for conversion.
     in_normalised_code_value
-        Whether the *Canon Log 2* non-linear data is encoded with normalised
+        Whether the *Canon Log 2* v1.2 non-linear data is encoded with normalised
         code values.
     out_reflection
         Whether the light level :math:`x` to a camera is reflection.
@@ -828,7 +824,7 @@ CANON_LOG_2_ENCODING_METHODS: CanonicalMapping = CanonicalMapping(
 )
 CANON_LOG_2_ENCODING_METHODS.__doc__ = """
 Supported *Canon Log 2* log encoding curve / opto-electronic transfer function
-methods.
+(OETF) methods.
 
 References
 ----------
@@ -844,8 +840,7 @@ def log_encoding_CanonLog2(
     method: Literal["v1", "v1.2"] | str = "v1.2",
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log 2* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Canon Log 2* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -864,7 +859,7 @@ def log_encoding_CanonLog2(
     Returns
     -------
     :class:`numpy.ndarray`
-        *Canon Log 2* non-linear data.
+        *Canon Log 2* non-linear encoded data.
 
     Notes
     -----
@@ -905,7 +900,7 @@ CANON_LOG_2_DECODING_METHODS: CanonicalMapping = CanonicalMapping(
 )
 CANON_LOG_2_DECODING_METHODS.__doc__ = """
 Supported *Canon Log 2* log decoding curve / electro-optical transfer function
-methods.
+(EOTF) methods.
 
 References
 ----------
@@ -921,13 +916,13 @@ def log_decoding_CanonLog2(
     method: Literal["v1", "v1.2"] | str = "v1.2",
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log 2* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Canon Log 2* log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     clog2
-        *Canon Log 2* non-linear data.
+        *Canon Log 2* non-linear encoded data.
     bit_depth
         Bit-depth used for conversion.
     in_normalised_code_value
@@ -981,8 +976,8 @@ def log_encoding_CanonLog3_v1(
     in_reflection: bool = True,
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log 3* v1 log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Canon Log 3* v1 log encoding opto-electronic transfer function
+    (OETF).
 
     Parameters
     ----------
@@ -991,21 +986,21 @@ def log_encoding_CanonLog3_v1(
     bit_depth
         Bit-depth used for conversion.
     out_normalised_code_value
-        Whether the *Canon Log 3* non-linear data is encoded as normalised code
-        values.
+        Whether the *Canon Log 3* v1 non-linear data is encoded as
+        normalised code values.
     in_reflection
         Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *Canon Log 3* non-linear data.
+        *Canon Log 3* v1 non-linear encoded data.
 
     Notes
     -----
-    -   Introspection of the grafting points by Shaw, N. (2018) shows that the
-        *Canon Log 3* v1 IDT was likely derived from its encoding curve as the
-        latter is grafted at *+/-0.014*::
+    -   Introspection of the grafting points by Shaw, N. (2018) shows
+        that the *Canon Log 3* v1 IDT was likely derived from its
+        encoding curve as the latter is grafted at *+/-0.014*::
 
             >>> clog3 = 0.04076162
             >>> (clog3 - 0.073059361) / 2.3069815
@@ -1067,18 +1062,18 @@ def log_decoding_CanonLog3_v1(
     out_reflection: bool = True,
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log 3* v1 log decoding curve / electro-optical transfer
-    function.
+    Apply the *Canon Log 3* v1 log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     clog3
-        *Canon Log 3* non-linear data.
+        *Canon Log 3* v1 non-linear encoded data.
     bit_depth
         Bit-depth used for conversion.
     in_normalised_code_value
-        Whether the *Canon Log 3* non-linear data is encoded with normalised
-        code values.
+        Whether the *Canon Log 3* v1 non-linear data is encoded with
+        normalised code values.
     out_reflection
         Whether the light level :math:`x` to a camera is reflection.
 
@@ -1137,8 +1132,8 @@ def log_encoding_CanonLog3_v1_2(
     in_reflection: bool = True,
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log 3* v1.2 log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Canon Log 3* v1.2 log encoding opto-electronic transfer function
+    (OETF).
 
     Parameters
     ----------
@@ -1147,15 +1142,15 @@ def log_encoding_CanonLog3_v1_2(
     bit_depth
         Bit-depth used for conversion.
     out_normalised_code_value
-        Whether the *Canon Log 3* non-linear data is encoded as normalised code
-        values.
+        Whether the *Canon Log 3* v1.2 non-linear data is encoded as normalised
+        code values.
     in_reflection
         Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *Canon Log 3* non-linear data.
+        *Canon Log 3* v1.2 non-linear encoded data.
 
     Notes
     -----
@@ -1214,18 +1209,18 @@ def log_decoding_CanonLog3_v1_2(
     out_reflection: bool = True,
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log 3* v1.2 log decoding curve / electro-optical transfer
-    function.
+    Apply the *Canon Log 3* v1.2 log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     clog3
-        *Canon Log 3* non-linear data.
+        *Canon Log 3* v1.2 non-linear encoded data.
     bit_depth
         Bit-depth used for conversion.
     in_normalised_code_value
-        Whether the *Canon Log 3* non-linear data is encoded with normalised
-        code values.
+        Whether the *Canon Log 3* v1.2 non-linear data is encoded with
+        normalised code values.
     out_reflection
         Whether the light level :math:`x` to a camera is reflection.
 
@@ -1288,7 +1283,7 @@ CANON_LOG_3_ENCODING_METHODS: CanonicalMapping = CanonicalMapping(
 )
 CANON_LOG_3_ENCODING_METHODS.__doc__ = """
 Supported *Canon Log 3* log encoding curve / opto-electronic transfer function
-methods.
+(OETF) methods.
 
 References
 ----------
@@ -1304,8 +1299,7 @@ def log_encoding_CanonLog3(
     method: Literal["v1", "v1.2"] | str = "v1.2",
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log 3* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Canon Log 3* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -1324,13 +1318,13 @@ def log_encoding_CanonLog3(
     Returns
     -------
     :class:`numpy.ndarray`
-        *Canon Log 3* non-linear data.
+        *Canon Log 3* non-linear encoded data.
 
     Notes
     -----
-    -   Introspection of the grafting points by Shaw, N. (2018) shows that the
-        *Canon Log 3* v1 IDT was likely derived from its encoding curve as the
-        latter is grafted at *+/-0.014*::
+    -   Introspection of the grafting points by Shaw, N. (2018) shows that
+        the *Canon Log 3* v1 IDT was likely derived from its encoding curve
+        as the latter is grafted at *+/-0.014*::
 
             >>> clog3 = 0.04076162
             >>> (clog3 - 0.073059361) / 2.3069815
@@ -1348,7 +1342,7 @@ def log_encoding_CanonLog3(
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``clog2``  | [0, 1]                | [0, 1]        |
+    | ``clog3``  | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
     References
@@ -1376,7 +1370,7 @@ CANON_LOG_3_DECODING_METHODS: CanonicalMapping = CanonicalMapping(
 )
 CANON_LOG_3_DECODING_METHODS.__doc__ = """
 Supported *Canon Log 3* log decoding curve / electro-optical transfer function
-methods.
+(EOTF) methods.
 
 References
 ----------
@@ -1392,13 +1386,13 @@ def log_decoding_CanonLog3(
     method: Literal["v1", "v1.2"] | str = "v1.2",
 ) -> NDArrayFloat:
     """
-    Define the *Canon Log 3* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Canon Log 3* log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     clog3
-        *Canon Log 3* non-linear data.
+        *Canon Log 3* non-linear encoded data.
     bit_depth
         Bit-depth used for conversion.
     in_normalised_code_value
@@ -1419,7 +1413,7 @@ def log_decoding_CanonLog3(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``clog2``  | [0, 1]                | [0, 1]        |
+    | ``clog3``  | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+

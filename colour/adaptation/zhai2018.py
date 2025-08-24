@@ -2,7 +2,8 @@
 Zhai and Luo (2018) Chromatic Adaptation Model
 ==============================================
 
-Define the *Zhai and Luo (2018)* chromatic adaptation model object:
+Define the *Zhai and Luo (2018)* two-step chromatic adaptation for predicting
+corresponding colours under different viewing conditions.
 
 -   :func:`colour.adaptation.chromatic_adaptation_Zhai2018`
 
@@ -54,37 +55,36 @@ def chromatic_adaptation_Zhai2018(
     transform: Literal["CAT02", "CAT16"] | str = "CAT02",
 ) -> NDArrayFloat:
     """
-    Adapt the specified sample colour :math:`XYZ_{\\beta}` tristimulus values
-    from input viewing conditions under :math:`\\beta` illuminant to output
-    viewing conditions under :math:`\\delta` illuminant using
+    Adapt the specified stimulus *CIE XYZ* tristimulus values from test
+    viewing conditions to reference viewing conditions using the
     *Zhai and Luo (2018)* chromatic adaptation model.
 
-    According to the definition of :math:`D`, a one-step CAT such as CAT02 can
-    only be used to transform colours from an incomplete adapted field into a
-    complete adapted field. When CAT02 are used to transform an incomplete to
-    incomplete case, :math:`D` has no baseline level to refer to.
-    *Smet et al. (2017)* proposed a new concept of two-step CAT to replace the
-    present CATs such as CAT02 with only one-step transform in order to define
-    :math:`D` more clearly. A two-step CAT involves an illuminant representing
-    the baseline states between the test and reference illuminants for the
-    calculation. In the first step, the test colour is transformed from test
-    illuminant to the baseline illuminant (:math:`BI`), and it is then
-    transformed to the reference illuminant. Degrees of adaptation under the
-    other illuminants should be calculated relative to the adaptation under the
-    :math:`BI`. When :math:`D` becomes lower towards zero, the adaptation point
-    of the observer moves towards the :math:`BI`. Therefore, the chromaticity
-    of the :math:`BI` should be an intrinsic property of the human vision
-    system.
+    According to the definition of :math:`D`, a one-step chromatic adaptation
+    transform (CAT) such as CAT02 can only transform colours from an
+    incomplete adapted field into a complete adapted field. When CAT02 is
+    used to transform from incomplete to incomplete adaptation, :math:`D` has
+    no baseline level to refer to. *Smet et al. (2017)* proposed a two-step
+    CAT concept to replace existing one-step transforms such as CAT02,
+    providing a clearer definition of :math:`D`. A two-step CAT involves a
+    baseline illuminant (BI) representing the baseline state between the test
+    and reference illuminants. In the first step, the test colour is
+    transformed from the test illuminant to the baseline illuminant
+    (:math:`BI`), then subsequently transformed to the reference illuminant.
+    Degrees of adaptation under other illuminants are calculated relative to
+    the adaptation under the :math:`BI`. As :math:`D` approaches zero, the
+    observer's adaptation point moves towards the :math:`BI`. Therefore, the
+    chromaticity of the :math:`BI` is an intrinsic property of the human
+    visual system.
 
     Parameters
     ----------
     XYZ_b
-        Sample colour :math:`XYZ_{\\beta}` under input illuminant
-        :math:`\\beta`.
+        Sample colour :math:`XYZ_{\\beta}` tristimulus values under input
+        illuminant :math:`\\beta`.
     XYZ_wb
-        Input illuminant :math:`\\beta`.
+        Input illuminant :math:`\\beta` tristimulus values.
     XYZ_wd
-        Output illuminant :math:`\\delta`.
+        Output illuminant :math:`\\delta` tristimulus values.
     D_b
         Degree of adaptation :math:`D_{\\beta}` of input illuminant
         :math:`\\beta`.
@@ -92,15 +92,14 @@ def chromatic_adaptation_Zhai2018(
         Degree of adaptation :math:`D_{\\delta}` of output illuminant
         :math:`\\delta`.
     XYZ_wo
-        Baseline illuminant (:math:`BI`) :math:`o`.
+        Baseline illuminant (:math:`BI`) :math:`o` tristimulus values.
     transform
-        Chromatic adaptation transform.
+        Chromatic adaptation transform matrix.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Sample corresponding colour :math:`XYZ_{\\delta}` tristimulus values
-        under output illuminant :math:`\\delta`.
+        *CIE XYZ* tristimulus values of the stimulus corresponding colour.
 
     Notes
     -----

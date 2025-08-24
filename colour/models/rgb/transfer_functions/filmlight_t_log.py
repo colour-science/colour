@@ -2,7 +2,7 @@
 FilmLight T-Log Log Encoding
 ============================
 
-Define the *FilmLight T-Log* log encoding:
+Define the *FilmLight T-Log* log encoding.
 
 -   :func:`colour.models.log_encoding_FilmLightTLog`
 -   :func:`colour.models.log_decoding_FilmLightTLog`
@@ -44,18 +44,18 @@ def log_encoding_FilmLightTLog(
     o: float = 0.075,
 ) -> NDArrayFloat:
     """
-    Define the *FilmLight T-Log* log encoding curve.
+    Apply the *FilmLight T-Log* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     x
-        Linear reflection data :math`x`.
+        Linear reflection data :math:`x`.
     w
-        Value of :math:`x` for :math:`t = 1.0`.
+        Value of :math:`x` for which :math:`t = 1.0`.
     g
         Gradient at :math:`x = 0.0`.
     o
-        Value of :math:`t` for :math:`x = 0.0`.
+        Value of :math:`t` at :math:`x = 0.0`.
 
     Returns
     -------
@@ -138,23 +138,25 @@ def log_decoding_FilmLightTLog(
     o: float = 0.075,
 ) -> NDArrayFloat:
     """
-    Define the *FilmLight T-Log* log decoding curve.
+    Apply the *FilmLight T-Log* log decoding inverse opto-electronic transfer
+
+    function (OETF).
 
     Parameters
     ----------
     t
-        Non-linear data :math:`t`.
+        *FilmLight T-Log* encoded data :math:`t`.
     w
-        Value of :math:`x` for :math:`t = 1.0`.
+        Value of :math:`x` for which :math:`t = 1.0`.
     g
         Gradient at :math:`x = 0.0`.
     o
-        Value of :math:`t` for :math:`x = 0.0`.
+        Value of :math:`t` at :math:`x = 0.0`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Linear reflection data :math`x`.
+        Linear reflection data :math:`x`.
 
     References
     ----------

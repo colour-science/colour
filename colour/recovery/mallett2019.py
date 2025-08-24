@@ -3,7 +3,7 @@ Mallett and Yuksel (2019) - Reflectance Recovery
 ================================================
 
 Define the objects for reflectance recovery, i.e., spectral upsampling, using
-*Mallett and Yuksel (2019)* method:
+*Mallett and Yuksel (2019)* method.
 
 -   :func:`colour.recovery.spectral_primary_decomposition_Mallett2019`
 -   :func:`colour.recovery.RGB_to_sd_Mallett2019`
@@ -58,8 +58,8 @@ def spectral_primary_decomposition_Mallett2019(
     optimisation_kwargs: dict | None = None,
 ) -> MultiSpectralDistributions:
     """
-    Perform the spectral primary decomposition as described in *Mallett and
-    Yuksel (2019)* for specified *RGB* colourspace.
+    Perform spectral primary decomposition as described in *Mallett and
+    Yuksel (2019)* for the specified *RGB* colourspace.
 
     Parameters
     ----------
@@ -86,7 +86,7 @@ def spectral_primary_decomposition_Mallett2019(
     Returns
     -------
     :class:`colour.MultiSpectralDistributions`
-        Basis functions for specified *RGB* colourspace.
+        Basis functions for the specified *RGB* colourspace.
 
     References
     ----------
@@ -94,14 +94,14 @@ def spectral_primary_decomposition_Mallett2019(
 
     Notes
     -----
-    -   In-addition to the *BT.709* primaries used by the *sRGB* colourspace,
-        :cite:`Mallett2019` tried *BT.2020*, *P3 D65*, *Adobe RGB 1998*,
-        *NTSC (1987)*, *Pal/Secam*, *ProPhoto RGB*,
-        and *Adobe Wide Gamut RGB* primaries, every one of which encompasses a
-        larger (albeit not-always-enveloping) set of *CIE L\\*a\\*b\\** colours
-        than BT.709. Of these, only *Pal/Secam* produces a feasible basis,
-        which is relatively unsurprising since it is very similar to *BT.709*,
-        whereas the others are significantly larger.
+    -   In addition to the *BT.709* primaries used by the *sRGB*
+        colourspace, :cite:`Mallett2019` tested *BT.2020*, *P3 D65*,
+        *Adobe RGB 1998*, *NTSC (1987)*, *Pal/Secam*, *ProPhoto RGB*, and
+        *Adobe Wide Gamut RGB* primaries, every one of which encompasses a
+        larger (albeit not always enveloping) set of *CIE L\\*a\\*b\\**
+        colours than BT.709. Of these, only *Pal/Secam* produces a
+        feasible basis, which is relatively unsurprising since it is very
+        similar to *BT.709*, whereas the others are significantly larger.
 
     Examples
     --------
@@ -222,8 +222,8 @@ def RGB_to_sd_Mallett2019(
     basis_functions: MultiSpectralDistributions = MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019,
 ) -> SpectralDistribution:
     """
-    Recover the spectral distribution of specified *RGB* colourspace array using
-    *Mallett and Yuksel (2019)* method.
+    Recover the spectral distribution of the specified *RGB* colourspace
+    array using *Mallett and Yuksel (2019)* method.
 
     Parameters
     ----------
@@ -245,14 +245,14 @@ def RGB_to_sd_Mallett2019(
 
     Notes
     -----
-    -   In-addition to the *BT.709* primaries used by the *sRGB* colourspace,
-        :cite:`Mallett2019` tried *BT.2020*, *P3 D65*, *Adobe RGB 1998*,
-        *NTSC (1987)*, *Pal/Secam*, *ProPhoto RGB*,
-        and *Adobe Wide Gamut RGB* primaries, every one of which encompasses a
-        larger (albeit not-always-enveloping) set of *CIE L\\*a\\*b\\** colours
-        than BT.709. Of these, only *Pal/Secam* produces a feasible basis,
-        which is relatively unsurprising since it is very similar to *BT.709*,
-        whereas the others are significantly larger.
+    -   In addition to the *BT.709* primaries used by the *sRGB*
+        colourspace, :cite:`Mallett2019` tested *BT.2020*, *P3 D65*,
+        *Adobe RGB 1998*, *NTSC (1987)*, *Pal/Secam*, *ProPhoto RGB*, and
+        *Adobe Wide Gamut RGB* primaries, every one of which encompasses a
+        larger (albeit not always enveloping) set of *CIE L\\*a\\*b\\**
+        colours than BT.709. Of these, only *Pal/Secam* produces a
+        feasible basis, which is relatively unsurprising since it is very
+        similar to *BT.709*, whereas the others are significantly larger.
 
     Examples
     --------

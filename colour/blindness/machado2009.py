@@ -2,8 +2,8 @@
 Simulation of CVD - Machado, Oliveira and Fernandes (2009)
 ==========================================================
 
-Define the *Machado et al. (2009)* objects for simulation of colour vision
-deficiency:
+Define the *Machado et al. (2009)* physiologically-based model for
+simulation of colour vision deficiency.
 
 -   :func:`colour.msds_cmfs_anomalous_trichromacy_Machado2009`
 -   :func:`colour.matrix_anomalous_trichromacy_Machado2009`
@@ -96,7 +96,8 @@ def matrix_RGB_to_WSYBRG(
     Returns
     -------
     :class:`numpy.ndarray`
-        Matrix transforming from *RGB* colourspace to opponent-colour space.
+        Matrix transforming from *RGB* colourspace to opponent-colour
+        space.
 
     Examples
     --------
@@ -153,16 +154,17 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     cmfs: LMS_ConeFundamentals, d_LMS: ArrayLike
 ) -> LMS_ConeFundamentals:
     """
-    Shift specified *LMS* cone fundamentals colour matching functions with specified
-    :math:`\\Delta_{LMS}` shift amount in nanometers to simulate anomalous
-    trichromacy using *Machado et al. (2009)* method.
+    Shift the specified *LMS* cone fundamentals colour matching functions
+    with the specified :math:`\\Delta_{LMS}` shift amount in nanometers to
+    simulate anomalous trichromacy using *Machado et al. (2009)* method.
 
     Parameters
     ----------
     cmfs
         *LMS* cone fundamentals colour matching functions.
     d_LMS
-        :math:`\\Delta_{LMS}` shift amount in nanometers.
+        :math:`\\Delta_{LMS}` wavelength shift amount in nanometers for each
+        cone type.
 
     Notes
     -----
@@ -256,8 +258,8 @@ def matrix_anomalous_trichromacy_Machado2009(
 ) -> NDArrayFloat:
     """
     Compute the *Machado et al. (2009)* colour vision deficiency matrix for
-    specified *LMS* cone fundamentals colour matching functions and display
-    primaries tri-spectral distributions with specified :math:`\\Delta_{LMS}` shift
+    anomalous trichromacy simulation.
+    primaries tri-spectral distributions with the specified :math:`\\Delta_{LMS}` shift
     amount in nanometers to simulate anomalous trichromacy.
 
     Parameters
@@ -267,7 +269,13 @@ def matrix_anomalous_trichromacy_Machado2009(
     primaries
         *RGB* display primaries tri-spectral distributions.
     d_LMS
-        :math:`\\Delta_{LMS}` shift amount in nanometers.
+        :math:`\\Delta_{LMS}` wavelength shift amount in nanometers for each
+        cone type.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Anomalous trichromacy transformation matrix.
 
     Notes
     -----
@@ -275,11 +283,6 @@ def matrix_anomalous_trichromacy_Machado2009(
         expected to be 1 nanometer, incompatible input will be interpolated
         at 1 nanometer interval.
     -   Input :math:`\\Delta_{LMS}` shift amount is in domain [0, 20].
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Anomalous trichromacy matrix.
 
     References
     ----------
@@ -320,22 +323,23 @@ def matrix_cvd_Machado2009(
     severity: float,
 ) -> NDArrayFloat:
     """
-    Compute *Machado et al. (2009)* colour vision deficiency matrix for specified
-    deficiency and severity using the pre-computed matrices dataset.
+    Compute the *Machado et al. (2009)* colour vision deficiency matrix for
+    the specified deficiency and severity using pre-computed matrices.
 
     Parameters
     ----------
     deficiency
-        Colour blindness / vision deficiency types :
-        - *Protanomaly* : defective long-wavelength cones (L-cones). The
-        complete absence of L-cones is known as *Protanopia* or
-        *red-dichromacy*.
-        - *Deuteranomaly* : defective medium-wavelength cones (M-cones) with
-        peak of sensitivity moved towards the red sensitive cones. The complete
-        absence of M-cones is known as *Deuteranopia*.
-        - *Tritanomaly* : defective short-wavelength cones (S-cones), an
-        alleviated form of blue-yellow colour blindness. The complete absence of
-        S-cones is known as *Tritanopia*.
+        Colour vision deficiency type:
+
+        - *Protanomaly*: Defective long-wavelength cones (L-cones) with
+          reduced sensitivity. Complete absence of L-cones is
+          *Protanopia* or *red-dichromacy*.
+        - *Deuteranomaly*: Defective medium-wavelength cones (M-cones)
+          with peak sensitivity shifted towards red-sensitive cones.
+          Complete absence of M-cones is *Deuteranopia*.
+        - *Tritanomaly*: Defective short-wavelength cones (S-cones),
+          representing an alleviated form of blue-yellow colour
+          blindness. Complete absence of S-cones is *Tritanopia*.
     severity
         Severity of the colour vision deficiency in domain [0, 1].
 

@@ -2,7 +2,7 @@
 Academy Color Encoding System - Log Encodings
 =============================================
 
-Define the *Academy Color Encoding System* (ACES) log encodings:
+Define the *Academy Color Encoding System* (ACES) log encodings.
 
 -   :func:`colour.models.log_encoding_ACESproxy`
 -   :func:`colour.models.log_decoding_ACESproxy`
@@ -56,7 +56,14 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat, NDArrayInt
 
-from colour.utilities import Structure, as_float, as_int, from_range_1, to_domain_1
+from colour.utilities import (
+    Structure,
+    as_float,
+    as_int,
+    from_range_1,
+    optional,
+    to_domain_1,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -115,19 +122,18 @@ def log_encoding_ACESproxy(
     lin_AP1: ArrayLike,
     bit_depth: Literal[10, 12] = 10,
     out_int: bool = False,
-    constants: dict = CONSTANTS_ACES_PROXY,
+    constants: dict | None = None,
 ) -> NDArrayFloat | NDArrayInt:
     """
-    Define the *ACESproxy* colourspace log encoding curve / opto-electronic
-    transfer function.
+    Apply the *ACESproxy* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     lin_AP1
-        *lin_AP1* value.
+        Linear *AP1* colourspace value.
     bit_depth
         *ACESproxy* bit-depth.
-    out_in
+    out_int
         Whether to return value as int code value or float equivalent of a
         code value at a specified bit-depth.
     constants
@@ -136,7 +142,7 @@ def log_encoding_ACESproxy(
     Returns
     -------
     :class:`numpy.ndarray`
-        *ACESproxy* non-linear value.
+        *ACESproxy* non-linear encoded value.
 
     Notes
     -----
@@ -171,6 +177,7 @@ def log_encoding_ACESproxy(
     """
 
     lin_AP1 = to_domain_1(lin_AP1)
+    constants = optional(constants, CONSTANTS_ACES_PROXY)
 
     CV_min = constants[bit_depth].CV_min
     CV_max = constants[bit_depth].CV_max
@@ -204,25 +211,24 @@ def log_decoding_ACESproxy(
     constants: dict | None = None,
 ) -> NDArrayFloat:
     """
-    Define the *ACESproxy* colourspace log decoding curve / electro-optical
-    transfer function.
+    Apply the *ACESproxy* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     ACESproxy
-        *ACESproxy* non-linear value.
+        *ACESproxy* non-linear encoded value.
     bit_depth
         *ACESproxy* bit-depth.
     in_int
-        Whether to treat the input value as int code value or float
-        equivalent of a code value at a specified bit-depth.
+        Whether to treat the input value as integer code value or floating
+        point equivalent of a code value at specified bit-depth.
     constants
         *ACESproxy* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *lin_AP1* value.
+        Linear *AP1* colourspace value.
 
     Notes
     -----
@@ -256,10 +262,8 @@ def log_decoding_ACESproxy(
     0.1...
     """
 
-    if constants is None:
-        constants = CONSTANTS_ACES_PROXY
-
     ACESproxy = to_domain_1(ACESproxy)
+    constants = optional(constants, CONSTANTS_ACES_PROXY)
 
     mid_CV_offset = constants[bit_depth].mid_CV_offset
     mid_log_offset = constants[bit_depth].mid_log_offset
@@ -275,18 +279,17 @@ def log_decoding_ACESproxy(
 
 def log_encoding_ACEScc(lin_AP1: ArrayLike) -> NDArrayFloat:
     """
-    Define the *ACEScc* colourspace log encoding / opto-electronic transfer
-    function.
+    Apply the *ACEScc* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     lin_AP1
-        *lin_AP1* value.
+        Linear *AP1* colourspace value.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *ACEScc* non-linear value.
+        *ACEScc* non-linear encoded value.
 
     Notes
     -----
@@ -333,18 +336,17 @@ def log_encoding_ACEScc(lin_AP1: ArrayLike) -> NDArrayFloat:
 
 def log_decoding_ACEScc(ACEScc: ArrayLike) -> NDArrayFloat:
     """
-    Define the *ACEScc* colourspace log decoding / electro-optical transfer
-    function.
+    Apply the *ACEScc* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     ACEScc
-        *ACEScc* non-linear value.
+        *ACEScc* non-linear encoded value.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *lin_AP1* value.
+        Linear *AP1* colourspace value.
 
     Notes
     -----
@@ -390,23 +392,22 @@ def log_decoding_ACEScc(ACEScc: ArrayLike) -> NDArrayFloat:
 
 
 def log_encoding_ACEScct(
-    lin_AP1: ArrayLike, constants: Structure = CONSTANTS_ACES_CCT
+    lin_AP1: ArrayLike, constants: Structure | None = None
 ) -> NDArrayFloat:
     """
-    Define the *ACEScct* colourspace log encoding / opto-electronic transfer
-    function.
+    Apply the *ACEScct* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     lin_AP1
-        *lin_AP1* value.
+        Linear *AP1* colourspace value.
     constants
         *ACEScct* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *ACEScct* non-linear value.
+        *ACEScct* non-linear encoded value.
 
     Notes
     -----
@@ -436,6 +437,7 @@ def log_encoding_ACEScct(
     """
 
     lin_AP1 = to_domain_1(lin_AP1)
+    constants = optional(constants, CONSTANTS_ACES_CCT)
 
     ACEScct = np.where(
         lin_AP1 <= constants.X_BRK,
@@ -447,30 +449,22 @@ def log_encoding_ACEScct(
 
 
 def log_decoding_ACEScct(
-    ACEScct: ArrayLike, constants: Structure = CONSTANTS_ACES_CCT
+    ACEScct: ArrayLike, constants: Structure | None = None
 ) -> NDArrayFloat:
     """
-    Define the *ACEScct* colourspace log decoding / electro-optical transfer
-    function.
+    Apply the *ACEScct* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     ACEScct
-        *ACEScct* non-linear value.
+        *ACEScct* non-linear encoded value.
     constants
         *ACEScct* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *lin_AP1* value.
-
-    References
-    ----------
-    :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
-    :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
-    :cite:`TheAcademyofMotionPictureArtsandSciences2016c`,
-    :cite:`TheAcademyofMotionPictureArtsandSciencese`
+        Linear *AP1* colourspace value.
 
     Notes
     -----
@@ -486,6 +480,13 @@ def log_decoding_ACEScct(
     | ``lin_AP1`` | [0, 1]                | [0, 1]        |
     +-------------+-----------------------+---------------+
 
+    References
+    ----------
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2016c`,
+    :cite:`TheAcademyofMotionPictureArtsandSciencese`
+
     Examples
     --------
     >>> log_decoding_ACEScct(0.413588402492442)  # doctest: +ELLIPSIS
@@ -493,6 +494,7 @@ def log_decoding_ACEScct(
     """
 
     ACEScct = to_domain_1(ACEScct)
+    constants = optional(constants, CONSTANTS_ACES_CCT)
 
     lin_AP1 = np.where(
         ACEScct > constants.Y_BRK,

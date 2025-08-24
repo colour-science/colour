@@ -2,7 +2,7 @@
 Spectral Distributions of the Light Sources
 ===========================================
 
-Define the spectral distributions of the light sources.
+Define the spectral distributions of various light sources.
 
 The light sources data is in the form of a *dict* of
 :class:`colour.SpectralDistribution` classes as follows::
@@ -14,15 +14,14 @@ The following light sources are available:
 -   *RIT* *PointerData.xls* spreadsheet light sources: Natural,
     Philips TL-84, T8 Luxline Plus White, SA, SC, T8 Polylux 3000,
     T8 Polylux 4000, Thorn Kolor-rite
--   *NIST* *NIST CQS simulation 7.4.xls* spreadsheet traditional light sources:
-    Cool White FL, Daylight FL, HPS, Incandescent, LPS, Mercury,
+-   *NIST* *NIST CQS simulation 7.4.xls* spreadsheet traditional light
+    sources: Cool White FL, Daylight FL, HPS, Incandescent, LPS, Mercury,
     Metal Halide, Neodimium Incandescent, Super HPS, Triphosphor FL
 -   *NIST* *NIST CQS simulation 7.4.xls* spreadsheet LED light sources:
     3-LED-1 (457/540/605), 3-LED-2 (473/545/616), 3-LED-2 Yellow,
     3-LED-3 (465/546/614), 3-LED-4 (455/547/623), 4-LED No Yellow,
     4-LED Yellow, 4-LED-1 (461/526/576/624), 4-LED-2 (447/512/573/627),
-    Luxeon WW 2880, PHOS-1, PHOS-2, PHOS-3, PHOS-4,
-    Phosphor LED YAG
+    Luxeon WW 2880, PHOS-1, PHOS-2, PHOS-3, PHOS-4, Phosphor LED YAG
 -   *NIST* *NIST CQS simulation 7.4.xls* spreadsheet Philips light sources:
     60 A/W (Soft White), C100S54 (HPS), C100S54C (HPS),
     F32T8/TL830 (Triphosphor), F32T8/TL835 (Triphosphor),
@@ -33,8 +32,7 @@ The following light sources are available:
     F40/CWX (Broadband FL), F40/DX (Broadband FL), F40/DXTP (Delux FL),
     F40/N (Natural FL), H38HT-100 (Mercury), H38JA-100/DX (Mercury DX),
     MHC100/U/MP/3K, MHC100/U/MP/4K, SDW-T 100W/LV (Super HPS)
--   Projectors and Xenon Arc Lamps:
-    Kinoton 75P
+-   Projectors and Xenon Arc Lamps: Kinoton 75P
 
 References
 ----------
@@ -762,9 +760,9 @@ spreadsheet.
 
 Warnings
 --------
-The spectral distributions have been extracted from
-*PointerData.xls* spreadsheet that doesn't mention the data source thus the
-light source names cannot be accurately verified.
+The spectral distributions have been extracted from the
+*PointerData.xls* spreadsheet that does not specify the data source,
+thus the light source names cannot be accurately verified.
 
 References
 ----------
@@ -2886,8 +2884,12 @@ SDS_LIGHT_SOURCES_NIST_LED: LazyCanonicalMapping = LazyCanonicalMapping(
     for key, value in DATA_LIGHT_SOURCES_NIST_LED.items()
 )
 SDS_LIGHT_SOURCES_NIST_LED.__doc__ = """
-Spectral distributions of the LED light sources from the *NIST*
-*NIST CQS simulation 7.4.xls* spreadsheet.
+Spectral distributions of LED light sources from the *NIST* *CQS
+simulation 7.4* spreadsheet.
+
+References
+----------
+:cite:`Ohno2008a`
 """
 
 DATA_LIGHT_SOURCES_NIST_PHILIPS: dict = {
@@ -4732,8 +4734,12 @@ SDS_LIGHT_SOURCES_NIST_PHILIPS: LazyCanonicalMapping = LazyCanonicalMapping(
     for key, value in DATA_LIGHT_SOURCES_NIST_PHILIPS.items()
 )
 SDS_LIGHT_SOURCES_NIST_PHILIPS.__doc__ = """
-Spectral distributions of the Philips light sources from the *NIST*
-*NIST CQS simulation 7.4.xls* spreadsheet.
+*Philips* light sources spectral distributions from the *NIST* *CQS
+simulation 7.4.xls* spreadsheet.
+
+References
+----------
+:cite:`Ohno2008a`
 """
 
 DATA_LIGHT_SOURCES_COMMON: dict = {
@@ -4966,9 +4972,9 @@ Spectral distributions of the light sources.
 
 Notes
 -----
--   *CIE 15:2004* recommends using linear interpolation for
-    *CIE Standard Illuminant D Series*, for consistency all the illuminants are
-    using a linear interpolator.
+-   *CIE 15:2004* recommends using linear interpolation for the
+    *CIE Standard Illuminant D Series*. For consistency, all the light sources
+    use a linear interpolator.
 
 References
 ----------

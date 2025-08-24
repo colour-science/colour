@@ -2,7 +2,7 @@
 Gamut Section Plotting
 ======================
 
-Define the gamut section plotting objects:
+Define the gamut section plotting objects.
 
 -   :func:`colour.plotting.section.plot_hull_section_colours`
 -   :func:`colour.plotting.section.plot_hull_section_contour`
@@ -97,7 +97,12 @@ __all__ = [
 MAPPING_AXIS_TO_PLANE: CanonicalMapping = CanonicalMapping(
     {"+x": (1, 2), "+y": (0, 2), "+z": (0, 1)}
 )
-MAPPING_AXIS_TO_PLANE.__doc__ = """Axis to plane mapping."""
+MAPPING_AXIS_TO_PLANE.__doc__ = """
+Mapping from axes to their orthogonal planes.
+
+Maps each positive axis ('+x', '+y', '+z') to the indices of the two
+dimensions that form the perpendicular plane in 3D space.
+"""
 
 
 @required("trimesh")
@@ -115,16 +120,16 @@ def plot_hull_section_colours(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the section colours of specified *trimesh* hull along specified axis and
-    origin.
+    Plot the section colours of the specified *trimesh* hull along the
+    specified axis and origin.
 
     Parameters
     ----------
     hull
         *Trimesh* hull.
     model
-        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
-        the list of supported colourspace models.
+        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute
+        for the list of supported colourspace models.
     axis
         Axis the hull section will be normal to.
     origin
@@ -133,8 +138,7 @@ def plot_hull_section_colours(
         Whether to normalise ``axis`` to the extent of the hull along it.
     section_colours
         Colours of the hull section, if ``section_colours`` is set to *RGB*,
-        the colours will be computed according to the corresponding
-        coordinates.
+        the colours will be computed using the corresponding coordinates.
     section_opacity
         Opacity of the hull section colours.
     convert_kwargs
@@ -285,16 +289,16 @@ def plot_hull_section_contour(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the section contour of specified *trimesh* hull along specified axis and
-    origin.
+    Plot the section contour of the specified *trimesh* hull along the
+    specified axis and origin.
 
     Parameters
     ----------
     hull
         *Trimesh* hull.
     model
-        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
-        the list of supported colourspace models.
+        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute
+        for the list of supported colourspace models.
     axis
         Axis the hull section will be normal to.
     origin
@@ -302,8 +306,8 @@ def plot_hull_section_contour(
     normalise
         Whether to normalise ``axis`` to the extent of the hull along it.
     contour_colours
-        Colours of the hull section contour, if ``contour_colours`` is set to
-        *RGB*, the colours will be computed according to the corresponding
+        Colours of the hull section contour, if ``contour_colours`` is set
+        to *RGB*, the colours will be computed using the corresponding
         coordinates.
     contour_opacity
         Opacity of the hull section contour.
@@ -419,23 +423,25 @@ def plot_visible_spectrum_section(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the visible spectrum volume, i.e., *Rösch-MacAdam* colour solid,
-    section colours along specified axis and origin.
+    Plot the visible spectrum volume section colours along the specified axis
+    and origin.
+
+    The visible spectrum volume represents the *Rösch-MacAdam* colour solid.
 
     Parameters
     ----------
     cmfs
         Standard observer colour matching functions, default to the
-        *CIE 1931 2 Degree Standard Observer*.  ``cmfs`` can be of any type or
-        form supported by the :func:`colour.plotting.common.filter_cmfs`
+        *CIE 1931 2 Degree Standard Observer*.  ``cmfs`` can be of any type
+        or form supported by the :func:`colour.plotting.common.filter_cmfs`
         definition.
     illuminant
         Illuminant spectral distribution, default to *CIE Illuminant D65*.
         ``illuminant`` can be of any type or form supported by the
         :func:`colour.plotting.common.filter_illuminants` definition.
     model
-        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
-        the list of supported colourspace models.
+        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute
+        for the list of supported colourspace models.
     axis
         Axis the hull section will be normal to.
     origin
@@ -566,26 +572,29 @@ def plot_RGB_colourspace_section(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot specified *RGB* colourspace section colours along specified axis and origin.
+    Plot the specified *RGB* colourspace section colours along the
+    specified axis and origin.
 
     Parameters
     ----------
     colourspace
-        *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
-        type or form supported by the
-        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
+        *RGB* colourspace of the *RGB* array. ``colourspace`` can be of
+        any type or form supported by the
+        :func:`colour.plotting.common.filter_RGB_colourspaces`
+        definition.
     model
-        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
-        the list of supported colourspace models.
+        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS`
+        attribute for the list of supported colourspace models.
     axis
         Axis the hull section will be normal to.
     origin
         Coordinate along ``axis`` at which to plot the hull section.
     normalise
-        Whether to normalise ``axis`` to the extent of the hull along it.
+        Whether to normalise ``axis`` to the extent of the hull along
+        it.
     size:
-        Size of the underlying *RGB* colourspace cube; used for plotting HDR
-        related sections.
+        Size of the underlying *RGB* colourspace cube; used for plotting
+        HDR related sections.
     show_section_colours
         Whether to show the hull section colours.
     show_section_contour

@@ -3,7 +3,7 @@ Ragoo and Farup (2021) Optimised IPT Colourspace
 ================================================
 
 Define the *Ragoo and Farup (2021)* *Optimised IPT* colourspace
-transformations:
+transformations.
 
 -   :func:`colour.XYZ_to_IPT_Ragoo2021`
 -   :func:`colour.IPT_Ragoo2021_to_XYZ`
@@ -79,8 +79,8 @@ non-linear cone responses matrix.
 
 def XYZ_to_IPT_Ragoo2021(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to
-    *Ragoo and Farup (2021)* *Optimised IPT* colourspace.
+    Convert from *CIE XYZ* tristimulus values to *Ragoo and Farup (2021)*
+    *Optimised IPT* colourspace.
 
     Parameters
     ----------

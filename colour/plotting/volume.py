@@ -2,7 +2,7 @@
 Colour Models Volume Plotting
 =============================
 
-Define the colour models volume and gamut plotting objects:
+Define the colour models volume and gamut plotting objects.
 
 -   :func:`colour.plotting.plot_RGB_colourspaces_gamuts`
 -   :func:`colour.plotting.plot_RGB_scatter`
@@ -81,8 +81,8 @@ def nadir_grid(
     **kwargs: Any,
 ) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:
     """
-    Return a grid on *CIE xy* plane made of quad geometric elements and its
-    associated faces and edges colours. Ticks and labels are added to the
+    Generate a grid on the *CIE xy* plane made of quad geometric elements
+    with associated face and edge colours. Add ticks and labels to the
     specified axes according to the extended grid settings.
 
     Parameters
@@ -131,7 +131,7 @@ def nadir_grid(
     Returns
     -------
     :class:`tuple`
-        Grid quads, faces colours, edges colours.
+        Grid quads, face colours, edge colours.
 
     Examples
     --------
@@ -336,24 +336,24 @@ def RGB_identity_cube(
     ) = None,
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
-    Return an *RGB* identity cube made of quad geometric elements and its
-    associated *RGB* colours.
+    Generate an *RGB* identity cube composed of quad geometric elements with
+    its associated *RGB* colours.
 
     Parameters
     ----------
     width_segments
-        Cube segments, quad counts along the width.
+        Number of quad segments along the cube width.
     height_segments
-        Cube segments, quad counts along the height.
+        Number of quad segments along the cube height.
     depth_segments
-        Cube segments, quad counts along the depth.
+        Number of quad segments along the cube depth.
     planes
         Grid primitives to include in the cube construction.
 
     Returns
     -------
     :class:`tuple`
-        Cube quads, *RGB* colours.
+        Cube quads and *RGB* colours.
 
     Examples
     --------
@@ -433,7 +433,8 @@ def plot_RGB_colourspaces_gamuts(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes3D]:
     """
-    Plot specified *RGB* colourspaces gamuts in specified reference colourspace.
+    Plot the gamuts of the specified *RGB* colourspaces in the specified
+    reference colourspace.
 
     Parameters
     ----------
@@ -442,12 +443,13 @@ def plot_RGB_colourspaces_gamuts(
         can be of any type or form supported by the
         :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     model
-        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
-        the list of supported colourspace models.
+        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute
+        for the list of supported colourspace models.
     segments
-        Edge segments count for each *RGB* colourspace cubes.
+        Edge segments count for each *RGB* colourspace cube.
     show_grid
-        Whether to show a grid at the bottom of the *RGB* colourspace cubes.
+        Whether to show a grid at the bottom of the *RGB* colourspace
+        cubes.
     grid_segments
         Edge segments count for the grid.
     show_spectral_locus
@@ -457,23 +459,27 @@ def plot_RGB_colourspaces_gamuts(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     chromatically_adapt
         Whether to chromatically adapt the *RGB* colourspaces specified in
-        ``colourspaces`` to the whitepoint of the default plotting colourspace.
+        ``colourspaces`` to the whitepoint of the default plotting
+        colourspace.
     convert_kwargs
         Keyword arguments for the :func:`colour.convert` definition.
 
     Other Parameters
     ----------------
     edge_colours
-        Edge colours array such as `edge_colours = (None, (0.5, 0.5, 1.0))`.
+        Edge colours array such as
+        `edge_colours = (None, (0.5, 0.5, 1.0))`.
     edge_alpha
         Edge opacity value such as `edge_alpha = (0.0, 1.0)`.
     face_alpha
         Face opacity value such as `face_alpha = (0.5, 1.0)`.
     face_colours
-        Face colours array such as `face_colours = (None, (0.5, 0.5, 1.0))`.
+        Face colours array such as
+        `face_colours = (None, (0.5, 0.5, 1.0))`.
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.volume.nadir_grid`},
@@ -677,7 +683,7 @@ def plot_RGB_scatter(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes3D]:
     """
-    Plot specified *RGB* colourspace array in a scatter plot.
+    Plot the specified *RGB* colourspace array in a scatter plot.
 
     Parameters
     ----------
@@ -688,16 +694,17 @@ def plot_RGB_scatter(
         type or form supported by the
         :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     model
-        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
-        the list of supported colourspace models.
+        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute
+        for the list of supported colourspace models.
     colourspaces
         *RGB* colourspaces to plot the gamuts of. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     segments
-        Edge segments count for each *RGB* colourspace cubes.
+        Edge segments count for each *RGB* colourspace cube.
     show_grid
-        Whether to show a grid at the bottom of the *RGB* colourspace cubes.
+        Whether to show a grid at the bottom of the *RGB* colourspace
+        cubes.
     grid_segments
         Edge segments count for the grid.
     show_spectral_locus
@@ -709,10 +716,12 @@ def plot_RGB_scatter(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     chromatically_adapt
         Whether to chromatically adapt the *RGB* colourspaces specified in
-        ``colourspaces`` to the whitepoint of the default plotting colourspace.
+        ``colourspaces`` to the whitepoint of the default plotting
+        colourspace.
     convert_kwargs
         Keyword arguments for the :func:`colour.convert` definition.
 

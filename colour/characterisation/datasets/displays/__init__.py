@@ -19,7 +19,7 @@ from .lcd import MSDS_DISPLAY_PRIMARIES_LCD
 MSDS_DISPLAY_PRIMARIES = LazyCanonicalMapping(MSDS_DISPLAY_PRIMARIES_CRT)
 MSDS_DISPLAY_PRIMARIES.update(MSDS_DISPLAY_PRIMARIES_LCD)
 MSDS_DISPLAY_PRIMARIES.__doc__ = """
-Primaries multi-spectral distributions of displays.
+Multi-spectral distributions of display primaries.
 
 References
 ----------

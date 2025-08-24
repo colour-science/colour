@@ -388,7 +388,8 @@ SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES: LazyCanonicalMapping = (
     )
 )
 SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES.__doc__ = """
-*CIE Illuminant D Series* :math:`S_n(\\lambda)` spectral distributions.
+*CIE Illuminant D Series* :math:`S_n(\\lambda)` basis function spectral
+distributions.
 
 References
 ----------

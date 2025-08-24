@@ -2,7 +2,7 @@
 Common Colour Models Utilities
 ==============================
 
-Define various colour models common utilities:
+Define utilities for common colour models and transformations.
 
 -   :attr:`colour.COLOURSPACE_MODELS`
 -   :func:`colour.models.Jab_to_JCh`
@@ -198,12 +198,11 @@ def Jab_to_JCh(Jab: ArrayLike) -> NDArrayFloat:
     """
     Convert from *Jab* colour representation to *JCh* colour representation.
 
-    This definition is used to perform conversion from *CIE L\\*a\\*b\\**
-    colourspace to *CIE L\\*C\\*Hab* colourspace and for other similar
-    conversions. It implements a generic transformation from *lightness*
-    :math:`J`, :math:`a` and :math:`b` opponent colour dimensions to the
-    correlates of *lightness* :math:`J`, chroma :math:`C` and hue angle
-    :math:`h`.
+    This definition performs conversion from *CIE L\\*a\\*b\\** colourspace to
+    *CIE L\\*C\\*Hab* colourspace and other similar conversions. It implements
+    a generic transformation from *lightness* :math:`J`, :math:`a` and
+    :math:`b` opponent colour dimensions to the correlates of *lightness*
+    :math:`J`, chroma :math:`C` and hue angle :math:`h`.
 
     Parameters
     ----------
@@ -259,11 +258,11 @@ def JCh_to_Jab(JCh: ArrayLike) -> NDArrayFloat:
     """
     Convert from *JCh* colour representation to *Jab* colour representation.
 
-    This definition is used to perform conversion from *CIE L\\*C\\*Hab*
-    colourspace to *CIE L\\*a\\*b\\** colourspace and for other similar
-    conversions. It implements a generic transformation from the correlates of
-    *lightness* :math:`J`, chroma :math:`C` and hue angle :math:`h` to
-    *lightness* :math:`J`, :math:`a` and :math:`b` opponent colour dimensions.
+    This definition performs conversion from *CIE L\\*C\\*Hab* colourspace to
+    *CIE L\\*a\\*b\\**  colourspace and other similar conversions. It implements
+    a generic transformation from the correlates of *lightness* :math:`J`,
+    chroma :math:`C` and hue angle :math:`h` to *lightness* :math:`J`,
+    :math:`a` and :math:`b` opponent colour dimensions
 
     Parameters
     ----------
@@ -322,16 +321,15 @@ def XYZ_to_Iab(
     matrix_LMS_p_to_Iab: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to *IPT*-like :math:`Iab` colour
-    representation.
+    Convert from *CIE XYZ* tristimulus values to *IPT*-like :math:`Iab`
+    colour representation.
 
-    This definition is used to perform conversion from *CIE XYZ* tristimulus
-    values to *IPT* colourspace and for other similar conversions. It
-    implements a generic transformation from *CIE XYZ* tristimulus values to
-    *lightness* :math:`I`, :math:`a` and :math:`b` representing
-    red-green dimension, i.e., the dimension lost by protanopes and
-    the yellow-blue dimension, i.e., the dimension lost by tritanopes,
-    respectively.
+    Perform conversion from *CIE XYZ* tristimulus values to *IPT*
+    colourspace and other similar conversions. It implements a generic
+    transformation from *CIE XYZ* tristimulus values to *lightness*
+    :math:`I`, :math:`a` representing the red-green dimension (the
+    dimension lost by protanopes), and :math:`b` representing the
+    yellow-blue dimension (the dimension lost by tritanopes).
 
     Parameters
     ----------
@@ -341,8 +339,8 @@ def XYZ_to_Iab(
         Callable applying the forward non-linearity to the :math:`LMS`
         colourspace array.
     matrix_XYZ_to_LMS
-        Matrix converting from *CIE XYZ* tristimulus values to :math:`LMS`
-        colourspace.
+        Matrix converting from *CIE XYZ* tristimulus values to
+        :math:`LMS` colourspace.
     matrix_LMS_p_to_Iab
         Matrix converting from non-linear :math:`LMS_p` colourspace to
         *IPT*-like :math:`Iab` colour representation.
@@ -412,12 +410,12 @@ def Iab_to_XYZ(
     Convert from *IPT*-like :math:`Iab` colour representation to *CIE XYZ*
     tristimulus values.
 
-    This definition is used to perform conversion from *IPT* colourspace to
-    *CIE XYZ* tristimulus values and for other similar conversions. It
-    implements a generic transformation from *lightness* :math:`I`, :math:`a`
-    and :math:`b` representing red-green dimension, i.e., the dimension lost by
-    protanopes and the yellow-blue dimension, i.e., the dimension lost by
-    tritanopes, respectively to *CIE XYZ* tristimulus values.
+    Perform conversion from *IPT* colourspace to *CIE XYZ* tristimulus
+    values and other similar conversions. It implements a generic
+    transformation from *lightness* :math:`I`, :math:`a` representing the
+    red-green dimension (the dimension lost by protanopes), and :math:`b`
+    representing the yellow-blue dimension (the dimension lost by tritanopes)
+    to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -427,11 +425,11 @@ def Iab_to_XYZ(
         Callable applying the reverse non-linearity to the :math:`LMS_p`
         colourspace array.
     matrix_Iab_to_LMS_p
-        Matrix converting from *IPT*-like :math:`Iab` colour representation to
-        non-linear :math:`LMS_p` colourspace.
+        Matrix converting from *IPT*-like :math:`Iab` colour
+        representation to non-linear :math:`LMS_p` colourspace.
     matrix_LMS_to_XYZ
-        Matrix converting from :math:`LMS` colourspace to *CIE XYZ* tristimulus
-        values.
+        Matrix converting from :math:`LMS` colourspace to *CIE XYZ*
+        tristimulus values.
 
     Returns
     -------

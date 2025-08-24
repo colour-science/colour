@@ -2,7 +2,8 @@
 ZCAM Colour Appearance Model
 ============================
 
-Define the *ZCAM* colour appearance model objects:
+Define the *ZCAM* colour appearance model for predicting perceptual colour
+attributes under varying viewing conditions.
 
 -   :class:`colour.appearance.InductionFactors_ZCAM`
 -   :attr:`colour.VIEWING_CONDITIONS_ZCAM`
@@ -81,7 +82,7 @@ __all__ = [
 @dataclass(frozen=True)
 class InductionFactors_ZCAM(MixinDataclassIterable):
     """
-    *ZCAM* colour appearance model induction factors.
+    Define the *ZCAM* colour appearance model induction factors.
 
     Parameters
     ----------
@@ -96,8 +97,8 @@ class InductionFactors_ZCAM(MixinDataclassIterable):
 
     Notes
     -----
-    -   The *ZCAM* colour appearance model induction factors are inherited from
-        the *CIECAM02* colour appearance model.
+    -   The *ZCAM* colour appearance model induction factors are inherited
+        from the *CIECAM02* colour appearance model.
 
     References
     ----------
@@ -122,7 +123,20 @@ VIEWING_CONDITIONS_ZCAM: CanonicalMapping = CanonicalMapping(
     }
 )
 VIEWING_CONDITIONS_ZCAM.__doc__ = """
-Reference *ZCAM* colour appearance model viewing conditions.
+Define the reference *ZCAM* colour appearance model
+viewing conditions.
+
+Provide three standard viewing conditions (*Average*, *Dim*, and *Dark*)
+with corresponding induction factors. Each condition specifies a unique
+surround impact factor (:math:`F_s`) alongside inherited *CIECAM02*
+parameters for maximum degree of adaptation (:math:`F`), exponential
+non-linearity (:math:`c`), and chromatic induction factor (:math:`N_c`).
+
+Notes
+-----
+-   The *ZCAM* viewing conditions inherit parameters from *CIECAM02* while
+    introducing model-specific surround impact factors: 0.69 (*Average*),
+    0.59 (*Dim*), and 0.525 (*Dark*).
 
 References
 ----------
@@ -141,8 +155,8 @@ class CAM_ReferenceSpecification_ZCAM(MixinDataclassArithmetic):
     """
     Define the *ZCAM* colour appearance model reference specification.
 
-    This specification has field names consistent with :cite:`Safdar2021`
-    reference.
+    This specification contains field names consistent with the *Fairchild
+    (2013)* reference.
 
     Parameters
     ----------
@@ -191,6 +205,12 @@ class CAM_ReferenceSpecification_ZCAM(MixinDataclassArithmetic):
 class CAM_Specification_ZCAM(MixinDataclassArithmetic):
     """
     Define the *ZCAM* colour appearance model specification.
+
+    This specification provides a standardized interface for the *ZCAM* model
+    with field names consistent across all colour appearance models in
+    :mod:`colour.appearance`. While the field names differ from the original
+    *Fairchild (2013)* reference notation, they map directly to the model's
+    perceptual correlates.
 
     Parameters
     ----------
@@ -318,8 +338,8 @@ def XYZ_to_ZCAM(
     compute_H: bool = True,
 ) -> CAM_Specification_ZCAM:
     """
-    Compute the *ZCAM* colour appearance model correlates from the specified *CIE XYZ*
-    tristimulus values.
+    Compute the *ZCAM* colour appearance model correlates from the specified
+    *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -334,18 +354,18 @@ def XYZ_to_ZCAM(
         reference white and :math:`Y_b` is the background luminance factor).
     Y_b
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 * L_b / L_w` where :math:`L_w` is the luminance of the
-        light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
-        pixels in the entire image, or frequently, a :math:`Y` value of 20,
-        approximate an :math:`L^*` of 50 is used.
+        :math:`Y_b = 100 * L_b / L_w` where :math:`L_w` is the luminance of
+        the light source and :math:`L_b` is the luminance of the background.
+        For viewing images, :math:`Y_b` can be the average :math:`Y` value
+        for the pixels in the entire image, or frequently, a :math:`Y` value
+        of 20, approximating an :math:`L^*` of 50 is used.
     surround
         Surround viewing conditions induction factors.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
     compute_H
-        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H` is
-        rarely used, and expensive to compute.
+        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H`
+        is rarely used, and expensive to compute.
 
     Returns
     -------
@@ -359,22 +379,23 @@ def XYZ_to_ZCAM(
 
     Notes
     -----
-    -   *Safdar, Hardeberg and Luo (2021)* does not specify how the chromatic
-        adaptation to *CIE Standard Illuminant D65* in *Step 0* should be
-        performed. A one-step *Von Kries* chromatic adaptation transform is not
-        symmetrical or transitive when a degree of adaptation is involved.
-        *Safdar, Hardeberg and Luo (2018)* uses *Zhai and Luo (2018)* two-steps
-        chromatic adaptation transform, thus it seems sensible to adopt this
-        transform for the *ZCAM* colour appearance model until more information
-        is available. It is worth noting that a one-step *Von Kries* chromatic
-        adaptation transform with support for degree of adaptation produces
-        values closer to the supplemental document compared to the
-        *Zhai and Luo (2018)* two-steps chromatic adaptation transform but then
-        the *ZCAM* colour appearance model does not round-trip properly.
+    -   *Safdar, Hardeberg and Luo (2021)* does not specify how the
+        chromatic adaptation to *CIE Standard Illuminant D65* in *Step 0*
+        should be performed. A one-step *Von Kries* chromatic adaptation
+        transform is not symmetrical or transitive when a degree of
+        adaptation is involved. *Safdar, Hardeberg and Luo (2018)* uses
+        *Zhai and Luo (2018)* two-steps chromatic adaptation transform, thus
+        it seems sensible to adopt this transform for the *ZCAM* colour
+        appearance model until more information is available. It is worth
+        noting that a one-step *Von Kries* chromatic adaptation transform
+        with support for degree of adaptation produces values closer to the
+        supplemental document compared to the *Zhai and Luo (2018)*
+        two-steps chromatic adaptation transform but then the *ZCAM* colour
+        appearance model does not round-trip properly.
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations.
+        transfer function, thus the domain and range values for the
+        *Reference* and *1* scales are only indicative that the data is not
+        affected by scale transformations.
 
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
@@ -522,15 +543,15 @@ def ZCAM_to_XYZ(
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
-    Convert *ZCAM* specification to *CIE XYZ* tristimulus values.
+    Convert the *ZCAM* specification to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
     specification
-         *ZCAM* colour appearance model specification.
-         Correlate of *lightness* :math:`J`, correlate of *chroma* :math:`C` or
-         correlate of *colourfulness* :math:`M` and *hue* angle :math:`h` in
-         degrees must be specified, e.g., :math:`JCh` or :math:`JMh`.
+        *ZCAM* colour appearance model specification.
+        Correlate of *lightness* :math:`J`, correlate of *chroma* :math:`C` or
+        correlate of *colourfulness* :math:`M` and *hue* angle :math:`h` in
+        degrees must be specified, e.g., :math:`JCh` or :math:`JMh`.
     XYZ_w
         Absolute *CIE XYZ* tristimulus values of the white under reference
         illuminant.
@@ -540,11 +561,11 @@ def ZCAM_to_XYZ(
         reference white and :math:`Y_b` is the background luminance factor).
     Y_b
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
-        light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
-        pixels in the entire image, or frequently, a :math:`Y` value of 20,
-        approximate an :math:`L^*` of 50 is used.
+        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of
+        the light source and :math:`L_b` is the luminance of the background.
+        For viewing images, :math:`Y_b` can be the average :math:`Y` value for
+        the pixels in the entire image, or frequently, a :math:`Y` value of
+        20, approximating an :math:`L^*` of 50 is used.
     surround
         Surround viewing conditions induction factors.
     discount_illuminant
@@ -568,28 +589,29 @@ def ZCAM_to_XYZ(
 
     Notes
     -----
-    -   *Safdar, Hardeberg and Luo (2021)* does not specify how the chromatic
-        adaptation to *CIE Standard Illuminant D65* in *Step 0* should be
-        performed. A one-step *Von Kries* chromatic adaptation transform is not
-        symmetrical or transitive when a degree of adptation is involved.
-        *Safdar, Hardeberg and Luo (2018)* uses *Zhai and Luo (2018)* two-steps
-        chromatic adaptation transform, thus it seems sensible to adopt this
-        transform for the *ZCAM* colour appearance model until more information
-        is available. It is worth noting that a one-step *Von Kries* chromatic
-        adaptation transform with support for degree of adaptation produces
-        values closer to the supplemental document compared to the
-        *Zhai and Luo (2018)* two-steps chromatic adaptation transform but then
-        the *ZCAM* colour appearance model does not round-trip properly.
+    -   *Safdar, Hardeberg and Luo (2021)* does not specify how the
+        chromatic adaptation to *CIE Standard Illuminant D65* in *Step 0*
+        should be performed. A one-step *Von Kries* chromatic adaptation
+        transform is not symmetrical or transitive when a degree of
+        adaptation is involved. *Safdar, Hardeberg and Luo (2018)* uses
+        *Zhai and Luo (2018)* two-steps chromatic adaptation transform, thus
+        it seems sensible to adopt this transform for the *ZCAM* colour
+        appearance model until more information is available. It is worth
+        noting that a one-step *Von Kries* chromatic adaptation transform
+        with support for degree of adaptation produces values closer to the
+        supplemental document compared to the *Zhai and Luo (2018)*
+        two-steps chromatic adaptation transform but then the *ZCAM* colour
+        appearance model does not round-trip properly.
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
+        transfer function, thus the domain and range values for the
+        *Reference* and *1* scales are only indicative that the data is not
+        affected by scale transformations.
     -   *Step 4* of the inverse model uses a rounded exponent of 1.3514
-        preventing the model to round-trip properly. specified that this
+        preventing the model to round-trip properly. Given that this
         implementation takes some liberties with respect to the chromatic
         adaptation transform to use, it was deemed appropriate to use an
         exponent value that enables the *ZCAM* colour appearance model to
         round-trip.
-    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations.
 
     +-------------------------------+-----------------------+---------------+
     | **Domain**                    | **Scale - Reference** | **Scale - 1** |
@@ -726,7 +748,8 @@ def ZCAM_to_XYZ(
 
 def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     """
-    Compute the hue quadrature from the specified hue :math:`h` angle in degrees.
+    Compute the hue quadrature from the specified hue :math:`h` angle in
+    degrees.
 
     Parameters
     ----------

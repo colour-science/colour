@@ -2,7 +2,7 @@
 DJI D-Log Log Encoding
 ======================
 
-Define the *DJI D-Log* log encoding:
+Define the *DJI D-Log* log encoding.
 
 -   :func:`colour.models.log_encoding_DJIDLog`
 -   :func:`colour.models.log_decoding_DJIDLog`
@@ -41,17 +41,17 @@ __all__ = [
 
 def log_encoding_DJIDLog(x: ArrayLike) -> NDArrayFloat:
     """
-    Define the *DJI D-Log* log encoding curve.
+    Apply the *DJI D-Log* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     x
-        Linear reflection data :math`x`.
+        Linear reflection data :math:`x`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *DJI D-Log* encoded data :math:`y`.
+        *DJI D-Log* non-linear encoded data :math:`y`.
 
     References
     ----------
@@ -90,17 +90,17 @@ def log_encoding_DJIDLog(x: ArrayLike) -> NDArrayFloat:
 
 def log_decoding_DJIDLog(y: ArrayLike) -> NDArrayFloat:
     """
-    Define the *DJI D-Log* log decoding curve.
+    Apply the *DJI D-Log* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     y
-        *DJI D-Log* encoded data :math:`y`.
+        *DJI D-Log* non-linear encoded data :math:`y`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Linear reflection data :math`x`.
+        Linear reflection data :math:`x`.
 
     References
     ----------

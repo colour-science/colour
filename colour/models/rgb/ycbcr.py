@@ -2,7 +2,7 @@
 Y'CbCr Colour Encoding
 ======================
 
-Define the *Y'CbCr* colour encoding related attributes and objects:
+Define the *Y'CbCr* colour encoding related attributes and objects.
 
 -   :attr:`colour.WEIGHTS_YCBCR`
 -   :func:`colour.matrix_YCbCr`
@@ -119,8 +119,12 @@ References
 
 def round_BT2100(a: ArrayLike) -> NDArrayFloat:
     """
-    Round specified array :math:`a` to the nearest int using the method define
-    as `Round` in *RecommendationITU-R BT.2100*.
+    Round the specified array :math:`a` to the nearest integer using the
+    rounding method defined in *Recommendation ITU-R BT.2100*.
+
+    This function implements the specific rounding behaviour required by
+    *Recommendation ITU-R BT.2100*, where values are rounded to the nearest
+    integer with 0.5 rounding up.
 
     Parameters
     ----------
@@ -147,8 +151,8 @@ def round_BT2100(a: ArrayLike) -> NDArrayFloat:
 
 def ranges_YCbCr(bits: int, is_legal: bool, is_int: bool) -> NDArrayFloat:
     """
-    Return the *Y'CbCr* colour encoding ranges array for specified bit-depth,
-    range legality and representation.
+    Return the *Y'CbCr* colour encoding ranges array for the specified
+    bit-depth, range legality and representation.
 
     Parameters
     ----------
@@ -157,7 +161,7 @@ def ranges_YCbCr(bits: int, is_legal: bool, is_int: bool) -> NDArrayFloat:
     is_legal
         Whether the *Y'CbCr* colour encoding ranges array is legal.
     is_int
-        Whether the *Y'CbCr* colour encoding ranges array represents int
+        Whether the *Y'CbCr* colour encoding ranges array represents integer
         code values.
 
     Returns
@@ -206,11 +210,11 @@ def matrix_YCbCr(
     is_int: bool = False,
 ) -> NDArrayFloat:
     """
-    Compute the *Y'CbCr* to *R'G'B'* matrix for specified weights, bit-depth,
-    range legality and representation.
+    Compute the *Y'CbCr* to *R'G'B'* matrix for the specified weights,
+    bit-depth, range legality and representation.
 
-    The related offset for the *R'G'B'* to *Y'CbCr* matrix can be computed with
-    the :func:`colour.offset_YCbCr` definition.
+    The related offset for the *R'G'B'* to *Y'CbCr* matrix can be computed
+    with the :func:`colour.offset_YCbCr` definition.
 
     Parameters
     ----------
@@ -290,8 +294,8 @@ def offset_YCbCr(
     bits: int = 8, is_legal: bool = False, is_int: bool = False
 ) -> NDArrayFloat:
     """
-    Compute the *R'G'B'* to *Y'CbCr* offsets for specified bit-depth, range
-    legality and representation.
+    Compute the *R'G'B'* to *Y'CbCr* offsets for the specified bit-depth,
+    range legality and representation.
 
     The related *R'G'B'* to *Y'CbCr* matrix can be computed with the
     :func:`colour.matrix_YCbCr` definition.
@@ -309,7 +313,7 @@ def offset_YCbCr(
     Returns
     -------
     :class:`numpy.ndarray`
-        *Y'CbCr* matrix.
+        *Y'CbCr* offsets.
 
     Examples
     --------
@@ -353,18 +357,19 @@ def RGB_to_YCbCr(
         *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
     in_bits
         Bit-depth for int input, or used in the calculation of the
-        denominator for legal range float values, i.e., 8-bit means the float
-        value for legal white is *235 / 255*. Default is *10*.
+        denominator for legal range float values, i.e., 8-bit means the
+        float value for legal white is *235 / 255*. Default is *10*.
     in_legal
-        Whether to treat the input values as legal range. Default is *False*.
+        Whether to treat the input values as legal range. Default is
+        *False*.
     in_int
         Whether to treat the input values as ``in_bits`` int code values.
         Default is *False*.
     out_bits
         Bit-depth for int output, or used in the calculation of the
-        denominator for legal range float values, i.e., 8-bit means the float
-        value for legal white is *235 / 255*. Ignored if ``out_legal`` and
-        ``out_int`` are both *False*. Default is *8*.
+        denominator for legal range float values, i.e., 8-bit means the
+        float value for legal white is *235 / 255*. Ignored if
+        ``out_legal`` and ``out_int`` are both *False*. Default is *8*.
     out_legal
         Whether to return legal range values. Default is *True*.
     out_int
@@ -379,8 +384,8 @@ def RGB_to_YCbCr(
     in_range
         Array overriding the computed range such as
         *in_range = (RGB_min, RGB_max)*. If ``in_range`` is undefined,
-        *RGB_min* and *RGB_max* will be computed using :func:`colour.CV_range`
-        definition.
+        *RGB_min* and *RGB_max* will be computed using
+        :func:`colour.CV_range` definition.
     out_range
         Array overriding the computed range such as
         *out_range = (Y_min, Y_max, C_min, C_max)`. If ``out_range`` is
@@ -394,10 +399,12 @@ def RGB_to_YCbCr(
 
     Warnings
     --------
-    For *Recommendation ITU-R BT.2020*, :func:`colour.RGB_to_YCbCr` definition
-    is only applicable to the non-constant luminance implementation.
-    :func:`colour.RGB_to_YcCbcCrc` definition should be used for the constant
-    luminance case as per :cite:`InternationalTelecommunicationUnion2015h`.
+    For *Recommendation ITU-R BT.2020*,
+    :func:`colour.RGB_to_YCbCr` definition is only applicable to the
+    non-constant luminance implementation.
+    :func:`colour.RGB_to_YcCbcCrc` definition should be used for the
+    constant luminance case as per
+    :cite:`InternationalTelecommunicationUnion2015h`.
 
     Notes
     -----
@@ -414,16 +421,17 @@ def RGB_to_YCbCr(
     +----------------+-----------------------+---------------+
 
     \\* This definition has input and output int switches, thus the
-    domain-range scale information is only specified for the floating point mode.
+    domain-range scale information is only specified for the floating point
+    mode.
 
     -   The default arguments, ``**{'in_bits': 10, 'in_legal': False,
-        'in_int': False, 'out_bits': 8, 'out_legal': True, 'out_int': False}``
-        transform a float *R'G'B'* input array normalised to domain [0, 1]
-        (``in_bits`` is ignored) to a float *Y'CbCr* output array where *Y'* is
-        normalised to range [16 / 255, 235 / 255] and *Cb* and *Cr* are
-        normalised to range [16 / 255, 240./255]. The float values are
-        calculated based on an [0, 255] int range, but no 8-bit
-        quantisation or clamping are performed.
+        'in_int': False, 'out_bits': 8, 'out_legal': True, 'out_int':
+        False}`` transform a float *R'G'B'* input array normalised to
+        domain [0, 1] (``in_bits`` is ignored) to a float *Y'CbCr* output
+        array where *Y'* is normalised to range [16 / 255, 235 / 255] and
+        *Cb* and *Cr* are normalised to range [16 / 255, 240./255]. The
+        float values are calculated based on an [0, 255] int range, but no
+        8-bit quantisation or clamping are performed.
 
     References
     ----------
@@ -438,15 +446,15 @@ def RGB_to_YCbCr(
     >>> RGB_to_YCbCr(RGB)  # doctest: +ELLIPSIS
     array([ 0.9215686...,  0.5019607...,  0.5019607...])
 
-    Matching the float output of *The Foundry Nuke*'s *Colorspace* node set to
-    *YCbCr*:
+    Matching the float output of *The Foundry Nuke*'s *Colorspace* node
+    set to *YCbCr*:
 
     >>> RGB_to_YCbCr(RGB, out_range=(16 / 255, 235 / 255, 15.5 / 255, 239.5 / 255))
     ... # doctest: +ELLIPSIS
     array([ 0.9215686...,  0.5       ,  0.5       ])
 
-    Matching the float output of *The Foundry Nuke*'s *Colorspace* node set to
-    *YPbPr*:
+    Matching the float output of *The Foundry Nuke*'s *Colorspace* node
+    set to *YPbPr*:
 
     >>> RGB_to_YCbCr(RGB, out_legal=False, out_int=False)
     ... # doctest: +ELLIPSIS
@@ -471,13 +479,14 @@ def RGB_to_YCbCr(
     ... # doctest: +ELLIPSIS
     array([ 36, 136, 175]...)
 
-    Note the use of [0.5, 255.5] for the *Cb / Cr* range, which is required so
-    that the *Cb* and *Cr* output is centered about 128. Using 255 centres it
-    about 127.5, meaning that there is no int code value to represent
-    achromatic colours. This does however create the possibility of output
-    int codes with value of 256, which cannot be stored in 8-bit int
-    representation. *Recommendation ITU-T T.871* specifies these should be
-    clamped to 255, which is applied with the default ``clamp_int=True``.
+    Note the use of [0.5, 255.5] for the *Cb / Cr* range, which is
+    required so that the *Cb* and *Cr* output is centered about 128. Using
+    255 centres it about 127.5, meaning that there is no int code value to
+    represent achromatic colours. This does however create the possibility
+    of output int codes with value of 256, which cannot be stored in 8-bit
+    int representation. *Recommendation ITU-T T.871* specifies these should
+    be clamped to 255, which is applied with the default
+    ``clamp_int=True``.
 
     These *JFIF JPEG* ranges are also obtained as follows:
 
@@ -538,8 +547,8 @@ def YCbCr_to_RGB(
     **kwargs: Any,
 ) -> NDArrayReal:
     """
-    Convert an array of *Y'CbCr* colour encoding values to the corresponding
-    *R'G'B'* values array.
+    Convert an array of *Y'CbCr* colour encoding values to the
+    corresponding *R'G'B'* values array.
 
     Parameters
     ----------
@@ -551,39 +560,43 @@ def YCbCr_to_RGB(
         *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
     in_bits
         Bit-depth for int input, or used in the calculation of the
-        denominator for legal range float values, i.e., 8-bit means the float
-        value for legal white is *235 / 255*. Default is *8*.
+        denominator for legal range float values, i.e., 8-bit means
+        the float value for legal white is *235 / 255*. Default is
+        *8*.
     in_legal
-        Whether to treat the input values as legal range. Default is *True*.
+        Whether to treat the input values as legal range. Default is
+        *True*.
     in_int
-        Whether to treat the input values as ``in_bits`` int code values.
-        Default is *False*.
+        Whether to treat the input values as ``in_bits`` int code
+        values. Default is *False*.
     out_bits
         Bit-depth for int output, or used in the calculation of the
-        denominator for legal range float values, i.e., 8-bit means the float
-        value for legal white is *235 / 255*. Ignored if ``out_legal`` and
-        ``out_int`` are both *False*. Default is *10*.
+        denominator for legal range float values, i.e., 8-bit means
+        the float value for legal white is *235 / 255*. Ignored if
+        ``out_legal`` and ``out_int`` are both *False*. Default is
+        *10*.
     out_legal
         Whether to return legal range values. Default is *False*.
     out_int
-        Whether to return values as ``out_bits`` int code values. Default
-        is *False*.
+        Whether to return values as ``out_bits`` int code values.
+        Default is *False*.
     clamp_int
-        Whether to clamp int output to allowable range for ``out_bits``.
-        Default is *True*.
+        Whether to clamp int output to allowable range for
+        ``out_bits``. Default is *True*.
 
     Other Parameters
     ----------------
     in_range
         Array overriding the computed range such as
-        *in_range = (Y_min, Y_max, C_min, C_max)*. If ``in_range`` is
-        undefined, *Y_min*, *Y_max*, *C_min* and *C_max* will be computed using
-        :func:`colour.models.rgb.ycbcr.ranges_YCbCr` definition.
+        *in_range = (Y_min, Y_max, C_min, C_max)*. If ``in_range``
+        is undefined, *Y_min*, *Y_max*, *C_min* and *C_max* will be
+        computed using :func:`colour.models.rgb.ycbcr.ranges_YCbCr`
+        definition.
     out_range
         Array overriding the computed range such as
-        *out_range = (RGB_min, RGB_max)*. If ``out_range`` is undefined,
-        *RGB_min* and *RGB_max* will be computed using :func:`colour.CV_range`
-        definition.
+        *out_range = (RGB_min, RGB_max)*. If ``out_range`` is
+        undefined, *RGB_min* and *RGB_max* will be computed using
+        :func:`colour.CV_range` definition.
 
     Returns
     -------
@@ -605,14 +618,17 @@ def YCbCr_to_RGB(
     +----------------+-----------------------+---------------+
 
     \\* This definition has input and output int switches, thus the
-    domain-range scale information is only specified for the floating point mode.
+    domain-range scale information is only specified for the floating point
+    mode.
 
     Warnings
     --------
-    For *Recommendation ITU-R BT.2020*, :func:`colour.YCbCr_to_RGB`
-    definition is only applicable to the non-constant luminance implementation.
-    :func:`colour.YcCbcCrc_to_RGB` definition should be used for the constant
-    luminance case as per :cite:`InternationalTelecommunicationUnion2015h`.
+    For *Recommendation ITU-R BT.2020*,
+    :func:`colour.YCbCr_to_RGB` definition is only applicable to
+    the non-constant luminance implementation.
+    :func:`colour.YcCbcCrc_to_RGB` definition should be used for
+    the constant luminance case as per
+    :cite:`InternationalTelecommunicationUnion2015h`.
 
     References
     ----------
@@ -684,8 +700,8 @@ def RGB_to_YcCbcCrc(
     out_legal
         Whether to return legal range values. Default is *True*.
     out_int
-        Whether to return values as ``out_bits`` int code values. Default
-        is *False*.
+        Whether to return values as ``out_bits`` int code values. Default is
+        *False*.
     is_12_bits_system
         *Recommendation ITU-R BT.2020* OETF (OECF) adopts different parameters
         for 10 and 12 bit systems. Default is *False*.
@@ -718,13 +734,13 @@ def RGB_to_YcCbcCrc(
     +----------------+-----------------------+---------------+
 
     \\* This definition has input and output int switches, thus the
-    domain-range scale information is only specified for the floating point mode.
+    domain-range scale information is only specified for the floating point
+    mode.
 
     Warnings
     --------
-    This definition is specifically for usage with
-    *Recommendation ITU-R BT.2020* when adopting the constant luminance
-    implementation.
+    This definition is specifically for usage with *Recommendation ITU-R
+    BT.2020* when adopting the constant luminance implementation.
 
     References
     ----------
@@ -791,24 +807,25 @@ def YcCbcCrc_to_RGB(
         Input *Yc'Cbc'Crc'* colour encoding array of linear float values.
     in_bits
         Bit-depth for int input, or used in the calculation of the
-        denominator for legal range float values, i.e., 8-bit means the float
-        value for legal white is *235 / 255*. Default is *10*.
+        denominator for legal range float values, i.e., 8-bit means the
+        float value for legal white is *235 / 255*. Default is *10*.
     in_legal
-        Whether to treat the input values as legal range. Default is *False*.
+        Whether to treat the input values as legal range. Default is
+        *True*.
     in_int
         Whether to treat the input values as ``in_bits`` int code values.
         Default is *False*.
     is_12_bits_system
-        *Recommendation ITU-R BT.2020* EOTF (EOCF) adopts different parameters
-        for 10 and 12 bit systems. Default is *False*.
+        *Recommendation ITU-R BT.2020* EOTF (EOCF) adopts different
+        parameters for 10 and 12 bit systems. Default is *False*.
 
     Other Parameters
     ----------------
     in_range
         Array overriding the computed range such as
         *in_range = (Y_min, Y_max, C_min, C_max)*. If ``in_range`` is
-        undefined, *Y_min*, *Y_max*, *C_min* and *C_max* will be computed using
-        :func:`colour.models.rgb.ycbcr.ranges_YCbCr` definition.
+        undefined, *Y_min*, *Y_max*, *C_min* and *C_max* will be computed
+        using :func:`colour.models.rgb.ycbcr.ranges_YCbCr` definition.
 
     Returns
     -------
@@ -830,7 +847,8 @@ def YcCbcCrc_to_RGB(
     +----------------+-----------------------+---------------+
 
     \\* This definition has input and output int switches, thus the
-    domain-range scale information is only specified for the floating point mode.
+    domain-range scale information is only specified for the floating point
+    mode.
 
     Warnings
     --------

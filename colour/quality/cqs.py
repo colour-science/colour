@@ -2,7 +2,7 @@
 Colour Quality Scale
 ====================
 
-Define the *Colour Quality Scale* (CQS) computation objects:
+Define the *Colour Quality Scale* (CQS) computation objects.
 
 -   :class:`colour.quality.ColourRendering_Specification_CQS`
 -   :func:`colour.colour_quality_scale`
@@ -88,7 +88,24 @@ GAMUT_AREA_D65: int = 8210
 
 @dataclass
 class DataColorimetry_VS:
-    """Define the class storing *VS test colour samples* colorimetry data."""
+    """
+    Store colorimetry data for *VS test colour samples*.
+
+    This dataclass encapsulates the colorimetric measurements and derived
+    values for Visual Spectrum (VS) test colour samples used in colour
+    quality evaluation.
+
+    Attributes
+    ----------
+    name
+        Sample identifier or designation.
+    XYZ
+        Tristimulus values under the test illuminant.
+    Lab
+        *CIE L\\*a\\*b\\** colour space coordinates.
+    C
+        Chroma values calculated from the *CIE L\\*a\\*b\\** coordinates.
+    """
 
     name: str
     XYZ: NDArrayFloat
@@ -99,8 +116,22 @@ class DataColorimetry_VS:
 @dataclass
 class DataColourQualityScale_VS:
     """
-    Define the class storing *VS test colour samples* colour quality scale
-    data.
+    Store colour quality scale data for *VS test colour samples*.
+
+    This dataclass encapsulates the colour quality metrics computed for VS
+    (Visual Samples) test colour samples, including quality assessment and
+    colour difference measurements used in colour rendering evaluations.
+
+    Attributes
+    ----------
+    name
+        Identifier or descriptor for the test colour sample.
+    Q_a
+        Colour quality scale value for the sample.
+    D_C_ab
+        Chroma difference in *CIE L\\*a\\*b\\** colourspace.
+    D_E_ab
+        Total colour difference in *CIE L\\*a\\*b\\** colourspace.
     """
 
     name: str
@@ -123,23 +154,24 @@ class ColourRendering_Specification_CQS:
     Q_a
         Colour quality scale :math:`Q_a`.
     Q_f
-        Colour fidelity scale :math:`Q_f` intended to evaluate the fidelity
-        of object colour appearances (compared to the reference illuminant of
-        the same correlated colour temperature and illuminance).
+        Colour fidelity scale :math:`Q_f` intended to evaluate the
+        fidelity of object colour appearances (compared to the reference
+        illuminant of the same correlated colour temperature and
+        illuminance).
     Q_p
-        Colour preference scale :math:`Q_p` similar to colour quality scale
-        :math:`Q_a` but placing additional weight on preference of object
-        colour appearance, set to *None* in *NIST CQS 9.0* method. This metric
-        is based on the notion that increases in chroma are generally preferred
-        and should be rewarded.
+        Colour preference scale :math:`Q_p` similar to colour quality
+        scale :math:`Q_a` but placing additional weight on preference of
+        object colour appearance, set to *None* in *NIST CQS 9.0* method.
+        This metric is based on the notion that increases in chroma are
+        generally preferred and should be rewarded.
     Q_g
-         Gamut area scale :math:`Q_g` representing the relative gamut formed
-         by the (:math:`a^*`, :math:`b^*`) coordinates of the 15 samples
-         illuminated by the test light source in the *CIE L\\*a\\*b\\** object
-         colourspace.
+        Gamut area scale :math:`Q_g` representing the relative gamut
+        formed by the (:math:`a^*`, :math:`b^*`) coordinates of the 15
+        samples illuminated by the test light source in the
+        *CIE L\\*a\\*b\\** object colourspace.
     Q_d
-        Relative gamut area scale :math:`Q_d`, set to *None* in *NIST CQS 9.0*
-        method.
+        Relative gamut area scale :math:`Q_d`, set to *None* in
+        *NIST CQS 9.0* method.
     Q_as
         Individual *Colour Quality Scale* (CQS) data for each sample.
     colorimetry_data
@@ -147,7 +179,7 @@ class ColourRendering_Specification_CQS:
 
     References
     ----------
-    :cite:`Davis2010a`, :cite:`Ohno2008a`,  :cite:`Ohno2013`
+    :cite:`Davis2010a`, :cite:`Ohno2008a`, :cite:`Ohno2013`
     """
 
     name: str
@@ -205,8 +237,8 @@ def colour_quality_scale(
     method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = "NIST CQS 9.0",
 ) -> float | ColourRendering_Specification_CQS:
     """
-    Compute the *Colour Quality Scale* (CQS) of specified spectral distribution
-    using specified method.
+    Compute the *Colour Quality Scale* (CQS) of the specified spectral
+    distribution using the specified method.
 
     Parameters
     ----------
@@ -219,8 +251,7 @@ def colour_quality_scale(
 
     Returns
     -------
-    :class:`float` or \
-:class:`colour.quality.ColourRendering_Specification_CQS`
+    :class:`float` or :class:`colour.quality.ColourRendering_Specification_CQS`
         *Colour Quality Scale* (CQS).
 
     References
@@ -328,8 +359,8 @@ def colour_quality_scale(
 
 def gamut_area(Lab: ArrayLike) -> float:
     """
-    Compute the gamut area :math:`G` covered by specified *CIE L\\*a\\*b\\**
-    matrices.
+    Compute the gamut area :math:`G` covered by the specified
+    *CIE L\\*a\\*b\\** colourspace matrices.
 
     Parameters
     ----------
@@ -444,8 +475,8 @@ def CCT_factor(
     reference_data: Tuple[DataColorimetry_VS, ...], XYZ_r: ArrayLike
 ) -> float:
     """
-    Compute the correlated colour temperature factor penalizing lamps with
-    extremely low correlated colour temperatures.
+    Compute the correlated colour temperature factor that penalizes lamps
+    with extremely low correlated colour temperatures.
 
     Parameters
     ----------
@@ -480,8 +511,9 @@ def CCT_factor(
 
 def scale_conversion(D_E_ab: float, CCT_f: float, scaling_f: float) -> float:
     """
-    Compute the *Colour Quality Scale* (CQS) for specified :math:`\\Delta E_{ab}`
-    value and specified correlated colour temperature penalizing factor.
+    Compute the *Colour Quality Scale* (CQS) for the specified
+    :math:`\\Delta E_{ab}` value and correlated colour temperature
+    penalizing factor.
 
     Parameters
     ----------
@@ -505,16 +537,16 @@ def delta_E_RMS(
     CQS_data: Dict[int, DataColourQualityScale_VS], attribute: str
 ) -> float:
     """
-    Compute the root-mean-square average for specified *Colour Quality Scale*
-    (CQS) data.
+    Compute the root-mean-square average for the specified *Colour Quality
+    Scale* (CQS) data using the specified colorimetry attribute.
 
     Parameters
     ----------
     CQS_data
         *Colour Quality Scale* (CQS) data.
     attribute
-        Colorimetry data attribute to use to compute the root-mean-square
-        average.
+        Colorimetry data attribute to use for computing the
+        root-mean-square average.
 
     Returns
     -------
@@ -543,19 +575,20 @@ def colour_quality_scales(
     Parameters
     ----------
     test_data
-        Test data.
+        Test data for the VS colour samples.
     reference_data
-        Reference data.
+        Reference data for the VS colour samples.
     scaling_f
-        Scaling factor constant.
+        Scaling factor constant for normalizing the colour rendering
+        scales.
     CCT_f
-        Factor penalizing lamps with extremely low correlated colour
-        temperatures.
+        Factor penalizing light sources with extremely low correlated
+        colour temperatures.
 
     Returns
     -------
     :class:`dict`
-        *VS Test colour samples* colour rendering scales.
+        *VS test colour samples* colour rendering scales.
     """
 
     Q_as = {}

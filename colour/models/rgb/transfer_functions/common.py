@@ -34,17 +34,18 @@ def CV_range(
     bit_depth: int = 10, is_legal: bool = False, is_int: bool = False
 ) -> NDArrayReal:
     """
-    Return the code value :math:`CV` range for specified bit-depth, range legality
-    and representation.
+    Return the code value :math:`CV` range for the specified bit-depth,
+    range legality and representation.
 
     Parameters
     ----------
     bit_depth
         Bit-depth of the code value :math:`CV` range.
     is_legal
-        Whether the code value :math:`CV` range is legal.
+        Whether the code value :math:`CV` range represents legal code values.
     is_int
-        Whether the code value :math:`CV` range represents int code values.
+        Whether the code value :math:`CV` range represents int code
+        values.
 
     Returns
     -------
@@ -80,9 +81,9 @@ def legal_to_full(
     out_int: bool = False,
 ) -> NDArrayReal:
     """
-    Convert specified code value :math:`CV` or float equivalent of a code value at
-    a specified bit-depth from legal range (studio swing) to full range
-    (full swing).
+    Convert the specified code value :math:`CV` or float equivalent of a code
+    value at a specified bit-depth from *legal range* (studio swing) to
+    *full range* (full swing).
 
     Parameters
     ----------
@@ -92,11 +93,11 @@ def legal_to_full(
     bit_depth
         Bit-depth used for conversion.
     in_int
-        Whether to treat the input value as int code value or float
-        equivalent of a code value at a specified bit-depth.
+        Whether to treat the input value as integer code value or floating
+        point equivalent of a code value at a specified bit-depth.
     out_int
-        Whether to return value as int code value or float equivalent of a
-        code value at a specified bit-depth.
+        Whether to return value as integer code value or floating point
+        equivalent of a code value at a specified bit-depth.
 
     Returns
     -------
@@ -147,23 +148,23 @@ def full_to_legal(
     out_int: bool = False,
 ) -> NDArrayReal:
     """
-    Convert specified code value :math:`CV` or float equivalent of a code value at
-    a specified bit-depth from full range (full swing) to legal range
-    (studio swing).
+    Convert the specified code value :math:`CV` or float equivalent of a
+    code value at a specified bit-depth from full range (full swing) to
+    legal range (studio swing).
 
     Parameters
     ----------
     CV
-        Full range code value :math:`CV` or float equivalent of a code value at
-        a specified bit-depth.
+        Full range code value :math:`CV` or float equivalent of a code value
+        at a specified bit-depth.
     bit_depth
         Bit-depth used for conversion.
     in_int
-        Whether to treat the input value as int code value or float
-        equivalent of a code value at a specified bit-depth.
+        Whether to treat the input value as integer code value or floating
+        point equivalent of a code value at a specified bit-depth.
     out_int
-        Whether to return value as int code value or float equivalent of a
-        code value at a specified bit-depth.
+        Whether to return value as integer code value or floating point
+        equivalent of a code value at a specified bit-depth.
 
     Returns
     -------

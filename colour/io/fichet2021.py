@@ -2,7 +2,8 @@
 OpenEXR Layout for Spectral Images - Fichet, Pacanowski and Wilkie (2021)
 =========================================================================
 
-Define the *Fichet et al. (2021)* spectral image input / output objects.
+Define spectral image input/output functionality based on the
+*Fichet et al. (2021)* OpenEXR layout specification.
 
 References
 ----------
@@ -144,7 +145,7 @@ def match_groups_to_nm(
     units: Literal["m", "Hz"] | str,
 ) -> float:
     """
-    Convert wavelength or frequency match groups to nanometer values.
+    Convert wavelength or frequency match groups to nanometre values.
 
     Parameters
     ----------
@@ -158,7 +159,7 @@ def match_groups_to_nm(
     Returns
     -------
     :class:`float`
-        Nanometer value.
+        Nanometre value.
 
     Raises
     ------
@@ -203,6 +204,10 @@ def sd_to_spectrum_attribute_Fichet2021(
     """
     Convert the specified spectral distribution to a spectrum attribute value
     according to *Fichet et al. (2021)*.
+
+    The conversion produces a string representation of the spectral
+    distribution suitable for use in rendering systems, with wavelength-value
+    pairs formatted as a semicolon-delimited list.
 
     Parameters
     ----------
@@ -291,15 +296,15 @@ class Specification_Fichet2021:
     path
         Path of the spectral image.
     components
-        Components of the spectral image, e.g., *S0*, *S1*, *S2*, *S3*, *T*, or
-        any wavelength number for bi-spectral images.
+        Components of the spectral image, e.g., *S0*, *S1*, *S2*, *S3*, *T*,
+        or any wavelength number for bi-spectral images.
     is_emissive
-        Whether the image is emissive, i.e, using the *S0* component.
+        Whether the image is emissive, i.e., using the *S0* component.
     is_polarised
-        Whether the image is polarised, i.e, using the *S0*, *S1*, *S2*, and
-        *S3* components.
+        Whether the image is polarised, i.e., using the *S0*, *S1*, *S2*,
+        and *S3* components.
     is_bispectral
-        Whether the image is bi-spectral, i.e, using the *T*, and any
+        Whether the image is bi-spectral, i.e., using the *T*, and any
         wavelength number.
     attributes
         An array of :class:`colour.io.Image_Specification_Attribute` class
@@ -331,7 +336,7 @@ class Specification_Fichet2021:
         Parameters
         ----------
         path
-            Image path
+            Image path.
 
         Returns
         -------
@@ -464,8 +469,8 @@ def read_spectral_image_Fichet2021(
     additional_data: bool = False,
 ) -> ComponentsFichet2021 | Tuple[ComponentsFichet2021, Specification_Fichet2021]:
     """
-    Read the *Fichet et al. (2021)* spectral image at the specified path using
-    *OpenImageIO*.
+    Read the *Fichet et al. (2021)* spectral image at the specified path
+    using *OpenImageIO*.
 
     Parameters
     ----------
@@ -480,13 +485,13 @@ def read_spectral_image_Fichet2021(
     -------
     :class:`dict` or :class:`tuple`
         Dictionary of component names and their corresponding tuple of
-        wavelengths and values or tuple of the aforementioned dictionary and
-        :class:`colour.Specification_Fichet2021` class instance.
+        wavelengths and values or tuple of the aforementioned dictionary
+        and :class:`colour.Specification_Fichet2021` class instance.
 
     Notes
     -----
-    -   Spectrum attributes are not parsed but can be converted to spectral
-        distribution using the
+    -   Spectrum attributes are not parsed but can be converted to
+        spectral distribution using the
         :func:`colour.io.spectrum_attribute_to_sd_Fichet2021` definition.
 
     References
@@ -555,11 +560,11 @@ def sds_and_msds_to_components_Fichet2021(
     **kwargs: Any,
 ) -> ComponentsFichet2021:
     """
-    Convert the specified spectral and multi-spectral distributions to
+    Convert specified spectral and multi-spectral distributions to
     *Fichet et al. (2021)* components.
 
-    The spectral and multi-spectral distributions will be aligned to the
-    intersection of their spectral shapes.
+    Align the spectral and multi-spectral distributions to the intersection
+    of their spectral shapes before conversion.
 
     Parameters
     ----------
@@ -568,12 +573,12 @@ def sds_and_msds_to_components_Fichet2021(
         *Fichet et al. (2021)* components.
     specification
         *Fichet et al. (2021)* spectral image specification, used to
-        generate the proper component type, i.e., emissive or other.
+        determine the proper component type, i.e., emissive or other.
 
     Other Parameters
     ----------------
     shape
-        Optional shape the *Fichet et al. (2021)* components should take:
+        Optional shape the *Fichet et al. (2021)* components should take.
         Used when converting spectral distributions of a colour rendition
         chart to create a rectangular image rather than a single line of
         values.

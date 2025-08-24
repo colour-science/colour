@@ -2,7 +2,8 @@
 Von Kries Chromatic Adaptation Model
 ====================================
 
-Define the *Von Kries* chromatic adaptation model objects:
+Define the *Von Kries* chromatic adaptation model for predicting corresponding
+colours under different viewing conditions.
 
 -   :func:`colour.adaptation.matrix_chromatic_adaptation_VonKries`
 -   :func:`colour.adaptation.chromatic_adaptation_VonKries`
@@ -57,8 +58,8 @@ def matrix_chromatic_adaptation_VonKries(
     transform: LiteralChromaticAdaptationTransform | str = "CAT02",
 ) -> NDArrayFloat:
     """
-    Compute the chromatic adaptation matrix from test viewing conditions to
-    reference viewing conditions.
+    Compute the chromatic adaptation matrix from test viewing conditions
+    to reference viewing conditions.
 
     Parameters
     ----------
@@ -143,8 +144,9 @@ def chromatic_adaptation_VonKries(
     transform: LiteralChromaticAdaptationTransform | str = "CAT02",
 ) -> NDArrayFloat:
     """
-    Adapt the specified stimulus from test viewing conditions to reference
-    viewing conditions.
+    Adapt the specified stimulus *CIE XYZ* tristimulus values from test
+    viewing conditions to reference viewing conditions using the *Von Kries*
+    chromatic adaptation model.
 
     Parameters
     ----------
@@ -162,7 +164,7 @@ def chromatic_adaptation_VonKries(
     Returns
     -------
     :class:`numpy.ndarray`
-        *CIE XYZ_c* tristimulus values of the stimulus corresponding colour.
+        *CIE XYZ* tristimulus values of the stimulus corresponding colour.
 
     Notes
     -----

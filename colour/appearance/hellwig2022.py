@@ -2,7 +2,8 @@
 Hellwig and Fairchild (2022) Colour Appearance Model
 ====================================================
 
-Define the *Hellwig and Fairchild (2022)* colour appearance model objects:
+Define the *Hellwig and Fairchild (2022)* colour appearance model for
+predicting perceptual colour attributes under varying viewing conditions.
 
 -   :class:`colour.appearance.InductionFactors_Hellwig2022`
 -   :attr:`colour.VIEWING_CONDITIONS_HELLWIG2022`
@@ -95,7 +96,8 @@ __all__ = [
 @dataclass(frozen=True)
 class InductionFactors_Hellwig2022(MixinDataclassIterable):
     """
-    *Hellwig and Fairchild (2022)* colour appearance model induction factors.
+    Define the *Hellwig and Fairchild (2022)* colour appearance model
+    induction factors.
 
     Parameters
     ----------
@@ -125,8 +127,8 @@ VIEWING_CONDITIONS_HELLWIG2022: CanonicalMapping = CanonicalMapping(
     VIEWING_CONDITIONS_CIECAM02
 )
 VIEWING_CONDITIONS_HELLWIG2022.__doc__ = """
-Reference *Hellwig and Fairchild (2022)* colour appearance model viewing
-conditions.
+Define the reference *Hellwig and Fairchild (2022)* colour appearance model
+viewing conditions.
 
 References
 ----------
@@ -140,8 +142,14 @@ class CAM_Specification_Hellwig2022(MixinDataclassArithmetic):
     Define the *Hellwig and Fairchild (2022)* colour appearance model
     specification.
 
-    This specification supports the *Helmholtz-Kohlrausch* effect extension
-    from :cite:`Hellwig2022a`.
+    Represent colour appearance attributes calculated by the
+    *Hellwig and Fairchild (2022)* colour appearance model. The
+    specification includes correlates for lightness, chroma, hue,
+    saturation, brightness, colourfulness, and hue quadrature. This
+    implementation supports the *Helmholtz-Kohlrausch* effect extension
+    from :cite:`Hellwig2022a`, providing adjusted lightness and brightness
+    correlates that account for the increased brightness perception of
+    highly saturated colours.
 
     Parameters
     ----------
@@ -214,11 +222,11 @@ def XYZ_to_Hellwig2022(
         to be 20% of the luminance of a white object in the scene).
     Y_b
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
-        light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
-        pixels in the entire image, or frequently, a :math:`Y` value of 20,
-        approximate an :math:`L^*` of 50 is used.
+        :math:`Y_b = 100 \\times L_b / L_w` where :math:`L_w` is the luminance
+        of the light source and :math:`L_b` is the luminance of the background.
+        For viewing images, :math:`Y_b` can be the average :math:`Y` value for
+        the pixels in the entire image, or frequently, a :math:`Y` value of 20,
+        approximating an :math:`L^*` of 50 is used.
     surround
         Surround viewing conditions induction factors.
     discount_illuminant
@@ -408,8 +416,8 @@ def Hellwig2022_to_XYZ(
     discount_illuminant: bool = False,
 ) -> NDArrayFloat:
     """
-    Convert *Hellwig and Fairchild (2022)* specification to *CIE XYZ*
-    tristimulus values.
+    Convert the *Hellwig and Fairchild (2022)* colour appearance model
+    specification to *CIE XYZ* tristimulus values.
 
     This implementation supports the *Helmholtz-Kohlrausch* effect extension
     from :cite:`Hellwig2022a`.
@@ -418,21 +426,21 @@ def Hellwig2022_to_XYZ(
     ----------
     specification
         *Hellwig and Fairchild (2022)* colour appearance model specification.
-        Correlate of *lightness* :math:`J`, correlate of *chroma* :math:`C` or
-        correlate of *colourfulness* :math:`M` and *hue* angle :math:`h` in
-        degrees must be specified, e.g., :math:`JCh` or :math:`JMh`.
+        Correlate of *lightness* :math:`J`, correlate of *chroma* :math:`C`
+        or correlate of *colourfulness* :math:`M` and *hue* angle :math:`h`
+        in degrees must be specified, e.g., :math:`JCh` or :math:`JMh`.
     XYZ_w
         *CIE XYZ* tristimulus values of reference white.
     L_A
-        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
-        to be 20% of the luminance of a white object in the scene).
+        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often
+        taken to be 20% of the luminance of a white object in the scene).
     Y_b
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
-        light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
-        pixels in the entire image, or frequently, a :math:`Y` value of 20,
-        approximate an :math:`L^*` of 50 is used.
+        :math:`Y_b = 100 \\times L_b / L_w` where :math:`L_w` is the
+        luminance of the light source and :math:`L_b` is the luminance of the
+        background. For viewing images, :math:`Y_b` can be the average
+        :math:`Y` value for the pixels in the entire image, or frequently, a
+        :math:`Y` value of 20, approximating an :math:`L^*` of 50 is used.
     surround
         Surround viewing conditions.
     discount_illuminant
@@ -446,8 +454,8 @@ def Hellwig2022_to_XYZ(
     Raises
     ------
     ValueError
-        If neither :math:`C` or :math:`M` correlates have been defined in the
-        ``specification`` argument.
+        If neither :math:`C` or :math:`M` correlates have been defined in
+        the ``specification`` argument.
 
     Notes
     -----
@@ -663,8 +671,8 @@ def viewing_conditions_dependent_parameters(
 def achromatic_response_forward(RGB: ArrayLike) -> NDArrayFloat:
     """
     Compute the achromatic response :math:`A` from the specified compressed
-    *CAM16* transform sharpened *RGB* array and :math:`N_{bb}` chromatic
-    induction factor for forward *Hellwig and Fairchild (2022)* implementation.
+    *CAM16* transform sharpened *RGB* array for forward *Hellwig and Fairchild
+    (2022)* implementation.
 
     Parameters
     ----------
@@ -692,8 +700,8 @@ def opponent_colour_dimensions_inverse(
     P_p_1: ArrayLike, h: ArrayLike, M: ArrayLike
 ) -> NDArrayFloat:
     """
-    Compute opponent colour dimensions from the specified point :math:`P'_1`, hue
-    :math:`h` in degrees and correlate of *colourfulness* :math:`M` for
+    Compute opponent colour dimensions from the specified point :math:`P'_1`,
+    hue :math:`h` in degrees and correlate of *colourfulness* :math:`M` for
     inverse *Hellwig and Fairchild (2022)* implementation.
 
     Parameters
@@ -735,8 +743,8 @@ def opponent_colour_dimensions_inverse(
 
 def eccentricity_factor(h: ArrayLike) -> NDArrayFloat:
     """
-    Compute the eccentricity factor :math:`e_t` from the specified hue :math:`h` angle
-    in degrees for forward *CIECAM02* implementation.
+    Compute the eccentricity factor :math:`e_t` from the specified hue
+    :math:`h` angle in degrees for forward *CIECAM02* implementation.
 
     Parameters
     ----------
@@ -827,7 +835,7 @@ def colourfulness_correlate(
     Parameters
     ----------
     N_c
-        Surround chromatic induction factor :math:`N_{c}`.
+        Surround chromatic induction factor :math:`N_c`.
     e_t
         Eccentricity factor :math:`e_t`.
     a
@@ -901,7 +909,7 @@ def saturation_correlate(M: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     M
         *Colourfulness* correlate :math:`M`.
     Q
-        *Brightness* correlate :math:`C`.
+        *Brightness* correlate :math:`Q`.
 
     Returns
     -------
@@ -938,12 +946,13 @@ def P_p(
     e_t
         Eccentricity factor :math:`e_t`.
     A
-        Achromatic response  :math:`A` for the stimulus.
+        Achromatic response :math:`A` for the stimulus.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Points :math:`P'`.
+        Points :math:`P'` as an array containing :math:`P'_1` and
+        :math:`P'_2`.
 
     Examples
     --------
@@ -978,7 +987,7 @@ def hue_angle_dependency_Hellwig2022(
     Returns
     -------
     :class:`numpy.ndarray`
-        Hue angle dependency.
+        Hue angle dependency of the *Helmholtz-Kohlrausch* effect.
 
     References
     ----------
