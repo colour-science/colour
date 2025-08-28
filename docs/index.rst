@@ -1270,7 +1270,7 @@ Log Encoding / Decoding
 
 .. code-block:: text
 
-    ['ACEScc', 'ACEScct', 'ACESproxy', 'ARRI LogC3', 'ARRI LogC4', 'Apple Log Profile', 'Canon Log', 'Canon Log 2', 'Canon Log 3', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log', 'F-Log2', 'Filmic Pro 6', 'L-Log', 'Log2', 'Log3G10', 'Log3G12', 'N-Log', 'PLog', 'Panalog', 'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log', 'V-Log', 'ViperLog']
+    ['ACEScc', 'ACEScct', 'ACESproxy', 'ARRI LogC3', 'ARRI LogC4', 'Apple Log Profile', 'Canon Log', 'Canon Log 2', 'Canon Log 3', 'Cineon', 'D-Log', 'ERIMM RGB', 'F-Log', 'F-Log2', 'Filmic Pro 6', 'L-Log', 'Log2', 'Log3G10', 'Log3G12', 'Mi-Log', 'N-Log', 'PLog', 'Panalog', 'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log', 'V-Log', 'ViperLog']
 
 CCTFs Encoding / Decoding
 *************************
@@ -1283,7 +1283,7 @@ CCTFs Encoding / Decoding
 
 .. code-block:: text
 
-    ['ACEScc', 'ACEScct', 'ACESproxy', 'ARIB STD-B67', 'ARRI LogC3', 'ARRI LogC4', 'Apple Log Profile', 'Blackmagic Film Generation 5', 'Canon Log', 'Canon Log 2', 'Canon Log 3', 'Cineon', 'D-Log', 'DCDM', 'DICOM GSDF', 'DaVinci Intermediate', 'ERIMM RGB', 'F-Log', 'F-Log2', 'Filmic Pro 6', 'Gamma 2.2', 'Gamma 2.4', 'Gamma 2.6', 'ITU-R BT.1886', 'ITU-R BT.2020', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601', 'ITU-R BT.709', 'ITU-T H.273 IEC 61966-2', 'ITU-T H.273 Log', 'ITU-T H.273 Log Sqrt', 'ITU-T H.273 ST.428-1', 'L-Log', 'Log2', 'Log3G10', 'Log3G12', 'N-Log', 'PLog', 'Panalog', 'ProPhoto RGB', 'Protune', 'REDLog', 'REDLogFilm', 'RIMM RGB', 'ROMM RGB', 'S-Log', 'S-Log2', 'S-Log3', 'SMPTE 240M', 'ST 2084', 'T-Log', 'V-Log', 'ViperLog', 'sRGB']
+    ['ACEScc', 'ACEScct', 'ACESproxy', 'ARIB STD-B67', 'ARRI LogC3', 'ARRI LogC4', 'Apple Log Profile', 'Blackmagic Film Generation 5', 'Canon Log', 'Canon Log 2', 'Canon Log 3', 'Cineon', 'D-Log', 'DCDM', 'DICOM GSDF', 'DaVinci Intermediate', 'ERIMM RGB', 'F-Log', 'F-Log2', 'Filmic Pro 6', 'Gamma 2.2', 'Gamma 2.4', 'Gamma 2.6', 'ITU-R BT.1886', 'ITU-R BT.2020', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601', 'ITU-R BT.709', 'ITU-T H.273 IEC 61966-2', 'ITU-T H.273 Log', 'ITU-T H.273 Log Sqrt', 'ITU-T H.273 ST.428-1', 'L-Log', 'Log2', 'Log3G10', 'Log3G12', 'Mi-Log', 'N-Log', 'PLog', 'Panalog', 'ProPhoto RGB', 'Protune', 'REDLog', 'REDLogFilm', 'RIMM RGB', 'ROMM RGB', 'S-Log', 'S-Log2', 'S-Log3', 'SMPTE 240M', 'ST 2084', 'T-Log', 'V-Log', 'ViperLog', 'sRGB']
 
 Recommendation ITU-T H.273 Code points for Video Signal Type Identification
 ***************************************************************************
