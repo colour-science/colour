@@ -161,6 +161,7 @@ from .sony import (
 )
 from .srgb import eotf_inverse_sRGB, eotf_sRGB
 from .viper_log import log_encoding_ViperLog, log_decoding_ViperLog
+from .xiaomi_mi_log import log_encoding_MiLog, log_decoding_MiLog
 from .itut_h_273 import (
     oetf_H273_Log,
     oetf_inverse_H273_Log,
@@ -377,6 +378,10 @@ __all__ += [
     "log_decoding_ViperLog",
 ]
 __all__ += [
+    "log_encoding_MiLog",
+    "log_decoding_MiLog",
+]
+__all__ += [
     "oetf_H273_Log",
     "oetf_inverse_H273_Log",
     "oetf_H273_LogSqrt",
@@ -408,6 +413,7 @@ LOG_ENCODINGS: CanonicalMapping = CanonicalMapping(
         "Log2": log_encoding_Log2,
         "Log3G10": log_encoding_Log3G10,
         "Log3G12": log_encoding_Log3G12,
+        "Mi-Log": log_encoding_MiLog,
         "N-Log": log_encoding_NLog,
         "PLog": log_encoding_PivotedLog,
         "Panalog": log_encoding_Panalog,
@@ -462,6 +468,7 @@ def log_encoding(
         :func:`colour.models.log_encoding_Log2`,
         :func:`colour.models.log_encoding_Log3G10`,
         :func:`colour.models.log_encoding_Log3G12`,
+        :func:`colour.models.log_encoding_MiLog`,
         :func:`colour.models.log_encoding_NLog`,
         :func:`colour.models.log_encoding_PivotedLog`,
         :func:`colour.models.log_encoding_Panalog`,
@@ -526,6 +533,7 @@ LOG_DECODINGS: CanonicalMapping = CanonicalMapping(
         "Log2": log_decoding_Log2,
         "Log3G10": log_decoding_Log3G10,
         "Log3G12": log_decoding_Log3G12,
+        "Mi-Log": log_decoding_MiLog,
         "N-Log": log_decoding_NLog,
         "PLog": log_decoding_PivotedLog,
         "Panalog": log_decoding_Panalog,
@@ -582,6 +590,7 @@ def log_decoding(
         :func:`colour.models.log_decoding_Log2`,
         :func:`colour.models.log_decoding_Log3G10`,
         :func:`colour.models.log_decoding_Log3G12`,
+        :func:`colour.models.log_decoding_MiLog`,
         :func:`colour.models.log_decoding_NLog`,
         :func:`colour.models.log_decoding_PivotedLog`,
         :func:`colour.models.log_decoding_Panalog`,

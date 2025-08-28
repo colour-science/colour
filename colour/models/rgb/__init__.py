@@ -141,6 +141,8 @@ from .transfer_functions import (
     eotf_sRGB,
     log_encoding_ViperLog,
     log_decoding_ViperLog,
+    log_encoding_MiLog,
+    log_decoding_MiLog,
 )
 from .transfer_functions import (
     LOG_ENCODINGS,
@@ -429,6 +431,8 @@ __all__ += [
     "eotf_sRGB",
     "log_encoding_ViperLog",
     "log_decoding_ViperLog",
+    "log_encoding_MiLog",
+    "log_decoding_MiLog",
 ]
 __all__ += [
     "LOG_ENCODINGS",
