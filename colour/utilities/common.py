@@ -744,8 +744,8 @@ def is_numeric(a: Any) -> bool:
             np.float16,
             np.float32,
             np.float64,
-            np.csingle,
-            np.cdouble,
+            np.complex64,
+            np.complex128,
         ),  # pyright: ignore
     )
 
