@@ -12,7 +12,7 @@ import os
 
 import numpy as np
 
-from colour.hints import DTypeFloat, Type, cast
+from colour.hints import DTypeComplex, DTypeFloat, Type, cast
 from colour.utilities.documentation import DocstringFloat, is_documentation_building
 
 __author__ = "Colour Developers"
@@ -28,6 +28,7 @@ __all__ = [
     "EPSILON",
     "DTYPE_INT_DEFAULT",
     "DTYPE_FLOAT_DEFAULT",
+    "DTYPE_COMPLEX_DEFAULT",
     "TOLERANCE_ABSOLUTE_DEFAULT",
     "TOLERANCE_RELATIVE_DEFAULT",
     "TOLERANCE_ABSOLUTE_TESTS",
@@ -68,6 +69,15 @@ DTYPE_FLOAT_DEFAULT: Type[DTypeFloat] = cast(
     ),
 )
 """Default floating point number dtype."""
+
+DTYPE_COMPLEX_DEFAULT: Type[DTypeComplex] = cast(
+    "Type[DTypeComplex]",
+    np.sctypeDict.get(
+        os.environ.get("COLOUR_SCIENCE__DEFAULT_COMPLEX_DTYPE", "complex128"),
+        np.complex128,
+    ),
+)
+"""Default complex number dtype."""
 
 TOLERANCE_ABSOLUTE_DEFAULT: float = 1e-8
 """Default absolute tolerance for computations."""

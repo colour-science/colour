@@ -6,6 +6,7 @@ from .codata import (
     CONSTANT_PLANCK,
 )
 from .common import (
+    DTYPE_COMPLEX_DEFAULT,
     DTYPE_FLOAT_DEFAULT,
     DTYPE_INT_DEFAULT,
     EPSILON,
@@ -28,6 +29,7 @@ __all__ += [
     "CONSTANT_PLANCK",
 ]
 __all__ += [
+    "DTYPE_COMPLEX_DEFAULT",
     "DTYPE_FLOAT_DEFAULT",
     "DTYPE_INT_DEFAULT",
     "EPSILON",

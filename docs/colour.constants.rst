@@ -39,6 +39,7 @@ Common
 .. autosummary::
     :toctree: generated/
 
+    DTYPE_COMPLEX_DEFAULT
     DTYPE_FLOAT_DEFAULT
     DTYPE_INT_DEFAULT
     EPSILON

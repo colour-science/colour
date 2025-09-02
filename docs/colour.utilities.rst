@@ -95,6 +95,7 @@ Array
     :toctree: generated/
 
     as_array
+    as_complex_array
     as_float
     as_float_array
     as_float_scalar
