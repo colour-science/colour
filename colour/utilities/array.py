@@ -28,7 +28,12 @@ from operator import add, mul, pow, sub, truediv  # noqa: A004
 
 import numpy as np
 
-from colour.constants import DTYPE_FLOAT_DEFAULT, DTYPE_INT_DEFAULT, EPSILON
+from colour.constants import (
+    DTYPE_COMPLEX_DEFAULT,
+    DTYPE_FLOAT_DEFAULT,
+    DTYPE_INT_DEFAULT,
+    EPSILON,
+)
 
 if typing.TYPE_CHECKING:
     from colour.hints import (
@@ -37,10 +42,12 @@ if typing.TYPE_CHECKING:
         Dataclass,
         DType,
         DTypeBoolean,
+        DTypeComplex,
         DTypeReal,
         Generator,
         Literal,
         NDArray,
+        NDArrayComplex,
         NDArrayFloat,
         NDArrayInt,
         Real,
@@ -49,7 +56,7 @@ if typing.TYPE_CHECKING:
         Type,
     )
 
-from colour.hints import ArrayLike, DTypeFloat, DTypeInt, cast
+from colour.hints import ArrayLike, DTypeComplex, DTypeFloat, DTypeInt, cast
 from colour.utilities import (
     CACHE_REGISTRY,
     attest,
@@ -79,6 +86,7 @@ __all__ = [
     "as_float_array",
     "as_int_scalar",
     "as_float_scalar",
+    "as_complex_array",
     "set_default_int_dtype",
     "set_default_float_dtype",
     "get_domain_range_scale",
@@ -557,6 +565,10 @@ _ASSERTION_MESSAGE_DTYPE_FLOAT = (
     f'"dtype" must be one of the following types: "{DTypeFloat.__args__}"'
 )
 
+_ASSERTION_MESSAGE_DTYPE_COMPLEX = (
+    f'"dtype" must be one of the following types: "{DTypeComplex.__args__}"'
+)
+
 
 def as_array(
     a: ArrayLike | KeysView | ValuesView,
@@ -847,6 +859,43 @@ def as_float_scalar(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> floa
 
     # TODO: Revisit when Numpy types are well established.
     return cast("float", as_float(a, dtype))
+
+
+def as_complex_array(
+    a: ArrayLike, dtype: Type[DTypeComplex] | None = None
+) -> NDArrayComplex:
+    """
+    Convert the specified variable :math:`a` to :class:`numpy.ndarray` using
+    the specified complex :class:`numpy.dtype`.
+
+    Parameters
+    ----------
+    a
+        Variable :math:`a` to convert.
+    dtype
+        Complex :class:`numpy.dtype` to use for conversion, default
+        to the :class:`numpy.dtype` defined by the
+        :attr:`colour.constant.DTYPE_COMPLEX_DEFAULT` attribute.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Variable :math:`a` converted to complex
+        :class:`numpy.ndarray`.
+
+    Examples
+    --------
+    >>> as_complex_array([1, 2, 3])
+    array([1.+0.j, 2.+0.j, 3.+0.j])
+    >>> as_complex_array([1 + 2j, 3 + 4j])
+    array([1.+2.j, 3.+4.j])
+    """
+
+    dtype = optional(dtype, DTYPE_COMPLEX_DEFAULT)
+
+    attest(dtype in DTypeComplex.__args__, _ASSERTION_MESSAGE_DTYPE_COMPLEX)
+
+    return as_array(a, dtype)
 
 
 def set_default_int_dtype(

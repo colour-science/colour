@@ -11,6 +11,7 @@ import numpy as np
 import pytest
 
 from colour.constants import (
+    DTYPE_COMPLEX_DEFAULT,
     DTYPE_FLOAT_DEFAULT,
     DTYPE_INT_DEFAULT,
     TOLERANCE_ABSOLUTE_TESTS,
@@ -25,6 +26,7 @@ from colour.utilities import (
     MixinDataclassFields,
     MixinDataclassIterable,
     as_array,
+    as_complex_array,
     as_float,
     as_float_array,
     as_float_scalar,
@@ -88,6 +90,7 @@ __all__ = [
     "TestAsFloat",
     "TestAsIntArray",
     "TestAsFloatArray",
+    "TestAsComplexArray",
     "TestAsIntScalar",
     "TestAsFloatScalar",
     "TestSetDefaultIntegerDtype",
@@ -570,6 +573,28 @@ class TestAsFloatArray(unittest.TestCase):
         np.testing.assert_equal(as_float_array([1, 2, 3]), np.array([1, 2, 3]))
 
         assert as_float_array([1, 2, 3]).dtype == DTYPE_FLOAT_DEFAULT
+
+
+class TestAsComplexArray(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.array.as_complex_array` definition unit tests
+    methods.
+    """
+
+    def test_as_complex_array(self) -> None:
+        """Test :func:`colour.utilities.array.as_complex_array` definition."""
+
+        np.testing.assert_equal(
+            as_complex_array([1, 2, 3]), np.array([1 + 0j, 2 + 0j, 3 + 0j])
+        )
+
+        np.testing.assert_equal(
+            as_complex_array([1 + 2j, 3 + 4j]), np.array([1 + 2j, 3 + 4j])
+        )
+
+        assert as_complex_array([1, 2, 3]).dtype == DTYPE_COMPLEX_DEFAULT
+
+        assert as_complex_array([1, 2, 3], np.complex64).dtype == np.complex64
 
 
 class TestAsIntScalar(unittest.TestCase):
