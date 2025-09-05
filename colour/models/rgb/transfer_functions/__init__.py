@@ -1,10 +1,7 @@
-# isort: skip_file
-
 from __future__ import annotations
 
-from functools import partial
-
 import typing
+from functools import partial
 
 if typing.TYPE_CHECKING:
     from colour.hints import (
@@ -31,231 +28,251 @@ from colour.utilities import (
     validate_method,
 )
 
-from .common import CV_range, legal_to_full, full_to_legal
+# isort: split
+
+from .common import CV_range, full_to_legal, legal_to_full
 from .gamma import gamma_function
+
+# isort: split
+
 from .aces import (
-    log_encoding_ACESproxy,
+    log_decoding_ACEScc,
+    log_decoding_ACEScct,
     log_decoding_ACESproxy,
     log_encoding_ACEScc,
-    log_decoding_ACEScc,
     log_encoding_ACEScct,
-    log_decoding_ACEScct,
+    log_encoding_ACESproxy,
 )
 from .apple_log_profile import (
-    log_encoding_AppleLogProfile,
     log_decoding_AppleLogProfile,
+    log_encoding_AppleLogProfile,
 )
 from .arib_std_b67 import oetf_ARIBSTDB67, oetf_inverse_ARIBSTDB67
 from .arri import (
-    log_encoding_ARRILogC3,
     log_decoding_ARRILogC3,
-    log_encoding_ARRILogC4,
     log_decoding_ARRILogC4,
+    log_encoding_ARRILogC3,
+    log_encoding_ARRILogC4,
 )
 from .blackmagic_design import (
     oetf_BlackmagicFilmGeneration5,
     oetf_inverse_BlackmagicFilmGeneration5,
 )
 from .canon import (
-    CANON_LOG_ENCODING_METHODS,
-    log_encoding_CanonLog,
-    CANON_LOG_DECODING_METHODS,
-    log_decoding_CanonLog,
-    CANON_LOG_2_ENCODING_METHODS,
-    log_encoding_CanonLog2,
     CANON_LOG_2_DECODING_METHODS,
-    log_decoding_CanonLog2,
-    CANON_LOG_3_ENCODING_METHODS,
-    log_encoding_CanonLog3,
+    CANON_LOG_2_ENCODING_METHODS,
     CANON_LOG_3_DECODING_METHODS,
+    CANON_LOG_3_ENCODING_METHODS,
+    CANON_LOG_DECODING_METHODS,
+    CANON_LOG_ENCODING_METHODS,
+    log_decoding_CanonLog,
+    log_decoding_CanonLog2,
     log_decoding_CanonLog3,
+    log_encoding_CanonLog,
+    log_encoding_CanonLog2,
+    log_encoding_CanonLog3,
 )
-from .cineon import log_encoding_Cineon, log_decoding_Cineon
+from .cineon import log_decoding_Cineon, log_encoding_Cineon
 from .davinci_intermediate import (
     oetf_DaVinciIntermediate,
     oetf_inverse_DaVinciIntermediate,
 )
-from .dcdm import eotf_inverse_DCDM, eotf_DCDM
-from .dicom_gsdf import eotf_inverse_DICOMGSDF, eotf_DICOMGSDF
-from .dji_d_log import log_encoding_DJIDLog, log_decoding_DJIDLog
+from .dcdm import eotf_DCDM, eotf_inverse_DCDM
+from .dicom_gsdf import eotf_DICOMGSDF, eotf_inverse_DICOMGSDF
+from .dji_d_log import log_decoding_DJIDLog, log_encoding_DJIDLog
 from .exponent import exponent_function_basic, exponent_function_monitor_curve
-from .filmic_pro import log_encoding_FilmicPro6, log_decoding_FilmicPro6
+from .filmic_pro import log_decoding_FilmicPro6, log_encoding_FilmicPro6
 from .filmlight_t_log import (
-    log_encoding_FilmLightTLog,
     log_decoding_FilmLightTLog,
+    log_encoding_FilmLightTLog,
 )
-from .gopro import log_encoding_Protune, log_decoding_Protune
+from .fujifilm_f_log import (
+    log_decoding_FLog,
+    log_decoding_FLog2,
+    log_encoding_FLog,
+    log_encoding_FLog2,
+)
+from .gopro import log_decoding_Protune, log_encoding_Protune
 from .itur_bt_601 import oetf_BT601, oetf_inverse_BT601
 from .itur_bt_709 import oetf_BT709, oetf_inverse_BT709
 from .itur_bt_1361 import oetf_BT1361, oetf_inverse_BT1361
-from .itur_bt_1886 import eotf_inverse_BT1886, eotf_BT1886
+from .itur_bt_1886 import eotf_BT1886, eotf_inverse_BT1886
 from .itur_bt_2020 import oetf_BT2020, oetf_inverse_BT2020
+
+# isort: split
+
 from .st_2084 import eotf_inverse_ST2084, eotf_ST2084
+
+# isort: split
+
 from .itur_bt_2100 import (
-    oetf_BT2100_PQ,
-    oetf_inverse_BT2100_PQ,
-    eotf_BT2100_PQ,
-    eotf_inverse_BT2100_PQ,
-    ootf_BT2100_PQ,
-    ootf_inverse_BT2100_PQ,
-    oetf_BT2100_HLG,
-    oetf_inverse_BT2100_HLG,
-    BT2100_HLG_EOTF_METHODS,
-    eotf_BT2100_HLG,
     BT2100_HLG_EOTF_INVERSE_METHODS,
-    eotf_inverse_BT2100_HLG,
-    BT2100_HLG_OOTF_METHODS,
-    ootf_BT2100_HLG,
+    BT2100_HLG_EOTF_METHODS,
     BT2100_HLG_OOTF_INVERSE_METHODS,
+    BT2100_HLG_OOTF_METHODS,
+    eotf_BT2100_HLG,
+    eotf_BT2100_PQ,
+    eotf_inverse_BT2100_HLG,
+    eotf_inverse_BT2100_PQ,
+    oetf_BT2100_HLG,
+    oetf_BT2100_PQ,
+    oetf_inverse_BT2100_HLG,
+    oetf_inverse_BT2100_PQ,
+    ootf_BT2100_HLG,
+    ootf_BT2100_PQ,
     ootf_inverse_BT2100_HLG,
+    ootf_inverse_BT2100_PQ,
 )
-from .leica_l_log import log_encoding_LLog, log_decoding_LLog
+from .leica_l_log import log_decoding_LLog, log_encoding_LLog
 from .linear import linear_function
 from .log import (
-    logarithmic_function_basic,
-    logarithmic_function_quasilog,
-    logarithmic_function_camera,
-    log_encoding_Log2,
     log_decoding_Log2,
+    log_encoding_Log2,
+    logarithmic_function_basic,
+    logarithmic_function_camera,
+    logarithmic_function_quasilog,
 )
-from .panalog import log_encoding_Panalog, log_decoding_Panalog
-from .panasonic_v_log import log_encoding_VLog, log_decoding_VLog
-from .fujifilm_f_log import (
-    log_encoding_FLog,
-    log_decoding_FLog,
-    log_decoding_FLog2,
-    log_encoding_FLog2,
-)
-from .nikon_n_log import log_encoding_NLog, log_decoding_NLog
-from .pivoted_log import log_encoding_PivotedLog, log_decoding_PivotedLog
+from .nikon_n_log import log_decoding_NLog, log_encoding_NLog
+from .panalog import log_decoding_Panalog, log_encoding_Panalog
+from .panasonic_v_log import log_decoding_VLog, log_encoding_VLog
+from .pivoted_log import log_decoding_PivotedLog, log_encoding_PivotedLog
 from .red import (
-    log_encoding_REDLog,
-    log_decoding_REDLog,
-    log_encoding_REDLogFilm,
-    log_decoding_REDLogFilm,
-    LOG3G10_ENCODING_METHODS,
     LOG3G10_DECODING_METHODS,
-    log_encoding_Log3G10,
+    LOG3G10_ENCODING_METHODS,
     log_decoding_Log3G10,
-    log_encoding_Log3G12,
     log_decoding_Log3G12,
+    log_decoding_REDLog,
+    log_decoding_REDLogFilm,
+    log_encoding_Log3G10,
+    log_encoding_Log3G12,
+    log_encoding_REDLog,
+    log_encoding_REDLogFilm,
 )
 from .rimm_romm_rgb import (
-    cctf_encoding_ROMMRGB,
+    cctf_decoding_ProPhotoRGB,
+    cctf_decoding_RIMMRGB,
     cctf_decoding_ROMMRGB,
     cctf_encoding_ProPhotoRGB,
-    cctf_decoding_ProPhotoRGB,
     cctf_encoding_RIMMRGB,
-    cctf_decoding_RIMMRGB,
-    log_encoding_ERIMMRGB,
+    cctf_encoding_ROMMRGB,
     log_decoding_ERIMMRGB,
+    log_encoding_ERIMMRGB,
 )
-from .smpte_240m import oetf_SMPTE240M, eotf_SMPTE240M
+from .smpte_240m import eotf_SMPTE240M, oetf_SMPTE240M
 from .sony import (
-    log_encoding_SLog,
     log_decoding_SLog,
-    log_encoding_SLog2,
     log_decoding_SLog2,
-    log_encoding_SLog3,
     log_decoding_SLog3,
+    log_encoding_SLog,
+    log_encoding_SLog2,
+    log_encoding_SLog3,
 )
 from .srgb import eotf_inverse_sRGB, eotf_sRGB
-from .viper_log import log_encoding_ViperLog, log_decoding_ViperLog
-from .xiaomi_mi_log import log_encoding_MiLog, log_decoding_MiLog
+from .viper_log import log_decoding_ViperLog, log_encoding_ViperLog
+from .xiaomi_mi_log import log_decoding_MiLog, log_encoding_MiLog
+
+# isort: split
+
 from .itut_h_273 import (
-    oetf_H273_Log,
-    oetf_inverse_H273_Log,
-    oetf_H273_LogSqrt,
-    oetf_inverse_H273_LogSqrt,
-    oetf_H273_IEC61966_2,
-    oetf_inverse_H273_IEC61966_2,
-    eotf_inverse_H273_ST428_1,
     eotf_H273_ST428_1,
+    eotf_inverse_H273_ST428_1,
+    oetf_H273_IEC61966_2,
+    oetf_H273_Log,
+    oetf_H273_LogSqrt,
+    oetf_inverse_H273_IEC61966_2,
+    oetf_inverse_H273_Log,
+    oetf_inverse_H273_LogSqrt,
 )
 
 __all__ = [
     "CV_range",
-    "legal_to_full",
     "full_to_legal",
+    "legal_to_full",
 ]
 __all__ += [
     "gamma_function",
 ]
 __all__ += [
-    "log_encoding_ACESproxy",
+    "log_decoding_ACEScc",
+    "log_decoding_ACEScct",
     "log_decoding_ACESproxy",
     "log_encoding_ACEScc",
-    "log_decoding_ACEScc",
     "log_encoding_ACEScct",
-    "log_decoding_ACEScct",
+    "log_encoding_ACESproxy",
 ]
 __all__ += [
-    "log_encoding_AppleLogProfile",
     "log_decoding_AppleLogProfile",
+    "log_encoding_AppleLogProfile",
 ]
 __all__ += [
     "oetf_ARIBSTDB67",
     "oetf_inverse_ARIBSTDB67",
 ]
 __all__ += [
-    "log_encoding_ARRILogC3",
     "log_decoding_ARRILogC3",
-    "log_encoding_ARRILogC4",
     "log_decoding_ARRILogC4",
+    "log_encoding_ARRILogC3",
+    "log_encoding_ARRILogC4",
 ]
 __all__ += [
     "oetf_BlackmagicFilmGeneration5",
     "oetf_inverse_BlackmagicFilmGeneration5",
 ]
 __all__ += [
-    "CANON_LOG_ENCODING_METHODS",
-    "log_encoding_CanonLog",
-    "CANON_LOG_DECODING_METHODS",
-    "log_decoding_CanonLog",
-    "CANON_LOG_2_ENCODING_METHODS",
-    "log_encoding_CanonLog2",
     "CANON_LOG_2_DECODING_METHODS",
-    "log_decoding_CanonLog2",
-    "CANON_LOG_3_ENCODING_METHODS",
-    "log_encoding_CanonLog3",
+    "CANON_LOG_2_ENCODING_METHODS",
     "CANON_LOG_3_DECODING_METHODS",
+    "CANON_LOG_3_ENCODING_METHODS",
+    "CANON_LOG_DECODING_METHODS",
+    "CANON_LOG_ENCODING_METHODS",
+    "log_decoding_CanonLog",
+    "log_decoding_CanonLog2",
     "log_decoding_CanonLog3",
+    "log_encoding_CanonLog",
+    "log_encoding_CanonLog2",
+    "log_encoding_CanonLog3",
 ]
 __all__ += [
-    "log_encoding_Cineon",
     "log_decoding_Cineon",
+    "log_encoding_Cineon",
 ]
 __all__ += [
     "oetf_DaVinciIntermediate",
     "oetf_inverse_DaVinciIntermediate",
 ]
 __all__ += [
-    "eotf_inverse_DCDM",
     "eotf_DCDM",
+    "eotf_inverse_DCDM",
 ]
 __all__ += [
-    "eotf_inverse_DICOMGSDF",
     "eotf_DICOMGSDF",
+    "eotf_inverse_DICOMGSDF",
 ]
 __all__ += [
-    "log_encoding_DJIDLog",
     "log_decoding_DJIDLog",
+    "log_encoding_DJIDLog",
 ]
 __all__ += [
     "exponent_function_basic",
     "exponent_function_monitor_curve",
 ]
 __all__ += [
-    "log_encoding_FilmicPro6",
     "log_decoding_FilmicPro6",
+    "log_encoding_FilmicPro6",
 ]
 __all__ += [
-    "log_encoding_FilmLightTLog",
     "log_decoding_FilmLightTLog",
+    "log_encoding_FilmLightTLog",
 ]
 __all__ += [
-    "log_encoding_Protune",
+    "log_decoding_FLog",
+    "log_decoding_FLog2",
+    "log_encoding_FLog",
+    "log_encoding_FLog2",
+]
+__all__ += [
     "log_decoding_Protune",
+    "log_encoding_Protune",
 ]
 __all__ += [
     "oetf_BT601",
@@ -270,8 +287,8 @@ __all__ += [
     "oetf_inverse_BT1361",
 ]
 __all__ += [
-    "eotf_inverse_BT1886",
     "eotf_BT1886",
+    "eotf_inverse_BT1886",
 ]
 __all__ += [
     "oetf_BT2020",
@@ -282,114 +299,108 @@ __all__ += [
     "eotf_ST2084",
 ]
 __all__ += [
-    "oetf_BT2100_PQ",
-    "oetf_inverse_BT2100_PQ",
-    "eotf_BT2100_PQ",
-    "eotf_inverse_BT2100_PQ",
-    "ootf_BT2100_PQ",
-    "ootf_inverse_BT2100_PQ",
-    "oetf_BT2100_HLG",
-    "oetf_inverse_BT2100_HLG",
-    "BT2100_HLG_EOTF_METHODS",
-    "eotf_BT2100_HLG",
     "BT2100_HLG_EOTF_INVERSE_METHODS",
-    "eotf_inverse_BT2100_HLG",
-    "BT2100_HLG_OOTF_METHODS",
-    "ootf_BT2100_HLG",
+    "BT2100_HLG_EOTF_METHODS",
     "BT2100_HLG_OOTF_INVERSE_METHODS",
+    "BT2100_HLG_OOTF_METHODS",
+    "eotf_BT2100_HLG",
+    "eotf_BT2100_PQ",
+    "eotf_inverse_BT2100_HLG",
+    "eotf_inverse_BT2100_PQ",
+    "oetf_BT2100_HLG",
+    "oetf_BT2100_PQ",
+    "oetf_inverse_BT2100_HLG",
+    "oetf_inverse_BT2100_PQ",
+    "ootf_BT2100_HLG",
+    "ootf_BT2100_PQ",
     "ootf_inverse_BT2100_HLG",
+    "ootf_inverse_BT2100_PQ",
 ]
 __all__ += [
-    "log_encoding_LLog",
     "log_decoding_LLog",
+    "log_encoding_LLog",
 ]
 __all__ += [
     "linear_function",
 ]
 __all__ += [
-    "logarithmic_function_basic",
-    "logarithmic_function_quasilog",
-    "logarithmic_function_camera",
-    "log_encoding_Log2",
     "log_decoding_Log2",
+    "log_encoding_Log2",
+    "logarithmic_function_basic",
+    "logarithmic_function_camera",
+    "logarithmic_function_quasilog",
 ]
 __all__ += [
-    "log_encoding_Panalog",
-    "log_decoding_Panalog",
-]
-__all__ += [
-    "log_encoding_VLog",
-    "log_decoding_VLog",
-]
-__all__ += [
-    "log_encoding_FLog",
-    "log_decoding_FLog",
-    "log_decoding_FLog2",
-    "log_encoding_FLog2",
-]
-__all__ += [
-    "log_encoding_NLog",
     "log_decoding_NLog",
+    "log_encoding_NLog",
 ]
 __all__ += [
-    "log_encoding_PivotedLog",
+    "log_decoding_Panalog",
+    "log_encoding_Panalog",
+]
+__all__ += [
+    "log_decoding_VLog",
+    "log_encoding_VLog",
+]
+__all__ += [
     "log_decoding_PivotedLog",
+    "log_encoding_PivotedLog",
 ]
 __all__ += [
-    "log_encoding_REDLog",
-    "log_decoding_REDLog",
-    "log_encoding_REDLogFilm",
-    "log_decoding_REDLogFilm",
-    "LOG3G10_ENCODING_METHODS",
     "LOG3G10_DECODING_METHODS",
-    "log_encoding_Log3G10",
+    "LOG3G10_ENCODING_METHODS",
     "log_decoding_Log3G10",
-    "log_encoding_Log3G12",
     "log_decoding_Log3G12",
+    "log_decoding_REDLog",
+    "log_decoding_REDLogFilm",
+    "log_encoding_Log3G10",
+    "log_encoding_Log3G12",
+    "log_encoding_REDLog",
+    "log_encoding_REDLogFilm",
 ]
 __all__ += [
-    "cctf_encoding_ROMMRGB",
+    "cctf_decoding_ProPhotoRGB",
+    "cctf_decoding_RIMMRGB",
     "cctf_decoding_ROMMRGB",
     "cctf_encoding_ProPhotoRGB",
-    "cctf_decoding_ProPhotoRGB",
     "cctf_encoding_RIMMRGB",
-    "cctf_decoding_RIMMRGB",
-    "log_encoding_ERIMMRGB",
+    "cctf_encoding_ROMMRGB",
     "log_decoding_ERIMMRGB",
+    "log_encoding_ERIMMRGB",
 ]
 __all__ += [
-    "oetf_SMPTE240M",
     "eotf_SMPTE240M",
+    "oetf_SMPTE240M",
 ]
 __all__ += [
-    "log_encoding_SLog",
     "log_decoding_SLog",
-    "log_encoding_SLog2",
     "log_decoding_SLog2",
-    "log_encoding_SLog3",
     "log_decoding_SLog3",
+    "log_encoding_SLog",
+    "log_encoding_SLog2",
+    "log_encoding_SLog3",
 ]
 __all__ += [
     "eotf_inverse_sRGB",
     "eotf_sRGB",
 ]
 __all__ += [
-    "log_encoding_ViperLog",
     "log_decoding_ViperLog",
+    "log_encoding_ViperLog",
 ]
 __all__ += [
-    "log_encoding_MiLog",
     "log_decoding_MiLog",
+    "log_encoding_MiLog",
 ]
 __all__ += [
-    "oetf_H273_Log",
-    "oetf_inverse_H273_Log",
-    "oetf_H273_LogSqrt",
-    "oetf_inverse_H273_LogSqrt",
-    "oetf_H273_IEC61966_2",
-    "oetf_inverse_H273_IEC61966_2",
-    "eotf_inverse_H273_ST428_1",
     "eotf_H273_ST428_1",
+    "eotf_inverse_H273_ST428_1",
+    "oetf_H273_IEC61966_2",
+    "oetf_H273_Log",
+    "oetf_H273_LogSqrt",
+    "oetf_inverse_H273_IEC61966_2",
+    "oetf_inverse_H273_Log",
+    "oetf_inverse_H273_LogSqrt",
 ]
 
 LOG_ENCODINGS: CanonicalMapping = CanonicalMapping(

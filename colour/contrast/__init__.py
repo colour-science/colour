@@ -16,8 +16,6 @@ References
     https://www.itu.int/dms_pub/itu-r/opb/rep/R-REP-BT.2246-4-2015-PDF-E.pdf
 """
 
-# isort: skip_file
-
 from __future__ import annotations
 
 import typing
@@ -32,21 +30,21 @@ from colour.utilities import (
 )
 
 from .barten1999 import (
+    contrast_sensitivity_function_Barten1999,
+    maximum_angular_size_Barten1999,
     optical_MTF_Barten1999,
     pupil_diameter_Barten1999,
-    sigma_Barten1999,
     retinal_illuminance_Barten1999,
-    maximum_angular_size_Barten1999,
-    contrast_sensitivity_function_Barten1999,
+    sigma_Barten1999,
 )
 
 __all__ = [
+    "contrast_sensitivity_function_Barten1999",
+    "maximum_angular_size_Barten1999",
     "optical_MTF_Barten1999",
     "pupil_diameter_Barten1999",
-    "sigma_Barten1999",
     "retinal_illuminance_Barten1999",
-    "maximum_angular_size_Barten1999",
-    "contrast_sensitivity_function_Barten1999",
+    "sigma_Barten1999",
 ]
 
 CONTRAST_SENSITIVITY_METHODS: CanonicalMapping = CanonicalMapping(

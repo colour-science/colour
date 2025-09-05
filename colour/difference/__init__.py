@@ -35,8 +35,6 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
     August 29, 2014, from http://en.wikipedia.org/wiki/Color_difference
 """
 
-# isort: skip_file
-
 from __future__ import annotations
 
 import typing
@@ -58,13 +56,13 @@ from .delta_e import (
     delta_E_CIE1994,
     delta_E_CIE2000,
     delta_E_CMC,
-    delta_E_ITP,
     delta_E_HyAB,
     delta_E_HyCH,
+    delta_E_ITP,
 )
 from .din99 import delta_E_DIN99
 from .huang2015 import power_function_Huang2015
-from .stress import index_stress_Garcia2007, INDEX_STRESS_METHODS, index_stress
+from .stress import INDEX_STRESS_METHODS, index_stress, index_stress_Garcia2007
 
 __all__ = [
     "delta_E_CAM02LCD",
@@ -82,9 +80,9 @@ __all__ += [
     "delta_E_CIE1994",
     "delta_E_CIE2000",
     "delta_E_CMC",
-    "delta_E_ITP",
     "delta_E_HyAB",
     "delta_E_HyCH",
+    "delta_E_ITP",
 ]
 __all__ += [
     "delta_E_DIN99",
@@ -93,9 +91,9 @@ __all__ += [
     "power_function_Huang2015",
 ]
 __all__ += [
-    "index_stress_Garcia2007",
     "INDEX_STRESS_METHODS",
     "index_stress",
+    "index_stress_Garcia2007",
 ]
 
 DELTA_E_METHODS: CanonicalMapping = CanonicalMapping(

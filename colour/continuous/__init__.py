@@ -1,7 +1,8 @@
-# isort: skip_file
-
 from .abstract import AbstractContinuousFunction
 from .signal import Signal
+
+# isort: split
+
 from .multi_signals import MultiSignals
 
 __all__ = [
