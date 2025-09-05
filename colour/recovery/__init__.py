@@ -18,8 +18,6 @@ References
     doi:10.1080/10867651.1999.10487511
 """
 
-# isort: skip_file
-
 from __future__ import annotations
 
 import typing
@@ -35,42 +33,46 @@ from colour.utilities import (
     validate_method,
 )
 
-from .datasets import *  # noqa: F403
 from . import datasets
+from .datasets import *  # noqa: F403
 from .jakob2019 import (
-    sd_Jakob2019,
-    find_coefficients_Jakob2019,
-    XYZ_to_sd_Jakob2019,
     LUT3D_Jakob2019,
+    XYZ_to_sd_Jakob2019,
+    find_coefficients_Jakob2019,
+    sd_Jakob2019,
 )
 from .jiang2013 import (
     PCA_Jiang2013,
-    RGB_to_sd_camera_sensitivity_Jiang2013,
     RGB_to_msds_camera_sensitivities_Jiang2013,
+    RGB_to_sd_camera_sensitivity_Jiang2013,
 )
 from .mallett2019 import (
-    spectral_primary_decomposition_Mallett2019,
     RGB_to_sd_Mallett2019,
+    spectral_primary_decomposition_Mallett2019,
 )
 from .meng2015 import XYZ_to_sd_Meng2015
-from .otsu2018 import Dataset_Otsu2018, Tree_Otsu2018, XYZ_to_sd_Otsu2018
+from .otsu2018 import (
+    Dataset_Otsu2018,
+    Tree_Otsu2018,
+    XYZ_to_sd_Otsu2018,
+)
 from .smits1999 import RGB_to_sd_Smits1999
 
 __all__ = datasets.__all__
 __all__ += [
-    "sd_Jakob2019",
-    "find_coefficients_Jakob2019",
-    "XYZ_to_sd_Jakob2019",
     "LUT3D_Jakob2019",
+    "XYZ_to_sd_Jakob2019",
+    "find_coefficients_Jakob2019",
+    "sd_Jakob2019",
 ]
 __all__ += [
     "PCA_Jiang2013",
-    "RGB_to_sd_camera_sensitivity_Jiang2013",
     "RGB_to_msds_camera_sensitivities_Jiang2013",
+    "RGB_to_sd_camera_sensitivity_Jiang2013",
 ]
 __all__ += [
-    "spectral_primary_decomposition_Mallett2019",
     "RGB_to_sd_Mallett2019",
+    "spectral_primary_decomposition_Mallett2019",
 ]
 __all__ += [
     "XYZ_to_sd_Meng2015",

@@ -1,5 +1,3 @@
-# isort: skip_file
-
 from __future__ import annotations
 
 import typing
@@ -8,28 +6,29 @@ if typing.TYPE_CHECKING:
     from colour.colorimetry import SpectralDistribution
     from colour.hints import Literal
 
-from .datasets import *  # noqa: F403
+from colour.utilities import CanonicalMapping, validate_method
+
 from . import datasets
 from .cfi2017 import (
     ColourRendering_Specification_CIE2017,
     colour_fidelity_index_CIE2017,
-)
-from .cri import (
-    COLOUR_RENDERING_INDEX_METHODS,
-    ColourRendering_Specification_CRI,
-    colour_rendering_index,
 )
 from .cqs import (
     COLOUR_QUALITY_SCALE_METHODS,
     ColourRendering_Specification_CQS,
     colour_quality_scale,
 )
+from .cri import (
+    COLOUR_RENDERING_INDEX_METHODS,
+    ColourRendering_Specification_CRI,
+    colour_rendering_index,
+)
+from .datasets import *  # noqa: F403
 from .ssi import spectral_similarity_index
 from .tm3018 import (
     ColourQuality_Specification_ANSIIESTM3018,
     colour_fidelity_index_ANSIIESTM3018,
 )
-from colour.utilities import CanonicalMapping, validate_method
 
 __all__ = datasets.__all__
 __all__ += [
@@ -37,14 +36,14 @@ __all__ += [
     "colour_fidelity_index_CIE2017",
 ]
 __all__ += [
-    "COLOUR_RENDERING_INDEX_METHODS",
-    "ColourRendering_Specification_CRI",
-    "colour_rendering_index",
-]
-__all__ += [
     "COLOUR_QUALITY_SCALE_METHODS",
     "ColourRendering_Specification_CQS",
     "colour_quality_scale",
+]
+__all__ += [
+    "COLOUR_RENDERING_INDEX_METHODS",
+    "ColourRendering_Specification_CRI",
+    "colour_rendering_index",
 ]
 __all__ += [
     "spectral_similarity_index",

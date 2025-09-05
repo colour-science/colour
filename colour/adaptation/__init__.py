@@ -33,8 +33,6 @@ References
     Express, 26(6), 7724. doi:10.1364/OE.26.007724
 """
 
-# isort: skip_file
-
 from __future__ import annotations
 
 import typing
@@ -42,88 +40,102 @@ import typing
 if typing.TYPE_CHECKING:
     from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
 
+# isort: split
+
 from colour.utilities import (
     CanonicalMapping,
+    as_float_array,
     filter_kwargs,
     get_domain_range_scale,
-    as_float_array,
+    validate_method,
 )
 
-from .datasets import CHROMATIC_ADAPTATION_TRANSFORMS
+# isort: split
+
 from .datasets import (
     CAT_BIANCO2010,
     CAT_BRADFORD,
     CAT_CAT02,
     CAT_CAT02_BRILL2008,
     CAT_CAT16,
-    CAT_CMCCAT2000,
     CAT_CMCCAT97,
+    CAT_CMCCAT2000,
     CAT_FAIRCHILD,
     CAT_PC_BIANCO2010,
     CAT_SHARP,
     CAT_VON_KRIES,
     CAT_XYZ_SCALING,
+    CHROMATIC_ADAPTATION_TRANSFORMS,
 )
+
+# isort: split
+
 from .vonkries import (
-    matrix_chromatic_adaptation_VonKries,
     chromatic_adaptation_VonKries,
+    matrix_chromatic_adaptation_VonKries,
 )
+
+# isort: split
+
 from .fairchild1990 import chromatic_adaptation_Fairchild1990
 from .fairchild2020 import (
     CONDITIONS_DEGREE_OF_ADAPTATION_VK20,
-    matrix_chromatic_adaptation_vk20,
     chromatic_adaptation_vK20,
+    matrix_chromatic_adaptation_vk20,
 )
+
+# isort: split
+
+from .cie1994 import chromatic_adaptation_CIE1994
 from .cmccat2000 import (
-    InductionFactors_CMCCAT2000,
     VIEWING_CONDITIONS_CMCCAT2000,
+    InductionFactors_CMCCAT2000,
+    chromatic_adaptation_CMCCAT2000,
     chromatic_adaptation_forward_CMCCAT2000,
     chromatic_adaptation_inverse_CMCCAT2000,
-    chromatic_adaptation_CMCCAT2000,
 )
-from .cie1994 import chromatic_adaptation_CIE1994
 from .zhai2018 import chromatic_adaptation_Zhai2018
+
+# isort: split
+
 from .li2025 import CAT_CAT16_INVERSE, chromatic_adaptation_Li2025
-from colour.utilities import validate_method
 
 __all__ = [
-    "CHROMATIC_ADAPTATION_TRANSFORMS",
-]
-__all__ += [
     "CAT_BIANCO2010",
     "CAT_BRADFORD",
     "CAT_CAT02",
     "CAT_CAT02_BRILL2008",
     "CAT_CAT16",
-    "CAT_CMCCAT2000",
     "CAT_CMCCAT97",
+    "CAT_CMCCAT2000",
     "CAT_FAIRCHILD",
     "CAT_PC_BIANCO2010",
     "CAT_SHARP",
     "CAT_VON_KRIES",
     "CAT_XYZ_SCALING",
+    "CHROMATIC_ADAPTATION_TRANSFORMS",
 ]
 __all__ += [
-    "matrix_chromatic_adaptation_VonKries",
     "chromatic_adaptation_VonKries",
+    "matrix_chromatic_adaptation_VonKries",
 ]
 __all__ += [
     "chromatic_adaptation_Fairchild1990",
 ]
 __all__ += [
     "CONDITIONS_DEGREE_OF_ADAPTATION_VK20",
-    "matrix_chromatic_adaptation_vk20",
     "chromatic_adaptation_vK20",
-]
-__all__ += [
-    "InductionFactors_CMCCAT2000",
-    "VIEWING_CONDITIONS_CMCCAT2000",
-    "chromatic_adaptation_forward_CMCCAT2000",
-    "chromatic_adaptation_inverse_CMCCAT2000",
-    "chromatic_adaptation_CMCCAT2000",
+    "matrix_chromatic_adaptation_vk20",
 ]
 __all__ += [
     "chromatic_adaptation_CIE1994",
+]
+__all__ += [
+    "VIEWING_CONDITIONS_CMCCAT2000",
+    "InductionFactors_CMCCAT2000",
+    "chromatic_adaptation_CMCCAT2000",
+    "chromatic_adaptation_forward_CMCCAT2000",
+    "chromatic_adaptation_inverse_CMCCAT2000",
 ]
 __all__ += [
     "chromatic_adaptation_Zhai2018",

@@ -44,8 +44,6 @@ Sub-packages
 -   volume: Colourspace volumes computation and optimal colour stimuli.
 """
 
-# isort: skip_file
-
 import contextlib
 import json
 import os
@@ -72,6 +70,8 @@ del _JENV_FILE_PATH
 # ruff: noqa: E402
 
 from colour import plotting  # noqa: F401
+
+# isort: split
 
 from .adaptation import (
     CHROMATIC_ADAPTATION_METHODS,
@@ -109,7 +109,6 @@ from .appearance import (
     VIEWING_CONDITIONS_LLAB,
     VIEWING_CONDITIONS_RLAB,
     VIEWING_CONDITIONS_ZCAM,
-    VIEWING_CONDITIONS_sCAM,
     CAM16_to_XYZ,
     CAM_Specification_ATD95,
     CAM_Specification_CAM16,
@@ -121,15 +120,15 @@ from .appearance import (
     CAM_Specification_LLAB,
     CAM_Specification_Nayatani95,
     CAM_Specification_RLAB,
-    CAM_Specification_ZCAM,
     CAM_Specification_sCAM,
+    CAM_Specification_ZCAM,
     CIECAM02_to_XYZ,
     CIECAM16_to_XYZ,
     Hellwig2022_to_XYZ,
     HelmholtzKohlrausch_effect_luminous_Nayatani1997,
     HelmholtzKohlrausch_effect_object_Nayatani1997,
     Kim2009_to_XYZ,
-    sCAM_to_XYZ,
+    VIEWING_CONDITIONS_sCAM,
     XYZ_to_ATD95,
     XYZ_to_CAM16,
     XYZ_to_CIECAM02,
@@ -140,9 +139,10 @@ from .appearance import (
     XYZ_to_LLAB,
     XYZ_to_Nayatani95,
     XYZ_to_RLAB,
-    XYZ_to_ZCAM,
     XYZ_to_sCAM,
+    XYZ_to_ZCAM,
     ZCAM_to_XYZ,
+    sCAM_to_XYZ,
 )
 from .blindness import (
     CVD_MATRICES_MACHADO2010,
@@ -526,7 +526,6 @@ __all__ += [
     "VIEWING_CONDITIONS_LLAB",
     "VIEWING_CONDITIONS_RLAB",
     "VIEWING_CONDITIONS_ZCAM",
-    "VIEWING_CONDITIONS_sCAM",
     "CAM16_to_XYZ",
     "CAM_Specification_ATD95",
     "CAM_Specification_CAM16",
@@ -538,15 +537,15 @@ __all__ += [
     "CAM_Specification_LLAB",
     "CAM_Specification_Nayatani95",
     "CAM_Specification_RLAB",
-    "CAM_Specification_ZCAM",
     "CAM_Specification_sCAM",
+    "CAM_Specification_ZCAM",
     "CIECAM02_to_XYZ",
     "CIECAM16_to_XYZ",
     "Hellwig2022_to_XYZ",
     "HelmholtzKohlrausch_effect_luminous_Nayatani1997",
     "HelmholtzKohlrausch_effect_object_Nayatani1997",
     "Kim2009_to_XYZ",
-    "sCAM_to_XYZ",
+    "VIEWING_CONDITIONS_sCAM",
     "XYZ_to_ATD95",
     "XYZ_to_CAM16",
     "XYZ_to_CIECAM02",
@@ -557,9 +556,10 @@ __all__ += [
     "XYZ_to_LLAB",
     "XYZ_to_Nayatani95",
     "XYZ_to_RLAB",
-    "XYZ_to_ZCAM",
     "XYZ_to_sCAM",
+    "XYZ_to_ZCAM",
     "ZCAM_to_XYZ",
+    "sCAM_to_XYZ",
 ]
 __all__ += [
     "CVD_MATRICES_MACHADO2010",
