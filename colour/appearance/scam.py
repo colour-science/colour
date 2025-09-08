@@ -264,7 +264,7 @@ def XYZ_to_sCAM(
     >>> surround = VIEWING_CONDITIONS_sCAM["Average"]
     >>> XYZ_to_sCAM(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
     CAM_Specification_sCAM(J=49.9795668..., C=0.0140531..., h=328.2724924..., \
-Q=206.4275827..., M=0.0050244..., H=363.6013437..., HC=None, V=49.9795727..., \
+Q=195.23024234..., M=0.0050244..., H=363.6013437..., HC=None, V=49.9795727..., \
 K=50.0204272..., W=34.9734327..., D=65.0265672...)
     """
 
@@ -302,7 +302,10 @@ K=50.0204272..., W=34.9734327..., D=65.0265672...)
 
     with sdiv_mode():
         M = (C * spow(F_L, 0.1) * sdiv(1, spow(I_a, 0.27)) * e_t) * surround.F
-        Q = sdiv(2, surround.c) * I_a * spow(F_L, 0.46)
+        # The original paper contained two inconsistent formulas for calculating Q:
+        # Equation (15) on page 6 uses an exponent of 0.1, while page 10 uses 0.46.
+        # After confirmation with the author, 0.1 is the recommended value.
+        Q = sdiv(2, surround.c) * I_a * spow(F_L, 0.1)
 
     H = hue_quadrature(h)
 
