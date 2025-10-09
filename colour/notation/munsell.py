@@ -1682,9 +1682,9 @@ def munsell_specification_to_munsell_colour(
 
     chroma = round(chroma, chroma_decimals)
     attest(
-        2 <= chroma <= 50,
+        0 <= chroma <= 50,
         f'"{specification!r}" specification chroma must be normalised to '
-        f"domain [2, 50]!",
+        f"domain [0, 50]!",
     )
 
     code_values = MUNSELL_HUE_LETTER_CODES.values()
