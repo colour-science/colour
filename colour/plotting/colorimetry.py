@@ -238,11 +238,10 @@ def plot_single_sd(
     )
     axes.add_patch(polygon)
 
-    padding = 0.1
     axes.bar(
-        x=wavelengths - padding,
+        x=wavelengths,
         height=max(values),
-        width=1 + padding,
+        width=np.min(np.diff(wavelengths)) if len(wavelengths) > 1 else 1,
         color=RGB,
         align="edge",
         clip_path=polygon,
