@@ -91,7 +91,7 @@ dev-dependencies = [
     "pre-commit",
     "pyright",
     "pytest",
-    "pytest-cov",
+    "pytest-cov<7.0.0",
     "pytest-xdist",
     "scipy-stubs",
     "toml",
