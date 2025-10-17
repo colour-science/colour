@@ -8,6 +8,7 @@ CLAUDE.md
 uv.lock
 
 # Common Directories
+.claude/
 .fleet/
 .idea/
 .ipynb_checkpoints/
