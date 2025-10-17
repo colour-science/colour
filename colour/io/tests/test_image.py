@@ -48,6 +48,10 @@ __all__ = [
 ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
 
+@pytest.mark.skipif(
+    platform.system() == "Windows",
+    reason="OpenImageIO crashes on Windows due to thread-safety issues",
+)
 class TestImageSpecificationOpenImageIO:
     """
     Define :func:`colour.io.image.image_specification_OpenImageIO` definition
@@ -263,6 +267,10 @@ class TestConvertBitDepth:
             assert convert_bit_depth(a, "float128").dtype is np.dtype("float128")
 
 
+@pytest.mark.skipif(
+    platform.system() == "Windows",
+    reason="OpenImageIO crashes on Windows due to thread-safety issues",
+)
 class TestReadImageOpenImageIO:
     """
     Define :func:`colour.io.image.read_image_OpenImageIO` definition unit
