@@ -337,6 +337,10 @@ class TestReadImageOpenImageIO:
         assert np.max(image) == 1.0
 
 
+@pytest.mark.skipif(
+    platform.system() == "Windows",
+    reason="OpenImageIO crashes on Windows due to thread-safety issues",
+)
 class TestWriteImageOpenImageIO:
     """
     Define :func:`colour.io.image.write_image_OpenImageIO` definition unit
@@ -565,6 +569,10 @@ class TestReadImage:
         assert image.shape == (256, 256)
 
 
+@pytest.mark.skipif(
+    platform.system() == "Windows",
+    reason="OpenImageIO crashes on Windows due to thread-safety issues",
+)
 class TestWriteImage:
     """Define :func:`colour.io.image.write_image` definition unit tests methods."""
 
