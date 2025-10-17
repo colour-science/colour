@@ -49,11 +49,12 @@ class TestPCA_Jiang2013:
     tests methods.
     """
 
+    @pytest.mark.skipif(
+        platform.system() in ("Windows", "Microsoft", "Linux"),
+        reason="PCA tests only run on macOS",
+    )
     def test_PCA_Jiang2013(self) -> None:
         """Test :func:`colour.recovery.jiang2013.PCA_Jiang2013` definition."""
-
-        if platform.system() in ("Windows", "Microsoft", "Linux"):
-            return
 
         shape = SpectralShape(400, 700, 10)
         camera_sensitivities = {

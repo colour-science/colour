@@ -724,15 +724,15 @@ matrix_colour_correction_Cheung2004` definition.
         )
 
     @ignore_numpy_errors
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
     def test_nan_matrix_colour_correction_Cheung2004(self) -> None:  # pragma: no cover
         """
         Test :func:`colour.characterisation.correction.\
         matrix_colour_correction_Cheung2004` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
@@ -825,6 +825,10 @@ matrix_colour_correction_Finlayson2015` definition.
         )
 
     @ignore_numpy_errors
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
     def test_nan_matrix_colour_correction_Finlayson2015(
         self,
     ) -> None:  # pragma: no cover
@@ -832,10 +836,6 @@ matrix_colour_correction_Finlayson2015` definition.
         Test :func:`colour.characterisation.correction.\
         matrix_colour_correction_Finlayson2015` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
@@ -919,6 +919,10 @@ matrix_colour_correction_Vandermonde` definition.
         )
 
     @ignore_numpy_errors
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
     def test_nan_matrix_colour_correction_Vandermonde(
         self,
     ) -> None:  # pragma: no cover
@@ -926,10 +930,6 @@ matrix_colour_correction_Vandermonde` definition.
         Test :func:`colour.characterisation.correction.\
         matrix_colour_correction_Vandermonde` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
@@ -1003,6 +1003,10 @@ apply_matrix_colour_correction_Cheung2004` definition n-dimensional support.
         )
 
     @ignore_numpy_errors
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
     def test_nan_apply_matrix_colour_correction_Cheung2004(
         self,
     ) -> None:  # pragma: no cover
@@ -1010,10 +1014,6 @@ apply_matrix_colour_correction_Cheung2004` definition n-dimensional support.
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Cheung2004` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
@@ -1087,6 +1087,10 @@ apply_matrix_colour_correction_Finlayson2015` definition n-dimensional support.
         )
 
     @ignore_numpy_errors
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
     def test_nan_apply_matrix_colour_correction_Finlayson2015(
         self,
     ) -> None:  # pragma: no cover
@@ -1094,10 +1098,6 @@ apply_matrix_colour_correction_Finlayson2015` definition n-dimensional support.
                 Test :func:`colour.characterisation.correction.
         apply_matrix_colour_correction_Finlayson2015` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
@@ -1171,6 +1171,10 @@ apply_matrix_colour_correction_Vandermonde` definition n-dimensional support.
         )
 
     @ignore_numpy_errors
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
     def test_nan_apply_matrix_colour_correction_Vandermonde(
         self,
     ) -> None:  # pragma: no cover
@@ -1178,10 +1182,6 @@ apply_matrix_colour_correction_Vandermonde` definition n-dimensional support.
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Vandermonde` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
@@ -1245,15 +1245,15 @@ colour_correction_Cheung2004` definition n-dimensional support.
         )
 
     @ignore_numpy_errors
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
     def test_nan_colour_correction_Cheung2004(self) -> None:  # pragma: no cover
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Cheung2004` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
@@ -1320,15 +1320,15 @@ colour_correction_Finlayson2015` definition n-dimensional support.
         )
 
     @ignore_numpy_errors
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
     def test_nan_colour_correction_Finlayson2015(self) -> None:  # pragma: no cover
         """
                 Test :func:`colour.characterisation.correction.
         colour_correction_Finlayson2015` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
@@ -1393,15 +1393,15 @@ colour_correction_Vandermonde` definition n-dimensional support.
         )
 
     @ignore_numpy_errors
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
     def test_nan_colour_correction_Vandermonde(self) -> None:  # pragma: no cover
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Vandermonde` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))

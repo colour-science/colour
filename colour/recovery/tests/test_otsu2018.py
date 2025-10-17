@@ -437,11 +437,12 @@ class TestData_Otsu2018:
             PartitionAxis(4, 1),
         )
 
+    @pytest.mark.skipif(
+        platform.system() in ("Windows", "Microsoft", "Linux"),
+        reason="PCA tests only run on macOS",
+    )
     def test_PCA(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.PCA` method."""
-
-        if platform.system() in ("Windows", "Microsoft", "Linux"):
-            return
 
         data = Data_Otsu2018(self._reflectances, self._cmfs, self._sd_D65)
 
