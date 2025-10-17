@@ -337,6 +337,10 @@ class TestReadImageOpenImageIO:
         assert np.max(image) == 1.0
 
 
+@pytest.mark.skipif(
+    platform.system() == "Windows",
+    reason="OpenImageIO crashes on Windows due to thread-safety issues",
+)
 class TestWriteImageOpenImageIO:
     """
     Define :func:`colour.io.image.write_image_OpenImageIO` definition unit
@@ -521,31 +525,37 @@ class TestWriteImageImageio:
         np.testing.assert_equal(np.squeeze(RGB), target_image)
         np.testing.assert_equal(source_image, target_image)
 
-        # NOTE: Those unit tests are breaking on Linux, skipping for now.
-        if platform.system() != "Linux":  # pragma: no cover
-            source_path = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
-            source_image = read_image_Imageio(source_path)
-            target_path = os.path.join(
-                self._temporary_directory, "CMS_Test_Pattern.exr"
-            )
-            write_image_Imageio(source_image, target_path)
-            target_image = read_image_Imageio(target_path)
-            np.testing.assert_allclose(
-                source_image, target_image, atol=TOLERANCE_ABSOLUTE_TESTS
-            )
-            assert target_image.shape == (1267, 1274, 3)
-            assert target_image.dtype is np.dtype("float32")
+    @pytest.mark.skipif(
+        platform.system() == "Linux",
+        reason="EXR tests are breaking on Linux",
+    )
+    def test_write_image_Imageio_exr(self) -> None:
+        """
+        Test :func:`colour.io.image.write_image_Imageio` definition with EXR
+        files.
+        """
 
-            target_path = os.path.join(self._temporary_directory, "Full_White.exr")
-            target_image = full((32, 16, 3), 1e6, dtype=np.float16)
-            write_image_Imageio(target_image, target_path)
-            target_image = read_image_Imageio(target_path)
-            assert np.max(target_image) == np.inf
+        source_path = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
+        source_image = read_image_Imageio(source_path)
+        target_path = os.path.join(self._temporary_directory, "CMS_Test_Pattern.exr")
+        write_image_Imageio(source_image, target_path)
+        target_image = read_image_Imageio(target_path)
+        np.testing.assert_allclose(
+            source_image, target_image, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+        assert target_image.shape == (1267, 1274, 3)
+        assert target_image.dtype is np.dtype("float32")
 
-            target_image = full((32, 16, 3), 1e6)
-            write_image_Imageio(target_image, target_path)
-            target_image = read_image_Imageio(target_path)
-            assert np.max(target_image) == 1e6
+        target_path = os.path.join(self._temporary_directory, "Full_White.exr")
+        target_image = full((32, 16, 3), 1e6, dtype=np.float16)
+        write_image_Imageio(target_image, target_path)
+        target_image = read_image_Imageio(target_path)
+        assert np.max(target_image) == np.inf
+
+        target_image = full((32, 16, 3), 1e6)
+        write_image_Imageio(target_image, target_path)
+        target_image = read_image_Imageio(target_path)
+        assert np.max(target_image) == 1e6
 
 
 class TestReadImage:
@@ -565,6 +575,10 @@ class TestReadImage:
         assert image.shape == (256, 256)
 
 
+@pytest.mark.skipif(
+    platform.system() == "Windows",
+    reason="OpenImageIO crashes on Windows due to thread-safety issues",
+)
 class TestWriteImage:
     """Define :func:`colour.io.image.write_image` definition unit tests methods."""
 
