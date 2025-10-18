@@ -5,10 +5,6 @@ References
     Development Kit (SDK) - 1.3.0.0 -
     dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::dng_temperature::\
 Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
--   :cite:`AdobeSystems2013a` : Adobe Systems. (2013). Adobe DNG Software
-    Development Kit (SDK) - 1.3.0.0 -
-    dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::dng_temperature::xy_coord.
-    https://www.adobe.com/support/downloads/dng/dng_sdk.html
 -   :cite:`CIETC1-482004i` : CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON
     THE USE OF PLANCK'S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry,
     3rd Edition (pp. 77-82). ISBN:978-3-901906-33-6
@@ -125,7 +121,7 @@ colour temperature :math:`T_{cp}` computation methods.
 
 References
 ----------
-:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`,
+:cite:`AdobeSystems2013`,
 :cite:`CIETC1-482004i`, :cite:`Krystek1985b`, :cite:`Ohno2014a`,
 :cite:`Wyszecki2000y`
 
@@ -186,7 +182,7 @@ def uv_to_CCT(
 
     References
     ----------
-    :cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`,
+    :cite:`AdobeSystems2013`,
     :cite:`CIETC1-482004i`, :cite:`Krystek1985b`, :cite:`Ohno2014a`,
     :cite:`Wyszecki2000y`
 
@@ -219,7 +215,7 @@ Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
 
 References
 ----------
-:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`,
+:cite:`AdobeSystems2013`,
 :cite:`CIETC1-482004i`, :cite:`Krystek1985b`, :cite:`Ohno2014a`,
 :cite:`Wyszecki2000y`
 
@@ -265,7 +261,7 @@ def CCT_to_uv(
 
     References
     ----------
-    :cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`,
+    :cite:`AdobeSystems2013`,
     :cite:`CIETC1-482004i`, :cite:`Krystek1985b`, :cite:`Ohno2014a`,
     :cite:`Wyszecki2000y`
 
