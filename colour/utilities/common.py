@@ -1124,38 +1124,6 @@ def slugify(object_: Any, allow_unicode: bool = False) -> str:
 if is_xxhash_installed():
     import xxhash
 
-    from colour.utilities.documentation import is_documentation_building
-
     int_digest = xxhash.xxh3_64_intdigest
-
-    if is_documentation_building():  # pragma: no cover
-        if typing.TYPE_CHECKING:
-            import array
-
-        def int_digest(
-            args: (  # noqa: ARG001
-                str | bytes | bytearray | memoryview | array.ArrayType[int]
-            ),
-            seed: int = 0,  # noqa: ARG001
-        ) -> int:
-            """
-            Generate an integer digest for the specified argument using
-            *xxhash* if available, otherwise fall back to :func:`hash`.
-
-            Parameters
-            ----------
-            args
-                Argument to generate the integer digest of.
-            seed
-                Seed used to alter the result predictably.
-
-            Returns
-            -------
-            :class:`int`
-                Integer digest.
-            """
-
-            return -1
-
 else:
     int_digest = hash  # pyright: ignore  # pragma: no cover
