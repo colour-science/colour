@@ -20,10 +20,6 @@ computation objects.
 
 References
 ----------
--   :cite:`AdobeSystems2013` : Adobe Systems. (2013). Adobe DNG Software
-    Development Kit (SDK) - 1.3.0.0 -
-    dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::dng_temperature::\
-Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
 -   :cite:`Wyszecki2000x` : Wyszecki, Günther, & Stiles, W. S. (2000). Table
     1(3.11) Isotemperature Lines. In Color Science: Concepts and Methods,
     Quantitative Data and Formulae (p. 228). Wiley. ISBN:978-0-471-39918-6
@@ -220,7 +216,7 @@ def uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArrayFloat:
 
     References
     ----------
-    :cite:`AdobeSystems2013`, :cite:`Wyszecki2000y`
+    :cite:`Wyszecki2000y`
 
     Examples
     --------
