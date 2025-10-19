@@ -1126,4 +1126,4 @@ if is_xxhash_installed():
 
     int_digest = xxhash.xxh3_64_intdigest
 else:
-    int_digest = hash  # pyright: ignore  # pragma: no cover
+    int_digest = hash  # pragma: no cover
