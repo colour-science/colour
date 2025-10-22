@@ -254,11 +254,17 @@ class Conversion_Specification:
         Target node in the graph.
     conversion_function
         Callable converting from the ``source`` node to the ``target`` node.
+    to_reference
+        Tuple of scale factors for converting from domain-range scale '1' to
+        'reference' scale for each component of the output. For example,
+        100 for CIE Lab or (100, 100, 360) for CIE LCHab.
+        None if the conversion output doesn't support automatic rescaling.
     """
 
     source: str
     target: str
     conversion_function: Callable
+    to_reference: tuple[float, ...] | None
 
     def __post_init__(self) -> None:
         """
@@ -703,373 +709,186 @@ for the domain-range scale **'1'**.
 
 _CAM_KWARGS_CIECAM02_sRGB["XYZ_w"] = _CAM_KWARGS_CIECAM02_sRGB["XYZ_w"] / 100
 
+# fmt: off
+# ruff: noqa: E501
 CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
     # Colorimetry
-    ("Spectral Distribution", "CIE XYZ", sd_to_XYZ),
-    ("CIE XYZ", "Spectral Distribution", XYZ_to_sd),
-    ("Spectral Distribution", "Luminous Flux", luminous_flux),
-    ("Spectral Distribution", "Luminous Efficiency", luminous_efficiency),
-    ("Spectral Distribution", "Luminous Efficacy", luminous_efficacy),
-    ("CIE XYZ", "Luminance", XYZ_to_luminance),
-    ("Luminance", "Lightness", lightness),
-    ("Lightness", "Luminance", luminance),
-    (
-        "CIE XYZ",
-        "Whiteness",
-        partial(whiteness, XYZ_0=_TVS_ILLUMINANT_DEFAULT),
-    ),
-    ("CIE XYZ", "Yellowness", yellowness),
-    (
-        "CIE xy",
-        "Colorimetric Purity",
-        partial(colorimetric_purity, xy_n=_CCS_ILLUMINANT_DEFAULT),
-    ),
-    (
-        "CIE xy",
-        "Complementary Wavelength",
-        partial(complementary_wavelength, xy_n=_CCS_ILLUMINANT_DEFAULT),
-    ),
-    (
-        "CIE xy",
-        "Dominant Wavelength",
-        partial(dominant_wavelength, xy_n=_CCS_ILLUMINANT_DEFAULT),
-    ),
-    (
-        "CIE xy",
-        "Excitation Purity",
-        partial(excitation_purity, xy_n=_CCS_ILLUMINANT_DEFAULT),
-    ),
-    ("Wavelength", "CIE XYZ", wavelength_to_XYZ),
+    ("Spectral Distribution", "CIE XYZ", sd_to_XYZ, 100,),
+    ("CIE XYZ", "Spectral Distribution", XYZ_to_sd, None,),
+    ("Spectral Distribution", "Luminous Flux", luminous_flux, 1,),
+    ("Spectral Distribution", "Luminous Efficiency", luminous_efficiency, 1,),
+    ("Spectral Distribution", "Luminous Efficacy", luminous_efficacy, 1,),
+    ("CIE XYZ", "Luminance", XYZ_to_luminance, 1,),
+    ("Luminance", "Lightness", lightness, 100,),
+    ("Lightness", "Luminance", luminance, 1,),
+    ("CIE XYZ", "Whiteness", partial(whiteness, XYZ_0=_TVS_ILLUMINANT_DEFAULT), 100,),
+    ("CIE XYZ", "Yellowness", yellowness, 100,),
+    ("CIE xy", "Colorimetric Purity", partial(colorimetric_purity, xy_n=_CCS_ILLUMINANT_DEFAULT), None,),
+    ("CIE xy", "Complementary Wavelength", partial(complementary_wavelength, xy_n=_CCS_ILLUMINANT_DEFAULT), None,),
+    ("CIE xy", "Dominant Wavelength", partial(dominant_wavelength, xy_n=_CCS_ILLUMINANT_DEFAULT), None,),
+    ("CIE xy", "Excitation Purity", partial(excitation_purity, xy_n=_CCS_ILLUMINANT_DEFAULT), None,),
+    ("Wavelength", "CIE XYZ", wavelength_to_XYZ, 1,),
     # Colour Models
-    ("CIE XYZ", "CIE xyY", XYZ_to_xyY),
-    ("CIE xyY", "CIE XYZ", xyY_to_XYZ),
-    ("CIE xyY", "CIE xy", xyY_to_xy),
-    ("CIE xy", "CIE xyY", xy_to_xyY),
-    ("CIE XYZ", "CIE xy", XYZ_to_xy),
-    ("CIE xy", "CIE XYZ", xy_to_XYZ),
-    ("CIE XYZ", "CIE Lab", XYZ_to_Lab),
-    ("CIE Lab", "CIE XYZ", Lab_to_XYZ),
-    ("CIE XYZ", "CIE Luv", XYZ_to_Luv),
-    ("CIE Luv", "CIE XYZ", Luv_to_XYZ),
-    ("CIE Luv", "CIE Luv uv", Luv_to_uv),
-    ("CIE Luv uv", "CIE Luv", uv_to_Luv),
-    ("CIE Luv uv", "CIE xy", Luv_uv_to_xy),
-    ("CIE xy", "CIE Luv uv", xy_to_Luv_uv),
-    ("CIE XYZ", "CIE UCS", XYZ_to_UCS),
-    ("CIE UCS", "CIE XYZ", UCS_to_XYZ),
-    ("CIE UCS", "CIE UCS uv", UCS_to_uv),
-    ("CIE UCS uv", "CIE UCS", uv_to_UCS),
-    ("CIE UCS uv", "CIE xy", UCS_uv_to_xy),
-    ("CIE xy", "CIE UCS uv", xy_to_UCS_uv),
-    ("CIE XYZ", "CIE UVW", XYZ_to_UVW),
-    ("CIE UVW", "CIE XYZ", UVW_to_XYZ),
-    ("CIE XYZ", "DIN99", XYZ_to_DIN99),
-    ("DIN99", "CIE XYZ", DIN99_to_XYZ),
-    ("CIE XYZ", "hdr-CIELAB", XYZ_to_hdr_CIELab),
-    ("hdr-CIELAB", "CIE XYZ", hdr_CIELab_to_XYZ),
-    (
-        "CIE XYZ",
-        "Hunter Lab",
-        partial(
-            XYZ_to_Hunter_Lab,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-                "D65"
-            ].XYZ_n
-            / 100,
-        ),
-    ),
-    (
-        "Hunter Lab",
-        "CIE XYZ",
-        partial(
-            Hunter_Lab_to_XYZ,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-                "D65"
-            ].XYZ_n
-            / 100,
-        ),
-    ),
-    (
-        "CIE XYZ",
-        "Hunter Rdab",
-        partial(
-            XYZ_to_Hunter_Rdab,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-                "D65"
-            ].XYZ_n
-            / 100,
-        ),
-    ),
-    (
-        "Hunter Rdab",
-        "CIE XYZ",
-        partial(
-            Hunter_Rdab_to_XYZ,
-            XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-                "D65"
-            ].XYZ_n
-            / 100,
-        ),
-    ),
-    ("CIE XYZ", "ICaCb", XYZ_to_ICaCb),
-    ("ICaCb", "CIE XYZ", ICaCb_to_XYZ),
-    ("CIE XYZ", "ICtCp", XYZ_to_ICtCp),
-    ("ICtCp", "CIE XYZ", ICtCp_to_XYZ),
-    ("CIE XYZ", "IgPgTg", XYZ_to_IgPgTg),
-    ("IgPgTg", "CIE XYZ", IgPgTg_to_XYZ),
-    ("CIE XYZ", "IPT", XYZ_to_IPT),
-    ("IPT", "CIE XYZ", IPT_to_XYZ),
-    ("CIE XYZ", "IPT Ragoo 2021", XYZ_to_IPT_Ragoo2021),
-    ("IPT Ragoo 2021", "CIE XYZ", IPT_Ragoo2021_to_XYZ),
-    ("CIE XYZ", "Jzazbz", XYZ_to_Jzazbz),
-    ("Jzazbz", "CIE XYZ", Jzazbz_to_XYZ),
-    ("CIE XYZ", "hdr-IPT", XYZ_to_hdr_IPT),
-    ("hdr-IPT", "CIE XYZ", hdr_IPT_to_XYZ),
-    ("CIE XYZ", "OSA UCS", XYZ_to_OSA_UCS),
-    ("OSA UCS", "CIE XYZ", OSA_UCS_to_XYZ),
-    ("CIE XYZ", "Oklab", XYZ_to_Oklab),
-    ("Oklab", "CIE XYZ", Oklab_to_XYZ),
-    ("CIE XYZ", "ProLab", XYZ_to_ProLab),
-    ("ProLab", "CIE XYZ", ProLab_to_XYZ),
-    ("CIE XYZ", "sUCS", XYZ_to_sUCS),
-    ("sUCS", "CIE XYZ", sUCS_to_XYZ),
-    ("CIE XYZ", "Yrg", XYZ_to_Yrg),
-    ("Yrg", "CIE XYZ", Yrg_to_XYZ),
-    ("CIE 1931", "CIE XYZ", xyY_to_XYZ),
-    ("CIE XYZ", "CIE 1931", XYZ_to_xyY),
-    ("CIE 1960 UCS", "CIE XYZ", CIE1960UCS_to_XYZ),
-    ("CIE XYZ", "CIE 1960 UCS", XYZ_to_CIE1960UCS),
-    ("CIE 1976 UCS", "CIE XYZ", CIE1976UCS_to_XYZ),
-    ("CIE XYZ", "CIE 1976 UCS", XYZ_to_CIE1976UCS),
+    ("CIE XYZ", "CIE xyY", XYZ_to_xyY, 1,),
+    ("CIE xyY", "CIE XYZ", xyY_to_XYZ, 1,),
+    ("CIE xyY", "CIE xy", xyY_to_xy, None,),
+    ("CIE xy", "CIE xyY", xy_to_xyY, 1,),
+    ("CIE XYZ", "CIE xy", XYZ_to_xy, None,),
+    ("CIE xy", "CIE XYZ", xy_to_XYZ, 1,),
+    ("CIE XYZ", "CIE Lab", XYZ_to_Lab, 100,),
+    ("CIE Lab", "CIE XYZ", Lab_to_XYZ, 1,),
+    ("CIE XYZ", "CIE Luv", XYZ_to_Luv, 100,),
+    ("CIE Luv", "CIE XYZ", Luv_to_XYZ, 1,),
+    ("CIE Luv", "CIE Luv uv", Luv_to_uv, None,),
+    ("CIE Luv uv", "CIE Luv", uv_to_Luv, 1,),
+    ("CIE Luv uv", "CIE xy", Luv_uv_to_xy, None,),
+    ("CIE xy", "CIE Luv uv", xy_to_Luv_uv, 1,),
+    ("CIE XYZ", "CIE UCS", XYZ_to_UCS, 1,),
+    ("CIE UCS", "CIE XYZ", UCS_to_XYZ, 1,),
+    ("CIE UCS", "CIE UCS uv", UCS_to_uv, None,),
+    ("CIE UCS uv", "CIE UCS", uv_to_UCS, 1,),
+    ("CIE UCS uv", "CIE xy", UCS_uv_to_xy, None,),
+    ("CIE xy", "CIE UCS uv", xy_to_UCS_uv, None,),
+    ("CIE XYZ", "CIE UVW", XYZ_to_UVW, 100,),
+    ("CIE UVW", "CIE XYZ", UVW_to_XYZ, 1,),
+    ("CIE XYZ", "DIN99", XYZ_to_DIN99, 100,),
+    ("DIN99", "CIE XYZ", DIN99_to_XYZ, 1,),
+    ("CIE XYZ", "hdr-CIELAB", XYZ_to_hdr_CIELab, 100,),
+    ("hdr-CIELAB", "CIE XYZ", hdr_CIELab_to_XYZ, 1,),
+    ("CIE XYZ", "Hunter Lab", partial(XYZ_to_Hunter_Lab, XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"]["D65"].XYZ_n / 100), 100,),
+    ("Hunter Lab", "CIE XYZ", partial(Hunter_Lab_to_XYZ, XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"]["D65"].XYZ_n / 100), 1,),
+    ("CIE XYZ", "Hunter Rdab", partial(XYZ_to_Hunter_Rdab, XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"]["D65"].XYZ_n / 100), 100,),
+    ("Hunter Rdab", "CIE XYZ", partial(Hunter_Rdab_to_XYZ, XYZ_n=TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"]["D65"].XYZ_n / 100), 1,),
+    ("CIE XYZ", "ICaCb", XYZ_to_ICaCb, 1,),
+    ("ICaCb", "CIE XYZ", ICaCb_to_XYZ, 1,),
+    ("CIE XYZ", "ICtCp", XYZ_to_ICtCp, 1,),
+    ("ICtCp", "CIE XYZ", ICtCp_to_XYZ, 1,),
+    ("CIE XYZ", "IgPgTg", XYZ_to_IgPgTg, 1,),
+    ("IgPgTg", "CIE XYZ", IgPgTg_to_XYZ, 1,),
+    ("CIE XYZ", "IPT", XYZ_to_IPT, 1,),
+    ("IPT", "CIE XYZ", IPT_to_XYZ, 1,),
+    ("CIE XYZ", "IPT Ragoo 2021", XYZ_to_IPT_Ragoo2021, 1,),
+    ("IPT Ragoo 2021", "CIE XYZ", IPT_Ragoo2021_to_XYZ, 1,),
+    ("CIE XYZ", "Jzazbz", XYZ_to_Jzazbz, 1,),
+    ("Jzazbz", "CIE XYZ", Jzazbz_to_XYZ, 1,),
+    ("CIE XYZ", "hdr-IPT", XYZ_to_hdr_IPT, 1,),
+    ("hdr-IPT", "CIE XYZ", hdr_IPT_to_XYZ, 1,),
+    ("CIE XYZ", "OSA UCS", XYZ_to_OSA_UCS, 100,),
+    ("OSA UCS", "CIE XYZ", OSA_UCS_to_XYZ, 1,),
+    ("CIE XYZ", "Oklab", XYZ_to_Oklab, 1,),
+    ("Oklab", "CIE XYZ", Oklab_to_XYZ, 1,),
+    ("CIE XYZ", "ProLab", XYZ_to_ProLab, 1,),
+    ("ProLab", "CIE XYZ", ProLab_to_XYZ, 1,),
+    ("CIE XYZ", "sUCS", XYZ_to_sUCS, 1,),
+    ("sUCS", "CIE XYZ", sUCS_to_XYZ, 1,),
+    ("CIE XYZ", "Yrg", XYZ_to_Yrg, 1,),
+    ("Yrg", "CIE XYZ", Yrg_to_XYZ, 1,),
+    ("CIE 1931", "CIE XYZ", xyY_to_XYZ, 1,),
+    ("CIE XYZ", "CIE 1931", XYZ_to_xyY, 1,),
+    ("CIE 1960 UCS", "CIE XYZ", CIE1960UCS_to_XYZ, 1,),
+    ("CIE XYZ", "CIE 1960 UCS", XYZ_to_CIE1960UCS, 1,),
+    ("CIE 1976 UCS", "CIE XYZ", CIE1976UCS_to_XYZ, 1,),
+    ("CIE XYZ", "CIE 1976 UCS", XYZ_to_CIE1976UCS, 1,),
     # RGB Colour Models
-    (
-        "CIE XYZ",
-        "RGB",
-        partial(XYZ_to_RGB, colourspace=_RGB_COLOURSPACE_DEFAULT),
-    ),
-    (
-        "RGB",
-        "CIE XYZ",
-        partial(RGB_to_XYZ, colourspace=_RGB_COLOURSPACE_DEFAULT),
-    ),
-    (
-        "RGB",
-        "Scene-Referred RGB",
-        partial(
-            RGB_to_RGB,
-            input_colourspace=_RGB_COLOURSPACE_DEFAULT,
-            output_colourspace=_RGB_COLOURSPACE_DEFAULT,
-        ),
-    ),
-    (
-        "Scene-Referred RGB",
-        "RGB",
-        partial(
-            RGB_to_RGB,
-            input_colourspace=_RGB_COLOURSPACE_DEFAULT,
-            output_colourspace=_RGB_COLOURSPACE_DEFAULT,
-        ),
-    ),
-    ("RGB", "HSV", RGB_to_HSV),
-    ("HSV", "RGB", HSV_to_RGB),
-    ("RGB", "HSL", RGB_to_HSL),
-    ("HSL", "RGB", HSL_to_RGB),
-    ("RGB", "HCL", RGB_to_HCL),
-    ("HCL", "RGB", HCL_to_RGB),
-    ("RGB", "IHLS", RGB_to_IHLS),
-    ("IHLS", "RGB", IHLS_to_RGB),
-    ("CMY", "RGB", CMY_to_RGB),
-    ("RGB", "CMY", RGB_to_CMY),
-    ("CMY", "CMYK", CMY_to_CMYK),
-    ("CMYK", "CMY", CMYK_to_CMY),
-    (
-        "RGB",
-        "RGB Luminance",
-        partial(
-            RGB_luminance,
-            primaries=_RGB_COLOURSPACE_DEFAULT.primaries,
-            whitepoint=_RGB_COLOURSPACE_DEFAULT.whitepoint,
-        ),
-    ),
-    ("RGB Luminance", "RGB", RGB_luminance_to_RGB),
-    ("RGB", "Prismatic", RGB_to_Prismatic),
-    ("Prismatic", "RGB", Prismatic_to_RGB),
-    ("Output-Referred RGB", "YCbCr", RGB_to_YCbCr),
-    ("YCbCr", "Output-Referred RGB", YCbCr_to_RGB),
-    ("RGB", "YcCbcCrc", RGB_to_YcCbcCrc),
-    ("YcCbcCrc", "RGB", YcCbcCrc_to_RGB),
-    ("Output-Referred RGB", "YCoCg", RGB_to_YCoCg),
-    ("YCoCg", "Output-Referred RGB", YCoCg_to_RGB),
-    ("RGB", "Output-Referred RGB", cctf_encoding),
-    ("Output-Referred RGB", "RGB", cctf_decoding),
-    ("Scene-Referred RGB", "Output-Referred RGB", cctf_encoding),
-    ("Output-Referred RGB", "Scene-Referred RGB", cctf_decoding),
-    ("CIE XYZ", "sRGB", XYZ_to_sRGB),
-    ("sRGB", "CIE XYZ", sRGB_to_XYZ),
+    ("CIE XYZ", "RGB", partial(XYZ_to_RGB, colourspace=_RGB_COLOURSPACE_DEFAULT), 1,),
+    ("RGB", "CIE XYZ", partial(RGB_to_XYZ, colourspace=_RGB_COLOURSPACE_DEFAULT), 1,),
+    ("RGB", "Scene-Referred RGB", partial(RGB_to_RGB, input_colourspace=_RGB_COLOURSPACE_DEFAULT, output_colourspace=_RGB_COLOURSPACE_DEFAULT), 1,),
+    ("Scene-Referred RGB", "RGB", partial(RGB_to_RGB, input_colourspace=_RGB_COLOURSPACE_DEFAULT, output_colourspace=_RGB_COLOURSPACE_DEFAULT), 1,),
+    ("RGB", "HSV", RGB_to_HSV, 1,),
+    ("HSV", "RGB", HSV_to_RGB, 1,),
+    ("RGB", "HSL", RGB_to_HSL, 1,),
+    ("HSL", "RGB", HSL_to_RGB, 1,),
+    ("RGB", "HCL", RGB_to_HCL, 1,),
+    ("HCL", "RGB", HCL_to_RGB, 1,),
+    ("RGB", "IHLS", RGB_to_IHLS, 1,),
+    ("IHLS", "RGB", IHLS_to_RGB, 1,),
+    ("CMY", "RGB", CMY_to_RGB, 1,),
+    ("RGB", "CMY", RGB_to_CMY, 1,),
+    ("CMY", "CMYK", CMY_to_CMYK, 1,),
+    ("CMYK", "CMY", CMYK_to_CMY, 1,),
+    ("RGB", "RGB Luminance", partial(RGB_luminance, primaries=_RGB_COLOURSPACE_DEFAULT.primaries, whitepoint=_RGB_COLOURSPACE_DEFAULT.whitepoint), 1,),
+    ("RGB Luminance", "RGB", RGB_luminance_to_RGB, 1,),
+    ("RGB", "Prismatic", RGB_to_Prismatic, 1,),
+    ("Prismatic", "RGB", Prismatic_to_RGB, 1,),
+    ("Output-Referred RGB", "YCbCr", RGB_to_YCbCr, 1,),
+    ("YCbCr", "Output-Referred RGB", YCbCr_to_RGB, 1,),
+    ("RGB", "YcCbcCrc", RGB_to_YcCbcCrc, 1,),
+    ("YcCbcCrc", "RGB", YcCbcCrc_to_RGB, 1,),
+    ("Output-Referred RGB", "YCoCg", RGB_to_YCoCg, 1,),
+    ("YCoCg", "Output-Referred RGB", YCoCg_to_RGB, 1,),
+    ("RGB", "Output-Referred RGB", cctf_encoding, 1,),
+    ("Output-Referred RGB", "RGB", cctf_decoding, 1,),
+    ("Scene-Referred RGB", "Output-Referred RGB", cctf_encoding, 1,),
+    ("Output-Referred RGB", "Scene-Referred RGB", cctf_decoding, 1,),
+    ("CIE XYZ", "sRGB", XYZ_to_sRGB, 1,),
+    ("sRGB", "CIE XYZ", sRGB_to_XYZ, 1,),
     # Colour Notation Systems
-    ("Output-Referred RGB", "Hexadecimal", RGB_to_HEX),
-    ("Hexadecimal", "Output-Referred RGB", HEX_to_RGB),
-    ("CSS Color 3", "Output-Referred RGB", keyword_to_RGB_CSSColor3),
-    ("CIE xyY", "Munsell Colour", xyY_to_munsell_colour),
-    ("Munsell Colour", "CIE xyY", munsell_colour_to_xyY),
-    ("Luminance", "Munsell Value", munsell_value),
-    ("Munsell Value", "Luminance", partial(luminance, method="ASTM D1535")),
+    ("Output-Referred RGB", "Hexadecimal", RGB_to_HEX, None,),
+    ("Hexadecimal", "Output-Referred RGB", HEX_to_RGB, 1,),
+    ("CSS Color 3", "Output-Referred RGB", keyword_to_RGB_CSSColor3, 1,),
+    ("CIE xyY", "Munsell Colour", xyY_to_munsell_colour, None,),
+    ("Munsell Colour", "CIE xyY", munsell_colour_to_xyY, 1,),
+    ("Luminance", "Munsell Value", munsell_value, 10,),
+    ("Munsell Value", "Luminance", partial(luminance, method="ASTM D1535"), 100,),
     # Colour Quality
-    ("Spectral Distribution", "CRI", colour_rendering_index),
-    ("Spectral Distribution", "CQS", colour_quality_scale),
+    ("Spectral Distribution", "CRI", colour_rendering_index, 1,),
+    ("Spectral Distribution", "CQS", colour_quality_scale, 1,),
     # Colour Temperature
-    ("CCT", "CIE UCS uv", CCT_to_uv),
-    ("CIE UCS uv", "CCT", uv_to_CCT),
-    ("CCT", "Mired", CCT_D_uv_to_mired),
-    ("Mired", "CCT", mired_to_CCT_D_uv),
+    ("CCT", "CIE UCS uv", CCT_to_uv, None,),
+    ("CIE UCS uv", "CCT", uv_to_CCT, None,),
+    ("CCT", "Mired", CCT_D_uv_to_mired, None,),
+    ("Mired", "CCT", mired_to_CCT_D_uv, None,),
     # Advanced Colorimetry
-    (
-        "CIE XYZ",
-        "ATD95",
-        partial(
-            XYZ_to_ATD95,
-            XYZ_0=_TVS_ILLUMINANT_DEFAULT,
-            Y_0=80 * 0.2,
-            k_1=0,
-            k_2=(15 + 50) / 2,
-        ),
-    ),
-    (
-        "CIE XYZ",
-        "CIECAM02",
-        partial(XYZ_to_CIECAM02, **_CAM_KWARGS_CIECAM02_sRGB),
-    ),
-    (
-        "CIECAM02",
-        "CIE XYZ",
-        partial(CIECAM02_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB),
-    ),
-    ("CIECAM02", "CIECAM02 JMh", CIECAM02_to_JMh_CIECAM02),
-    ("CIECAM02 JMh", "CIECAM02", JMh_CIECAM02_to_CIECAM02),
-    ("CIE XYZ", "CAM16", partial(XYZ_to_CAM16, **_CAM_KWARGS_CIECAM02_sRGB)),
-    ("CAM16", "CIE XYZ", partial(CAM16_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB)),
-    ("CAM16", "CAM16 JMh", CAM16_to_JMh_CAM16),
-    ("CAM16 JMh", "CAM16", JMh_CAM16_to_CAM16),
-    (
-        "CIE XYZ",
-        "CIECAM16",
-        partial(XYZ_to_CIECAM16, **_CAM_KWARGS_CIECAM02_sRGB),
-    ),
-    (
-        "CIECAM16",
-        "CIE XYZ",
-        partial(CIECAM16_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB),
-    ),
-    ("CIECAM16", "CIECAM16 JMh", CIECAM16_to_JMh_CIECAM16),
-    ("CIECAM16 JMh", "CIECAM16", JMh_CIECAM16_to_CIECAM16),
-    (
-        "CIE XYZ",
-        "Hellwig 2022",
-        partial(XYZ_to_Hellwig2022, **_CAM_KWARGS_CIECAM02_sRGB),
-    ),
-    (
-        "Hellwig 2022",
-        "CIE XYZ",
-        partial(Hellwig2022_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB),
-    ),
-    ("Hellwig 2022", "Hellwig 2022 JMh", Hellwig2022_to_JMh_Hellwig2022),
-    ("Hellwig 2022 JMh", "Hellwig 2022", JMh_Hellwig2022_to_Hellwig2022),
-    (
-        "CIE XYZ",
-        "Kim 2009",
-        partial(XYZ_to_Kim2009, XYZ_w=_TVS_ILLUMINANT_DEFAULT, L_A=80 * 0.2),
-    ),
-    (
-        "Kim 2009",
-        "CIE XYZ",
-        partial(Kim2009_to_XYZ, XYZ_w=_TVS_ILLUMINANT_DEFAULT, L_A=80 * 0.2),
-    ),
-    (
-        "CIE XYZ",
-        "Hunt",
-        partial(
-            XYZ_to_Hunt,
-            XYZ_w=_TVS_ILLUMINANT_DEFAULT,
-            XYZ_b=_TVS_ILLUMINANT_DEFAULT,
-            L_A=80 * 0.2,
-            CCT_w=6504,
-        ),
-    ),
-    (
-        "CIE XYZ",
-        "LLAB",
-        partial(XYZ_to_LLAB, XYZ_0=_TVS_ILLUMINANT_DEFAULT, Y_b=80 * 0.2, L=80),
-    ),
-    (
-        "CIE XYZ",
-        "Nayatani95",
-        partial(
-            XYZ_to_Nayatani95,
-            XYZ_n=_TVS_ILLUMINANT_DEFAULT,
-            Y_o=0.2,
-            E_o=1000,
-            E_or=1000,
-        ),
-    ),
-    (
-        "CIE XYZ",
-        "RLAB",
-        partial(XYZ_to_RLAB, XYZ_n=_TVS_ILLUMINANT_DEFAULT, Y_n=20),
-    ),
-    (
-        "CIE XYZ",
-        "sCAM",
-        partial(XYZ_to_sCAM, **_CAM_KWARGS_CIECAM02_sRGB),
-    ),
-    (
-        "sCAM",
-        "CIE XYZ",
-        partial(sCAM_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB),
-    ),
-    ("sCAM", "sCAM JMh", sCAM_to_JMh_sCAM),
-    ("sCAM JMh", "sCAM", JMh_sCAM_to_sCAM),
-    (
-        "CIE XYZ",
-        "ZCAM",
-        partial(
-            XYZ_to_ZCAM,
-            XYZ_w=_TVS_ILLUMINANT_DEFAULT,
-            L_A=64 / np.pi * 0.2,
-            Y_b=20,
-        ),
-    ),
-    (
-        "ZCAM",
-        "CIE XYZ",
-        partial(
-            ZCAM_to_XYZ,
-            XYZ_w=_TVS_ILLUMINANT_DEFAULT,
-            L_A=64 / np.pi * 0.2,
-            Y_b=20,
-        ),
-    ),
-    ("CIECAM02 JMh", "CAM02LCD", JMh_CIECAM02_to_CAM02LCD),
-    ("CAM02LCD", "CIECAM02 JMh", CAM02LCD_to_JMh_CIECAM02),
-    ("CIECAM02 JMh", "CAM02SCD", JMh_CIECAM02_to_CAM02SCD),
-    ("CAM02SCD", "CIECAM02 JMh", CAM02SCD_to_JMh_CIECAM02),
-    ("CIECAM02 JMh", "CAM02UCS", JMh_CIECAM02_to_CAM02UCS),
-    ("CAM02UCS", "CIECAM02 JMh", CAM02UCS_to_JMh_CIECAM02),
-    ("CAM16 JMh", "CAM16LCD", JMh_CAM16_to_CAM16LCD),
-    ("CAM16LCD", "CAM16 JMh", CAM16LCD_to_JMh_CAM16),
-    ("CAM16 JMh", "CAM16SCD", JMh_CAM16_to_CAM16SCD),
-    ("CAM16SCD", "CAM16 JMh", CAM16SCD_to_JMh_CAM16),
-    ("CAM16 JMh", "CAM16UCS", JMh_CAM16_to_CAM16UCS),
-    ("CAM16UCS", "CAM16 JMh", CAM16UCS_to_JMh_CAM16),
+    ("CIE XYZ", "ATD95", partial(XYZ_to_ATD95, XYZ_0=_TVS_ILLUMINANT_DEFAULT, Y_0=80 * 0.2, k_1=0, k_2=(15 + 50) / 2), (360, 1, 1, 1, 1, 1, 1, 1, 1),),
+    ("CIE XYZ", "CIECAM02", partial(XYZ_to_CIECAM02, **_CAM_KWARGS_CIECAM02_sRGB), (100, 100, 360, 100, 100, 100, 400, 1),),
+    ("CIECAM02", "CIE XYZ", partial(CIECAM02_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB), 1,),
+    ("CIECAM02", "CIECAM02 JMh", CIECAM02_to_JMh_CIECAM02, None,),
+    ("CIECAM02 JMh", "CIECAM02", JMh_CIECAM02_to_CIECAM02, None,),
+    ("CIE XYZ", "CAM16", partial(XYZ_to_CAM16, **_CAM_KWARGS_CIECAM02_sRGB), (100, 100, 360, 100, 100, 100, 400, 1),),
+    ("CAM16", "CIE XYZ", partial(CAM16_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB), 1,),
+    ("CAM16", "CAM16 JMh", CAM16_to_JMh_CAM16, None,),
+    ("CAM16 JMh", "CAM16", JMh_CAM16_to_CAM16, None,),
+    ("CIE XYZ", "CIECAM16", partial(XYZ_to_CIECAM16, **_CAM_KWARGS_CIECAM02_sRGB), (100, 100, 360, 100, 100, 100, 400, 1),),
+    ("CIECAM16", "CIE XYZ", partial(CIECAM16_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB), 1,),
+    ("CIECAM16", "CIECAM16 JMh", CIECAM16_to_JMh_CIECAM16, None,),
+    ("CIECAM16 JMh", "CIECAM16", JMh_CIECAM16_to_CIECAM16, None,),
+    ("CIE XYZ", "Hellwig 2022", partial(XYZ_to_Hellwig2022, **_CAM_KWARGS_CIECAM02_sRGB), (100, 100, 360, 100, 100, 100, 400, 1, 100, 100),),
+    ("Hellwig 2022", "CIE XYZ", partial(Hellwig2022_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB), 1,),
+    ("Hellwig 2022", "Hellwig 2022 JMh", Hellwig2022_to_JMh_Hellwig2022, None,),
+    ("Hellwig 2022 JMh", "Hellwig 2022", JMh_Hellwig2022_to_Hellwig2022, None,),
+    ("CIE XYZ", "Kim 2009", partial(XYZ_to_Kim2009, XYZ_w=_TVS_ILLUMINANT_DEFAULT, L_A=80 * 0.2), (100, 100, 360, 100, 100, 100, 400, 1),),
+    ("Kim 2009", "CIE XYZ", partial(Kim2009_to_XYZ, XYZ_w=_TVS_ILLUMINANT_DEFAULT, L_A=80 * 0.2), 1,),
+    ("CIE XYZ", "Hunt", partial(XYZ_to_Hunt, XYZ_w=_TVS_ILLUMINANT_DEFAULT, XYZ_b=_TVS_ILLUMINANT_DEFAULT, L_A=80 * 0.2, CCT_w=6504), (1, 1, 360, 1, 1, 1, 1, 1),),
+    ("CIE XYZ", "LLAB", partial(XYZ_to_LLAB, XYZ_0=_TVS_ILLUMINANT_DEFAULT, Y_b=80 * 0.2, L=80), (1, 1, 360, 1, 1, 1, 1, 1),),
+    ("CIE XYZ", "Nayatani95", partial(XYZ_to_Nayatani95, XYZ_n=_TVS_ILLUMINANT_DEFAULT, Y_o=0.2, E_o=1000, E_or=1000), (1, 1, 360, 1, 1, 1, 1, 1, 1),),
+    ("CIE XYZ", "RLAB", partial(XYZ_to_RLAB, XYZ_n=_TVS_ILLUMINANT_DEFAULT, Y_n=20), (1, 1, 360, 1, 1, 1, 1),),
+    ("CIE XYZ", "sCAM", partial(XYZ_to_sCAM, **_CAM_KWARGS_CIECAM02_sRGB), (100, 100, 360, 100, 100, 400, 1, 100, 100, 100, 100),),
+    ("sCAM", "CIE XYZ", partial(sCAM_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB), 1,),
+    ("sCAM", "sCAM JMh", sCAM_to_JMh_sCAM, None,),
+    ("sCAM JMh", "sCAM", JMh_sCAM_to_sCAM, None,),
+    ("CIE XYZ", "ZCAM", partial(XYZ_to_ZCAM, XYZ_w=_TVS_ILLUMINANT_DEFAULT, L_A=64 / np.pi * 0.2, Y_b=20), (1, 1, 360, 1, 1, 1, 400, 1, 1, 1, 1),),
+    ("ZCAM", "CIE XYZ", partial(ZCAM_to_XYZ, XYZ_w=_TVS_ILLUMINANT_DEFAULT, L_A=64 / np.pi * 0.2, Y_b=20), 1,),
+    ("CIECAM02 JMh", "CAM02LCD", JMh_CIECAM02_to_CAM02LCD, 100,),
+    ("CAM02LCD", "CIECAM02 JMh", CAM02LCD_to_JMh_CIECAM02, (100, 100, 360),),
+    ("CIECAM02 JMh", "CAM02SCD", JMh_CIECAM02_to_CAM02SCD, 100,),
+    ("CAM02SCD", "CIECAM02 JMh", CAM02SCD_to_JMh_CIECAM02, (100, 100, 360),),
+    ("CIECAM02 JMh", "CAM02UCS", JMh_CIECAM02_to_CAM02UCS, 100,),
+    ("CAM02UCS", "CIECAM02 JMh", CAM02UCS_to_JMh_CIECAM02, (100, 100, 360),),
+    ("CAM16 JMh", "CAM16LCD", JMh_CAM16_to_CAM16LCD, 100,),
+    ("CAM16LCD", "CAM16 JMh", CAM16LCD_to_JMh_CAM16, (100, 100, 360),),
+    ("CAM16 JMh", "CAM16SCD", JMh_CAM16_to_CAM16SCD, 100,),
+    ("CAM16SCD", "CAM16 JMh", CAM16SCD_to_JMh_CAM16, (100, 100, 360),),
+    ("CAM16 JMh", "CAM16UCS", JMh_CAM16_to_CAM16UCS, 100,),
+    ("CAM16UCS", "CAM16 JMh", CAM16UCS_to_JMh_CAM16, (100, 100, 360),),
 ]
 """
 Automatic colour conversion graph specifications data describing two nodes and
 the edge in the graph.
 """
+# fmt: on
 
 
 # Programmatically defining the colourspace models polar conversions.
-
-
 def _format_node_name(name: str) -> str:
     """
     Format the specified name by applying a series of substitutions.
@@ -1108,11 +927,21 @@ for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSIONS:
     _module = sys.modules["colour.models"]
     _Jab_name = _format_node_name(_Jab)
     _JCh_name = _format_node_name(_JCh)
+
+    # Determine to_reference scales based on color space type
+    # Lab-based spaces use (100, 100, x), others use (1, 1, x)
+    if "Lab" in _Jab or "Luv" in _Jab:
+        _Jab_to_JCh_scale = (100, 100, 360)
+        _JCh_to_Jab_scale = 100
+    else:
+        _Jab_to_JCh_scale = (1, 1, 360)
+        _JCh_to_Jab_scale = 1
+
     CONVERSION_SPECIFICATIONS_DATA.append(
-        (_Jab_name, _JCh_name, getattr(_module, f"{_Jab}_to_{_JCh}"))
+        (_Jab_name, _JCh_name, getattr(_module, f"{_Jab}_to_{_JCh}"), _Jab_to_JCh_scale)
     )
     CONVERSION_SPECIFICATIONS_DATA.append(
-        (_JCh_name, _Jab_name, getattr(_module, f"{_JCh}_to_{_Jab}"))
+        (_JCh_name, _Jab_name, getattr(_module, f"{_JCh}_to_{_Jab}"), _JCh_to_Jab_scale)
     )
 
 del _format_node_name, _JCh, _Jab, _module, _Jab_name, _JCh_name
@@ -1160,6 +989,7 @@ def _build_graph() -> networkx.DiGraph:  # pyright: ignore  # noqa: F821
             specification.source,
             specification.target,
             conversion_function=specification.conversion_function,
+            to_reference=specification.to_reference,
         )
 
     return graph
@@ -1170,7 +1000,9 @@ CONVERSION_GRAPH: nx.DiGraph | None = None  # pyright: ignore # noqa: F821
 
 
 @required("NetworkX")
-def _conversion_path(source: str, target: str) -> List[Callable]:
+def _conversion_path(
+    source: str, target: str
+) -> tuple[List[Callable], tuple[float, ...] | None]:
     """
     Generate the conversion path from the source node to the target node in
     the automatic colour conversion graph.
@@ -1184,16 +1016,18 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
 
     Returns
     -------
-    :class:`list`
-        Conversion path from the source node to the target node, i.e., a
-        list of conversion function callables.
+    :class:`tuple`
+        Tuple of (conversion_functions, to_reference) where conversion_functions
+        is a list of conversion function callables and to_reference is the
+        scale factors for the final conversion (or None if not available).
 
     Examples
     --------
-    >>> _conversion_path("cie lab", "cct")
-    ... # doctest: +ELLIPSIS
-    [<function Lab_to_XYZ at 0x...>, <function XYZ_to_UCS at 0x...>, \
-<function UCS_to_uv at 0x...>, <function uv_to_CCT at 0x...>]
+    >>> functions, to_ref = _conversion_path("cie lab", "cie lchab")
+    >>> len(functions)
+    1
+    >>> to_ref
+    (100, 100, 360)
     """
 
     import networkx as nx  # noqa: PLC0415
@@ -1206,10 +1040,14 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
 
     path = nx.shortest_path(cast("nx.DiGraph", CONVERSION_GRAPH), source, target)
 
-    return [
-        CONVERSION_GRAPH.get_edge_data(a, b)["conversion_function"]  # pyright: ignore
-        for a, b in itertools.pairwise(path)
-    ]
+    conversion_functions, to_reference = [], None
+
+    for a, b in itertools.pairwise(path):
+        edge_data = CONVERSION_GRAPH.get_edge_data(a, b)  # pyright: ignore
+        conversion_functions.append(edge_data["conversion_function"])
+        to_reference = edge_data.get("to_reference")
+
+    return conversion_functions, to_reference
 
 
 def _lower_order_function(callable_: Callable) -> Callable:
@@ -1299,13 +1137,18 @@ def describe_conversion_path(
     source, target = source.lower(), target.lower()
     mode = validate_method(
         mode,
-        ("Short", "Long", "Extended"),
+        (
+            "Short",
+            "Long",
+            "Extended",
+            None,
+        ),  # NEEDS MANUAL REVIEW
         '"{0}" mode is invalid, it must be one of {1}!',
     )
 
     width = (79 + 2 + 2 * 3 - 4) if mode == "extended" else width
 
-    conversion_path = _conversion_path(source, target)
+    conversion_path, _to_reference = _conversion_path(source, target)
 
     joined_conversion_path = " --> ".join(
         [
@@ -1359,7 +1202,9 @@ def describe_conversion_path(
             message_box(message, width, padding, print_callable)
 
 
-def convert(a: Any, source: str, target: str, **kwargs: Any) -> Any:
+def convert(
+    a: Any, source: str, target: str, *, to_reference_scale: bool = False, **kwargs: Any
+) -> Any:
     """
     Convert specified object :math:`a` from source colour representation to
     target colour representation using the automatic colour conversion
@@ -1400,6 +1245,12 @@ def convert(a: Any, source: str, target: str, **kwargs: Any) -> Any:
     target
         Target colour representation, i.e., the target node in the
         automatic colour conversion graph.
+    to_reference_scale
+        If True, automatically rescale the output from domain-range scale
+        '1' to 'reference' scale using the to_reference metadata. For
+        example, CIE LCHab output will be scaled to (100, 100, 360) instead
+        of 1. Has no effect if the target conversion doesn't have
+        to_reference metadata.
 
     Other Parameters
     ----------------
@@ -1575,7 +1426,7 @@ SDS_ILLUMINANTS["FL2"], XYZ_to_sRGB={"illuminant": illuminant})
 
     source, target = source.lower(), target.lower()
 
-    conversion_path = _conversion_path(source, target)
+    conversion_path, to_reference = _conversion_path(source, target)
 
     verbose_kwargs = copy(kwargs)
     for conversion_function in conversion_path:
@@ -1596,6 +1447,10 @@ SDS_ILLUMINANTS["FL2"], XYZ_to_sRGB={"illuminant": illuminant})
             verbose_kwargs[conversion_function_name]["return"] = a
         else:
             verbose_kwargs[conversion_function_name] = {"return": a}
+
+    # Apply rescaling if requested and to_reference is available
+    if to_reference_scale and to_reference is not None:
+        a = as_float_array(a) * np.array(to_reference)
 
     if "verbose" in verbose_kwargs:
         verbose_kwargs.update(verbose_kwargs.pop("verbose"))

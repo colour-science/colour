@@ -655,29 +655,28 @@ def luminance(
 
     function = LUMINANCE_METHODS[method]
 
-    # NOTE: "Abebe et al. (2017)" uses absolute luminance levels and has
-    # undefined domain-range scale, yet we modify its behaviour consistency
-    # with the other methods.
     domain_range_reference = get_domain_range_scale() == "reference"
     domain_range_1 = get_domain_range_scale() == "1"
 
-    domain_1 = (luminance_Fairchild2010, luminance_Fairchild2011)
-    domain_10 = (luminance_Newhall1943, luminance_ASTMD1535)
-    domain_undefined = (luminance_Abebe2017,)
-
-    if function in domain_10 and domain_range_reference:
+    if (
+        function in (luminance_Newhall1943, luminance_ASTMD1535)
+        and domain_range_reference
+    ):
         LV = LV / 10
 
-    if function in domain_undefined and domain_range_1:
+    if function in (luminance_Abebe2017,) and domain_range_1:
         LV = LV * 100
         kwargs["Y_n"] = kwargs.get("Y_n", 100) * 100
 
     Y_V = function(LV, **filter_kwargs(function, **kwargs))
 
-    if function in domain_1 and domain_range_reference:
+    if (
+        function in (luminance_Fairchild2010, luminance_Fairchild2011)
+        and domain_range_reference
+    ):
         Y_V *= 100
 
-    if function in domain_undefined and domain_range_1:
+    if function in (luminance_CIE1976,) and domain_range_1:
         Y_V /= 100
 
     return Y_V
