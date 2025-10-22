@@ -64,7 +64,6 @@ References
 
 from __future__ import annotations
 
-import itertools
 import typing
 from functools import reduce
 
@@ -74,6 +73,7 @@ import scipy.interpolate
 from colour.algebra import sdiv, sdiv_mode
 from colour.constants import (
     DTYPE_FLOAT_DEFAULT,
+    DTYPE_INT_DEFAULT,
     TOLERANCE_ABSOLUTE_DEFAULT,
     TOLERANCE_RELATIVE_DEFAULT,
 )
@@ -85,7 +85,6 @@ if typing.TYPE_CHECKING:
         Callable,
         DTypeReal,
         Literal,
-        Tuple,
         Type,
     )
 
@@ -103,7 +102,6 @@ from colour.utilities import (
     is_numeric,
     optional,
     runtime_warning,
-    tsplit,
     validate_method,
 )
 
@@ -128,7 +126,6 @@ __all__ = [
     "PchipInterpolator",
     "NullInterpolator",
     "lagrange_coefficients",
-    "vertices_and_relative_coordinates",
     "table_interpolation_trilinear",
     "table_interpolation_tetrahedral",
     "TABLE_INTERPOLATION_METHODS",
@@ -1818,120 +1815,6 @@ def lagrange_coefficients(r: float, n: int = 4) -> NDArrayFloat:
     return np.array(L_n)
 
 
-def vertices_and_relative_coordinates(
-    V_xyz: ArrayLike, table: ArrayLike
-) -> Tuple[NDArrayFloat, NDArrayFloat]:
-    """
-    Compute the vertices coordinates and indexes relative :math:`V_{xyzr}`
-    coordinates from the specified :math:`V_{xyz}` values and interpolation
-    table.
-
-    Parameters
-    ----------
-    V_xyz
-        :math:`V_{xyz}` values to transform to indexes relative
-        :math:`V_{xyzr}` values.
-    table
-        4-Dimensional (NxNxNx3) interpolation table.
-
-    Returns
-    -------
-    :class:`tuple`
-        Vertices coordinates and indexes relative :math:`V_{xyzr}`
-        coordinates.
-
-    Examples
-    --------
-    >>> import os
-    >>> import colour
-    >>> path = os.path.join(
-    ...     os.path.dirname(__file__),
-    ...     "..",
-    ...     "io",
-    ...     "luts",
-    ...     "tests",
-    ...     "resources",
-    ...     "iridas_cube",
-    ...     "Colour_Correct.cube",
-    ... )
-    >>> LUT = colour.read_LUT(path)
-    >>> table = LUT.table
-    >>> prng = np.random.RandomState(4)
-    >>> V_xyz = colour.algebra.random_triplet_generator(3, random_state=prng)
-    >>> print(V_xyz)  # doctest: +ELLIPSIS
-    [[ 0.9670298...  0.7148159...  0.9762744...]
-     [ 0.5472322...  0.6977288...  0.0062302...]
-     [ 0.9726843...  0.2160895...  0.2529823...]]
-    >>> vertices, V_xyzr = vertices_and_relative_coordinates(V_xyz, table)
-    >>> print(vertices)
-    [[[ 0.833311  0.833311  0.833311]
-      [ 0.349416  0.657749  0.041083]
-      [ 0.797894 -0.035412 -0.035412]]
-    <BLANKLINE>
-     [[ 0.833311  0.833311  1.249963]
-      [ 0.340435  0.743769  0.340435]
-      [ 0.752767 -0.028479  0.362144]]
-    <BLANKLINE>
-     [[ 0.707102  1.110435  0.707102]
-      [ 0.344991  1.050213 -0.007621]
-      [ 0.633333  0.316667  0.      ]]
-    <BLANKLINE>
-     [[ 0.519714  0.744729  0.744729]
-      [ 0.314204  1.120871  0.314204]
-      [ 0.732278  0.315626  0.315626]]
-    <BLANKLINE>
-     [[ 1.06561   0.648957  0.648957]
-      [ 0.589195  0.589195  0.139164]
-      [ 1.196841 -0.053117 -0.053117]]
-    <BLANKLINE>
-     [[ 1.        0.666667  1.      ]
-      [ 0.594601  0.594601  0.369586]
-      [ 1.162588 -0.050372  0.353948]]
-    <BLANKLINE>
-     [[ 0.894606  0.894606  0.66959 ]
-      [ 0.663432  0.930188  0.12992 ]
-      [ 1.038439  0.310899 -0.05287 ]]
-    <BLANKLINE>
-     [[ 1.249966  1.249966  1.249966]
-      [ 0.682749  0.991082  0.374416]
-      [ 1.131225  0.29792   0.29792 ]]]
-    >>> print(V_xyzr)  # doctest: +ELLIPSIS
-    [[ 0.9010895...  0.1444479...  0.9288233...]
-     [ 0.6416967...  0.0931864...  0.0186907...]
-     [ 0.9180530...  0.6482684...  0.7589470...]]
-    """
-
-    V_xyz = np.clip(V_xyz, 0, 1)
-    table = as_float_array(table)
-
-    V_xyz = np.reshape(V_xyz, (-1, 3))
-
-    # Indexes computations where ``i_m`` is the maximum index value on a
-    # specified table axis, ``i_f`` and ``i_c`` respectively the floor and
-    # ceiling indexes encompassing a specified V_xyz value.
-    i_m = np.array(table.shape[0:-1]) - 1
-    i_f = as_int_array(np.floor(V_xyz * i_m))
-    i_f = np.clip(i_f, 0, i_m)
-    i_c = np.clip(i_f + 1, 0, i_m)
-
-    # Relative to indexes ``V_xyz`` values.
-    V_xyzr = as_float_array(i_m * V_xyz - i_f)
-
-    i_f_c = i_f, i_c
-
-    # Vertices computations by indexing ``table`` with the ``i_f`` and ``i_c``
-    # indexes. 8 encompassing vertices are computed for the specified V_xyz value
-    # forming a cube around it:
-    vertices = np.array(
-        [
-            table[i_f_c[i[0]][..., 0], i_f_c[i[1]][..., 1], i_f_c[i[2]][..., 2]]
-            for i in itertools.product(*zip([0, 0, 0], [1, 1, 1], strict=True))
-        ]
-    )
-
-    return vertices, V_xyzr
-
-
 def table_interpolation_trilinear(V_xyz: ArrayLike, table: ArrayLike) -> NDArrayFloat:
     """
     Perform trilinear interpolation of the specified :math:`V_{xyz}` values using
@@ -1981,31 +1864,53 @@ def table_interpolation_trilinear(V_xyz: ArrayLike, table: ArrayLike) -> NDArray
            [ 1.0976519...,  0.1785998...,  0.2299897...]])
     """
 
-    V_xyz = as_float_array(V_xyz)
+    V_xyz = cast("NDArrayFloat", V_xyz)
+    original_shape = V_xyz.shape
+    V_xyz = cast("NDArrayFloat", np.clip(V_xyz, 0, 1).reshape(-1, 3))
 
-    vertices, V_xyzr = vertices_and_relative_coordinates(V_xyz, table)
+    # Index computation
+    table = cast("NDArrayFloat", table)
+    i_m = np.array(table.shape[:-1]) - 1
+    V_xyz_s = V_xyz * i_m
 
-    vertices = np.moveaxis(vertices, 0, 1)
-    x, y, z = (f[:, None] for f in tsplit(V_xyzr))
+    i_f = V_xyz_s.astype(DTYPE_INT_DEFAULT)
+    i_f = np.clip(i_f, 0, i_m)
+    i_c = np.minimum(i_f + 1, i_m)
 
-    weights = np.moveaxis(
-        np.transpose(
-            [
-                (1 - x) * (1 - y) * (1 - z),
-                (1 - x) * (1 - y) * z,
-                (1 - x) * y * (1 - z),
-                (1 - x) * y * z,
-                x * (1 - y) * (1 - z),
-                x * (1 - y) * z,
-                x * y * (1 - z),
-                x * y * z,
-            ]
-        ),
-        0,
-        -1,
+    # Relative coordinates (fractional part)
+    frac = V_xyz_s - i_f
+
+    # Extract indices for direct lookup
+    fx, fy, fz = i_f[:, 0], i_f[:, 1], i_f[:, 2]
+    cx, cy, cz = i_c[:, 0], i_c[:, 1], i_c[:, 2]
+
+    # Extract fractional coordinates
+    dx, dy, dz = frac[:, 0:1], frac[:, 1:2], frac[:, 2:3]
+    dx1, dy1, dz1 = 1.0 - dx, 1.0 - dy, 1.0 - dz
+
+    # Direct vertex lookups (8 corners of cube)
+    v000 = table[fx, fy, fz]
+    v001 = table[fx, fy, cz]
+    v010 = table[fx, cy, fz]
+    v011 = table[fx, cy, cz]
+    v100 = table[cx, fy, fz]
+    v101 = table[cx, fy, cz]
+    v110 = table[cx, cy, fz]
+    v111 = table[cx, cy, cz]
+
+    # Trilinear interpolation (vectorized)
+    result = (
+        v000 * (dx1 * dy1 * dz1)
+        + v001 * (dx1 * dy1 * dz)
+        + v010 * (dx1 * dy * dz1)
+        + v011 * (dx1 * dy * dz)
+        + v100 * (dx * dy1 * dz1)
+        + v101 * (dx * dy1 * dz)
+        + v110 * (dx * dy * dz1)
+        + v111 * (dx * dy * dz)
     )
 
-    return np.reshape(np.sum(vertices * weights, 1), V_xyz.shape)
+    return result.reshape(original_shape)
 
 
 def table_interpolation_tetrahedral(V_xyz: ArrayLike, table: ArrayLike) -> NDArrayFloat:
@@ -2057,34 +1962,63 @@ def table_interpolation_tetrahedral(V_xyz: ArrayLike, table: ArrayLike) -> NDArr
            [ 1.1178206...,  0.1762039...,  0.2209534...]])
     """
 
-    V_xyz = as_float_array(V_xyz)
+    V_xyz = cast("NDArrayFloat", V_xyz)
+    original_shape = V_xyz.shape
+    V_xyz = cast("NDArrayFloat", np.clip(V_xyz, 0, 1).reshape(-1, 3))
 
-    vertices, V_xyzr = vertices_and_relative_coordinates(V_xyz, table)
+    # Index computation
+    table = cast("NDArrayFloat", table)
+    i_m = np.array(table.shape[:-1]) - 1
+    V_xyz_s = V_xyz * i_m
 
-    vertices = np.moveaxis(vertices, 0, -1)
-    V000, V001, V010, V011, V100, V101, V110, V111 = tsplit(vertices)
-    x, y, z = (r[:, None] for r in tsplit(V_xyzr))
+    i_f = V_xyz_s.astype(DTYPE_INT_DEFAULT)
+    i_f = np.clip(i_f, 0, i_m)
+    i_c = np.minimum(i_f + 1, i_m)
 
+    # Relative coordinates
+    r = V_xyz_s - i_f
+    x, y, z = r[:, 0], r[:, 1], r[:, 2]
+
+    # Extract indices for direct lookup
+    fx, fy, fz = i_f[:, 0], i_f[:, 1], i_f[:, 2]
+    cx, cy, cz = i_c[:, 0], i_c[:, 1], i_c[:, 2]
+
+    # Look up 8 corner vertices
+    V000 = table[fx, fy, fz]
+    V001 = table[fx, fy, cz]
+    V010 = table[fx, cy, fz]
+    V011 = table[fx, cy, cz]
+    V100 = table[cx, fy, fz]
+    V101 = table[cx, fy, cz]
+    V110 = table[cx, cy, fz]
+    V111 = table[cx, cy, cz]
+
+    # Expand dimensions for broadcasting
+    x = x[:, np.newaxis]
+    y = y[:, np.newaxis]
+    z = z[:, np.newaxis]
+
+    # Tetrahedral interpolation - select tetrahedron based on position
     xyz_o = np.select(
         [
             np.logical_and(x > y, y > z),
-            np.logical_and(x > y, x > z),
-            np.logical_and(x > y, np.logical_and(y <= z, x <= z)),
-            np.logical_and(x <= y, z > y),
-            np.logical_and(x <= y, z > x),
-            np.logical_and(x <= y, np.logical_and(z <= y, z <= x)),
+            np.logical_and(x > z, z >= y),
+            np.logical_and(z >= x, x > y),
+            np.logical_and(y >= x, x > z),
+            np.logical_and(y >= z, z >= x),
+            np.logical_and(z > y, y >= x),
         ],
         [
             (1 - x) * V000 + (x - y) * V100 + (y - z) * V110 + z * V111,
             (1 - x) * V000 + (x - z) * V100 + (z - y) * V101 + y * V111,
             (1 - z) * V000 + (z - x) * V001 + (x - y) * V101 + y * V111,
-            (1 - z) * V000 + (z - y) * V001 + (y - x) * V011 + x * V111,
-            (1 - y) * V000 + (y - z) * V010 + (z - x) * V011 + x * V111,
             (1 - y) * V000 + (y - x) * V010 + (x - z) * V110 + z * V111,
+            (1 - y) * V000 + (y - z) * V010 + (z - x) * V011 + x * V111,
+            (1 - z) * V000 + (z - y) * V001 + (y - x) * V011 + x * V111,
         ],
     )
 
-    return np.reshape(xyz_o, V_xyz.shape)
+    return xyz_o.reshape(original_shape)
 
 
 TABLE_INTERPOLATION_METHODS = CanonicalMapping(
