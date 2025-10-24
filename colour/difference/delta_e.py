@@ -49,7 +49,7 @@ from dataclasses import astuple, dataclass, field
 
 import numpy as np
 
-from colour.algebra import euclidean_distance
+from colour.algebra import euclidean_distance, euclidean_distance_from_deltas
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
@@ -107,7 +107,11 @@ References
 """
 
 
-def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> NDArrayFloat:
+def delta_E_CIE1976(
+    Lab_1: ArrayLike,
+    Lab_2: ArrayLike,
+    return_deltas: bool = False,
+) -> NDArrayFloat:
     """
     Compute the colour difference :math:`\\Delta E_{76}` between two
     specified *CIE L\\*a\\*b\\** colourspace arrays using the *CIE 1976*
@@ -119,11 +123,15 @@ def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> NDArrayFloat:
         *CIE L\\*a\\*b\\** colourspace array 1.
     Lab_2
         *CIE L\\*a\\*b\\** colourspace array 2.
+    return_deltas
+        Whether to return the elementwise *CIE L\\*a\\*b\\** deltas
+        instead of the aggregated metric.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Colour difference :math:`\\Delta E_{76}`.
+        Colour difference :math:`\\Delta E_{76}`, or
+        elementwise *CIE L\\*a\\*b\\** deltas if `return_deltas=True`.
 
     Notes
     -----
@@ -153,13 +161,20 @@ def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> NDArrayFloat:
     >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E_CIE1976(Lab_1, Lab_2)  # doctest: +ELLIPSIS
     2.7335037...
+    >>> delta_E_CIE1976(Lab_1, Lab_2, return_deltas=True)  # doctest: +ELLIPSIS
+    array([-1.66723702,  0.01110243, -2.16615793])
     """
 
-    return euclidean_distance(to_domain_100(Lab_1), to_domain_100(Lab_2))
+    return euclidean_distance(
+        to_domain_100(Lab_1), to_domain_100(Lab_2), return_deltas=return_deltas
+    )
 
 
 def delta_E_CIE1994(
-    Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: bool = False
+    Lab_1: ArrayLike,
+    Lab_2: ArrayLike,
+    textiles: bool = False,
+    return_deltas: bool = False,
 ) -> NDArrayFloat:
     """
     Compute the colour difference :math:`\\Delta E_{94}` between two specified
@@ -175,11 +190,15 @@ def delta_E_CIE1994(
         Textiles application specific parametric factors,
         :math:`k_L=2,\\ k_C=k_H=1,\\ k_1=0.048,\\ k_2=0.014` weights are used
         instead of :math:`k_L=k_C=k_H=1,\\ k_1=0.045,\\ k_2=0.015`.
+    return_deltas
+        Whether to return the elementwise weighted *CIE L\\*C\\*h\\** deltas
+        instead of the aggregated metric.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Colour difference :math:`\\Delta E_{94}`.
+        Colour difference :math:`\\Delta E_{94}`, or
+        elementwise weighted *CIE L\\*C\\*h\\** deltas if `return_deltas=True`.
 
     Notes
     -----
@@ -216,6 +235,8 @@ def delta_E_CIE1994(
     1.6711191...
     >>> delta_E_CIE1994(Lab_1, Lab_2, textiles=True)  # doctest: +ELLIPSIS
     0.8404677...
+    >>> delta_E_CIE1994(Lab_1, Lab_2, return_deltas=True)  # doctest: +ELLIPSIS
+    array([ -1.66723702e+00,  -1.13831554e-01,   1.49832968e-03])
     """
 
     L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
@@ -230,7 +251,7 @@ def delta_E_CIE1994(
     C_1 = np.hypot(a_1, b_1)
     C_2 = np.hypot(a_2, b_2)
 
-    s_L = 1
+    s_L = np.ones_like(C_1)
     s_C = 1 + k_1 * C_1
     s_H = 1 + k_2 * C_1
 
@@ -243,13 +264,12 @@ def delta_E_CIE1994(
     delta_H = zeros(radical.shape)
     delta_H[radical > 0] = np.sqrt(radical[radical > 0])
 
-    L = (delta_L / (k_L * s_L)) ** 2
-    C = (delta_C / (k_C * s_C)) ** 2
-    H = (delta_H / (k_H * s_H)) ** 2
+    deltas = np.stack([delta_L, delta_C, delta_H], axis=-1)
+    weights = np.stack([k_L * s_L, k_C * s_C, k_H * s_H], axis=-1)
 
-    d_E = np.sqrt(L + C + H)
-
-    return as_float(d_E)
+    return euclidean_distance_from_deltas(
+        deltas, weights=weights, return_deltas=return_deltas
+    )
 
 
 @dataclass
@@ -430,7 +450,10 @@ delta_H_p=0.0105030..., R_T=-3...)
 
 
 def delta_E_CIE2000(
-    Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: bool = False
+    Lab_1: ArrayLike,
+    Lab_2: ArrayLike,
+    textiles: bool = False,
+    return_deltas: bool = False,
 ) -> NDArrayFloat:
     """
     Compute the colour difference :math:`\\Delta E_{00}` between two specified
@@ -446,11 +469,15 @@ def delta_E_CIE2000(
         Textiles application specific parametric factors.
         :math:`k_L=2,\\ k_C=k_H=1` weights are used instead of
         :math:`k_L=k_C=k_H=1`.
+    return_deltas
+        Whether to return the elementwise weighted *CIE L\\*C\\*h\\** deltas
+        instead of the aggregated metric.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Colour difference :math:`\\Delta E_{00}`.
+        Colour difference :math:`\\Delta E_{00}`, or
+        elementwise weighted *CIE L\\*C\\*h\\** deltas if `return_deltas=True`.
 
     Notes
     -----
@@ -496,6 +523,8 @@ def delta_E_CIE2000(
     1.6709303...
     >>> delta_E_CIE2000(Lab_1, Lab_2, textiles=True)  # doctest: +ELLIPSIS
     0.8412338...
+    >>> delta_E_CIE2000(Lab_1, Lab_2, return_deltas=True)  # doctest: +ELLIPSIS
+    array([ 1.6670668 ,  0.11354075,  0.00222397])
     """
 
     S_L, S_C, S_H, delta_L_p, delta_C_p, delta_H_p, R_T = astuple(
@@ -505,6 +534,14 @@ def delta_E_CIE2000(
     k_L = 2 if textiles else 1
     k_C = 1
     k_H = 1
+
+    if return_deltas:
+        # leave out the rotation term when returning intermediate deltas
+        deltas = np.stack([delta_L_p, delta_C_p, delta_H_p], axis=-1)
+        weights = np.stack([k_L * S_L, k_C * S_C, k_H * S_H], axis=-1)
+        return euclidean_distance_from_deltas(
+            deltas, weights=weights, return_deltas=return_deltas
+        )
 
     d_E = np.sqrt(
         (delta_L_p / (k_L * S_L)) ** 2
@@ -521,6 +558,7 @@ def delta_E_CMC(
     Lab_2: ArrayLike,
     l: float = 2,  # noqa: E741
     c: float = 1,
+    return_deltas: bool = False,
 ) -> NDArrayFloat:
     """
     Compute the colour difference :math:`\\Delta E_{CMC}` between two
@@ -542,11 +580,15 @@ def delta_E_CMC(
         *Lightness* weighting factor.
     c
         *Chroma* weighting factor.
+    return_deltas
+        Whether to return the elementwise weighted *CIE L\\*C\\*h\\** deltas
+        instead of the aggregated metric.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Colour difference :math:`\\Delta E_{CMC}`.
+        Colour difference :math:`\\Delta E_{CMC}`, or
+        elementwise weighted *CIE L\\*C\\*h\\** deltas if `return_deltas=True`.
 
     Notes
     -----
@@ -576,6 +618,8 @@ def delta_E_CMC(
     >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E_CMC(Lab_1, Lab_2)  # doctest: +ELLIPSIS
     0.8996999...
+    >>> delta_E_CMC(Lab_1, Lab_2, return_deltas=True)  # doctest: +ELLIPSIS
+    array([-0.77434592, -0.45807668,  0.00376762])
     """
 
     L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
@@ -601,15 +645,17 @@ def delta_E_CMC(
     delta_C = C_1 - C_2
     delta_A = a_1 - a_2
     delta_B = b_1 - b_2
-    delta_H2 = delta_A**2 + delta_B**2 - delta_C**2
 
-    v_1 = delta_L / (l * s_L)
-    v_2 = delta_C / (c * s_C)
-    v_3 = s_h
+    radical = delta_A**2 + delta_B**2 - delta_C**2
+    delta_H = zeros(radical.shape)
+    delta_H[radical > 0] = np.sqrt(radical[radical > 0])
 
-    d_E = np.sqrt(v_1**2 + v_2**2 + (delta_H2 / (v_3 * v_3)))
+    deltas = np.stack([delta_L, delta_C, delta_H], axis=-1)
+    weights = np.stack([l * s_L, c * s_C, s_h], axis=-1)
 
-    return as_float(d_E)
+    return euclidean_distance_from_deltas(
+        deltas, weights=weights, return_deltas=return_deltas
+    )
 
 
 def delta_E_ITP(ICtCp_1: ArrayLike, ICtCp_2: ArrayLike) -> NDArrayFloat:

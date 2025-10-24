@@ -12,6 +12,7 @@ if typing.TYPE_CHECKING:
 from .common import (
     eigen_decomposition,
     euclidean_distance,
+    euclidean_distance_from_deltas,
     get_sdiv_mode,
     is_identity,
     is_spow_enabled,
@@ -64,6 +65,7 @@ from .regression import least_square_mapping_MoorePenrose
 
 __all__ = [
     "eigen_decomposition",
+    "euclidean_distance_from_deltas",
     "euclidean_distance",
     "get_sdiv_mode",
     "is_identity",

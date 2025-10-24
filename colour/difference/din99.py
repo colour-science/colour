@@ -39,7 +39,10 @@ __all__ = [
 
 
 def delta_E_DIN99(
-    Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: bool = False
+    Lab_1: ArrayLike,
+    Lab_2: ArrayLike,
+    textiles: bool = False,
+    return_deltas: bool = False,
 ) -> NDArrayFloat:
     """
     Compute the colour difference :math:`\\Delta E_{DIN99}` between two
@@ -55,11 +58,15 @@ def delta_E_DIN99(
         Textiles application specific parametric factors,
         :math:`k_E=2,\\ k_{CH}=0.5` weights are used instead of
         :math:`k_E=1,\\ k_{CH}=1`.
+    return_deltas
+        Whether to return the elementwise *DIN99 L\\*a\\*b\\** deltas
+        instead of the aggregated metric.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Colour difference :math:`\\Delta E_{DIN99}`.
+        Colour difference :math:`\\Delta E_{DIN99}`, or
+        elementwise *DIN99 L\\*a\\*b\\** deltas if `return_deltas=True`.
 
     Notes
     -----
@@ -90,6 +97,8 @@ def delta_E_DIN99(
     >>> Lab_2 = np.array([60.4626, -34.1751, 39.4387])
     >>> delta_E_DIN99(Lab_1, Lab_2)  # doctest: +ELLIPSIS
     1.1772166...
+    >>> delta_E_DIN99(Lab_1, Lab_2, return_deltas=True)  # doctest: +ELLIPSIS
+    array([-0.17509302, -0.58040452, -1.00911446])
     """
 
     k_E = 2 if textiles else 1
@@ -100,4 +109,5 @@ def delta_E_DIN99(
     return euclidean_distance(
         Lab_to_DIN99(Lab_1, k_E, k_CH) * factor,
         Lab_to_DIN99(Lab_2, k_E, k_CH) * factor,
+        return_deltas=return_deltas,
     )

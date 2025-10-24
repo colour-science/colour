@@ -10,6 +10,7 @@ import pytest
 from colour.algebra import (
     eigen_decomposition,
     euclidean_distance,
+    euclidean_distance_from_deltas,
     get_sdiv_mode,
     is_identity,
     is_spow_enabled,
@@ -50,6 +51,7 @@ __all__ = [
     "TestNormaliseVector",
     "TestNormaliseMaximum",
     "TestVectorDot",
+    "TestEuclideanDistanceFromDeltas",
     "TestEuclideanDistance",
     "TestManhattanDistance",
     "TestLinearConversion",
@@ -519,6 +521,91 @@ class TestEuclideanDistance:
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         euclidean_distance(cases, cases)
+
+
+class TestEuclideanDistanceFromDeltas:
+    """
+    Define :func:`colour.algebra.common.euclidean_distance_from_deltas`
+    definition unit tests methods.
+    """
+
+    def test_euclidean_distance_from_deltas(self) -> None:
+        """
+        Test :func:`colour.algebra.common.euclidean_distance_from_deltas`
+        definition.
+        """
+
+        deltas = np.array([0.0, -405.10734996, 199.83228515])
+
+        # Unweighted Euclidean norm
+        np.testing.assert_allclose(
+            euclidean_distance_from_deltas(deltas),
+            451.71330197,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # Weighted Euclidean norm
+        np.testing.assert_allclose(
+            euclidean_distance_from_deltas(deltas, weights=[1, 2, 4]),
+            208.62358474,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # Return weighted deltas instead of norm
+        np.testing.assert_allclose(
+            euclidean_distance_from_deltas(
+                deltas, weights=[1, 2, 4], return_deltas=True
+            ),
+            np.array([0.0, -202.55367498, 49.95807129]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_n_dimensional_euclidean_distance_from_deltas(self) -> None:
+        """
+        Test :func:`colour.algebra.common.euclidean_distance_from_deltas`
+        definition n-dimensional arrays support.
+        """
+
+        deltas = np.array([0.0, -405.10734996, 199.83228515])
+        weights = np.array([1.0, 2.0, 4.0])
+        distance = euclidean_distance_from_deltas(deltas, weights=weights)
+
+        # Repeat for multiple rows
+        deltas_tiled = np.tile(deltas, (6, 1))
+        weights_tiled = np.tile(weights, (6, 1))
+        distance_tiled = np.tile(distance, 6)
+
+        np.testing.assert_allclose(
+            euclidean_distance_from_deltas(deltas_tiled, weights=weights_tiled),
+            distance_tiled,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # Reshape into higher-dimensional arrays
+        deltas_nd = np.reshape(deltas_tiled, (2, 3, 3))
+        weights_nd = np.reshape(weights_tiled, (2, 3, 3))
+        distance_nd = np.reshape(distance_tiled, (2, 3))
+
+        np.testing.assert_allclose(
+            euclidean_distance_from_deltas(deltas_nd, weights=weights_nd),
+            distance_nd,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    @ignore_numpy_errors
+    def test_nan_euclidean_distance_from_deltas(self) -> None:
+        """
+        Test :func:`colour.algebra.common.euclidean_distance_from_deltas`
+        definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = np.array(list(set(product(cases, repeat=3))))
+
+        # Just ensure function handles edge cases without raising
+        euclidean_distance_from_deltas(cases)
+        euclidean_distance_from_deltas(cases, weights=[1, 2, 4])
+        euclidean_distance_from_deltas(cases, return_deltas=True)
 
 
 class TestManhattanDistance:

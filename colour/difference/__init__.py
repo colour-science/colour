@@ -40,10 +40,18 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Any, ArrayLike, NDArrayFloat, LiteralDeltaEMethod
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        NDArrayFloat,
+        LiteralDeltaEMethod,
+        LiteralMetamerismMethod,
+    )
 
+from colour.algebra import euclidean_distance
 from colour.utilities import (
     CanonicalMapping,
+    as_float,
     filter_kwargs,
     validate_method,
 )
@@ -133,6 +141,33 @@ DELTA_E_METHODS["cie1976"] = DELTA_E_METHODS["CIE 1976"]
 DELTA_E_METHODS["cie1994"] = DELTA_E_METHODS["CIE 1994"]
 DELTA_E_METHODS["cie2000"] = DELTA_E_METHODS["CIE 2000"]
 
+METAMERISM_METHODS: CanonicalMapping = CanonicalMapping(
+    {
+        "CIE 1976": delta_E_CIE1976,
+        "CIE 1994": delta_E_CIE1994,
+        "CIE 2000": delta_E_CIE2000,
+        "CMC": delta_E_CMC,
+        "DIN99": delta_E_DIN99,
+    }
+)
+METAMERISM_METHODS.__doc__ = """
+Supported metamerism index computation methods.
+
+Each method computes the metamerism index using the
+componentwise deltas returned when `return_deltas=True`
+is specified in the delta_E methods that support this.
+
+Aliases:
+
+-   'cie1976': 'CIE 1976'
+-   'cie1994': 'CIE 1994'
+-   'cie2000': 'CIE 2000'
+"""
+
+METAMERISM_METHODS["cie1976"] = METAMERISM_METHODS["CIE 1976"]
+METAMERISM_METHODS["cie1994"] = METAMERISM_METHODS["CIE 1994"]
+METAMERISM_METHODS["cie2000"] = METAMERISM_METHODS["CIE 2000"]
+
 
 def delta_E(
     a: ArrayLike,
@@ -172,6 +207,15 @@ def delta_E(
         :math:`k_L=2,\\ k_C=k_H=1,\\ k_1=0.048,\\ k_2=0.014,\\ k_E=2,\\ k_{CH}=0.5`
         weights are used instead of
         :math:`k_L=k_C=k_H=1,\\ k_1=0.045,\\ k_2=0.015,\\ k_E=k_{CH}=1.0`.
+    return_deltas
+        {:func:`colour.difference.delta_E_CIE1976`,
+        :func:`colour.difference.delta_E_CIE1994`,
+        :func:`colour.difference.delta_E_CIE2000`,
+        :func:`colour.difference.delta_E_CMC`,
+        :func:`colour.difference.delta_E_DIN99`},
+        Whether to return the elementwise deltas in
+        (weighted) *CIE L\\*a\\*b\\** or *CIE L\\*C\\*h\\** space
+        instead of the aggregated delta_E metric.
 
     Returns
     -------
@@ -228,6 +272,183 @@ def delta_E(
     function = DELTA_E_METHODS[method]
 
     return function(a, b, **filter_kwargs(function, **kwargs))
+
+
+def metamerism_index(
+    Lab_ref_a: ArrayLike,
+    Lab_ref_b: ArrayLike,
+    Lab_test_a: ArrayLike,
+    Lab_test_b: ArrayLike,
+    method: LiteralMetamerismMethod | str = "CIE 2000",
+    use_dE: bool = True,
+    **kwargs: Any,
+) -> NDArrayFloat:
+    """
+    Compute the metamerism index between colour pairs measured under two
+    different illuminants, using delta-E methods that support
+    `return_deltas=True`.
+
+    Parameters
+    ----------
+    Lab_ref_a
+        *CIE L\\*a\\*b\\** colourspace array `Lab_ref_a`.
+        Reference illuminant array for sample a.
+    Lab_ref_b
+        *CIE L\\*a\\*b\\** colourspace array `Lab_ref_b`.
+        Reference illuminant array for sample b.
+    Lab_test_a
+        *CIE L\\*a\\*b\\** colourspace array `Lab_test_a`.
+        Test illuminant array for sample a.
+    Lab_test_b
+        *CIE L\\*a\\*b\\** colourspace array `Lab_test_b`.
+        Test illuminant array for sample b.
+    use_dE
+        Whether to use the :math:`\\Delta E` values for the computation
+        or the componentwise colour differences.
+        Intuition :
+        - When ``use_dE=True``, the index measures how much the *overall perceptual
+        distance* between two colours changes under different illuminants.
+        - When ``use_dE=False``, it measures how the *composition* of that
+        difference (lightness, chroma, hue) changes — e.g., a small ΔL* offset
+        partly compensated by ΔC* or ΔH* will still yield a noticeable metamerism.
+    method
+        Computation method.
+
+    Other Parameters
+    ----------------
+    c
+        {:func:`colour.difference.delta_E_CMC`},
+        *Chroma* weighting factor.
+    l
+        {:func:`colour.difference.delta_E_CMC`},
+        *Lightness* weighting factor.
+    textiles
+        {:func:`colour.difference.delta_E_CIE1994`,
+        :func:`colour.difference.delta_E_CIE2000`,
+        :func:`colour.difference.delta_E_DIN99`},
+        Textiles application specific parametric factors
+        :math:`k_L=2,\\ k_C=k_H=1,\\ k_1=0.048,\\ k_2=0.014,\\ k_E=2,\\ k_{CH}=0.5`
+        weights are used instead of
+        :math:`k_L=k_C=k_H=1,\\ k_1=0.045,\\ k_2=0.015,\\ k_E=k_{CH}=1.0`.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Metamerism index between reference and test illuminants.
+
+    Notes
+    -----
+    The metamerism index quantifies how much the colour difference between
+    two samples changes when the illuminant changes.
+
+    When ``use_dE=True``, the metric compares the scalar colour differences
+    :math:`\\Delta E` under the reference and test illuminants:
+
+    .. math::
+
+        MI = \\left| \\Delta E_{ref} - \\Delta E_{test} \\right|
+
+    When ``use_dE=False``, the computation is performed in componentwise
+    delta space (*L\\*a\\*b\\** or *L\\*C\\*h\\** depending on `method`),
+    comparing the individual colour-difference vectors:
+
+    .. math::
+
+        MI = \\left\\| (\\Delta L^*, \\Delta C^*, \\Delta H^*)_{ref}
+            - (\\Delta L^*, \\Delta C^*, \\Delta H^*)_{test} \\right\\|_2
+
+    In both cases, the result expresses the magnitude of change in colour
+    difference caused by a shift in illumination, i.e., the degree of
+    metamerism between the two samples.
+
+    Examples
+    --------
+    >>> Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
+    >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
+    >>> offset = np.array([2, 0, 0])
+    >>> metamerism_index(
+    ...     Lab_1, Lab_2, Lab_1, Lab_2 + offset, method="CIE 1976", use_dE=False
+    ... )  # doctest: +ELLIPSIS
+    2.0
+    >>> metamerism_index(
+    ...     Lab_1, Lab_2, Lab_1, Lab_2 + offset, method="CIE 1976", use_dE=True
+    ... )  # doctest: +ELLIPSIS
+    1.525720457...
+    >>> metamerism_index(
+    ...     Lab_1, Lab_2, Lab_1, Lab_2 + offset, method="CIE 1994", use_dE=False
+    ... )  # doctest: +ELLIPSIS
+    2.0
+    >>> metamerism_index(
+    ...     Lab_1, Lab_2, Lab_1, Lab_2 + offset, method="CIE 1994", use_dE=True
+    ... )  # doctest: +ELLIPSIS
+    1.997884443...
+    >>> metamerism_index(
+    ...     Lab_1, Lab_2, Lab_1, Lab_2 + offset, method="CIE 2000", use_dE=False
+    ... )  # doctest: +ELLIPSIS
+    1.991946808...
+    >>> metamerism_index(
+    ...     Lab_1, Lab_2, Lab_1, Lab_2 + offset, method="CIE 2000", use_dE=True
+    ... )  # doctest: +ELLIPSIS
+    1.989845140...
+    >>> metamerism_index(
+    ...     Lab_1, Lab_2, Lab_1, Lab_2 + offset, method="CMC", use_dE=False
+    ... )  # doctest: +ELLIPSIS
+    0.928897229...
+    >>> metamerism_index(
+    ...     Lab_1, Lab_2, Lab_1, Lab_2 + offset, method="CMC", use_dE=True
+    ... )  # doctest: +ELLIPSIS
+    0.864070326...
+    >>> metamerism_index(
+    ...     Lab_1, Lab_2, Lab_1, Lab_2 + offset, method="DIN99", use_dE=False
+    ... )  # doctest: +ELLIPSIS
+    1.835780195...
+    >>> metamerism_index(
+    ...     Lab_1, Lab_2, Lab_1, Lab_2 + offset, method="DIN99", use_dE=True
+    ... )  # doctest: +ELLIPSIS
+    1.833631212...
+    """
+
+    method = validate_method(method, tuple(METAMERISM_METHODS))
+
+    # Get delta_E function for the given method
+    function = METAMERISM_METHODS[method]
+
+    # Ensure the chosen method supports returning deltas
+    if "return_deltas" not in function.__code__.co_varnames:
+        msg = f"Method '{method}' does not support `return_deltas=True`."
+        raise ValueError(msg)
+
+    # Prevent user from overriding internal logic
+    if "return_deltas" in kwargs:
+        msg = (
+            "`return_deltas` cannot be passed to `metamerism_index`, "
+            "as it is used internally for the computation."
+        )
+        raise ValueError(msg)
+
+    # Compute deltas for reference and test illuminants
+    deltas_ref = function(
+        Lab_ref_a,
+        Lab_ref_b,
+        return_deltas=not use_dE,
+        **filter_kwargs(function, **kwargs),
+    )
+    deltas_test = function(
+        Lab_test_a,
+        Lab_test_b,
+        return_deltas=not use_dE,
+        **filter_kwargs(function, **kwargs),
+    )
+
+    # Compute metamerism index based on chosen mode
+    if use_dE:
+        # Compute absolute difference
+        metamerism = abs(deltas_ref - deltas_test)
+    else:
+        # Otherwise compute Euclidean distance between componentwise deltas
+        metamerism = euclidean_distance(deltas_ref, deltas_test)
+
+    return as_float(metamerism)
 
 
 __all__ += [

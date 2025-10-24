@@ -58,6 +58,7 @@ __all__ = [
     "normalise_vector",
     "normalise_maximum",
     "vecmul",
+    "euclidean_distance_from_deltas",
     "euclidean_distance",
     "manhattan_distance",
     "linear_conversion",
@@ -663,7 +664,61 @@ def vecmul(m: ArrayLike, v: ArrayLike) -> NDArrayFloat:
     return np.matmul(as_float_array(m), as_float_array(v)[..., None]).squeeze(-1)
 
 
-def euclidean_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
+def euclidean_distance_from_deltas(
+    deltas: ArrayLike,
+    weights: ArrayLike | None = None,
+    return_deltas: bool = False,
+) -> NDArrayFloat:
+    """
+    Compute the (optionally weighted) *Euclidean* norm from a given array of deltas.
+
+    If :math:`weights` are given, each delta term is divided by the corresponding
+    weight before computing the norm, following a *Mahalanobis-style* scaling.
+    Optionally, `return_deltas=True` returns the elementwise weighted deltas
+    instead of the aggregated distance.
+
+    Parameters
+    ----------
+    deltas
+        Array of componentwise differences.
+    weights
+        Optional weighting array to scale each delta.
+    return_deltas
+        Whether to return the elementwise (weighted) deltas instead of the aggregated
+        *Euclidean* distance.
+
+    Returns
+    -------
+    :class:`numpy.float64` or :class:`numpy.ndarray`
+        Weighted *Euclidean* norm of the deltas, or weighted deltas
+        before applying the norm if `return_deltas=True`.
+
+    Examples
+    --------
+    >>> deltas = np.array([0, -405.10734996, 199.83228515])
+    >>> euclidean_distance_from_deltas(deltas)
+    451.7133019...
+    >>> euclidean_distance_from_deltas(deltas, weights=[1, 2, 4])
+    208.6235847...
+    >>> euclidean_distance_from_deltas(deltas, weights=[1, 2, 4], return_deltas=True)
+    array([   0.        , -202.55367498,   49.95807129])
+    """
+    deltas = as_float_array(deltas)
+
+    if weights is not None:
+        deltas = deltas / as_float_array(weights)
+
+    if return_deltas:
+        return deltas
+
+    return as_float(np.linalg.norm(deltas, axis=-1))
+
+
+def euclidean_distance(
+    a: ArrayLike,
+    b: ArrayLike,
+    **kwargs: Any,
+) -> NDArrayFloat:
     """
     Calculate the *Euclidean* distance between the specified point arrays
     :math:`a` and :math:`b`.
@@ -679,10 +734,22 @@ def euclidean_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     b
         Point array :math:`b`.
 
+    Other Parameters
+    ----------------
+    weights
+        {:func:`colour.algebra.euclidean_distance_from_deltas`},
+        Mahalanobis-style weighting array to scale each delta
+        before computing the norm.
+    return_deltas
+        {:func:`colour.algebra.euclidean_distance_from_deltas`},
+        Whether to return the elementwise (weighted) deltas
+        instead of the aggregated metric.
+
     Returns
     -------
     :class:`numpy.float64` or :class:`numpy.ndarray`
-        *Euclidean* distance between the two point arrays.
+        *Euclidean* distance between the two point arrays, or elementwise
+        (weighted) deltas if `return_deltas=True`.
 
     Examples
     --------
@@ -690,9 +757,17 @@ def euclidean_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     >>> b = np.array([100.00000000, 426.67945353, 72.39590835])
     >>> euclidean_distance(a, b)  # doctest: +ELLIPSIS
     451.7133019...
+    >>> euclidean_distance(a, b, weights=[1, 2, 4])  # doctest: +ELLIPSIS
+    208.6235847...
+    >>> euclidean_distance(
+    ...     a, b, weights=[1, 2, 4], return_deltas=True
+    ... )  # doctest: +ELLIPSIS
+    array([   0.        , -202.55367498,   49.95807129])
     """
 
-    return as_float(np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1))
+    return euclidean_distance_from_deltas(
+        as_float_array(a) - as_float_array(b), **kwargs
+    )
 
 
 def manhattan_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
