@@ -560,11 +560,19 @@ def whiteness(
     if function is whiteness_Stensby1968:
         from colour.models import XYZ_to_Lab, XYZ_to_xy  # noqa: PLC0415
 
-        if get_domain_range_scale() == "reference":
-            XYZ = XYZ / 100
-            XYZ_0 = XYZ_0 / 100
-
-        kwargs.update({"Lab": XYZ_to_Lab(XYZ, XYZ_to_xy(XYZ_0))})
+        # XYZ_to_Lab always expects XYZ in [0, 1], convert from reference [0, 100].
+        kwargs.update(
+            {
+                "Lab": XYZ_to_Lab(
+                    XYZ / 100 if get_domain_range_scale() == "reference" else XYZ,
+                    XYZ_to_xy(
+                        XYZ_0 / 100
+                        if get_domain_range_scale() == "reference"
+                        else XYZ_0
+                    ),
+                )
+            }
+        )
     elif function in (whiteness_Ganz1979, whiteness_CIE2004):
         from colour.models import XYZ_to_xy  # noqa: PLC0415
 

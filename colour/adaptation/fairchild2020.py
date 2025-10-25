@@ -34,6 +34,8 @@ from colour.utilities import (
     MixinDataclassIterable,
     as_float_array,
     from_range_1,
+    get_domain_range_scale,
+    optional,
     row_as_diagonal,
     to_domain_1,
     validate_method,
@@ -232,7 +234,7 @@ def chromatic_adaptation_vK20(
     XYZ: ArrayLike,
     XYZ_p: ArrayLike,
     XYZ_n: ArrayLike,
-    XYZ_r: ArrayLike = TVS_XYZ_R_VK20,
+    XYZ_r: ArrayLike | None = None,
     transform: Literal[
         "Bianco 2010",
         "Bianco PC 2010",
@@ -327,7 +329,14 @@ def chromatic_adaptation_vK20(
     XYZ = to_domain_1(XYZ)
     XYZ_p = to_domain_1(XYZ_p)
     XYZ_n = to_domain_1(XYZ_n)
-    XYZ_r = to_domain_1(XYZ_r)
+    XYZ_r = to_domain_1(
+        optional(
+            XYZ_r,
+            TVS_XYZ_R_VK20
+            if get_domain_range_scale() == "reference"
+            else TVS_XYZ_R_VK20 / 100,
+        )
+    )
 
     M_CAT = matrix_chromatic_adaptation_vk20(
         XYZ_p, XYZ_n, XYZ_r, transform, coefficients
