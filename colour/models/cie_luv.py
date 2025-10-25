@@ -45,6 +45,8 @@ from colour.utilities import (
     domain_range_scale,
     from_range_1,
     from_range_100,
+    get_domain_range_scale,
+    optional,
     to_domain_1,
     to_domain_100,
     tsplit,
@@ -290,7 +292,7 @@ def uv_to_Luv(
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-    L: ArrayLike = 100,
+    L: ArrayLike | None = None,
 ) -> NDArrayFloat:
     """
     Convert from :math:`uv^p` chromaticity coordinates to *CIE L\\*u\\*v\\**
@@ -341,7 +343,9 @@ def uv_to_Luv(
     """
 
     u, v = tsplit(uv)
-    L = to_domain_100(L)
+    L = to_domain_100(
+        optional(L, 100 if get_domain_range_scale() == "reference" else 1)
+    )
 
     _X_r, Y_r, _Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 

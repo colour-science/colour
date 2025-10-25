@@ -82,6 +82,7 @@ from colour.utilities import (
     filter_kwargs,
     from_range_100,
     get_domain_range_scale,
+    optional,
     to_domain_1,
     to_domain_100,
     usage_warning,
@@ -268,7 +269,7 @@ def intermediate_lightness_function_CIE1976(
     return as_float(f_Y_Y_n)
 
 
-def lightness_CIE1976(Y: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
+def lightness_CIE1976(Y: ArrayLike, Y_n: ArrayLike | None = None) -> NDArrayFloat:
     """
     Compute the *lightness* :math:`L^*` of the specified *luminance* :math:`Y`
     using the specified reference white *luminance* :math:`Y_n` as per *CIE 1976*
@@ -311,7 +312,9 @@ def lightness_CIE1976(Y: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
     """
 
     Y = to_domain_100(Y)
-    Y_n = to_domain_100(Y_n)
+    Y_n = to_domain_100(
+        optional(Y_n, 100 if get_domain_range_scale() == "reference" else 1)
+    )
 
     L_star = 116 * intermediate_lightness_function_CIE1976(Y, Y_n) - 16
 
@@ -442,7 +445,7 @@ def lightness_Fairchild2011(
 
 def lightness_Abebe2017(
     Y: ArrayLike,
-    Y_n: ArrayLike = 100,
+    Y_n: ArrayLike | None = None,
     method: Literal["Michaelis-Menten", "Stevens"] | str = "Michaelis-Menten",
 ) -> NDArrayFloat:
     """
@@ -500,7 +503,7 @@ def lightness_Abebe2017(
     """
 
     Y = as_float_array(Y)
-    Y_n = as_float_array(Y_n)
+    Y_n = as_float_array(optional(Y_n, 100))
     method = validate_method(method, ("Michaelis-Menten", "Stevens"))
 
     Y_Y_n = Y / Y_n
@@ -630,7 +633,7 @@ def lightness(
     29.8295108...
     >>> lightness(12.19722535, method="Abebe 2017")
     ... # doctest: +ELLIPSIS
-    48.6955571...
+    0.4869555...
     """
 
     Y = as_float_array(Y)
@@ -638,26 +641,30 @@ def lightness(
 
     function = LIGHTNESS_METHODS[method]
 
-    # NOTE: "Abebe et al. (2017)" uses absolute luminance levels and has
-    # undefined domain-range scale, yet we modify its behaviour consistency
-    # with the other methods.
     domain_range_reference = get_domain_range_scale() == "reference"
     domain_range_1 = get_domain_range_scale() == "1"
-    domain_range_100 = get_domain_range_scale() == "100"
 
-    domain_1 = (lightness_Fairchild2010, lightness_Fairchild2011)
-    domain_undefined = (lightness_Abebe2017,)
-
-    if function in domain_1 and domain_range_reference:
+    # Fairchild methods expect Y in [0, 1].
+    if (
+        function
+        in (
+            lightness_Fairchild2010,
+            lightness_Fairchild2011,
+        )
+        and domain_range_reference
+    ):
         Y = Y / 100
 
-    if function in domain_undefined and domain_range_1:
+    # Abebe uses absolute luminance, scale inputs to cd/m² in scale 1.
+    if function in (lightness_Abebe2017,) and domain_range_1:
         Y = Y * 100
-        kwargs["Y_n"] = kwargs.get("Y_n", 100) * 100
+        if "Y_n" in kwargs:
+            kwargs["Y_n"] = kwargs["Y_n"] * 100
 
     L = function(Y, **filter_kwargs(function, **kwargs))
 
-    if function in domain_undefined and (domain_range_reference or domain_range_100):
-        L *= 100
+    # Scale Abebe output to [0, 100] for comparability (not in scale 1).
+    if function in (lightness_Abebe2017,) and not domain_range_1:
+        return L * 100
 
     return L

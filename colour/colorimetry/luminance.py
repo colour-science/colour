@@ -82,6 +82,7 @@ from colour.utilities import (
     from_range_1,
     from_range_100,
     get_domain_range_scale,
+    optional,
     to_domain_10,
     to_domain_100,
     validate_method,
@@ -271,7 +272,7 @@ def intermediate_luminance_function_CIE1976(
     return as_float(Y)
 
 
-def luminance_CIE1976(L_star: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
+def luminance_CIE1976(L_star: ArrayLike, Y_n: ArrayLike | None = None) -> NDArrayFloat:
     """
     Compute the *luminance* :math:`Y` from the specified *lightness* :math:`L^*`
     with the specified reference white *luminance* :math:`Y_n`.
@@ -315,7 +316,9 @@ def luminance_CIE1976(L_star: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
     """
 
     L_star = to_domain_100(L_star)
-    Y_n = to_domain_100(Y_n)
+    Y_n = to_domain_100(
+        optional(Y_n, 100 if get_domain_range_scale() == "reference" else 1)
+    )
 
     f_Y_Y_n = (L_star + 16) / 116
 
@@ -453,7 +456,7 @@ def luminance_Fairchild2011(
 
 def luminance_Abebe2017(
     L: ArrayLike,
-    Y_n: ArrayLike = 100,
+    Y_n: ArrayLike | None = None,
     method: Literal["Michaelis-Menten", "Stevens"] | str = "Michaelis-Menten",
 ) -> NDArrayFloat:
     """
@@ -511,7 +514,7 @@ def luminance_Abebe2017(
     """
 
     L = as_float_array(L)
-    Y_n = as_float_array(Y_n)
+    Y_n = as_float_array(optional(Y_n, 100))
     method = validate_method(method, ("Michaelis-Menten", "Stevens"))
 
     if method == "stevens":
@@ -648,6 +651,9 @@ def luminance(
     >>> luminance(29.829510892279330, epsilon=0.710, method="Fairchild 2011")
     ... # doctest: +ELLIPSIS
     12.1972253...
+    >>> luminance(0.48695557110922894, method="Abebe 2017")
+    ... # doctest: +ELLIPSIS
+    12.1972253...
     """
 
     LV = as_float_array(LV)
@@ -655,29 +661,35 @@ def luminance(
 
     function = LUMINANCE_METHODS[method]
 
-    # NOTE: "Abebe et al. (2017)" uses absolute luminance levels and has
-    # undefined domain-range scale, yet we modify its behaviour consistency
-    # with the other methods.
     domain_range_reference = get_domain_range_scale() == "reference"
     domain_range_1 = get_domain_range_scale() == "1"
+    domain_range_100 = get_domain_range_scale() == "100"
 
-    domain_1 = (luminance_Fairchild2010, luminance_Fairchild2011)
-    domain_10 = (luminance_Newhall1943, luminance_ASTMD1535)
-    domain_undefined = (luminance_Abebe2017,)
-
-    if function in domain_10 and domain_range_reference:
+    # Newhall/ASTM methods expect V in [0, 10].
+    if (
+        function in (luminance_Newhall1943, luminance_ASTMD1535)
+        and domain_range_reference
+    ):
         LV = LV / 10
 
-    if function in domain_undefined and domain_range_1:
-        LV = LV * 100
-        kwargs["Y_n"] = kwargs.get("Y_n", 100) * 100
+    # Abebe expects L in [0, 1] and Y_n in cd/m².
+    if function in (luminance_Abebe2017,):
+        if domain_range_reference or domain_range_100:
+            LV = LV / 100
+        if domain_range_1 and "Y_n" in kwargs:
+            kwargs["Y_n"] = kwargs["Y_n"] * 100
 
     Y_V = function(LV, **filter_kwargs(function, **kwargs))
 
-    if function in domain_1 and domain_range_reference:
-        Y_V *= 100
+    # Fairchild methods output Y in [0, 1], scale to [0, 100] in reference.
+    if (
+        function in (luminance_Fairchild2010, luminance_Fairchild2011)
+        and domain_range_reference
+    ):
+        Y_V = Y_V * 100
 
-    if function in domain_undefined and domain_range_1:
-        Y_V /= 100
+    # Abebe outputs absolute cd/m², scale to [0, 1] in scale 1.
+    if function in (luminance_Abebe2017,) and domain_range_1:
+        Y_V = Y_V / 100
 
     return Y_V

@@ -29,6 +29,8 @@ if typing.TYPE_CHECKING:
 from colour.utilities import (
     as_float_array,
     from_range_100,
+    get_domain_range_scale,
+    optional,
     to_domain_100,
     validate_method,
 )
@@ -51,7 +53,7 @@ def chromatic_adaptation_Zhai2018(
     XYZ_wd: ArrayLike,
     D_b: ArrayLike = 1,
     D_d: ArrayLike = 1,
-    XYZ_wo: ArrayLike = (1, 1, 1),
+    XYZ_wo: ArrayLike | None = None,
     transform: Literal["CAT02", "CAT16"] | str = "CAT02",
 ) -> NDArrayFloat:
     """
@@ -147,7 +149,14 @@ def chromatic_adaptation_Zhai2018(
     XYZ_b = to_domain_100(XYZ_b)
     XYZ_wb = to_domain_100(XYZ_wb)
     XYZ_wd = to_domain_100(XYZ_wd)
-    XYZ_wo = to_domain_100(XYZ_wo)
+    XYZ_wo = to_domain_100(
+        optional(
+            XYZ_wo,
+            np.array([1, 1, 1])
+            if get_domain_range_scale() == "reference"
+            else np.array([0.01, 0.01, 0.01]),
+        )
+    )
     D_b = as_float_array(D_b)
     D_d = as_float_array(D_d)
 
