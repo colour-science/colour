@@ -21,7 +21,7 @@ repos:
       - id: codespell
         args:
           [
-            "--ignore-words-list=co-ordinates,exitance,hart,ist,rIn,socio-economic",
+            "--ignore-words-list=co-ordinates,exitance,hart,ist,rIn,shepard,socio-economic",
           ]
         exclude: "BIBLIOGRAPHY.bib|CONTRIBUTORS.rst"
   - repo: https://github.com/PyCQA/isort

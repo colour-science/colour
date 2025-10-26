@@ -34,7 +34,6 @@ from colour.algebra import (
     table_interpolation_tetrahedral,
     table_interpolation_trilinear,
 )
-from colour.algebra.interpolation import vertices_and_relative_coordinates
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import NDArrayFloat, cast
 from colour.io import LUT3D, read_LUT
@@ -67,7 +66,6 @@ __all__ = [
     "TestPchipInterpolator",
     "TestNullInterpolator",
     "TestLagrangeCoefficients",
-    "TestVerticesAndRelativeCoordinates",
     "TestTableInterpolationTrilinear",
     "TestTableInterpolationTetrahedral",
 ]
@@ -1607,94 +1605,6 @@ class TestLagrangeCoefficients:
         lc = [lagrange_coefficients(i, 4) for i in np.linspace(1.05, 1.95, 19)]
         np.testing.assert_allclose(
             lc, LAGRANGE_COEFFICIENTS_B, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-
-class TestVerticesAndRelativeCoordinates:
-    """
-    Define :func:`colour.algebra.interpolation.\
-vertices_and_relative_coordinates` definition unit tests methods.
-    """
-
-    def test_vertices_and_relative_coordinates(self) -> None:
-        """
-        Test :func:`colour.algebra.interpolation.\
-vertices_and_relative_coordinates` definition.
-        """
-
-        prng = np.random.RandomState(4)
-
-        V_xyz = random_triplet_generator(4, random_state=prng)
-        vertices, V_xyzr = vertices_and_relative_coordinates(V_xyz, LUT_TABLE)
-
-        np.testing.assert_allclose(
-            vertices,
-            np.array(
-                [
-                    [
-                        [0.58919500, 0.58919500, 0.13916400],
-                        [0.33333300, 0.00000000, 0.33333300],
-                        [0.83331100, 0.83331100, 0.83331100],
-                        [0.79789400, -0.03541200, -0.03541200],
-                    ],
-                    [
-                        [0.59460100, 0.59460100, 0.36958600],
-                        [0.39062300, 0.00000000, 0.78124600],
-                        [0.83331100, 0.83331100, 1.24996300],
-                        [0.75276700, -0.02847900, 0.36214400],
-                    ],
-                    [
-                        [0.66343200, 0.93018800, 0.12992000],
-                        [0.41665500, 0.41665500, 0.41665500],
-                        [0.70710200, 1.11043500, 0.70710200],
-                        [0.63333300, 0.31666700, 0.00000000],
-                    ],
-                    [
-                        [0.68274900, 0.99108200, 0.37441600],
-                        [0.41665500, 0.41665500, 0.83330800],
-                        [0.51971400, 0.74472900, 0.74472900],
-                        [0.73227800, 0.31562600, 0.31562600],
-                    ],
-                    [
-                        [0.89131800, 0.61982300, 0.07683300],
-                        [0.75276700, -0.02847900, 0.36214400],
-                        [1.06561000, 0.64895700, 0.64895700],
-                        [1.19684100, -0.05311700, -0.05311700],
-                    ],
-                    [
-                        [0.95000000, 0.63333300, 0.31666700],
-                        [0.66666700, 0.00000000, 0.66666700],
-                        [1.00000000, 0.66666700, 1.00000000],
-                        [1.16258800, -0.05037200, 0.35394800],
-                    ],
-                    [
-                        [0.88379200, 0.88379200, 0.20874600],
-                        [0.73227800, 0.31562600, 0.31562600],
-                        [0.89460600, 0.89460600, 0.66959000],
-                        [1.03843900, 0.31089900, -0.05287000],
-                    ],
-                    [
-                        [0.88919900, 0.88919900, 0.43916800],
-                        [0.66666700, 0.33333300, 0.66666700],
-                        [1.24996600, 1.24996600, 1.24996600],
-                        [1.13122500, 0.29792000, 0.29792000],
-                    ],
-                ]
-            ),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            V_xyzr,
-            np.array(
-                [
-                    [0.90108952, 0.09318647, 0.75894709],
-                    [0.64169675, 0.64826849, 0.30437460],
-                    [0.91805308, 0.92882336, 0.33814877],
-                    [0.14444798, 0.01869077, 0.59305522],
-                ]
-            ),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 

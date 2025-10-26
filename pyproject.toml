@@ -106,7 +106,7 @@ build-backend = "hatchling.build"
 packages = [ "colour" ]
 
 [tool.codespell]
-ignore-words-list = "co-ordinates,exitance,hart,ist,rIn,socio-economic"
+ignore-words-list = "co-ordinates,exitance,hart,ist,rIn,shepard,socio-economic"
 skip = "BIBLIOGRAPHY.bib,CONTRIBUTORS.rst"
 
 [tool.isort]
