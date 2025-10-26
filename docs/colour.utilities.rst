@@ -30,6 +30,7 @@ Common
 
     domain_range_scale
     get_domain_range_scale
+    get_domain_range_scale_metadata
     set_domain_range_scale
 
 

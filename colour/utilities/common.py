@@ -987,6 +987,7 @@ def copy_definition(definition: Callable, name: str | None = None) -> Callable:
         definition.__closure__,
     )
     copy.__dict__.update(definition.__dict__)
+    copy.__annotations__ = definition.__annotations__.copy()
 
     return copy
 

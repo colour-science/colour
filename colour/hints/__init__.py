@@ -15,6 +15,7 @@ from collections.abc import Generator, Iterable, Iterator, Mapping, Sequence
 from os import PathLike
 from types import ModuleType
 from typing import (  # noqa: UP035
+    Annotated,
     Any,
     Callable,
     ClassVar,
@@ -48,6 +49,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "Annotated",
     "ArrayLike",
     "NDArray",
     "ModuleType",

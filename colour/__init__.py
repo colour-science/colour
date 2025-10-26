@@ -468,6 +468,7 @@ from .temperature import (
 from .utilities.array import (
     domain_range_scale,
     get_domain_range_scale,
+    get_domain_range_scale_metadata,
     set_domain_range_scale,
 )
 from .volume import (
@@ -893,6 +894,7 @@ __all__ += [
 __all__ += [
     "domain_range_scale",
     "get_domain_range_scale",
+    "get_domain_range_scale_metadata",
     "set_domain_range_scale",
 ]
 __all__ += [

@@ -19,12 +19,14 @@ numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
 from __future__ import annotations
 
 import functools
+import re
 import sys
 import typing
 from collections.abc import KeysView, ValuesView
 from contextlib import contextmanager
 from dataclasses import fields, is_dataclass, replace
 from operator import add, mul, pow, sub, truediv  # noqa: A004
+from typing import Union, get_args, get_origin, get_type_hints
 
 import numpy as np
 
@@ -92,6 +94,7 @@ __all__ = [
     "get_domain_range_scale",
     "set_domain_range_scale",
     "domain_range_scale",
+    "get_domain_range_scale_metadata",
     "to_domain_1",
     "to_domain_10",
     "to_domain_100",
@@ -1168,6 +1171,107 @@ class domain_range_scale:
                 return function(*args, **kwargs)
 
         return wrapper
+
+
+def get_domain_range_scale_metadata(function: Callable) -> dict[str, Any]:
+    """
+    Extract domain-range scale metadata from function type hints.
+
+    Extracts scale factors from PEP 593 ``Annotated`` type hints on function
+    parameters and return values. This metadata indicates which scale factors
+    to use when converting between 'Reference' and '1' modes.
+
+    Parameters
+    ----------
+    function
+        Function to extract metadata from.
+
+    Returns
+    -------
+    :class:`dict`
+        Dictionary with keys:
+
+        - ``domain``: Dict mapping parameter names to their scale factors
+        - ``range``: Scale factor for return value (int, tuple, or None)
+
+    Examples
+    --------
+    >>> from colour.hints import Annotated, ArrayLike, NDArrayFloat
+    >>> def example_function(
+    ...     XYZ: Annotated[ArrayLike, 1],
+    ...     illuminant: ArrayLike = None,
+    ... ) -> Annotated[NDArrayFloat, 100]:
+    ...     pass
+    >>> metadata = get_domain_range_scale_metadata(example_function)
+    >>> metadata["domain"]
+    {'XYZ': 1}
+    >>> metadata["range"]
+    100
+    """
+
+    metadata: dict[str, Any] = {"domain": {}, "range": None}
+
+    def extract_scale_from_hint(hint: Any) -> Any | None:
+        """
+        Extract scale metadata from a type hint, handling Union types.
+
+        Parameters
+        ----------
+        hint
+            Type hint to extract scale from.
+
+        Returns
+        -------
+        :class:`int` | :class:`tuple` | :class:`None`
+            Scale metadata if found, None otherwise.
+        """
+
+        # Direct Annotated type with __metadata__
+        if hasattr(hint, "__metadata__") and hint.__metadata__:
+            return next(iter(hint.__metadata__))
+
+        # Union type: check if any arg is Annotated
+        origin = get_origin(hint)
+        if origin is Union:
+            for arg in get_args(hint):
+                if hasattr(arg, "__metadata__") and arg.__metadata__:
+                    return next(iter(arg.__metadata__))
+
+        return None
+
+    try:
+        hints = get_type_hints(function, include_extras=True)
+        # Process hints from get_type_hints (actual types with __metadata__)
+        for parameter_name, hint in hints.items():
+            scale = extract_scale_from_hint(hint)
+            if scale is not None:
+                if parameter_name == "return":
+                    metadata["range"] = scale
+                else:
+                    metadata["domain"][parameter_name] = scale
+    except (AttributeError, TypeError, NameError):
+        # Fallback: parse string annotations (when `from __future__ import annotations`)
+        hints = getattr(function, "__annotations__", {})
+        for parameter_name, hint in hints.items():
+            # Extract scale from string: "Annotated[Type, scale]" -> scale
+            if (
+                isinstance(hint, str)
+                and "Annotated[" in hint
+                and (match := re.search(r"Annotated\[[^,]+,\s*([^\]]+)\]", hint))
+            ):
+                scale_string = match.group(1).strip()
+                # Evaluate scale (could be int, tuple, etc.)
+                try:
+                    scale = eval(scale_string)  # noqa: S307
+                except (SyntaxError, NameError, ValueError):
+                    scale = scale_string
+
+                if parameter_name == "return":
+                    metadata["range"] = scale
+                else:
+                    metadata["domain"][parameter_name] = scale
+
+    return metadata
 
 
 def to_domain_1(

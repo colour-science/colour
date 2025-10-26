@@ -18,8 +18,24 @@ from colour.constants import (
 )
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, DType, NDArray, NDArrayFloat, Type
-
+    from colour.hints import (
+        Annotated,
+        Any,
+        ArrayLike,
+        DType,
+        NDArray,
+        NDArrayFloat,
+        Type,
+    )
+else:
+    # Import Annotated at runtime for test helper function signatures
+    # get_domain_range_scale_metadata() needs to access Annotated.__metadata__
+    from colour.hints import (  # noqa: TC001
+        Annotated,
+        Any,
+        ArrayLike,
+        NDArrayFloat,
+    )
 from colour.utilities import (
     MixinDataclassArithmetic,
     MixinDataclassArray,
@@ -46,6 +62,7 @@ from colour.utilities import (
     from_range_int,
     full,
     get_domain_range_scale,
+    get_domain_range_scale_metadata,
     has_only_nan,
     in_array,
     index_along_last_axis,
@@ -98,6 +115,7 @@ __all__ = [
     "TestGetDomainRangeScale",
     "TestSetDomainRangeScale",
     "TestDomainRangeScale",
+    "TestGetDomainRangeScaleMetadata",
     "TestToDomain1",
     "TestToDomain10",
     "TestToDomain100",
@@ -905,6 +923,92 @@ class TestDomainRangeScale(unittest.TestCase):
             return from_range_100(b)
 
         assert fn_b(10) == 2.0
+
+
+class TestGetDomainRangeScaleMetadata(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.array.get_domain_range_scale_metadata`
+    definition unit tests methods.
+    """
+
+    def test_get_domain_range_scale_metadata(self) -> None:
+        """
+        Test :func:`colour.utilities.array.get_domain_range_scale_metadata`
+        definition.
+        """
+
+        # Pattern 1: Uniform parameter scaling
+        def function_a(
+            XYZ: Annotated[ArrayLike, 1],
+            illuminant: ArrayLike = None,  # type: ignore
+        ) -> Annotated[NDArrayFloat, 100]:  # type: ignore
+            """Test uniform parameter scaling."""
+
+        metadata = get_domain_range_scale_metadata(function_a)
+        assert metadata["domain"] == {"XYZ": 1}
+        assert metadata["range"] == 100
+
+        # Pattern 2: Per-parameter scaling (only some params scaled)
+        def function_b(
+            uv: ArrayLike,
+            illuminant: ArrayLike = None,  # type: ignore
+            L: Annotated[ArrayLike, 100] = 100,
+        ) -> Annotated[NDArrayFloat, 100]:  # type: ignore
+            """Test per-parameter scaling."""
+
+        metadata = get_domain_range_scale_metadata(function_b)
+        assert metadata["domain"] == {"L": 100}
+        assert metadata["range"] == 100
+
+        # Pattern 3: Per-component tuple scaling (CAM models)
+        def function_c(
+            XYZ: Annotated[ArrayLike, 100],
+        ) -> Annotated[tuple, (100, 100, 360, 100, 100, 100, 400)]:  # type: ignore
+            """Test tuple return scaling."""
+
+        metadata = get_domain_range_scale_metadata(function_c)
+        assert metadata["domain"] == {"XYZ": 100}
+        assert metadata["range"] == (100, 100, 360, 100, 100, 100, 400)
+
+        # Multiple domain parameters
+        def function_d(
+            XYZ: Annotated[ArrayLike, 100],
+            XYZ_w: Annotated[ArrayLike, 100],
+            illuminant: ArrayLike = None,  # type: ignore
+        ) -> Annotated[NDArrayFloat, 100]:  # type: ignore
+            """Test multiple domain parameters."""
+
+        metadata = get_domain_range_scale_metadata(function_d)
+        assert metadata["domain"] == {"XYZ": 100, "XYZ_w": 100}
+        assert metadata["range"] == 100
+
+        # No annotations (backward compatibility)
+        def function_e(XYZ: Any, illuminant: Any = None) -> None:
+            """Test backward compatibility."""
+
+        metadata = get_domain_range_scale_metadata(function_e)
+        assert metadata["domain"] == {}
+        assert metadata["range"] is None
+
+        # Only domain scaling, no range
+        def function_f(
+            XYZ: Annotated[ArrayLike, 1],
+        ) -> NDArrayFloat:  # type: ignore
+            """Test domain-only scaling."""
+
+        metadata = get_domain_range_scale_metadata(function_f)
+        assert metadata["domain"] == {"XYZ": 1}
+        assert metadata["range"] is None
+
+        # Only range scaling, no domain
+        def function_g(
+            XYZ: ArrayLike,
+        ) -> Annotated[NDArrayFloat, 100]:  # type: ignore
+            """Test range-only scaling."""
+
+        metadata = get_domain_range_scale_metadata(function_g)
+        assert metadata["domain"] == {}
+        assert metadata["range"] == 100
 
 
 class TestToDomain1(unittest.TestCase):
