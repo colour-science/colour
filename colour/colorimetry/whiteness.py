@@ -51,6 +51,7 @@ import typing
 if typing.TYPE_CHECKING:
     from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -83,7 +84,9 @@ __all__ = [
 ]
 
 
-def whiteness_Berger1959(XYZ: ArrayLike, XYZ_0: ArrayLike) -> NDArrayFloat:
+def whiteness_Berger1959(
+    XYZ: Annotated[ArrayLike, 100], XYZ_0: Annotated[ArrayLike, 100]
+) -> Annotated[NDArrayFloat, 100]:
     """
     Compute the *whiteness* index :math:`WI` of the specified sample *CIE XYZ*
     tristimulus values using the *Berger (1959)* method.
@@ -105,15 +108,15 @@ def whiteness_Berger1959(XYZ: ArrayLike, XYZ_0: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    | ``XYZ``    | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_0``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_0``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``WI``     | [0, 100]              | [0, 1]        |
+    | ``WI``     | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     -   *Whiteness* :math:`WI` values larger than 33.33 indicate a bluish
@@ -140,7 +143,9 @@ def whiteness_Berger1959(XYZ: ArrayLike, XYZ_0: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_100(WI))
 
 
-def whiteness_Taube1960(XYZ: ArrayLike, XYZ_0: ArrayLike) -> NDArrayFloat:
+def whiteness_Taube1960(
+    XYZ: Annotated[ArrayLike, 100], XYZ_0: Annotated[ArrayLike, 100]
+) -> Annotated[NDArrayFloat, 100]:
     """
     Compute the *whiteness* index :math:`WI` of the specified sample *CIE XYZ*
     tristimulus values using the *Taube (1960)* method.
@@ -162,15 +167,15 @@ def whiteness_Taube1960(XYZ: ArrayLike, XYZ_0: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    | ``XYZ``    | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_0``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_0``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``WI``     | [0, 100]              | [0, 1]        |
+    | ``WI``     | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
@@ -197,7 +202,9 @@ def whiteness_Taube1960(XYZ: ArrayLike, XYZ_0: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_100(WI))
 
 
-def whiteness_Stensby1968(Lab: ArrayLike) -> NDArrayFloat:
+def whiteness_Stensby1968(
+    Lab: Annotated[ArrayLike, 100],
+) -> Annotated[NDArrayFloat, 100]:
     """
     Compute the *whiteness* index :math:`WI` of the specified sample
     *CIE L\\*a\\*b\\** colourspace array using the *Stensby (1968)* method.
@@ -217,17 +224,13 @@ def whiteness_Stensby1968(Lab: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Lab``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    | ``Lab``    | 100                   | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``WI``     | [0, 100]              | [0, 1]          |
+    | ``WI``     | 100                   | 1               |
     +------------+-----------------------+-----------------+
 
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
@@ -252,7 +255,7 @@ def whiteness_Stensby1968(Lab: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_100(WI))
 
 
-def whiteness_ASTME313(XYZ: ArrayLike) -> NDArrayFloat:
+def whiteness_ASTME313(XYZ: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 100]:
     """
     Compute the *whiteness* index :math:`WI` of the specified sample *CIE XYZ*
     tristimulus values using the *ASTM E313* method.
@@ -272,13 +275,13 @@ def whiteness_ASTME313(XYZ: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    | ``XYZ``    | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``WI``     | [0, 100]              | [0, 1]        |
+    | ``WI``     | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -300,7 +303,9 @@ def whiteness_ASTME313(XYZ: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_100(WI))
 
 
-def whiteness_Ganz1979(xy: ArrayLike, Y: ArrayLike) -> NDArrayFloat:
+def whiteness_Ganz1979(
+    xy: ArrayLike, Y: Annotated[ArrayLike, 100]
+) -> Annotated[NDArrayFloat, 100]:
     """
     Compute the *whiteness* index :math:`W` and *tint* :math:`T` of the
     specified sample *CIE xy* chromaticity coordinates using the
@@ -323,13 +328,13 @@ def whiteness_Ganz1979(xy: ArrayLike, Y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``WT``     | [0, 100]              | [0, 1]        |
+    | ``WT``     | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     -   The formula coefficients are valid for
@@ -367,13 +372,13 @@ def whiteness_Ganz1979(xy: ArrayLike, Y: ArrayLike) -> NDArrayFloat:
 
 def whiteness_CIE2004(
     xy: ArrayLike,
-    Y: ArrayLike,
+    Y: Annotated[ArrayLike, 100],
     xy_n: ArrayLike,
     observer: Literal[
         "CIE 1931 2 Degree Standard Observer",
         "CIE 1964 10 Degree Standard Observer",
     ] = ("CIE 1931 2 Degree Standard Observer"),
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Compute the *whiteness* :math:`W` or :math:`W_{10}` and *tint*
     :math:`T` or :math:`T_{10}` of the specified sample *CIE xy* chromaticity
@@ -402,13 +407,13 @@ def whiteness_CIE2004(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``WT``     | [0, 100]              | [0, 1]        |
+    | ``WT``     | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     -   This method may be used only for samples whose values of :math:`W`
@@ -473,7 +478,7 @@ WHITENESS_METHODS["cie2004"] = WHITENESS_METHODS["CIE 2004"]
 
 
 def whiteness(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 100],
     XYZ_0: ArrayLike,
     method: (
         Literal[
@@ -487,7 +492,7 @@ def whiteness(
         | str
     ) = "CIE 2004",
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Compute the *whiteness* index :math:`W` of the specified sample *CIE XYZ*
     tristimulus values using the specified method.
@@ -518,15 +523,15 @@ def whiteness(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    | ``XYZ``    | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_0``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_0``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``W``      | [0, 100]              | [0, 1]        |
+    | ``W``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References

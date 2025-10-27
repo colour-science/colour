@@ -24,6 +24,7 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -40,12 +41,12 @@ __all__ = [
 
 
 def log_encoding_PivotedLog(
-    x: ArrayLike,
+    x: Annotated[ArrayLike, 1],
     log_reference: float = 445,
     linear_reference: float = 0.18,
     negative_gamma: float = 0.6,
     density_per_code_value: float = 0.002,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Josh Pines* style *Pivoted Log* log encoding
     opto-electronic transfer function (OETF).
@@ -80,13 +81,13 @@ def log_encoding_PivotedLog(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -110,12 +111,12 @@ def log_encoding_PivotedLog(
 
 
 def log_decoding_PivotedLog(
-    y: ArrayLike,
+    y: Annotated[ArrayLike, 1],
     log_reference: float = 445,
     linear_reference: float = 0.18,
     negative_gamma: float = 0.6,
     density_per_code_value: float = 0.002,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Josh Pines* style *Pivoted Log* log decoding inverse
     opto-electronic transfer function (OETF).
@@ -150,13 +151,13 @@ def log_decoding_PivotedLog(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

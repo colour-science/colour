@@ -42,7 +42,7 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.hints import cast
+from colour.hints import Annotated, cast
 from colour.recovery import BASIS_FUNCTIONS_DYER2017
 from colour.utilities import as_float_array, optional, runtime_warning, tsplit
 
@@ -169,7 +169,7 @@ def PCA_Jiang2013(
 
 
 def RGB_to_sd_camera_sensitivity_Jiang2013(
-    RGB: ArrayLike,
+    RGB: Annotated[ArrayLike, 1],
     illuminant: SpectralDistribution,
     reflectances: MultiSpectralDistributions,
     eigen_w: ArrayLike,
@@ -202,6 +202,14 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
     :class:`colour.RGB_CameraSensitivities`
         Recovered camera *RGB* sensitivities.
 
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
     Examples
     --------
     >>> from colour.colorimetry import (
@@ -221,15 +229,18 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
     ...     for sd in SDS_COLOURCHECKERS["BabelColor Average"].values()
     ... ]
     >>> reflectances = sds_and_msds_to_msds(reflectances)
-    >>> R, G, B = tsplit(
-    ...     msds_to_XYZ(
-    ...         reflectances,
-    ...         method="Integration",
-    ...         cmfs=sensitivities,
-    ...         illuminant=illuminant,
-    ...         k=1,
-    ...         shape=SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
+    >>> R, G, B = (
+    ...     tsplit(
+    ...         msds_to_XYZ(
+    ...             reflectances,
+    ...             method="Integration",
+    ...             cmfs=sensitivities,
+    ...             illuminant=illuminant,
+    ...             k=1,
+    ...             shape=SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
+    ...         )
     ...     )
+    ...     / 100
     ... )
     >>> R_w, G_w, B_w = tsplit(np.moveaxis(BASIS_FUNCTIONS_DYER2017, 0, 1))
     >>> RGB_to_sd_camera_sensitivity_Jiang2013(
@@ -239,37 +250,37 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
     ...     R_w,
     ...     SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
     ... )  # doctest: +ELLIPSIS
-    SpectralDistribution([[  4.00000000e+02,   7.2066502...e-04],
-                          [  4.10000000e+02,  -8.9698693...e-04],
-                          [  4.20000000e+02,   4.6871961...e-03],
-                          [  4.30000000e+02,   7.7694971...e-03],
-                          [  4.40000000e+02,   6.9335511...e-03],
-                          [  4.50000000e+02,   5.3134947...e-03],
-                          [  4.60000000e+02,   4.4819958...e-03],
-                          [  4.70000000e+02,   4.6393791...e-03],
-                          [  4.80000000e+02,   5.1866668...e-03],
-                          [  4.90000000e+02,   4.3828317...e-03],
-                          [  5.00000000e+02,   4.2001231...e-03],
-                          [  5.10000000e+02,   5.4065544...e-03],
-                          [  5.20000000e+02,   9.6445141...e-03],
-                          [  5.30000000e+02,   1.4277112...e-02],
-                          [  5.40000000e+02,   7.9950718...e-03],
-                          [  5.50000000e+02,   4.6429813...e-03],
-                          [  5.60000000e+02,   5.3423840...e-03],
-                          [  5.70000000e+02,   1.0519383...e-02],
-                          [  5.80000000e+02,   5.2889443...e-02],
-                          [  5.90000000e+02,   9.7851167...e-02],
-                          [  6.00000000e+02,   9.9600382...e-02],
-                          [  6.10000000e+02,   8.3840892...e-02],
-                          [  6.20000000e+02,   6.9180858...e-02],
-                          [  6.30000000e+02,   5.6967854...e-02],
-                          [  6.40000000e+02,   4.2930308...e-02],
-                          [  6.50000000e+02,   3.0241267...e-02],
-                          [  6.60000000e+02,   2.3230047...e-02],
-                          [  6.70000000e+02,   1.3721943...e-02],
-                          [  6.80000000e+02,   4.0944885...e-03],
-                          [  6.90000000e+02,  -4.4223475...e-04],
-                          [  7.00000000e+02,  -6.1427769...e-04]],
+    SpectralDistribution([[  4.00000000e+02,   7.2066502...e-06],
+                          [  4.10000000e+02,  -8.9698693...e-06],
+                          [  4.20000000e+02,   4.6871961...e-05],
+                          [  4.30000000e+02,   7.7694971...e-05],
+                          [  4.40000000e+02,   6.9335511...e-05],
+                          [  4.50000000e+02,   5.3134947...e-05],
+                          [  4.60000000e+02,   4.4819958...e-05],
+                          [  4.70000000e+02,   4.6393791...e-05],
+                          [  4.80000000e+02,   5.1866668...e-05],
+                          [  4.90000000e+02,   4.3828317...e-05],
+                          [  5.00000000e+02,   4.2001231...e-05],
+                          [  5.10000000e+02,   5.4065544...e-05],
+                          [  5.20000000e+02,   9.6445141...e-05],
+                          [  5.30000000e+02,   1.4277112...e-04],
+                          [  5.40000000e+02,   7.9950718...e-05],
+                          [  5.50000000e+02,   4.6429813...e-05],
+                          [  5.60000000e+02,   5.3423840...e-05],
+                          [  5.70000000e+02,   1.0519383...e-04],
+                          [  5.80000000e+02,   5.2889443...e-04],
+                          [  5.90000000e+02,   9.7851167...e-04],
+                          [  6.00000000e+02,   9.9600382...e-04],
+                          [  6.10000000e+02,   8.3840892...e-04],
+                          [  6.20000000e+02,   6.9180858...e-04],
+                          [  6.30000000e+02,   5.6967854...e-04],
+                          [  6.40000000e+02,   4.2930308...e-04],
+                          [  6.50000000e+02,   3.0241267...e-04],
+                          [  6.60000000e+02,   2.3230047...e-04],
+                          [  6.70000000e+02,   1.3721943...e-04],
+                          [  6.80000000e+02,   4.0944885...e-05],
+                          [  6.90000000e+02,  -4.4223475...e-06],
+                          [  7.00000000e+02,  -6.1427769...e-06]],
                          SpragueInterpolator,
                          {},
                          Extrapolator,
@@ -301,7 +312,7 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
 
 
 def RGB_to_msds_camera_sensitivities_Jiang2013(
-    RGB: ArrayLike,
+    RGB: Annotated[ArrayLike, 1],
     illuminant: SpectralDistribution,
     reflectances: MultiSpectralDistributions,
     basis_functions: ArrayLike = BASIS_FUNCTIONS_DYER2017,
@@ -335,6 +346,14 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
     :class:`colour.RGB_CameraSensitivities`
         Recovered camera *RGB* sensitivities.
 
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
     Examples
     --------
     >>> from colour.colorimetry import (
@@ -354,13 +373,16 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
     ...     for sd in SDS_COLOURCHECKERS["BabelColor Average"].values()
     ... ]
     >>> reflectances = sds_and_msds_to_msds(reflectances)
-    >>> RGB = msds_to_XYZ(
-    ...     reflectances,
-    ...     method="Integration",
-    ...     cmfs=sensitivities,
-    ...     illuminant=illuminant,
-    ...     k=1,
-    ...     shape=SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
+    >>> RGB = (
+    ...     msds_to_XYZ(
+    ...         reflectances,
+    ...         method="Integration",
+    ...         cmfs=sensitivities,
+    ...         illuminant=illuminant,
+    ...         k=1,
+    ...         shape=SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
+    ...     )
+    ...     / 100
     ... )
     >>> RGB_to_msds_camera_sensitivities_Jiang2013(
     ...     RGB,

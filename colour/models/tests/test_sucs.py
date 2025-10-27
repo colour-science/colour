@@ -367,6 +367,28 @@ class TestsUCS_Iab_to_sUCS_ICh:
             sUCS_Iab_to_sUCS_ICh(Iab), ICh, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
+    def test_domain_range_scale_sUCS_Iab_to_sUCS_ICh(self) -> None:
+        """
+        Test :func:`colour.models.sucs.sUCS_Iab_to_sUCS_ICh` definition domain
+        and range scale support.
+        """
+
+        Iab = np.array([42.62923653, 36.97646831, 14.12301358])
+        ICh = sUCS_Iab_to_sUCS_ICh(Iab)
+
+        d_r = (
+            ("reference", 1, 1),
+            ("1", 0.01, np.array([0.01, 0.01, 1 / 360])),
+            ("100", 1, np.array([1, 1, 100 / 360])),
+        )
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_allclose(
+                    sUCS_Iab_to_sUCS_ICh(Iab * factor_a),
+                    ICh * factor_b,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
     @ignore_numpy_errors
     def test_nan_sUCS_Iab_to_sUCS_ICh(self) -> None:
         """
@@ -425,6 +447,28 @@ class TestsUCS_ICh_to_sUCS_Iab:
         np.testing.assert_allclose(
             sUCS_ICh_to_sUCS_Iab(ICh), Iab, atol=TOLERANCE_ABSOLUTE_TESTS
         )
+
+    def test_domain_range_scale_sUCS_ICh_to_sUCS_Iab(self) -> None:
+        """
+        Test :func:`colour.models.sucs.sUCS_ICh_to_sUCS_Iab` definition domain
+        and range scale support.
+        """
+
+        ICh = np.array([42.62923653, 40.42051106, 20.90415607])
+        Iab = sUCS_ICh_to_sUCS_Iab(ICh)
+
+        d_r = (
+            ("reference", 1, 1),
+            ("1", np.array([0.01, 0.01, 1 / 360]), 0.01),
+            ("100", np.array([1, 1, 100 / 360]), 1),
+        )
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_allclose(
+                    sUCS_ICh_to_sUCS_Iab(ICh * factor_a),
+                    Iab * factor_b,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
 
     @ignore_numpy_errors
     def test_nan_sUCS_ICh_to_sUCS_Iab(self) -> None:

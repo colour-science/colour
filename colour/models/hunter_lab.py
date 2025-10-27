@@ -29,6 +29,7 @@ from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     from_range_100,
     get_domain_range_scale,
@@ -89,10 +90,10 @@ def XYZ_to_K_ab_HunterLab1966(XYZ: ArrayLike) -> NDArrayFloat:
 
 
 def XYZ_to_Hunter_Lab(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 100],
     XYZ_n: ArrayLike | None = None,
     K_ab: ArrayLike | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour
     scale.
@@ -118,19 +119,15 @@ def XYZ_to_Hunter_Lab(
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 100]              | [0, 1]          |
+    | ``XYZ``    | 100                   | 1               |
     +------------+-----------------------+-----------------+
-    | ``XYZ_n``  | [0, 100]              | [0, 1]          |
+    | ``XYZ_n``  | 100                   | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Lab``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    | ``Lab``    | 100                   | 1               |
     +------------+-----------------------+-----------------+
 
     References
@@ -173,10 +170,10 @@ def XYZ_to_Hunter_Lab(
 
 
 def Hunter_Lab_to_XYZ(
-    Lab: ArrayLike,
+    Lab: Annotated[ArrayLike, 100],
     XYZ_n: ArrayLike | None = None,
     K_ab: ArrayLike | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus
     values.
@@ -202,19 +199,15 @@ def Hunter_Lab_to_XYZ(
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Lab``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    | ``Lab``    | 100                   | 1               |
     +------------+-----------------------+-----------------+
-    | ``XYZ_n``  | [0, 100]              | [0, 1]          |
+    | ``XYZ_n``  | 100                   | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 100]              | [0, 1]          |
+    | ``XYZ``    | 100                   | 1               |
     +------------+-----------------------+-----------------+
 
     References

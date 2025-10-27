@@ -22,6 +22,7 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models import Iab_to_XYZ, XYZ_to_Iab
 from colour.models.rgb.transfer_functions import eotf_inverse_ST2084, eotf_ST2084
 from colour.utilities import domain_range_scale
@@ -67,7 +68,7 @@ MATRIX_ICACB_LMS_TO_XYZ_2: NDArrayFloat = np.linalg.inv(MATRIX_ICACB_XYZ_TO_LMS_
 """:math:`IC_AC_B` to normalised non-linear cone responses colourspace matrix."""
 
 
-def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArrayFloat:
+def XYZ_to_ICaCb(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *CIE XYZ* tristimulus values to :math:`IC_AC_B` colourspace.
 
@@ -86,17 +87,13 @@ def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``ICaCb``  | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``Ca`` : [-1, 1]      | ``Ca``: [-1, 1] |
-    |            |                       |                 |
-    |            | ``Cb`` : [-1, 1]      | ``Cb``: [-1, 1] |
+    | ``ICaCb``  | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     -   Input *CIE XYZ* tristimulus values must be adapted to
@@ -130,7 +127,7 @@ def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArrayFloat:
     )
 
 
-def ICaCb_to_XYZ(ICaCb: ArrayLike) -> NDArrayFloat:
+def ICaCb_to_XYZ(ICaCb: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from :math:`IC_AC_B` colourspace to *CIE XYZ* tristimulus values.
 
@@ -149,17 +146,13 @@ def ICaCb_to_XYZ(ICaCb: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``ICaCb``  | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``Ca`` : [-1, 1]      | ``Ca``: [-1, 1] |
-    |            |                       |                 |
-    |            | ``Cb`` : [-1, 1]      | ``Cb``: [-1, 1] |
+    | ``ICaCb``  | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     -   Output *CIE XYZ* tristimulus values are adapted to

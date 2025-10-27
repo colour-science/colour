@@ -33,6 +33,7 @@ from colour.algebra import sdiv, sdiv_mode
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
@@ -54,7 +55,7 @@ __all__ = [
 ]
 
 
-def XYZ_to_UCS(XYZ: ArrayLike) -> NDArrayFloat:
+def XYZ_to_UCS(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE 1960 UCS* :math:`UVW`
     colourspace.
@@ -74,13 +75,13 @@ def XYZ_to_UCS(XYZ: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    | ``XYZ``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``UVW``    | [0, 1]                | [0, 1]        |
+    | ``UVW``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -102,7 +103,7 @@ def XYZ_to_UCS(XYZ: ArrayLike) -> NDArrayFloat:
     return from_range_1(UVW)
 
 
-def UCS_to_XYZ(UVW: ArrayLike) -> NDArrayFloat:
+def UCS_to_XYZ(UVW: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *CIE 1960 UCS* :math:`UVW` colourspace to *CIE XYZ*
     tristimulus values.
@@ -122,13 +123,13 @@ def UCS_to_XYZ(UVW: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``UVW``    | [0, 1]                | [0, 1]        |
+    | ``UVW``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    | ``XYZ``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -150,7 +151,7 @@ def UCS_to_XYZ(UVW: ArrayLike) -> NDArrayFloat:
     return from_range_1(XYZ)
 
 
-def UCS_to_uv(UVW: ArrayLike) -> NDArrayFloat:
+def UCS_to_uv(UVW: Annotated[ArrayLike, 1]) -> NDArrayFloat:
     """
     Convert from *CIE 1960 UCS* colourspace to *uv* chromaticity
     coordinates.
@@ -170,7 +171,7 @@ def UCS_to_uv(UVW: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``UVW``    | [0, 1]                | [0, 1]        |
+    | ``UVW``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -193,7 +194,9 @@ def UCS_to_uv(UVW: ArrayLike) -> NDArrayFloat:
         return tstack([sdiv(U, U_V_W), sdiv(V, U_V_W)])
 
 
-def uv_to_UCS(uv: ArrayLike, V: ArrayLike = 1) -> NDArrayFloat:
+def uv_to_UCS(
+    uv: ArrayLike, V: Annotated[ArrayLike, 1] = 1
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *uv* chromaticity coordinates to *CIE 1960 UCS*
     colourspace.
@@ -211,6 +214,20 @@ def uv_to_UCS(uv: ArrayLike, V: ArrayLike = 1) -> NDArrayFloat:
     -------
     :class:`numpy.ndarray`
         *CIE 1960 UCS* :math:`UVW` colourspace array.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``V``      | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``UVW``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -304,8 +321,8 @@ def xy_to_UCS_uv(xy: ArrayLike) -> NDArrayFloat:
 
 
 def XYZ_to_CIE1960UCS(
-    XYZ: ArrayLike,
-) -> NDArrayFloat:
+    XYZ: Annotated[ArrayLike, 1],
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE 1960 UCS* :math:`uvV`
     colourspace.
@@ -332,13 +349,13 @@ def XYZ_to_CIE1960UCS(
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``XYZ``        | [0, 1]                | [0, 1]          |
+    | ``XYZ``        | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     +----------------+-----------------------+-----------------+
     | **Range**      | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``uvV``        | [0, 1]                | [0, 1]          |
+    | ``uvV``        | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     Examples
@@ -359,8 +376,8 @@ def XYZ_to_CIE1960UCS(
 
 
 def CIE1960UCS_to_XYZ(
-    uvV: ArrayLike,
-) -> NDArrayFloat:
+    uvV: Annotated[ArrayLike, 1],
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *CIE 1960 UCS* :math:`uvV` colourspace to *CIE XYZ*
     tristimulus values.
@@ -387,13 +404,13 @@ def CIE1960UCS_to_XYZ(
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``uvV``        | [0, 1]                | [0, 1]          |
+    | ``uvV``        | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     +----------------+-----------------------+-----------------+
     | **Range**      | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``XYZ``        | [0, 1]                | [0, 1]          |
+    | ``XYZ``        | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     Examples

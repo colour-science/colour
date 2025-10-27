@@ -32,6 +32,8 @@ import numpy as np
 from colour.adaptation import chromatic_adaptation_VonKries
 
 if typing.TYPE_CHECKING:
+    from typing import Annotated
+
     from colour.hints import (
         ArrayLike,
         LiteralChromaticAdaptationTransform,
@@ -39,6 +41,7 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
 from colour.utilities import as_float, as_float_array, ones, tsplit
 
@@ -266,7 +269,7 @@ def RGB_luminance_equation(primaries: ArrayLike, whitepoint: ArrayLike) -> str:
 
 def RGB_luminance(
     RGB: ArrayLike, primaries: ArrayLike, whitepoint: ArrayLike
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Calculate the *luminance* :math:`Y` of the specified *RGB* components using
     the specified *primaries* and *whitepoint* chromaticity coordinates.
@@ -284,6 +287,14 @@ def RGB_luminance(
     -------
     :class:`numpy.ndarray`
         *Luminance* :math:`Y`.
+
+    Notes
+    -----
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``Y``     | 1                     | 1             |
+    +-----------+-----------------------+---------------+
 
     Examples
     --------

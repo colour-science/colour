@@ -29,6 +29,7 @@ from colour.algebra import spow
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     Structure,
     as_float,
@@ -73,10 +74,10 @@ References
 
 
 def oetf_BT2020(
-    E: ArrayLike,
+    E: Annotated[ArrayLike, 1],
     is_12_bits_system: bool = False,
     constants: Structure | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Recommendation ITU-R BT.2020* opto-electronic transfer function
     (OETF).
@@ -103,13 +104,13 @@ def oetf_BT2020(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E``      | [0, 1]                | [0, 1]        |
+    | ``E``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E_p``    | [0, 1]                | [0, 1]        |
+    | ``E_p``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -134,10 +135,10 @@ def oetf_BT2020(
 
 
 def oetf_inverse_BT2020(
-    E_p: ArrayLike,
+    E_p: Annotated[ArrayLike, 1],
     is_12_bits_system: bool = False,
     constants: Structure | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Recommendation ITU-R BT.2020* inverse opto-electronic transfer function
     (OETF).
@@ -164,13 +165,13 @@ def oetf_inverse_BT2020(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E_p``    | [0, 1]                | [0, 1]        |
+    | ``E_p``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E``      | [0, 1]                | [0, 1]        |
+    | ``E``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

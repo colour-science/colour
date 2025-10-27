@@ -26,6 +26,7 @@ from colour.algebra import spow
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
@@ -54,12 +55,12 @@ CONSTANTS_NLOG: Structure = Structure(
 
 
 def log_encoding_NLog(
-    y: ArrayLike,
+    y: Annotated[ArrayLike, 1],
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
     constants: Structure | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Nikon N-Log* log encoding opto-electronic transfer function (OETF).
 
@@ -88,13 +89,13 @@ def log_encoding_NLog(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -131,12 +132,12 @@ def log_encoding_NLog(
 
 
 def log_decoding_NLog(
-    x: ArrayLike,
+    x: Annotated[ArrayLike, 1],
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
     constants: Structure | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Nikon N-Log* log decoding inverse opto-electronic transfer
     function (OETF).
@@ -166,13 +167,13 @@ def log_decoding_NLog(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

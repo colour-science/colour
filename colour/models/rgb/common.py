@@ -19,6 +19,7 @@ if typing.TYPE_CHECKING:
         NDArrayFloat,
     )
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 
 __author__ = "Colour Developers"
@@ -35,7 +36,7 @@ __all__ = [
 
 
 def XYZ_to_sRGB(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 1],
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
@@ -43,7 +44,7 @@ def XYZ_to_sRGB(
         LiteralChromaticAdaptationTransform | str | None
     ) = "CAT02",
     apply_cctf_encoding: bool = True,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *CIE XYZ* tristimulus values to *sRGB* colourspace.
 
@@ -69,13 +70,13 @@ def XYZ_to_sRGB(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    | ``XYZ``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples
@@ -96,7 +97,7 @@ def XYZ_to_sRGB(
 
 
 def sRGB_to_XYZ(
-    RGB: ArrayLike,
+    RGB: Annotated[ArrayLike, 1],
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
@@ -104,7 +105,7 @@ def sRGB_to_XYZ(
         LiteralChromaticAdaptationTransform | str | None
     ) = "CAT02",
     apply_cctf_decoding: bool = True,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *sRGB* colourspace to *CIE XYZ* tristimulus values.
 
@@ -130,13 +131,13 @@ def sRGB_to_XYZ(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    | ``XYZ``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples

@@ -28,6 +28,7 @@ from colour.algebra import spow
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models.rgb.transfer_functions import oetf_BT709, oetf_inverse_BT709
 from colour.utilities import as_float, domain_range_scale, from_range_1, to_domain_1
 
@@ -44,7 +45,7 @@ __all__ = [
 ]
 
 
-def oetf_BT1361(L: ArrayLike) -> NDArrayFloat:
+def oetf_BT1361(L: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Recommendation ITU-R BT.1361* extended colour gamut system
     opto-electronic transfer function (OETF).
@@ -64,13 +65,13 @@ def oetf_BT1361(L: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``L``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E_p'``   | [0, 1]                | [0, 1]        |
+    | ``E_p'``   | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -105,7 +106,7 @@ def oetf_BT1361(L: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_1(E_p))
 
 
-def oetf_inverse_BT1361(E_p: ArrayLike) -> NDArrayFloat:
+def oetf_inverse_BT1361(E_p: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Recommendation ITU-R BT.1361* extended colour gamut system
     inverse opto-electronic transfer function (OETF).
@@ -122,16 +123,16 @@ def oetf_inverse_BT1361(E_p: ArrayLike) -> NDArrayFloat:
 
     Notes
     -----
-    +------------+-----------------------+-------------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1**     |
-    +============+=======================+===================+
-    | ``E_p``    | [0, 1]                | [0, 1]            |
-    +------------+-----------------------+-------------------+
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``E_p``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``L``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

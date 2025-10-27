@@ -60,7 +60,7 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import Any, ArrayLike, NDArrayReal
 
-from colour.hints import NDArrayFloat, cast
+from colour.hints import Annotated, NDArrayFloat, cast
 from colour.models.rgb.transfer_functions import (
     CV_range,
     oetf_BT2020,
@@ -332,7 +332,7 @@ def offset_YCbCr(
 
 
 def RGB_to_YCbCr(
-    RGB: ArrayLike,
+    RGB: Annotated[ArrayLike, 1],
     K: NDArrayFloat = WEIGHTS_YCBCR["ITU-R BT.709"],
     in_bits: int = 10,
     in_legal: bool = False,
@@ -342,7 +342,7 @@ def RGB_to_YCbCr(
     out_int: bool = False,
     clamp_int: bool = True,
     **kwargs: Any,
-) -> NDArrayReal:
+) -> Annotated[NDArrayReal, 1]:
     """
     Convert an array of *R'G'B'* values to the corresponding *Y'CbCr* colour
     encoding values array.
@@ -408,21 +408,21 @@ def RGB_to_YCbCr(
 
     Notes
     -----
-    +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``RGB``        | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``YCbCr``      | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``YCbCr``  | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    \\* This definition has input and output int switches, thus the
-    domain-range scale information is only specified for the floating point
-    mode.
+    -   This definition has input and output int switches, thus the
+        domain-range scale information is only specified for the floating point
+        mode.
 
     -   The default arguments, ``**{'in_bits': 10, 'in_legal': False,
         'in_int': False, 'out_bits': 8, 'out_legal': True, 'out_int':
@@ -535,7 +535,7 @@ def RGB_to_YCbCr(
 
 
 def YCbCr_to_RGB(
-    YCbCr: ArrayLike,
+    YCbCr: Annotated[ArrayLike, 1],
     K: NDArrayFloat = WEIGHTS_YCBCR["ITU-R BT.709"],
     in_bits: int = 8,
     in_legal: bool = True,
@@ -545,7 +545,7 @@ def YCbCr_to_RGB(
     out_int: bool = False,
     clamp_int: bool = True,
     **kwargs: Any,
-) -> NDArrayReal:
+) -> Annotated[NDArrayReal, 1]:
     """
     Convert an array of *Y'CbCr* colour encoding values to the
     corresponding *R'G'B'* values array.
@@ -605,21 +605,21 @@ def YCbCr_to_RGB(
 
     Notes
     -----
-    +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``YCbCr``      | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``YCbCr``  | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``RGB``        | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    \\* This definition has input and output int switches, thus the
-    domain-range scale information is only specified for the floating point
-    mode.
+    -   This definition has input and output int switches, thus the
+        domain-range scale information is only specified for the floating point
+        mode.
 
     Warnings
     --------
@@ -677,13 +677,13 @@ def YCbCr_to_RGB(
 
 
 def RGB_to_YcCbcCrc(
-    RGB: ArrayLike,
+    RGB: Annotated[ArrayLike, 1],
     out_bits: int = 10,
     out_legal: bool = True,
     out_int: bool = False,
     is_12_bits_system: bool = False,
     **kwargs: Any,
-) -> NDArrayReal:
+) -> Annotated[NDArrayReal, 1]:
     """
     Convert an array of *RGB* linear values to the corresponding *Yc'Cbc'Crc'*
     colour encoding values array.
@@ -722,20 +722,20 @@ def RGB_to_YcCbcCrc(
     Notes
     -----
     +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
+    | **Domain**     | **Scale - Reference** | **Scale - 1** |
     +================+=======================+===============+
-    | ``RGB``        | [0, 1]                | [0, 1]        |
+    | ``RGB``        | 1                     | 1             |
     +----------------+-----------------------+---------------+
 
     +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
+    | **Range**      | **Scale - Reference** | **Scale - 1** |
     +================+=======================+===============+
-    | ``YcCbcCrc``   | [0, 1]                | [0, 1]        |
+    | ``YcCbcCrc``   | 1                     | 1             |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has input and output int switches, thus the
-    domain-range scale information is only specified for the floating point
-    mode.
+    -   This definition has input and output int switches, thus the
+        domain-range scale information is only specified for the floating point
+        mode.
 
     Warnings
     --------
@@ -790,13 +790,13 @@ def RGB_to_YcCbcCrc(
 
 
 def YcCbcCrc_to_RGB(
-    YcCbcCrc: ArrayLike,
+    YcCbcCrc: Annotated[ArrayLike, 1],
     in_bits: int = 10,
     in_legal: bool = True,
     in_int: bool = False,
     is_12_bits_system: bool = False,
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert an array of *Yc'Cbc'Crc'* colour encoding values to the
     corresponding *RGB* array of linear values.
@@ -835,20 +835,20 @@ def YcCbcCrc_to_RGB(
     Notes
     -----
     +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
+    | **Domain**     | **Scale - Reference** | **Scale - 1** |
     +================+=======================+===============+
-    | ``YcCbcCrc``   | [0, 1]                | [0, 1]        |
+    | ``YcCbcCrc``   | 1                     | 1             |
     +----------------+-----------------------+---------------+
 
     +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
+    | **Range**      | **Scale - Reference** | **Scale - 1** |
     +================+=======================+===============+
-    | ``RGB``        | [0, 1]                | [0, 1]        |
+    | ``RGB``        | 1                     | 1             |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has input and output int switches, thus the
-    domain-range scale information is only specified for the floating point
-    mode.
+    -   This definition has input and output int switches, thus the
+        domain-range scale information is only specified for the floating point
+        mode.
 
     Warnings
     --------

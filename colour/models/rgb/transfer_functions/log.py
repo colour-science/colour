@@ -54,9 +54,7 @@ from colour.hints import cast
 from colour.utilities import (
     as_float,
     as_float_array,
-    from_range_1,
     optional,
-    to_domain_1,
     validate_method,
     zeros,
 )
@@ -402,6 +400,18 @@ def log_encoding_Log2(
 
     Notes
     -----
+    +--------------+-----------------------+---------------+
+    | **Domain**   | **Scale - Reference** | **Scale - 1** |
+    +==============+=======================+===============+
+    | ``lin``      | 1                     | 1             |
+    +--------------+-----------------------+---------------+
+
+    +--------------+-----------------------+---------------+
+    | **Range**    | **Scale - Reference** | **Scale - 1** |
+    +==============+=======================+===============+
+    | ``log_norm`` | 1                     | 1             |
+    +--------------+-----------------------+---------------+
+
     -   The common *Log2* encoding function can be used to build linear to
         logarithmic shapers in the *ACES OCIO configuration*.
     -   A (48-nits OCIO) shaper having values in a linear domain, can be
@@ -423,12 +433,12 @@ def log_encoding_Log2(
     0.5
     """
 
-    lin = to_domain_1(lin)
+    lin = as_float_array(lin)
 
     lg2 = np.log2(lin / middle_grey)
     log_norm = (lg2 - min_exposure) / (max_exposure - min_exposure)
 
-    return as_float(from_range_1(log_norm))
+    return as_float(log_norm)
 
 
 def log_decoding_Log2(
@@ -459,6 +469,18 @@ def log_decoding_Log2(
 
     Notes
     -----
+    +--------------+-----------------------+---------------+
+    | **Domain**   | **Scale - Reference** | **Scale - 1** |
+    +==============+=======================+===============+
+    | ``log_norm`` | 1                     | 1             |
+    +--------------+-----------------------+---------------+
+
+    +--------------+-----------------------+---------------+
+    | **Range**    | **Scale - Reference** | **Scale - 1** |
+    +==============+=======================+===============+
+    | ``lin``      | 1                     | 1             |
+    +--------------+-----------------------+---------------+
+
     -   The common *Log2* decoding function can be used to build logarithmic
         to linear shapers in the *ACES OCIO configuration*.
     -   The shaper with logarithmic encoded values can be decoded back to
@@ -480,9 +502,9 @@ def log_decoding_Log2(
     0.1799999...
     """
 
-    log_norm = to_domain_1(log_norm)
+    log_norm = as_float_array(log_norm)
 
     lg2 = log_norm * (max_exposure - min_exposure) + min_exposure
     lin = (2**lg2) * middle_grey
 
-    return as_float(from_range_1(lin))
+    return as_float(lin)

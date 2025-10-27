@@ -34,6 +34,7 @@ from colour.algebra import spow
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import as_float, domain_range_scale, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -49,7 +50,7 @@ __all__ = [
 ]
 
 
-def eotf_inverse_sRGB(L: ArrayLike) -> NDArrayFloat:
+def eotf_inverse_sRGB(L: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *IEC 61966-2-1:1999* *sRGB* inverse electro-optical transfer
     function (EOTF).
@@ -69,13 +70,13 @@ def eotf_inverse_sRGB(L: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``L``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
+    | ``V``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -96,7 +97,7 @@ def eotf_inverse_sRGB(L: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_1(V))
 
 
-def eotf_sRGB(V: ArrayLike) -> NDArrayFloat:
+def eotf_sRGB(V: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *IEC 61966-2-1:1999* *sRGB* electro-optical transfer function
     (EOTF).
@@ -116,13 +117,13 @@ def eotf_sRGB(V: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
+    | ``V``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``L``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

@@ -34,6 +34,7 @@ from colour.algebra import spow
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     as_float,
     as_float_scalar,
@@ -64,8 +65,8 @@ __all__ = [
 
 
 def cctf_encoding_ROMMRGB(
-    X: ArrayLike, bit_depth: int = 8, out_int: bool = False
-) -> NDArrayReal:
+    X: Annotated[ArrayLike, 1], bit_depth: int = 8, out_int: bool = False
+) -> Annotated[NDArrayReal, 1]:
     """
     Apply the *ROMM RGB* encoding colour component transfer function
     (Encoding CCTF).
@@ -87,20 +88,20 @@ def cctf_encoding_ROMMRGB(
 
     Notes
     -----
-    +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X``          | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X``      | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X_p``        | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X_p``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    \\* This definition has an output int switch, thus the domain-range
-    scale information is only specified for the floating point mode.
+    -   This definition has an output int switch, thus the domain-range
+     scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -129,10 +130,10 @@ def cctf_encoding_ROMMRGB(
 
 
 def cctf_decoding_ROMMRGB(
-    X_p: ArrayLike,
+    X_p: Annotated[ArrayLike, 1],
     bit_depth: int = 8,
     in_int: bool = False,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *ROMM RGB* decoding colour component transfer function
     (Decoding CCTF).
@@ -154,20 +155,20 @@ def cctf_decoding_ROMMRGB(
 
     Notes
     -----
-    +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X_p``        | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X_p``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X``          | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X``      | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    \\* This definition has an input int switch, thus the domain-range
-    scale information is only specified for the floating point mode.
+    -   This definition has an input int switch, thus the domain-range
+        scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -218,11 +219,11 @@ if cctf_decoding_ProPhotoRGB.__doc__ is not None:
 
 
 def cctf_encoding_RIMMRGB(
-    X: ArrayLike,
+    X: Annotated[ArrayLike, 1],
     bit_depth: int = 8,
     out_int: bool = False,
     E_clip: float = 2.0,
-) -> NDArrayReal:
+) -> Annotated[NDArrayReal, 1]:
     """
     Apply the *RIMM RGB* encoding colour component transfer function
     (Encoding CCTF).
@@ -246,20 +247,20 @@ def cctf_encoding_RIMMRGB(
 
     Notes
     -----
-    +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X``          | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X``      | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X_p``        | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X_p``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    \\* This definition has an output int switch, thus the domain-range
-    scale information is only specified for the floating point mode.
+    -   This definition has an output int switch, thus the domain-range
+        scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -292,11 +293,11 @@ def cctf_encoding_RIMMRGB(
 
 
 def cctf_decoding_RIMMRGB(
-    X_p: ArrayLike,
+    X_p: Annotated[ArrayLike, 1],
     bit_depth: int = 8,
     in_int: bool = False,
     E_clip: float = 2.0,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *RIMM RGB* decoding colour component transfer function
     (Decoding CCTF).
@@ -320,20 +321,20 @@ def cctf_decoding_RIMMRGB(
 
     Notes
     -----
-    +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X_p``        | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X_p``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X``          | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X``      | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    \\* This definition has an input int switch, thus the domain-range
-    scale information is only specified for the floating point mode.
+    -   This definition has an input int switch, thus the domain-range
+        scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -369,12 +370,12 @@ def cctf_decoding_RIMMRGB(
 
 
 def log_encoding_ERIMMRGB(
-    X: ArrayLike,
+    X: Annotated[ArrayLike, 1],
     bit_depth: int = 8,
     out_int: bool = False,
     E_min: float = 0.001,
     E_clip: float = 316.2,
-) -> NDArrayReal:
+) -> Annotated[NDArrayReal, 1]:
     """
     Apply the *ERIMM RGB* log encoding opto-electronic transfer function (OETF).
 
@@ -399,20 +400,20 @@ def log_encoding_ERIMMRGB(
 
     Notes
     -----
-    +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X``          | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X``      | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X_p``        | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X_p``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    \\* This definition has an output int switch, thus the domain-range
-    scale information is only specified for the floating point mode.
+    -   This definition has an output int switch, thus the domain-range
+        scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -457,12 +458,12 @@ def log_encoding_ERIMMRGB(
 
 
 def log_decoding_ERIMMRGB(
-    X_p: ArrayLike,
+    X_p: Annotated[ArrayLike, 1],
     bit_depth: int = 8,
     in_int: bool = False,
     E_min: float = 0.001,
     E_clip: float = 316.2,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *ERIMM RGB* log decoding inverse opto-electronic transfer function (OETF).
 
@@ -487,20 +488,20 @@ def log_decoding_ERIMMRGB(
 
     Notes
     -----
-    +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X_p``        | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X_p``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X``          | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X``      | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    \\* This definition has an input int switch, thus the domain-range
-    scale information is only specified for the floating point mode.
+    -   This definition has an input int switch, thus the domain-range
+        scale information is only specified for the floating point mode.
 
     References
     ----------

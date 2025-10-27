@@ -29,6 +29,7 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
 __author__ = "Colour Developers"
@@ -56,9 +57,9 @@ CONSTANTS_APPLE_LOG_PROFILE: Structure = Structure(
 
 
 def log_encoding_AppleLogProfile(
-    R: ArrayLike,
+    R: Annotated[ArrayLike, 1],
     constants: Structure | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Apple Log Profile* log encoding opto-electronic transfer function (OETF).
 
@@ -89,13 +90,13 @@ def log_encoding_AppleLogProfile(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``R``      | [0, 1]                | [0, 1]        |
+    | ``R``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``P``      | [0, 1]                | [0, 1]        |
+    | ``P``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples
@@ -131,9 +132,9 @@ def log_encoding_AppleLogProfile(
 
 
 def log_decoding_AppleLogProfile(
-    P: ArrayLike,
+    P: Annotated[ArrayLike, 1],
     constants: Structure | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Apple Log Profile* log decoding inverse opto-electronic transfer
     function (OETF).
@@ -163,13 +164,13 @@ def log_decoding_AppleLogProfile(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``P``      | [0, 1]                | [0, 1]        |
+    | ``P``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``R``      | [0, 1]                | [0, 1]        |
+    | ``R``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples

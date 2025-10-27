@@ -62,7 +62,7 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.hints import Real, cast
+from colour.hints import Annotated, Real, cast
 from colour.utilities import (
     CACHE_REGISTRY,
     CanonicalMapping,
@@ -548,7 +548,7 @@ def sd_to_XYZ_integration(
     illuminant: SpectralDistribution | None = None,
     k: Real | None = None,
     shape: SpectralShape | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert the specified spectral distribution to *CIE XYZ* tristimulus
     values using the specified colour matching functions and illuminant
@@ -600,7 +600,7 @@ def sd_to_XYZ_integration(
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    | ``XYZ``   | 100                   | 1             |
     +-----------+-----------------------+---------------+
 
     -   When :math:`k` is set to a value other than *None*, the computed
@@ -746,7 +746,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     cmfs: MultiSpectralDistributions | None = None,
     illuminant: SpectralDistribution | None = None,
     k: Real | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert the specified spectral distribution to *CIE XYZ* tristimulus
     values using the specified colour matching functions and illuminant
@@ -790,7 +790,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    | ``XYZ``   | 100                   | 1             |
     +-----------+-----------------------+---------------+
 
     References
@@ -895,7 +895,7 @@ def sd_to_XYZ_ASTME308(
     mi_5nm_omission_method: bool = True,
     mi_20nm_interpolation_method: bool = True,
     k: Real | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert the specified spectral distribution to *CIE XYZ* tristimulus values
     using the specified colour matching functions and illuminant according to
@@ -950,7 +950,7 @@ def sd_to_XYZ_ASTME308(
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    | ``XYZ``   | 100                   | 1             |
     +-----------+-----------------------+---------------+
 
     -   When :math:`k` is set to a value other than *None*, the computed
@@ -1122,7 +1122,7 @@ def sd_to_XYZ(
     k: Real | None = None,
     method: Literal["ASTM E308", "Integration"] | str = "ASTM E308",
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert specified spectral distribution to *CIE XYZ* tristimulus values using
     specified colour matching functions, illuminant and method.
@@ -1195,7 +1195,7 @@ def sd_to_XYZ(
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    | ``XYZ``   | 100                   | 1             |
     +-----------+-----------------------+---------------+
 
     -   When :math:`k` is set to a value other than *None*, the computed
@@ -1310,7 +1310,7 @@ def msds_to_XYZ_integration(
     illuminant: SpectralDistribution | None = None,
     k: Real | None = None,
     shape: SpectralShape | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert the specified multi-spectral distributions to *CIE XYZ* tristimulus
     values using the specified colour matching functions and illuminant.
@@ -1362,7 +1362,7 @@ def msds_to_XYZ_integration(
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    | ``XYZ``   | 100                   | 1             |
     +-----------+-----------------------+---------------+
 
     -   When :math:`k` is set to a value other than *None*, the computed
@@ -1550,7 +1550,7 @@ def msds_to_XYZ_ASTME308(
     use_practice_range: bool = True,
     mi_5nm_omission_method: bool = True,
     mi_20nm_interpolation_method: bool = True,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert specified multi-spectral distributions to *CIE XYZ* tristimulus
     values using the specified colour matching functions and illuminant according
@@ -1605,7 +1605,7 @@ def msds_to_XYZ_ASTME308(
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    | ``XYZ``   | 100                   | 1             |
     +-----------+-----------------------+---------------+
 
     -   When :math:`k` is set to a value other than *None*, the computed
@@ -1804,7 +1804,7 @@ def msds_to_XYZ(
     k: Real | None = None,
     method: Literal["ASTM E308", "Integration"] | str = "ASTM E308",
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert specified multi-spectral distributions to *CIE XYZ* tristimulus
     values using the specified colour matching functions and illuminant. For the
@@ -1876,7 +1876,7 @@ def msds_to_XYZ(
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    | ``XYZ``   | 100                   | 1             |
     +-----------+-----------------------+---------------+
 
     -   When :math:`k` is set to a value other than *None*, the computed
@@ -2065,7 +2065,7 @@ def msds_to_XYZ(
 def wavelength_to_XYZ(
     wavelength: ArrayLike,
     cmfs: MultiSpectralDistributions | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert the specified wavelength :math:`\\lambda` to *CIE XYZ* tristimulus
     values using the specified colour matching functions.
@@ -2101,7 +2101,7 @@ def wavelength_to_XYZ(
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``XYZ``   | [0, 1]                | [0, 1]        |
+    | ``XYZ``   | 1                     | 1             |
     +-----------+-----------------------+---------------+
 
     Examples

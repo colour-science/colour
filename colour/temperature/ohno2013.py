@@ -32,6 +32,7 @@ from colour.colorimetry import MultiSpectralDistributions, handle_spectral_argum
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models import UCS_to_uv, UCS_to_XYZ, XYZ_to_UCS, uv_to_UCS
 from colour.temperature import CCT_to_uv_Planck1900
 from colour.utilities import (
@@ -344,7 +345,7 @@ def CCT_to_uv_Ohno2013(
 
 
 def XYZ_to_CCT_Ohno2013(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 1],
     cmfs: MultiSpectralDistributions | None = None,
     start: float | None = None,
     end: float | None = None,
@@ -384,6 +385,14 @@ def XYZ_to_CCT_Ohno2013(
     :class:`numpy.ndarray`
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
 
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
     References
     ----------
     :cite:`Ohno2014a`
@@ -406,7 +415,7 @@ def XYZ_to_CCT_Ohno2013(
 
 def CCT_to_XYZ_Ohno2013(
     CCT_D_uv: ArrayLike, cmfs: MultiSpectralDistributions | None = None
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Compute the *CIE XYZ* tristimulus values from the specified correlated
     colour temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using the
@@ -424,6 +433,14 @@ def CCT_to_XYZ_Ohno2013(
     -------
     :class:`numpy.ndarray`
         *CIE XYZ* tristimulus values.
+
+    Notes
+    -----
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | 1                     | 1             |
+    +-----------+-----------------------+---------------+
 
     Examples
     --------

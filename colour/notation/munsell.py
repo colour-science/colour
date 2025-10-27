@@ -148,7 +148,7 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.hints import ArrayLike, cast
+from colour.hints import Annotated, ArrayLike, NDArrayFloat, cast
 from colour.models import Lab_to_LCHab  # pyright: ignore
 from colour.models import XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.notation import MUNSELL_COLOURS_ALL
@@ -399,7 +399,9 @@ def _munsell_maximum_chromas_from_renotation() -> Tuple[
     return maximum_chromas_from_renotation
 
 
-def munsell_value_Priest1920(Y: ArrayLike) -> NDArrayFloat:
+def munsell_value_Priest1920(
+    Y: Annotated[ArrayLike, 100],
+) -> Annotated[NDArrayFloat, 10]:
     """
     Compute the *Munsell* value :math:`V` from the specified *luminance*
     :math:`Y` using *Priest et al. (1920)* method.
@@ -419,13 +421,13 @@ def munsell_value_Priest1920(Y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 10]               | [0, 1]        |
+    | ``V``      | 10                    | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -445,7 +447,9 @@ def munsell_value_Priest1920(Y: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_10(V))
 
 
-def munsell_value_Munsell1933(Y: ArrayLike) -> NDArrayFloat:
+def munsell_value_Munsell1933(
+    Y: Annotated[ArrayLike, 100],
+) -> Annotated[NDArrayFloat, 10]:
     """
     Compute *Munsell* value :math:`V` from the specified *luminance* :math:`Y`
     using *Munsell et al. (1933)* method.
@@ -465,13 +469,13 @@ def munsell_value_Munsell1933(Y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 10]               | [0, 1]        |
+    | ``V``      | 10                    | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -491,7 +495,7 @@ def munsell_value_Munsell1933(Y: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_10(V))
 
 
-def munsell_value_Moon1943(Y: ArrayLike) -> NDArrayFloat:
+def munsell_value_Moon1943(Y: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 10]:
     """
     Compute *Munsell* value :math:`V` from the specified *luminance* :math:`Y`
     using *Moon and Spencer (1943)* method.
@@ -511,13 +515,13 @@ def munsell_value_Moon1943(Y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 10]               | [0, 1]        |
+    | ``V``      | 10                    | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -537,7 +541,9 @@ def munsell_value_Moon1943(Y: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_10(V))
 
 
-def munsell_value_Saunderson1944(Y: ArrayLike) -> NDArrayFloat:
+def munsell_value_Saunderson1944(
+    Y: Annotated[ArrayLike, 100],
+) -> Annotated[NDArrayFloat, 10]:
     """
     Compute the *Munsell* value :math:`V` from the specified *luminance* :math:`Y`
     using *Saunderson and Milner (1944)* method.
@@ -557,13 +563,13 @@ def munsell_value_Saunderson1944(Y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 10]               | [0, 1]        |
+    | ``V``      | 10                    | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -583,7 +589,7 @@ def munsell_value_Saunderson1944(Y: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_10(V))
 
 
-def munsell_value_Ladd1955(Y: ArrayLike) -> NDArrayFloat:
+def munsell_value_Ladd1955(Y: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 10]:
     """
     Compute *Munsell* value :math:`V` from the specified *luminance* :math:`Y`
     using *Ladd and Pinney (1955)* method.
@@ -603,13 +609,13 @@ def munsell_value_Ladd1955(Y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 10]               | [0, 1]        |
+    | ``V``      | 10                    | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -629,7 +635,9 @@ def munsell_value_Ladd1955(Y: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_10(V))
 
 
-def munsell_value_McCamy1987(Y: ArrayLike) -> NDArrayFloat:
+def munsell_value_McCamy1987(
+    Y: Annotated[ArrayLike, 100],
+) -> Annotated[NDArrayFloat, 10]:
     """
     Compute *Munsell* value :math:`V` from the specified *luminance* :math:`Y`
     using *McCamy (1987)* method.
@@ -649,13 +657,13 @@ def munsell_value_McCamy1987(Y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 10]               | [0, 1]        |
+    | ``V``      | 10                    | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -686,7 +694,9 @@ def munsell_value_McCamy1987(Y: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_10(V))
 
 
-def munsell_value_ASTMD1535(Y: ArrayLike) -> NDArrayFloat:
+def munsell_value_ASTMD1535(
+    Y: Annotated[ArrayLike, 100],
+) -> Annotated[NDArrayFloat, 10]:
     """
     Compute the *Munsell* value :math:`V` from the specified *luminance*
     :math:`Y` using an inverse lookup table from *ASTM D1535-08e1* method.
@@ -706,13 +716,13 @@ def munsell_value_ASTMD1535(Y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 10]               | [0, 1]        |
+    | ``V``      | 10                    | 1             |
     +------------+-----------------------+---------------+
 
     -   The *Munsell* value computation with *ASTM D1535-08e1* method is
@@ -761,7 +771,7 @@ MUNSELL_VALUE_METHODS["astm2008"] = MUNSELL_VALUE_METHODS["ASTM D1535"]
 
 
 def munsell_value(
-    Y: ArrayLike,
+    Y: Annotated[ArrayLike, 100],
     method: (
         Literal[
             "ASTM D1535",
@@ -774,7 +784,7 @@ def munsell_value(
         ]
         | str
     ) = "ASTM D1535",
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 10]:
     """
     Compute the *Munsell* value :math:`V` from the specified *luminance*
     :math:`Y` using the specified computational method.
@@ -796,13 +806,13 @@ def munsell_value(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 10]               | [0, 1]        |
+    | ``V``      | 10                    | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -946,19 +956,19 @@ def munsell_specification_to_xyY(specification: ArrayLike) -> NDArrayFloat:
     +-------------------+-----------------------+---------------+
     | **Domain**        | **Scale - Reference** | **Scale - 1** |
     +===================+=======================+===============+
-    | ``specification`` | ``hue``    : [0, 10]  | [0, 1]        |
+    | ``specification`` | ``hue``    : 10       | 1             |
     |                   |                       |               |
-    |                   | ``value``  : [0, 10]  | [0, 1]        |
+    |                   | ``value``  : 10       | 1             |
     |                   |                       |               |
-    |                   | ``chroma`` : [0, 50]  | [0, 1]        |
+    |                   | ``chroma`` : 50       | 1             |
     |                   |                       |               |
-    |                   | ``code``   : [0, 10]  | [0, 1]        |
+    |                   | ``code``   : 10       | 1             |
     +-------------------+-----------------------+---------------+
 
     +-------------------+-----------------------+---------------+
     | **Range**         | **Scale - Reference** | **Scale - 1** |
     +===================+=======================+===============+
-    | ``xyY``           | [0, 1]                | [0, 1]        |
+    | ``xyY``           | 1                     | 1             |
     +-------------------+-----------------------+---------------+
 
     References
@@ -985,7 +995,7 @@ def munsell_specification_to_xyY(specification: ArrayLike) -> NDArrayFloat:
     return np.reshape(as_float_array(xyY), shape)
 
 
-def munsell_colour_to_xyY(munsell_colour: ArrayLike) -> NDArrayFloat:
+def munsell_colour_to_xyY(munsell_colour: ArrayLike) -> Annotated[NDArrayFloat, 1]:
     """
     Convert the specified *Munsell* colour to *CIE xyY* colourspace.
 
@@ -1005,7 +1015,7 @@ def munsell_colour_to_xyY(munsell_colour: ArrayLike) -> NDArrayFloat:
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``xyY``   | [0, 1]                | [0, 1]        |
+    | ``xyY``   | 1                     | 1             |
     +-----------+-----------------------+---------------+
 
     References
@@ -1369,19 +1379,19 @@ def xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
     +-------------------+-----------------------+---------------+
     | **Domain**        | **Scale - Reference** | **Scale - 1** |
     +===================+=======================+===============+
-    | ``xyY``           | [0, 1]                | [0, 1]        |
+    | ``xyY``           | 1                     | 1             |
     +-------------------+-----------------------+---------------+
 
     +-------------------+-----------------------+---------------+
     | **Range**         | **Scale - Reference** | **Scale - 1** |
     +===================+=======================+===============+
-    | ``specification`` | ``hue``    : [0, 10]  | [0, 1]        |
+    | ``specification`` | ``hue``    : 10       | 1             |
     |                   |                       |               |
-    |                   | ``value``  : [0, 10]  | [0, 1]        |
+    |                   | ``value``  : 10       | 1             |
     |                   |                       |               |
-    |                   | ``chroma`` : [0, 50]  | [0, 1]        |
+    |                   | ``chroma`` : 50       | 1             |
     |                   |                       |               |
-    |                   | ``code``   : [0, 10]  | [0, 1]        |
+    |                   | ``code``   : 10       | 1             |
     +-------------------+-----------------------+---------------+
 
     References
@@ -1406,7 +1416,7 @@ def xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
 
 
 def xyY_to_munsell_colour(
-    xyY: ArrayLike,
+    xyY: Annotated[ArrayLike, 1],
     hue_decimals: int = 1,
     value_decimals: int = 1,
     chroma_decimals: int = 1,
@@ -1437,7 +1447,7 @@ def xyY_to_munsell_colour(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``xyY``    | [0, 1]                | [0, 1]        |
+    | ``xyY``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

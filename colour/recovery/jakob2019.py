@@ -48,6 +48,7 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models import RGB_Colourspace, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_xy
 from colour.utilities import (
     as_float_array,
@@ -525,7 +526,7 @@ def find_coefficients_Jakob2019(
 
 @typing.overload
 def XYZ_to_sd_Jakob2019(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 1],
     cmfs: MultiSpectralDistributions | None = ...,
     illuminant: SpectralDistribution | None = ...,
     optimisation_kwargs: dict | None = ...,
@@ -535,7 +536,7 @@ def XYZ_to_sd_Jakob2019(
 
 @typing.overload
 def XYZ_to_sd_Jakob2019(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 1],
     cmfs: MultiSpectralDistributions | None = ...,
     illuminant: SpectralDistribution | None = ...,
     optimisation_kwargs: dict | None = ...,
@@ -546,7 +547,7 @@ def XYZ_to_sd_Jakob2019(
 
 @typing.overload
 def XYZ_to_sd_Jakob2019(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 1],
     cmfs: MultiSpectralDistributions | None,
     illuminant: SpectralDistribution | None,
     optimisation_kwargs: dict | None,
@@ -555,7 +556,7 @@ def XYZ_to_sd_Jakob2019(
 
 
 def XYZ_to_sd_Jakob2019(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 1],
     cmfs: MultiSpectralDistributions | None = None,
     illuminant: SpectralDistribution | None = None,
     optimisation_kwargs: dict | None = None,
@@ -589,6 +590,14 @@ def XYZ_to_sd_Jakob2019(
         Tuple of recovered spectral distribution and :math:`\\Delta E_{76}`
         between the target colour and the colour corresponding to the
         computed coefficients or recovered spectral distribution.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
     References
     ----------

@@ -43,6 +43,7 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models.rgb.transfer_functions import (
     log_decoding_Cineon,
     log_encoding_Cineon,
@@ -84,9 +85,9 @@ __all__ = [
 
 
 def log_encoding_REDLog(
-    x: ArrayLike,
+    x: Annotated[ArrayLike, 1],
     black_offset: ArrayLike = 10 ** ((0 - 1023) / 511),
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *REDLog* log encoding opto-electronic transfer function (OETF).
 
@@ -107,13 +108,13 @@ def log_encoding_REDLog(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -135,9 +136,9 @@ def log_encoding_REDLog(
 
 
 def log_decoding_REDLog(
-    y: ArrayLike,
+    y: Annotated[ArrayLike, 1],
     black_offset: ArrayLike = 10 ** ((0 - 1023) / 511),
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *REDLog* log decoding inverse opto-electronic transfer function (OETF).
 
@@ -158,13 +159,13 @@ def log_decoding_REDLog(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -186,9 +187,9 @@ def log_decoding_REDLog(
 
 
 def log_encoding_REDLogFilm(
-    x: ArrayLike,
+    x: Annotated[ArrayLike, 1],
     black_offset: ArrayLike = 10 ** ((95 - 685) / 300),
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *REDLogFilm* log encoding opto-electronic transfer function (OETF).
 
@@ -209,13 +210,13 @@ def log_encoding_REDLogFilm(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -232,9 +233,9 @@ def log_encoding_REDLogFilm(
 
 
 def log_decoding_REDLogFilm(
-    y: ArrayLike,
+    y: Annotated[ArrayLike, 1],
     black_offset: ArrayLike = 10 ** ((95 - 685) / 300),
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *REDLogFilm* log decoding inverse opto-electronic transfer
     function (OETF).
@@ -256,13 +257,13 @@ def log_decoding_REDLogFilm(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -278,7 +279,7 @@ def log_decoding_REDLogFilm(
     return log_decoding_Cineon(y, black_offset)
 
 
-def log_encoding_Log3G10_v1(x: ArrayLike) -> NDArrayFloat:
+def log_encoding_Log3G10_v1(x: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Log3G10* *v1* log encoding opto-electronic transfer function (OETF).
 
@@ -299,13 +300,13 @@ def log_encoding_Log3G10_v1(x: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -325,7 +326,7 @@ def log_encoding_Log3G10_v1(x: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_1(y))
 
 
-def log_decoding_Log3G10_v1(y: ArrayLike) -> NDArrayFloat:
+def log_decoding_Log3G10_v1(y: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Log3G10* *v1* log decoding inverse opto-electronic transfer
     function (OETF).
@@ -347,13 +348,13 @@ def log_decoding_Log3G10_v1(y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -373,7 +374,7 @@ def log_decoding_Log3G10_v1(y: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_1(x))
 
 
-def log_encoding_Log3G10_v2(x: ArrayLike) -> NDArrayFloat:
+def log_encoding_Log3G10_v2(x: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Log3G10* *v2* log encoding opto-electronic transfer function (OETF).
 
@@ -394,13 +395,13 @@ def log_encoding_Log3G10_v2(x: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -420,7 +421,7 @@ def log_encoding_Log3G10_v2(x: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_1(y))
 
 
-def log_decoding_Log3G10_v2(y: ArrayLike) -> NDArrayFloat:
+def log_decoding_Log3G10_v2(y: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Log3G10* *v2* log decoding inverse opto-electronic transfer
     function (OETF).
@@ -442,13 +443,13 @@ def log_decoding_Log3G10_v2(y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -468,7 +469,7 @@ def log_decoding_Log3G10_v2(y: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_1(x))
 
 
-def log_encoding_Log3G10_v3(x: ArrayLike) -> NDArrayFloat:
+def log_encoding_Log3G10_v3(x: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Log3G10* *v3* log encoding opto-electronic transfer function (OETF).
 
@@ -489,13 +490,13 @@ def log_encoding_Log3G10_v3(x: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -522,7 +523,7 @@ def log_encoding_Log3G10_v3(x: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_1(y))
 
 
-def log_decoding_Log3G10_v3(y: ArrayLike) -> NDArrayFloat:
+def log_decoding_Log3G10_v3(y: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Log3G10* *v3* log decoding inverse opto-electronic transfer
     function (OETF).
@@ -544,13 +545,13 @@ def log_decoding_Log3G10_v3(y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -597,9 +598,9 @@ References
 
 
 def log_encoding_Log3G10(
-    x: ArrayLike,
+    x: Annotated[ArrayLike, 1],
     method: Literal["v1", "v2", "v3"] | str = "v3",
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Log3G10* log encoding opto-electronic transfer function (OETF).
 
@@ -620,13 +621,13 @@ def log_encoding_Log3G10(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     -   The *Log3G10* *v1* log encoding curve is the one used in
@@ -694,8 +695,8 @@ References
 
 
 def log_decoding_Log3G10(
-    y: ArrayLike, method: Literal["v1", "v2", "v3"] | str = "v3"
-) -> NDArrayFloat:
+    y: Annotated[ArrayLike, 1], method: Literal["v1", "v2", "v3"] | str = "v3"
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Log3G10* log decoding inverse opto-electronic transfer function (OETF).
 
@@ -716,13 +717,13 @@ def log_decoding_Log3G10(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -742,7 +743,7 @@ def log_decoding_Log3G10(
     return LOG3G10_DECODING_METHODS[method](y)
 
 
-def log_encoding_Log3G12(x: ArrayLike) -> NDArrayFloat:
+def log_encoding_Log3G12(x: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Log3G12* log encoding opto-electronic transfer function (OETF).
 
@@ -761,13 +762,13 @@ def log_encoding_Log3G12(x: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -787,7 +788,7 @@ def log_encoding_Log3G12(x: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_1(y))
 
 
-def log_decoding_Log3G12(y: ArrayLike) -> NDArrayFloat:
+def log_decoding_Log3G12(y: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Log3G12* log decoding inverse opto-electronic transfer function (OETF).
 
@@ -806,13 +807,13 @@ def log_decoding_Log3G12(y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

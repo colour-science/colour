@@ -23,6 +23,7 @@ from colour.algebra import euclidean_distance
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models import Lab_to_DIN99
 from colour.utilities import get_domain_range_scale
 
@@ -39,7 +40,9 @@ __all__ = [
 
 
 def delta_E_DIN99(
-    Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: bool = False
+    Lab_1: Annotated[ArrayLike, 100],
+    Lab_2: Annotated[ArrayLike, 100],
+    textiles: bool = False,
 ) -> NDArrayFloat:
     """
     Compute the colour difference :math:`\\Delta E_{DIN99}` between two
@@ -66,17 +69,9 @@ def delta_E_DIN99(
     +------------+-----------------------+-------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**     |
     +============+=======================+===================+
-    | ``Lab_1``  | ``L_1`` : [0, 100]    | ``L_1`` : [0, 1]  |
-    |            |                       |                   |
-    |            | ``a_1`` : [-100, 100] | ``a_1`` : [-1, 1] |
-    |            |                       |                   |
-    |            | ``b_1`` : [-100, 100] | ``b_1`` : [-1, 1] |
+    | ``Lab_1``  | 100                   | 1                 |
     +------------+-----------------------+-------------------+
-    | ``Lab_2``  | ``L_2`` : [0, 100]    | ``L_2`` : [0, 1]  |
-    |            |                       |                   |
-    |            | ``a_2`` : [-100, 100] | ``a_2`` : [-1, 1] |
-    |            |                       |                   |
-    |            | ``b_2`` : [-100, 100] | ``b_2`` : [-1, 1] |
+    | ``Lab_2``  | 100                   | 1                 |
     +------------+-----------------------+-------------------+
 
     References

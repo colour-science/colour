@@ -24,6 +24,7 @@ from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models import XYZ_to_K_ab_HunterLab1966
 from colour.utilities import (
     from_range_100,
@@ -48,10 +49,10 @@ __all__ = [
 
 
 def XYZ_to_Hunter_Rdab(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 100],
     XYZ_n: ArrayLike | None = None,
     K_ab: ArrayLike | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert from *CIE XYZ* tristimulus values to *Hunter Rd,a,b* colour
     scale.
@@ -77,19 +78,15 @@ def XYZ_to_Hunter_Rdab(
     +------------+------------------------+--------------------+
     | **Domain** | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
-    | ``XYZ``    | [0, 100]               | [0, 1]             |
+    | ``XYZ``    | 100                    | 1                  |
     +------------+------------------------+--------------------+
-    | ``XYZ_n``  | [0, 100]               | [0, 1]             |
+    | ``XYZ_n``  | 100                    | 1                  |
     +------------+------------------------+--------------------+
 
     +------------+------------------------+--------------------+
     | **Range**  | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
-    | ``R_d_ab`` | ``R_d``  : [0, 100]    | ``R_d`` : [0, 1]   |
-    |            |                        |                    |
-    |            | ``a_Rd`` : [-100, 100] | ``a_Rd`` : [-1, 1] |
-    |            |                        |                    |
-    |            | ``b_Rd`` : [-100, 100] | ``b_Rd`` : [-1, 1] |
+    | ``R_d_ab`` | 100                    | 1                  |
     +------------+------------------------+--------------------+
 
     References
@@ -132,10 +129,10 @@ def XYZ_to_Hunter_Rdab(
 
 
 def Hunter_Rdab_to_XYZ(
-    R_d_ab: ArrayLike,
+    R_d_ab: Annotated[ArrayLike, 100],
     XYZ_n: ArrayLike | None = None,
     K_ab: ArrayLike | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert from *Hunter Rd,a,b* colour scale to *CIE XYZ* tristimulus
     values.
@@ -161,19 +158,15 @@ def Hunter_Rdab_to_XYZ(
     +------------+------------------------+--------------------+
     | **Domain** | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
-    | ``R_d_ab`` | ``R_d``  : [0, 100]    | ``R_d`` : [0, 1]   |
-    |            |                        |                    |
-    |            | ``a_Rd`` : [-100, 100] | ``a_Rd`` : [-1, 1] |
-    |            |                        |                    |
-    |            | ``b_Rd`` : [-100, 100] | ``b_Rd`` : [-1, 1] |
+    | ``R_d_ab`` | 100                    | 1                  |
     +------------+------------------------+--------------------+
-    | ``XYZ_n``  | [0, 100]               | [0, 1]             |
+    | ``XYZ_n``  | 100                    | 1                  |
     +------------+------------------------+--------------------+
 
     +------------+------------------------+--------------------+
     | **Range**  | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
-    | ``XYZ``    | [0, 100]               | [0, 1]             |
+    | ``XYZ``    | 100                    | 1                  |
     +------------+------------------------+--------------------+
 
     References

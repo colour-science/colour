@@ -37,12 +37,15 @@ from colour.utilities import (
     from_range_degrees,
     to_domain_1,
     to_domain_100,
+    to_domain_degrees,
     tsplit,
     tstack,
 )
 
 if TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
+
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 
 __author__ = "UltraMo114(Molin Li), Colour Developers"
 __copyright__ = "Copyright 2024 Colour Developers"
@@ -101,7 +104,7 @@ Intermediate :math:`Iab` colourspace to non-linear LMS-like responses
 """
 
 
-def XYZ_to_sUCS(XYZ: ArrayLike) -> NDArrayFloat:
+def XYZ_to_sUCS(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 100]:
     """
     Convert from *CIE XYZ* tristimulus values to *sUCS* colourspace.
 
@@ -122,17 +125,13 @@ def XYZ_to_sUCS(XYZ: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+------------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``Iab``    | ``I`` : [0, 100]      | ``I`` : [0, 1]   |
-    |            |                       |                  |
-    |            | ``a`` : [-100, +100]  | ``a`` : [-1, +1] |
-    |            |                       |                  |
-    |            | ``b`` : [-100, +100]  | ``b`` : [-1, +1] |
+    | ``Iab``    | 100                   | 1                |
     +------------+-----------------------+------------------+
 
     -   Input *CIE XYZ* tristimulus values must be adapted to
@@ -162,7 +161,7 @@ def XYZ_to_sUCS(XYZ: ArrayLike) -> NDArrayFloat:
     return from_range_100(Iab)
 
 
-def sUCS_to_XYZ(Iab: ArrayLike) -> NDArrayFloat:
+def sUCS_to_XYZ(Iab: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *sUCS* colourspace to *CIE XYZ* tristimulus values.
 
@@ -183,17 +182,13 @@ def sUCS_to_XYZ(Iab: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``Iab``    | ``I`` : [0, 100]      | ``I`` : [0, 1]   |
-    |            |                       |                  |
-    |            | ``a`` : [-100, +100]  | ``a`` : [-1, +1] |
-    |            |                       |                  |
-    |            | ``b`` : [-100,+100]   | ``b`` : [-1, +1] |
+    | ``Iab``    | 100                   | 1                |
     +------------+-----------------------+------------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     References
@@ -220,7 +215,7 @@ def sUCS_to_XYZ(Iab: ArrayLike) -> NDArrayFloat:
     return from_range_1(XYZ)
 
 
-def sUCS_chroma(Iab: ArrayLike) -> NDArrayFloat:
+def sUCS_chroma(Iab: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 100]:
     """
     Compute the chroma component from the *sUCS* colourspace.
 
@@ -239,17 +234,13 @@ def sUCS_chroma(Iab: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``Iab``    | ``I`` : [0, 100]      | ``I`` : [0, 1]   |
-    |            |                       |                  |
-    |            | ``a`` : [-100, +100]  | ``a`` : [-1, +1] |
-    |            |                       |                  |
-    |            | ``b`` : [-100, +100]  | ``b`` : [-1, +1] |
+    | ``Iab``    | 100                   | 1                |
     +------------+-----------------------+------------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``C``      | [0, 100]              | [0, 1]          |
+    | ``C``      | 100                   | 1               |
     +------------+-----------------------+-----------------+
 
     References
@@ -270,7 +261,7 @@ def sUCS_chroma(Iab: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_100(C))
 
 
-def sUCS_hue_angle(Iab: ArrayLike) -> NDArrayFloat:
+def sUCS_hue_angle(Iab: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 360]:
     """
     Compute the hue angle in degrees from the *sUCS* colourspace.
 
@@ -289,17 +280,13 @@ def sUCS_hue_angle(Iab: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``Iab``    | ``I`` : [0, 100]      | ``I`` : [0, 1]   |
-    |            |                       |                  |
-    |            | ``a`` : [-100, +100]  | ``a`` : [-1, +1] |
-    |            |                       |                  |
-    |            | ``b`` : [-100, +100]  | ``b`` : [-1, +1] |
+    | ``Iab``    | 100                   | 1                |
     +------------+-----------------------+------------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``hue``    | [0, 360]              | [0, 1]          |
+    | ``hue``    | 360                   | 1               |
     +------------+-----------------------+-----------------+
 
     References
@@ -320,7 +307,9 @@ def sUCS_hue_angle(Iab: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_degrees(h))
 
 
-def sUCS_Iab_to_sUCS_ICh(Iab: ArrayLike) -> NDArrayFloat:
+def sUCS_Iab_to_sUCS_ICh(
+    Iab: Annotated[ArrayLike, 100],
+) -> Annotated[NDArrayFloat, (100, 100, 360)]:
     """
     Convert from *sUCS* :math:`Iab` rectangular coordinates to *sUCS*
     :math:`ICh` cylindrical coordinates.
@@ -340,21 +329,17 @@ def sUCS_Iab_to_sUCS_ICh(Iab: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``Iab``    | ``I`` : [0, 100]      | ``I`` : [0, 1]   |
-    |            |                       |                  |
-    |            | ``a`` : [-100, +100]  | ``a`` : [-1, +1] |
-    |            |                       |                  |
-    |            | ``b`` : [-100,+100]   | ``b`` : [-1, +1] |
+    | ``Iab``    | 100                   | 1                |
     +------------+-----------------------+------------------+
 
     +------------+-----------------------+------------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``ICh``    | ``I`` : [0, 100]      | ``I`` : [0, 1]   |
+    | ``ICh``    | ``I`` : 100           | ``I`` : 1        |
     |            |                       |                  |
-    |            | ``C`` : [0, 100]      | ``C`` : [0, 1]   |
+    |            | ``C`` : 100           | ``C`` : 1        |
     |            |                       |                  |
-    |            | ``h`` : [0, 360]      | ``h`` : [0, 1]   |
+    |            | ``h`` : 360           | ``h`` : 1        |
     +------------+-----------------------+------------------+
 
     References
@@ -368,16 +353,18 @@ def sUCS_Iab_to_sUCS_ICh(Iab: ArrayLike) -> NDArrayFloat:
     array([ 42.6292365...,  40.4205110...,  20.9041560...])
     """
 
-    I, a, b = tsplit(Iab)  # noqa: E741
+    I, a, b = tsplit(to_domain_100(Iab))  # noqa: E741
 
     C = 1 / 0.0252 * np.log(1 + 0.0447 * np.hypot(a, b))
 
     h = np.degrees(np.arctan2(b, a)) % 360
 
-    return tstack([I, C, h])
+    return tstack([from_range_100(I), from_range_100(C), from_range_degrees(h)])
 
 
-def sUCS_ICh_to_sUCS_Iab(ICh: ArrayLike) -> NDArrayFloat:
+def sUCS_ICh_to_sUCS_Iab(
+    ICh: Annotated[ArrayLike, (100, 100, 360)],
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert from *sUCS* :math:`ICh` cylindrical coordinates to *sUCS*
     :math:`Iab` rectangular coordinates.
@@ -397,21 +384,17 @@ def sUCS_ICh_to_sUCS_Iab(ICh: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``ICh``    | ``I`` : [0, 100]      | ``I`` : [0, 1]   |
+    | ``ICh``    | ``I`` : 100           | ``I`` : 1        |
     |            |                       |                  |
-    |            | ``C`` : [0, 100]      | ``C`` : [0, 1]   |
+    |            | ``C`` : 100           | ``C`` : 1        |
     |            |                       |                  |
-    |            | ``h`` : [0, 360]      | ``h`` : [0, 1]   |
+    |            | ``h`` : 360           | ``h`` : 1        |
     +------------+-----------------------+------------------+
 
     +------------+-----------------------+------------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``Iab``    | ``I`` : [0, 100]      | ``I`` : [0, 1]   |
-    |            |                       |                  |
-    |            | ``a`` : [-100, +100]  | ``a`` : [-1, +1] |
-    |            |                       |                  |
-    |            | ``b`` : [-100,+100]   | ``b`` : [-1, +1] |
+    | ``Iab``    | 100                   | 1                |
     +------------+-----------------------+------------------+
 
     References
@@ -426,10 +409,13 @@ def sUCS_ICh_to_sUCS_Iab(ICh: ArrayLike) -> NDArrayFloat:
     """
 
     I, C, h = tsplit(ICh)  # noqa: E741
+    I = to_domain_100(I)  # noqa: E741
+    C = to_domain_100(C)
+    h = to_domain_degrees(h)
 
     C = (np.exp(0.0252 * C) - 1) / 0.0447
 
     a = C * np.cos(np.radians(h))
     b = C * np.sin(np.radians(h))
 
-    return tstack([I, a, b])
+    return from_range_100(tstack([I, a, b]))

@@ -56,6 +56,7 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat, NDArrayInt
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     Structure,
     as_float,
@@ -119,11 +120,11 @@ CONSTANTS_ACES_CCT: Structure = Structure(
 
 
 def log_encoding_ACESproxy(
-    lin_AP1: ArrayLike,
+    lin_AP1: Annotated[ArrayLike, 1],
     bit_depth: Literal[10, 12] = 10,
     out_int: bool = False,
     constants: dict | None = None,
-) -> NDArrayFloat | NDArrayInt:
+) -> Annotated[NDArrayFloat | NDArrayInt, 1]:
     """
     Apply the *ACESproxy* log encoding opto-electronic transfer function (OETF).
 
@@ -147,19 +148,19 @@ def log_encoding_ACESproxy(
     Notes
     -----
     +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
+    | **Domain**     | **Scale - Reference** | **Scale - 1** |
     +================+=======================+===============+
-    | ``lin_AP1``    | [0, 1]                | [0, 1]        |
+    | ``lin_AP1``    | 1                     | 1             |
     +----------------+-----------------------+---------------+
 
     +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
+    | **Range**      | **Scale - Reference** | **Scale - 1** |
     +================+=======================+===============+
-    | ``ACESproxy``  | [0, 1]                | [0, 1]        |
+    | ``ACESproxy``  | 1                     | 1             |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has an output int switch, thus the domain-range
-    scale information is only specified for the floating point mode.
+    -   This definition has an output int switch, thus the domain-range
+        scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -205,11 +206,11 @@ def log_encoding_ACESproxy(
 
 
 def log_decoding_ACESproxy(
-    ACESproxy: ArrayLike,
+    ACESproxy: Annotated[ArrayLike, 1],
     bit_depth: Literal[10, 12] = 10,
     in_int: bool = False,
     constants: dict | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *ACESproxy* log decoding inverse opto-electronic transfer function (OETF).
 
@@ -233,19 +234,19 @@ def log_decoding_ACESproxy(
     Notes
     -----
     +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
+    | **Domain**     | **Scale - Reference** | **Scale - 1** |
     +================+=======================+===============+
-    | ``ACESproxy``  | [0, 1]                | [0, 1]        |
+    | ``ACESproxy``  | 1                     | 1             |
     +----------------+-----------------------+---------------+
 
     +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
+    | **Range**      | **Scale - Reference** | **Scale - 1** |
     +================+=======================+===============+
-    | ``lin_AP1``    | [0, 1]                | [0, 1]        |
+    | ``lin_AP1``    | 1                     | 1             |
     +----------------+-----------------------+---------------+
 
-    \\* This definition has an input int switch, thus the domain-range
-    scale information is only specified for the floating point mode.
+    -   This definition has an input int switch, thus the domain-range
+        scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -277,7 +278,7 @@ def log_decoding_ACESproxy(
     return as_float(from_range_1(lin_AP1))
 
 
-def log_encoding_ACEScc(lin_AP1: ArrayLike) -> NDArrayFloat:
+def log_encoding_ACEScc(lin_AP1: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *ACEScc* log encoding opto-electronic transfer function (OETF).
 
@@ -296,13 +297,13 @@ def log_encoding_ACEScc(lin_AP1: ArrayLike) -> NDArrayFloat:
     +-------------+-----------------------+---------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``lin_AP1`` | [0, 1]                | [0, 1]        |
+    | ``lin_AP1`` | 1                     | 1             |
     +-------------+-----------------------+---------------+
 
     +-------------+-----------------------+---------------+
     | **Range**   | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``ACEScc``  | [0, 1]                | [0, 1]        |
+    | ``ACEScc``  | 1                     | 1             |
     +-------------+-----------------------+---------------+
 
     References
@@ -334,7 +335,7 @@ def log_encoding_ACEScc(lin_AP1: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_1(ACEScc))
 
 
-def log_decoding_ACEScc(ACEScc: ArrayLike) -> NDArrayFloat:
+def log_decoding_ACEScc(ACEScc: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *ACEScc* log decoding inverse opto-electronic transfer function (OETF).
 
@@ -353,13 +354,13 @@ def log_decoding_ACEScc(ACEScc: ArrayLike) -> NDArrayFloat:
     +-------------+-----------------------+---------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``ACEScc``  | [0, 1]                | [0, 1]        |
+    | ``ACEScc``  | 1                     | 1             |
     +-------------+-----------------------+---------------+
 
     +-------------+-----------------------+---------------+
     | **Range**   | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``lin_AP1`` | [0, 1]                | [0, 1]        |
+    | ``lin_AP1`` | 1                     | 1             |
     +-------------+-----------------------+---------------+
 
     References
@@ -392,8 +393,8 @@ def log_decoding_ACEScc(ACEScc: ArrayLike) -> NDArrayFloat:
 
 
 def log_encoding_ACEScct(
-    lin_AP1: ArrayLike, constants: Structure | None = None
-) -> NDArrayFloat:
+    lin_AP1: Annotated[ArrayLike, 1], constants: Structure | None = None
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *ACEScct* log encoding opto-electronic transfer function (OETF).
 
@@ -414,13 +415,13 @@ def log_encoding_ACEScct(
     +-------------+-----------------------+---------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``lin_AP1`` | [0, 1]                | [0, 1]        |
+    | ``lin_AP1`` | 1                     | 1             |
     +-------------+-----------------------+---------------+
 
     +-------------+-----------------------+---------------+
     | **Range**   | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``ACEScct`` | [0, 1]                | [0, 1]        |
+    | ``ACEScct`` | 1                     | 1             |
     +-------------+-----------------------+---------------+
 
     References
@@ -449,8 +450,8 @@ def log_encoding_ACEScct(
 
 
 def log_decoding_ACEScct(
-    ACEScct: ArrayLike, constants: Structure | None = None
-) -> NDArrayFloat:
+    ACEScct: Annotated[ArrayLike, 1], constants: Structure | None = None
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *ACEScct* log decoding inverse opto-electronic transfer function (OETF).
 
@@ -471,13 +472,13 @@ def log_decoding_ACEScct(
     +-------------+-----------------------+---------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``ACEScct`` | [0, 1]                | [0, 1]        |
+    | ``ACEScct`` | 1                     | 1             |
     +-------------+-----------------------+---------------+
 
     +-------------+-----------------------+---------------+
     | **Range**   | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``lin_AP1`` | [0, 1]                | [0, 1]        |
+    | ``lin_AP1`` | 1                     | 1             |
     +-------------+-----------------------+---------------+
 
     References

@@ -24,6 +24,7 @@ from colour.algebra import Extrapolator, LinearInterpolator
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -39,7 +40,7 @@ __all__ = [
 ]
 
 
-def log_encoding_FilmicPro6(t: ArrayLike) -> NDArrayFloat:
+def log_encoding_FilmicPro6(t: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *FiLMiC Pro 6* log encoding opto-electronic transfer function (OETF).
 
@@ -58,13 +59,13 @@ def log_encoding_FilmicPro6(t: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``t``      | [0, 1]                | [0, 1]        |
+    | ``t``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     -   The *FiLMiC Pro 6* log encoding curve / opto-electronic
@@ -121,7 +122,7 @@ def _log_decoding_FilmicPro6_interpolator() -> Extrapolator:
     return _CACHE_LOG_DECODING_FILMICPRO_INTERPOLATOR
 
 
-def log_decoding_FilmicPro6(y: ArrayLike) -> NDArrayFloat:
+def log_decoding_FilmicPro6(y: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *FiLMiC Pro 6* log decoding inverse opto-electronic transfer
     function (OETF).
@@ -141,13 +142,13 @@ def log_decoding_FilmicPro6(y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``t``      | [0, 1]                | [0, 1]        |
+    | ``t``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     -   The *FiLMiC Pro 6* log decoding curve / electro-optical transfer

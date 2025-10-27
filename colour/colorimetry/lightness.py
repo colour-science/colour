@@ -75,6 +75,7 @@ from colour.biochemistry import (
 if typing.TYPE_CHECKING:
     from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -109,7 +110,7 @@ __all__ = [
 ]
 
 
-def lightness_Glasser1958(Y: ArrayLike) -> NDArrayFloat:
+def lightness_Glasser1958(Y: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 100]:
     """
     Compute *lightness* :math:`L` from the specified *luminance* :math:`Y` using
     the *Glasser et al. (1958)* method.
@@ -129,13 +130,13 @@ def lightness_Glasser1958(Y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 100]              | [0, 1]        |
+    | ``L``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -155,7 +156,9 @@ def lightness_Glasser1958(Y: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_100(L))
 
 
-def lightness_Wyszecki1963(Y: ArrayLike) -> NDArrayFloat:
+def lightness_Wyszecki1963(
+    Y: Annotated[ArrayLike, 100],
+) -> Annotated[NDArrayFloat, 100]:
     """
     Compute *lightness* :math:`W` from the specified *luminance* :math:`Y`
     using the *Wyszecki (1963)* method.
@@ -175,13 +178,13 @@ def lightness_Wyszecki1963(Y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``W``      | [0, 100]              | [0, 1]        |
+    | ``W``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -232,13 +235,13 @@ def intermediate_lightness_function_CIE1976(
     +-------------+-----------------------+---------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``Y``       | [0, 100]              | [0, 100]      |
+    | ``Y``       | 100                   | 100           |
     +-------------+-----------------------+---------------+
 
     +-------------+-----------------------+---------------+
     | **Range**   | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``f_Y_Y_n`` | [0, 1]                | [0, 1]        |
+    | ``f_Y_Y_n`` | 1                     | 1             |
     +-------------+-----------------------+---------------+
 
     References
@@ -269,7 +272,9 @@ def intermediate_lightness_function_CIE1976(
     return as_float(f_Y_Y_n)
 
 
-def lightness_CIE1976(Y: ArrayLike, Y_n: ArrayLike | None = None) -> NDArrayFloat:
+def lightness_CIE1976(
+    Y: Annotated[ArrayLike, 100], Y_n: ArrayLike | None = None
+) -> Annotated[NDArrayFloat, 100]:
     """
     Compute the *lightness* :math:`L^*` of the specified *luminance* :math:`Y`
     using the specified reference white *luminance* :math:`Y_n` as per *CIE 1976*
@@ -292,13 +297,13 @@ def lightness_CIE1976(Y: ArrayLike, Y_n: ArrayLike | None = None) -> NDArrayFloa
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_star`` | [0, 100]              | [0, 1]        |
+    | ``L_star`` | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -321,7 +326,9 @@ def lightness_CIE1976(Y: ArrayLike, Y_n: ArrayLike | None = None) -> NDArrayFloa
     return as_float(from_range_100(L_star))
 
 
-def lightness_Fairchild2010(Y: ArrayLike, epsilon: ArrayLike = 1.836) -> NDArrayFloat:
+def lightness_Fairchild2010(
+    Y: Annotated[ArrayLike, 1], epsilon: ArrayLike = 1.836
+) -> Annotated[NDArrayFloat, 100]:
     """
     Compute *lightness* :math:`L_{hdr}` from the specified *luminance* :math:`Y`
     using *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
@@ -344,13 +351,13 @@ def lightness_Fairchild2010(Y: ArrayLike, epsilon: ArrayLike = 1.836) -> NDArray
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 1]                | [0, 1]        |
+    | ``Y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_hdr``  | [0, 100]              | [0, 1]        |
+    | ``L_hdr``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -378,10 +385,10 @@ def lightness_Fairchild2010(Y: ArrayLike, epsilon: ArrayLike = 1.836) -> NDArray
 
 
 def lightness_Fairchild2011(
-    Y: ArrayLike,
+    Y: Annotated[ArrayLike, 1],
     epsilon: ArrayLike = 0.474,
     method: Literal["hdr-CIELAB", "hdr-IPT"] | str = "hdr-CIELAB",
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Compute *lightness* :math:`L_{hdr}` from the specified *luminance* :math:`Y`
     using *Fairchild and Chen (2011)* method according to *Michaelis-Menten*
@@ -406,13 +413,13 @@ def lightness_Fairchild2011(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 1]                | [0, 1]        |
+    | ``Y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_hdr``  | [0, 100]              | [0, 1]        |
+    | ``L_hdr``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -553,7 +560,7 @@ LIGHTNESS_METHODS["Lstar1976"] = LIGHTNESS_METHODS["CIE 1976"]
 
 
 def lightness(
-    Y: ArrayLike,
+    Y: Annotated[ArrayLike, 100],
     method: (
         Literal[
             "Abebe 2017",
@@ -566,7 +573,7 @@ def lightness(
         | str
     ) = "CIE 1976",
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Compute the *lightness* :math:`L` from the specified *luminance* :math:`Y`.
 
@@ -598,13 +605,13 @@ def lightness(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 100]              | [0, 1]        |
+    | ``L``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -633,7 +640,7 @@ def lightness(
     29.8295108...
     >>> lightness(12.19722535, method="Abebe 2017")
     ... # doctest: +ELLIPSIS
-    0.4869555...
+    48.6955571...
     """
 
     Y = as_float_array(Y)

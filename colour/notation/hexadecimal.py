@@ -20,6 +20,7 @@ from colour.algebra import normalise_maximum
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat, NDArrayStr
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models import eotf_inverse_sRGB, eotf_sRGB
 from colour.utilities import (
     as_float_array,
@@ -42,7 +43,7 @@ __all__ = [
 ]
 
 
-def RGB_to_HEX(RGB: ArrayLike) -> NDArrayStr:
+def RGB_to_HEX(RGB: Annotated[ArrayLike, 1]) -> NDArrayStr:
     """
     Convert from *RGB* colourspace to hexadecimal representation.
 
@@ -61,7 +62,7 @@ def RGB_to_HEX(RGB: ArrayLike) -> NDArrayStr:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples
@@ -96,7 +97,7 @@ def RGB_to_HEX(RGB: ArrayLike) -> NDArrayStr:
     return np.asarray("#") + HEX[..., 0] + HEX[..., 1] + HEX[..., 2]
 
 
-def HEX_to_RGB(HEX: ArrayLike) -> NDArrayFloat:
+def HEX_to_RGB(HEX: ArrayLike) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from hexadecimal representation to *RGB* colourspace.
 
@@ -115,7 +116,7 @@ def HEX_to_RGB(HEX: ArrayLike) -> NDArrayFloat:
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``RGB``   | [0, 1]                | [0, 1]        |
+    | ``RGB``   | 1                     | 1             |
     +-----------+-----------------------+---------------+
 
     Examples

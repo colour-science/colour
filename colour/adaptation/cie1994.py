@@ -27,6 +27,7 @@ from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, DTypeFloat, NDArray, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     as_float_array,
     from_range_100,
@@ -72,14 +73,14 @@ values matrix.
 
 
 def chromatic_adaptation_CIE1994(
-    XYZ_1: ArrayLike,
+    XYZ_1: Annotated[ArrayLike, 100],
     xy_o1: ArrayLike,
     xy_o2: ArrayLike,
-    Y_o: ArrayLike,
+    Y_o: Annotated[ArrayLike, 100],
     E_o1: ArrayLike,
     E_o2: ArrayLike,
     n: ArrayLike = 1,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Adapt the specified stimulus *CIE XYZ* tristimulus values from test
     viewing conditions to reference viewing conditions using the
@@ -115,15 +116,15 @@ def chromatic_adaptation_CIE1994(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_1``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_1``  | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``Y_o``    | [0, 100]              | [0, 1]        |
+    | ``Y_o``    | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_2``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_2``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References

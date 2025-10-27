@@ -26,6 +26,7 @@ from colour.algebra import vecmul
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     as_float_array,
     from_range_100,
@@ -48,14 +49,14 @@ __all__ = [
 
 
 def chromatic_adaptation_Zhai2018(
-    XYZ_b: ArrayLike,
-    XYZ_wb: ArrayLike,
-    XYZ_wd: ArrayLike,
+    XYZ_b: Annotated[ArrayLike, 100],
+    XYZ_wb: Annotated[ArrayLike, 100],
+    XYZ_wd: Annotated[ArrayLike, 100],
     D_b: ArrayLike = 1,
     D_d: ArrayLike = 1,
     XYZ_wo: ArrayLike | None = None,
     transform: Literal["CAT02", "CAT16"] | str = "CAT02",
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Adapt the specified stimulus *CIE XYZ* tristimulus values from test
     viewing conditions to reference viewing conditions using the
@@ -108,19 +109,19 @@ def chromatic_adaptation_Zhai2018(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_b``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_b``  | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_wb`` | [0, 1]                | [0, 1]        |
+    | ``XYZ_wb`` | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_wd`` | [0, 1]                | [0, 1]        |
+    | ``XYZ_wd`` | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_wo`` | [0, 1]                | [0, 1]        |
+    | ``XYZ_wo`` | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_d``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_d``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References

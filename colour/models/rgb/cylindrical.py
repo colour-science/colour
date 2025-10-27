@@ -58,7 +58,7 @@ from colour.algebra import sdiv, sdiv_mode
 if typing.TYPE_CHECKING:
     from colour.hints import NDArrayFloat
 
-from colour.hints import ArrayLike, cast
+from colour.hints import Annotated, ArrayLike, cast
 from colour.utilities import as_float_array, from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
@@ -78,7 +78,7 @@ __all__ = [
 ]
 
 
-def RGB_to_HSV(RGB: ArrayLike) -> NDArrayFloat:
+def RGB_to_HSV(RGB: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *RGB* colourspace to *HSV* colourspace.
 
@@ -97,13 +97,13 @@ def RGB_to_HSV(RGB: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``HSV``    | [0, 1]                | [0, 1]        |
+    | ``HSV``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -145,7 +145,7 @@ def RGB_to_HSV(RGB: ArrayLike) -> NDArrayFloat:
     return from_range_1(HSV)
 
 
-def HSV_to_RGB(HSV: ArrayLike) -> NDArrayFloat:
+def HSV_to_RGB(HSV: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *HSV* colourspace to *RGB* colourspace.
 
@@ -164,13 +164,13 @@ def HSV_to_RGB(HSV: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``HSV``    | [0, 1]                | [0, 1]        |
+    | ``HSV``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -212,7 +212,7 @@ def HSV_to_RGB(HSV: ArrayLike) -> NDArrayFloat:
     return from_range_1(RGB)
 
 
-def RGB_to_HSL(RGB: ArrayLike) -> NDArrayFloat:
+def RGB_to_HSL(RGB: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *RGB* colourspace to *HSL* colourspace.
 
@@ -231,13 +231,13 @@ def RGB_to_HSL(RGB: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``HSL``    | [0, 1]                | [0, 1]        |
+    | ``HSL``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -284,7 +284,7 @@ def RGB_to_HSL(RGB: ArrayLike) -> NDArrayFloat:
     return from_range_1(HSL)
 
 
-def HSL_to_RGB(HSL: ArrayLike) -> NDArrayFloat:
+def HSL_to_RGB(HSL: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *HSL* colourspace to *RGB* colourspace.
 
@@ -303,13 +303,13 @@ def HSL_to_RGB(HSL: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``HSL``    | [0, 1]                | [0, 1]        |
+    | ``HSL``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -362,7 +362,9 @@ def HSL_to_RGB(HSL: ArrayLike) -> NDArrayFloat:
     return from_range_1(RGB)
 
 
-def RGB_to_HCL(RGB: ArrayLike, gamma: float = 3, Y_0: float = 100) -> NDArrayFloat:
+def RGB_to_HCL(
+    RGB: Annotated[ArrayLike, 1], gamma: float = 3, Y_0: float = 100
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *RGB* colourspace to *HCL* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.
@@ -386,13 +388,13 @@ def RGB_to_HCL(RGB: ArrayLike, gamma: float = 3, Y_0: float = 100) -> NDArrayFlo
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``HCL``    | [0, 1]                | [0, 1]        |
+    | ``HCL``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     -   This implementation uses the equations specified in
@@ -454,7 +456,9 @@ def RGB_to_HCL(RGB: ArrayLike, gamma: float = 3, Y_0: float = 100) -> NDArrayFlo
     return from_range_1(HCL)
 
 
-def HCL_to_RGB(HCL: ArrayLike, gamma: float = 3, Y_0: float = 100) -> NDArrayFloat:
+def HCL_to_RGB(
+    HCL: Annotated[ArrayLike, 1], gamma: float = 3, Y_0: float = 100
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *HCL* colourspace to *RGB* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.
@@ -478,13 +482,13 @@ def HCL_to_RGB(HCL: ArrayLike, gamma: float = 3, Y_0: float = 100) -> NDArrayFlo
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``HCL``    | [0, 1]                | [0, 1]        |
+    | ``HCL``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     -   This implementation uses the equations specified in

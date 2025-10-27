@@ -672,23 +672,6 @@ class TestLightnessAbebe2017:
             lightness_Abebe2017(Y), L, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_lightness_Abebe2017(self) -> None:
-        """
-        Test :func:`colour.colorimetry.lightness.lightness_Abebe2017`
-        definition domain and range scale support.
-        """
-
-        L = lightness_Abebe2017(12.19722535)
-
-        d_r = (("reference", 1), ("1", 1), ("100", 1))
-        for scale, factor in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    lightness_Abebe2017(12.19722535 * factor, 100 * factor),
-                    L * factor,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
-
     @ignore_numpy_errors
     def test_nan_lightness_Abebe2017(self) -> None:
         """

@@ -43,7 +43,7 @@ if typing.TYPE_CHECKING:
         NDArrayFloat,
     )
 
-from colour.hints import cast
+from colour.hints import Annotated, cast
 from colour.models import xy_to_xyY, xy_to_XYZ, xyY_to_XYZ
 from colour.models.rgb import chromatically_adapted_primaries, normalised_primary_matrix
 from colour.utilities import (
@@ -954,7 +954,7 @@ class RGB_Colourspace:
 
 
 def XYZ_to_RGB(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 1],
     colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
     illuminant: ArrayLike | None = None,
     chromatic_adaptation_transform: (
@@ -963,7 +963,7 @@ def XYZ_to_RGB(
     apply_cctf_encoding: bool = False,
     *args: Any,
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *CIE XYZ* tristimulus values to *RGB* colourspace array.
 
@@ -1000,17 +1000,17 @@ def XYZ_to_RGB(
     +--------------------+-----------------------+---------------+
     | **Domain**         | **Scale - Reference** | **Scale - 1** |
     +====================+=======================+===============+
-    | ``XYZ``            | [0, 1]                | [0, 1]        |
+    | ``XYZ``            | 1                     | 1             |
     +--------------------+-----------------------+---------------+
-    | ``illuminant_XYZ`` | [0, 1]                | [0, 1]        |
+    | ``illuminant_XYZ`` | 1                     | 1             |
     +--------------------+-----------------------+---------------+
-    | ``illuminant_RGB`` | [0, 1]                | [0, 1]        |
+    | ``illuminant_RGB`` | 1                     | 1             |
     +--------------------+-----------------------+---------------+
 
     +--------------------+-----------------------+---------------+
     | **Range**          | **Scale - Reference** | **Scale - 1** |
     +====================+=======================+===============+
-    | ``RGB``            | [0, 1]                | [0, 1]        |
+    | ``RGB``            | 1                     | 1             |
     +--------------------+-----------------------+---------------+
 
     Examples
@@ -1088,7 +1088,7 @@ def XYZ_to_RGB(
 
 
 def RGB_to_XYZ(
-    RGB: ArrayLike,
+    RGB: Annotated[ArrayLike, 1],
     colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
     illuminant: ArrayLike | None = None,
     chromatic_adaptation_transform: (
@@ -1097,7 +1097,7 @@ def RGB_to_XYZ(
     apply_cctf_decoding: bool = False,
     *args: Any,
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert specified *RGB* colourspace array to *CIE XYZ* tristimulus values.
 
@@ -1134,17 +1134,17 @@ def RGB_to_XYZ(
     +--------------------+-----------------------+---------------+
     | **Domain**         | **Scale - Reference** | **Scale - 1** |
     +====================+=======================+===============+
-    | ``RGB``            | [0, 1]                | [0, 1]        |
+    | ``RGB``            | 1                     | 1             |
     +--------------------+-----------------------+---------------+
-    | ``illuminant_XYZ`` | [0, 1]                | [0, 1]        |
+    | ``illuminant_XYZ`` | 1                     | 1             |
     +--------------------+-----------------------+---------------+
-    | ``illuminant_RGB`` | [0, 1]                | [0, 1]        |
+    | ``illuminant_RGB`` | 1                     | 1             |
     +--------------------+-----------------------+---------------+
 
     +--------------------+-----------------------+---------------+
     | **Range**          | **Scale - Reference** | **Scale - 1** |
     +====================+=======================+===============+
-    | ``XYZ``            | [0, 1]                | [0, 1]        |
+    | ``XYZ``            | 1                     | 1             |
     +--------------------+-----------------------+---------------+
 
     Examples
@@ -1301,7 +1301,7 @@ def matrix_RGB_to_RGB(
 
 
 def RGB_to_RGB(
-    RGB: ArrayLike,
+    RGB: Annotated[ArrayLike, 1],
     input_colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
     output_colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
     chromatic_adaptation_transform: (
@@ -1310,7 +1310,7 @@ def RGB_to_RGB(
     apply_cctf_decoding: bool = False,
     apply_cctf_encoding: bool = False,
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert *RGB* colourspace array from the specified input *RGB* colourspace to
     specified output *RGB* colourspace using the specified *chromatic adaptation*
@@ -1349,13 +1349,13 @@ def RGB_to_RGB(
     +--------------------+-----------------------+---------------+
     | **Domain**         | **Scale - Reference** | **Scale - 1** |
     +====================+=======================+===============+
-    | ``RGB``            | [0, 1]                | [0, 1]        |
+    | ``RGB``            | 1                     | 1             |
     +--------------------+-----------------------+---------------+
 
     +--------------------+-----------------------+---------------+
     | **Range**          | **Scale - Reference** | **Scale - 1** |
     +====================+=======================+===============+
-    | ``RGB``            | [0, 1]                | [0, 1]        |
+    | ``RGB``            | 1                     | 1             |
     +--------------------+-----------------------+---------------+
 
     Examples

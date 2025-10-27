@@ -24,7 +24,7 @@ from colour.adaptation import CAT_CAT16
 from colour.algebra import sdiv, sdiv_mode, vecmul
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
+    from colour.hints import Annotated, ArrayLike, NDArrayFloat
 
 from colour.utilities import (
     as_float_array,
@@ -48,13 +48,13 @@ CAT_CAT16_INVERSE: NDArrayFloat = np.linalg.inv(CAT_CAT16)
 
 
 def chromatic_adaptation_Li2025(
-    XYZ_s: ArrayLike,
-    XYZ_ws: ArrayLike,
-    XYZ_wd: ArrayLike,
+    XYZ_s: Annotated[ArrayLike, 100],
+    XYZ_ws: Annotated[ArrayLike, 100],
+    XYZ_wd: Annotated[ArrayLike, 100],
     L_A: ArrayLike,
     F_surround: ArrayLike,
     discount_illuminant: bool = False,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Adapt the specified stimulus *CIE XYZ* tristimulus values from test
     viewing conditions to reference viewing conditions using the
@@ -90,17 +90,17 @@ def chromatic_adaptation_Li2025(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_s``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_s``  | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_ws`` | [0, 100]              | [0, 1]        |
+    | ``XYZ_ws`` | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_wd`` | [0, 100]              | [0, 1]        |
+    | ``XYZ_wd`` | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_a``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_a``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
