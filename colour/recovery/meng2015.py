@@ -33,6 +33,7 @@ from colour.colorimetry import (
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import from_range_100, to_domain_1
 
 __author__ = "Colour Developers"
@@ -55,7 +56,7 @@ of 5.
 
 
 def XYZ_to_sd_Meng2015(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 1],
     cmfs: MultiSpectralDistributions | None = None,
     illuminant: SpectralDistribution | None = None,
     optimisation_kwargs: dict | None = None,
@@ -96,7 +97,7 @@ def XYZ_to_sd_Meng2015(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    | ``XYZ``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     -   The definition used to convert spectrum to *CIE XYZ* tristimulus

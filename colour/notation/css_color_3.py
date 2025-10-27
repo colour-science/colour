@@ -20,6 +20,7 @@ import typing
 if typing.TYPE_CHECKING:
     from colour.hints import NDArrayFloat
 
+from colour.hints import Annotated, NDArrayFloat  # noqa: TC001
 from colour.notation import CSS_COLOR_3, HEX_to_RGB
 from colour.utilities import attest
 
@@ -35,7 +36,7 @@ __all__ = [
 ]
 
 
-def keyword_to_RGB_CSSColor3(keyword: str) -> NDArrayFloat:
+def keyword_to_RGB_CSSColor3(keyword: str) -> Annotated[NDArrayFloat, 1]:
     """
     Convert specified colour keyword to *RGB* colourspace according to
     *CSS Color Module Level 3* *W3C Recommendation*.
@@ -52,6 +53,12 @@ def keyword_to_RGB_CSSColor3(keyword: str) -> NDArrayFloat:
 
     Notes
     -----
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
     -   All the RGB colors are specified in the *IEC 61966-2-1:1999*
         *sRGB* colourspace.
 

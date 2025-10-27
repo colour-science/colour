@@ -46,7 +46,7 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.hints import NDArrayFloat, cast
+from colour.hints import Annotated, NDArrayFloat, cast
 from colour.models import XYZ_to_xy
 from colour.recovery import (
     BASIS_FUNCTIONS_OTSU2018,
@@ -434,7 +434,7 @@ Builtin *Otsu et al. (2018)* dataset as a
 
 
 def XYZ_to_sd_Otsu2018(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 1],
     cmfs: MultiSpectralDistributions | None = None,
     illuminant: SpectralDistribution | None = None,
     dataset: Dataset_Otsu2018 = DATASET_REFERENCE_OTSU2018,
@@ -479,6 +479,14 @@ def XYZ_to_sd_Otsu2018(
     References
     ----------
     :cite:`Otsu2018`
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
     Examples
     --------

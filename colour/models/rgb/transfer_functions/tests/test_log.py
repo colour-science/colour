@@ -13,7 +13,7 @@ from colour.models.rgb.transfer_functions import (
     logarithmic_function_camera,
     logarithmic_function_quasilog,
 )
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -552,24 +552,6 @@ log_encoding_Log2` definition n-dimensional arrays support.
             log_encoding_Log2(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_Log2(self) -> None:
-        """
-        Test :func:`colour.models.rgb.transfer_functions.log.\
-log_encoding_Log2` definition domain and range scale support.
-        """
-
-        x = 0.18
-        y = log_encoding_Log2(x)
-
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
-        for scale, factor in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    log_encoding_Log2(x * factor),
-                    y * factor,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
-
     @ignore_numpy_errors
     def test_nan_log_encoding_Log2(self) -> None:
         """
@@ -652,24 +634,6 @@ log_decoding_Log2` definition n-dimensional arrays support.
         np.testing.assert_allclose(
             log_decoding_Log2(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
-
-    def test_domain_range_scale_log_decoding_Log2(self) -> None:
-        """
-        Test :func:`colour.models.rgb.transfer_functions.log.\
-log_decoding_Log2` definition domain and range scale support.
-        """
-
-        y = 0.5
-        x = log_decoding_Log2(y)
-
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
-        for scale, factor in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    log_decoding_Log2(y * factor),
-                    x * factor,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
 
     @ignore_numpy_errors
     def test_nan_log_decoding_Log2(self) -> None:

@@ -30,6 +30,8 @@ import numpy as np
 from colour.algebra import vecmul
 
 if typing.TYPE_CHECKING:
+    from typing import Annotated
+
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
 from colour.models.rgb.transfer_functions import eotf_inverse_ST2084, eotf_ST2084
@@ -169,7 +171,7 @@ def XYZ_to_Izazbz(
     XYZ_D65: ArrayLike,
     constants: Structure | None = None,
     method: (Literal["Safdar 2017", "Safdar 2021", "ZCAM"] | str) = "Safdar 2017",
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *CIE XYZ* tristimulus values to :math:`I_za_zb_z`
     colourspace.
@@ -214,11 +216,7 @@ def XYZ_to_Izazbz(
     +------------+-----------------------+------------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``Izazbz`` | ``Iz`` : [0, 1]       | ``Iz`` : [0, 1]  |
-    |            |                       |                  |
-    |            | ``az`` : [-1, 1]      | ``az`` : [-1, 1] |
-    |            |                       |                  |
-    |            | ``bz`` : [-1, 1]      | ``bz`` : [-1, 1] |
+    | ``Izazbz`` | 1                     | 1                |
     +------------+-----------------------+------------------+
 
     References
@@ -265,7 +263,7 @@ def XYZ_to_Izazbz(
 
 
 def Izazbz_to_XYZ(
-    Izazbz: ArrayLike,
+    Izazbz: Annotated[ArrayLike, 1],
     constants: Structure | None = None,
     method: (Literal["Safdar 2017", "Safdar 2021", "ZCAM"] | str) = "Safdar 2017",
 ) -> NDArrayFloat:
@@ -307,11 +305,7 @@ def Izazbz_to_XYZ(
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``Izazbz`` | ``Iz`` : [0, 1]       | ``Iz`` : [0, 1]  |
-    |            |                       |                  |
-    |            | ``az`` : [-1, 1]      | ``az`` : [-1, 1] |
-    |            |                       |                  |
-    |            | ``bz`` : [-1, 1]      | ``bz`` : [-1, 1] |
+    | ``Izazbz`` | 1                     | 1                |
     +------------+-----------------------+------------------+
 
     +------------+-----------------------+------------------+
@@ -363,7 +357,7 @@ def Izazbz_to_XYZ(
 
 def XYZ_to_Jzazbz(
     XYZ_D65: ArrayLike, constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
         Convert from *CIE XYZ* tristimulus values to :math:`J_za_zb_z`
         colourspace.
@@ -408,11 +402,7 @@ def XYZ_to_Jzazbz(
         +------------+-----------------------+------------------+
         | **Range**  | **Scale - Reference** | **Scale - 1**    |
         +============+=======================+==================+
-        | ``Jzazbz`` | ``Jz`` : [0, 1]       | ``Jz`` : [0, 1]  |
-        |            |                       |                  |
-        |            | ``az`` : [-1, 1]      | ``az`` : [-1, 1] |
-        |            |                       |                  |
-        |            | ``bz`` : [-1, 1]      | ``bz`` : [-1, 1] |
+        | ``Jzazbz`` | 1                     | 1                |
         +------------+-----------------------+------------------+
 
     References
@@ -439,7 +429,7 @@ def XYZ_to_Jzazbz(
 
 
 def Jzazbz_to_XYZ(
-    Jzazbz: ArrayLike, constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
+    Jzazbz: Annotated[ArrayLike, 1], constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
 ) -> NDArrayFloat:
     """
     Convert from :math:`J_za_zb_z` colourspace to *CIE XYZ* tristimulus
@@ -477,11 +467,7 @@ def Jzazbz_to_XYZ(
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``Jzazbz`` | ``Jz`` : [0, 1]       | ``Jz`` : [0, 1]  |
-    |            |                       |                  |
-    |            | ``az`` : [-1, 1]      | ``az`` : [-1, 1] |
-    |            |                       |                  |
-    |            | ``bz`` : [-1, 1]      | ``bz`` : [-1, 1] |
+    | ``Jzazbz`` | 1                     | 1                |
     +------------+-----------------------+------------------+
 
     +------------+-----------------------+------------------+

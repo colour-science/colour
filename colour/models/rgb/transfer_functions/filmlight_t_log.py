@@ -22,6 +22,7 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -38,11 +39,11 @@ __all__ = [
 
 
 def log_encoding_FilmLightTLog(
-    x: ArrayLike,
+    x: Annotated[ArrayLike, 1],
     w: float = 128.0,
     g: float = 16.0,
     o: float = 0.075,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *FilmLight T-Log* log encoding opto-electronic transfer function (OETF).
 
@@ -71,13 +72,13 @@ def log_encoding_FilmLightTLog(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``t``      | [0, 1]                | [0, 1]        |
+    | ``t``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     -   The following is an excerpt from the FilmLight colour space file
@@ -132,11 +133,11 @@ def log_encoding_FilmLightTLog(
 
 
 def log_decoding_FilmLightTLog(
-    t: ArrayLike,
+    t: Annotated[ArrayLike, 1],
     w: float = 128.0,
     g: float = 16.0,
     o: float = 0.075,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *FilmLight T-Log* log decoding inverse opto-electronic transfer
 
@@ -167,13 +168,13 @@ def log_decoding_FilmLightTLog(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``t``      | [0, 1]                | [0, 1]        |
+    | ``t``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     -   The following is an excerpt from the FilmLight colour space file

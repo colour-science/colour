@@ -28,6 +28,7 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     CanonicalMapping,
     Structure,
@@ -558,13 +559,13 @@ exposure factor for *SUP 3.x* and signal and normalised sensor signal for
 
 
 def log_encoding_ARRILogC3(
-    x: ArrayLike,
+    x: Annotated[ArrayLike, 1],
     firmware: Literal["SUP 2.x", "SUP 3.x"] | str = "SUP 3.x",
     method: (
         Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"] | str
     ) = "Linear Scene Exposure Factor",
     EI: Literal[160, 200, 250, 320, 400, 500, 640, 800, 1000, 1280, 1600] = 800,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *ARRI LogC3* log encoding opto-electronic transfer function (OETF).
 
@@ -593,13 +594,13 @@ def log_encoding_ARRILogC3(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``t``      | [0, 1]                | [0, 1]        |
+    | ``t``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples
@@ -624,13 +625,13 @@ def log_encoding_ARRILogC3(
 
 
 def log_decoding_ARRILogC3(
-    t: ArrayLike,
+    t: Annotated[ArrayLike, 1],
     firmware: Literal["SUP 2.x", "SUP 3.x"] | str = "SUP 3.x",
     method: (
         Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"] | str
     ) = "Linear Scene Exposure Factor",
     EI: Literal[160, 200, 250, 320, 400, 500, 640, 800, 1000, 1280, 1600] = 800,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *ARRI LogC3* log decoding inverse opto-electronic transfer
     function (OETF).
@@ -656,13 +657,13 @@ def log_decoding_ARRILogC3(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``t``      | [0, 1]                | [0, 1]        |
+    | ``t``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -707,9 +708,9 @@ del _a, _b, _c
 
 
 def log_encoding_ARRILogC4(
-    E_scene: ArrayLike,
+    E_scene: Annotated[ArrayLike, 1],
     constants: Structure | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *ARRI LogC4* log encoding opto-electronic transfer function (OETF).
 
@@ -734,13 +735,13 @@ def log_encoding_ARRILogC4(
     +-------------+-----------------------+---------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``E_scene`` | [0, 1]                | [0, 1]        |
+    | ``E_scene`` | 1                     | 1             |
     +-------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E_p``    | [0, 1]                | [0, 1]        |
+    | ``E_p``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples
@@ -768,9 +769,9 @@ def log_encoding_ARRILogC4(
 
 
 def log_decoding_ARRILogC4(
-    E_p: ArrayLike,
+    E_p: Annotated[ArrayLike, 1],
     constants: Structure | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *ARRI LogC4* log decoding inverse opto-electronic transfer
     function (OETF).
@@ -792,13 +793,13 @@ def log_decoding_ARRILogC4(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E_p``    | [0, 1]                | [0, 1]        |
+    | ``E_p``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +-------------+-----------------------+---------------+
     | **Range**   | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``E_scene`` | [0, 1]                | [0, 1]        |
+    | ``E_scene`` | 1                     | 1             |
     +-------------+-----------------------+---------------+
 
     References

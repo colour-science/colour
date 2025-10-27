@@ -25,6 +25,7 @@ from colour.algebra import sdiv, sdiv_mode
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
@@ -40,7 +41,7 @@ __all__ = [
 ]
 
 
-def RGB_to_Prismatic(RGB: ArrayLike) -> NDArrayFloat:
+def RGB_to_Prismatic(RGB: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *RGB* colourspace to *Prismatic* :math:`L\\rho\\gamma\\beta`
     colourspace array.
@@ -60,13 +61,13 @@ def RGB_to_Prismatic(RGB: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Lrgb``   | [0, 1]                | [0, 1]        |
+    | ``Lrgb``   | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -102,7 +103,7 @@ def RGB_to_Prismatic(RGB: ArrayLike) -> NDArrayFloat:
     return from_range_1(Lrgb)
 
 
-def Prismatic_to_RGB(Lrgb: ArrayLike) -> NDArrayFloat:
+def Prismatic_to_RGB(Lrgb: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array to
     *RGB* colourspace.
@@ -122,13 +123,13 @@ def Prismatic_to_RGB(Lrgb: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Lrgb``   | [0, 1]                | [0, 1]        |
+    | ``Lrgb``   | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

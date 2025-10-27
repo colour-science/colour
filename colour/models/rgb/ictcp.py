@@ -42,6 +42,7 @@ if typing.TYPE_CHECKING:
         NDArrayFloat,
     )
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 from colour.models.rgb.transfer_functions import (
     eotf_inverse_ST2084,
@@ -147,7 +148,7 @@ def RGB_to_ICtCp(
         | str
     ) = "Dolby 2016",
     L_p: float = 10000,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *ITU-R BT.2020* colourspace to :math:`IC_TC_P` colour
     encoding.
@@ -217,11 +218,7 @@ def RGB_to_ICtCp(
     +------------+-----------------------+------------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``ICtCp``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
-    |            |                       |                  |
-    |            | ``CT`` : [-1, 1]      | ``CT`` : [-1, 1] |
-    |            |                       |                  |
-    |            | ``CP`` : [-1, 1]      | ``CP`` : [-1, 1] |
+    | ``ICtCp``  | 1                     | 1                |
     +------------+-----------------------+------------------+
 
     References
@@ -265,7 +262,7 @@ def RGB_to_ICtCp(
 
 
 def ICtCp_to_RGB(
-    ICtCp: ArrayLike,
+    ICtCp: Annotated[ArrayLike, 1],
     method: (
         Literal[
             "Dolby 2016",
@@ -341,11 +338,7 @@ def ICtCp_to_RGB(
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``ICtCp``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
-    |            |                       |                  |
-    |            | ``CT`` : [-1, 1]      | ``CT`` : [-1, 1] |
-    |            |                       |                  |
-    |            | ``CP`` : [-1, 1]      | ``CP`` : [-1, 1] |
+    | ``ICtCp``  | 1                     | 1                |
     +------------+-----------------------+------------------+
 
     +------------+-----------------------+------------------+
@@ -416,7 +409,7 @@ def XYZ_to_ICtCp(
         | str
     ) = "Dolby 2016",
     L_p: float = 10000,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *CIE XYZ* tristimulus values to :math:`IC_TC_P` colour
     encoding.
@@ -492,11 +485,7 @@ def XYZ_to_ICtCp(
     +------------+-----------------------+------------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``ICtCp``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
-    |            |                       |                  |
-    |            | ``CT`` : [-1, 1]      | ``CT`` : [-1, 1] |
-    |            |                       |                  |
-    |            | ``CP`` : [-1, 1]      | ``CP`` : [-1, 1] |
+    | ``ICtCp``  | 1                     | 1                |
     +------------+-----------------------+------------------+
 
     References
@@ -523,7 +512,7 @@ def XYZ_to_ICtCp(
 
 
 def ICtCp_to_XYZ(
-    ICtCp: ArrayLike,
+    ICtCp: Annotated[ArrayLike, 1],
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
@@ -609,11 +598,7 @@ def ICtCp_to_XYZ(
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``ICtCp``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
-    |            |                       |                  |
-    |            | ``CT`` : [-1, 1]      | ``CT`` : [-1, 1] |
-    |            |                       |                  |
-    |            | ``CP`` : [-1, 1]      | ``CP`` : [-1, 1] |
+    | ``ICtCp``  | 1                     | 1                |
     +------------+-----------------------+------------------+
 
     +------------+-----------------------+------------------+

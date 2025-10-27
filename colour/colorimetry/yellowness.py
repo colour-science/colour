@@ -37,6 +37,7 @@ from colour.algebra import sdiv, sdiv_mode
 if typing.TYPE_CHECKING:
     from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -64,7 +65,9 @@ __all__ = [
 ]
 
 
-def yellowness_ASTMD1925(XYZ: ArrayLike) -> NDArrayFloat:
+def yellowness_ASTMD1925(
+    XYZ: Annotated[ArrayLike, 100],
+) -> Annotated[NDArrayFloat, 100]:
     """
     Compute the *yellowness* index :math:`YI` of the specified sample *CIE XYZ*
     tristimulus values using the *ASTM D1925* method.
@@ -90,13 +93,13 @@ def yellowness_ASTMD1925(XYZ: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    | ``XYZ``    | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``YI``     | [0, 100]              | [0, 1]        |
+    | ``YI``     | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     -   Input *CIE XYZ* tristimulus values must be adapted to
@@ -121,7 +124,9 @@ def yellowness_ASTMD1925(XYZ: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_100(YI))
 
 
-def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> NDArrayFloat:
+def yellowness_ASTME313_alternative(
+    XYZ: Annotated[ArrayLike, 100],
+) -> Annotated[NDArrayFloat, 100]:
     """
     Compute the *yellowness* index :math:`YI` of the specified sample *CIE XYZ*
     tristimulus values using the alternative *ASTM E313* method.
@@ -150,13 +155,13 @@ def yellowness_ASTME313_alternative(XYZ: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    | ``XYZ``    | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``YI``     | [0, 100]              | [0, 1]        |
+    | ``YI``     | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     -   Input *CIE XYZ* tristimulus values must be adapted to
@@ -219,11 +224,11 @@ YELLOWNESS_COEFFICIENTS_ASTME313["cie_10_1964"] = YELLOWNESS_COEFFICIENTS_ASTME3
 
 
 def yellowness_ASTME313(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 100],
     C_XZ: ArrayLike = YELLOWNESS_COEFFICIENTS_ASTME313[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Compute the *yellowness* index :math:`YI` of the specified sample *CIE XYZ*
     tristimulus values using the *ASTM E313* method.
@@ -251,13 +256,13 @@ def yellowness_ASTME313(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    | ``XYZ``    | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``YI``     | [0, 100]              | [0, 1]        |
+    | ``YI``     | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -297,12 +302,12 @@ References
 
 
 def yellowness(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 100],
     method: (
         Literal["ASTM D1925", "ASTM E313", "ASTM E313 Alternative"] | str
     ) = "ASTM E313",
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Compute the *yellowness* index :math:`YI` using the specified method.
 
@@ -332,13 +337,13 @@ def yellowness(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    | ``XYZ``    | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``YI``     | [0, 100]              | [0, 1]        |
+    | ``YI``     | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References

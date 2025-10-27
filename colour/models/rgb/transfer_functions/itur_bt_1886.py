@@ -29,6 +29,7 @@ from colour.algebra import spow
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -44,7 +45,9 @@ __all__ = [
 ]
 
 
-def eotf_inverse_BT1886(L: ArrayLike, L_B: float = 0, L_W: float = 1) -> NDArrayFloat:
+def eotf_inverse_BT1886(
+    L: Annotated[ArrayLike, 1], L_B: float = 0, L_W: float = 1
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Recommendation ITU-R BT.1886* inverse electro-optical
     transfer function (EOTF) for flat panel displays.
@@ -72,13 +75,13 @@ def eotf_inverse_BT1886(L: ArrayLike, L_B: float = 0, L_W: float = 1) -> NDArray
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``L``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
+    | ``V``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -105,7 +108,9 @@ def eotf_inverse_BT1886(L: ArrayLike, L_B: float = 0, L_W: float = 1) -> NDArray
     return as_float(from_range_1(V))
 
 
-def eotf_BT1886(V: ArrayLike, L_B: float = 0, L_W: float = 1) -> NDArrayFloat:
+def eotf_BT1886(
+    V: Annotated[ArrayLike, 1], L_B: float = 0, L_W: float = 1
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Recommendation ITU-R BT.1886* electro-optical transfer
     function (EOTF) for flat panel displays.
@@ -133,13 +138,13 @@ def eotf_BT1886(V: ArrayLike, L_B: float = 0, L_W: float = 1) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
+    | ``V``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``L``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

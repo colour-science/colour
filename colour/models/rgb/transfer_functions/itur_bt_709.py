@@ -25,6 +25,7 @@ import typing
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models.rgb.transfer_functions import oetf_BT601, oetf_inverse_BT601
 
 __author__ = "Colour Developers"
@@ -40,7 +41,7 @@ __all__ = [
 ]
 
 
-def oetf_BT709(L: ArrayLike) -> NDArrayFloat:
+def oetf_BT709(L: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Recommendation ITU-R BT.709-6* opto-electronic transfer
     function (OETF).
@@ -60,13 +61,13 @@ def oetf_BT709(L: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``L``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
+    | ``V``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -82,7 +83,7 @@ def oetf_BT709(L: ArrayLike) -> NDArrayFloat:
     return oetf_BT601(L)
 
 
-def oetf_inverse_BT709(V: ArrayLike) -> NDArrayFloat:
+def oetf_inverse_BT709(V: ArrayLike) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Recommendation ITU-R BT.709-6* inverse opto-electronic
     transfer function (OETF).
@@ -102,13 +103,13 @@ def oetf_inverse_BT709(V: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
+    | ``V``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``L``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

@@ -20,6 +20,7 @@ from colour.colorimetry import CCS_ILLUMINANTS, SpectralDistribution
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models import RGB_Colourspace, RGB_COLOURSPACE_sRGB, XYZ_to_RGB
 from colour.recovery import SDS_SMITS1999
 from colour.utilities import to_domain_1
@@ -66,7 +67,7 @@ References
 """
 
 
-def XYZ_to_RGB_Smits1999(XYZ: ArrayLike) -> NDArrayFloat:
+def XYZ_to_RGB_Smits1999(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *CIE XYZ* tristimulus values to *RGB* colourspace using
     the conditions required by the current *Smits (1999)* method
@@ -82,6 +83,20 @@ def XYZ_to_RGB_Smits1999(XYZ: ArrayLike) -> NDArrayFloat:
     :class:`numpy.ndarray`
         *RGB* colour array.
 
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
     Examples
     --------
     >>> import numpy as np
@@ -93,7 +108,7 @@ def XYZ_to_RGB_Smits1999(XYZ: ArrayLike) -> NDArrayFloat:
     return XYZ_to_RGB(XYZ, RGB_COLOURSPACE_SMITS1999)
 
 
-def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
+def RGB_to_sd_Smits1999(RGB: Annotated[ArrayLike, 1]) -> SpectralDistribution:
     """
     Recover the spectral distribution of the specified *RGB* colourspace array
     using the *Smits (1999)* method.
@@ -113,7 +128,7 @@ def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

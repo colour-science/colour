@@ -26,6 +26,7 @@ from colour.algebra import spow
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models import Iab_to_XYZ, XYZ_to_Iab
 from colour.utilities import as_float, from_range_degrees, to_domain_1, tsplit
 
@@ -71,7 +72,7 @@ MATRIX_IPT_IPT_TO_LMS_P: NDArrayFloat = np.linalg.inv(MATRIX_IPT_LMS_P_TO_IPT)
 """*IPT* colourspace to normalised non-linear cone responses matrix."""
 
 
-def XYZ_to_IPT(XYZ: ArrayLike) -> NDArrayFloat:
+def XYZ_to_IPT(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *CIE XYZ* tristimulus values to *IPT* colourspace.
 
@@ -90,17 +91,13 @@ def XYZ_to_IPT(XYZ: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``IPT``    | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``P`` : [-1, 1]       | ``P`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``T`` : [-1, 1]       | ``T`` : [-1, 1] |
+    | ``IPT``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     -   Input *CIE XYZ* tristimulus values must be adapted to
@@ -125,7 +122,7 @@ def XYZ_to_IPT(XYZ: ArrayLike) -> NDArrayFloat:
     )
 
 
-def IPT_to_XYZ(IPT: ArrayLike) -> NDArrayFloat:
+def IPT_to_XYZ(IPT: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *IPT* colourspace to *CIE XYZ* tristimulus values.
 
@@ -144,17 +141,13 @@ def IPT_to_XYZ(IPT: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``IPT``    | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``P`` : [-1, 1]       | ``P`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``T`` : [-1, 1]       | ``T`` : [-1, 1] |
+    | ``IPT``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     -   Output *CIE XYZ* tristimulus values are adapted to
@@ -179,7 +172,7 @@ def IPT_to_XYZ(IPT: ArrayLike) -> NDArrayFloat:
     )
 
 
-def IPT_hue_angle(IPT: ArrayLike) -> NDArrayFloat:
+def IPT_hue_angle(IPT: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 360]:
     """
     Compute the hue angle in degrees from the *IPT* colourspace array.
 
@@ -198,17 +191,13 @@ def IPT_hue_angle(IPT: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``IPT``    | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``P`` : [-1, 1]       | ``P`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``T`` : [-1, 1]       | ``T`` : [-1, 1] |
+    | ``IPT``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``hue``    | [0, 360]              | [0, 1]          |
+    | ``hue``    | 360                   | 1               |
     +------------+-----------------------+-----------------+
 
     References

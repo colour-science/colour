@@ -24,6 +24,7 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import as_float, as_float_array, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -40,9 +41,9 @@ __all__ = [
 
 
 def log_encoding_Cineon(
-    x: ArrayLike,
+    x: Annotated[ArrayLike, 1],
     black_offset: ArrayLike = 10 ** ((95 - 685) / 300),
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Cineon* log encoding opto-electronic transfer function (OETF).
 
@@ -63,13 +64,13 @@ def log_encoding_Cineon(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -91,9 +92,9 @@ def log_encoding_Cineon(
 
 
 def log_decoding_Cineon(
-    y: ArrayLike,
+    y: Annotated[ArrayLike, 1],
     black_offset: ArrayLike = 10 ** ((95 - 685) / 300),
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Cineon* log decoding inverse opto-electronic transfer function (OETF).
 
@@ -114,13 +115,13 @@ def log_decoding_Cineon(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

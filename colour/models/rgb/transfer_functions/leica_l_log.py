@@ -25,6 +25,7 @@ from colour.algebra import spow
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
@@ -55,12 +56,12 @@ CONSTANTS_LLOG: Structure = Structure(
 
 
 def log_encoding_LLog(
-    LSR: ArrayLike,
+    LSR: Annotated[ArrayLike, 1],
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
     constants: Structure | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Leica L-Log* log encoding opto-electronic transfer function (OETF).
 
@@ -88,13 +89,13 @@ def log_encoding_LLog(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``LSR``    | [0, 1]                | [0, 1]        |
+    | ``LSR``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``LLog``   | [0, 1]                | [0, 1]        |
+    | ``LLog``   | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -133,12 +134,12 @@ def log_encoding_LLog(
 
 
 def log_decoding_LLog(
-    LLog: ArrayLike,
+    LLog: Annotated[ArrayLike, 1],
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
     constants: Structure | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Leica L-Log* log decoding inverse opto-electronic transfer
     function (OETF).
@@ -167,13 +168,13 @@ def log_decoding_LLog(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``LLog``   | [0, 1]                | [0, 1]        |
+    | ``LLog``   | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``LSR``    | [0, 1]                | [0, 1]        |
+    | ``LSR``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

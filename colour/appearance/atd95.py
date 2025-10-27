@@ -36,6 +36,7 @@ from colour.algebra import spow, vecmul
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     MixinDataclassArithmetic,
     as_float,
@@ -171,13 +172,13 @@ class CAM_Specification_ATD95(MixinDataclassArithmetic):
 
 
 def XYZ_to_ATD95(
-    XYZ: ArrayLike,
-    XYZ_0: ArrayLike,
+    XYZ: Annotated[ArrayLike, 100],
+    XYZ_0: Annotated[ArrayLike, 100],
     Y_0: ArrayLike,
     k_1: ArrayLike,
     k_2: ArrayLike,
     sigma: ArrayLike = 300,
-) -> CAM_Specification_ATD95:
+) -> Annotated[CAM_Specification_ATD95, 360]:
     """
     Compute the *ATD (1995)* colour vision model correlates from the specified
     *CIE XYZ* tristimulus values.
@@ -204,19 +205,19 @@ def XYZ_to_ATD95(
 
     Notes
     -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
-    | ``XYZ_0``  | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``XYZ``             | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``XYZ_0``           | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
 
-    +-------------------------------+-----------------------+---------------+
-    | **Range**                     | **Scale - Reference** | **Scale - 1** |
-    +===============================+=======================+===============+
-    | ``CAM_Specification_ATD95.h`` | [0, 360]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``specification.h`` | 360                   | 1             |
+    +---------------------+-----------------------+---------------+
 
     -   For unrelated colours, there is only self-adaptation and :math:`k_1`
         is set to 1.0 while :math:`k_2` is set to 0.0. For related colours

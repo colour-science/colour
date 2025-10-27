@@ -28,6 +28,7 @@ from colour.algebra import cartesian_to_polar, polar_to_cartesian, vecmul
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Callable, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     CanonicalMapping,
     attest,
@@ -194,7 +195,7 @@ COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: CanonicalMapping = (
 """Colourspace models domain-range scale **'1'** to **'Reference'** mapping."""
 
 
-def Jab_to_JCh(Jab: ArrayLike) -> NDArrayFloat:
+def Jab_to_JCh(Jab: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, (1, 1, 360)]:
     """
     Convert from *Jab* colour representation to *JCh* colour representation.
 
@@ -219,21 +220,17 @@ def Jab_to_JCh(Jab: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Jab``    | ``J`` : [0, 100]      | ``J`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    | ``Jab``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``JCh``    | ``J``  : [0, 100]     | ``J`` : [0, 1]  |
+    | ``JCh``    | ``J``  : 1            | ``J`` : 1       |
     |            |                       |                 |
-    |            | ``C``  : [0, 100]     | ``C`` : [0, 1]  |
+    |            | ``C``  : 1            | ``C`` : 1       |
     |            |                       |                 |
-    |            | ``h`` : [0, 360]      | ``h`` : [0, 1]  |
+    |            | ``h`` : 360           | ``h`` : 1       |
     +------------+-----------------------+-----------------+
 
     References
@@ -254,7 +251,9 @@ def Jab_to_JCh(Jab: ArrayLike) -> NDArrayFloat:
     return tstack([L, C, from_range_degrees(np.degrees(h) % 360)])
 
 
-def JCh_to_Jab(JCh: ArrayLike) -> NDArrayFloat:
+def JCh_to_Jab(
+    JCh: Annotated[ArrayLike, (1, 1, 360)],
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *JCh* colour representation to *Jab* colour representation.
 
@@ -279,21 +278,17 @@ def JCh_to_Jab(JCh: ArrayLike) -> NDArrayFloat:
     +-------------+-----------------------+-----------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1**   |
     +=============+=======================+=================+
-    | ``JCh``     | ``J``  : [0, 100]     | ``J``  : [0, 1] |
+    | ``JCh``     | ``J``  : 1            | ``J``  : 1      |
     |             |                       |                 |
-    |             | ``C``  : [0, 100]     | ``C``  : [0, 1] |
+    |             | ``C``  : 1            | ``C``  : 1      |
     |             |                       |                 |
-    |             | ``h`` : [0, 360]      | ``h`` : [0, 1]  |
+    |             | ``h`` : 360           | ``h`` : 1       |
     +-------------+-----------------------+-----------------+
 
     +-------------+-----------------------+-----------------+
     | **Range**   | **Scale - Reference** | **Scale - 1**   |
     +=============+=======================+=================+
-    | ``Jab``     | ``J`` : [0, 100]      | ``J`` : [0, 1]  |
-    |             |                       |                 |
-    |             | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
-    |             |                       |                 |
-    |             | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    | ``Jab``     | 1                     | 1               |
     +-------------+-----------------------+-----------------+
 
     References
@@ -315,11 +310,11 @@ def JCh_to_Jab(JCh: ArrayLike) -> NDArrayFloat:
 
 
 def XYZ_to_Iab(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 1],
     LMS_to_LMS_p_callable: Callable,
     matrix_XYZ_to_LMS: ArrayLike,
     matrix_LMS_p_to_Iab: ArrayLike,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *CIE XYZ* tristimulus values to *IPT*-like :math:`Iab`
     colour representation.
@@ -355,17 +350,13 @@ def XYZ_to_Iab(
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Iab``    | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``a`` : [-1, 1]       | ``a`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``b`` : [-1, 1]       | ``b`` : [-1, 1] |
+    | ``Iab``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     Examples
@@ -401,11 +392,11 @@ def XYZ_to_Iab(
 
 
 def Iab_to_XYZ(
-    Iab: ArrayLike,
+    Iab: Annotated[ArrayLike, 1],
     LMS_p_to_LMS_callable: Callable,
     matrix_Iab_to_LMS_p: ArrayLike,
     matrix_LMS_to_XYZ: ArrayLike,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *IPT*-like :math:`Iab` colour representation to *CIE XYZ*
     tristimulus values.
@@ -441,17 +432,13 @@ def Iab_to_XYZ(
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Iab``    | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``a`` : [-1, 1]       | ``a`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``b`` : [-1, 1]       | ``b`` : [-1, 1] |
+    | ``Iab``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     Examples

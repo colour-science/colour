@@ -37,7 +37,7 @@ from colour.algebra import spow, vecmul
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike
 
-from colour.hints import NDArrayFloat, cast
+from colour.hints import Annotated, NDArrayFloat, cast
 from colour.models import XYZ_to_xy
 from colour.utilities import (
     MixinDataclassArithmetic,
@@ -188,13 +188,13 @@ class CAM_Specification_Nayatani95(MixinDataclassArithmetic):
 
 
 def XYZ_to_Nayatani95(
-    XYZ: ArrayLike,
-    XYZ_n: ArrayLike,
+    XYZ: Annotated[ArrayLike, 100],
+    XYZ_n: Annotated[ArrayLike, 100],
     Y_o: ArrayLike,
     E_o: ArrayLike,
     E_or: ArrayLike,
     n: ArrayLike = 1,
-) -> CAM_Specification_Nayatani95:
+) -> Annotated[CAM_Specification_Nayatani95, 360]:
     """
     Compute the *Nayatani (1995)* colour appearance model correlates from the
     specified *CIE XYZ* tristimulus values.
@@ -224,24 +224,19 @@ def XYZ_to_Nayatani95(
 
     Notes
     -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
-    | ``XYZ_n``  | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``XYZ``             | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``XYZ_n``           | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
 
-    +------------------------------------+-----------------------\
-+---------------+
-    | **Range**                          | **Scale - Reference** \
-| **Scale - 1** |
-    +====================================+=======================\
-+===============+
-    | ``CAM_Specification_Nayatani95.h`` | [0, 360]              \
-| [0, 1]        |
-    +------------------------------------+-----------------------\
-+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``specification.h`` | 360                   | 1             |
+    +---------------------+-----------------------+---------------+
 
     References
     ----------

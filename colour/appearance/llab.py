@@ -38,6 +38,7 @@ from colour.algebra import polar_to_cartesian, sdiv, sdiv_mode, spow, vecmul
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
@@ -267,14 +268,14 @@ class CAM_Specification_LLAB(MixinDataclassArithmetic):
 
 
 def XYZ_to_LLAB(
-    XYZ: ArrayLike,
-    XYZ_0: ArrayLike,
+    XYZ: Annotated[ArrayLike, 100],
+    XYZ_0: Annotated[ArrayLike, 100],
     Y_b: ArrayLike,
     L: ArrayLike,
     surround: InductionFactors_LLAB = VIEWING_CONDITIONS_LLAB[
         "Reference Samples & Images, Average Surround, Subtending < 4"
     ],
-) -> CAM_Specification_LLAB:
+) -> Annotated[CAM_Specification_LLAB, 360]:
     """
     Compute the *:math:`LLAB(l:c)`* colour appearance model correlates from
     the specified *CIE XYZ* tristimulus values.
@@ -300,19 +301,19 @@ def XYZ_to_LLAB(
 
     Notes
     -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
-    | ``XYZ_0``  | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``XYZ``             | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``XYZ_0``           | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
 
-    +------------------------------+-----------------------+---------------+
-    | **Range**                    | **Scale - Reference** | **Scale - 1** |
-    +==============================+=======================+===============+
-    | ``CAM_Specification_LLAB.h`` | [0, 360]              | [0, 1]        |
-    +------------------------------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``specification.h`` | 360                   | 1             |
+    +---------------------+-----------------------+---------------+
 
     References
     ----------

@@ -672,23 +672,6 @@ class TestLuminanceAbebe2017:
             luminance_Abebe2017(L), Y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_luminance_Abebe2017(self) -> None:
-        """
-        Test :func:`colour.colorimetry.luminance.luminance_Abebe2017`
-        definition domain and range scale support.
-        """
-
-        L = luminance_Abebe2017(0.486955571109229)
-
-        d_r = (("reference", 1), ("1", 1), ("100", 1))
-        for scale, factor in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    luminance_Abebe2017(0.486955571109229 * factor, 100 * factor),
-                    L * factor,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
-
     @ignore_numpy_errors
     def test_nan_luminance_Abebe2017(self) -> None:
         """

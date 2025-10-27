@@ -20,6 +20,7 @@ import typing
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import Structure, optional
 
 from .apple_log_profile import (
@@ -52,9 +53,9 @@ CONSTANTS_MI_LOG: Structure = Structure(
 
 
 def log_encoding_MiLog(
-    R: ArrayLike,
+    R: Annotated[ArrayLike, 1],
     constants: Structure | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Xiaomi Mi-Log Profile* log encoding opto-electronic transfer
     function (OETF).
@@ -85,13 +86,13 @@ def log_encoding_MiLog(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``R``      | [0, 1]                | [0, 1]        |
+    | ``R``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``P``      | [0, 1]                | [0, 1]        |
+    | ``P``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples
@@ -104,9 +105,9 @@ def log_encoding_MiLog(
 
 
 def log_decoding_MiLog(
-    P: ArrayLike,
+    P: Annotated[ArrayLike, 1],
     constants: Structure | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Xiaomi Mi-Log Profile* log decoding inverse opto-electronic transfer
     function (OETF).
@@ -135,13 +136,13 @@ def log_decoding_MiLog(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``P``      | [0, 1]                | [0, 1]        |
+    | ``P``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``R``      | [0, 1]                | [0, 1]        |
+    | ``R``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples

@@ -30,7 +30,7 @@ from colour.algebra import spow, vecmul
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike
 
-from colour.hints import NDArrayFloat, cast
+from colour.hints import Annotated, NDArrayFloat, cast
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
@@ -272,20 +272,20 @@ class CAM_Specification_Hunt(MixinDataclassArithmetic):
 
 
 def XYZ_to_Hunt(
-    XYZ: ArrayLike,
-    XYZ_w: ArrayLike,
-    XYZ_b: ArrayLike,
+    XYZ: Annotated[ArrayLike, 100],
+    XYZ_w: Annotated[ArrayLike, 100],
+    XYZ_b: Annotated[ArrayLike, 100],
     L_A: ArrayLike,
     surround: InductionFactors_Hunt = VIEWING_CONDITIONS_HUNT["Normal Scenes"],
     L_AS: ArrayLike | None = None,
     CCT_w: ArrayLike | None = None,
-    XYZ_p: ArrayLike | None = None,
+    XYZ_p: Annotated[ArrayLike | None, 100] = None,
     p: ArrayLike | None = None,
     S: ArrayLike | None = None,
     S_w: ArrayLike | None = None,
     helson_judd_effect: bool = False,
     discount_illuminant: bool = True,
-) -> CAM_Specification_Hunt:
+) -> Annotated[CAM_Specification_Hunt, 360]:
     """
     Compute the *Hunt* colour appearance model correlates from the specified
     *CIE XYZ* tristimulus values.
@@ -339,23 +339,23 @@ def XYZ_to_Hunt(
 
     Notes
     -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
-    | ``XYZ_w``  | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
-    | ``XYZ_b``  | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
-    | ``XYZ_p``  | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``XYZ``             | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``XYZ_w``           | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``XYZ_b``           | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``XYZ_p``           | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
 
-    +------------------------------+-----------------------+---------------+
-    | **Range**                    | **Scale - Reference** | **Scale - 1** |
-    +==============================+=======================+===============+
-    | ``CAM_Specification_Hunt.h`` | [0, 360]              | [0, 1]        |
-    +------------------------------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``specification.h`` | 360                   | 1             |
+    +---------------------+-----------------------+---------------+
 
     References
     ----------

@@ -24,6 +24,7 @@ from colour.colorimetry import CCS_ILLUMINANTS
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models import UCS_uv_to_xy, XYZ_to_xy, xy_to_UCS_uv, xyY_to_xy, xyY_to_XYZ
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
@@ -41,11 +42,11 @@ __all__ = [
 
 
 def XYZ_to_UVW(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 100],
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE 1964 U\\*V\\*W\\**
     colourspace.
@@ -68,19 +69,15 @@ def XYZ_to_UVW(
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``XYZ``        | [0, 100]              | [0, 1]          |
+    | ``XYZ``        | 100                   | 1               |
     +----------------+-----------------------+-----------------+
-    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    | ``illuminant`` | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     +----------------+-----------------------+-----------------+
     | **Range**      | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``UVW``        | ``U`` : [-100, 100]   | ``U`` : [-1, 1] |
-    |                |                       |                 |
-    |                | ``V`` : [-100, 100]   | ``V`` : [-1, 1] |
-    |                |                       |                 |
-    |                | ``W`` : [0, 100]      | ``W`` : [0, 1]  |
+    | ``UVW``        | 100                   | 1               |
     +----------------+-----------------------+-----------------+
 
     References
@@ -113,11 +110,11 @@ def XYZ_to_UVW(
 
 
 def UVW_to_XYZ(
-    UVW: ArrayLike,
+    UVW: Annotated[ArrayLike, 100],
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert from *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus
     values.
@@ -140,19 +137,15 @@ def UVW_to_XYZ(
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``UVW``        | ``U`` : [-100, 100]   | ``U`` : [-1, 1] |
-    |                |                       |                 |
-    |                | ``V`` : [-100, 100]   | ``V`` : [-1, 1] |
-    |                |                       |                 |
-    |                | ``W`` : [0, 100]      | ``W`` : [0, 1]  |
+    | ``UVW``        | 100                   | 1               |
     +----------------+-----------------------+-----------------+
-    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    | ``illuminant`` | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     +----------------+-----------------------+-----------------+
     | **Range**      | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``XYZ``        | [0, 100               | [0, 1]          |
+    | ``XYZ``        | 100                   | 1               |
     +----------------+-----------------------+-----------------+
 
     References

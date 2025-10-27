@@ -26,6 +26,7 @@ from colour.algebra import spow
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models import Iab_to_XYZ, XYZ_to_Iab
 
 __author__ = "Colour Developers"
@@ -69,7 +70,7 @@ MATRIX_2_LAB_TO_LMS: NDArrayFloat = np.linalg.inv(MATRIX_2_LMS_TO_LAB)
 """*Oklab* colourspace to normalised cone responses matrix."""
 
 
-def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArrayFloat:
+def XYZ_to_Oklab(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *CIE XYZ* tristimulus values to *Oklab* colourspace.
 
@@ -88,17 +89,13 @@ def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Lab``    | ``L`` : [0, 1]        | ``L`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``a`` : [-1, 1]       | ``a`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``b`` : [-1, 1]       | ``b`` : [-1, 1] |
+    | ``Lab``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     -   Input *CIE XYZ* tristimulus values must be adapted to
@@ -123,7 +120,7 @@ def XYZ_to_Oklab(XYZ: ArrayLike) -> NDArrayFloat:
     )
 
 
-def Oklab_to_XYZ(Lab: ArrayLike) -> NDArrayFloat:
+def Oklab_to_XYZ(Lab: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *Oklab* colourspace to *CIE XYZ* tristimulus values.
 
@@ -142,17 +139,13 @@ def Oklab_to_XYZ(Lab: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Lab``    | ``L`` : [0, 1]        | ``L`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``a`` : [-1, 1]       | ``a`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``b`` : [-1, 1]       | ``b`` : [-1, 1] |
+    | ``Lab``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     References

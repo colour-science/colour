@@ -25,6 +25,7 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated  # noqa: TC001
 from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006, Coefficients_UCS_Luo2006
 from colour.utilities import as_float, tsplit
 
@@ -44,7 +45,9 @@ __all__ = [
 
 
 def delta_E_Luo2006(
-    Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike, coefficients: Coefficients_UCS_Luo2006
+    Jpapbp_1: Annotated[ArrayLike, 100],
+    Jpapbp_2: Annotated[ArrayLike, 100],
+    coefficients: Coefficients_UCS_Luo2006,
 ) -> NDArrayFloat:
     """
     Compute the colour difference :math:`\\Delta E'` between two specified
@@ -79,17 +82,9 @@ def delta_E_Luo2006(
     +--------------+------------------------+--------------------+
     | **Domain**   |  **Scale - Reference** | **Scale - 1**      |
     +==============+========================+====================+
-    | ``Jpapbp_1`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
-    |              |                        |                    |
-    |              | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
-    |              |                        |                    |
-    |              | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
+    | ``Jpapbp_1`` | 100                    | 1                  |
     +--------------+------------------------+--------------------+
-    | ``Jpapbp_2`` | ``Jp_2`` : [0, 100]    | ``Jp_2`` : [0, 1]  |
-    |              |                        |                    |
-    |              | ``ap_2`` : [-100, 100] | ``ap_2`` : [-1, 1] |
-    |              |                        |                    |
-    |              | ``bp_2`` : [-100, 100] | ``bp_2`` : [-1, 1] |
+    | ``Jpapbp_2`` | 100                    | 1                  |
     +--------------+------------------------+--------------------+
 
     Examples
@@ -112,7 +107,9 @@ def delta_E_Luo2006(
     return as_float(d_E)
 
 
-def delta_E_CAM02LCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
+def delta_E_CAM02LCD(
+    Jpapbp_1: Annotated[ArrayLike, 100], Jpapbp_2: Annotated[ArrayLike, 100]
+) -> NDArrayFloat:
     """
     Compute the colour difference :math:`\\Delta E'` between two specified
     *CAM02-LCD* colourspace :math:`J'a'b'` arrays using the
@@ -143,17 +140,9 @@ def delta_E_CAM02LCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
     +--------------+------------------------+--------------------+
     | **Domain**   |  **Scale - Reference** | **Scale - 1**      |
     +==============+========================+====================+
-    | ``Jpapbp_1`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
-    |              |                        |                    |
-    |              | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
-    |              |                        |                    |
-    |              | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
+    | ``Jpapbp_1`` | 100                    | 1                  |
     +--------------+------------------------+--------------------+
-    | ``Jpapbp_2`` | ``Jp_2`` : [0, 100]    | ``Jp_2`` : [0, 1]  |
-    |              |                        |                    |
-    |              | ``ap_2`` : [-100, 100] | ``ap_2`` : [-1, 1] |
-    |              |                        |                    |
-    |              | ``bp_2`` : [-100, 100] | ``bp_2`` : [-1, 1] |
+    | ``Jpapbp_2`` | 100                    | 1                  |
     +--------------+------------------------+--------------------+
 
     References
@@ -171,7 +160,9 @@ def delta_E_CAM02LCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
     return delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
 
 
-def delta_E_CAM02SCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
+def delta_E_CAM02SCD(
+    Jpapbp_1: Annotated[ArrayLike, 100], Jpapbp_2: Annotated[ArrayLike, 100]
+) -> NDArrayFloat:
     """
     Compute the colour difference :math:`\\Delta E'` between two specified
     *CAM02-SCD* colourspace :math:`J'a'b'` arrays using the
@@ -202,17 +193,9 @@ def delta_E_CAM02SCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
     +--------------+------------------------+--------------------+
     | **Domain**   |  **Scale - Reference** | **Scale - 1**      |
     +==============+========================+====================+
-    | ``Jpapbp_1`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
-    |              |                        |                    |
-    |              | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
-    |              |                        |                    |
-    |              | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
+    | ``Jpapbp_1`` | 100                    | 1                  |
     +--------------+------------------------+--------------------+
-    | ``Jpapbp_2`` | ``Jp_2`` : [0, 100]    | ``Jp_2`` : [0, 1]  |
-    |              |                        |                    |
-    |              | ``ap_2`` : [-100, 100] | ``ap_2`` : [-1, 1] |
-    |              |                        |                    |
-    |              | ``bp_2`` : [-100, 100] | ``bp_2`` : [-1, 1] |
+    | ``Jpapbp_2`` | 100                    | 1                  |
     +--------------+------------------------+--------------------+
 
     References
@@ -230,7 +213,9 @@ def delta_E_CAM02SCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
     return delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-SCD"])
 
 
-def delta_E_CAM02UCS(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
+def delta_E_CAM02UCS(
+    Jpapbp_1: Annotated[ArrayLike, 100], Jpapbp_2: Annotated[ArrayLike, 100]
+) -> NDArrayFloat:
     """
     Compute the colour difference :math:`\\Delta E'` between two specified
     *CAM02-UCS* colourspace :math:`J'a'b'` arrays using the
@@ -261,17 +246,9 @@ def delta_E_CAM02UCS(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
     +--------------+------------------------+--------------------+
     | **Domain**   |  **Scale - Reference** | **Scale - 1**      |
     +==============+========================+====================+
-    | ``Jpapbp_1`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
-    |              |                        |                    |
-    |              | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
-    |              |                        |                    |
-    |              | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
+    | ``Jpapbp_1`` | 100                    | 1                  |
     +--------------+------------------------+--------------------+
-    | ``Jpapbp_2`` | ``Jp_2`` : [0, 100]    | ``Jp_2`` : [0, 1]  |
-    |              |                        |                    |
-    |              | ``ap_2`` : [-100, 100] | ``ap_2`` : [-1, 1] |
-    |              |                        |                    |
-    |              | ``bp_2`` : [-100, 100] | ``bp_2`` : [-1, 1] |
+    | ``Jpapbp_2`` | 100                    | 1                  |
     +--------------+------------------------+--------------------+
 
     References

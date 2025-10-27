@@ -35,7 +35,7 @@ from functools import partial
 if typing.TYPE_CHECKING:
     from colour.hints import Any, ArrayLike, Callable
 
-from colour.hints import NDArrayFloat, cast
+from colour.hints import Annotated, ArrayLike, NDArrayFloat, cast
 from colour.models.cam02_ucs import (
     COEFFICIENTS_UCS_LUO2006,
     CAM02LCD_to_JMh_CIECAM02,
@@ -179,8 +179,10 @@ CAM16UCS_to_JMh_CAM16.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(
 
 
 def XYZ_to_UCS_Li2017(
-    XYZ: ArrayLike, coefficients: ArrayLike, **kwargs: Any
-) -> NDArrayFloat:
+    XYZ: Annotated[ArrayLike, 1],
+    coefficients: ArrayLike,
+    **kwargs: Any,
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert from *CIE XYZ* tristimulus values to one of the *Li et al.
     (2017)* *CAM16-LCD*, *CAM16-SCD*, or *CAM16-UCS* colourspaces
@@ -220,17 +222,13 @@ def XYZ_to_UCS_Li2017(
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``XYZ``    | [0, 1]                 | [0, 1]           |
+    | ``XYZ``    | 1                      | 1                |
     +------------+------------------------+------------------+
 
     +------------+------------------------+------------------+
     | **Range**  |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
-    |            |                        |                  |
-    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
-    |            |                        |                  |
-    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
+    | ``Jpapbp`` | 100                    | 1                |
     +------------+------------------------+------------------+
 
     Examples
@@ -277,8 +275,10 @@ def XYZ_to_UCS_Li2017(
 
 
 def UCS_Li2017_to_XYZ(
-    Jpapbp: ArrayLike, coefficients: ArrayLike, **kwargs: Any
-) -> NDArrayFloat:
+    Jpapbp: Annotated[ArrayLike, 100],
+    coefficients: ArrayLike,
+    **kwargs: Any,
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from one of the *Li et al. (2017)* *CAM16-LCD*, *CAM16-SCD*, or
     *CAM16-UCS* colourspaces :math:`J'a'b'` array to *CIE XYZ* tristimulus
@@ -318,17 +318,13 @@ def UCS_Li2017_to_XYZ(
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
-    |            |                        |                  |
-    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
-    |            |                        |                  |
-    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
+    | ``Jpapbp`` | 100                    | 1                |
     +------------+------------------------+------------------+
 
     +------------+------------------------+------------------+
     | **Range**  |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``XYZ``    | [0, 1]                 | [0, 1]           |
+    | ``XYZ``    | 1                      | 1                |
     +------------+------------------------+------------------+
 
     Examples
@@ -379,6 +375,7 @@ XYZ_to_CAM16LCD = partial(
     XYZ_to_UCS_Li2017, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
 )
 XYZ_to_CAM16LCD.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(XYZ_to_CAM02LCD)
+XYZ_to_CAM16LCD.__annotations__ = XYZ_to_UCS_Li2017.__annotations__.copy()
 
 CAM16LCD_to_XYZ = partial(
     UCS_Li2017_to_XYZ, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
@@ -389,6 +386,7 @@ XYZ_to_CAM16SCD = partial(
     XYZ_to_UCS_Li2017, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-SCD"]
 )
 XYZ_to_CAM16SCD.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(XYZ_to_CAM02SCD)
+XYZ_to_CAM16SCD.__annotations__ = XYZ_to_UCS_Li2017.__annotations__.copy()
 
 CAM16SCD_to_XYZ = partial(
     UCS_Li2017_to_XYZ, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-SCD"]
@@ -399,6 +397,7 @@ XYZ_to_CAM16UCS = partial(
     XYZ_to_UCS_Li2017, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-UCS"]
 )
 XYZ_to_CAM16UCS.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(XYZ_to_CAM02UCS)
+XYZ_to_CAM16UCS.__annotations__ = XYZ_to_UCS_Li2017.__annotations__.copy()
 
 CAM16UCS_to_XYZ = partial(
     UCS_Li2017_to_XYZ, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-UCS"]

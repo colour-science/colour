@@ -34,6 +34,7 @@ from colour.algebra import vecmul
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassIterable,
@@ -114,13 +115,13 @@ References
 
 
 def chromatic_adaptation_forward_CMCCAT2000(
-    XYZ: ArrayLike,
-    XYZ_w: ArrayLike,
-    XYZ_wr: ArrayLike,
+    XYZ: Annotated[ArrayLike, 100],
+    XYZ_w: Annotated[ArrayLike, 100],
+    XYZ_wr: Annotated[ArrayLike, 100],
     L_A1: ArrayLike,
     L_A2: ArrayLike,
     surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000["Average"],
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Adapt the specified stimulus *CIE XYZ* tristimulus values from test
     viewing conditions to reference viewing conditions using the
@@ -155,17 +156,17 @@ def chromatic_adaptation_forward_CMCCAT2000(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    | ``XYZ``    | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_w``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_w``  | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_wr`` | [0, 100]              | [0, 1]        |
+    | ``XYZ_wr`` | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_c``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_c``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -210,13 +211,13 @@ def chromatic_adaptation_forward_CMCCAT2000(
 
 
 def chromatic_adaptation_inverse_CMCCAT2000(
-    XYZ_c: ArrayLike,
-    XYZ_w: ArrayLike,
-    XYZ_wr: ArrayLike,
+    XYZ_c: Annotated[ArrayLike, 100],
+    XYZ_w: Annotated[ArrayLike, 100],
+    XYZ_wr: Annotated[ArrayLike, 100],
     L_A1: ArrayLike,
     L_A2: ArrayLike,
     surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000["Average"],
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Adapt the specified *CIE XYZ* tristimulus values from reference viewing
     conditions to test viewing conditions using the inverse *CMCCAT2000*
@@ -250,17 +251,17 @@ def chromatic_adaptation_inverse_CMCCAT2000(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_c``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_c``  | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_w``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_w``  | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_wr`` | [0, 100]              | [0, 1]        |
+    | ``XYZ_wr`` | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    | ``XYZ``    | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -305,14 +306,14 @@ def chromatic_adaptation_inverse_CMCCAT2000(
 
 
 def chromatic_adaptation_CMCCAT2000(
-    XYZ: ArrayLike,
-    XYZ_w: ArrayLike,
-    XYZ_wr: ArrayLike,
+    XYZ: Annotated[ArrayLike, 100],
+    XYZ_w: Annotated[ArrayLike, 100],
+    XYZ_wr: Annotated[ArrayLike, 100],
     L_A1: ArrayLike,
     L_A2: ArrayLike,
     surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000["Average"],
     direction: Literal["Forward", "Inverse"] | str = "Forward",
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Adapt the specified stimulus *CIE XYZ* tristimulus values from test
     viewing conditions to reference viewing conditions using the
@@ -352,17 +353,17 @@ def chromatic_adaptation_CMCCAT2000(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    | ``XYZ``    | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_w``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_w``  | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_wr`` | [0, 100]              | [0, 1]        |
+    | ``XYZ_wr`` | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    | ``XYZ``    | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References

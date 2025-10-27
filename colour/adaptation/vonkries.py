@@ -31,6 +31,7 @@ if typing.TYPE_CHECKING:
         NDArrayFloat,
     )
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     as_float_array,
     from_range_1,
@@ -82,9 +83,9 @@ def matrix_chromatic_adaptation_VonKries(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_w``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_w``  | 1                     | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_wr`` | [0, 1]                | [0, 1]        |
+    | ``XYZ_wr`` | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -138,11 +139,11 @@ def matrix_chromatic_adaptation_VonKries(
 
 
 def chromatic_adaptation_VonKries(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 1],
     XYZ_w: ArrayLike,
     XYZ_wr: ArrayLike,
     transform: LiteralChromaticAdaptationTransform | str = "CAT02",
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Adapt the specified stimulus *CIE XYZ* tristimulus values from test
     viewing conditions to reference viewing conditions using the *Von Kries*
@@ -171,17 +172,17 @@ def chromatic_adaptation_VonKries(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    | ``XYZ``    | 1                     | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_n``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_n``  | 1                     | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_r``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_r``  | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_a``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_a``  | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

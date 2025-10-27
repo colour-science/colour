@@ -23,6 +23,7 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
 __author__ = "Colour Developers"
@@ -50,9 +51,9 @@ CONSTANTS_BLACKMAGIC_FILM_GENERATION_5: Structure = Structure(
 
 
 def oetf_BlackmagicFilmGeneration5(
-    x: ArrayLike,
+    x: Annotated[ArrayLike, 1],
     constants: Structure | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Blackmagic Film Generation 5* opto-electronic transfer function
     (OETF).
@@ -74,13 +75,13 @@ def oetf_BlackmagicFilmGeneration5(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -113,9 +114,9 @@ def oetf_BlackmagicFilmGeneration5(
 
 
 def oetf_inverse_BlackmagicFilmGeneration5(
-    y: ArrayLike,
+    y: Annotated[ArrayLike, 1],
     constants: Structure | None = None,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Apply the *Blackmagic Film Generation 5* inverse opto-electronic
     transfer function (OETF).
@@ -137,13 +138,13 @@ def oetf_inverse_BlackmagicFilmGeneration5(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

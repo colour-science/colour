@@ -76,7 +76,7 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.hints import ArrayLike, List, TypedDict, cast
+from colour.hints import Annotated, ArrayLike, List, TypedDict, cast
 from colour.models import RGB_COLOURSPACES, RGB_Colourspace, XYZ_to_RGB
 from colour.utilities import (
     CanonicalMapping,
@@ -404,13 +404,13 @@ def font_scaling(scaling: LiteralFontScaling, value: float) -> Generator:
 
 
 def XYZ_to_plotting_colourspace(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 1],
     illuminant: ArrayLike = RGB_COLOURSPACES["sRGB"].whitepoint,
     chromatic_adaptation_transform: (
         LiteralChromaticAdaptationTransform | str | None
     ) = "CAT02",
     apply_cctf_encoding: bool = True,
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *CIE XYZ* tristimulus values to the default plotting
     colourspace.
@@ -432,6 +432,20 @@ def XYZ_to_plotting_colourspace(
     -------
     :class:`numpy.ndarray`
         Default plotting colourspace colour array.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
     Examples
     --------

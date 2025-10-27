@@ -27,6 +27,7 @@ from colour.algebra import sdiv, sdiv_mode, vecmul
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
@@ -62,7 +63,7 @@ values.
 """
 
 
-def LMS_to_Yrg(LMS: ArrayLike) -> NDArrayFloat:
+def LMS_to_Yrg(LMS: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *LMS* cone fundamentals colourspace to *Kirk (2019)* *Yrg*
     colourspace.
@@ -83,17 +84,13 @@ def LMS_to_Yrg(LMS: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**  |
     +============+=======================+================+
-    | ``LMS``    | [0, 100]              | [0, 1]         |
+    | ``LMS``    | 1                     | 1              |
     +------------+-----------------------+----------------+
 
     +------------+-----------------------+----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**  |
     +============+=======================+================+
-    | ``Yrg``    | ``Y`` : [0, 1]        | ``Y`` : [0, 1] |
-    |            |                       |                |
-    |            | ``r`` : [0, 1]        | ``r`` : [0, 1] |
-    |            |                       |                |
-    |            | ``g`` : [0, 1]        | ``g`` : [0, 1] |
+    | ``Yrg``    | 1                     | 1              |
     +------------+-----------------------+----------------+
 
     References
@@ -126,7 +123,7 @@ def LMS_to_Yrg(LMS: ArrayLike) -> NDArrayFloat:
     return from_range_1(Yrg)
 
 
-def Yrg_to_LMS(Yrg: ArrayLike) -> NDArrayFloat:
+def Yrg_to_LMS(Yrg: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *Kirk (2019)* *Yrg* colourspace to *LMS* cone
     fundamentals colourspace.
@@ -147,17 +144,13 @@ def Yrg_to_LMS(Yrg: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**  |
     +============+=======================+================+
-    | ``Yrg``    | ``Y`` : [0, 1]        | ``Y`` : [0, 1] |
-    |            |                       |                |
-    |            | ``r`` : [0, 1]        | ``r`` : [0, 1] |
-    |            |                       |                |
-    |            | ``g`` : [0, 1]        | ``g`` : [0, 1] |
+    | ``Yrg``    | 1                     | 1              |
     +------------+-----------------------+----------------+
 
     +------------+-----------------------+----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**  |
     +============+=======================+================+
-    | ``LMS``    | [0, 100]              | [0, 1]         |
+    | ``LMS``    | 1                     | 1              |
     +------------+-----------------------+----------------+
 
     References
@@ -186,7 +179,7 @@ def Yrg_to_LMS(Yrg: ArrayLike) -> NDArrayFloat:
     return from_range_1(LMS)
 
 
-def XYZ_to_Yrg(XYZ: ArrayLike) -> NDArrayFloat:
+def XYZ_to_Yrg(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *CIE XYZ* tristimulus values to *Kirk (2019)* *Yrg*
     colourspace.
@@ -207,17 +200,13 @@ def XYZ_to_Yrg(XYZ: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**  |
     +============+=======================+================+
-    | ``XYZ``    | [0, 100]              | [0, 1]         |
+    | ``XYZ``    | 1                     | 1              |
     +------------+-----------------------+----------------+
 
     +------------+-----------------------+----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**  |
     +============+=======================+================+
-    | ``Yrg``    | ``Y`` : [0, 1]        | ``Y`` : [0, 1] |
-    |            |                       |                |
-    |            | ``r`` : [0, 1]        | ``r`` : [0, 1] |
-    |            |                       |                |
-    |            | ``g`` : [0, 1]        | ``g`` : [0, 1] |
+    | ``Yrg``    | 1                     | 1              |
     +------------+-----------------------+----------------+
 
     References
@@ -235,7 +224,7 @@ def XYZ_to_Yrg(XYZ: ArrayLike) -> NDArrayFloat:
     return LMS_to_Yrg(vecmul(MATRIX_XYZ_TO_LMS_KIRK2019, XYZ))
 
 
-def Yrg_to_XYZ(Yrg: ArrayLike) -> NDArrayFloat:
+def Yrg_to_XYZ(Yrg: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *Kirk (2019)* *Yrg* colourspace to *CIE XYZ* tristimulus
     values.
@@ -256,17 +245,13 @@ def Yrg_to_XYZ(Yrg: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**  |
     +============+=======================+================+
-    | ``Yrg``    | ``Y`` : [0, 1]        | ``Y`` : [0, 1] |
-    |            |                       |                |
-    |            | ``r`` : [0, 1]        | ``r`` : [0, 1] |
-    |            |                       |                |
-    |            | ``g`` : [0, 1]        | ``g`` : [0, 1] |
+    | ``Yrg``    | 1                     | 1              |
     +------------+-----------------------+----------------+
 
     +------------+-----------------------+----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**  |
     +============+=======================+================+
-    | ``XYZ``    | [0, 100]              | [0, 1]         |
+    | ``XYZ``    | 1                     | 1              |
     +------------+-----------------------+----------------+
 
     References

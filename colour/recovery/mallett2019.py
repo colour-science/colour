@@ -33,6 +33,7 @@ if typing.TYPE_CHECKING:
     from colour.models import RGB_Colourspace
     from colour.hints import ArrayLike, Callable
 
+from colour.hints import Annotated, ArrayLike  # noqa: TC001
 from colour.recovery import MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
 from colour.utilities import to_domain_1
 
@@ -218,7 +219,7 @@ def spectral_primary_decomposition_Mallett2019(
 
 
 def RGB_to_sd_Mallett2019(
-    RGB: ArrayLike,
+    RGB: Annotated[ArrayLike, 1],
     basis_functions: MultiSpectralDistributions = MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019,
 ) -> SpectralDistribution:
     """
@@ -245,6 +246,12 @@ def RGB_to_sd_Mallett2019(
 
     Notes
     -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
     -   In addition to the *BT.709* primaries used by the *sRGB*
         colourspace, :cite:`Mallett2019` tested *BT.2020*, *P3 D65*,
         *Adobe RGB 1998*, *NTSC (1987)*, *Pal/Secam*, *ProPhoto RGB*, and

@@ -31,7 +31,9 @@ from colour.appearance import (
     CAM_Specification_CIECAM02,
     CAM_Specification_CIECAM16,
     CAM_Specification_Hellwig2022,
+    CAM_Specification_Kim2009,
     CAM_Specification_sCAM,
+    CAM_Specification_ZCAM,
     CIECAM02_to_XYZ,
     CIECAM16_to_XYZ,
     Hellwig2022_to_XYZ,
@@ -79,7 +81,7 @@ if typing.TYPE_CHECKING:
         Literal,
     )
 
-from colour.hints import NDArrayFloat, cast
+from colour.hints import Annotated, NDArrayFloat, cast
 from colour.models import (
     COLOURSPACE_MODELS_POLAR_CONVERSIONS,
     CAM02LCD_to_JMh_CIECAM02,
@@ -219,10 +221,16 @@ __all__ = [
     "JMh_CIECAM02_to_CIECAM02",
     "CAM16_to_JMh_CAM16",
     "JMh_CAM16_to_CAM16",
+    "CIECAM16_to_JMh_CIECAM16",
+    "JMh_CIECAM16_to_CIECAM16",
     "Hellwig2022_to_JMh_Hellwig2022",
     "JMh_Hellwig2022_to_Hellwig2022",
     "sCAM_to_JMh_sCAM",
     "JMh_sCAM_to_sCAM",
+    "ZCAM_to_JMh_ZCAM",
+    "JMh_ZCAM_to_ZCAM",
+    "Kim2009_to_JMh_Kim2009",
+    "JMh_Kim2009_to_Kim2009",
     "XYZ_to_luminance",
     "RGB_luminance_to_RGB",
     "CCT_D_uv_to_mired",
@@ -273,8 +281,10 @@ class Conversion_Specification:
 
 
 def CIECAM02_to_JMh_CIECAM02(
-    specification: CAM_Specification_CIECAM02,
-) -> NDArrayFloat:
+    specification: Annotated[
+        CAM_Specification_CIECAM02, (100, 100, 360, 100, 100, 100, 400)
+    ],
+) -> Annotated[NDArrayFloat, (100, 100, 360)]:
     """
     Convert from *CIECAM02* specification to *CIECAM02* :math:`JMh`
     correlates.
@@ -288,6 +298,36 @@ def CIECAM02_to_JMh_CIECAM02(
     -------
     :class:`numpy.ndarray`
         *CIECAM02* :math:`JMh` correlates.
+
+    Notes
+    -----
+    +---------------------+-----------------------+-----------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``specification.J`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.C`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.h`` | 360                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.s`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.Q`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.M`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.H`` | 400                   | 1               |
+    +---------------------+-----------------------+-----------------+
+
+    +---------------------+-----------------------+-----------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``JMh``             | ``J`` : 100           | ``J`` : 1       |
+    |                     |                       |                 |
+    |                     | ``M`` : 100           | ``M`` : 1       |
+    |                     |                       |                 |
+    |                     | ``h`` : 360           | ``h`` : 1       |
+    +---------------------+-----------------------+-----------------+
 
     Examples
     --------
@@ -307,7 +347,9 @@ def CIECAM02_to_JMh_CIECAM02(
     )
 
 
-def JMh_CIECAM02_to_CIECAM02(JMh: ArrayLike) -> CAM_Specification_CIECAM02:
+def JMh_CIECAM02_to_CIECAM02(
+    JMh: Annotated[ArrayLike, (100, 100, 360)],
+) -> Annotated[CAM_Specification_CIECAM02, (100, 100, 360, 100, 100, 100, 400)]:
     """
     Convert from *CIECAM02* :math:`JMh` correlates to *CIECAM02*
     specification.
@@ -321,6 +363,36 @@ def JMh_CIECAM02_to_CIECAM02(JMh: ArrayLike) -> CAM_Specification_CIECAM02:
     -------
     :class:`colour.CAM_Specification_CIECAM02`
         *CIECAM02* colour appearance model specification.
+
+    Notes
+    -----
+    +---------------------+-----------------------+-----------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``JMh``             | ``J`` : 100           | ``J`` : 1       |
+    |                     |                       |                 |
+    |                     | ``M`` : 100           | ``M`` : 1       |
+    |                     |                       |                 |
+    |                     | ``h`` : 360           | ``h`` : 1       |
+    +---------------------+-----------------------+-----------------+
+
+    +---------------------+-----------------------+-----------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``specification.J`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.C`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.h`` | 360                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.s`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.Q`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.M`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.H`` | 400                   | 1               |
+    +---------------------+-----------------------+-----------------+
 
     Examples
     --------
@@ -336,7 +408,11 @@ s=None, Q=None, M=0.1088421..., H=None, HC=None)
     return CAM_Specification_CIECAM02(J=J, M=M, h=h)
 
 
-def CAM16_to_JMh_CAM16(specification: CAM_Specification_CAM16) -> NDArrayFloat:
+def CAM16_to_JMh_CAM16(
+    specification: Annotated[
+        CAM_Specification_CAM16, (100, 100, 360, 100, 100, 100, 400)
+    ],
+) -> Annotated[NDArrayFloat, (100, 100, 360)]:
     """
     Convert from *CAM16* specification to *CAM16* :math:`JMh` correlates.
 
@@ -350,6 +426,36 @@ def CAM16_to_JMh_CAM16(specification: CAM_Specification_CAM16) -> NDArrayFloat:
     :class:`numpy.ndarray`
         *CAM16* :math:`JMh` correlates.
 
+    Notes
+    -----
+    +---------------------+-----------------------+-----------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``specification.J`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.C`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.h`` | 360                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.s`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.Q`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.M`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.H`` | 400                   | 1               |
+    +---------------------+-----------------------+-----------------+
+
+    +---------------------+-----------------------+-----------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``JMh``             | ``J`` : 100           | ``J`` : 1       |
+    |                     |                       |                 |
+    |                     | ``M`` : 100           | ``M`` : 1       |
+    |                     |                       |                 |
+    |                     | ``h`` : 360           | ``h`` : 1       |
+    +---------------------+-----------------------+-----------------+
+
     Examples
     --------
     >>> specification = CAM_Specification_CAM16(
@@ -362,7 +468,9 @@ def CAM16_to_JMh_CAM16(specification: CAM_Specification_CAM16) -> NDArrayFloat:
     return tstack([specification.J, specification.M, specification.h])  # pyright: ignore
 
 
-def JMh_CAM16_to_CAM16(JMh: ArrayLike) -> CAM_Specification_CAM16:
+def JMh_CAM16_to_CAM16(
+    JMh: Annotated[ArrayLike, (100, 100, 360)],
+) -> Annotated[CAM_Specification_CAM16, (100, 100, 360, 100, 100, 100, 400)]:
     """
     Convert from *CAM16* :math:`JMh` correlates to *CAM16* specification.
 
@@ -375,6 +483,36 @@ def JMh_CAM16_to_CAM16(JMh: ArrayLike) -> CAM_Specification_CAM16:
     -------
     :class:`colour.CAM_Specification_CAM16`
         *CAM16* colour appearance model specification.
+
+    Notes
+    -----
+    +---------------------+-----------------------+-----------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``JMh``             | ``J`` : 100           | ``J`` : 1       |
+    |                     |                       |                 |
+    |                     | ``M`` : 100           | ``M`` : 1       |
+    |                     |                       |                 |
+    |                     | ``h`` : 360           | ``h`` : 1       |
+    +---------------------+-----------------------+-----------------+
+
+    +---------------------+-----------------------+-----------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``specification.J`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.C`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.h`` | 360                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.s`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.Q`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.M`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.H`` | 400                   | 1               |
+    +---------------------+-----------------------+-----------------+
 
     Examples
     --------
@@ -390,7 +528,11 @@ Q=None, M=0.1074367..., H=None, HC=None)
     return CAM_Specification_CAM16(J=J, M=M, h=h)
 
 
-def CIECAM16_to_JMh_CIECAM16(specification: CAM_Specification_CIECAM16) -> NDArrayFloat:
+def CIECAM16_to_JMh_CIECAM16(
+    specification: Annotated[
+        CAM_Specification_CIECAM16, (100, 100, 360, 100, 100, 100, 400)
+    ],
+) -> Annotated[NDArrayFloat, (100, 100, 360)]:
     """
     Convert from *CIECAM16* specification to *CIECAM16* :math:`JMh`
     correlates.
@@ -405,6 +547,36 @@ def CIECAM16_to_JMh_CIECAM16(specification: CAM_Specification_CIECAM16) -> NDArr
     :class:`numpy.ndarray`
         *CIECAM16* :math:`JMh` correlates.
 
+    Notes
+    -----
+    +---------------------+-----------------------+-----------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``specification.J`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.C`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.h`` | 360                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.s`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.Q`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.M`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.H`` | 400                   | 1               |
+    +---------------------+-----------------------+-----------------+
+
+    +---------------------+-----------------------+-----------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``JMh``             | ``J`` : 100           | ``J`` : 1       |
+    |                     |                       |                 |
+    |                     | ``M`` : 100           | ``M`` : 1       |
+    |                     |                       |                 |
+    |                     | ``h`` : 360           | ``h`` : 1       |
+    +---------------------+-----------------------+-----------------+
+
     Examples
     --------
     >>> specification = CAM_Specification_CIECAM16(
@@ -417,7 +589,9 @@ def CIECAM16_to_JMh_CIECAM16(specification: CAM_Specification_CIECAM16) -> NDArr
     return tstack([specification.J, specification.M, specification.h])  # pyright: ignore
 
 
-def JMh_CIECAM16_to_CIECAM16(JMh: ArrayLike) -> CAM_Specification_CIECAM16:
+def JMh_CIECAM16_to_CIECAM16(
+    JMh: Annotated[ArrayLike, (100, 100, 360)],
+) -> Annotated[CAM_Specification_CIECAM16, (100, 100, 360, 100, 100, 100, 400)]:
     """
     Convert from *CIECAM16* :math:`JMh` correlates to *CIECAM16*
     specification.
@@ -431,6 +605,36 @@ def JMh_CIECAM16_to_CIECAM16(JMh: ArrayLike) -> CAM_Specification_CIECAM16:
     -------
     :class:`colour.CAM_Specification_CIECAM16`
         *CIECAM16* colour appearance model specification.
+
+    Notes
+    -----
+    +---------------------+-----------------------+-----------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``JMh``             | ``J`` : 100           | ``J`` : 1       |
+    |                     |                       |                 |
+    |                     | ``M`` : 100           | ``M`` : 1       |
+    |                     |                       |                 |
+    |                     | ``h`` : 360           | ``h`` : 1       |
+    +---------------------+-----------------------+-----------------+
+
+    +---------------------+-----------------------+-----------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``specification.J`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.C`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.h`` | 360                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.s`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.Q`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.M`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.H`` | 400                   | 1               |
+    +---------------------+-----------------------+-----------------+
 
     Examples
     --------
@@ -447,8 +651,10 @@ s=None, Q=None, M=0.1074367..., H=None, HC=None)
 
 
 def Hellwig2022_to_JMh_Hellwig2022(
-    specification: CAM_Specification_Hellwig2022,
-) -> NDArrayFloat:
+    specification: Annotated[
+        CAM_Specification_Hellwig2022, (100, 100, 360, 100, 100, 100, 400, 100, 100)
+    ],
+) -> Annotated[NDArrayFloat, (100, 100, 360)]:
     """
     Convert from *Hellwig and Fairchild (2022)* specification to
     *Hellwig and Fairchild (2022)* :math:`JMh` correlates.
@@ -464,6 +670,42 @@ def Hellwig2022_to_JMh_Hellwig2022(
     :class:`numpy.ndarray`
         *Hellwig and Fairchild (2022)* :math:`JMh` correlates.
 
+    Notes
+    -----
+    +-------------------------+-----------------------+-----------------+
+    | **Domain**              | **Scale - Reference** | **Scale - 1**   |
+    +=========================+=======================+=================+
+    | ``specification.J``     | 100                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.C``     | 100                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.h``     | 360                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.s``     | 100                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.Q``     | 100                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.M``     | 100                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.H``     | 400                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.HC``    | 100                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.J_HK``  | 100                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.Q_HK``  | 100                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+
+    +-------------------------+-----------------------+-----------------+
+    | **Range**               | **Scale - Reference** | **Scale - 1**   |
+    +=========================+=======================+=================+
+    | ``JMh``                 | ``J`` : 100           | ``J`` : 1       |
+    |                         |                       |                 |
+    |                         | ``M`` : 100           | ``M`` : 1       |
+    |                         |                       |                 |
+    |                         | ``h`` : 360           | ``h`` : 1       |
+    +-------------------------+-----------------------+-----------------+
+
     Examples
     --------
     >>> specification = CAM_Specification_Hellwig2022(
@@ -477,8 +719,10 @@ def Hellwig2022_to_JMh_Hellwig2022(
 
 
 def JMh_Hellwig2022_to_Hellwig2022(
-    JMh: ArrayLike,
-) -> CAM_Specification_Hellwig2022:
+    JMh: Annotated[ArrayLike, (100, 100, 360)],
+) -> Annotated[
+    CAM_Specification_Hellwig2022, (100, 100, 360, 100, 100, 100, 400, 100, 100)
+]:
     """
     Convert from *Hellwig and Fairchild (2022)* :math:`JMh` correlates to
     *Hellwig and Fairchild (2022)* specification.
@@ -492,6 +736,42 @@ def JMh_Hellwig2022_to_Hellwig2022(
     -------
     :class:`colour.CAM_Specification_Hellwig2022`
         *Hellwig and Fairchild (2022)* colour appearance model specification.
+
+    Notes
+    -----
+    +-------------------------+-----------------------+-----------------+
+    | **Domain**              | **Scale - Reference** | **Scale - 1**   |
+    +=========================+=======================+=================+
+    | ``JMh``                 | ``J`` : 100           | ``J`` : 1       |
+    |                         |                       |                 |
+    |                         | ``M`` : 100           | ``M`` : 1       |
+    |                         |                       |                 |
+    |                         | ``h`` : 360           | ``h`` : 1       |
+    +-------------------------+-----------------------+-----------------+
+
+    +-------------------------+-----------------------+-----------------+
+    | **Range**               | **Scale - Reference** | **Scale - 1**   |
+    +=========================+=======================+=================+
+    | ``specification.J``     | 100                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.C``     | 100                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.h``     | 360                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.s``     | 100                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.Q``     | 100                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.M``     | 100                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.H``     | 400                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.HC``    | 100                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.J_HK``  | 100                   | 1               |
+    +-------------------------+-----------------------+-----------------+
+    | ``specification.Q_HK``  | 100                   | 1               |
+    +-------------------------+-----------------------+-----------------+
 
     Examples
     --------
@@ -507,7 +787,11 @@ s=None, Q=None, M=0.0293828..., H=None, HC=None, J_HK=None, Q_HK=None)
     return CAM_Specification_Hellwig2022(J=J, M=M, h=h)
 
 
-def sCAM_to_JMh_sCAM(specification: CAM_Specification_sCAM) -> NDArrayFloat:
+def sCAM_to_JMh_sCAM(
+    specification: Annotated[
+        CAM_Specification_sCAM, (100, 100, 360, 100, 100, 400, 100, 100, 100, 100)
+    ],
+) -> Annotated[NDArrayFloat, (100, 100, 360)]:
     """
     Convert from *sCAM* specification to *sCAM* :math:`JMh` correlates.
 
@@ -521,6 +805,44 @@ def sCAM_to_JMh_sCAM(specification: CAM_Specification_sCAM) -> NDArrayFloat:
     :class:`numpy.ndarray`
         *sCAM* :math:`JMh` correlates.
 
+    Notes
+    -----
+    +---------------------+-----------------------+-----------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``specification.J`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.C`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.h`` | 360                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.Q`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.M`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.H`` | 400                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.HC`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.V`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.K`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.W`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.D`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+
+    +---------------------+-----------------------+-----------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``JMh``             | ``J`` : 100           | ``J`` : 1       |
+    |                     |                       |                 |
+    |                     | ``M`` : 100           | ``M`` : 1       |
+    |                     |                       |                 |
+    |                     | ``h`` : 360           | ``h`` : 1       |
+    +---------------------+-----------------------+-----------------+
+
     Examples
     --------
     >>> specification = CAM_Specification_sCAM(
@@ -533,7 +855,11 @@ def sCAM_to_JMh_sCAM(specification: CAM_Specification_sCAM) -> NDArrayFloat:
     return tstack([specification.J, specification.M, specification.h])  # pyright: ignore
 
 
-def JMh_sCAM_to_sCAM(JMh: ArrayLike) -> CAM_Specification_sCAM:
+def JMh_sCAM_to_sCAM(
+    JMh: Annotated[ArrayLike, (100, 100, 360)],
+) -> Annotated[
+    CAM_Specification_sCAM, (100, 100, 360, 100, 100, 400, 100, 100, 100, 100)
+]:
     """
     Convert from *sCAM* :math:`JMh` correlates to *sCAM* specification.
 
@@ -546,6 +872,44 @@ def JMh_sCAM_to_sCAM(JMh: ArrayLike) -> CAM_Specification_sCAM:
     -------
     :class:`colour.CAM_Specification_sCAM`
         *sCAM* colour appearance model specification.
+
+    Notes
+    -----
+    +---------------------+-----------------------+-----------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``JMh``             | ``J`` : 100           | ``J`` : 1       |
+    |                     |                       |                 |
+    |                     | ``M`` : 100           | ``M`` : 1       |
+    |                     |                       |                 |
+    |                     | ``h`` : 360           | ``h`` : 1       |
+    +---------------------+-----------------------+-----------------+
+
+    +---------------------+-----------------------+-----------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``specification.J`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.C`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.h`` | 360                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.Q`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.M`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.H`` | 400                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.HC`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.V`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.K`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.W`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.D`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
 
     Examples
     --------
@@ -561,7 +925,277 @@ M=0.1074367..., H=None, HC=None, V=None, K=None, W=None, D=None)
     return CAM_Specification_sCAM(J=J, M=M, h=h)
 
 
-def XYZ_to_luminance(XYZ: ArrayLike) -> NDArrayFloat:
+def ZCAM_to_JMh_ZCAM(
+    specification: Annotated[
+        CAM_Specification_ZCAM, (1, 1, 360, 1, 1, 1, 400, 1, 1, 1)
+    ],
+) -> Annotated[NDArrayFloat, (1, 1, 360)]:
+    """
+    Convert from *ZCAM* specification to *ZCAM* :math:`JMh` correlates.
+
+    Parameters
+    ----------
+    specification
+        *ZCAM* colour appearance model specification.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        *ZCAM* :math:`JMh` correlates.
+
+    Notes
+    -----
+    +---------------------+-----------------------+-----------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``specification.J`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.C`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.h`` | 360                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.s`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.Q`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.M`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.H`` | 400                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.HC`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.V`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.K`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.W`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+
+    +---------------------+-----------------------+-----------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``JMh``             | ``J`` : 100           | ``J`` : 1       |
+    |                     |                       |                 |
+    |                     | ``M`` : 100           | ``M`` : 1       |
+    |                     |                       |                 |
+    |                     | ``h`` : 360           | ``h`` : 1       |
+    +---------------------+-----------------------+-----------------+
+
+    Examples
+    --------
+    >>> specification = CAM_Specification_ZCAM(
+    ...     J=92.25044378072363, C=3.021692673332901, h=196.32457375575581
+    ... )
+    >>> ZCAM_to_JMh_ZCAM(specification)  # doctest: +ELLIPSIS
+    array([ 92.2504437...,   3.0216926..., 196.3245737...])
+    """
+
+    return tstack(
+        [
+            cast("NDArrayFloat", specification.J),
+            cast("NDArrayFloat", specification.M),
+            cast("NDArrayFloat", specification.h),
+        ]
+    )
+
+
+def JMh_ZCAM_to_ZCAM(
+    JMh: Annotated[ArrayLike, (1, 1, 360)],
+) -> Annotated[CAM_Specification_ZCAM, (1, 1, 360, 1, 1, 1, 400, 1, 1, 1)]:
+    """
+    Convert from *ZCAM* :math:`JMh` correlates to *ZCAM* specification.
+
+    Parameters
+    ----------
+    JMh
+        *ZCAM* :math:`JMh` correlates.
+
+    Returns
+    -------
+    :class:`colour.CAM_Specification_ZCAM`
+        *ZCAM* colour appearance model specification.
+
+    Notes
+    -----
+    +---------------------+-----------------------+-----------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``JMh``             | ``J`` : 100           | ``J`` : 1       |
+    |                     |                       |                 |
+    |                     | ``M`` : 100           | ``M`` : 1       |
+    |                     |                       |                 |
+    |                     | ``h`` : 360           | ``h`` : 1       |
+    +---------------------+-----------------------+-----------------+
+
+    +---------------------+-----------------------+-----------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``specification.J`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.C`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.h`` | 360                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.s`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.Q`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.M`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.H`` | 400                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.HC`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.V`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.K`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.W`` | 1                     | 1               |
+    +---------------------+-----------------------+-----------------+
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> JMh = np.array([92.25044378, 3.02169267, 196.32457376])
+    >>> JMh_ZCAM_to_ZCAM(JMh)  # doctest: +ELLIPSIS
+    CAM_Specification_ZCAM(J=92.25044378..., C=None, h=196.32457376..., s=None, \
+Q=None, M=3.02169267..., H=None, HC=None, V=None, K=None, W=None)
+    """
+
+    J, M, h = tsplit(JMh)
+
+    return CAM_Specification_ZCAM(J=J, M=M, h=h)
+
+
+def Kim2009_to_JMh_Kim2009(
+    specification: Annotated[
+        CAM_Specification_Kim2009, (100, 100, 360, 100, 100, 100, 400)
+    ],
+) -> Annotated[NDArrayFloat, (100, 100, 360)]:
+    """
+    Convert from *Kim, Weyrich and Kautz (2009)* specification to
+    *Kim, Weyrich and Kautz (2009)* :math:`JMh` correlates.
+
+    Parameters
+    ----------
+    specification
+        *Kim, Weyrich and Kautz (2009)* colour appearance model specification.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        *Kim, Weyrich and Kautz (2009)* :math:`JMh` correlates.
+
+    Notes
+    -----
+    +---------------------+-----------------------+-----------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``specification.J`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.C`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.h`` | 360                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.s`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.Q`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.M`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.H`` | 400                   | 1               |
+    +---------------------+-----------------------+-----------------+
+
+    +---------------------+-----------------------+-----------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``JMh``             | ``J`` : 100           | ``J`` : 1       |
+    |                     |                       |                 |
+    |                     | ``M`` : 100           | ``M`` : 1       |
+    |                     |                       |                 |
+    |                     | ``h`` : 360           | ``h`` : 1       |
+    +---------------------+-----------------------+-----------------+
+
+    Examples
+    --------
+    >>> specification = CAM_Specification_Kim2009(
+    ...     J=41.73109113, C=0.10470776, h=219.04843266
+    ... )
+    >>> Kim2009_to_JMh_Kim2009(specification)  # doctest: +ELLIPSIS
+    array([ 41.7310911...,   0.1047077..., 219.0484326...])
+    """
+
+    return tstack(
+        [
+            cast("NDArrayFloat", specification.J),
+            cast("NDArrayFloat", specification.M),
+            cast("NDArrayFloat", specification.h),
+        ]
+    )
+
+
+def JMh_Kim2009_to_Kim2009(
+    JMh: Annotated[ArrayLike, (100, 100, 360)],
+) -> Annotated[CAM_Specification_Kim2009, (100, 100, 360, 100, 100, 100, 400)]:
+    """
+    Convert from *Kim, Weyrich and Kautz (2009)* :math:`JMh` correlates to
+    *Kim, Weyrich and Kautz (2009)* specification.
+
+    Parameters
+    ----------
+    JMh
+        *Kim, Weyrich and Kautz (2009)* :math:`JMh` correlates.
+
+    Returns
+    -------
+    :class:`colour.CAM_Specification_Kim2009`
+        *Kim, Weyrich and Kautz (2009)* colour appearance model specification.
+
+    Notes
+    -----
+    +---------------------+-----------------------+-----------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``JMh``             | ``J`` : 100           | ``J`` : 1       |
+    |                     |                       |                 |
+    |                     | ``M`` : 100           | ``M`` : 1       |
+    |                     |                       |                 |
+    |                     | ``h`` : 360           | ``h`` : 1       |
+    +---------------------+-----------------------+-----------------+
+
+    +---------------------+-----------------------+-----------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1**   |
+    +=====================+=======================+=================+
+    | ``specification.J`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.C`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.h`` | 360                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.s`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.Q`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.M`` | 100                   | 1               |
+    +---------------------+-----------------------+-----------------+
+    | ``specification.H`` | 400                   | 1               |
+    +---------------------+-----------------------+-----------------+
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> JMh = np.array([41.73109113, 0.10470776, 219.04843266])
+    >>> JMh_Kim2009_to_Kim2009(JMh)  # doctest: +ELLIPSIS
+    CAM_Specification_Kim2009(J=41.73109113..., C=None, h=219.04843266..., s=None, \
+Q=None, M=0.10470776..., H=None, HC=None)
+    """
+
+    J, M, h = tsplit(JMh)
+
+    return CAM_Specification_Kim2009(J=J, M=M, h=h)
+
+
+def XYZ_to_luminance(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert specified *CIE XYZ* tristimulus values to *luminance* :math:`Y`.
 
@@ -578,6 +1212,20 @@ def XYZ_to_luminance(XYZ: ArrayLike) -> NDArrayFloat:
     :class:`numpy.ndarray`
         *Luminance* :math:`Y`.
 
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``Y``     | 1                     | 1             |
+    +-----------+-----------------------+---------------+
+
     Examples
     --------
     >>> import numpy as np
@@ -591,7 +1239,7 @@ def XYZ_to_luminance(XYZ: ArrayLike) -> NDArrayFloat:
     return Y
 
 
-def RGB_luminance_to_RGB(Y: ArrayLike) -> NDArrayFloat:
+def RGB_luminance_to_RGB(Y: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *luminance* :math:`Y` to *RGB*.
 
@@ -604,6 +1252,20 @@ def RGB_luminance_to_RGB(Y: ArrayLike) -> NDArrayFloat:
     -------
     :class:`numpy.ndarray`
         *RGB*.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``Y``      | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``RGB``   | 1                     | 1             |
+    +-----------+-----------------------+---------------+
 
     Examples
     --------
@@ -713,11 +1375,7 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
     ("CIE XYZ", "Luminance", XYZ_to_luminance),
     ("Luminance", "Lightness", lightness),
     ("Lightness", "Luminance", luminance),
-    (
-        "CIE XYZ",
-        "Whiteness",
-        partial(whiteness, XYZ_0=_TVS_ILLUMINANT_DEFAULT),
-    ),
+    ("CIE XYZ", "Whiteness", partial(whiteness, XYZ_0=_TVS_ILLUMINANT_DEFAULT)),
     ("CIE XYZ", "Yellowness", yellowness),
     (
         "CIE xy",
@@ -842,16 +1500,8 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
     ("CIE 1976 UCS", "CIE XYZ", CIE1976UCS_to_XYZ),
     ("CIE XYZ", "CIE 1976 UCS", XYZ_to_CIE1976UCS),
     # RGB Colour Models
-    (
-        "CIE XYZ",
-        "RGB",
-        partial(XYZ_to_RGB, colourspace=_RGB_COLOURSPACE_DEFAULT),
-    ),
-    (
-        "RGB",
-        "CIE XYZ",
-        partial(RGB_to_XYZ, colourspace=_RGB_COLOURSPACE_DEFAULT),
-    ),
+    ("CIE XYZ", "RGB", partial(XYZ_to_RGB, colourspace=_RGB_COLOURSPACE_DEFAULT)),
+    ("RGB", "CIE XYZ", partial(RGB_to_XYZ, colourspace=_RGB_COLOURSPACE_DEFAULT)),
     (
         "RGB",
         "Scene-Referred RGB",
@@ -934,32 +1584,16 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
             k_2=(15 + 50) / 2,
         ),
     ),
-    (
-        "CIE XYZ",
-        "CIECAM02",
-        partial(XYZ_to_CIECAM02, **_CAM_KWARGS_CIECAM02_sRGB),
-    ),
-    (
-        "CIECAM02",
-        "CIE XYZ",
-        partial(CIECAM02_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB),
-    ),
+    ("CIE XYZ", "CIECAM02", partial(XYZ_to_CIECAM02, **_CAM_KWARGS_CIECAM02_sRGB)),
+    ("CIECAM02", "CIE XYZ", partial(CIECAM02_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB)),
     ("CIECAM02", "CIECAM02 JMh", CIECAM02_to_JMh_CIECAM02),
     ("CIECAM02 JMh", "CIECAM02", JMh_CIECAM02_to_CIECAM02),
     ("CIE XYZ", "CAM16", partial(XYZ_to_CAM16, **_CAM_KWARGS_CIECAM02_sRGB)),
     ("CAM16", "CIE XYZ", partial(CAM16_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB)),
     ("CAM16", "CAM16 JMh", CAM16_to_JMh_CAM16),
     ("CAM16 JMh", "CAM16", JMh_CAM16_to_CAM16),
-    (
-        "CIE XYZ",
-        "CIECAM16",
-        partial(XYZ_to_CIECAM16, **_CAM_KWARGS_CIECAM02_sRGB),
-    ),
-    (
-        "CIECAM16",
-        "CIE XYZ",
-        partial(CIECAM16_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB),
-    ),
+    ("CIE XYZ", "CIECAM16", partial(XYZ_to_CIECAM16, **_CAM_KWARGS_CIECAM02_sRGB)),
+    ("CIECAM16", "CIE XYZ", partial(CIECAM16_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB)),
     ("CIECAM16", "CIECAM16 JMh", CIECAM16_to_JMh_CIECAM16),
     ("CIECAM16 JMh", "CIECAM16", JMh_CIECAM16_to_CIECAM16),
     (
@@ -984,6 +1618,8 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
         "CIE XYZ",
         partial(Kim2009_to_XYZ, XYZ_w=_TVS_ILLUMINANT_DEFAULT, L_A=80 * 0.2),
     ),
+    ("Kim 2009", "Kim 2009 JMh", Kim2009_to_JMh_Kim2009),
+    ("Kim 2009 JMh", "Kim 2009", JMh_Kim2009_to_Kim2009),
     (
         "CIE XYZ",
         "Hunt",
@@ -1011,43 +1647,27 @@ CONVERSION_SPECIFICATIONS_DATA: List[tuple] = [
             E_or=1000,
         ),
     ),
-    (
-        "CIE XYZ",
-        "RLAB",
-        partial(XYZ_to_RLAB, XYZ_n=_TVS_ILLUMINANT_DEFAULT, Y_n=20),
-    ),
-    (
-        "CIE XYZ",
-        "sCAM",
-        partial(XYZ_to_sCAM, **_CAM_KWARGS_CIECAM02_sRGB),
-    ),
-    (
-        "sCAM",
-        "CIE XYZ",
-        partial(sCAM_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB),
-    ),
+    ("CIE XYZ", "RLAB", partial(XYZ_to_RLAB, XYZ_n=_TVS_ILLUMINANT_DEFAULT, Y_n=20)),
+    ("CIE XYZ", "sCAM", partial(XYZ_to_sCAM, **_CAM_KWARGS_CIECAM02_sRGB)),
+    ("sCAM", "CIE XYZ", partial(sCAM_to_XYZ, **_CAM_KWARGS_CIECAM02_sRGB)),
     ("sCAM", "sCAM JMh", sCAM_to_JMh_sCAM),
     ("sCAM JMh", "sCAM", JMh_sCAM_to_sCAM),
     (
         "CIE XYZ",
         "ZCAM",
         partial(
-            XYZ_to_ZCAM,
-            XYZ_w=_TVS_ILLUMINANT_DEFAULT,
-            L_A=64 / np.pi * 0.2,
-            Y_b=20,
+            XYZ_to_ZCAM, XYZ_w=_TVS_ILLUMINANT_DEFAULT, L_A=64 / np.pi * 0.2, Y_b=20
         ),
     ),
     (
         "ZCAM",
         "CIE XYZ",
         partial(
-            ZCAM_to_XYZ,
-            XYZ_w=_TVS_ILLUMINANT_DEFAULT,
-            L_A=64 / np.pi * 0.2,
-            Y_b=20,
+            ZCAM_to_XYZ, XYZ_w=_TVS_ILLUMINANT_DEFAULT, L_A=64 / np.pi * 0.2, Y_b=20
         ),
     ),
+    ("ZCAM", "ZCAM JMh", ZCAM_to_JMh_ZCAM),
+    ("ZCAM JMh", "ZCAM", JMh_ZCAM_to_ZCAM),
     ("CIECAM02 JMh", "CAM02LCD", JMh_CIECAM02_to_CAM02LCD),
     ("CAM02LCD", "CIECAM02 JMh", CAM02LCD_to_JMh_CIECAM02),
     ("CIECAM02 JMh", "CAM02SCD", JMh_CIECAM02_to_CAM02SCD),
@@ -1068,8 +1688,6 @@ the edge in the graph.
 
 
 # Programmatically defining the colourspace models polar conversions.
-
-
 def _format_node_name(name: str) -> str:
     """
     Format the specified name by applying a series of substitutions.

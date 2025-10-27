@@ -33,6 +33,7 @@ from colour.colorimetry import CCS_ILLUMINANTS
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models import Lab_to_XYZ, XYZ_to_Lab
 from colour.utilities import (
     CanonicalMapping,
@@ -80,13 +81,13 @@ References
 
 
 def Lab_to_DIN99(
-    Lab: ArrayLike,
+    Lab: Annotated[ArrayLike, 100],
     k_E: float = 1,
     k_CH: float = 1,
     method: (
         Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"] | str
     ) = "DIN99",
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace or one
     of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according to
@@ -115,21 +116,13 @@ def Lab_to_DIN99(
     +------------+------------------------+--------------------+
     | **Domain** | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
-    | ``Lab``    | ``L`` : [0, 100]       | ``L`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``a`` : [-100, 100]    | ``a`` : [-1, 1]    |
-    |            |                        |                    |
-    |            | ``b`` : [-100, 100]    | ``b`` : [-1, 1]    |
+    | ``Lab``    | 100                    | 1                  |
     +------------+------------------------+--------------------+
 
     +------------+------------------------+--------------------+
     | **Range**  | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
-    | ``Lab_99`` | ``L_99`` : [0, 100]    | ``L_99`` : [0, 1]  |
-    |            |                        |                    |
-    |            | ``a_99`` : [-100, 100] | ``a_99`` : [-1, 1] |
-    |            |                        |                    |
-    |            | ``b_99`` : [-100, 100] | ``b_99`` : [-1, 1] |
+    | ``Lab_99`` | 100                    | 1                  |
     +------------+------------------------+--------------------+
 
     References
@@ -171,13 +164,13 @@ def Lab_to_DIN99(
 
 
 def DIN99_to_Lab(
-    Lab_99: ArrayLike,
+    Lab_99: Annotated[ArrayLike, 100],
     k_E: float = 1,
     k_CH: float = 1,
     method: (
         Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"] | str
     ) = "DIN99",
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*, *DIN99d*
     refined formulas according to *Cui et al. (2002)* to *CIE L\\*a\\*b\\**
@@ -206,21 +199,13 @@ def DIN99_to_Lab(
     +------------+------------------------+--------------------+
     | **Domain** | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
-    | ``Lab_99`` | ``L_99`` : [0, 100]    | ``L_99`` : [0, 1]  |
-    |            |                        |                    |
-    |            | ``a_99`` : [-100, 100] | ``a_99`` : [-1, 1] |
-    |            |                        |                    |
-    |            | ``b_99`` : [-100, 100] | ``b_99`` : [-1, 1] |
+    | ``Lab_99`` | 100                    | 1                  |
     +------------+------------------------+--------------------+
 
     +------------+------------------------+--------------------+
     | **Range**  | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
-    | ``Lab``    | ``L`` : [0, 100]       | ``L`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``a`` : [-100, 100]    | ``a`` : [-1, 1]    |
-    |            |                        |                    |
-    |            | ``b`` : [-100, 100]    | ``b`` : [-1, 1]    |
+    | ``Lab``    | 100                    | 1                  |
     +------------+------------------------+--------------------+
 
     References
@@ -262,7 +247,7 @@ def DIN99_to_Lab(
 
 
 def XYZ_to_DIN99(
-    XYZ: ArrayLike,
+    XYZ: Annotated[ArrayLike, 1],
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
@@ -271,7 +256,7 @@ def XYZ_to_DIN99(
     method: (
         Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"] | str
     ) = "DIN99",
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert from *CIE XYZ* tristimulus values to *DIN99* colourspace or one
     of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according to
@@ -303,19 +288,15 @@ def XYZ_to_DIN99(
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``XYZ``        | [0, 1]                | [0, 1]          |
+    | ``XYZ``        | 1                     | 1               |
     +----------------+-----------------------+-----------------+
-    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    | ``illuminant`` | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     +------------+------------------------+--------------------+
     | **Range**  | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
-    | ``Lab_99`` | ``L_99`` : [0, 100]    | ``L_99`` : [0, 1]  |
-    |            |                        |                    |
-    |            | ``a_99`` : [-100, 100] | ``a_99`` : [-1, 1] |
-    |            |                        |                    |
-    |            | ``b_99`` : [-100, 100] | ``b_99`` : [-1, 1] |
+    | ``Lab_99`` | 100                    | 1                  |
     +------------+------------------------+--------------------+
 
     References
@@ -336,7 +317,7 @@ def XYZ_to_DIN99(
 
 
 def DIN99_to_XYZ(
-    Lab_99: ArrayLike,
+    Lab_99: Annotated[ArrayLike, 100],
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
@@ -345,7 +326,7 @@ def DIN99_to_XYZ(
     method: (
         Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"] | str
     ) = "DIN99",
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
     *DIN99d* refined formulas according to *Cui et al. (2002)* to
@@ -377,19 +358,15 @@ def DIN99_to_XYZ(
     +----------------+------------------------+--------------------+
     | **Domain**     | **Scale - Reference**  | **Scale - 1**      |
     +================+========================+====================+
-    | ``Lab_99``     | ``L_99`` : [0, 100]    | ``L_99`` : [0, 1]  |
-    |                |                        |                    |
-    |                | ``a_99`` : [-100, 100] | ``a_99`` : [-1, 1] |
-    |                |                        |                    |
-    |                | ``b_99`` : [-100, 100] | ``b_99`` : [-1, 1] |
+    | ``Lab_99``     | 100                    | 1                  |
     +----------------+------------------------+--------------------+
-    | ``illuminant`` | [0, 1]                 | [0, 1]             |
+    | ``illuminant`` | 1                      | 1                  |
     +----------------+------------------------+--------------------+
 
     +----------------+-----------------------+---------------------+
     | **Range**      | **Scale - Reference** | **Scale - 1**       |
     +================+=======================+=====================+
-    | ``XYZ``        | [0, 1]                | [0, 1]              |
+    | ``XYZ``        | 1                     | 1                   |
     +----------------+-----------------------+---------------------+
 
     References

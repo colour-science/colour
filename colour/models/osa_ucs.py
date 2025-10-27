@@ -31,6 +31,7 @@ from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.models import XYZ_to_xyY
 from colour.utilities import (
     from_range_100,
@@ -70,7 +71,7 @@ values (inverse of MATRIX_XYZ_TO_RGB_OSA_UCS).
 """
 
 
-def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArrayFloat:
+def XYZ_to_OSA_UCS(XYZ: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 100]:
     """
     Convert from *CIE XYZ* tristimulus values under the
     *CIE 1964 10 Degree Standard Observer* to *OSA UCS* colourspace.
@@ -96,17 +97,13 @@ def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+--------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**      |
     +============+=======================+====================+
-    | ``XYZ``    | [0, 100]              | [0, 1]             |
+    | ``XYZ``    | 100                   | 1                  |
     +------------+-----------------------+--------------------+
 
     +------------+-----------------------+--------------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**      |
     +============+=======================+====================+
-    | ``Ljg``    | ``L`` : [-100, 100]   | ``L`` : [-1, 1]    |
-    |            |                       |                    |
-    |            | ``j`` : [-100, 100]   | ``j`` : [-1, 1]    |
-    |            |                       |                    |
-    |            | ``g`` : [-100, 100]   | ``g`` : [-1, 1]    |
+    | ``Ljg``    | 100                   | 1                  |
     +------------+-----------------------+--------------------+
 
     -   *OSA UCS* uses the *CIE 1964 10 Degree Standard Observer*.
@@ -152,8 +149,8 @@ def XYZ_to_OSA_UCS(XYZ: ArrayLike) -> NDArrayFloat:
 
 
 def OSA_UCS_to_XYZ(
-    Ljg: ArrayLike, optimisation_kwargs: dict | None = None
-) -> NDArrayFloat:
+    Ljg: Annotated[ArrayLike, 100], optimisation_kwargs: dict | None = None
+) -> Annotated[NDArrayFloat, 100]:
     """
     Convert from *OSA UCS* colourspace to *CIE XYZ* tristimulus values under
     the *CIE 1964 10 Degree Standard Observer*.
@@ -185,17 +182,13 @@ def OSA_UCS_to_XYZ(
     +------------+-----------------------+--------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**      |
     +============+=======================+====================+
-    | ``Ljg``    | ``L`` : [-100, 100]   | ``L`` : [-1, 1]    |
-    |            |                       |                    |
-    |            | ``j`` : [-100, 100]   | ``j`` : [-1, 1]    |
-    |            |                       |                    |
-    |            | ``g`` : [-100, 100]   | ``g`` : [-1, 1]    |
+    | ``Ljg``    | 100                   | 1                  |
     +------------+-----------------------+--------------------+
 
     +------------+-----------------------+--------------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**      |
     +============+=======================+====================+
-    | ``XYZ``    | [0, 100]              | [0, 1]             |
+    | ``XYZ``    | 100                   | 1                  |
     +------------+-----------------------+--------------------+
 
     -   *OSA UCS* uses the *CIE 1964 10 Degree Standard Observer*.

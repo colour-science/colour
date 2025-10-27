@@ -29,6 +29,7 @@ from colour.algebra import sdiv, sdiv_mode, vecmul
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassIterable,
@@ -171,11 +172,11 @@ def matrix_chromatic_adaptation_vk20(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_p``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_p``  | 1                     | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_n``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_n``  | 1                     | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_r``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_r``  | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -231,9 +232,9 @@ def matrix_chromatic_adaptation_vk20(
 
 
 def chromatic_adaptation_vK20(
-    XYZ: ArrayLike,
-    XYZ_p: ArrayLike,
-    XYZ_n: ArrayLike,
+    XYZ: Annotated[ArrayLike, 1],
+    XYZ_p: Annotated[ArrayLike, 1],
+    XYZ_n: Annotated[ArrayLike, 1],
     XYZ_r: ArrayLike | None = None,
     transform: Literal[
         "Bianco 2010",
@@ -253,7 +254,7 @@ def chromatic_adaptation_vK20(
     coefficients: Coefficients_DegreeOfAdaptation_vK20 = (
         CONDITIONS_DEGREE_OF_ADAPTATION_VK20["Fairchild"]
     ),
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, 1]:
     """
     Adapt the specified stimulus *CIE XYZ* tristimulus values from test
     viewing conditions to reference viewing conditions using the
@@ -287,19 +288,19 @@ def chromatic_adaptation_vK20(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    | ``XYZ``    | 1                     | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_p``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_p``  | 1                     | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_n``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_n``  | 1                     | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_r``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_r``  | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_a``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_a``  | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

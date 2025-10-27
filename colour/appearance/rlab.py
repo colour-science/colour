@@ -32,6 +32,7 @@ from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
+from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArray,
@@ -192,12 +193,12 @@ class CAM_Specification_RLAB(MixinDataclassArray):
 
 
 def XYZ_to_RLAB(
-    XYZ: ArrayLike,
-    XYZ_n: ArrayLike,
+    XYZ: Annotated[ArrayLike, 100],
+    XYZ_n: Annotated[ArrayLike, 100],
     Y_n: ArrayLike,
     sigma: ArrayLike = VIEWING_CONDITIONS_RLAB["Average"],
     D: ArrayLike = D_FACTOR_RLAB["Hard Copy Images"],
-) -> CAM_Specification_RLAB:
+) -> Annotated[CAM_Specification_RLAB, 360]:
     """
     Compute the *RLAB* colour appearance model correlates from the specified
     *CIE XYZ* tristimulus values.
@@ -223,24 +224,19 @@ def XYZ_to_RLAB(
 
     Notes
     -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
-    | ``XYZ_n``  | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``XYZ``             | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``XYZ_n``           | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
 
-    +------------------------------+-----------------------\
-+---------------+
-    | **Range**                    | **Scale - Reference** \
-| **Scale - 1** |
-    +==============================+=======================\
-+===============+
-    | ``CAM_Specification_RLAB.h`` | [0, 360]              \
-| [0, 1]        |
-    +------------------------------+-----------------------\
-+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``specification.h`` | 360                   | 1             |
+    +---------------------+-----------------------+---------------+
 
     References
     ----------
