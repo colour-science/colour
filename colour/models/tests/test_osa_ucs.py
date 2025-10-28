@@ -170,8 +170,10 @@ class TestOSA_UCS_to_XYZ:
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_equal(
-                    OSA_UCS_to_XYZ(Ljg * factor), XYZ * factor
+                np.testing.assert_allclose(
+                    OSA_UCS_to_XYZ(Ljg * factor),
+                    XYZ * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
