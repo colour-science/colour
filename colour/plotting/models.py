@@ -1979,10 +1979,12 @@ def plot_constant_hue_loci(
         convert_settings.update(convert_kwargs)
 
         ijk_ct = colourspace_model_axis_reorder(
-            convert(XYZ_ct, "CIE XYZ", model, **convert_settings), model
+            convert(XYZ_ct, "CIE XYZ", model, **convert_settings),  # pyright: ignore
+            model,
         )
         ijk_cr = colourspace_model_axis_reorder(
-            convert(XYZ_cr, "CIE XYZ", model, **convert_settings), model
+            convert(XYZ_cr, "CIE XYZ", model, **convert_settings),  # pyright: ignore
+            model,
         )
 
         ijk_ct *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
