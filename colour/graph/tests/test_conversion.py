@@ -9,7 +9,8 @@ from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import CCS_ILLUMINANTS, SDS_ILLUMINANTS
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.graph import convert, describe_conversion_path
-from colour.models import COLOURSPACE_MODELS, RGB_COLOURSPACE_ACES2065_1
+from colour.models import COLOURSPACE_MODELS, RGB_COLOURSPACE_ACES2065_1, XYZ_to_Lab
+from colour.utilities import get_domain_range_scale_metadata
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -155,4 +156,61 @@ class TestConvert:
                 "sRGB",
                 illuminant=tuple(illuminant),
             ),
+        )
+
+    def test_convert_reference_scale(self) -> None:
+        """
+        Test :func:`colour.graph.conversion.convert` definition behaviour with
+        `from_reference_scale` and `to_reference_scale` parameters.
+        """
+
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+
+        Lab_auto = convert(XYZ, "CIE XYZ", "CIE Lab", to_reference_scale=True)
+
+        Lab_manual = convert(XYZ, "CIE XYZ", "CIE Lab")
+        metadata = get_domain_range_scale_metadata(XYZ_to_Lab)
+        range_scale = metadata["range"]
+        Lab_manual_scaled = Lab_manual * range_scale
+
+        np.testing.assert_allclose(
+            Lab_auto,
+            Lab_manual_scaled,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        Lab_native = Lab_auto
+
+        XYZ_auto = convert(
+            Lab_native,
+            "CIE Lab",
+            "CIE XYZ",
+            from_reference_scale=True,
+        )
+
+        Lab_manual_normalized = Lab_native / range_scale
+        XYZ_manual = convert(Lab_manual_normalized, "CIE Lab", "CIE XYZ")
+
+        np.testing.assert_allclose(
+            XYZ_auto,
+            XYZ_manual,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        XYZ_roundtrip = convert(
+            convert(
+                XYZ,
+                "CIE XYZ",
+                "CIE Lab",
+                to_reference_scale=True,
+            ),
+            "CIE Lab",
+            "CIE XYZ",
+            from_reference_scale=True,
+        )
+
+        np.testing.assert_allclose(
+            XYZ_roundtrip,
+            XYZ,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )

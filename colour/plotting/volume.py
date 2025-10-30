@@ -601,7 +601,7 @@ def plot_RGB_colourspaces_gamuts(
 
         quads_c.extend(
             colourspace_model_axis_reorder(
-                convert(XYZ, "CIE XYZ", model, **convert_settings),
+                convert(XYZ, "CIE XYZ", model, **convert_settings),  # pyright: ignore
                 model,
             )
         )
@@ -787,7 +787,7 @@ def plot_RGB_scatter(
     convert_settings.update(convert_kwargs)
 
     points = colourspace_model_axis_reorder(
-        convert(XYZ, "CIE XYZ", model, **convert_settings),
+        convert(XYZ, "CIE XYZ", model, **convert_settings),  # pyright: ignore
         model,
     )
 
