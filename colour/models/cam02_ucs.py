@@ -35,9 +35,17 @@ import numpy as np
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Any, ArrayLike
+    from colour.hints import (
+        Any,
+        Domain1,
+        Domain100,
+        Domain100_100_360,
+        Range1,
+        Range100,
+        Range100_100_360,
+    )
 
-from colour.hints import Annotated, NDArrayFloat, cast
+from colour.hints import NDArrayFloat, cast
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassIterable,
@@ -115,8 +123,8 @@ COEFFICIENTS_UCS_LUO2006: CanonicalMapping = CanonicalMapping(
 
 
 def JMh_CIECAM02_to_UCS_Luo2006(
-    JMh: Annotated[ArrayLike, (100, 100, 360)], coefficients: Coefficients_UCS_Luo2006
-) -> Annotated[NDArrayFloat, 100]:
+    JMh: Domain100_100_360, coefficients: Coefficients_UCS_Luo2006
+) -> Range100:
     """
     Convert from *CIECAM02* :math:`JMh` correlates array to one of the
     *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
@@ -195,8 +203,8 @@ def JMh_CIECAM02_to_UCS_Luo2006(
 
 
 def UCS_Luo2006_to_JMh_CIECAM02(
-    Jpapbp: Annotated[ArrayLike, 100], coefficients: Coefficients_UCS_Luo2006
-) -> Annotated[NDArrayFloat, (100, 100, 360)]:
+    Jpapbp: Domain100, coefficients: Coefficients_UCS_Luo2006
+) -> Range100_100_360:
     """
     Convert from one of the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*,
     or *CAM02-UCS* colourspaces :math:`J'a'b'` array to *CIECAM02*
@@ -261,8 +269,8 @@ def UCS_Luo2006_to_JMh_CIECAM02(
 
 
 def JMh_CIECAM02_to_CAM02LCD(
-    JMh: Annotated[ArrayLike, (100, 100, 360)],
-) -> Annotated[NDArrayFloat, 100]:
+    JMh: Domain100_100_360,
+) -> Range100:
     """
     Convert from *CIECAM02* :math:`JMh` correlates array to *Luo et al.
     (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
@@ -324,8 +332,8 @@ def JMh_CIECAM02_to_CAM02LCD(
 
 
 def CAM02LCD_to_JMh_CIECAM02(
-    Jpapbp: Annotated[ArrayLike, 100],
-) -> Annotated[NDArrayFloat, (100, 100, 360)]:
+    Jpapbp: Domain100,
+) -> Range100_100_360:
     """
     Convert from *Luo et al. (2006)* *CAM02-LCD* colourspace
     :math:`J'a'b'` array to *CIECAM02* :math:`JMh` correlates array.
@@ -377,8 +385,8 @@ def CAM02LCD_to_JMh_CIECAM02(
 
 
 def JMh_CIECAM02_to_CAM02SCD(
-    JMh: Annotated[ArrayLike, (100, 100, 360)],
-) -> Annotated[NDArrayFloat, 100]:
+    JMh: Domain100_100_360,
+) -> Range100:
     """
     Convert from *CIECAM02* :math:`JMh` correlates array to *Luo et al.
     (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
@@ -440,8 +448,8 @@ def JMh_CIECAM02_to_CAM02SCD(
 
 
 def CAM02SCD_to_JMh_CIECAM02(
-    Jpapbp: Annotated[ArrayLike, 100],
-) -> Annotated[NDArrayFloat, (100, 100, 360)]:
+    Jpapbp: Domain100,
+) -> Range100_100_360:
     """
     Convert from *Luo et al. (2006)* *CAM02-SCD* colourspace
     :math:`J'a'b'` array to *CIECAM02* :math:`JMh` correlates array.
@@ -494,8 +502,8 @@ def CAM02SCD_to_JMh_CIECAM02(
 
 
 def JMh_CIECAM02_to_CAM02UCS(
-    JMh: Annotated[ArrayLike, (100, 100, 360)],
-) -> Annotated[NDArrayFloat, 100]:
+    JMh: Domain100_100_360,
+) -> Range100:
     """
     Convert from *CIECAM02* :math:`JMh` correlates array to *Luo et al.
     (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
@@ -557,8 +565,8 @@ def JMh_CIECAM02_to_CAM02UCS(
 
 
 def CAM02UCS_to_JMh_CIECAM02(
-    Jpapbp: Annotated[ArrayLike, 100],
-) -> Annotated[NDArrayFloat, (100, 100, 360)]:
+    Jpapbp: Domain100,
+) -> Range100_100_360:
     """
     Convert from *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'`
     array to *CIECAM02* :math:`JMh` correlates array.
@@ -610,10 +618,10 @@ def CAM02UCS_to_JMh_CIECAM02(
 
 
 def XYZ_to_UCS_Luo2006(
-    XYZ: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
     coefficients: Coefficients_UCS_Luo2006,
     **kwargs: Any,
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to one of the
     *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
@@ -700,10 +708,10 @@ def XYZ_to_UCS_Luo2006(
 
 
 def UCS_Luo2006_to_XYZ(
-    Jpapbp: Annotated[ArrayLike, 100],
+    Jpapbp: Domain100,
     coefficients: Coefficients_UCS_Luo2006,
     **kwargs: Any,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert from one of the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or
     *CAM02-UCS* colourspaces :math:`J'a'b'` array to *CIE XYZ* tristimulus
@@ -787,9 +795,7 @@ def UCS_Luo2006_to_XYZ(
     return XYZ
 
 
-def XYZ_to_CAM02LCD(
-    XYZ: Annotated[ArrayLike, 1], **kwargs: Any
-) -> Annotated[NDArrayFloat, 100]:
+def XYZ_to_CAM02LCD(XYZ: Domain1, **kwargs: Any) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to *Luo et al. (2006)*
     *CAM02-LCD* colourspace :math:`J'a'b'` array.
@@ -853,9 +859,7 @@ def XYZ_to_CAM02LCD(
     )
 
 
-def CAM02LCD_to_XYZ(
-    Jpapbp: Annotated[ArrayLike, 100], **kwargs: Any
-) -> Annotated[NDArrayFloat, 1]:
+def CAM02LCD_to_XYZ(Jpapbp: Domain100, **kwargs: Any) -> Range1:
     """
     Convert from *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'`
     array to *CIE XYZ* tristimulus values.
@@ -917,9 +921,7 @@ def CAM02LCD_to_XYZ(
     )
 
 
-def XYZ_to_CAM02SCD(
-    XYZ: Annotated[ArrayLike, 1], **kwargs: Any
-) -> Annotated[NDArrayFloat, 100]:
+def XYZ_to_CAM02SCD(XYZ: Domain1, **kwargs: Any) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to *Luo et al. (2006)*
     *CAM02-SCD* colourspace :math:`J'a'b'` array.
@@ -983,9 +985,7 @@ def XYZ_to_CAM02SCD(
     )
 
 
-def CAM02SCD_to_XYZ(
-    Jpapbp: Annotated[ArrayLike, 100], **kwargs: Any
-) -> Annotated[NDArrayFloat, 1]:
+def CAM02SCD_to_XYZ(Jpapbp: Domain100, **kwargs: Any) -> Range1:
     """
     Convert from *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'`
     array to *CIE XYZ* tristimulus values.
@@ -1047,9 +1047,7 @@ def CAM02SCD_to_XYZ(
     )
 
 
-def XYZ_to_CAM02UCS(
-    XYZ: Annotated[ArrayLike, 1], **kwargs: Any
-) -> Annotated[NDArrayFloat, 100]:
+def XYZ_to_CAM02UCS(XYZ: Domain1, **kwargs: Any) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to *Luo et al. (2006)*
     *CAM02-UCS* colourspace :math:`J'a'b'` array.
@@ -1113,9 +1111,7 @@ def XYZ_to_CAM02UCS(
     )
 
 
-def CAM02UCS_to_XYZ(
-    Jpapbp: Annotated[ArrayLike, 100], **kwargs: Any
-) -> Annotated[NDArrayFloat, 1]:
+def CAM02UCS_to_XYZ(Jpapbp: Domain100, **kwargs: Any) -> Range1:
     """
     Convert from *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'`
     array to *CIE XYZ* tristimulus values.

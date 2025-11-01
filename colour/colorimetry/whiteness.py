@@ -49,9 +49,13 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
+    from colour.hints import Any, Literal
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain100,
+    Range100,
+)
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -84,9 +88,7 @@ __all__ = [
 ]
 
 
-def whiteness_Berger1959(
-    XYZ: Annotated[ArrayLike, 100], XYZ_0: Annotated[ArrayLike, 100]
-) -> Annotated[NDArrayFloat, 100]:
+def whiteness_Berger1959(XYZ: Domain100, XYZ_0: Domain100) -> Range100:
     """
     Compute the *whiteness* index :math:`WI` of the specified sample *CIE XYZ*
     tristimulus values using the *Berger (1959)* method.
@@ -143,9 +145,7 @@ def whiteness_Berger1959(
     return as_float(from_range_100(WI))
 
 
-def whiteness_Taube1960(
-    XYZ: Annotated[ArrayLike, 100], XYZ_0: Annotated[ArrayLike, 100]
-) -> Annotated[NDArrayFloat, 100]:
+def whiteness_Taube1960(XYZ: Domain100, XYZ_0: Domain100) -> Range100:
     """
     Compute the *whiteness* index :math:`WI` of the specified sample *CIE XYZ*
     tristimulus values using the *Taube (1960)* method.
@@ -203,8 +203,8 @@ def whiteness_Taube1960(
 
 
 def whiteness_Stensby1968(
-    Lab: Annotated[ArrayLike, 100],
-) -> Annotated[NDArrayFloat, 100]:
+    Lab: Domain100,
+) -> Range100:
     """
     Compute the *whiteness* index :math:`WI` of the specified sample
     *CIE L\\*a\\*b\\** colourspace array using the *Stensby (1968)* method.
@@ -255,7 +255,7 @@ def whiteness_Stensby1968(
     return as_float(from_range_100(WI))
 
 
-def whiteness_ASTME313(XYZ: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 100]:
+def whiteness_ASTME313(XYZ: Domain100) -> Range100:
     """
     Compute the *whiteness* index :math:`WI` of the specified sample *CIE XYZ*
     tristimulus values using the *ASTM E313* method.
@@ -303,9 +303,7 @@ def whiteness_ASTME313(XYZ: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat
     return as_float(from_range_100(WI))
 
 
-def whiteness_Ganz1979(
-    xy: ArrayLike, Y: Annotated[ArrayLike, 100]
-) -> Annotated[NDArrayFloat, 100]:
+def whiteness_Ganz1979(xy: ArrayLike, Y: Domain100) -> Range100:
     """
     Compute the *whiteness* index :math:`W` and *tint* :math:`T` of the
     specified sample *CIE xy* chromaticity coordinates using the
@@ -372,13 +370,13 @@ def whiteness_Ganz1979(
 
 def whiteness_CIE2004(
     xy: ArrayLike,
-    Y: Annotated[ArrayLike, 100],
+    Y: Domain100,
     xy_n: ArrayLike,
     observer: Literal[
         "CIE 1931 2 Degree Standard Observer",
         "CIE 1964 10 Degree Standard Observer",
     ] = ("CIE 1931 2 Degree Standard Observer"),
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Compute the *whiteness* :math:`W` or :math:`W_{10}` and *tint*
     :math:`T` or :math:`T_{10}` of the specified sample *CIE xy* chromaticity
@@ -478,7 +476,7 @@ WHITENESS_METHODS["cie2004"] = WHITENESS_METHODS["CIE 2004"]
 
 
 def whiteness(
-    XYZ: Annotated[ArrayLike, 100],
+    XYZ: Domain100,
     XYZ_0: ArrayLike,
     method: (
         Literal[
@@ -492,7 +490,7 @@ def whiteness(
         | str
     ) = "CIE 2004",
     **kwargs: Any,
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Compute the *whiteness* index :math:`W` of the specified sample *CIE XYZ*
     tristimulus values using the specified method.

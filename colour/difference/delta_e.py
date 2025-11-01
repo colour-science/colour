@@ -44,17 +44,16 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
 
 from __future__ import annotations
 
-import typing
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
 
 from colour.algebra import euclidean_distance
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Domain100,
+    NDArrayFloat,
+)
 from colour.utilities import (
     MixinDataclassArithmetic,
     as_float,
@@ -108,9 +107,7 @@ References
 """
 
 
-def delta_E_CIE1976(
-    Lab_1: Annotated[ArrayLike, 100], Lab_2: Annotated[ArrayLike, 100]
-) -> NDArrayFloat:
+def delta_E_CIE1976(Lab_1: Domain100, Lab_2: Domain100) -> NDArrayFloat:
     """
     Compute the colour difference :math:`\\Delta E_{76}` between two
     specified *CIE L\\*a\\*b\\** colourspace arrays using the *CIE 1976*
@@ -154,8 +151,8 @@ def delta_E_CIE1976(
 
 
 def delta_E_CIE1994(
-    Lab_1: Annotated[ArrayLike, 100],
-    Lab_2: Annotated[ArrayLike, 100],
+    Lab_1: Domain100,
+    Lab_2: Domain100,
     textiles: bool = False,
 ) -> NDArrayFloat:
     """
@@ -276,7 +273,7 @@ class Attributes_Specification_CIE2000(MixinDataclassArithmetic):
 
 
 def intermediate_attributes_CIE2000(
-    Lab_1: Annotated[ArrayLike, 100], Lab_2: Annotated[ArrayLike, 100]
+    Lab_1: Domain100, Lab_2: Domain100
 ) -> Attributes_Specification_CIE2000:
     """
     Compute intermediate attributes for CIE 2000 colour difference calculation
@@ -429,8 +426,8 @@ delta_H_p=0.0105030..., R_T=-3...)
 
 
 def delta_E_CIE2000(
-    Lab_1: Annotated[ArrayLike, 100],
-    Lab_2: Annotated[ArrayLike, 100],
+    Lab_1: Domain100,
+    Lab_2: Domain100,
     textiles: bool = False,
 ) -> NDArrayFloat:
     """
@@ -510,8 +507,8 @@ def delta_E_CIE2000(
 
 
 def delta_E_CMC(
-    Lab_1: Annotated[ArrayLike, 100],
-    Lab_2: Annotated[ArrayLike, 100],
+    Lab_1: Domain100,
+    Lab_2: Domain100,
     l: float = 2,  # noqa: E741
     c: float = 1,
 ) -> NDArrayFloat:
@@ -597,9 +594,7 @@ def delta_E_CMC(
     return as_float(d_E)
 
 
-def delta_E_ITP(
-    ICtCp_1: Annotated[ArrayLike, 1], ICtCp_2: Annotated[ArrayLike, 1]
-) -> NDArrayFloat:
+def delta_E_ITP(ICtCp_1: Domain1, ICtCp_2: Domain1) -> NDArrayFloat:
     """
     Compute the colour difference :math:`\\Delta E_{ITP}` between two specified
     :math:`IC_TC_P` colour encoding arrays using the
@@ -655,9 +650,7 @@ def delta_E_ITP(
     return as_float(d_E_ITP)
 
 
-def delta_E_HyAB(
-    Lab_1: Annotated[ArrayLike, 100], Lab_2: Annotated[ArrayLike, 100]
-) -> NDArrayFloat:
+def delta_E_HyAB(Lab_1: Domain100, Lab_2: Domain100) -> NDArrayFloat:
     """
     Compute the colour difference between two *CIE L\\*a\\*b\\** colourspace arrays
     using a combination of a Euclidean metric in hue and chroma with a
@@ -708,8 +701,8 @@ def delta_E_HyAB(
 
 
 def delta_E_HyCH(
-    Lab_1: Annotated[ArrayLike, 100],
-    Lab_2: Annotated[ArrayLike, 100],
+    Lab_1: Domain100,
+    Lab_2: Domain100,
     textiles: bool = False,
 ) -> NDArrayFloat:
     """

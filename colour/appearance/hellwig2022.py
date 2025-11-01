@@ -49,9 +49,15 @@ from colour.appearance.ciecam02 import (
 from colour.appearance.hunt import luminance_level_adaptation_factor
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat, Tuple
+    from colour.hints import Tuple
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Annotated,
+    ArrayLike,
+    Domain100,
+    NDArrayFloat,
+    Range100,
+)
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
@@ -195,8 +201,8 @@ class CAM_Specification_Hellwig2022(MixinDataclassArithmetic):
 
 
 def XYZ_to_Hellwig2022(
-    XYZ: Annotated[ArrayLike, 100],
-    XYZ_w: Annotated[ArrayLike, 100],
+    XYZ: Domain100,
+    XYZ_w: Domain100,
     L_A: ArrayLike,
     Y_b: ArrayLike,
     surround: (
@@ -391,14 +397,14 @@ def Hellwig2022_to_XYZ(
     specification: Annotated[
         CAM_Specification_Hellwig2022, (100, 100, 360, 100, 100, 100, 400, 100, 100)
     ],
-    XYZ_w: Annotated[ArrayLike, 100],
+    XYZ_w: Domain100,
     L_A: ArrayLike,
     Y_b: ArrayLike,
     surround: (
         InductionFactors_CIECAM02 | InductionFactors_Hellwig2022
     ) = VIEWING_CONDITIONS_HELLWIG2022["Average"],
     discount_illuminant: bool = False,
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert the *Hellwig and Fairchild (2022)* colour appearance model
     specification to *CIE XYZ* tristimulus values.

@@ -22,14 +22,12 @@ apple/IDT.Apple.AppleLog_BT2020.ctl
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
 __author__ = "Colour Developers"
@@ -57,9 +55,9 @@ CONSTANTS_APPLE_LOG_PROFILE: Structure = Structure(
 
 
 def log_encoding_AppleLogProfile(
-    R: Annotated[ArrayLike, 1],
+    R: Domain1,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Apple Log Profile* log encoding opto-electronic transfer function (OETF).
 
@@ -132,9 +130,9 @@ def log_encoding_AppleLogProfile(
 
 
 def log_decoding_AppleLogProfile(
-    P: Annotated[ArrayLike, 1],
+    P: Domain1,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Apple Log Profile* log decoding inverse opto-electronic transfer
     function (OETF).

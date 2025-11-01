@@ -13,13 +13,13 @@ import typing
 from colour.colorimetry import CCS_ILLUMINANTS
 
 if typing.TYPE_CHECKING:
-    from colour.hints import (
-        ArrayLike,
-        LiteralChromaticAdaptationTransform,
-        NDArrayFloat,
-    )
+    from colour.hints import LiteralChromaticAdaptationTransform
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    Range1,
+)
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 
 __author__ = "Colour Developers"
@@ -36,7 +36,7 @@ __all__ = [
 
 
 def XYZ_to_sRGB(
-    XYZ: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
@@ -44,7 +44,7 @@ def XYZ_to_sRGB(
         LiteralChromaticAdaptationTransform | str | None
     ) = "CAT02",
     apply_cctf_encoding: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to *sRGB* colourspace.
 
@@ -97,7 +97,7 @@ def XYZ_to_sRGB(
 
 
 def sRGB_to_XYZ(
-    RGB: Annotated[ArrayLike, 1],
+    RGB: Domain1,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
@@ -105,7 +105,7 @@ def sRGB_to_XYZ(
         LiteralChromaticAdaptationTransform | str | None
     ) = "CAT02",
     apply_cctf_decoding: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert from *sRGB* colourspace to *CIE XYZ* tristimulus values.
 

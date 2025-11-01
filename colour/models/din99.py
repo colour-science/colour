@@ -31,9 +31,15 @@ from colour.algebra import spow
 from colour.colorimetry import CCS_ILLUMINANTS
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, Literal, NDArrayFloat
+    from colour.hints import Literal
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    Domain100,
+    Range1,
+    Range100,
+)
 from colour.models import Lab_to_XYZ, XYZ_to_Lab
 from colour.utilities import (
     CanonicalMapping,
@@ -81,13 +87,13 @@ References
 
 
 def Lab_to_DIN99(
-    Lab: Annotated[ArrayLike, 100],
+    Lab: Domain100,
     k_E: float = 1,
     k_CH: float = 1,
     method: (
         Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"] | str
     ) = "DIN99",
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace or one
     of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according to
@@ -164,13 +170,13 @@ def Lab_to_DIN99(
 
 
 def DIN99_to_Lab(
-    Lab_99: Annotated[ArrayLike, 100],
+    Lab_99: Domain100,
     k_E: float = 1,
     k_CH: float = 1,
     method: (
         Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"] | str
     ) = "DIN99",
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*, *DIN99d*
     refined formulas according to *Cui et al. (2002)* to *CIE L\\*a\\*b\\**
@@ -247,7 +253,7 @@ def DIN99_to_Lab(
 
 
 def XYZ_to_DIN99(
-    XYZ: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
@@ -256,7 +262,7 @@ def XYZ_to_DIN99(
     method: (
         Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"] | str
     ) = "DIN99",
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to *DIN99* colourspace or one
     of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according to
@@ -317,7 +323,7 @@ def XYZ_to_DIN99(
 
 
 def DIN99_to_XYZ(
-    Lab_99: Annotated[ArrayLike, 100],
+    Lab_99: Domain100,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
@@ -326,7 +332,7 @@ def DIN99_to_XYZ(
     method: (
         Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"] | str
     ) = "DIN99",
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
     *DIN99d* refined formulas according to *Cui et al. (2002)* to

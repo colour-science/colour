@@ -35,14 +35,14 @@ from colour.algebra import vecmul
 from colour.colorimetry import CCS_ILLUMINANTS
 
 if typing.TYPE_CHECKING:
-    from colour.hints import (
-        ArrayLike,
-        Literal,
-        LiteralChromaticAdaptationTransform,
-        NDArrayFloat,
-    )
+    from colour.hints import Literal, LiteralChromaticAdaptationTransform
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 from colour.models.rgb.transfer_functions import (
     eotf_inverse_ST2084,
@@ -148,7 +148,7 @@ def RGB_to_ICtCp(
         | str
     ) = "Dolby 2016",
     L_p: float = 10000,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert from *ITU-R BT.2020* colourspace to :math:`IC_TC_P` colour
     encoding.
@@ -262,7 +262,7 @@ def RGB_to_ICtCp(
 
 
 def ICtCp_to_RGB(
-    ICtCp: Annotated[ArrayLike, 1],
+    ICtCp: Domain1,
     method: (
         Literal[
             "Dolby 2016",
@@ -409,7 +409,7 @@ def XYZ_to_ICtCp(
         | str
     ) = "Dolby 2016",
     L_p: float = 10000,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to :math:`IC_TC_P` colour
     encoding.
@@ -512,7 +512,7 @@ def XYZ_to_ICtCp(
 
 
 def ICtCp_to_XYZ(
-    ICtCp: Annotated[ArrayLike, 1],
+    ICtCp: Domain1,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],

@@ -58,7 +58,7 @@ import typing
 import numpy as np
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Any, ArrayLike, NDArrayReal
+    from colour.hints import Any, ArrayLike, Domain1, NDArrayReal, Range1
 
 from colour.hints import Annotated, NDArrayFloat, cast
 from colour.models.rgb.transfer_functions import (
@@ -332,7 +332,7 @@ def offset_YCbCr(
 
 
 def RGB_to_YCbCr(
-    RGB: Annotated[ArrayLike, 1],
+    RGB: Domain1,
     K: NDArrayFloat = WEIGHTS_YCBCR["ITU-R BT.709"],
     in_bits: int = 10,
     in_legal: bool = False,
@@ -535,7 +535,7 @@ def RGB_to_YCbCr(
 
 
 def YCbCr_to_RGB(
-    YCbCr: Annotated[ArrayLike, 1],
+    YCbCr: Domain1,
     K: NDArrayFloat = WEIGHTS_YCBCR["ITU-R BT.709"],
     in_bits: int = 8,
     in_legal: bool = True,
@@ -677,7 +677,7 @@ def YCbCr_to_RGB(
 
 
 def RGB_to_YcCbcCrc(
-    RGB: Annotated[ArrayLike, 1],
+    RGB: Domain1,
     out_bits: int = 10,
     out_legal: bool = True,
     out_int: bool = False,
@@ -790,13 +790,13 @@ def RGB_to_YcCbcCrc(
 
 
 def YcCbcCrc_to_RGB(
-    YcCbcCrc: Annotated[ArrayLike, 1],
+    YcCbcCrc: Domain1,
     in_bits: int = 10,
     in_legal: bool = True,
     in_int: bool = False,
     is_12_bits_system: bool = False,
     **kwargs: Any,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert an array of *Yc'Cbc'Crc'* colour encoding values to the
     corresponding *RGB* array of linear values.

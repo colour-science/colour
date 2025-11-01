@@ -24,17 +24,12 @@ large-sensor-camera-F5-F55/12359/2/TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
-if typing.TYPE_CHECKING:
-    from colour.hints import (
-        ArrayLike,
-        NDArrayFloat,
-    )
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import (
     as_float,
@@ -62,11 +57,11 @@ __all__ = [
 
 
 def log_encoding_SLog(
-    x: Annotated[ArrayLike, 1],
+    x: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Sony S-Log* log encoding opto-electronic transfer function
     (OETF).
@@ -139,11 +134,11 @@ def log_encoding_SLog(
 
 
 def log_decoding_SLog(
-    y: Annotated[ArrayLike, 1],
+    y: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Sony S-Log* log decoding inverse opto-electronic transfer
     function (OETF).
@@ -208,11 +203,11 @@ def log_decoding_SLog(
 
 
 def log_encoding_SLog2(
-    x: Annotated[ArrayLike, 1],
+    x: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Sony S-Log2* log encoding opto-electronic transfer function
     (OETF).
@@ -276,11 +271,11 @@ def log_encoding_SLog2(
 
 
 def log_decoding_SLog2(
-    y: Annotated[ArrayLike, 1],
+    y: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Sony S-Log2* log decoding inverse opto-electronic transfer
     function (OETF).
@@ -335,11 +330,11 @@ def log_decoding_SLog2(
 
 
 def log_encoding_SLog3(
-    x: Annotated[ArrayLike, 1],
+    x: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Sony S-Log3* log encoding opto-electronic transfer function
     (OETF).
@@ -412,11 +407,11 @@ def log_encoding_SLog3(
 
 
 def log_decoding_SLog3(
-    y: Annotated[ArrayLike, 1],
+    y: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Sony S-Log3* log decoding inverse opto-electronic transfer
     function (OETF).

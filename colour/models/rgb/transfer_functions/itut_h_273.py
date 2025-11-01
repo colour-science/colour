@@ -27,16 +27,13 @@ References
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
 from colour.algebra import spow
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.models.rgb.transfer_functions import (
     eotf_DCDM,
     eotf_inverse_DCDM,
@@ -64,7 +61,7 @@ __all__ = [
 ]
 
 
-def oetf_H273_Log(L_c: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def oetf_H273_Log(L_c: Domain1) -> Range1:
     """
     Apply the *Recommendation ITU-T H.273* opto-electronic transfer function
     (OETF) for logarithmic encoding with 100:1 dynamic range.
@@ -126,7 +123,7 @@ def oetf_H273_Log(L_c: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return as_float(from_range_1(V))
 
 
-def oetf_inverse_H273_Log(V: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def oetf_inverse_H273_Log(V: Domain1) -> Range1:
     """
     Apply the *Recommendation ITU-T H.273* inverse opto-electronic transfer
     function (OETF) for logarithmic encoding with 100:1 dynamic range.
@@ -187,7 +184,7 @@ def oetf_inverse_H273_Log(V: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat,
     return as_float(from_range_1(L_c))
 
 
-def oetf_H273_LogSqrt(L_c: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def oetf_H273_LogSqrt(L_c: Domain1) -> Range1:
     """
     Apply the *Recommendation ITU-T H.273* opto-electronic transfer function
     (OETF) for logarithmic encoding (100\\*Sqrt(10):1 range).
@@ -251,7 +248,7 @@ def oetf_H273_LogSqrt(L_c: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1
     return as_float(from_range_1(V))
 
 
-def oetf_inverse_H273_LogSqrt(V: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def oetf_inverse_H273_LogSqrt(V: Domain1) -> Range1:
     """
     Apply the *Recommendation ITU-T H.273* inverse opto-electronic transfer
     function (OETF) for logarithmic encoding (100\\*Sqrt(10):1 range).
@@ -311,7 +308,7 @@ def oetf_inverse_H273_LogSqrt(V: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFl
     return as_float(from_range_1(L_c))
 
 
-def oetf_H273_IEC61966_2(L_c: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def oetf_H273_IEC61966_2(L_c: Domain1) -> Range1:
     """
     Apply the *Recommendation ITU-T H.273* opto-electronic transfer function
     (OETF) for *IEC 61966-2* family of transfer functions (*2-1 sRGB*, *2-1
@@ -372,8 +369,8 @@ def oetf_H273_IEC61966_2(L_c: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat
 
 
 def oetf_inverse_H273_IEC61966_2(
-    V: Annotated[ArrayLike, 1],
-) -> Annotated[NDArrayFloat, 1]:
+    V: Domain1,
+) -> Range1:
     """
     Apply the *Recommendation ITU-T H.273* inverse opto-electronic
     transfer function (OETF) for the *IEC 61966-2* family of transfer
@@ -435,7 +432,7 @@ def oetf_inverse_H273_IEC61966_2(
     return as_float(L_c)
 
 
-def eotf_H273_ST428_1(V: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def eotf_H273_ST428_1(V: Domain1) -> Range1:
     """
     Apply the *SMPTE ST 428-1 (2019)* electro-optical transfer function
     (EOTF) as specified in *ITU-T H.273*.
@@ -487,8 +484,8 @@ def eotf_H273_ST428_1(V: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
 
 
 def eotf_inverse_H273_ST428_1(
-    L_o: Annotated[ArrayLike, 1],
-) -> Annotated[NDArrayFloat, 1]:
+    L_o: Domain1,
+) -> Range1:
     """
     Apply the *SMPTE ST 428-1 (2019)* inverse electro-optical transfer function
     (EOTF) as specified in *ITU-T H.273*.

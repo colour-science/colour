@@ -30,9 +30,7 @@ import numpy as np
 from colour.algebra import vecmul
 
 if typing.TYPE_CHECKING:
-    from typing import Annotated
-
-    from colour.hints import ArrayLike, Literal, NDArrayFloat
+    from colour.hints import ArrayLike, Domain1, Literal, NDArrayFloat, Range1
 
 from colour.models.rgb.transfer_functions import eotf_inverse_ST2084, eotf_ST2084
 from colour.models.rgb.transfer_functions.st_2084 import CONSTANTS_ST2084
@@ -171,7 +169,7 @@ def XYZ_to_Izazbz(
     XYZ_D65: ArrayLike,
     constants: Structure | None = None,
     method: (Literal["Safdar 2017", "Safdar 2021", "ZCAM"] | str) = "Safdar 2017",
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to :math:`I_za_zb_z`
     colourspace.
@@ -263,7 +261,7 @@ def XYZ_to_Izazbz(
 
 
 def Izazbz_to_XYZ(
-    Izazbz: Annotated[ArrayLike, 1],
+    Izazbz: Domain1,
     constants: Structure | None = None,
     method: (Literal["Safdar 2017", "Safdar 2021", "ZCAM"] | str) = "Safdar 2017",
 ) -> NDArrayFloat:
@@ -357,7 +355,7 @@ def Izazbz_to_XYZ(
 
 def XYZ_to_Jzazbz(
     XYZ_D65: ArrayLike, constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
         Convert from *CIE XYZ* tristimulus values to :math:`J_za_zb_z`
         colourspace.
@@ -429,7 +427,7 @@ def XYZ_to_Jzazbz(
 
 
 def Jzazbz_to_XYZ(
-    Jzazbz: Annotated[ArrayLike, 1], constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
+    Jzazbz: Domain1, constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
 ) -> NDArrayFloat:
     """
     Convert from :math:`J_za_zb_z` colourspace to *CIE XYZ* tristimulus

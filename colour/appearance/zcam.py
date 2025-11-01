@@ -27,7 +27,6 @@ References
 
 from __future__ import annotations
 
-import typing
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -40,11 +39,13 @@ from colour.appearance.ciecam02 import (
     hue_angle,
 )
 from colour.colorimetry import CCS_ILLUMINANTS
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Annotated,
+    ArrayLike,
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.models import Izazbz_to_XYZ, XYZ_to_Izazbz, xy_to_XYZ
 from colour.utilities import (
     CanonicalMapping,
@@ -330,8 +331,8 @@ TVS_D65: NDArrayFloat = xy_to_XYZ(
 
 
 def XYZ_to_ZCAM(
-    XYZ: Annotated[ArrayLike, 1],
-    XYZ_w: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
+    XYZ_w: Domain1,
     L_A: ArrayLike,
     Y_b: ArrayLike,
     surround: InductionFactors_ZCAM = VIEWING_CONDITIONS_ZCAM["Average"],
@@ -537,12 +538,12 @@ def ZCAM_to_XYZ(
     specification: Annotated[
         CAM_Specification_ZCAM, (1, 1, 360, 1, 1, 1, 400, 1, 1, 1)
     ],
-    XYZ_w: Annotated[ArrayLike, 1],
+    XYZ_w: Domain1,
     L_A: ArrayLike,
     Y_b: ArrayLike,
     surround: InductionFactors_ZCAM = VIEWING_CONDITIONS_ZCAM["Average"],
     discount_illuminant: bool = False,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert the *ZCAM* specification to *CIE XYZ* tristimulus values.
 

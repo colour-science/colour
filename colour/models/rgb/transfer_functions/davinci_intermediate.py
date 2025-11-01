@@ -18,14 +18,12 @@ DaVinci_Resolve_17_Wide_Gamut_Intermediate.pdf?_v=1607414410000
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
 __author__ = "Colour Developers"
@@ -53,9 +51,9 @@ CONSTANTS_DAVINCI_INTERMEDIATE: Structure = Structure(
 
 
 def oetf_DaVinciIntermediate(
-    L: Annotated[ArrayLike, 1],
+    L: Domain1,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *DaVinci Intermediate* opto-electronic transfer function (OETF).
 
@@ -114,9 +112,9 @@ def oetf_DaVinciIntermediate(
 
 
 def oetf_inverse_DaVinciIntermediate(
-    V: Annotated[ArrayLike, 1],
+    V: Domain1,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *DaVinci Intermediate* inverse opto-electronic transfer
     function (OETF).

@@ -20,12 +20,11 @@ R-REC-BT.709-6-201506-I!!PDF-E.pdf
 
 from __future__ import annotations
 
-import typing
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    Range1,
+)
 from colour.models.rgb.transfer_functions import oetf_BT601, oetf_inverse_BT601
 
 __author__ = "Colour Developers"
@@ -41,7 +40,7 @@ __all__ = [
 ]
 
 
-def oetf_BT709(L: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def oetf_BT709(L: Domain1) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.709-6* opto-electronic transfer
     function (OETF).
@@ -83,7 +82,7 @@ def oetf_BT709(L: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return oetf_BT601(L)
 
 
-def oetf_inverse_BT709(V: ArrayLike) -> Annotated[NDArrayFloat, 1]:
+def oetf_inverse_BT709(V: ArrayLike) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.709-6* inverse opto-electronic
     transfer function (OETF).

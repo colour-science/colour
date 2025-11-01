@@ -35,9 +35,13 @@ import numpy as np
 from colour.algebra import sdiv, sdiv_mode
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
+    from colour.hints import Any, Literal
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain100,
+    Range100,
+)
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -66,8 +70,8 @@ __all__ = [
 
 
 def yellowness_ASTMD1925(
-    XYZ: Annotated[ArrayLike, 100],
-) -> Annotated[NDArrayFloat, 100]:
+    XYZ: Domain100,
+) -> Range100:
     """
     Compute the *yellowness* index :math:`YI` of the specified sample *CIE XYZ*
     tristimulus values using the *ASTM D1925* method.
@@ -125,8 +129,8 @@ def yellowness_ASTMD1925(
 
 
 def yellowness_ASTME313_alternative(
-    XYZ: Annotated[ArrayLike, 100],
-) -> Annotated[NDArrayFloat, 100]:
+    XYZ: Domain100,
+) -> Range100:
     """
     Compute the *yellowness* index :math:`YI` of the specified sample *CIE XYZ*
     tristimulus values using the alternative *ASTM E313* method.
@@ -224,11 +228,11 @@ YELLOWNESS_COEFFICIENTS_ASTME313["cie_10_1964"] = YELLOWNESS_COEFFICIENTS_ASTME3
 
 
 def yellowness_ASTME313(
-    XYZ: Annotated[ArrayLike, 100],
+    XYZ: Domain100,
     C_XZ: ArrayLike = YELLOWNESS_COEFFICIENTS_ASTME313[
         "CIE 1931 2 Degree Standard Observer"
     ]["D65"],
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Compute the *yellowness* index :math:`YI` of the specified sample *CIE XYZ*
     tristimulus values using the *ASTM E313* method.
@@ -302,12 +306,12 @@ References
 
 
 def yellowness(
-    XYZ: Annotated[ArrayLike, 100],
+    XYZ: Domain100,
     method: (
         Literal["ASTM D1925", "ASTM E313", "ASTM E313 Alternative"] | str
     ) = "ASTM E313",
     **kwargs: Any,
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Compute the *yellowness* index :math:`YI` using the specified method.
 

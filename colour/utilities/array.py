@@ -41,11 +41,11 @@ if typing.TYPE_CHECKING:
     from colour.hints import (
         Any,
         Callable,
-        Dataclass,
         DType,
         DTypeBoolean,
         DTypeComplex,
         DTypeReal,
+        Dataclass,
         Generator,
         Literal,
         NDArray,
@@ -866,7 +866,7 @@ def as_float_scalar(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> floa
 
 def as_complex_array(
     a: ArrayLike,
-    dtype: Type[DTypeComplex] | None = None,  # pyright: ignore
+    dtype: Type[DTypeComplex] | None = None,
 ) -> NDArrayComplex:
     """
     Convert the specified variable :math:`a` to :class:`numpy.ndarray` using
@@ -1198,9 +1198,9 @@ def get_domain_range_scale_metadata(function: Callable) -> dict[str, Any]:
     --------
     >>> from colour.hints import Annotated, ArrayLike, NDArrayFloat
     >>> def example_function(
-    ...     XYZ: Annotated[ArrayLike, 1],
+    ...     XYZ: Domain1,
     ...     illuminant: ArrayLike = None,
-    ... ) -> Annotated[NDArrayFloat, 100]:
+    ... ) -> Range100:
     ...     pass
     >>> metadata = get_domain_range_scale_metadata(example_function)
     >>> metadata["domain"]
@@ -1251,10 +1251,29 @@ def get_domain_range_scale_metadata(function: Callable) -> dict[str, Any]:
                     metadata["domain"][parameter_name] = scale
     except (AttributeError, TypeError, NameError):
         # Fallback: parse string annotations (when `from __future__ import annotations`)
+        # Mapping of type alias names to their scale values
+        type_alias_scales = {
+            "Domain1": 1,
+            "Domain10": 10,
+            "Domain100": 100,
+            "Domain360": 360,
+            "Domain100_100_360": (100, 100, 360),
+            "Range1": 1,
+            "Range10": 10,
+            "Range100": 100,
+            "Range360": 360,
+            "Range100_100_360": (100, 100, 360),
+        }
+
         hints = getattr(function, "__annotations__", {})
         for parameter_name, hint in hints.items():
+            scale = None
+
+            # Check if hint is a type alias name
+            if isinstance(hint, str) and hint in type_alias_scales:
+                scale = type_alias_scales[hint]
             # Extract scale from string: "Annotated[Type, scale]" -> scale
-            if (
+            elif (
                 isinstance(hint, str)
                 and "Annotated[" in hint
                 and (match := re.search(r"Annotated\[[^,]+,\s*([^\]]+)\]", hint))
@@ -1266,6 +1285,7 @@ def get_domain_range_scale_metadata(function: Callable) -> dict[str, Any]:
                 except (SyntaxError, NameError, ValueError):
                     scale = scale_string
 
+            if scale is not None:
                 if parameter_name == "return":
                     metadata["range"] = scale
                 else:

@@ -32,9 +32,13 @@ import numpy as np
 from colour.algebra import spow
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal
+    from colour.hints import NDArrayReal
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Annotated,
+    Domain1,
+    Range1,
+)
 from colour.utilities import (
     as_float,
     as_float_scalar,
@@ -65,7 +69,7 @@ __all__ = [
 
 
 def cctf_encoding_ROMMRGB(
-    X: Annotated[ArrayLike, 1], bit_depth: int = 8, out_int: bool = False
+    X: Domain1, bit_depth: int = 8, out_int: bool = False
 ) -> Annotated[NDArrayReal, 1]:
     """
     Apply the *ROMM RGB* encoding colour component transfer function
@@ -130,10 +134,10 @@ def cctf_encoding_ROMMRGB(
 
 
 def cctf_decoding_ROMMRGB(
-    X_p: Annotated[ArrayLike, 1],
+    X_p: Domain1,
     bit_depth: int = 8,
     in_int: bool = False,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *ROMM RGB* decoding colour component transfer function
     (Decoding CCTF).
@@ -219,7 +223,7 @@ if cctf_decoding_ProPhotoRGB.__doc__ is not None:
 
 
 def cctf_encoding_RIMMRGB(
-    X: Annotated[ArrayLike, 1],
+    X: Domain1,
     bit_depth: int = 8,
     out_int: bool = False,
     E_clip: float = 2.0,
@@ -293,11 +297,11 @@ def cctf_encoding_RIMMRGB(
 
 
 def cctf_decoding_RIMMRGB(
-    X_p: Annotated[ArrayLike, 1],
+    X_p: Domain1,
     bit_depth: int = 8,
     in_int: bool = False,
     E_clip: float = 2.0,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *RIMM RGB* decoding colour component transfer function
     (Decoding CCTF).
@@ -370,7 +374,7 @@ def cctf_decoding_RIMMRGB(
 
 
 def log_encoding_ERIMMRGB(
-    X: Annotated[ArrayLike, 1],
+    X: Domain1,
     bit_depth: int = 8,
     out_int: bool = False,
     E_min: float = 0.001,
@@ -458,12 +462,12 @@ def log_encoding_ERIMMRGB(
 
 
 def log_decoding_ERIMMRGB(
-    X_p: Annotated[ArrayLike, 1],
+    X_p: Domain1,
     bit_depth: int = 8,
     in_int: bool = False,
     E_min: float = 0.001,
     E_clip: float = 316.2,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *ERIMM RGB* log decoding inverse opto-electronic transfer function (OETF).
 

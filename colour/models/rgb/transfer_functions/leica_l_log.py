@@ -16,16 +16,13 @@ pm-65976-210914__L-Log_Reference_Manual_EN.pdf
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
 from colour.algebra import spow
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
@@ -56,12 +53,12 @@ CONSTANTS_LLOG: Structure = Structure(
 
 
 def log_encoding_LLog(
-    LSR: Annotated[ArrayLike, 1],
+    LSR: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Leica L-Log* log encoding opto-electronic transfer function (OETF).
 
@@ -134,12 +131,12 @@ def log_encoding_LLog(
 
 
 def log_decoding_LLog(
-    LLog: Annotated[ArrayLike, 1],
+    LLog: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Leica L-Log* log decoding inverse opto-electronic transfer
     function (OETF).

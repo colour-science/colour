@@ -31,9 +31,9 @@ from colour.colorimetry import (
 )
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
+    from colour.hints import DTypeFloat
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import Domain1, NDArrayFloat  # noqa: TC001
 from colour.utilities import from_range_100, to_domain_1
 
 __author__ = "Colour Developers"
@@ -56,7 +56,7 @@ of 5.
 
 
 def XYZ_to_sd_Meng2015(
-    XYZ: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
     cmfs: MultiSpectralDistributions | None = None,
     illuminant: SpectralDistribution | None = None,
     optimisation_kwargs: dict | None = None,

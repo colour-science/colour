@@ -77,8 +77,12 @@ if typing.TYPE_CHECKING:
         Any,
         ArrayLike,
         Callable,
+        Domain1,
+        Domain100_100_360,
         List,
         Literal,
+        Range1,
+        Range100_100_360,
     )
 
 from colour.hints import Annotated, NDArrayFloat, cast
@@ -285,7 +289,7 @@ def CIECAM02_to_JMh_CIECAM02(
     specification: Annotated[
         CAM_Specification_CIECAM02, (100, 100, 360, 100, 100, 100, 400)
     ],
-) -> Annotated[NDArrayFloat, (100, 100, 360)]:
+) -> Range100_100_360:
     """
     Convert from *CIECAM02* specification to *CIECAM02* :math:`JMh`
     correlates.
@@ -349,7 +353,7 @@ def CIECAM02_to_JMh_CIECAM02(
 
 
 def JMh_CIECAM02_to_CIECAM02(
-    JMh: Annotated[ArrayLike, (100, 100, 360)],
+    JMh: Domain100_100_360,
 ) -> Annotated[CAM_Specification_CIECAM02, (100, 100, 360, 100, 100, 100, 400)]:
     """
     Convert from *CIECAM02* :math:`JMh` correlates to *CIECAM02*
@@ -413,7 +417,7 @@ def CAM16_to_JMh_CAM16(
     specification: Annotated[
         CAM_Specification_CAM16, (100, 100, 360, 100, 100, 100, 400)
     ],
-) -> Annotated[NDArrayFloat, (100, 100, 360)]:
+) -> Range100_100_360:
     """
     Convert from *CAM16* specification to *CAM16* :math:`JMh` correlates.
 
@@ -470,7 +474,7 @@ def CAM16_to_JMh_CAM16(
 
 
 def JMh_CAM16_to_CAM16(
-    JMh: Annotated[ArrayLike, (100, 100, 360)],
+    JMh: Domain100_100_360,
 ) -> Annotated[CAM_Specification_CAM16, (100, 100, 360, 100, 100, 100, 400)]:
     """
     Convert from *CAM16* :math:`JMh` correlates to *CAM16* specification.
@@ -533,7 +537,7 @@ def CIECAM16_to_JMh_CIECAM16(
     specification: Annotated[
         CAM_Specification_CIECAM16, (100, 100, 360, 100, 100, 100, 400)
     ],
-) -> Annotated[NDArrayFloat, (100, 100, 360)]:
+) -> Range100_100_360:
     """
     Convert from *CIECAM16* specification to *CIECAM16* :math:`JMh`
     correlates.
@@ -591,7 +595,7 @@ def CIECAM16_to_JMh_CIECAM16(
 
 
 def JMh_CIECAM16_to_CIECAM16(
-    JMh: Annotated[ArrayLike, (100, 100, 360)],
+    JMh: Domain100_100_360,
 ) -> Annotated[CAM_Specification_CIECAM16, (100, 100, 360, 100, 100, 100, 400)]:
     """
     Convert from *CIECAM16* :math:`JMh` correlates to *CIECAM16*
@@ -655,7 +659,7 @@ def Hellwig2022_to_JMh_Hellwig2022(
     specification: Annotated[
         CAM_Specification_Hellwig2022, (100, 100, 360, 100, 100, 100, 400, 100, 100)
     ],
-) -> Annotated[NDArrayFloat, (100, 100, 360)]:
+) -> Range100_100_360:
     """
     Convert from *Hellwig and Fairchild (2022)* specification to
     *Hellwig and Fairchild (2022)* :math:`JMh` correlates.
@@ -720,7 +724,7 @@ def Hellwig2022_to_JMh_Hellwig2022(
 
 
 def JMh_Hellwig2022_to_Hellwig2022(
-    JMh: Annotated[ArrayLike, (100, 100, 360)],
+    JMh: Domain100_100_360,
 ) -> Annotated[
     CAM_Specification_Hellwig2022, (100, 100, 360, 100, 100, 100, 400, 100, 100)
 ]:
@@ -792,7 +796,7 @@ def sCAM_to_JMh_sCAM(
     specification: Annotated[
         CAM_Specification_sCAM, (100, 100, 360, 100, 100, 400, 100, 100, 100, 100)
     ],
-) -> Annotated[NDArrayFloat, (100, 100, 360)]:
+) -> Range100_100_360:
     """
     Convert from *sCAM* specification to *sCAM* :math:`JMh` correlates.
 
@@ -857,7 +861,7 @@ def sCAM_to_JMh_sCAM(
 
 
 def JMh_sCAM_to_sCAM(
-    JMh: Annotated[ArrayLike, (100, 100, 360)],
+    JMh: Domain100_100_360,
 ) -> Annotated[
     CAM_Specification_sCAM, (100, 100, 360, 100, 100, 400, 100, 100, 100, 100)
 ]:
@@ -1072,7 +1076,7 @@ def Kim2009_to_JMh_Kim2009(
     specification: Annotated[
         CAM_Specification_Kim2009, (100, 100, 360, 100, 100, 100, 400)
     ],
-) -> Annotated[NDArrayFloat, (100, 100, 360)]:
+) -> Range100_100_360:
     """
     Convert from *Kim, Weyrich and Kautz (2009)* specification to
     *Kim, Weyrich and Kautz (2009)* :math:`JMh` correlates.
@@ -1136,7 +1140,7 @@ def Kim2009_to_JMh_Kim2009(
 
 
 def JMh_Kim2009_to_Kim2009(
-    JMh: Annotated[ArrayLike, (100, 100, 360)],
+    JMh: Domain100_100_360,
 ) -> Annotated[CAM_Specification_Kim2009, (100, 100, 360, 100, 100, 100, 400)]:
     """
     Convert from *Kim, Weyrich and Kautz (2009)* :math:`JMh` correlates to
@@ -1196,7 +1200,7 @@ Q=None, M=46.3464158..., H=None, HC=None)
     return CAM_Specification_Kim2009(J=J, M=M, h=h)
 
 
-def XYZ_to_luminance(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def XYZ_to_luminance(XYZ: Domain1) -> Range1:
     """
     Convert specified *CIE XYZ* tristimulus values to *luminance* :math:`Y`.
 
@@ -1240,7 +1244,7 @@ def XYZ_to_luminance(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]
     return Y
 
 
-def RGB_luminance_to_RGB(Y: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def RGB_luminance_to_RGB(Y: Domain1) -> Range1:
     """
     Convert from *luminance* :math:`Y` to *RGB*.
 

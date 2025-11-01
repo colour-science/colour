@@ -23,14 +23,12 @@ References
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import as_float_array, from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
@@ -48,7 +46,7 @@ __all__ = [
 ]
 
 
-def RGB_to_CMY(RGB: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def RGB_to_CMY(RGB: Domain1) -> Range1:
     """
     Convert from *RGB* colourspace to *CMY* colourspace.
 
@@ -92,7 +90,7 @@ def RGB_to_CMY(RGB: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return from_range_1(CMY)
 
 
-def CMY_to_RGB(CMY: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def CMY_to_RGB(CMY: Domain1) -> Range1:
     """
     Convert from *CMY* colourspace to *RGB* colourspace.
 
@@ -136,7 +134,7 @@ def CMY_to_RGB(CMY: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return from_range_1(RGB)
 
 
-def CMY_to_CMYK(CMY: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def CMY_to_CMYK(CMY: Domain1) -> Range1:
     """
     Convert from *CMY* colourspace to *CMYK* colourspace.
 
@@ -194,7 +192,7 @@ def CMY_to_CMYK(CMY: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return from_range_1(CMYK)
 
 
-def CMYK_to_CMY(CMYK: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def CMYK_to_CMY(CMYK: Domain1) -> Range1:
     """
     Convert from *CMYK* colourspace to *CMY* colourspace.
 

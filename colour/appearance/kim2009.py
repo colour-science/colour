@@ -25,7 +25,6 @@ References
 
 from __future__ import annotations
 
-import typing
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -42,11 +41,13 @@ from colour.appearance.ciecam02 import (
     hue_quadrature,
     rgb_to_RGB,
 )
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Annotated,
+    ArrayLike,
+    Domain100,
+    NDArrayFloat,
+    Range100,
+)
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
@@ -222,8 +223,8 @@ class CAM_Specification_Kim2009(MixinDataclassArithmetic):
 
 
 def XYZ_to_Kim2009(
-    XYZ: Annotated[ArrayLike, 100],
-    XYZ_w: Annotated[ArrayLike, 100],
+    XYZ: Domain100,
+    XYZ_w: Domain100,
     L_A: ArrayLike,
     media: MediaParameters_Kim2009 = MEDIA_PARAMETERS_KIM2009["CRT Displays"],
     surround: InductionFactors_Kim2009 = VIEWING_CONDITIONS_KIM2009["Average"],
@@ -394,13 +395,13 @@ def Kim2009_to_XYZ(
     specification: Annotated[
         CAM_Specification_Kim2009, (100, 100, 360, 100, 100, 100, 400)
     ],
-    XYZ_w: Annotated[ArrayLike, 100],
+    XYZ_w: Domain100,
     L_A: ArrayLike,
     media: MediaParameters_Kim2009 = MEDIA_PARAMETERS_KIM2009["CRT Displays"],
     surround: InductionFactors_Kim2009 = VIEWING_CONDITIONS_KIM2009["Average"],
     n_c: float = 0.57,
     discount_illuminant: bool = False,
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert the *Kim, Weyrich and Kautz (2009)* colour appearance model
     specification to *CIE XYZ* tristimulus values.

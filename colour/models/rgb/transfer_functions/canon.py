@@ -46,9 +46,12 @@ import typing
 import numpy as np
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, Literal, NDArrayFloat
+    from colour.hints import Literal
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import (
     CanonicalMapping,
@@ -95,11 +98,11 @@ __all__ = [
 
 
 def log_encoding_CanonLog_v1(
-    x: Annotated[ArrayLike, 1],
+    x: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log* v1 log encoding opto-electronic transfer function (OETF).
 
@@ -171,11 +174,11 @@ def log_encoding_CanonLog_v1(
 
 
 def log_decoding_CanonLog_v1(
-    clog: Annotated[ArrayLike, 1],
+    clog: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log* v1 log decoding inverse opto-electronic transfer
     function (OETF).
@@ -238,11 +241,11 @@ def log_decoding_CanonLog_v1(
 
 
 def log_encoding_CanonLog_v1_2(
-    x: Annotated[ArrayLike, 1],
+    x: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log* v1.2 log encoding opto-electronic transfer function (OETF).
 
@@ -307,11 +310,11 @@ def log_encoding_CanonLog_v1_2(
 
 
 def log_decoding_CanonLog_v1_2(
-    clog: Annotated[ArrayLike, 1],
+    clog: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log* v1.2 log decoding inverse opto-electronic transfer
 
@@ -394,12 +397,12 @@ References
 
 
 def log_encoding_CanonLog(
-    x: Annotated[ArrayLike, 1],
+    x: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
     method: Literal["v1", "v1.2"] | str = "v1.2",
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log* log encoding opto-electronic transfer function (OETF).
 
@@ -481,12 +484,12 @@ References
 
 
 def log_decoding_CanonLog(
-    clog: Annotated[ArrayLike, 1],
+    clog: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
     method: Literal["v1", "v1.2"] | str = "v1.2",
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log* log decoding inverse opto-electronic transfer function (OETF).
 
@@ -544,11 +547,11 @@ def log_decoding_CanonLog(
 
 
 def log_encoding_CanonLog2_v1(
-    x: Annotated[ArrayLike, 1],
+    x: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log 2* v1 log encoding opto-electronic transfer function (OETF).
 
@@ -611,11 +614,11 @@ def log_encoding_CanonLog2_v1(
 
 
 def log_decoding_CanonLog2_v1(
-    clog2: Annotated[ArrayLike, 1],
+    clog2: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log 2* v1 log decoding inverse opto-electronic transfer
     function (OETF).
@@ -678,11 +681,11 @@ def log_decoding_CanonLog2_v1(
 
 
 def log_encoding_CanonLog2_v1_2(
-    x: Annotated[ArrayLike, 1],
+    x: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log 2* v1.2 log encoding opto-electronic transfer function
     (OETF).
@@ -748,11 +751,11 @@ def log_encoding_CanonLog2_v1_2(
 
 
 def log_decoding_CanonLog2_v1_2(
-    clog2: Annotated[ArrayLike, 1],
+    clog2: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log 2* v1.2 log decoding inverse opto-electronic transfer
     function (OETF).
@@ -834,12 +837,12 @@ References
 
 
 def log_encoding_CanonLog2(
-    x: Annotated[ArrayLike, 1],
+    x: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
     method: Literal["v1", "v1.2"] | str = "v1.2",
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log 2* log encoding opto-electronic transfer function (OETF).
 
@@ -910,12 +913,12 @@ References
 
 
 def log_decoding_CanonLog2(
-    clog2: Annotated[ArrayLike, 1],
+    clog2: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
     method: Literal["v1", "v1.2"] | str = "v1.2",
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log 2* log decoding inverse opto-electronic transfer
     function (OETF).
@@ -971,11 +974,11 @@ def log_decoding_CanonLog2(
 
 
 def log_encoding_CanonLog3_v1(
-    x: Annotated[ArrayLike, 1],
+    x: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log 3* v1 log encoding opto-electronic transfer function
     (OETF).
@@ -1057,11 +1060,11 @@ def log_encoding_CanonLog3_v1(
 
 
 def log_decoding_CanonLog3_v1(
-    clog3: Annotated[ArrayLike, 1],
+    clog3: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log 3* v1 log decoding inverse opto-electronic transfer
     function (OETF).
@@ -1127,11 +1130,11 @@ def log_decoding_CanonLog3_v1(
 
 
 def log_encoding_CanonLog3_v1_2(
-    x: Annotated[ArrayLike, 1],
+    x: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log 3* v1.2 log encoding opto-electronic transfer function
     (OETF).
@@ -1204,11 +1207,11 @@ def log_encoding_CanonLog3_v1_2(
 
 
 def log_decoding_CanonLog3_v1_2(
-    clog3: Annotated[ArrayLike, 1],
+    clog3: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log 3* v1.2 log decoding inverse opto-electronic transfer
     function (OETF).
@@ -1293,12 +1296,12 @@ References
 
 
 def log_encoding_CanonLog3(
-    x: Annotated[ArrayLike, 1],
+    x: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
     method: Literal["v1", "v1.2"] | str = "v1.2",
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log 3* log encoding opto-electronic transfer function (OETF).
 
@@ -1380,12 +1383,12 @@ References
 
 
 def log_decoding_CanonLog3(
-    clog3: Annotated[ArrayLike, 1],
+    clog3: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
     method: Literal["v1", "v1.2"] | str = "v1.2",
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Canon Log 3* log decoding inverse opto-electronic transfer
     function (OETF).

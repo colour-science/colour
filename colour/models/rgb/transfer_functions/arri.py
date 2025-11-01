@@ -26,9 +26,12 @@ import typing
 import numpy as np
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, Literal, NDArrayFloat
+    from colour.hints import Literal
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import (
     CanonicalMapping,
     Structure,
@@ -559,13 +562,13 @@ exposure factor for *SUP 3.x* and signal and normalised sensor signal for
 
 
 def log_encoding_ARRILogC3(
-    x: Annotated[ArrayLike, 1],
+    x: Domain1,
     firmware: Literal["SUP 2.x", "SUP 3.x"] | str = "SUP 3.x",
     method: (
         Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"] | str
     ) = "Linear Scene Exposure Factor",
     EI: Literal[160, 200, 250, 320, 400, 500, 640, 800, 1000, 1280, 1600] = 800,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *ARRI LogC3* log encoding opto-electronic transfer function (OETF).
 
@@ -625,13 +628,13 @@ def log_encoding_ARRILogC3(
 
 
 def log_decoding_ARRILogC3(
-    t: Annotated[ArrayLike, 1],
+    t: Domain1,
     firmware: Literal["SUP 2.x", "SUP 3.x"] | str = "SUP 3.x",
     method: (
         Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"] | str
     ) = "Linear Scene Exposure Factor",
     EI: Literal[160, 200, 250, 320, 400, 500, 640, 800, 1000, 1280, 1600] = 800,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *ARRI LogC3* log decoding inverse opto-electronic transfer
     function (OETF).
@@ -708,9 +711,9 @@ del _a, _b, _c
 
 
 def log_encoding_ARRILogC4(
-    E_scene: Annotated[ArrayLike, 1],
+    E_scene: Domain1,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *ARRI LogC4* log encoding opto-electronic transfer function (OETF).
 
@@ -769,9 +772,9 @@ def log_encoding_ARRILogC4(
 
 
 def log_decoding_ARRILogC4(
-    E_p: Annotated[ArrayLike, 1],
+    E_p: Domain1,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *ARRI LogC4* log decoding inverse opto-electronic transfer
     function (OETF).

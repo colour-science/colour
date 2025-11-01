@@ -36,13 +36,14 @@ from colour.colorimetry import (
 if typing.TYPE_CHECKING:
     from colour.hints import (
         ArrayLike,
-        Mapping,
+        Domain1,
         Literal,
+        Mapping,
         NDArrayFloat,
         Tuple,
     )
 
-from colour.hints import Annotated, cast
+from colour.hints import cast
 from colour.recovery import BASIS_FUNCTIONS_DYER2017
 from colour.utilities import as_float_array, optional, runtime_warning, tsplit
 
@@ -169,7 +170,7 @@ def PCA_Jiang2013(
 
 
 def RGB_to_sd_camera_sensitivity_Jiang2013(
-    RGB: Annotated[ArrayLike, 1],
+    RGB: Domain1,
     illuminant: SpectralDistribution,
     reflectances: MultiSpectralDistributions,
     eigen_w: ArrayLike,
@@ -312,7 +313,7 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
 
 
 def RGB_to_msds_camera_sensitivities_Jiang2013(
-    RGB: Annotated[ArrayLike, 1],
+    RGB: Domain1,
     illuminant: SpectralDistribution,
     reflectances: MultiSpectralDistributions,
     basis_functions: ArrayLike = BASIS_FUNCTIONS_DYER2017,

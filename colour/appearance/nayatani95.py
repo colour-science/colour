@@ -35,7 +35,7 @@ from colour.adaptation.cie1994 import (
 from colour.algebra import spow, vecmul
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike
+    from colour.hints import ArrayLike, Domain100
 
 from colour.hints import Annotated, NDArrayFloat, cast
 from colour.models import XYZ_to_xy
@@ -188,8 +188,8 @@ class CAM_Specification_Nayatani95(MixinDataclassArithmetic):
 
 
 def XYZ_to_Nayatani95(
-    XYZ: Annotated[ArrayLike, 100],
-    XYZ_n: Annotated[ArrayLike, 100],
+    XYZ: Domain100,
+    XYZ_n: Domain100,
     Y_o: ArrayLike,
     E_o: ArrayLike,
     E_or: ArrayLike,

@@ -32,9 +32,14 @@ from colour.adaptation import CAT_CMCCAT2000
 from colour.algebra import vecmul
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, Literal, NDArrayFloat
+    from colour.hints import Literal
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain100,
+    NDArrayFloat,
+    Range100,
+)
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassIterable,
@@ -115,13 +120,13 @@ References
 
 
 def chromatic_adaptation_forward_CMCCAT2000(
-    XYZ: Annotated[ArrayLike, 100],
-    XYZ_w: Annotated[ArrayLike, 100],
-    XYZ_wr: Annotated[ArrayLike, 100],
+    XYZ: Domain100,
+    XYZ_w: Domain100,
+    XYZ_wr: Domain100,
     L_A1: ArrayLike,
     L_A2: ArrayLike,
     surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000["Average"],
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Adapt the specified stimulus *CIE XYZ* tristimulus values from test
     viewing conditions to reference viewing conditions using the
@@ -211,13 +216,13 @@ def chromatic_adaptation_forward_CMCCAT2000(
 
 
 def chromatic_adaptation_inverse_CMCCAT2000(
-    XYZ_c: Annotated[ArrayLike, 100],
-    XYZ_w: Annotated[ArrayLike, 100],
-    XYZ_wr: Annotated[ArrayLike, 100],
+    XYZ_c: Domain100,
+    XYZ_w: Domain100,
+    XYZ_wr: Domain100,
     L_A1: ArrayLike,
     L_A2: ArrayLike,
     surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000["Average"],
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Adapt the specified *CIE XYZ* tristimulus values from reference viewing
     conditions to test viewing conditions using the inverse *CMCCAT2000*
@@ -306,14 +311,14 @@ def chromatic_adaptation_inverse_CMCCAT2000(
 
 
 def chromatic_adaptation_CMCCAT2000(
-    XYZ: Annotated[ArrayLike, 100],
-    XYZ_w: Annotated[ArrayLike, 100],
-    XYZ_wr: Annotated[ArrayLike, 100],
+    XYZ: Domain100,
+    XYZ_w: Domain100,
+    XYZ_wr: Domain100,
     L_A1: ArrayLike,
     L_A2: ArrayLike,
     surround: InductionFactors_CMCCAT2000 = VIEWING_CONDITIONS_CMCCAT2000["Average"],
     direction: Literal["Forward", "Inverse"] | str = "Forward",
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Adapt the specified stimulus *CIE XYZ* tristimulus values from test
     viewing conditions to reference viewing conditions using the

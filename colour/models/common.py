@@ -26,9 +26,15 @@ import numpy as np
 from colour.algebra import cartesian_to_polar, polar_to_cartesian, vecmul
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, Callable, NDArrayFloat
+    from colour.hints import Callable
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Annotated,
+    ArrayLike,
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.utilities import (
     CanonicalMapping,
     attest,
@@ -195,7 +201,7 @@ COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: CanonicalMapping = (
 """Colourspace models domain-range scale **'1'** to **'Reference'** mapping."""
 
 
-def Jab_to_JCh(Jab: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, (1, 1, 360)]:
+def Jab_to_JCh(Jab: Domain1) -> Annotated[NDArrayFloat, (1, 1, 360)]:
     """
     Convert from *Jab* colour representation to *JCh* colour representation.
 
@@ -253,7 +259,7 @@ def Jab_to_JCh(Jab: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, (1, 1, 3
 
 def JCh_to_Jab(
     JCh: Annotated[ArrayLike, (1, 1, 360)],
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert from *JCh* colour representation to *Jab* colour representation.
 
@@ -310,11 +316,11 @@ def JCh_to_Jab(
 
 
 def XYZ_to_Iab(
-    XYZ: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
     LMS_to_LMS_p_callable: Callable,
     matrix_XYZ_to_LMS: ArrayLike,
     matrix_LMS_p_to_Iab: ArrayLike,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to *IPT*-like :math:`Iab`
     colour representation.
@@ -392,11 +398,11 @@ def XYZ_to_Iab(
 
 
 def Iab_to_XYZ(
-    Iab: Annotated[ArrayLike, 1],
+    Iab: Domain1,
     LMS_p_to_LMS_callable: Callable,
     matrix_Iab_to_LMS_p: ArrayLike,
     matrix_LMS_to_XYZ: ArrayLike,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert from *IPT*-like :math:`Iab` colour representation to *CIE XYZ*
     tristimulus values.

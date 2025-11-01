@@ -20,16 +20,14 @@ References
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode, vecmul
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.utilities import from_range_1, to_domain_1, tsplit, tstack, zeros
 
 __author__ = "Colour Developers"
@@ -57,7 +55,7 @@ MATRIX_YC_1_C_2_TO_RGB: NDArrayFloat = np.linalg.inv(MATRIX_RGB_TO_YC_1_C_2)
 """*YC_1C_2* colourspace to *RGB* colourspace matrix."""
 
 
-def RGB_to_IHLS(RGB: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def RGB_to_IHLS(RGB: Domain1) -> Range1:
     """
     Convert from *RGB* colourspace to *IHLS* (Improved HLS) colourspace.
 
@@ -118,7 +116,7 @@ def RGB_to_IHLS(RGB: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return from_range_1(HYS)
 
 
-def IHLS_to_RGB(HYS: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def IHLS_to_RGB(HYS: Domain1) -> Range1:
     """
     Convert from *IHLS* (Improved HLS) colourspace to *RGB* colourspace.
 

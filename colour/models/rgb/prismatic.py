@@ -16,16 +16,13 @@ References
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
@@ -41,7 +38,7 @@ __all__ = [
 ]
 
 
-def RGB_to_Prismatic(RGB: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def RGB_to_Prismatic(RGB: Domain1) -> Range1:
     """
     Convert from *RGB* colourspace to *Prismatic* :math:`L\\rho\\gamma\\beta`
     colourspace array.
@@ -103,7 +100,7 @@ def RGB_to_Prismatic(RGB: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]
     return from_range_1(Lrgb)
 
 
-def Prismatic_to_RGB(Lrgb: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def Prismatic_to_RGB(Lrgb: Domain1) -> Range1:
     """
     Convert from *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array to
     *RGB* colourspace.

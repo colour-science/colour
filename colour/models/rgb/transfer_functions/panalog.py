@@ -17,14 +17,13 @@ nuke-default/make.py
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    Range1,
+)
 from colour.utilities import as_float, as_float_array, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -41,9 +40,9 @@ __all__ = [
 
 
 def log_encoding_Panalog(
-    x: Annotated[ArrayLike, 1],
+    x: Domain1,
     black_offset: ArrayLike = 10 ** ((64 - 681) / 444),
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Panalog* log encoding opto-electronic transfer function (OETF).
 
@@ -97,9 +96,9 @@ def log_encoding_Panalog(
 
 
 def log_decoding_Panalog(
-    y: Annotated[ArrayLike, 1],
+    y: Domain1,
     black_offset: ArrayLike = 10 ** ((64 - 681) / 444),
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Panalog* log decoding inverse opto-electronic transfer function (OETF).
 

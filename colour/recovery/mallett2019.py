@@ -31,9 +31,9 @@ from colour.colorimetry import (
 
 if typing.TYPE_CHECKING:
     from colour.models import RGB_Colourspace
-    from colour.hints import ArrayLike, Callable
+    from colour.hints import Callable, Domain1
 
-from colour.hints import Annotated, ArrayLike  # noqa: TC001
+from colour.hints import Domain1  # noqa: TC001
 from colour.recovery import MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
 from colour.utilities import to_domain_1
 
@@ -219,7 +219,7 @@ def spectral_primary_decomposition_Mallett2019(
 
 
 def RGB_to_sd_Mallett2019(
-    RGB: Annotated[ArrayLike, 1],
+    RGB: Domain1,
     basis_functions: MultiSpectralDistributions = MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019,
 ) -> SpectralDistribution:
     """

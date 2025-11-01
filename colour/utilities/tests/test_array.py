@@ -22,9 +22,19 @@ if typing.TYPE_CHECKING:
         Annotated,
         Any,
         ArrayLike,
+        Domain1,
+        Domain10,
+        Domain100,
+        Domain100_100_360,
+        Domain360,
         DType,
         NDArray,
         NDArrayFloat,
+        Range1,
+        Range10,
+        Range100,
+        Range100_100_360,
+        Range360,
         Type,
     )
 else:
@@ -34,8 +44,19 @@ else:
         Annotated,
         Any,
         ArrayLike,
+        Domain1,
+        Domain10,
+        Domain100,
+        Domain360,
+        Domain100_100_360,
         NDArrayFloat,
+        Range1,
+        Range10,
+        Range100,
+        Range360,
+        Range100_100_360,
     )
+
 from colour.utilities import (
     MixinDataclassArithmetic,
     MixinDataclassArray,
@@ -1008,6 +1029,56 @@ class TestGetDomainRangeScaleMetadata(unittest.TestCase):
 
         metadata = get_domain_range_scale_metadata(function_g)
         assert metadata["domain"] == {}
+        assert metadata["range"] == 100
+
+        # Type aliases: Domain1/Range1
+        def function_h(XYZ: Domain1, XYZ_w: Domain1 = 1) -> Range1:  # type: ignore
+            """Test Domain1/Range1 type aliases."""
+
+        metadata = get_domain_range_scale_metadata(function_h)
+        assert metadata["domain"] == {"XYZ": 1, "XYZ_w": 1}
+        assert metadata["range"] == 1
+
+        # Type aliases: Domain100/Range100
+        def function_i(Y: Domain100, Y_n: Domain100 = 100) -> Range100:  # type: ignore
+            """Test Domain100/Range100 type aliases."""
+
+        metadata = get_domain_range_scale_metadata(function_i)
+        assert metadata["domain"] == {"Y": 100, "Y_n": 100}
+        assert metadata["range"] == 100
+
+        # Type aliases: Domain10/Range10
+        def function_j(L: Domain10) -> Range10:  # type: ignore
+            """Test Domain10/Range10 type aliases."""
+
+        metadata = get_domain_range_scale_metadata(function_j)
+        assert metadata["domain"] == {"L": 10}
+        assert metadata["range"] == 10
+
+        # Type aliases: Domain360/Range360
+        def function_k(hue: Domain360) -> Range360:  # type: ignore
+            """Test Domain360/Range360 type aliases."""
+
+        metadata = get_domain_range_scale_metadata(function_k)
+        assert metadata["domain"] == {"hue": 360}
+        assert metadata["range"] == 360
+
+        # Type aliases: Domain100_100_360/Range100_100_360
+        def function_l(Lab: Domain100_100_360) -> Range100_100_360:  # type: ignore
+            """Test Domain100_100_360/Range100_100_360 type aliases."""
+
+        metadata = get_domain_range_scale_metadata(function_l)
+        assert metadata["domain"] == {"Lab": (100, 100, 360)}
+        assert metadata["range"] == (100, 100, 360)
+
+        # Mixed: type aliases and explicit Annotated
+        def function_m(
+            XYZ: Domain1, L: Domain100, custom: Annotated[ArrayLike, 50]
+        ) -> Range100:  # type: ignore
+            """Test mixed type aliases and Annotated."""
+
+        metadata = get_domain_range_scale_metadata(function_m)
+        assert metadata["domain"] == {"XYZ": 1, "L": 100, "custom": 50}
         assert metadata["range"] == 100
 
 

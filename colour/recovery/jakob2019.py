@@ -40,15 +40,13 @@ from colour.difference import JND_CIE1976
 
 if typing.TYPE_CHECKING:
     from colour.hints import (
-        ArrayLike,
         Callable,
         Literal,
-        NDArrayFloat,
         PathLike,
         Tuple,
     )
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import ArrayLike, Domain1, NDArrayFloat  # noqa: TC001
 from colour.models import RGB_Colourspace, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_xy
 from colour.utilities import (
     as_float_array,
@@ -526,7 +524,7 @@ def find_coefficients_Jakob2019(
 
 @typing.overload
 def XYZ_to_sd_Jakob2019(
-    XYZ: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
     cmfs: MultiSpectralDistributions | None = ...,
     illuminant: SpectralDistribution | None = ...,
     optimisation_kwargs: dict | None = ...,
@@ -536,7 +534,7 @@ def XYZ_to_sd_Jakob2019(
 
 @typing.overload
 def XYZ_to_sd_Jakob2019(
-    XYZ: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
     cmfs: MultiSpectralDistributions | None = ...,
     illuminant: SpectralDistribution | None = ...,
     optimisation_kwargs: dict | None = ...,
@@ -547,7 +545,7 @@ def XYZ_to_sd_Jakob2019(
 
 @typing.overload
 def XYZ_to_sd_Jakob2019(
-    XYZ: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
     cmfs: MultiSpectralDistributions | None,
     illuminant: SpectralDistribution | None,
     optimisation_kwargs: dict | None,
@@ -556,7 +554,7 @@ def XYZ_to_sd_Jakob2019(
 
 
 def XYZ_to_sd_Jakob2019(
-    XYZ: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
     cmfs: MultiSpectralDistributions | None = None,
     illuminant: SpectralDistribution | None = None,
     optimisation_kwargs: dict | None = None,

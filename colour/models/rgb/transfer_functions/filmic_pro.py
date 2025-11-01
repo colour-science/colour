@@ -15,16 +15,13 @@ References
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
 from colour.algebra import Extrapolator, LinearInterpolator
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -40,7 +37,7 @@ __all__ = [
 ]
 
 
-def log_encoding_FilmicPro6(t: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def log_encoding_FilmicPro6(t: Domain1) -> Range1:
     """
     Apply the *FiLMiC Pro 6* log encoding opto-electronic transfer function (OETF).
 
@@ -122,7 +119,7 @@ def _log_decoding_FilmicPro6_interpolator() -> Extrapolator:
     return _CACHE_LOG_DECODING_FILMICPRO_INTERPOLATOR
 
 
-def log_decoding_FilmicPro6(y: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def log_decoding_FilmicPro6(y: Domain1) -> Range1:
     """
     Apply the *FiLMiC Pro 6* log decoding inverse opto-electronic transfer
     function (OETF).

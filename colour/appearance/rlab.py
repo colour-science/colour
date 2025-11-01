@@ -21,18 +21,13 @@ References
 
 from __future__ import annotations
 
-import typing
 from dataclasses import dataclass, field
 
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import Annotated, ArrayLike, Domain100, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArray,
@@ -193,8 +188,8 @@ class CAM_Specification_RLAB(MixinDataclassArray):
 
 
 def XYZ_to_RLAB(
-    XYZ: Annotated[ArrayLike, 100],
-    XYZ_n: Annotated[ArrayLike, 100],
+    XYZ: Domain100,
+    XYZ_n: Domain100,
     Y_n: ArrayLike,
     sigma: ArrayLike = VIEWING_CONDITIONS_RLAB["Average"],
     D: ArrayLike = D_FACTOR_RLAB["Hard Copy Images"],

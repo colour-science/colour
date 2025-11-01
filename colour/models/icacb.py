@@ -15,14 +15,14 @@ References
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.models import Iab_to_XYZ, XYZ_to_Iab
 from colour.models.rgb.transfer_functions import eotf_inverse_ST2084, eotf_ST2084
 from colour.utilities import domain_range_scale
@@ -68,7 +68,7 @@ MATRIX_ICACB_LMS_TO_XYZ_2: NDArrayFloat = np.linalg.inv(MATRIX_ICACB_XYZ_TO_LMS_
 """:math:`IC_AC_B` to normalised non-linear cone responses colourspace matrix."""
 
 
-def XYZ_to_ICaCb(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def XYZ_to_ICaCb(XYZ: Domain1) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to :math:`IC_AC_B` colourspace.
 
@@ -127,7 +127,7 @@ def XYZ_to_ICaCb(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     )
 
 
-def ICaCb_to_XYZ(ICaCb: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def ICaCb_to_XYZ(ICaCb: Domain1) -> Range1:
     """
     Convert from :math:`IC_AC_B` colourspace to *CIE XYZ* tristimulus values.
 

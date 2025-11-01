@@ -72,9 +72,16 @@ from colour.biochemistry import (
 )
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
+    from colour.hints import Any, Literal
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain10,
+    Domain100,
+    NDArrayFloat,
+    Range1,
+    Range100,
+)
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -109,7 +116,7 @@ __all__ = [
 ]
 
 
-def luminance_Newhall1943(V: Annotated[ArrayLike, 10]) -> Annotated[NDArrayFloat, 100]:
+def luminance_Newhall1943(V: Domain10) -> Range100:
     """
     Compute the *luminance* :math:`R_Y` from the specified *Munsell* value
     :math:`V` using *Newhall et al. (1943)* method.
@@ -161,7 +168,7 @@ def luminance_Newhall1943(V: Annotated[ArrayLike, 10]) -> Annotated[NDArrayFloat
     return as_float(from_range_100(R_Y))
 
 
-def luminance_ASTMD1535(V: Annotated[ArrayLike, 10]) -> Annotated[NDArrayFloat, 100]:
+def luminance_ASTMD1535(V: Domain10) -> Range100:
     """
     Compute *luminance* :math:`Y` from the specified *Munsell* value :math:`V`
     using *ASTM D1535-08e1* method.
@@ -273,9 +280,7 @@ def intermediate_luminance_function_CIE1976(
     return as_float(Y)
 
 
-def luminance_CIE1976(
-    L_star: Annotated[ArrayLike, 100], Y_n: ArrayLike | None = None
-) -> Annotated[NDArrayFloat, 100]:
+def luminance_CIE1976(L_star: Domain100, Y_n: ArrayLike | None = None) -> Range100:
     """
     Compute the *luminance* :math:`Y` from the specified *lightness* :math:`L^*`
     with the specified reference white *luminance* :math:`Y_n`.
@@ -330,9 +335,7 @@ def luminance_CIE1976(
     return as_float(from_range_100(Y))
 
 
-def luminance_Fairchild2010(
-    L_hdr: Annotated[ArrayLike, 100], epsilon: ArrayLike = 1.836
-) -> Annotated[NDArrayFloat, 1]:
+def luminance_Fairchild2010(L_hdr: Domain100, epsilon: ArrayLike = 1.836) -> Range1:
     """
     Compute *luminance* :math:`Y` from the specified *lightness* :math:`L_{hdr}`
     using *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
@@ -390,10 +393,10 @@ def luminance_Fairchild2010(
 
 
 def luminance_Fairchild2011(
-    L_hdr: Annotated[ArrayLike, 100],
+    L_hdr: Domain100,
     epsilon: ArrayLike = 0.474,
     method: Literal["hdr-CIELAB", "hdr-IPT"] | str = "hdr-CIELAB",
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Compute *luminance* :math:`Y` from the specified *lightness* :math:`L_{hdr}`
     using *Fairchild and Chen (2011)* method according to *Michaelis-Menten*
@@ -576,7 +579,7 @@ LUMINANCE_METHODS["cie1976"] = LUMINANCE_METHODS["CIE 1976"]
 
 
 def luminance(
-    LV: Annotated[ArrayLike, 100],
+    LV: Domain100,
     method: (
         Literal[
             "Abebe 2017",
@@ -589,7 +592,7 @@ def luminance(
         | str
     ) = "CIE 1976",
     **kwargs: Any,
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Compute the *luminance* :math:`Y` from the specified *lightness*
     :math:`L^*` or *Munsell* value :math:`V`.

@@ -23,24 +23,25 @@ References
 
 from __future__ import annotations
 
-import typing
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
 
 from colour.adaptation import chromatic_adaptation_Li2025
 from colour.algebra import sdiv, sdiv_mode, spow
+from colour.hints import (  # noqa: TC001
+    Annotated,
+    ArrayLike,
+    Domain100,
+    NDArrayFloat,
+    Range100,
+)
 from colour.models.sucs import (
     XYZ_to_sUCS,
     sUCS_Iab_to_sUCS_ICh,
     sUCS_ICh_to_sUCS_Iab,
     sUCS_to_XYZ,
 )
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
@@ -178,8 +179,8 @@ class CAM_Specification_sCAM(MixinDataclassArithmetic):
 
 
 def XYZ_to_sCAM(
-    XYZ: Annotated[ArrayLike, 100],
-    XYZ_w: Annotated[ArrayLike, 100],
+    XYZ: Domain100,
+    XYZ_w: Domain100,
     L_A: ArrayLike,
     Y_b: ArrayLike,
     surround: InductionFactors_sCAM = VIEWING_CONDITIONS_sCAM["Average"],
@@ -339,12 +340,12 @@ def sCAM_to_XYZ(
     specification: Annotated[
         CAM_Specification_sCAM, (100, 100, 360, 100, 100, 400, 100, 100, 100, 100)
     ],
-    XYZ_w: Annotated[ArrayLike, 100],
+    XYZ_w: Domain100,
     L_A: ArrayLike,
     Y_b: ArrayLike,
     surround: InductionFactors_sCAM = VIEWING_CONDITIONS_sCAM["Average"],
     discount_illuminant: bool = False,
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert the *sCAM* colour appearance model specification to *CIE XYZ*
     tristimulus values.
