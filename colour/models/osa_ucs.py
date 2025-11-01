@@ -29,9 +29,13 @@ import numpy as np
 from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
+    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain100,
+    NDArrayFloat,
+    Range100,
+)
 from colour.models import XYZ_to_xyY
 from colour.utilities import (
     from_range_100,
@@ -71,7 +75,7 @@ values (inverse of MATRIX_XYZ_TO_RGB_OSA_UCS).
 """
 
 
-def XYZ_to_OSA_UCS(XYZ: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 100]:
+def XYZ_to_OSA_UCS(XYZ: Domain100) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values under the
     *CIE 1964 10 Degree Standard Observer* to *OSA UCS* colourspace.
@@ -148,9 +152,7 @@ def XYZ_to_OSA_UCS(XYZ: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 10
     return from_range_100(Ljg)
 
 
-def OSA_UCS_to_XYZ(
-    Ljg: Annotated[ArrayLike, 100], optimisation_kwargs: dict | None = None
-) -> Annotated[NDArrayFloat, 100]:
+def OSA_UCS_to_XYZ(Ljg: Domain100, optimisation_kwargs: dict | None = None) -> Range100:
     """
     Convert from *OSA UCS* colourspace to *CIE XYZ* tristimulus values under
     the *CIE 1964 10 Degree Standard Observer*.

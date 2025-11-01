@@ -16,14 +16,8 @@ References
 
 from __future__ import annotations
 
-import typing
-
 from colour.algebra import euclidean_distance
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import Domain100, NDArrayFloat  # noqa: TC001
 from colour.models import Lab_to_DIN99
 from colour.utilities import get_domain_range_scale
 
@@ -40,8 +34,8 @@ __all__ = [
 
 
 def delta_E_DIN99(
-    Lab_1: Annotated[ArrayLike, 100],
-    Lab_2: Annotated[ArrayLike, 100],
+    Lab_1: Domain100,
+    Lab_2: Domain100,
     textiles: bool = False,
 ) -> NDArrayFloat:
     """

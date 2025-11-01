@@ -54,9 +54,14 @@ import typing
 import numpy as np
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, Literal, NDArrayFloat, NDArrayInt
+    from colour.hints import Literal, NDArrayInt
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Annotated,
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.utilities import (
     Structure,
     as_float,
@@ -120,7 +125,7 @@ CONSTANTS_ACES_CCT: Structure = Structure(
 
 
 def log_encoding_ACESproxy(
-    lin_AP1: Annotated[ArrayLike, 1],
+    lin_AP1: Domain1,
     bit_depth: Literal[10, 12] = 10,
     out_int: bool = False,
     constants: dict | None = None,
@@ -206,11 +211,11 @@ def log_encoding_ACESproxy(
 
 
 def log_decoding_ACESproxy(
-    ACESproxy: Annotated[ArrayLike, 1],
+    ACESproxy: Domain1,
     bit_depth: Literal[10, 12] = 10,
     in_int: bool = False,
     constants: dict | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *ACESproxy* log decoding inverse opto-electronic transfer function (OETF).
 
@@ -278,7 +283,7 @@ def log_decoding_ACESproxy(
     return as_float(from_range_1(lin_AP1))
 
 
-def log_encoding_ACEScc(lin_AP1: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def log_encoding_ACEScc(lin_AP1: Domain1) -> Range1:
     """
     Apply the *ACEScc* log encoding opto-electronic transfer function (OETF).
 
@@ -335,7 +340,7 @@ def log_encoding_ACEScc(lin_AP1: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFl
     return as_float(from_range_1(ACEScc))
 
 
-def log_decoding_ACEScc(ACEScc: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def log_decoding_ACEScc(ACEScc: Domain1) -> Range1:
     """
     Apply the *ACEScc* log decoding inverse opto-electronic transfer function (OETF).
 
@@ -393,8 +398,8 @@ def log_decoding_ACEScc(ACEScc: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFlo
 
 
 def log_encoding_ACEScct(
-    lin_AP1: Annotated[ArrayLike, 1], constants: Structure | None = None
-) -> Annotated[NDArrayFloat, 1]:
+    lin_AP1: Domain1, constants: Structure | None = None
+) -> Range1:
     """
     Apply the *ACEScct* log encoding opto-electronic transfer function (OETF).
 
@@ -450,8 +455,8 @@ def log_encoding_ACEScct(
 
 
 def log_decoding_ACEScct(
-    ACEScct: Annotated[ArrayLike, 1], constants: Structure | None = None
-) -> Annotated[NDArrayFloat, 1]:
+    ACEScct: Domain1, constants: Structure | None = None
+) -> Range1:
     """
     Apply the *ACEScct* log decoding inverse opto-electronic transfer function (OETF).
 

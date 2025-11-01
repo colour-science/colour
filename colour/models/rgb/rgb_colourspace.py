@@ -38,12 +38,14 @@ if typing.TYPE_CHECKING:
         Any,
         ArrayLike,
         Callable,
+        Domain1,
         LiteralChromaticAdaptationTransform,
         LiteralRGBColourspace,
         NDArrayFloat,
+        Range1,
     )
 
-from colour.hints import Annotated, cast
+from colour.hints import cast
 from colour.models import xy_to_xyY, xy_to_XYZ, xyY_to_XYZ
 from colour.models.rgb import chromatically_adapted_primaries, normalised_primary_matrix
 from colour.utilities import (
@@ -954,7 +956,7 @@ class RGB_Colourspace:
 
 
 def XYZ_to_RGB(
-    XYZ: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
     colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
     illuminant: ArrayLike | None = None,
     chromatic_adaptation_transform: (
@@ -963,7 +965,7 @@ def XYZ_to_RGB(
     apply_cctf_encoding: bool = False,
     *args: Any,
     **kwargs: Any,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to *RGB* colourspace array.
 
@@ -1088,7 +1090,7 @@ def XYZ_to_RGB(
 
 
 def RGB_to_XYZ(
-    RGB: Annotated[ArrayLike, 1],
+    RGB: Domain1,
     colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
     illuminant: ArrayLike | None = None,
     chromatic_adaptation_transform: (
@@ -1097,7 +1099,7 @@ def RGB_to_XYZ(
     apply_cctf_decoding: bool = False,
     *args: Any,
     **kwargs: Any,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert specified *RGB* colourspace array to *CIE XYZ* tristimulus values.
 
@@ -1301,7 +1303,7 @@ def matrix_RGB_to_RGB(
 
 
 def RGB_to_RGB(
-    RGB: Annotated[ArrayLike, 1],
+    RGB: Domain1,
     input_colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
     output_colourspace: RGB_Colourspace | LiteralRGBColourspace | str,
     chromatic_adaptation_transform: (
@@ -1310,7 +1312,7 @@ def RGB_to_RGB(
     apply_cctf_decoding: bool = False,
     apply_cctf_encoding: bool = False,
     **kwargs: Any,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert *RGB* colourspace array from the specified input *RGB* colourspace to
     specified output *RGB* colourspace using the specified *chromatic adaptation*

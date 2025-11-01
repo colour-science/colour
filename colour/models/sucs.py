@@ -23,11 +23,20 @@ References
 from __future__ import annotations
 
 from functools import partial
-from typing import TYPE_CHECKING
 
 import numpy as np
 
 from colour.algebra import spow
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Domain100,
+    Domain100_100_360,
+    NDArrayFloat,
+    Range1,
+    Range100,
+    Range100_100_360,
+    Range360,
+)
 from colour.models import Iab_to_XYZ, XYZ_to_Iab
 from colour.utilities import (
     as_float,
@@ -41,11 +50,6 @@ from colour.utilities import (
     tsplit,
     tstack,
 )
-
-if TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
 
 __author__ = "UltraMo114(Molin Li), Colour Developers"
 __copyright__ = "Copyright 2024 Colour Developers"
@@ -104,7 +108,7 @@ Intermediate :math:`Iab` colourspace to non-linear LMS-like responses
 """
 
 
-def XYZ_to_sUCS(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 100]:
+def XYZ_to_sUCS(XYZ: Domain1) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to *sUCS* colourspace.
 
@@ -161,7 +165,7 @@ def XYZ_to_sUCS(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 100]:
     return from_range_100(Iab)
 
 
-def sUCS_to_XYZ(Iab: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 1]:
+def sUCS_to_XYZ(Iab: Domain100) -> Range1:
     """
     Convert from *sUCS* colourspace to *CIE XYZ* tristimulus values.
 
@@ -215,7 +219,7 @@ def sUCS_to_XYZ(Iab: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 1]:
     return from_range_1(XYZ)
 
 
-def sUCS_chroma(Iab: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 100]:
+def sUCS_chroma(Iab: Domain100) -> Range100:
     """
     Compute the chroma component from the *sUCS* colourspace.
 
@@ -261,7 +265,7 @@ def sUCS_chroma(Iab: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 100]:
     return as_float(from_range_100(C))
 
 
-def sUCS_hue_angle(Iab: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 360]:
+def sUCS_hue_angle(Iab: Domain100) -> Range360:
     """
     Compute the hue angle in degrees from the *sUCS* colourspace.
 
@@ -308,8 +312,8 @@ def sUCS_hue_angle(Iab: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 36
 
 
 def sUCS_Iab_to_sUCS_ICh(
-    Iab: Annotated[ArrayLike, 100],
-) -> Annotated[NDArrayFloat, (100, 100, 360)]:
+    Iab: Domain100,
+) -> Range100_100_360:
     """
     Convert from *sUCS* :math:`Iab` rectangular coordinates to *sUCS*
     :math:`ICh` cylindrical coordinates.
@@ -363,8 +367,8 @@ def sUCS_Iab_to_sUCS_ICh(
 
 
 def sUCS_ICh_to_sUCS_Iab(
-    ICh: Annotated[ArrayLike, (100, 100, 360)],
-) -> Annotated[NDArrayFloat, 100]:
+    ICh: Domain100_100_360,
+) -> Range100:
     """
     Convert from *sUCS* :math:`ICh` cylindrical coordinates to *sUCS*
     :math:`Iab` rectangular coordinates.

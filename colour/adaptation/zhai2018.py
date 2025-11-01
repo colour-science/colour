@@ -24,9 +24,13 @@ from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.algebra import vecmul
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, Literal, NDArrayFloat
+    from colour.hints import Literal
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain100,
+    Range100,
+)
 from colour.utilities import (
     as_float_array,
     from_range_100,
@@ -49,14 +53,14 @@ __all__ = [
 
 
 def chromatic_adaptation_Zhai2018(
-    XYZ_b: Annotated[ArrayLike, 100],
-    XYZ_wb: Annotated[ArrayLike, 100],
-    XYZ_wd: Annotated[ArrayLike, 100],
+    XYZ_b: Domain100,
+    XYZ_wb: Domain100,
+    XYZ_wd: Domain100,
     D_b: ArrayLike = 1,
     D_d: ArrayLike = 1,
     XYZ_wo: ArrayLike | None = None,
     transform: Literal["CAT02", "CAT16"] | str = "CAT02",
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Adapt the specified stimulus *CIE XYZ* tristimulus values from test
     viewing conditions to reference viewing conditions using the

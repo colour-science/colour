@@ -15,6 +15,11 @@ Annotation Type Hints
     ClassVar
     Dataclass
     Dict
+    Domain1
+    Domain10
+    Domain100
+    Domain360
+    Domain100_100_360
     DType
     DTypeBoolean
     DTypeComplex
@@ -61,6 +66,11 @@ Annotation Type Hints
     ProtocolExtrapolator
     ProtocolInterpolator
     ProtocolLUTSequenceItem
+    Range1
+    Range10
+    Range100
+    Range360
+    Range100_100_360
     Real
     RegexFlag
     runtime_checkable

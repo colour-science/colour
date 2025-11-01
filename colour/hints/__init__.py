@@ -30,6 +30,7 @@ from typing import (  # noqa: UP035
     TextIO,
     Tuple,
     Type,
+    TypeAlias,
     TypedDict,
     TypeVar,
     cast,
@@ -94,6 +95,16 @@ __all__ = [
     "NDArrayComplex",
     "NDArrayBoolean",
     "NDArrayStr",
+    "Domain1",
+    "Domain10",
+    "Domain100",
+    "Domain360",
+    "Domain100_100_360",
+    "Range1",
+    "Range10",
+    "Range100",
+    "Range360",
+    "Range100_100_360",
     "ProtocolInterpolator",
     "ProtocolExtrapolator",
     "ProtocolLUTSequenceItem",
@@ -118,7 +129,7 @@ __all__ = [
 
 RegexFlag = NewType("RegexFlag", re.RegexFlag)
 
-DTypeInt = (
+DTypeInt: TypeAlias = (
     np.int8
     | np.int16
     | np.int32
@@ -128,23 +139,36 @@ DTypeInt = (
     | np.uint32
     | np.uint64
 )
-DTypeFloat = np.float16 | np.float32 | np.float64
-DTypeReal = DTypeInt | DTypeFloat
-DTypeComplex = np.complex64 | np.complex128
-DTypeBoolean = np.bool_
-DType = DTypeBoolean | DTypeReal | DTypeComplex
+DTypeFloat: TypeAlias = np.float16 | np.float32 | np.float64
+DTypeReal: TypeAlias = DTypeInt | DTypeFloat
+DTypeComplex: TypeAlias = np.complex64 | np.complex128
+DTypeBoolean: TypeAlias = np.bool_
+DType: TypeAlias = DTypeBoolean | DTypeReal | DTypeComplex
 
-Real = int | float
+Real: TypeAlias = int | float
 
 # TODO: Revisit to use Protocol.
-Dataclass = Any
+Dataclass: TypeAlias = Any
 
-NDArrayInt = NDArray[DTypeInt]
-NDArrayFloat = NDArray[DTypeFloat]
-NDArrayReal = NDArray[DTypeInt | DTypeFloat]
-NDArrayComplex = NDArray[DTypeComplex]
-NDArrayBoolean = NDArray[DTypeBoolean]
-NDArrayStr = NDArray[np.str_]
+NDArrayInt: TypeAlias = NDArray[DTypeInt]
+NDArrayFloat: TypeAlias = NDArray[DTypeFloat]
+NDArrayReal: TypeAlias = NDArray[DTypeInt | DTypeFloat]
+NDArrayComplex: TypeAlias = NDArray[DTypeComplex]
+NDArrayBoolean: TypeAlias = NDArray[DTypeBoolean]
+NDArrayStr: TypeAlias = NDArray[np.str_]
+
+# Domain-Range Scale Type Aliases
+Domain1: TypeAlias = Annotated[ArrayLike, 1]
+Domain10: TypeAlias = Annotated[ArrayLike, 10]
+Domain100: TypeAlias = Annotated[ArrayLike, 100]
+Domain360: TypeAlias = Annotated[ArrayLike, 360]
+Domain100_100_360: TypeAlias = Annotated[ArrayLike, (100, 100, 360)]
+
+Range1: TypeAlias = Annotated[NDArrayFloat, 1]
+Range10: TypeAlias = Annotated[NDArrayFloat, 10]
+Range100: TypeAlias = Annotated[NDArrayFloat, 100]
+Range360: TypeAlias = Annotated[NDArrayFloat, 360]
+Range100_100_360: TypeAlias = Annotated[NDArrayFloat, (100, 100, 360)]
 
 
 class ProtocolInterpolator(Protocol):  # noqa: D101  # pragma: no cover

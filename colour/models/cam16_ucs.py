@@ -33,9 +33,17 @@ import typing
 from functools import partial
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Any, ArrayLike, Callable
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Callable,
+        Domain1,
+        Domain100,
+        Range1,
+        Range100,
+    )
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat, cast
+from colour.hints import ArrayLike, NDArrayFloat, cast
 from colour.models.cam02_ucs import (
     COEFFICIENTS_UCS_LUO2006,
     CAM02LCD_to_JMh_CIECAM02,
@@ -179,10 +187,10 @@ CAM16UCS_to_JMh_CAM16.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(
 
 
 def XYZ_to_UCS_Li2017(
-    XYZ: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
     coefficients: ArrayLike,
     **kwargs: Any,
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to one of the *Li et al.
     (2017)* *CAM16-LCD*, *CAM16-SCD*, or *CAM16-UCS* colourspaces
@@ -275,10 +283,10 @@ def XYZ_to_UCS_Li2017(
 
 
 def UCS_Li2017_to_XYZ(
-    Jpapbp: Annotated[ArrayLike, 100],
+    Jpapbp: Domain100,
     coefficients: ArrayLike,
     **kwargs: Any,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert from one of the *Li et al. (2017)* *CAM16-LCD*, *CAM16-SCD*, or
     *CAM16-UCS* colourspaces :math:`J'a'b'` array to *CIE XYZ* tristimulus

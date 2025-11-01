@@ -27,9 +27,14 @@ from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.algebra import sdiv, sdiv_mode, vecmul
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, Literal, NDArrayFloat
+    from colour.hints import Literal
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassIterable,
@@ -232,9 +237,9 @@ def matrix_chromatic_adaptation_vk20(
 
 
 def chromatic_adaptation_vK20(
-    XYZ: Annotated[ArrayLike, 1],
-    XYZ_p: Annotated[ArrayLike, 1],
-    XYZ_n: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
+    XYZ_p: Domain1,
+    XYZ_n: Domain1,
     XYZ_r: ArrayLike | None = None,
     transform: Literal[
         "Bianco 2010",
@@ -254,7 +259,7 @@ def chromatic_adaptation_vK20(
     coefficients: Coefficients_DegreeOfAdaptation_vK20 = (
         CONDITIONS_DEGREE_OF_ADAPTATION_VK20["Fairchild"]
     ),
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Adapt the specified stimulus *CIE XYZ* tristimulus values from test
     viewing conditions to reference viewing conditions using the

@@ -17,14 +17,12 @@ nuke-default/make.py
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -40,7 +38,7 @@ __all__ = [
 ]
 
 
-def log_encoding_ViperLog(x: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def log_encoding_ViperLog(x: Domain1) -> Range1:
     """
     Apply the *Viper Log* log encoding opto-electronic transfer function (OETF).
 
@@ -85,7 +83,7 @@ def log_encoding_ViperLog(x: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat,
     return as_float(from_range_1(y))
 
 
-def log_decoding_ViperLog(y: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def log_decoding_ViperLog(y: Domain1) -> Range1:
     """
     Apply the *Viper Log* log decoding inverse opto-electronic transfer function (OETF).
 

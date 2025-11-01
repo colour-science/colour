@@ -35,9 +35,16 @@ from colour.colorimetry import (
 )
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, Literal, NDArrayFloat
+    from colour.hints import Literal
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    Domain100,
+    NDArrayFloat,
+    Range1,
+    Range100,
+)
 from colour.models.ipt import (
     MATRIX_IPT_IPT_TO_LMS_P,
     MATRIX_IPT_LMS_P_TO_IPT,
@@ -82,7 +89,7 @@ References
 
 
 def exponent_hdr_IPT(
-    Y_s: Annotated[ArrayLike, 1],
+    Y_s: Domain1,
     Y_abs: ArrayLike,
     method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
 ) -> NDArrayFloat:
@@ -140,11 +147,11 @@ def exponent_hdr_IPT(
 
 
 def XYZ_to_hdr_IPT(
-    XYZ: Annotated[ArrayLike, 1],
-    Y_s: Annotated[ArrayLike, 1] = 0.2,
+    XYZ: Domain1,
+    Y_s: Domain1 = 0.2,
     Y_abs: ArrayLike = 100,
     method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to *hdr-IPT* colourspace.
 
@@ -219,11 +226,11 @@ def XYZ_to_hdr_IPT(
 
 
 def hdr_IPT_to_XYZ(
-    IPT_hdr: Annotated[ArrayLike, 100],
-    Y_s: Annotated[ArrayLike, 1] = 0.2,
+    IPT_hdr: Domain100,
+    Y_s: Domain1 = 0.2,
     Y_abs: ArrayLike = 100,
     method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert from *hdr-IPT* colourspace to *CIE XYZ* tristimulus values.
 

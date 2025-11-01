@@ -28,7 +28,7 @@ import numpy as np
 from colour.algebra import spow, vecmul
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike
+    from colour.hints import ArrayLike, Domain100
 
 from colour.hints import Annotated, NDArrayFloat, cast
 from colour.utilities import (
@@ -272,9 +272,9 @@ class CAM_Specification_Hunt(MixinDataclassArithmetic):
 
 
 def XYZ_to_Hunt(
-    XYZ: Annotated[ArrayLike, 100],
-    XYZ_w: Annotated[ArrayLike, 100],
-    XYZ_b: Annotated[ArrayLike, 100],
+    XYZ: Domain100,
+    XYZ_w: Domain100,
+    XYZ_b: Domain100,
     L_A: ArrayLike,
     surround: InductionFactors_Hunt = VIEWING_CONDITIONS_HUNT["Normal Scenes"],
     L_AS: ArrayLike | None = None,

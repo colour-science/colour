@@ -20,16 +20,13 @@ R-REC-BT.2020-2-201510-I!!PDF-E.pdf
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
 from colour.algebra import spow
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import (
     Structure,
     as_float,
@@ -74,10 +71,10 @@ References
 
 
 def oetf_BT2020(
-    E: Annotated[ArrayLike, 1],
+    E: Domain1,
     is_12_bits_system: bool = False,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.2020* opto-electronic transfer function
     (OETF).
@@ -135,10 +132,10 @@ def oetf_BT2020(
 
 
 def oetf_inverse_BT2020(
-    E_p: Annotated[ArrayLike, 1],
+    E_p: Domain1,
     is_12_bits_system: bool = False,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.2020* inverse opto-electronic transfer function
     (OETF).

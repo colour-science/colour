@@ -18,17 +18,16 @@ References
 
 from __future__ import annotations
 
-import typing
 from functools import partial
 
 import numpy as np
 
 from colour.algebra import spow
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.models import Iab_to_XYZ, XYZ_to_Iab
 
 __author__ = "Colour Developers"
@@ -78,7 +77,7 @@ non-linear cone responses matrix.
 """
 
 
-def XYZ_to_IPT_Ragoo2021(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def XYZ_to_IPT_Ragoo2021(XYZ: Domain1) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to *Ragoo and Farup (2021)*
     *Optimised IPT* colourspace.
@@ -130,8 +129,8 @@ def XYZ_to_IPT_Ragoo2021(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat
 
 
 def IPT_Ragoo2021_to_XYZ(
-    IPT: Annotated[ArrayLike, 1],
-) -> Annotated[NDArrayFloat, 1]:
+    IPT: Domain1,
+) -> Range1:
     """
     Convert from *Ragoo and Farup (2021)* *Optimised IPT* colourspace to
     *CIE XYZ* tristimulus values.

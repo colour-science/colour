@@ -16,14 +16,12 @@ References
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
 __author__ = "Colour Developers"
@@ -51,9 +49,9 @@ CONSTANTS_BLACKMAGIC_FILM_GENERATION_5: Structure = Structure(
 
 
 def oetf_BlackmagicFilmGeneration5(
-    x: Annotated[ArrayLike, 1],
+    x: Domain1,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Blackmagic Film Generation 5* opto-electronic transfer function
     (OETF).
@@ -114,9 +112,9 @@ def oetf_BlackmagicFilmGeneration5(
 
 
 def oetf_inverse_BlackmagicFilmGeneration5(
-    y: Annotated[ArrayLike, 1],
+    y: Domain1,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Blackmagic Film Generation 5* inverse opto-electronic
     transfer function (OETF).

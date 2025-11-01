@@ -15,12 +15,10 @@ References
 
 from __future__ import annotations
 
-import typing
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import Structure, optional
 
 from .apple_log_profile import (
@@ -53,9 +51,9 @@ CONSTANTS_MI_LOG: Structure = Structure(
 
 
 def log_encoding_MiLog(
-    R: Annotated[ArrayLike, 1],
+    R: Domain1,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Xiaomi Mi-Log Profile* log encoding opto-electronic transfer
     function (OETF).
@@ -105,9 +103,9 @@ def log_encoding_MiLog(
 
 
 def log_decoding_MiLog(
-    P: Annotated[ArrayLike, 1],
+    P: Domain1,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Xiaomi Mi-Log Profile* log decoding inverse opto-electronic transfer
     function (OETF).

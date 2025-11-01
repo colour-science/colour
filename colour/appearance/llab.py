@@ -28,17 +28,12 @@ Colour_Appearance_and_Gamut_Mapping
 
 from __future__ import annotations
 
-import typing
 from dataclasses import dataclass, field
 
 import numpy as np
 
 from colour.algebra import polar_to_cartesian, sdiv, sdiv_mode, spow, vecmul
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import Annotated, ArrayLike, Domain100, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
@@ -268,8 +263,8 @@ class CAM_Specification_LLAB(MixinDataclassArithmetic):
 
 
 def XYZ_to_LLAB(
-    XYZ: Annotated[ArrayLike, 100],
-    XYZ_0: Annotated[ArrayLike, 100],
+    XYZ: Domain100,
+    XYZ_0: Domain100,
     Y_b: ArrayLike,
     L: ArrayLike,
     surround: InductionFactors_LLAB = VIEWING_CONDITIONS_LLAB[

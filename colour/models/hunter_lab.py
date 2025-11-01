@@ -20,16 +20,15 @@ an02_02.pdf
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
 from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain100,
+    NDArrayFloat,
+    Range100,
+)
 from colour.utilities import (
     from_range_100,
     get_domain_range_scale,
@@ -90,10 +89,10 @@ def XYZ_to_K_ab_HunterLab1966(XYZ: ArrayLike) -> NDArrayFloat:
 
 
 def XYZ_to_Hunter_Lab(
-    XYZ: Annotated[ArrayLike, 100],
+    XYZ: Domain100,
     XYZ_n: ArrayLike | None = None,
     K_ab: ArrayLike | None = None,
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour
     scale.
@@ -170,10 +169,10 @@ def XYZ_to_Hunter_Lab(
 
 
 def Hunter_Lab_to_XYZ(
-    Lab: Annotated[ArrayLike, 100],
+    Lab: Domain100,
     XYZ_n: ArrayLike | None = None,
     K_ab: ArrayLike | None = None,
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus
     values.

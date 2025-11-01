@@ -30,9 +30,13 @@ import typing
 import numpy as np
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal
+    from colour.hints import NDArrayReal
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Annotated,
+    Domain1,
+    Range1,
+)
 from colour.utilities import (
     Structure,
     as_float,
@@ -80,7 +84,7 @@ CONSTANTS_DICOMGSDF: Structure = Structure(
 
 
 def eotf_inverse_DICOMGSDF(
-    L: Annotated[ArrayLike, 1],
+    L: Domain1,
     out_int: bool = False,
     constants: Structure | None = None,
 ) -> Annotated[NDArrayReal, 1]:
@@ -163,10 +167,10 @@ def eotf_inverse_DICOMGSDF(
 
 
 def eotf_DICOMGSDF(
-    J: Annotated[ArrayLike, 1],
+    J: Domain1,
     in_int: bool = False,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *DICOM - Grayscale Standard Display Function* electro-optical
     transfer function (EOTF).

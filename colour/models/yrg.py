@@ -18,16 +18,14 @@ References
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode, vecmul
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
@@ -63,7 +61,7 @@ values.
 """
 
 
-def LMS_to_Yrg(LMS: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def LMS_to_Yrg(LMS: Domain1) -> Range1:
     """
     Convert from *LMS* cone fundamentals colourspace to *Kirk (2019)* *Yrg*
     colourspace.
@@ -123,7 +121,7 @@ def LMS_to_Yrg(LMS: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return from_range_1(Yrg)
 
 
-def Yrg_to_LMS(Yrg: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def Yrg_to_LMS(Yrg: Domain1) -> Range1:
     """
     Convert from *Kirk (2019)* *Yrg* colourspace to *LMS* cone
     fundamentals colourspace.
@@ -179,7 +177,7 @@ def Yrg_to_LMS(Yrg: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return from_range_1(LMS)
 
 
-def XYZ_to_Yrg(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def XYZ_to_Yrg(XYZ: Domain1) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to *Kirk (2019)* *Yrg*
     colourspace.
@@ -224,7 +222,7 @@ def XYZ_to_Yrg(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return LMS_to_Yrg(vecmul(MATRIX_XYZ_TO_LMS_KIRK2019, XYZ))
 
 
-def Yrg_to_XYZ(Yrg: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def Yrg_to_XYZ(Yrg: Domain1) -> Range1:
     """
     Convert from *Kirk (2019)* *Yrg* colourspace to *CIE XYZ* tristimulus
     values.

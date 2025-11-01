@@ -20,16 +20,13 @@ R-REC-BT.601-7-201103-I!!PDF-E.pdf
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
 from colour.algebra import spow
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import as_float, domain_range_scale, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -45,7 +42,7 @@ __all__ = [
 ]
 
 
-def oetf_BT601(L: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def oetf_BT601(L: Domain1) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.601-7* opto-electronic transfer
     function (OETF).
@@ -91,7 +88,7 @@ def oetf_BT601(L: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return as_float(from_range_1(E))
 
 
-def oetf_inverse_BT601(E: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def oetf_inverse_BT601(E: Domain1) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.601-7* inverse opto-electronic
     transfer function (OETF).

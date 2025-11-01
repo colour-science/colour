@@ -35,9 +35,16 @@ from colour.colorimetry import (
 )
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, Literal, NDArrayFloat
+    from colour.hints import Literal
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    Domain100,
+    NDArrayFloat,
+    Range1,
+    Range100,
+)
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (
     as_float_array,
@@ -79,7 +86,7 @@ References
 
 
 def exponent_hdr_CIELab(
-    Y_s: Annotated[ArrayLike, 1],
+    Y_s: Domain1,
     Y_abs: ArrayLike,
     method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
 ) -> NDArrayFloat:
@@ -137,14 +144,14 @@ def exponent_hdr_CIELab(
 
 
 def XYZ_to_hdr_CIELab(
-    XYZ: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-    Y_s: Annotated[ArrayLike, 1] = 0.2,
+    Y_s: Domain1 = 0.2,
     Y_abs: ArrayLike = 100,
     method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to *hdr-CIELAB* colourspace.
 
@@ -231,14 +238,14 @@ def XYZ_to_hdr_CIELab(
 
 
 def hdr_CIELab_to_XYZ(
-    Lab_hdr: Annotated[ArrayLike, 100],
+    Lab_hdr: Domain100,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-    Y_s: Annotated[ArrayLike, 1] = 0.2,
+    Y_s: Domain1 = 0.2,
     Y_abs: ArrayLike = 100,
     method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert from *hdr-CIELAB* colourspace to *CIE XYZ* tristimulus values.
 

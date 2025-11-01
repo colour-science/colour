@@ -73,9 +73,15 @@ from colour.biochemistry import (
 )
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
+    from colour.hints import Any, Literal
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    Domain100,
+    NDArrayFloat,
+    Range100,
+)
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -110,7 +116,7 @@ __all__ = [
 ]
 
 
-def lightness_Glasser1958(Y: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloat, 100]:
+def lightness_Glasser1958(Y: Domain100) -> Range100:
     """
     Compute *lightness* :math:`L` from the specified *luminance* :math:`Y` using
     the *Glasser et al. (1958)* method.
@@ -157,8 +163,8 @@ def lightness_Glasser1958(Y: Annotated[ArrayLike, 100]) -> Annotated[NDArrayFloa
 
 
 def lightness_Wyszecki1963(
-    Y: Annotated[ArrayLike, 100],
-) -> Annotated[NDArrayFloat, 100]:
+    Y: Domain100,
+) -> Range100:
     """
     Compute *lightness* :math:`W` from the specified *luminance* :math:`Y`
     using the *Wyszecki (1963)* method.
@@ -272,9 +278,7 @@ def intermediate_lightness_function_CIE1976(
     return as_float(f_Y_Y_n)
 
 
-def lightness_CIE1976(
-    Y: Annotated[ArrayLike, 100], Y_n: ArrayLike | None = None
-) -> Annotated[NDArrayFloat, 100]:
+def lightness_CIE1976(Y: Domain100, Y_n: ArrayLike | None = None) -> Range100:
     """
     Compute the *lightness* :math:`L^*` of the specified *luminance* :math:`Y`
     using the specified reference white *luminance* :math:`Y_n` as per *CIE 1976*
@@ -326,9 +330,7 @@ def lightness_CIE1976(
     return as_float(from_range_100(L_star))
 
 
-def lightness_Fairchild2010(
-    Y: Annotated[ArrayLike, 1], epsilon: ArrayLike = 1.836
-) -> Annotated[NDArrayFloat, 100]:
+def lightness_Fairchild2010(Y: Domain1, epsilon: ArrayLike = 1.836) -> Range100:
     """
     Compute *lightness* :math:`L_{hdr}` from the specified *luminance* :math:`Y`
     using *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
@@ -385,10 +387,10 @@ def lightness_Fairchild2010(
 
 
 def lightness_Fairchild2011(
-    Y: Annotated[ArrayLike, 1],
+    Y: Domain1,
     epsilon: ArrayLike = 0.474,
     method: Literal["hdr-CIELAB", "hdr-IPT"] | str = "hdr-CIELAB",
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Compute *lightness* :math:`L_{hdr}` from the specified *luminance* :math:`Y`
     using *Fairchild and Chen (2011)* method according to *Michaelis-Menten*
@@ -560,7 +562,7 @@ LIGHTNESS_METHODS["Lstar1976"] = LIGHTNESS_METHODS["CIE 1976"]
 
 
 def lightness(
-    Y: Annotated[ArrayLike, 100],
+    Y: Domain100,
     method: (
         Literal[
             "Abebe 2017",
@@ -573,7 +575,7 @@ def lightness(
         | str
     ) = "CIE 1976",
     **kwargs: Any,
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Compute the *lightness* :math:`L` from the specified *luminance* :math:`Y`.
 

@@ -24,7 +24,7 @@ from colour.adaptation import CAT_CAT16
 from colour.algebra import sdiv, sdiv_mode, vecmul
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Annotated, ArrayLike, NDArrayFloat
+    from colour.hints import ArrayLike, Domain100, NDArrayFloat, Range100
 
 from colour.utilities import (
     as_float_array,
@@ -48,13 +48,13 @@ CAT_CAT16_INVERSE: NDArrayFloat = np.linalg.inv(CAT_CAT16)
 
 
 def chromatic_adaptation_Li2025(
-    XYZ_s: Annotated[ArrayLike, 100],
-    XYZ_ws: Annotated[ArrayLike, 100],
-    XYZ_wd: Annotated[ArrayLike, 100],
+    XYZ_s: Domain100,
+    XYZ_ws: Domain100,
+    XYZ_wd: Domain100,
     L_A: ArrayLike,
     F_surround: ArrayLike,
     discount_illuminant: bool = False,
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Adapt the specified stimulus *CIE XYZ* tristimulus values from test
     viewing conditions to reference viewing conditions using the

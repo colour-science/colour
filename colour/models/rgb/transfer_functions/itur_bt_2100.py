@@ -60,9 +60,14 @@ import numpy as np
 from colour.algebra import spow
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, Literal, NDArrayFloat
+    from colour.hints import Literal
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.models.rgb.transfer_functions import (
     eotf_BT1886,
     eotf_inverse_BT1886,
@@ -452,9 +457,7 @@ def gamma_function_BT2100_HLG(L_W: float = 1000) -> float:
     return as_float_scalar(gamma)
 
 
-def oetf_BT2100_HLG(
-    E: Annotated[ArrayLike, 1], constants: Structure | None = None
-) -> Annotated[NDArrayFloat, 1]:
+def oetf_BT2100_HLG(E: Domain1, constants: Structure | None = None) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
     transfer function (OETF).
@@ -504,9 +507,7 @@ def oetf_BT2100_HLG(
     return oetf_ARIBSTDB67(12 * E, constants=constants)
 
 
-def oetf_inverse_BT2100_HLG(
-    E_p: Annotated[ArrayLike, 1], constants: Structure | None = None
-) -> Annotated[NDArrayFloat, 1]:
+def oetf_inverse_BT2100_HLG(E_p: Domain1, constants: Structure | None = None) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     opto-electrical transfer function (OETF).
@@ -597,12 +598,12 @@ def black_level_lift_BT2100_HLG(
 
 
 def eotf_BT2100_HLG_1(
-    E_p: Annotated[ArrayLike, 1],
+    E_p: Domain1,
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
     transfer function (EOTF) as specified in *ITU-R BT.2100-1*.
@@ -663,12 +664,12 @@ def eotf_BT2100_HLG_1(
 
 
 def eotf_BT2100_HLG_2(
-    E_p: Annotated[ArrayLike, 1],
+    E_p: Domain1,
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
     transfer function (EOTF) as specified in *ITU-R BT.2100-2* with
@@ -752,13 +753,13 @@ References
 
 
 def eotf_BT2100_HLG(
-    E_p: Annotated[ArrayLike, 1],
+    E_p: Domain1,
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
     constants: Structure | None = None,
     method: (Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"] | str) = "ITU-R BT.2100-2",
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.2100* *Reference HLG*
     electro-optical transfer function (EOTF).
@@ -825,12 +826,12 @@ def eotf_BT2100_HLG(
 
 
 def eotf_inverse_BT2100_HLG_1(
-    F_D: Annotated[ArrayLike, 1],
+    F_D: Domain1,
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     electro-optical transfer function (EOTF) as specified in
@@ -894,12 +895,12 @@ def eotf_inverse_BT2100_HLG_1(
 
 
 def eotf_inverse_BT2100_HLG_2(
-    F_D: Annotated[ArrayLike, 1],
+    F_D: Domain1,
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     electro-optical transfer function (EOTF) as specified in *ITU-R BT.2100-2*
@@ -986,13 +987,13 @@ References
 
 
 def eotf_inverse_BT2100_HLG(
-    F_D: Annotated[ArrayLike, 1],
+    F_D: Domain1,
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
     constants: Structure | None = None,
     method: (Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"] | str) = "ITU-R BT.2100-2",
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     electro-optical transfer function (EOTF).
@@ -1058,11 +1059,11 @@ def eotf_inverse_BT2100_HLG(
 
 
 def ootf_BT2100_HLG_1(
-    E: Annotated[ArrayLike, 1],
+    E: Domain1,
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.2100* *Reference HLG*
 
@@ -1154,10 +1155,10 @@ def ootf_BT2100_HLG_1(
 
 
 def ootf_BT2100_HLG_2(
-    E: Annotated[ArrayLike, 1],
+    E: Domain1,
     L_W: float = 1000,
     gamma: float | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
     transfer function (OOTF) as specified in *ITU-R BT.2100-2*.
@@ -1258,12 +1259,12 @@ References
 
 
 def ootf_BT2100_HLG(
-    E: Annotated[ArrayLike, 1],
+    E: Domain1,
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
     method: (Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"] | str) = "ITU-R BT.2100-2",
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
     transfer function (OOTF).
@@ -1329,11 +1330,11 @@ def ootf_BT2100_HLG(
 
 
 def ootf_inverse_BT2100_HLG_1(
-    F_D: Annotated[ArrayLike, 1],
+    F_D: Domain1,
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     opto-optical transfer function (OOTF) as defined in *ITU-R BT.2100-1*.
@@ -1437,10 +1438,10 @@ def ootf_inverse_BT2100_HLG_1(
 
 
 def ootf_inverse_BT2100_HLG_2(
-    F_D: Annotated[ArrayLike, 1],
+    F_D: Domain1,
     L_W: float = 1000,
     gamma: float | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     opto-optical transfer function (OOTF) according to *ITU-R BT.2100-2*.
@@ -1556,12 +1557,12 @@ References
 
 
 def ootf_inverse_BT2100_HLG(
-    F_D: Annotated[ArrayLike, 1],
+    F_D: Domain1,
     L_B: float = 0,
     L_W: float = 1000,
     gamma: float | None = None,
     method: (Literal["ITU-R BT.2100-1", "ITU-R BT.2100-2"] | str) = "ITU-R BT.2100-2",
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Recommendation ITU-R BT.2100* *Reference HLG* inverse
     opto-optical transfer function (OOTF).

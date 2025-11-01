@@ -16,17 +16,17 @@ References
 
 from __future__ import annotations
 
-import typing
 from functools import partial
 
 import numpy as np
 
 from colour.algebra import spow
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    NDArrayFloat,
+    Range1,
+    Range360,
+)
 from colour.models import Iab_to_XYZ, XYZ_to_Iab
 from colour.utilities import as_float, from_range_degrees, to_domain_1, tsplit
 
@@ -72,7 +72,7 @@ MATRIX_IPT_IPT_TO_LMS_P: NDArrayFloat = np.linalg.inv(MATRIX_IPT_LMS_P_TO_IPT)
 """*IPT* colourspace to normalised non-linear cone responses matrix."""
 
 
-def XYZ_to_IPT(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def XYZ_to_IPT(XYZ: Domain1) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to *IPT* colourspace.
 
@@ -122,7 +122,7 @@ def XYZ_to_IPT(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     )
 
 
-def IPT_to_XYZ(IPT: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def IPT_to_XYZ(IPT: Domain1) -> Range1:
     """
     Convert from *IPT* colourspace to *CIE XYZ* tristimulus values.
 
@@ -172,7 +172,7 @@ def IPT_to_XYZ(IPT: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     )
 
 
-def IPT_hue_angle(IPT: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 360]:
+def IPT_hue_angle(IPT: Domain1) -> Range360:
     """
     Compute the hue angle in degrees from the *IPT* colourspace array.
 

@@ -18,17 +18,16 @@ References
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
 from colour.adaptation import CAT_VON_KRIES
 from colour.algebra import sdiv, sdiv_mode, spow, vecmul
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain100,
+    NDArrayFloat,
+    Range100,
+)
 from colour.utilities import (
     as_float_array,
     from_range_100,
@@ -68,12 +67,12 @@ tristimulus values matrix.
 
 
 def chromatic_adaptation_Fairchild1990(
-    XYZ_1: Annotated[ArrayLike, 100],
-    XYZ_n: Annotated[ArrayLike, 100],
-    XYZ_r: Annotated[ArrayLike, 100],
+    XYZ_1: Domain100,
+    XYZ_n: Domain100,
+    XYZ_r: Domain100,
     Y_n: ArrayLike,
     discount_illuminant: bool = False,
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Adapt the specified stimulus *CIE XYZ* tristimulus values from test
     viewing conditions to reference viewing conditions using the

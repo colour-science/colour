@@ -16,15 +16,13 @@ References
 
 from __future__ import annotations
 
-import typing
-
 from colour.algebra import sdiv, sdiv_mode, spow
 from colour.colorimetry import CCS_ILLUMINANTS
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain100,
+    Range100,
+)
 from colour.models import UCS_uv_to_xy, XYZ_to_xy, xy_to_UCS_uv, xyY_to_xy, xyY_to_XYZ
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
@@ -42,11 +40,11 @@ __all__ = [
 
 
 def XYZ_to_UVW(
-    XYZ: Annotated[ArrayLike, 100],
+    XYZ: Domain100,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE 1964 U\\*V\\*W\\**
     colourspace.
@@ -110,11 +108,11 @@ def XYZ_to_UVW(
 
 
 def UVW_to_XYZ(
-    UVW: Annotated[ArrayLike, 100],
+    UVW: Domain100,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert from *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus
     values.

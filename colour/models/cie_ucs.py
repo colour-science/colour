@@ -24,16 +24,15 @@ References
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
@@ -55,7 +54,7 @@ __all__ = [
 ]
 
 
-def XYZ_to_UCS(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def XYZ_to_UCS(XYZ: Domain1) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE 1960 UCS* :math:`UVW`
     colourspace.
@@ -103,7 +102,7 @@ def XYZ_to_UCS(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return from_range_1(UVW)
 
 
-def UCS_to_XYZ(UVW: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def UCS_to_XYZ(UVW: Domain1) -> Range1:
     """
     Convert from *CIE 1960 UCS* :math:`UVW` colourspace to *CIE XYZ*
     tristimulus values.
@@ -151,7 +150,7 @@ def UCS_to_XYZ(UVW: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return from_range_1(XYZ)
 
 
-def UCS_to_uv(UVW: Annotated[ArrayLike, 1]) -> NDArrayFloat:
+def UCS_to_uv(UVW: Domain1) -> NDArrayFloat:
     """
     Convert from *CIE 1960 UCS* colourspace to *uv* chromaticity
     coordinates.
@@ -194,9 +193,7 @@ def UCS_to_uv(UVW: Annotated[ArrayLike, 1]) -> NDArrayFloat:
         return tstack([sdiv(U, U_V_W), sdiv(V, U_V_W)])
 
 
-def uv_to_UCS(
-    uv: ArrayLike, V: Annotated[ArrayLike, 1] = 1
-) -> Annotated[NDArrayFloat, 1]:
+def uv_to_UCS(uv: ArrayLike, V: Domain1 = 1) -> Range1:
     """
     Convert from *uv* chromaticity coordinates to *CIE 1960 UCS*
     colourspace.
@@ -321,8 +318,8 @@ def xy_to_UCS_uv(xy: ArrayLike) -> NDArrayFloat:
 
 
 def XYZ_to_CIE1960UCS(
-    XYZ: Annotated[ArrayLike, 1],
-) -> Annotated[NDArrayFloat, 1]:
+    XYZ: Domain1,
+) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE 1960 UCS* :math:`uvV`
     colourspace.
@@ -376,8 +373,8 @@ def XYZ_to_CIE1960UCS(
 
 
 def CIE1960UCS_to_XYZ(
-    uvV: Annotated[ArrayLike, 1],
-) -> Annotated[NDArrayFloat, 1]:
+    uvV: Domain1,
+) -> Range1:
     """
     Convert from *CIE 1960 UCS* :math:`uvV` colourspace to *CIE XYZ*
     tristimulus values.

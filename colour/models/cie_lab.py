@@ -16,18 +16,18 @@ References
 
 from __future__ import annotations
 
-import typing
-
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
     intermediate_lightness_function_CIE1976,
     intermediate_luminance_function_CIE1976,
 )
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    Domain100,
+    Range1,
+    Range100,
+)
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (
     from_range_1,
@@ -52,11 +52,11 @@ __all__ = [
 
 
 def XYZ_to_Lab(
-    XYZ: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE L\\*a\\*b\\**
     colourspace.
@@ -119,11 +119,11 @@ def XYZ_to_Lab(
 
 
 def Lab_to_XYZ(
-    Lab: Annotated[ArrayLike, 100],
+    Lab: Domain100,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert from *CIE L\\*a\\*b\\** colourspace to *CIE XYZ* tristimulus
     values.

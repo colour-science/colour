@@ -26,17 +26,12 @@ References
 
 from __future__ import annotations
 
-import typing
 from dataclasses import dataclass, field
 
 import numpy as np
 
 from colour.algebra import spow, vecmul
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import Annotated, ArrayLike, Domain100, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     MixinDataclassArithmetic,
     as_float,
@@ -172,8 +167,8 @@ class CAM_Specification_ATD95(MixinDataclassArithmetic):
 
 
 def XYZ_to_ATD95(
-    XYZ: Annotated[ArrayLike, 100],
-    XYZ_0: Annotated[ArrayLike, 100],
+    XYZ: Domain100,
+    XYZ_0: Domain100,
     Y_0: ArrayLike,
     k_1: ArrayLike,
     k_2: ArrayLike,

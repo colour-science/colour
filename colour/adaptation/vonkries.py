@@ -25,13 +25,14 @@ from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.algebra import sdiv, sdiv_mode, vecmul
 
 if typing.TYPE_CHECKING:
-    from colour.hints import (
-        ArrayLike,
-        LiteralChromaticAdaptationTransform,
-        NDArrayFloat,
-    )
+    from colour.hints import LiteralChromaticAdaptationTransform
 
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.utilities import (
     as_float_array,
     from_range_1,
@@ -139,11 +140,11 @@ def matrix_chromatic_adaptation_VonKries(
 
 
 def chromatic_adaptation_VonKries(
-    XYZ: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
     XYZ_w: ArrayLike,
     XYZ_wr: ArrayLike,
     transform: LiteralChromaticAdaptationTransform | str = "CAT02",
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Adapt the specified stimulus *CIE XYZ* tristimulus values from test
     viewing conditions to reference viewing conditions using the *Von Kries*

@@ -56,9 +56,9 @@ import numpy as np
 from colour.algebra import sdiv, sdiv_mode
 
 if typing.TYPE_CHECKING:
-    from colour.hints import NDArrayFloat
+    from colour.hints import Domain1, NDArrayFloat, Range1
 
-from colour.hints import Annotated, ArrayLike, cast
+from colour.hints import ArrayLike, cast
 from colour.utilities import as_float_array, from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
@@ -78,7 +78,7 @@ __all__ = [
 ]
 
 
-def RGB_to_HSV(RGB: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def RGB_to_HSV(RGB: Domain1) -> Range1:
     """
     Convert from *RGB* colourspace to *HSV* colourspace.
 
@@ -145,7 +145,7 @@ def RGB_to_HSV(RGB: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return from_range_1(HSV)
 
 
-def HSV_to_RGB(HSV: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def HSV_to_RGB(HSV: Domain1) -> Range1:
     """
     Convert from *HSV* colourspace to *RGB* colourspace.
 
@@ -212,7 +212,7 @@ def HSV_to_RGB(HSV: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return from_range_1(RGB)
 
 
-def RGB_to_HSL(RGB: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def RGB_to_HSL(RGB: Domain1) -> Range1:
     """
     Convert from *RGB* colourspace to *HSL* colourspace.
 
@@ -284,7 +284,7 @@ def RGB_to_HSL(RGB: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return from_range_1(HSL)
 
 
-def HSL_to_RGB(HSL: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def HSL_to_RGB(HSL: Domain1) -> Range1:
     """
     Convert from *HSL* colourspace to *RGB* colourspace.
 
@@ -362,9 +362,7 @@ def HSL_to_RGB(HSL: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return from_range_1(RGB)
 
 
-def RGB_to_HCL(
-    RGB: Annotated[ArrayLike, 1], gamma: float = 3, Y_0: float = 100
-) -> Annotated[NDArrayFloat, 1]:
+def RGB_to_HCL(RGB: Domain1, gamma: float = 3, Y_0: float = 100) -> Range1:
     """
     Convert from *RGB* colourspace to *HCL* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.
@@ -456,9 +454,7 @@ def RGB_to_HCL(
     return from_range_1(HCL)
 
 
-def HCL_to_RGB(
-    HCL: Annotated[ArrayLike, 1], gamma: float = 3, Y_0: float = 100
-) -> Annotated[NDArrayFloat, 1]:
+def HCL_to_RGB(HCL: Domain1, gamma: float = 3, Y_0: float = 100) -> Range1:
     """
     Convert from *HCL* colourspace to *RGB* colourspace according to
     *Sarifuddin and Missaoui (2005)* method.

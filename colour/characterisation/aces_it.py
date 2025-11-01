@@ -93,10 +93,11 @@ if typing.TYPE_CHECKING:
         LiteralChromaticAdaptationTransform,
         Mapping,
         NDArrayFloat,
+        Range1,
         Tuple,
     )
 
-from colour.hints import Annotated, cast
+from colour.hints import cast
 from colour.io import read_sds_from_csv_file
 from colour.models import XYZ_to_Jzazbz, XYZ_to_Lab, XYZ_to_Oklab, XYZ_to_xy, xy_to_XYZ
 from colour.models.rgb import (
@@ -162,7 +163,7 @@ def sd_to_aces_relative_exposure_values(
         LiteralChromaticAdaptationTransform | str | None
     ) = "CAT02",
     **kwargs: Any,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert spectral distribution to *ACES2065-1* colourspace relative
     exposure values.
@@ -631,7 +632,7 @@ def training_data_sds_to_XYZ(
     chromatic_adaptation_transform: (
         LiteralChromaticAdaptationTransform | str | None
     ) = "CAT02",
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert training data to *CIE XYZ* tristimulus values using the specified
     illuminant and standard observer colour matching functions.

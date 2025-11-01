@@ -30,17 +30,19 @@ References
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import CCS_ILLUMINANTS, lightness_CIE1976, luminance_CIE1976
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Annotated,
+    ArrayLike,
+    Domain1,
+    Domain100,
+    NDArrayFloat,
+    Range1,
+    Range100,
+)
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (
     domain_range_scale,
@@ -74,11 +76,11 @@ __all__ = [
 
 
 def XYZ_to_Luv(
-    XYZ: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE L\\*u\\*v\\**
     colourspace.
@@ -144,11 +146,11 @@ def XYZ_to_Luv(
 
 
 def Luv_to_XYZ(
-    Luv: Annotated[ArrayLike, 100],
+    Luv: Domain100,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert from *CIE L\\*u\\*v\\** colourspace to *CIE XYZ* tristimulus
     values.
@@ -222,7 +224,7 @@ def Luv_to_XYZ(
 
 
 def Luv_to_uv(
-    Luv: Annotated[ArrayLike, 100],
+    Luv: Domain100,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
@@ -281,8 +283,8 @@ def uv_to_Luv(
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-    L: Annotated[ArrayLike, 100] | None = None,
-) -> Annotated[NDArrayFloat, 100]:
+    L: Domain100 | None = None,
+) -> Range100:
     """
     Convert from :math:`uv^p` chromaticity coordinates to *CIE L\\*u\\*v\\**
     colourspace by extending the array's last dimension with the specified
@@ -417,7 +419,7 @@ def xy_to_Luv_uv(xy: ArrayLike) -> NDArrayFloat:
 
 
 def XYZ_to_CIE1976UCS(
-    XYZ: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
@@ -487,7 +489,7 @@ def CIE1976UCS_to_XYZ(
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Convert from :math:`uv^pL^*` colourspace to *CIE XYZ* tristimulus values.
 

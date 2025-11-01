@@ -23,9 +23,9 @@ import typing
 import numpy as np
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
+    from colour.hints import NDArrayFloat
 
-from colour.hints import Annotated  # noqa: TC001
+from colour.hints import Domain100  # noqa: TC001
 from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006, Coefficients_UCS_Luo2006
 from colour.utilities import as_float, tsplit
 
@@ -45,8 +45,8 @@ __all__ = [
 
 
 def delta_E_Luo2006(
-    Jpapbp_1: Annotated[ArrayLike, 100],
-    Jpapbp_2: Annotated[ArrayLike, 100],
+    Jpapbp_1: Domain100,
+    Jpapbp_2: Domain100,
     coefficients: Coefficients_UCS_Luo2006,
 ) -> NDArrayFloat:
     """
@@ -107,9 +107,7 @@ def delta_E_Luo2006(
     return as_float(d_E)
 
 
-def delta_E_CAM02LCD(
-    Jpapbp_1: Annotated[ArrayLike, 100], Jpapbp_2: Annotated[ArrayLike, 100]
-) -> NDArrayFloat:
+def delta_E_CAM02LCD(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
     """
     Compute the colour difference :math:`\\Delta E'` between two specified
     *CAM02-LCD* colourspace :math:`J'a'b'` arrays using the
@@ -160,9 +158,7 @@ def delta_E_CAM02LCD(
     return delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
 
 
-def delta_E_CAM02SCD(
-    Jpapbp_1: Annotated[ArrayLike, 100], Jpapbp_2: Annotated[ArrayLike, 100]
-) -> NDArrayFloat:
+def delta_E_CAM02SCD(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
     """
     Compute the colour difference :math:`\\Delta E'` between two specified
     *CAM02-SCD* colourspace :math:`J'a'b'` arrays using the
@@ -213,9 +209,7 @@ def delta_E_CAM02SCD(
     return delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-SCD"])
 
 
-def delta_E_CAM02UCS(
-    Jpapbp_1: Annotated[ArrayLike, 100], Jpapbp_2: Annotated[ArrayLike, 100]
-) -> NDArrayFloat:
+def delta_E_CAM02UCS(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
     """
     Compute the colour difference :math:`\\Delta E'` between two specified
     *CAM02-UCS* colourspace :math:`J'a'b'` arrays using the

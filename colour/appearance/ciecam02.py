@@ -49,7 +49,7 @@ from colour.colorimetry import CCS_ILLUMINANTS
 from colour.constants import EPSILON
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, Tuple
+    from colour.hints import ArrayLike, Domain100, Range100, Tuple
 
 from colour.hints import Annotated, NDArrayFloat, cast
 from colour.models import xy_to_XYZ
@@ -228,8 +228,8 @@ class CAM_Specification_CIECAM02(MixinDataclassArithmetic):
 
 
 def XYZ_to_CIECAM02(
-    XYZ: Annotated[ArrayLike, 100],
-    XYZ_w: Annotated[ArrayLike, 100],
+    XYZ: Domain100,
+    XYZ_w: Domain100,
     L_A: ArrayLike,
     Y_b: ArrayLike,
     surround: InductionFactors_CIECAM02 = VIEWING_CONDITIONS_CIECAM02["Average"],
@@ -395,12 +395,12 @@ def CIECAM02_to_XYZ(
     specification: Annotated[
         CAM_Specification_CIECAM02, (100, 100, 360, 100, 100, 100, 400)
     ],
-    XYZ_w: Annotated[ArrayLike, 100],
+    XYZ_w: Domain100,
     L_A: ArrayLike,
     Y_b: ArrayLike,
     surround: InductionFactors_CIECAM02 = VIEWING_CONDITIONS_CIECAM02["Average"],
     discount_illuminant: bool = False,
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert the *CIECAM02* colour appearance model specification to *CIE XYZ*
     tristimulus values.

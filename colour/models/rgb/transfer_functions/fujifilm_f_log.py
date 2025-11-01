@@ -19,14 +19,12 @@ References
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
@@ -72,12 +70,12 @@ CONSTANTS_FLOG2: Structure = Structure(
 
 
 def log_encoding_FLog(
-    in_r: Annotated[ArrayLike, 1],
+    in_r: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Fujifilm F-Log* log encoding opto-electronic transfer function (OETF).
 
@@ -159,12 +157,12 @@ def log_encoding_FLog(
 
 
 def log_decoding_FLog(
-    out_r: Annotated[ArrayLike, 1],
+    out_r: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Fujifilm F-Log* log decoding inverse opto-electronic transfer
 
@@ -239,12 +237,12 @@ def log_decoding_FLog(
 
 
 def log_encoding_FLog2(
-    in_r: Annotated[ArrayLike, 1],
+    in_r: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Fujifilm F-Log2* log encoding opto-electronic transfer function (OETF).
 
@@ -308,12 +306,12 @@ def log_encoding_FLog2(
 
 
 def log_decoding_FLog2(
-    out_r: Annotated[ArrayLike, 1],
+    out_r: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *Fujifilm F-Log2* log decoding inverse opto-electronic transfer
     function (OETF).

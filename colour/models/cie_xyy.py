@@ -22,16 +22,15 @@ References
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.utilities import as_float_array, from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
@@ -51,7 +50,7 @@ __all__ = [
 ]
 
 
-def XYZ_to_xyY(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def XYZ_to_xyY(XYZ: Domain1) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE xyY* colourspace.
 
@@ -104,7 +103,7 @@ def XYZ_to_xyY(XYZ: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return tstack([x, y, from_range_1(Y)])
 
 
-def xyY_to_XYZ(xyY: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
+def xyY_to_XYZ(xyY: Domain1) -> Range1:
     """
     Convert from *CIE xyY* colourspace to *CIE XYZ* tristimulus values.
 
@@ -157,7 +156,7 @@ def xyY_to_XYZ(xyY: Annotated[ArrayLike, 1]) -> Annotated[NDArrayFloat, 1]:
     return from_range_1(XYZ)
 
 
-def xyY_to_xy(xyY: Annotated[ArrayLike, 1]) -> NDArrayFloat:
+def xyY_to_xy(xyY: Domain1) -> NDArrayFloat:
     """
     Convert from *CIE xyY* colourspace to *CIE xy* chromaticity
     coordinates.
@@ -209,9 +208,7 @@ def xyY_to_xy(xyY: Annotated[ArrayLike, 1]) -> NDArrayFloat:
     return xyY[..., 0:2]
 
 
-def xy_to_xyY(
-    xy: ArrayLike, Y: Annotated[ArrayLike, 1] = 1
-) -> Annotated[NDArrayFloat, 1]:
+def xy_to_xyY(xy: ArrayLike, Y: Domain1 = 1) -> Range1:
     """
     Convert from *CIE xy* chromaticity coordinates to *CIE xyY*
     colourspace by extending the array's last dimension with the
@@ -289,7 +286,7 @@ def xy_to_xyY(
     return from_range_1(xyY, np.array([1, 1, 100]))
 
 
-def XYZ_to_xy(XYZ: Annotated[ArrayLike, 1]) -> NDArrayFloat:
+def XYZ_to_xy(XYZ: Domain1) -> NDArrayFloat:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE xy* chromaticity
     coordinates.
@@ -326,7 +323,7 @@ def XYZ_to_xy(XYZ: Annotated[ArrayLike, 1]) -> NDArrayFloat:
     return xyY_to_xy(XYZ_to_xyY(XYZ))
 
 
-def xy_to_XYZ(xy: ArrayLike) -> Annotated[NDArrayFloat, 1]:
+def xy_to_XYZ(xy: ArrayLike) -> Range1:
     """
     Convert from *CIE xy* chromaticity coordinates to *CIE XYZ* tristimulus values.
 

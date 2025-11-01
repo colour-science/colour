@@ -19,14 +19,13 @@ References
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    Range1,
+)
 from colour.models.rgb.transfer_functions import gamma_function
 from colour.utilities import (
     Structure,
@@ -56,10 +55,10 @@ CONSTANTS_ARIBSTDB67: Structure = Structure(a=0.17883277, b=0.28466892, c=0.5599
 
 
 def oetf_ARIBSTDB67(
-    E: Annotated[ArrayLike, 1],
+    E: Domain1,
     r: ArrayLike = 0.5,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electronic transfer
     function (OETF).
@@ -122,10 +121,10 @@ def oetf_ARIBSTDB67(
 
 
 def oetf_inverse_ARIBSTDB67(
-    E_p: Annotated[ArrayLike, 1],
+    E_p: Domain1,
     r: ArrayLike = 0.5,
     constants: Structure | None = None,
-) -> Annotated[NDArrayFloat, 1]:
+) -> Range1:
     """
     Apply the *ARIB STD-B67 (Hybrid Log-Gamma)* inverse opto-electronic
     transfer function (OETF).

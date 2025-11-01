@@ -17,14 +17,12 @@ an-1016-hunter-rd-a-b-color-scale-update-12-07-03.pdf
 
 from __future__ import annotations
 
-import typing
-
 from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
-
-if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
-
-from colour.hints import Annotated, ArrayLike, NDArrayFloat  # noqa: TC001
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain100,
+    Range100,
+)
 from colour.models import XYZ_to_K_ab_HunterLab1966
 from colour.utilities import (
     from_range_100,
@@ -49,10 +47,10 @@ __all__ = [
 
 
 def XYZ_to_Hunter_Rdab(
-    XYZ: Annotated[ArrayLike, 100],
+    XYZ: Domain100,
     XYZ_n: ArrayLike | None = None,
     K_ab: ArrayLike | None = None,
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to *Hunter Rd,a,b* colour
     scale.
@@ -129,10 +127,10 @@ def XYZ_to_Hunter_Rdab(
 
 
 def Hunter_Rdab_to_XYZ(
-    R_d_ab: Annotated[ArrayLike, 100],
+    R_d_ab: Domain100,
     XYZ_n: ArrayLike | None = None,
     K_ab: ArrayLike | None = None,
-) -> Annotated[NDArrayFloat, 100]:
+) -> Range100:
     """
     Convert from *Hunter Rd,a,b* colour scale to *CIE XYZ* tristimulus
     values.

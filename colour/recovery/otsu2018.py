@@ -40,13 +40,14 @@ if typing.TYPE_CHECKING:
         ArrayLike,
         Callable,
         Dict,
+        Domain1,
         PathLike,
         Self,
         Sequence,
         Tuple,
     )
 
-from colour.hints import Annotated, NDArrayFloat, cast
+from colour.hints import NDArrayFloat, cast
 from colour.models import XYZ_to_xy
 from colour.recovery import (
     BASIS_FUNCTIONS_OTSU2018,
@@ -434,7 +435,7 @@ Builtin *Otsu et al. (2018)* dataset as a
 
 
 def XYZ_to_sd_Otsu2018(
-    XYZ: Annotated[ArrayLike, 1],
+    XYZ: Domain1,
     cmfs: MultiSpectralDistributions | None = None,
     illuminant: SpectralDistribution | None = None,
     dataset: Dataset_Otsu2018 = DATASET_REFERENCE_OTSU2018,
