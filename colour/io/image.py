@@ -704,27 +704,35 @@ def write_image_OpenImageIO(
 
     Writing an "ACES" compliant "EXR" file:
 
-    >>> if is_imageio_installed():  # doctest: +SKIP
-    ...     from OpenImageIO import TypeDesc
-    ...
-    ...     chromaticities = (
-    ...         0.7347,
-    ...         0.2653,
-    ...         0.0,
-    ...         1.0,
-    ...         0.0001,
-    ...         -0.077,
-    ...         0.32168,
-    ...         0.33767,
-    ...     )
-    ...     attributes = [
-    ...         Image_Specification_Attribute("acesImageContainerFlag", True),
-    ...         Image_Specification_Attribute(
-    ...             "chromaticities", chromaticities, TypeDesc("float[8]")
-    ...         ),
-    ...         Image_Specification_Attribute("compression", "none"),
-    ...     ]
-    ...     write_image_OpenImageIO(image, path, attributes=attributes)
+    >>> from OpenImageIO import TypeDesc
+    >>> chromaticities = (
+    ...     0.7347,
+    ...     0.2653,
+    ...     0.0,
+    ...     1.0,
+    ...     0.0001,
+    ...     -0.077,
+    ...     0.32168,
+    ...     0.33767,
+    ... )
+    >>> attributes = [
+    ...     Image_Specification_Attribute("openexr:ACESContainerPolicy", "relaxed"),
+    ...     Image_Specification_Attribute(
+    ...         "chromaticities", chromaticities, TypeDesc("float[8]")
+    ...     ),
+    ...     Image_Specification_Attribute("compression", "none"),
+    ... ]
+    >>> write_image_OpenImageIO(image, path, attributes=attributes)  # doctest: +SKIP
+    True
+
+    Notes
+    -----
+    -   When using ``openexr:ACESContainerPolicy`` with ``relaxed`` mode,
+        *OpenImageIO* automatically sets the ``colorInteropId`` attribute to
+        ``lin_ap0_scene`` for ACES-compliant files.
+    -   The ``acesImageContainerFlag`` attribute should not be set manually
+        in *OpenImageIO* 3.1.7.0+, as it triggers strict ACES validation.
+        Use ``openexr:ACESContainerPolicy`` instead.
     """
 
     from OpenImageIO import ImageOutput  # pyright: ignore  # noqa: PLC0415
