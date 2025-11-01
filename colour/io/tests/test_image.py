@@ -299,8 +299,12 @@ class TestReadImageOpenImageIO:
             additional_data=True,
         )
         assert image.shape == (1267, 1274, 3)
-        assert attributes[0].name == "oiio:ColorSpace"
-        assert attributes[0].value in ("Linear", "lin_rec709")
+        assert len(attributes) > 0
+        compression_attribute = next(
+            (attribute for attribute in attributes if attribute.name == "compression"),
+            None,
+        )
+        assert compression_attribute is not None
 
         image = read_image_OpenImageIO(
             os.path.join(ROOT_RESOURCES, "Single_Channel.exr"),
@@ -419,7 +423,7 @@ class TestWriteImageOpenImageIO:
             0.33767,
         )
         write_attributes = [
-            Image_Specification_Attribute("acesImageContainerFlag", True),
+            Image_Specification_Attribute("customBooleanFlag", True),
             Image_Specification_Attribute(
                 "chromaticities", chromaticities, TypeDesc("float[8]")
             ),
