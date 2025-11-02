@@ -59,7 +59,7 @@ from colour.geometry import (
     ellipse_fitting,
     point_at_angle_on_ellipse,
 )
-from colour.graph import convert
+from colour.graph import colourspace_model_to_reference, convert
 
 if typing.TYPE_CHECKING:
     from matplotlib.axes import Axes
@@ -87,7 +87,6 @@ from colour.models import (
     CCTF_DECODINGS,
     CCTF_ENCODINGS,
     COLOURSPACE_MODELS_AXIS_LABELS,
-    COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE,
     DATA_MACADAM_1942_ELLIPSES,
     DATA_POINTER_GAMUT_VOLUME,
     Lab_to_XYZ,
@@ -1987,8 +1986,8 @@ def plot_constant_hue_loci(
             model,
         )
 
-        ijk_ct *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
-        ijk_cr *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+        ijk_ct = colourspace_model_to_reference(ijk_ct, model)
+        ijk_cr = colourspace_model_to_reference(ijk_cr, model)
 
         def _linear_equation(
             x: NDArrayFloat, a: NDArrayFloat, b: NDArrayFloat

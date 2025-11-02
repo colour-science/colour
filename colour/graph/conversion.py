@@ -4,6 +4,7 @@ Automatic Colour Conversion Graph
 
 Define the automatic colour conversion graph objects.
 
+-   :func:`colour.conversion_path`
 -   :func:`colour.describe_conversion_path`
 -   :func:`colour.convert`
 """
@@ -244,6 +245,7 @@ __all__ = [
     "CONVERSION_GRAPH_NODE_LABELS",
     "CONVERSION_SPECIFICATIONS",
     "CONVERSION_GRAPH",
+    "conversion_path",
     "describe_conversion_path",
     "convert",
 ]
@@ -1793,7 +1795,7 @@ CONVERSION_GRAPH: nx.DiGraph | None = None  # pyright: ignore # noqa: F821
 
 
 @required("NetworkX")
-def _conversion_path(source: str, target: str) -> List[Callable]:
+def conversion_path(source: str, target: str) -> List[Callable]:
     """
     Generate the conversion path from the source node to the target node in
     the automatic colour conversion graph.
@@ -1813,7 +1815,7 @@ def _conversion_path(source: str, target: str) -> List[Callable]:
 
     Examples
     --------
-    >>> _conversion_path("cie lab", "cct")
+    >>> conversion_path("cie lab", "cct")
     ... # doctest: +ELLIPSIS
     [<function Lab_to_XYZ at 0x...>, <function XYZ_to_UCS at 0x...>, \
 <function UCS_to_uv at 0x...>, <function uv_to_CCT at 0x...>]
@@ -1928,12 +1930,12 @@ def describe_conversion_path(
 
     width = (79 + 2 + 2 * 3 - 4) if mode == "extended" else width
 
-    conversion_path = _conversion_path(source, target)
+    conversion_functions = conversion_path(source, target)
 
     joined_conversion_path = " --> ".join(
         [
             f'"{_lower_order_function(conversion_function).__name__}"'
-            for conversion_function in conversion_path
+            for conversion_function in conversion_functions
         ]
     )
 
@@ -1944,7 +1946,7 @@ def describe_conversion_path(
         print_callable,
     )
 
-    for conversion_function in conversion_path:
+    for conversion_function in conversion_functions:
         conversion_function_name = _lower_order_function(conversion_function).__name__
 
         # Filtering compatible keyword arguments passed directly and
@@ -2219,10 +2221,10 @@ SDS_ILLUMINANTS["FL2"], XYZ_to_sRGB={"illuminant": illuminant})
 
     source, target = source.lower(), target.lower()
 
-    conversion_path = _conversion_path(source, target)
+    conversion_path_list = conversion_path(source, target)
 
     verbose_kwargs = copy(kwargs)
-    for i, conversion_function in enumerate(conversion_path):
+    for i, conversion_function in enumerate(conversion_path_list):
         conversion_function_name = _lower_order_function(conversion_function).__name__
 
         # Scale input from reference to scale-1 on first iteration
@@ -2248,7 +2250,7 @@ SDS_ILLUMINANTS["FL2"], XYZ_to_sRGB={"illuminant": illuminant})
             a = conversion_function(a, **filtered_kwargs)
 
         # Scale output from scale-1 to reference on last iteration
-        if i == len(conversion_path) - 1 and to_reference_scale:
+        if i == len(conversion_path_list) - 1 and to_reference_scale:
             metadata = get_domain_range_scale_metadata(
                 _lower_order_function(conversion_function)
             )

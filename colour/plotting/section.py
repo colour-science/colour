@@ -33,7 +33,7 @@ from colour.colorimetry import (
     reshape_msds,
 )
 from colour.geometry import hull_section, primitive_cube
-from colour.graph import convert
+from colour.graph import colourspace_model_to_reference, convert
 
 if typing.TYPE_CHECKING:
     from colour.hints import (
@@ -50,7 +50,6 @@ if typing.TYPE_CHECKING:
 from colour.hints import Real, cast
 from colour.models import (
     COLOURSPACE_MODELS_AXIS_LABELS,
-    COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE,
     RGB_Colourspace,
     RGB_to_XYZ,
 )
@@ -71,6 +70,7 @@ from colour.utilities import (
     as_int_array,
     first_item,
     full,
+    ones,
     optional,
     required,
     suppress_warnings,
@@ -202,7 +202,7 @@ def plot_hull_section_colours(
             convert(hull.vertices, "CIE XYZ", model, **convert_kwargs), model
         )
         ijk_vertices = np.nan_to_num(ijk_vertices)
-        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+        ijk_vertices = colourspace_model_to_reference(ijk_vertices, model)
 
     hull.vertices = ijk_vertices
 
@@ -216,7 +216,7 @@ def plot_hull_section_colours(
 
     section = hull_section(hull, axis, origin, normalise)
 
-    padding = 0.1 * np.mean(COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
+    padding = 0.1 * np.mean(colourspace_model_to_reference(ones(3), model))
     min_x = np.min(ijk_vertices[..., plane[0]]) - padding
     max_x = np.max(ijk_vertices[..., plane[0]]) + padding
     min_y = np.min(ijk_vertices[..., plane[1]]) - padding
@@ -235,7 +235,7 @@ def plot_hull_section_colours(
             cast("Real", np.median(section[..., index_origin])),
         )
         ijk_section[..., plane] = ij
-        ijk_section /= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+        ijk_section = ijk_section / colourspace_model_to_reference(ones(3), model)
         XYZ_section = convert(
             colourspace_model_axis_reorder(ijk_section, model, "Inverse"),
             model,
@@ -362,13 +362,13 @@ def plot_hull_section_contour(
             convert(hull.vertices, "CIE XYZ", model, **convert_kwargs), model
         )
         ijk_vertices = np.nan_to_num(ijk_vertices)
-        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+        ijk_vertices = colourspace_model_to_reference(ijk_vertices, model)
 
     hull.vertices = ijk_vertices
 
     plane = MAPPING_AXIS_TO_PLANE[axis]
 
-    padding = 0.1 * np.mean(COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
+    padding = 0.1 * np.mean(colourspace_model_to_reference(np.ones(3), model))
     min_x = np.min(ijk_vertices[..., plane[0]]) - padding
     max_x = np.max(ijk_vertices[..., plane[0]]) + padding
     min_y = np.min(ijk_vertices[..., plane[1]]) - padding
@@ -378,9 +378,7 @@ def plot_hull_section_contour(
     use_RGB_contour_colours = str(contour_colours).upper() == "RGB"
     section = hull_section(hull, axis, origin, normalise)
     if use_RGB_contour_colours:
-        ijk_section = (
-            section / (COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
-        )
+        ijk_section = section / colourspace_model_to_reference(np.ones(3), model)
         XYZ_section = convert(
             colourspace_model_axis_reorder(ijk_section, model, "Inverse"),
             model,

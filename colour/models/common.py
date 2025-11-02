@@ -165,7 +165,7 @@ COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: CanonicalMapping = (
             "CAM16SCD": np.array([100, 100, 100]),
             "CAM16UCS": np.array([100, 100, 100]),
             "CIE 1931": np.array([1, 1, 1]),
-            "CIE 1960 UCS": np.array([1, 1, 100]),
+            "CIE 1960 UCS": np.array([1, 1, 1]),
             "CIE 1976 UCS": np.array([1, 1, 100]),
             "CIE Lab": np.array([100, 100, 100]),
             "CIE Luv": np.array([100, 100, 100]),
