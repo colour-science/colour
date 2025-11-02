@@ -1211,6 +1211,10 @@ def get_domain_range_scale_metadata(function: Callable) -> dict[str, Any]:
 
     metadata: dict[str, Any] = {"domain": {}, "range": None}
 
+    # Unwrap functools.partial to get the underlying function
+    if hasattr(function, "func"):
+        function = function.func
+
     def extract_scale_from_hint(hint: Any) -> Any | None:
         """
         Extract scale metadata from a type hint, handling Union types.
