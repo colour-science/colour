@@ -360,7 +360,7 @@ class Specification_Fichet2021:
         True
         """
 
-        from OpenImageIO import ImageInput  # pyright: ignore # noqa: PLC0415
+        from OpenImageIO import ImageInput  # noqa: PLC0415
 
         path = str(path)
 
@@ -522,7 +522,7 @@ def read_spectral_image_Fichet2021(
     True
     """
 
-    from OpenImageIO import ImageInput  # pyright: ignore  # noqa: PLC0415
+    from OpenImageIO import ImageInput  # noqa: PLC0415
 
     path = str(path)
 
@@ -537,7 +537,7 @@ def read_spectral_image_Fichet2021(
     for component, wavelengths_indexes in specification.components.items():
         wavelengths, indexes = zip(*wavelengths_indexes.items(), strict=True)
         values = as_float_array(
-            image[:, :, indexes],
+            image[:, :, indexes],  # pyright: ignore
             dtype=bit_depth_specification.numpy,
         )
         components[component] = (
@@ -682,7 +682,7 @@ def components_to_sRGB_Fichet2021(
     EV
     """
 
-    from OpenImageIO import TypeDesc  # pyright: ignore  # noqa: PLC0415
+    from OpenImageIO import TypeDesc  # noqa: PLC0415
 
     component = components.get("S0", components.get("T"))
 
@@ -827,7 +827,7 @@ def write_spectral_image_Fichet2021(
     True
     """
 
-    from OpenImageIO import ImageBuf, ImageBufAlgo  # pyright: ignore  # noqa: PLC0415
+    from OpenImageIO import ImageBuf, ImageBufAlgo  # noqa: PLC0415
 
     path = str(path)
 
@@ -880,11 +880,12 @@ def write_spectral_image_Fichet2021(
     for channel_name, channel_data in channels.items():
         channel_buffer = ImageBuf(channel_data.astype(bit_depth_specification.numpy))
         channel_specification = channel_buffer.specmod()
-        channel_specification.channelnames = [channel_name]
+        channel_specification.channelnames = [channel_name]  # pyright: ignore
         image_buffer = ImageBufAlgo.channel_append(image_buffer, channel_buffer)
 
     add_attributes_to_image_specification_OpenImageIO(
-        image_buffer.specmod(), [*specification.attributes, *attributes]
+        image_buffer.specmod(),  # pyright: ignore
+        [*specification.attributes, *attributes],
     )
 
     return image_buffer.write(path)

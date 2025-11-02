@@ -5,7 +5,6 @@ from __future__ import annotations
 import os
 import shutil
 import tempfile
-import typing
 from functools import partial
 
 import matplotlib.font_manager
@@ -13,9 +12,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
-
-if typing.TYPE_CHECKING:
-    from mpl_toolkits.mplot3d.axes3d import Axes3D
 
 import colour
 from colour.colorimetry import SDS_ILLUMINANTS
@@ -323,7 +319,7 @@ class TestUniformAxes3d:
         """Test :func:`colour.plotting.common.uniform_axes3d` definition."""
 
         figure, _axes = artist()
-        axes = cast("Axes3D", figure.add_subplot(111, projection="3d"))
+        axes = figure.add_subplot(111, projection="3d")
 
         uniform_axes3d(axes=axes)
 
