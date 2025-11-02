@@ -29,7 +29,7 @@ import numpy as np
 from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
+    from colour.hints import NDArrayFloat
 
 from colour.hints import (  # noqa: TC001
     Domain100,

@@ -13,3 +13,14 @@ Conversion
 
     convert
     describe_conversion_path
+
+**Ancillary Objects**
+
+``colour.graph``
+
+.. currentmodule:: colour.graph
+
+.. autosummary::
+    :toctree: generated/
+
+    conversion_path

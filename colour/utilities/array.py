@@ -1213,7 +1213,7 @@ def get_domain_range_scale_metadata(function: Callable) -> dict[str, Any]:
 
     # Unwrap functools.partial to get the underlying function
     if hasattr(function, "func"):
-        function = function.func
+        function = function.func  # pyright: ignore
 
     def extract_scale_from_hint(hint: Any) -> Any | None:
         """
