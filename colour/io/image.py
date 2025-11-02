@@ -113,12 +113,8 @@ class Image_Specification_Attribute:
 
 
 if is_openimageio_installed():  # pragma: no cover
-    from OpenImageIO import DOUBLE  # pyright: ignore
-    from OpenImageIO import FLOAT  # pyright: ignore
-    from OpenImageIO import HALF  # pyright: ignore
-    from OpenImageIO import UINT8  # pyright: ignore
-    from OpenImageIO import UINT16  # pyright: ignore
     from OpenImageIO import ImageSpec  # pyright: ignore
+    from OpenImageIO import DOUBLE, FLOAT, HALF, UINT8, UINT16
 
     MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
         {
@@ -249,7 +245,7 @@ def image_specification_OpenImageIO(
     <OpenImageIO.ImageSpec object at 0x...>
     """
 
-    from OpenImageIO import ImageSpec  # pyright: ignore  # noqa: PLC0415
+    from OpenImageIO import ImageSpec  # noqa: PLC0415
 
     attributes = cast("list", optional(attributes, []))
 
@@ -260,10 +256,11 @@ def image_specification_OpenImageIO(
     )
 
     add_attributes_to_image_specification_OpenImageIO(
-        image_specification, attributes or []
+        image_specification,  # pyright: ignore
+        attributes or [],
     )
 
-    return image_specification
+    return image_specification  # pyright: ignore
 
 
 def convert_bit_depth(
@@ -443,7 +440,7 @@ def read_image_OpenImageIO(
     >>> image = read_image_OpenImageIO(path)  # doctest: +SKIP
     """
 
-    from OpenImageIO import ImageInput  # pyright: ignore  # noqa: PLC0415
+    from OpenImageIO import ImageInput  # noqa: PLC0415
 
     path = str(path)
 
@@ -735,7 +732,7 @@ def write_image_OpenImageIO(
         Use ``openexr:ACESContainerPolicy`` instead.
     """
 
-    from OpenImageIO import ImageOutput  # pyright: ignore  # noqa: PLC0415
+    from OpenImageIO import ImageOutput  # noqa: PLC0415
 
     image = as_float_array(image)
     path = str(path)
@@ -767,7 +764,7 @@ def write_image_OpenImageIO(
 
     image_output = ImageOutput.create(path)
 
-    image_output.open(path, image_specification)
+    image_output.open(path, image_specification)  # pyright: ignore
     success = image_output.write_image(image)
 
     image_output.close()

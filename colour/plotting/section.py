@@ -259,7 +259,7 @@ def plot_hull_section_colours(
         image = axes.imshow(
             np.clip(RGB_section, 0, 1),
             interpolation="bilinear",
-            extent=extent,
+            extent=extent,  # type: ignore
             clip_path=None,
             alpha=section_opacity,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,

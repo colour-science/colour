@@ -2002,7 +2002,7 @@ def plot_constant_hue_loci(
 
         axes.plot(
             ijk_ct[..., 0],
-            _linear_equation(ijk_ct[..., 0], *popt),
+            _linear_equation(ijk_ct[..., 0], *popt),  # type: ignore
             c=CONSTANTS_COLOUR_STYLE.colour.average,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
         )

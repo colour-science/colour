@@ -1200,7 +1200,7 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
                     [
                         hue_inner,
                         value,
-                        chroma_current,  # pyright: ignore
+                        chroma_current,
                         code_inner,
                     ]
                 )
