@@ -1173,6 +1173,11 @@ class domain_range_scale:
         return wrapper
 
 
+_CACHE_DOMAIN_RANGE_SCALE_METADATA: dict = CACHE_REGISTRY.register_cache(
+    f"{__name__}._CACHE_DOMAIN_RANGE_SCALE_METADATA"
+)
+
+
 def get_domain_range_scale_metadata(function: Callable) -> dict[str, Any]:
     """
     Extract domain-range scale metadata from function type hints.
@@ -1209,11 +1214,16 @@ def get_domain_range_scale_metadata(function: Callable) -> dict[str, Any]:
     100
     """
 
-    metadata: dict[str, Any] = {"domain": {}, "range": None}
-
     # Unwrap functools.partial to get the underlying function
     if hasattr(function, "func"):
         function = function.func  # pyright: ignore
+
+    cache_key = id(function)
+
+    if is_caching_enabled() and cache_key in _CACHE_DOMAIN_RANGE_SCALE_METADATA:
+        return _CACHE_DOMAIN_RANGE_SCALE_METADATA[cache_key]
+
+    metadata: dict[str, Any] = {"domain": {}, "range": None}
 
     def extract_scale_from_hint(hint: Any) -> Any | None:
         """
@@ -1294,6 +1304,9 @@ def get_domain_range_scale_metadata(function: Callable) -> dict[str, Any]:
                     metadata["range"] = scale
                 else:
                     metadata["domain"][parameter_name] = scale
+
+    if is_caching_enabled():
+        _CACHE_DOMAIN_RANGE_SCALE_METADATA[cache_key] = metadata
 
     return metadata
 
