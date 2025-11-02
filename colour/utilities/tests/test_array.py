@@ -6,6 +6,7 @@ import typing
 import unittest
 from copy import deepcopy
 from dataclasses import dataclass, field, fields
+from functools import partial
 
 import numpy as np
 import pytest
@@ -1079,6 +1080,32 @@ class TestGetDomainRangeScaleMetadata(unittest.TestCase):
 
         metadata = get_domain_range_scale_metadata(function_m)
         assert metadata["domain"] == {"XYZ": 1, "L": 100, "custom": 50}
+        assert metadata["range"] == 100
+
+        # functools.partial with type aliases
+        def function_n(
+            XYZ: Domain1,
+            colourspace: str,
+            illuminant: ArrayLike | None = None,
+        ) -> Range1:  # type: ignore
+            """Test function for partial wrapping."""
+
+        partial_func = partial(function_n, colourspace="sRGB")
+        metadata = get_domain_range_scale_metadata(partial_func)
+        assert metadata["domain"] == {"XYZ": 1}
+        assert metadata["range"] == 1
+
+        # functools.partial with explicit Annotated
+        def function_o(
+            Lab: Annotated[ArrayLike, 100],
+            illuminant: ArrayLike | None = None,
+            method: str = "CIE 1976",
+        ) -> Annotated[NDArrayFloat, 100]:  # type: ignore
+            """Test function for partial wrapping with Annotated."""
+
+        partial_func2 = partial(function_o, method="CIE 2000")
+        metadata = get_domain_range_scale_metadata(partial_func2)
+        assert metadata["domain"] == {"Lab": 100}
         assert metadata["range"] == 100
 
 
