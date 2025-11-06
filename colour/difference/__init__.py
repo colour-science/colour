@@ -33,6 +33,10 @@ rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
 Melgosa_CIEDE2000_Workshop-July4.pdf
 -   :cite:`Wikipedia2008b` : Wikipedia. (2008). Color difference. Retrieved
     August 29, 2014, from http://en.wikipedia.org/wiki/Color_difference
+-   :cite:ISO18314-4_2024 : International Organization for Standardization. (2024).
+    ISO 18314-4:2024. Analytical colorimetry, Part 4: Metamerism index for pairs
+    of samples for change of illuminant (2nd ed., 24 pp.).
+    ISO/TC 256. https://www.iso.org/standard/85116.html
 """
 
 from __future__ import annotations
@@ -62,6 +66,7 @@ from .delta_e import (
 )
 from .din99 import delta_E_DIN99
 from .huang2015 import power_function_Huang2015
+from .metamerism import metamerism_index_from_Lab, metamerism_index_from_XYZ
 from .stress import INDEX_STRESS_METHODS, index_stress, index_stress_Garcia2007
 
 __all__ = [
@@ -94,6 +99,10 @@ __all__ += [
     "INDEX_STRESS_METHODS",
     "index_stress",
     "index_stress_Garcia2007",
+]
+__all__ += [
+    "metamerism_index_from_Lab",
+    "metamerism_index_from_XYZ",
 ]
 
 DELTA_E_METHODS: CanonicalMapping = CanonicalMapping(
