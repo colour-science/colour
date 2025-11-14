@@ -25,7 +25,6 @@ from __future__ import annotations
 import typing
 
 import numpy as np
-from scipy.optimize import minimize
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import CCS_ILLUMINANTS
@@ -33,7 +32,7 @@ from colour.colorimetry import CCS_ILLUMINANTS
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
 
-from colour.utilities import as_float, as_float_array, tsplit, usage_warning
+from colour.utilities import as_float, as_float_array, required, tsplit, usage_warning
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -48,6 +47,7 @@ __all__ = [
 ]
 
 
+@required("SciPy")
 def xy_to_CCT_Hernandez1999(xy: ArrayLike) -> NDArrayFloat:
     """
     Compute the correlated colour temperature :math:`T_{cp}` from the
@@ -140,6 +140,8 @@ def CCT_to_xy_Hernandez1999(
     >>> CCT_to_xy_Hernandez1999(6500.7420431786531)  # doctest: +ELLIPSIS
     array([ 0.3127...,  0.329...])
     """
+
+    from scipy.optimize import minimize  # noqa: PLC0415
 
     usage_warning(
         '"Hernandez-Andres et al. (1999)" method for computing "CIE xy" '

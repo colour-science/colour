@@ -19,7 +19,6 @@ from __future__ import annotations
 import typing
 
 import numpy as np
-from scipy.ndimage import convolve1d
 
 from colour.algebra import LinearInterpolator, sdiv, sdiv_mode
 from colour.colorimetry import (
@@ -34,7 +33,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import NDArrayFloat
 
 
-from colour.utilities import zeros
+from colour.utilities import required, zeros
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -56,6 +55,7 @@ _SPECTRAL_SHAPE_SSI_LARGE: SpectralShape = SpectralShape(380, 670, 10)
 _MATRIX_INTEGRATION: NDArrayFloat | None = None
 
 
+@required("SciPy")
 def spectral_similarity_index(
     sd_test: SpectralDistribution | MultiSpectralDistributions,
     sd_reference: SpectralDistribution | MultiSpectralDistributions,
@@ -107,6 +107,8 @@ def spectral_similarity_index(
     >>> spectral_similarity_index(msds, sd_reference)
     array([ 52.,  82.,  18.])
     """
+
+    from scipy.ndimage import convolve1d  # noqa: PLC0415
 
     global _MATRIX_INTEGRATION  # noqa: PLW0603
 

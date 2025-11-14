@@ -23,8 +23,6 @@ import struct
 import typing
 
 import numpy as np
-from scipy.interpolate import RegularGridInterpolator
-from scipy.optimize import minimize
 
 from colour.algebra import smoothstep_function, spow
 from colour.colorimetry import (
@@ -39,6 +37,8 @@ from colour.constants import DTYPE_INT_DEFAULT
 from colour.difference import JND_CIE1976
 
 if typing.TYPE_CHECKING:
+    from scipy.interpolate import RegularGridInterpolator
+
     from colour.hints import (
         Callable,
         Literal,
@@ -57,6 +57,7 @@ from colour.utilities import (
     is_tqdm_installed,
     message_box,
     optional,
+    required,
     to_domain_1,
     tsplit,
     zeros,
@@ -407,6 +408,7 @@ def lightness_scale(steps: int) -> NDArrayFloat:
     return smoothstep_function(smoothstep_function(linear))
 
 
+@required("SciPy")
 def find_coefficients_Jakob2019(
     XYZ: ArrayLike,
     cmfs: MultiSpectralDistributions | None = None,
@@ -458,6 +460,8 @@ def find_coefficients_Jakob2019(
     (array([  1.3723791...e-04,  -1.3514399...e-01,   3.0838973...e+01]), \
 0.0141941...)
     """
+
+    from scipy.optimize import minimize  # noqa: PLC0415
 
     XYZ = as_float_array(XYZ)
     coefficients_0 = as_float_array(coefficients_0)
@@ -805,6 +809,8 @@ class LUT3D_Jakob2019:
     """
 
     def __init__(self) -> None:
+        from scipy.interpolate import RegularGridInterpolator  # noqa: PLC0415
+
         self._interpolator = RegularGridInterpolator((), np.array([]))
 
         self._size: int = 0
@@ -872,6 +878,8 @@ class LUT3D_Jakob2019:
         Create a :class:`scipy.interpolate.RegularGridInterpolator` class
         instance for read or generated coefficients.
         """
+
+        from scipy.interpolate import RegularGridInterpolator  # noqa: PLC0415
 
         samples = np.linspace(0, 1, self._size)
         axes = ([0, 1, 2], self._lightness_scale, samples, samples)

@@ -21,7 +21,6 @@ from __future__ import annotations
 import typing
 
 import numpy as np
-from scipy.optimize import minimize
 
 from colour.colorimetry import (
     MultiSpectralDistributions,
@@ -34,7 +33,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
 
 from colour.models import UCS_to_uv, XYZ_to_UCS
-from colour.utilities import as_float, as_float_array
+from colour.utilities import as_float, as_float_array, required
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -49,6 +48,7 @@ __all__ = [
 ]
 
 
+@required("SciPy")
 def uv_to_CCT_Planck1900(
     uv: ArrayLike,
     cmfs: MultiSpectralDistributions | None = None,
@@ -90,6 +90,8 @@ def uv_to_CCT_Planck1900(
     ... # doctest: +ELLIPSIS
     6504.0000617...
     """
+
+    from scipy.optimize import minimize  # noqa: PLC0415
 
     uv = as_float_array(uv)
     cmfs, _illuminant = handle_spectral_arguments(cmfs)

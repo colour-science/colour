@@ -6,7 +6,7 @@ from itertools import product
 
 import numpy as np
 
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import ignore_numpy_errors, is_scipy_installed
 from colour.volume import is_within_pointer_gamut
 
 __author__ = "Colour Developers"
@@ -47,6 +47,9 @@ class TestIsWithinPointerGamut:
         definition n-dimensional arrays support.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         a = np.array([0.3205, 0.4131, 0.5100])
         b = is_within_pointer_gamut(a)
 
@@ -64,6 +67,9 @@ class TestIsWithinPointerGamut:
         Test :func:`colour.volume.pointer_gamut.is_within_pointer_gamut`
         definition nan support.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))

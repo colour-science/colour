@@ -51,6 +51,7 @@ from colour.utilities import (
     as_float_array,
     domain_range_scale,
     ignore_numpy_errors,
+    is_scipy_installed,
     tstack,
 )
 
@@ -1903,6 +1904,9 @@ class TestxyY_to_munsell_specification:
         definition.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         specification, xyY = (
             as_float_array(list(MUNSELL_SPECIFICATIONS[..., 0])),
             as_float_array(list(MUNSELL_SPECIFICATIONS[..., 1])),
@@ -1934,6 +1938,9 @@ class TestxyY_to_munsell_specification:
         definition n-dimensional arrays support.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         xyY = [0.16623068, 0.45684550, 0.22399519]
         specification = xyY_to_munsell_specification(xyY)
 
@@ -1959,6 +1966,9 @@ class TestxyY_to_munsell_specification:
         definition raised exception.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         pytest.raises(
             RuntimeError,
             xyY_to_munsell_specification,
@@ -1970,6 +1980,9 @@ class TestxyY_to_munsell_specification:
         Test :func:`colour.notation.munsell.xyY_to_munsell_specification`
         definition domain and range scale support.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         xyY = [0.16623068, 0.45684550, 0.22399519]
         specification = xyY_to_munsell_specification(xyY)
@@ -1994,6 +2007,9 @@ class TestxyY_to_munsell_specification:
         definition nan support.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
@@ -2013,6 +2029,9 @@ class TestxyY_to_munsell_colour:
         domain and range scale support.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         xyY = np.array([0.38736945, 0.35751656, 0.59362000])
         munsell_colour = xyY_to_munsell_colour(xyY)
 
@@ -2030,6 +2049,9 @@ class TestxyY_to_munsell_colour:
         Test :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
         n-dimensional arrays support.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         xyY = [0.16623068, 0.45684550, 0.22399519]
         munsell_colour = xyY_to_munsell_colour(xyY)

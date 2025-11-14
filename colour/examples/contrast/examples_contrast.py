@@ -9,7 +9,6 @@ detectable contrast calculations for various viewing conditions.
 from pprint import pprint
 
 import numpy as np
-from scipy.optimize import fmin
 
 import colour
 from colour.hints import ArrayLike, NDArrayFloat
@@ -62,6 +61,8 @@ def maximise_spatial_frequency(L: ArrayLike) -> NDArrayFloat:
     :class:`np.float` or :class:`numpy.ndarray`
         Maximised spatial frequency :math:`u`.
     """
+
+    from scipy.optimize import fmin  # noqa: PLC0415
 
     L = as_float_array(L)
 

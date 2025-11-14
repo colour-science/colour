@@ -10,7 +10,6 @@ from __future__ import annotations
 import typing
 
 import numpy as np
-from scipy.spatial import Delaunay
 
 from colour.constants import EPSILON
 
@@ -18,7 +17,12 @@ if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
 from colour.models import xyY_to_XYZ
-from colour.utilities import CACHE_REGISTRY, is_caching_enabled, validate_method
+from colour.utilities import (
+    CACHE_REGISTRY,
+    is_caching_enabled,
+    required,
+    validate_method,
+)
 from colour.volume import OPTIMAL_COLOUR_STIMULI_ILLUMINANTS
 
 __author__ = "Colour Developers"
@@ -79,6 +83,7 @@ def _XYZ_optimal_colour_stimuli(
     return vertices
 
 
+@required("SciPy")
 def is_within_macadam_limits(
     xyY: ArrayLike,
     illuminant: Literal["A", "C", "D65"] | str = "D65",
@@ -119,6 +124,8 @@ def is_within_macadam_limits(
     >>> is_within_macadam_limits(a, "A")
     array([ True, False], dtype=bool)
     """
+
+    from scipy.spatial import Delaunay  # noqa: PLC0415
 
     optimal_colour_stimuli = _XYZ_optimal_colour_stimuli(illuminant)
     triangulation = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS.get(illuminant)

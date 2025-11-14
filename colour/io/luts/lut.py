@@ -24,8 +24,6 @@ from operator import pow  # noqa: A004
 from operator import add, iadd, imul, ipow, isub, itruediv, mul, sub, truediv
 
 import numpy as np
-from scipy.ndimage import gaussian_filter
-from scipy.spatial import KDTree
 
 from colour.algebra import (
     Extrapolator,
@@ -60,6 +58,7 @@ from colour.utilities import (
     multiline_repr,
     multiline_str,
     optional,
+    required,
     runtime_warning,
     tsplit,
     tstack,
@@ -1970,6 +1969,7 @@ class LUT3D(AbstractLUT):
             -1,
         )
 
+    @required("SciPy")
     def invert(self, **kwargs: Any) -> LUT3D:
         """
         Compute and return an inverse copy of the *LUT*.
@@ -2073,6 +2073,9 @@ class LUT3D(AbstractLUT):
                       [ 1.  1.  1.]]
         Size       : (108, 108, 108, 3)
         """
+
+        from scipy.ndimage import gaussian_filter  # noqa: PLC0415
+        from scipy.spatial import KDTree  # noqa: PLC0415
 
         if self.is_domain_explicit():
             error = 'Inverting a "LUT3D" with an explicit domain is not implemented!'

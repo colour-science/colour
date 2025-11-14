@@ -41,7 +41,7 @@ from colour.colorimetry import (
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import read_sds_from_csv_file
-from colour.utilities import domain_range_scale
+from colour.utilities import domain_range_scale, is_scipy_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -981,6 +981,9 @@ class TestMatrixIdt:
         Test :func:`colour.characterisation.aces_it.matrix_idt` definition.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         # The *RAW to ACES* v1 matrix for the same camera and optimized by
         # `Ceres Solver <http://ceres-solver.org>`__ is as follows:
         #
@@ -1195,6 +1198,9 @@ class TestCamera_RGB_to_ACES2065_1:
         Test :func:`colour.characterisation.aces_it.camera_RGB_to_ACES2065_1`
         definition.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         B, b = matrix_idt(MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS["D55"])  # pyright: ignore
         np.testing.assert_allclose(

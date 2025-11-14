@@ -17,7 +17,7 @@ from colour.colorimetry import (
 from colour.colorimetry.dominant import closest_spectral_locus_wavelength
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import XYZ_to_xy
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import ignore_numpy_errors, is_scipy_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -54,6 +54,9 @@ closest_spectral_locus_wavelength` definition unit tests methods.
 closest_spectral_locus_wavelength` definition.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         xy = np.array([0.54369557, 0.32107944])
         xy_n = self._xy_D65
         i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self._xy_s)
@@ -80,6 +83,9 @@ closest_spectral_locus_wavelength` definition.
         Test :func:`colour.colorimetry.dominant.\
 closest_spectral_locus_wavelength` definition n-dimensional arrays support.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         xy = np.array([0.54369557, 0.32107944])
         xy_n = self._xy_D65
@@ -111,6 +117,9 @@ closest_spectral_locus_wavelength` definition n-dimensional arrays support.
 closest_spectral_locus_wavelength` definition nan support.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
@@ -133,6 +142,9 @@ class TestDominantWavelength:
         Test :func:`colour.colorimetry.dominant.dominant_wavelength`
         definition.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         xy = np.array([0.54369557, 0.32107944])
         xy_n = self._xy_D65
@@ -170,6 +182,9 @@ class TestDominantWavelength:
         Test :func:`colour.colorimetry.dominant.dominant_wavelength`
         definition n-dimensional arrays support.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         xy = np.array([0.54369557, 0.32107944])
         xy_n = self._xy_D65
@@ -210,6 +225,9 @@ class TestDominantWavelength:
         definition nan support.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
@@ -232,6 +250,9 @@ class TestComplementaryWavelength:
         Test :func:`colour.colorimetry.dominant.complementary_wavelength`
         definition.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         xy = np.array([0.54369557, 0.32107944])
         xy_n = self._xy_D65
@@ -269,6 +290,9 @@ class TestComplementaryWavelength:
         Test :func:`colour.colorimetry.dominant.complementary_wavelength`
         definition n-dimensional arrays support.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         xy = np.array([0.54369557, 0.32107944])
         xy_n = self._xy_D65
@@ -309,6 +333,9 @@ class TestComplementaryWavelength:
         definition nan support.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
@@ -328,6 +355,9 @@ class TestExcitationPurity:
 
     def test_excitation_purity(self) -> None:
         """Test :func:`colour.colorimetry.dominant.excitation_purity` definition."""
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         xy = np.array([0.54369557, 0.32107944])
         xy_n = self._xy_D65
@@ -350,6 +380,9 @@ class TestExcitationPurity:
         Test :func:`colour.colorimetry.dominant.excitation_purity` definition
         n-dimensional arrays support.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         xy = np.array([0.54369557, 0.32107944])
         xy_n = self._xy_D65
@@ -376,6 +409,9 @@ class TestExcitationPurity:
         nan support.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         for case in cases:
@@ -399,6 +435,9 @@ class TestColorimetricPurity:
         definition.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         xy = np.array([0.54369557, 0.32107944])
         xy_n = self._xy_D65
 
@@ -420,6 +459,9 @@ class TestColorimetricPurity:
         Test :func:`colour.colorimetry.dominant.colorimetric_purity`
         definition n-dimensional arrays support.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         xy = np.array([0.54369557, 0.32107944])
         xy_n = self._xy_D65
@@ -445,6 +487,9 @@ class TestColorimetricPurity:
         Test :func:`colour.colorimetry.dominant.colorimetric_purity`
         definition nan support.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))

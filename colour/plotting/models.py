@@ -46,7 +46,6 @@ from __future__ import annotations
 import typing
 
 import numpy as np
-import scipy.optimize
 from matplotlib.collections import LineCollection
 from matplotlib.patches import Ellipse
 from matplotlib.path import Path
@@ -124,6 +123,7 @@ from colour.utilities import (
     domain_range_scale,
     first_item,
     optional,
+    required,
     tsplit,
     validate_method,
     zeros,
@@ -1798,6 +1798,7 @@ def plot_multi_cctfs(
 
 
 @override_style()
+@required("SciPy")
 def plot_constant_hue_loci(
     data: ArrayLike,
     model: LiteralColourspaceModel | str = "CIE Lab",
@@ -1943,6 +1944,8 @@ def plot_constant_hue_loci(
         :align: center
         :alt: plot_constant_hue_loci
     """
+
+    import scipy.optimize  # noqa: PLC0415
 
     # TODO: Filter appropriate colour models.
     # NOTE: "dtype=object" is required for ragged array support

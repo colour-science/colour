@@ -15,7 +15,7 @@ from colour.colorimetry import (
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.recovery import XYZ_to_sd_Meng2015
-from colour.utilities import domain_range_scale
+from colour.utilities import domain_range_scale, is_scipy_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -47,6 +47,9 @@ class TestXYZ_to_sd_Meng2015:
 
     def test_XYZ_to_sd_Meng2015(self) -> None:
         """Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition."""
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         np.testing.assert_allclose(
@@ -108,6 +111,9 @@ class TestXYZ_to_sd_Meng2015:
         definition raised exception.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         pytest.raises(
             RuntimeError,
             XYZ_to_sd_Meng2015,
@@ -122,6 +128,9 @@ class TestXYZ_to_sd_Meng2015:
         Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition
         domain and range scale support.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         XYZ_i = np.array([0.20654008, 0.12197225, 0.05136952])
         XYZ_o = sd_to_XYZ_integration(

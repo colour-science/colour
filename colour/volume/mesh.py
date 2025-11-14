@@ -12,10 +12,9 @@ from __future__ import annotations
 import typing
 
 import numpy as np
-from scipy.spatial import Delaunay
 
 from colour.constants import EPSILON
-from colour.utilities import as_float_array
+from colour.utilities import as_float_array, required
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
@@ -32,6 +31,7 @@ __all__ = [
 ]
 
 
+@required("SciPy")
 def is_within_mesh_volume(
     points: ArrayLike, mesh: ArrayLike, tolerance: float = 100 * EPSILON
 ) -> NDArrayFloat:
@@ -71,6 +71,8 @@ def is_within_mesh_volume(
     >>> is_within_mesh_volume(a, mesh)
     array([ True, False], dtype=bool)
     """
+
+    from scipy.spatial import Delaunay  # noqa: PLC0415
 
     triangulation = Delaunay(as_float_array(mesh))
 

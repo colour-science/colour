@@ -31,6 +31,7 @@ from colour.plotting.models import (
     plot_RGB_chromaticities_in_chromaticity_diagram,
     plot_RGB_colourspaces_in_chromaticity_diagram,
 )
+from colour.utilities import is_scipy_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -494,6 +495,9 @@ class TestPlotConstantHueLoci:
 
     def test_plot_constant_hue_loci(self) -> None:
         """Test :func:`colour.plotting.models.plot_constant_hue_loci` definition."""
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         data = [
             [

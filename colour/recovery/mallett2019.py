@@ -20,8 +20,6 @@ from __future__ import annotations
 import typing
 
 import numpy as np
-from scipy.linalg import block_diag
-from scipy.optimize import Bounds, LinearConstraint, minimize
 
 from colour.colorimetry import (
     MultiSpectralDistributions,
@@ -35,7 +33,7 @@ if typing.TYPE_CHECKING:
 
 from colour.hints import Domain1  # noqa: TC001
 from colour.recovery import MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
-from colour.utilities import to_domain_1
+from colour.utilities import required, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -50,6 +48,7 @@ __all__ = [
 ]
 
 
+@required("SciPy")
 def spectral_primary_decomposition_Mallett2019(
     colourspace: RGB_Colourspace,
     cmfs: MultiSpectralDistributions | None = None,
@@ -167,6 +166,9 @@ def spectral_primary_decomposition_Mallett2019(
      [ 770.            0.3274633...    0.3305704...    0.3419662...]
      [ 780.            0.3475263...    0.3262331...    0.3262404...]]
     """
+
+    from scipy.linalg import block_diag  # noqa: PLC0415
+    from scipy.optimize import Bounds, LinearConstraint, minimize  # noqa: PLC0415
 
     cmfs, illuminant = handle_spectral_arguments(cmfs, illuminant)
 
