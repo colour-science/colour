@@ -1,6 +1,8 @@
 import sys
+from typing import Annotated
 
-from colour.utilities import copy_definition
+from colour.hints import NDArrayFloat
+from colour.utilities import copy_definition, get_domain_range_scale_metadata
 
 # isort: split
 
@@ -899,20 +901,54 @@ Returns
 """
 
 for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSIONS:
+    # Derive the correct annotation scale from the source model's XYZ_to_Jab function
+    _scale = 1  # Default scale for most models
+    _XYZ_to_Jab_name = f"XYZ_to_{_Jab}"
+    _module = sys.modules["colour.models"]
+
+    if hasattr(_module, _XYZ_to_Jab_name):
+        _XYZ_to_Jab_callable = getattr(_module, _XYZ_to_Jab_name)
+        _metadata = get_domain_range_scale_metadata(_XYZ_to_Jab_callable)
+        _range_scale = _metadata.get("range")
+
+        # If the source model uses scale 100, the polar form should too
+        if _range_scale == 100:
+            _scale = 100
+
+    # Create Jab_to_JCh wrapper with correct annotation
     name = f"{_Jab}_to_{_JCh}"
     _callable = copy_definition(Jab_to_JCh, name)
     _callable.__doc__ = _DOCSTRING_JAB_TO_JCH.format(Jab=_Jab, JCh=_JCh)
-    _module = sys.modules["colour.models"]
+    # Update the return annotation with the derived scale
+    _callable.__annotations__["return"] = Annotated[NDArrayFloat, (_scale, _scale, 360)]
     setattr(_module, name, _callable)
     __all__.append(name)
 
+    # Create JCh_to_Jab wrapper with correct annotation
     name = f"{_JCh}_to_{_Jab}"
     _callable = copy_definition(JCh_to_Jab, name)
     _callable.__doc__ = _DOCSTRING_JCH_TO_JAB.format(JCh=_JCh, Jab=_Jab)
-    _module = sys.modules["colour.models"]
+    # Update the parameter annotation with the derived scale
+    _parameter = next(iter(_callable.__annotations__.keys()))
+    _callable.__annotations__[_parameter] = Annotated[
+        NDArrayFloat, (_scale, _scale, 360)
+    ]
     setattr(_module, name, _callable)
     __all__.append(name)
 
-del _DOCSTRING_JAB_TO_JCH, _DOCSTRING_JCH_TO_JAB, _JCh, _Jab, _callable, _module
+del (
+    _DOCSTRING_JAB_TO_JCH,
+    _DOCSTRING_JCH_TO_JAB,
+    _JCh,
+    _Jab,
+    _callable,
+    _module,
+    _scale,
+    _XYZ_to_Jab_name,
+    _metadata,
+    _range_scale,
+    _XYZ_to_Jab_callable,
+    _parameter,
+)
 
 __all__ += ["COLOURSPACE_MODELS_POLAR"]

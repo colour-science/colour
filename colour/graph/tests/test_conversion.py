@@ -214,3 +214,43 @@ class TestConvert:
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+
+        # Test CIE Lab and CIE LCHab consistency
+        Lab = convert(XYZ, "CIE XYZ", "CIE Lab", to_reference_scale=True)
+        LCHab = convert(XYZ, "CIE XYZ", "CIE LCHab", to_reference_scale=True)
+
+        # L component should be identical
+        np.testing.assert_allclose(
+            Lab[0],
+            LCHab[0],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # C should equal sqrt(a^2 + b^2)
+        expected_C = np.sqrt(Lab[1] ** 2 + Lab[2] ** 2)
+        np.testing.assert_allclose(
+            LCHab[1],
+            expected_C,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # Test CIE Luv and CIE LCHuv consistency
+        Luv = convert(XYZ, "CIE XYZ", "CIE Luv", to_reference_scale=True)
+        LCHuv = convert(XYZ, "CIE XYZ", "CIE LCHuv", to_reference_scale=True)
+
+        # L component should be identical
+        np.testing.assert_allclose(
+            Luv[0],
+            LCHuv[0],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # C should equal sqrt(u^2 + v^2)
+        expected_C = np.sqrt(Luv[1] ** 2 + Luv[2] ** 2)
+        np.testing.assert_allclose(
+            LCHuv[1],
+            expected_C,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )

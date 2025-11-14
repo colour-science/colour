@@ -849,7 +849,8 @@ def describe_environment(
         ]:
             with suppress(ImportError):
                 namespace = __import__(package)
-                environment["Runtime"][package] = namespace.__version__
+                with suppress(AttributeError):
+                    environment["Runtime"][package] = namespace.__version__
 
         # OpenImageIO
         with suppress(ImportError):  # pragma: no cover
