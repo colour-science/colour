@@ -26,7 +26,6 @@ from __future__ import annotations
 import typing
 
 import numpy as np
-import scipy.spatial.distance
 
 from colour.algebra import euclidean_distance, sdiv, sdiv_mode
 from colour.colorimetry import MultiSpectralDistributions, handle_spectral_arguments
@@ -36,7 +35,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Tuple
 
 from colour.models import XYZ_to_xy
-from colour.utilities import as_float_array
+from colour.utilities import as_float_array, required
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -54,6 +53,7 @@ __all__ = [
 ]
 
 
+@required("SciPy")
 def closest_spectral_locus_wavelength(
     xy: ArrayLike, xy_n: ArrayLike, xy_s: ArrayLike, inverse: bool = False
 ) -> Tuple[NDArrayInt, NDArrayFloat]:
@@ -99,6 +99,8 @@ def closest_spectral_locus_wavelength(
     >>> print(intersect)  # doctest: +ELLIPSIS
     [ 0.6835474...  0.3162840...]
     """
+
+    import scipy.spatial.distance  # noqa: PLC0415
 
     xy = as_float_array(xy)
     xy_n = np.resize(xy_n, xy.shape)

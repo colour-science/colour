@@ -7,7 +7,7 @@ from itertools import product
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import ignore_numpy_errors, is_scipy_installed
 from colour.volume import is_within_mesh_volume
 
 __author__ = "Colour Developers"
@@ -44,6 +44,9 @@ class TestIsWithinMeshVolume:
     def test_is_within_mesh_volume(self) -> None:
         """Test :func:`colour.volume.mesh.is_within_mesh_volume` definition."""
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         assert is_within_mesh_volume(np.array([0.0005, 0.0031, 0.0010]), self._mesh)
 
         assert not is_within_mesh_volume(np.array([0.3205, 0.4131, 0.5100]), self._mesh)
@@ -57,6 +60,9 @@ class TestIsWithinMeshVolume:
         Test :func:`colour.volume.mesh.is_within_mesh_volume` definition
         n-dimensional arrays support.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         a = np.array([0.0005, 0.0031, 0.0010])
         b = is_within_mesh_volume(a, self._mesh)
@@ -83,6 +89,9 @@ class TestIsWithinMeshVolume:
         Test :func:`colour.volume.mesh.is_within_mesh_volume` definition nan
         support.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))

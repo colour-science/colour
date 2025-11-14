@@ -12,6 +12,7 @@ from colour.colorimetry import (
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.quality import spectral_similarity_index
+from colour.utilities import is_scipy_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -567,6 +568,9 @@ class TestSpectralSimilarityIndex:
 
     def test_spectral_similarity_index(self) -> None:
         """Test :func:`colour.quality.ssi.spectral_similarity_index` definition."""
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         assert (
             spectral_similarity_index(SDS_ILLUMINANTS["C"], SDS_ILLUMINANTS["D65"])

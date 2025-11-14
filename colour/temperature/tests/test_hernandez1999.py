@@ -8,7 +8,7 @@ import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.temperature import CCT_to_xy_Hernandez1999, xy_to_CCT_Hernandez1999
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import ignore_numpy_errors, is_scipy_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -59,6 +59,9 @@ class Testxy_to_CCT_Hernandez1999:
         definition n-dimensional arrays support.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         xy = np.array([0.31270, 0.32900])
         CCT = xy_to_CCT_Hernandez1999(xy)
 
@@ -81,6 +84,9 @@ class Testxy_to_CCT_Hernandez1999:
         definition nan support.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         xy_to_CCT_Hernandez1999(cases)
@@ -97,6 +103,9 @@ class TestCCT_to_xy_Hernandez1999:
         Test :func:`colour.temperature.hernandez1999.CCT_to_xy_Hernandez1999`
         definition.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         np.testing.assert_allclose(
             CCT_to_xy_Hernandez1999(6500.74204318, {"method": "Nelder-Mead"}),
@@ -122,6 +131,9 @@ class TestCCT_to_xy_Hernandez1999:
         definition n-dimensional arrays support.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         CCT = 6500.74204318
         xy = CCT_to_xy_Hernandez1999(CCT)
 
@@ -143,6 +155,9 @@ class TestCCT_to_xy_Hernandez1999:
         Test :func:`colour.temperature.hernandez1999.CCT_to_xy_Hernandez1999`
         definition nan support.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))

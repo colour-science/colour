@@ -15,6 +15,7 @@ from colour.utilities import (
     ColourRuntimeWarning,
     attest,
     is_pandas_installed,
+    is_scipy_installed,
     tsplit,
     tstack,
 )
@@ -188,6 +189,9 @@ class TestMultiSignals:
         Test :func:`colour.continuous.multi_signals.MultiSignals.interpolator`
         property.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         multi_signals = self._multi_signals.copy()
 

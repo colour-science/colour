@@ -25,14 +25,13 @@ from __future__ import annotations
 import typing
 
 import numpy as np
-from scipy.optimize import minimize
 
 from colour.colorimetry import daylight_locus_function
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
 
-from colour.utilities import as_float, as_float_array, tstack, usage_warning
+from colour.utilities import as_float, as_float_array, required, tstack, usage_warning
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -47,6 +46,7 @@ __all__ = [
 ]
 
 
+@required("SciPy")
 def xy_to_CCT_CIE_D(
     xy: ArrayLike, optimisation_kwargs: dict | None = None
 ) -> NDArrayFloat:
@@ -85,6 +85,8 @@ def xy_to_CCT_CIE_D(
     ... # doctest: +ELLIPSIS
     6504.3895840...
     """
+
+    from scipy.optimize import minimize  # noqa: PLC0415
 
     xy = as_float_array(xy)
     shape = xy.shape

@@ -14,7 +14,7 @@ from colour.colorimetry import (
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.recovery import XYZ_to_sd
-from colour.utilities import domain_range_scale
+from colour.utilities import domain_range_scale, is_scipy_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -49,6 +49,9 @@ class TestXYZ_to_sd:
         Test :func:`colour.recovery.XYZ_to_sd` definition domain
         and range scale support.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         m = (

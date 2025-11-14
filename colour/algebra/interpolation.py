@@ -64,10 +64,31 @@ References
 
 from __future__ import annotations
 
+import sys
 import typing
 from functools import reduce
+from unittest.mock import MagicMock
 
 import numpy as np
+
+from colour.utilities.requirements import is_scipy_installed
+from colour.utilities.verbose import usage_warning
+
+if not is_scipy_installed():  # pragma: no cover
+    try:
+        is_scipy_installed(raise_exception=True)
+    except ImportError as error:
+        usage_warning(str(error))
+
+    mock = MagicMock()
+    mock.__name__ = ""
+
+    for module in (
+        "scipy",
+        "scipy.interpolate",
+    ):
+        sys.modules[module] = mock
+
 import scipy.interpolate
 
 from colour.algebra import sdiv, sdiv_mode

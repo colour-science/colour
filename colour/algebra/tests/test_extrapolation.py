@@ -13,7 +13,7 @@ from colour.algebra import (
     PchipInterpolator,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import ignore_numpy_errors, is_scipy_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -106,6 +106,9 @@ class TestExtrapolator:
         Test :meth:`colour.algebra.extrapolation.Extrapolator.__call__`
         method.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         extrapolator = Extrapolator(
             LinearInterpolator(np.array([5, 6, 7]), np.array([5, 6, 7]))

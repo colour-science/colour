@@ -46,7 +46,6 @@ classifiers = [
 ]
 dependencies = [
     "numpy>=2.0.0,<3",
-    "scipy>=1.12.0,<2",
     "typing-extensions>=4,<5",
 ]
 
@@ -59,6 +58,7 @@ optional = [
     "openimageio>=3,<4",
     "pandas>=2.2,<3",
     "pydot>=3,<4",
+    "scipy>=1.12.0,<2",
     "tqdm>=4,<5",
     "xxhash>=3,<4",
 ]

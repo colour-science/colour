@@ -24,12 +24,11 @@ from __future__ import annotations
 import typing
 
 import numpy as np
-from scipy.optimize import minimize
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
 
-from colour.utilities import as_float, as_float_array, tstack
+from colour.utilities import as_float, as_float_array, required, tstack
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -44,6 +43,7 @@ __all__ = [
 ]
 
 
+@required("SciPy")
 def uv_to_CCT_Krystek1985(
     uv: ArrayLike, optimisation_kwargs: dict | None = None
 ) -> NDArrayFloat:
@@ -89,6 +89,8 @@ def uv_to_CCT_Krystek1985(
     ... # doctest: +ELLIPSIS
     6504.3894290...
     """
+
+    from scipy.optimize import minimize  # noqa: PLC0415
 
     uv = as_float_array(uv)
     shape = uv.shape

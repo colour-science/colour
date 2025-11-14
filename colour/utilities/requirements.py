@@ -37,6 +37,7 @@ __all__ = [
     "is_opencolorio_installed",
     "is_pandas_installed",
     "is_pydot_installed",
+    "is_scipy_installed",
     "is_tqdm_installed",
     "is_trimesh_installed",
     "is_xxhash_installed",
@@ -363,6 +364,43 @@ def is_pydot_installed(raise_exception: bool = False) -> bool:
     return False
 
 
+def is_scipy_installed(raise_exception: bool = False) -> bool:
+    """
+    Determine whether *SciPy* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception
+        Whether to raise an exception if *SciPy* is unavailable.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether *SciPy* is installed.
+
+    Raises
+    ------
+    :class:`ImportError`
+        If *SciPy* is not installed.
+    """
+
+    try:  # pragma: no cover
+        import scipy  # noqa: F401, PLC0415
+    except ImportError as exception:  # pragma: no cover
+        if raise_exception:
+            error = (
+                '"SciPy" related API features are not available: '
+                f'"{exception}".\nSee the installation guide for more information: '
+                "https://www.colour-science.org/installation-guide/"
+            )
+
+            raise ImportError(error) from exception
+
+        return False
+    else:
+        return True
+
+
 def is_tqdm_installed(raise_exception: bool = False) -> bool:
     """
     Determine whether *tqdm* is installed and available.
@@ -484,6 +522,7 @@ REQUIREMENTS_TO_CALLABLE: CanonicalMapping = CanonicalMapping(
         "OpenColorIO": is_opencolorio_installed,
         "Pandas": is_pandas_installed,
         "Pydot": is_pydot_installed,
+        "SciPy": is_scipy_installed,
         "tqdm": is_tqdm_installed,
         "trimesh": is_trimesh_installed,
         "xxhash": is_xxhash_installed,
@@ -504,6 +543,7 @@ def required(
         "OpenColorIO",
         "Pandas",
         "Pydot",
+        "SciPy",
         "tqdm",
         "trimesh",
         "xxhash",

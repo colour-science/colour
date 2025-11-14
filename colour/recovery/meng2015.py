@@ -19,7 +19,6 @@ from __future__ import annotations
 import typing
 
 import numpy as np
-from scipy.optimize import minimize
 
 from colour.colorimetry import (
     MultiSpectralDistributions,
@@ -34,7 +33,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import DTypeFloat
 
 from colour.hints import Domain1, NDArrayFloat  # noqa: TC001
-from colour.utilities import from_range_100, to_domain_1
+from colour.utilities import from_range_100, required, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -55,6 +54,7 @@ of 5.
 """
 
 
+@required("SciPy")
 def XYZ_to_sd_Meng2015(
     XYZ: Domain1,
     cmfs: MultiSpectralDistributions | None = None,
@@ -174,6 +174,8 @@ def XYZ_to_sd_Meng2015(
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
+
+    from scipy.optimize import minimize  # noqa: PLC0415
 
     XYZ = to_domain_1(XYZ)
 

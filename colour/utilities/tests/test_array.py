@@ -91,6 +91,7 @@ from colour.utilities import (
     interval,
     is_ndarray_copy_enabled,
     is_networkx_installed,
+    is_scipy_installed,
     is_uniform,
     ndarray_copy,
     ndarray_copy_enable,
@@ -722,6 +723,9 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
         Test whether :func:`colour.utilities.array.set_default_float_dtype`
         effect is applied through most of *Colour* public API.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         if not is_networkx_installed():  # pragma: no cover
             return

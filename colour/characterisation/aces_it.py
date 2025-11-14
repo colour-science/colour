@@ -60,7 +60,6 @@ import os
 import typing
 
 import numpy as np
-from scipy.optimize import minimize
 
 from colour.adaptation import matrix_chromatic_adaptation_VonKries
 from colour.algebra import euclidean_distance, vecmul
@@ -114,6 +113,7 @@ from colour.utilities import (
     as_float_scalar,
     from_range_1,
     optional,
+    required,
     runtime_warning,
     tsplit,
     zeros,
@@ -1000,6 +1000,7 @@ def matrix_idt(
 ) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat, NDArrayFloat]: ...
 
 
+@required("SciPy")
 def matrix_idt(
     sensitivities: RGB_CameraSensitivities,
     illuminant: SpectralDistribution,
@@ -1106,6 +1107,8 @@ def matrix_idt(
     >>> RGB_w  # doctest: +ELLIPSIS
     array([ 2.3414154...,  1.        ,  1.5163375...])
     """
+
+    from scipy.optimize import minimize  # noqa: PLC0415
 
     training_data = optional(training_data, read_training_data_rawtoaces_v1())
 

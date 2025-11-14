@@ -37,7 +37,7 @@ from colour.algebra import (
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import NDArrayFloat, cast
 from colour.io import LUT3D, read_LUT
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import ignore_numpy_errors, is_scipy_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -835,6 +835,9 @@ class TestKernelInterpolator:
     def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         required_attributes = (
             "x",
             "y",
@@ -871,6 +874,9 @@ class TestKernelInterpolator:
         Test :attr:`colour.algebra.interpolation.KernelInterpolator.y`
         property.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         x = y = np.linspace(0, 1, 10)
         kernel_interpolator = KernelInterpolator(x, y)
@@ -941,6 +947,9 @@ padding_kwargs` property.
         Test :meth:`colour.algebra.interpolation.KernelInterpolator.__call__`
         method.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         x = np.arange(11, 26, 1)
         y = np.sin(x / len(x) * np.pi * 6) / (x / len(x)) + np.pi
@@ -1176,6 +1185,9 @@ class TestNearestNeighbourInterpolator:
     def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         required_attributes = ()
 
         for attribute in required_attributes:  # pragma: no cover
@@ -1212,6 +1224,9 @@ class TestLinearInterpolator:
     def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         required_attributes = ("x", "y")
 
         for attribute in required_attributes:
@@ -1239,6 +1254,9 @@ class TestLinearInterpolator:
         Test :meth:`colour.algebra.interpolation.LinearInterpolator.__call__`
         method.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         interval = 0.1
         x = np.arange(len(DATA_POINTS_A))
@@ -1300,6 +1318,9 @@ class TestSpragueInterpolator:
     def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         required_attributes = ("x", "y")
 
         for attribute in required_attributes:
@@ -1327,6 +1348,9 @@ class TestSpragueInterpolator:
         Test :meth:`colour.algebra.interpolation.SpragueInterpolator.__call__`
         method.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         interval = 0.1
         x = np.arange(len(DATA_POINTS_A))
@@ -1396,6 +1420,9 @@ __call__` method.
             and is assumed to be unit tested thoroughly.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         np.testing.assert_allclose(
             CubicSplineInterpolator(
                 np.linspace(0, 1, len(DATA_POINTS_A)), DATA_POINTS_A
@@ -1413,6 +1440,9 @@ class TestPchipInterpolator:
 
     def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         required_attributes = ("x", "y")
 
@@ -1432,6 +1462,9 @@ class TestPchipInterpolator:
         Test :attr:`colour.algebra.interpolation.PchipInterpolator.y` property.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         interpolator = PchipInterpolator(np.linspace(0, 1, 10), np.linspace(0, 1, 10))
 
         interpolator.y = np.linspace(0, 1, 10)
@@ -1447,6 +1480,9 @@ class TestNullInterpolator:
 
     def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         required_attributes = ("x", "y")
 
@@ -1477,6 +1513,9 @@ class TestNullInterpolator:
         Test :attr:`colour.algebra.interpolation.NullInterpolator.y`
         property.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         x = y = np.linspace(0, 1, 10)
         null_interpolator = NullInterpolator(x, y)
@@ -1530,6 +1569,9 @@ default` property.
         Test :meth:`colour.algebra.interpolation.NullInterpolator.__call__`
         method.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         x = np.arange(len(DATA_POINTS_A))
         null_interpolator = NullInterpolator(x, DATA_POINTS_A)

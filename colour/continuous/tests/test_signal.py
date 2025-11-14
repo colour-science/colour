@@ -11,7 +11,12 @@ import pytest
 from colour.algebra import CubicSplineInterpolator, Extrapolator, KernelInterpolator
 from colour.constants import DTYPE_FLOAT_DEFAULT, TOLERANCE_ABSOLUTE_TESTS
 from colour.continuous import Signal
-from colour.utilities import ColourRuntimeWarning, attest, is_pandas_installed
+from colour.utilities import (
+    ColourRuntimeWarning,
+    attest,
+    is_pandas_installed,
+    is_scipy_installed,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -157,6 +162,9 @@ class TestSignal:
 
     def test_interpolator(self) -> None:
         """Test :func:`colour.continuous.signal.Signal.interpolator` property."""
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         signal = self._signal.copy()
 
