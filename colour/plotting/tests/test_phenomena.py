@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pytest
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
@@ -109,6 +110,30 @@ class TestPlotMultiLayerThinFilm:
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
 
+        figure, axes = plot_multi_layer_thin_film(
+            [1.0, 1.46, 2.4, 1.5], [100, 50], method="Transmittance"
+        )
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        figure, axes = plot_multi_layer_thin_film(
+            [1.0, 1.46, 2.4, 1.5], [100, 50], method="Both"
+        )
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        figure, axes = plot_multi_layer_thin_film(
+            [1.0, 1.46, 2.4, 1.5], [100, 50], polarisation="S"
+        )
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        figure, axes = plot_multi_layer_thin_film(
+            [1.0, 1.46, 2.4, 1.5], [100, 50], polarisation="P"
+        )
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
 
 class TestPlotThinFilmComparison:
     """
@@ -140,6 +165,42 @@ class TestPlotThinFilmComparison:
         ]
 
         figure, axes = plot_thin_film_comparison(configurations)
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        configurations_multi = [
+            {
+                "type": "multilayer",
+                "refractive_indices": [1.46, 2.4],
+                "t": [100, 50],
+                "n_substrate": 1.5,
+                "label": "Multilayer",
+            },
+        ]
+
+        figure, axes = plot_thin_film_comparison(configurations_multi)
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        # Test with invalid configuration type (should skip silently)
+        configurations_invalid = [
+            {
+                "type": "single",
+                "n_film": 1.46,
+                "t": 100,
+                "label": "Valid",
+            },
+            {
+                "type": "invalid_type",
+                "n_film": 1.5,
+                "t": 50,
+                "label": "Invalid (skipped)",
+            },
+        ]
+
+        figure, axes = plot_thin_film_comparison(configurations_invalid)
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
@@ -200,6 +261,92 @@ class TestPlotThinFilmReflectanceMap:
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
 
+        figure, axes = plot_thin_film_reflectance_map(
+            [1.0, 1.33, 1.0], method="Thickness", polarisation="S"
+        )
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        figure, axes = plot_thin_film_reflectance_map(
+            [1.0, 1.33, 1.0], method="Thickness", polarisation="P"
+        )
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        figure, axes = plot_thin_film_reflectance_map(
+            [1.0, 1.33, 1.0], method="Angle", t=300, theta=np.linspace(0, 80, 20)
+        )
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        figure, axes = plot_thin_film_reflectance_map(
+            [1.0, 1.33, 1.0],
+            method="Angle",
+            t=300,
+            theta=np.linspace(0, 80, 20),
+            polarisation="S",
+        )
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        figure, axes = plot_thin_film_reflectance_map(
+            [1.0, 1.33, 1.0],
+            method="Angle",
+            t=300,
+            theta=np.linspace(0, 80, 20),
+            polarisation="P",
+        )
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        # Test error: missing t in angle method
+        with pytest.raises(ValueError, match="thickness 't' must be specified"):
+            plot_thin_film_reflectance_map(
+                [1.0, 1.33, 1.0],
+                method="Angle",
+                theta=np.linspace(0, 80, 20),
+            )
+
+        # Test error: missing theta in angle method
+        with pytest.raises(ValueError, match="'theta' must be specified"):
+            plot_thin_film_reflectance_map(
+                [1.0, 1.33, 1.0],
+                method="Angle",
+                t=300,
+            )
+
+        # Test error: single angle in angle method
+        with pytest.raises(ValueError, match="must be an array with multiple angles"):
+            plot_thin_film_reflectance_map(
+                [1.0, 1.33, 1.0],
+                method="Angle",
+                t=300,
+                theta=45,
+            )
+
+        # Test multilayer with multiple thicknesses
+        figure, axes = plot_thin_film_reflectance_map(
+            [1.0, 1.33, 2.4, 1.0],
+            method="Angle",
+            t=[100, 50],
+            theta=np.linspace(0, 80, 20),
+        )
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        figure, axes = plot_thin_film_reflectance_map(
+            [1.0, 1.46, 2.4, 1.5], method="Thickness", t=np.linspace(50, 500, 100)
+        )
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
 
 class TestPlotMultiLayerStack:
     """
@@ -221,6 +368,18 @@ class TestPlotMultiLayerStack:
         ]
 
         figure, axes = plot_multi_layer_stack(configurations, theta=45)
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        # Test error: empty configurations
+        with pytest.raises(
+            ValueError, match="At least one layer configuration is required"
+        ):
+            plot_multi_layer_stack([])
+
+        # Test without theta
+        figure, axes = plot_multi_layer_stack(configurations)
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)

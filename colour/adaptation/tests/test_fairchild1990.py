@@ -69,6 +69,19 @@ chromatic_adaptation_Fairchild1990` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # Test with discount_illuminant=True
+        np.testing.assert_allclose(
+            chromatic_adaptation_Fairchild1990(
+                np.array([19.53, 23.07, 24.97]),
+                np.array([111.15, 100.00, 35.20]),
+                np.array([94.81, 100.00, 107.30]),
+                200,
+                discount_illuminant=True,
+            ),
+            np.array([23.32526349, 23.32455819, 76.11593750]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_chromatic_adaptation_Fairchild1990(self) -> None:
         """
         Test :func:`colour.adaptation.fairchild1990.\

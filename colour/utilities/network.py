@@ -1199,7 +1199,7 @@ class PortNode(TreeNode, MixinLogging):
 
         port = self._input_ports.pop(name)
 
-        for connection in port.connections:
+        for connection in port.connections.copy():
             port.disconnect(connection)
 
         return port
@@ -1273,7 +1273,7 @@ class PortNode(TreeNode, MixinLogging):
 
         port = self._output_ports.pop(name)
 
-        for connection in port.connections:
+        for connection in port.connections.copy():
             port.disconnect(connection)
 
         return port
@@ -1873,12 +1873,28 @@ class PortGraph(PortNode):
                 f'A "NetworkX" error occurred, debug graph image has been '
                 f'saved to "{os.path.join(os.getcwd(), filename)}"!'
             )
-            agraph = nx.nx_agraph.to_agraph(graph)
-            agraph.draw(filename, prog="dot")
+
+            def rename_reserved(data: dict) -> dict:
+                """Rename DOT reserved keywords by prefixing with underscore."""
+
+                reserved = {"node", "edge", "graph"}
+                return {
+                    f"_{key}" if key in reserved else key: value
+                    for key, value in data.items()
+                }
+
+            unfeasible_graph = nx.DiGraph()
+            for node, data in graph.nodes(data=True):
+                unfeasible_graph.add_node(node, **rename_reserved(data))
+            for source, target, data in graph.edges(data=True):
+                unfeasible_graph.add_edge(source, target, **rename_reserved(data))
+
+            dot = nx.drawing.nx_pydot.to_pydot(unfeasible_graph)
+            dot.write_png(filename)  # type: ignore[attr-defined]
 
             raise error  # noqa: TRY201
 
-    def process(self, **kwargs: Dict) -> None:
+    def process(self, **kwargs: Any) -> None:
         """
         Process the node-graph by traversing it and executing the
         :func:`colour.utilities.PortNode.process` method for each node.
@@ -2152,7 +2168,7 @@ class For(ControlFlowNode):
 _THREADING_LOCK = threading.Lock()
 
 
-def _task_thread(args: Sequence) -> tuple[int, Any]:
+def _task_thread(args: Sequence) -> tuple[int, Any]:  # pragma: no cover
     """
     Execute the default task for the
     :class:`colour.utilities.ParallelForThread` loop node.
@@ -2336,7 +2352,7 @@ class ParallelForThread(ControlFlowNode):
         self.dirty = False
 
 
-def _task_multiprocess(args: Sequence) -> tuple[int, Any]:
+def _task_multiprocess(args: Sequence) -> tuple[int, Any]:  # pragma: no cover
     """
     Execute the default processing task for
     :class:`colour.utilities.ParallelForMultiprocess` loop node instances.

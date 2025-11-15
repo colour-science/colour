@@ -4,10 +4,22 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
+from colour.colorimetry import (
+    MSDS_CMFS,
+    SDS_ILLUMINANTS,
+    SPECTRAL_SHAPE_DEFAULT,
+    SpectralDistribution,
+    reshape_msds,
+    reshape_sd,
+)
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.quality import ColourRendering_Specification_CRI, colour_rendering_index
-from colour.quality.cri import DataColorimetry_TCS, DataColourQualityScale_TCS
+from colour.quality.cri import (
+    DataColorimetry_TCS,
+    DataColourQualityScale_TCS,
+    tcs_colorimetry_data,
+)
+from colour.quality.datasets.tcs import SDS_TCS
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -401,3 +413,24 @@ class TestColourRenderingIndex:
                 ],
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
+
+        # Test with missing TCS data
+        sd_test = SDS_ILLUMINANTS["FL1"]
+        cmfs = reshape_msds(
+            MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
+            SPECTRAL_SHAPE_DEFAULT,
+            copy=False,
+        )
+        shape = cmfs.shape
+        sd_test = reshape_sd(sd_test, shape, copy=False)
+
+        sds_tcs_full = SDS_TCS["CIE 1995"]
+        tcs_dict_full = {
+            sd.name: reshape_sd(sd, shape, copy=False) for sd in sds_tcs_full.values()
+        }
+        tcs_dict_partial = {k: v for k, v in tcs_dict_full.items() if k != "TCS09"}
+
+        result = tcs_colorimetry_data(
+            sd_test, sd_test, tcs_dict_partial, cmfs, method="CIE 1995"
+        )
+        assert len(result) == 13

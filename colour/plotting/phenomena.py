@@ -1185,9 +1185,6 @@ def plot_multi_layer_stack(
 
             # Get angle in layer above this interface
             layer_idx = len(t_a) - (idx - 1)
-            if layer_idx >= len(t_a):
-                continue
-
             angle_in_layer = theta_interface[layer_idx + 1]
 
             # Calculate reflected ray endpoint

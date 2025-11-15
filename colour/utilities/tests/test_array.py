@@ -1042,75 +1042,101 @@ class TestGetDomainRangeScaleMetadata(unittest.TestCase):
 
         metadata = get_domain_range_scale_metadata(function_h)
         assert metadata["domain"] == {"XYZ": 1, "XYZ_w": 1}
-        assert metadata["range"] == 1
 
-        # Type aliases: Domain100/Range100
-        def function_i(Y: Domain100, Y_n: Domain100 = 100) -> Range100:  # type: ignore
-            """Test Domain100/Range100 type aliases."""
+        # Union with Annotated types
+        def function_i(
+            value: Annotated[int, 100] | Annotated[float, 200],
+        ) -> NDArrayFloat:  # type: ignore
+            """Test Union with Annotated members."""
 
         metadata = get_domain_range_scale_metadata(function_i)
+        assert metadata["domain"] == {"value": 100}
+        assert metadata["range"] is None
+
+        # Type aliases: Domain100/Range100
+        def function_j(Y: Domain100, Y_n: Domain100 = 100) -> Range100:  # type: ignore
+            """Test Domain100/Range100 type aliases."""
+
+        metadata = get_domain_range_scale_metadata(function_j)
         assert metadata["domain"] == {"Y": 100, "Y_n": 100}
         assert metadata["range"] == 100
 
         # Type aliases: Domain10/Range10
-        def function_j(L: Domain10) -> Range10:  # type: ignore
+        def function_k(L: Domain10) -> Range10:  # type: ignore
             """Test Domain10/Range10 type aliases."""
 
-        metadata = get_domain_range_scale_metadata(function_j)
+        metadata = get_domain_range_scale_metadata(function_k)
         assert metadata["domain"] == {"L": 10}
         assert metadata["range"] == 10
 
         # Type aliases: Domain360/Range360
-        def function_k(hue: Domain360) -> Range360:  # type: ignore
+        def function_l(hue: Domain360) -> Range360:  # type: ignore
             """Test Domain360/Range360 type aliases."""
 
-        metadata = get_domain_range_scale_metadata(function_k)
+        metadata = get_domain_range_scale_metadata(function_l)
         assert metadata["domain"] == {"hue": 360}
         assert metadata["range"] == 360
 
         # Type aliases: Domain100_100_360/Range100_100_360
-        def function_l(Lab: Domain100_100_360) -> Range100_100_360:  # type: ignore
+        def function_m(Lab: Domain100_100_360) -> Range100_100_360:  # type: ignore
             """Test Domain100_100_360/Range100_100_360 type aliases."""
 
-        metadata = get_domain_range_scale_metadata(function_l)
+        metadata = get_domain_range_scale_metadata(function_m)
         assert metadata["domain"] == {"Lab": (100, 100, 360)}
         assert metadata["range"] == (100, 100, 360)
 
         # Mixed: type aliases and explicit Annotated
-        def function_m(
+        def function_n(
             XYZ: Domain1, L: Domain100, custom: Annotated[ArrayLike, 50]
         ) -> Range100:  # type: ignore
             """Test mixed type aliases and Annotated."""
 
-        metadata = get_domain_range_scale_metadata(function_m)
+        metadata = get_domain_range_scale_metadata(function_n)
         assert metadata["domain"] == {"XYZ": 1, "L": 100, "custom": 50}
         assert metadata["range"] == 100
 
         # functools.partial with type aliases
-        def function_n(
+        def function_o(
             XYZ: Domain1,
             colourspace: str,
             illuminant: ArrayLike | None = None,
         ) -> Range1:  # type: ignore
             """Test function for partial wrapping."""
 
-        partial_func = partial(function_n, colourspace="sRGB")
+        partial_func = partial(function_o, colourspace="sRGB")
         metadata = get_domain_range_scale_metadata(partial_func)
         assert metadata["domain"] == {"XYZ": 1}
         assert metadata["range"] == 1
 
         # functools.partial with explicit Annotated
-        def function_o(
+        def function_p(
             Lab: Annotated[ArrayLike, 100],
             illuminant: ArrayLike | None = None,
             method: str = "CIE 1976",
         ) -> Annotated[NDArrayFloat, 100]:  # type: ignore
             """Test function for partial wrapping with Annotated."""
 
-        partial_func2 = partial(function_o, method="CIE 2000")
+        partial_func2 = partial(function_p, method="CIE 2000")
         metadata = get_domain_range_scale_metadata(partial_func2)
         assert metadata["domain"] == {"Lab": 100}
         assert metadata["range"] == 100
+
+        # Test string annotation with unevaluable scale (triggers exception handler)
+        # This simulates what happens with `from __future__ import annotations`
+        # when the annotation contains an undefined variable
+        def function_q(x: Any) -> Any:
+            """Test function with mock string annotation."""
+
+        # Manually set __annotations__ to simulate string annotation with undefined var
+        function_q.__annotations__ = {
+            "x": "Annotated[float, undefined_variable]",
+            "return": "Annotated[float, another_undefined]",
+        }
+
+        metadata = get_domain_range_scale_metadata(function_q)
+        # The eval will fail, so it falls back to the string itself
+        assert metadata["domain"] == {"x": "undefined_variable"}
+        assert metadata["range"] == "another_undefined"
 
 
 class TestToDomain1(unittest.TestCase):

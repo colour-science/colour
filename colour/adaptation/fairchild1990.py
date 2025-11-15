@@ -136,9 +136,9 @@ def chromatic_adaptation_Fairchild1990(
     XYZ_r = to_domain_100(XYZ_r)
     Y_n = as_float_array(Y_n)
 
-    LMS_1 = vecmul(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_1)
-    LMS_n = vecmul(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_n)
-    LMS_r = vecmul(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_r)
+    LMS_1 = XYZ_to_RGB_Fairchild1990(XYZ_1)
+    LMS_n = XYZ_to_RGB_Fairchild1990(XYZ_n)
+    LMS_r = XYZ_to_RGB_Fairchild1990(XYZ_r)
 
     p_LMS = degrees_of_adaptation(LMS_1, Y_n, discount_illuminant=discount_illuminant)
 
@@ -157,7 +157,7 @@ def chromatic_adaptation_Fairchild1990(
     LMSp_2 = vecmul(np.linalg.inv(C), LMS_a)
 
     LMS_c = vecmul(np.linalg.inv(A_2), LMSp_2)
-    XYZ_c = vecmul(MATRIX_RGB_TO_XYZ_FAIRCHILD1990, LMS_c)
+    XYZ_c = RGB_to_XYZ_Fairchild1990(LMS_c)
 
     return from_range_100(XYZ_c)
 

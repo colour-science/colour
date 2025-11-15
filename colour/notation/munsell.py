@@ -1178,7 +1178,10 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
                 # 300K iterations with random numbers never reached this code
                 # path, it is kept for consistency with the reference
                 # implementation.
-                error = "Maximum inner iterations count reached without convergence!"
+                error = (
+                    "Maximum inner iterations count reached"
+                    " without convergence!"
+                )  # pragma: no cover
 
                 raise RuntimeError(  # pragma: no cover
                     error
@@ -1344,10 +1347,13 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
                 np.array([10, 10, chroma_scale, 10]),
             )
 
-    # NOTE: This exception is likely never raised in practice: 300K iterations
+    # NOTE: This exception is likely never reached in practice: 300K iterations
     # with random numbers never reached this code path, it is kept for
     # consistency with the reference # implementation
-    error = "Maximum outside iterations count reached without convergence!"
+    error = (
+        "Maximum outside iterations count reached "
+        "without convergence!"
+    )  # pragma: no cover
 
     raise RuntimeError(  # pragma: no cover
         error

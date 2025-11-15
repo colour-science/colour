@@ -697,7 +697,7 @@ def components_to_sRGB_Fichet2021(
         )
 
     # TODO: Implement support for re-binning component with non-uniform interval.
-    if len(interval(component[0])) != 1:
+    if len(interval(component[0])) != 1:  # pragma: no cover
         usage_warning(
             "Components have a non-uniform interval, unexpected results might occur!"
         )

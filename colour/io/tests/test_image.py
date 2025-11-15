@@ -641,6 +641,9 @@ class TestAs3ChannelsImage:
         np.testing.assert_equal(as_3_channels_image(a), b)
         a = np.array([[[[0.18, 0.18, 0.18]]]])
         np.testing.assert_equal(as_3_channels_image(a), b)
+        a = np.array([[0.18, 0.18, 0.18], [0.20, 0.20, 0.20]])
+        result = as_3_channels_image(a)
+        assert result.shape == (1, 2, 3)
 
     def test_raise_exception_as_3_channels_image(self) -> None:
         """
