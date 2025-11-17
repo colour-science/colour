@@ -6,8 +6,8 @@ import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.difference.metamerism import (
-    metamerism_index_from_Lab,
-    metamerism_index_from_XYZ,
+    Lab_to_metamerism_index,
+    XYZ_to_metamerism_index,
 )
 from colour.utilities import domain_range_scale
 
@@ -19,33 +19,33 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "TestMetamerism_Index_From_Lab",
-    "TestMetamerism_Index_From_XYZ",
+    "TestLab_to_Metamerism_Index",
+    "TestXYZ_to_Metamerism_Index",
 ]
 
 
-class TestMetamerism_Index_From_Lab:
+class TestLab_to_Metamerism_Index:
     """
-    Define :func:`colour.difference.metamerism.metamerism_index_from_Lab`
+    Define :func:`colour.difference.metamerism.Lab_to_metamerism_index`
     definition unit tests methods.
     """
 
-    def test_domain_range_scale_metamerism_index_from_lab(self) -> None:
+    def test_domain_range_scale_Lab_to_metamerism_index(self) -> None:
         """
-        Test :func:`colour.difference.metamerism.metamerism_index_from_Lab`
+        Test :func:`colour.difference.metamerism.Lab_to_metamerism_index`
         definition domain and range scale support.
         """
 
         Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
         offset = np.array([0, 0, 2])
 
-        c = ("additive", "multiplicative")
+        c = ("Additive", "Multiplicative")
         m = ("CIE 1976", "CIE 1994", "CIE 2000", "CMC", "DIN99")
         it = [
             (
                 correction,
                 method,
-                metamerism_index_from_Lab(
+                Lab_to_metamerism_index(
                     Lab_1 + offset,
                     Lab_1,
                     Lab_1,
@@ -63,7 +63,7 @@ class TestMetamerism_Index_From_Lab:
             for scale, factor in d_r:
                 with domain_range_scale(scale):
                     np.testing.assert_allclose(
-                        metamerism_index_from_Lab(
+                        Lab_to_metamerism_index(
                             (Lab_1 + offset) * factor,
                             Lab_1 * factor,
                             Lab_1 * factor,
@@ -76,28 +76,28 @@ class TestMetamerism_Index_From_Lab:
                     )
 
 
-class TestMetamerism_Index_From_XYZ:
+class TestXYZ_to_Metamerism_Index:
     """
-    Define :func:`colour.difference.metamerism.metamerism_index_from_XYZ`
+    Define :func:`colour.difference.metamerism.XYZ_to_metamerism_index`
     definition unit tests methods.
     """
 
-    def test_domain_range_scale_metamerism_index_from_XYZ(self) -> None:
+    def test_domain_range_scale_XYZ_to_metamerism_index(self) -> None:
         """
-        Test :func:`colour.difference.metamerism.metamerism_index_from_XYZ`
+        Test :func:`colour.difference.metamerism.XYZ_to_metamerism_index`
         definition domain and range scale support.
         """
 
         XYZ_1 = np.array([0.20654008, 0.12197225, 0.05136952])
         offset = np.array([0, 0, 0.01])
 
-        c = ("additive", "multiplicative")
+        c = ("Additive", "Multiplicative")
         m = ("CIE 1976", "CIE 1994", "CIE 2000", "CMC", "DIN99")
         it = [
             (
                 correction,
                 method,
-                metamerism_index_from_XYZ(
+                XYZ_to_metamerism_index(
                     XYZ_1 + offset,
                     XYZ_1,
                     XYZ_1,
@@ -115,7 +115,7 @@ class TestMetamerism_Index_From_XYZ:
             for scale, factor in d_r:
                 with domain_range_scale(scale):
                     np.testing.assert_allclose(
-                        metamerism_index_from_XYZ(
+                        XYZ_to_metamerism_index(
                             (XYZ_1 + offset) * factor,
                             XYZ_1 * factor,
                             XYZ_1 * factor,
