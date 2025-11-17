@@ -1,11 +1,11 @@
 """
 :math:`M_{t}` - Metamerism Index
-====================================================
+================================
 
 Define the :math:`M_{t}` metamerism computation objects.
 
--   :func:`colour.difference.metamerism_index_from_Lab`
--   :func:`colour.difference.metamerism_index_from_XYZ`
+-   :func:`colour.difference.Lab_to_metamerism_index`
+-   :func:`colour.difference.XYZ_to_metamerism_index`
 
 References
 ----------
@@ -30,6 +30,7 @@ from colour.models import XYZ_to_Lab
 from colour.utilities import (
     as_array,
     filter_kwargs,
+    validate_method,
 )
 
 __author__ = "Colour Developers"
@@ -40,17 +41,17 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "metamerism_index_from_Lab",
-    "metamerism_index_from_XYZ",
+    "Lab_to_metamerism_index",
+    "XYZ_to_metamerism_index",
 ]
 
 
-def metamerism_index_from_Lab(
+def Lab_to_metamerism_index(
     Lab_spl_t: Domain100,
     Lab_std_t: Domain100,
     Lab_spl_r: Domain100,
     Lab_std_r: Domain100,
-    correction: Literal["additive", "multiplicative"] | str = "additive",
+    correction: Literal["Additive", "Multiplicative"] | str = "Additive",
     method: LiteralDeltaEMethod | str = "CIE 2000",
     **kwargs: Any,
 ) -> NDArrayFloat:
@@ -79,7 +80,7 @@ def metamerism_index_from_Lab(
         *CIE L\\*a\\*b\\** colourspace array of colour standard under
         reference illuminant.
     correction
-        Correction method to apply, either 'additive' or 'multiplicative'.
+        Correction method to apply, either 'Additive' or 'Multiplicative'.
     metric
         Colour difference metric to use.
 
@@ -130,25 +131,27 @@ def metamerism_index_from_Lab(
     >>> Lab_std_t = np.array([38.17781, -17.4939, 21.0618])
     >>> Lab_spl_r = np.array([38.83253, -19.8787, 20.0453])
     >>> Lab_spl_t = np.array([37.9013, -19.56327, 16.9346])
-    >>> metamerism_index_from_Lab(
+    >>> Lab_to_metamerism_index(
     ...     Lab_spl_t,
     ...     Lab_std_t,
     ...     Lab_spl_r,
     ...     Lab_std_r,
-    ...     correction="additive",
+    ...     correction="Additive",
     ...     method="CIE 1976",
     ... )  # doctest: +ELLIPSIS
     3.8267581...
-    >>> metamerism_index_from_Lab(
+    >>> Lab_to_metamerism_index(
     ...     Lab_spl_t,
     ...     Lab_std_t,
     ...     Lab_spl_r,
     ...     Lab_std_r,
-    ...     correction="multiplicative",
+    ...     correction="Multiplicative",
     ...     method="CIE 1976",
     ... )  # doctest: +ELLIPSIS
     3.9842216...
     """
+
+    correction = validate_method(correction, ("Additive", "Multiplicative"))
 
     if correction == "additive":
         Lab_corr_t = as_array(Lab_spl_t) - (as_array(Lab_spl_r) - as_array(Lab_std_r))
@@ -164,12 +167,12 @@ def metamerism_index_from_Lab(
     )
 
 
-def metamerism_index_from_XYZ(
+def XYZ_to_metamerism_index(
     XYZ_spl_t: Domain1,
     XYZ_std_t: Domain1,
     XYZ_spl_r: Domain1,
     XYZ_std_r: Domain1,
-    correction: Literal["additive", "multiplicative"] | str = "multiplicative",
+    correction: Literal["Additive", "Multiplicative"] | str = "Multiplicative",
     method: LiteralDeltaEMethod | str = "CIE 2000",
     **kwargs: Any,
 ) -> NDArrayFloat:
@@ -200,8 +203,8 @@ def metamerism_index_from_XYZ(
         *CIE XYZ* tristimulus array of the standard under reference
         illuminant.
     correction
-        Correction method to apply, either 'additive' or
-        'multiplicative'.
+        Correction method to apply, either 'Additive' or
+        'Multiplicative'.
     method
         Colour-difference method.
 
@@ -257,7 +260,7 @@ def metamerism_index_from_XYZ(
     >>> XYZ_std_t = np.array([8.96442, 10.1878, 1.6663]) / 100
     >>> XYZ_spl_r = np.array([7.6933, 10.5616, 5.54474]) / 100
     >>> XYZ_spl_t = np.array([8.56438, 10.0324, 1.9315]) / 100
-    >>> metamerism_index_from_XYZ(
+    >>> XYZ_to_metamerism_index(
     ...     XYZ_spl_t,
     ...     XYZ_std_t,
     ...     XYZ_spl_r,
@@ -267,7 +270,7 @@ def metamerism_index_from_XYZ(
     ...     illuminant=CCS_ILLUMINANTS["CIE 1964 10 Degree Standard Observer"]["A"],
     ... )  # doctest: +ELLIPSIS
     3.7906989...
-    >>> metamerism_index_from_XYZ(
+    >>> XYZ_to_metamerism_index(
     ...     XYZ_spl_t,
     ...     XYZ_std_t,
     ...     XYZ_spl_r,
@@ -278,6 +281,8 @@ def metamerism_index_from_XYZ(
     ... )  # doctest: +ELLIPSIS
     4.6910648...
     """
+
+    correction = validate_method(correction, ("Additive", "Multiplicative"))
 
     if correction == "additive":
         XYZ_corr_t = as_array(XYZ_spl_t) - (as_array(XYZ_spl_r) - as_array(XYZ_std_r))
