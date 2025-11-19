@@ -10,8 +10,10 @@ from itertools import product
 import numpy as np
 
 from colour.biochemistry import (
+    reaction_rate_MichaelisMenten,
     reaction_rate_MichaelisMenten_Abebe2017,
     reaction_rate_MichaelisMenten_Michaelis1913,
+    substrate_concentration_MichaelisMenten,
     substrate_concentration_MichaelisMenten_Abebe2017,
     substrate_concentration_MichaelisMenten_Michaelis1913,
 )
@@ -367,3 +369,57 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         substrate_concentration_MichaelisMenten_Abebe2017(cases, cases, cases, cases)
+
+
+class TestReactionRateMichaelisMenten:
+    """
+    Define :func:`colour.biochemistry.michaelis_menten.\
+reaction_rate_MichaelisMenten` wrapper definition unit tests methods.
+    """
+
+    def test_reaction_rate_MichaelisMenten(self) -> None:
+        """
+        Test :func:`colour.biochemistry.michaelis_menten.\
+reaction_rate_MichaelisMenten` wrapper definition.
+        """
+
+        np.testing.assert_allclose(
+            reaction_rate_MichaelisMenten(0.5, 2.5, 0.8),
+            0.961538461538461,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            reaction_rate_MichaelisMenten(
+                0.5, 2.5, 0.8, method="Abebe 2017", b_m=0.813
+            ),
+            1.036054742705597,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+
+class TestSubstrateConcentrationMichaelisMenten:
+    """
+    Define :func:`colour.biochemistry.michaelis_menten.\
+substrate_concentration_MichaelisMenten` wrapper definition unit tests methods.
+    """
+
+    def test_substrate_concentration_MichaelisMenten(self) -> None:
+        """
+        Test :func:`colour.biochemistry.michaelis_menten.\
+substrate_concentration_MichaelisMenten` wrapper definition.
+        """
+
+        np.testing.assert_allclose(
+            substrate_concentration_MichaelisMenten(0.25, 0.5, 0.25),
+            0.250000000000000,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            substrate_concentration_MichaelisMenten(
+                0.400000000000000, 0.5, 0.25, method="Abebe 2017", b_m=0.25
+            ),
+            0.250000000000000,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )

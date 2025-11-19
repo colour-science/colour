@@ -2327,6 +2327,12 @@ class TestBoundingHuesFromRenotation:
                 MUNSELL_BOUNDING_HUES[i],
             )
 
+        # Test hue == 0 case
+        np.testing.assert_array_equal(
+            bounding_hues_from_renotation([0.0, 1]),
+            np.array([[10.0, 2.0], [10.0, 2.0]]),
+        )
+
 
 class TestHueToHueAngle:
     """
@@ -2417,6 +2423,13 @@ class Test_xy_fromRenotationOvoid:
                     MUNSELL_XY_FROM_RENOTATION_OVOID[i],
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
+
+        # Test grey Munsell colour case (coverage for line 2347)
+        np.testing.assert_allclose(
+            xy_from_renotation_ovoid([np.nan, 8, np.nan, np.nan]),
+            np.array([0.31006, 0.31616]),
+            atol=0.00001,
+        )
 
 
 class TestLCHabToMunsellSpecification:

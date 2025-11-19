@@ -101,7 +101,24 @@ plot_single_sd_colour_rendition_report` definition unit tests methods.
 plot_single_sd_colour_rendition_report` definition.
         """
 
+        # Test default method (full)
         figure, axes = plot_single_sd_colour_rendition_report(SDS_ILLUMINANTS["FL2"])
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        # Test intermediate method
+        figure, axes = plot_single_sd_colour_rendition_report(
+            SDS_ILLUMINANTS["FL2"], method="intermediate"
+        )
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        # Test simple method
+        figure, axes = plot_single_sd_colour_rendition_report(
+            SDS_ILLUMINANTS["FL2"], method="simple"
+        )
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)

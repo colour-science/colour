@@ -9,10 +9,13 @@ from colour.colorimetry.generation import (
     msds_ones,
     msds_zeros,
     sd_constant,
+    sd_gaussian,
     sd_gaussian_fwhm,
     sd_gaussian_normal,
+    sd_multi_leds,
     sd_multi_leds_Ohno2005,
     sd_ones,
+    sd_single_led,
     sd_single_led_Ohno2005,
     sd_zeros,
 )
@@ -34,8 +37,11 @@ __all__ = [
     "TestMsdsOnes",
     "TestSdGaussianNormal",
     "TestSdGaussianFwhm",
+    "TestSdGaussian",
     "TestSdSingleLedOhno2005",
+    "TestSdSingleLed",
     "TestSdMultiLedsOhno2005",
+    "TestSdMultiLeds",
 ]
 
 
@@ -214,6 +220,25 @@ class TestSdGaussianFwhm:
         np.testing.assert_allclose(sd[555 - 25 / 2], 0.5, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
+class TestSdGaussian:
+    """
+    Define :func:`colour.colorimetry.generation.sd_gaussian` definition unit
+    tests methods.
+    """
+
+    def test_sd_gaussian(self) -> None:
+        """Test :func:`colour.colorimetry.generation.sd_gaussian` definition."""
+
+        # Test default method (Normal)
+        sd = sd_gaussian(555, 25)
+        np.testing.assert_allclose(
+            sd[530], 0.606530659712633, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        sd = sd_gaussian(555, 25, method="FWHM")
+        np.testing.assert_allclose(sd[530], 0.0625, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+
 class TestSdSingleLedOhno2005:
     """
     Define :func:`colour.colorimetry.generation.sd_single_led_Ohno2005`
@@ -236,6 +261,28 @@ class TestSdSingleLedOhno2005:
 
         np.testing.assert_allclose(
             sd[580], 0.127118445056538, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+
+class TestSdSingleLed:
+    """
+    Define :func:`colour.colorimetry.generation.sd_single_led` definition unit
+    tests methods.
+    """
+
+    def test_sd_single_led(self) -> None:
+        """Test :func:`colour.colorimetry.generation.sd_single_led` definition."""
+
+        # Test default method (Ohno 2005)
+        sd = sd_single_led(555, half_spectral_width=25)
+        np.testing.assert_allclose(
+            sd[530], 0.127118445056538, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        # Test explicit Ohno 2005 method
+        sd = sd_single_led(555, method="Ohno 2005", half_spectral_width=25)
+        np.testing.assert_allclose(
+            sd[530], 0.127118445056538, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
 
@@ -284,4 +331,35 @@ class TestSdMultiLedsOhno2005:
 
         np.testing.assert_allclose(
             sd[640], 0.070140708922879, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+
+class TestSdMultiLeds:
+    """
+    Define :func:`colour.colorimetry.generation.sd_multi_leds` definition unit
+    tests methods.
+    """
+
+    def test_sd_multi_leds(self) -> None:
+        """Test :func:`colour.colorimetry.generation.sd_multi_leds` definition."""
+
+        # Test default method (Ohno 2005)
+        sd = sd_multi_leds(
+            np.array([457, 530, 615]),
+            half_spectral_widths=np.array([20, 30, 20]),
+            peak_power_ratios=np.array([0.731, 1.000, 1.660]),
+        )
+        np.testing.assert_allclose(
+            sd[500], 0.129513248576116, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        # Test explicit Ohno 2005 method
+        sd = sd_multi_leds(
+            np.array([457, 530, 615]),
+            method="Ohno 2005",
+            half_spectral_widths=np.array([20, 30, 20]),
+            peak_power_ratios=np.array([0.731, 1.000, 1.660]),
+        )
+        np.testing.assert_allclose(
+            sd[500], 0.129513248576116, atol=TOLERANCE_ABSOLUTE_TESTS
         )

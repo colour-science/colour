@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import typing
 import unicodedata
+import warnings
 from functools import partial
 
 import numpy as np
@@ -21,6 +22,7 @@ from colour.utilities import (
     filter_kwargs,
     filter_mapping,
     first_item,
+    ignore_python_warnings,
     int_digest,
     is_caching_enabled,
     is_integer,
@@ -46,6 +48,7 @@ __all__ = [
     "TestSetCachingEnabled",
     "TestCachingEnable",
     "TestCacheRegistry",
+    "TestIgnorePythonWarnings",
     "TestAttest",
     "TestBatch",
     "TestMultiprocessingPool",
@@ -221,6 +224,29 @@ class TestCacheRegistry:
         cache_registry = self._default_test_cache_registry()
         cache_registry.clear_all_caches()
         assert cache_registry.registry == {"Cache A": {}, "Cache B": {}}
+
+
+class TestIgnorePythonWarnings:
+    """
+    Define :func:`colour.utilities.common.ignore_python_warnings` definition
+    unit tests methods.
+    """
+
+    def test_ignore_python_warnings(self) -> None:
+        """Test :func:`colour.utilities.common.ignore_python_warnings` definition."""
+
+        @ignore_python_warnings
+        def test_function() -> int:
+            warnings.warn("This warning should be ignored!", stacklevel=2)
+            return 42
+
+        # Should not raise a warning and should return the value
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            result = test_function()
+            assert result == 42
+            # The warning should have been suppressed
+            assert len(w) == 0
 
 
 class TestAttest:

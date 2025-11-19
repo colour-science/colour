@@ -348,10 +348,10 @@ def is_pydot_installed(raise_exception: bool = False) -> bool:
 
             raise ImportError(error) from exception
 
-    if shutil.which("fdp") is not None:
+    if shutil.which("dot") is not None:
         return True
 
-    if raise_exception:
+    if raise_exception:  # pragma: no cover
         error = (
             '"Graphviz" is not installed, "Pydot" related API features '
             "are not available!"
@@ -361,7 +361,7 @@ def is_pydot_installed(raise_exception: bool = False) -> bool:
 
         raise RuntimeError(error)
 
-    return False
+    return False  # pragma: no cover
 
 
 def is_scipy_installed(raise_exception: bool = False) -> bool:

@@ -22,8 +22,10 @@ from colour.models.rgb.transfer_functions.itur_bt_2100 import (
     eotf_inverse_BT2100_HLG_1,
     eotf_inverse_BT2100_HLG_2,
     gamma_function_BT2100_HLG,
+    ootf_BT2100_HLG,
     ootf_BT2100_HLG_1,
     ootf_BT2100_HLG_2,
+    ootf_inverse_BT2100_HLG,
     ootf_inverse_BT2100_HLG_1,
     ootf_inverse_BT2100_HLG_2,
 )
@@ -52,8 +54,10 @@ __all__ = [
     "TestEotf_inverse_BT2100_HLG_2",
     "TestOotf_BT2100_HLG_1",
     "TestOotf_BT2100_HLG_2",
+    "TestOotfBT2100HLG",
     "TestOotf_inverse_BT2100_HLG_1",
     "TestOotf_inverse_BT2100_HLG_2",
+    "TestOotfInverseBT2100HLG",
 ]
 
 
@@ -1762,3 +1766,71 @@ ootf_inverse_BT2100_HLG_2` definition nan support.
         """
 
         ootf_inverse_BT2100_HLG_2(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
+
+class TestOotfBT2100HLG:
+    """
+    Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_BT2100_HLG` definition unit tests methods.
+    """
+
+    def test_ootf_BT2100_HLG(self) -> None:
+        """
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_BT2100_HLG` definition.
+        """
+
+        # Test default method (ITU-R BT.2100-2)
+        np.testing.assert_allclose(
+            ootf_BT2100_HLG(0.1),
+            63.095734448019336,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # Test ITU-R BT.2100-1 method
+        np.testing.assert_allclose(
+            ootf_BT2100_HLG(0.1, 0.01, method="ITU-R BT.2100-1"),
+            63.105103490674857,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # Test with different L_W value
+        np.testing.assert_allclose(
+            ootf_BT2100_HLG(0.1, L_W=2000),
+            94.3186112317,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+
+class TestOotfInverseBT2100HLG:
+    """
+    Define :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_inverse_BT2100_HLG` definition unit tests methods.
+    """
+
+    def test_ootf_inverse_BT2100_HLG(self) -> None:
+        """
+        Test :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_inverse_BT2100_HLG` definition.
+        """
+
+        # Test default method (ITU-R BT.2100-2)
+        np.testing.assert_allclose(
+            ootf_inverse_BT2100_HLG(63.095734448019336),
+            0.1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # Test ITU-R BT.2100-1 method
+        np.testing.assert_allclose(
+            ootf_inverse_BT2100_HLG(63.105103490674857, 0.01, method="ITU-R BT.2100-1"),
+            0.1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # Test with different L_W value
+        np.testing.assert_allclose(
+            ootf_inverse_BT2100_HLG(94.3186112317, L_W=2000),
+            0.1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )

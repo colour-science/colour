@@ -450,16 +450,12 @@ def sCAM_to_XYZ(
 
         with sdiv_mode():
             C = sdiv(M * spow(I_a, 0.27), spow(F_L, 0.1) * e_t * surround.F)
-    elif C is None:
-        error = '"C" correlate could not be determined!'
-
-        raise ValueError(error)
 
     with sdiv_mode():
         I = 100 * spow(sdiv(I_a, 100), sdiv(1, surround.c * z))  # noqa: E741
 
     with domain_range_scale("ignore"):
-        XYZ_D65 = sUCS_to_XYZ(sUCS_ICh_to_sUCS_Iab(tstack([I, C, h])))
+        XYZ_D65 = sUCS_to_XYZ(sUCS_ICh_to_sUCS_Iab(tstack([I, C, h])))  # type: ignore[arg-type]
 
     XYZ_D65 = XYZ_D65 * Y_w[..., None]
 

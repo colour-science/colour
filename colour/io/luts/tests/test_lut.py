@@ -353,10 +353,10 @@ class TestLUT1D:
         # that :class:`colour.io.luts.lut.LUT3D.__str__` method is defined by
         # :class:`colour.io.luts.lut.AbstractLUT.__str__` method, the two other
         # tests should reasonably cover this case.
-        if self._dimensions == 3:
+        if self._dimensions == 3:  # pragma: no cover
             return
 
-        assert repr(LUT) == self._repr
+        assert repr(LUT) == self._repr  # pragma: no cover
 
     def test__eq__(self) -> None:
         """
@@ -565,12 +565,12 @@ class TestLUT1D:
                 interpolator=self._interpolator_2, **self._invert_kwargs_2
             )
 
-            np.testing.assert_allclose(
+            np.testing.assert_allclose(  # pragma: no cover
                 LUT_i.apply(RANDOM_TRIPLETS),
                 self._inverted_apply_2,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
-        except NotImplementedError:
+        except NotImplementedError:  # pragma: no cover
             pass
 
     def test_apply(self) -> None:
@@ -905,10 +905,10 @@ class TestLUT3x1D:
         # that :class:`colour.io.luts.lut.LUT3D.__str__` method is defined by
         # :class:`colour.io.luts.lut.AbstractLUT.__str__` method, the two other
         # tests should reasonably cover this case.
-        if self._dimensions == 3:
+        if self._dimensions == 3:  # pragma: no cover
             return
 
-        assert repr(LUT) == self._repr
+        assert repr(LUT) == self._repr  # pragma: no cover
 
     def test__eq__(self) -> None:
         """
@@ -1117,12 +1117,12 @@ class TestLUT3x1D:
                 interpolator=self._interpolator_2, **self._invert_kwargs_2
             )
 
-            np.testing.assert_allclose(
+            np.testing.assert_allclose(  # pragma: no cover
                 LUT_i.apply(RANDOM_TRIPLETS),
                 self._inverted_apply_2,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
-        except NotImplementedError:
+        except NotImplementedError:  # pragma: no cover
             pass
 
     def test_apply(self) -> None:
@@ -1484,10 +1484,10 @@ class TestLUT3D:
         # that :class:`colour.io.luts.lut.LUT3D.__str__` method is defined by
         # :class:`colour.io.luts.lut.AbstractLUT.__str__` method, the two other
         # tests should reasonably cover this case.
-        if self._dimensions == 3:
+        if self._dimensions == 3:  # pragma: no cover
             return
 
-        assert repr(LUT) == self._repr
+        assert repr(LUT) == self._repr  # pragma: no cover
 
     def test__eq__(self) -> None:
         """
@@ -1699,12 +1699,12 @@ class TestLUT3D:
                 interpolator=self._interpolator_2, **self._invert_kwargs_2
             )
 
-            np.testing.assert_allclose(
+            np.testing.assert_allclose(  # pragma: no cover
                 LUT_i.apply(RANDOM_TRIPLETS),
                 self._inverted_apply_2,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
-        except NotImplementedError:
+        except NotImplementedError:  # pragma: no cover
             pass
 
     def test_apply(self) -> None:

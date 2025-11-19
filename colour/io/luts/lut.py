@@ -2126,24 +2126,11 @@ class LUT3D(AbstractLUT):
             # globally, while lower gamma (e.g., 0.25-0.5) creates sharper transitions.
             power = 1.0 / gamma
             distances = cast("NDArrayFloat", distances)
-            if distances.ndim == 1:
-                # Single query point case
-                epsilon = EPSILON
-                weights = 1.0 / (distances + epsilon) ** power
-                weights = weights / np.sum(weights)
-                weighted_table = np.sum(
-                    table[indices] * weights[:, np.newaxis], axis=0
-                ).reshape(1, 3)
-            else:
-                # Multiple query points - vectorized computation
-                epsilon = EPSILON
-                weights = 1.0 / (distances + epsilon) ** power
-                weights = weights / np.sum(weights, axis=1, keepdims=True)
+            weights = 1.0 / (distances + EPSILON) ** power
+            weights = weights / np.sum(weights, axis=1, keepdims=True)
 
-                # Weighted average: sum over neighbors dimension
-                weighted_table = np.sum(
-                    table[indices] * weights[..., np.newaxis], axis=1
-                )
+            # Weighted average: sum over neighbors dimension
+            weighted_table = np.sum(table[indices] * weights[..., np.newaxis], axis=1)
 
             LUT_q.table = np.reshape(
                 weighted_table,

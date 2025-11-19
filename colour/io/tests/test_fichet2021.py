@@ -278,14 +278,10 @@ class TestComponentsToSRGBFichet2021:
             "chromaticities",
         ]
 
-        for attribute in attributes:
-            if attribute.name == "illuminant":
-                sd_illuminant = spectrum_attribute_to_sd_Fichet2021(attribute.value)
-                np.testing.assert_allclose(
-                    sd_illuminant.values,
-                    SDS_ILLUMINANTS["D65"].values,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
+        components = {}
+        RGB, attributes = components_to_sRGB_Fichet2021(components, specification)
+        assert RGB is None
+        assert attributes == []
 
 
 def _test_spectral_image_D65(path: str) -> None:
@@ -520,3 +516,18 @@ class TestWriteSpectralImageFichet2021:
             path = os.path.join(self._temporary_directory, basename)
             write_spectral_image_Fichet2021(components, path, "float16", specification)
             test_callable(path)
+
+        # Test with specification.attributes = None for both emissive and non-emissive
+        specification_emissive = Specification_Fichet2021(is_emissive=True)
+        specification_emissive.attributes = None  # type: ignore[assignment]
+        path = os.path.join(self._temporary_directory, "D65_no_attrs.exr")
+        write_spectral_image_Fichet2021(
+            SDS_ILLUMINANTS["D65"], path, "float16", specification_emissive
+        )
+
+        specification_non_emissive = Specification_Fichet2021(is_emissive=False)
+        specification_non_emissive.attributes = None  # type: ignore[assignment]
+        path = os.path.join(self._temporary_directory, "Ohta_no_attrs.exr")
+        write_spectral_image_Fichet2021(
+            msds, path, "float16", specification_non_emissive, shape=(4, 6, 16)
+        )

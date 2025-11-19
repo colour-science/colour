@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import platform
+import warnings
 
 import numpy as np
 import pytest
@@ -186,6 +187,25 @@ class TestPCA_Jiang2013:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # Test with additional_data=False (default)
+        R_w, G_w, B_w = PCA_Jiang2013(camera_sensitivities, 3)  # type: ignore[misc]
+
+        np.testing.assert_allclose(
+            np.abs(R_w),
+            np.abs(w[0]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        np.testing.assert_allclose(
+            np.abs(G_w),
+            np.abs(w[1]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        np.testing.assert_allclose(
+            np.abs(B_w),
+            np.abs(w[2]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
 
 class FixtureJiang2013:
     """A fixture for testing the :mod:`colour.recovery.jiang2013` module."""
@@ -281,6 +301,62 @@ RGB_to_sd_camera_sensitivity_Jiang2013` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # Test with mismatched illuminant shape to trigger warning
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            # Use original D65 illuminant without reshaping
+            sd = RGB_to_sd_camera_sensitivity_Jiang2013(
+                self._RGB[..., 0],
+                SDS_ILLUMINANTS["D65"],  # Not reshaped
+                self._reflectances,
+                R_w,
+                SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
+            )
+            # Should have triggered a warning about aligning illuminant shape
+            assert len(w) >= 1
+            assert "Aligning" in str(w[0].message)
+
+        # Result should still be valid
+        np.testing.assert_allclose(
+            sd.values,
+            np.array(
+                [
+                    0.00072067,
+                    -0.00089699,
+                    0.0046872,
+                    0.0077695,
+                    0.00693355,
+                    0.00531349,
+                    0.004482,
+                    0.00463938,
+                    0.00518667,
+                    0.00438283,
+                    0.00420012,
+                    0.00540655,
+                    0.00964451,
+                    0.01427711,
+                    0.00799507,
+                    0.00464298,
+                    0.00534238,
+                    0.01051938,
+                    0.05288944,
+                    0.09785117,
+                    0.09960038,
+                    0.08384089,
+                    0.06918086,
+                    0.05696785,
+                    0.04293031,
+                    0.03024127,
+                    0.02323005,
+                    0.01372194,
+                    0.00409449,
+                    -0.00044223,
+                    -0.00061428,
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
 
 class TestRGB_to_msds_camera_sensitivities_Jiang2013(FixtureJiang2013):
     """
@@ -307,6 +383,62 @@ RGB_to_msds_camera_sensitivities_Jiang2013` definition.
                 BASIS_FUNCTIONS_DYER2017,
                 SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
             ).values,
+            np.array(
+                [
+                    [7.04378461e-03, 9.21260449e-03, -7.64080878e-03],
+                    [-8.76715607e-03, 1.12726694e-02, 6.37434190e-03],
+                    [4.58126856e-02, 7.18000418e-02, 4.00001696e-01],
+                    [7.59391152e-02, 1.15620933e-01, 7.11521550e-01],
+                    [6.77685732e-02, 1.53406449e-01, 8.52668310e-01],
+                    [5.19341313e-02, 1.88575472e-01, 9.38957846e-01],
+                    [4.38070562e-02, 2.61086603e-01, 9.72130729e-01],
+                    [4.53453213e-02, 3.75440392e-01, 9.61450686e-01],
+                    [5.06945146e-02, 4.47658155e-01, 8.86481146e-01],
+                    [4.28378252e-02, 4.50713447e-01, 7.51770770e-01],
+                    [4.10520309e-02, 6.16577286e-01, 5.52730730e-01],
+                    [5.28436974e-02, 7.80199548e-01, 3.82269175e-01],
+                    [9.42655432e-02, 9.17674257e-01, 2.40354614e-01],
+                    [1.39544593e-01, 1.00000000e00, 1.55374812e-01],
+                    [7.81438836e-02, 9.27720273e-01, 1.04409358e-01],
+                    [4.53805297e-02, 8.56701565e-01, 6.51222854e-02],
+                    [5.22164960e-02, 7.52322921e-01, 3.42954473e-02],
+                    [1.02816526e-01, 6.25809730e-01, 2.09495104e-02],
+                    [5.16941760e-01, 4.92746166e-01, 1.48524616e-02],
+                    [9.56397935e-01, 3.43364817e-01, 1.08983186e-02],
+                    [9.73494777e-01, 2.08587708e-01, 7.00494396e-03],
+                    [8.19461415e-01, 1.11784838e-01, 4.47180002e-03],
+                    [6.76174158e-01, 6.59071962e-02, 4.10135388e-03],
+                    [5.56804177e-01, 4.46268353e-02, 4.18528982e-03],
+                    [4.19601114e-01, 3.33671033e-02, 4.49165886e-03],
+                    [2.95578342e-01, 2.39487762e-02, 4.45932739e-03],
+                    [2.27050628e-01, 1.87787770e-02, 4.31697313e-03],
+                    [1.34118359e-01, 1.06954985e-02, 3.41192651e-03],
+                    [4.00195568e-02, 5.55512389e-03, 1.36794925e-03],
+                    [-4.32240535e-03, 2.49731193e-03, 3.80303275e-04],
+                    [-6.00395414e-03, 1.54678227e-03, 5.40394352e-04],
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # Test with mismatched illuminant shape to trigger warning
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            # Use original D65 illuminant without reshaping
+            msds = RGB_to_msds_camera_sensitivities_Jiang2013(
+                self._RGB,
+                SDS_ILLUMINANTS["D65"],  # Not reshaped
+                self._reflectances,
+                BASIS_FUNCTIONS_DYER2017,
+                SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
+            )
+            # Should have triggered a warning about aligning illuminant shape
+            assert len(w) >= 1
+            assert "Aligning" in str(w[0].message)
+
+        # Result should still be valid
+        np.testing.assert_allclose(
+            msds.values,
             np.array(
                 [
                     [7.04378461e-03, 9.21260449e-03, -7.64080878e-03],
