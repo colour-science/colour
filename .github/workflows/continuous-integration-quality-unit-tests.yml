@@ -23,10 +23,6 @@ jobs:
           # https://github.com/scipy/scipy/issues/20613
           echo "OMP_NUM_THREADS=1" >> $GITHUB_ENV
         shell: bash
-      - name: Set up Python 3.10 for Pre-Commit
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
@@ -51,9 +47,10 @@ jobs:
           uv sync --all-extras
           uv run python -c "import imageio;imageio.plugins.freeimage.download()"
         shell: bash
-      - name: Pre-Commit (All Files)
+      - name: Prek (All Files)
+        if: matrix.os == 'macOS-latest'
         run: |
-          uv run pre-commit run --all-files
+          uv run prek run --all-files
         shell: bash
       - name: Test Optimised Python Execution
         run: |
