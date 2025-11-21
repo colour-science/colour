@@ -25,6 +25,7 @@ from typing import (  # noqa: UP035
     NewType,
     NoReturn,
     Protocol,
+    Self,
     Set,
     SupportsIndex,
     TextIO,
@@ -40,7 +41,6 @@ from typing import (  # noqa: UP035
 
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
-from typing_extensions import Self
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
