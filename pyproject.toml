@@ -90,7 +90,7 @@ dev = [
     "hatch",
     "invoke",
     "jupyter",
-    "pre-commit",
+    "prek",
     "pyright",
     "pytest",
     "pytest-cov<7.0.0",
