@@ -247,6 +247,29 @@ class TestTemplateCtlTransformFloat:
         )
         assert ctl_foo_bar_float == target
 
+        ctl_no_description_float = template_ctl_transform_float("rIn * 2.0")
+
+        target_no_description = (
+            '// "float" Processing Function\n\n'
+            "void main\n"
+            "(\n"
+            "    output varying float rOut,\n"
+            "    output varying float gOut,\n"
+            "    output varying float bOut,\n"
+            "    output varying float aOut,\n"
+            "    input varying float rIn,\n"
+            "    input varying float gIn,\n"
+            "    input varying float bIn,\n"
+            "    input varying float aIn = 1.0)\n"
+            "{\n"
+            "    rOut = rIn * 2.0;\n"
+            "    gOut = rIn * 2.0;\n"
+            "    bOut = rIn * 2.0;\n"
+            "    aOut = aIn;\n"
+            "}"
+        )
+        assert ctl_no_description_float == target_no_description
+
 
 class TestTemplateCtlTransformFloat3:
     """
@@ -331,3 +354,28 @@ class TestTemplateCtlTransformFloat3:
             ]
         )
         assert ctl_foo_bar_float3 == target
+
+        ctl_no_description_float3 = template_ctl_transform_float3("rgbIn * 2.0")
+
+        target_no_description = (
+            '// "float3" Processing Function\n\n'
+            "void main\n"
+            "(\n"
+            "    output varying float rOut,\n"
+            "    output varying float gOut,\n"
+            "    output varying float bOut,\n"
+            "    output varying float aOut,\n"
+            "    input varying float rIn,\n"
+            "    input varying float gIn,\n"
+            "    input varying float bIn,\n"
+            "    input varying float aIn = 1.0)\n"
+            "{\n"
+            "    float rgbIn[3] = {rIn, gIn, bIn};\n\n"
+            "    float rgbOut[3] = rgbIn * 2.0;\n\n"
+            "    rOut = rgbOut[0];\n"
+            "    gOut = rgbOut[1];\n"
+            "    bOut = rgbOut[2];\n"
+            "    aOut = aIn;\n"
+            "}"
+        )
+        assert ctl_no_description_float3 == target_no_description

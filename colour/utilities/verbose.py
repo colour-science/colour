@@ -792,7 +792,6 @@ def describe_environment(
     *       coverage : 6.5.0                                                  *
     *       coveralls : 4.0.1                                                 *
     *       invoke : 2.2.0                                                    *
-    *       pre-commit : 3.8.0                                                *
     *       pydata-sphinx-theme : 0.15.4                                      *
     *       pyright : 1.1.382.post1                                           *
     *       pytest : 8.3.3                                                    *
@@ -883,7 +882,6 @@ def describe_environment(
     if development_packages:
         mapping = {
             "biblib.bib": "biblib-simple",
-            "pre_commit": "pre-commit",
             "pydata_sphinx_theme": "pydata-sphinx-theme",
             "pytest_cov": "pytest-cov",
             "pytest_xdist": "pytest-xdist",
@@ -896,7 +894,6 @@ def describe_environment(
             "coveralls",
             "invoke",
             "jupyter",
-            "pre_commit",
             "pydata_sphinx_theme",
             "pyright",
             "pytest",
@@ -912,7 +909,7 @@ def describe_environment(
                 package = mapping.get(package, package)  # noqa: PLW2901
 
                 environment["Development"][package] = version
-            except Exception:  # pragma: no cover  # noqa: BLE001, PERF203, S112
+            except Exception:  # pragma: no cover  # noqa: BLE001, S112
                 continue
 
         environment["Development"].update(ANCILLARY_DEVELOPMENT_PACKAGES)
@@ -925,7 +922,7 @@ def describe_environment(
                 package = mapping.get(package, package)  # noqa: PLW2901
 
                 environment["Extras"][package] = version
-            except Exception:  # pragma: no cover  # noqa: BLE001, PERF203, S112
+            except Exception:  # pragma: no cover  # noqa: BLE001, S112
                 continue
 
         environment["Extras"].update(ANCILLARY_EXTRAS_PACKAGES)

@@ -44,6 +44,13 @@ class TestColourFidelityIndexANSIIESTM3018:
         definition.
         """
 
+        # Test without additional data (returns R_f only)
+        R_f = colour_fidelity_index_ANSIIESTM3018(
+            SDS_ILLUMINANTS["FL2"], additional_data=False
+        )
+        np.testing.assert_allclose(R_f, 70, atol=2e-1)
+
+        # Test with additional data (returns full specification)
         specification = colour_fidelity_index_ANSIIESTM3018(
             SDS_ILLUMINANTS["FL2"], additional_data=True
         )

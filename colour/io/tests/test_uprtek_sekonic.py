@@ -25,7 +25,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 __all__ = [
     "ROOT_RESOURCES",
-    "FixtureAbstractSpectralDistribution",
+    "AbstractTestSpectralDistribution",
     "TestSpectralDistributionUprTek",
     "TestSpectralDistributionSekonic",
 ]
@@ -33,14 +33,15 @@ __all__ = [
 ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
 
-class FixtureAbstractSpectralDistribution:
+class AbstractTestSpectralDistribution:
     """
     Define :class:`colour.SpectralDistribution_UPRTek`,
     :class:`colour.SpectralDistribution_Sekonic` classes common unit tests
     methods.
     """
 
-    def __init__(self) -> None:
+    @pytest.fixture(autouse=True)
+    def setup_fixture_abstract_spectral_distribution(self) -> None:
         """Configure the class instance."""
 
         self._sd_factory: Any = None
@@ -48,12 +49,6 @@ class FixtureAbstractSpectralDistribution:
         self._spectral_data: dict | None = None
         self._prefix: str = ""
         self._header: dict = {}
-
-    @pytest.fixture(autouse=True)
-    def setup_fixture_abstract_spectral_distribution(self) -> None:
-        """Configure the class instance."""
-
-        self.__init__()
 
     def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
@@ -114,8 +109,15 @@ class FixtureAbstractSpectralDistribution:
                     else:
                         assert getattr(sd.header, specification.attribute) == value
 
+        metadata = sd.metadata
+        assert isinstance(metadata, dict)
+        comments = json.loads(sd.header.comments)
+        for key in comments:
+            if key in metadata:
+                assert metadata[key] == comments[key]
 
-class TestSpectralDistributionUprTek(FixtureAbstractSpectralDistribution):
+
+class TestSpectralDistributionUprTek(AbstractTestSpectralDistribution):
     """
     Define :class:`colour.SpectralDistribution_UPRTek` class unit tests
     methods.
@@ -588,7 +590,7 @@ class TestSpectralDistributionUprTek(FixtureAbstractSpectralDistribution):
         self._prefix = "UPRTek"
 
 
-class TestSpectralDistributionSekonic(FixtureAbstractSpectralDistribution):
+class TestSpectralDistributionSekonic(AbstractTestSpectralDistribution):
     """
     Define :class:`colour.SpectralDistribution_Sekonic` class unit tests
     methods.

@@ -6,12 +6,16 @@ import os
 import sys
 import textwrap
 
+import numpy as np
+
 from colour.utilities import (
     MixinLogging,
     as_bool,
     describe_environment,
+    filter_warnings,
     multiline_repr,
     multiline_str,
+    numpy_print_options,
     show_warning,
     suppress_stdout,
     suppress_warnings,
@@ -30,7 +34,9 @@ __all__ = [
     "TestMixinLogging",
     "TestShowWarning",
     "TestSuppressWarnings",
+    "TestFilterWarnings",
     "TestSuppressStdout",
+    "TestNumpyPrintOptions",
     "TestDescribeEnvironment",
     "TestMultilineStr",
     "TestMultilineRepr",
@@ -111,6 +117,33 @@ class TestSuppressWarnings:
             warning("This is a suppressed unit test warning!")
 
 
+class TestFilterWarnings:
+    """
+    Define :func:`colour.utilities.verbose.filter_warnings` definition unit
+    tests methods.
+    """
+
+    def test_filter_warnings(self) -> None:
+        """Test :func:`colour.utilities.verbose.filter_warnings` definition."""
+
+        # Test with string action
+        filter_warnings(colour_warnings="ignore")
+
+        # Test with boolean action (True = ignore)
+        filter_warnings(colour_warnings=True)
+
+        # Test with boolean action (False = default)
+        filter_warnings(colour_warnings=False)
+
+        # Test all warning types
+        filter_warnings(
+            colour_warnings=True,
+            colour_runtime_warnings=True,
+            colour_usage_warnings=True,
+            python_warnings=True,
+        )
+
+
 class TestSuppressStdout:
     """
     Define :func:`colour.utilities.verbose.suppress_stdout` definition unit
@@ -122,6 +155,21 @@ class TestSuppressStdout:
 
         with suppress_stdout():
             print("This is a suppressed message!")  # noqa: T201
+
+
+class TestNumpyPrintOptions:
+    """
+    Define :func:`colour.utilities.verbose.numpy_print_options` definition unit
+    tests methods.
+    """
+
+    def test_numpy_print_options(self) -> None:
+        """Test :func:`colour.utilities.verbose.numpy_print_options` definition."""
+
+        # Test with custom print options
+        with numpy_print_options(formatter={"float": "{:0.1f}".format}):
+            result = np.array2string(np.array([np.pi]))
+            assert "3.1" in result
 
 
 class TestDescribeEnvironment:

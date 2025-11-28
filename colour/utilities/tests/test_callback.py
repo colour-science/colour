@@ -42,10 +42,10 @@ class TestMixinCallback:
 
             value = value.upper()
 
-            if getattr(self, name) != "a":
+            if getattr(self, name) != "a":  # pragma: no cover
                 error = '"self" was not able to retrieve class instance value!'
 
-                raise RuntimeError(error)  # pragma: no cover
+                raise RuntimeError(error)
 
             return value
 

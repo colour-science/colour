@@ -9,6 +9,7 @@ from matplotlib.figure import Figure
 from colour.plotting import (
     plot_planckian_locus_in_chromaticity_diagram_CIE1931,
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS,
+    plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS,
 )
 from colour.plotting.temperature import (
     lines_daylight_locus,
@@ -33,6 +34,7 @@ __all__ = [
     "TestPlotPlanckianLocusInChromaticityDiagram",
     "TestPlotPlanckianLocusInChromaticityDiagramCIE1931",
     "TestPlotPlanckianLocusInChromaticityDiagramCIE1960UCS",
+    "TestPlotPlanckianLocusInChromaticityDiagramCIE1976UCS",
 ]
 
 
@@ -212,6 +214,27 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS` definition.
         """
 
         figure, axes = plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
+            ["A", "B", "C"]
+        )
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+
+class TestPlotPlanckianLocusInChromaticityDiagramCIE1976UCS:
+    """
+    Define :func:`colour.plotting.temperature.\
+plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS` definition unit tests
+    methods.
+    """
+
+    def test_plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS(self) -> None:
+        """
+        Test :func:`colour.plotting.temperature.\
+plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS` definition.
+        """
+
+        figure, axes = plot_planckian_locus_in_chromaticity_diagram_CIE1976UCS(
             ["A", "B", "C"]
         )
 

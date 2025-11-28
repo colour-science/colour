@@ -384,6 +384,21 @@ class TestZCAM_to_XYZ:
             rtol=0.01,
         )
 
+        # Test using C instead of M
+        specification = CAM_Specification_ZCAM(
+            J=82.61980483202505, C=13.194790413382647, h=123.77987744640157
+        )
+        XYZ_w = np.array([2103, 2259, 1401])
+        L_a = 359
+        Y_b = 16
+        surround = VIEWING_CONDITIONS_ZCAM["Dark"]
+        np.testing.assert_allclose(
+            ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
+            np.array([910, 1114, 500]),
+            atol=0.01,
+            rtol=0.01,
+        )
+
     def test_n_dimensional_ZCAM_to_XYZ(self) -> None:
         """
         Tests :func:`colour.appearance.zcam.ZCAM_to_XYZ` definition

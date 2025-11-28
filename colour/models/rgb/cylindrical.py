@@ -56,7 +56,7 @@ import numpy as np
 from colour.algebra import sdiv, sdiv_mode
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Domain1, NDArrayFloat, Range1
+    from colour.hints import Domain1, NDArrayBoolean, NDArrayFloat, Range1
 
 from colour.hints import ArrayLike, cast
 from colour.utilities import as_float_array, from_range_1, to_domain_1, tsplit, tstack
@@ -520,7 +520,7 @@ def HCL_to_RGB(HCL: Domain1, gamma: float = 3, Y_0: float = 100) -> Range1:
     r_n60 = np.radians(-60)
     r_n120 = np.radians(-120)
 
-    def _1_2_3(a: ArrayLike) -> NDArrayFloat:
+    def _1_2_3(a: ArrayLike) -> NDArrayBoolean:
         """Tail-stack specified :math:`a` array as a *bool* dtype."""
 
         return tstack(cast("ArrayLike", [a, a, a]), dtype=np.bool_)

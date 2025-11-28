@@ -103,3 +103,23 @@ class TestProcessImageOpenColorIO:
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # Test scalar input
+        a_scalar = np.array(0.18)
+        result_scalar = process_image_OpenColorIO(
+            a_scalar, "ACES - ACES2065-1", "ACES - ACEScct", config=config
+        )
+        assert isinstance(result_scalar, (float, np.floating))
+        np.testing.assert_allclose(
+            result_scalar, 0.41358781, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        # Test single-channel input
+        a_single = np.array([0.18])
+        result_single = process_image_OpenColorIO(
+            a_single, "ACES - ACES2065-1", "ACES - ACEScct", config=config
+        )
+        assert result_single.shape == (1,)
+        np.testing.assert_allclose(
+            result_single, np.array([0.41358781]), atol=TOLERANCE_ABSOLUTE_TESTS
+        )

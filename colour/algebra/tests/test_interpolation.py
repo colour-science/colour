@@ -31,6 +31,7 @@ from colour.algebra import (
     kernel_sinc,
     lagrange_coefficients,
     random_triplet_generator,
+    table_interpolation,
     table_interpolation_tetrahedral,
     table_interpolation_trilinear,
 )
@@ -1305,7 +1306,7 @@ class TestLinearInterpolator:
             try:
                 linear_interpolator = LinearInterpolator(case, case)
                 linear_interpolator(case[0])
-            except ValueError:  # noqa: PERF203
+            except ValueError:
                 pass
 
 
@@ -1399,7 +1400,7 @@ class TestSpragueInterpolator:
             try:
                 sprague_interpolator = SpragueInterpolator(case, case)
                 sprague_interpolator(case[0])  # pragma: no cover
-            except AssertionError:  # noqa: PERF203
+            except AssertionError:
                 pass
 
 
@@ -1614,7 +1615,7 @@ default` property.
             try:
                 null_interpolator = NullInterpolator(case, case)
                 null_interpolator(case[0])
-            except ValueError:  # noqa: PERF203
+            except ValueError:
                 pass
 
 
@@ -1730,5 +1731,35 @@ table_interpolation_tetrahedral` definition.
                     [0.61272658, 0.92799297, 0.29650424],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+
+class TestTableInterpolation:
+    """
+    Define :func:`colour.algebra.interpolation.table_interpolation`
+    wrapper definition unit tests methods.
+    """
+
+    def test_table_interpolation(self) -> None:
+        """
+        Test :func:`colour.algebra.interpolation.table_interpolation`
+        wrapper definition.
+        """
+
+        prng = np.random.RandomState(4)
+        V_xyz = prng.random_sample((10, 3))
+
+        # Test with "Trilinear" method
+        np.testing.assert_allclose(
+            table_interpolation(V_xyz, LUT_TABLE, method="Trilinear"),
+            table_interpolation_trilinear(V_xyz, LUT_TABLE),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # Test with "Tetrahedral" method
+        np.testing.assert_allclose(
+            table_interpolation(V_xyz, LUT_TABLE, method="Tetrahedral"),
+            table_interpolation_tetrahedral(V_xyz, LUT_TABLE),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

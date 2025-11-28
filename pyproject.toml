@@ -3,7 +3,7 @@ name = "colour-science"
 version = "0.4.6"
 description = "Colour Science for Python"
 readme = "README.rst"
-requires-python = ">=3.10,<3.14"
+requires-python = ">=3.11,<3.15"
 authors = [
     { name = "Colour Developers", email = "colour-developers@colour-science.org" },
 ]
@@ -54,11 +54,11 @@ optional = [
     "imageio>=2,<3",
     "matplotlib>=3.9",
     "networkx>=3.3,<4",
-    "opencolorio>=2,<3",
+    "opencolorio>=2,<3; python_version < '3.14'",
     "openimageio>=3,<4",
     "pandas>=2.2,<3",
     "pydot>=3,<4",
-    "scipy>=1.12.0,<2",
+    "scipy>=1.13.0,<2",
     "tqdm>=4,<5",
     "xxhash>=3,<4",
 ]
@@ -82,13 +82,15 @@ Changelog = "https://github.com/colour-science/colour/releases"
 
 [tool.uv]
 package = true
-dev-dependencies = [
+
+[dependency-groups]
+dev = [
     "coverage",
     "coveralls",
     "hatch",
     "invoke",
     "jupyter",
-    "pre-commit",
+    "prek",
     "pyright",
     "pytest",
     "pytest-cov<7.0.0",
@@ -148,7 +150,7 @@ filterwarnings = [
 ]
 
 [tool.ruff]
-target-version = "py310"
+target-version = "py311"
 line-length = 88
 select = ["ALL"]
 ignore = [

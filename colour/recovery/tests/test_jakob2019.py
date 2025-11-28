@@ -292,6 +292,20 @@ class TestLUT3D_Jakob2019:
 
         assert TestLUT3D_Jakob2019.generate_LUT().coefficients.shape == (3, 5, 5, 5, 3)
 
+    def test_interpolator(self) -> None:
+        """
+        Test :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.interpolator`
+        property.
+        """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
+        from scipy.interpolate import RegularGridInterpolator  # noqa: PLC0415
+
+        interpolator = TestLUT3D_Jakob2019.generate_LUT().interpolator
+        assert isinstance(interpolator, RegularGridInterpolator)
+
     def test_LUT3D_Jakob2019(self) -> None:
         """
         Test the entirety of the

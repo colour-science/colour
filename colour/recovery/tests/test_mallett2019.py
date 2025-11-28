@@ -45,7 +45,10 @@ __all__ = [
 class FixtureMallett2019:
     """A fixture for testing the :mod:`colour.recovery.mallett2019` module."""
 
-    def __init__(self) -> None:
+    @pytest.fixture(autouse=True)
+    def setup_fixture_Mallett2019(self) -> None:
+        """Configure the class instance."""
+
         self._basis = MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
         self._RGB_colourspace = RGB_COLOURSPACE_sRGB
         self._cmfs = reshape_msds(
@@ -54,12 +57,6 @@ class FixtureMallett2019:
         )
         self._sd_D65 = reshape_sd(SDS_ILLUMINANTS["D65"], self._cmfs.shape)
         self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
-
-    @pytest.fixture(autouse=True)
-    def setup_fixture_mallett_2019(self) -> None:
-        """Configure the class instance."""
-
-        self.__init__()
 
     def check_basis_functions(self) -> None:
         """
@@ -107,8 +104,6 @@ spectral_primary_decomposition_Mallett2019` definition unit tests methods.
     def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
-        FixtureMallett2019.__init__(self)
-
         self._RGB_colourspace = RGB_COLOURSPACE_PAL_SECAM
 
     def test_spectral_primary_decomposition_Mallett2019(self) -> None:
@@ -123,6 +118,15 @@ test_spectral_primary_decomposition_Mallett2019` definition.
 
         self.check_basis_functions()
 
+        self._basis = spectral_primary_decomposition_Mallett2019(
+            self._RGB_colourspace,
+            self._cmfs,
+            self._sd_D65,
+            optimisation_kwargs={"options": {"maxiter": 10}},
+        )
+
+        self.check_basis_functions()
+
 
 class TestRGB_to_sd_Mallett2019(FixtureMallett2019):
     """
@@ -132,8 +136,6 @@ class TestRGB_to_sd_Mallett2019(FixtureMallett2019):
 
     def setup_method(self) -> None:
         """Initialise the common tests attributes."""
-
-        FixtureMallett2019.__init__(self)
 
         self._RGB_colourspace = RGB_COLOURSPACE_sRGB
         self._basis = MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
