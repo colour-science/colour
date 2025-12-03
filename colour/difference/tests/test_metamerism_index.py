@@ -1,11 +1,11 @@
-"""Define the unit tests for the :mod:`colour.difference.metamerism` module."""
+"""Define the unit tests for the :mod:`colour.difference.metamerism_index` module."""
 
 from __future__ import annotations
 
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.difference.metamerism import (
+from colour.difference.metamerism_index import (
     Lab_to_metamerism_index,
     XYZ_to_metamerism_index,
 )
@@ -26,13 +26,13 @@ __all__ = [
 
 class TestLab_to_Metamerism_Index:
     """
-    Define :func:`colour.difference.metamerism.Lab_to_metamerism_index`
+    Define :func:`colour.difference.metamerism_index.Lab_to_metamerism_index`
     definition unit tests methods.
     """
 
     def test_domain_range_scale_Lab_to_metamerism_index(self) -> None:
         """
-        Test :func:`colour.difference.metamerism.Lab_to_metamerism_index`
+        Test :func:`colour.difference.metamerism_index.Lab_to_metamerism_index`
         definition domain and range scale support.
         """
 
@@ -78,13 +78,13 @@ class TestLab_to_Metamerism_Index:
 
 class TestXYZ_to_Metamerism_Index:
     """
-    Define :func:`colour.difference.metamerism.XYZ_to_metamerism_index`
+    Define :func:`colour.difference.metamerism_index.XYZ_to_metamerism_index`
     definition unit tests methods.
     """
 
     def test_domain_range_scale_XYZ_to_metamerism_index(self) -> None:
         """
-        Test :func:`colour.difference.metamerism.XYZ_to_metamerism_index`
+        Test :func:`colour.difference.metamerism_index.XYZ_to_metamerism_index`
         definition domain and range scale support.
         """
 
