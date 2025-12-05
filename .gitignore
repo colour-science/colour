@@ -26,6 +26,7 @@ references/
 __pycache__
 
 # Project Files
+AGraph.png
 docs/_static/Basics_*.png
 docs/_static/Examples_*.png
 docs/_static/Plotting_*.png
