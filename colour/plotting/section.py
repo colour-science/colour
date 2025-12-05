@@ -424,7 +424,7 @@ def plot_visible_spectrum_section(
     Plot the visible spectrum volume section colours along the specified axis
     and origin.
 
-    The visible spectrum volume represents the *Rösch-MacAdam* colour solid.
+    The visible spectrum volume represents the *Rösch-MacAdam* colour solid.
 
     Parameters
     ----------

@@ -6,7 +6,7 @@ Define the *Kruskal's Standardized Residual Sum of Squares (:math:`STRESS`)*
 index:
 
 -   :func:`colour.index_stress_Garcia2007`: :math:`STRESS` index computation
-    according to *García, Huertas, Melgosa and Cui (2007)* method.
+    according to *García, Huertas, Melgosa and Cui (2007)* method.
 -   :func:`colour.index_stress`: *lightness* :math:`STRESS` index computation
     using the specified method.
 
@@ -48,7 +48,7 @@ __all__ = [
 def index_stress_Garcia2007(d_E: ArrayLike, d_V: ArrayLike) -> NDArrayFloat:
     """
     Compute the *Kruskal's Standardized Residual Sum of Squares
-    (:math:`STRESS`)* index according to the *García, Huertas, Melgosa and
+    (:math:`STRESS`)* index according to the *García, Huertas, Melgosa and
     Cui (2007)* method.
 
     Parameters

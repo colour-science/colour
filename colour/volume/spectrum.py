@@ -1,8 +1,8 @@
 """
-Rösch-MacAdam Colour Solid - Visible Spectrum Volume Computations
+Rösch-MacAdam Colour Solid - Visible Spectrum Volume Computations
 =================================================================
 
-Define objects for computing and analyzing the *Rösch-MacAdam* colour
+Define objects for computing and analyzing the *Rösch-MacAdam* colour
 solid and visible spectrum volume boundaries.
 
 References
@@ -83,7 +83,7 @@ def generate_pulse_waves(
 ) -> NDArrayFloat:
     """
     Generate pulse waves of the specified number of bins necessary to fully
-    stimulate the colour matching functions and produce the *Rösch-MacAdam*
+    stimulate the colour matching functions and produce the *Rösch-MacAdam*
     colour solid.
 
     Assuming 5 bins, a first set of SPDs would be as follows::
@@ -254,7 +254,7 @@ def XYZ_outer_surface(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Generate the *Rösch-MacAdam* colour solid, i.e., *CIE XYZ*
+    Generate the *Rösch-MacAdam* colour solid, i.e., *CIE XYZ*
     colourspace outer surface, for the specified colour matching functions
     using multi-spectral conversion of pulse waves to *CIE XYZ*
     tristimulus values.
@@ -268,7 +268,7 @@ def XYZ_outer_surface(
         Illuminant spectral distribution, default to *CIE Illuminant E*.
     point_order
         Method for ordering the underlying pulse waves used to generate
-        the *Rösch-MacAdam* colour solid. *Bins* is the default order,
+        the *Rösch-MacAdam* colour solid. *Bins* is the default order,
         with *Pulse Wave Width* ordering, instead of iterating over the
         pulse wave widths first, iteration occurs over the bins,
         producing blocks of pulse waves with increasing width.
@@ -301,7 +301,7 @@ def XYZ_outer_surface(
     Returns
     -------
     :class:`numpy.ndarray`
-        *Rösch-MacAdam* colour solid, *CIE XYZ* outer surface
+        *Rösch-MacAdam* colour solid, *CIE XYZ* outer surface
         tristimulus values.
 
     References
@@ -399,7 +399,7 @@ def is_within_visible_spectrum(
 ) -> NDArrayFloat:
     """
     Determine whether the specified *CIE XYZ* tristimulus values are within the
-    visible spectrum volume (*Rösch-MacAdam* colour solid) for the specified
+    visible spectrum volume (*Rösch-MacAdam* colour solid) for the specified
     colour matching functions and illuminant.
 
     Parameters
@@ -424,7 +424,7 @@ def is_within_visible_spectrum(
     -------
     :class:`numpy.ndarray`
         Boolean array indicating whether *CIE XYZ* tristimulus values are
-        within the visible spectrum volume (*Rösch-MacAdam* colour solid).
+        within the visible spectrum volume (*Rösch-MacAdam* colour solid).
 
     Notes
     -----
