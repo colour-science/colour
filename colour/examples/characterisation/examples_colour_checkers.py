@@ -29,8 +29,8 @@ message_box(
     '"ColorChecker 2005" colour rendition chart chromaticity coordinates data:\n\n'
     '\t("Patch Number", "Patch Name", "xyY")'
 )
-name, data, illuminant, rows, columns = colour.CCS_COLOURCHECKERS["ColorChecker 2005"]
-for name, xyY in data.items():
+colour_checker = colour.CCS_COLOURCHECKERS["ColorChecker 2005"]
+for name, xyY in colour_checker.data.items():
     print(name, xyY)
 
 print("\n")
@@ -40,11 +40,11 @@ message_box(
     'colourspace values to "sRGB" colourspace "RGB" values:\n\n'
     '\t("Patch Name", ["R", "G", "B"])'
 )
-for name, xyY in data.items():
+for name, xyY in colour_checker.data.items():
     RGB = colour.XYZ_to_RGB(
         colour.xyY_to_XYZ(xyY),
         colour.RGB_COLOURSPACES["sRGB"],
-        illuminant,
+        colour_checker.illuminant,
         "Bradford",
         apply_cctf_encoding=True,
     )

@@ -14,7 +14,7 @@ message_box("Spectral Uniformity (or Flatness) Computations")
 
 message_box('Computing the spectral uniformity of the "CRI" test colour samples.')
 
-print(colour.spectral_uniformity(list(SDS_TCS.values())))
+print(colour.spectral_uniformity(list(SDS_TCS["CIE 1995"].values())))
 
 print("\n")
 
