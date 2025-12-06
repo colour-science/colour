@@ -2,12 +2,21 @@
 
 from __future__ import annotations
 
+import sys
+
+import pytest
+
+if sys.version_info >= (3, 14, 1):
+    pytest.skip(
+        "networkx 3.6 is incompatible with Python 3.14.1+",
+        allow_module_level=True,
+    )
+
 import re
 import typing
 
 import networkx as nx
 import numpy as np
-import pytest
 
 if typing.TYPE_CHECKING:
     from colour.hints import Any

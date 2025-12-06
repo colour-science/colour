@@ -2,15 +2,26 @@
 
 from __future__ import annotations
 
+import sys
+
 import numpy as np
 import pytest
 
-from colour.characterisation import SDS_COLOURCHECKERS
-from colour.colorimetry import CCS_ILLUMINANTS, SDS_ILLUMINANTS
-from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.graph import convert, describe_conversion_path
-from colour.models import COLOURSPACE_MODELS, RGB_COLOURSPACE_ACES2065_1, XYZ_to_Lab
-from colour.utilities import get_domain_range_scale_metadata
+pytestmark = pytest.mark.skipif(
+    sys.version_info >= (3, 14, 1),
+    reason="networkx 3.6 is incompatible with Python 3.14.1+",
+)
+
+from colour.characterisation import SDS_COLOURCHECKERS  # noqa: E402
+from colour.colorimetry import CCS_ILLUMINANTS, SDS_ILLUMINANTS  # noqa: E402
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS  # noqa: E402
+from colour.graph import convert, describe_conversion_path  # noqa: E402
+from colour.models import (  # noqa: E402
+    COLOURSPACE_MODELS,
+    RGB_COLOURSPACE_ACES2065_1,
+    XYZ_to_Lab,
+)
+from colour.utilities import get_domain_range_scale_metadata  # noqa: E402
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
