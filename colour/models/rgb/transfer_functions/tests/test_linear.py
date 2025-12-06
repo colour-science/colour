@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.linear` module.
 """
 
-
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -28,7 +27,7 @@ class TestLinearFunction:
 linear_function` definition unit tests methods.
     """
 
-    def test_linear_function(self):
+    def test_linear_function(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.linear.\
 linear_function` definition.
@@ -40,7 +39,7 @@ linear_function` definition.
 
         assert linear_function(1.0) == 1.0
 
-    def test_n_dimensional_linear_function(self):
+    def test_n_dimensional_linear_function(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.linear.\
 linear_function` definition n-dimensional arrays support.
@@ -68,7 +67,7 @@ linear_function` definition n-dimensional arrays support.
         )
 
     @ignore_numpy_errors
-    def test_nan_linear_function(self):
+    def test_nan_linear_function(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.linear.\
 linear_function` definition nan support.

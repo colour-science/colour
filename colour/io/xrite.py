@@ -2,7 +2,7 @@
 X-Rite Data Input
 =================
 
-Define the input object for *X-Rite* spectral data files:
+Define input functionality for X-Rite spectral data files.
 
 -   :func:`colour.read_sds_from_xrite_file`
 """
@@ -11,10 +11,12 @@ from __future__ import annotations
 
 import codecs
 import re
-from pathlib import Path
+import typing
 
 from colour.colorimetry import SpectralDistribution
-from colour.hints import Dict
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Dict, PathLike
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -32,10 +34,10 @@ XRITE_FILE_ENCODING: str = "utf-8"
 
 
 def read_sds_from_xrite_file(
-    path: str | Path,
+    path: str | PathLike,
 ) -> Dict[str, SpectralDistribution]:
     """
-    Read the spectral data from given *X-Rite* file and returns it as a
+    Read spectral data from the specified *X-Rite* file and convert it to a
     *dict* of :class:`colour.SpectralDistribution` class instances.
 
     Parameters
@@ -47,6 +49,11 @@ def read_sds_from_xrite_file(
     -------
     :class:`dict`
         *dict* of :class:`colour.SpectralDistribution` class instances.
+
+    Raises
+    ------
+    IOError
+        If the file cannot be read.
 
     Notes
     -----

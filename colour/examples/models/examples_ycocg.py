@@ -1,4 +1,9 @@
-"""Showcase *YCoCg* *colour encoding* computations."""
+"""
+Demonstrate *YCoCg* colour encoding computations.
+
+This module provides examples of conversions between RGB colourspaces
+and *YCoCg* colour encoding.
+"""
 
 import numpy as np
 

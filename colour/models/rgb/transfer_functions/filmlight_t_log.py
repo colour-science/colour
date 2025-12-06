@@ -2,7 +2,7 @@
 FilmLight T-Log Log Encoding
 ============================
 
-Define the *FilmLight T-Log* log encoding:
+Define the *FilmLight T-Log* log encoding.
 
 -   :func:`colour.models.log_encoding_FilmLightTLog`
 -   :func:`colour.models.log_decoding_FilmLightTLog`
@@ -17,7 +17,10 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -34,24 +37,24 @@ __all__ = [
 
 
 def log_encoding_FilmLightTLog(
-    x: ArrayLike,
+    x: Domain1,
     w: float = 128.0,
     g: float = 16.0,
     o: float = 0.075,
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Define the *FilmLight T-Log* log encoding curve.
+    Apply the *FilmLight T-Log* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     x
-        Linear reflection data :math`x`.
+        Linear reflection data :math:`x`.
     w
-        Value of :math:`x` for :math:`t = 1.0`.
+        Value of :math:`x` for which :math:`t = 1.0`.
     g
         Gradient at :math:`x = 0.0`.
     o
-        Value of :math:`t` for :math:`x = 0.0`.
+        Value of :math:`t` at :math:`x = 0.0`.
 
     Returns
     -------
@@ -67,13 +70,13 @@ def log_encoding_FilmLightTLog(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``t``      | [0, 1]                | [0, 1]        |
+    | ``t``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     -   The following is an excerpt from the FilmLight colour space file
@@ -128,29 +131,31 @@ def log_encoding_FilmLightTLog(
 
 
 def log_decoding_FilmLightTLog(
-    t: ArrayLike,
+    t: Domain1,
     w: float = 128.0,
     g: float = 16.0,
     o: float = 0.075,
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Define the *FilmLight T-Log* log decoding curve.
+    Apply the *FilmLight T-Log* log decoding inverse opto-electronic transfer
+
+    function (OETF).
 
     Parameters
     ----------
     t
-        Non-linear data :math:`t`.
+        *FilmLight T-Log* encoded data :math:`t`.
     w
-        Value of :math:`x` for :math:`t = 1.0`.
+        Value of :math:`x` for which :math:`t = 1.0`.
     g
         Gradient at :math:`x = 0.0`.
     o
-        Value of :math:`t` for :math:`x = 0.0`.
+        Value of :math:`t` at :math:`x = 0.0`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Linear reflection data :math`x`.
+        Linear reflection data :math:`x`.
 
     References
     ----------
@@ -161,13 +166,13 @@ def log_decoding_FilmLightTLog(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``t``      | [0, 1]                | [0, 1]        |
+    | ``t``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     -   The following is an excerpt from the FilmLight colour space file

@@ -1,20 +1,15 @@
 """Define the unit tests for the :mod:`colour.plotting.section` module."""
 
+from __future__ import annotations
 
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
 from colour.geometry import primitive_cube
 from colour.models import RGB_COLOURSPACE_sRGB, RGB_to_XYZ
-from colour.plotting import (
-    plot_RGB_colourspace_section,
-    plot_visible_spectrum_section,
-)
-from colour.plotting.section import (
-    plot_hull_section_colours,
-    plot_hull_section_contour,
-)
-from colour.utilities import is_trimesh_installed
+from colour.plotting import plot_RGB_colourspace_section, plot_visible_spectrum_section
+from colour.plotting.section import plot_hull_section_colours, plot_hull_section_contour
+from colour.utilities import is_scipy_installed, is_trimesh_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -37,7 +32,7 @@ class TestPlotHullSectionColours:
     definition unit tests methods.
     """
 
-    def test_plot_hull_section_colours(self):
+    def test_plot_hull_section_colours(self) -> None:
         """
         Test :func:`colour.plotting.section.plot_hull_section_colours`
         definition.
@@ -46,7 +41,7 @@ class TestPlotHullSectionColours:
         if not is_trimesh_installed():  # pragma: no cover
             return
 
-        import trimesh
+        import trimesh  # noqa: PLC0415
 
         vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
         XYZ_vertices = RGB_to_XYZ(vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB)
@@ -74,7 +69,7 @@ class TestPlotHullSectionContour:
     definition unit tests methods.
     """
 
-    def test_plot_hull_section_contour(self):
+    def test_plot_hull_section_contour(self) -> None:
         """
         Test :func:`colour.plotting.section.plot_hull_section_contour`
         definition.
@@ -83,7 +78,7 @@ class TestPlotHullSectionContour:
         if not is_trimesh_installed():  # pragma: no cover
             return
 
-        import trimesh
+        import trimesh  # noqa: PLC0415
 
         vertices, faces, _outline = primitive_cube(1, 1, 1, 64, 64, 64)
         XYZ_vertices = RGB_to_XYZ(vertices["position"] + 0.5, RGB_COLOURSPACE_sRGB)
@@ -101,11 +96,14 @@ class TestPlotVisibleSpectrumSection:
     definition unit tests methods.
     """
 
-    def test_plot_visible_spectrum_section(self):
+    def test_plot_visible_spectrum_section(self) -> None:
         """
         Test :func:`colour.plotting.section.plot_visible_spectrum_section`
         definition.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         if not is_trimesh_installed():  # pragma: no cover
             return
@@ -122,7 +120,7 @@ class TestPlotRGBColourspaceSection:
     definition unit tests methods.
     """
 
-    def test_plot_RGB_colourspace_section(self):
+    def test_plot_RGB_colourspace_section(self) -> None:
         """
         Test :func:`colour.plotting.section.plot_RGB_colourspace_section`
         definition.

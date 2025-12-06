@@ -2,7 +2,7 @@
 Common Colour Models Utilities
 ==============================
 
-Define various colour models common utilities:
+Define utilities for common colour models and transformations.
 
 -   :attr:`colour.COLOURSPACE_MODELS`
 -   :func:`colour.models.Jab_to_JCh`
@@ -19,10 +19,22 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian, vecmul
-from colour.hints import ArrayLike, Callable, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Callable
+
+from colour.hints import (  # noqa: TC001
+    Annotated,
+    ArrayLike,
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.utilities import (
     CanonicalMapping,
     attest,
@@ -33,10 +45,7 @@ from colour.utilities import (
     tsplit,
     tstack,
 )
-from colour.utilities.documentation import (
-    DocstringTuple,
-    is_documentation_building,
-)
+from colour.utilities.documentation import DocstringTuple, is_documentation_building
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -54,7 +63,6 @@ __all__ = [
     "XYZ_to_Iab",
     "Iab_to_XYZ",
 ]
-
 
 COLOURSPACE_MODELS: tuple = (
     "CAM02LCD",
@@ -74,6 +82,8 @@ COLOURSPACE_MODELS: tuple = (
     "CIE xyY",
     "DIN99",
     "HCL",
+    "hdr-CIELAB",
+    "hdr-IPT",
     "HSL",
     "HSV",
     "Hunter Lab",
@@ -88,11 +98,10 @@ COLOURSPACE_MODELS: tuple = (
     "OSA UCS",
     "Oklab",
     "RGB",
+    "sUCS",
     "YCbCr",
     "YCoCg",
     "Yrg",
-    "hdr-CIELAB",
-    "hdr-IPT",
 )
 if is_documentation_building():  # pragma: no cover
     COLOURSPACE_MODELS = DocstringTuple(COLOURSPACE_MODELS)
@@ -120,6 +129,8 @@ COLOURSPACE_MODELS_AXIS_LABELS: CanonicalMapping = CanonicalMapping(
         "CIE xyY": ("x", "y", "Y"),
         "DIN99": ("$L_{99}$", "$a_{99}$", "$b_{99}$"),
         "HCL": ("H", "C", "L"),
+        "hdr-CIELAB": ("L hdr", "a hdr", "b hdr"),
+        "hdr-IPT": ("I hdr", "P hdr", "T hdr"),
         "HSL": ("H", "S", "L"),
         "HSV": ("H", "S", "V"),
         "Hunter Lab": ("$L^*$", "$a^*$", "$b^*$"),
@@ -134,11 +145,10 @@ COLOURSPACE_MODELS_AXIS_LABELS: CanonicalMapping = CanonicalMapping(
         "OSA UCS": ("L", "j", "g"),
         "Oklab": ("$L$", "$a$", "$b$"),
         "RGB": ("R", "G", "B"),
+        "sUCS": ("I", "a", "b"),
         "YCbCr": ("Y", "$C_b$", "$C_r$"),
         "YCoCg": ("Y", "$C_o$", "$C_g$"),
         "Yrg": ("Y", "r", "g"),
-        "hdr-CIELAB": ("L hdr", "a hdr", "b hdr"),
-        "hdr-IPT": ("I hdr", "P hdr", "T hdr"),
     }
 )
 """Colourspace models labels mapping."""
@@ -155,7 +165,7 @@ COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: CanonicalMapping = (
             "CAM16SCD": np.array([100, 100, 100]),
             "CAM16UCS": np.array([100, 100, 100]),
             "CIE 1931": np.array([1, 1, 1]),
-            "CIE 1960 UCS": np.array([1, 1, 100]),
+            "CIE 1960 UCS": np.array([1, 1, 1]),
             "CIE 1976 UCS": np.array([1, 1, 100]),
             "CIE Lab": np.array([100, 100, 100]),
             "CIE Luv": np.array([100, 100, 100]),
@@ -165,6 +175,8 @@ COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: CanonicalMapping = (
             "CIE xyY": np.array([1, 1, 1]),
             "DIN99": np.array([100, 100, 100]),
             "HCL": np.array([1, 1, 1]),
+            "hdr-CIELAB": np.array([100, 100, 100]),
+            "hdr-IPT": np.array([100, 100, 100]),
             "HSL": np.array([1, 1, 1]),
             "HSV": np.array([1, 1, 1]),
             "Hunter Lab": np.array([100, 100, 100]),
@@ -179,27 +191,25 @@ COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE: CanonicalMapping = (
             "OSA UCS": np.array([100, 100, 100]),
             "Oklab": np.array([1, 1, 1]),
             "RGB": np.array([1, 1, 1]),
+            "sUCS": np.array([100, 100, 100]),
             "YCbCr": np.array([1, 1, 1]),
             "YCoCg": np.array([1, 1, 1]),
             "Yrg": np.array([1, 1, 1]),
-            "hdr-CIELAB": np.array([100, 100, 100]),
-            "hdr-IPT": np.array([100, 100, 100]),
         }
     )
 )
 """Colourspace models domain-range scale **'1'** to **'Reference'** mapping."""
 
 
-def Jab_to_JCh(Jab: ArrayLike) -> NDArrayFloat:
+def Jab_to_JCh(Jab: Domain1) -> Annotated[NDArrayFloat, (1, 1, 360)]:
     """
     Convert from *Jab* colour representation to *JCh* colour representation.
 
-    This definition is used to perform conversion from *CIE L\\*a\\*b\\**
-    colourspace to *CIE L\\*C\\*Hab* colourspace and for other similar
-    conversions. It implements a generic transformation from *Lightness*
-    :math:`J`, :math:`a` and :math:`b` opponent colour dimensions to the
-    correlates of *Lightness* :math:`J`, chroma :math:`C` and hue angle
-    :math:`h`.
+    This definition performs conversion from *CIE L\\*a\\*b\\** colourspace to
+    *CIE L\\*C\\*Hab* colourspace and other similar conversions. It implements
+    a generic transformation from *lightness* :math:`J`, :math:`a` and
+    :math:`b` opponent colour dimensions to the correlates of *lightness*
+    :math:`J`, chroma :math:`C` and hue angle :math:`h`.
 
     Parameters
     ----------
@@ -216,21 +226,17 @@ def Jab_to_JCh(Jab: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Jab``    | ``J`` : [0, 100]      | ``J`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    | ``Jab``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``JCh``    | ``J``  : [0, 100]     | ``J`` : [0, 1]  |
+    | ``JCh``    | ``J``  : 1            | ``J`` : 1       |
     |            |                       |                 |
-    |            | ``C``  : [0, 100]     | ``C`` : [0, 1]  |
+    |            | ``C``  : 1            | ``C`` : 1       |
     |            |                       |                 |
-    |            | ``h`` : [0, 360]      | ``h`` : [0, 1]  |
+    |            | ``h`` : 360           | ``h`` : 1       |
     +------------+-----------------------+-----------------+
 
     References
@@ -246,22 +252,22 @@ def Jab_to_JCh(Jab: ArrayLike) -> NDArrayFloat:
 
     L, a, b = tsplit(Jab)
 
-    C, H = tsplit(cartesian_to_polar(tstack([a, b])))
+    C, h = tsplit(cartesian_to_polar(tstack([a, b])))
 
-    JCh = tstack([L, C, from_range_degrees(np.degrees(H) % 360)])
-
-    return JCh
+    return tstack([L, C, from_range_degrees(np.degrees(h) % 360)])
 
 
-def JCh_to_Jab(JCh: ArrayLike) -> NDArrayFloat:
+def JCh_to_Jab(
+    JCh: Annotated[ArrayLike, (1, 1, 360)],
+) -> Range1:
     """
     Convert from *JCh* colour representation to *Jab* colour representation.
 
-    This definition is used to perform conversion from *CIE L\\*C\\*Hab*
-    colourspace to *CIE L\\*a\\*b\\** colourspace and for other similar
-    conversions. It implements a generic transformation from the correlates of
-    *Lightness* :math:`J`, chroma :math:`C` and hue angle :math:`h` to
-    *Lightness* :math:`J`, :math:`a` and :math:`b` opponent colour dimensions.
+    This definition performs conversion from *CIE L\\*C\\*Hab* colourspace to
+    *CIE L\\*a\\*b\\**  colourspace and other similar conversions. It implements
+    a generic transformation from the correlates of *lightness* :math:`J`,
+    chroma :math:`C` and hue angle :math:`h` to *lightness* :math:`J`,
+    :math:`a` and :math:`b` opponent colour dimensions
 
     Parameters
     ----------
@@ -278,21 +284,17 @@ def JCh_to_Jab(JCh: ArrayLike) -> NDArrayFloat:
     +-------------+-----------------------+-----------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1**   |
     +=============+=======================+=================+
-    | ``JCh``     | ``J``  : [0, 100]     | ``J``  : [0, 1] |
+    | ``JCh``     | ``J``  : 1            | ``J``  : 1      |
     |             |                       |                 |
-    |             | ``C``  : [0, 100]     | ``C``  : [0, 1] |
+    |             | ``C``  : 1            | ``C``  : 1      |
     |             |                       |                 |
-    |             | ``h`` : [0, 360]      | ``h`` : [0, 1]  |
+    |             | ``h`` : 360           | ``h`` : 1       |
     +-------------+-----------------------+-----------------+
 
     +-------------+-----------------------+-----------------+
     | **Range**   | **Scale - Reference** | **Scale - 1**   |
     +=============+=======================+=================+
-    | ``Jab``     | ``J`` : [0, 100]      | ``J`` : [0, 1]  |
-    |             |                       |                 |
-    |             | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
-    |             |                       |                 |
-    |             | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    | ``Jab``     | 1                     | 1               |
     +-------------+-----------------------+-----------------+
 
     References
@@ -306,32 +308,29 @@ def JCh_to_Jab(JCh: ArrayLike) -> NDArrayFloat:
     array([ 41.5278752...,  52.6385830...,  26.9231792...])
     """
 
-    L, C, H = tsplit(JCh)
+    L, C, h = tsplit(JCh)
 
-    a, b = tsplit(polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(H))])))
+    a, b = tsplit(polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(h))])))
 
-    Jab = tstack([L, a, b])
-
-    return Jab
+    return tstack([L, a, b])
 
 
 def XYZ_to_Iab(
-    XYZ: ArrayLike,
+    XYZ: Domain1,
     LMS_to_LMS_p_callable: Callable,
     matrix_XYZ_to_LMS: ArrayLike,
     matrix_LMS_p_to_Iab: ArrayLike,
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Convert from *CIE XYZ* tristimulus values to *IPT*-like :math:`Iab` colour
-    representation.
+    Convert from *CIE XYZ* tristimulus values to *IPT*-like :math:`Iab`
+    colour representation.
 
-    This definition is used to perform conversion from *CIE XYZ* tristimulus
-    values to *IPT* colourspace and for other similar conversions. It
-    implements a generic transformation from *CIE XYZ* tristimulus values to
-    *Lightness* :math:`I`, :math:`a` and :math:`b` representing
-    red-green dimension, i.e., the dimension lost by protanopes and
-    the yellow-blue dimension, i.e., the dimension lost by tritanopes,
-    respectively.
+    Perform conversion from *CIE XYZ* tristimulus values to *IPT*
+    colourspace and other similar conversions. It implements a generic
+    transformation from *CIE XYZ* tristimulus values to *lightness*
+    :math:`I`, :math:`a` representing the red-green dimension (the
+    dimension lost by protanopes), and :math:`b` representing the
+    yellow-blue dimension (the dimension lost by tritanopes).
 
     Parameters
     ----------
@@ -341,8 +340,8 @@ def XYZ_to_Iab(
         Callable applying the forward non-linearity to the :math:`LMS`
         colourspace array.
     matrix_XYZ_to_LMS
-        Matrix converting from *CIE XYZ* tristimulus values to :math:`LMS`
-        colourspace.
+        Matrix converting from *CIE XYZ* tristimulus values to
+        :math:`LMS` colourspace.
     matrix_LMS_p_to_Iab
         Matrix converting from non-linear :math:`LMS_p` colourspace to
         *IPT*-like :math:`Iab` colour representation.
@@ -357,17 +356,13 @@ def XYZ_to_Iab(
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Iab``    | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``a`` : [-1, 1]       | ``a`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``b`` : [-1, 1]       | ``b`` : [-1, 1] |
+    | ``Iab``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     Examples
@@ -403,21 +398,21 @@ def XYZ_to_Iab(
 
 
 def Iab_to_XYZ(
-    Iab: ArrayLike,
+    Iab: Domain1,
     LMS_p_to_LMS_callable: Callable,
     matrix_Iab_to_LMS_p: ArrayLike,
     matrix_LMS_to_XYZ: ArrayLike,
-) -> NDArrayFloat:
+) -> Range1:
     """
     Convert from *IPT*-like :math:`Iab` colour representation to *CIE XYZ*
     tristimulus values.
 
-    This definition is used to perform conversion from *IPT* colourspace to
-    *CIE XYZ* tristimulus values and for other similar conversions. It
-    implements a generic transformation from *Lightness* :math:`I`, :math:`a`
-    and :math:`b` representing red-green dimension, i.e., the dimension lost by
-    protanopes and the yellow-blue dimension, i.e., the dimension lost by
-    tritanopes, respectively to *CIE XYZ* tristimulus values.
+    Perform conversion from *IPT* colourspace to *CIE XYZ* tristimulus
+    values and other similar conversions. It implements a generic
+    transformation from *lightness* :math:`I`, :math:`a` representing the
+    red-green dimension (the dimension lost by protanopes), and :math:`b`
+    representing the yellow-blue dimension (the dimension lost by tritanopes)
+    to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -427,11 +422,11 @@ def Iab_to_XYZ(
         Callable applying the reverse non-linearity to the :math:`LMS_p`
         colourspace array.
     matrix_Iab_to_LMS_p
-        Matrix converting from *IPT*-like :math:`Iab` colour representation to
-        non-linear :math:`LMS_p` colourspace.
+        Matrix converting from *IPT*-like :math:`Iab` colour
+        representation to non-linear :math:`LMS_p` colourspace.
     matrix_LMS_to_XYZ
-        Matrix converting from :math:`LMS` colourspace to *CIE XYZ* tristimulus
-        values.
+        Matrix converting from :math:`LMS` colourspace to *CIE XYZ*
+        tristimulus values.
 
     Returns
     -------
@@ -443,17 +438,13 @@ def Iab_to_XYZ(
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Iab``    | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``a`` : [-1, 1]       | ``a`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``b`` : [-1, 1]       | ``b`` : [-1, 1] |
+    | ``Iab``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     Examples

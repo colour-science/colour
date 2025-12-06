@@ -17,9 +17,12 @@ References
 
 from __future__ import annotations
 
-from pathlib import Path
+import typing
 
 import numpy as np
+
+if typing.TYPE_CHECKING:
+    from colour.hints import PathLike
 
 from colour.io.luts import LUT1D, LUT3D, LUT3x1D, LUTSequence
 from colour.io.luts.common import path_to_title
@@ -44,21 +47,26 @@ __all__ = [
 ]
 
 
-def read_LUT_ResolveCube(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
+def read_LUT_ResolveCube(path: str | PathLike) -> LUT3x1D | LUT3D | LUTSequence:
     """
-    Read given *Resolve* *.cube* *LUT* file.
+    Read the specified *Resolve* *.cube* *LUT* file.
+
+    Read and parse a *DaVinci Resolve* *.cube* lookup table file, which may
+    contain a 1D LUT, a 3D LUT, or a sequence of both. The *.cube* format
+    supports configurable precision and domain ranges, making it suitable for
+    colour grading and colour space transformations.
 
     Parameters
     ----------
     path
-        *LUT* path.
+        Path to the *.cube* *LUT* file to read.
 
     Returns
     -------
-    :class:`colour.LUT3x1D` or :class:`colour.LUT3D` or \
-:class:`colour.LUTSequence`
-        :class:`LUT3x1D` or :class:`LUT3D` or :class:`LUTSequence` class
-        instance.
+    :class:`colour.LUT3x1D` or :class:`colour.LUT3D` or :class:`colour.LUTSequence`
+        :class:`LUT3x1D` instance for 1D shaper LUTs, :class:`LUT3D` instance
+        for 3D colour transformation LUTs, or :class:`LUTSequence` instance
+        when the file contains both shaper and 3D LUT data.
 
     References
     ----------
@@ -238,21 +246,21 @@ def read_LUT_ResolveCube(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
 
 def write_LUT_ResolveCube(
     LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence,
-    path: str | Path,
+    path: str | PathLike,
     decimals: int = 7,
 ) -> bool:
     """
-    Write given *LUT* to given  *Resolve* *.cube* *LUT* file.
+    Write the specified *LUT* to the specified *Resolve* *.cube* *LUT* file.
 
     Parameters
     ----------
     LUT
         :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUT3D` or
-        :class:`LUTSequence` class instance to write at given path.
+        :class:`LUTSequence` class instance to write at the specified path.
     path
-        *LUT* path.
+        *LUT* file path.
     decimals
-        Formatting decimals.
+        Number of decimal places for formatting numeric values.
 
     Returns
     -------
@@ -349,7 +357,9 @@ def write_LUT_ResolveCube(
         has_3D = True
         LUT = LUTSequence(LUT3x1D(), LUT)
     else:
-        raise TypeError("LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!")
+        error = "LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!"
+
+        raise TypeError(error)
 
     for i in range(2):
         attest(not LUT[i].is_domain_explicit(), '"LUT" domain must be implicit!')
@@ -371,12 +381,10 @@ def write_LUT_ResolveCube(
         cube_file.write(f'TITLE "{name}"\n')
 
         if LUT[0].comments:
-            for comment in LUT[0].comments:
-                cube_file.write(f"# {comment}\n")
+            cube_file.writelines(f"# {comment}\n" for comment in LUT[0].comments)
 
         if LUT[1].comments:
-            for comment in LUT[1].comments:
-                cube_file.write(f"# {comment}\n")
+            cube_file.writelines(f"# {comment}\n" for comment in LUT[1].comments)
 
         default_domain = np.array([[0, 0, 0], [1, 1, 1]])
 
@@ -398,13 +406,15 @@ def write_LUT_ResolveCube(
 
         if has_3x1D:
             table = LUT[0].table
-            for vector in table:
-                cube_file.write(f"{format_array_as_row(vector, decimals)}\n")
+            cube_file.writelines(
+                f"{format_array_as_row(vector, decimals)}\n" for vector in table
+            )
             cube_file.write("\n")
 
         if has_3D:
             table = np.reshape(LUT[1].table, (-1, 3), order="F")
-            for vector in table:
-                cube_file.write(f"{format_array_as_row(vector, decimals)}\n")
+            cube_file.writelines(
+                f"{format_array_as_row(vector, decimals)}\n" for vector in table
+            )
 
     return True

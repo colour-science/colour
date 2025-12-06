@@ -3,7 +3,7 @@ SMPTE 240M
 ==========
 
 Define the *SMPTE 240M* opto-electrical transfer function (OETF) and
-electro-optical transfer function (EOTF):
+electro-optical transfer function (EOTF).
 
 -   :func:`colour.models.oetf_SMPTE240M`
 -   :func:`colour.models.eotf_SMPTE240M`
@@ -22,13 +22,11 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, NDArrayFloat
-from colour.utilities import (
-    as_float,
-    domain_range_scale,
-    from_range_1,
-    to_domain_1,
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
 )
+from colour.utilities import as_float, domain_range_scale, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -43,9 +41,9 @@ __all__ = [
 ]
 
 
-def oetf_SMPTE240M(L_c: ArrayLike) -> NDArrayFloat:
+def oetf_SMPTE240M(L_c: Domain1) -> Range1:
     """
-    Define *SMPTE 240M* opto-electrical transfer function (OETF).
+    Apply the *SMPTE 240M* opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -56,21 +54,21 @@ def oetf_SMPTE240M(L_c: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Video signal output :math:`V_c` of the reference camera normalised to
-        the system reference white.
+        Video signal output :math:`V_c` of the reference camera normalised
+        to the system reference white.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_c``    | [0, 1]                | [0, 1]        |
+    | ``L_c``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V_c``    | [0, 1]                | [0, 1]        |
+    | ``V_c``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -90,9 +88,9 @@ def oetf_SMPTE240M(L_c: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_1(V_c))
 
 
-def eotf_SMPTE240M(V_r: ArrayLike) -> NDArrayFloat:
+def eotf_SMPTE240M(V_r: Domain1) -> Range1:
     """
-    Define *SMPTE 240M* electro-optical transfer function (EOTF).
+    Apply the *SMPTE 240M* electro-optical transfer function (EOTF).
 
     Parameters
     ----------
@@ -103,21 +101,21 @@ def eotf_SMPTE240M(V_r: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-         Light output :math:`L_r` from the reference reproducer normalised to
-         the system reference white.
+        Light output :math:`L_r` from the reference reproducer normalised
+        to the system reference white.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V_c``    | [0, 1]                | [0, 1]        |
+    | ``V_r``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_c``    | [0, 1]                | [0, 1]        |
+    | ``L_r``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

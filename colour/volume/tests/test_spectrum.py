@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.volume.spectrum` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -11,7 +13,7 @@ from colour.colorimetry import (
     reshape_msds,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import ignore_numpy_errors, is_scipy_installed
 from colour.volume import (
     XYZ_outer_surface,
     generate_pulse_waves,
@@ -38,7 +40,7 @@ class TestGeneratePulseWaves:
     definition unit tests methods.
     """
 
-    def test_generate_pulse_waves(self):
+    def test_generate_pulse_waves(self) -> None:
         """
         Test :func:`colour.volume.spectrum.generate_pulse_waves`
         definition.
@@ -136,7 +138,7 @@ class TestXYZOuterSurface:
     definition unit tests methods.
     """
 
-    def test_XYZ_outer_surface(self):
+    def test_XYZ_outer_surface(self) -> None:
         """
         Test :func:`colour.volume.spectrum.XYZ_outer_surface`
         definition.
@@ -195,11 +197,14 @@ class TestIsWithinVisibleSpectrum:
     definition unit tests methods.
     """
 
-    def test_is_within_visible_spectrum(self):
+    def test_is_within_visible_spectrum(self) -> None:
         """
         Test :func:`colour.volume.spectrum.is_within_visible_spectrum`
         definition.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         assert is_within_visible_spectrum(np.array([0.3205, 0.4131, 0.5100]))
 
@@ -209,11 +214,14 @@ class TestIsWithinVisibleSpectrum:
 
         assert not is_within_visible_spectrum(np.array([0.0025, 0.0088, 0.0340]))
 
-    def test_n_dimensional_is_within_visible_spectrum(self):
+    def test_n_dimensional_is_within_visible_spectrum(self) -> None:
         """
         Test :func:`colour.volume.spectrum.is_within_visible_spectrum`
         definition n-dimensional arrays support.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         a = np.array([0.3205, 0.4131, 0.5100])
         b = is_within_visible_spectrum(a)
@@ -227,11 +235,14 @@ class TestIsWithinVisibleSpectrum:
         np.testing.assert_allclose(is_within_visible_spectrum(a), b)
 
     @ignore_numpy_errors
-    def test_nan_is_within_visible_spectrum(self):
+    def test_nan_is_within_visible_spectrum(self) -> None:
         """
         Test :func:`colour.volume.spectrum.is_within_visible_spectrum`
         definition nan support.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))

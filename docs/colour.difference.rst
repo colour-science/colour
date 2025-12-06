@@ -24,8 +24,8 @@ CIE 1976
 .. autosummary::
     :toctree: generated/
 
-    JND_CIE1976
     delta_E_CIE1976
+    JND_CIE1976
 
 CIE 1994
 --------
@@ -114,6 +114,30 @@ DIN99
     :toctree: generated/
 
     delta_E_DIN99
+
+HyAB
+----
+
+``colour.difference``
+
+.. currentmodule:: colour.difference
+
+.. autosummary::
+    :toctree: generated/
+
+    delta_E_HyAB
+
+HyCH
+----
+
+``colour.difference``
+
+.. currentmodule:: colour.difference
+
+.. autosummary::
+    :toctree: generated/
+
+    delta_E_HyCH
 
 Standardized Residual Sum of Squares (STRESS) Index
 ---------------------------------------------------

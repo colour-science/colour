@@ -1,5 +1,6 @@
 """Define the unit tests for the :mod:`colour.recovery` module."""
 
+from __future__ import annotations
 
 import numpy as np
 
@@ -13,7 +14,7 @@ from colour.colorimetry import (
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.recovery import XYZ_to_sd
-from colour.utilities import domain_range_scale
+from colour.utilities import domain_range_scale, is_scipy_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -33,7 +34,7 @@ class TestXYZ_to_sd:
     methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._cmfs = reshape_msds(
@@ -43,11 +44,14 @@ class TestXYZ_to_sd:
 
         self._sd_D65 = reshape_sd(SDS_ILLUMINANTS["D65"], self._cmfs.shape)
 
-    def test_domain_range_scale_XYZ_to_sd(self):
+    def test_domain_range_scale_XYZ_to_sd(self) -> None:
         """
         Test :func:`colour.recovery.XYZ_to_sd` definition domain
         and range scale support.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         m = (
@@ -67,7 +71,7 @@ class TestXYZ_to_sd:
         ]
 
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
-        for method, value in zip(m, v):
+        for method, value in zip(m, v, strict=True):
             for scale, factor_a, factor_b in d_r:
                 with domain_range_scale(scale):
                     np.testing.assert_allclose(

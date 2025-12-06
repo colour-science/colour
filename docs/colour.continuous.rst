@@ -13,5 +13,5 @@ Continuous Signal
     :template: class.rst
 
     AbstractContinuousFunction
-    Signal
     MultiSignals
+    Signal

@@ -1,4 +1,9 @@
-"""Showcase *Colour Rendering Index* (CRI) computations."""
+"""
+Demonstrate *Colour Rendering Index* (CRI) computations.
+
+This module provides examples of colour rendering index calculations
+for various light sources.
+"""
 
 from pprint import pprint
 

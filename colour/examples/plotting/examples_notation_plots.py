@@ -1,4 +1,9 @@
-"""Showcase colour notation systems plotting examples."""
+"""
+Demonstrate colour notation systems plotting.
+
+This module provides examples of plotting Munsell value functions
+and other colour notation systems.
+"""
 
 from colour.plotting import (
     colour_style,

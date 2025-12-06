@@ -2,18 +2,21 @@
 Deprecation Utilities
 =====================
 
-Define various deprecation management related objects.
+Define deprecation management utilities for the Colour library.
 """
 
 from __future__ import annotations
 
 import sys
-from collections import namedtuple
+import typing
+from dataclasses import dataclass
 from importlib import import_module
 from operator import attrgetter
 
-from colour.hints import Any, ModuleType
-from colour.utilities import attest, optional, usage_warning
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ModuleType
+
+from colour.utilities import MixinDataclassIterable, attest, optional, usage_warning
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -40,17 +43,21 @@ __all__ = [
 ]
 
 
-class ObjectRenamed(namedtuple("ObjectRenamed", ("name", "new_name"))):
+@dataclass(frozen=True)
+class ObjectRenamed(MixinDataclassIterable):
     """
-    A class used for an object that has been renamed.
+    Represent an object that has been renamed in the API.
 
     Parameters
     ----------
     name
-        Object name that changed.
+        Object name that has been changed.
     new_name
-        Object new name.
+        New object name.
     """
+
+    name: str
+    new_name: str
 
     def __str__(self) -> str:
         """
@@ -65,15 +72,18 @@ class ObjectRenamed(namedtuple("ObjectRenamed", ("name", "new_name"))):
         return f'"{self.name}" object has been renamed to "{self.new_name}".'
 
 
-class ObjectRemoved(namedtuple("ObjectRemoved", ("name",))):
+@dataclass(frozen=True)
+class ObjectRemoved(MixinDataclassIterable):
     """
-    A class used for an object that has been removed.
+    Represent an object that has been removed from the API.
 
     Parameters
     ----------
     name
         Object name that has been removed.
     """
+
+    name: str
 
     def __str__(self) -> str:
         """
@@ -88,22 +98,25 @@ class ObjectRemoved(namedtuple("ObjectRemoved", ("name",))):
         return f'"{self.name}" object has been removed from the API.'
 
 
-class ObjectFutureRename(namedtuple("ObjectFutureRename", ("name", "new_name"))):
+@dataclass(frozen=True)
+class ObjectFutureRename(MixinDataclassIterable):
     """
-    A class used for future object name deprecation, i.e., object name will
-    change in a future release.
+    Represent an object that will be renamed in a future release.
 
     Parameters
     ----------
     name
         Object name that will change in a future release.
     new_name
-        Object future release name.
+        New object name.
     """
+
+    name: str
+    new_name: str
 
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the deprecation type.
+        Return a formatted string representation of the class.
 
         Returns
         -------
@@ -117,9 +130,10 @@ class ObjectFutureRename(namedtuple("ObjectFutureRename", ("name", "new_name")))
         )
 
 
-class ObjectFutureRemove(namedtuple("ObjectFutureRemove", ("name",))):
+@dataclass(frozen=True)
+class ObjectFutureRemove(MixinDataclassIterable):
     """
-    A class used for future object removal.
+    Represent an object that will be removed in a future release.
 
     Parameters
     ----------
@@ -127,9 +141,11 @@ class ObjectFutureRemove(namedtuple("ObjectFutureRemove", ("name",))):
         Object name that will be removed in a future release.
     """
 
+    name: str
+
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the deprecation type.
+        Return a formatted string representation of the class.
 
         Returns
         -------
@@ -143,24 +159,26 @@ class ObjectFutureRemove(namedtuple("ObjectFutureRemove", ("name",))):
         )
 
 
-class ObjectFutureAccessChange(
-    namedtuple("ObjectFutureAccessChange", ("access", "new_access"))
-):
+@dataclass(frozen=True)
+class ObjectFutureAccessChange(MixinDataclassIterable):
     """
-    A class used for future object access deprecation, i.e., object access will
-    change in a future release.
+    Represent an object whose access pattern will change in a future
+    release.
 
     Parameters
     ----------
     access
         Object access that will change in a future release.
     new_access
-        Object future release access.
+        New object access pattern.
     """
+
+    access: str
+    new_access: str
 
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the deprecation type.
+        Return a formatted string representation of the class.
 
         Returns
         -------
@@ -174,20 +192,23 @@ class ObjectFutureAccessChange(
         )
 
 
-class ObjectFutureAccessRemove(namedtuple("ObjectFutureAccessRemove", ("name",))):
+@dataclass(frozen=True)
+class ObjectFutureAccessRemove(MixinDataclassIterable):
     """
-    A class used for future object access removal, i.e., object access will
+    Represent an object whose access will be removed in a future release.
     be removed in a future release.
 
     Parameters
     ----------
     name
-        Object name whose access will removed in a future release.
+        Object name whose access will be removed in a future release.
     """
+
+    name: str
 
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the deprecation type.
+        Return a formatted string representation of the class.
 
         Returns
         -------
@@ -198,17 +219,21 @@ class ObjectFutureAccessRemove(namedtuple("ObjectFutureAccessRemove", ("name",))
         return f'"{self.name}" object access will be removed in a future release.'
 
 
-class ArgumentRenamed(namedtuple("ArgumentRenamed", ("name", "new_name"))):
+@dataclass(frozen=True)
+class ArgumentRenamed(MixinDataclassIterable):
     """
-    A class used for an argument that has been renamed.
+    Represent an argument that has been renamed in the API.
 
     Parameters
     ----------
     name
-        Argument name that changed.
+        Argument name that has been changed.
     new_name
-        Argument new name.
+        New argument name.
     """
+
+    name: str
+    new_name: str
 
     def __str__(self) -> str:
         """
@@ -223,15 +248,18 @@ class ArgumentRenamed(namedtuple("ArgumentRenamed", ("name", "new_name"))):
         return f'"{self.name}" argument has been renamed to "{self.new_name}".'
 
 
-class ArgumentRemoved(namedtuple("ArgumentRemoved", ("name",))):
+@dataclass(frozen=True)
+class ArgumentRemoved(MixinDataclassIterable):
     """
-    A class used for an argument that has been removed.
+    Represent an argument that has been removed from the API.
 
     Parameters
     ----------
     name
         Argument name that has been removed.
     """
+
+    name: str
 
     def __str__(self) -> str:
         """
@@ -246,9 +274,10 @@ class ArgumentRemoved(namedtuple("ArgumentRemoved", ("name",))):
         return f'"{self.name}" argument has been removed from the API.'
 
 
-class ArgumentFutureRename(namedtuple("ArgumentFutureRename", ("name", "new_name"))):
+@dataclass(frozen=True)
+class ArgumentFutureRename(MixinDataclassIterable):
     """
-    A class used for future argument name deprecation, i.e., argument name will
+    Represent an argument that will be renamed in a future release.
     change in a future release.
 
     Parameters
@@ -256,12 +285,15 @@ class ArgumentFutureRename(namedtuple("ArgumentFutureRename", ("name", "new_name
     name
         Argument name that will change in a future release.
     new_name
-        Argument future release name.
+        New argument name.
     """
+
+    name: str
+    new_name: str
 
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the deprecation type.
+        Return a formatted string representation of the class.
 
         Returns
         -------
@@ -275,9 +307,10 @@ class ArgumentFutureRename(namedtuple("ArgumentFutureRename", ("name", "new_name
         )
 
 
-class ArgumentFutureRemove(namedtuple("ArgumentFutureRemove", ("name",))):
+@dataclass(frozen=True)
+class ArgumentFutureRemove(MixinDataclassIterable):
     """
-    A class used for future argument removal.
+    Represent an argument that will be removed in a future release.
 
     Parameters
     ----------
@@ -285,9 +318,11 @@ class ArgumentFutureRemove(namedtuple("ArgumentFutureRemove", ("name",))):
         Argument name that will be removed in a future release.
     """
 
+    name: str
+
     def __str__(self) -> str:
         """
-        Return a formatted string representation of the deprecation type.
+        Return a formatted string representation of the class.
 
         Returns
         -------
@@ -303,13 +338,13 @@ class ArgumentFutureRemove(namedtuple("ArgumentFutureRemove", ("name",))):
 
 class ModuleAPI:
     """
-    Define a class that allows customisation of module attributes access with
-    deprecation management.
+    Define a class enabling customisation of module attribute access with
+    built-in deprecation management functionality.
 
     Parameters
     ----------
     module
-        Module to customise attributes access.
+        Module for which to customise attribute access behaviour.
 
     Methods
     -------
@@ -330,7 +365,7 @@ class ModuleAPI:
 
     def __getattr__(self, attribute: str) -> Any:
         """
-        Return given attribute value while handling deprecation.
+        Return the specified attribute value while handling deprecation.
 
         Parameters
         ----------
@@ -357,10 +392,10 @@ class ModuleAPI:
                 return (
                     getattr(self._module, attribute)
                     if isinstance(change, ObjectFutureRemove)
-                    else get_attribute(change[1])
+                    else get_attribute(change.values[1])
                 )
-            else:
-                raise AttributeError(str(change))
+
+            raise AttributeError(str(change))
 
         return getattr(self._module, attribute)
 
@@ -375,24 +410,22 @@ class ModuleAPI:
             Filtered list of names in the module local scope.
         """
 
-        attributes = [
+        return [
             attribute
             for attribute in dir(self._module)
             if attribute not in self._changes
         ]
 
-        return attributes
-
 
 def get_attribute(attribute: str) -> Any:
     """
-    Return given attribute value.
+    Retrieve the value of the specified attribute from its namespace.
 
     Parameters
     ----------
     attribute
-        Attribute to retrieve, ``attribute`` must have a namespace module, e.g.,
-        *colour.models.oetf_inverse_BT2020*.
+        Attribute to retrieve, ``attribute`` must have a namespace
+        module, e.g., *colour.models.oetf_inverse_BT2020*.
 
     Returns
     -------
@@ -421,7 +454,7 @@ def get_attribute(attribute: str) -> Any:
 
 def build_API_changes(changes: dict) -> dict:
     """
-    Build the effective API changes for a desired API changes mapping.
+    Build effective API changes from specified API changes mapping.
 
     Parameters
     ----------
@@ -498,22 +531,24 @@ name='module.object_6_access')}
 
 def handle_arguments_deprecation(changes: dict, **kwargs: Any) -> dict:
     """
-    Handle arguments deprecation according to desired API changes mapping.
+    Handle argument deprecation according to the specified API changes
+    mapping.
 
     Parameters
     ----------
     changes
-        Dictionary of desired API changes.
+        Dictionary of specified API changes defining how arguments should
+        be handled during deprecation.
 
     Other Parameters
     ----------------
     kwargs
-        Keywords arguments to handle.
+        Keyword arguments to process for deprecation handling.
 
     Returns
     -------
     :class:`dict`
-        Handled keywords arguments.
+        Processed keyword arguments with deprecation rules applied.
 
     Examples
     --------
@@ -557,8 +592,7 @@ def handle_arguments_deprecation(changes: dict, **kwargs: Any) -> dict:
 
             if isinstance(change, ArgumentFutureRemove):
                 continue
-            else:
-                kwargs[change[1]] = kwargs.pop(kwarg)
+            kwargs[change.values[1]] = kwargs.pop(kwarg)
         else:
             kwargs.pop(kwarg)
             usage_warning(str(change))

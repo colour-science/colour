@@ -2,16 +2,22 @@
 Mesh Volume Computation Helpers
 ===============================
 
-Define the helpers objects related to volume computations.
+Define helper objects for computing volumes of three-dimensional meshes
+and polyhedra using Delaunay triangulation and related computational
+geometry methods.
 """
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
-from scipy.spatial import Delaunay
 
 from colour.constants import EPSILON
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.utilities import as_float_array, required
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -25,12 +31,13 @@ __all__ = [
 ]
 
 
+@required("SciPy")
 def is_within_mesh_volume(
     points: ArrayLike, mesh: ArrayLike, tolerance: float = 100 * EPSILON
 ) -> NDArrayFloat:
     """
-    Return whether given points are within given mesh volume using Delaunay
-    triangulation.
+    Determine whether the specified points are within the volume defined by a mesh
+    using Delaunay triangulation.
 
     Parameters
     ----------
@@ -44,7 +51,8 @@ def is_within_mesh_volume(
     Returns
     -------
     :class:`numpy.ndarray`
-        Whether given points are within given mesh volume.
+        Boolean array indicating whether specified points are within
+        specified mesh volume.
 
     Examples
     --------
@@ -64,9 +72,10 @@ def is_within_mesh_volume(
     array([ True, False], dtype=bool)
     """
 
-    triangulation = Delaunay(mesh)
+    from scipy.spatial import Delaunay  # noqa: PLC0415
 
-    simplex = triangulation.find_simplex(points, tol=tolerance)
-    simplex = np.where(simplex >= 0, True, False)
+    triangulation = Delaunay(as_float_array(mesh))
 
-    return simplex
+    simplex = triangulation.find_simplex(as_float_array(points), tol=tolerance)
+
+    return np.where(simplex >= 0, True, False)

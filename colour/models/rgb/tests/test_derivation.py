@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.rgb.derivation` module."""
 
+from __future__ import annotations
+
 import contextlib
 import re
 from itertools import product
@@ -41,7 +43,7 @@ class Testxy_to_z:
     tests methods.
     """
 
-    def test_xy_to_z(self):
+    def test_xy_to_z(self) -> None:
         """Test :func:`colour.models.rgb.derivation.xy_to_z` definition."""
 
         np.testing.assert_allclose(
@@ -62,7 +64,7 @@ class Testxy_to_z:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_xy_to_z(self):
+    def test_n_dimensional_xy_to_z(self) -> None:
         """
         Test :func:`colour.models.rgb.derivation.xy_to_z` definition
         n-dimensional arrays support.
@@ -83,7 +85,7 @@ class Testxy_to_z:
         np.testing.assert_allclose(xy_to_z(xy), z, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
-    def test_nan_xy_to_z(self):
+    def test_nan_xy_to_z(self) -> None:
         """
         Test :func:`colour.models.rgb.derivation.xy_to_z` definition nan
         support.
@@ -100,7 +102,7 @@ class TestNormalisedPrimaryMatrix:
     definition unit tests methods.
     """
 
-    def test_normalised_primary_matrix(self):
+    def test_normalised_primary_matrix(self) -> None:
         """
         Test :func:`colour.models.rgb.derivation.normalised_primary_matrix`
         definition.
@@ -137,7 +139,7 @@ class TestNormalisedPrimaryMatrix:
         )
 
     @ignore_numpy_errors
-    def test_nan_normalised_primary_matrix(self):
+    def test_nan_normalised_primary_matrix(self) -> None:
         """
         Test :func:`colour.models.rgb.derivation.normalised_primary_matrix`
         definition nan support.
@@ -158,7 +160,7 @@ class TestChromaticallyAdaptedPrimaries:
 chromatically_adapted_primaries` definition unit tests methods.
     """
 
-    def test_chromatically_adapted_primaries(self):
+    def test_chromatically_adapted_primaries(self) -> None:
         """
         Test :func:`colour.models.rgb.derivation.\
 chromatically_adapted_primaries` definition.
@@ -214,7 +216,7 @@ chromatically_adapted_primaries` definition.
         )
 
     @ignore_numpy_errors
-    def test_nan_chromatically_adapted_primaries(self):
+    def test_nan_chromatically_adapted_primaries(self) -> None:
         """
         Test :func:`colour.models.rgb.derivation.\
 chromatically_adapted_primaries` definition nan support.
@@ -234,7 +236,7 @@ class TestPrimariesWhitepoint:
     definition unit tests methods.
     """
 
-    def test_primaries_whitepoint(self):
+    def test_primaries_whitepoint(self) -> None:
         """
         Test :func:`colour.models.rgb.derivation.primaries_whitepoint`
         definition.
@@ -291,7 +293,7 @@ class TestPrimariesWhitepoint:
         )
 
     @ignore_numpy_errors
-    def test_nan_primaries_whitepoint(self):
+    def test_nan_primaries_whitepoint(self) -> None:
         """
         Test :func:`colour.models.rgb.derivation.primaries_whitepoint`
         definition nan support.
@@ -310,7 +312,7 @@ class TestRGBLuminanceEquation:
     definition unit tests methods.
     """
 
-    def test_RGB_luminance_equation(self):
+    def test_RGB_luminance_equation(self) -> None:
         """
         Test :func:`colour.models.rgb.derivation.RGB_luminance_equation`
         definition.
@@ -344,7 +346,7 @@ class TestRGBLuminance:
     unit tests methods.
     """
 
-    def test_RGB_luminance(self):
+    def test_RGB_luminance(self) -> None:
         """
         Test :func:`colour.models.rgb.derivation.RGB_luminance`
         definition.
@@ -380,7 +382,7 @@ class TestRGBLuminance:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_RGB_luminance(self):
+    def test_n_dimensional_RGB_luminance(self) -> None:
         """
         Test :func:`colour.models.rgb.derivation.RGB_luminance` definition
         n_dimensional arrays support.
@@ -404,7 +406,7 @@ class TestRGBLuminance:
         )
 
     @ignore_numpy_errors
-    def test_nan_RGB_luminance(self):
+    def test_nan_RGB_luminance(self) -> None:
         """
         Test :func:`colour.models.rgb.derivation.RGB_luminance`
         definition nan support.

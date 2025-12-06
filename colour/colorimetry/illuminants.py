@@ -2,7 +2,8 @@
 Illuminants
 ===========
 
-Define the *CIE* illuminants computation related objects:
+Define objects for computing *CIE* standard illuminants and related daylight
+calculations:
 
 -   :func:`colour.sd_CIE_standard_illuminant_A`
 -   :func:`colour.sd_CIE_illuminant_D_series`
@@ -26,6 +27,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import LinearInterpolator
@@ -36,7 +39,10 @@ from colour.colorimetry import (
     SpectralShape,
     reshape_sd,
 )
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import as_float, as_float_array, tsplit
 
 __author__ = "Colour Developers"
@@ -57,13 +63,14 @@ def sd_CIE_standard_illuminant_A(
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
 ) -> SpectralDistribution:
     """
-    *CIE Standard Illuminant A* is intended to represent typical, domestic,
-    tungsten-filament lighting.
+    Represent typical domestic tungsten-filament lighting according to
+    *CIE Standard Illuminant A*.
 
-    Its spectral distribution is that of a Planckian radiator at a temperature
-    of approximately 2856 K. *CIE Standard Illuminant A* should be used in all
-    applications of colorimetry involving the use of incandescent lighting,
-    unless there are specific reasons for using a different illuminant.
+    Generate spectral distribution of *CIE Standard Illuminant A*, which
+    represents the spectral characteristics of a Planckian radiator at a
+    temperature of approximately 2856 K. This illuminant should be used in
+    all colorimetry applications involving incandescent lighting, unless
+    there are specific reasons for using a different illuminant.
 
     Parameters
     ----------
@@ -74,7 +81,7 @@ def sd_CIE_standard_illuminant_A(
     Returns
     -------
     :class:`colour.SpectralDistribution`
-        *CIE Standard Illuminant A*. spectral distribution.
+        *CIE Standard Illuminant A* spectral distribution.
 
     References
     ----------
@@ -142,8 +149,8 @@ def sd_CIE_illuminant_D_series(
     shape: SpectralShape | None = None,
 ) -> SpectralDistribution:
     """
-    Return the spectral distribution of given *CIE Illuminant D Series* using
-    given *CIE xy* chromaticity coordinates.
+    Return the spectral distribution of the specified *CIE Illuminant D
+    Series* using the specified *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
@@ -163,12 +170,12 @@ def sd_CIE_illuminant_D_series(
 
     Notes
     -----
-    -   The nominal *CIE xy* chromaticity coordinates which have been computed
-        with :func:`colour.temperature.CCT_to_xy_CIE_D` must be given according
-        to *CIE 015:2004* recommendation and thus multiplied by
-        1.4388 / 1.4380.
+    -   The nominal *CIE xy* chromaticity coordinates which have been
+        computed with :func:`colour.temperature.CCT_to_xy_CIE_D` must be
+        specified according to *CIE 015:2004* recommendation and thus
+        multiplied by 1.4388 / 1.4380.
     -   :math:`M1` and :math:`M2` variables are rounded to 3 decimal places
-         according to *CIE 015:2004* recommendation.
+        according to *CIE 015:2004* recommendation.
 
     References
     ----------
@@ -328,17 +335,23 @@ def sd_CIE_illuminant_D_series(
 
 def daylight_locus_function(x_D: ArrayLike) -> NDArrayFloat:
     """
-    Return the daylight locus as *CIE xy* chromaticity coordinates.
+    Compute the *CIE y* chromaticity coordinate on the daylight locus.
+
+    Calculate the *CIE y* chromaticity coordinate on the daylight locus
+    for the specified *CIE x* chromaticity coordinate :math:`x_D` using
+    the quadratic relationship defined by *Wyszecki and Stiles*.
 
     Parameters
     ----------
     x_D
-        Chromaticity coordinate :math:`x_D`.
+        *CIE x* chromaticity coordinate :math:`x_D` for which to compute
+        the corresponding *CIE y* coordinate on the daylight locus.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Daylight locus as *CIE xy* chromaticity coordinates.
+        *CIE y* chromaticity coordinate on the daylight locus
+        corresponding to the specified :math:`x_D`.
 
     References
     ----------

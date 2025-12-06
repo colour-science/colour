@@ -2,7 +2,8 @@
 Geometry Primitives
 ===================
 
-Define various geometry primitives and their generation methods:
+Define various geometry primitives and their generation methods for
+colour science visualizations and computations.
 
 -   :attr:`colour.geometry.MAPPING_PLANE_TO_AXIS`
 -   :func:`colour.geometry.primitive_grid`
@@ -19,20 +20,24 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.constants import DTYPE_FLOAT_DEFAULT, DTYPE_INT_DEFAULT
-from colour.hints import (
-    Any,
-    DTypeFloat,
-    DTypeInt,
-    Literal,
-    NDArray,
-    NDArrayFloat,
-    Tuple,
-    Type,
-    cast,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        DTypeFloat,
+        DTypeInt,
+        Literal,
+        NDArray,
+        Tuple,
+        Type,
+    )
+
+from colour.hints import NDArrayFloat, cast
 from colour.utilities import (
     CanonicalMapping,
     as_int_array,
@@ -68,7 +73,13 @@ MAPPING_PLANE_TO_AXIS: CanonicalMapping = CanonicalMapping(
         "yx": "-z",
     }
 )
-MAPPING_PLANE_TO_AXIS.__doc__ = """Plane to axis mapping."""
+MAPPING_PLANE_TO_AXIS.__doc__ = """
+Mapping from coordinate planes to their perpendicular axes.
+
+Maps two-letter plane identifiers (e.g., 'xy', 'yz') to their
+corresponding perpendicular axis with sign indicating the direction
+following the right-hand rule convention.
+"""
 
 
 def primitive_grid(
@@ -83,35 +94,37 @@ def primitive_grid(
     dtype_indexes: Type[DTypeInt] | None = None,
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
-    Generate vertices and indexes for a filled and outlined grid primitive.
+    Generate vertices and indexes for a filled and outlined grid
+    primitive.
 
     Parameters
     ----------
     width
-        Grid width.
+        Width of the primitive.
     height
-        Grid height.
+        Height of the primitive.
     width_segments
-        Grid segments count along the width.
+        Number of segments along the width.
     height_segments
-        Grid segments count along the height.
+        Number of segments along the height.
     axis
-        Axis the primitive will be normal to, or plane the primitive will be
-        co-planar with.
+        Axis to which the primitive will be normal, or plane with
+        which the primitive will be co-planar.
     dtype_vertices
-        :class:`numpy.dtype` to use for the grid vertices, default to
-        the :class:`numpy.dtype` defined by the
+        :class:`numpy.dtype` to use for the grid vertices. Defaults
+        to the :class:`numpy.dtype` defined by the
         :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
     dtype_indexes
-        :class:`numpy.dtype` to use for the grid indexes, default to
-        the :class:`numpy.dtype` defined by the
+        :class:`numpy.dtype` to use for the grid indexes. Defaults
+        to the :class:`numpy.dtype` defined by the
         :attr:`colour.constant.DTYPE_INT_DEFAULT` attribute.
 
     Returns
     -------
     :class:`tuple`
-        Tuple of grid vertices, face indexes to produce a filled grid and
-        outline indexes to produce an outline of the faces of the grid.
+        Tuple of grid vertices, face indexes to produce a filled
+        grid, and outline indexes to produce an outline of the grid
+        faces.
 
     References
     ----------
@@ -135,7 +148,7 @@ def primitive_grid(
      [1 0]]
     """
 
-    axis = MAPPING_PLANE_TO_AXIS.get(axis, axis).lower()  # pyright: ignore
+    axis = MAPPING_PLANE_TO_AXIS.get(axis, axis).lower()
 
     dtype_vertices = optional(dtype_vertices, DTYPE_FLOAT_DEFAULT)
     dtype_indexes = optional(dtype_indexes, DTYPE_INT_DEFAULT)
@@ -192,13 +205,13 @@ def primitive_grid(
     sign = -1 if "-" in axis else 1
 
     positions = np.roll(positions, shift, -1)
-    normals = cast(NDArrayFloat, np.roll(normals, shift, -1)) * sign
+    normals = cast("NDArrayFloat", np.roll(normals, shift, -1)) * sign
     vertex_colours = np.ravel(positions)
     vertex_colours = np.hstack(
         [
             np.reshape(
                 np.interp(
-                    cast(NDArrayFloat, vertex_colours),
+                    cast("NDArrayFloat", vertex_colours),
                     (np.min(vertex_colours), np.max(vertex_colours)),
                     (0, 1),
                 ),
@@ -274,11 +287,11 @@ def primitive_cube(
     planes
         Grid primitives to include in the cube construction.
     dtype_vertices
-        :class:`numpy.dtype` to use for the grid vertices, default to
+        :class:`numpy.dtype` to use for the grid vertices. Defaults to
         the :class:`numpy.dtype` defined by the
         :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
     dtype_indexes
-        :class:`numpy.dtype` to use for the grid indexes, default to
+        :class:`numpy.dtype` to use for the grid indexes. Defaults to
         the :class:`numpy.dtype` defined by the
         :attr:`colour.constant.DTYPE_INT_DEFAULT` attribute.
 
@@ -424,7 +437,7 @@ def primitive_cube(
         [
             np.reshape(
                 np.interp(
-                    cast(NDArrayFloat, vertex_colours),
+                    cast("NDArrayFloat", vertex_colours),
                     (np.min(vertex_colours), np.max(vertex_colours)),
                     (0, 1),
                 ),
@@ -457,65 +470,74 @@ def primitive(
     method: Literal["Cube", "Grid"] | str = "Cube", **kwargs: Any
 ) -> Tuple[NDArray, NDArray, NDArray]:
     """
-    Return a geometry primitive using given method.
+    Generate a geometry primitive.
+
+    This function creates geometric primitives such as cubes or grids with
+    configurable dimensions and segmentation. The generated primitive includes
+    vertices with position, texture coordinates, normal vectors, and colour
+    data, along with face and outline indexes for rendering.
 
     Parameters
     ----------
     method
-        Generation method.
+        Generation method for the primitive. Supported methods are:
+
+        - ``'Cube'``: Generate a 3D cube primitive
+        - ``'Grid'``: Generate a 2D grid primitive
 
     Other Parameters
     ----------------
     axis
         {:func:`colour.geometry.primitive_grid`},
-        Axis the primitive will be normal to, or plane the primitive will be
-        co-planar with.
+        Axis to which the primitive will be normal, or plane with which the
+        primitive will be co-planar.
     depth
-        {:func:`colour.geometry.primitive_grid`,
-        :func:`colour.geometry.primitive_cube`},
-        Primitive depth.
+        {:func:`colour.geometry.primitive_cube`},
+        Cube depth.
     depth_segments
-        {:func:`colour.geometry.primitive_grid`,
-        :func:`colour.geometry.primitive_cube`},
-        Primitive segments count along the depth.
+        {:func:`colour.geometry.primitive_cube`},
+        Cube segments count along the depth.
     dtype_indexes
         {:func:`colour.geometry.primitive_grid`,
         :func:`colour.geometry.primitive_cube`},
-        :class:`numpy.dtype` to use for the grid indexes, default to
-        the :class:`numpy.dtype` defined by the
+        :class:`numpy.dtype` to use for the grid indexes. Defaults to the
+        :class:`numpy.dtype` defined by the
         :attr:`colour.constant.DTYPE_INT_DEFAULT` attribute.
     dtype_vertices
         {:func:`colour.geometry.primitive_grid`,
         :func:`colour.geometry.primitive_cube`},
-        :class:`numpy.dtype` to use for the grid vertices, default to
-        the :class:`numpy.dtype` defined by the
+        :class:`numpy.dtype` to use for the grid vertices. Defaults to the
+        :class:`numpy.dtype` defined by the
         :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
     height
         {:func:`colour.geometry.primitive_grid`,
         :func:`colour.geometry.primitive_cube`},
-        Primitive height.
+        Height of the primitive.
     planes
         {:func:`colour.geometry.primitive_cube`},
-        Included grid primitives in the cube construction.
+        Grid primitives to include in the cube construction.
     width
         {:func:`colour.geometry.primitive_grid`,
         :func:`colour.geometry.primitive_cube`},
-        Primitive width.
+        Width of the primitive.
     width_segments
         {:func:`colour.geometry.primitive_grid`,
         :func:`colour.geometry.primitive_cube`},
-        Primitive segments count along the width.
+        Number of segments along the width.
     height_segments
         {:func:`colour.geometry.primitive_grid`,
         :func:`colour.geometry.primitive_cube`},
-        Primitive segments count along the height.
+        Number of segments along the height.
 
     Returns
     -------
     :class:`tuple`
-        Tuple of primitive vertices, face indexes to produce a filled primitive
-        and outline indexes to produce an outline of the faces of the
-        primitive.
+        Tuple containing three arrays:
+
+        - **vertices**: Structured array of vertex data including position,
+          texture coordinates, normal vectors, and colour values
+        - **faces**: Face indexes for rendering a filled primitive
+        - **outline**: Outline indexes for rendering the edges of the primitive
 
     References
     ----------

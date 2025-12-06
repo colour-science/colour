@@ -3,7 +3,7 @@ Ragoo and Farup (2021) Optimised IPT Colourspace
 ================================================
 
 Define the *Ragoo and Farup (2021)* *Optimised IPT* colourspace
-transformations:
+transformations.
 
 -   :func:`colour.XYZ_to_IPT_Ragoo2021`
 -   :func:`colour.IPT_Ragoo2021_to_XYZ`
@@ -23,7 +23,11 @@ from functools import partial
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.models import Iab_to_XYZ, XYZ_to_Iab
 
 __author__ = "Colour Developers"
@@ -73,10 +77,10 @@ non-linear cone responses matrix.
 """
 
 
-def XYZ_to_IPT_Ragoo2021(XYZ: ArrayLike) -> NDArrayFloat:
+def XYZ_to_IPT_Ragoo2021(XYZ: Domain1) -> Range1:
     """
-    Convert from *CIE XYZ* tristimulus values to
-    *Ragoo and Farup (2021)* *Optimised IPT* colourspace.
+    Convert from *CIE XYZ* tristimulus values to *Ragoo and Farup (2021)*
+    *Optimised IPT* colourspace.
 
     Parameters
     ----------
@@ -93,17 +97,13 @@ def XYZ_to_IPT_Ragoo2021(XYZ: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``IPT``    | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``P`` : [-1, 1]       | ``P`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``T`` : [-1, 1]       | ``T`` : [-1, 1] |
+    | ``IPT``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     -   Input *CIE XYZ* tristimulus values must be adapted to
@@ -128,7 +128,9 @@ def XYZ_to_IPT_Ragoo2021(XYZ: ArrayLike) -> NDArrayFloat:
     )
 
 
-def IPT_Ragoo2021_to_XYZ(IPT: ArrayLike) -> NDArrayFloat:
+def IPT_Ragoo2021_to_XYZ(
+    IPT: Domain1,
+) -> Range1:
     """
     Convert from *Ragoo and Farup (2021)* *Optimised IPT* colourspace to
     *CIE XYZ* tristimulus values.
@@ -148,17 +150,13 @@ def IPT_Ragoo2021_to_XYZ(IPT: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``IPT``    | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``P`` : [-1, 1]       | ``P`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``T`` : [-1, 1]       | ``T`` : [-1, 1] |
+    | ``IPT``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     References

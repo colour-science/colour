@@ -3,7 +3,7 @@ Recommendation ITU-R BT.1361
 ============================
 
 Define the *Recommendation ITU-R BT.1361* opto-electrical transfer function
-(OETF) and its inverse:
+(OETF) and its inverse.
 
 -   :func:`colour.models.oetf_BT1361`
 -   :func:`colour.models.oetf_inverse_BT1361`
@@ -17,16 +17,17 @@ References
 R-REC-BT.1361-0-199802-W!!PDF-E.pdf
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import spow
-from colour.models.rgb.transfer_functions import oetf_BT709, oetf_inverse_BT709
-from colour.utilities import (
-    as_float,
-    domain_range_scale,
-    from_range_1,
-    to_domain_1,
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
 )
+from colour.models.rgb.transfer_functions import oetf_BT709, oetf_inverse_BT709
+from colour.utilities import as_float, domain_range_scale, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -41,9 +42,9 @@ __all__ = [
 ]
 
 
-def oetf_BT1361(L):
+def oetf_BT1361(L: Domain1) -> Range1:
     """
-    Define *Recommendation ITU-R BT.1361* extended color gamut system
+    Apply the *Recommendation ITU-R BT.1361* extended colour gamut system
     opto-electronic transfer function (OETF).
 
     Parameters
@@ -54,21 +55,21 @@ def oetf_BT1361(L):
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding non-linear primary signal :math:`E'`.
+        Non-linear primary signal :math:`E'`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``L``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
-    +------------+-----------------------+-------------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1**     |
-    +============+=======================+===================+
-    | ``E_p'``   | [0, 1]                | [0, 1]            |
-    +------------+-----------------------+-------------------+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``E_p'``   | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -102,10 +103,10 @@ def oetf_BT1361(L):
     return as_float(from_range_1(E_p))
 
 
-def oetf_inverse_BT1361(E_p):
+def oetf_inverse_BT1361(E_p: Domain1) -> Range1:
     """
-    Define *Recommendation ITU-R BT.1361* extended color gamut system inverse
-    opto-electronic transfer functions (OETF).
+    Apply the *Recommendation ITU-R BT.1361* extended colour gamut system
+    inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -115,22 +116,21 @@ def oetf_inverse_BT1361(E_p):
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding scene *Luminance* :math:`L`.
+        Scene *Luminance* :math:`L`.
 
     Notes
     -----
-    +------------+-----------------------+-------------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1**     |
-    +============+=======================+===================+
-    | ``E_p``    | [0, 1]                | [0, 1]            |
-    +------------+-----------------------+-------------------+
-
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``E_p``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``L``      | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
     References
     ----------

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 import textwrap
+import typing
 
 import numpy as np
 import pytest
@@ -17,16 +18,13 @@ from colour.algebra import (
     table_interpolation_trilinear,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import (
-    Any,
-    Callable,
-    NDArrayFloat,
-    ProtocolInterpolator,
-    Type,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
 from colour.io.luts import LUT1D, LUT3D, LUT3x1D, LUT_to_LUT
 from colour.io.luts.lut import AbstractLUT
-from colour.utilities import as_float_array, tsplit, tstack
+from colour.utilities import as_float_array, is_scipy_installed, tsplit, tstack
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -39,7 +37,6 @@ __all__ = [
     "ROOT_RESOURCES",
     "RANDOM_TRIPLETS",
     "TestAbstractLUT",
-    "FixtureAbstractLUT",
     "TestLUT1D",
     "TestLUT3x1D",
     "TestLUT3D",
@@ -56,7 +53,7 @@ RANDOM_TRIPLETS: NDArrayFloat = np.reshape(
 class TestAbstractLUT:
     """Define :class:`colour.io.luts.lut.AbstractLUT` class unit tests methods."""
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = (
@@ -71,7 +68,7 @@ class TestAbstractLUT:
         for attribute in required_attributes:
             assert attribute in dir(AbstractLUT)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (
@@ -103,483 +100,11 @@ class TestAbstractLUT:
             assert method in dir(AbstractLUT)
 
 
-class FixtureAbstractLUT:
-    """
-    Define the :class:`colour.io.luts.lut.LUT1D`,
-    :class:`colour.io.luts.lut.LUT3x1D` and
-    :class:`colour.io.luts.lut.LUT3D` classes fixture.
-    """
-
-    @pytest.fixture(autouse=True)
-    def setup_fixture_abstract_lut(self) -> None:
-        """Configure the class instance."""
-
-        self._LUT_factory: Any = None
-
-        self._size: int | None = None
-        self._dimensions: int | None = None
-        self._domain_1: NDArrayFloat | None = None
-        self._domain_2: NDArrayFloat | None = None
-        self._domain_3: NDArrayFloat | None = None
-        self._table_1: NDArrayFloat | None = None
-        self._table_2: NDArrayFloat | None = None
-        self._table_3: NDArrayFloat | None = None
-        self._table_1_kwargs: dict | None = None
-        self._table_2_kwargs: dict | None = None
-        self._table_3_kwargs: dict | None = None
-        self._interpolator_1: Callable | Type[ProtocolInterpolator] | None = None
-        self._interpolator_kwargs_1: dict = {}
-        self._interpolator_2: Callable | Type[ProtocolInterpolator] | None = None
-        self._interpolator_kwargs_2: dict = {}
-        self._invert_kwargs_1: dict = {}
-        self._invert_kwargs_2: dict = {}
-        self._str: str | None = None
-        self._repr: str | None = None
-        self._inverted_apply_1: NDArrayFloat | None = None
-        self._inverted_apply_2: NDArrayFloat | None = None
-        self._applied_1: NDArrayFloat | None = None
-        self._applied_2: NDArrayFloat | None = None
-        self._applied_3: NDArrayFloat | None = None
-        self._applied_4: NDArrayFloat | None = None
-
-    def test_required_methods(self):
-        """Test the presence of required methods."""
-
-        required_methods = (
-            "__init__",
-            "is_domain_explicit",
-            "linear_table",
-            "invert",
-            "apply",
-            "convert",
-        )
-
-        for class_ in (LUT1D, LUT3x1D, LUT3D):
-            for method in required_methods:
-                assert method in dir(class_)
-
-    def test__init__(self):
-        """
-        Test :class:`colour.io.luts.lut.LUT1D.__init__`,
-        :class:`colour.io.luts.lut.LUT3x1D.__init__` and
-        :class:`colour.io.luts.lut.LUT3D.__init__` methods.
-        """
-
-        LUT = self._LUT_factory(self._table_1)
-
-        np.testing.assert_allclose(
-            LUT.table, self._table_1, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        assert str(id(LUT)) == LUT.name
-
-        np.testing.assert_array_equal(LUT.domain, self._domain_1)
-
-        assert LUT.dimensions == self._dimensions
-
-        assert isinstance(
-            self._LUT_factory(self._table_3, domain=self._domain_3), self._LUT_factory
-        )
-
-    def test_table(self):
-        """
-        Test :class:`colour.io.luts.lut.LUT1D.table`,
-        :class:`colour.io.luts.lut.LUT3x1D.table` and
-        :class:`colour.io.luts.lut.LUT3D.table` properties.
-        """
-
-        LUT = self._LUT_factory()
-
-        np.testing.assert_array_equal(LUT.table, LUT.linear_table(self._size))
-
-        table_1 = self._table_1 * 0.8 + 0.1
-        LUT.table = table_1
-        np.testing.assert_allclose(LUT.table, table_1, atol=TOLERANCE_ABSOLUTE_TESTS)
-
-    def test_name(self):
-        """
-        Test :class:`colour.io.luts.lut.LUT1D.name`,
-        :class:`colour.io.luts.lut.LUT3x1D.name` and
-        :class:`colour.io.luts.lut.LUT3D.name` properties.
-        """
-
-        LUT = self._LUT_factory(self._table_1)
-
-        assert LUT.name == str(id(LUT))
-
-        LUT = self._LUT_factory()
-
-        assert LUT.name == f"Unity {self._table_1.shape[0]}"
-
-    def test_domain(self):
-        """
-        Test :class:`colour.io.luts.lut.LUT1D.domain`,
-        :class:`colour.io.luts.lut.LUT3x1D.domain` and
-        :class:`colour.io.luts.lut.LUT3D.domain` properties.
-        """
-
-        LUT = self._LUT_factory()
-
-        np.testing.assert_array_equal(LUT.domain, self._domain_1)
-
-        domain = self._domain_1 * 0.8 + 0.1
-        LUT.domain = domain
-        np.testing.assert_array_equal(LUT.domain, domain)
-
-    def test_size(self):
-        """
-        Test :class:`colour.io.luts.lut.LUT1D.size`,
-        :class:`colour.io.luts.lut.LUT3x1D.size` and
-        :class:`colour.io.luts.lut.LUT3D.size` properties.
-        """
-
-        LUT = self._LUT_factory()
-
-        assert LUT.size == LUT.table.shape[0]
-
-    def test_dimensions(self):
-        """
-        Test :class:`colour.io.luts.lut.LUT1D.dimensions`,
-        :class:`colour.io.luts.lut.LUT3x1D.dimensions` and
-        :class:`colour.io.luts.lut.LUT3D.dimensions` properties.
-        """
-
-        LUT = self._LUT_factory()
-
-        assert LUT.dimensions == self._dimensions
-
-    def test_comments(self):
-        """
-        Test :class:`colour.io.luts.lut.LUT1D.comments`,
-        :class:`colour.io.luts.lut.LUT3x1D.comments` and
-        :class:`colour.io.luts.lut.LUT3D.comments` properties.
-        """
-
-        LUT = self._LUT_factory()
-        assert LUT.comments == []
-
-        comments = ["A first comment.", "A second comment."]
-        LUT = self._LUT_factory(comments=comments)
-
-        assert LUT.comments == comments
-
-    def test__str__(self):
-        """
-        Test :class:`colour.io.luts.lut.LUT1D.__str__`,
-        :class:`colour.io.luts.lut.LUT3x1D.__str__` and
-        :class:`colour.io.luts.lut.LUT3D.__str__` methods.
-        """
-
-        LUT = self._LUT_factory(name="Nemo")
-
-        assert str(LUT) == self._str
-
-    def test__repr__(self):
-        """
-        Test :class:`colour.io.luts.lut.LUT1D.__repr__`,
-        :class:`colour.io.luts.lut.LUT3x1D.__repr__` and
-        :class:`colour.io.luts.lut.LUT3D.__repr__` methods.
-        """
-
-        LUT = self._LUT_factory(
-            name="Nemo", comments=["A first comment.", "A second comment."]
-        )
-
-        # The default LUT representation is too large to be embedded, given
-        # that :class:`colour.io.luts.lut.LUT3D.__str__` method is defined by
-        # :class:`colour.io.luts.lut.AbstractLUT.__str__` method, the two other
-        # tests should reasonably cover this case.
-        if self._dimensions == 3:
-            return
-
-        assert repr(LUT) == self._repr
-
-    def test__eq__(self):
-        """
-        Test :class:`colour.io.luts.lut.LUT1D.__eq__`,
-        :class:`colour.io.luts.lut.LUT3x1D.__eq__` and
-        :class:`colour.io.luts.lut.LUT3D.__eq__` methods.
-        """
-
-        LUT_1 = self._LUT_factory()
-        LUT_2 = self._LUT_factory()
-
-        assert LUT_1 == LUT_2
-
-    def test__ne__(self):
-        """
-        Test :class:`colour.io.luts.lut.LUT1D.__ne__`,
-        :class:`colour.io.luts.lut.LUT3x1D.__ne__` and
-        :class:`colour.io.luts.lut.LUT3D.__ne__` methods.
-        """
-
-        LUT_1 = self._LUT_factory()
-        LUT_2 = self._LUT_factory()
-
-        LUT_2 += 0.1
-        assert LUT_1 != LUT_2
-
-        LUT_2 = self._LUT_factory()
-        LUT_2.domain = self._domain_1 * 0.8 + 0.1
-        assert LUT_1 != LUT_2
-
-    def test_is_domain_explicit(self):
-        """
-        Test :class:`colour.io.luts.lut.LUT1D.is_domain_explicit`,
-        :class:`colour.io.luts.lut.LUT3x1D.is_domain_explicit` and
-        :class:`colour.io.luts.lut.LUT3D.is_domain_explicit` methods.
-        """
-
-        assert not self._LUT_factory().is_domain_explicit()
-
-        assert self._LUT_factory(
-            self._table_3, domain=self._domain_3
-        ).is_domain_explicit()
-
-    def test_arithmetical_operation(self):
-        """
-        Test :class:`colour.io.luts.lut.LUT1D.arithmetical_operation`,
-        :class:`colour.io.luts.lut.LUT3x1D.arithmetical_operation` and
-        :class:`colour.io.luts.lut.LUT3D.arithmetical_operation` methods.
-        """
-
-        LUT_1 = self._LUT_factory()
-        LUT_2 = self._LUT_factory()
-
-        np.testing.assert_allclose(
-            LUT_1.arithmetical_operation(10, "+", False).table,
-            self._table_1 + 10,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            LUT_1.arithmetical_operation(10, "-", False).table,
-            self._table_1 - 10,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            LUT_1.arithmetical_operation(10, "*", False).table,
-            self._table_1 * 10,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            LUT_1.arithmetical_operation(10, "/", False).table,
-            self._table_1 / 10,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            LUT_1.arithmetical_operation(10, "**", False).table,
-            self._table_1**10,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            (LUT_1 + 10).table,
-            self._table_1 + 10,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            (LUT_1 - 10).table,
-            self._table_1 - 10,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            (LUT_1 * 10).table,
-            self._table_1 * 10,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            (LUT_1 / 10).table,
-            self._table_1 / 10,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            (LUT_1**10).table,
-            self._table_1**10,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            LUT_2.arithmetical_operation(10, "+", True).table,
-            self._table_1 + 10,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            LUT_2.arithmetical_operation(10, "-", True).table,
-            self._table_1,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            LUT_2.arithmetical_operation(10, "*", True).table,
-            self._table_1 * 10,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            LUT_2.arithmetical_operation(10, "/", True).table,
-            self._table_1,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            LUT_2.arithmetical_operation(10, "**", True).table,
-            self._table_1**10,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        LUT_2 = self._LUT_factory()
-
-        np.testing.assert_allclose(
-            LUT_2.arithmetical_operation(self._table_1, "+", False).table,
-            LUT_2.table + self._table_1,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            LUT_2.arithmetical_operation(LUT_2, "+", False).table,
-            LUT_2.table + LUT_2.table,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-    def test_linear_table(self):
-        """
-        Test :class:`colour.io.luts.lut.LUT1D.linear_table`,
-        :class:`colour.io.luts.lut.LUT3x1D.linear_table` and
-        :class:`colour.io.luts.lut.LUT3D.linear_table` methods.
-        """
-
-        LUT_1 = self._LUT_factory()
-
-        np.testing.assert_allclose(
-            LUT_1.linear_table(self._size),
-            self._table_1,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            spow(self._LUT_factory.linear_table(**self._table_3_kwargs), 1 / 2.6),
-            self._table_3,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-    def test_copy(self):
-        """
-        Test :class:`colour.io.luts.lut.LUT1D.copy`,
-        :class:`colour.io.luts.lut.LUT3x1D.copy` and
-        :class:`colour.io.luts.lut.LUT3D.copy` methods.
-        """
-
-        LUT_1 = self._LUT_factory()
-
-        assert LUT_1 is not LUT_1.copy()
-        assert LUT_1.copy() == LUT_1
-
-    def test_invert(self):
-        """
-        Test :class:`colour.io.luts.lut.LUT1D.invert`,
-        :class:`colour.io.luts.lut.LUT3x1D.invert` and
-        :class:`colour.io.luts.lut.LUT3D.invert` methods.
-        """
-
-        LUT_i = self._LUT_factory(self._table_2).invert(
-            interpolator=self._interpolator_1, **self._invert_kwargs_1
-        )
-
-        np.testing.assert_allclose(
-            LUT_i.apply(RANDOM_TRIPLETS),
-            self._inverted_apply_1,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        LUT_i = self._LUT_factory(self._table_2).invert(
-            interpolator=self._interpolator_2, **self._invert_kwargs_2
-        )
-
-        np.testing.assert_allclose(
-            LUT_i.apply(RANDOM_TRIPLETS),
-            self._inverted_apply_2,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        LUT_i = self._LUT_factory(self._table_2, domain=self._domain_4)
-
-        try:
-            LUT_i = LUT_i.invert(
-                interpolator=self._interpolator_2, **self._invert_kwargs_2
-            )
-
-            np.testing.assert_allclose(
-                LUT_i.apply(RANDOM_TRIPLETS),
-                self._inverted_apply_2,
-                atol=TOLERANCE_ABSOLUTE_TESTS,
-            )
-        except NotImplementedError:
-            pass
-
-    def test_apply(self):
-        """
-        Test :class:`colour.io.luts.lut.LUT1D.apply`,
-        :class:`colour.io.luts.lut.LUT3x1D.apply` and
-        :class:`colour.io.luts.lut.LUT3D.apply` methods.
-        """
-
-        LUT_1 = self._LUT_factory(self._table_2)
-
-        np.testing.assert_allclose(
-            LUT_1.apply(RANDOM_TRIPLETS),
-            self._applied_1,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        LUT_2 = self._LUT_factory(domain=self._domain_2)
-        LUT_2.table = spow(LUT_2.table, 1 / 2.2)
-
-        np.testing.assert_allclose(
-            LUT_2.apply(RANDOM_TRIPLETS),
-            self._applied_2,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        LUT_3 = self._LUT_factory(self._table_3, domain=self._domain_3)
-
-        np.testing.assert_allclose(
-            LUT_3.apply(RANDOM_TRIPLETS),
-            self._applied_3,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        LUT_4 = self._LUT_factory(self._table_2)
-
-        np.testing.assert_allclose(
-            LUT_4.apply(
-                RANDOM_TRIPLETS,
-                direction="Inverse",
-                interpolator=self._interpolator_1,
-                interpolator_kwargs=self._interpolator_kwargs_1,
-                **self._invert_kwargs_1,
-            ),
-            self._applied_4,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-
-class TestLUT1D(FixtureAbstractLUT):
+class TestLUT1D:
     """Define :class:`colour.io.luts.lut.LUT1D` class unit tests methods."""
 
-    @pytest.fixture(autouse=True)
-    def setup_test_lut_1_d(self) -> None:
-        """Configure the class instance."""
-
-        self._LUT_factory = LUT1D
+    def setup_method(self) -> None:
+        """Initialise the common tests attributes."""
 
         self._size = 10
         self._dimensions = 1
@@ -704,15 +229,403 @@ class TestLUT1D(FixtureAbstractLUT):
         )
         self._applied_4 = self._inverted_apply_1
 
+    def test_required_methods(self) -> None:
+        """Test the presence of required methods."""
 
-class TestLUT3x1D(FixtureAbstractLUT):
+        required_methods = (
+            "__init__",
+            "is_domain_explicit",
+            "linear_table",
+            "invert",
+            "apply",
+            "convert",
+        )
+
+        for method in required_methods:
+            assert method in dir(LUT1D)
+
+    def test__init__(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT1D.__init__` method.
+        """
+
+        LUT = LUT1D(self._table_1)
+
+        np.testing.assert_allclose(
+            LUT.table, self._table_1, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        assert str(id(LUT)) == LUT.name
+
+        np.testing.assert_array_equal(LUT.domain, self._domain_1)
+
+        assert LUT.dimensions == self._dimensions
+
+        assert isinstance(LUT1D(self._table_3, domain=self._domain_3), LUT1D)
+
+    def test_table(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT1D.table` property.
+        """
+
+        LUT = LUT1D()
+
+        np.testing.assert_array_equal(LUT.table, LUT.linear_table(self._size))
+
+        table_1 = self._table_1 * 0.8 + 0.1
+        LUT.table = table_1
+        np.testing.assert_allclose(LUT.table, table_1, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+    def test_name(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT1D.name` property.
+        """
+
+        LUT = LUT1D(self._table_1)
+
+        assert LUT.name == str(id(LUT))
+
+        LUT = LUT1D()
+
+        assert LUT.name == f"Unity {self._table_1.shape[0]}"
+
+    def test_domain(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT1D.domain` property.
+        """
+
+        LUT = LUT1D()
+
+        np.testing.assert_array_equal(LUT.domain, self._domain_1)
+
+        domain = self._domain_1 * 0.8 + 0.1
+        LUT.domain = domain
+        np.testing.assert_array_equal(LUT.domain, domain)
+
+    def test_size(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT1D.size` property.
+        """
+
+        LUT = LUT1D()
+
+        assert LUT.size == LUT.table.shape[0]
+
+    def test_dimensions(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT1D.dimensions` property.
+        """
+
+        LUT = LUT1D()
+
+        assert LUT.dimensions == self._dimensions
+
+    def test_comments(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT1D.comments` property.
+        """
+
+        LUT = LUT1D()
+        assert LUT.comments == []
+
+        comments = ["A first comment.", "A second comment."]
+        LUT = LUT1D(comments=comments)
+
+        assert LUT.comments == comments
+
+    def test__str__(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT1D.__str__` property.
+        """
+
+        LUT = LUT1D(name="Nemo")
+
+        assert str(LUT) == self._str
+
+    def test__repr__(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT1D.__repr__` method.
+        """
+
+        LUT = LUT1D(name="Nemo", comments=["A first comment.", "A second comment."])
+
+        # The default LUT representation is too large to be embedded, given
+        # that :class:`colour.io.luts.lut.LUT3D.__str__` method is defined by
+        # :class:`colour.io.luts.lut.AbstractLUT.__str__` method, the two other
+        # tests should reasonably cover this case.
+        if self._dimensions == 3:  # pragma: no cover
+            return
+
+        assert repr(LUT) == self._repr  # pragma: no cover
+
+    def test__eq__(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT1D.__eq__` method.
+        """
+
+        LUT_1 = LUT1D()
+        LUT_2 = LUT1D()
+
+        assert LUT_1 == LUT_2
+
+    def test__ne__(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT1D.__ne__` method.
+        """
+
+        LUT_1 = LUT1D()
+        LUT_2 = LUT1D()
+
+        LUT_2 += 0.1
+        assert LUT_1 != LUT_2
+
+        LUT_2 = LUT1D()
+        LUT_2.domain = self._domain_1 * 0.8 + 0.1
+        assert LUT_1 != LUT_2
+
+    def test_is_domain_explicit(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT1D.is_domain_explicit` method.
+        """
+
+        assert not LUT1D().is_domain_explicit()
+
+        assert LUT1D(self._table_3, domain=self._domain_3).is_domain_explicit()
+
+    def test_arithmetical_operation(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT1D.arithmetical_operation` method.
+        """
+
+        LUT_1 = LUT1D()
+        LUT_2 = LUT1D()
+
+        np.testing.assert_allclose(
+            LUT_1.arithmetical_operation(10, "+", False).table,
+            self._table_1 + 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_1.arithmetical_operation(10, "-", False).table,
+            self._table_1 - 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_1.arithmetical_operation(10, "*", False).table,
+            self._table_1 * 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_1.arithmetical_operation(10, "/", False).table,
+            self._table_1 / 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_1.arithmetical_operation(10, "**", False).table,
+            self._table_1**10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            (LUT_1 + 10).table,
+            self._table_1 + 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            (LUT_1 - 10).table,
+            self._table_1 - 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            (LUT_1 * 10).table,
+            self._table_1 * 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            (LUT_1 / 10).table,
+            self._table_1 / 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            (LUT_1**10).table,
+            self._table_1**10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(10, "+", True).table,
+            self._table_1 + 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(10, "-", True).table,
+            self._table_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(10, "*", True).table,
+            self._table_1 * 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(10, "/", True).table,
+            self._table_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(10, "**", True).table,
+            self._table_1**10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_2 = LUT1D()
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(self._table_1, "+", False).table,
+            LUT_2.table + self._table_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(LUT_2, "+", False).table,
+            LUT_2.table + LUT_2.table,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_linear_table(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT1D.linear_table` method.
+        """
+
+        LUT_1 = LUT1D()
+
+        np.testing.assert_allclose(
+            LUT_1.linear_table(self._size),
+            self._table_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            spow(LUT1D.linear_table(**self._table_3_kwargs), 1 / 2.6),
+            self._table_3,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_copy(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT1D.copy` method.
+        """
+
+        LUT_1 = LUT1D()
+
+        assert LUT_1 is not LUT_1.copy()
+        assert LUT_1.copy() == LUT_1
+
+    def test_invert(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT1D.invert` method.
+        """
+
+        LUT_i = LUT1D(self._table_2).invert(
+            interpolator=self._interpolator_1, **self._invert_kwargs_1
+        )
+
+        np.testing.assert_allclose(
+            LUT_i.apply(RANDOM_TRIPLETS),
+            self._inverted_apply_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_i = LUT1D(self._table_2).invert(
+            interpolator=self._interpolator_2, **self._invert_kwargs_2
+        )
+
+        np.testing.assert_allclose(
+            LUT_i.apply(RANDOM_TRIPLETS),
+            self._inverted_apply_2,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_i = LUT1D(self._table_2, domain=self._domain_4)
+
+        try:
+            LUT_i = LUT_i.invert(
+                interpolator=self._interpolator_2, **self._invert_kwargs_2
+            )
+
+            np.testing.assert_allclose(  # pragma: no cover
+                LUT_i.apply(RANDOM_TRIPLETS),
+                self._inverted_apply_2,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+        except NotImplementedError:  # pragma: no cover
+            pass
+
+    def test_apply(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT1D.apply` method.
+        """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
+        LUT_1 = LUT1D(self._table_2)
+
+        np.testing.assert_allclose(
+            LUT_1.apply(RANDOM_TRIPLETS),
+            self._applied_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_2 = LUT1D(domain=self._domain_2)
+        LUT_2.table = spow(LUT_2.table, 1 / 2.2)
+
+        np.testing.assert_allclose(
+            LUT_2.apply(RANDOM_TRIPLETS),
+            self._applied_2,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_3 = LUT1D(self._table_3, domain=self._domain_3)
+
+        np.testing.assert_allclose(
+            LUT_3.apply(RANDOM_TRIPLETS),
+            self._applied_3,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_4 = LUT1D(self._table_2)
+
+        np.testing.assert_allclose(
+            LUT_4.apply(
+                RANDOM_TRIPLETS,
+                direction="Inverse",
+                interpolator=self._interpolator_1,
+                interpolator_kwargs=self._interpolator_kwargs_1,
+                **self._invert_kwargs_1,
+            ),
+            self._applied_4,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+
+class TestLUT3x1D:
     """Define :class:`colour.io.luts.lut.LUT3x1D` class unit tests methods."""
 
-    @pytest.fixture(autouse=True)
-    def setup_test_lut_3_x_1_d(self) -> None:
-        """Configure the class instance."""
-
-        self._LUT_factory = LUT3x1D
+    def setup_method(self) -> None:
+        """Initialise the common tests attributes."""
 
         self._size = 10
         self._dimensions = 2
@@ -868,15 +781,403 @@ class TestLUT3x1D(FixtureAbstractLUT):
         )
         self._applied_4 = self._inverted_apply_1
 
+    def test_required_methods(self) -> None:
+        """Test the presence of required methods."""
 
-class TestLUT3D(FixtureAbstractLUT):
+        required_methods = (
+            "__init__",
+            "is_domain_explicit",
+            "linear_table",
+            "invert",
+            "apply",
+            "convert",
+        )
+
+        for method in required_methods:
+            assert method in dir(LUT3x1D)
+
+    def test__init__(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3x1D.__init__` method.
+        """
+
+        LUT = LUT3x1D(self._table_1)
+
+        np.testing.assert_allclose(
+            LUT.table, self._table_1, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        assert str(id(LUT)) == LUT.name
+
+        np.testing.assert_array_equal(LUT.domain, self._domain_1)
+
+        assert LUT.dimensions == self._dimensions
+
+        assert isinstance(LUT3x1D(self._table_3, domain=self._domain_3), LUT3x1D)
+
+    def test_table(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3x1D.table` property.
+        """
+
+        LUT = LUT3x1D()
+
+        np.testing.assert_array_equal(LUT.table, LUT.linear_table(self._size))
+
+        table_1 = self._table_1 * 0.8 + 0.1
+        LUT.table = table_1
+        np.testing.assert_allclose(LUT.table, table_1, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+    def test_name(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3x1D.name` property.
+        """
+
+        LUT = LUT3x1D(self._table_1)
+
+        assert LUT.name == str(id(LUT))
+
+        LUT = LUT3x1D()
+
+        assert LUT.name == f"Unity {self._table_1.shape[0]}"
+
+    def test_domain(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3x1D.domain` property.
+        """
+
+        LUT = LUT3x1D()
+
+        np.testing.assert_array_equal(LUT.domain, self._domain_1)
+
+        domain = self._domain_1 * 0.8 + 0.1
+        LUT.domain = domain
+        np.testing.assert_array_equal(LUT.domain, domain)
+
+    def test_size(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3x1D.size` property.
+        """
+
+        LUT = LUT3x1D()
+
+        assert LUT.size == LUT.table.shape[0]
+
+    def test_dimensions(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3x1D.dimensions` property.
+        """
+
+        LUT = LUT3x1D()
+
+        assert LUT.dimensions == self._dimensions
+
+    def test_comments(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3x1D.comments` property.
+        """
+
+        LUT = LUT3x1D()
+        assert LUT.comments == []
+
+        comments = ["A first comment.", "A second comment."]
+        LUT = LUT3x1D(comments=comments)
+
+        assert LUT.comments == comments
+
+    def test__str__(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3x1D.__str__` property.
+        """
+
+        LUT = LUT3x1D(name="Nemo")
+
+        assert str(LUT) == self._str
+
+    def test__repr__(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3x1D.__repr__` method.
+        """
+
+        LUT = LUT3x1D(name="Nemo", comments=["A first comment.", "A second comment."])
+
+        # The default LUT representation is too large to be embedded, given
+        # that :class:`colour.io.luts.lut.LUT3D.__str__` method is defined by
+        # :class:`colour.io.luts.lut.AbstractLUT.__str__` method, the two other
+        # tests should reasonably cover this case.
+        if self._dimensions == 3:  # pragma: no cover
+            return
+
+        assert repr(LUT) == self._repr  # pragma: no cover
+
+    def test__eq__(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3x1D.__eq__` method.
+        """
+
+        LUT_1 = LUT3x1D()
+        LUT_2 = LUT3x1D()
+
+        assert LUT_1 == LUT_2
+
+    def test__ne__(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3x1D.__ne__` method.
+        """
+
+        LUT_1 = LUT3x1D()
+        LUT_2 = LUT3x1D()
+
+        LUT_2 += 0.1
+        assert LUT_1 != LUT_2
+
+        LUT_2 = LUT3x1D()
+        LUT_2.domain = self._domain_1 * 0.8 + 0.1
+        assert LUT_1 != LUT_2
+
+    def test_is_domain_explicit(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3x1D.is_domain_explicit` method.
+        """
+
+        assert not LUT3x1D().is_domain_explicit()
+
+        assert LUT3x1D(self._table_3, domain=self._domain_3).is_domain_explicit()
+
+    def test_arithmetical_operation(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3x1D.arithmetical_operation` method.
+        """
+
+        LUT_1 = LUT3x1D()
+        LUT_2 = LUT3x1D()
+
+        np.testing.assert_allclose(
+            LUT_1.arithmetical_operation(10, "+", False).table,
+            self._table_1 + 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_1.arithmetical_operation(10, "-", False).table,
+            self._table_1 - 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_1.arithmetical_operation(10, "*", False).table,
+            self._table_1 * 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_1.arithmetical_operation(10, "/", False).table,
+            self._table_1 / 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_1.arithmetical_operation(10, "**", False).table,
+            self._table_1**10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            (LUT_1 + 10).table,
+            self._table_1 + 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            (LUT_1 - 10).table,
+            self._table_1 - 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            (LUT_1 * 10).table,
+            self._table_1 * 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            (LUT_1 / 10).table,
+            self._table_1 / 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            (LUT_1**10).table,
+            self._table_1**10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(10, "+", True).table,
+            self._table_1 + 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(10, "-", True).table,
+            self._table_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(10, "*", True).table,
+            self._table_1 * 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(10, "/", True).table,
+            self._table_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(10, "**", True).table,
+            self._table_1**10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_2 = LUT3x1D()
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(self._table_1, "+", False).table,
+            LUT_2.table + self._table_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(LUT_2, "+", False).table,
+            LUT_2.table + LUT_2.table,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_linear_table(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3x1D.linear_table` method.
+        """
+
+        LUT_1 = LUT3x1D()
+
+        np.testing.assert_allclose(
+            LUT_1.linear_table(self._size),
+            self._table_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            spow(LUT3x1D.linear_table(**self._table_3_kwargs), 1 / 2.6),
+            self._table_3,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_copy(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3x1D.copy` method.
+        """
+
+        LUT_1 = LUT3x1D()
+
+        assert LUT_1 is not LUT_1.copy()
+        assert LUT_1.copy() == LUT_1
+
+    def test_invert(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3x1D.invert` method.
+        """
+
+        LUT_i = LUT3x1D(self._table_2).invert(
+            interpolator=self._interpolator_1, **self._invert_kwargs_1
+        )
+
+        np.testing.assert_allclose(
+            LUT_i.apply(RANDOM_TRIPLETS),
+            self._inverted_apply_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_i = LUT3x1D(self._table_2).invert(
+            interpolator=self._interpolator_2, **self._invert_kwargs_2
+        )
+
+        np.testing.assert_allclose(
+            LUT_i.apply(RANDOM_TRIPLETS),
+            self._inverted_apply_2,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_i = LUT3x1D(self._table_2, domain=self._domain_4)
+
+        try:
+            LUT_i = LUT_i.invert(
+                interpolator=self._interpolator_2, **self._invert_kwargs_2
+            )
+
+            np.testing.assert_allclose(  # pragma: no cover
+                LUT_i.apply(RANDOM_TRIPLETS),
+                self._inverted_apply_2,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+        except NotImplementedError:  # pragma: no cover
+            pass
+
+    def test_apply(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3x1D.apply` method.
+        """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
+        LUT_1 = LUT3x1D(self._table_2)
+
+        np.testing.assert_allclose(
+            LUT_1.apply(RANDOM_TRIPLETS),
+            self._applied_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_2 = LUT3x1D(domain=self._domain_2)
+        LUT_2.table = spow(LUT_2.table, 1 / 2.2)
+
+        np.testing.assert_allclose(
+            LUT_2.apply(RANDOM_TRIPLETS),
+            self._applied_2,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_3 = LUT3x1D(self._table_3, domain=self._domain_3)
+
+        np.testing.assert_allclose(
+            LUT_3.apply(RANDOM_TRIPLETS),
+            self._applied_3,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_4 = LUT3x1D(self._table_2)
+
+        np.testing.assert_allclose(
+            LUT_4.apply(
+                RANDOM_TRIPLETS,
+                direction="Inverse",
+                interpolator=self._interpolator_1,
+                interpolator_kwargs=self._interpolator_kwargs_1,
+                **self._invert_kwargs_1,
+            ),
+            self._applied_4,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+
+class TestLUT3D:
     """Define :class:`colour.io.luts.lut.LUT3D` class unit tests methods."""
 
-    @pytest.fixture(autouse=True)
-    def setup_test_lut_3_d(self) -> None:
-        """Configure the class instance."""
-
-        self._LUT_factory = LUT3D
+    def setup_method(self) -> None:
+        """Initialise the common tests attributes."""
 
         self._size = 33
         self._dimensions = 3
@@ -941,8 +1242,8 @@ class TestLUT3D(FixtureAbstractLUT):
         self._interpolator_kwargs_1 = {}
         self._interpolator_2 = table_interpolation_tetrahedral
         self._interpolator_kwargs_2 = {}
-        self._invert_kwargs_1 = {"extrapolate": False, "query_size": 1}
-        self._invert_kwargs_2 = {"extrapolate": True, "query_size": 3}
+        self._invert_kwargs_1 = {"query_size": 1, "gamma": 1.0, "sigma": 0.0}
+        self._invert_kwargs_2 = {"query_size": 3, "gamma": 1.0, "sigma": 0.0}
         self._str = textwrap.dedent(
             """
             LUT3D - Nemo
@@ -958,20 +1259,20 @@ class TestLUT3D(FixtureAbstractLUT):
         self._inverted_apply_1 = np.array(
             [
                 [
-                    [0.92912690, 0.04737489, 0.00000000],
-                    [0.26685842, 0.16376350, 0.12488904],
+                    [0.92925301, 0.04741494, 0.0],
+                    [0.26646642, 0.16033355, 0.125],
                 ],
                 [
-                    [0.94536872, 0.57745743, 0.00934579],
-                    [0.47636096, 0.02946078, 0.90396014],
+                    [0.93931, 0.57646832, 0.0078125],
+                    [0.47633299, 0.03125, 0.90691877],
                 ],
                 [
-                    [0.45473817, 0.72598647, 0.16511861],
-                    [0.03738318, 0.96680135, 0.88860882],
+                    [0.45557788, 0.72406682, 0.16146634],
+                    [0.03219981, 0.96443551, 0.89125893],
                 ],
                 [
-                    [0.95254891, 0.02803738, 0.59004430],
-                    [0.00000000, 0.32550901, 0.73257860],
+                    [0.94831328, 0.0234375, 0.58804282],
+                    [0.0, 0.31964634, 0.72957742],
                 ],
             ]
         )
@@ -979,20 +1280,20 @@ class TestLUT3D(FixtureAbstractLUT):
         self._inverted_apply_2 = np.array(
             [
                 [
-                    [0.93259940, 0.04818925, -0.00146028],
-                    [0.26593731, 0.15743488, 0.12472549],
+                    [0.92923562, 0.04741494, 0.0],
+                    [0.26607246, 0.16033355, 0.12420096],
                 ],
                 [
-                    [0.94081323, 0.57648311, 0.00846963],
-                    [0.48024921, 0.02887666, 0.90683979],
+                    [0.94149611, 0.57887455, 0.0078125],
+                    [0.47760706, 0.03125, 0.90728666],
                 ],
                 [
-                    [0.45415635, 0.72121622, 0.15810926],
-                    [0.03825935, 0.96203111, 0.88987440],
+                    [0.45371291, 0.72327218, 0.16146634],
+                    [0.03219981, 0.96308094, 0.89145048],
                 ],
                 [
-                    [0.94880272, 0.02832944, 0.58872560],
-                    [-0.00146028, 0.32119161, 0.72922327],
+                    [0.9485237, 0.0234375, 0.59041851],
+                    [0.0, 0.32182126, 0.73035906],
                 ],
             ]
         )
@@ -1059,6 +1360,400 @@ class TestLUT3D(FixtureAbstractLUT):
         )
         self._applied_4 = self._inverted_apply_1
 
+    def test_required_methods(self) -> None:
+        """Test the presence of required methods."""
+
+        required_methods = (
+            "__init__",
+            "is_domain_explicit",
+            "linear_table",
+            "invert",
+            "apply",
+            "convert",
+        )
+
+        for method in required_methods:
+            assert method in dir(LUT3D)
+
+    def test__init__(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3D.__init__` method.
+        """
+
+        LUT = LUT3D(self._table_1)
+
+        np.testing.assert_allclose(
+            LUT.table, self._table_1, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        assert str(id(LUT)) == LUT.name
+
+        np.testing.assert_array_equal(LUT.domain, self._domain_1)
+
+        assert LUT.dimensions == self._dimensions
+
+        assert isinstance(LUT3D(self._table_3, domain=self._domain_3), LUT3D)
+
+    def test_table(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3D.table` property.
+        """
+
+        LUT = LUT3D()
+
+        np.testing.assert_array_equal(LUT.table, LUT.linear_table(self._size))
+
+        table_1 = self._table_1 * 0.8 + 0.1
+        LUT.table = table_1
+        np.testing.assert_allclose(LUT.table, table_1, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+    def test_name(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3D.name` property.
+        """
+
+        LUT = LUT3D(self._table_1)
+
+        assert LUT.name == str(id(LUT))
+
+        LUT = LUT3D()
+
+        assert LUT.name == f"Unity {self._table_1.shape[0]}"
+
+    def test_domain(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3D.domain` property.
+        """
+
+        LUT = LUT3D()
+
+        np.testing.assert_array_equal(LUT.domain, self._domain_1)
+
+        domain = self._domain_1 * 0.8 + 0.1
+        LUT.domain = domain
+        np.testing.assert_array_equal(LUT.domain, domain)
+
+    def test_size(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3D.size` property.
+        """
+
+        LUT = LUT3D()
+
+        assert LUT.size == LUT.table.shape[0]
+
+    def test_dimensions(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3D.dimensions` property.
+        """
+
+        LUT = LUT3D()
+
+        assert LUT.dimensions == self._dimensions
+
+    def test_comments(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3D.comments` property.
+        """
+
+        LUT = LUT3D()
+        assert LUT.comments == []
+
+        comments = ["A first comment.", "A second comment."]
+        LUT = LUT3D(comments=comments)
+
+        assert LUT.comments == comments
+
+    def test__str__(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3D.__str__` property.
+        """
+
+        LUT = LUT3D(name="Nemo")
+
+        assert str(LUT) == self._str
+
+    def test__repr__(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3D.__repr__` method.
+        """
+
+        LUT = LUT3D(name="Nemo", comments=["A first comment.", "A second comment."])
+
+        # The default LUT representation is too large to be embedded, given
+        # that :class:`colour.io.luts.lut.LUT3D.__str__` method is defined by
+        # :class:`colour.io.luts.lut.AbstractLUT.__str__` method, the two other
+        # tests should reasonably cover this case.
+        if self._dimensions == 3:  # pragma: no cover
+            return
+
+        assert repr(LUT) == self._repr  # pragma: no cover
+
+    def test__eq__(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3D.__eq__` method.
+        """
+
+        LUT_1 = LUT3D()
+        LUT_2 = LUT3D()
+
+        assert LUT_1 == LUT_2
+
+    def test__ne__(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3D.__ne__` method.
+        """
+
+        LUT_1 = LUT3D()
+        LUT_2 = LUT3D()
+
+        LUT_2 += 0.1
+        assert LUT_1 != LUT_2
+
+        LUT_2 = LUT3D()
+        LUT_2.domain = self._domain_1 * 0.8 + 0.1
+        assert LUT_1 != LUT_2
+
+    def test_is_domain_explicit(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3D.is_domain_explicit` method.
+        """
+
+        assert not LUT3D().is_domain_explicit()
+
+        assert LUT3D(self._table_3, domain=self._domain_3).is_domain_explicit()
+
+    def test_arithmetical_operation(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3D.arithmetical_operation` method.
+        """
+
+        LUT_1 = LUT3D()
+        LUT_2 = LUT3D()
+
+        np.testing.assert_allclose(
+            LUT_1.arithmetical_operation(10, "+", False).table,
+            self._table_1 + 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_1.arithmetical_operation(10, "-", False).table,
+            self._table_1 - 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_1.arithmetical_operation(10, "*", False).table,
+            self._table_1 * 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_1.arithmetical_operation(10, "/", False).table,
+            self._table_1 / 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_1.arithmetical_operation(10, "**", False).table,
+            self._table_1**10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            (LUT_1 + 10).table,
+            self._table_1 + 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            (LUT_1 - 10).table,
+            self._table_1 - 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            (LUT_1 * 10).table,
+            self._table_1 * 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            (LUT_1 / 10).table,
+            self._table_1 / 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            (LUT_1**10).table,
+            self._table_1**10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(10, "+", True).table,
+            self._table_1 + 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(10, "-", True).table,
+            self._table_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(10, "*", True).table,
+            self._table_1 * 10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(10, "/", True).table,
+            self._table_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(10, "**", True).table,
+            self._table_1**10,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_2 = LUT3D()
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(self._table_1, "+", False).table,
+            LUT_2.table + self._table_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            LUT_2.arithmetical_operation(LUT_2, "+", False).table,
+            LUT_2.table + LUT_2.table,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_linear_table(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3D.linear_table` method.
+        """
+
+        LUT_1 = LUT3D()
+
+        np.testing.assert_allclose(
+            LUT_1.linear_table(self._size),
+            self._table_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            spow(LUT3D.linear_table(**self._table_3_kwargs), 1 / 2.6),
+            self._table_3,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_copy(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3D.copy` method.
+        """
+
+        LUT_1 = LUT3D()
+
+        assert LUT_1 is not LUT_1.copy()
+        assert LUT_1.copy() == LUT_1
+
+    def test_invert(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3D.invert` method.
+        """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
+        LUT_i = LUT3D(self._table_2).invert(
+            interpolator=self._interpolator_1, **self._invert_kwargs_1
+        )
+
+        np.testing.assert_allclose(
+            LUT_i.apply(RANDOM_TRIPLETS),
+            self._inverted_apply_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_i = LUT3D(self._table_2).invert(
+            interpolator=self._interpolator_2, **self._invert_kwargs_2
+        )
+
+        np.testing.assert_allclose(
+            LUT_i.apply(RANDOM_TRIPLETS),
+            self._inverted_apply_2,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_i = LUT3D(self._table_2, domain=self._domain_4)
+
+        try:
+            LUT_i = LUT_i.invert(
+                interpolator=self._interpolator_2, **self._invert_kwargs_2
+            )
+
+            np.testing.assert_allclose(  # pragma: no cover
+                LUT_i.apply(RANDOM_TRIPLETS),
+                self._inverted_apply_2,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+        except NotImplementedError:  # pragma: no cover
+            pass
+
+    def test_apply(self) -> None:
+        """
+        Test :class:`colour.io.luts.lut.LUT3D.apply` method.
+        """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
+        LUT_1 = LUT3D(self._table_2)
+
+        np.testing.assert_allclose(
+            LUT_1.apply(RANDOM_TRIPLETS),
+            self._applied_1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_2 = LUT3D(domain=self._domain_2)
+        LUT_2.table = spow(LUT_2.table, 1 / 2.2)
+
+        np.testing.assert_allclose(
+            LUT_2.apply(RANDOM_TRIPLETS),
+            self._applied_2,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_3 = LUT3D(self._table_3, domain=self._domain_3)
+
+        np.testing.assert_allclose(
+            LUT_3.apply(RANDOM_TRIPLETS),
+            self._applied_3,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LUT_4 = LUT3D(self._table_2)
+
+        np.testing.assert_allclose(
+            LUT_4.apply(
+                RANDOM_TRIPLETS,
+                direction="Inverse",
+                interpolator=self._interpolator_1,
+                interpolator_kwargs=self._interpolator_kwargs_1,
+                **self._invert_kwargs_1,
+            ),
+            self._applied_4,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
 
 class TestLUT_to_LUT:
     """
@@ -1066,7 +1761,7 @@ class TestLUT_to_LUT:
     methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._domain = np.array([[0.0, -0.1, -0.2], [1.0, 1.5, 3.0]])
@@ -1078,7 +1773,7 @@ class TestLUT_to_LUT:
         )
         self._LUT_3 = LUT3D(LUT3D.linear_table(16) ** (1 / 2.2), domain=self._domain)
 
-    def test_LUT_to_LUT(self):
+    def test_LUT_to_LUT(self) -> None:
         """Test :func:`colour.io.luts.lut.LUT_to_LUT` definition."""
 
         # "LUT" 1D to "LUT" 1D.

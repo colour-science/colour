@@ -2,7 +2,7 @@
 :math:`\\Delta E_{99}` DIN99 - Colour Difference Formula
 ========================================================
 
-Define the :math:`\\Delta E_{99}` *DIN99* colour difference formula:
+Define the :math:`\\Delta E_{99}` *DIN99* colour difference formula.
 
 -   :func:`colour.difference.delta_E_DIN99`
 
@@ -17,7 +17,7 @@ References
 from __future__ import annotations
 
 from colour.algebra import euclidean_distance
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import Domain100, NDArrayFloat  # noqa: TC001
 from colour.models import Lab_to_DIN99
 from colour.utilities import get_domain_range_scale
 
@@ -34,11 +34,13 @@ __all__ = [
 
 
 def delta_E_DIN99(
-    Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: bool = False
+    Lab_1: Domain100,
+    Lab_2: Domain100,
+    textiles: bool = False,
 ) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{DIN99}` between two given
-    *CIE L\\*a\\*b\\** colourspace arrays using *DIN99* formula.
+    Compute the colour difference :math:`\\Delta E_{DIN99}` between two
+    specified *CIE L\\*a\\*b\\** colourspace arrays using the *DIN99* formula.
 
     Parameters
     ----------
@@ -61,17 +63,9 @@ def delta_E_DIN99(
     +------------+-----------------------+-------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**     |
     +============+=======================+===================+
-    | ``Lab_1``  | ``L_1`` : [0, 100]    | ``L_1`` : [0, 1]  |
-    |            |                       |                   |
-    |            | ``a_1`` : [-100, 100] | ``a_1`` : [-1, 1] |
-    |            |                       |                   |
-    |            | ``b_1`` : [-100, 100] | ``b_1`` : [-1, 1] |
+    | ``Lab_1``  | 100                   | 1                 |
     +------------+-----------------------+-------------------+
-    | ``Lab_2``  | ``L_2`` : [0, 100]    | ``L_2`` : [0, 1]  |
-    |            |                       |                   |
-    |            | ``a_2`` : [-100, 100] | ``a_2`` : [-1, 1] |
-    |            |                       |                   |
-    |            | ``b_2`` : [-100, 100] | ``b_2`` : [-1, 1] |
+    | ``Lab_2``  | 100                   | 1                 |
     +------------+-----------------------+-------------------+
 
     References
@@ -92,9 +86,7 @@ def delta_E_DIN99(
 
     factor = 100 if get_domain_range_scale() == "1" else 1
 
-    d_E = euclidean_distance(
+    return euclidean_distance(
         Lab_to_DIN99(Lab_1, k_E, k_CH) * factor,
         Lab_to_DIN99(Lab_2, k_E, k_CH) * factor,
     )
-
-    return d_E

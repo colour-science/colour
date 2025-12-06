@@ -12,11 +12,15 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import random_triplet_generator
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -52,7 +56,7 @@ class TestRandomTripletGenerator:
     unit tests methods.
     """
 
-    def test_random_triplet_generator(self):
+    def test_random_triplet_generator(self) -> None:
         """
         Test :func:`colour.algebra.prng.random_triplet_generator` definition.
 

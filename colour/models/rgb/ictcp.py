@@ -27,15 +27,21 @@ R-REC-BT.2100-2-201807-I!!PDF-E.pdf
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import vecmul
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import (
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Literal, LiteralChromaticAdaptationTransform
+
+from colour.hints import (  # noqa: TC001
     ArrayLike,
-    Literal,
-    LiteralChromaticAdaptationTransform,
+    Domain1,
     NDArrayFloat,
+    Range1,
 )
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 from colour.models.rgb.transfer_functions import (
@@ -44,11 +50,7 @@ from colour.models.rgb.transfer_functions import (
     oetf_BT2100_HLG,
     oetf_inverse_BT2100_HLG,
 )
-from colour.utilities import (
-    as_float_array,
-    domain_range_scale,
-    validate_method,
-)
+from colour.utilities import as_float_array, domain_range_scale, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -121,7 +123,7 @@ MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2: NDArrayFloat = (
 )
 """
 :math:`LMS_p` *SMPTE ST 2084:2014* encoded normalised cone responses to
-:math:`IC_TC_P` colour encoding matrix as given in *ITU-R BT.2100-2*.
+:math:`IC_TC_P` colour encoding matrix as specified in *ITU-R BT.2100-2*.
 """
 
 MATRIX_ICTCP_ICTCP_TO_LMS_P_BT2100_HLG_2: NDArrayFloat = np.linalg.inv(
@@ -129,7 +131,7 @@ MATRIX_ICTCP_ICTCP_TO_LMS_P_BT2100_HLG_2: NDArrayFloat = np.linalg.inv(
 )
 """
 :math:`IC_TC_P` colour encoding to :math:`LMS_p` *SMPTE ST 2084:2014* encoded
-normalised cone responses matrix as given in *ITU-R BT.2100-2*.
+normalised cone responses matrix as specified in *ITU-R BT.2100-2*.
 """
 
 
@@ -146,7 +148,7 @@ def RGB_to_ICtCp(
         | str
     ) = "Dolby 2016",
     L_p: float = 10000,
-) -> NDArrayFloat:
+) -> Range1:
     """
     Convert from *ITU-R BT.2020* colourspace to :math:`IC_TC_P` colour
     encoding.
@@ -166,8 +168,8 @@ def RGB_to_ICtCp(
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
             -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF) and the :math:`IC_TC_P` matrix
-                from :cite:`Dolby2016a`: *ITU-R BT.2100-1 HLG* method.
+                transfer function (OETF) and the :math:`IC_TC_P` matrix from
+                :cite:`Dolby2016a`: *ITU-R BT.2100-1 HLG* method.
 
         -   *ITU-R BT.2100-2*
 
@@ -176,15 +178,15 @@ def RGB_to_ICtCp(
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
             -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF) and a custom :math:`IC_TC_P`
-                matrix from :cite:`InternationalTelecommunicationUnion2018`:
+                transfer function (OETF) and a custom :math:`IC_TC_P` matrix
+                from :cite:`InternationalTelecommunicationUnion2018`:
                 *ITU-R BT.2100-2 HLG* method.
 
     L_p
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
-        non-linear encoding. This parameter should stay at its default
-        :math:`10000 cd/m^2` value for practical applications. It is exposed so
-        that the definition can be used as a fitting function.
+        non-linear encoding. This parameter should remain at its default
+        :math:`10000 cd/m^2` value for practical applications. It is exposed
+        to enable the definition to be used as a fitting function.
 
     Returns
     -------
@@ -198,14 +200,14 @@ def RGB_to_ICtCp(
 
     Notes
     -----
-    -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are aliases
-        for the *Dolby 2016* method.
+    -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are
+        aliases for the *Dolby 2016* method.
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations. The effective domain of *SMPTE ST 2084:2014*
-        inverse electro-optical transfer function (EOTF) is
-        [0.0001, 10000].
+        transfer function, thus the domain and range values for the
+        *Reference* and *1* scales are only indicative that the data is not
+        affected by scale transformations. The effective domain of
+        *SMPTE ST 2084:2014* inverse electro-optical transfer function (EOTF)
+        is [0.0001, 10000].
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
@@ -216,11 +218,7 @@ def RGB_to_ICtCp(
     +------------+-----------------------+------------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``ICtCp``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
-    |            |                       |                  |
-    |            | ``CT`` : [-1, 1]      | ``CT`` : [-1, 1] |
-    |            |                       |                  |
-    |            | ``CP`` : [-1, 1]      | ``CP`` : [-1, 1] |
+    | ``ICtCp``  | 1                     | 1                |
     +------------+-----------------------+------------------+
 
     References
@@ -256,17 +254,15 @@ def RGB_to_ICtCp(
     with domain_range_scale("ignore"):
         LMS_p = oetf_BT2100_HLG(LMS) if is_hlg_method else eotf_inverse_ST2084(LMS, L_p)
 
-    ICtCp = (
+    return (
         vecmul(MATRIX_ICTCP_LMS_P_TO_ICTCP_BT2100_HLG_2, LMS_p)
         if (is_hlg_method and is_BT2100_2_method)
         else vecmul(MATRIX_ICTCP_LMS_P_TO_ICTCP, LMS_p)
     )
 
-    return ICtCp
-
 
 def ICtCp_to_RGB(
-    ICtCp: ArrayLike,
+    ICtCp: Domain1,
     method: (
         Literal[
             "Dolby 2016",
@@ -297,9 +293,10 @@ def ICtCp_to_RGB(
                 function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
-            -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF) and the :math:`IC_TC_P` matrix
-                from :cite:`Dolby2016a`: *ITU-R BT.2100-1 HLG* method.
+            -   *Recommendation ITU-R BT.2100* *Reference HLG*
+                opto-electrical transfer function (OETF) and the
+                :math:`IC_TC_P` matrix from :cite:`Dolby2016a`:
+                *ITU-R BT.2100-1 HLG* method.
 
         -   *ITU-R BT.2100-2*
 
@@ -307,16 +304,17 @@ def ICtCp_to_RGB(
                 function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
-            -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF) and a custom :math:`IC_TC_P`
-                matrix from :cite:`InternationalTelecommunicationUnion2018`:
+            -   *Recommendation ITU-R BT.2100* *Reference HLG*
+                opto-electrical transfer function (OETF) and a custom
+                :math:`IC_TC_P` matrix from
+                :cite:`InternationalTelecommunicationUnion2018`:
                 *ITU-R BT.2100-2 HLG* method.
 
     L_p
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
-        non-linear encoding. This parameter should stay at its default
-        :math:`10000 cd/m^2` value for practical applications. It is exposed so
-        that the definition can be used as a fitting function.
+        non-linear encoding. This parameter should remain at its default
+        :math:`10000 cd/m^2` value for practical applications. It is exposed
+        to enable the definition to be used as a fitting function.
 
     Returns
     -------
@@ -330,21 +328,17 @@ def ICtCp_to_RGB(
 
     Notes
     -----
-    -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are aliases
-        for the *Dolby 2016* method.
-    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations.
+    -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are
+        aliases for the *Dolby 2016* method.
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an
+        absolute transfer function, thus the domain and range values for
+        the *Reference* and *1* scales are only indicative that the data is
+        not affected by scale transformations.
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``ICtCp``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
-    |            |                       |                  |
-    |            | ``CT`` : [-1, 1]      | ``CT`` : [-1, 1] |
-    |            |                       |                  |
-    |            | ``CP`` : [-1, 1]      | ``CP`` : [-1, 1] |
+    | ``ICtCp``  | 1                     | 1                |
     +------------+-----------------------+------------------+
 
     +------------+-----------------------+------------------+
@@ -393,14 +387,14 @@ def ICtCp_to_RGB(
             oetf_inverse_BT2100_HLG(LMS_p) if is_hlg_method else eotf_ST2084(LMS_p, L_p)
         )
 
-    RGB = vecmul(MATRIX_ICTCP_LMS_TO_RGB, LMS)
-
-    return RGB
+    return vecmul(MATRIX_ICTCP_LMS_TO_RGB, LMS)
 
 
 def XYZ_to_ICtCp(
     XYZ: ArrayLike,
-    illuminant=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
     chromatic_adaptation_transform: (
         LiteralChromaticAdaptationTransform | str | None
     ) = "CAT02",
@@ -415,7 +409,7 @@ def XYZ_to_ICtCp(
         | str
     ) = "Dolby 2016",
     L_p: float = 10000,
-) -> NDArrayFloat:
+) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to :math:`IC_TC_P` colour
     encoding.
@@ -438,9 +432,10 @@ def XYZ_to_ICtCp(
                 function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
-            -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF) and the :math:`IC_TC_P` matrix
-                from :cite:`Dolby2016a`: *ITU-R BT.2100-1 HLG* method.
+            -   *Recommendation ITU-R BT.2100* *Reference HLG*
+                opto-electrical transfer function (OETF) and the
+                :math:`IC_TC_P` matrix from :cite:`Dolby2016a`:
+                *ITU-R BT.2100-1 HLG* method.
 
         -   *ITU-R BT.2100-2*
 
@@ -448,16 +443,17 @@ def XYZ_to_ICtCp(
                 function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
-            -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF) and a custom :math:`IC_TC_P`
-                matrix from :cite:`InternationalTelecommunicationUnion2018`:
+            -   *Recommendation ITU-R BT.2100* *Reference HLG*
+                opto-electrical transfer function (OETF) and a custom
+                :math:`IC_TC_P` matrix from
+                :cite:`InternationalTelecommunicationUnion2018`:
                 *ITU-R BT.2100-2 HLG* method.
 
     L_p
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
-        non-linear encoding. This parameter should stay at its default
-        :math:`10000 cd/m^2` value for practical applications. It is exposed so
-        that the definition can be used as a fitting function.
+        non-linear encoding. This parameter should remain at its default
+        :math:`10000 cd/m^2` value for practical applications. It is exposed
+        to enable the definition to be used as a fitting function.
 
     Returns
     -------
@@ -471,14 +467,14 @@ def XYZ_to_ICtCp(
 
     Notes
     -----
-    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-    -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are aliases
-        for the *Dolby 2016* method.
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations. The effective domain of *SMPTE ST 2084:2014*
-        inverse electro-optical transfer function (EOTF) is
-        [0.0001, 10000].
+    -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are
+        aliases for the *Dolby 2016* method.
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an
+        absolute transfer function, thus the domain and range values for
+        the *Reference* and *1* scales are only indicative that the data
+        is not affected by scale transformations. The effective domain of
+        *SMPTE ST 2084:2014* inverse electro-optical transfer function
+        (EOTF) is [0.0001, 10000].
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
@@ -489,11 +485,7 @@ def XYZ_to_ICtCp(
     +------------+-----------------------+------------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``ICtCp``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
-    |            |                       |                  |
-    |            | ``CT`` : [-1, 1]      | ``CT`` : [-1, 1] |
-    |            |                       |                  |
-    |            | ``CP`` : [-1, 1]      | ``CP`` : [-1, 1] |
+    | ``ICtCp``  | 1                     | 1                |
     +------------+-----------------------+------------------+
 
     References
@@ -520,8 +512,10 @@ def XYZ_to_ICtCp(
 
 
 def ICtCp_to_XYZ(
-    ICtCp: ArrayLike,
-    illuminant=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
+    ICtCp: Domain1,
+    illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
+        "D65"
+    ],
     chromatic_adaptation_transform: (
         LiteralChromaticAdaptationTransform | str | None
     ) = "CAT02",
@@ -559,9 +553,10 @@ def ICtCp_to_XYZ(
                 function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
-            -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF) and the :math:`IC_TC_P` matrix
-                from :cite:`Dolby2016a`: *ITU-R BT.2100-1 HLG* method.
+            -   *Recommendation ITU-R BT.2100* *Reference HLG*
+                opto-electrical transfer function (OETF) and the
+                :math:`IC_TC_P` matrix from :cite:`Dolby2016a`:
+                *ITU-R BT.2100-1 HLG* method.
 
         -   *ITU-R BT.2100-2*
 
@@ -569,16 +564,17 @@ def ICtCp_to_XYZ(
                 function (EOTF) and the :math:`IC_TC_P` matrix from
                 :cite:`Dolby2016a`: *Dolby 2016*, *ITU-R BT.2100-1 PQ*,
                 *ITU-R BT.2100-2 PQ* methods.
-            -   *Recommendation ITU-R BT.2100* *Reference HLG* opto-electrical
-                transfer function (OETF) and a custom :math:`IC_TC_P`
-                matrix from :cite:`InternationalTelecommunicationUnion2018`:
+            -   *Recommendation ITU-R BT.2100* *Reference HLG*
+                opto-electrical transfer function (OETF) and a custom
+                :math:`IC_TC_P` matrix from
+                :cite:`InternationalTelecommunicationUnion2018`:
                 *ITU-R BT.2100-2 HLG* method.
 
     L_p
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
-        non-linear encoding. This parameter should stay at its default
-        :math:`10000 cd/m^2` value for practical applications. It is exposed so
-        that the definition can be used as a fitting function.
+        non-linear encoding. This parameter should remain at its default
+        :math:`10000 cd/m^2` value for practical applications. It is exposed
+        to enable the definition to be used as a fitting function.
 
     Returns
     -------
@@ -592,21 +588,17 @@ def ICtCp_to_XYZ(
 
     Notes
     -----
-    -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are aliases
-        for the *Dolby 2016* method.
+    -   The *ITU-R BT.2100-1 PQ* and *ITU-R BT.2100-2 PQ* methods are
+        aliases for the *Dolby 2016* method.
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations.
+        transfer function, thus the domain and range values for the
+        *Reference* and *1* scales are only indicative that the data is not
+        affected by scale transformations.
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``ICtCp``  | ``I``  : [0, 1]       | ``I``  : [0, 1]  |
-    |            |                       |                  |
-    |            | ``CT`` : [-1, 1]      | ``CT`` : [-1, 1] |
-    |            |                       |                  |
-    |            | ``CP`` : [-1, 1]      | ``CP`` : [-1, 1] |
+    | ``ICtCp``  | 1                     | 1                |
     +------------+-----------------------+------------------+
 
     +------------+-----------------------+------------------+
@@ -631,11 +623,9 @@ def ICtCp_to_XYZ(
 
     RGB = ICtCp_to_RGB(ICtCp, method, L_p)
 
-    XYZ = RGB_to_XYZ(
+    return RGB_to_XYZ(
         RGB,
         RGB_COLOURSPACES["ITU-R BT.2020"],
         illuminant,
         chromatic_adaptation_transform,
     )
-
-    return XYZ

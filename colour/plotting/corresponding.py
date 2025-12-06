@@ -2,21 +2,28 @@
 Corresponding Chromaticities Prediction Plotting
 ================================================
 
-Define the corresponding chromaticities prediction plotting objects:
+Define the corresponding chromaticities prediction plotting objects.
 
 -   :func:`colour.plotting.plot_corresponding_chromaticities_prediction`
 """
 
 from __future__ import annotations
 
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
+import typing
+
+if typing.TYPE_CHECKING:
+    from matplotlib.figure import Figure
+    from matplotlib.axes import Axes
 
 from colour.corresponding import (
     CorrespondingColourDataset,
     corresponding_chromaticities_prediction,
 )
-from colour.hints import Any, Dict, Literal, Tuple, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, Dict, Literal, Tuple
+
+from colour.hints import cast
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     artist,
@@ -55,8 +62,8 @@ def plot_corresponding_chromaticities_prediction(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given chromatic adaptation model corresponding chromaticities
-    prediction.
+    Plot the corresponding chromaticities prediction for the specified
+    chromatic adaptation model.
 
     Parameters
     ----------
@@ -66,8 +73,8 @@ def plot_corresponding_chromaticities_prediction(
     model
         Corresponding chromaticities prediction model name.
     corresponding_chromaticities_prediction_kwargs
-        Keyword arguments for the :func:`colour.\
-corresponding_chromaticities_prediction` definition.
+        Keyword arguments for the
+        :func:`colour.corresponding_chromaticities_prediction` definition.
 
     Other Parameters
     ----------------
@@ -105,7 +112,7 @@ Plot_Corresponding_Chromaticities_Prediction.png
     name = (
         f"Experiment {experiment}"
         if is_numeric(experiment)
-        else cast(CorrespondingColourDataset, experiment).name
+        else cast("CorrespondingColourDataset", experiment).name
     )
     title = (
         f"Corresponding Chromaticities Prediction - {model} - {name} - "
@@ -123,7 +130,7 @@ Plot_Corresponding_Chromaticities_Prediction.png
     )
 
     for result in results:
-        _name, uv_t, uv_m, uv_p = result
+        _name, uv_t, uv_m, uv_p = result.values
         axes.arrow(
             uv_t[0],
             uv_t[1],

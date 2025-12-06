@@ -2,7 +2,7 @@
 Automatic Colour Conversion Graph Plotting
 ==========================================
 
-Define the automatic colour conversion graph plotting objects:
+Define the automatic colour conversion graph plotting objects.
 
 -   :func:`colour.plotting.plot_automatic_colour_conversion_graph`
 """
@@ -10,13 +10,15 @@ Define the automatic colour conversion graph plotting objects:
 from __future__ import annotations
 
 import os
+import typing
 
 import colour
-from colour.graph import (
-    CONVERSION_GRAPH_NODE_LABELS,
-    describe_conversion_path,
-)
-from colour.hints import Literal, cast
+from colour.graph import CONVERSION_GRAPH_NODE_LABELS, describe_conversion_path
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Literal
+
+from colour.hints import cast
 from colour.utilities import required, validate_method
 
 __author__ = "Colour Developers"
@@ -56,8 +58,8 @@ def plot_automatic_colour_conversion_graph(
 
     Notes
     -----
-    -   This definition does not directly plot the *Colour* automatic colour
-        conversion graph but instead write it to an image.
+    -   This definition does not directly plot the *Colour* automatic
+        colour conversion graph but instead writes it to an image.
 
     Examples
     --------
@@ -75,7 +77,7 @@ def plot_automatic_colour_conversion_graph(
         :alt: plot_automatic_colour_conversion_graph
     """
 
-    import networkx as nx
+    import networkx as nx  # noqa: PLC0415
 
     prog = validate_method(
         prog,
@@ -86,7 +88,9 @@ def plot_automatic_colour_conversion_graph(
     # TODO: Investigate API to trigger the conversion graph build.
     describe_conversion_path("RGB", "RGB", print_callable=lambda x: x)
 
-    dot = nx.drawing.nx_pydot.to_pydot(cast(nx.DiGraph, colour.graph.CONVERSION_GRAPH))
+    dot = nx.drawing.nx_pydot.to_pydot(
+        cast("nx.DiGraph", colour.graph.CONVERSION_GRAPH)
+    )
 
     for node in dot.get_nodes():
         label = CONVERSION_GRAPH_NODE_LABELS.get(node.get_name())

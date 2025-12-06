@@ -2,7 +2,7 @@
 Sony Encodings
 ==============
 
-Define the *Sony* log encodings:
+Define the *Sony* log encodings.
 
 -   :func:`colour.models.log_encoding_SLog`
 -   :func:`colour.models.log_decoding_SLog`
@@ -26,9 +26,9 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import (
-    ArrayLike,
-    NDArrayFloat,
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
 )
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import (
@@ -57,14 +57,14 @@ __all__ = [
 
 
 def log_encoding_SLog(
-    x: ArrayLike,
+    x: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Define the *Sony S-Log* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Sony S-Log* log encoding opto-electronic transfer function
+    (OETF).
 
     Parameters
     ----------
@@ -74,7 +74,7 @@ def log_encoding_SLog(
     bit_depth
         Bit-depth used for conversion.
     out_normalised_code_value
-        Whether the non-linear *Sony S-Log* data :math:`y` is encoded as
+        Whether the *Sony S-Log* non-linear data :math:`y` is encoded as
         normalised code values.
     in_reflection
         Whether the light level :math:`x` to a camera is reflection.
@@ -82,20 +82,20 @@ def log_encoding_SLog(
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear *Sony S-Log* data :math:`y`.
+        *Sony S-Log* non-linear encoded data :math:`y`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -134,26 +134,26 @@ def log_encoding_SLog(
 
 
 def log_decoding_SLog(
-    y: ArrayLike,
+    y: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Define the *Sony S-Log* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Sony S-Log* log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     y
-        Non-linear *Sony S-Log* data :math:`y`.
+        *Sony S-Log* non-linear encoded data :math:`y`.
     bit_depth
         Bit-depth used for conversion.
     in_normalised_code_value
-        Whether the non-linear *Sony S-Log* data :math:`y` is encoded as
+        Whether the *Sony S-Log* non-linear data :math:`y` is encoded as
         normalised code values.
     out_reflection
-        Whether the light level :math:`x` to a camera is reflection.
+        Whether the output light level :math:`x` represents reflection.
 
     Returns
     -------
@@ -166,13 +166,13 @@ def log_decoding_SLog(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -203,14 +203,14 @@ def log_decoding_SLog(
 
 
 def log_encoding_SLog2(
-    x: ArrayLike,
+    x: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Define the *Sony S-Log2* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Sony S-Log2* log encoding opto-electronic transfer function
+    (OETF).
 
     Parameters
     ----------
@@ -220,7 +220,7 @@ def log_encoding_SLog2(
     bit_depth
         Bit-depth used for conversion.
     out_normalised_code_value
-        Whether the non-linear *Sony S-Log2* data :math:`y` is encoded as
+        Whether the *Sony S-Log2* non-linear data :math:`y` is encoded as
         normalised code values.
     in_reflection
         Whether the light level :math:`x` to a camera is reflection.
@@ -228,20 +228,20 @@ def log_encoding_SLog2(
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear *Sony S-Log2* data :math:`y`.
+        *Sony S-Log2* non-linear encoded data :math:`y`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -271,26 +271,26 @@ def log_encoding_SLog2(
 
 
 def log_decoding_SLog2(
-    y: ArrayLike,
+    y: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Define the *Sony S-Log2* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Sony S-Log2* log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     y
-        Non-linear *Sony S-Log2* data :math:`y`.
+        *Sony S-Log2* non-linear encoded data :math:`y`.
     bit_depth
         Bit-depth used for conversion.
     in_normalised_code_value
-        Whether the non-linear *Sony S-Log2* data :math:`y` is encoded as
+        Whether the *Sony S-Log2* non-linear data :math:`y` is encoded as
         normalised code values.
     out_reflection
-        Whether the light level :math:`x` to a camera is reflection.
+        Whether the output light level :math:`x` represents reflection.
 
     Returns
     -------
@@ -303,13 +303,13 @@ def log_decoding_SLog2(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -330,14 +330,14 @@ def log_decoding_SLog2(
 
 
 def log_encoding_SLog3(
-    x: ArrayLike,
+    x: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Define the *Sony S-Log3* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Sony S-Log3* log encoding opto-electronic transfer function
+    (OETF).
 
     Parameters
     ----------
@@ -347,7 +347,7 @@ def log_encoding_SLog3(
     bit_depth
         Bit-depth used for conversion.
     out_normalised_code_value
-        Whether the non-linear *Sony S-Log3* data :math:`y` is encoded as
+        Whether the *Sony S-Log3* non-linear data data :math:`y` is encoded as
         normalised code values.
     in_reflection
         Whether the light level :math:`x` to a camera is reflection.
@@ -355,20 +355,20 @@ def log_encoding_SLog3(
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear *Sony S-Log3* data :math:`y`.
+        *Sony S-Log3* non-linear encoded data :math:`y`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -407,26 +407,26 @@ def log_encoding_SLog3(
 
 
 def log_decoding_SLog3(
-    y: ArrayLike,
+    y: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Define the *Sony S-Log3* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Sony S-Log3* log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     y
-        Non-linear *Sony S-Log3* data :math:`y`.
+        *Sony S-Log3* non-linear encoded data :math:`y`.
     bit_depth
         Bit-depth used for conversion.
     in_normalised_code_value
-        Whether the non-linear *Sony S-Log3* data :math:`y` is encoded as
+        Whether the *Sony S-Log3* non-linear data :math:`y` is encoded as
         normalised code values.
     out_reflection
-        Whether the light level :math:`x` to a camera is reflection.
+        Whether the output light level :math:`x` represents reflection.
 
     Returns
     -------
@@ -439,13 +439,13 @@ def log_decoding_SLog3(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

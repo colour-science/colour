@@ -11,9 +11,12 @@ objects:
 
 from __future__ import annotations
 
-from pathlib import Path
+import typing
 
 import numpy as np
+
+if typing.TYPE_CHECKING:
+    from colour.hints import PathLike
 
 from colour.io.luts import LUT3D, LUTSequence
 from colour.io.luts.common import path_to_title
@@ -39,14 +42,14 @@ __all__ = [
 ]
 
 
-def read_LUT_SonySPI3D(path: str | Path) -> LUT3D:
+def read_LUT_SonySPI3D(path: str | PathLike) -> LUT3D:
     """
-    Read given *Sony* *.spi3d* *LUT* file.
+    Read the specified *Sony* *.spi3d* *LUT* file.
 
     Parameters
     ----------
     path
-        *LUT* path.
+        *LUT* file path.
 
     Returns
     -------
@@ -102,7 +105,7 @@ def read_LUT_SonySPI3D(path: str | Path) -> LUT3D:
     comments = []
 
     with open(path) as spi3d_file:
-        lines = filter(None, (line.strip() for line in spi3d_file.readlines()))
+        lines = filter(None, (line.strip() for line in spi3d_file))
         for line in lines:
             if line.startswith("#"):
                 comments.append(line[1:].strip())
@@ -141,20 +144,20 @@ def read_LUT_SonySPI3D(path: str | Path) -> LUT3D:
 
 
 def write_LUT_SonySPI3D(
-    LUT: LUT3D | LUTSequence, path: str | Path, decimals: int = 7
+    LUT: LUT3D | LUTSequence, path: str | PathLike, decimals: int = 7
 ) -> bool:
     """
-    Write given *LUT* to given *Sony* *.spi3d* *LUT* file.
+    Write the specified *LUT* to the specified *Sony* *.spi3d* *LUT* file.
 
     Parameters
     ----------
     LUT
-        :class:`LUT3D` or :class:`LUTSequence` class instance to write at given
-        path.
+        :class:`LUT3D` or :class:`LUTSequence` class instance to write at
+        the specified path.
     path
-        *LUT* path.
+        *LUT* file path.
     decimals
-        Formatting decimals.
+        Number of decimal places for formatting numeric values.
 
     Returns
     -------
@@ -163,8 +166,8 @@ def write_LUT_SonySPI3D(
 
     Warnings
     --------
-    -   If a :class:`LUTSequence` class instance is passed as ``LUT``, the
-        first *LUT* in the *LUT* sequence will be used.
+    -   If a :class:`LUTSequence` class instance is passed as ``LUT``,
+        the first *LUT* in the *LUT* sequence will be used.
 
     Examples
     --------
@@ -225,7 +228,6 @@ def write_LUT_SonySPI3D(
             spi3d_file.write(f" {format_array_as_row(table[i], decimals)}\n")
 
         if LUTxD.comments:
-            for comment in LUTxD.comments:
-                spi3d_file.write(f"# {comment}\n")
+            spi3d_file.writelines(f"# {comment}\n" for comment in LUTxD.comments)
 
     return True

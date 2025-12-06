@@ -1,4 +1,9 @@
-"""Showcase *Lightness* computations."""
+"""
+Demonstrate lightness computations.
+
+This module provides examples of lightness calculations using various
+standard methods.
+"""
 
 import numpy as np
 

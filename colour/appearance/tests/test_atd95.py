@@ -1,16 +1,14 @@
 """Define the unit tests for the :mod:`colour.appearance.atd95` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
 
 from colour.appearance import XYZ_to_ATD95
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.utilities import (
-    as_float_array,
-    domain_range_scale,
-    ignore_numpy_errors,
-)
+from colour.utilities import as_float_array, domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -30,7 +28,7 @@ class TestXYZ_to_ATD95:
     tests methods.
     """
 
-    def test_XYZ_to_ATD95(self):
+    def test_XYZ_to_ATD95(self) -> None:
         """
         Test :func:`colour.appearance.atd95.XYZ_to_ATD95` definition.
 
@@ -126,7 +124,7 @@ class TestXYZ_to_ATD95:
             atol=0.01,
         )
 
-    def test_n_dimensional_XYZ_to_ATD95(self):
+    def test_n_dimensional_XYZ_to_ATD95(self) -> None:
         """
         Test :func:`colour.appearance.atd95.XYZ_to_ATD95` definition
         n-dimensional support.
@@ -165,7 +163,7 @@ class TestXYZ_to_ATD95:
         )
 
     @ignore_numpy_errors
-    def test_domain_range_scale_XYZ_to_ATD95(self):
+    def test_domain_range_scale_XYZ_to_ATD95(self) -> None:
         """
         Test :func:`colour.appearance.atd95.XYZ_to_ATD95` definition domain
         and range scale support.
@@ -192,7 +190,7 @@ class TestXYZ_to_ATD95:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_ATD95(self):
+    def test_nan_XYZ_to_ATD95(self) -> None:
         """
         Test :func:`colour.appearance.atd95.XYZ_to_ATD95` definition nan
         support.

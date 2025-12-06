@@ -5,10 +5,6 @@ References
     Development Kit (SDK) - 1.3.0.0 -
     dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::dng_temperature::\
 Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
--   :cite:`AdobeSystems2013a` : Adobe Systems. (2013). Adobe DNG Software
-    Development Kit (SDK) - 1.3.0.0 -
-    dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::dng_temperature::xy_coord.
-    https://www.adobe.com/support/downloads/dng/dng_sdk.html
 -   :cite:`CIETC1-482004i` : CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON
     THE USE OF PLANCK'S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry,
     3rd Edition (pp. 77-82). ISBN:978-3-901906-33-6
@@ -41,67 +37,74 @@ Set_xy_coord. https://www.adobe.com/support/downloads/dng/dng_sdk.html
 
 from __future__ import annotations
 
-from colour.hints import Any, ArrayLike, NDArrayFloat, Literal
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ArrayLike, NDArrayFloat, Literal
+
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
     validate_method,
 )
 
-from .cie_d import xy_to_CCT_CIE_D, CCT_to_xy_CIE_D
-from .hernandez1999 import xy_to_CCT_Hernandez1999, CCT_to_xy_Hernandez1999
-from .kang2002 import xy_to_CCT_Kang2002, CCT_to_xy_Kang2002
-from .krystek1985 import uv_to_CCT_Krystek1985, CCT_to_uv_Krystek1985
-from .mccamy1992 import xy_to_CCT_McCamy1992, CCT_to_xy_McCamy1992
-from .planck1900 import uv_to_CCT_Planck1900, CCT_to_uv_Planck1900
+from .cie_d import CCT_to_xy_CIE_D, xy_to_CCT_CIE_D
+from .hernandez1999 import CCT_to_xy_Hernandez1999, xy_to_CCT_Hernandez1999
+from .kang2002 import CCT_to_xy_Kang2002, xy_to_CCT_Kang2002
+from .krystek1985 import CCT_to_uv_Krystek1985, uv_to_CCT_Krystek1985
+from .mccamy1992 import CCT_to_xy_McCamy1992, xy_to_CCT_McCamy1992
+from .planck1900 import CCT_to_uv_Planck1900, uv_to_CCT_Planck1900
+
+# isort: split
+
 from .ohno2013 import (
-    uv_to_CCT_Ohno2013,
     CCT_to_uv_Ohno2013,
     CCT_to_XYZ_Ohno2013,
     XYZ_to_CCT_Ohno2013,
+    uv_to_CCT_Ohno2013,
 )
 from .robertson1968 import (
     CCT_to_mired,
+    CCT_to_uv_Robertson1968,
     mired_to_CCT,
     uv_to_CCT_Robertson1968,
-    CCT_to_uv_Robertson1968,
 )
 
 __all__ = [
-    "xy_to_CCT_CIE_D",
     "CCT_to_xy_CIE_D",
+    "xy_to_CCT_CIE_D",
 ]
 __all__ += [
-    "xy_to_CCT_Hernandez1999",
     "CCT_to_xy_Hernandez1999",
+    "xy_to_CCT_Hernandez1999",
 ]
 __all__ += [
-    "xy_to_CCT_Kang2002",
     "CCT_to_xy_Kang2002",
+    "xy_to_CCT_Kang2002",
 ]
 __all__ += [
-    "uv_to_CCT_Krystek1985",
     "CCT_to_uv_Krystek1985",
+    "uv_to_CCT_Krystek1985",
 ]
 __all__ += [
-    "xy_to_CCT_McCamy1992",
     "CCT_to_xy_McCamy1992",
+    "xy_to_CCT_McCamy1992",
 ]
 __all__ += [
-    "uv_to_CCT_Planck1900",
     "CCT_to_uv_Planck1900",
+    "uv_to_CCT_Planck1900",
 ]
 __all__ += [
-    "uv_to_CCT_Ohno2013",
     "CCT_to_uv_Ohno2013",
     "CCT_to_XYZ_Ohno2013",
     "XYZ_to_CCT_Ohno2013",
+    "uv_to_CCT_Ohno2013",
 ]
 __all__ += [
     "CCT_to_mired",
+    "CCT_to_uv_Robertson1968",
     "mired_to_CCT",
     "uv_to_CCT_Robertson1968",
-    "CCT_to_uv_Robertson1968",
 ]
 
 UV_TO_CCT_METHODS: CanonicalMapping = CanonicalMapping(
@@ -118,8 +121,9 @@ colour temperature :math:`T_{cp}` computation methods.
 
 References
 ----------
-:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`CIETC1-482004i`,
-:cite:`Krystek1985b`, :cite:`Ohno2014a`, :cite:`Wyszecki2000y`
+:cite:`AdobeSystems2013`,
+:cite:`CIETC1-482004i`, :cite:`Krystek1985b`, :cite:`Ohno2014a`,
+:cite:`Wyszecki2000y`
 
 Aliases:
 
@@ -138,9 +142,9 @@ def uv_to_CCT(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Return the correlated colour temperature :math:`T_{cp}` and
-    :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
-    coordinates using given method.
+    Compute the correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` from the specified *CIE UCS* colourspace *uv*
+    chromaticity coordinates using the specified method.
 
     Parameters
     ----------
@@ -178,7 +182,7 @@ def uv_to_CCT(
 
     References
     ----------
-    :cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`,
+    :cite:`AdobeSystems2013`,
     :cite:`CIETC1-482004i`, :cite:`Krystek1985b`, :cite:`Ohno2014a`,
     :cite:`Wyszecki2000y`
 
@@ -211,8 +215,9 @@ Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
 
 References
 ----------
-:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`CIETC1-482004i`,
-:cite:`Krystek1985b`, :cite:`Ohno2014a`, :cite:`Wyszecki2000y`
+:cite:`AdobeSystems2013`,
+:cite:`CIETC1-482004i`, :cite:`Krystek1985b`, :cite:`Ohno2014a`,
+:cite:`Wyszecki2000y`
 
 Aliases:
 
@@ -231,8 +236,9 @@ def CCT_to_uv(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
-    correlated colour temperature :math:`T_{cp}` using given method.
+    Compute the *CIE UCS* colourspace *uv* chromaticity coordinates from the
+    specified correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` using the specified method.
 
     Parameters
     ----------
@@ -255,7 +261,7 @@ def CCT_to_uv(
 
     References
     ----------
-    :cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`,
+    :cite:`AdobeSystems2013`,
     :cite:`CIETC1-482004i`, :cite:`Krystek1985b`, :cite:`Ohno2014a`,
     :cite:`Wyszecki2000y`
 
@@ -326,8 +332,8 @@ def xy_to_CCT(
     ) = "CIE Illuminant D Series",
 ) -> NDArrayFloat:
     """
-    Return the correlated colour temperature :math:`T_{cp}` from given
-    *CIE xy* chromaticity coordinates using given method.
+    Compute the correlated colour temperature :math:`T_{cp}` from the
+    specified *CIE xy* chromaticity coordinates using the specified method.
 
     Parameters
     ----------
@@ -411,8 +417,8 @@ def CCT_to_xy(
     ) = "CIE Illuminant D Series",
 ) -> NDArrayFloat:
     """
-    Return the *CIE xy* chromaticity coordinates from given correlated colour
-    temperature :math:`T_{cp}` using given method.
+    Compute the *CIE xy* chromaticity coordinates from the specified
+    correlated colour temperature :math:`T_{cp}` using the specified method.
 
     Parameters
     ----------

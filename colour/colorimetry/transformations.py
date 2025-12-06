@@ -2,8 +2,8 @@
 Colour Matching Functions Transformations
 =========================================
 
-Define various educational objects for colour matching functions
-transformations:
+Define educational objects for transformations between colour matching
+functions in various colour spaces and observer standards.
 
 -   :func:`colour.colorimetry.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`
 -   :func:`colour.colorimetry.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`
@@ -32,6 +32,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import vecmul
@@ -41,7 +43,10 @@ from colour.colorimetry import (
     SDS_LEFS_PHOTOPIC,
     reshape_sd,
 )
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import tstack
 
 __author__ = "Colour Developers"
@@ -64,8 +69,9 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
     wavelength: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Convert *Wright & Guild 1931 2 Degree RGB CMFs* colour matching functions
-    into the *CIE 1931 2 Degree Standard Observer* colour matching functions.
+    Convert the *Wright & Guild 1931 2 Degree RGB CMFs* colour matching
+    functions to the *CIE 1931 2 Degree Standard Observer* colour matching
+    functions.
 
     Parameters
     ----------
@@ -131,17 +137,15 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
     y_bar = L
     z_bar = z / y * L
 
-    xyz_bar = tstack([x_bar, y_bar, z_bar])
-
-    return xyz_bar
+    return tstack([x_bar, y_bar, z_bar])
 
 
 def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
     wavelength: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Convert *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
-    functions into the *CIE 1964 10 Degree Standard Observer* colour matching
+    Convert the *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
+    functions to the *CIE 1964 10 Degree Standard Observer* colour matching
     functions.
 
     Parameters
@@ -152,12 +156,13 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
     Returns
     -------
     :class:`numpy.ndarray`
-        *CIE 1964 10 Degree Standard Observer* spectral tristimulus values.
+        *CIE 1964 10 Degree Standard Observer* spectral tristimulus
+        values.
 
     Notes
     -----
-    -   Data for the *CIE 1964 10 Degree Standard Observer* already exists,
-        this definition is intended for educational purpose.
+    -   Data for the *CIE 1964 10 Degree Standard Observer* already
+        exists, this definition is intended for educational purpose.
 
     References
     ----------
@@ -183,17 +188,15 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
         ]
     )
 
-    xyz_bar = vecmul(M, rgb_bar)
-
-    return xyz_bar
+    return vecmul(M, rgb_bar)
 
 
 def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
     wavelength: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Convert *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
-    functions into the *Stockman & Sharpe 10 Degree Cone Fundamentals*
+    Convert the *Stiles & Burch 1959 10 Degree RGB CMFs* colour matching
+    functions to the *Stockman & Sharpe 10 Degree Cone Fundamentals*
     spectral sensitivity functions.
 
     Parameters
@@ -204,13 +207,14 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
     Returns
     -------
     :class:`numpy.ndarray`
-        *Stockman & Sharpe 10 Degree Cone Fundamentals* spectral tristimulus
-        values.
+        *Stockman & Sharpe 10 Degree Cone Fundamentals* spectral
+        tristimulus values.
 
     Notes
     -----
-    -   Data for the *Stockman & Sharpe 10 Degree Cone Fundamentals* already
-        exists, this definition is intended for educational purpose.
+    -   Data for the *Stockman & Sharpe 10 Degree Cone Fundamentals*
+        already exists, this definition is intended for educational
+        purpose.
 
     References
     ----------
@@ -246,8 +250,8 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
     wavelength: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Convert *Stockman & Sharpe 2 Degree Cone Fundamentals* colour matching
-    functions into the *CIE 2015 2 Degree Standard Observer* colour matching
+    Convert the *Stockman & Sharpe 2 Degree Cone Fundamentals* colour matching
+    functions to the *CIE 2015 2 Degree Standard Observer* colour matching
     functions.
 
     Parameters
@@ -289,17 +293,15 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
         ]
     )
 
-    xyz_bar = vecmul(M, lms_bar)
-
-    return xyz_bar
+    return vecmul(M, lms_bar)
 
 
 def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
     wavelength: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Convert *Stockman & Sharpe 10 Degree Cone Fundamentals* colour matching
-    functions into the *CIE 2015 10 Degree Standard Observer* colour matching
+    Convert the *Stockman & Sharpe 10 Degree Cone Fundamentals* colour matching
+    functions to the *CIE 2015 10 Degree Standard Observer* colour matching
     functions.
 
     Parameters
@@ -341,6 +343,4 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
         ]
     )
 
-    xyz_bar = vecmul(M, lms_bar)
-
-    return xyz_bar
+    return vecmul(M, lms_bar)

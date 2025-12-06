@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 blackmagic_design` module.
 """
 
-
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -32,7 +31,7 @@ class TestOetf_BlackmagicFilmGeneration5:
 oetf_BlackmagicFilmGeneration5` definition unit tests methods.
     """
 
-    def test_oetf_BlackmagicFilmGeneration5(self):
+    def test_oetf_BlackmagicFilmGeneration5(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_BlackmagicFilmGeneration5` definition.
@@ -68,7 +67,7 @@ blackmagic_design.oetf_BlackmagicFilmGeneration5` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_oetf_BlackmagicFilmGeneration5(self):
+    def test_n_dimensional_oetf_BlackmagicFilmGeneration5(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_BlackmagicFilmGeneration5` definition n-dimensional
@@ -96,7 +95,7 @@ blackmagic_design.oetf_BlackmagicFilmGeneration5` definition n-dimensional
             oetf_BlackmagicFilmGeneration5(L), V, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_oetf_BlackmagicFilmGeneration5(self):
+    def test_domain_range_scale_oetf_BlackmagicFilmGeneration5(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_BlackmagicFilmGeneration5` definition domain and range
@@ -116,7 +115,7 @@ blackmagic_design.oetf_BlackmagicFilmGeneration5` definition domain and range
                 )
 
     @ignore_numpy_errors
-    def test_nan_oetf_BlackmagicFilmGeneration5(self):
+    def test_nan_oetf_BlackmagicFilmGeneration5(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_BlackmagicFilmGeneration5` definition nan support.
@@ -134,7 +133,7 @@ blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition unit tests
     methods.
     """
 
-    def test_oetf_inverse_BlackmagicFilmGeneration5(self):
+    def test_oetf_inverse_BlackmagicFilmGeneration5(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition.
@@ -170,7 +169,7 @@ blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_oetf_inverse_BlackmagicFilmGeneration5(self):
+    def test_n_dimensional_oetf_inverse_BlackmagicFilmGeneration5(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition
@@ -204,7 +203,7 @@ blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_oetf_inverse_BlackmagicFilmGeneration5(self):
+    def test_domain_range_scale_oetf_inverse_BlackmagicFilmGeneration5(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition domain and
@@ -224,7 +223,7 @@ blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition domain and
                 )
 
     @ignore_numpy_errors
-    def test_nan_oetf_inverse_BlackmagicFilmGeneration5(self):
+    def test_nan_oetf_inverse_BlackmagicFilmGeneration5(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.\
 blackmagic_design.oetf_inverse_BlackmagicFilmGeneration5` definition nan

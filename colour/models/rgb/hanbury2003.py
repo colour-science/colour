@@ -2,7 +2,10 @@
 IHLS Colour Encoding
 ====================
 
-Define the :math:`IHLS` (Improved HLS) colourspace related transformations:
+Define the :math:`IHLS` (Improved HLS) colourspace encoding and decoding
+transformations. The :math:`IHLS` colourspace provides a 3D-polar coordinate
+colour representation that improves upon the standard HLS model for image
+analysis applications.
 
 -   :func:`colour.RGB_to_IHLS`
 -   :func:`colour.IHLS_to_RGB`
@@ -20,14 +23,12 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode, vecmul
-from colour.hints import ArrayLike, NDArrayFloat
-from colour.utilities import (
-    from_range_1,
-    to_domain_1,
-    tsplit,
-    tstack,
-    zeros,
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    NDArrayFloat,
+    Range1,
 )
+from colour.utilities import from_range_1, to_domain_1, tsplit, tstack, zeros
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -54,7 +55,7 @@ MATRIX_YC_1_C_2_TO_RGB: NDArrayFloat = np.linalg.inv(MATRIX_RGB_TO_YC_1_C_2)
 """*YC_1C_2* colourspace to *RGB* colourspace matrix."""
 
 
-def RGB_to_IHLS(RGB: ArrayLike) -> NDArrayFloat:
+def RGB_to_IHLS(RGB: Domain1) -> Range1:
     """
     Convert from *RGB* colourspace to *IHLS* (Improved HLS) colourspace.
 
@@ -73,13 +74,13 @@ def RGB_to_IHLS(RGB: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``HYS``    | [0, 1]                | [0, 1]        |
+    | ``HYS``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -115,7 +116,7 @@ def RGB_to_IHLS(RGB: ArrayLike) -> NDArrayFloat:
     return from_range_1(HYS)
 
 
-def IHLS_to_RGB(HYS: ArrayLike) -> NDArrayFloat:
+def IHLS_to_RGB(HYS: Domain1) -> Range1:
     """
     Convert from *IHLS* (Improved HLS) colourspace to *RGB* colourspace.
 
@@ -134,13 +135,13 @@ def IHLS_to_RGB(HYS: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``HYS``    | [0, 1]                | [0, 1]        |
+    | ``HYS``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

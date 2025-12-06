@@ -2,7 +2,8 @@
 Intersection Utilities
 ======================
 
-Define the geometry intersection utilities objects.
+Define utilities for computing geometric intersections and line segment
+operations in two-dimensional space.
 
 References
 ----------
@@ -21,12 +22,16 @@ extend-a-line-segment-a-specific-distance
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass
 
 import numpy as np
 
 from colour.algebra import euclidean_distance, sdiv, sdiv_mode
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import as_float_array, tsplit, tstack
 
 __author__ = "Colour Developers"
@@ -48,7 +53,7 @@ def extend_line_segment(
 ) -> NDArrayFloat:
     """
     Extend the line segment defined by point arrays :math:`a` and :math:`b` by
-    given distance and return the new end point.
+    the specified distance and generate the new end point.
 
     Parameters
     ----------
@@ -89,27 +94,25 @@ def extend_line_segment(
         x_c = x_b + sdiv(x_b - x_a, d) * distance
         y_c = y_b + sdiv(y_b - y_a, d) * distance
 
-    xy_c = tstack([x_c, y_c])
-
-    return xy_c
+    return tstack([x_c, y_c])
 
 
 @dataclass
 class LineSegmentsIntersections_Specification:
     """
     Define the specification for intersection of line segments :math:`l_1` and
-    :math:`l_2` returned by :func:`colour.algebra.intersect_line_segments`
-    definition.
+    :math:`l_2` returned by the
+    :func:`colour.algebra.intersect_line_segments` definition.
 
     Parameters
     ----------
     xy
         Array of :math:`l_1` and :math:`l_2` line segments intersections
-        coordinates. Non existing segments intersections coordinates are set
+        coordinates. Non-existing segments intersections coordinates are set
         with `np.nan`.
     intersect
-        Array of *bool* indicating if line segments :math:`l_1` and :math:`l_2`
-        intersect.
+        Array of *bool* indicating if line segments :math:`l_1` and
+        :math:`l_2` intersect.
     parallel
         Array of :class:`bool` indicating if line segments :math:`l_1` and
         :math:`l_2` are parallel.

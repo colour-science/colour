@@ -1,48 +1,56 @@
 from __future__ import annotations
 
-from colour.colorimetry import SpectralDistribution
-from colour.hints import Literal
+import typing
 
-from .datasets import *  # noqa: F403
+if typing.TYPE_CHECKING:
+    from colour.colorimetry import SpectralDistribution
+    from colour.hints import Literal
+
+from colour.utilities import CanonicalMapping, validate_method
+
 from . import datasets
 from .cfi2017 import (
     ColourRendering_Specification_CIE2017,
     colour_fidelity_index_CIE2017,
 )
-from .cri import ColourRendering_Specification_CRI, colour_rendering_index
 from .cqs import (
     COLOUR_QUALITY_SCALE_METHODS,
     ColourRendering_Specification_CQS,
     colour_quality_scale,
 )
+from .cri import (
+    COLOUR_RENDERING_INDEX_METHODS,
+    ColourRendering_Specification_CRI,
+    colour_rendering_index,
+)
+from .datasets import *  # noqa: F403
 from .ssi import spectral_similarity_index
 from .tm3018 import (
     ColourQuality_Specification_ANSIIESTM3018,
     colour_fidelity_index_ANSIIESTM3018,
 )
-from colour.utilities import CanonicalMapping, validate_method
 
-__all__ = []
-__all__ += datasets.__all__
+__all__ = datasets.__all__
 __all__ += [
     "ColourRendering_Specification_CIE2017",
     "colour_fidelity_index_CIE2017",
 ]
 __all__ += [
-    "ColourQuality_Specification_ANSIIESTM3018",
-    "colour_fidelity_index_ANSIIESTM3018",
+    "COLOUR_QUALITY_SCALE_METHODS",
+    "ColourRendering_Specification_CQS",
+    "colour_quality_scale",
 ]
 __all__ += [
+    "COLOUR_RENDERING_INDEX_METHODS",
     "ColourRendering_Specification_CRI",
     "colour_rendering_index",
 ]
 __all__ += [
-    "ColourRendering_Specification_CQS",
-    "COLOUR_QUALITY_SCALE_METHODS",
-    "colour_quality_scale",
+    "spectral_similarity_index",
 ]
 __all__ += [
-    "spectral_similarity_index",
+    "ColourQuality_Specification_ANSIIESTM3018",
+    "colour_fidelity_index_ANSIIESTM3018",
 ]
 
 COLOUR_FIDELITY_INDEX_METHODS = CanonicalMapping(
@@ -62,7 +70,7 @@ References
 
 def colour_fidelity_index(
     sd_test: SpectralDistribution,
-    additional_data=False,
+    additional_data: bool = False,
     method: Literal["CIE 2017", "ANSI/IES TM-30-18"] | str = "CIE 2017",
 ) -> (
     float
@@ -70,8 +78,8 @@ def colour_fidelity_index(
     | ColourQuality_Specification_ANSIIESTM3018
 ):
     """
-    Return the *Colour Fidelity Index* (CFI) :math:`R_f` of given spectral
-    distribution using given method.
+    Compute the *Colour Fidelity Index* (CFI) :math:`R_f` of the specified
+    spectral distribution using the specified method.
 
     Parameters
     ----------

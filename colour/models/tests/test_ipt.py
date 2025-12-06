@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.ipt` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -25,7 +27,7 @@ __all__ = [
 class TestXYZ_to_IPT:
     """Define :func:`colour.models.ipt.XYZ_to_IPT` definition unit tests methods."""
 
-    def test_XYZ_to_IPT(self):
+    def test_XYZ_to_IPT(self) -> None:
         """Test :func:`colour.models.ipt.XYZ_to_IPT` definition."""
 
         np.testing.assert_allclose(
@@ -46,7 +48,7 @@ class TestXYZ_to_IPT:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_IPT(self):
+    def test_n_dimensional_XYZ_to_IPT(self) -> None:
         """
         Test :func:`colour.models.ipt.XYZ_to_IPT` definition n-dimensional
         support.
@@ -63,7 +65,7 @@ class TestXYZ_to_IPT:
         IPT = np.reshape(IPT, (2, 3, 3))
         np.testing.assert_allclose(XYZ_to_IPT(XYZ), IPT, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_XYZ_to_IPT(self):
+    def test_domain_range_scale_XYZ_to_IPT(self) -> None:
         """
         Test :func:`colour.models.ipt.XYZ_to_IPT` definition domain and
         range scale support.
@@ -82,7 +84,7 @@ class TestXYZ_to_IPT:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_IPT(self):
+    def test_nan_XYZ_to_IPT(self) -> None:
         """Test :func:`colour.models.ipt.XYZ_to_IPT` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -96,7 +98,7 @@ class TestIPT_to_XYZ:
     methods.
     """
 
-    def test_IPT_to_XYZ(self):
+    def test_IPT_to_XYZ(self) -> None:
         """Test :func:`colour.models.ipt.IPT_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -117,7 +119,7 @@ class TestIPT_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_IPT_to_XYZ(self):
+    def test_n_dimensional_IPT_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.ipt.IPT_to_XYZ` definition n-dimensional
         support.
@@ -134,7 +136,7 @@ class TestIPT_to_XYZ:
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_allclose(IPT_to_XYZ(IPT), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_IPT_to_XYZ(self):
+    def test_domain_range_scale_IPT_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.ipt.IPT_to_XYZ` definition domain and
         range scale support.
@@ -153,7 +155,7 @@ class TestIPT_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_IPT_to_XYZ(self):
+    def test_nan_IPT_to_XYZ(self) -> None:
         """Test :func:`colour.models.ipt.IPT_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -167,34 +169,34 @@ class TestIPTHueAngle:
     methods.
     """
 
-    def test_IPT_hue_angle(self):
+    def test_IPT_hue_angle(self) -> None:
         """Test :func:`colour.models.ipt.IPT_hue_angle` definition."""
 
         np.testing.assert_allclose(
-            IPT_hue_angle(np.array([0.20654008, 0.12197225, 0.05136952])),
-            22.838754548625527,
+            IPT_hue_angle(np.array([0.38426191, 0.38487306, 0.18886838])),
+            26.138526939899490,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            IPT_hue_angle(np.array([0.14222010, 0.23042768, 0.10495772])),
-            24.488834912466245,
+            IPT_hue_angle(np.array([0.49437481, -0.19251742, 0.18080304])),
+            136.797287973958500,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            IPT_hue_angle(np.array([0.07818780, 0.06157201, 0.28099326])),
-            77.640533743711813,
+            IPT_hue_angle(np.array([0.35167774, -0.07525627, -0.30921279])),
+            256.321284526533300,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_IPT_hue_angle(self):
+    def test_n_dimensional_IPT_hue_angle(self) -> None:
         """
         Test :func:`colour.models.ipt.IPT_hue_angle` definition n-dimensional
         support.
         """
 
-        IPT = np.array([0.20654008, 0.12197225, 0.05136952])
+        IPT = np.array([0.38426191, 0.38487306, 0.18886838])
         hue = IPT_hue_angle(IPT)
 
         IPT = np.tile(IPT, (6, 1))
@@ -209,13 +211,13 @@ class TestIPTHueAngle:
             IPT_hue_angle(IPT), hue, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_IPT_hue_angle(self):
+    def test_domain_range_scale_IPT_hue_angle(self) -> None:
         """
         Test :func:`colour.models.ipt.IPT_hue_angle` definition domain and
         range scale support.
         """
 
-        IPT = np.array([0.20654008, 0.12197225, 0.05136952])
+        IPT = np.array([0.38426191, 0.38487306, 0.18886838])
         hue = IPT_hue_angle(IPT)
 
         d_r = (("reference", 1, 1), ("1", 1, 1 / 360), ("100", 100, 1 / 3.6))
@@ -228,7 +230,7 @@ class TestIPTHueAngle:
                 )
 
     @ignore_numpy_errors
-    def test_nan_IPT_hue_angle(self):
+    def test_nan_IPT_hue_angle(self) -> None:
         """Test :func:`colour.models.ipt.IPT_hue_angle` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

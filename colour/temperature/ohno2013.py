@@ -3,15 +3,16 @@ Ohno (2013) Correlated Colour Temperature
 =========================================
 
 Define the *Ohno (2013)* correlated colour temperature :math:`T_{cp}`
-computations objects:
+computation objects.
 
--   :func:`colour.temperature.uv_to_CCT_Ohno2013`: Correlated colour
-    temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` computation of given
-    *CIE UCS* colourspace *uv* chromaticity coordinates using *Ohno (2013)*
-    method.
--   :func:`colour.temperature.CCT_to_uv_Ohno2013`: *CIE UCS* colourspace *uv*
-    chromaticity coordinates computation of given correlated colour temperature
-    :math:`T_{cp}`, :math:`\\Delta_{uv}` using *Ohno (2013)* method.
+-   :func:`colour.temperature.uv_to_CCT_Ohno2013`: Compute correlated colour
+    temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` from specified
+    *CIE UCS* colourspace *uv* chromaticity coordinates using the
+    *Ohno (2013)* method.
+-   :func:`colour.temperature.CCT_to_uv_Ohno2013`: Compute *CIE UCS*
+    colourspace *uv* chromaticity coordinates from specified correlated
+    colour temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using the
+    *Ohno (2013)* method.
 
 References
 ----------
@@ -24,11 +25,13 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import euclidean_distance, sdiv, sdiv_mode
-from colour.colorimetry import (
-    MultiSpectralDistributions,
-    handle_spectral_arguments,
+from colour.colorimetry import MultiSpectralDistributions, handle_spectral_arguments
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    NDArrayFloat,
+    Range1,
 )
-from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import UCS_to_uv, UCS_to_XYZ, XYZ_to_UCS, uv_to_UCS
 from colour.temperature import CCT_to_uv_Planck1900
 from colour.utilities import (
@@ -76,9 +79,9 @@ def planckian_table(
     spacing: float,
 ) -> NDArrayFloat:
     """
-    Return a planckian table from given *CIE UCS* colourspace *uv*
-    chromaticity coordinates, colour matching functions and temperature range
-    using *Ohno (2013)* method.
+    Generate a planckian table from the specified *CIE UCS* colourspace
+    *uv* chromaticity coordinates, colour matching functions, and
+    temperature range using the *Ohno (2013)* method.
 
     Parameters
     ----------
@@ -89,8 +92,12 @@ def planckian_table(
     end
         Temperature range end in kelvin degrees.
     spacing
-        The spacing between values expressed as a multiplier. Must be greater
-        than 1.
+        Spacing between values of the underlying Planckian table expressed
+        as a multiplier. Default to 1.001. The closer to 1.0, the higher
+        the precision of the returned colour temperature :math:`T_{cp}` and
+        :math:`\\Delta_{uv}`. A value of 1.01 provides a good balance
+        between performance and accuracy. The ``spacing`` value must be
+        greater than 1.
 
     Returns
     -------
@@ -139,6 +146,7 @@ def planckian_table(
             [np.reshape(Ti, (-1, 1)), CCT_to_uv_Planck1900(Ti, cmfs)], axis=1
         )
         _CACHE_PLANCKIAN_TABLE[hash_key] = table.copy()
+
     return table
 
 
@@ -150,10 +158,9 @@ def uv_to_CCT_Ohno2013(
     spacing: float | None = None,
 ) -> NDArrayFloat:
     """
-    Return the correlated colour temperature :math:`T_{cp}` and
-    :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
-    coordinates, colour matching functions and temperature range using
-    *Ohno (2013)* method.
+    Compute the correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` from the specified *CIE UCS* colourspace *uv*
+    chromaticity coordinates using the *Ohno (2013)* method.
 
     Parameters
     ----------
@@ -167,11 +174,12 @@ def uv_to_CCT_Ohno2013(
     end
         Temperature range end in kelvin degrees, default to 100000.
     spacing
-        Spacing between values of the underlying planckian table expressed as a
-        multiplier. Default to 1.001. The closer to 1.0, the higher the
-        precision of the returned colour temperature :math:`T_{cp}` and
-        :math:`\\Delta_{uv}`. 1.01 provides a good balance between performance
-        and accuracy. ``spacing`` value must be greater than 1.
+        Spacing between values of the underlying Planckian table expressed
+        as a multiplier. Default to 1.001. The closer to 1.0, the higher
+        the precision of the returned colour temperature :math:`T_{cp}` and
+        :math:`\\Delta_{uv}`. A value of 1.01 provides a good balance
+        between performance and accuracy. The ``spacing`` value must be
+        greater than 1.
 
     Returns
     -------
@@ -276,9 +284,10 @@ def CCT_to_uv_Ohno2013(
     CCT_D_uv: ArrayLike, cmfs: MultiSpectralDistributions | None = None
 ) -> NDArrayFloat:
     """
-    Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
-    correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
-    colour matching functions using *Ohno (2013)* method.
+    Compute the *CIE UCS* colourspace *uv* chromaticity coordinates from
+    the specified correlated colour temperature :math:`T_{cp}`,
+    :math:`\\Delta_{uv}` and colour matching functions using
+    *Ohno (2013)* method.
 
     Parameters
     ----------
@@ -335,39 +344,53 @@ def CCT_to_uv_Ohno2013(
 
 
 def XYZ_to_CCT_Ohno2013(
-    XYZ: ArrayLike,
+    XYZ: Domain1,
     cmfs: MultiSpectralDistributions | None = None,
     start: float | None = None,
     end: float | None = None,
     spacing: float | None = None,
-):
+) -> NDArrayFloat:
     """
-    Return the correlated colour temperature :math:`T_{cp}` and
-    :math:`\\Delta_{uv}` from given *CIE XYZ* tristimulus values, colour
-    matching functions and temperature range using *Ohno (2013)* method.
+    Compute the correlated colour temperature :math:`T_{cp}` and
+    :math:`\\Delta_{uv}` from the specified *CIE XYZ* tristimulus values
+    using the *Ohno (2013)* method.
+
+    The method computes the correlated colour temperature by finding the
+    closest point on the Planckian locus to the specified chromaticity
+    coordinates using an optimised search algorithm with configurable
+    precision through the spacing parameter.
 
     Parameters
     ----------
     XYZ
-        *XYZ* colourspace *uv* chromaticity coordinates.
+        *CIE XYZ* tristimulus values.
     cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
     start
-        Temperature range start in kelvin degrees, default to 1000.
+        Temperature range start in kelvins, default to 1000.
     end
-        Temperature range end in kelvin degrees, default to 100000.
+        Temperature range end in kelvins, default to 100000.
     spacing
-        Spacing between values of the underlying planckian table expressed as a
-        multiplier. Default to 1.001. The closer to 1.0, the higher the
-        precision of the returned colour temperature :math:`T_{cp}` and
-        :math:`\\Delta_{uv}`. 1.01 provides a good balance between performance
-        and accuracy. ``spacing`` value must be greater than 1.
+        Spacing between values of the underlying Planckian table expressed
+        as a multiplier. Default to 1.001. The closer to 1.0, the higher
+        the precision of the returned colour temperature :math:`T_{cp}` and
+        :math:`\\Delta_{uv}`. A value of 1.01 provides a good balance
+        between performance and accuracy. The ``spacing`` value must be
+        greater than 1.
 
     Returns
     -------
     :class:`numpy.ndarray`
         Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -391,11 +414,11 @@ def XYZ_to_CCT_Ohno2013(
 
 def CCT_to_XYZ_Ohno2013(
     CCT_D_uv: ArrayLike, cmfs: MultiSpectralDistributions | None = None
-):
+) -> Range1:
     """
-    Return the *CIE XYZ* tristimulus values from given correlated colour
-    temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and colour matching
-    functions using *Ohno (2013)* method.
+    Compute the *CIE XYZ* tristimulus values from the specified correlated
+    colour temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using the
+    *Ohno (2013)* method.
 
     Parameters
     ----------
@@ -408,7 +431,15 @@ def CCT_to_XYZ_Ohno2013(
     Returns
     -------
     :class:`numpy.ndarray`
-        *CIE UCS* colourspace *uv* chromaticity coordinates.
+        *CIE XYZ* tristimulus values.
+
+    Notes
+    -----
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | 1                     | 1             |
+    +-----------+-----------------------+---------------+
 
     Examples
     --------

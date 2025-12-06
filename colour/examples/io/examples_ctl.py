@@ -1,4 +1,9 @@
-"""Showcase Color Transformation Language (CTL) related examples."""
+"""
+Demonstrate Color Transformation Language (CTL) operations.
+
+This module provides examples of CTL transform operations including
+template generation and image processing.
+"""
 
 import os
 import tempfile
@@ -193,8 +198,9 @@ if is_ctlrender_installed():
             'Running the "aces-dev" "Y_2_linCV" "CTL" function to transform an array.'
         )
 
-        def format_imports(imports):
+        def format_imports(imports: list[str]) -> list[str]:
             """Format given imports."""
+
             return [f'import "{i}";' for i in imports]
 
         ctl_Y_2_linCV_float = colour.io.template_ctl_transform_float(

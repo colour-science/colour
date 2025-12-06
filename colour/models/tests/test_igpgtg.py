@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.igpgtg` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -27,7 +29,7 @@ class TestXYZ_to_IgPgTg:
     methods.
     """
 
-    def test_XYZ_to_IgPgTg(self):
+    def test_XYZ_to_IgPgTg(self) -> None:
         """Test :func:`colour.models.igpgtg.XYZ_to_IgPgTg` definition."""
 
         np.testing.assert_allclose(
@@ -48,7 +50,7 @@ class TestXYZ_to_IgPgTg:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_IgPgTg(self):
+    def test_n_dimensional_XYZ_to_IgPgTg(self) -> None:
         """
         Test :func:`colour.models.igpgtg.XYZ_to_IgPgTg` definition
         n-dimensional support.
@@ -69,7 +71,7 @@ class TestXYZ_to_IgPgTg:
             XYZ_to_IgPgTg(XYZ), IgPgTg, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_XYZ_to_IgPgTg(self):
+    def test_domain_range_scale_XYZ_to_IgPgTg(self) -> None:
         """
         Test :func:`colour.models.igpgtg.XYZ_to_IgPgTg` definition domain and
         range scale support.
@@ -88,7 +90,7 @@ class TestXYZ_to_IgPgTg:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_IgPgTg(self):
+    def test_nan_XYZ_to_IgPgTg(self) -> None:
         """
         Test :func:`colour.models.igpgtg.XYZ_to_IgPgTg` definition nan
         support.
@@ -105,7 +107,7 @@ class TestIgPgTg_to_XYZ:
     methods.
     """
 
-    def test_IgPgTg_to_XYZ(self):
+    def test_IgPgTg_to_XYZ(self) -> None:
         """Test :func:`colour.models.igpgtg.IgPgTg_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -126,7 +128,7 @@ class TestIgPgTg_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_IgPgTg_to_XYZ(self):
+    def test_n_dimensional_IgPgTg_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.igpgtg.IgPgTg_to_XYZ` definition
         n-dimensional support.
@@ -147,7 +149,7 @@ class TestIgPgTg_to_XYZ:
             IgPgTg_to_XYZ(IgPgTg), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_IgPgTg_to_XYZ(self):
+    def test_domain_range_scale_IgPgTg_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.igpgtg.IgPgTg_to_XYZ` definition domain and
         range scale support.
@@ -166,7 +168,7 @@ class TestIgPgTg_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_IgPgTg_to_XYZ(self):
+    def test_nan_IgPgTg_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.igpgtg.IgPgTg_to_XYZ` definition nan
         support.

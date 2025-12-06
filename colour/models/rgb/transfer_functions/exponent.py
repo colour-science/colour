@@ -2,7 +2,7 @@
 Basic and Monitor-Curve Exponent Transfer Functions
 ===================================================
 
-Define the exponent transfer functions:
+Define the exponent transfer functions.
 
 -   :func:`colour.models.exponent_function_basic`
 -   :func:`colour.models.exponent_function_monitor_curve`
@@ -18,14 +18,14 @@ References
 
 from __future__ import annotations
 
+import typing
+
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import ArrayLike, Literal, NDArrayFloat
-from colour.utilities import (
-    as_float,
-    as_float_array,
-    validate_method,
-    zeros,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+from colour.utilities import as_float, as_float_array, validate_method, zeros
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -56,41 +56,41 @@ def exponent_function_basic(
     ) = "basicFwd",
 ) -> NDArrayFloat:
     """
-    Define the *basic* exponent transfer function.
+    Apply a *basic* exponent transfer function to the specified array.
 
     Parameters
     ----------
     x
-        Data to undergo the basic exponent conversion.
+        Exponentially encoded data :math:`x`.
     exponent
         Exponent value used for the conversion.
     style
-        Defines the behaviour for the transfer function to operate:
+        Specifies the behaviour for the exponentiation function to operate:
 
         -   *basicFwd*: *Basic Forward* exponential behaviour where the
-            definition applies a basic power law using the exponent. Values
-            less than zero are clamped.
+            definition applies a basic power law using the exponent.
+            Values less than zero are clamped.
         -   *basicRev*: *Basic Reverse* exponential behaviour where the
-            definition applies a basic power law using the exponent. Values
-            less than zero are clamped.
-        -   *basicMirrorFwd*: *Basic Mirror Forward* exponential behaviour
-            where the definition applies a basic power law using the exponent
-            for values greater than or equal to zero and mirrors the function
-            for values less than zero (i.e., rotationally symmetric
-            around the origin).
-        -   *basicMirrorRev*: *Basic Mirror Reverse* exponential behaviour
-            where the definition applies a basic power law using the exponent
-            for values greater than or equal to zero and mirrors the function
-            for values less than zero (i.e., rotationally symmetric around the
-            origin).
-        -   *basicPassThruFwd*: *Basic Pass Forward* exponential behaviour
-            where the definition applies a basic power law using the exponent
-            for values greater than or equal to zero and passes values less
-            than zero unchanged.
-        -   *basicPassThruRev*: *Basic Pass Reverse* exponential behaviour
-            where the definition applies a basic power law using the exponent
-            for values greater than or equal to zero and passes values less
-            than zero unchanged.
+            definition applies a basic power law using the exponent.
+            Values less than zero are clamped.
+        -   *basicMirrorFwd*: *Basic Mirror Forward* exponential
+            behaviour where the definition applies a basic power law
+            using the exponent for values greater than or equal to zero
+            and mirrors the function for values less than zero (i.e.,
+            rotationally symmetric around the origin).
+        -   *basicMirrorRev*: *Basic Mirror Reverse* exponential
+            behaviour where the definition applies a basic power law
+            using the exponent for values greater than or equal to zero
+            and mirrors the function for values less than zero (i.e.,
+            rotationally symmetric around the origin).
+        -   *basicPassThruFwd*: *Basic Pass Forward* exponential
+            behaviour where the definition applies a basic power law
+            using the exponent for values greater than or equal to zero
+            and passes values less than zero unchanged.
+        -   *basicPassThruRev*: *Basic Pass Reverse* exponential
+            behaviour where the definition applies a basic power law
+            using the exponent for values greater than or equal to zero
+            and passes values less than zero unchanged.
 
     Returns
     -------
@@ -203,33 +203,35 @@ def exponent_function_monitor_curve(
     ) = "monCurveFwd",
 ) -> NDArrayFloat:
     """
-    Define the *Monitor Curve* exponent transfer function.
+    Apply the *Monitor Curve* exponent transfer function to the specified array.
 
     Parameters
     ----------
     x
-        Data to undergo the monitor curve exponential conversion.
+        Exponentially encoded data :math:`x`.
     exponent
         Exponent value used for the conversion.
     offset
         Offset value used for the conversion.
     style
-        Defines the behaviour for the transfer function to operate:
+        Specifies the behaviour for the exponentiation function to operate:
 
         -   *monCurveFwd*: *Monitor Curve Forward* exponential behaviour
-            where the definition applies a power law function with a linear
-            segment near the origin.
+            where the definition applies a power law function with a
+            linear segment near the origin.
         -   *monCurveRev*: *Monitor Curve Reverse* exponential behaviour
-            where the definition applies a power law function with a linear
-            segment near the origin.
-        -   *monCurveMirrorFwd*: *Monitor Curve Mirror Forward* exponential
-            behaviour where the definition applies a power law function with a
-            linear segment near the origin and mirrors the function for values
-            less than zero (i.e., rotationally symmetric around the origin).
-        -   *monCurveMirrorRev*: *Monitor Curve Mirror Reverse* exponential
-            behaviour where the definition applies a power law function with a
-            linear segment near the origin and mirrors the function for values
-            less than zero (i.e., rotationally symmetric around the origin).
+            where the definition applies a power law function with a
+            linear segment near the origin.
+        -   *monCurveMirrorFwd*: *Monitor Curve Mirror Forward*
+            exponential behaviour where the definition applies a power law
+            function with a linear segment near the origin and mirrors the
+            function for values less than zero (i.e., rotationally
+            symmetric around the origin).
+        -   *monCurveMirrorRev*: *Monitor Curve Mirror Reverse*
+            exponential behaviour where the definition applies a power law
+            function with a linear segment near the origin and mirrors the
+            function for values less than zero (i.e., rotationally
+            symmetric around the origin).
 
     Returns
     -------

@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.common` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -29,7 +31,7 @@ class TestJab_to_JCh:
     methods.
     """
 
-    def test_Jab_to_JCh(self):
+    def test_Jab_to_JCh(self) -> None:
         """Test :func:`colour.models.common.Jab_to_JCh` definition."""
 
         np.testing.assert_allclose(
@@ -50,7 +52,7 @@ class TestJab_to_JCh:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_Jab_to_JCh(self):
+    def test_n_dimensional_Jab_to_JCh(self) -> None:
         """
         Test :func:`colour.models.common.Jab_to_JCh` definition n-dimensional
         arrays support.
@@ -71,7 +73,7 @@ class TestJab_to_JCh:
             Jab_to_JCh(Lab), LCHab, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_Jab_to_JCh(self):
+    def test_domain_range_scale_Jab_to_JCh(self) -> None:
         """
         Test :func:`colour.models.common.Jab_to_JCh` definition domain and
         range scale support.
@@ -94,7 +96,7 @@ class TestJab_to_JCh:
                 )
 
     @ignore_numpy_errors
-    def test_nan_Jab_to_JCh(self):
+    def test_nan_Jab_to_JCh(self) -> None:
         """Test :func:`colour.models.common.Jab_to_JCh` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -108,7 +110,7 @@ class TestJCh_to_Jab:
     methods.
     """
 
-    def test_JCh_to_Jab(self):
+    def test_JCh_to_Jab(self) -> None:
         """Test :func:`colour.models.common.JCh_to_Jab` definition."""
 
         np.testing.assert_allclose(
@@ -129,7 +131,7 @@ class TestJCh_to_Jab:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_JCh_to_Jab(self):
+    def test_n_dimensional_JCh_to_Jab(self) -> None:
         """
         Test :func:`colour.models.common.JCh_to_Jab` definition n-dimensional
         arrays support.
@@ -150,7 +152,7 @@ class TestJCh_to_Jab:
             JCh_to_Jab(LCHab), Lab, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_JCh_to_Jab(self):
+    def test_domain_range_scale_JCh_to_Jab(self) -> None:
         """
         Test :func:`colour.models.common.JCh_to_Jab` definition domain and
         range scale support.
@@ -173,7 +175,7 @@ class TestJCh_to_Jab:
                 )
 
     @ignore_numpy_errors
-    def test_nan_JCh_to_Jab(self):
+    def test_nan_JCh_to_Jab(self) -> None:
         """Test :func:`colour.models.common.JCh_to_Jab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -184,7 +186,7 @@ class TestJCh_to_Jab:
 class TestXYZ_to_Iab:
     """Define :func:`colour.models.common.XYZ_to_Iab` definition unit tests methods."""
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self.LMS_to_LMS_p = lambda x: x**0.43
@@ -203,7 +205,7 @@ class TestXYZ_to_Iab:
             ]
         )
 
-    def test_XYZ_to_Iab(self):
+    def test_XYZ_to_Iab(self) -> None:
         """Test :func:`colour.models.common.XYZ_to_Iab` definition."""
 
         np.testing.assert_allclose(
@@ -239,7 +241,7 @@ class TestXYZ_to_Iab:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_Iab(self):
+    def test_n_dimensional_XYZ_to_Iab(self) -> None:
         """
         Test :func:`colour.models.common.XYZ_to_Iab` definition n-dimensional
         support.
@@ -264,7 +266,7 @@ class TestXYZ_to_Iab:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_XYZ_to_Iab(self):
+    def test_domain_range_scale_XYZ_to_Iab(self) -> None:
         """
         Test :func:`colour.models.common.XYZ_to_Iab` definition domain and
         range scale support.
@@ -288,7 +290,7 @@ class TestXYZ_to_Iab:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_Iab(self):
+    def test_nan_XYZ_to_Iab(self) -> None:
         """Test :func:`colour.models.common.XYZ_to_Iab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -302,7 +304,7 @@ class TestIab_to_XYZ:
     methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self.LMS_p_to_LMS = lambda x: x ** (1 / 0.43)
@@ -325,7 +327,7 @@ class TestIab_to_XYZ:
             )
         )
 
-    def test_Iab_to_XYZ(self):
+    def test_Iab_to_XYZ(self) -> None:
         """Test :func:`colour.models.common.Iab_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -361,7 +363,7 @@ class TestIab_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_Iab_to_XYZ(self):
+    def test_n_dimensional_Iab_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.common.Iab_to_XYZ` definition n-dimensional
         support.
@@ -386,7 +388,7 @@ class TestIab_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_Iab_to_XYZ(self):
+    def test_domain_range_scale_Iab_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.common.Iab_to_XYZ` definition domain and
         range scale support.
@@ -410,7 +412,7 @@ class TestIab_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_Iab_to_XYZ(self):
+    def test_nan_Iab_to_XYZ(self) -> None:
         """Test :func:`colour.models.common.Iab_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

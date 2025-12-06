@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.rgb.ycbcr` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -43,7 +45,7 @@ class TestRoundBT2100:
     methods.
     """
 
-    def test_round_BT2100(self):
+    def test_round_BT2100(self) -> None:
         """Test :func:`colour.models.rgb.ycbcr.round_BT2100` definition."""
 
         np.testing.assert_array_equal(
@@ -58,7 +60,7 @@ class TestRangeYCbCr:
     methods.
     """
 
-    def test_ranges_YCbCr(self):
+    def test_ranges_YCbCr(self) -> None:
         """Test :func:`colour.models.rgb.ycbcr.ranges_YCbCr` definition."""
 
         np.testing.assert_allclose(
@@ -116,7 +118,7 @@ class TestMatrixYCbCr:
     methods.
     """
 
-    def test_matrix_YCbCr(self):
+    def test_matrix_YCbCr(self) -> None:
         """Test :func:`colour.models.rgb.ycbcr.matrix_YCbCr` definition."""
 
         np.testing.assert_allclose(
@@ -186,7 +188,7 @@ class TestOffsetYCbCr:
     methods.
     """
 
-    def test_offset_YCbCr(self):
+    def test_offset_YCbCr(self) -> None:
         """Test :func:`colour.models.rgb.ycbcr.offset_YCbCr` definition."""
 
         np.testing.assert_allclose(
@@ -220,7 +222,7 @@ class TestRGB_to_YCbCr:
     methods.
     """
 
-    def test_RGB_to_YCbCr(self):
+    def test_RGB_to_YCbCr(self) -> None:
         """Test :func:`colour.models.rgb.ycbcr.RGB_to_YCbCr` definition."""
 
         np.testing.assert_allclose(
@@ -262,7 +264,7 @@ class TestRGB_to_YCbCr:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_RGB_to_YCbCr(self):
+    def test_n_dimensional_RGB_to_YCbCr(self) -> None:
         """
         Test :func:`colour.models.rgb.ycbcr.RGB_to_YCbCr` definition
         n-dimensional arrays support.
@@ -289,7 +291,7 @@ class TestRGB_to_YCbCr:
         YCbCr = np.reshape(YCbCr, (4, 4, 4, 3))
         np.testing.assert_allclose(RGB_to_YCbCr(RGB), YCbCr)
 
-    def test_domain_range_scale_RGB_to_YCbCr(self):
+    def test_domain_range_scale_RGB_to_YCbCr(self) -> None:
         """
         Test :func:`colour.models.rgb.prismatic.RGB_to_YCbCr` definition
         domain and range scale support.
@@ -308,7 +310,7 @@ class TestRGB_to_YCbCr:
                 )
 
     @ignore_numpy_errors
-    def test_nan_RGB_to_YCbCr(self):
+    def test_nan_RGB_to_YCbCr(self) -> None:
         """
         Test :func:`colour.models.rgb.ycbcr.RGB_to_YCbCr` definition nan
         support.
@@ -325,7 +327,7 @@ class TestYCbCr_to_RGB:
     methods.
     """
 
-    def test_YCbCr_to_RGB(self):
+    def test_YCbCr_to_RGB(self) -> None:
         """Test :func:`colour.models.rgb.ycbcr.YCbCr_to_RGB` definition."""
 
         np.testing.assert_allclose(
@@ -359,7 +361,7 @@ class TestYCbCr_to_RGB:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_YCbCr_to_RGB(self):
+    def test_n_dimensional_YCbCr_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.ycbcr.YCbCr_to_RGB` definition
         n-dimensional arrays support.
@@ -386,7 +388,7 @@ class TestYCbCr_to_RGB:
         YCbCr = np.reshape(YCbCr, (4, 4, 4, 3))
         np.testing.assert_allclose(YCbCr_to_RGB(YCbCr), RGB)
 
-    def test_domain_range_scale_YCbCr_to_RGB(self):
+    def test_domain_range_scale_YCbCr_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.prismatic.YCbCr_to_RGB` definition
         domain and range scale support.
@@ -405,7 +407,7 @@ class TestYCbCr_to_RGB:
                 )
 
     @ignore_numpy_errors
-    def test_nan_YCbCr_to_RGB(self):
+    def test_nan_YCbCr_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.ycbcr.YCbCr_to_RGB` definition nan
         support.
@@ -422,7 +424,7 @@ class TestRGB_to_YcCbcCrc:
     tests methods.
     """
 
-    def test_RGB_to_YcCbcCrc(self):
+    def test_RGB_to_YcCbcCrc(self) -> None:
         """Test :func:`colour.models.rgb.ycbcr.RGB_to_YcCbcCrc` definition."""
 
         np.testing.assert_allclose(
@@ -443,7 +445,7 @@ class TestRGB_to_YcCbcCrc:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_RGB_to_YcCbcCrc(self):
+    def test_n_dimensional_RGB_to_YcCbcCrc(self) -> None:
         """
         Test :func:`colour.models.rgb.ycbcr.RGB_to_YcCbcCrc` definition
         n-dimensional arrays support.
@@ -476,7 +478,7 @@ class TestRGB_to_YcCbcCrc:
             RGB_to_YcCbcCrc(RGB), YcCbcCrc, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_RGB_to_YcCbcCrc(self):
+    def test_domain_range_scale_RGB_to_YcCbcCrc(self) -> None:
         """
         Test :func:`colour.models.rgb.prismatic.RGB_to_YcCbcCrc` definition
         domain and range scale support.
@@ -495,7 +497,7 @@ class TestRGB_to_YcCbcCrc:
                 )
 
     @ignore_numpy_errors
-    def test_nan_RGB_to_YcCbcCrc(self):
+    def test_nan_RGB_to_YcCbcCrc(self) -> None:
         """
         Test :func:`colour.models.rgb.ycbcr.RGB_to_YcCbcCrc` definition nan
         support.
@@ -512,7 +514,7 @@ class TestYcCbcCrc_to_RGB:
     methods.
     """
 
-    def test_YcCbcCrc_to_RGB(self):
+    def test_YcCbcCrc_to_RGB(self) -> None:
         """Test :func:`colour.models.rgb.ycbcr.YCbCr_to_RGB` definition."""
 
         np.testing.assert_allclose(
@@ -533,7 +535,7 @@ class TestYcCbcCrc_to_RGB:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_YcCbcCrc_to_RGB(self):
+    def test_n_dimensional_YcCbcCrc_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.ycbcr.YcCbcCrc_to_RGB` definition
         n-dimensional arrays support.
@@ -566,7 +568,7 @@ class TestYcCbcCrc_to_RGB:
             YcCbcCrc_to_RGB(YcCbcCrc), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_YcCbcCrc_to_RGB(self):
+    def test_domain_range_scale_YcCbcCrc_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.prismatic.YcCbcCrc_to_RGB` definition
         domain and range scale support.
@@ -585,7 +587,7 @@ class TestYcCbcCrc_to_RGB:
                 )
 
     @ignore_numpy_errors
-    def test_nan_YcCbcCrc_to_RGB(self):
+    def test_nan_YcCbcCrc_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.ycbcr.YcCbcCrc_to_RGB` definition nan
         support.

@@ -3,7 +3,7 @@ RIMM, ROMM and ERIMM Encodings
 ==============================
 
 Define the *RIMM, ROMM and ERIMM* encodings opto-electrical transfer functions
-(OETF) and electro-optical transfer functions (EOTF):
+(OETF) and electro-optical transfer functions (EOTF).
 
 -   :func:`colour.models.cctf_encoding_ROMMRGB`
 -   :func:`colour.models.cctf_decoding_ROMMRGB`
@@ -25,10 +25,20 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayReal
+
+from colour.hints import (  # noqa: TC001
+    Annotated,
+    Domain1,
+    Range1,
+)
 from colour.utilities import (
     as_float,
     as_float_scalar,
@@ -59,10 +69,10 @@ __all__ = [
 
 
 def cctf_encoding_ROMMRGB(
-    X: ArrayLike, bit_depth: int = 8, out_int: bool = False
-) -> NDArrayReal:
+    X: Domain1, bit_depth: int = 8, out_int: bool = False
+) -> Annotated[NDArrayReal, 1]:
     """
-    Define the *ROMM RGB* encoding colour component transfer function
+    Apply the *ROMM RGB* encoding colour component transfer function
     (Encoding CCTF).
 
     Parameters
@@ -72,30 +82,30 @@ def cctf_encoding_ROMMRGB(
     bit_depth
         Bit-depth used for conversion.
     out_int
-        Whether to return value as int code value or float equivalent of a
-        code value at a given bit-depth.
+        Whether to return value as integer code value or floating point
+        equivalent of a code value at a specified bit-depth.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`X'_{ROMM}`.
+        Non-linear encoded data :math:`X'_{ROMM}`.
 
     Notes
     -----
-    +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X``          | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X``      | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X_p``        | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X_p``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    \\* This definition has an output int switch, thus the domain-range
-    scale information is only given for the floating point mode.
+    -   This definition has an output int switch, thus the domain-range
+     scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -119,28 +129,28 @@ def cctf_encoding_ROMMRGB(
 
     if out_int:
         return as_int(np.round(X_p))
-    else:
-        return as_float(from_range_1(X_p / I_max))
+
+    return as_float(from_range_1(X_p / I_max))
 
 
 def cctf_decoding_ROMMRGB(
-    X_p: ArrayLike,
+    X_p: Domain1,
     bit_depth: int = 8,
     in_int: bool = False,
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Define the *ROMM RGB* decoding colour component transfer function
-    (Encoding CCTF).
+    Apply the *ROMM RGB* decoding colour component transfer function
+    (Decoding CCTF).
 
     Parameters
     ----------
     X_p
-        Non-linear data :math:`X'_{ROMM}`.
+        Non-linear encoded data :math:`X'_{ROMM}`.
     bit_depth
         Bit-depth used for conversion.
     in_int
-        Whether to treat the input value as int code value or float
-        equivalent of a code value at a given bit-depth.
+        Whether to treat the input value as integer code value or floating
+        point equivalent of a code value at a specified bit-depth.
 
     Returns
     -------
@@ -149,20 +159,20 @@ def cctf_decoding_ROMMRGB(
 
     Notes
     -----
-    +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X_p``        | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X_p``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X``          | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X``      | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    \\* This definition has an input int switch, thus the domain-range
-    scale information is only given for the floating point mode.
+    -   This definition has an input int switch, thus the domain-range
+        scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -213,17 +223,14 @@ if cctf_decoding_ProPhotoRGB.__doc__ is not None:
 
 
 def cctf_encoding_RIMMRGB(
-    X: ArrayLike,
+    X: Domain1,
     bit_depth: int = 8,
     out_int: bool = False,
     E_clip: float = 2.0,
-) -> NDArrayReal:
+) -> Annotated[NDArrayReal, 1]:
     """
-    Define the *RIMM RGB* encoding colour component transfer function
+    Apply the *RIMM RGB* encoding colour component transfer function
     (Encoding CCTF).
-
-    *RIMM RGB* encoding non-linearity is based on that specified by
-    *Recommendation ITU-R BT.709-6*.
 
     Parameters
     ----------
@@ -232,32 +239,32 @@ def cctf_encoding_RIMMRGB(
     bit_depth
         Bit-depth used for conversion.
     out_int
-        Whether to return value as int code value or float equivalent of a
-        code value at a given bit-depth.
+        Whether to return value as integer code value or floating point
+        equivalent of a code value at a specified bit-depth.
     E_clip
-        Maximum exposure level.
+        Maximum exposure limit.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`X'_{RIMM}`.
+        Non-linear encoded data :math:`X'_{RIMM}`.
 
     Notes
     -----
-    +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X``          | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X``      | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X_p``        | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X_p``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    \\* This definition has an output int switch, thus the domain-range
-    scale information is only given for the floating point mode.
+    -   This definition has an output int switch, thus the domain-range
+        scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -285,31 +292,31 @@ def cctf_encoding_RIMMRGB(
 
     if out_int:
         return as_int(np.round(X_p))
-    else:
-        return as_float(from_range_1(X_p / I_max))
+
+    return as_float(from_range_1(X_p / I_max))
 
 
 def cctf_decoding_RIMMRGB(
-    X_p: ArrayLike,
+    X_p: Domain1,
     bit_depth: int = 8,
     in_int: bool = False,
     E_clip: float = 2.0,
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Define the *RIMM RGB* decoding colour component transfer function
-    (Encoding CCTF).
+    Apply the *RIMM RGB* decoding colour component transfer function
+    (Decoding CCTF).
 
     Parameters
     ----------
     X_p
-        Non-linear data :math:`X'_{RIMM}`.
+        Non-linear encoded data :math:`X'_{RIMM}`.
     bit_depth
         Bit-depth used for conversion.
     in_int
-        Whether to treat the input value as int code value or float
-        equivalent of a code value at a given bit-depth.
+        Whether to treat the input value as integer code value or floating
+        point equivalent of a code value at a specified bit-depth.
     E_clip
-        Maximum exposure level.
+        Maximum exposure limit.
 
     Returns
     -------
@@ -318,20 +325,20 @@ def cctf_decoding_RIMMRGB(
 
     Notes
     -----
-    +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X_p``        | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X_p``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X``          | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X``      | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    \\* This definition has an input int switch, thus the domain-range
-    scale information is only given for the floating point mode.
+    -   This definition has an input int switch, thus the domain-range
+        scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -367,15 +374,14 @@ def cctf_decoding_RIMMRGB(
 
 
 def log_encoding_ERIMMRGB(
-    X: ArrayLike,
+    X: Domain1,
     bit_depth: int = 8,
     out_int: bool = False,
     E_min: float = 0.001,
     E_clip: float = 316.2,
-) -> NDArrayReal:
+) -> Annotated[NDArrayReal, 1]:
     """
-    Define the *ERIMM RGB* log encoding curve / opto-electronic transfer
-    function (OETF).
+    Apply the *ERIMM RGB* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -384,8 +390,8 @@ def log_encoding_ERIMMRGB(
     bit_depth
         Bit-depth used for conversion.
     out_int
-        Whether to return value as int code value or float equivalent of a
-        code value at a given bit-depth.
+        Whether to return value as integer code value or floating point
+        equivalent of a code value at a specified bit-depth.
     E_min
         Minimum exposure limit.
     E_clip
@@ -394,24 +400,24 @@ def log_encoding_ERIMMRGB(
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`X'_{ERIMM}`.
+        Non-linear encoded data :math:`X'_{ERIMM}`.
 
     Notes
     -----
-    +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X``          | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X``      | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X_p``        | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X_p``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    \\* This definition has an output int switch, thus the domain-range
-    scale information is only given for the floating point mode.
+    -   This definition has an output int switch, thus the domain-range
+        scale information is only specified for the floating point mode.
 
     References
     ----------
@@ -451,30 +457,29 @@ def log_encoding_ERIMMRGB(
 
     if out_int:
         return as_int(np.round(X_p))
-    else:
-        return as_float(from_range_1(X_p / I_max))
+
+    return as_float(from_range_1(X_p / I_max))
 
 
 def log_decoding_ERIMMRGB(
-    X_p: ArrayLike,
+    X_p: Domain1,
     bit_depth: int = 8,
     in_int: bool = False,
     E_min: float = 0.001,
     E_clip: float = 316.2,
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Define the *ERIMM RGB* log decoding curve / electro-optical transfer
-    function (EOTF).
+    Apply the *ERIMM RGB* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     X_p
-        Non-linear data :math:`X'_{ERIMM}`.
+        Non-linear encoded data :math:`X'_{ERIMM}`.
     bit_depth
         Bit-depth used for conversion.
     in_int
-        Whether to treat the input value as int code value or float
-        equivalent of a code value at a given bit-depth.
+        Whether to treat the input value as integer code value or floating
+        point equivalent of a code value at a specified bit-depth.
     E_min
         Minimum exposure limit.
     E_clip
@@ -487,20 +492,20 @@ def log_decoding_ERIMMRGB(
 
     Notes
     -----
-    +----------------+-----------------------+---------------+
-    | **Domain \\***  | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X_p``        | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X_p``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    +----------------+-----------------------+---------------+
-    | **Range \\***   | **Scale - Reference** | **Scale - 1** |
-    +================+=======================+===============+
-    | ``X``          | [0, 1]                | [0, 1]        |
-    +----------------+-----------------------+---------------+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``X``      | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
-    \\* This definition has an input int switch, thus the domain-range
-    scale information is only given for the floating point mode.
+    -   This definition has an input int switch, thus the domain-range
+        scale information is only specified for the floating point mode.
 
     References
     ----------

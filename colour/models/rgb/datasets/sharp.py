@@ -22,10 +22,15 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
 from colour.models.rgb import (
     RGB_Colourspace,
     linear_function,
@@ -61,7 +66,7 @@ PRIMARIES_SHARP_RGB: NDArrayFloat = np.array(
 Notes
 -----
 The primaries were originally derived from the :math:`M_{Sharp}` matrix as
-given in *Ward and Eydelberg-Vileshin (2002)*:
+specified in *Ward and Eydelberg-Vileshin (2002)*:
 
     M_Sharp = np.array(
         [[1.2694, -0.0988, -0.1706],

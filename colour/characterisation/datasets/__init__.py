@@ -2,8 +2,8 @@ from .aces_it import MSDS_ACES_RICD
 from .cameras import MSDS_CAMERA_SENSITIVITIES
 from .colour_checkers import (
     CCS_COLOURCHECKERS,
-    ColourChecker,
     SDS_COLOURCHECKERS,
+    ColourChecker,
 )
 from .displays import MSDS_DISPLAY_PRIMARIES
 from .filters import SDS_FILTERS
@@ -17,8 +17,8 @@ __all__ += [
 ]
 __all__ += [
     "CCS_COLOURCHECKERS",
-    "ColourChecker",
     "SDS_COLOURCHECKERS",
+    "ColourChecker",
 ]
 __all__ += [
     "MSDS_DISPLAY_PRIMARIES",

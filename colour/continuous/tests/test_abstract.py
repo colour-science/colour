@@ -1,5 +1,6 @@
 """Define the unit tests for the :mod:`colour.continuous.abstract` module."""
 
+from __future__ import annotations
 
 from colour.continuous import AbstractContinuousFunction
 
@@ -21,7 +22,7 @@ class TestAbstractContinuousFunction:
     class unit tests methods.
     """
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = (
@@ -38,7 +39,7 @@ class TestAbstractContinuousFunction:
         for attribute in required_attributes:
             assert attribute in dir(AbstractContinuousFunction)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (

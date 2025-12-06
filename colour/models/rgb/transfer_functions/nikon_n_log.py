@@ -2,7 +2,7 @@
 Nikon N-Log Log Encoding
 ========================
 
-Define the *Nikon N-Log* log encoding:
+Define the *Nikon N-Log* log encoding.
 
 -   :func:`colour.models.log_encoding_NLog`
 -   :func:`colour.models.log_decoding_NLog`
@@ -20,9 +20,12 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
-from colour.utilities import Structure, as_float, from_range_1, to_domain_1
+from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -49,27 +52,27 @@ CONSTANTS_NLOG: Structure = Structure(
 
 
 def log_encoding_NLog(
-    y: ArrayLike,
+    y: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-    constants: Structure = CONSTANTS_NLOG,
-) -> NDArrayFloat:
+    constants: Structure | None = None,
+) -> Range1:
     """
-    Define the *Nikon N-Log* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Nikon N-Log* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     y
-        Reflectance :math:`y`, "y = 0.18" is equivalent to Stop 0.
+        Linear light reflectance :math:`y`, where :math:`y = 0.18` represents
+        middle grey at Stop 0.
     bit_depth
         Bit-depth used for conversion.
     out_normalised_code_value
-        Whether the non-linear *Nikon N-Log* data :math:`x` is encoded as
+        Whether to return the *Nikon N-Log* encoded data :math:`x` as
         normalised code values.
     in_reflection
-        Whether the light level :math`in` to a camera is reflection.
+        Whether the input light level represents reflected light.
     constants
         *Nikon N-Log* constants.
 
@@ -83,13 +86,13 @@ def log_encoding_NLog(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -103,6 +106,7 @@ def log_encoding_NLog(
     """
 
     y = to_domain_1(y)
+    constants = optional(constants, CONSTANTS_NLOG)
 
     if not in_reflection:
         y = y * 0.9
@@ -125,47 +129,48 @@ def log_encoding_NLog(
 
 
 def log_decoding_NLog(
-    x: ArrayLike,
+    x: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-    constants: Structure = CONSTANTS_NLOG,
-) -> NDArrayFloat:
+    constants: Structure | None = None,
+) -> Range1:
     """
-    Define the *Nikon N-Log* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Nikon N-Log* log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     x
-        *N-Log* 10-bit equivalent code value :math:`x`
+        *N-Log* 10-bit equivalent code value :math:`x`.
     bit_depth
         Bit-depth used for conversion.
     in_normalised_code_value
         Whether the non-linear *Nikon N-Log* data :math:`x` is encoded as
         normalised code values.
     out_reflection
-        Whether the light level :math`in` to a camera is reflection.
+        Whether the light level :math:`y` to a camera is reflection.
     constants
         *Nikon N-Log* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Reflectance :math:`y`.
+        Linear light reflectance :math:`y`, where :math:`y = 0.18` represents
+        middle grey at Stop 0.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -179,6 +184,7 @@ def log_decoding_NLog(
     """
 
     x = to_domain_1(x)
+    constants = optional(constants, CONSTANTS_NLOG)
 
     x = x if in_normalised_code_value else full_to_legal(x, bit_depth)
 

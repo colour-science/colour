@@ -3,7 +3,7 @@ SRGB
 ====
 
 Define the *sRGB* electro-optical transfer function (EOTF) and its
-inverse:
+inverse.
 
 -   :func:`colour.models.eotf_inverse_sRGB`
 -   :func:`colour.models.eotf_sRGB`
@@ -28,13 +28,11 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, NDArrayFloat
-from colour.utilities import (
-    as_float,
-    domain_range_scale,
-    from_range_1,
-    to_domain_1,
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
 )
+from colour.utilities import as_float, domain_range_scale, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -49,9 +47,9 @@ __all__ = [
 ]
 
 
-def eotf_inverse_sRGB(L: ArrayLike) -> NDArrayFloat:
+def eotf_inverse_sRGB(L: Domain1) -> Range1:
     """
-    Define the *IEC 61966-2-1:1999* *sRGB* inverse electro-optical transfer
+    Apply the *IEC 61966-2-1:1999* *sRGB* inverse electro-optical transfer
     function (EOTF).
 
     Parameters
@@ -62,20 +60,20 @@ def eotf_inverse_sRGB(L: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding electrical signal :math:`V`.
+        Electrical signal :math:`V`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``L``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
+    | ``V``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -96,9 +94,9 @@ def eotf_inverse_sRGB(L: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_1(V))
 
 
-def eotf_sRGB(V: ArrayLike) -> NDArrayFloat:
+def eotf_sRGB(V: Domain1) -> Range1:
     """
-    Define the *IEC 61966-2-1:1999* *sRGB* electro-optical transfer function
+    Apply the *IEC 61966-2-1:1999* *sRGB* electro-optical transfer function
     (EOTF).
 
     Parameters
@@ -109,20 +107,20 @@ def eotf_sRGB(V: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding *luminance* :math:`L` of the image.
+        *Luminance* :math:`L` of the image.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
+    | ``V``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``L``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

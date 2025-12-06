@@ -2,29 +2,39 @@
 Common Utilities
 ================
 
-Define the common algebra utilities objects that don't fall in any specific
+Define common algebra utility objects that do not fall within any specific
 category.
+
+The *Common* sub-package provides general-purpose mathematical and
+computational utilities used throughout the colour science library.
 """
 
 from __future__ import annotations
 
 import functools
+import typing
 
 import numpy as np
 
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Callable,
-    Literal,
-    NDArrayFloat,
-    Tuple,
-    cast,
-)
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Callable,
+        DTypeFloat,
+        NDArray,
+        NDArrayFloat,
+        Self,
+        Tuple,
+    )
+
+from colour.constants import EPSILON
+from colour.hints import Literal, cast
 from colour.utilities import (
     as_float,
     as_float_array,
     optional,
+    runtime_warning,
     tsplit,
     validate_method,
 )
@@ -68,32 +78,35 @@ _SDIV_MODE: Literal[
     "Warning Zero Conversion",
     "Ignore Limit Conversion",
     "Warning Limit Conversion",
+    "Replace With Epsilon",
+    "Warning Replace With Epsilon",
 ] = "Ignore Zero Conversion"
 """
 Global variable storing the current *Colour* safe division function mode.
 """
 
 
-def get_sdiv_mode() -> (
-    Literal[
-        "Numpy",
-        "Ignore",
-        "Warning",
-        "Raise",
-        "Ignore Zero Conversion",
-        "Warning Zero Conversion",
-        "Ignore Limit Conversion",
-        "Warning Limit Conversion",
-    ]
-):
+def get_sdiv_mode() -> Literal[
+    "Numpy",
+    "Ignore",
+    "Warning",
+    "Raise",
+    "Ignore Zero Conversion",
+    "Warning Zero Conversion",
+    "Ignore Limit Conversion",
+    "Warning Limit Conversion",
+    "Replace With Epsilon",
+    "Warning Replace With Epsilon",
+]:
     """
-    Return *Colour* safe division mode.
+    Return the current *Colour* safe division mode.
 
     Returns
     -------
     :class:`str`
-        *Colour* safe division mode, see :func:`colour.algebra.sdiv` definition
-        for an explanation about the possible modes.
+        Current *Colour* safe division mode. See
+        :func:`colour.algebra.sdiv` definition for an explanation of
+        the possible modes.
 
     Examples
     --------
@@ -119,18 +132,20 @@ def set_sdiv_mode(
             "Warning Zero Conversion",
             "Ignore Limit Conversion",
             "Warning Limit Conversion",
+            "Replace With Epsilon",
+            "Warning Replace With Epsilon",
         ]
         | str
     ),
-):
+) -> None:
     """
-    Set *Colour* safe division function mode.
+    Set the *Colour* safe division function mode.
 
     Parameters
     ----------
     mode
-        *Colour* safe division mode, see :func:`colour.algebra.sdiv` definition
-        for an explanation about the possible modes.
+        *Colour* safe division mode. See :func:`colour.algebra.sdiv`
+        definition for an explanation of the possible modes.
 
     Examples
     --------
@@ -145,16 +160,10 @@ def set_sdiv_mode(
     global _SDIV_MODE  # noqa: PLW0603
 
     _SDIV_MODE = cast(
-        Literal[
-            "Numpy",
-            "Ignore",
-            "Warning",
-            "Raise",
-            "Ignore Zero Conversion",
-            "Warning Zero Conversion",
-            "Ignore Limit Conversion",
-            "Warning Limit Conversion",
-        ],
+        "Literal['Numpy', 'Ignore', 'Warning', 'Raise', "  # pyright: ignore
+        "'Ignore Zero Conversion', 'Warning Zero Conversion', "
+        "'Ignore Limit Conversion', 'Warning Limit Conversion', "
+        "'Replace With Epsilon', 'Warning Replace With Epsilon']",
         validate_method(
             mode,
             (
@@ -166,6 +175,8 @@ def set_sdiv_mode(
                 "Warning Zero Conversion",
                 "Ignore Limit Conversion",
                 "Warning Limit Conversion",
+                "Replace With Epsilon",
+                "Warning Replace With Epsilon",
             ),
         ),
     )
@@ -173,14 +184,20 @@ def set_sdiv_mode(
 
 class sdiv_mode:
     """
-    Define a context manager and decorator temporarily setting *Colour* safe
+    Context manager and decorator for temporarily modifying *Colour* safe
     division function mode.
+
+    This utility enables temporary modification of the safe division behavior
+    in *Colour* computations, allowing control over how division operations
+    handle edge cases such as division by zero or near-zero values. The
+    context manager ensures automatic restoration of the original mode upon
+    exit.
 
     Parameters
     ----------
     mode
-       *Colour* safe division function mode, see :func:`colour.algebra.sdiv`
-       definition for an explanation about the possible modes.
+        *Colour* safe division function mode, see :func:`colour.algebra.sdiv`
+        definition for an explanation about the possible modes.
     """
 
     def __init__(
@@ -195,6 +212,8 @@ class sdiv_mode:
                 "Warning Zero Conversion",
                 "Ignore Limit Conversion",
                 "Warning Limit Conversion",
+                "Replace With Epsilon",
+                "Warning Replace With Epsilon",
             ]
             | None
         ) = None,
@@ -202,26 +221,31 @@ class sdiv_mode:
         self._mode = optional(mode, get_sdiv_mode())
         self._previous_mode = get_sdiv_mode()
 
-    def __enter__(self) -> sdiv_mode:
+    def __enter__(self) -> Self:
         """
-        Set the *Colour* safe division function mode upon entering the context
-        manager.
+        Set the *Colour* safe/symmetrical power function state to the
+        specified value upon entering the context manager.
         """
 
         set_sdiv_mode(self._mode)
 
         return self
 
-    def __exit__(self, *args: Any):
+    def __exit__(self, *args: Any) -> None:
         """
-        Set the *Colour* safe division function mode upon exiting the context
-        manager.
+        Restore the *Colour* safe / symmetrical power function enabled state
+        upon exiting the context manager.
         """
 
         set_sdiv_mode(self._previous_mode)
 
     def __call__(self, function: Callable) -> Callable:
-        """Call the wrapped definition."""
+        """
+        Call the wrapped definition.
+
+        The decorator applies the specified spectral power distribution
+        state to the wrapped function during its execution.
+        """
 
         @functools.wraps(function)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
@@ -233,32 +257,38 @@ class sdiv_mode:
 
 def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     """
-    Divide given array :math:`b` with array :math:`b` while handling
-    zero-division.
+    Perform safe division of array :math:`a` by array :math:`b` while
+    handling zero-division cases.
 
-    This definition avoids NaNs and +/- infs generation when array :math:`b`
-    is equal to zero. This behaviour can be controlled with the
-    :func:`colour.algebra.set_sdiv_mode` definition or with the
+    Avoid NaN and +/- inf generation when array :math:`b` contains zero
+    values. The zero-division handling behaviour is controlled by the
+    :func:`colour.algebra.set_sdiv_mode` definition or the
     :func:`sdiv_mode` context manager. The following modes are available:
 
     -   ``Numpy``: The current *Numpy* zero-division handling occurs.
     -   ``Ignore``: Zero-division occurs silently.
     -   ``Warning``: Zero-division occurs with a warning.
-    -   ``Ignore Zero Conversion``: Zero-division occurs silently and NaNs or
-        +/- infs values are converted to zeros. See :func:`numpy.nan_to_num`
-        definition for more details.
-    -   ``Warning Zero Conversion``: Zero-division occurs with a warning and
-        NaNs or +/- infs values are converted to zeros. See
+    -   ``Ignore Zero Conversion``: Zero-division occurs silently and NaNs
+        or +/- infs values are converted to zeros. See
+        :func:`numpy.nan_to_num` definition for more details.
+    -   ``Warning Zero Conversion``: Zero-division occurs with a warning
+        and NaNs or +/- infs values are converted to zeros. See
         :func:`numpy.nan_to_num` definition for more details.
     -   ``Ignore Limit Conversion``: Zero-division occurs silently and
         NaNs or +/- infs values are converted to zeros or the largest +/-
         finite floating point values representable by the division result
-        :class:`numpy.dtype`. See :func:`numpy.nan_to_num` definition for more
-        details.
-    -   ``Warning Limit Conversion``: Zero-division occurs  with a warning and
-        NaNs or +/- infs values are converted to zeros or the largest +/-
-        finite floating point values representable by the division result
-        :class:`numpy.dtype`.
+        :class:`numpy.dtype`. See :func:`numpy.nan_to_num` definition for
+        more details.
+    -   ``Warning Limit Conversion``: Zero-division occurs with a warning
+        and NaNs or +/- infs values are converted to zeros or the largest
+        +/- finite floating point values representable by the division
+        result :class:`numpy.dtype`.
+    -   ``Replace With Epsilon``: Zero-division is avoided by replacing
+        zero denominators with the machine epsilon value from
+        :attr:`colour.constants.EPSILON`.
+    -   ``Warning Replace With Epsilon``: Zero-division is avoided by
+        replacing zero denominators with the machine epsilon value from
+        :attr:`colour.constants.EPSILON` with a warning.
 
     Parameters
     ----------
@@ -270,7 +300,7 @@ def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`np.float` or :class:`numpy.ndarray`
-        Array :math:`b` safely divided by :math:`a`.
+        Array :math:`a` safely divided by :math:`b`.
 
     Examples
     --------
@@ -296,6 +326,12 @@ def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     >>> with sdiv_mode("Warning Limit Conversion"):
     ...     sdiv(a, b)  # doctest: +SKIP
     array([  0.00000000e+000,   1.00000000e+000,   1.79769313e+308])
+    >>> with sdiv_mode("Replace With Epsilon"):
+    ...     sdiv(a, b)  # doctest: +ELLIPSIS
+    array([  0.00000000e+00,   1.00000000e+00,  ...])
+    >>> with sdiv_mode("Warning Replace With Epsilon"):
+    ...     sdiv(a, b)  # doctest: +ELLIPSIS
+    array([  0.00000000e+00,   1.00000000e+00,  ...])
     """
 
     a = as_float_array(a)
@@ -312,6 +348,8 @@ def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
             "Warning Zero Conversion",
             "Ignore Limit Conversion",
             "Warning Limit Conversion",
+            "Replace With Epsilon",
+            "Warning Replace With Epsilon",
         ),
     )
 
@@ -338,6 +376,14 @@ def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     elif mode == "warning limit conversion":
         with np.errstate(divide="warn", invalid="warn"):
             c = np.nan_to_num(a / b)
+    elif mode == "replace with epsilon":
+        b = np.where(b == 0, EPSILON, b)
+        c = a / b
+    elif mode == "warning replace with epsilon":
+        if np.any(b == 0):
+            runtime_warning("Zero(s) detected in denominator, replacing with EPSILON.")
+        b = np.where(b == 0, EPSILON, b)
+        c = a / b
 
     return c
 
@@ -371,14 +417,14 @@ def is_spow_enabled() -> bool:
     return _SPOW_ENABLED
 
 
-def set_spow_enable(enable: bool):
+def set_spow_enable(enable: bool) -> None:
     """
-    Set *Colour* safe / symmetrical power function enabled state.
+    Set the *Colour* safe/symmetrical power function enabled state.
 
     Parameters
     ----------
     enable
-        Whether to enable *Colour* safe / symmetrical power function.
+        Whether to enable the *Colour* safe/symmetrical power function.
 
     Examples
     --------
@@ -397,21 +443,27 @@ def set_spow_enable(enable: bool):
 
 class spow_enable:
     """
-    Define a context manager and decorator temporarily setting *Colour* safe /
-    symmetrical power function enabled state.
+    Context manager and decorator for temporarily setting the state of *Colour*
+    safe/symmetrical power function.
+
+    This utility provides both context manager and decorator functionality to
+    temporarily enable or disable the safe/symmetrical power function used
+    throughout the *Colour* library. When enabled, power operations use a
+    symmetrical implementation that handles negative values appropriately for
+    colour science computations.
 
     Parameters
     ----------
     enable
-        Whether to enable or disable *Colour* safe / symmetrical power
-        function.
+        Whether to enable or disable the *Colour* safe/symmetrical power
+        function for the duration of the context or decorated function.
     """
 
     def __init__(self, enable: bool) -> None:
         self._enable = enable
         self._previous_state = is_spow_enabled()
 
-    def __enter__(self) -> spow_enable:
+    def __enter__(self) -> Self:
         """
         Set the *Colour* safe / symmetrical power function enabled state
         upon entering the context manager.
@@ -421,7 +473,7 @@ class spow_enable:
 
         return self
 
-    def __exit__(self, *args: Any):
+    def __exit__(self, *args: Any) -> None:
         """
         Set the *Colour* safe / symmetrical power function enabled state
         upon exiting the context manager.
@@ -440,15 +492,23 @@ class spow_enable:
         return wrapper
 
 
-def spow(a: ArrayLike, p: ArrayLike) -> NDArrayFloat:
+@typing.overload
+def spow(a: float | DTypeFloat, p: float | DTypeFloat) -> DTypeFloat: ...
+@typing.overload
+def spow(a: NDArray, p: ArrayLike) -> NDArrayFloat: ...
+@typing.overload
+def spow(a: ArrayLike, p: NDArray) -> NDArrayFloat: ...
+@typing.overload
+def spow(a: ArrayLike, p: ArrayLike) -> DTypeFloat | NDArrayFloat: ...
+def spow(a: ArrayLike, p: ArrayLike) -> DTypeFloat | NDArrayFloat:
     """
-    Raise given array :math:`a` to the power :math:`p` as follows:
-    :math:`sign(a) * |a|^p`.
+    Raise specified array :math:`a` to the power :math:`p` as follows:
+    :math:`\\text{sign}(a) \\cdot |a|^p`.
 
-    This definition avoids NaNs generation when array :math:`a` is negative and
-    the power :math:`p` is fractional. This behaviour can be enabled or
-    disabled with the :func:`colour.algebra.set_spow_enable` definition or with
-    the :func:`spow_enable` context manager.
+    This definition avoids NaN generation when array :math:`a` is negative
+    and power :math:`p` is fractional. This behaviour can be enabled or
+    disabled with the :func:`colour.algebra.set_spow_enable` definition or
+    with the :func:`spow_enable` context manager.
 
     Parameters
     ----------
@@ -485,7 +545,10 @@ def spow(a: ArrayLike, p: ArrayLike) -> NDArrayFloat:
 
 def normalise_vector(a: ArrayLike) -> NDArrayFloat:
     """
-    Normalise given vector :math:`a`.
+    Normalise the specified vector :math:`a`.
+
+    The normalisation process scales the vector to have unit length, ensuring
+    that the magnitude of the resulting vector equals 1.
 
     Parameters
     ----------
@@ -495,7 +558,7 @@ def normalise_vector(a: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Normalised vector :math:`a`.
+        Normalised vector :math:`a` with unit length.
 
     Examples
     --------
@@ -517,8 +580,8 @@ def normalise_maximum(
     clip: bool = True,
 ) -> NDArrayFloat:
     """
-    Normalise given array :math:`a` values by :math:`a` maximum value and
-    optionally clip them between.
+    Normalise specified array :math:`a` values by :math:`a` maximum value
+    and optionally clip them between [0, factor].
 
     Parameters
     ----------
@@ -555,13 +618,14 @@ def normalise_maximum(
 
 def vecmul(m: ArrayLike, v: ArrayLike) -> NDArrayFloat:
     """
-    Perform the batched multiplication between the matrix array :math:`m` and
+    Perform batched multiplication between the matrix array :math:`m` and
     vector array :math:`v`.
 
-    It is in intent equivalent to :func:`np.matmul` but with the specific intent
-    of vector multiplication by a matrix. With that intent, vector dimensionality
-    will be increased to enable broadcasting. This definition can be expressed
-    with :func:`np.einsum` using the following subscripts: *'...ij,...j->...i'*.
+    This function is equivalent to :func:`numpy.matmul` but specifically
+    designed for vector multiplication by a matrix. Vector dimensionality is
+    automatically increased to enable broadcasting. The operation can be
+    expressed using :func:`numpy.einsum` with subscripts
+    *'...ij,...j->...i'*.
 
     Parameters
     ----------
@@ -601,8 +665,8 @@ def vecmul(m: ArrayLike, v: ArrayLike) -> NDArrayFloat:
 
 def euclidean_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     """
-    Return the *Euclidean* distance between point array :math:`a` and point
-    array :math:`b`.
+    Calculate the *Euclidean* distance between the specified point arrays
+    :math:`a` and :math:`b`.
 
     For a two-dimensional space, the metric is as follows:
 
@@ -617,8 +681,8 @@ def euclidean_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
 
     Returns
     -------
-    :class:`np.float` or :class:`numpy.ndarray`
-        *Euclidean* distance.
+    :class:`numpy.float64` or :class:`numpy.ndarray`
+        *Euclidean* distance between the two point arrays.
 
     Examples
     --------
@@ -633,10 +697,10 @@ def euclidean_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
 
 def manhattan_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     """
-    Return the *Manhattan* (or *City-Block*) distance between point array
+    Compute the *Manhattan* (or *City-Block*) distance between point array
     :math:`a` and point array :math:`b`.
 
-    For a two-dimensional space, the metric is as follows:
+    For a two-dimensional space, the metric is defined as:
 
     :math:`M_D = |x_a - x_b| + |y_a - y_b|`
 
@@ -667,7 +731,7 @@ def linear_conversion(
     a: ArrayLike, old_range: ArrayLike, new_range: ArrayLike
 ) -> NDArrayFloat:
     """
-    Perform a simple linear conversion of given array :math:`a` between the
+    Perform simple linear conversion of the specified array :math:`a` between the
     old and new ranges.
 
     Parameters
@@ -706,20 +770,20 @@ def linstep_function(
     clip: bool = False,
 ) -> NDArrayFloat:
     """
-    Perform a simple linear interpolation between given array :math:`a` and
-    array :math:`b` using :math:`x` array.
+    Perform linear interpolation between specified arrays :math:`a` and
+    :math:`b` using array :math:`x`.
 
     Parameters
     ----------
     x
-        Array :math:`x` value to use to interpolate between array :math:`a` and
-        array :math:`b`.
+        Array :math:`x` containing values to use for interpolation between
+        array :math:`a` and array :math:`b`.
     a
-        Array :math:`a`, the start of the range in which to interpolate.
+        Array :math:`a`, the start of the interpolation range.
     b
-        Array :math:`b`, the end of the range in which to interpolate.
+        Array :math:`b`, the end of the interpolation range.
     clip
-        Whether to clip the output values to range [``a``, ``b``].
+        Whether to clip the output values to range [:math:`a`, :math:`b`].
 
     Returns
     -------
@@ -753,23 +817,30 @@ def smoothstep_function(
     clip: bool = False,
 ) -> NDArrayFloat:
     """
-    Evaluate the *smoothstep* sigmoid-like function on array :math:`x`.
+    Apply the *smoothstep* cubic Hermite interpolation function to
+    array :math:`x`.
+
+    The *smoothstep* function creates a smooth S-shaped curve between
+    specified edge values, commonly used for smooth transitions in
+    colour interpolation and rendering operations.
 
     Parameters
     ----------
     x
-        Array :math:`x`.
+        Input array :math:`x` containing values to be transformed.
     a
-        Low input domain limit, i.e., the left edge.
+        Lower edge value for the interpolation domain.
     b
-        High input domain limit, i.e., the right edge.
+        Upper edge value for the interpolation domain.
     clip
-        Whether to scale, bias and clip input values to domain [``a``, ``b``].
+        Whether to normalize and constrain input values to the domain
+        [:math:`a`, :math:`b`] before applying the *smoothstep* function.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Array :math:`x` after *smoothstep* sigmoid-like function evaluation.
+        Transformed array with values smoothly interpolated using the
+        cubic Hermite polynomial :math:`3x^2 - 2x^3`.
 
     Examples
     --------
@@ -792,17 +863,21 @@ smooth = smoothstep_function
 
 def is_identity(a: ArrayLike) -> bool:
     """
-    Return whether :math:`a` array is an identity matrix.
+    Determine whether the specified array :math:`a` is an identity matrix.
+
+    An identity matrix is a square matrix with ones on the main diagonal
+    and zeros elsewhere, satisfying :math:`I \\cdot A = A \\cdot I = A`
+    for any compatible matrix :math:`A`.
 
     Parameters
     ----------
     a
-        Array :math:`a` to test.
+        Array :math:`a` to test for identity matrix properties.
 
     Returns
     -------
     :class:`bool`
-        Whether :math:`a` array is an identity matrix.
+        Whether the specified array :math:`a` is an identity matrix.
 
     Examples
     --------
@@ -822,31 +897,31 @@ def eigen_decomposition(
     covariance_matrix: bool = False,
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
-    Return the eigen-values :math:`w` and eigen-vectors :math:`v` of given
-    array :math:`a` in given order.
+    Compute the eigenvalues :math:`w` and eigenvectors :math:`v` of the
+    specified array :math:`a` in the specified order.
 
     Parameters
     ----------
     a
-        Array to return the eigen-values :math:`w` and eigen-vectors :math:`v`
-        for
+        Array to compute the eigenvalues :math:`w` and eigenvectors :math:`v`
+        for.
     eigen_w_v_count
-        Eigen-values :math:`w` and eigen-vectors :math:`v` count.
+        Number of eigenvalues :math:`w` and eigenvectors :math:`v` to return.
     descending_order
-        Whether to return the eigen-values :math:`w` and eigen-vectors :math:`v`
+        Whether to return the eigenvalues :math:`w` and eigenvectors :math:`v`
         in descending order.
     covariance_matrix
-        Whether to compute the eigen-values :math:`w` and eigen-vectors
+        Whether to compute the eigenvalues :math:`w` and eigenvectors
         :math:`v` of the array :math:`a` covariance matrix
-        :math:`A =a^T\\cdot a`.
+        :math:`A = a^T \\cdot a`.
 
     Returns
     -------
     :class:`tuple`
-        Tuple of eigen-values :math:`w` and eigen-vectors :math:`v`. The
-        eigenv-alues are in given order, each repeated according to
-        its multiplicity. The column ``v[:, i]`` is the normalized eigen-vector
-        corresponding to the eige-nvalue ``w[i]``.
+        Tuple of eigenvalues :math:`w` and eigenvectors :math:`v`. The
+        eigenvalues are in the specified order, each repeated according to
+        its multiplicity. The column ``v[:, i]`` is the normalized eigenvector
+        corresponding to the eigenvalue ``w[i]``.
 
     Examples
     --------

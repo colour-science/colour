@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.hdr_ipt` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -29,7 +31,7 @@ class TestExponent_hdr_IPT:
     definition unit tests methods.
     """
 
-    def test_exponent_hdr_IPT(self):
+    def test_exponent_hdr_IPT(self) -> None:
         """Test :func:`colour.models.hdr_ipt.exponent_hdr_IPT` definition."""
 
         np.testing.assert_allclose(
@@ -56,7 +58,7 @@ class TestExponent_hdr_IPT:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_exponent_hdr_IPT(self):
+    def test_n_dimensional_exponent_hdr_IPT(self) -> None:
         """
         Test :func:`colour.models.hdr_ipt.exponent_hdr_IPT` definition
         n-dimensional arrays support.
@@ -93,7 +95,7 @@ class TestExponent_hdr_IPT:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_exponent_hdr_IPT(self):
+    def test_domain_range_scale_exponent_hdr_IPT(self) -> None:
         """
         Test :func:`colour.models.hdr_ipt.exponent_hdr_IPT` definition domain
         and range scale support.
@@ -113,7 +115,7 @@ class TestExponent_hdr_IPT:
                 )
 
     @ignore_numpy_errors
-    def test_nan_exponent_hdr_IPT(self):
+    def test_nan_exponent_hdr_IPT(self) -> None:
         """
         Test :func:`colour.models.hdr_ipt.exponent_hdr_IPT` definition nan
         support.
@@ -129,7 +131,7 @@ class TestXYZ_to_hdr_IPT:
     methods.
     """
 
-    def test_XYZ_to_hdr_IPT(self):
+    def test_XYZ_to_hdr_IPT(self) -> None:
         """Test :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition."""
 
         np.testing.assert_allclose(
@@ -159,7 +161,7 @@ class TestXYZ_to_hdr_IPT:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_hdr_IPT(self):
+    def test_n_dimensional_XYZ_to_hdr_IPT(self) -> None:
         """
         Test :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition
         n-dimensional support.
@@ -196,7 +198,7 @@ class TestXYZ_to_hdr_IPT:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_XYZ_to_hdr_IPT(self):
+    def test_domain_range_scale_XYZ_to_hdr_IPT(self) -> None:
         """
         Test :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition domain
         and range scale support.
@@ -217,7 +219,7 @@ class TestXYZ_to_hdr_IPT:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_hdr_IPT(self):
+    def test_nan_XYZ_to_hdr_IPT(self) -> None:
         """
         Test :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition nan
         support.
@@ -234,7 +236,7 @@ class TestHdr_IPT_to_XYZ:
     methods.
     """
 
-    def test_hdr_IPT_to_XYZ(self):
+    def test_hdr_IPT_to_XYZ(self) -> None:
         """Test :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -266,7 +268,7 @@ class TestHdr_IPT_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_hdr_IPT_to_XYZ(self):
+    def test_n_dimensional_hdr_IPT_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition
         n-dimensional support.
@@ -303,7 +305,7 @@ class TestHdr_IPT_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_hdr_IPT_to_XYZ(self):
+    def test_domain_range_scale_hdr_IPT_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition domain
         and range scale support.
@@ -324,7 +326,7 @@ class TestHdr_IPT_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_hdr_IPT_to_XYZ(self):
+    def test_nan_hdr_IPT_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition nan
         support.

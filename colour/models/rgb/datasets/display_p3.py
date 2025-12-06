@@ -15,10 +15,15 @@ documentation/coregraphics/cgcolorspace/1408916-displayp3
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
 from colour.models.rgb import (
     RGB_Colourspace,
     eotf_inverse_sRGB,

@@ -18,17 +18,17 @@ R-REC-BT.470-6-199811-S!!PDF-E.pdf
 
 from __future__ import annotations
 
+import typing
 from functools import partial
 
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArrayFloat
-from colour.models.rgb import (
-    RGB_Colourspace,
-    gamma_function,
-    normalised_primary_matrix,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
+from colour.models.rgb import RGB_Colourspace, gamma_function, normalised_primary_matrix
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

@@ -3,14 +3,10 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 nikon_n_log` module.
 """
 
-
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.models.rgb.transfer_functions import (
-    log_decoding_NLog,
-    log_encoding_NLog,
-)
+from colour.models.rgb.transfer_functions import log_decoding_NLog, log_encoding_NLog
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -32,7 +28,7 @@ class TestLogEncoding_NLog:
 log_encoding_NLog` definition unit tests methods.
     """
 
-    def test_log_encoding_NLog(self):
+    def test_log_encoding_NLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.nikon_n_log.\
 log_encoding_NLog` definition.
@@ -74,7 +70,7 @@ log_encoding_NLog` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_NLog(self):
+    def test_n_dimensional_log_encoding_NLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.nikon_n_log.\
 log_encoding_NLog` definition n-dimensional arrays support.
@@ -101,7 +97,7 @@ log_encoding_NLog` definition n-dimensional arrays support.
             log_encoding_NLog(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_NLog(self):
+    def test_domain_range_scale_log_encoding_NLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.nikon_n_log.\
 log_encoding_NLog` definition domain and range scale support.
@@ -120,7 +116,7 @@ log_encoding_NLog` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_NLog(self):
+    def test_nan_log_encoding_NLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.nikon_n_log.\
 log_encoding_NLog` definition nan support.
@@ -135,7 +131,7 @@ class TestLogDecoding_NLog:
 log_decoding_NLog` definition unit tests methods.
     """
 
-    def test_log_decoding_NLog(self):
+    def test_log_decoding_NLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.nikon_n_log.\
 log_decoding_NLog` definition.
@@ -177,7 +173,7 @@ log_decoding_NLog` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_NLog(self):
+    def test_n_dimensional_log_decoding_NLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.nikon_n_log.\
 log_decoding_NLog` definition n-dimensional arrays support.
@@ -204,7 +200,7 @@ log_decoding_NLog` definition n-dimensional arrays support.
             log_decoding_NLog(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_NLog(self):
+    def test_domain_range_scale_log_decoding_NLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.nikon_n_log.\
 log_decoding_NLog` definition domain and range scale support.
@@ -223,7 +219,7 @@ log_decoding_NLog` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_NLog(self):
+    def test_nan_log_decoding_NLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.nikon_n_log.\
 log_decoding_NLog` definition nan support.

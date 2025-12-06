@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.sony` module.
 """
 
-
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -40,7 +39,7 @@ class TestLogEncoding_SLog:
 log_encoding_SLog` definition unit tests methods.
     """
 
-    def test_log_encoding_SLog(self):
+    def test_log_encoding_SLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_encoding_SLog` definition.
@@ -82,7 +81,7 @@ log_encoding_SLog` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_SLog(self):
+    def test_n_dimensional_log_encoding_SLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_encoding_SLog` definition n-dimensional arrays support.
@@ -109,7 +108,7 @@ log_encoding_SLog` definition n-dimensional arrays support.
             log_encoding_SLog(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_SLog(self):
+    def test_domain_range_scale_log_encoding_SLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_encoding_SLog` definition domain and range scale support.
@@ -128,7 +127,7 @@ log_encoding_SLog` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_SLog(self):
+    def test_nan_log_encoding_SLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_encoding_SLog` definition nan support.
@@ -143,7 +142,7 @@ class TestLogDecoding_SLog:
 log_decoding_SLog` definition unit tests methods.
     """
 
-    def test_log_decoding_SLog(self):
+    def test_log_decoding_SLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_decoding_SLog` definition.
@@ -185,7 +184,7 @@ log_decoding_SLog` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_SLog(self):
+    def test_n_dimensional_log_decoding_SLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_decoding_SLog` definition n-dimensional arrays support.
@@ -212,7 +211,7 @@ log_decoding_SLog` definition n-dimensional arrays support.
             log_decoding_SLog(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_SLog(self):
+    def test_domain_range_scale_log_decoding_SLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_decoding_SLog` definition domain and range scale support.
@@ -231,7 +230,7 @@ log_decoding_SLog` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_SLog(self):
+    def test_nan_log_decoding_SLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_decoding_SLog` definition nan support.
@@ -246,7 +245,7 @@ class TestLogEncoding_SLog2:
 log_encoding_SLog2` definition unit tests methods.
     """
 
-    def test_log_encoding_SLog2(self):
+    def test_log_encoding_SLog2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_encoding_SLog2` definition.
@@ -288,7 +287,7 @@ log_encoding_SLog2` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_SLog2(self):
+    def test_n_dimensional_log_encoding_SLog2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_encoding_SLog2` definition n-dimensional arrays support.
@@ -315,7 +314,7 @@ log_encoding_SLog2` definition n-dimensional arrays support.
             log_encoding_SLog2(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_SLog2(self):
+    def test_domain_range_scale_log_encoding_SLog2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_encoding_SLog2` definition domain and range scale support.
@@ -334,7 +333,7 @@ log_encoding_SLog2` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_SLog2(self):
+    def test_nan_log_encoding_SLog2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_encoding_SLog2` definition nan support.
@@ -349,7 +348,7 @@ class TestLogDecoding_SLog2:
 log_decoding_SLog2` definition unit tests methods.
     """
 
-    def test_log_decoding_SLog2(self):
+    def test_log_decoding_SLog2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_decoding_SLog2` definition.
@@ -391,7 +390,7 @@ log_decoding_SLog2` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_SLog2(self):
+    def test_n_dimensional_log_decoding_SLog2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_decoding_SLog2` definition n-dimensional arrays support.
@@ -418,7 +417,7 @@ log_decoding_SLog2` definition n-dimensional arrays support.
             log_decoding_SLog2(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_SLog2(self):
+    def test_domain_range_scale_log_decoding_SLog2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_decoding_SLog2` definition domain and range scale support.
@@ -437,7 +436,7 @@ log_decoding_SLog2` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_SLog2(self):
+    def test_nan_log_decoding_SLog2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_decoding_SLog2` definition nan support.
@@ -452,7 +451,7 @@ class TestLogEncoding_SLog3:
 log_encoding_SLog3` definition unit tests methods.
     """
 
-    def test_log_encoding_SLog3(self):
+    def test_log_encoding_SLog3(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_encoding_SLog3` definition.
@@ -494,7 +493,7 @@ log_encoding_SLog3` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_SLog3(self):
+    def test_n_dimensional_log_encoding_SLog3(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_encoding_SLog3` definition n-dimensional arrays support.
@@ -521,7 +520,7 @@ log_encoding_SLog3` definition n-dimensional arrays support.
             log_encoding_SLog3(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_SLog3(self):
+    def test_domain_range_scale_log_encoding_SLog3(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_encoding_SLog3` definition domain and range scale support.
@@ -540,7 +539,7 @@ log_encoding_SLog3` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_SLog3(self):
+    def test_nan_log_encoding_SLog3(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_encoding_SLog3` definition nan support.
@@ -555,7 +554,7 @@ class TestLogDecoding_SLog3:
 log_decoding_SLog3` definition unit tests methods.
     """
 
-    def test_log_decoding_SLog3(self):
+    def test_log_decoding_SLog3(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_decoding_SLog3` definition.
@@ -597,7 +596,7 @@ log_decoding_SLog3` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_SLog3(self):
+    def test_n_dimensional_log_decoding_SLog3(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_decoding_SLog3` definition n-dimensional arrays support.
@@ -624,7 +623,7 @@ log_decoding_SLog3` definition n-dimensional arrays support.
             log_decoding_SLog3(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_SLog3(self):
+    def test_domain_range_scale_log_decoding_SLog3(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_decoding_SLog3` definition domain and range scale support.
@@ -643,7 +642,7 @@ log_decoding_SLog3` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_SLog3(self):
+    def test_nan_log_decoding_SLog3(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.sony.\
 log_decoding_SLog3` definition nan support.

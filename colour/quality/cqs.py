@@ -2,7 +2,7 @@
 Colour Quality Scale
 ====================
 
-Define the *Colour Quality Scale* (CQS) computation objects:
+Define the *Colour Quality Scale* (CQS) computation objects.
 
 -   :class:`colour.quality.ColourRendering_Specification_CQS`
 -   :func:`colour.colour_quality_scale`
@@ -23,6 +23,7 @@ usp=sharing
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass
 
 import numpy as np
@@ -41,34 +42,23 @@ from colour.colorimetry import (
     sd_CIE_illuminant_D_series,
     sd_to_XYZ,
 )
-from colour.hints import (
-    ArrayLike,
-    Dict,
-    Literal,
-    NDArrayFloat,
-    Tuple,
-    cast,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        Dict,
+        Literal,
+        NDArrayFloat,
+        Tuple,
+    )
+
+from colour.hints import cast
 from colour.models import Lab_to_LCHab  # pyright: ignore
-from colour.models import (
-    UCS_to_uv,
-    XYZ_to_Lab,
-    XYZ_to_UCS,
-    XYZ_to_xy,
-    xy_to_XYZ,
-)
+from colour.models import UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ
 from colour.quality.datasets.vs import INDEXES_TO_NAMES_VS, SDS_VS
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
-from colour.utilities import (
-    as_float_array,
-    domain_range_scale,
-    tsplit,
-    validate_method,
-)
-from colour.utilities.documentation import (
-    DocstringTuple,
-    is_documentation_building,
-)
+from colour.utilities import as_float_array, domain_range_scale, tsplit, validate_method
+from colour.utilities.documentation import DocstringTuple, is_documentation_building
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -98,7 +88,24 @@ GAMUT_AREA_D65: int = 8210
 
 @dataclass
 class DataColorimetry_VS:
-    """Define the class storing *VS test colour samples* colorimetry data."""
+    """
+    Store colorimetry data for *VS test colour samples*.
+
+    This dataclass encapsulates the colorimetric measurements and derived
+    values for Visual Spectrum (VS) test colour samples used in colour
+    quality evaluation.
+
+    Attributes
+    ----------
+    name
+        Sample identifier or designation.
+    XYZ
+        Tristimulus values under the test illuminant.
+    Lab
+        *CIE L\\*a\\*b\\** colour space coordinates.
+    C
+        Chroma values calculated from the *CIE L\\*a\\*b\\** coordinates.
+    """
 
     name: str
     XYZ: NDArrayFloat
@@ -109,8 +116,22 @@ class DataColorimetry_VS:
 @dataclass
 class DataColourQualityScale_VS:
     """
-    Define the class storing *VS test colour samples* colour quality scale
-    data.
+    Store colour quality scale data for *VS test colour samples*.
+
+    This dataclass encapsulates the colour quality metrics computed for VS
+    (Visual Samples) test colour samples, including quality assessment and
+    colour difference measurements used in colour rendering evaluations.
+
+    Attributes
+    ----------
+    name
+        Identifier or descriptor for the test colour sample.
+    Q_a
+        Colour quality scale value for the sample.
+    D_C_ab
+        Chroma difference in *CIE L\\*a\\*b\\** colourspace.
+    D_E_ab
+        Total colour difference in *CIE L\\*a\\*b\\** colourspace.
     """
 
     name: str
@@ -133,23 +154,24 @@ class ColourRendering_Specification_CQS:
     Q_a
         Colour quality scale :math:`Q_a`.
     Q_f
-        Colour fidelity scale :math:`Q_f` intended to evaluate the fidelity
-        of object colour appearances (compared to the reference illuminant of
-        the same correlated colour temperature and illuminance).
+        Colour fidelity scale :math:`Q_f` intended to evaluate the
+        fidelity of object colour appearances (compared to the reference
+        illuminant of the same correlated colour temperature and
+        illuminance).
     Q_p
-        Colour preference scale :math:`Q_p` similar to colour quality scale
-        :math:`Q_a` but placing additional weight on preference of object
-        colour appearance, set to *None* in *NIST CQS 9.0* method. This metric
-        is based on the notion that increases in chroma are generally preferred
-        and should be rewarded.
+        Colour preference scale :math:`Q_p` similar to colour quality
+        scale :math:`Q_a` but placing additional weight on preference of
+        object colour appearance, set to *None* in *NIST CQS 9.0* method.
+        This metric is based on the notion that increases in chroma are
+        generally preferred and should be rewarded.
     Q_g
-         Gamut area scale :math:`Q_g` representing the relative gamut formed
-         by the (:math:`a^*`, :math:`b^*`) coordinates of the 15 samples
-         illuminated by the test light source in the *CIE L\\*a\\*b\\** object
-         colourspace.
+        Gamut area scale :math:`Q_g` representing the relative gamut
+        formed by the (:math:`a^*`, :math:`b^*`) coordinates of the 15
+        samples illuminated by the test light source in the
+        *CIE L\\*a\\*b\\** object colourspace.
     Q_d
-        Relative gamut area scale :math:`Q_d`, set to *None* in *NIST CQS 9.0*
-        method.
+        Relative gamut area scale :math:`Q_d`, set to *None* in
+        *NIST CQS 9.0* method.
     Q_as
         Individual *Colour Quality Scale* (CQS) data for each sample.
     colorimetry_data
@@ -157,7 +179,7 @@ class ColourRendering_Specification_CQS:
 
     References
     ----------
-    :cite:`Davis2010a`, :cite:`Ohno2008a`,  :cite:`Ohno2013`
+    :cite:`Davis2010a`, :cite:`Ohno2008a`, :cite:`Ohno2013`
     """
 
     name: str
@@ -184,14 +206,39 @@ References
 """
 
 
+@typing.overload
+def colour_quality_scale(
+    sd_test: SpectralDistribution,
+    *,
+    additional_data: Literal[False],
+    method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = ...,
+) -> float: ...
+
+
+@typing.overload
+def colour_quality_scale(
+    sd_test: SpectralDistribution,
+    additional_data: Literal[True] = True,
+    method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = ...,
+) -> ColourRendering_Specification_CQS: ...
+
+
+@typing.overload
+def colour_quality_scale(
+    sd_test: SpectralDistribution,
+    additional_data: Literal[False],
+    method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = ...,
+) -> float: ...
+
+
 def colour_quality_scale(
     sd_test: SpectralDistribution,
     additional_data: bool = False,
     method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = "NIST CQS 9.0",
 ) -> float | ColourRendering_Specification_CQS:
     """
-    Return the *Colour Quality Scale* (CQS) of given spectral distribution
-    using given method.
+    Compute the *Colour Quality Scale* (CQS) of the specified spectral
+    distribution using the specified method.
 
     Parameters
     ----------
@@ -204,8 +251,7 @@ def colour_quality_scale(
 
     Returns
     -------
-    :class:`float` or \
-:class:`colour.quality.ColourRendering_Specification_CQS`
+    :class:`float` or :class:`colour.quality.ColourRendering_Specification_CQS`
         *Colour Quality Scale* (CQS).
 
     References
@@ -290,13 +336,8 @@ def colour_quality_scale(
         Q_p = Q_d = None
     else:
         p_delta_C = cast(
-            float,
-            np.average(
-                [
-                    sample_data.D_C_ab if sample_data.D_C_ab > 0 else 0
-                    for sample_data in Q_as.values()
-                ]
-            ),
+            "float",
+            np.average([max(0, sample_data.D_C_ab) for sample_data in Q_as.values()]),
         )
         Q_p = 100 - 3.6 * (D_Ep_RMS - p_delta_C)
         Q_d = G_t / G_r * CCT_f * 100
@@ -312,14 +353,14 @@ def colour_quality_scale(
             Q_as,
             (test_vs_colorimetry_data, reference_vs_colorimetry_data),
         )
-    else:
-        return Q_a
+
+    return Q_a
 
 
 def gamut_area(Lab: ArrayLike) -> float:
     """
-    Return the gamut area :math:`G` covered by given *CIE L\\*a\\*b\\**
-    matrices.
+    Compute the gamut area :math:`G` covered by the specified
+    *CIE L\\*a\\*b\\** colourspace matrices.
 
     Parameters
     ----------
@@ -377,7 +418,7 @@ def vs_colorimetry_data(
     chromatic_adaptation: bool = False,
 ) -> Tuple[DataColorimetry_VS, ...]:
     """
-    Return the *VS test colour samples* colorimetry data.
+    Compute the *VS test colour samples* colorimetry data.
 
     Parameters
     ----------
@@ -434,8 +475,8 @@ def CCT_factor(
     reference_data: Tuple[DataColorimetry_VS, ...], XYZ_r: ArrayLike
 ) -> float:
     """
-    Return the correlated colour temperature factor penalizing lamps with
-    extremely low correlated colour temperatures.
+    Compute the correlated colour temperature factor that penalizes lamps
+    with extremely low correlated colour temperatures.
 
     Parameters
     ----------
@@ -464,15 +505,15 @@ def CCT_factor(
     )
 
     G_r = gamut_area(Lab) / GAMUT_AREA_D65
-    CCT_f = 1 if G_r > 1 else G_r
 
-    return CCT_f
+    return min(G_r, 1)
 
 
 def scale_conversion(D_E_ab: float, CCT_f: float, scaling_f: float) -> float:
     """
-    Return the *Colour Quality Scale* (CQS) for given :math:`\\Delta E_{ab}`
-    value and given correlated colour temperature penalizing factor.
+    Compute the *Colour Quality Scale* (CQS) for the specified
+    :math:`\\Delta E_{ab}` value and correlated colour temperature
+    penalizing factor.
 
     Parameters
     ----------
@@ -489,25 +530,23 @@ def scale_conversion(D_E_ab: float, CCT_f: float, scaling_f: float) -> float:
         *Colour Quality Scale* (CQS).
     """
 
-    Q_a = 10 * np.log1p(np.exp((100 - scaling_f * D_E_ab) / 10)) * CCT_f
-
-    return Q_a
+    return 10 * np.log1p(np.exp((100 - scaling_f * D_E_ab) / 10)) * CCT_f
 
 
 def delta_E_RMS(
     CQS_data: Dict[int, DataColourQualityScale_VS], attribute: str
 ) -> float:
     """
-    Compute the root-mean-square average for given *Colour Quality Scale*
-    (CQS) data.
+    Compute the root-mean-square average for the specified *Colour Quality
+    Scale* (CQS) data using the specified colorimetry attribute.
 
     Parameters
     ----------
     CQS_data
         *Colour Quality Scale* (CQS) data.
     attribute
-        Colorimetry data attribute to use to compute the root-mean-square
-        average.
+        Colorimetry data attribute to use for computing the
+        root-mean-square average.
 
     Returns
     -------
@@ -531,33 +570,36 @@ def colour_quality_scales(
     CCT_f: float,
 ) -> Dict[int, DataColourQualityScale_VS]:
     """
-    Return the *VS test colour samples* rendering scales.
+    Compute the *VS test colour samples* rendering scales.
 
     Parameters
     ----------
     test_data
-        Test data.
+        Test data for the VS colour samples.
     reference_data
-        Reference data.
+        Reference data for the VS colour samples.
     scaling_f
-        Scaling factor constant.
+        Scaling factor constant for normalizing the colour rendering
+        scales.
     CCT_f
-        Factor penalizing lamps with extremely low correlated colour
-        temperatures.
+        Factor penalizing light sources with extremely low correlated
+        colour temperatures.
 
     Returns
     -------
     :class:`dict`
-        *VS Test colour samples* colour rendering scales.
+        *VS test colour samples* colour rendering scales.
     """
 
     Q_as = {}
     for i in range(len(test_data)):
-        D_C_ab = cast(float, test_data[i].C - reference_data[i].C)
+        D_C_ab = cast("float", test_data[i].C - reference_data[i].C)
         D_E_ab = cast(
-            float, euclidean_distance(test_data[i].Lab, reference_data[i].Lab)
+            "float", euclidean_distance(test_data[i].Lab, reference_data[i].Lab)
         )
-        D_Ep_ab = cast(float, np.sqrt(D_E_ab**2 - D_C_ab**2) if D_C_ab > 0 else D_E_ab)
+        D_Ep_ab = cast(
+            "float", np.sqrt(D_E_ab**2 - D_C_ab**2) if D_C_ab > 0 else D_E_ab
+        )
 
         Q_a = scale_conversion(D_Ep_ab, CCT_f, scaling_f)
         Q_as[i + 1] = DataColourQualityScale_VS(

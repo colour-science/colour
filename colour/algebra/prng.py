@@ -2,7 +2,7 @@
 Random Numbers Utilities
 ========================
 
-Define the random number generator objects:
+Random number generator objects:
 
 -   :func:`colour.algebra.random_triplet_generator`
 
@@ -17,9 +17,13 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.utilities import as_float_array, tstack
 
 __author__ = "Colour Developers"
@@ -39,33 +43,40 @@ RANDOM_STATE = np.random.RandomState()
 
 def random_triplet_generator(
     size: int,
-    limits: ArrayLike = np.array([[0, 1], [0, 1], [0, 1]]),
+    limits: ArrayLike = ([0, 1], [0, 1], [0, 1]),
     random_state: np.random.RandomState = RANDOM_STATE,
 ) -> NDArrayFloat:
     """
-    Return a generator yielding random triplets.
+    Generate random triplets using a pseudo-random number generator.
+
+    Generate an array of random triplets with values constrained within
+    specified limits for each dimension. The triplets are generated using
+    a Mersenne Twister pseudo-random number generator.
 
     Parameters
     ----------
     size
-        Generator size.
+        Number of random triplets to generate.
     limits
-        Random values limits on each triplet axis.
+        Random value limits for each axis of the triplets, specified as a
+        sequence of [min, max] pairs. Default limits are [0, 1] for each
+        axis.
     random_state
-         Mersenne Twister pseudo-random number generator.
+         Mersenne Twister pseudo-random number generator instance used for
+         generating random values.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Random triplet generator.
+        Array of shape (size, 3) containing the generated random triplets.
 
     Notes
     -----
     -   The test is assuming that :func:`np.random.RandomState` definition
-        will return the same sequence no matter which *OS* or *Python* version
-        is used. There is however no formal promise about the *prng* sequence
-        reproducibility of either *Python* or *Numpy* implementations, see
-        :cite:`Laurent2012a`.
+        will return the same sequence no matter which *OS* or *Python*
+        version is used. There is however no formal promise about the
+        *prng* sequence reproducibility of either *Python* or *Numpy*
+        implementations, see :cite:`Laurent2012a`.
 
     Examples
     --------

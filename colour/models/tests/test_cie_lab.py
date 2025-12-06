@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.cie_lab` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -27,7 +29,7 @@ class TestXYZ_to_Lab:
     methods.
     """
 
-    def test_XYZ_to_Lab(self):
+    def test_XYZ_to_Lab(self) -> None:
         """Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition."""
 
         np.testing.assert_allclose(
@@ -75,7 +77,7 @@ class TestXYZ_to_Lab:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_Lab(self):
+    def test_n_dimensional_XYZ_to_Lab(self) -> None:
         """
         Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition n-dimensional
         support.
@@ -103,7 +105,7 @@ class TestXYZ_to_Lab:
             XYZ_to_Lab(XYZ, illuminant), Lab, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_XYZ_to_Lab(self):
+    def test_domain_range_scale_XYZ_to_Lab(self) -> None:
         """
         Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition
         domain and range scale support.
@@ -123,7 +125,7 @@ class TestXYZ_to_Lab:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_Lab(self):
+    def test_nan_XYZ_to_Lab(self) -> None:
         """Test :func:`colour.models.cie_lab.XYZ_to_Lab` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -137,7 +139,7 @@ class TestLab_to_XYZ:
     methods.
     """
 
-    def test_Lab_to_XYZ(self):
+    def test_Lab_to_XYZ(self) -> None:
         """Test :func:`colour.models.cie_lab.Lab_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -185,7 +187,7 @@ class TestLab_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_Lab_to_XYZ(self):
+    def test_n_dimensional_Lab_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_lab.Lab_to_XYZ` definition n-dimensional
         support.
@@ -213,7 +215,7 @@ class TestLab_to_XYZ:
             Lab_to_XYZ(Lab, illuminant), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_Lab_to_XYZ(self):
+    def test_domain_range_scale_Lab_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_lab.Lab_to_XYZ` definition
         domain and range scale support.
@@ -233,7 +235,7 @@ class TestLab_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_Lab_to_XYZ(self):
+    def test_nan_Lab_to_XYZ(self) -> None:
         """Test :func:`colour.models.cie_lab.Lab_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

@@ -2,45 +2,51 @@
 Network
 =======
 
-Define various node-graph / network related classes:
+Node-graph and network infrastructure for computational workflows.
 
--   :class:`colour.utilities.TreeNode`: A basic node object supporting creation
-    of basic node trees.
--   :class:`colour.utilities.Port`: An object that can be added either as an
-    input or output port.
--   :class:`colour.utilities.PortMode`: A node with support for input and
+-   :class:`colour.utilities.TreeNode`: Basic node object supporting
+    creation of hierarchical node trees.
+-   :class:`colour.utilities.Port`: Object that can be added as either an
+    input or output port for data flow.
+-   :class:`colour.utilities.PortMode`: Node with support for input and
     output ports.
--   :class:`colour.utilities.PortGraph`: A graph for nodes with input and
-    output ports.
--   :class:`colour.utilities.ExecutionPort`: An object for nodes
-    supporting execution input and output ports.
--   :class:`colour.utilities.ExecutionNode`: A node with builtin input and
+-   :class:`colour.utilities.PortGraph`: Graph structure for nodes with
+    input and output ports.
+-   :class:`colour.utilities.ExecutionPort`: Object for nodes supporting
+    execution input and output ports.
+-   :class:`colour.utilities.ExecutionNode`: Node with built-in input and
     output execution ports.
--   :class:`colour.utilities.ControlFlowNode`: A node inherited by control flow
-    nodes.
--   :class:`colour.utilities.For`: A node performing for loops in the
+-   :class:`colour.utilities.ControlFlowNode`: Base node inherited by
+    control flow nodes.
+-   :class:`colour.utilities.For`: Node performing for loops in the
     node-graph.
--   :class:`colour.utilities.ParallelForThread`: A node performing for loops in
-    parallel in the node-graph using threads.
--   :class:`colour.utilities.ParallelForMultiprocess`: A node performing for
+-   :class:`colour.utilities.ParallelForThread`: Node performing for loops
+    in parallel in the node-graph using threads.
+-   :class:`colour.utilities.ParallelForMultiprocess`: Node performing for
     loops in parallel in the node-graph using multiprocessing.
 """
 
 from __future__ import annotations
 
+import atexit
 import concurrent.futures
+import multiprocessing
 import os
 import threading
+import typing
 
-from colour.hints import (
-    Any,
-    Dict,
-    Generator,
-    List,
-    Self,
-    Tuple,
-    Type,
-)
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Dict,
+        Generator,
+        List,
+        Self,
+        Sequence,
+        Tuple,
+        Type,
+    )
+
 from colour.utilities import MixinLogging, attest, optional, required
 
 __author__ = "Colour Developers"
@@ -60,14 +66,17 @@ __all__ = [
     "ExecutionNode",
     "ControlFlowNode",
     "For",
+    "ThreadPoolExecutorManager",
     "ParallelForThread",
+    "ProcessPoolExecutorManager",
     "ParallelForMultiprocess",
 ]
 
 
 class TreeNode:
     """
-    Represent a basic node supporting the creation of basic node trees.
+    Define a basic node supporting the creation of hierarchical node
+    trees.
 
     Parameters
     ----------
@@ -78,7 +87,7 @@ class TreeNode:
     children
         Children of the node.
     data
-        The data belonging to this node.
+        Data belonging to this node.
 
     Attributes
     ----------
@@ -128,9 +137,9 @@ class TreeNode:
     _INSTANCE_ID
     """
 
-    def __new__(cls, *args: Any, **kwargs: Any) -> Self:  # noqa: ARG003
+    def __new__(cls, *args: Any, **kwargs: Any) -> Self:  # noqa: ARG004
         """
-        Return a new instance of the :class:`colour.utilities.Node` class.
+        Return a new instance of the :class:`colour.utilities.TreeNode` class.
 
         Other Parameters
         ----------------
@@ -165,12 +174,12 @@ class TreeNode:
     @property
     def id(self) -> int:
         """
-        Getter property for the node id.
+        Getter for the node identifier.
 
         Returns
         -------
         :class:`int`
-            Node id.
+            Node identifier.
         """
 
         return self._id  # pyright: ignore
@@ -178,12 +187,12 @@ class TreeNode:
     @property
     def name(self) -> str:
         """
-        Getter and setter property for the name.
+        Getter and setter for the node name.
 
         Parameters
         ----------
         value
-            Value to set the name with.
+            Value to set the node name with.
 
         Returns
         -------
@@ -194,7 +203,7 @@ class TreeNode:
         return self._name
 
     @name.setter
-    def name(self, value: str):
+    def name(self, value: str) -> None:
         """Setter for the **self.name** property."""
 
         attest(
@@ -207,7 +216,7 @@ class TreeNode:
     @property
     def parent(self) -> Self | None:
         """
-        Getter and setter property for the node parent.
+        Getter and setter for the node parent.
 
         Parameters
         ----------
@@ -216,17 +225,17 @@ class TreeNode:
 
         Returns
         -------
-        :class:`Node` or :py:data:`None`
+        :class:`TreeNode` or :py:data:`None`
             Node parent.
         """
 
         return self._parent
 
     @parent.setter
-    def parent(self, value: Self | None):
+    def parent(self, value: Self | None) -> None:
         """Setter for the **self.parent** property."""
 
-        from colour.utilities import attest
+        from colour.utilities import attest  # noqa: PLC0415
 
         if value is not None:
             attest(
@@ -242,7 +251,7 @@ class TreeNode:
     @property
     def children(self) -> List[Self]:
         """
-        Getter and setter property for the node children.
+        Getter and setter for the node children.
 
         Parameters
         ----------
@@ -258,10 +267,10 @@ class TreeNode:
         return self._children
 
     @children.setter
-    def children(self, value: List[Self]):
+    def children(self, value: List[Self]) -> None:
         """Setter for the **self.children** property."""
 
-        from colour.utilities import attest
+        from colour.utilities import attest  # noqa: PLC0415
 
         attest(
             isinstance(value, list),
@@ -283,66 +292,73 @@ class TreeNode:
     @property
     def root(self) -> Self:
         """
-        Getter property for the node tree.
+        Getter for the root node of the tree hierarchy.
 
         Returns
         -------
         :class:`TreeNode`
-            Node root.
+            Root node of the tree.
         """
 
         if self.is_root():
             return self
-        else:
-            return list(self.walk_hierarchy(ascendants=True))[-1]
+
+        return list(self.walk_hierarchy(ascendants=True))[-1]
 
     @property
     def leaves(self) -> Generator:
         """
-        Getter property for the node leaves.
+        Getter for all leaf nodes in the hierarchy.
 
-        Yields
-        ------
+        Returns
+        -------
         Generator
-            Node leaves.
+            Generator yielding all leaf nodes (nodes without children) in
+            the hierarchy.
         """
 
         if self.is_leaf():
             return (node for node in (self,))
-        else:
-            return (node for node in self.walk_hierarchy() if node.is_leaf())
+
+        return (node for node in self.walk_hierarchy() if node.is_leaf())
 
     @property
     def siblings(self) -> Generator:
         """
-        Getter property for the node siblings.
+        Getter for the sibling nodes at the same hierarchical level.
 
         Returns
         -------
         Generator
-            Node siblings.
+            Generator yielding sibling nodes that share the same parent
+            node in the hierarchy.
         """
 
         if self.parent is None:
             return (sibling for sibling in ())
-        else:
-            return (sibling for sibling in self.parent.children if sibling is not self)
+
+        return (sibling for sibling in self.parent.children if sibling is not self)
 
     @property
     def data(self) -> Any:
         """
-        Getter property for the node data.
+        Getter and setter for the node data.
+
+        Parameters
+        ----------
+        value
+            Data to assign to the node.
 
         Returns
         -------
         :class:`object`
-            Node data.
+            Data stored in the node.
         """
 
         return self._data
 
     @data.setter
-    def data(self, value: Any):
+    def data(self, value: Any) -> None:
         """Setter for the **self.data** property."""
 
         self._data = value
@@ -353,7 +369,7 @@ class TreeNode:
 
         Returns
         -------
-        :class`str`
+        :class:`str`
             Formatted string representation.
         """
 
@@ -373,7 +389,7 @@ class TreeNode:
 
     def is_root(self) -> bool:
         """
-        Return whether the node is a root node.
+        Determine whether the node is a root node.
 
         Returns
         -------
@@ -395,7 +411,7 @@ class TreeNode:
 
     def is_inner(self) -> bool:
         """
-        Return whether the node is an inner node.
+        Determine whether the node is an inner node.
 
         Returns
         -------
@@ -417,7 +433,7 @@ class TreeNode:
 
     def is_leaf(self) -> bool:
         """
-        Return whether the node is a leaf node.
+        Determine whether the node is a leaf node.
 
         Returns
         -------
@@ -439,8 +455,8 @@ class TreeNode:
 
     def walk_hierarchy(self, ascendants: bool = False) -> Generator:
         """
-        Return a generator used to walk into :class:`colour.utilities.Node`
-        tree.
+        Generate a generator to walk the :class:`colour.utilities.TreeNode`
+        tree hierarchy.
 
         Parameters
         ----------
@@ -486,19 +502,19 @@ class TreeNode:
 
             yield from node.walk_hierarchy(ascendants=ascendants)
 
-    def render(self, tab_level: int = 0):
+    def render(self, tab_level: int = 0) -> str:
         """
-        Render the current node and its children as a string.
+        Render the node and its children as a formatted tree string.
 
         Parameters
         ----------
         tab_level
-            Initial indentation level
+            Initial indentation level for the tree structure.
 
         Returns
         -------
         :class:`str`
-            Rendered node tree.
+            Formatted tree representation of the node hierarchy.
 
         Examples
         --------
@@ -531,9 +547,9 @@ class TreeNode:
 
 class Port(MixinLogging):
     """
-    Define an object that can be added either as an input or output port,
-    i.e., a pin, to a :class:`colour.utilities.PortNode` class and connected to
-    another input or output port.
+    Define a port object that serves as an input or output port (i.e., a
+    pin) for a :class:`colour.utilities.PortNode` class and connects to
+    other input or output ports.
 
     Parameters
     ----------
@@ -542,7 +558,7 @@ class Port(MixinLogging):
     value
         Initial value to set the port with.
     description
-        Port description
+        Port description.
     node
         Node to add the port to.
 
@@ -579,7 +595,7 @@ class Port(MixinLogging):
         self,
         name: str | None = None,
         value: Any = None,
-        description: str | None = None,
+        description: str = "",
         node: PortNode | None = None,
     ) -> None:
         super().__init__()
@@ -593,13 +609,12 @@ class Port(MixinLogging):
         self.name = optional(name, self._name)
         self._value = None
         self.value = optional(value, self._value)
-        self._description = description
-        self.description = optional(description, self._description)
+        self.description = description
 
     @property
     def name(self) -> str:
         """
-        Getter and setter property for the port name.
+        Getter and setter for the port name.
 
         Parameters
         ----------
@@ -615,7 +630,7 @@ class Port(MixinLogging):
         return self._name
 
     @name.setter
-    def name(self, value: str):
+    def name(self, value: str) -> None:
         """Setter for the **self.name** property."""
 
         attest(
@@ -628,7 +643,7 @@ class Port(MixinLogging):
     @property
     def value(self) -> Any:
         """
-        Getter and setter property for the port value.
+        Getter and setter for the port value.
 
         Parameters
         ----------
@@ -646,12 +661,12 @@ class Port(MixinLogging):
         # port is valid as they should all carry the same value, thus the first
         # connected port is returned.
         for connection in self._connections:
-            return connection._value
+            return connection._value  # noqa: SLF001
 
         return self._value
 
     @value.setter
-    def value(self, value: Any):
+    def value(self, value: Any) -> None:
         """Setter for the **self.value** property."""
 
         self._value = value
@@ -661,10 +676,10 @@ class Port(MixinLogging):
             self._node.dirty = True
 
         # NOTE: Setting the port value implies that all the connected ports
-        # should be also set to the same given value.
+        # should be also set to the same specified value.
         for direct_connection in self._connections:
             self.log(f'Setting "{direct_connection.node}" value to {value}.', "debug")
-            direct_connection._value = value
+            direct_connection._value = value  # noqa: SLF001
 
             if direct_connection.node is not None:
                 self.log(f'Dirtying "{direct_connection.node}".', "debug")
@@ -677,7 +692,7 @@ class Port(MixinLogging):
                 self.log(
                     f'Setting "{indirect_connection.node}" value to {value}.', "debug"
                 )
-                indirect_connection._value = value
+                indirect_connection._value = value  # noqa: SLF001
 
                 if indirect_connection.node is not None:
                     self.log(f'Dirtying "{indirect_connection.node}".', "debug")
@@ -686,9 +701,9 @@ class Port(MixinLogging):
         self._value = value
 
     @property
-    def description(self) -> str | None:
+    def description(self) -> str:
         """
-        Getter and setter property for the port description.
+        Getter and setter for the port description.
 
         Parameters
         ----------
@@ -704,7 +719,7 @@ class Port(MixinLogging):
         return self._description
 
     @description.setter
-    def description(self, value: str | None):
+    def description(self, value: str) -> None:
         """Setter for the **self.description** property."""
 
         attest(
@@ -718,7 +733,12 @@ class Port(MixinLogging):
     @property
     def node(self) -> PortNode | None:
         """
-        Getter property for the port node.
+        Getter and setter for the port node.
+
+        Parameters
+        ----------
+        value : PortNode or None
+            Port node to set.
 
         Returns
         -------
@@ -729,13 +749,12 @@ class Port(MixinLogging):
         return self._node
 
     @node.setter
-    def node(self, value: PortNode | None):
+    def node(self, value: PortNode | None) -> None:
         """Setter for the **self.node** property."""
 
         attest(
             value is None or isinstance(value, PortNode),
-            f'"node" property: "{value}" is not "None" or '
-            f'its type is not "PortNode"!',
+            f'"node" property: "{value}" is not "None" or its type is not "PortNode"!',
         )
 
         self._node = value
@@ -743,12 +762,13 @@ class Port(MixinLogging):
     @property
     def connections(self) -> Dict[Port, None]:
         """
-        Getter property for the port connections.
+        Getter for the port connections.
 
         Returns
         -------
         :class:`dict`
-            Port connections.
+            Port connections mapping each :class:`Port` instance to
+            ``None``.
         """
 
         return self._connections
@@ -760,7 +780,7 @@ class Port(MixinLogging):
         Returns
         -------
         :class:`str`
-            Formatted string representation of the port.
+            Formatted string representation.
 
         Examples
         --------
@@ -787,7 +807,7 @@ class Port(MixinLogging):
 
     def is_input_port(self) -> bool:
         """
-        Return whether the port is an input port.
+        Determine whether the port is an input port.
 
         Returns
         -------
@@ -810,7 +830,7 @@ class Port(MixinLogging):
 
     def is_output_port(self) -> bool:
         """
-        Return whether the port is an output port.
+        Determine whether the port is an output port.
 
         Returns
         -------
@@ -833,7 +853,7 @@ class Port(MixinLogging):
 
     def connect(self, port: Port) -> None:
         """
-        Connect the port to the other given port.
+        Connect this port to the specified port.
 
         Parameters
         ----------
@@ -843,8 +863,8 @@ class Port(MixinLogging):
         Raises
         ------
         ValueError
-            if an attempt is made to connect an input port to multiple output
-            ports.
+            If an attempt is made to connect an input port to multiple
+            output ports.
 
         Examples
         --------
@@ -870,7 +890,7 @@ class Port(MixinLogging):
 
     def disconnect(self, port: Port) -> None:
         """
-        Disconnect the port from the other given port.
+        Disconnect from the specified port.
 
         Parameters
         ----------
@@ -902,13 +922,14 @@ class Port(MixinLogging):
 
     def to_graphviz(self) -> str:
         """
-        Return a string representation for visualisation of the port with
+        Generate a string representation for port visualisation with
         *Graphviz*.
 
         Returns
         -------
         :class:`str`
-            String representation for visualisation of the port with *Graphviz*.
+            String representation for visualisation of the port with
+            *Graphviz*.
 
         Examples
         --------
@@ -955,7 +976,7 @@ class PortNode(TreeNode, MixinLogging):
     Examples
     --------
     >>> class NodeAdd(PortNode):
-    ...     def __init__(self, *args, **kwargs):
+    ...     def __init__(self, *args: Any, **kwargs: Any):
     ...         super().__init__(*args, **kwargs)
     ...
     ...         self.description = "Perform the addition of the two input port values."
@@ -982,10 +1003,9 @@ class PortNode(TreeNode, MixinLogging):
     2
     """
 
-    def __init__(self, name: str | None = None, description: str | None = None):
+    def __init__(self, name: str | None = None, description: str = "") -> None:
         super().__init__(name)
-        self._description = description
-        self.description = optional(description, self._description)
+        self.description = description
 
         self._input_ports = {}
         self._output_ports = {}
@@ -994,12 +1014,13 @@ class PortNode(TreeNode, MixinLogging):
     @property
     def input_ports(self) -> Dict[str, Port]:
         """
-        Getter property for the input ports.
+        Getter for the input ports of the node.
 
         Returns
         -------
         :class:`dict`
-            Input ports.
+            Dictionary mapping port names to their corresponding input port
+            instances.
         """
 
         return self._input_ports
@@ -1007,12 +1028,13 @@ class PortNode(TreeNode, MixinLogging):
     @property
     def output_ports(self) -> Dict[str, Port]:
         """
-        Getter property for the output ports.
+        Getter for the output ports of the node.
 
         Returns
         -------
         :class:`dict`
-            Output ports.
+            Mapping of output port names to their corresponding :class:`Port`
+            instances.
         """
 
         return self._output_ports
@@ -1020,23 +1042,23 @@ class PortNode(TreeNode, MixinLogging):
     @property
     def dirty(self) -> bool:
         """
-        Getter and setter property for the node dirty state.
+        Getter and setter for the node's dirty state.
 
         Parameters
         ----------
         value
-            Value to set the node dirty state.
+            Value to set the node dirty state with.
 
         Returns
         -------
         :class:`bool`
-            Whether the node is dirty.
+            Whether the node is in a dirty state.
         """
 
         return self._dirty
 
     @dirty.setter
-    def dirty(self, value: bool):
+    def dirty(self, value: bool) -> None:
         """Setter for the **self.dirty** property."""
 
         attest(
@@ -1051,14 +1073,17 @@ class PortNode(TreeNode, MixinLogging):
         self,
     ) -> Tuple[Dict[Tuple[Port, Port], None], Dict[Tuple[Port, Port], None]]:
         """
-        Return the edges of the node.
+        Getter for the edges of the node.
 
-        Each edge represent a port and one of its connections.
+        Retrieve the edges representing ports and their connections. Each
+        edge corresponds to a port and one of its connections within the
+        node structure.
 
         Returns
         -------
         :class:`tuple`
-            Edges of the node as a tuple of input and output edge dictionaries.
+            Edges of the node as a tuple of input and output edge
+            dictionaries.
         """
 
         # TODO: Consider using ordered set.
@@ -1076,9 +1101,9 @@ class PortNode(TreeNode, MixinLogging):
         return input_edges, output_edges
 
     @property
-    def description(self) -> str | None:
+    def description(self) -> str:
         """
-        Getter and setter property for the node description.
+        Getter and setter for the node description.
 
         Parameters
         ----------
@@ -1094,7 +1119,7 @@ class PortNode(TreeNode, MixinLogging):
         return self._description
 
     @description.setter
-    def description(self, value: str | None):
+    def description(self, value: str) -> None:
         """Setter for the **self.description** property."""
 
         attest(
@@ -1109,18 +1134,18 @@ class PortNode(TreeNode, MixinLogging):
         self,
         name: str,
         value: Any = None,
-        description: str | None = None,
+        description: str = "",
         port_type: Type[Port] = Port,
     ) -> Port:
         """
-        Add an input port with given name and value to the node.
+        Add an input port with specified name and value to the node.
 
         Parameters
         ----------
         name
             Name of the input port.
         value
-            Value of the input port
+            Value of the input port.
         description
             Description of the input port.
         port_type
@@ -1147,17 +1172,17 @@ class PortNode(TreeNode, MixinLogging):
         name: str,
     ) -> Port:
         """
-        Remove the input port with given name from the node.
+        Remove the input port with the specified name from the node.
 
         Parameters
         ----------
         name
-            Name of the input port.
+            Name of the input port to remove.
 
         Returns
         -------
         :class:`colour.utilities.Port`
-            Input port.
+            Removed input port.
 
         Examples
         --------
@@ -1174,7 +1199,7 @@ class PortNode(TreeNode, MixinLogging):
 
         port = self._input_ports.pop(name)
 
-        for connection in port.connections:
+        for connection in port.connections.copy():
             port.disconnect(connection)
 
         return port
@@ -1183,18 +1208,18 @@ class PortNode(TreeNode, MixinLogging):
         self,
         name: str,
         value: Any = None,
-        description: str | None = None,
+        description: str = "",
         port_type: Type[Port] = Port,
-    ) -> None:
+    ) -> Port:
         """
-        Add an output port with given name and value to the node.
+        Add an output port with the specified name and value to the node.
 
         Parameters
         ----------
         name
             Name of the output port.
         value
-            Value of the output port
+            Value of the output port.
         description
             Description of the output port.
         port_type
@@ -1221,17 +1246,17 @@ class PortNode(TreeNode, MixinLogging):
         name: str,
     ) -> Port:
         """
-        Remove the output port with given name from the node.
+        Remove the output port with the specified name from the node.
 
         Parameters
         ----------
         name
-            Name of the output port.
+            Name of the output port to remove.
 
         Returns
         -------
         :class:`colour.utilities.Port`
-            Output port.
+            Removed output port.
 
         Examples
         --------
@@ -1248,14 +1273,14 @@ class PortNode(TreeNode, MixinLogging):
 
         port = self._output_ports.pop(name)
 
-        for connection in port.connections:
+        for connection in port.connections.copy():
             port.disconnect(connection)
 
         return port
 
     def get_input(self, name: str) -> Any:
         """
-        Return the value of the input port with given name.
+        Return the value of the input port with the specified name.
 
         Parameters
         ----------
@@ -1264,7 +1289,7 @@ class PortNode(TreeNode, MixinLogging):
 
         Returns
         -------
-        :class:`object`:
+        :class:`object`
             Value of the input port.
 
         Raises
@@ -1289,19 +1314,20 @@ class PortNode(TreeNode, MixinLogging):
 
     def set_input(self, name: str, value: Any) -> None:
         """
-        Set the value of the input port with given name.
+        Set the value of an input port with the specified name.
 
         Parameters
         ----------
         name
-            Name of the input port.
+            Name of the input port to set.
         value
-            Value of the input port
+            Value to assign to the input port.
 
         Raises
         ------
         AssertionError
-            If the input port is not a member of the node input ports.
+            If the specified input port is not a member of the node's
+            input ports.
 
         Examples
         --------
@@ -1320,9 +1346,9 @@ class PortNode(TreeNode, MixinLogging):
 
         self._input_ports[name].value = value
 
-    def get_output(self, name: str) -> None:
+    def get_output(self, name: str) -> Any:
         """
-        Return the value of the output port with given name.
+        Return the value of the output port with the specified name.
 
         Parameters
         ----------
@@ -1331,13 +1357,14 @@ class PortNode(TreeNode, MixinLogging):
 
         Returns
         -------
-        :class:`object`:
+        :class:`object`
             Value of the output port.
 
         Raises
         ------
         AssertionError
-            If the output port is not a member of the node output ports.
+            If the output port is not a member of the node output
+            ports.
 
         Examples
         --------
@@ -1356,14 +1383,14 @@ class PortNode(TreeNode, MixinLogging):
 
     def set_output(self, name: str, value: Any) -> None:
         """
-        Set the value of the output port with given name.
+        Set the value of the output port with the specified name.
 
         Parameters
         ----------
         name
             Name of the output port.
         value
-            Value of the output port
+            Value to assign to the output port.
 
         Raises
         ------
@@ -1394,16 +1421,18 @@ class PortNode(TreeNode, MixinLogging):
         target_port: str,
     ) -> None:
         """
-        Connect the given source port to given node target port.
+        Connect the specified source port to the specified target port of
+        another node.
 
         The source port can be an input port but the target port must be
-        an output port and conversely, if the source port is an output port, the
-        target port must be an input port.
+        an output port and conversely, if the source port is an output
+        port, the target port must be an input port.
 
         Parameters
         ----------
         source_port
-            Source port of the node to connect to the other node target port.
+            Source port of the node to connect to the other node target
+            port.
         target_node
             Target node that the target port is the member of.
         target_port
@@ -1436,20 +1465,23 @@ class PortNode(TreeNode, MixinLogging):
         target_port: str,
     ) -> None:
         """
-        Disconnect the given source port from given node target port.
+        Disconnect the specified source port from the specified target node
+        port.
 
-        The source port can be an input port but the target port must be
-        an output port and conversely, if the source port is an output port, the
-        target port must be an input port.
+        The source port can be an input port but the target port must be an
+        output port and conversely, if the source port is an output port,
+        the target port must be an input port.
 
         Parameters
         ----------
         source_port
-            Source port of the node to disconnect from the other node target port.
+            Source port of the node to disconnect from the other node target
+            port.
         target_node
             Target node that the target port is the member of.
         target_port
-            Target port from the target node to disconnect the source port from.
+            Target port from the target node to disconnect the source port
+            from.
 
         Examples
         --------
@@ -1478,13 +1510,13 @@ class PortNode(TreeNode, MixinLogging):
         """
         Process the node, must be reimplemented by sub-classes.
 
-        This definition is responsible to set the dirty state of the node
-        according to processing outcome.
+        This definition is responsible for setting the dirty state of the
+        node according to the processing outcome.
 
         Examples
         --------
         >>> class NodeAdd(PortNode):
-        ...     def __init__(self, *args, **kwargs):
+        ...     def __init__(self, *args: Any, **kwargs: Any):
         ...         super().__init__(*args, **kwargs)
         ...
         ...         self.description = (
@@ -1517,13 +1549,14 @@ class PortNode(TreeNode, MixinLogging):
 
     def to_graphviz(self) -> str:
         """
-        Return a string representation for visualisation of the node with
+        Generate a string representation for node visualisation with
         *Graphviz*.
 
         Returns
         -------
         :class:`str`
-            String representation for visualisation of the node with *Graphviz*.
+            String representation for visualisation of the node with
+            *Graphviz*.
 
         Examples
         --------
@@ -1547,14 +1580,15 @@ class PortNode(TreeNode, MixinLogging):
 
 class PortGraph(PortNode):
     """
-    Define a node-graph for :class:`colour.utilities.PortNode` class instances.
+    Define a node-graph for :class:`colour.utilities.PortNode` class
+    instances.
 
     Parameters
     ----------
     name
         Name of the node-graph.
     description
-        Port description
+        Description of the node-graph's purpose or functionality.
 
     Attributes
     ----------
@@ -1572,7 +1606,7 @@ class PortGraph(PortNode):
     Examples
     --------
     >>> class NodeAdd(PortNode):
-    ...     def __init__(self, *args, **kwargs):
+    ...     def __init__(self, *args: Any, **kwargs: Any):
     ...         super().__init__(*args, **kwargs)
     ...
     ...         self.description = "Perform the addition of the two input port values."
@@ -1608,25 +1642,25 @@ class PortGraph(PortNode):
     3
     """
 
-    def __init__(self, name: str | None = None, description: str | None = None):
+    def __init__(self, name: str | None = None, description: str = "") -> None:
         super().__init__(name, description)
 
         self._name: str = self.__class__.__name__
         self.name = optional(name, self._name)
-        self._description = description
-        self.description = optional(description, self._description)
+        self.description = description
 
         self._nodes = {}
 
     @property
     def nodes(self) -> Dict[str, PortNode]:
         """
-        Getter property for the node-graph nodes.
+        Getter for the node-graph nodes.
 
         Returns
         -------
         :class:`dict`
-            Node-graph nodes.
+            Node-graph nodes as a mapping from node identifiers to their
+            corresponding :class:`PortNode` instances.
         """
 
         return self._nodes
@@ -1637,7 +1671,7 @@ class PortGraph(PortNode):
 
         Returns
         -------
-        :class`str`
+        :class:`str`
             Formatted string representation.
         """
 
@@ -1645,7 +1679,7 @@ class PortGraph(PortNode):
 
     def add_node(self, node: PortNode) -> None:
         """
-        Add given node to the node-graph.
+        Add specified node to the node-graph.
 
         Parameters
         ----------
@@ -1654,7 +1688,7 @@ class PortGraph(PortNode):
 
         Raises
         ------
-        AsssertionError
+        AssertionError
             If the node is not a :class:`colour.utilities.PortNode` class
             instance.
 
@@ -1674,7 +1708,7 @@ class PortGraph(PortNode):
 <...PortNode object at 0x...>}
         """
 
-        attest(isinstance(node, PortNode), f'"{node}" is not a "Node" instance!')
+        attest(isinstance(node, PortNode), f'"{node}" is not a "PortNode" instance!')
 
         attest(
             node.name not in self._nodes, f'"{node}" is already a member of the graph!'
@@ -1682,11 +1716,11 @@ class PortGraph(PortNode):
 
         self._nodes[node.name] = node
         self._children.append(node)  # pyright: ignore
-        node._parent = self
+        node._parent = self  # noqa: SLF001
 
     def remove_node(self, node: PortNode) -> None:
         """
-        Remove given node from the node-graph.
+        Remove the specified node from the node-graph.
 
         The node input and output ports will be disconnected from all their
         connections.
@@ -1719,7 +1753,7 @@ class PortGraph(PortNode):
         {}
         """
 
-        attest(isinstance(node, PortNode), f'"{node}" is not a "Node" instance!')
+        attest(isinstance(node, PortNode), f'"{node}" is not a "PortNode" instance!')
 
         attest(
             node.name in self._nodes,
@@ -1736,21 +1770,22 @@ class PortGraph(PortNode):
 
         self._nodes.pop(node.name)
         self._children.remove(node)  # pyright: ignore
-        node._parent = None
+        node._parent = None  # noqa: SLF001
 
     @required("NetworkX")
     def walk_ports(self) -> Generator:
         """
-        Return a generator used to walk into the node-graph.
+        Return a generator to walk the node-graph in topological order.
 
-        The node is walked according to a topological sorted order. A
-        topological sort is a non-unique permutation of the nodes of a directed
-        graph such that an edge from :math:`u` to :math:`v` implies that
-        :math:`u` appears before :math:`v` in the topological sort order.
-        This ordering is valid only if the graph has no directed cycles.
+        Walk the node according to topologically sorted order. A topological
+        sort is a non-unique permutation of the nodes of a directed graph
+        such that an edge from :math:`u` to :math:`v` implies that :math:`u`
+        appears before :math:`v` in the topological sort order. This ordering
+        is valid only if the graph has no directed cycles.
 
-        To walk the node-graph, an *NetworkX* graph is constructed by
-        connecting the ports together and in turn connecting them to the nodes.
+        To walk the node-graph, a *NetworkX* graph is constructed by
+        connecting the ports together and in turn connecting them to the
+        nodes.
 
         Yields
         ------
@@ -1771,7 +1806,7 @@ class PortGraph(PortNode):
         [<...PortNode object at 0x...>, <...PortNode object at 0x...>]
         """
 
-        import networkx as nx
+        import networkx as nx  # noqa: PLC0415
 
         graph = nx.DiGraph()
 
@@ -1834,19 +1869,35 @@ class PortGraph(PortNode):
                     yield node
         except nx.NetworkXUnfeasible as error:
             filename = "AGraph.png"
-            self.log(
+            self.log(  # pyright: ignore
                 f'A "NetworkX" error occurred, debug graph image has been '
                 f'saved to "{os.path.join(os.getcwd(), filename)}"!'
             )
-            agraph = nx.nx_agraph.to_agraph(graph)
-            agraph.draw(filename, prog="dot")
+
+            def rename_reserved(data: dict) -> dict:
+                """Rename DOT reserved keywords by prefixing with underscore."""
+
+                reserved = {"node", "edge", "graph"}
+                return {
+                    f"_{key}" if key in reserved else key: value
+                    for key, value in data.items()
+                }
+
+            unfeasible_graph = nx.DiGraph()
+            for node, data in graph.nodes(data=True):
+                unfeasible_graph.add_node(node, **rename_reserved(data))
+            for source, target, data in graph.edges(data=True):
+                unfeasible_graph.add_edge(source, target, **rename_reserved(data))
+
+            dot = nx.drawing.nx_pydot.to_pydot(unfeasible_graph)
+            dot.write_png(filename)  # type: ignore[attr-defined]
 
             raise error  # noqa: TRY201
 
-    def process(self, **kwargs: Dict) -> None:
+    def process(self, **kwargs: Any) -> None:
         """
-        Process the node-graph by walking it and calling the
-        :func:`colour.utilities.PortNode.process` method.
+        Process the node-graph by traversing it and executing the
+        :func:`colour.utilities.PortNode.process` method for each node.
 
         Other Parameters
         ----------------
@@ -1856,7 +1907,7 @@ class PortGraph(PortNode):
         Examples
         --------
         >>> class NodeAdd(PortNode):
-        ...     def __init__(self, *args, **kwargs):
+        ...     def __init__(self, *args: Any, **kwargs: Any):
         ...         super().__init__(*args, **kwargs)
         ...
         ...         self.description = (
@@ -1922,7 +1973,7 @@ class PortGraph(PortNode):
     @required("Pydot")
     def to_graphviz(self) -> Dot:  # noqa: F821  # pyright: ignore
         """
-        Return a visualisation node-graph for *Graphviz*.
+        Generate a node-graph visualisation for *Graphviz*.
 
         Returns
         -------
@@ -1946,7 +1997,7 @@ class PortGraph(PortNode):
         if self._parent is not None:
             return PortNode.to_graphviz(self)
 
-        import pydot
+        import pydot  # noqa: PLC0415
 
         dot = pydot.Dot(
             "digraph", graph_type="digraph", rankdir="LR", splines="polyline"
@@ -1955,7 +2006,7 @@ class PortGraph(PortNode):
         graphs = [node for node in self.walk_ports() if isinstance(node, PortGraph)]
 
         def is_graph_member(node: PortNode) -> bool:
-            """Return whether the given node is member of a graph."""
+            """Determine whether the specified node is member of a graph."""
 
             return any(node in graph.nodes.values() for graph in graphs)
 
@@ -1990,14 +2041,18 @@ class PortGraph(PortNode):
 
 class ExecutionPort(Port):
     """
-    Define a special port for nodes supporting execution input and output
-    ports.
+    Define a specialised port for execution flow control in node graphs.
+
+    Attributes
+    ----------
+    value
+        Port value accessor for execution state transmission.
     """
 
     @property
     def value(self) -> Any:
         """
-        Getter and setter property for the port value.
+        Getter and setter for the port value.
 
         Parameters
         ----------
@@ -2011,16 +2066,17 @@ class ExecutionPort(Port):
         """
 
     @value.setter
-    def value(self, value: Any):
+    def value(self, value: Any) -> None:
         """Setter for the **self.value** property."""
 
 
 class ExecutionNode(PortNode):
     """
-    Define a special node with execution input and output ports.
+    Define a specialised node that manages execution flow through
+    dedicated input and output ports.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
         self.add_input_port(
@@ -2032,36 +2088,39 @@ class ExecutionNode(PortNode):
 
 
 class ControlFlowNode(ExecutionNode):
-    """Define a class inherited by control flow nodes."""
+    """
+    Define a base class for control flow nodes in computational graphs.
+    """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
 
 class For(ControlFlowNode):
     """
-    Define a ``for`` loop node.
+    Define a ``for`` loop node for iterating over arrays.
 
-    The node loops over the input port ``array``, sets the ``index`` and
-    ``element`` output ports at each iteration and call the
-    :meth:`colour.utilities.ExecutionNode.process` method of the object
-    connected to the ``loop_output`` output port.
+    The node iterates over the input port ``array``, setting the
+    ``index`` and ``element`` output ports at each iteration and calling
+    the :meth:`colour.utilities.ExecutionNode.process` method of the
+    object connected to the ``loop_output`` output port.
 
-    Upon completion, the :meth:`colour.utilities.ExecutionNode.process` method
-    of the object connected to the ``execution_output`` output port is called.
+    Upon completion, the :meth:`colour.utilities.ExecutionNode.process`
+    method of the object connected to the ``execution_output`` output
+    port is called.
 
     Notes
     -----
-    -   The :class:`colour.utilities.For` loop node does not currently call
-        more than the two aforementioned
-        :meth:`colour.utilities.ExecutionNode.process` methods, if a series of
-        nodes is attached to the `loop_output`` or ``execution_output`` output
-        ports, only the left-most node will be processed. To circumvent this
-        limitation, it is recommended to use a
-        :class:`colour.utilities.PortGraph` class instance.
+    -   The :class:`colour.utilities.For` loop node does not currently
+        call more than the two aforementioned
+        :meth:`colour.utilities.ExecutionNode.process` methods, if a
+        series of nodes is attached to the ``loop_output`` or
+        ``execution_output`` output ports, only the left-most node will
+        be processed. To circumvent this limitation, it is recommended
+        to use a :class:`colour.utilities.PortGraph` class instance.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
         self.add_input_port("array", [], "Array to loop onto")
@@ -2070,9 +2129,7 @@ class For(ControlFlowNode):
         self.add_output_port("loop_output", None, "Port for loop Output", ExecutionPort)
 
     def process(self) -> None:
-        """
-        Process the ``for`` loop node.
-        """
+        """Process the *for* loop node execution."""
 
         connection = next(iter(self.output_ports["loop_output"].connections), None)
         if connection is None:
@@ -2111,15 +2168,20 @@ class For(ControlFlowNode):
 _THREADING_LOCK = threading.Lock()
 
 
-def _task_thread(args):
+def _task_thread(args: Sequence) -> tuple[int, Any]:  # pragma: no cover
     """
-    Define the default task for the
-    :class:`colour.utilities.ParallelForThread` loop node
+    Execute the default task for the
+    :class:`colour.utilities.ParallelForThread` loop node.
 
     Parameters
     ----------
     args
-        Processing arguments.
+        Processing arguments for the parallel thread task.
+
+    Returns
+    -------
+    :class:`tuple`
+        Index and result pair from the executed task.
     """
 
     i, element, sub_graph, node = args
@@ -2135,37 +2197,100 @@ def _task_thread(args):
     return i, sub_graph.get_output("output")
 
 
+class ThreadPoolExecutorManager:
+    """
+    Define a singleton :class:`concurrent.futures.ThreadPoolExecutor`
+    manager.
+
+    Attributes
+    ----------
+    -   :attr:`~colour.utilities.ThreadPoolExecutorManager.ThreadPoolExecutor`
+
+    Methods
+    -------
+    -   :meth:`~colour.utilities.ThreadPoolExecutorManager.get_executor`
+    -   :meth:`~colour.utilities.ThreadPoolExecutorManager.shutdown_executor`
+    """
+
+    ThreadPoolExecutor: concurrent.futures.ThreadPoolExecutor | None = None
+
+    @staticmethod
+    def get_executor(
+        max_workers: int | None = None,
+    ) -> concurrent.futures.ThreadPoolExecutor:
+        """
+        Return the :class:`concurrent.futures.ThreadPoolExecutor` class
+        instance or create it if not existing.
+
+        Parameters
+        ----------
+        max_workers
+            Maximum worker count.
+
+        Returns
+        -------
+        :class:`concurrent.futures.ThreadPoolExecutor`
+            Thread pool executor instance.
+
+        Notes
+        -----
+        The :class:`concurrent.futures.ThreadPoolExecutor` class instance is
+        automatically shutdown on process exit.
+        """
+
+        if ThreadPoolExecutorManager.ThreadPoolExecutor is None:
+            ThreadPoolExecutorManager.ThreadPoolExecutor = (
+                concurrent.futures.ThreadPoolExecutor(max_workers=max_workers)
+            )
+
+        return ThreadPoolExecutorManager.ThreadPoolExecutor
+
+    @atexit.register
+    @staticmethod
+    def shutdown_executor() -> None:
+        """
+        Shut down the :class:`concurrent.futures.ThreadPoolExecutor` class
+        instance.
+        """
+
+        if ThreadPoolExecutorManager.ThreadPoolExecutor is not None:
+            ThreadPoolExecutorManager.ThreadPoolExecutor.shutdown(wait=True)
+            ThreadPoolExecutorManager.ThreadPoolExecutor = None
+
+
 class ParallelForThread(ControlFlowNode):
     """
-    Define an advanced ``for`` loop node distributing the work across multiple
-    threads.
+    Define an advanced ``for`` loop node that distributes work across
+    multiple threads for parallel execution.
 
-    Each generated task receives one ``index`` and ``element`` output ports
-    value. The tasks are then executed by a
-    :class:`concurrent.futures.ThreadPoolExecutor` class instance, the futures
-    result are then collected, sorted and the ``results`` output port value is
-    set with them.
+    Each generated task receives one ``index`` and ``element`` output port
+    value. The tasks are executed by a
+    :class:`concurrent.futures.ThreadPoolExecutor` class instance. The
+    futures results are collected, sorted, and assigned to the ``results``
+    output port.
 
-    Upon completion, the :meth:`colour.utilities.ExecutionNode.process` method
-    of the object connected to the ``execution_output`` output port is called.
+    Upon completion, the :meth:`colour.utilities.ExecutionNode.process`
+    method of the object connected to the ``execution_output`` output port
+    is called.
 
     Notes
     -----
     -   The :class:`colour.utilities.ParallelForThread` loop node does not
         currently call more than the two aforementioned
-        :meth:`colour.utilities.ExecutionNode.process` methods, if a series of
-        nodes is attached to the `loop_output`` or ``execution_output`` output
-        ports, only the left-most node will be processed. To circumvent this
-        limitation, it is recommended to use a
+        :meth:`colour.utilities.ExecutionNode.process` methods. If a series
+        of nodes is attached to the ``loop_output`` or ``execution_output``
+        output ports, only the left-most node will be processed. To
+        circumvent this limitation, it is recommended to use a
         :class:`colour.utilities.PortGraph` class instance.
-    -   As the graph being processed is shared across the threads, a lock must
-        be taken in the task callable. This might nullify any speed gains for
-        heavy processing tasks, in such eventuality, it is recommended to use
-        the :class:`colour.utilities.ParallelForMultiprocess` loop node
+    -   As the graph being processed is shared across the threads, a lock
+        must be taken in the task callable. This might nullify any speed
+        gains for heavy processing tasks. In such eventuality, it is
+        recommended to use the
+        :class:`colour.utilities.ParallelForMultiprocess` loop node
         instead.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
         self.add_input_port("array", [], "Array to loop onto")
@@ -2178,7 +2303,7 @@ class ParallelForThread(ControlFlowNode):
 
     def process(self) -> None:
         """
-        Process the ``for`` loop node.
+        Process the parallel loop node execution.
         """
 
         connection = next(iter(self.output_ports["loop_output"].connections), None)
@@ -2193,18 +2318,20 @@ class ParallelForThread(ControlFlowNode):
         self.log(f'Processing "{node}" node...')
 
         results = {}
-        with concurrent.futures.ThreadPoolExecutor(
+        thread_pool_executor = ThreadPoolExecutorManager.get_executor(
             max_workers=self.get_input("workers")
-        ) as executor:
-            futures = [
-                executor.submit(self.get_input("task"), (i, element, node, self))
-                for i, element in enumerate(self.get_input("array"))
-            ]
+        )
+        futures = [
+            thread_pool_executor.submit(
+                self.get_input("task"), (i, element, node, self)
+            )
+            for i, element in enumerate(self.get_input("array"))
+        ]
 
-            for future in concurrent.futures.as_completed(futures):
-                index, element = future.result()
-                self.log(f'Processed "{element}" element with index "{index}".')
-                results[index] = element
+        for future in concurrent.futures.as_completed(futures):
+            index, element = future.result()
+            self.log(f'Processed "{element}" element with index "{index}".')
+            results[index] = element
 
         results = dict(sorted(results.items()))
         self.set_output("results", list(results.values()))
@@ -2225,15 +2352,20 @@ class ParallelForThread(ControlFlowNode):
         self.dirty = False
 
 
-def _task_multiprocess(args):
+def _task_multiprocess(args: Sequence) -> tuple[int, Any]:  # pragma: no cover
     """
-    Define the default task for the
-    :class:`colour.utilities.ParallelForMultiprocess` loop node
+    Execute the default processing task for
+    :class:`colour.utilities.ParallelForMultiprocess` loop node instances.
 
     Parameters
     ----------
     args
-        Processing arguments.
+        Processing arguments for the parallel execution task.
+
+    Returns
+    -------
+    :class:`tuple`
+        Tuple containing the task index and computed result.
     """
 
     i, element, sub_graph, node = args
@@ -2248,31 +2380,95 @@ def _task_multiprocess(args):
     return i, sub_graph.get_output("output")
 
 
+class ProcessPoolExecutorManager:
+    """
+    Define a singleton :class:`concurrent.futures.ProcessPoolExecutor`
+    manager for parallel processing.
+
+    Attributes
+    ----------
+    -   :attr:`~colour.utilities.ProcessPoolExecutorManager.ProcessPoolExecutor`
+
+    Methods
+    -------
+    -   :meth:`~colour.utilities.ProcessPoolExecutorManager.get_executor`
+    -   :meth:`~colour.utilities.ProcessPoolExecutorManager.shutdown_executor`
+    """
+
+    ProcessPoolExecutor: concurrent.futures.ProcessPoolExecutor | None = None
+
+    @staticmethod
+    def get_executor(
+        max_workers: int | None = None,
+    ) -> concurrent.futures.ProcessPoolExecutor:
+        """
+        Return the :class:`concurrent.futures.ProcessPoolExecutor` class
+        instance or create it if not existing.
+
+        Parameters
+        ----------
+        max_workers
+            Maximum number of worker processes. If ``None``, it will
+            default to the number of processors on the machine.
+
+        Returns
+        -------
+        :class:`concurrent.futures.ProcessPoolExecutor`
+            Process pool executor instance for parallel execution.
+
+        Notes
+        -----
+        The :class:`concurrent.futures.ProcessPoolExecutor` class instance is
+        automatically shut down on process exit.
+        """
+
+        if ProcessPoolExecutorManager.ProcessPoolExecutor is None:
+            context = multiprocessing.get_context("spawn")
+            ProcessPoolExecutorManager.ProcessPoolExecutor = (
+                concurrent.futures.ProcessPoolExecutor(
+                    mp_context=context, max_workers=max_workers
+                )
+            )
+
+        return ProcessPoolExecutorManager.ProcessPoolExecutor
+
+    @atexit.register
+    @staticmethod
+    def shutdown_executor() -> None:
+        """
+        Shut down the :class:`concurrent.futures.ProcessPoolExecutor` class
+        instance.
+        """
+
+        if ProcessPoolExecutorManager.ProcessPoolExecutor is not None:
+            ProcessPoolExecutorManager.ProcessPoolExecutor.shutdown(wait=True)
+            ProcessPoolExecutorManager.ProcessPoolExecutor = None
+
+
 class ParallelForMultiprocess(ControlFlowNode):
     """
-    Define an advanced ``for`` loop node distributing the work across multiple
-    processes.
+    Define a parallel ``for`` loop node that distributes operations across
+    multiple processes.
 
-    Each generated task receives one ``index`` and ``element`` output ports
-    value. The tasks are then executed by a
-    :class:`multiprocessing.Pool` class instance, the results are then
-    collected, sorted and the ``results`` output port value is set with them.
+    Distribute iteration work by assigning each task one ``index`` and
+    ``element`` output port value. Execute tasks using a
+    :class:`multiprocessing.Pool` instance, then collect, sort, and assign
+    results to the ``results`` output port.
 
-    Upon completion, the :meth:`colour.utilities.ExecutionNode.process` method
-    of the object connected to the ``execution_output`` output port is called.
+    Upon completion, invoke the :meth:`colour.utilities.ExecutionNode.process`
+    method of the object connected to the ``execution_output`` output port.
 
     Notes
     -----
-    -   The :class:`colour.utilities.ParallelForMultiprocess` loop node does
-        not currently call more than the two aforementioned
-        :meth:`colour.utilities.ExecutionNode.process` methods, if a series of
-        nodes is attached to the `loop_output`` or ``execution_output``
-        output ports, only the left-most node will be processed. To circumvent
-        this limitation, it is recommended to use a
-        :class:`colour.utilities.PortGraph` class instance.
+    -   The :class:`colour.utilities.ParallelForMultiprocess` loop node
+        currently invokes only the two aforementioned
+        :meth:`colour.utilities.ExecutionNode.process` methods. When a series
+        of nodes connects to the ``loop_output`` or ``execution_output``
+        output ports, only the left-most node processes. To circumvent this
+        limitation, use a :class:`colour.utilities.PortGraph` class instance.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
         self.add_input_port("array", [], "Array to loop onto")
@@ -2285,7 +2481,7 @@ class ParallelForMultiprocess(ControlFlowNode):
 
     def process(self) -> None:
         """
-        Process the ``for`` loop node.
+        Process the ``for`` loop node execution.
         """
 
         connection = next(iter(self.output_ports["loop_output"].connections), None)
@@ -2300,18 +2496,20 @@ class ParallelForMultiprocess(ControlFlowNode):
         self.log(f'Processing "{node}" node...')
 
         results = {}
-        with concurrent.futures.ProcessPoolExecutor(
+        process_pool_executor = ProcessPoolExecutorManager.get_executor(
             max_workers=self.get_input("processes")
-        ) as executor:
-            futures = [
-                executor.submit(self.get_input("task"), (i, element, node, self))
-                for i, element in enumerate(self.get_input("array"))
-            ]
+        )
+        futures = [
+            process_pool_executor.submit(
+                self.get_input("task"), (i, element, node, self)
+            )
+            for i, element in enumerate(self.get_input("array"))
+        ]
 
-            for future in concurrent.futures.as_completed(futures):
-                index, element = future.result()
-                self.log(f'Processed "{element}" element with index "{index}".')
-                results[index] = element
+        for future in concurrent.futures.as_completed(futures):
+            index, element = future.result()
+            self.log(f'Processed "{element}" element with index "{index}".')
+            results[index] = element
 
         results = dict(sorted(results.items()))
         self.set_output("results", list(results.values()))

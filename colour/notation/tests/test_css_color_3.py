@@ -25,7 +25,7 @@ class TestKeywordToRGBCSSColor3:
     definition unit tests methods.
     """
 
-    def test_keyword_to_RGB_CSSColor3(self):
+    def test_keyword_to_RGB_CSSColor3(self) -> None:
         """
         Test :func:`colour.notation.css_color_3.keyword_to_RGB_CSSColor3`
         definition.

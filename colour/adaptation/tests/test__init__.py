@@ -1,5 +1,6 @@
 """Define the unit tests for the :mod:`colour.adaptation` module."""
 
+from __future__ import annotations
 
 import numpy as np
 
@@ -25,7 +26,7 @@ class TestChromaticAdaptation:
     tests methods.
     """
 
-    def test_chromatic_adaptation(self):
+    def test_chromatic_adaptation(self) -> None:
         """Test :func:`colour.adaptation.chromatic_adaptation` definition."""
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
@@ -69,7 +70,36 @@ class TestChromaticAdaptation:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_chromatic_adaptation(self):
+        np.testing.assert_allclose(
+            chromatic_adaptation(
+                XYZ, XYZ_w, XYZ_wr, method="Li 2025", L_A=100, F_surround=1
+            ),
+            np.array([0.21166965, 0.12234633, 0.03888754]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method="Zhai 2018", L_A=100),
+            np.array([0.21638819, 0.1257, 0.03847494]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        XYZ_wo = np.array([1.0, 1.0, 1.0])
+        np.testing.assert_allclose(
+            chromatic_adaptation(
+                XYZ, XYZ_w, XYZ_wr, method="Zhai 2018", L_A=100, XYZ_wo=XYZ_wo
+            ),
+            np.array([0.21638819, 0.1257, 0.03847494]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method="vK20"),
+            np.array([0.21468842, 0.12456164, 0.04662558]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_domain_range_scale_chromatic_adaptation(self) -> None:
         """
         Test :func:`colour.adaptation.chromatic_adaptation` definition domain
         and range scale support.
@@ -101,7 +131,7 @@ class TestChromaticAdaptation:
         ]
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
-        for method, value in zip(m, v):
+        for method, value in zip(m, v, strict=True):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
                     np.testing.assert_allclose(

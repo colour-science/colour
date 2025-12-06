@@ -1,8 +1,8 @@
 from .macadam_ellipses import DATA_MACADAM_1942_ELLIPSES
 from .pointer_gamut import (
     CCS_ILLUMINANT_POINTER_GAMUT,
-    DATA_POINTER_GAMUT_VOLUME,
     CCS_POINTER_GAMUT_BOUNDARY,
+    DATA_POINTER_GAMUT_VOLUME,
 )
 
 __all__ = [
@@ -10,6 +10,6 @@ __all__ = [
 ]
 __all__ += [
     "CCS_ILLUMINANT_POINTER_GAMUT",
-    "DATA_POINTER_GAMUT_VOLUME",
     "CCS_POINTER_GAMUT_BOUNDARY",
+    "DATA_POINTER_GAMUT_VOLUME",
 ]

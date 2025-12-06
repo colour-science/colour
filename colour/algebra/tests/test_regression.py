@@ -1,5 +1,6 @@
 """Define the unit tests for the :mod:`colour.algebra.regression` module."""
 
+from __future__ import annotations
 
 import numpy as np
 
@@ -24,7 +25,7 @@ class TestLeastSquareMappingMoorePenrose:
 least_square_mapping_MoorePenrose` definition unit tests methods.
     """
 
-    def test_least_square_mapping_MoorePenrose(self):
+    def test_least_square_mapping_MoorePenrose(self) -> None:
         """
         Test :func:`colour.algebra.regression.\
 least_square_mapping_MoorePenrose` definition.

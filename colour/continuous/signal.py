@@ -2,49 +2,42 @@
 Signal
 ======
 
-Define the class implementing support for continuous signal:
+Define support for continuous signal representation and manipulation.
+
+This module provides the :class:`colour.continuous.Signal` class for
+representing and operating on continuous signals with the specified domain and
+range values, supporting interpolation and extrapolation operations.
 
 -   :class:`colour.continuous.Signal`
 """
 
 from __future__ import annotations
 
-from collections.abc import Iterator, Mapping, Sequence, ValuesView
-from operator import (
-    add,
-    iadd,
-    imul,
-    ipow,
-    isub,
-    itruediv,
-    mul,
-    pow,
-    sub,
-    truediv,
-)
+import typing
+from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
+from operator import pow  # noqa: A004
+from operator import add, iadd, imul, ipow, isub, itruediv, mul, sub, truediv
 
 import numpy as np
 
 from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.continuous import AbstractContinuousFunction
-from colour.hints import (
-    TYPE_CHECKING,
-    Any,
-    ArrayLike,
-    Callable,
-    DTypeFloat,
-    Literal,
-    NDArrayFloat,
-    Optional,
-    ProtocolExtrapolator,
-    ProtocolInterpolator,
-    Real,
-    Self,
-    Type,
-    Union,
-    cast,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Literal,
+        NDArrayFloat,
+        ProtocolExtrapolator,
+        ProtocolInterpolator,
+        Real,
+        Self,
+        Type,
+    )
+
+from colour.hints import Callable, DTypeFloat, cast
 from colour.utilities import (
     as_float_array,
     attest,
@@ -64,7 +57,7 @@ from colour.utilities import (
 from colour.utilities.common import int_digest
 from colour.utilities.documentation import is_documentation_building
 
-if TYPE_CHECKING or is_pandas_installed():
+if typing.TYPE_CHECKING or is_pandas_installed():
     from pandas import Series  # pragma: no cover
 else:  # pragma: no cover
     from unittest import mock
@@ -85,21 +78,21 @@ __all__ = [
 
 class Signal(AbstractContinuousFunction):
     """
-    Define the base class for continuous signal.
+    Define the base class for a continuous signal.
 
     The class implements the :meth:`Signal.function` method so that evaluating
     the function for any independent domain variable :math:`x \\in\\mathbb{R}`
-    returns a corresponding range variable :math:`y \\in\\mathbb{R}`.
-    It adopts an interpolating function encapsulated inside an extrapolating
-    function. The resulting function independent domain, stored as discrete
-    values in the :attr:`colour.continuous.Signal.domain` property corresponds
-    with the function dependent and already known range stored in the
+    returns a corresponding range variable :math:`y \\in\\mathbb{R}`. It adopts
+    an interpolating function encapsulated inside an extrapolating function.
+    The resulting function independent domain, stored as discrete values in
+    the :attr:`colour.continuous.Signal.domain` property corresponds with the
+    function dependent and already known range stored in the
     :attr:`colour.continuous.Signal.range` property.
 
     .. important::
 
-        Specific documentation about getting, setting, indexing and slicing the
-        continuous signal values is available in the
+        Specific documentation about getting, setting, indexing and slicing
+        the continuous signal values is available in the
         :ref:`spectral-representation-and-continuous-signal` section.
 
     Parameters
@@ -108,14 +101,14 @@ class Signal(AbstractContinuousFunction):
         Data to be stored in the continuous signal.
     domain
         Values to initialise the :attr:`colour.continuous.Signal.domain`
-        attribute with. If both ``data`` and ``domain`` arguments are defined,
-        the latter with be used to initialise the
+        attribute with. If both ``data`` and ``domain`` arguments are
+        defined, the latter will be used to initialise the
         :attr:`colour.continuous.Signal.domain` property.
 
     Other Parameters
     ----------------
     dtype
-        float point data type.
+        Floating point data type.
     extrapolator
         Extrapolator class type to use as extrapolating function.
     extrapolator_kwargs
@@ -244,8 +237,8 @@ class Signal(AbstractContinuousFunction):
 
     def __init__(
         self,
-        data: ArrayLike | dict | Self | Series | None = None,
-        domain: ArrayLike | None = None,
+        data: ArrayLike | dict | Self | Series | ValuesView | None = None,
+        domain: ArrayLike | KeysView | None = None,
         **kwargs: Any,
     ) -> None:
         super().__init__(kwargs.get("name"))
@@ -280,7 +273,7 @@ class Signal(AbstractContinuousFunction):
     @property
     def dtype(self) -> Type[DTypeFloat]:
         """
-        Getter and setter property for the continuous signal dtype.
+        Getter and setter for the continuous signal dtype.
 
         Parameters
         ----------
@@ -289,19 +282,19 @@ class Signal(AbstractContinuousFunction):
 
         Returns
         -------
-        DTypeFloat
+        Type[DTypeFloat]
             Continuous signal dtype.
         """
 
         return self._dtype
 
     @dtype.setter
-    def dtype(self, value: Type[DTypeFloat]):
+    def dtype(self, value: Type[DTypeFloat]) -> None:
         """Setter for the **self.dtype** property."""
 
         attest(
-            value in DTypeFloat.__args__,  # pyright: ignore
-            f'"dtype" must be one of the following types: {DTypeFloat.__args__}',  # pyright: ignore
+            value in DTypeFloat.__args__,
+            f'"dtype" must be one of the following types: {DTypeFloat.__args__}',
         )
 
         self._dtype = value
@@ -315,7 +308,7 @@ class Signal(AbstractContinuousFunction):
     @property
     def domain(self) -> NDArrayFloat:
         """
-        Getter and setter property for the continuous signal independent
+        Getter and setter for the continuous signal's independent
         domain variable :math:`x`.
 
         Parameters
@@ -327,13 +320,14 @@ class Signal(AbstractContinuousFunction):
         Returns
         -------
         :class:`numpy.ndarray`
-            Continuous signal independent domain variable :math:`x`.
+            Continuous signal independent domain variable
+            :math:`x`.
         """
 
         return ndarray_copy(self._domain)
 
     @domain.setter
-    def domain(self, value: ArrayLike):
+    def domain(self, value: ArrayLike) -> None:
         """Setter for the **self.domain** property."""
 
         value = as_float_array(value, self.dtype)
@@ -358,25 +352,25 @@ class Signal(AbstractContinuousFunction):
     @property
     def range(self) -> NDArrayFloat:
         """
-        Getter and setter property for the continuous signal corresponding
-        range variable :math:`y`.
+        Getter and setter for the continuous signal's range
+        variable :math:`y`.
 
         Parameters
         ----------
         value
-            Value to set the continuous signal corresponding range :math:`y`
-            variable with.
+            Value to set the continuous signal's range variable
+            :math:`y` with.
 
         Returns
         -------
         :class:`numpy.ndarray`
-            Continuous signal corresponding range variable :math:`y`.
+            Continuous signal's range variable :math:`y`.
         """
 
         return ndarray_copy(self._range)
 
     @range.setter
-    def range(self, value: ArrayLike):
+    def range(self, value: ArrayLike) -> None:
         """Setter for the **self.range** property."""
 
         value = as_float_array(value, self.dtype)
@@ -399,7 +393,8 @@ class Signal(AbstractContinuousFunction):
     @property
     def interpolator(self) -> Type[ProtocolInterpolator]:
         """
-        Getter and setter property for the continuous signal interpolator type.
+        Getter and setter for the continuous signal interpolator
+        type.
 
         Parameters
         ----------
@@ -416,7 +411,7 @@ class Signal(AbstractContinuousFunction):
         return self._interpolator
 
     @interpolator.setter
-    def interpolator(self, value: Type[ProtocolInterpolator]):
+    def interpolator(self, value: Type[ProtocolInterpolator]) -> None:
         """Setter for the **self.interpolator** property."""
 
         # TODO: Check for interpolator compatibility.
@@ -426,14 +421,13 @@ class Signal(AbstractContinuousFunction):
     @property
     def interpolator_kwargs(self) -> dict:
         """
-        Getter and setter property for the continuous signal interpolator
-        instantiation time arguments.
+        Getter and setter for the interpolator instantiation time arguments.
 
         Parameters
         ----------
         value
-            Value to set the continuous signal interpolator instantiation
-            time arguments to.
+            Value to set the continuous signal interpolator
+            instantiation time arguments to.
 
         Returns
         -------
@@ -445,7 +439,7 @@ class Signal(AbstractContinuousFunction):
         return self._interpolator_kwargs
 
     @interpolator_kwargs.setter
-    def interpolator_kwargs(self, value: dict):
+    def interpolator_kwargs(self, value: dict) -> None:
         """Setter for the **self.interpolator_kwargs** property."""
 
         attest(
@@ -459,13 +453,12 @@ class Signal(AbstractContinuousFunction):
     @property
     def extrapolator(self) -> Type[ProtocolExtrapolator]:
         """
-        Getter and setter property for the continuous signal extrapolator type.
+        Getter and setter for the continuous signal extrapolator type.
 
         Parameters
         ----------
         value
-            Value to set the continuous signal extrapolator type
-            with.
+            Value to set the continuous signal extrapolator type with.
 
         Returns
         -------
@@ -476,7 +469,7 @@ class Signal(AbstractContinuousFunction):
         return self._extrapolator
 
     @extrapolator.setter
-    def extrapolator(self, value: Type[ProtocolExtrapolator]):
+    def extrapolator(self, value: Type[ProtocolExtrapolator]) -> None:
         """Setter for the **self.extrapolator** property."""
 
         # TODO: Check for extrapolator compatibility.
@@ -486,14 +479,14 @@ class Signal(AbstractContinuousFunction):
     @property
     def extrapolator_kwargs(self) -> dict:
         """
-        Getter and setter property for the continuous signal extrapolator
+        Getter and setter for the continuous signal extrapolator
         instantiation time arguments.
 
         Parameters
         ----------
         value
-            Value to set the continuous signal extrapolator instantiation
-            time arguments to.
+            Value to set the continuous signal extrapolator
+            instantiation time arguments to.
 
         Returns
         -------
@@ -505,7 +498,7 @@ class Signal(AbstractContinuousFunction):
         return self._extrapolator_kwargs
 
     @extrapolator_kwargs.setter
-    def extrapolator_kwargs(self, value: dict):
+    def extrapolator_kwargs(self, value: dict) -> None:
         """Setter for the **self.extrapolator_kwargs** property."""
 
         attest(
@@ -520,7 +513,7 @@ class Signal(AbstractContinuousFunction):
     @ndarray_copy_enable(False)
     def function(self) -> Callable:
         """
-        Getter property for the continuous signal callable.
+        Getter for the continuous signal callable.
 
         Returns
         -------
@@ -543,7 +536,7 @@ class Signal(AbstractContinuousFunction):
                 def _undefined_function(
                     *args: Any,  # noqa: ARG001
                     **kwargs: Any,  # noqa: ARG001
-                ):
+                ) -> None:
                     """
                     Raise a :class:`ValueError` exception.
 
@@ -559,15 +552,17 @@ class Signal(AbstractContinuousFunction):
                     ValueError
                     """
 
-                    raise ValueError(
+                    error = (
                         "Underlying signal interpolator function does not "
                         'exists, please ensure that both "domain" and "range" '
                         "variables are defined!"
                     )
 
-                self._function = cast(Callable, _undefined_function)
+                    raise ValueError(error)
 
-        return cast(Callable, self._function)
+                self._function = cast("Callable", _undefined_function)
+
+        return cast("Callable", self._function)
 
     @ndarray_copy_enable(False)
     def __str__(self) -> str:
@@ -654,7 +649,7 @@ class Signal(AbstractContinuousFunction):
     @ndarray_copy_enable(False)
     def __hash__(self) -> int:
         """
-        Return the abstract continuous function hash.
+        Compute the hash of the continuous signal.
 
         Returns
         -------
@@ -675,8 +670,8 @@ class Signal(AbstractContinuousFunction):
 
     def __getitem__(self, x: ArrayLike | slice) -> NDArrayFloat:
         """
-        Return the corresponding range variable :math:`y` for independent
-        domain variable :math:`x`.
+        Return the corresponding range variable :math:`y` for the specified
+        independent domain variable :math:`x`.
 
         Parameters
         ----------
@@ -716,13 +711,13 @@ class Signal(AbstractContinuousFunction):
 
         if isinstance(x, slice):
             return self._range[x]
-        else:
-            return self.function(x)
 
-    def __setitem__(self, x: ArrayLike | slice, y: ArrayLike):
+        return self.function(x)
+
+    def __setitem__(self, x: ArrayLike | slice, y: ArrayLike) -> None:
         """
-        Set the corresponding range variable :math:`y` for independent domain
-        variable :math:`x`.
+        Set the corresponding range variable :math:`y` for the specified
+        independent domain variable :math:`x`.
 
         Parameters
         ----------
@@ -794,7 +789,7 @@ class Signal(AbstractContinuousFunction):
             y = np.resize(y, x.shape)
 
             # Matching domain, updating existing `self._range` values.
-            mask = np.isin(x, self._domain)  # pyright: ignore
+            mask = np.isin(x, self._domain)
             x_m = x[mask]
             indexes = np.searchsorted(self._domain, x_m)
             self._range[indexes] = y[mask]
@@ -811,8 +806,8 @@ class Signal(AbstractContinuousFunction):
 
     def __contains__(self, x: ArrayLike | slice) -> bool:
         """
-        Return whether the continuous signal contains given independent domain
-        variable :math:`x`.
+        Determine whether the continuous signal contains the specified
+        independent domain variable :math:`x`.
 
         Parameters
         ----------
@@ -850,19 +845,19 @@ class Signal(AbstractContinuousFunction):
         )
 
     @ndarray_copy_enable(False)
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
-        Return whether the continuous signal is equal to given other object.
+        Determine whether the continuous signal equals the specified object.
 
         Parameters
         ----------
         other
-            Object to test whether it is equal to the continuous signal.
+            Object to determine for equality with the continuous signal.
 
         Returns
         -------
         :class:`bool`
-            Whether given object is equal to the continuous signal.
+            Whether the specified object is equal to the continuous signal.
 
         Examples
         --------
@@ -896,23 +891,24 @@ class Signal(AbstractContinuousFunction):
                     repr(self._extrapolator_kwargs) == repr(other.extrapolator_kwargs),
                 ]
             )
-        else:
-            return False
 
-    def __ne__(self, other: Any) -> bool:
+        return False
+
+    def __ne__(self, other: object) -> bool:
         """
-        Return whether the continuous signal is not equal to given other
-        object.
+        Determine whether the continuous signal is not equal to the specified
+        other object.
 
         Parameters
         ----------
         other
-            Object to test whether it is not equal to the continuous signal.
+            Object to determine whether it is not equal to the continuous signal.
 
         Returns
         -------
         :class:`bool`
-            Whether given object is not equal to the continuous signal.
+            Whether the specified object is not equal to the continuous
+            signal.
 
         Examples
         --------
@@ -940,23 +936,22 @@ class Signal(AbstractContinuousFunction):
         self,
         method: Literal["Constant", "Interpolation"] | str = "Interpolation",
         default: Real = 0,
-    ):
+    ) -> None:
         """
-        Fill NaNs in independent domain variable :math:`x` using given method.
+        Fill NaNs in the signal's independent domain variable :math:`x` using the
+        specified method.
+
+        This private method modifies the domain values in-place, replacing NaN
+        values according to the chosen filling strategy.
 
         Parameters
         ----------
         method
-            *Interpolation* method linearly interpolates through the NaNs,
-            *Constant* method replaces NaNs with ``default``.
+            Filling method to apply. *Interpolation* linearly interpolates
+            through the NaN values, while *Constant* replaces NaN values with
+            the specified ``default`` value.
         default
-            Value to use with the *Constant* method.
-
-        Returns
-        -------
-        :class:`colour.continuous.Signal`
-            NaNs filled continuous signal independent domain :math:`x`
-            variable.
+            Value to use when ``method`` is *Constant*.
         """
 
         self.domain = fill_nan(self._domain, method, default)
@@ -966,9 +961,10 @@ class Signal(AbstractContinuousFunction):
         self,
         method: Literal["Constant", "Interpolation"] | str = "Interpolation",
         default: Real = 0,
-    ):
+    ) -> None:
         """
-        Fill NaNs in corresponding range variable :math:`y` using given method.
+        Fill NaNs in the continuous signal's range variable :math:`y` using
+        the specified method.
 
         Parameters
         ----------
@@ -981,7 +977,7 @@ class Signal(AbstractContinuousFunction):
         Returns
         -------
         :class:`colour.continuous.Signal`
-            NaNs filled continuous signal i corresponding range :math:`y`
+            NaNs filled continuous signal in corresponding range :math:`y`
             variable.
         """
 
@@ -995,22 +991,30 @@ class Signal(AbstractContinuousFunction):
         in_place: bool = False,
     ) -> AbstractContinuousFunction:
         """
-        Perform given arithmetical operation with operand :math:`a`, the
-        operation can be either performed on a copy or in-place.
+        Perform the specified arithmetical operation with operand :math:`a`.
+
+        The operation can be performed either on a copy of the signal or
+        in-place.
 
         Parameters
         ----------
         a
-            Operand :math:`a`.
+            Operand :math:`a`. Can be a numeric value, array-like object, or
+            another continuous function instance.
         operation
-            Operation to perform.
+            Arithmetical operation to perform. Supported operations are
+            addition (``"+"``), subtraction (``"-"``), multiplication
+            (``"*"``), division (``"/"``), and exponentiation (``"**"``).
         in_place
-            Operation happens in place.
+            Whether the operation is performed in-place on the current
+            signal instance. Default is ``False``.
 
         Returns
         -------
         :class:`colour.continuous.Signal`
-            Continuous signal.
+            Continuous signal after the arithmetical operation. If
+            ``in_place`` is ``True``, returns the modified instance;
+            otherwise returns a new instance.
 
         Examples
         --------
@@ -1089,20 +1093,18 @@ class Signal(AbstractContinuousFunction):
                 self.range = ioperator(self._range, a)
 
             return self
-        else:
-            copy = ioperator(self.copy(), a)
 
-            return copy
+        return ioperator(self.copy(), a)
 
     @staticmethod
     @ndarray_copy_enable(True)
     def signal_unpack_data(
-        data=Optional[Union[ArrayLike, dict, Series, "Signal"]],
-        domain: ArrayLike | None = None,
+        data: ArrayLike | dict | Series | Signal | ValuesView | None,
+        domain: ArrayLike | KeysView | None = None,
         dtype: Type[DTypeFloat] | None = None,
     ) -> tuple:
         """
-        Unpack given data for continuous signal instantiation.
+        Unpack specified data for continuous signal instantiation.
 
         Parameters
         ----------
@@ -1114,7 +1116,7 @@ class Signal(AbstractContinuousFunction):
             defined, the latter will be used to initialise the
             :attr:`colour.continuous.Signal.domain` property.
         dtype
-            float point data type.
+            Floating point data type.
 
         Returns
         -------
@@ -1181,11 +1183,11 @@ class Signal(AbstractContinuousFunction):
         if isinstance(data, Signal):
             domain_unpacked = data.domain
             range_unpacked = data.range
-        elif issubclass(type(data), Sequence) or isinstance(  # pyright: ignore
+        elif issubclass(type(data), Sequence) or isinstance(
             data, (tuple, list, np.ndarray, Iterator, ValuesView)
         ):
             data_array = (
-                tsplit(list(cast(Sequence, data)))
+                tsplit(list(cast("Sequence", data)))
                 if not isinstance(data, np.ndarray)
                 else data
             )
@@ -1196,15 +1198,18 @@ class Signal(AbstractContinuousFunction):
                 np.arange(0, data_array.size, dtype=dtype),
                 data_array,
             )
-        elif issubclass(type(data), Mapping) or isinstance(data, dict):  # pyright: ignore
+        elif issubclass(type(data), Mapping) or isinstance(data, dict):
             domain_unpacked, range_unpacked = tsplit(
-                sorted(cast(Mapping, data).items())
+                sorted(cast("Mapping", data).items())
             )
         elif is_pandas_installed() and isinstance(data, Series):
-            domain_unpacked = data.index.values
-            range_unpacked = data.values
+            domain_unpacked = as_float_array(data.index.values, dtype)  # pyright: ignore
+            range_unpacked = as_float_array(data.values, dtype)
 
         if domain is not None:
+            if isinstance(domain, KeysView):
+                domain = list(domain)
+
             domain_array = as_float_array(domain, dtype)
 
             attest(
@@ -1226,7 +1231,7 @@ class Signal(AbstractContinuousFunction):
     ) -> Signal:
         """
         Fill NaNs in independent domain variable :math:`x` and corresponding
-        range variable :math:`y` using given method.
+        range variable :math:`y` using the specified method.
 
         Parameters
         ----------
@@ -1239,7 +1244,7 @@ class Signal(AbstractContinuousFunction):
         Returns
         -------
         :class:`colour.continuous.Signal`
-            NaNs filled continuous signal.
+            Continuous signal with NaN values filled.
 
         Examples
         --------
@@ -1298,7 +1303,7 @@ class Signal(AbstractContinuousFunction):
         Returns
         -------
         :class:`pandas.Series`
-            Continuous signal as a *Pandas*:class:`pandas.Series` class
+            Continuous signal as a *Pandas* :class:`pandas.Series` class
             instance.
 
         Examples

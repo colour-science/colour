@@ -2,7 +2,7 @@
 Colour Rendering Index
 ======================
 
-Define the *Colour Rendering Index* (CRI) computation objects:
+Define the *Colour Rendering Index* (CRI) computation objects.
 
 -   :class:`colour.quality.ColourRendering_Specification_CRI`
 -   :func:`colour.colour_rendering_index`
@@ -17,6 +17,7 @@ usp=sharing
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass
 
 import numpy as np
@@ -33,11 +34,16 @@ from colour.colorimetry import (
     sd_CIE_illuminant_D_series,
     sd_to_XYZ,
 )
-from colour.hints import Dict, NDArrayFloat, Tuple, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Dict, Literal, NDArrayFloat, Tuple
+
+from colour.hints import cast
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.quality.datasets.tcs import INDEXES_TO_NAMES_TCS, SDS_TCS
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
-from colour.utilities import domain_range_scale
+from colour.utilities import domain_range_scale, validate_method
+from colour.utilities.documentation import DocstringTuple, is_documentation_building
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -50,6 +56,7 @@ __all__ = [
     "DataColorimetry_TCS",
     "DataColourQualityScale_TCS",
     "ColourRendering_Specification_CRI",
+    "COLOUR_RENDERING_INDEX_METHODS",
     "colour_rendering_index",
     "tcs_colorimetry_data",
     "colour_rendering_indexes",
@@ -58,7 +65,27 @@ __all__ = [
 
 @dataclass
 class DataColorimetry_TCS:
-    """Define the class storing *test colour samples* colorimetry data."""
+    """
+    Store colorimetric data for *test colour samples* used in colour
+    rendering index calculations.
+
+    This dataclass encapsulates the colorimetric properties of test colour
+    samples, including their tristimulus values, chromaticity coordinates,
+    and colour appearance attributes required for evaluating light source
+    colour rendering performance.
+
+    Attributes
+    ----------
+    name
+        Identifier for the test colour sample.
+    XYZ
+        *CIE XYZ* tristimulus values of the test colour sample.
+    uv
+        *CIE 1960 UCS* chromaticity coordinates of the test colour sample.
+    UVW
+        *CIE 1964 U*V*W** colour space coordinates of the test colour
+        sample.
+    """
 
     name: str
     XYZ: NDArrayFloat
@@ -69,7 +96,15 @@ class DataColorimetry_TCS:
 @dataclass
 class DataColourQualityScale_TCS:
     """
-    Define the class storing *test colour samples* colour rendering index data.
+    Store colour rendering index quality scale data for individual *test
+    colour samples*.
+
+    Attributes
+    ----------
+    name
+        Identifier of the test colour sample.
+    Q_a
+        Colour rendering index :math:`Q_a` value for the test colour sample.
     """
 
     name: str
@@ -81,16 +116,22 @@ class ColourRendering_Specification_CRI:
     """
     Define the *Colour Rendering Index* (CRI) colour quality specification.
 
+    This dataclass represents the colour quality assessment results using
+    the CRI method, which evaluates how accurately a light source renders
+    colours compared to a reference illuminant.
+
     Parameters
     ----------
     name
         Name of the test spectral distribution.
     Q_a
-        *Colour Rendering Index* (CRI) :math:`Q_a`.
+        *Colour Rendering Index* (CRI) :math:`Q_a` general index value.
     Q_as
-        Individual *colour rendering indexes* data for each sample.
+        Individual *colour rendering indexes* data for each test colour
+        sample.
     colorimetry_data
-        Colorimetry data for the test and reference computations.
+        Colorimetry data for the test and reference illuminant
+        computations.
 
     References
     ----------
@@ -105,12 +146,51 @@ class ColourRendering_Specification_CRI:
     ]
 
 
+COLOUR_RENDERING_INDEX_METHODS: tuple = ("CIE 1995", "CIE 2024")
+if is_documentation_building():  # pragma: no cover
+    COLOUR_RENDERING_INDEX_METHODS = DocstringTuple(COLOUR_RENDERING_INDEX_METHODS)
+    COLOUR_RENDERING_INDEX_METHODS.__doc__ = """
+Supported *Colour Rendering Index* (CRI) computation methods.
+
+References
+----------
+:cite:`Ohno2008a`
+"""
+
+
+@typing.overload
 def colour_rendering_index(
-    sd_test: SpectralDistribution, additional_data: bool = False
+    sd_test: SpectralDistribution,
+    additional_data: Literal[True] = True,
+    method: Literal["CIE 1995", "CIE 2024"] | str = ...,
+) -> ColourRendering_Specification_CRI: ...
+
+
+@typing.overload
+def colour_rendering_index(
+    sd_test: SpectralDistribution,
+    *,
+    additional_data: Literal[False],
+    method: Literal["CIE 1995", "CIE 2024"] | str = ...,
+) -> float: ...
+
+
+@typing.overload
+def colour_rendering_index(
+    sd_test: SpectralDistribution,
+    additional_data: Literal[False],
+    method: Literal["CIE 1995", "CIE 2024"] | str = ...,
+) -> float: ...
+
+
+def colour_rendering_index(
+    sd_test: SpectralDistribution,
+    additional_data: bool = False,
+    method: Literal["CIE 1995", "CIE 2024"] | str = "CIE 1995",
 ) -> float | ColourRendering_Specification_CRI:
     """
-    Return the *Colour Rendering Index* (CRI) :math:`Q_a` of given spectral
-    distribution.
+    Compute the *Colour Rendering Index* (CRI) :math:`Q_a` of the specified
+    spectral distribution.
 
     Parameters
     ----------
@@ -118,11 +198,12 @@ def colour_rendering_index(
         Test spectral distribution.
     additional_data
         Whether to output additional data.
+    method
+        Computation method.
 
     Returns
     -------
-    :class:`float` or \
-:class:`colour.quality.ColourRendering_Specification_CRI`
+    :class:`float` or :class:`colour.quality.ColourRendering_Specification_CRI`
         *Colour Rendering Index* (CRI).
 
     References
@@ -137,6 +218,8 @@ def colour_rendering_index(
     64.2337241...
     """
 
+    method = validate_method(method, tuple(COLOUR_RENDERING_INDEX_METHODS))
+
     cmfs = reshape_msds(
         MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
         SPECTRAL_SHAPE_DEFAULT,
@@ -145,7 +228,8 @@ def colour_rendering_index(
 
     shape = cmfs.shape
     sd_test = reshape_sd(sd_test, shape, copy=False)
-    tcs_sds = {sd.name: reshape_sd(sd, shape, copy=False) for sd in SDS_TCS.values()}
+    sds_tcs = SDS_TCS[method]
+    tcs_sds = {sd.name: reshape_sd(sd, shape, copy=False) for sd in sds_tcs.values()}
 
     with domain_range_scale("1"):
         XYZ = sd_to_XYZ(sd_test, cmfs)
@@ -161,11 +245,11 @@ def colour_rendering_index(
         sd_reference.align(shape)
 
     test_tcs_colorimetry_data = tcs_colorimetry_data(
-        sd_test, sd_reference, tcs_sds, cmfs, chromatic_adaptation=True
+        sd_test, sd_reference, tcs_sds, cmfs, chromatic_adaptation=True, method=method
     )
 
     reference_tcs_colorimetry_data = tcs_colorimetry_data(
-        sd_reference, sd_reference, tcs_sds, cmfs
+        sd_reference, sd_reference, tcs_sds, cmfs, method=method
     )
 
     Q_as = colour_rendering_indexes(
@@ -173,7 +257,7 @@ def colour_rendering_index(
     )
 
     Q_a = cast(
-        float,
+        "float",
         np.average([v.Q_a for k, v in Q_as.items() if k in (1, 2, 3, 4, 5, 6, 7, 8)]),
     )
 
@@ -184,8 +268,8 @@ def colour_rendering_index(
             Q_as,
             (test_tcs_colorimetry_data, reference_tcs_colorimetry_data),
         )
-    else:
-        return Q_a
+
+    return Q_a
 
 
 def tcs_colorimetry_data(
@@ -194,9 +278,10 @@ def tcs_colorimetry_data(
     sds_tcs: Dict[str, SpectralDistribution],
     cmfs: MultiSpectralDistributions,
     chromatic_adaptation: bool = False,
+    method: Literal["CIE 1995", "CIE 2024"] | str = "CIE 1995",
 ) -> Tuple[DataColorimetry_TCS, ...]:
     """
-    Return the *test colour samples* colorimetry data.
+    Compute the *test colour samples* colorimetry data.
 
     Parameters
     ----------
@@ -217,6 +302,8 @@ def tcs_colorimetry_data(
         *Test colour samples* colorimetry data.
     """
 
+    method = validate_method(method, tuple(COLOUR_RENDERING_INDEX_METHODS))
+
     XYZ_t = sd_to_XYZ(sd_t, cmfs)
     uv_t = UCS_to_uv(XYZ_to_UCS(XYZ_t))
     u_t, v_t = uv_t[0], uv_t[1]
@@ -226,7 +313,10 @@ def tcs_colorimetry_data(
     u_r, v_r = uv_r[0], uv_r[1]
 
     tcs_data = []
-    for _key, value in sorted(INDEXES_TO_NAMES_TCS.items()):
+    for _key, value in sorted(INDEXES_TO_NAMES_TCS[method].items()):
+        if value not in sds_tcs:
+            continue
+
         sd_tcs = sds_tcs[value]
         XYZ_tcs = sd_to_XYZ(sd_tcs, cmfs, sd_t)
         xyY_tcs = XYZ_to_xyY(XYZ_tcs)
@@ -278,19 +368,20 @@ def colour_rendering_indexes(
     reference_data: Tuple[DataColorimetry_TCS, ...],
 ) -> Dict[int, DataColourQualityScale_TCS]:
     """
-    Return the *test colour samples* rendering indexes :math:`Q_a`.
+    Compute the *test colour samples* rendering indexes :math:`Q_a`.
 
     Parameters
     ----------
     test_data
-        Test data.
+        Test data colorimetry for the *test colour samples*.
     reference_data
-        Reference data.
+        Reference data colorimetry for the *test colour samples*.
 
     Returns
     -------
     :class:`dict`
-        *Test colour samples* *Colour Rendering Index* (CRI).
+        *Test colour samples* *Colour Rendering Index* (CRI) values
+        mapped by sample number.
     """
 
     Q_as = {}
@@ -300,7 +391,7 @@ def colour_rendering_indexes(
             100
             - 4.6
             * cast(
-                float,
+                "float",
                 euclidean_distance(reference_data[i].UVW, test_data[i].UVW),
             ),
         )

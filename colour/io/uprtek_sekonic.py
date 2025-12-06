@@ -2,8 +2,9 @@
 UPRTek and Sekonic Spectral Data
 ================================
 
-Define the input and output objects for *UPRTek* and *Sekonic*
-*Pseudo-XLS*/*CSV* spectral data files.
+Define input and output objects for parsing and handling *UPRTek* and
+*Sekonic* spectral measurement data stored in *Pseudo-XLS* and *CSV* file
+formats.
 
 -   :class:`colour.SpectralDistribution_UPRTek`
 -   :class:`colour.SpectralDistribution_Sekonic`
@@ -15,10 +16,13 @@ import csv
 import json
 import os
 import re
+import typing
 from collections import defaultdict
-from pathlib import Path
 
-from colour.hints import Any, cast
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, PathLike
+
+from colour.hints import cast
 from colour.io import SpectralDistribution_IESTM2714
 from colour.utilities import as_float_array, as_float_scalar
 
@@ -37,13 +41,18 @@ __all__ = [
 
 class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     """
-    Implement support to read and write *IES TM-27-14* spectral data XML file
-    from a *UPRTek* *Pseudo-XLS* file.
+    Implement support to read and write *IES TM-27-14* spectral data XML
+    files from *UPRTek* *Pseudo-XLS* files.
+
+    This class extends :class:`SpectralDistribution_IESTM2714` to handle
+    the specific *Pseudo-XLS* format used by *UPRTek* spectral measurement
+    devices. The implementation parses metadata embedded in the file and
+    converts it to the standard *IES TM-27-14* XML format.
 
     Parameters
     ----------
     path
-        Path for *UPRTek* *Pseudo-XLS* file.
+        Absolute or relative path to the *UPRTek* *Pseudo-XLS* file.
 
     Attributes
     ----------
@@ -161,7 +170,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     _SPECTRAL_SECTION: str = "380"
     _SPECTRAL_DATA_PATTERN: str = "(\\d{3})nm"
 
-    def __init__(self, path: str | Path, **kwargs: Any) -> None:
+    def __init__(self, path: str | PathLike, **kwargs: Any) -> None:
         self._metadata: dict = {}
 
         super().__init__(path, **kwargs)
@@ -169,12 +178,13 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
     @property
     def metadata(self) -> dict:
         """
-        Getter property for the metadata.
+        Getter for the dataset metadata.
 
         Returns
         -------
         :class:`dict`
-            Metadata.
+            Dataset metadata containing information about the data source,
+            structure, and properties.
         """
 
         return self._metadata
@@ -273,21 +283,24 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
         representation = super().__str__()
 
         return representation.replace(
-            (
-                "IES TM-27-14 Spectral Distribution\n"
-                "=================================="
-            ),
+            ("IES TM-27-14 Spectral Distribution\n=================================="),
             "UPRTek\n======",
         )
 
     def read(self) -> SpectralDistribution_UPRTek:
         """
-        Read and parses the spectral data from a given *UPRTek* *CSV* file.
+        Read and parse the spectral data from the specified *UPRTek* *CSV*
+        file.
 
         Returns
         -------
         :class:`colour.SpectralDistribution_UPRTek`
             *UPRTek* spectral distribution.
+
+        Raises
+        ------
+        IOError
+            If the file cannot be read.
 
         Examples
         --------
@@ -370,7 +383,7 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
          [  7.80000000e+02   4.11766000e-01]]
         """
 
-        path = cast(str, self.path)
+        path = cast("str", self.path)
 
         def as_array(a: Any) -> list:
             """
@@ -392,8 +405,9 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
                 attribute, tokens = row[0], row[1:]
                 value = tokens[0] if len(tokens) == 1 else tokens
 
-                match = re.match(self._SPECTRAL_DATA_PATTERN, attribute)
-                if match:
+                if (
+                    match := re.match(self._SPECTRAL_DATA_PATTERN, attribute)
+                ) is not None:
                     wavelength = match.group(1)
 
                     if wavelength == self._SPECTRAL_SECTION:
@@ -406,9 +420,10 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
                             self._metadata[attribute] = method(
                                 value  # pyright: ignore
                             )
-                            break
-                        except Exception:
+                        except (TypeError, ValueError):
                             self._metadata[attribute] = value
+                        else:
+                            break
 
         self.name = os.path.splitext(os.path.basename(path))[0]
         spectral_data = as_float_array(
@@ -430,8 +445,12 @@ class SpectralDistribution_UPRTek(SpectralDistribution_IESTM2714):
 
 class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     """
-    Implement support to read and write *IES TM-27-14* spectral data XML file
-    from a *Sekonic* *CSV* file.
+    Provide support for reading and writing *IES TM-27-14* spectral data XML
+    files from *Sekonic* *CSV* files.
+
+    This class extends the *UPRTek* spectral distribution functionality to
+    handle *Sekonic* spectrometer data files. It enables conversion between
+    *Sekonic* *CSV* format and the standardized *IES TM-27-14* XML format.
 
     Parameters
     ----------
@@ -535,7 +554,7 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
     _SPECTRAL_SECTION: str = "380"
     _SPECTRAL_DATA_PATTERN: str = "Spectral Data (\\d{3})\\[nm\\]"
 
-    def __init__(self, path: str | Path, **kwargs: Any) -> None:
+    def __init__(self, path: str | PathLike, **kwargs: Any) -> None:
         super().__init__(path, **kwargs)
 
     def __str__(self) -> str:
@@ -638,13 +657,18 @@ class SpectralDistribution_Sekonic(SpectralDistribution_UPRTek):
 
     def read(self) -> SpectralDistribution_Sekonic:
         """
-        Read and parses the spectral data from a given *Sekonic* *Pseudo-XLS*
-        file.
+        Read and parse the spectral data from the specified *Sekonic*
+        *Pseudo-XLS* file.
 
         Returns
         -------
         :class:`colour.SpectralDistribution_Sekonic`
             *Sekonic* spectral distribution.
+
+        Raises
+        ------
+        IOError
+            If the file cannot be read.
 
         Examples
         --------

@@ -2,7 +2,7 @@
 CIE L*a*b* Colourspace
 ======================
 
-Define the *CIE L\\*a\\*b\\** colourspace transformations:
+Define the *CIE L\\*a\\*b\\** colourspace transformations.
 
 -   :func:`colour.XYZ_to_Lab`
 -   :func:`colour.Lab_to_XYZ`
@@ -21,7 +21,13 @@ from colour.colorimetry import (
     intermediate_lightness_function_CIE1976,
     intermediate_luminance_function_CIE1976,
 )
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    Domain100,
+    Range1,
+    Range100,
+)
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (
     from_range_1,
@@ -46,11 +52,11 @@ __all__ = [
 
 
 def XYZ_to_Lab(
-    XYZ: ArrayLike,
+    XYZ: Domain1,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> NDArrayFloat:
+) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE L\\*a\\*b\\**
     colourspace.
@@ -73,19 +79,15 @@ def XYZ_to_Lab(
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``XYZ``        | [0, 1]                | [0, 1]          |
+    | ``XYZ``        | 1                     | 1               |
     +----------------+-----------------------+-----------------+
-    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    | ``illuminant`` | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     +----------------+-----------------------+-----------------+
     | **Range**      | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``Lab``        | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
-    |                |                       |                 |
-    |                | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
-    |                |                       |                 |
-    |                | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    | ``Lab``        | 100                   | 1               |
     +----------------+-----------------------+-----------------+
 
     References
@@ -117,11 +119,11 @@ def XYZ_to_Lab(
 
 
 def Lab_to_XYZ(
-    Lab: ArrayLike,
+    Lab: Domain100,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> NDArrayFloat:
+) -> Range1:
     """
     Convert from *CIE L\\*a\\*b\\** colourspace to *CIE XYZ* tristimulus
     values.
@@ -144,19 +146,15 @@ def Lab_to_XYZ(
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``Lab``        | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
-    |                |                       |                 |
-    |                | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
-    |                |                       |                 |
-    |                | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    | ``Lab``        | 100                   | 1               |
     +----------------+-----------------------+-----------------+
-    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    | ``illuminant`` | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     +----------------+-----------------------+-----------------+
     | **Range**      | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``XYZ``        | [0, 1]                | [0, 1]          |
+    | ``XYZ``        | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     References

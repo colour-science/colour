@@ -6,7 +6,6 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
 from colour.colorimetry import SDS_ILLUMINANTS
-from colour.hints import cast
 from colour.plotting.tm3018.components import (
     plot_16_bin_bars,
     plot_colour_fidelity_indexes,
@@ -17,7 +16,6 @@ from colour.plotting.tm3018.components import (
     plot_spectra_ANSIIESTM3018,
 )
 from colour.quality import (
-    ColourQuality_Specification_ANSIIESTM3018,
     colour_fidelity_index_ANSIIESTM3018,
 )
 
@@ -38,9 +36,8 @@ __all__ = [
     "TestPlotColourFidelityIndexes",
 ]
 
-SPECIFICATION_ANSIIESTM3018: ColourQuality_Specification_ANSIIESTM3018 = cast(
-    ColourQuality_Specification_ANSIIESTM3018,
-    colour_fidelity_index_ANSIIESTM3018(SDS_ILLUMINANTS["FL2"], True),
+SPECIFICATION_ANSIIESTM3018 = colour_fidelity_index_ANSIIESTM3018(
+    SDS_ILLUMINANTS["FL2"], True
 )
 
 
@@ -50,7 +47,7 @@ class TestPlotSpectraANSIIESTM3018:
     plot_spectra_ANSIIESTM3018` definition unit tests methods.
     """
 
-    def test_plot_spectra_ANSIIESTM3018(self):
+    def test_plot_spectra_ANSIIESTM3018(self) -> None:
         """
         Test :func:`colour.plotting.tm3018.components.\
 plot_spectra_ANSIIESTM3018` definition.
@@ -68,7 +65,7 @@ class TestPlotColourVectorGraphic:
 plot_colour_vector_graphic` definition unit tests methods.
     """
 
-    def test_plot_colour_vector_graphic(self):
+    def test_plot_colour_vector_graphic(self) -> None:
         """
         Test :func:`colour.plotting.tm3018.components.\
 plot_colour_vector_graphic` definition.
@@ -86,7 +83,7 @@ class TestPlot16BinBars:
     definition unit tests methods.
     """
 
-    def test_plot_16_bin_bars(self):
+    def test_plot_16_bin_bars(self) -> None:
         """
         Test :func:`colour.plotting.tm3018.components.plot_16_bin_bars`
         definition.
@@ -104,7 +101,7 @@ class TestPlotLocalChromaShifts:
     definition unit tests methods.
     """
 
-    def test_plot_local_chroma_shifts(self):
+    def test_plot_local_chroma_shifts(self) -> None:
         """
         Test :func:`colour.plotting.tm3018.components.\
 plot_local_chroma_shifts` definition.
@@ -122,7 +119,7 @@ class TestPlotLocalHueShifts:
     definition unit tests methods.
     """
 
-    def test_plot_local_hue_shifts(self):
+    def test_plot_local_hue_shifts(self) -> None:
         """
         Test :func:`colour.plotting.tm3018.components.\
 plot_local_hue_shifts` definition.
@@ -140,7 +137,7 @@ class TestPlotLocalColourFidelities:
     plot_local_colour_fidelities` definition unit tests methods.
     """
 
-    def test_plot_local_colour_fidelities(self):
+    def test_plot_local_colour_fidelities(self) -> None:
         """
         Test :func:`colour.plotting.tm3018.components.\
 plot_local_colour_fidelities` definition.
@@ -158,7 +155,7 @@ class TestPlotColourFidelityIndexes:
 plot_colour_fidelity_indexes` definition unit tests methods.
     """
 
-    def test_plot_colour_fidelity_indexes(self):
+    def test_plot_colour_fidelity_indexes(self) -> None:
         """
         Test :func:`colour.plotting.tm3018.components.\
 plot_colour_fidelity_indexes` definition.

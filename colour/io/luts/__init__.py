@@ -1,4 +1,18 @@
 """
+Look-Up Table (LUT) I/O
+=======================
+
+Implement support for reading and writing industry-standard Look-Up Table
+(LUT) formats used in colour pipelines and digital intermediate workflows.
+
+-   :class:`colour.LUT1D`: 1D LUT for single-channel transformations
+-   :class:`colour.LUT3x1D`: Three separate 1D LUTs for per-channel operations
+-   :class:`colour.LUT3D`: 3D LUT for complex colour transformations
+-   :class:`colour.LUTSequence`: Sequential LUT operations
+-   :class:`colour.LUTOperatorMatrix`: Matrix-based LUT operations
+-   :func:`colour.io.read_LUT`: Auto-detect and read LUT files
+-   :func:`colour.io.write_LUT`: Write LUT files in specified formats
+
 References
 ----------
 -   :cite:`AdobeSystems2013b` : Adobe Systems. (2013). Cube LUT Specification.
@@ -14,29 +28,36 @@ References
 from __future__ import annotations
 
 import os
-from pathlib import Path
+import typing
 
-from colour.hints import Any, LiteralLUTReadMethod, LiteralLUTWriteMethod
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, LiteralLUTReadMethod, LiteralLUTWriteMethod, PathLike
+
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
     validate_method,
 )
 
-from .lut import LUT1D, LUT3x1D, LUT3D, LUT_to_LUT
+# isort: split
+
+from .lut import LUT1D, LUT3D, LUT3x1D, LUT_to_LUT
 from .operator import AbstractLUTSequenceOperator, LUTOperatorMatrix
 from .sequence import LUTSequence
+
+# isort: split
+
+from .cinespace_csp import read_LUT_Cinespace, write_LUT_Cinespace
 from .iridas_cube import read_LUT_IridasCube, write_LUT_IridasCube
 from .resolve_cube import read_LUT_ResolveCube, write_LUT_ResolveCube
 from .sony_spi1d import read_LUT_SonySPI1D, write_LUT_SonySPI1D
 from .sony_spi3d import read_LUT_SonySPI3D, write_LUT_SonySPI3D
 from .sony_spimtx import read_LUT_SonySPImtx, write_LUT_SonySPImtx
-from .cinespace_csp import read_LUT_Cinespace, write_LUT_Cinespace
 
 __all__ = [
     "LUT1D",
-    "LUT3x1D",
     "LUT3D",
+    "LUT3x1D",
     "LUT_to_LUT",
 ]
 __all__ += [
@@ -45,6 +66,10 @@ __all__ += [
 ]
 __all__ += [
     "LUTSequence",
+]
+__all__ += [
+    "read_LUT_Cinespace",
+    "write_LUT_Cinespace",
 ]
 __all__ += [
     "read_LUT_IridasCube",
@@ -65,10 +90,6 @@ __all__ += [
 __all__ += [
     "read_LUT_SonySPImtx",
     "write_LUT_SonySPImtx",
-]
-__all__ += [
-    "read_LUT_Cinespace",
-    "write_LUT_Cinespace",
 ]
 
 MAPPING_EXTENSION_TO_LUT_FORMAT: CanonicalMapping = CanonicalMapping(
@@ -102,28 +123,34 @@ References
 
 
 def read_LUT(
-    path: str | Path,
+    path: str | PathLike,
     method: LiteralLUTReadMethod | str | None = None,
     **kwargs: Any,
 ) -> LUT1D | LUT3x1D | LUT3D | LUTSequence | LUTOperatorMatrix:
     """
-    Read given *LUT* file using given method.
+    Read the specified *LUT* file.
 
     Parameters
     ----------
     path
         *LUT* path.
     method
-        Reading method, if *None*, the method will be auto-detected according
-        to extension.
+        Reading method, if *None*, the method will be auto-detected
+        according to extension.
 
     Returns
     -------
-    :class:`colour.LUT1D` or :class:`colour.LUT3x1D` or :class:`colour.LUT3D` \
-or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
+    :class:`colour.LUT1D` or :class:`colour.LUT3x1D` or \
+:class:`colour.LUT3D` or :class:`colour.LUTSequence` or \
+:class:`colour.LUTOperatorMatrix`
         :class:`colour.LUT1D` or :class:`colour.LUT3x1D` or
         :class:`colour.LUT3D` or :class:`colour.LUTSequence` or
         :class:`colour.LUTOperatorMatrix` class instance.
+
+    Raises
+    ------
+    ValueError
+        If the *LUT* file format is not supported or if reading fails.
 
     References
     ----------
@@ -226,8 +253,8 @@ or :class:`colour.LUTSequence` or :class:`colour.LUTOperatorMatrix`
         if method == "iridas cube":
             function = LUT_READ_METHODS["Resolve Cube"]
             return function(path, **filter_kwargs(function, **kwargs))
-        else:
-            raise ValueError from error
+
+        raise ValueError from error
 
 
 LUT_WRITE_METHODS = CanonicalMapping(
@@ -241,7 +268,7 @@ LUT_WRITE_METHODS = CanonicalMapping(
     }
 )
 LUT_WRITE_METHODS.__doc__ = """
-Supported *LUT* reading methods.
+Supported *LUT* writing methods.
 
 References
 ----------
@@ -251,28 +278,28 @@ References
 
 def write_LUT(
     LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence | LUTOperatorMatrix,
-    path: str | Path,
+    path: str | PathLike,
     decimals: int = 7,
     method: LiteralLUTWriteMethod | str | None = None,
     **kwargs: Any,
 ) -> bool:
     """
-    Write given *LUT* to given file using given method.
+    Write the specified *LUT* to the specified file.
 
     Parameters
     ----------
     LUT
         :class:`colour.LUT1D` or :class:`colour.LUT3x1D` or
         :class:`colour.LUT3D` or :class:`colour.LUTSequence` or
-        :class:`colour.LUTOperatorMatrix` class instance to write at given
-        path.
+        :class:`colour.LUTOperatorMatrix` class instance to write at the
+        specified path.
     path
-        *LUT* path.
+        *LUT* file path.
     decimals
-        Formatting decimals.
+        Number of decimal places for formatting numeric values.
     method
-        Writing method, if *None*, the method will be auto-detected according
-        to extension.
+        Writing method, if *None*, the method will be auto-detected
+        according to the file extension.
 
     Returns
     -------

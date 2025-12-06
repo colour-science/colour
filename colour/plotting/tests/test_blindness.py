@@ -1,5 +1,6 @@
 """Define the unit tests for the :mod:`colour.plotting.blindness` module."""
 
+from __future__ import annotations
 
 import numpy as np
 from matplotlib.axes import Axes
@@ -25,7 +26,7 @@ class TestPlotCvdSimulationMachado2009:
     definition unit tests methods.
     """
 
-    def test_plot_cvd_simulation_Machado2009(self):
+    def test_plot_cvd_simulation_Machado2009(self) -> None:
         """
         Test :func:`colour.plotting.blindness.plot_cvd_simulation_Machado2009`
         definition.

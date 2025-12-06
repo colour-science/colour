@@ -2,7 +2,7 @@
 Optimal Colour Stimuli
 ======================
 
-Define the *MacAdam Optimal Colour Stimuli* for various illuminants in
+*MacAdam Optimal Colour Stimuli* for various illuminants in
 *CIE xyY* colourspace.
 
 The *Optimal Colour Stimuli* data is in the form of a *dict* of
@@ -27,9 +27,13 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import NDArrayFloat
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
 from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"

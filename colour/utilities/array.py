@@ -2,7 +2,7 @@
 Array Utilities
 ===============
 
-Define array utilities objects.
+Provide utilities for array manipulation and computational operations.
 
 References
 ----------
@@ -19,35 +19,46 @@ numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
 from __future__ import annotations
 
 import functools
+import re
 import sys
+import typing
 from collections.abc import KeysView, ValuesView
 from contextlib import contextmanager
 from dataclasses import fields, is_dataclass, replace
-from operator import add, mul, pow, sub, truediv
+from operator import add, mul, pow, sub, truediv  # noqa: A004
+from typing import Union, get_args, get_origin, get_type_hints
 
 import numpy as np
 
-from colour.constants import DTYPE_FLOAT_DEFAULT, DTYPE_INT_DEFAULT, EPSILON
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Callable,
-    Dataclass,
-    DType,
-    DTypeBoolean,
-    DTypeFloat,
-    DTypeInt,
-    DTypeReal,
-    Generator,
-    Literal,
-    NDArray,
-    NDArrayFloat,
-    NDArrayInt,
-    Real,
-    Tuple,
-    Type,
-    cast,
+from colour.constants import (
+    DTYPE_COMPLEX_DEFAULT,
+    DTYPE_FLOAT_DEFAULT,
+    DTYPE_INT_DEFAULT,
+    EPSILON,
 )
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Callable,
+        DType,
+        DTypeBoolean,
+        DTypeComplex,
+        DTypeReal,
+        Dataclass,
+        Generator,
+        Literal,
+        NDArray,
+        NDArrayComplex,
+        NDArrayFloat,
+        NDArrayInt,
+        Real,
+        Self,
+        Sequence,
+        Type,
+    )
+
+from colour.hints import ArrayLike, DTypeComplex, DTypeFloat, DTypeInt, cast
 from colour.utilities import (
     CACHE_REGISTRY,
     attest,
@@ -77,11 +88,13 @@ __all__ = [
     "as_float_array",
     "as_int_scalar",
     "as_float_scalar",
+    "as_complex_array",
     "set_default_int_dtype",
     "set_default_float_dtype",
     "get_domain_range_scale",
     "set_domain_range_scale",
     "domain_range_scale",
+    "get_domain_range_scale_metadata",
     "to_domain_1",
     "to_domain_10",
     "to_domain_100",
@@ -119,8 +132,11 @@ __all__ = [
 
 class MixinDataclassFields:
     """
-    A mixin providing fields introspection for the :class:`dataclass`-like
-    class fields.
+    Provide fields introspection for :class:`dataclass`-like classes.
+
+    This mixin extends dataclass functionality to enable introspection
+    capabilities, allowing programmatic access to field metadata and
+    properties.
 
     Attributes
     ----------
@@ -130,12 +146,12 @@ class MixinDataclassFields:
     @property
     def fields(self) -> tuple:
         """
-        Getter property for the fields of the :class:`dataclass`-like class.
+        Getter for the fields of the :class:`dataclass`-like class.
 
         Returns
         -------
         :class:`tuple`
-           Tuple of :class:`dataclass`-like class fields.
+            :class:`dataclass`-like class fields.
         """
 
         return fields(self)  # pyright: ignore
@@ -143,8 +159,11 @@ class MixinDataclassFields:
 
 class MixinDataclassIterable(MixinDataclassFields):
     """
-    A mixin providing iteration capabilities over the :class:`dataclass`-like
-    class fields.
+    Provide iteration capabilities over :class:`dataclass`-like classes.
+
+    This mixin extends dataclass functionality to enable dictionary-like
+    iteration over fields, allowing access to field names, values, and
+    name-value pairs through standard iteration protocols.
 
     Attributes
     ----------
@@ -158,8 +177,8 @@ class MixinDataclassIterable(MixinDataclassFields):
 
     Notes
     -----
-    -   The :class:`colour.utilities.MixinDataclassIterable` class inherits the
-        methods from the following class:
+    -   The :class:`colour.utilities.MixinDataclassIterable` class inherits
+        the methods from the following class:
 
         -   :class:`colour.utilities.MixinDataclassFields`
     """
@@ -167,13 +186,13 @@ class MixinDataclassIterable(MixinDataclassFields):
     @property
     def keys(self) -> tuple:
         """
-        Getter property for the :class:`dataclass`-like class keys, i.e., the
-        field names.
+        Getter for the :class:`dataclass`-like class keys, i.e., the field
+        names.
 
         Returns
         -------
         :class:`tuple`
-           :class:`dataclass`-like class keys.
+            :class:`dataclass`-like class keys.
         """
 
         return tuple(field for field, _value in self)
@@ -181,13 +200,12 @@ class MixinDataclassIterable(MixinDataclassFields):
     @property
     def values(self) -> tuple:
         """
-        Getter property for the :class:`dataclass`-like class values, i.e., the
-        field values.
+        Getter for the :class:`dataclass`-like class field values.
 
         Returns
         -------
         :class:`tuple`
-           :class:`dataclass`-like class values.
+            :class:`dataclass`-like class field values.
         """
 
         return tuple(value for _field, value in self)
@@ -195,25 +213,25 @@ class MixinDataclassIterable(MixinDataclassFields):
     @property
     def items(self) -> tuple:
         """
-        Getter property for  the :class:`dataclass`-like class items, i.e., the
-        field names and values.
+        Getter for the :class:`dataclass`-like class items, i.e., the field
+        names and values.
 
         Returns
         -------
         :class:`tuple`
-           :class:`dataclass`-like class items.
+            :class:`dataclass`-like class items.
         """
 
         return tuple((field, value) for field, value in self)
 
     def __iter__(self) -> Generator:
         """
-        Return a generator for the :class:`dataclass`-like class fields.
+        Yield the :class:`dataclass`-like class fields.
 
         Yields
         ------
         Generator
-           :class:`dataclass`-like class field generator.
+            :class:`dataclass`-like class field generator.
         """
 
         yield from {
@@ -223,8 +241,11 @@ class MixinDataclassIterable(MixinDataclassFields):
 
 class MixinDataclassArray(MixinDataclassIterable):
     """
-    A mixin providing conversion methods for :class:`dataclass`-like class
-    conversion to :class:`numpy.ndarray` class.
+    Provide conversion methods for :class:`dataclass`-like classes to
+    :class:`numpy.ndarray` objects.
+
+    This mixin extends dataclass functionality to enable seamless conversion
+    to NumPy arrays, facilitating numerical operations on structured data.
 
     Methods
     -------
@@ -232,14 +253,16 @@ class MixinDataclassArray(MixinDataclassIterable):
 
     Notes
     -----
-    -   The :class:`colour.utilities.MixinDataclassArray` class inherits the
-        methods from the following classes:
+    -   The :class:`colour.utilities.MixinDataclassArray` class
+        inherits the methods from the following classes:
 
         -   :class:`colour.utilities.MixinDataclassIterable`
         -   :class:`colour.utilities.MixinDataclassFields`
     """
 
-    def __array__(self, dtype: Type[DTypeReal] | None = None, copy=None) -> NDArray:
+    def __array__(
+        self, dtype: Type[DTypeReal] | None = None, copy: bool = True
+    ) -> NDArray:
         """
         Implement support for :class:`dataclass`-like class conversion to
         :class:`numpy.ndarray` class.
@@ -250,8 +273,8 @@ class MixinDataclassArray(MixinDataclassIterable):
         Parameters
         ----------
         dtype
-            :class:`numpy.dtype` to use for conversion to `np.ndarray`, default
-            to the :class:`numpy.dtype` defined by
+            :class:`numpy.dtype` to use for conversion to `np.ndarray`,
+            default to the :class:`numpy.dtype` defined by
             :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
         copy
             Whether to return a copy of the underlying data, will always be
@@ -260,7 +283,8 @@ class MixinDataclassArray(MixinDataclassIterable):
         Returns
         -------
         :class:`numpy.ndarray`
-            :class:`dataclass`-like class converted to :class:`numpy.ndarray`.
+            :class:`dataclass`-like class converted to
+            :class:`numpy.ndarray`.
         """
 
         dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
@@ -273,7 +297,7 @@ class MixinDataclassArray(MixinDataclassIterable):
 
         return tstack(
             cast(
-                ArrayLike,
+                "ArrayLike",
                 [value if value is not None else default for value in self.values],
             ),
             dtype=dtype,
@@ -282,8 +306,11 @@ class MixinDataclassArray(MixinDataclassIterable):
 
 class MixinDataclassArithmetic(MixinDataclassArray):
     """
-    A mixin providing mathematical operations for :class:`dataclass`-like
-    class.
+    Provide mathematical operations for :class:`dataclass`-like classes.
+
+    This mixin extends dataclass functionality to enable arithmetic
+    operations, facilitating mathematical computations on dataclass instances
+    containing array-like data.
 
     Methods
     -------
@@ -309,7 +336,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
         -   :class:`colour.utilities.MixinDataclassFields`
     """
 
-    def __add__(self, a: Any) -> Dataclass:
+    def __add__(self, a: Any) -> Self:
         """
         Implement support for addition.
 
@@ -326,7 +353,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
         return self.arithmetical_operation(a, "+")
 
-    def __iadd__(self, a: Any) -> Dataclass:
+    def __iadd__(self, a: Any) -> Self:
         """
         Implement support for in-place addition.
 
@@ -343,7 +370,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
         return self.arithmetical_operation(a, "+", True)
 
-    def __sub__(self, a: Any) -> Dataclass:
+    def __sub__(self, a: Any) -> Self:
         """
         Implement support for subtraction.
 
@@ -360,7 +387,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
         return self.arithmetical_operation(a, "-")
 
-    def __isub__(self, a: Any) -> Dataclass:
+    def __isub__(self, a: Any) -> Self:
         """
         Implement support for in-place subtraction.
 
@@ -377,7 +404,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
         return self.arithmetical_operation(a, "-", True)
 
-    def __mul__(self, a: Any) -> Dataclass:
+    def __mul__(self, a: Any) -> Self:
         """
         Implement support for multiplication.
 
@@ -394,7 +421,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
         return self.arithmetical_operation(a, "*")
 
-    def __imul__(self, a: Any) -> Dataclass:
+    def __imul__(self, a: Any) -> Self:
         """
         Implement support for in-place multiplication.
 
@@ -411,7 +438,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
         return self.arithmetical_operation(a, "*", True)
 
-    def __div__(self, a: Any) -> Dataclass:
+    def __div__(self, a: Any) -> Self:
         """
         Implement support for division.
 
@@ -428,7 +455,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
         return self.arithmetical_operation(a, "/")
 
-    def __idiv__(self, a: Any) -> Dataclass:
+    def __idiv__(self, a: Any) -> Self:
         """
         Implement support for in-place division.
 
@@ -448,7 +475,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
     __itruediv__ = __idiv__
     __truediv__ = __div__
 
-    def __pow__(self, a: Any) -> Dataclass:
+    def __pow__(self, a: Any) -> Self:
         """
         Implement support for exponentiation.
 
@@ -465,7 +492,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
 
         return self.arithmetical_operation(a, "**")
 
-    def __ipow__(self, a: Any) -> Dataclass:
+    def __ipow__(self, a: Any) -> Self:
         """
         Implement support for in-place exponentiation.
 
@@ -477,7 +504,8 @@ class MixinDataclassArithmetic(MixinDataclassArray):
         Returns
         -------
         :class:`dataclass`
-            In-place variable exponentiated :class:`dataclass`-like class.
+            In-place variable exponentiated :class:`dataclass`-like
+            class.
         """
 
         return self.arithmetical_operation(a, "**", True)
@@ -486,8 +514,8 @@ class MixinDataclassArithmetic(MixinDataclassArray):
         self, a: Any, operation: str, in_place: bool = False
     ) -> Dataclass:
         """
-        Perform given arithmetical operation with :math:`a` operand on the
-        :class:`dataclass`-like class.
+        Perform the specified arithmetical operation with the :math:`a`
+        operand on the :class:`dataclass`-like class.
 
         Parameters
         ----------
@@ -501,7 +529,7 @@ class MixinDataclassArithmetic(MixinDataclassArray):
         Returns
         -------
         :class:`dataclass`
-            :class:`dataclass`-like class with arithmetical operation
+            :class:`dataclass`-like class with the arithmetical operation
             performed.
         """
 
@@ -525,28 +553,33 @@ class MixinDataclassArithmetic(MixinDataclassArray):
         if in_place:
             for field in self.keys:
                 setattr(self, field, getattr(dataclass, field))
+
             return self
-        else:
-            return dataclass
+
+        return dataclass
 
 
 # NOTE : The following messages are pre-generated for performance reasons.
 _ASSERTION_MESSAGE_DTYPE_INT = (
-    f'"dtype" must be one of the following types: "{DTypeInt.__args__}"'  # pyright: ignore
+    f'"dtype" must be one of the following types: "{DTypeInt.__args__}"'
 )
 
 _ASSERTION_MESSAGE_DTYPE_FLOAT = (
-    f'"dtype" must be one of the following types: "{DTypeFloat.__args__}"'  # pyright: ignore
+    f'"dtype" must be one of the following types: "{DTypeFloat.__args__}"'
+)
+
+_ASSERTION_MESSAGE_DTYPE_COMPLEX = (
+    f'"dtype" must be one of the following types: "{DTypeComplex.__args__}"'
 )
 
 
 def as_array(
-    a: ArrayLike,
+    a: ArrayLike | KeysView | ValuesView,
     dtype: Type[DType] | None = None,
 ) -> NDArray:
     """
-    Convert given variable :math:`a` to :class:`numpy.ndarray` using given
-    :class:`numpy.dtype`.
+    Convert the specified variable :math:`a` to :class:`numpy.ndarray` using
+    the specified :class:`numpy.dtype`.
 
     Parameters
     ----------
@@ -578,11 +611,24 @@ def as_array(
     return np.asarray(a, dtype)
 
 
-def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> NDArrayInt:
+@typing.overload
+def as_int(a: float | DTypeFloat, dtype: Type[DTypeInt] | None = None) -> DTypeInt: ...
+@typing.overload
+def as_int(
+    a: NDArray | Sequence[int], dtype: Type[DTypeInt] | None = None
+) -> NDArrayInt: ...
+@typing.overload
+def as_int(
+    a: ArrayLike, dtype: Type[DTypeInt] | None = None
+) -> DTypeInt | NDArrayInt: ...
+def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> DTypeInt | NDArrayInt:
     """
-    Attempt to convert given variable :math:`a` to :class:`numpy.integer`
-    using given :class:`numpy.dtype`. If variable :math:`a` is not a scalar or
-    0-dimensional, it is converted to :class:`numpy.ndarray`.
+    Convert the specified variable :math:`a` to :class:`numpy.integer` using
+    the specified :class:`numpy.dtype`.
+
+    The function converts variable :math:`a` to an integer type. If variable
+    :math:`a` is not a scalar or 0-dimensional array, it is converted to
+    :class:`numpy.ndarray`.
 
     Parameters
     ----------
@@ -610,19 +656,32 @@ def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> NDArrayInt:
 
     dtype = optional(dtype, DTYPE_INT_DEFAULT)
 
-    attest(
-        dtype in DTypeInt.__args__,  # pyright: ignore
-        _ASSERTION_MESSAGE_DTYPE_INT,
-    )
+    attest(dtype in DTypeInt.__args__, _ASSERTION_MESSAGE_DTYPE_INT)
 
     return dtype(a)  # pyright: ignore
 
 
-def as_float(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> NDArrayFloat:
+@typing.overload
+def as_float(
+    a: float | DTypeFloat, dtype: Type[DTypeFloat] | None = None
+) -> DTypeFloat: ...
+@typing.overload
+def as_float(
+    a: NDArray | Sequence[float], dtype: Type[DTypeFloat] | None = None
+) -> NDArrayFloat: ...
+@typing.overload
+def as_float(
+    a: ArrayLike, dtype: Type[DTypeFloat] | None = None
+) -> DTypeFloat | NDArrayFloat: ...
+def as_float(
+    a: ArrayLike, dtype: Type[DTypeFloat] | None = None
+) -> DTypeFloat | NDArrayFloat:
     """
-    Attempt to convert given variable :math:`a` to :class:`numpy.floating`
-    using given :class:`numpy.dtype`. If variable :math:`a` is not a scalar or
-    0-dimensional, it is converted to :class:`numpy.ndarray`.
+    Convert the specified variable :math:`a` to :class:`numpy.floating` using
+    the specified :class:`numpy.dtype`.
+
+    If variable :math:`a` is not a scalar or 0-dimensional, it is converted
+    to :class:`numpy.ndarray`.
 
     Parameters
     ----------
@@ -650,10 +709,7 @@ def as_float(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> NDArrayFloa
 
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
-    attest(
-        dtype in DTypeFloat.__args__,  # pyright: ignore
-        _ASSERTION_MESSAGE_DTYPE_FLOAT,
-    )
+    attest(dtype in DTypeFloat.__args__, _ASSERTION_MESSAGE_DTYPE_FLOAT)
 
     # NOTE: "np.float64" reduces dimensionality:
     # >>> np.int64(np.array([[1]]))
@@ -669,8 +725,8 @@ def as_float(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> NDArrayFloa
 
 def as_int_array(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> NDArrayInt:
     """
-    Convert given variable :math:`a` to :class:`numpy.ndarray` using given
-    :class:`numpy.dtype`.
+    Convert the specified variable :math:`a` to :class:`numpy.ndarray` using
+    the specified integer :class:`numpy.dtype`.
 
     Parameters
     ----------
@@ -684,7 +740,7 @@ def as_int_array(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> NDArrayIn
     Returns
     -------
     :class:`numpy.ndarray`
-        Variable :math:`a` converted to :class:`numpy.ndarray`.
+        Variable :math:`a` converted to integer :class:`numpy.ndarray`.
 
     Examples
     --------
@@ -694,32 +750,30 @@ def as_int_array(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> NDArrayIn
 
     dtype = optional(dtype, DTYPE_INT_DEFAULT)
 
-    attest(
-        dtype in DTypeInt.__args__,  # pyright: ignore
-        _ASSERTION_MESSAGE_DTYPE_INT,
-    )
+    attest(dtype in DTypeInt.__args__, _ASSERTION_MESSAGE_DTYPE_INT)
 
     return as_array(a, dtype)
 
 
 def as_float_array(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> NDArrayFloat:
     """
-    Convert given variable :math:`a` to :class:`numpy.ndarray` using given
-    :class:`numpy.dtype`.
+    Convert the specified variable :math:`a` to :class:`numpy.ndarray` using
+    the specified floating-point :class:`numpy.dtype`.
 
     Parameters
     ----------
     a
         Variable :math:`a` to convert.
     dtype
-        :class:`numpy.dtype` to use for conversion, default to the
-        :class:`numpy.dtype` defined by the
+        Floating-point :class:`numpy.dtype` to use for conversion, default
+        to the :class:`numpy.dtype` defined by the
         :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Variable :math:`a` converted to :class:`numpy.ndarray`.
+        Variable :math:`a` converted to floating-point
+        :class:`numpy.ndarray`.
 
     Examples
     --------
@@ -729,18 +783,15 @@ def as_float_array(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> NDArr
 
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
-    attest(
-        dtype in DTypeFloat.__args__,  # pyright: ignore
-        _ASSERTION_MESSAGE_DTYPE_FLOAT,
-    )
+    attest(dtype in DTypeFloat.__args__, _ASSERTION_MESSAGE_DTYPE_FLOAT)
 
     return as_array(a, dtype)
 
 
 def as_int_scalar(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> int:
     """
-    Convert given :math:`a` variable to :class:`numpy.integer` using given
-    :class:`numpy.dtype`.
+    Convert the specified variable :math:`a` to :class:`numpy.integer` using
+    the specified :class:`numpy.dtype`.
 
     Parameters
     ----------
@@ -754,7 +805,7 @@ def as_int_scalar(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> int:
     Returns
     -------
     :class:`int`
-        :math:`a` variable converted to :class:`numpy.integer`.
+        Variable :math:`a` converted to :class:`numpy.integer`.
 
     Warnings
     --------
@@ -771,13 +822,14 @@ def as_int_scalar(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> int:
 
     attest(a.ndim == 0, f'"{a}" cannot be converted to "int" scalar!')
 
-    return cast(int, as_int(a, dtype))
+    # TODO: Revisit when Numpy types are well established.
+    return cast("int", as_int(a, dtype))
 
 
 def as_float_scalar(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> float:
     """
-    Convert given :math:`a` variable to :class:`numpy.floating` using given
-    :class:`numpy.dtype`.
+    Convert the specified variable :math:`a` to :class:`numpy.floating` using
+    the specified :class:`numpy.dtype`.
 
     Parameters
     ----------
@@ -791,7 +843,7 @@ def as_float_scalar(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> floa
     Returns
     -------
     :class:`float`
-        :math:`a` variable converted to :class:`numpy.floating`.
+        Variable :math:`a` converted to :class:`numpy.floating`.
 
     Warnings
     --------
@@ -808,35 +860,74 @@ def as_float_scalar(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> floa
 
     attest(a.ndim == 0, f'"{a}" cannot be converted to "float" scalar!')
 
-    return cast(float, as_float(a, dtype))
+    # TODO: Revisit when Numpy types are well established.
+    return cast("float", as_float(a, dtype))
+
+
+def as_complex_array(
+    a: ArrayLike,
+    dtype: Type[DTypeComplex] | None = None,
+) -> NDArrayComplex:
+    """
+    Convert the specified variable :math:`a` to :class:`numpy.ndarray` using
+    the specified complex :class:`numpy.dtype`.
+
+    Parameters
+    ----------
+    a
+        Variable :math:`a` to convert.
+    dtype
+        Complex :class:`numpy.dtype` to use for conversion, default
+        to the :class:`numpy.dtype` defined by the
+        :attr:`colour.constant.DTYPE_COMPLEX_DEFAULT` attribute.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Variable :math:`a` converted to complex
+        :class:`numpy.ndarray`.
+
+    Examples
+    --------
+    >>> as_complex_array([1, 2, 3])
+    array([ 1.+0.j,  2.+0.j,  3.+0.j])
+    >>> as_complex_array([1 + 2j, 3 + 4j])
+    array([ 1.+2.j,  3.+4.j])
+    """
+
+    dtype = optional(dtype, DTYPE_COMPLEX_DEFAULT)
+
+    attest(dtype in DTypeComplex.__args__, _ASSERTION_MESSAGE_DTYPE_COMPLEX)
+
+    return as_array(a, dtype)
 
 
 def set_default_int_dtype(
     dtype: Type[DTypeInt] = DTYPE_INT_DEFAULT,
 ) -> None:
     """
-    Set *Colour* default :class:`numpy.integer` precision by setting
-    :attr:`colour.constant.DTYPE_INT_DEFAULT` attribute with given
+    Set the *Colour* default :class:`numpy.integer` precision by setting
+    :attr:`colour.constant.DTYPE_INT_DEFAULT` attribute with the specified
     :class:`numpy.dtype` wherever the attribute is imported.
 
     Parameters
     ----------
     dtype
-        :class:`numpy.dtype` to set :attr:`colour.constant.DTYPE_INT_DEFAULT`
-        with.
+        :class:`numpy.dtype` to set
+        :attr:`colour.constant.DTYPE_INT_DEFAULT` with.
 
     Notes
     -----
-    -   It is possible to define the int precision at import time by setting
-        the *COLOUR_SCIENCE__DEFAULT_INT_DTYPE* environment variable, for
-        example `set COLOUR_SCIENCE__DEFAULT_INT_DTYPE=int32`.
+    -   It is possible to define the integer precision at import time by
+        setting the *COLOUR_SCIENCE__DEFAULT_INT_DTYPE* environment
+        variable, for example `set COLOUR_SCIENCE__DEFAULT_INT_DTYPE=int32`.
 
     Warnings
     --------
     This definition is mostly given for consistency purposes with
-    :func:`colour.utilities.set_default_float_dtype` definition but contrary to the
-    latter, changing *integer* precision will almost certainly completely break
-    *Colour*. With great power comes great responsibility.
+    :func:`colour.utilities.set_default_float_dtype` definition but contrary
+    to the latter, changing *integer* precision will almost certainly
+    completely break *Colour*. With great power comes great responsibility.
 
     Examples
     --------
@@ -865,29 +956,32 @@ def set_default_float_dtype(
     dtype: Type[DTypeFloat] = DTYPE_FLOAT_DEFAULT,
 ) -> None:
     """
-    Set *Colour* default :class:`numpy.floating` precision by setting
-    :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute with given
-    :class:`numpy.dtype` wherever the attribute is imported.
+    Set the *Colour* default :class:`numpy.floating` precision by setting
+    :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute with the
+    specified :class:`numpy.dtype` wherever the attribute is imported.
 
     Parameters
     ----------
     dtype
-        :class:`numpy.dtype` to set :attr:`colour.constant.DTYPE_FLOAT_DEFAULT`
-        with.
-
-    Warnings
-    --------
-    Changing *float* precision might result in various *Colour* functionality
-    breaking entirely: https://github.com/numpy/numpy/issues/6860. With great
-    power comes great responsibility.
+        :class:`numpy.dtype` to set
+        :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` with.
 
     Notes
     -----
     -   It is possible to define the *float* precision at import time by
-        setting the *COLOUR_SCIENCE__DEFAULT_FLOAT_DTYPE* environment variable,
-        for example `set COLOUR_SCIENCE__DEFAULT_FLOAT_DTYPE=float32`.
-    -   Some definition returning a single-scalar ndarray might not honour the
-        given *float* precision: https://github.com/numpy/numpy/issues/16353
+        setting the *COLOUR_SCIENCE__DEFAULT_FLOAT_DTYPE* environment
+        variable, for example
+        `set COLOUR_SCIENCE__DEFAULT_FLOAT_DTYPE=float32`.
+    -   Some definition returning a single-scalar ndarray might not
+        honour the specified *float* precision:
+        https://github.com/numpy/numpy/issues/16353
+
+    Warnings
+    --------
+    Changing *float* precision might result in various *Colour*
+    functionality breaking entirely:
+    https://github.com/numpy/numpy/issues/6860. With great power comes
+    great responsibility.
 
     Examples
     --------
@@ -923,16 +1017,17 @@ _DOMAIN_RANGE_SCALE
 
 def get_domain_range_scale() -> Literal["ignore", "reference", "1", "100"] | str:
     """
-    Return the current *Colour* domain-range scale. The following scales are
-    available:
+    Return the current *Colour* domain-range scale.
 
-    -   **'Reference'**, the default *Colour* domain-range scale which varies
-        depending on the referenced algorithm, e.g., [0, 1], [0, 10], [0, 100],
-        [0, 255], etc...
-    -   **'1'**, a domain-range scale normalised to [0, 1], it is important to
-        acknowledge that this is a soft normalisation and it is possible to
-        use negative out of gamut values or high dynamic range data exceeding
-        1.
+    The following scales are available:
+
+    -   **'Reference'**, the default *Colour* domain-range scale which
+        varies depending on the referenced algorithm, e.g., [0, 1],
+        [0, 10], [0, 100], [0, 255], etc...
+    -   **'1'**, a domain-range scale normalised to [0, 1], it is
+        important to acknowledge that this is a soft normalisation
+        and it is possible to use negative out of gamut values or
+        high dynamic range data exceeding 1.
 
     Returns
     -------
@@ -941,8 +1036,8 @@ def get_domain_range_scale() -> Literal["ignore", "reference", "1", "100"] | str
 
     Warnings
     --------
-    -   The **'Ignore'** and **'100'** domain-range scales are for internal
-        usage only!
+    -   The **'Ignore'** and **'100'** domain-range scales are for
+        internal usage only!
     """
 
     return _DOMAIN_RANGE_SCALE
@@ -952,18 +1047,19 @@ def set_domain_range_scale(
     scale: (
         Literal["ignore", "reference", "Ignore", "Reference", "1", "100"] | str
     ) = "reference",
-):
+) -> None:
     """
-    Set the current *Colour* domain-range scale. The following scales are
-    available:
+    Set the current *Colour* domain-range scale.
 
-    -   **'Reference'**, the default *Colour* domain-range scale which varies
-        depending on the referenced algorithm, e.g., [0, 1], [0, 10], [0, 100],
-        [0, 255], etc...
-    -   **'1'**, a domain-range scale normalised to [0, 1], it is important to
-        acknowledge that this is a soft normalisation and it is possible to
-        use negative out of gamut values or high dynamic range data exceeding
-        1.
+    The following scales are available:
+
+    -   **'Reference'**, the default *Colour* domain-range scale which
+        varies depending on the referenced algorithm, e.g., [0, 1],
+        [0, 10], [0, 100], [0, 255], etc...
+    -   **'1'**, a domain-range scale normalised to [0, 1], it is
+        important to acknowledge that this is a soft normalisation and it
+        is possible to use negative out of gamut values or high dynamic
+        range data exceeding 1.
 
     Parameters
     ----------
@@ -972,8 +1068,8 @@ def set_domain_range_scale(
 
     Warnings
     --------
-    -   The **'Ignore'** and **'100'** domain-range scales are for internal
-        usage only!
+    -   The **'Ignore'** and **'100'** domain-range scales are for
+        internal usage only!
     """
 
     global _DOMAIN_RANGE_SCALE  # noqa: PLW0603
@@ -987,18 +1083,18 @@ def set_domain_range_scale(
 
 class domain_range_scale:
     """
-    Define context manager and decorator temporarily setting *Colour*
+    Define a context manager and decorator to temporarily set the *Colour*
     domain-range scale.
 
     The following scales are available:
 
-    -   **'Reference'**, the default *Colour* domain-range scale which varies
-        depending on the referenced algorithm, e.g., [0, 1], [0, 10], [0, 100],
-        [0, 255], etc...
-    -   **'1'**, a domain-range scale normalised to [0, 1], it is important to
-        acknowledge that this is a soft normalisation and it is possible to
-        use negative out of gamut values or high dynamic range data exceeding
-        1.
+    -   **'Reference'**, the default *Colour* domain-range scale which
+        varies depending on the referenced algorithm, e.g., [0, 1],
+        [0, 10], [0, 100], [0, 255], etc...
+    -   **'1'**, a domain-range scale normalised to [0, 1], it is
+        important to acknowledge that this is a soft normalisation and it
+        is possible to use negative out of gamut values or high dynamic
+        range data exceeding 1.
 
     Parameters
     ----------
@@ -1007,8 +1103,8 @@ class domain_range_scale:
 
     Warnings
     --------
-    -   The **'Ignore'** and **'100'** domain-range scales are for internal
-        usage only!
+    -   The **'Ignore'** and **'100'** domain-range scales are for
+        internal usage only!
 
     Examples
     --------
@@ -1049,20 +1145,25 @@ class domain_range_scale:
         self._scale = scale
         self._previous_scale = get_domain_range_scale()
 
-    def __enter__(self) -> domain_range_scale:
+    def __enter__(self) -> Self:
         """Set the new domain-range scale upon entering the context manager."""
 
         set_domain_range_scale(self._scale)
 
         return self
 
-    def __exit__(self, *args: Any):
-        """Set the previous domain-range scale upon exiting the context manager."""
+    def __exit__(self, *args: Any) -> None:
+        """
+        Restore the previous domain-range scale upon exiting the context
+        manager.
+        """
 
         set_domain_range_scale(self._previous_scale)
 
     def __call__(self, function: Callable) -> Any:
-        """Call the wrapped definition."""
+        """
+        Call the wrapped definition with domain-range scale management.
+        """
 
         @functools.wraps(function)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
@@ -1072,29 +1173,168 @@ class domain_range_scale:
         return wrapper
 
 
+_CACHE_DOMAIN_RANGE_SCALE_METADATA: dict = CACHE_REGISTRY.register_cache(
+    f"{__name__}._CACHE_DOMAIN_RANGE_SCALE_METADATA"
+)
+
+
+def get_domain_range_scale_metadata(function: Callable) -> dict[str, Any]:
+    """
+    Extract domain-range scale metadata from function type hints.
+
+    Extracts scale factors from PEP 593 ``Annotated`` type hints on function
+    parameters and return values. This metadata indicates which scale factors
+    to use when converting between 'Reference' and '1' modes.
+
+    Parameters
+    ----------
+    function
+        Function to extract metadata from.
+
+    Returns
+    -------
+    :class:`dict`
+        Dictionary with keys:
+
+        - ``domain``: Dict mapping parameter names to their scale factors
+        - ``range``: Scale factor for return value (int, tuple, or None)
+
+    Examples
+    --------
+    >>> from colour.hints import Annotated, ArrayLike, NDArrayFloat
+    >>> def example_function(
+    ...     XYZ: Domain1,
+    ...     illuminant: ArrayLike = None,
+    ... ) -> Range100:
+    ...     pass
+    >>> metadata = get_domain_range_scale_metadata(example_function)
+    >>> metadata["domain"]
+    {'XYZ': 1}
+    >>> metadata["range"]
+    100
+    """
+
+    # Unwrap functools.partial to get the underlying function
+    if hasattr(function, "func"):
+        function = function.func  # pyright: ignore
+
+    cache_key = id(function)
+
+    if is_caching_enabled() and cache_key in _CACHE_DOMAIN_RANGE_SCALE_METADATA:
+        return _CACHE_DOMAIN_RANGE_SCALE_METADATA[cache_key]
+
+    metadata: dict[str, Any] = {"domain": {}, "range": None}
+
+    def extract_scale_from_hint(hint: Any) -> Any | None:
+        """
+        Extract scale metadata from a type hint, handling Union types.
+
+        Parameters
+        ----------
+        hint
+            Type hint to extract scale from.
+
+        Returns
+        -------
+        :class:`int` | :class:`tuple` | :class:`None`
+            Scale metadata if found, None otherwise.
+        """
+
+        # Direct Annotated type with __metadata__
+        if hasattr(hint, "__metadata__") and hint.__metadata__:
+            return next(iter(hint.__metadata__))
+
+        # Union type: check if any arg is Annotated
+        origin = get_origin(hint)
+        if origin is Union:
+            for arg in get_args(hint):
+                if hasattr(arg, "__metadata__") and arg.__metadata__:
+                    return next(iter(arg.__metadata__))
+
+        return None
+
+    try:
+        hints = get_type_hints(function, include_extras=True)
+        # Process hints from get_type_hints (actual types with __metadata__)
+        for parameter_name, hint in hints.items():
+            scale = extract_scale_from_hint(hint)
+            if scale is not None:
+                if parameter_name == "return":
+                    metadata["range"] = scale
+                else:
+                    metadata["domain"][parameter_name] = scale
+    except (AttributeError, TypeError, NameError):
+        # Fallback: parse string annotations (when `from __future__ import annotations`)
+        # Mapping of type alias names to their scale values
+        type_alias_scales = {
+            "Domain1": 1,
+            "Domain10": 10,
+            "Domain100": 100,
+            "Domain360": 360,
+            "Domain100_100_360": (100, 100, 360),
+            "Range1": 1,
+            "Range10": 10,
+            "Range100": 100,
+            "Range360": 360,
+            "Range100_100_360": (100, 100, 360),
+        }
+
+        hints = getattr(function, "__annotations__", {})
+        for parameter_name, hint in hints.items():
+            scale = None
+
+            # Check if hint is a type alias name
+            if isinstance(hint, str) and hint in type_alias_scales:
+                scale = type_alias_scales[hint]
+            # Extract scale from string: "Annotated[Type, scale]" -> scale
+            elif (
+                isinstance(hint, str)
+                and "Annotated[" in hint
+                and (match := re.search(r"Annotated\[[^,]+,\s*([^\]]+)\]", hint))
+            ):
+                scale_string = match.group(1).strip()
+                # Evaluate scale (could be int, tuple, etc.)
+                try:
+                    scale = eval(scale_string)  # noqa: S307
+                except (SyntaxError, NameError, ValueError):
+                    scale = scale_string
+
+            if scale is not None:
+                if parameter_name == "return":
+                    metadata["range"] = scale
+                else:
+                    metadata["domain"][parameter_name] = scale
+
+    if is_caching_enabled():
+        _CACHE_DOMAIN_RANGE_SCALE_METADATA[cache_key] = metadata
+
+    return metadata
+
+
 def to_domain_1(
     a: ArrayLike,
     scale_factor: ArrayLike = 100,
     dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
-    Scale given array :math:`a` to domain **'1'**. The behaviour is as
-    follows:
+    Scale the specified array :math:`a` to domain **'1'**.
+
+    The behaviour is as follows:
 
     -   If *Colour* domain-range scale is **'Reference'** or **'1'**, the
-        definition is almost entirely by-passed and will conveniently convert
-        array :math:`a` to :class:`np.ndarray`.
+        definition is almost entirely by-passed and will conveniently
+        convert array :math:`a` to :class:`np.ndarray`.
     -   If *Colour* domain-range scale is **'100'** (currently unsupported
-        private value only used for unit tests), array :math:`a` is divided by
-        ``scale_factor``, typically 100.
+        private value only used for unit tests), array :math:`a` is divided
+        by ``scale_factor``, typically 100.
 
     Parameters
     ----------
     a
         Array :math:`a` to scale to domain **'1'**.
     scale_factor
-        Scale factor, usually *numeric* but can be a :class:`numpy.ndarray` if
-        some axis need different scaling to be brought to domain **'1'**.
+        Scale factor, usually *numeric* but can be a :class:`numpy.ndarray`
+        if some axes need different scaling to be brought to domain **'1'**.
     dtype
         Data type used for the conversion to :class:`np.ndarray`.
 
@@ -1140,12 +1380,14 @@ def to_domain_10(
     dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
-    Scale given array :math:`a` to domain **'10'**, used by
-    *Munsell Renotation System*. The behaviour is as follows:
+    Scale the specified array :math:`a` to domain **'10'**, used by the
+    *Munsell Renotation System*.
 
-    -   If *Colour* domain-range scale is **'Reference'**, the
-        definition is almost entirely by-passed and will conveniently convert
-        array :math:`a` to :class:`np.ndarray`.
+    The behaviour is as follows:
+
+    -   If *Colour* domain-range scale is **'Reference'**, the definition
+        is almost entirely by-passed and will conveniently convert array
+        :math:`a` to :class:`np.ndarray`.
     -   If *Colour* domain-range scale is **'1'**, array :math:`a` is
         multiplied by ``scale_factor``, typically 10.
     -   If *Colour* domain-range scale is **'100'** (currently unsupported
@@ -1157,8 +1399,9 @@ def to_domain_10(
     a
         Array :math:`a` to scale to domain **'10'**.
     scale_factor
-        Scale factor, usually *numeric* but can be a :class:`numpy.ndarray` if
-        some axis need different scaling to be brought to domain **'10'**.
+        Scale factor, usually *numeric* but can be a :class:`numpy.ndarray`
+        if some axes need different scaling to be brought to domain
+        **'10'**.
     dtype
         Data type used for the conversion to :class:`np.ndarray`.
 
@@ -1207,13 +1450,14 @@ def to_domain_100(
     dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
-    Scale given array :math:`a` to domain **'100'**. The behaviour is as
-    follows:
+    Scale the specified array :math:`a` to domain **'100'**.
+
+    The behaviour is as follows:
 
     -   If *Colour* domain-range scale is **'Reference'** or **'100'**
         (currently unsupported private value only used for unit tests), the
-        definition is almost entirely by-passed and will conveniently convert
-        array :math:`a` to :class:`np.ndarray`.
+        definition is almost entirely by-passed and will conveniently
+        convert array :math:`a` to :class:`np.ndarray`.
     -   If *Colour* domain-range scale is **'1'**, array :math:`a` is
         multiplied by ``scale_factor``, typically 100.
 
@@ -1222,8 +1466,9 @@ def to_domain_100(
     a
         Array :math:`a` to scale to domain **'100'**.
     scale_factor
-        Scale factor, usually *numeric* but can be a :class:`numpy.ndarray` if
-        some axis need different scaling to be brought to domain **'100'**.
+        Scale factor, usually *numeric* but can be a :class:`numpy.ndarray`
+        if some axes need different scaling to be brought to domain
+        **'100'**.
     dtype
         Data type used for the conversion to :class:`np.ndarray`.
 
@@ -1269,12 +1514,13 @@ def to_domain_degrees(
     dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
-    Scale given array :math:`a` to degrees domain. The behaviour is as
-    follows:
+    Scale the specified array :math:`a` to degrees domain.
 
-    -   If *Colour* domain-range scale is **'Reference'**, the
-        definition is almost entirely by-passed and will conveniently convert
-        array :math:`a` to :class:`np.ndarray`.
+    The behaviour is as follows:
+
+    -   If *Colour* domain-range scale is **'Reference'**, the definition
+        is almost entirely by-passed and will conveniently convert array
+        :math:`a` to :class:`np.ndarray`.
     -   If *Colour* domain-range scale is **'1'**, array :math:`a` is
         multiplied by ``scale_factor``, typically 360.
     -   If *Colour* domain-range scale is **'100'** (currently unsupported
@@ -1286,8 +1532,8 @@ def to_domain_degrees(
     a
         Array :math:`a` to scale to degrees domain.
     scale_factor
-        Scale factor, usually *numeric* but can be a :class:`numpy.ndarray` if
-        some axis need different scaling to be brought to degrees domain.
+        Scale factor, usually *numeric* but can be a :class:`numpy.ndarray`
+        if some axes need different scaling to be brought to degrees domain.
     dtype
         Data type used for the conversion to :class:`np.ndarray`.
 
@@ -1336,11 +1582,13 @@ def to_domain_int(
     dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
-    Scale given array :math:`a` to int domain. The behaviour is as follows:
+    Scale the specified array :math:`a` to integer domain.
 
-    -   If *Colour* domain-range scale is **'Reference'**, the
-        definition is almost entirely by-passed and will conveniently convert
-        array :math:`a` to :class:`np.ndarray`.
+    The behaviour is as follows:
+
+    -   If *Colour* domain-range scale is **'Reference'**, the definition
+        is almost entirely by-passed and will conveniently convert array
+        :math:`a` to :class:`np.ndarray`.
     -   If *Colour* domain-range scale is **'1'**, array :math:`a` is
         multiplied by :math:`2^{bit\\_depth} - 1`.
     -   If *Colour* domain-range scale is **'100'** (currently unsupported
@@ -1350,22 +1598,22 @@ def to_domain_int(
     Parameters
     ----------
     a
-        Array :math:`a` to scale to int domain.
+        Array :math:`a` to scale to integer domain.
     bit_depth
         Bit-depth, usually *int* but can be a :class:`numpy.ndarray` if
-        some axis need different scaling to be brought to int domain.
+        some axis need different scaling to be brought to integer domain.
     dtype
         Data type used for the conversion to :class:`np.ndarray`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Array :math:`a` scaled to int domain.
+        Array :math:`a` scaled to integer domain.
 
     Notes
     -----
-    -   To avoid precision issues and rounding, the scaling is performed on
-        *float* numbers.
+    -   To avoid precision issues and rounding, the scaling is performed
+        on *float* numbers.
 
     Examples
     --------
@@ -1392,7 +1640,7 @@ def to_domain_int(
 
     a = as_float_array(a, dtype).copy()
 
-    maximum_code_value = np.power(2, bit_depth) - 1
+    maximum_code_value: NDArray[DTypeInt] = np.power(2, bit_depth) - 1
     if _DOMAIN_RANGE_SCALE == "1":
         a *= maximum_code_value
 
@@ -1408,22 +1656,24 @@ def from_range_1(
     dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
-    Scale given array :math:`a` from range **'1'**. The behaviour is as
-    follows:
+    Scale the specified array :math:`a` from range **'1'**.
+
+    The behaviour is as follows:
 
     -   If *Colour* domain-range scale is **'Reference'** or **'1'**, the
         definition is entirely by-passed.
     -   If *Colour* domain-range scale is **'100'** (currently unsupported
-        private value only used for unit tests), array :math:`a` is multiplied
-        by ``scale_factor``, typically 100.
+        private value only used for unit tests), array :math:`a` is
+        multiplied by ``scale_factor``, typically 100.
 
     Parameters
     ----------
     a
         Array :math:`a` to scale from range **'1'**.
     scale_factor
-        Scale factor, usually *numeric* but can be a :class:`numpy.ndarray` if
-        some axis need different scaling to be brought from range **'1'**.
+        Scale factor, usually *numeric* but can be a :class:`numpy.ndarray`
+        if some axis need different scaling to be brought from range
+        **'1'**.
     dtype
         Data type used for the conversion to :class:`np.ndarray`.
 
@@ -1434,8 +1684,8 @@ def from_range_1(
 
     Warnings
     --------
-    The scale conversion of variable :math:`a` happens in-place, i.e., :math:`a`
-    will be mutated!
+    The scale conversion of variable :math:`a` happens in-place, i.e.,
+    :math:`a` will be mutated!
 
     Examples
     --------
@@ -1474,11 +1724,13 @@ def from_range_10(
     dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
-    Scale given array :math:`a` from range **'10'**, used by
-    *Munsell Renotation System*. The behaviour is as follows:
+    Scale the specified array :math:`a` from range **'10'**, used by the
+    *Munsell Renotation System*.
 
-    -   If *Colour* domain-range scale is **'Reference'**, the
-        definition is entirely by-passed.
+    The behaviour is as follows:
+
+    -   If *Colour* domain-range scale is **'Reference'**, the definition
+        is entirely by-passed.
     -   If *Colour* domain-range scale is **'1'**, array :math:`a` is
         divided by ``scale_factor``, typically 10.
     -   If *Colour* domain-range scale is **'100'** (currently unsupported
@@ -1490,8 +1742,9 @@ def from_range_10(
     a
         Array :math:`a` to scale from range **'10'**.
     scale_factor
-        Scale factor, usually *numeric* but can be a :class:`numpy.ndarray` if
-        some axis need different scaling to be brought from range **'10'**.
+        Scale factor, usually *numeric* but can be a
+        :class:`numpy.ndarray` if some axis need different scaling to be
+        brought from range **'10'**.
     dtype
         Data type used for the conversion to :class:`np.ndarray`.
 
@@ -1502,8 +1755,8 @@ def from_range_10(
 
     Warnings
     --------
-    The scale conversion of variable :math:`a` happens in-place, i.e., :math:`a`
-    will be mutated!
+    The scale conversion of variable :math:`a` happens in-place, i.e.,
+    :math:`a` will be mutated!
 
     Examples
     --------
@@ -1545,8 +1798,9 @@ def from_range_100(
     dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
-    Scale given array :math:`a` from range **'100'**. The behaviour is as
-    follows:
+    Scale the specified array :math:`a` from range **'100'**.
+
+    The behaviour is as follows:
 
     -   If *Colour* domain-range scale is **'Reference'** or **'100'**
         (currently unsupported private value only used for unit tests), the
@@ -1559,10 +1813,11 @@ def from_range_100(
     a
         Array :math:`a` to scale from range **'100'**.
     scale_factor
-        Scale factor, usually *numeric* but can be a :class:`numpy.ndarray` if
-        some axis need different scaling to be brought from range **'100'**.
+        Scale factor, usually *numeric* but can be a :class:`numpy.ndarray`
+        if some axes require different scaling to be brought from range
+        **'100'**.
     dtype
-        Data type used for the conversion to :class:`np.ndarray`.
+        Data type used for the conversion to :class:`numpy.ndarray`.
 
     Returns
     -------
@@ -1571,8 +1826,8 @@ def from_range_100(
 
     Warnings
     --------
-    The scale conversion of variable :math:`a` happens in-place, i.e., :math:`a`
-    will be mutated!
+    The scale conversion of variable :math:`a` happens in-place, i.e.,
+    :math:`a` will be mutated!
 
     Examples
     --------
@@ -1611,11 +1866,12 @@ def from_range_degrees(
     dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
-    Scale given array :math:`a` from degrees range. The behaviour is as
-    follows:
+    Scale the specified array :math:`a` from degrees range.
 
-    -   If *Colour* domain-range scale is **'Reference'**, the
-        definition is entirely by-passed.
+    The behaviour is as follows:
+
+    -   If *Colour* domain-range scale is **'Reference'**, the definition
+        is entirely by-passed.
     -   If *Colour* domain-range scale is **'1'**, array :math:`a` is
         divided by ``scale_factor``, typically 360.
     -   If *Colour* domain-range scale is **'100'** (currently unsupported
@@ -1627,10 +1883,11 @@ def from_range_degrees(
     a
         Array :math:`a` to scale from degrees range.
     scale_factor
-        Scale factor, usually *numeric* but can be a :class:`numpy.ndarray` if
-        some axis need different scaling to be brought from degrees range.
+        Scale factor, usually *numeric* but can be a
+        :class:`numpy.ndarray` if some axes need different scaling to be
+        brought from degrees range.
     dtype
-        Data type used for the conversion to :class:`np.ndarray`.
+        Data type used for the conversion to :class:`numpy.ndarray`.
 
     Returns
     -------
@@ -1639,8 +1896,8 @@ def from_range_degrees(
 
     Warnings
     --------
-    The scale conversion of variable :math:`a` happens in-place, i.e., :math:`a`
-    will be mutated!
+    The scale conversion of variable :math:`a` happens in-place, i.e.,
+    :math:`a` will be mutated!
 
     Examples
     --------
@@ -1682,35 +1939,39 @@ def from_range_int(
     dtype: Type[DTypeFloat] | None = None,
 ) -> NDArray:
     """
-    Scale given array :math:`a` from int range. The behaviour is as follows:
+    Scale the specified array :math:`a` from integer range.
 
-    -   If *Colour* domain-range scale is **'Reference'**, the
-        definition is entirely by-passed.
-    -   If *Colour* domain-range scale is **'1'**, array :math:`a` is converted
-        to :class:`np.ndarray` and divided by :math:`2^{bit\\_depth} - 1`.
+    The behaviour is as follows:
+
+    -   If *Colour* domain-range scale is **'Reference'**, the definition
+        is entirely by-passed.
+    -   If *Colour* domain-range scale is **'1'**, array :math:`a` is
+        converted to :class:`np.ndarray` and divided by
+        :math:`2^{bit\\_depth} - 1`.
     -   If *Colour* domain-range scale is **'100'** (currently unsupported
-        private value only used for unit tests), array :math:`a` is converted
-        to :class:`np.ndarray` and divided by :math:`2^{bit\\_depth} - 1`.
+        private value only used for unit tests), array :math:`a` is
+        converted to :class:`np.ndarray` and divided by
+        :math:`2^{bit\\_depth} - 1`.
 
     Parameters
     ----------
     a
-        Array :math:`a` to scale from int range.
+        Array :math:`a` to scale from integer range.
     bit_depth
         Bit-depth, usually *int* but can be a :class:`numpy.ndarray` if
-        some axis need different scaling to be brought from int range.
+        some axes need different scaling to be brought from integer range.
     dtype
         Data type used for the conversion to :class:`np.ndarray`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Array :math:`a` scaled from int range.
+        Array :math:`a` scaled from integer range.
 
     Warnings
     --------
-    The scale conversion of variable :math:`a` happens in-place, i.e., :math:`a`
-    will be mutated!
+    The scale conversion of variable :math:`a` happens in-place, i.e.,
+    :math:`a` will be mutated!
 
     Notes
     -----
@@ -1742,7 +2003,7 @@ def from_range_int(
 
     a = as_float_array(a, dtype)
 
-    maximum_code_value = np.power(2, bit_depth) - 1
+    maximum_code_value: NDArray[DTypeInt] = np.power(2, bit_depth) - 1
     if _DOMAIN_RANGE_SCALE == "1":
         a /= maximum_code_value
 
@@ -1761,9 +2022,11 @@ Global variable storing the current *Colour* state for
 
 def is_ndarray_copy_enabled() -> bool:
     """
-    Return whether *Colour* :class:`numpy.ndarray` copy is enabled: Various API
-    objects return a copy of their internal :class:`numpy.ndarray` for safety
-    purposes but this can be a slow operation impacting performance.
+    Determine whether *Colour* :class:`numpy.ndarray` copy is enabled.
+
+    Various API objects return a copy of their internal
+    :class:`numpy.ndarray` for safety purposes, but this can be a slow
+    operation impacting performance.
 
     Returns
     -------
@@ -1783,9 +2046,9 @@ def is_ndarray_copy_enabled() -> bool:
     return _NDARRAY_COPY_ENABLED
 
 
-def set_ndarray_copy_enable(enable: bool):
+def set_ndarray_copy_enable(enable: bool) -> None:
     """
-    Set *Colour* :class:`numpy.ndarray` copy enabled state.
+    Set the *Colour* :class:`numpy.ndarray` copy enabled state.
 
     Parameters
     ----------
@@ -1809,7 +2072,7 @@ def set_ndarray_copy_enable(enable: bool):
 
 class ndarray_copy_enable:
     """
-    Define a context manager and decorator temporarily setting *Colour*
+    Define a context manager and decorator to temporarily set the *Colour*
     :class:`numpy.ndarray` copy enabled state.
 
     Parameters
@@ -1822,26 +2085,39 @@ class ndarray_copy_enable:
         self._enable = enable
         self._previous_state = is_ndarray_copy_enabled()
 
-    def __enter__(self) -> ndarray_copy_enable:
+    def __enter__(self) -> Self:
         """
-        Set the *Colour* :class:`numpy.ndarray` copy enabled state
-        upon entering the context manager.
+        Set the *Colour* :class:`numpy.ndarray` copy enabled state upon
+        entering the context manager.
         """
 
         set_ndarray_copy_enable(self._enable)
 
         return self
 
-    def __exit__(self, *args: Any):
+    def __exit__(self, *args: Any) -> None:
         """
-        Set the *Colour* :class:`numpy.ndarray` copy enabled state
-        upon exiting the context manager.
+        Restore the *Colour* :class:`numpy.ndarray` copy enabled state upon
+        exiting the context manager.
         """
 
         set_ndarray_copy_enable(self._previous_state)
 
     def __call__(self, function: Callable) -> Callable:
-        """Call the wrapped definition."""
+        """
+        Decorate and call the specified function with array copy control.
+
+        Parameters
+        ----------
+        function
+            Function to be decorated with array copy state management.
+
+        Returns
+        -------
+        :class:`Callable`
+            Decorated function that executes within the configured array copy
+            state context.
+        """
 
         @functools.wraps(function)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
@@ -1854,9 +2130,11 @@ class ndarray_copy_enable:
 def ndarray_copy(a: NDArray) -> NDArray:
     """
     Return a :class:`numpy.ndarray` copy if the relevant *Colour* state is
-    enabled: Various API objects return a copy of their internal
-    :class:`numpy.ndarray` for safety purposes but this can be a slow operation
-    impacting performance.
+    enabled.
+
+    Various API objects return a copy of their internal
+    :class:`numpy.ndarray` for safety purposes, but this can be a slow
+    operation impacting performance.
 
     Parameters
     ----------
@@ -1880,19 +2158,18 @@ def ndarray_copy(a: NDArray) -> NDArray:
 
     if _NDARRAY_COPY_ENABLED:
         return np.copy(a)
-    else:
-        return a
+    return a
 
 
 def closest_indexes(a: ArrayLike, b: ArrayLike) -> NDArray:
     """
-    Return the array :math:`a` closest element indexes to the reference array
+    Return the closest element indexes from array :math:`a` to reference array
     :math:`b` elements.
 
     Parameters
     ----------
     a
-        Array :math:`a` to search for the closest element indexes.
+        Array :math:`a` to search for the closest elements.
     b
         Reference array :math:`b`.
 
@@ -1927,13 +2204,13 @@ def closest_indexes(a: ArrayLike, b: ArrayLike) -> NDArray:
 
 def closest(a: ArrayLike, b: ArrayLike) -> NDArray:
     """
-    Return the closest array :math:`a` elements to the reference array
+    Return the closest array :math:`a` elements to reference array
     :math:`b` elements.
 
     Parameters
     ----------
     a
-        Array :math:`a` to search for the closest element.
+        Array :math:`a` to search for the closest elements.
     b
         Reference array :math:`b`.
 
@@ -1972,15 +2249,15 @@ _CACHE_DISTRIBUTION_INTERVAL: dict = CACHE_REGISTRY.register_cache(
 
 def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
     """
-    Return the interval size of given distribution.
+    Return the interval size of the specified distribution.
 
     Parameters
     ----------
     distribution
-        Distribution to retrieve the interval.
+        Distribution to retrieve the interval from.
     unique
-        Whether to return unique intervals if  the distribution is
-        non-uniformly spaced or the complete intervals
+        Whether to return unique intervals if the distribution is
+        non-uniformly spaced or the complete intervals.
 
     Returns
     -------
@@ -2014,6 +2291,7 @@ def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
             unique,
         )
     )
+
     if is_caching_enabled() and hash_key in _CACHE_DISTRIBUTION_INTERVAL:
         return np.copy(_CACHE_DISTRIBUTION_INTERVAL[hash_key])
 
@@ -2033,17 +2311,17 @@ def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
 
 def is_uniform(distribution: ArrayLike) -> bool:
     """
-    Return whether given distribution is uniform.
+    Determine whether the specified distribution is uniform.
 
     Parameters
     ----------
     distribution
-        Distribution to check the uniformity of.
+        Distribution to check for uniformity.
 
     Returns
     -------
     :class:`bool`
-        Whether distribution uniform.
+        Whether the distribution is uniform.
 
     Examples
     --------
@@ -2065,15 +2343,15 @@ def is_uniform(distribution: ArrayLike) -> bool:
 
 def in_array(a: ArrayLike, b: ArrayLike, tolerance: Real = EPSILON) -> NDArray:
     """
-    Return whether each element of the array :math:`a` is also present in the
-    array :math:`b` within given tolerance.
+    Determine whether each element of array :math:`a` is present in array
+    :math:`b` within the specified tolerance.
 
     Parameters
     ----------
     a
         Array :math:`a` to test the elements from.
     b
-        The array :math:`b` against which to test the elements of array
+        Array :math:`b` against which to test the elements of array
         :math:`a`.
     tolerance
         Tolerance value.
@@ -2081,9 +2359,9 @@ def in_array(a: ArrayLike, b: ArrayLike, tolerance: Real = EPSILON) -> NDArray:
     Returns
     -------
     :class:`numpy.ndarray`
-        A bool array with array :math:`a` shape describing whether an
-        element of array :math:`a` is present in array :math:`b` within given
-        tolerance.
+        Boolean array with array :math:`a` shape indicating whether each
+        element of array :math:`a` is present in array :math:`b` within the
+        specified tolerance.
 
     References
     ----------
@@ -2112,10 +2390,10 @@ def tstack(
     dtype: Type[DTypeBoolean] | Type[DTypeReal] | None = None,
 ) -> NDArray:
     """
-    Stack given array of arrays :math:`a` along the last axis (tail) to
-    produce a stacked array.
+    Stack the specified array of arrays :math:`a` along the last axis (tail)
+    to produce a stacked array.
 
-    It is used to stack an array of arrays produced by the
+    Used to stack an array of arrays produced by the
     :func:`colour.utilities.tsplit` definition.
 
     Parameters
@@ -2124,8 +2402,8 @@ def tstack(
         Array of arrays :math:`a` to stack along the last axis.
     dtype
         :class:`numpy.dtype` to use for initial conversion to
-        :class:`numpy.ndarray`, default to the :class:`numpy.dtype` defined by
-        :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
+        :class:`numpy.ndarray`, default to the :class:`numpy.dtype` defined
+        by :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
 
     Returns
     -------
@@ -2167,10 +2445,7 @@ def tstack(
 
     a = as_array(a, dtype)
 
-    if a.ndim <= 2:
-        return np.transpose(a)
-
-    return np.concatenate([x[..., None] for x in a], axis=-1)
+    return np.concatenate([x[..., np.newaxis] for x in a], axis=-1)
 
 
 def tsplit(
@@ -2178,11 +2453,11 @@ def tsplit(
     dtype: Type[DTypeBoolean] | Type[DTypeReal] | None = None,
 ) -> NDArray:
     """
-    Split given stacked array :math:`a` along the last axis (tail) to produce
-    an array of arrays.
+    Split the specified stacked array :math:`a` along the last axis (tail)
+    to produce an array of arrays.
 
-    It is used to split a stacked array produced by the
-    :func:`colour.utilities.tstack` definition.
+    Used to split a stacked array produced by the :func:`colour.utilities.tstack`
+    definition.
 
     Parameters
     ----------
@@ -2190,8 +2465,8 @@ def tsplit(
         Stacked array :math:`a` to split.
     dtype
         :class:`numpy.dtype` to use for initial conversion to
-        :class:`numpy.ndarray`, default to the :class:`numpy.dtype` defined by
-        :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
+        :class:`numpy.ndarray`, default to the :class:`numpy.dtype` defined
+        by :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
 
     Returns
     -------
@@ -2232,23 +2507,17 @@ def tsplit(
 
     a = as_array(a, dtype)
 
-    if a.ndim <= 2:
-        return np.transpose(a)
-
-    return np.transpose(
-        a,
-        np.concatenate([[a.ndim - 1], np.arange(0, a.ndim - 1)]),
-    )
+    return np.array([a[..., x] for x in range(a.shape[-1])])
 
 
 def row_as_diagonal(a: ArrayLike) -> NDArray:
     """
-    Return the rows of given array :math:`a` as diagonal matrices.
+    Return the rows of the specified array :math:`a` as diagonal matrices.
 
     Parameters
     ----------
     a
-        Array :math:`a` to returns the rows of as diagonal matrices.
+        Array :math:`a` to return the rows of as diagonal matrices.
 
     Returns
     -------
@@ -2306,7 +2575,7 @@ def orient(
     ) = "Ignore",
 ) -> NDArray:
     """
-    Orient given array :math:`a` according to given orientation.
+    Orient the specified array :math:`a` using the specified orientation.
 
     Parameters
     ----------
@@ -2365,19 +2634,19 @@ def orient(
     return oriented
 
 
-def centroid(a: ArrayLike) -> NDArray:
+def centroid(a: ArrayLike) -> NDArrayInt:
     """
-    Return the centroid indexes of given array :math:`a`.
+    Return the centroid indexes of the specified array :math:`a`.
 
     Parameters
     ----------
     a
-        Array :math:`a` to returns the centroid indexes of.
+        Array :math:`a` to return the centroid indexes of.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Array :math:`a` centroid indexes.
+        Centroid indexes of array :math:`a`.
 
     Examples
     --------
@@ -2403,6 +2672,8 @@ def centroid(a: ArrayLike) -> NDArray:
 
         a_ci.append(np.sum(axis * a) // a_s)
 
+    # NOTE: Cannot use `as_int_array` as presence of NaN will raise a ValueError
+    # exception.
     return np.array(a_ci).astype(DTYPE_INT_DEFAULT)
 
 
@@ -2412,7 +2683,8 @@ def fill_nan(
     default: Real = 0,
 ) -> NDArray:
     """
-    Fill given array :math:`a` NaN values according to given method.
+    Fill the NaN values in the specified array :math:`a` using the specified
+    method.
 
     Parameters
     ----------
@@ -2427,7 +2699,7 @@ def fill_nan(
     Returns
     -------
     :class:`numpy.ndarray`
-        NaNs filled array :math:`a`.
+        NaN-filled array :math:`a`.
 
     Examples
     --------
@@ -2453,17 +2725,17 @@ def fill_nan(
 
 def has_only_nan(a: ArrayLike) -> bool:
     """
-    Return whether given array :math:`a` contains only NaN values.
+    Return whether the specified array :math:`a` contains only *NaN* values.
 
     Parameters
     ----------
     a
-        Array :math:`a` to check whether it contains only NaN values.
+        Array :math:`a` to check whether it contains only *NaN* values.
 
     Returns
     -------
     :class:`bool`
-        Whether array :math:`a` contains only NaN values.
+        Whether array :math:`a` contains only *NaN* values.
 
     Examples
     --------
@@ -2485,8 +2757,8 @@ def has_only_nan(a: ArrayLike) -> bool:
 @contextmanager
 def ndarray_write(a: ArrayLike) -> Generator:
     """
-    Define a context manager setting given array :math:`a` writeable to
-    operate one and then read-only.
+    Define a context manager that temporarily sets the specified array
+    :math:`a` to writeable for operations, then restores it to read-only.
 
     Parameters
     ----------
@@ -2496,7 +2768,7 @@ def ndarray_write(a: ArrayLike) -> Generator:
     Yields
     ------
     Generator
-        Array :math:`a` operated.
+        Array :math:`a` made temporarily writeable.
 
     Examples
     --------
@@ -2521,11 +2793,13 @@ def ndarray_write(a: ArrayLike) -> Generator:
 
 
 def zeros(
-    shape: int | Tuple[int, ...],
+    shape: int | Sequence[int],
     dtype: Type[DTypeReal] | None = None,
     order: Literal["C", "F"] = "C",
 ) -> NDArray:
     """
+    Create an array of zeros with the active dtype.
+
     Wrap :func:`np.zeros` definition to create an array with the active
     :class:`numpy.dtype` defined by the
     :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
@@ -2539,13 +2813,14 @@ def zeros(
         :class:`numpy.dtype` defined by the
         :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
     order
-        Whether to store multi-dimensional data in row-major (C-style) or
-        column-major (Fortran-style) order in memory.
+        Whether to store multi-dimensional data in row-major
+        (C-style) or column-major (Fortran-style) order in memory.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Array of given shape and :class:`numpy.dtype`, filled with zeros.
+        Array of the specified shape and :class:`numpy.dtype`, filled
+        with zeros.
 
     Examples
     --------
@@ -2559,11 +2834,13 @@ def zeros(
 
 
 def ones(
-    shape: int | Tuple[int, ...],
+    shape: int | Sequence[int],
     dtype: Type[DTypeReal] | None = None,
     order: Literal["C", "F"] = "C",
 ) -> NDArray:
     """
+    Create an array of ones with the active dtype.
+
     Wrap :func:`np.ones` definition to create an array with the active
     :class:`numpy.dtype` defined by the
     :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
@@ -2583,7 +2860,7 @@ def ones(
     Returns
     -------
     :class:`numpy.ndarray`
-        Array of given shape and type, filled with ones.
+        Array of the specified shape and :class:`numpy.dtype`, filled with ones.
 
     Examples
     --------
@@ -2597,14 +2874,17 @@ def ones(
 
 
 def full(
-    shape: int | Tuple[int, ...],
+    shape: int | Sequence[int],
     fill_value: Real,
     dtype: Type[DTypeReal] | None = None,
     order: Literal["C", "F"] = "C",
 ) -> NDArray:
     """
-    Wrap :func:`np.full` definition to create an array with the active type
-    defined by the:attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
+    Create an array of the specified value with the active dtype.
+
+    Wrap :func:`np.full` definition to create an array with the active
+    :class:`numpy.dtype` defined by the
+    :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
 
     Parameters
     ----------
@@ -2623,12 +2903,13 @@ def full(
     Returns
     -------
     :class:`numpy.ndarray`
-        Array of given shape and :class:`numpy.dtype`, filled with given value.
+        Array of the specified shape and :class:`numpy.dtype`, filled with
+        the specified value.
 
     Examples
     --------
-    >>> ones(3)
-    array([ 1.,  1.,  1.])
+    >>> full(3, 2.5)
+    array([ 2.5,  2.5,  2.5])
     """
 
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
@@ -2638,17 +2919,18 @@ def full(
 
 def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
     """
-    Reduce the dimension of array :math:`a` by one, by using an array of
-    indexes to pick elements off the last axis.
+    Reduce the dimension of array :math:`a` by one, using an array of
+    indexes to select elements from the last axis.
 
     Parameters
     ----------
     a
         Array :math:`a` to be indexed.
     indexes
-        *integer* array with the same shape as `a` but with one dimension
-        fewer, containing indices to the last dimension of `a`. All elements
-        must be numbers between `0` and `m` - 1.
+        *Integer* array with the same shape as :math:`a` but with one
+        dimension fewer, containing indices to the last dimension of
+        :math:`a`. All elements must be numbers between 0 and
+        :math:`m - 1`.
 
     Returns
     -------
@@ -2661,7 +2943,7 @@ def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
         If the array :math:`a` and ``indexes`` have incompatible shapes.
     :class:`IndexError`
         If ``indexes`` has elements outside of the allowed range of 0 to
-        `m` - 1 or if it's not an *integer* array.
+        :math:`m - 1` or if it is not an *integer* array.
 
     Examples
     --------
@@ -2707,7 +2989,7 @@ def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
     >>> np.array_equal(index_along_last_axis(a, indexes), np.min(a, axis=-1))
     True
 
-    In particular, this can be used to manipulate the indexes given by
+    In particular, this can be used to manipulate the indexes specified by
     functions like :func:`np.min` before indexing the array. For example, to
     get elements directly following the smallest elements:
 
@@ -2722,16 +3004,18 @@ def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
     indexes = np.array(indexes)
 
     if a.shape[:-1] != indexes.shape:
-        raise ValueError(
+        error = (
             f"Array and indexes have incompatible shapes: {a.shape} and {indexes.shape}"
         )
+
+        raise ValueError(error)
 
     return np.take_along_axis(a, indexes[..., None], axis=-1).squeeze(axis=-1)
 
 
 def format_array_as_row(a: ArrayLike, decimals: int = 7, separator: str = " ") -> str:
     """
-    Format given array :math:`a` as a row.
+    Format the specified array :math:`a` as a row.
 
     Parameters
     ----------

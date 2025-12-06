@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.aces`
 module.
 """
 
-
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -40,7 +39,7 @@ log_encoding_ACESproxy`
     definition unit tests methods.
     """
 
-    def test_log_encoding_ACESproxy(self):
+    def test_log_encoding_ACESproxy(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition.
@@ -72,7 +71,7 @@ log_encoding_ACESproxy` definition.
 
         assert log_encoding_ACESproxy(0.18, out_int=True) == 426
 
-    def test_n_dimensional_log_encoding_ACESproxy(self):
+    def test_n_dimensional_log_encoding_ACESproxy(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition n-dimensional arrays support.
@@ -105,7 +104,7 @@ log_encoding_ACESproxy` definition n-dimensional arrays support.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_log_encoding_ACESproxy(self):
+    def test_domain_range_scale_log_encoding_ACESproxy(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition domain and range scale support.
@@ -124,7 +123,7 @@ log_encoding_ACESproxy` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_ACESproxy(self):
+    def test_nan_log_encoding_ACESproxy(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition nan support.
@@ -140,7 +139,7 @@ log_decoding_ACESproxy`
     definition unit tests methods.
     """
 
-    def test_log_decoding_ACESproxy(self):
+    def test_log_decoding_ACESproxy(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACESproxy` definition.
@@ -176,7 +175,7 @@ log_decoding_ACESproxy` definition.
             atol=0.01,
         )
 
-    def test_n_dimensional_log_decoding_ACESproxy(self):
+    def test_n_dimensional_log_decoding_ACESproxy(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACESproxy` definition n-dimensional arrays support.
@@ -209,7 +208,7 @@ log_decoding_ACESproxy` definition n-dimensional arrays support.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_log_decoding_ACESproxy(self):
+    def test_domain_range_scale_log_decoding_ACESproxy(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACESproxy` definition domain and range scale support.
@@ -228,7 +227,7 @@ log_decoding_ACESproxy` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_ACESproxy(self):
+    def test_nan_log_decoding_ACESproxy(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACESproxy` definition nan support.
@@ -243,7 +242,7 @@ class TestLogEncoding_ACEScc:
 log_encoding_ACEScc` definition unit tests methods.
     """
 
-    def test_log_encoding_ACEScc(self):
+    def test_log_encoding_ACEScc(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScc` definition.
@@ -267,7 +266,7 @@ log_encoding_ACEScc` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_ACEScc(self):
+    def test_n_dimensional_log_encoding_ACEScc(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScc` definition n-dimensional arrays support.
@@ -294,7 +293,7 @@ log_encoding_ACEScc` definition n-dimensional arrays support.
             log_encoding_ACEScc(lin_AP1), ACEScc, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_ACEScc(self):
+    def test_domain_range_scale_log_encoding_ACEScc(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScc` definition domain and range scale support.
@@ -313,7 +312,7 @@ log_encoding_ACEScc` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_ACEScc(self):
+    def test_nan_log_encoding_ACEScc(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScc` definition nan support.
@@ -328,7 +327,7 @@ class TestLogDecoding_ACEScc:
 log_decoding_ACEScc` definition unit tests methods.
     """
 
-    def test_log_decoding_ACEScc(self):
+    def test_log_decoding_ACEScc(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScc` definition.
@@ -352,7 +351,7 @@ log_decoding_ACEScc` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_ACEScc(self):
+    def test_n_dimensional_log_decoding_ACEScc(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScc` definition n-dimensional arrays support.
@@ -379,7 +378,7 @@ log_decoding_ACEScc` definition n-dimensional arrays support.
             log_decoding_ACEScc(ACEScc), lin_AP1, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_ACEScc(self):
+    def test_domain_range_scale_log_decoding_ACEScc(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScc` definition domain and range scale support.
@@ -398,7 +397,7 @@ log_decoding_ACEScc` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_ACEScc(self):
+    def test_nan_log_decoding_ACEScc(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScc` definition nan support.
@@ -413,7 +412,7 @@ class TestLogEncoding_ACEScct:
 log_encoding_ACEScct` definition unit tests methods.
     """
 
-    def test_log_encoding_ACEScct(self):
+    def test_log_encoding_ACEScct(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScct` definition.
@@ -437,7 +436,7 @@ log_encoding_ACEScct` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_ACEScct(self):
+    def test_n_dimensional_log_encoding_ACEScct(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScct` definition n-dimensional arrays support.
@@ -470,7 +469,7 @@ log_encoding_ACEScct` definition n-dimensional arrays support.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_log_encoding_ACEScct(self):
+    def test_domain_range_scale_log_encoding_ACEScct(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScct` definition domain and range scale support.
@@ -488,7 +487,7 @@ log_encoding_ACEScct` definition domain and range scale support.
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
-    def test_ACEScc_equivalency_log_encoding_ACEScct(self):
+    def test_ACEScc_equivalency_log_encoding_ACEScct(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScct` definition ACEScc equivalency, and explicit requirement
@@ -505,7 +504,7 @@ S-2016-001/introduction.tex#L14)
         )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_ACEScct(self):
+    def test_nan_log_encoding_ACEScct(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScct` definition nan support.
@@ -520,7 +519,7 @@ class TestLogDecoding_ACEScct:
 log_decoding_ACEScct` definition unit tests methods.
     """
 
-    def test_log_decoding_ACEScct(self):
+    def test_log_decoding_ACEScct(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScct` definition.
@@ -544,7 +543,7 @@ log_decoding_ACEScct` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_ACEScct(self):
+    def test_n_dimensional_log_decoding_ACEScct(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScct` definition n-dimensional arrays support.
@@ -577,7 +576,7 @@ log_decoding_ACEScct` definition n-dimensional arrays support.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_log_decoding_ACEScct(self):
+    def test_domain_range_scale_log_decoding_ACEScct(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScct` definition domain and range scale support.
@@ -595,7 +594,7 @@ log_decoding_ACEScct` definition domain and range scale support.
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
-    def test_ACEScc_equivalency_log_decoding_ACEScct(self):
+    def test_ACEScc_equivalency_log_decoding_ACEScct(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScct` definition ACEScc equivalency, and explicit requirement
@@ -612,7 +611,7 @@ S-2016-001/introduction.tex#L14)
         )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_ACEScct(self):
+    def test_nan_log_decoding_ACEScct(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScct` definition nan support.

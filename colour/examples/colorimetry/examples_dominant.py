@@ -1,4 +1,9 @@
-"""Showcase dominant wavelength and purity of a colour computations."""
+"""
+Demonstrate dominant wavelength and purity computations.
+
+This module provides examples of dominant wavelength, complementary
+wavelength and purity calculations for colour stimuli.
+"""
 
 import numpy as np
 

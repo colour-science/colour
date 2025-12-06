@@ -123,7 +123,7 @@ class TestReadSpectralDataFromCsvFile:
     definition unit tests methods.
     """
 
-    def test_read_spectral_data_from_csv_file(self):
+    def test_read_spectral_data_from_csv_file(self) -> None:
         """
         Test :func:`colour.io.tabular.read_spectral_data_from_csv_file`
         definition.
@@ -132,7 +132,10 @@ class TestReadSpectralDataFromCsvFile:
         colour_checker_n_ohta = os.path.join(ROOT_RESOURCES, "colorchecker_n_ohta.csv")
         data = read_spectral_data_from_csv_file(colour_checker_n_ohta)
         assert list(data.keys()) == ["wavelength"] + [str(x) for x in range(1, 25)]
-        assert dict(zip(data["wavelength"], data["1"])) == COLOURCHECKER_N_OHTA_1
+        assert (
+            dict(zip(data["wavelength"], data["1"], strict=True))
+            == COLOURCHECKER_N_OHTA_1
+        )
 
         colour_checker_n_ohta_transposed = os.path.join(
             ROOT_RESOURCES, "colorchecker_n_ohta_transposed.csv"
@@ -141,7 +144,10 @@ class TestReadSpectralDataFromCsvFile:
             colour_checker_n_ohta_transposed, transpose=True, delimiter="\t"
         )
         assert list(data.keys()) == ["wavelength"] + [str(x) for x in range(1, 25)]
-        assert dict(zip(data["wavelength"], data["1"])) == COLOURCHECKER_N_OHTA_1
+        assert (
+            dict(zip(data["wavelength"], data["1"], strict=True))
+            == COLOURCHECKER_N_OHTA_1
+        )
 
         linss2_10e_5 = os.path.join(ROOT_RESOURCES, "linss2_10e_5.csv")
         data = read_spectral_data_from_csv_file(
@@ -165,7 +171,7 @@ class TestReadSdsFromCsvFile:
     tests methods.
     """
 
-    def test_read_sds_from_csv_file(self):
+    def test_read_sds_from_csv_file(self) -> None:
         """Test :func:`colour.io.tabular.read_sds_from_csv_file` definition."""
 
         colour_checker_n_ohta = os.path.join(ROOT_RESOURCES, "colorchecker_n_ohta.csv")
@@ -182,17 +188,17 @@ class TestWriteSdsToCsvFile:
     tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_write_sds_to_csv_file(self):
+    def test_write_sds_to_csv_file(self) -> None:
         """Test :func:`colour.io.tabular.write_sds_to_csv_file` definition."""
 
         colour_checker_n_ohta = os.path.join(ROOT_RESOURCES, "colorchecker_n_ohta.csv")
@@ -205,7 +211,7 @@ class TestWriteSdsToCsvFile:
         for key, value in sds.items():
             assert value == sds_test[key]
 
-    def test_raise_exception_write_sds_to_csv_file(self):
+    def test_raise_exception_write_sds_to_csv_file(self) -> None:
         """
         Test :func:`colour.io.tabular.write_sds_to_csv_file` definition
         raised exception.

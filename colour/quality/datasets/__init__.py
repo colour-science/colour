@@ -3,5 +3,7 @@ from .vs import SDS_VS
 
 __all__ = [
     "SDS_TCS",
+]
+__all__ += [
     "SDS_VS",
 ]

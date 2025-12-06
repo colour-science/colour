@@ -1,4 +1,9 @@
-"""Showcase *yellowness* computations."""
+"""
+Demonstrate yellowness computations.
+
+This module provides examples of yellowness calculations using various
+standard methods.
+"""
 
 import numpy as np
 

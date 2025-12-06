@@ -3,7 +3,7 @@ Mallett and Yuksel (2019) - Reflectance Recovery
 ================================================
 
 Define the objects for reflectance recovery, i.e., spectral upsampling, using
-*Mallett and Yuksel (2019)* method:
+*Mallett and Yuksel (2019)* method.
 
 -   :func:`colour.recovery.spectral_primary_decomposition_Mallett2019`
 -   :func:`colour.recovery.RGB_to_sd_Mallett2019`
@@ -17,19 +17,23 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
-from scipy.linalg import block_diag
-from scipy.optimize import Bounds, LinearConstraint, minimize
 
 from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralDistribution,
     handle_spectral_arguments,
 )
-from colour.hints import ArrayLike, Callable
-from colour.models import RGB_Colourspace
+
+if typing.TYPE_CHECKING:
+    from colour.models import RGB_Colourspace
+    from colour.hints import Callable, Domain1
+
+from colour.hints import Domain1  # noqa: TC001
 from colour.recovery import MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
-from colour.utilities import to_domain_1
+from colour.utilities import required, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -44,6 +48,7 @@ __all__ = [
 ]
 
 
+@required("SciPy")
 def spectral_primary_decomposition_Mallett2019(
     colourspace: RGB_Colourspace,
     cmfs: MultiSpectralDistributions | None = None,
@@ -53,8 +58,8 @@ def spectral_primary_decomposition_Mallett2019(
     optimisation_kwargs: dict | None = None,
 ) -> MultiSpectralDistributions:
     """
-    Perform the spectral primary decomposition as described in *Mallett and
-    Yuksel (2019)* for given *RGB* colourspace.
+    Perform spectral primary decomposition as described in *Mallett and
+    Yuksel (2019)* for the specified *RGB* colourspace.
 
     Parameters
     ----------
@@ -81,7 +86,7 @@ def spectral_primary_decomposition_Mallett2019(
     Returns
     -------
     :class:`colour.MultiSpectralDistributions`
-        Basis functions for given *RGB* colourspace.
+        Basis functions for the specified *RGB* colourspace.
 
     References
     ----------
@@ -89,14 +94,14 @@ def spectral_primary_decomposition_Mallett2019(
 
     Notes
     -----
-    -   In-addition to the *BT.709* primaries used by the *sRGB* colourspace,
-        :cite:`Mallett2019` tried *BT.2020*, *P3 D65*, *Adobe RGB 1998*,
-        *NTSC (1987)*, *Pal/Secam*, *ProPhoto RGB*,
-        and *Adobe Wide Gamut RGB* primaries, every one of which encompasses a
-        larger (albeit not-always-enveloping) set of *CIE L\\*a\\*b\\** colours
-        than BT.709. Of these, only *Pal/Secam* produces a feasible basis,
-        which is relatively unsurprising since it is very similar to *BT.709*,
-        whereas the others are significantly larger.
+    -   In addition to the *BT.709* primaries used by the *sRGB*
+        colourspace, :cite:`Mallett2019` tested *BT.2020*, *P3 D65*,
+        *Adobe RGB 1998*, *NTSC (1987)*, *Pal/Secam*, *ProPhoto RGB*, and
+        *Adobe Wide Gamut RGB* primaries, every one of which encompasses a
+        larger (albeit not always enveloping) set of *CIE L\\*a\\*b\\**
+        colours than BT.709. Of these, only *Pal/Secam* produces a
+        feasible basis, which is relatively unsurprising since it is very
+        similar to *BT.709*, whereas the others are significantly larger.
 
     Examples
     --------
@@ -162,6 +167,9 @@ def spectral_primary_decomposition_Mallett2019(
      [ 780.            0.3475263...    0.3262331...    0.3262404...]]
     """
 
+    from scipy.linalg import block_diag  # noqa: PLC0415
+    from scipy.optimize import Bounds, LinearConstraint, minimize  # noqa: PLC0415
+
     cmfs, illuminant = handle_spectral_arguments(cmfs, illuminant)
 
     N = len(cmfs.shape)
@@ -213,12 +221,12 @@ def spectral_primary_decomposition_Mallett2019(
 
 
 def RGB_to_sd_Mallett2019(
-    RGB: ArrayLike,
+    RGB: Domain1,
     basis_functions: MultiSpectralDistributions = MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019,
 ) -> SpectralDistribution:
     """
-    Recover the spectral distribution of given *RGB* colourspace array using
-    *Mallett and Yuksel (2019)* method.
+    Recover the spectral distribution of the specified *RGB* colourspace
+    array using *Mallett and Yuksel (2019)* method.
 
     Parameters
     ----------
@@ -240,14 +248,20 @@ def RGB_to_sd_Mallett2019(
 
     Notes
     -----
-    -   In-addition to the *BT.709* primaries used by the *sRGB* colourspace,
-        :cite:`Mallett2019` tried *BT.2020*, *P3 D65*, *Adobe RGB 1998*,
-        *NTSC (1987)*, *Pal/Secam*, *ProPhoto RGB*,
-        and *Adobe Wide Gamut RGB* primaries, every one of which encompasses a
-        larger (albeit not-always-enveloping) set of *CIE L\\*a\\*b\\** colours
-        than BT.709. Of these, only *Pal/Secam* produces a feasible basis,
-        which is relatively unsurprising since it is very similar to *BT.709*,
-        whereas the others are significantly larger.
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
+    -   In addition to the *BT.709* primaries used by the *sRGB*
+        colourspace, :cite:`Mallett2019` tested *BT.2020*, *P3 D65*,
+        *Adobe RGB 1998*, *NTSC (1987)*, *Pal/Secam*, *ProPhoto RGB*, and
+        *Adobe Wide Gamut RGB* primaries, every one of which encompasses a
+        larger (albeit not always enveloping) set of *CIE L\\*a\\*b\\**
+        colours than BT.709. Of these, only *Pal/Secam* produces a
+        feasible basis, which is relatively unsurprising since it is very
+        similar to *BT.709*, whereas the others are significantly larger.
 
     Examples
     --------

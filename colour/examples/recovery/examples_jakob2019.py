@@ -1,4 +1,9 @@
-"""Showcase reflectance recovery computations using *Jakob et al. (2019)* method."""
+"""
+Demonstrate reflectance recovery computations using *Jakob et al. (2019)* method.
+
+This module provides examples of reflectance recovery from tristimulus
+values using the *Jakob et al. (2019)* method.
+"""
 
 import numpy as np
 

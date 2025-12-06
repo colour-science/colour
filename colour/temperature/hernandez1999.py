@@ -2,14 +2,14 @@
 Hernandez-Andres, Lee and Romero (1999) Correlated Colour Temperature
 =====================================================================
 
-Define the *Hernandez-Andres et al. (1999)* correlated colour temperature
-:math:`T_{cp}` computations objects:
+Define *Hernandez-Andres et al. (1999)* correlated colour temperature
+:math:`T_{cp}` computation objects.
 
--   :func:`colour.temperature.xy_to_CCT_Hernandez1999`: Correlated colour
-    temperature :math:`T_{cp}` computation of given *CIE xy* chromaticity
+-   :func:`colour.temperature.xy_to_CCT_Hernandez1999`: Compute correlated
+    colour temperature :math:`T_{cp}` from specified *CIE xy* chromaticity
     coordinates using *Hernandez-Andres, Lee and Romero (1999)* method.
--   :func:`colour.temperature.CCT_to_xy_Hernandez1999`: *CIE xy* chromaticity
-    coordinates computation of given correlated colour temperature
+-   :func:`colour.temperature.CCT_to_xy_Hernandez1999`: Compute *CIE xy*
+    chromaticity coordinates from specified correlated colour temperature
     :math:`T_{cp}` using *Hernandez-Andres, Lee and Romero (1999)* method.
 
 References
@@ -22,13 +22,17 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
-from scipy.optimize import minimize
 
 from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, NDArrayFloat
-from colour.utilities import as_float, as_float_array, tsplit, usage_warning
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
+
+from colour.utilities import as_float, as_float_array, required, tsplit, usage_warning
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -43,11 +47,12 @@ __all__ = [
 ]
 
 
+@required("SciPy")
 def xy_to_CCT_Hernandez1999(xy: ArrayLike) -> NDArrayFloat:
     """
-    Return the correlated colour temperature :math:`T_{cp}` from given
-    *CIE xy* chromaticity coordinates using *Hernandez-Andres et al. (1999)*
-    method.
+    Compute the correlated colour temperature :math:`T_{cp}` from the
+    specified *CIE xy* chromaticity coordinates using
+    *Hernandez-Andres et al. (1999)* method.
 
     Parameters
     ----------
@@ -99,8 +104,9 @@ def CCT_to_xy_Hernandez1999(
     CCT: ArrayLike, optimisation_kwargs: dict | None = None
 ) -> NDArrayFloat:
     """
-    Return the *CIE xy* chromaticity coordinates from given correlated colour
-    temperature :math:`T_{cp}` using *Hernandez-Andres et al. (1999)* method.
+    Compute the *CIE xy* chromaticity coordinates from the specified
+    correlated colour temperature :math:`T_{cp}` using
+    *Hernandez-Andres et al. (1999)* method.
 
     Parameters
     ----------
@@ -116,13 +122,14 @@ def CCT_to_xy_Hernandez1999(
 
     Warnings
     --------
-    *Hernandez-Andres et al. (1999)* method for computing *CIE xy* chromaticity
-    coordinates from given correlated colour temperature is not a bijective
-    function and might produce unexpected results. It is given for consistency
-    with other correlated colour temperature computation methods but should be
-    avoided for practical applications. The current implementation relies on
-    optimisation using :func:`scipy.optimize.minimize` definition and thus has
-    reduced precision and poor performance.
+    *Hernandez-Andres et al. (1999)* method for computing *CIE xy*
+    chromaticity coordinates from the specified correlated colour temperature
+    is not a bijective function and might produce unexpected results. It is
+    provided for consistency with other correlated colour temperature
+    computation methods but should be avoided for practical applications. The
+    current implementation relies on optimisation using
+    :func:`scipy.optimize.minimize` definition and thus has reduced precision
+    and poor performance.
 
     References
     ----------
@@ -133,6 +140,8 @@ def CCT_to_xy_Hernandez1999(
     >>> CCT_to_xy_Hernandez1999(6500.7420431786531)  # doctest: +ELLIPSIS
     array([ 0.3127...,  0.329...])
     """
+
+    from scipy.optimize import minimize  # noqa: PLC0415
 
     usage_warning(
         '"Hernandez-Andres et al. (1999)" method for computing "CIE xy" '
@@ -146,7 +155,7 @@ def CCT_to_xy_Hernandez1999(
     shape = list(CCT.shape)
     CCT = np.atleast_1d(np.reshape(CCT, (-1, 1)))
 
-    def objective_function(xy: NDArrayFloat, CCT: NDArrayFloat) -> NDArrayFloat:
+    def objective_function(xy: NDArrayFloat, CCT: NDArrayFloat) -> DTypeFloat:
         """Objective function."""
 
         objective = np.linalg.norm(xy_to_CCT_Hernandez1999(xy) - CCT)

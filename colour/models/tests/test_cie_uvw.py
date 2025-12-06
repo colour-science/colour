@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.cie_uvw` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -27,7 +29,7 @@ class TestXYZ_to_UVW:
     methods.
     """
 
-    def test_XYZ_to_UVW(self):
+    def test_XYZ_to_UVW(self) -> None:
         """Test :func:`colour.models.cie_uvw.XYZ_to_UVW` definition."""
 
         np.testing.assert_allclose(
@@ -75,7 +77,7 @@ class TestXYZ_to_UVW:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_UVW(self):
+    def test_n_dimensional_XYZ_to_UVW(self) -> None:
         """
         Test :func:`colour.models.cie_uvw.XYZ_to_UVW` definition n-dimensional
         support.
@@ -103,7 +105,7 @@ class TestXYZ_to_UVW:
             XYZ_to_UVW(XYZ, illuminant), UVW, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_XYZ_to_UVW(self):
+    def test_domain_range_scale_XYZ_to_UVW(self) -> None:
         """
         Test :func:`colour.models.cie_uvw.XYZ_to_UVW` definition domain and
         range scale support.
@@ -123,7 +125,7 @@ class TestXYZ_to_UVW:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_UVW(self):
+    def test_nan_XYZ_to_UVW(self) -> None:
         """Test :func:`colour.models.cie_uvw.XYZ_to_UVW` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -137,7 +139,7 @@ class TestUVW_to_XYZ:
     methods.
     """
 
-    def test_UVW_to_XYZ(self):
+    def test_UVW_to_XYZ(self) -> None:
         """Test :func:`colour.models.cie_uvw.UVW_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -185,7 +187,7 @@ class TestUVW_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_UVW_to_XYZ(self):
+    def test_n_dimensional_UVW_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_uvw.UVW_to_XYZ` definition n-dimensional
         support.
@@ -213,7 +215,7 @@ class TestUVW_to_XYZ:
             UVW_to_XYZ(UVW, illuminant), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_UVW_to_XYZ(self):
+    def test_domain_range_scale_UVW_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_uvw.UVW_to_XYZ` definition domain and
         range scale support.
@@ -233,7 +235,7 @@ class TestUVW_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_UVW_to_XYZ(self):
+    def test_nan_UVW_to_XYZ(self) -> None:
         """Test :func:`colour.models.cie_uvw.UVW_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

@@ -2,7 +2,8 @@
 CIECAM02 Colour Appearance Model
 ================================
 
-Define the *CIECAM02* colour appearance model objects:
+Define the *CIECAM02* colour appearance model for predicting perceptual colour
+attributes under varying viewing conditions.
 
 -   :class:`colour.appearance.InductionFactors_CIECAM02`
 -   :attr:`colour.VIEWING_CONDITIONS_CIECAM02`
@@ -32,7 +33,7 @@ References
 
 from __future__ import annotations
 
-from collections import namedtuple
+import typing
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -46,11 +47,16 @@ from colour.appearance.hunt import (
 )
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.constants import EPSILON
-from colour.hints import ArrayLike, NDArrayFloat, Tuple, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Domain100, Range100, Tuple
+
+from colour.hints import Annotated, NDArrayFloat, cast
 from colour.models import xy_to_XYZ
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
+    MixinDataclassIterable,
     as_float,
     as_float_array,
     as_int_array,
@@ -64,10 +70,7 @@ from colour.utilities import (
     tstack,
     zeros,
 )
-from colour.utilities.documentation import (
-    DocstringDict,
-    is_documentation_building,
-)
+from colour.utilities.documentation import DocstringDict, is_documentation_building
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -117,11 +120,10 @@ CAT_INVERSE_CAT02: NDArrayFloat = np.linalg.inv(CAT_CAT02)
 """Inverse CAT02 chromatic adaptation transform."""
 
 
-class InductionFactors_CIECAM02(
-    namedtuple("InductionFactors_CIECAM02", ("F", "c", "N_c"))
-):
+@dataclass(frozen=True)
+class InductionFactors_CIECAM02(MixinDataclassIterable):
     """
-    *CIECAM02* colour appearance model induction factors.
+    Define the *CIECAM02* colour appearance model induction factors.
 
     Parameters
     ----------
@@ -138,6 +140,10 @@ class InductionFactors_CIECAM02(
     :cite:`Wikipedia2007a`
     """
 
+    F: float
+    c: float
+    N_c: float
+
 
 VIEWING_CONDITIONS_CIECAM02: CanonicalMapping = CanonicalMapping(
     {
@@ -147,7 +153,7 @@ VIEWING_CONDITIONS_CIECAM02: CanonicalMapping = CanonicalMapping(
     }
 )
 VIEWING_CONDITIONS_CIECAM02.__doc__ = """
-Reference *CIECAM02* colour appearance model viewing conditions.
+Define the reference *CIECAM02* colour appearance model viewing conditions.
 
 References
 ----------
@@ -189,7 +195,7 @@ class CAM_Specification_CIECAM02(MixinDataclassArithmetic):
     Parameters
     ----------
     J
-        Correlate of *Lightness* :math:`J`.
+        Correlate of *lightness* :math:`J`.
     C
         Correlate of *chroma* :math:`C`.
     h
@@ -222,17 +228,17 @@ class CAM_Specification_CIECAM02(MixinDataclassArithmetic):
 
 
 def XYZ_to_CIECAM02(
-    XYZ: ArrayLike,
-    XYZ_w: ArrayLike,
+    XYZ: Domain100,
+    XYZ_w: Domain100,
     L_A: ArrayLike,
     Y_b: ArrayLike,
     surround: InductionFactors_CIECAM02 = VIEWING_CONDITIONS_CIECAM02["Average"],
     discount_illuminant: bool = False,
     compute_H: bool = True,
-) -> CAM_Specification_CIECAM02:
+) -> Annotated[CAM_Specification_CIECAM02, (100, 100, 360, 100, 100, 100, 400)]:
     """
-    Compute the *CIECAM02* colour appearance model correlates from given
-    *CIE XYZ* tristimulus values.
+    Compute the *CIECAM02* colour appearance model correlates from the
+    specified *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -241,22 +247,22 @@ def XYZ_to_CIECAM02(
     XYZ_w
         *CIE XYZ* tristimulus values of reference white.
     L_A
-        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
-        to be 20% of the luminance of a white object in the scene).
+        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often
+        taken to be 20% of the luminance of a white object in the scene).
     Y_b
-        Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
-        light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
-        pixels in the entire image, or frequently, a :math:`Y` value of 20,
-        approximate an :math:`L^*` of 50 is used.
+        Luminous factor of background :math:`Y_b` such as :math:`Y_b = 100
+        \\times L_b / L_w` where :math:`L_w` is the luminance of the light
+        source and :math:`L_b` is the luminance of the background. For
+        viewing images, :math:`Y_b` can be the average :math:`Y` value for
+        the pixels in the entire image, or frequently, a :math:`Y` value of
+        20, approximate an :math:`L^*` of 50 is used.
     surround
         Surround viewing conditions induction factors.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
     compute_H
-        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H` is
-        rarely used, and expensive to compute.
+        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H`
+        is rarely used, and expensive to compute.
 
     Returns
     -------
@@ -265,48 +271,31 @@ def XYZ_to_CIECAM02(
 
     Notes
     -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
-    | ``XYZ_w``  | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``XYZ``             | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``XYZ_w``           | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
 
-    +----------------------------------+-----------------------\
-+---------------+
-    | **Range**                        | **Scale - Reference** \
-| **Scale - 1** |
-    +==================================+=======================\
-+===============+
-    | ``CAM_Specification_CIECAM02.J`` | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_CIECAM02.C`` | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_CIECAM02.h`` | [0, 360]              \
-| [0, 1]        |
-    +----------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_CIECAM02.s`` | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_CIECAM02.Q`` | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_CIECAM02.M`` | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_CIECAM02.H`` | [0, 400]              \
-| [0, 1]        |
-    +----------------------------------+-----------------------\
-+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``specification.J`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.C`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.h`` | 360                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.s`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.Q`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.M`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.H`` | 400                   | 1             |
+    +---------------------+-----------------------+---------------+
 
     References
     ----------
@@ -391,27 +380,30 @@ H=278.0607358..., HC=None)
     s = saturation_correlate(M, Q)
 
     return CAM_Specification_CIECAM02(
-        as_float(from_range_100(J)),
-        as_float(from_range_100(C)),
-        as_float(from_range_degrees(h)),
-        as_float(from_range_100(s)),
-        as_float(from_range_100(Q)),
-        as_float(from_range_100(M)),
-        as_float(from_range_degrees(H, 400)),
-        None,
+        J=as_float(from_range_100(J)),
+        C=as_float(from_range_100(C)),
+        h=as_float(from_range_degrees(h)),
+        s=as_float(from_range_100(s)),
+        Q=as_float(from_range_100(Q)),
+        M=as_float(from_range_100(M)),
+        H=as_float(from_range_degrees(H, 400)),
+        HC=None,
     )
 
 
 def CIECAM02_to_XYZ(
-    specification: CAM_Specification_CIECAM02,
-    XYZ_w: ArrayLike,
+    specification: Annotated[
+        CAM_Specification_CIECAM02, (100, 100, 360, 100, 100, 100, 400)
+    ],
+    XYZ_w: Domain100,
     L_A: ArrayLike,
     Y_b: ArrayLike,
     surround: InductionFactors_CIECAM02 = VIEWING_CONDITIONS_CIECAM02["Average"],
     discount_illuminant: bool = False,
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Convert from *CIECAM02* specification to *CIE XYZ* tristimulus values.
+    Convert the *CIECAM02* colour appearance model specification to *CIE XYZ*
+    tristimulus values.
 
     Parameters
     ----------
@@ -427,11 +419,11 @@ def CIECAM02_to_XYZ(
         to be 20% of the luminance of a white object in the scene).
     Y_b
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
-        light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
-        pixels in the entire image, or frequently, a :math:`Y` value of 20,
-        approximate an :math:`L^*` of 50 is used.
+        :math:`Y_b = 100 \\times L_b / L_w` where :math:`L_w` is the luminance
+        of the light source and :math:`L_b` is the luminance of the background.
+        For viewing images, :math:`Y_b` can be the average :math:`Y` value for
+        the pixels in the entire image, or frequently, a :math:`Y` value of 20,
+        approximating an :math:`L^*` of 50 is used.
     surround
         Surround viewing conditions.
     discount_illuminant
@@ -445,55 +437,36 @@ def CIECAM02_to_XYZ(
     Raises
     ------
     ValueError
-        If neither :math:`C` or :math:`M` correlates have been defined in the
+        If neither :math:`C` nor :math:`M` correlates have been defined in the
         ``specification`` argument.
 
     Notes
     -----
-    +----------------------------------+-----------------------\
-+---------------+
-    | **Domain**                       | **Scale - Reference** \
-| **Scale - 1** |
-    +==================================+=======================\
-+===============+
-    | ``CAM_Specification_CIECAM02.J`` | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_CIECAM02.C`` | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_CIECAM02.h`` | [0, 360]              \
-| [0, 1]        |
-    +----------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_CIECAM02.s`` | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_CIECAM02.Q`` | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_CIECAM02.M`` | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_CIECAM02.H`` | [0, 360]              \
-| [0, 1]        |
-    +----------------------------------+-----------------------\
-+---------------+
-    | ``XYZ_w``                        | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------+-----------------------\
-+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``specification.J`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.C`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.h`` | 360                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.s`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.Q`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.M`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.H`` | 360                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``XYZ_w``           | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
 
-    +-----------+-----------------------+---------------+
-    | **Range** | **Scale - Reference** | **Scale - 1** |
-    +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
-    +-----------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``XYZ``             | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
 
     References
     ----------
@@ -527,10 +500,12 @@ def CIECAM02_to_XYZ(
     if has_only_nan(C) and not has_only_nan(M):
         C = M / spow(F_L, 0.25)
     elif has_only_nan(C):
-        raise ValueError(
+        error = (
             'Either "C" or "M" correlate must be defined in '
             'the "CAM_Specification_CIECAM02" argument!'
         )
+
+        raise ValueError(error)
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
@@ -593,7 +568,8 @@ def CIECAM02_to_XYZ(
 
 def chromatic_induction_factors(n: ArrayLike) -> NDArrayFloat:
     """
-    Return the chromatic induction factors :math:`N_{bb}` and :math:`N_{cb}`.
+    Compute the chromatic induction factors :math:`N_{bb}` and
+    :math:`N_{cb}`.
 
     Parameters
     ----------
@@ -616,16 +592,14 @@ def chromatic_induction_factors(n: ArrayLike) -> NDArrayFloat:
     with sdiv_mode():
         N_bb = N_cb = 0.725 * spow(sdiv(1, n), 0.2)
 
-    N_bbcb = tstack([N_bb, N_cb])
-
-    return N_bbcb
+    return tstack([N_bb, N_cb])
 
 
 def base_exponential_non_linearity(
     n: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the base exponential non-linearity :math:`n`.
+    Compute the base exponential non-linearity :math:`n`.
 
     Parameters
     ----------
@@ -645,9 +619,7 @@ def base_exponential_non_linearity(
 
     n = as_float_array(n)
 
-    z = 1.48 + np.sqrt(n)
-
-    return z
+    return 1.48 + np.sqrt(n)
 
 
 def viewing_conditions_dependent_parameters(
@@ -662,7 +634,7 @@ def viewing_conditions_dependent_parameters(
     NDArrayFloat,
 ]:
     """
-    Return the viewing condition dependent parameters.
+    Compute the viewing condition dependent parameters.
 
     Parameters
     ----------
@@ -676,7 +648,12 @@ def viewing_conditions_dependent_parameters(
     Returns
     -------
     :class:`tuple`
-        Viewing condition dependent parameters.
+        Viewing condition dependent parameters :math:`(n, F_L, F_{Lb},
+        F_{Lw}, z)` where :math:`n` is the background induction factor,
+        :math:`F_L` is the luminance adaptation factor, :math:`F_{Lb}` and
+        :math:`F_{Lw}` are the background and whitepoint luminance
+        adaptation factors respectively, and :math:`z` is the base linear
+        exponent for the nonlinear response compression.
 
     Examples
     --------
@@ -700,9 +677,9 @@ def viewing_conditions_dependent_parameters(
 
 def degree_of_adaptation(F: ArrayLike, L_A: ArrayLike) -> NDArrayFloat:
     """
-    Return the degree of adaptation :math:`D` from given surround maximum
-    degree of adaptation :math:`F` and adapting field *luminance* :math:`L_A`
-    in :math:`cd/m^2`.
+    Compute the degree of adaptation :math:`D` from the specified surround
+    maximum degree of adaptation :math:`F` and adapting field *luminance*
+    :math:`L_A` in :math:`cd/m^2`.
 
     Parameters
     ----------
@@ -725,9 +702,7 @@ def degree_of_adaptation(F: ArrayLike, L_A: ArrayLike) -> NDArrayFloat:
     F = as_float_array(F)
     L_A = as_float_array(L_A)
 
-    D = F * (1 - (1 / 3.6) * np.exp((-L_A - 42) / 92))
-
-    return D
+    return F * (1 - (1 / 3.6) * np.exp((-L_A - 42) / 92))
 
 
 def full_chromatic_adaptation_forward(
@@ -737,9 +712,9 @@ def full_chromatic_adaptation_forward(
     D: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Apply full chromatic adaptation to given *CMCCAT2000* transform sharpened
-    *RGB* array using given *CMCCAT2000* transform sharpened whitepoint
-    *RGB_w* array.
+    Apply full chromatic adaptation to the specified *CMCCAT2000* transform
+    sharpened *RGB* array using the specified *CMCCAT2000* transform sharpened
+    whitepoint *RGB_w* array.
 
     Parameters
     ----------
@@ -776,7 +751,7 @@ def full_chromatic_adaptation_forward(
     with sdiv_mode():
         RGB_c = (Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]) * RGB
 
-    return cast(NDArrayFloat, RGB_c)
+    return cast("NDArrayFloat", RGB_c)
 
 
 def full_chromatic_adaptation_inverse(
@@ -786,16 +761,16 @@ def full_chromatic_adaptation_inverse(
     D: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Revert full chromatic adaptation of given *CMCCAT2000* transform sharpened
-    *RGB* array using given *CMCCAT2000* transform sharpened whitepoint
-    *RGB_w* array.
+    Revert full chromatic adaptation of the specified *CMCCAT2000* transform
+    sharpened *RGB* array using the specified *CMCCAT2000* transform sharpened
+    whitepoint :math:`RGB_w` array.
 
     Parameters
     ----------
     RGB
         *CMCCAT2000* transform sharpened *RGB* array.
     RGB_w
-        *CMCCAT2000* transform sharpened whitepoint *RGB_w* array.
+        *CMCCAT2000* transform sharpened whitepoint :math:`RGB_w` array.
     Y_w
         Whitepoint *Y* tristimulus value :math:`Y_w`.
     D
@@ -824,12 +799,12 @@ def full_chromatic_adaptation_inverse(
     with sdiv_mode():
         RGB_c = RGB / (Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None])
 
-    return cast(NDArrayFloat, RGB_c)
+    return cast("NDArrayFloat", RGB_c)
 
 
 def RGB_to_rgb(RGB: ArrayLike) -> NDArrayFloat:
     """
-    Convert given *RGB* array to *Hunt-Pointer-Estevez*
+    Convert the specified *RGB* array to *Hunt-Pointer-Estevez*
     :math:`\\rho\\gamma\\beta` colourspace.
 
     Parameters
@@ -849,15 +824,13 @@ def RGB_to_rgb(RGB: ArrayLike) -> NDArrayFloat:
     array([ 19.9969397...,  20.0018612...,  20.0135053...])
     """
 
-    rgb = vecmul(np.matmul(MATRIX_XYZ_TO_HPE, CAT_INVERSE_CAT02), RGB)
-
-    return rgb
+    return vecmul(np.matmul(MATRIX_XYZ_TO_HPE, CAT_INVERSE_CAT02), RGB)
 
 
 def rgb_to_RGB(rgb: ArrayLike) -> NDArrayFloat:
     """
-    Convert given *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
-    colourspace array to *RGB* array.
+    Convert from *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
+    colourspace array to adapted *RGB* array.
 
     Parameters
     ----------
@@ -867,7 +840,7 @@ def rgb_to_RGB(rgb: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        *RGB* array.
+        Adapted *RGB* array.
 
     Examples
     --------
@@ -876,17 +849,15 @@ def rgb_to_RGB(rgb: ArrayLike) -> NDArrayFloat:
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
-    RGB = vecmul(np.matmul(CAT_CAT02, MATRIX_HPE_TO_XYZ), rgb)
-
-    return RGB
+    return vecmul(np.matmul(CAT_CAT02, MATRIX_HPE_TO_XYZ), rgb)
 
 
 def post_adaptation_non_linear_response_compression_forward(
     RGB: ArrayLike, F_L: ArrayLike
 ) -> NDArrayFloat:
     """
-    Return given *CMCCAT2000* transform sharpened *RGB* array with post
-    adaptation non-linear response compression.
+    Apply post-adaptation non-linear response compression to the specified
+    *CMCCAT2000* transform sharpened *RGB* array.
 
     Parameters
     ----------
@@ -918,17 +889,16 @@ def post_adaptation_non_linear_response_compression_forward(
     F_L = as_float_array(F_L)
 
     F_L_RGB = spow(F_L[..., None] * np.absolute(RGB) / 100, 0.42)
-    RGB_c = (400 * np.sign(RGB) * F_L_RGB) / (27.13 + F_L_RGB) + 0.1
 
-    return RGB_c
+    return (400 * np.sign(RGB) * F_L_RGB) / (27.13 + F_L_RGB) + 0.1
 
 
 def post_adaptation_non_linear_response_compression_inverse(
     RGB: ArrayLike, F_L: ArrayLike
 ) -> NDArrayFloat:
     """
-    Return given *CMCCAT2000* transform sharpened *RGB* array without post
-    adaptation non-linear response compression.
+    Remove post-adaptation non-linear response compression from the specified
+    *CMCCAT2000* transform sharpened *RGB* array.
 
     Parameters
     ----------
@@ -954,7 +924,7 @@ def post_adaptation_non_linear_response_compression_inverse(
     RGB = as_float_array(RGB)
     F_L = as_float_array(F_L)
 
-    RGB_p = (
+    return (
         np.sign(RGB - 0.1)
         * 100
         / F_L[..., None]
@@ -964,13 +934,11 @@ def post_adaptation_non_linear_response_compression_inverse(
         )
     )
 
-    return RGB_p
-
 
 def opponent_colour_dimensions_forward(RGB: ArrayLike) -> NDArrayFloat:
     """
-    Return opponent colour dimensions from given compressed *CMCCAT2000*
-    transform sharpened *RGB* array for forward *CIECAM02* implementation.
+    Compute opponent colour dimensions from compressed *CMCCAT2000* transform
+    sharpened *RGB* array for forward *CIECAM02* implementation.
 
     Parameters
     ----------
@@ -994,15 +962,13 @@ def opponent_colour_dimensions_forward(RGB: ArrayLike) -> NDArrayFloat:
     a = R - 12 * G / 11 + B / 11
     b = (R + G - 2 * B) / 9
 
-    ab = tstack([a, b])
-
-    return ab
+    return tstack([a, b])
 
 
 def opponent_colour_dimensions_inverse(P_n: ArrayLike, h: ArrayLike) -> NDArrayFloat:
     """
-    Return opponent colour dimensions from given points :math:`P_n` and hue
-    :math:`h` in degrees for inverse *CIECAM02* implementation.
+    Compute opponent colour dimensions from the specified points :math:`P_n`
+    and hue :math:`h` in degrees for the inverse *CIECAM02* implementation.
 
     Parameters
     ----------
@@ -1080,14 +1046,13 @@ def opponent_colour_dimensions_inverse(P_n: ArrayLike, h: ArrayLike) -> NDArrayF
         b,
     )
 
-    ab = tstack([a, b])
-
-    return ab
+    return tstack([a, b])
 
 
 def hue_angle(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     """
-    Return the *hue* angle :math:`h` in degrees.
+    Compute the *hue* angle :math:`h` in degrees from the specified opponent
+    colour dimensions.
 
     Parameters
     ----------
@@ -1119,7 +1084,7 @@ def hue_angle(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
 
 def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     """
-    Return the hue quadrature from given hue :math:`h` angle in degrees.
+    Compute hue quadrature from the specified hue :math:`h` angle in degrees.
 
     Parameters
     ----------
@@ -1165,13 +1130,14 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
         H_ii + ((85.9 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii + (360 - h) / 0.856)),
         H,
     )
+
     return as_float(H)
 
 
 def eccentricity_factor(h: ArrayLike) -> NDArrayFloat:
     """
-    Return the eccentricity factor :math:`e_t` from given hue :math:`h` angle
-    in degrees for forward *CIECAM02* implementation.
+    Compute the eccentricity factor :math:`e_t` from the specified hue
+    :math:`h` angle in degrees for forward *CIECAM02* implementation.
 
     Parameters
     ----------
@@ -1191,14 +1157,12 @@ def eccentricity_factor(h: ArrayLike) -> NDArrayFloat:
 
     h = as_float_array(h)
 
-    e_t = 1 / 4 * (np.cos(2 + h * np.pi / 180) + 3.8)
-
-    return e_t
+    return 1 / 4 * (np.cos(2 + h * np.pi / 180) + 3.8)
 
 
 def achromatic_response_forward(RGB: ArrayLike, N_bb: ArrayLike) -> NDArrayFloat:
     """
-    Return the achromatic response :math:`A` from given compressed
+    Compute the achromatic response :math:`A` from the specified compressed
     *CMCCAT2000* transform sharpened *RGB* array and :math:`N_{bb}` chromatic
     induction factor for forward *CIECAM02* implementation.
 
@@ -1224,9 +1188,7 @@ def achromatic_response_forward(RGB: ArrayLike, N_bb: ArrayLike) -> NDArrayFloat
 
     R, G, B = tsplit(RGB)
 
-    A = (2 * R + G + (1 / 20) * B - 0.305) * N_bb
-
-    return A
+    return (2 * R + G + (1 / 20) * B - 0.305) * N_bb
 
 
 def achromatic_response_inverse(
@@ -1236,10 +1198,11 @@ def achromatic_response_inverse(
     z: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the achromatic response :math:`A` from given achromatic response
-    :math:`A_w` for the whitepoint, *Lightness* correlate :math:`J`, surround
-    exponential non-linearity :math:`c` and base exponential non-linearity
-    :math:`z` for inverse *CIECAM02* implementation.
+    Compute the achromatic response :math:`A` from the specified achromatic
+    response :math:`A_w` for the whitepoint, *Lightness* correlate
+    :math:`J`, surround exponential non-linearity :math:`c` and base
+    exponential non-linearity :math:`z` for inverse *CIECAM02*
+    implementation.
 
     Parameters
     ----------
@@ -1272,9 +1235,7 @@ def achromatic_response_inverse(
     c = as_float_array(c)
     z = as_float_array(z)
 
-    A = A_w * spow(J / 100, 1 / (c * z))
-
-    return A
+    return A_w * spow(J / 100, 1 / (c * z))
 
 
 def lightness_correlate(
@@ -1284,7 +1245,7 @@ def lightness_correlate(
     z: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the *Lightness* correlate :math:`J`.
+    Compute the *Lightness* correlate :math:`J`.
 
     Parameters
     ----------
@@ -1318,9 +1279,7 @@ def lightness_correlate(
     z = as_float_array(z)
 
     with sdiv_mode():
-        J = 100 * spow(sdiv(A, A_w), c * z)
-
-    return J
+        return 100 * spow(sdiv(A, A_w), c * z)
 
 
 def brightness_correlate(
@@ -1330,7 +1289,7 @@ def brightness_correlate(
     F_L: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the *brightness* correlate :math:`Q`.
+    Compute the *brightness* correlate :math:`Q`.
 
     Parameters
     ----------
@@ -1363,9 +1322,7 @@ def brightness_correlate(
     A_w = as_float_array(A_w)
     F_L = as_float_array(F_L)
 
-    Q = (4 / c) * np.sqrt(J / 100) * (A_w + 4) * spow(F_L, 0.25)
-
-    return Q
+    return (4 / c) * np.sqrt(J / 100) * (A_w + 4) * spow(F_L, 0.25)
 
 
 def temporary_magnitude_quantity_forward(
@@ -1377,8 +1334,8 @@ def temporary_magnitude_quantity_forward(
     RGB_a: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the temporary magnitude quantity :math:`t`. for forward *CIECAM02*
-    implementation.
+    Compute the temporary magnitude quantity :math:`t` for forward
+    *CIECAM02* implementation.
 
     Parameters
     ----------
@@ -1398,7 +1355,7 @@ def temporary_magnitude_quantity_forward(
     Returns
     -------
     :class:`numpy.ndarray`
-         Temporary magnitude quantity :math:`t`.
+        Temporary magnitude quantity :math:`t`.
 
     Examples
     --------
@@ -1421,19 +1378,17 @@ def temporary_magnitude_quantity_forward(
     Ra, Ga, Ba = tsplit(RGB_a)
 
     with sdiv_mode():
-        t = ((50000 / 13) * N_c * N_cb) * sdiv(
+        return ((50000 / 13) * N_c * N_cb) * sdiv(
             e_t * spow(a**2 + b**2, 0.5), Ra + Ga + 21 * Ba / 20
         )
-
-    return t
 
 
 def temporary_magnitude_quantity_inverse(
     C: ArrayLike, J: ArrayLike, n: ArrayLike
 ) -> NDArrayFloat:
     """
-    Return the temporary magnitude quantity :math:`t`. for inverse *CIECAM02*
-    implementation.
+    Compute the temporary magnitude quantity :math:`t` for inverse
+    *CIECAM02* implementation.
 
     Parameters
     ----------
@@ -1447,7 +1402,7 @@ def temporary_magnitude_quantity_inverse(
     Returns
     -------
     :class:`numpy.ndarray`
-         Temporary magnitude quantity :math:`t`.
+        Temporary magnitude quantity :math:`t`.
 
     Examples
     --------
@@ -1459,12 +1414,10 @@ def temporary_magnitude_quantity_inverse(
     """
 
     C = as_float_array(C)
-    J = np.maximum(J, EPSILON)
+    J_prime = np.maximum(J, EPSILON)
     n = as_float_array(n)
 
-    t = spow(C / (np.sqrt(J / 100) * spow(1.64 - 0.29**n, 0.73)), 1 / 0.9)
-
-    return t
+    return spow(C / (np.sqrt(J_prime / 100) * spow(1.64 - 0.29**n, 0.73)), 1 / 0.9)
 
 
 def chroma_correlate(
@@ -1478,7 +1431,7 @@ def chroma_correlate(
     RGB_a: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the *chroma* correlate :math:`C`.
+    Compute the *chroma* correlate :math:`C`.
 
     Parameters
     ----------
@@ -1497,7 +1450,8 @@ def chroma_correlate(
     b
         Opponent colour dimension :math:`b`.
     RGB_a
-        Compressed stimulus *CMCCAT2000* transform sharpened *RGB* array.
+        Compressed stimulus *CMCCAT2000* transform sharpened *RGB*
+        array.
 
     Returns
     -------
@@ -1523,14 +1477,13 @@ def chroma_correlate(
     n = as_float_array(n)
 
     t = temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
-    C = spow(t, 0.9) * spow(J / 100, 0.5) * spow(1.64 - 0.29**n, 0.73)
 
-    return C
+    return spow(t, 0.9) * spow(J / 100, 0.5) * spow(1.64 - 0.29**n, 0.73)
 
 
 def colourfulness_correlate(C: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
     """
-    Return the *colourfulness* correlate :math:`M`.
+    Compute the *colourfulness* correlate :math:`M`.
 
     Parameters
     ----------
@@ -1555,21 +1508,19 @@ def colourfulness_correlate(C: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
     C = as_float_array(C)
     F_L = as_float_array(F_L)
 
-    M = C * spow(F_L, 0.25)
-
-    return M
+    return C * spow(F_L, 0.25)
 
 
 def saturation_correlate(M: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     """
-    Return the *saturation* correlate :math:`s`.
+    Compute the *saturation* correlate :math:`s`.
 
     Parameters
     ----------
     M
         *Colourfulness* correlate :math:`M`.
     Q
-        *Brightness* correlate :math:`C`.
+        *Brightness* correlate :math:`Q`.
 
     Returns
     -------
@@ -1588,9 +1539,7 @@ def saturation_correlate(M: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     Q = as_float_array(Q)
 
     with sdiv_mode():
-        s = 100 * spow(sdiv(M, Q), 0.5)
-
-    return s
+        return 100 * spow(sdiv(M, Q), 0.5)
 
 
 def P(
@@ -1602,7 +1551,7 @@ def P(
     N_bb: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the points :math:`P_1`, :math:`P_2` and :math:`P_3`.
+    Compute the points :math:`P_1`, :math:`P_2` and :math:`P_3`.
 
     Parameters
     ----------
@@ -1615,7 +1564,7 @@ def P(
     t
         Temporary magnitude quantity :math:`t`.
     A
-        Achromatic response  :math:`A` for the stimulus.
+        Achromatic response :math:`A` for the stimulus.
     N_bb
         Chromatic induction factor :math:`N_{bb}`.
 
@@ -1649,30 +1598,30 @@ def P(
     P_2 = A / N_bb + 0.305
     P_3 = ones(P_1.shape) * (21 / 20)
 
-    P_n = tstack([P_1, P_2, P_3])
-
-    return P_n
+    return tstack([P_1, P_2, P_3])
 
 
 def matrix_post_adaptation_non_linear_response_compression(
     P_2: ArrayLike, a: ArrayLike, b: ArrayLike
 ) -> NDArrayFloat:
     """
-    Apply the post-adaptation non-linear-response compression matrix.
+    Apply post-adaptation non-linear response compression matrix to
+    specified opponent colour components.
 
     Parameters
     ----------
     P_2
-        Point :math:`P_2`.
+        Point :math:`P_2` representing the post-adaptation response value.
     a
-        Opponent colour dimension :math:`a`.
+        Opponent colour dimension :math:`a` component.
     b
-        Opponent colour dimension :math:`b`.
+        Opponent colour dimension :math:`b` component.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Points :math:`P`.
+        Array of compressed points :math:`P` containing three values
+        after non-linear response compression.
 
     Examples
     --------
@@ -1688,7 +1637,7 @@ def matrix_post_adaptation_non_linear_response_compression(
     a = as_float_array(a)
     b = as_float_array(b)
 
-    RGB_a = (
+    return (
         vecmul(
             [
                 [460, 451, 288],
@@ -1699,5 +1648,3 @@ def matrix_post_adaptation_non_linear_response_compression(
         )
         / 1403
     )
-
-    return RGB_a

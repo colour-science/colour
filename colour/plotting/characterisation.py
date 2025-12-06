@@ -2,7 +2,7 @@
 Characterisation Plotting
 =========================
 
-Define the characterisation plotting objects:
+Define the characterisation plotting objects.
 
 -   :func:`colour.plotting.plot_single_colour_checker`
 -   :func:`colour.plotting.plot_multi_colour_checkers`
@@ -10,12 +10,18 @@ Define the characterisation plotting objects:
 
 from __future__ import annotations
 
-import numpy as np
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
+import typing
 
-from colour.characterisation import ColourChecker
-from colour.hints import Any, Dict, Sequence, Tuple
+if typing.TYPE_CHECKING:
+    from matplotlib.figure import Figure
+    from matplotlib.axes import Axes
+
+import numpy as np
+
+if typing.TYPE_CHECKING:
+    from colour.characterisation import ColourChecker
+    from colour.hints import Any, Dict, Sequence, Tuple
+
 from colour.models import xyY_to_XYZ
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
@@ -56,13 +62,13 @@ def plot_single_colour_checker(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given colour checker.
+    Plot the specified colour checker.
 
     Parameters
     ----------
     colour_checker
-        Color checker to plot. ``colour_checker`` can be of any type or form
-        supported by the
+        Colour checker to plot. ``colour_checker`` can be of any type or
+        form supported by the
         :func:`colour.plotting.common.filter_colour_checkers` definition.
 
     Other Parameters
@@ -105,14 +111,15 @@ def plot_multi_colour_checkers(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot and compares given colour checkers.
+    Plot and compare the specified colour checkers.
 
     Parameters
     ----------
     colour_checkers
-        Color checker to plot, count must be less than or equal to 2.
-        ``colour_checkers`` elements can be of any type or form supported by
-        the :func:`colour.plotting.common.filter_colour_checkers` definition.
+        Colour checkers to plot, count must be less than or equal to 2.
+        ``colour_checkers`` elements can be of any type or form supported
+        by the :func:`colour.plotting.common.filter_colour_checkers`
+        definition.
 
     Other Parameters
     ----------------
@@ -171,6 +178,7 @@ def plot_multi_colour_checkers(
             for pairs in zip(
                 colour_swatches[0 : len(colour_swatches) // 2],
                 colour_swatches[len(colour_swatches) // 2 :],
+                strict=True,
             )
             for swatch in pairs
         ]

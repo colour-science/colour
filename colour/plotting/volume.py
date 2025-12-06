@@ -2,7 +2,7 @@
 Colour Models Volume Plotting
 =============================
 
-Define the colour models volume and gamut plotting objects:
+Define the colour models volume and gamut plotting objects.
 
 -   :func:`colour.plotting.plot_RGB_colourspaces_gamuts`
 -   :func:`colour.plotting.plot_RGB_scatter`
@@ -10,31 +10,30 @@ Define the colour models volume and gamut plotting objects:
 
 from __future__ import annotations
 
+import typing
+
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.figure import Figure
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-from mpl_toolkits.mplot3d.axes3d import Axes3D
 
-from colour.colorimetry import MultiSpectralDistributions
 from colour.constants import EPSILON
-from colour.geometry import (
-    primitive_vertices_cube_mpl,
-    primitive_vertices_grid_mpl,
-)
+from colour.geometry import primitive_vertices_cube_mpl, primitive_vertices_grid_mpl
 from colour.graph import convert
-from colour.hints import (
-    Any,
-    ArrayLike,
-    List,
-    Literal,
-    LiteralColourspaceModel,
-    LiteralRGBColourspace,
-    NDArrayFloat,
-    Sequence,
-    Tuple,
-    cast,
-)
+
+if typing.TYPE_CHECKING:
+    from matplotlib.figure import Figure
+    from mpl_toolkits.mplot3d.axes3d import Axes3D
+    from colour.colorimetry import MultiSpectralDistributions
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Literal,
+        LiteralColourspaceModel,
+        LiteralRGBColourspace,
+        NDArrayFloat,
+    )
+
+from colour.hints import List, Sequence, Tuple, cast
 from colour.models import RGB_Colourspace, RGB_to_XYZ
 from colour.models.common import COLOURSPACE_MODELS_AXIS_LABELS
 from colour.plotting import (
@@ -82,9 +81,9 @@ def nadir_grid(
     **kwargs: Any,
 ) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:
     """
-    Return a grid on *CIE xy* plane made of quad geometric elements and its
-    associated faces and edges colours. Ticks and labels are added to the
-    given axes according to the extended grid settings.
+    Generate a grid on the *CIE xy* plane made of quad geometric elements
+    with associated face and edge colours. Add ticks and labels to the
+    specified axes according to the extended grid settings.
 
     Parameters
     ----------
@@ -132,7 +131,7 @@ def nadir_grid(
     Returns
     -------
     :class:`tuple`
-        Grid quads, faces colours, edges colours.
+        Grid quads, face colours, edge colours.
 
     Examples
     --------
@@ -186,24 +185,22 @@ def nadir_grid(
     """
 
     limits = as_float_array(optional(limits, np.array([[-1, 1], [-1, 1]])))
-    labels = cast(Sequence, optional(labels, ("x", "y")))
+    labels = cast("Sequence", optional(labels, ("x", "y")))
 
     extent = np.max(np.abs(limits[..., 1] - limits[..., 0]))
 
     settings = Structure(
-        **{
-            "grid_face_colours": (0.25, 0.25, 0.25),
-            "grid_edge_colours": (0.50, 0.50, 0.50),
-            "grid_face_alpha": 0.1,
-            "grid_edge_alpha": 0.5,
-            "x_axis_colour": (0.0, 0.0, 0.0, 1.0),
-            "y_axis_colour": (0.0, 0.0, 0.0, 1.0),
-            "x_ticks_colour": (0.0, 0.0, 0.0, 0.85),
-            "y_ticks_colour": (0.0, 0.0, 0.0, 0.85),
-            "x_label_colour": (0.0, 0.0, 0.0, 0.85),
-            "y_label_colour": (0.0, 0.0, 0.0, 0.85),
-            "ticks_and_label_location": ("-x", "-y"),
-        }
+        grid_face_colours=(0.25, 0.25, 0.25),
+        grid_edge_colours=(0.50, 0.50, 0.50),
+        grid_face_alpha=0.1,
+        grid_edge_alpha=0.5,
+        x_axis_colour=(0.0, 0.0, 0.0, 1.0),
+        y_axis_colour=(0.0, 0.0, 0.0, 1.0),
+        x_ticks_colour=(0.0, 0.0, 0.0, 0.85),
+        y_ticks_colour=(0.0, 0.0, 0.0, 0.85),
+        x_label_colour=(0.0, 0.0, 0.0, 0.85),
+        y_label_colour=(0.0, 0.0, 0.0, 0.85),
+        ticks_and_label_location=("-x", "-y"),
     )
     settings.update(**kwargs)
 
@@ -319,42 +316,44 @@ def RGB_identity_cube(
     height_segments: int = 16,
     depth_segments: int = 16,
     planes: (
-        Literal[
-            "-x",
-            "+x",
-            "-y",
-            "+y",
-            "-z",
-            "+z",
-            "xy",
-            "xz",
-            "yz",
-            "yx",
-            "zx",
-            "zy",
+        Sequence[
+            Literal[
+                "-x",
+                "+x",
+                "-y",
+                "+y",
+                "-z",
+                "+z",
+                "xy",
+                "xz",
+                "yz",
+                "yx",
+                "zx",
+                "zy",
+            ]
         ]
         | None
     ) = None,
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
-    Return an *RGB* identity cube made of quad geometric elements and its
-    associated *RGB* colours.
+    Generate an *RGB* identity cube composed of quad geometric elements with
+    its associated *RGB* colours.
 
     Parameters
     ----------
     width_segments
-        Cube segments, quad counts along the width.
+        Number of quad segments along the cube width.
     height_segments
-        Cube segments, quad counts along the height.
+        Number of quad segments along the cube height.
     depth_segments
-        Cube segments, quad counts along the depth.
+        Number of quad segments along the cube depth.
     planes
         Grid primitives to include in the cube construction.
 
     Returns
     -------
     :class:`tuple`
-        Cube quads, *RGB* colours.
+        Cube quads and *RGB* colours.
 
     Examples
     --------
@@ -434,7 +433,8 @@ def plot_RGB_colourspaces_gamuts(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes3D]:
     """
-    Plot given *RGB* colourspaces gamuts in given reference colourspace.
+    Plot the gamuts of the specified *RGB* colourspaces in the specified
+    reference colourspace.
 
     Parameters
     ----------
@@ -443,12 +443,13 @@ def plot_RGB_colourspaces_gamuts(
         can be of any type or form supported by the
         :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     model
-        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
-        the list of supported colourspace models.
+        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute
+        for the list of supported colourspace models.
     segments
-        Edge segments count for each *RGB* colourspace cubes.
+        Edge segments count for each *RGB* colourspace cube.
     show_grid
-        Whether to show a grid at the bottom of the *RGB* colourspace cubes.
+        Whether to show a grid at the bottom of the *RGB* colourspace
+        cubes.
     grid_segments
         Edge segments count for the grid.
     show_spectral_locus
@@ -458,23 +459,27 @@ def plot_RGB_colourspaces_gamuts(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     chromatically_adapt
-        Whether to chromatically adapt the *RGB* colourspaces given in
-        ``colourspaces`` to the whitepoint of the default plotting colourspace.
+        Whether to chromatically adapt the *RGB* colourspaces specified in
+        ``colourspaces`` to the whitepoint of the default plotting
+        colourspace.
     convert_kwargs
         Keyword arguments for the :func:`colour.convert` definition.
 
     Other Parameters
     ----------------
     edge_colours
-        Edge colours array such as `edge_colours = (None, (0.5, 0.5, 1.0))`.
+        Edge colours array such as
+        `edge_colours = (None, (0.5, 0.5, 1.0))`.
     edge_alpha
         Edge opacity value such as `edge_alpha = (0.0, 1.0)`.
     face_alpha
         Face opacity value such as `face_alpha = (0.5, 1.0)`.
     face_colours
-        Face colours array such as `face_colours = (None, (0.5, 0.5, 1.0))`.
+        Face colours array such as
+        `face_colours = (None, (0.5, 0.5, 1.0))`.
     kwargs
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.volume.nadir_grid`},
@@ -504,7 +509,7 @@ def plot_RGB_colourspaces_gamuts(
     ).get("model", model)
 
     colourspaces = cast(
-        List[RGB_Colourspace],
+        "List[RGB_Colourspace]",
         list(filter_RGB_colourspaces(colourspaces).values()),
     )  # pyright: ignore
 
@@ -520,22 +525,22 @@ def plot_RGB_colourspaces_gamuts(
     convert_settings.update(convert_kwargs)
 
     settings = Structure(
-        **{
-            "face_colours": [None] * count_c,
-            "edge_colours": [None] * count_c,
-            "face_alpha": [1] * count_c,
-            "edge_alpha": [1] * count_c,
-            "title": title,
-        }
+        face_colours=[None] * count_c,
+        edge_colours=[None] * count_c,
+        face_alpha=[1] * count_c,
+        edge_alpha=[1] * count_c,
+        title=title,
     )
     settings.update(kwargs)
 
     figure = plt.figure()
-    axes = cast(Axes3D, figure.add_subplot(111, projection="3d"))
+    axes = figure.add_subplot(111, projection="3d")
 
     points = zeros((4, 3))
     if show_spectral_locus:
-        cmfs = cast(MultiSpectralDistributions, first_item(filter_cmfs(cmfs).values()))
+        cmfs = cast(
+            "MultiSpectralDistributions", first_item(filter_cmfs(cmfs).values())
+        )
         XYZ = cmfs.values
 
         points = colourspace_model_axis_reorder(
@@ -596,7 +601,7 @@ def plot_RGB_colourspaces_gamuts(
 
         quads_c.extend(
             colourspace_model_axis_reorder(
-                convert(XYZ, "CIE XYZ", model, **convert_settings),
+                convert(XYZ, "CIE XYZ", model, **convert_settings),  # pyright: ignore
                 model,
             )
         )
@@ -648,7 +653,7 @@ def plot_RGB_colourspaces_gamuts(
     settings.update({"axes": axes, "axes_visible": False, "camera_aspect": "equal"})
     settings.update(kwargs)
 
-    return cast(Tuple[Figure, Axes3D], render(**settings))
+    return cast("Tuple[Figure, Axes3D]", render(**settings))
 
 
 @override_style()
@@ -678,7 +683,7 @@ def plot_RGB_scatter(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes3D]:
     """
-    Plot given *RGB* colourspace array in a scatter plot.
+    Plot the specified *RGB* colourspace array in a scatter plot.
 
     Parameters
     ----------
@@ -689,16 +694,17 @@ def plot_RGB_scatter(
         type or form supported by the
         :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     model
-        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
-        the list of supported colourspace models.
+        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute
+        for the list of supported colourspace models.
     colourspaces
         *RGB* colourspaces to plot the gamuts of. ``colourspaces`` elements
         can be of any type or form supported by the
         :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
     segments
-        Edge segments count for each *RGB* colourspace cubes.
+        Edge segments count for each *RGB* colourspace cube.
     show_grid
-        Whether to show a grid at the bottom of the *RGB* colourspace cubes.
+        Whether to show a grid at the bottom of the *RGB* colourspace
+        cubes.
     grid_segments
         Edge segments count for the grid.
     show_spectral_locus
@@ -710,10 +716,12 @@ def plot_RGB_scatter(
     cmfs
         Standard observer colour matching functions used for computing the
         spectral locus boundaries. ``cmfs`` can be of any type or form
-        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+        supported by the :func:`colour.plotting.common.filter_cmfs`
+        definition.
     chromatically_adapt
-        Whether to chromatically adapt the *RGB* colourspaces given in
-        ``colourspaces`` to the whitepoint of the default plotting colourspace.
+        Whether to chromatically adapt the *RGB* colourspaces specified in
+        ``colourspaces`` to the whitepoint of the default plotting
+        colourspace.
     convert_kwargs
         Keyword arguments for the :func:`colour.convert` definition.
 
@@ -743,21 +751,19 @@ def plot_RGB_scatter(
     RGB = np.reshape(as_float_array(RGB)[..., :3], (-1, 3))
 
     colourspace = cast(
-        RGB_Colourspace,
+        "RGB_Colourspace",
         first_item(filter_RGB_colourspaces(colourspace).values()),
     )
-    colourspaces = cast(List[str], optional(colourspaces, [colourspace.name]))
+    colourspaces = cast("List[str]", optional(colourspaces, [colourspace.name]))
 
     convert_kwargs = optional(convert_kwargs, {})
 
     count_c = len(colourspaces)
     settings = Structure(
-        **{
-            "face_colours": [None] * count_c,
-            "edge_colours": [(0.25, 0.25, 0.25)] * count_c,
-            "face_alpha": [0.0] * count_c,
-            "edge_alpha": [0.1] * count_c,
-        }
+        face_colours=[None] * count_c,
+        edge_colours=[(0.25, 0.25, 0.25)] * count_c,
+        face_alpha=[0.0] * count_c,
+        edge_alpha=[0.1] * count_c,
     )
     settings.update(kwargs)
     settings["show"] = False
@@ -781,7 +787,7 @@ def plot_RGB_scatter(
     convert_settings.update(convert_kwargs)
 
     points = colourspace_model_axis_reorder(
-        convert(XYZ, "CIE XYZ", model, **convert_settings),
+        convert(XYZ, "CIE XYZ", model, **convert_settings),  # pyright: ignore
         model,
     )
 
@@ -798,4 +804,4 @@ def plot_RGB_scatter(
     settings.update({"axes": axes, "show": True})
     settings.update(kwargs)
 
-    return cast(Tuple[Figure, Axes3D], render(**settings))
+    return cast("Tuple[Figure, Axes3D]", render(**settings))

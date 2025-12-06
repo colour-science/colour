@@ -2,7 +2,8 @@
 Fairchild (1990) Chromatic Adaptation Model
 ===========================================
 
-Define the *Fairchild (1990)* chromatic adaptation model objects:
+Define the *Fairchild (1990)* chromatic adaptation model for predicting
+corresponding colours under different viewing conditions.
 
 -   :func:`colour.adaptation.chromatic_adaptation_Fairchild1990`
 
@@ -21,7 +22,12 @@ import numpy as np
 
 from colour.adaptation import CAT_VON_KRIES
 from colour.algebra import sdiv, sdiv_mode, spow, vecmul
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain100,
+    NDArrayFloat,
+    Range100,
+)
 from colour.utilities import (
     as_float_array,
     from_range_100,
@@ -61,25 +67,26 @@ tristimulus values matrix.
 
 
 def chromatic_adaptation_Fairchild1990(
-    XYZ_1: ArrayLike,
-    XYZ_n: ArrayLike,
-    XYZ_r: ArrayLike,
+    XYZ_1: Domain100,
+    XYZ_n: Domain100,
+    XYZ_r: Domain100,
     Y_n: ArrayLike,
     discount_illuminant: bool = False,
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Adapt given stimulus *CIE XYZ_1* tristimulus values from test viewing
-    conditions to reference viewing conditions using *Fairchild (1990)*
-    chromatic adaptation model.
+    Adapt the specified stimulus *CIE XYZ* tristimulus values from test
+    viewing conditions to reference viewing conditions using the
+    *Fairchild (1990)* chromatic adaptation model.
 
     Parameters
     ----------
     XYZ_1
         *CIE XYZ_1* tristimulus values of test sample / stimulus.
     XYZ_n
-        Test viewing condition *CIE XYZ_n* tristimulus values of whitepoint.
+        Test viewing condition *CIE XYZ_n* tristimulus values of the
+        whitepoint.
     XYZ_r
-        Reference viewing condition *CIE XYZ_r* tristimulus values of
+        Reference viewing condition *CIE XYZ_r* tristimulus values of the
         whitepoint.
     Y_n
         Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
@@ -89,24 +96,24 @@ def chromatic_adaptation_Fairchild1990(
     Returns
     -------
     :class:`numpy.ndarray`
-        Adapted *CIE XYZ_2* tristimulus values of stimulus.
+        *CIE XYZ* tristimulus values of the stimulus corresponding colour.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_1``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_1``  | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_n``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_n``  | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_r``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_r``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_2``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_2``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -129,9 +136,9 @@ def chromatic_adaptation_Fairchild1990(
     XYZ_r = to_domain_100(XYZ_r)
     Y_n = as_float_array(Y_n)
 
-    LMS_1 = vecmul(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_1)
-    LMS_n = vecmul(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_n)
-    LMS_r = vecmul(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ_r)
+    LMS_1 = XYZ_to_RGB_Fairchild1990(XYZ_1)
+    LMS_n = XYZ_to_RGB_Fairchild1990(XYZ_n)
+    LMS_r = XYZ_to_RGB_Fairchild1990(XYZ_r)
 
     p_LMS = degrees_of_adaptation(LMS_1, Y_n, discount_illuminant=discount_illuminant)
 
@@ -150,14 +157,15 @@ def chromatic_adaptation_Fairchild1990(
     LMSp_2 = vecmul(np.linalg.inv(C), LMS_a)
 
     LMS_c = vecmul(np.linalg.inv(A_2), LMSp_2)
-    XYZ_c = vecmul(MATRIX_RGB_TO_XYZ_FAIRCHILD1990, LMS_c)
+    XYZ_c = RGB_to_XYZ_Fairchild1990(LMS_c)
 
     return from_range_100(XYZ_c)
 
 
 def XYZ_to_RGB_Fairchild1990(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to cone responses.
+    Convert from *CIE XYZ* tristimulus values to cone responses using the
+    *Fairchild (1990)* chromatic adaptation model.
 
     Parameters
     ----------
@@ -181,7 +189,7 @@ def XYZ_to_RGB_Fairchild1990(XYZ: ArrayLike) -> NDArrayFloat:
 
 def RGB_to_XYZ_Fairchild1990(RGB: ArrayLike) -> NDArrayFloat:
     """
-    Convert from cone responses to *CIE XYZ* tristimulus values.
+    Convert cone responses to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -240,6 +248,7 @@ def degrees_of_adaptation(
     """
 
     LMS = as_float_array(LMS)
+
     if discount_illuminant:
         return ones(LMS.shape)
 
@@ -265,6 +274,4 @@ def degrees_of_adaptation(
         )
 
     with sdiv_mode():
-        p_LMS = P_c(m_E(LMS, LMS_E))
-
-    return p_LMS
+        return P_c(m_E(LMS, LMS_E))

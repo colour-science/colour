@@ -1,6 +1,8 @@
 """
-Showcases camera *RGB* sensitivities recovery computations using
-*Jiang et al. (2013)* method.
+Demonstrate camera RGB sensitivities recovery using *Jiang et al. (2013)* method.
+
+This module provides examples of camera RGB sensitivities recovery
+computations using the *Jiang et al. (2013)* method.
 """
 
 import colour

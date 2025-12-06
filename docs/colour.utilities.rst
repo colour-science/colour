@@ -30,6 +30,7 @@ Common
 
     domain_range_scale
     get_domain_range_scale
+    get_domain_range_scale_metadata
     set_domain_range_scale
 
 
@@ -48,32 +49,32 @@ Common
 .. autosummary::
     :toctree: generated/
 
-    is_caching_enabled
-    set_caching_enable
-    caching_enable
-    CACHE_REGISTRY
-    handle_numpy_errors
-    ignore_numpy_errors
-    raise_numpy_errors
-    print_numpy_errors
-    warn_numpy_errors
-    ignore_python_warnings
     attest
     batch
+    CACHE_REGISTRY
+    caching_enable
+    copy_definition
     disable_multiprocessing
-    multiprocessing_pool
-    is_iterable
-    is_numeric
-    is_integer
-    is_sibling
     filter_kwargs
     filter_mapping
     first_item
-    copy_definition
-    validate_method
-    optional
-    slugify
+    handle_numpy_errors
+    ignore_numpy_errors
+    ignore_python_warnings
     int_digest
+    is_caching_enabled
+    is_integer
+    is_iterable
+    is_numeric
+    is_sibling
+    multiprocessing_pool
+    optional
+    print_numpy_errors
+    raise_numpy_errors
+    set_caching_enable
+    slugify
+    validate_method
+    warn_numpy_errors
 
 Array
 -----
@@ -86,55 +87,56 @@ Array
     :toctree: generated/
     :template: class.rst
 
+    MixinDataclassArithmetic
+    MixinDataclassArray
     MixinDataclassFields
     MixinDataclassIterable
-    MixinDataclassArray
-    MixinDataclassArithmetic
 
 .. autosummary::
     :toctree: generated/
 
     as_array
-    as_int
+    as_complex_array
     as_float
-    as_int_array
     as_float_array
-    as_int_scalar
     as_float_scalar
-    set_default_int_dtype
-    set_default_float_dtype
-    to_domain_1
-    to_domain_10
-    to_domain_100
-    to_domain_degrees
-    to_domain_int
+    as_int
+    as_int_array
+    as_int_scalar
+    centroid
+    closest
+    closest_indexes
+    fill_nan
+    format_array_as_row
     from_range_1
     from_range_10
     from_range_100
     from_range_degrees
     from_range_int
-    is_ndarray_copy_enabled
-    set_ndarray_copy_enable
-    ndarray_copy_enable
-    ndarray_copy
-    closest_indexes
-    closest
-    interval
-    is_uniform
+    full
     has_only_nan
     in_array
-    tstack
-    tsplit
-    row_as_diagonal
-    orient
-    centroid
-    fill_nan
-    ndarray_write
-    zeros
-    ones
-    full
     index_along_last_axis
-    format_array_as_row
+    interval
+    is_ndarray_copy_enabled
+    is_uniform
+    ndarray_copy
+    ndarray_copy_enable
+    ndarray_write
+    ones
+    orient
+    row_as_diagonal
+    set_default_float_dtype
+    set_default_int_dtype
+    set_ndarray_copy_enable
+    to_domain_1
+    to_domain_10
+    to_domain_100
+    to_domain_degrees
+    to_domain_int
+    tsplit
+    tstack
+    zeros
 
 Data Structures
 ---------------
@@ -163,10 +165,10 @@ Network
     :toctree: generated/
     :template: class.rst
 
-    TreeNode
     Port
-    PortNode
     PortGraph
+    PortNode
+    TreeNode
 
 Metrics
 -------
@@ -192,6 +194,7 @@ Requirements
     :toctree: generated/
 
     is_ctlrender_installed
+    is_imageio_installed
     is_matplotlib_installed
     is_networkx_installed
     is_opencolorio_installed
@@ -213,17 +216,17 @@ Verbose
 .. autosummary::
     :toctree: generated/
 
-    message_box
-    show_warning
-    warning
-    filter_warnings
     as_bool
-    suppress_warnings
-    suppress_stdout
-    numpy_print_options
     describe_environment
-    multiline_str
+    filter_warnings
+    message_box
     multiline_repr
+    multiline_str
+    numpy_print_options
+    show_warning
+    suppress_stdout
+    suppress_warnings
+    warning
 
 **Ancillary Objects**
 
@@ -235,7 +238,7 @@ Verbose
     :toctree: generated/
     :template: class.rst
 
-    MixinLogging
-    ColourWarning
-    ColourUsageWarning
     ColourRuntimeWarning
+    ColourUsageWarning
+    ColourWarning
+    MixinLogging

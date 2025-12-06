@@ -1,4 +1,10 @@
-"""Showcase geometry primitives generation examples."""
+"""
+Demonstrate geometry primitives generation.
+
+This module demonstrates the generation of various geometric primitives
+including grids, cubes, quads, and spheres, with support for different
+coordinate systems and rendering frameworks.
+"""
 
 import numpy as np
 
@@ -7,7 +13,7 @@ from colour.utilities import message_box
 
 message_box("Geometry Primitives Generation")
 
-message_box('Generating a "grid":')
+message_box('Generate a "grid":')
 print(
     colour.primitive(
         "Grid",
@@ -26,7 +32,7 @@ print(
 
 print("\n")
 
-message_box('Generating a "cube":')
+message_box('Generate a "cube":')
 print(
     colour.primitive(
         "Cube",
@@ -49,7 +55,7 @@ print(
     )
 )
 
-message_box('Generating the vertices of a "quad" for "Matplotlib":')
+message_box('Generate the vertices of a "quad" for "Matplotlib":')
 print(
     colour.primitive_vertices(
         "Quad MPL",
@@ -72,7 +78,7 @@ print(
 
 print("\n")
 
-message_box('Generating the vertices of a "grid" for "Matplotlib":')
+message_box('Generate the vertices of a "grid" for "Matplotlib":')
 print(
     colour.primitive_vertices(
         "Grid MPL",
@@ -99,7 +105,7 @@ print(
 
 print("\n")
 
-message_box('Generating the vertices of a "cube" for "Matplotlib":')
+message_box('Generate the vertices of a "cube" for "Matplotlib":')
 print(
     colour.primitive_vertices(
         "Cube MPL",
@@ -126,7 +132,7 @@ print(
 
 print("\n")
 
-message_box('Generating the vertices of a "sphere":')
+message_box('Generate the vertices of a "sphere":')
 print(
     colour.primitive_vertices(
         "Sphere",

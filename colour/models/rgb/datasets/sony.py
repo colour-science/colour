@@ -45,10 +45,15 @@ vendorSupplied/sony/IDT.Sony.Venice_SLog3_SGamut3Cine.ctl
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
 from colour.models.rgb import (
     RGB_Colourspace,
     log_decoding_SLog2,

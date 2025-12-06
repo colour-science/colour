@@ -2,7 +2,7 @@
 Hunter L,a,b Colour Scale
 =========================
 
-Define the *Hunter L,a,b* colour scale transformations:
+Define the *Hunter L,a,b* colour scale transformations.
 
 -   :func:`colour.XYZ_to_K_ab_HunterLab1966`
 -   :func:`colour.XYZ_to_Hunter_Lab`
@@ -23,8 +23,20 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
-from colour.hints import ArrayLike, NDArrayFloat
-from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain100,
+    NDArrayFloat,
+    Range100,
+)
+from colour.utilities import (
+    from_range_100,
+    get_domain_range_scale,
+    optional,
+    to_domain_100,
+    tsplit,
+    tstack,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -73,22 +85,17 @@ def XYZ_to_K_ab_HunterLab1966(XYZ: ArrayLike) -> NDArrayFloat:
     K_a = 175 * np.sqrt(X / 98.043)
     K_b = 70 * np.sqrt(Z / 118.115)
 
-    K_ab = tstack([K_a, K_b])
-
-    return K_ab
+    return tstack([K_a, K_b])
 
 
 def XYZ_to_Hunter_Lab(
-    XYZ: ArrayLike,
-    XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ].XYZ_n,
-    K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ].K_ab,
-) -> NDArrayFloat:
+    XYZ: Domain100,
+    XYZ_n: ArrayLike | None = None,
+    K_ab: ArrayLike | None = None,
+) -> Range100:
     """
-    Convert from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour scale.
+    Convert from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour
+    scale.
 
     Parameters
     ----------
@@ -97,8 +104,8 @@ def XYZ_to_Hunter_Lab(
     XYZ_n
         Reference *illuminant* tristimulus values.
     K_ab
-        Reference *illuminant* chromaticity coefficients, if ``K_ab`` is set to
-        *None* it will be computed using
+        Reference *illuminant* chromaticity coefficients. If ``K_ab`` is
+        set to *None*, it will be computed using
         :func:`colour.XYZ_to_K_ab_HunterLab1966`.
 
     Returns
@@ -111,19 +118,15 @@ def XYZ_to_Hunter_Lab(
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 100]              | [0, 1]          |
+    | ``XYZ``    | 100                   | 1               |
     +------------+-----------------------+-----------------+
-    | ``XYZ_n``  | [0, 100]              | [0, 1]          |
+    | ``XYZ_n``  | 100                   | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Lab``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    | ``Lab``    | 100                   | 1               |
     +------------+-----------------------+-----------------+
 
     References
@@ -139,10 +142,19 @@ def XYZ_to_Hunter_Lab(
     """
 
     X, Y, Z = tsplit(to_domain_100(XYZ))
-    X_n, Y_n, Z_n = tsplit(to_domain_100(XYZ_n))
-    K_a, K_b = (
-        tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n)) if K_ab is None else tsplit(K_ab)
+    TVS_D65 = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"]["D65"]
+    XYZ_n_default = XYZ_n is None
+    XYZ_n = to_domain_100(
+        optional(
+            XYZ_n,
+            TVS_D65.XYZ_n
+            if get_domain_range_scale() == "reference"
+            else TVS_D65.XYZ_n / 100,
+        )
     )
+    X_n, Y_n, Z_n = tsplit(XYZ_n)
+    K_ab = TVS_D65.K_ab if K_ab is None and XYZ_n_default else K_ab
+    K_a, K_b = tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n) if K_ab is None else K_ab)
 
     Y_Y_n = Y / Y_n
     sqrt_Y_Y_n = np.sqrt(Y_Y_n)
@@ -157,16 +169,13 @@ def XYZ_to_Hunter_Lab(
 
 
 def Hunter_Lab_to_XYZ(
-    Lab: ArrayLike,
-    XYZ_n: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ].XYZ_n,
-    K_ab: ArrayLike = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"][
-        "D65"
-    ].K_ab,
-) -> NDArrayFloat:
+    Lab: Domain100,
+    XYZ_n: ArrayLike | None = None,
+    K_ab: ArrayLike | None = None,
+) -> Range100:
     """
-    Convert from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus values.
+    Convert from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus
+    values.
 
     Parameters
     ----------
@@ -175,8 +184,8 @@ def Hunter_Lab_to_XYZ(
     XYZ_n
         Reference *illuminant* tristimulus values.
     K_ab
-        Reference *illuminant* chromaticity coefficients, if ``K_ab`` is set to
-        *None* it will be computed using
+        Reference *illuminant* chromaticity coefficients. If ``K_ab`` is
+        set to *None*, it will be computed using
         :func:`colour.XYZ_to_K_ab_HunterLab1966`.
 
     Returns
@@ -189,19 +198,15 @@ def Hunter_Lab_to_XYZ(
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Lab``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    | ``Lab``    | 100                   | 1               |
     +------------+-----------------------+-----------------+
-    | ``XYZ_n``  | [0, 100]              | [0, 1]          |
+    | ``XYZ_n``  | 100                   | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 100]              | [0, 1]          |
+    | ``XYZ``    | 100                   | 1               |
     +------------+-----------------------+-----------------+
 
     References
@@ -217,10 +222,17 @@ def Hunter_Lab_to_XYZ(
     """
 
     L, a, b = tsplit(to_domain_100(Lab))
-    X_n, Y_n, Z_n = tsplit(to_domain_100(XYZ_n))
-    K_a, K_b = (
-        tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n)) if K_ab is None else tsplit(K_ab)
+    d65 = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"]["D65"]
+    XYZ_n_default = XYZ_n is None
+    XYZ_n = to_domain_100(
+        optional(
+            XYZ_n,
+            d65.XYZ_n if get_domain_range_scale() == "reference" else d65.XYZ_n / 100,
+        )
     )
+    X_n, Y_n, Z_n = tsplit(XYZ_n)
+    K_ab = d65.K_ab if K_ab is None and XYZ_n_default else K_ab
+    K_a, K_b = tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n) if K_ab is None else K_ab)
 
     L_100 = L / 100
     L_100_2 = L_100**2

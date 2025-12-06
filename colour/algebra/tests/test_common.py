@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.algebra.common` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -26,7 +28,7 @@ from colour.algebra import (
     vecmul,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import ColourRuntimeWarning, ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -63,7 +65,7 @@ class TestGetSdivMode:
     methods.
     """
 
-    def test_get_sdiv_mode(self):
+    def test_get_sdiv_mode(self) -> None:
         """Test :func:`colour.algebra.common.get_sdiv_mode` definition."""
 
         with sdiv_mode("Numpy"):
@@ -97,7 +99,7 @@ class TestSetSdivMode:
     methods.
     """
 
-    def test_set_sdiv_mode(self):
+    def test_set_sdiv_mode(self) -> None:
         """Test :func:`colour.algebra.common.set_sdiv_mode` definition."""
 
         with sdiv_mode(get_sdiv_mode()):
@@ -132,7 +134,7 @@ class TestSdivMode:
     tests methods.
     """
 
-    def test_sdiv_mode(self):
+    def test_sdiv_mode(self) -> None:
         """Test :func:`colour.algebra.common.sdiv_mode` definition."""
 
         with sdiv_mode("Raise"):
@@ -142,7 +144,7 @@ class TestSdivMode:
             assert get_sdiv_mode() == "ignore zero conversion"
 
         @sdiv_mode("Raise")
-        def fn_a():
+        def fn_a() -> None:
             """:func:`sdiv_mode` unit tests :func:`fn_a` definition."""
 
             assert get_sdiv_mode() == "raise"
@@ -150,7 +152,7 @@ class TestSdivMode:
         fn_a()
 
         @sdiv_mode("Ignore Zero Conversion")
-        def fn_b():
+        def fn_b() -> None:
             """:func:`sdiv_mode` unit tests :func:`fn_b` definition."""
 
             assert get_sdiv_mode() == "ignore zero conversion"
@@ -164,7 +166,7 @@ class TestSdiv:
     tests methods.
     """
 
-    def test_sdiv(self):
+    def test_sdiv(self) -> None:
         """Test :func:`colour.algebra.common.sdiv` definition."""
 
         a = np.array([0, 1, 2])
@@ -197,6 +199,17 @@ class TestSdiv:
             pytest.warns(RuntimeWarning, sdiv, a, b)
             np.testing.assert_equal(sdiv(a, b), np.nan_to_num(np.array([0, 1, np.inf])))
 
+        with sdiv_mode("Replace With Epsilon"):
+            np.testing.assert_allclose(
+                sdiv(a, b), np.array([0, 1, 2 / np.finfo(np.double).eps])
+            )
+
+        with sdiv_mode("Warning Replace With Epsilon"):
+            pytest.warns(ColourRuntimeWarning, sdiv, a, b)
+            np.testing.assert_allclose(
+                sdiv(a, b), np.array([0, 1, 2 / np.finfo(np.double).eps])
+            )
+
 
 class TestIsSpowEnabled:
     """
@@ -204,7 +217,7 @@ class TestIsSpowEnabled:
     tests methods.
     """
 
-    def test_is_spow_enabled(self):
+    def test_is_spow_enabled(self) -> None:
         """Test :func:`colour.algebra.common.is_spow_enabled` definition."""
 
         with spow_enable(True):
@@ -220,7 +233,7 @@ class TestSetSpowEnabled:
     tests methods.
     """
 
-    def test_set_spow_enable(self):
+    def test_set_spow_enable(self) -> None:
         """Test :func:`colour.algebra.common.set_spow_enable` definition."""
 
         with spow_enable(is_spow_enabled()):
@@ -238,7 +251,7 @@ class TestSpowEnable:
     tests methods.
     """
 
-    def test_spow_enable(self):
+    def test_spow_enable(self) -> None:
         """Test :func:`colour.algebra.common.spow_enable` definition."""
 
         with spow_enable(True):
@@ -248,7 +261,7 @@ class TestSpowEnable:
             assert not is_spow_enabled()
 
         @spow_enable(True)
-        def fn_a():
+        def fn_a() -> None:
             """:func:`spow_enable` unit tests :func:`fn_a` definition."""
 
             assert is_spow_enabled()
@@ -256,7 +269,7 @@ class TestSpowEnable:
         fn_a()
 
         @spow_enable(False)
-        def fn_b():
+        def fn_b() -> None:
             """:func:`spow_enable` unit tests :func:`fn_b` definition."""
 
             assert not is_spow_enabled()
@@ -270,7 +283,7 @@ class TestSpow:
     tests methods.
     """
 
-    def test_spow(self):
+    def test_spow(self) -> None:
         """Test :func:`colour.algebra.common.spow` definition."""
 
         assert spow(2, 2) == 4.0
@@ -298,7 +311,7 @@ class TestNormaliseVector:
     tests methods.
     """
 
-    def test_normalise_vector(self):
+    def test_normalise_vector(self) -> None:
         """Test :func:`colour.algebra.common.normalise_vector` definition."""
 
         np.testing.assert_allclose(
@@ -326,7 +339,7 @@ class TestNormaliseMaximum:
     tests methods.
     """
 
-    def test_normalise_maximum(self):
+    def test_normalise_maximum(self) -> None:
         """Test :func:`colour.algebra.common.normalise_maximum` definition."""
 
         np.testing.assert_allclose(
@@ -405,7 +418,7 @@ class TestVectorDot:
     methods.
     """
 
-    def test_vecmul(self):
+    def test_vecmul(self) -> None:
         """Test :func:`colour.algebra.common.vecmul` definition."""
 
         m = np.array(
@@ -442,7 +455,7 @@ class TestEuclideanDistance:
     tests methods.
     """
 
-    def test_euclidean_distance(self):
+    def test_euclidean_distance(self) -> None:
         """Test :func:`colour.algebra.common.euclidean_distance` definition."""
 
         np.testing.assert_allclose(
@@ -472,7 +485,7 @@ class TestEuclideanDistance:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_euclidean_distance(self):
+    def test_n_dimensional_euclidean_distance(self) -> None:
         """
         Test :func:`colour.algebra.common.euclidean_distance` definition
         n-dimensional arrays support.
@@ -497,7 +510,7 @@ class TestEuclideanDistance:
         )
 
     @ignore_numpy_errors
-    def test_nan_euclidean_distance(self):
+    def test_nan_euclidean_distance(self) -> None:
         """
         Test :func:`colour.algebra.common.euclidean_distance` definition nan
         support.
@@ -514,7 +527,7 @@ class TestManhattanDistance:
     tests methods.
     """
 
-    def test_manhattan_distance(self):
+    def test_manhattan_distance(self) -> None:
         """Test :func:`colour.algebra.common.manhattan_distance` definition."""
 
         np.testing.assert_allclose(
@@ -544,7 +557,7 @@ class TestManhattanDistance:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_manhattan_distance(self):
+    def test_n_dimensional_manhattan_distance(self) -> None:
         """
         Test :func:`colour.algebra.common.manhattan_distance` definition
         n-dimensional arrays support.
@@ -569,7 +582,7 @@ class TestManhattanDistance:
         )
 
     @ignore_numpy_errors
-    def test_nan_manhattan_distance(self):
+    def test_nan_manhattan_distance(self) -> None:
         """
         Test :func:`colour.algebra.common.manhattan_distance` definition nan
         support.
@@ -586,7 +599,7 @@ class TestLinearConversion:
     tests methods.
     """
 
-    def test_linear_conversion(self):
+    def test_linear_conversion(self) -> None:
         """Test :func:`colour.algebra.common.linear_conversion` definition."""
 
         np.testing.assert_allclose(
@@ -617,7 +630,7 @@ class TestLinstepFunction:
     tests methods.
     """
 
-    def test_linstep_function(self):
+    def test_linstep_function(self) -> None:
         """Test :func:`colour.algebra.common.linstep_function` definition."""
 
         np.testing.assert_allclose(
@@ -674,7 +687,7 @@ class TestSmoothstepFunction:
     tests methods.
     """
 
-    def test_smoothstep_function(self):
+    def test_smoothstep_function(self) -> None:
         """Test :func:`colour.algebra.common.smoothstep_function` definition."""
 
         assert smoothstep_function(0.5) == 0.5
@@ -700,7 +713,7 @@ class TestIsIdentity:
     methods.
     """
 
-    def test_is_identity(self):
+    def test_is_identity(self) -> None:
         """Test :func:`colour.algebra.common.is_identity` definition."""
 
         assert is_identity(np.reshape(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]), (3, 3)))
@@ -720,7 +733,7 @@ class TestEigenDecomposition:
     tests methods.
     """
 
-    def test_is_identity(self):
+    def test_is_identity(self) -> None:
         """Test :func:`colour.algebra.common.eigen_decomposition` definition."""
 
         a = np.diag([1, 2, 3])

@@ -2,7 +2,8 @@
 Prismatic Colourspace
 =====================
 
-Define the *Prismatic* colourspace transformations:
+Define transformations for the *Prismatic* colourspace, a perceptually-based
+colour representation that separates lightness from chromaticity components.
 
 -   :func:`colour.RGB_to_Prismatic`
 -   :func:`colour.Prismatic_to_RGB`
@@ -18,7 +19,10 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
@@ -34,7 +38,7 @@ __all__ = [
 ]
 
 
-def RGB_to_Prismatic(RGB: ArrayLike) -> NDArrayFloat:
+def RGB_to_Prismatic(RGB: Domain1) -> Range1:
     """
     Convert from *RGB* colourspace to *Prismatic* :math:`L\\rho\\gamma\\beta`
     colourspace array.
@@ -54,13 +58,13 @@ def RGB_to_Prismatic(RGB: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Lrgb``   | [0, 1]                | [0, 1]        |
+    | ``Lrgb``   | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -73,7 +77,7 @@ def RGB_to_Prismatic(RGB: ArrayLike) -> NDArrayFloat:
     >>> RGB_to_Prismatic(RGB)  # doctest: +ELLIPSIS
     array([ 0.75...   ,  0.1666666...,  0.3333333...,  0.5...   ])
 
-    Adjusting saturation of given *RGB* colourspace array:
+    Adjusting saturation of the specified *RGB* colourspace array:
     >>> saturation = 0.5
     >>> Lrgb = RGB_to_Prismatic(RGB)
     >>> Lrgb[..., 1:] = 1 / 3 + saturation * (Lrgb[..., 1:] - 1 / 3)
@@ -96,7 +100,7 @@ def RGB_to_Prismatic(RGB: ArrayLike) -> NDArrayFloat:
     return from_range_1(Lrgb)
 
 
-def Prismatic_to_RGB(Lrgb: ArrayLike) -> NDArrayFloat:
+def Prismatic_to_RGB(Lrgb: Domain1) -> Range1:
     """
     Convert from *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array to
     *RGB* colourspace.
@@ -116,13 +120,13 @@ def Prismatic_to_RGB(Lrgb: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Lrgb``   | [0, 1]                | [0, 1]        |
+    | ``Lrgb``   | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

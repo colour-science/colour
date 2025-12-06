@@ -3,7 +3,7 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
 ===================================================================
 
 Define the *Li, Li, Wang, Zu, Luo, Cui, Melgosa, Brill and Pointer (2017)*
-*CAM16-LCD*, *CAM16-SCD*, and *CAM16-UCS* colourspaces transformations:
+*CAM16-LCD*, *CAM16-SCD*, and *CAM16-UCS* colourspaces transformations.
 
 -   :func:`colour.JMh_CAM16_to_CAM16LCD`
 -   :func:`colour.CAM16LCD_to_JMh_CAM16`
@@ -29,9 +29,21 @@ References
 from __future__ import annotations
 
 import re
+import typing
 from functools import partial
 
-from colour.hints import Any, ArrayLike, Callable, NDArrayFloat, cast
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Callable,
+        Domain1,
+        Domain100,
+        Range1,
+        Range100,
+    )
+
+from colour.hints import ArrayLike, NDArrayFloat, cast
 from colour.models.cam02_ucs import (
     COEFFICIENTS_UCS_LUO2006,
     CAM02LCD_to_JMh_CIECAM02,
@@ -87,18 +99,18 @@ __all__ = [
 
 def _UCS_Luo2006_callable_to_UCS_Li2017_docstring(callable_: Callable) -> str:
     """
-    Convert given *Luo et al. (2006)* callable docstring to
-    *Li et al. (2017)* docstring.
+    Convert the docstring of the specified *Luo et al. (2006)* callable to
+    conform to *Li et al. (2017)* conventions.
 
     Parameters
     ----------
     callable_
-        Callable to use the docstring from.
+        Callable whose docstring will be adapted.
 
     Returns
     -------
     :class:`str`
-        Docstring.
+        Converted docstring following *Li et al. (2017)* conventions.
     """
 
     docstring = callable_.__doc__
@@ -175,28 +187,32 @@ CAM16UCS_to_JMh_CAM16.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(
 
 
 def XYZ_to_UCS_Li2017(
-    XYZ: ArrayLike, coefficients: ArrayLike, **kwargs: Any
-) -> NDArrayFloat:
+    XYZ: Domain1,
+    coefficients: ArrayLike,
+    **kwargs: Any,
+) -> Range100:
     """
-    Convert from *CIE XYZ* tristimulus values to one of the *Li et al. (2017)*
-    *CAM16-LCD*, *CAM16-SCD*, or *CAM16-UCS* colourspaces :math:`J'a'b'` array.
+    Convert from *CIE XYZ* tristimulus values to one of the *Li et al.
+    (2017)* *CAM16-LCD*, *CAM16-SCD*, or *CAM16-UCS* colourspaces
+    :math:`J'a'b'` array.
 
     Parameters
     ----------
     XYZ
         *CIE XYZ* tristimulus values.
     coefficients
-        Coefficients of one of the *Li et al. (2017)* *CAM16-LCD*, *CAM16-SCD*,
-        or *CAM16-UCS* colourspaces.
+        Coefficients of one of the *Li et al. (2017)* *CAM16-LCD*,
+        *CAM16-SCD*, or *CAM16-UCS* colourspaces.
 
     Other Parameters
     ----------------
     kwargs
         {:func:`colour.XYZ_to_CAM16`},
-        See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
-        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
-        20% of a white object in the scene.
+        See the documentation of the previously listed definition. The
+        default viewing conditions are those of *IEC 61966-2-1:1999*,
+        i.e., *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`,
+        adapting field luminance about 20% of a white object in the
+        scene.
 
     Returns
     -------
@@ -206,25 +222,21 @@ def XYZ_to_UCS_Li2017(
 
     Warnings
     --------
-    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the same domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must
+    be specified in the same domain-range scale as the ``XYZ`` parameter.
 
     Notes
     -----
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``XYZ``    | [0, 1]                 | [0, 1]           |
+    | ``XYZ``    | 1                      | 1                |
     +------------+------------------------+------------------+
 
     +------------+------------------------+------------------+
     | **Range**  |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
-    |            |                        |                  |
-    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
-    |            |                        |                  |
-    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
+    | ``Jpapbp`` | 100                    | 1                |
     +------------+------------------------+------------------+
 
     Examples
@@ -242,7 +254,10 @@ def XYZ_to_UCS_Li2017(
     array([ 46.0658603...,  41.0758649...,  14.5102582...])
     """
 
-    from colour.appearance import CAM_KWARGS_CIECAM02_sRGB, XYZ_to_CAM16
+    from colour.appearance import (  # noqa: PLC0415
+        CAM_KWARGS_CIECAM02_sRGB,
+        XYZ_to_CAM16,
+    )
 
     domain_range_reference = get_domain_range_scale() == "reference"
 
@@ -258,9 +273,9 @@ def XYZ_to_UCS_Li2017(
     specification = XYZ_to_CAM16(XYZ, **settings)
     JMh = tstack(
         [
-            cast(NDArrayFloat, specification.J),
-            cast(NDArrayFloat, specification.M),
-            cast(NDArrayFloat, specification.h),
+            cast("NDArrayFloat", specification.J),
+            cast("NDArrayFloat", specification.M),
+            cast("NDArrayFloat", specification.h),
         ]
     )
 
@@ -268,8 +283,10 @@ def XYZ_to_UCS_Li2017(
 
 
 def UCS_Li2017_to_XYZ(
-    Jpapbp: ArrayLike, coefficients: ArrayLike, **kwargs: Any
-) -> NDArrayFloat:
+    Jpapbp: Domain100,
+    coefficients: ArrayLike,
+    **kwargs: Any,
+) -> Range1:
     """
     Convert from one of the *Li et al. (2017)* *CAM16-LCD*, *CAM16-SCD*, or
     *CAM16-UCS* colourspaces :math:`J'a'b'` array to *CIE XYZ* tristimulus
@@ -281,17 +298,18 @@ def UCS_Li2017_to_XYZ(
         *Li et al. (2017)* *CAM16-LCD*, *CAM16-SCD*, or *CAM16-UCS*
         colourspaces :math:`J'a'b'` array.
     coefficients
-        Coefficients of one of the *Li et al. (2017)* *CAM16-LCD*, *CAM16-SCD*,
-        or *CAM16-UCS* colourspaces.
+        Coefficients of one of the *Li et al. (2017)* *CAM16-LCD*,
+        *CAM16-SCD*, or *CAM16-UCS* colourspaces.
 
     Other Parameters
     ----------------
     kwargs
         {:func:`colour.CAM16_to_XYZ`},
-        See the documentation of the previously listed definition. The default
-        viewing conditions are that of *IEC 61966-2-1:1999*, i.e., *sRGB* 64 Lux
-        ambient illumination, 80 :math:`cd/m^2`, adapting field luminance about
-        20% of a white object in the scene.
+        See the documentation of the previously listed definition. The
+        default viewing conditions are those of *IEC 61966-2-1:1999*,
+        i.e., *sRGB* 64 Lux ambient illumination, 80 :math:`cd/m^2`,
+        adapting field luminance about 20% of a white object in the
+        scene.
 
     Returns
     -------
@@ -300,25 +318,21 @@ def UCS_Li2017_to_XYZ(
 
     Warnings
     --------
-    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must be
-    given in the same domain-range scale than the ``XYZ`` parameter.
+    The ``XYZ_w`` parameter for :func:`colour.XYZ_to_CAM16` definition must
+    be specified in the same domain-range scale as the ``XYZ`` parameter.
 
     Notes
     -----
     +------------+------------------------+------------------+
     | **Domain** |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``Jpapbp`` | ``Jp`` : [0, 100]      | ``Jp`` : [0, 1]  |
-    |            |                        |                  |
-    |            | ``ap`` : [-100, 100]   | ``ap`` : [-1, 1] |
-    |            |                        |                  |
-    |            | ``bp`` : [-100, 100]   | ``bp`` : [-1, 1] |
+    | ``Jpapbp`` | 100                    | 1                |
     +------------+------------------------+------------------+
 
     +------------+------------------------+------------------+
     | **Range**  |  **Scale - Reference** | **Scale - 1**    |
     +============+========================+==================+
-    | ``XYZ``    | [0, 1]                 | [0, 1]           |
+    | ``XYZ``    | 1                      | 1                |
     +------------+------------------------+------------------+
 
     Examples
@@ -338,7 +352,7 @@ def UCS_Li2017_to_XYZ(
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
-    from colour.appearance import (
+    from colour.appearance import (  # noqa: PLC0415
         CAM16_to_XYZ,
         CAM_KWARGS_CIECAM02_sRGB,
         CAM_Specification_CAM16,
@@ -369,6 +383,7 @@ XYZ_to_CAM16LCD = partial(
     XYZ_to_UCS_Li2017, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
 )
 XYZ_to_CAM16LCD.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(XYZ_to_CAM02LCD)
+XYZ_to_CAM16LCD.__annotations__ = XYZ_to_UCS_Li2017.__annotations__.copy()
 
 CAM16LCD_to_XYZ = partial(
     UCS_Li2017_to_XYZ, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
@@ -379,6 +394,7 @@ XYZ_to_CAM16SCD = partial(
     XYZ_to_UCS_Li2017, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-SCD"]
 )
 XYZ_to_CAM16SCD.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(XYZ_to_CAM02SCD)
+XYZ_to_CAM16SCD.__annotations__ = XYZ_to_UCS_Li2017.__annotations__.copy()
 
 CAM16SCD_to_XYZ = partial(
     UCS_Li2017_to_XYZ, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-SCD"]
@@ -389,6 +405,7 @@ XYZ_to_CAM16UCS = partial(
     XYZ_to_UCS_Li2017, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-UCS"]
 )
 XYZ_to_CAM16UCS.__doc__ = _UCS_Luo2006_callable_to_UCS_Li2017_docstring(XYZ_to_CAM02UCS)
+XYZ_to_CAM16UCS.__annotations__ = XYZ_to_UCS_Li2017.__annotations__.copy()
 
 CAM16UCS_to_XYZ = partial(
     UCS_Li2017_to_XYZ, coefficients=COEFFICIENTS_UCS_LUO2006["CAM02-UCS"]

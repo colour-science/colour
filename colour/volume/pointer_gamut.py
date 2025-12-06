@@ -2,13 +2,18 @@
 Pointer's Gamut Volume Computations
 ===================================
 
-Define the objects related to *Pointer's Gamut* volume computations.
+Define objects and computations for *Pointer's Gamut* volume analysis.
 """
 
 from __future__ import annotations
 
+import typing
+
 from colour.constants import EPSILON
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
+
 from colour.models import LCHab_to_Lab  # pyright: ignore
 from colour.models import (
     CCS_ILLUMINANT_POINTER_GAMUT,
@@ -33,8 +38,8 @@ def is_within_pointer_gamut(
     XYZ: ArrayLike, tolerance: float = 100 * EPSILON
 ) -> NDArrayFloat:
     """
-    Return whether given *CIE XYZ* tristimulus values are within Pointer's
-    Gamut volume.
+    Determine whether the specified *CIE XYZ* tristimulus values are within
+    Pointer's Gamut volume.
 
     Parameters
     ----------
@@ -46,15 +51,15 @@ def is_within_pointer_gamut(
     Returns
     -------
     :class:`numpy.ndarray`
-        Whether given *CIE XYZ* tristimulus values are within Pointer's Gamut
-        volume.
+        Boolean array indicating whether specified *CIE XYZ* tristimulus
+        values are within Pointer's Gamut volume.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    | ``XYZ``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples

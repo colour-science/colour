@@ -2,17 +2,17 @@
 Data Structures
 ===============
 
-Define various data structures classes:
+Provide various data structure classes for flexible data manipulation.
 
 -   :class:`colour.utilities.Structure`: An object similar to C/C++ structured
     type.
 -   :class:`colour.utilities.Lookup`: A :class:`dict` sub-class acting as a
     lookup to retrieve keys by values.
 -   :class:`colour.utilities.CanonicalMapping`: A delimiter and
-    case-insensitive :class:`dict`-like object allowing values retrieving from
+    case-insensitive :class:`dict`-like object allowing values retrieval from
     keys while ignoring the key case.
 -   :class:`colour.utilities.LazyCanonicalMapping`: Another delimiter and
-    case-insensitive mapping allowing lazy values retrieving from keys while
+    case-insensitive mapping allowing lazy values retrieval from keys while
     ignoring the key case.
 
 References
@@ -28,15 +28,17 @@ fb5a498d0bd00fc2b42fbd19b6ef18e1dfeee47e/sklearn/utils/__init__.py#L65
 from __future__ import annotations
 
 import re
+import typing
 from collections import Counter
 from collections.abc import MutableMapping
 
-from colour.hints import (
-    Any,
-    Generator,
-    Iterable,
-    Mapping,
-)
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Generator,
+        Iterable,
+    )
+from colour.hints import Mapping
 from colour.utilities.documentation import is_documentation_building
 
 __author__ = "Colour Developers"
@@ -56,8 +58,13 @@ __all__ = [
 
 class Structure(dict):
     """
-    Define a :class:`dict`-like object allowing to access key values using dot
-    syntax.
+    Represent a :class:`dict`-like structure that enables access to key
+    values through dot notation syntax.
+
+    This class extends the built-in :class:`dict` to provide
+    attribute-style access to dictionary items, allowing both traditional
+    dictionary access patterns and object-oriented dot notation for
+    improved code readability and convenience.
 
     Other Parameters
     ----------------
@@ -93,9 +100,9 @@ class Structure(dict):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
 
-    def __setattr__(self, name: str, value: Any):
+    def __setattr__(self, name: str, value: Any) -> None:
         """
-        Assign given value to the attribute with given name.
+        Assign the specified value to the attribute with the specified name.
 
         Parameters
         ----------
@@ -107,9 +114,9 @@ class Structure(dict):
 
         self[name] = value
 
-    def __delattr__(self, name: str):
+    def __delattr__(self, name: str) -> None:
         """
-        Delete the attribute with given name.
+        Delete the attribute with the specified name.
 
         Parameters
         ----------
@@ -121,7 +128,8 @@ class Structure(dict):
 
     def __dir__(self) -> Iterable:
         """
-        Return a list of valid attributes for the :class:`dict`-like object.
+        Return the list of valid attributes for the :class:`dict`-like
+        object.
 
         Returns
         -------
@@ -133,7 +141,7 @@ class Structure(dict):
 
     def __getattr__(self, name: str) -> Any:
         """
-        Return the value from the attribute with given name.
+        Return the value from the attribute with the specified name.
 
         Parameters
         ----------
@@ -143,6 +151,7 @@ class Structure(dict):
         Returns
         -------
         :class:`object`
+            Value of the specified attribute.
 
         Raises
         ------
@@ -155,7 +164,7 @@ class Structure(dict):
         except KeyError as error:
             raise AttributeError(name) from error
 
-    def __setstate__(self, state):
+    def __setstate__(self, state: Any) -> None:
         """Set the object state when unpickling."""
         # See https://github.com/scikit-learn/scikit-learn/issues/6196 for more
         # information.
@@ -163,7 +172,13 @@ class Structure(dict):
 
 class Lookup(dict):
     """
-    Extend :class:`dict` type to provide a lookup by value(s).
+    Represent a :class:`dict`-like object that provides lookup functionality by
+    value(s).
+
+    This class extends the built-in :class:`dict` to provide reverse lookup
+    capabilities for dictionary values, enabling retrieval of keys based on
+    their associated values. Support both single and multiple key retrieval
+    for matching values.
 
     Methods
     -------
@@ -186,7 +201,7 @@ class Lookup(dict):
 
     def keys_from_value(self, value: Any) -> list:
         """
-        Get the keys associated with given value.
+        Return the keys associated with the specified value.
 
         Parameters
         ----------
@@ -196,7 +211,7 @@ class Lookup(dict):
         Returns
         -------
         :class:`list`
-            Keys associated with given value.
+            Keys associated with the specified value.
         """
 
         keys = []
@@ -215,7 +230,7 @@ class Lookup(dict):
 
     def first_key_from_value(self, value: Any) -> Any:
         """
-        Get the first key associated with given value.
+        Return the first key associated with the specified value.
 
         Parameters
         ----------
@@ -225,7 +240,7 @@ class Lookup(dict):
         Returns
         -------
         :class:`object`
-            First key associated with given value.
+            First key associated with the specified value.
         """
 
         return self.keys_from_value(value)[0]
@@ -233,21 +248,23 @@ class Lookup(dict):
 
 class CanonicalMapping(MutableMapping):
     """
-    Implement a delimiter and case-insensitive :class:`dict`-like object with
-    support for slugs, i.e., *SEO* friendly and human-readable version of the
-    keys but also canonical keys, i.e., slugified keys without delimiters.
+    Represent a delimiter and case-insensitive :class:`dict`-like object
+    supporting both slug keys (*SEO*-friendly, human-readable versions with
+    delimiters) and canonical keys (slugified keys without delimiters).
 
-    The item keys are expected to be :class:`str`-like objects thus supporting
-    the :meth:`str.lower` method. Setting items is done by using the given
-    keys. Retrieving or deleting an item and testing whether an item exist is
-    done by transforming the item's key in a sequence as follows:
+    This class extends :class:`MutableMapping` to provide flexible key
+    matching that accepts various transformations of the original key while
+    maintaining the original key structure for storage. Item keys must be
+    :class:`str`-like objects supporting the :meth:`str.lower` method. Set
+    items using the specified original keys. Retrieve, delete, or test item
+    existence by transforming the query key through the following sequence:
 
     -   *Original Key*
     -   *Lowercase Key*
     -   *Slugified Key*
     -   *Canonical Key*
 
-    For example, given the ``McCamy 1992`` key:
+    For example, using the ``McCamy 1992`` key:
 
     -   *Original Key* : ``McCamy 1992``
     -   *Lowercase Key* : ``mccamy 1992``
@@ -310,13 +327,13 @@ class CanonicalMapping(MutableMapping):
     @property
     def data(self) -> dict:
         """
-        Getter property for the delimiter and case-insensitive
-        :class:`dict`-like object data.
+        Getter for the delimiter and case-insensitive :class:`dict`-like
+        object data.
 
         Returns
         -------
         :class:`dict`
-            Data.
+            Internal data storage.
         """
 
         return self._data
@@ -333,17 +350,18 @@ class CanonicalMapping(MutableMapping):
         """
 
         if is_documentation_building():  # pragma: no cover
-            representation = repr(dict(zip(self.keys(), ["..."] * len(self)))).replace(
-                "'...'", "..."
-            )
-            return f"{self.__class__.__name__}({representation})"
-        else:
-            return f"{self.__class__.__name__}({dict(self.items())})"
+            representation = repr(
+                dict(zip(self.keys(), ["..."] * len(self), strict=True))
+            ).replace("'...'", "...")
 
-    def __setitem__(self, item: str | Any, value: Any):
+            return f"{self.__class__.__name__}({representation})"
+
+        return f"{self.__class__.__name__}({dict(self.items())})"
+
+    def __setitem__(self, item: str | Any, value: Any) -> None:
         """
-        Set given item with given value in the delimiter and case-insensitive
-        :class:`dict`-like object.
+        Set the specified item with the specified value in the delimiter and
+        case-insensitive :class:`dict`-like object.
 
         Parameters
         ----------
@@ -359,8 +377,8 @@ class CanonicalMapping(MutableMapping):
 
     def __getitem__(self, item: str | Any) -> Any:
         """
-        Return the value of given item from the delimiter and case-insensitive
-        :class:`dict`-like object.
+        Return the value of the specified item from the delimiter and
+        case-insensitive :class:`dict`-like object.
 
         Parameters
         ----------
@@ -385,20 +403,26 @@ class CanonicalMapping(MutableMapping):
             pass
 
         try:
-            return self[dict(zip(self.lower_keys(), self.keys()))[str(item).lower()]]
+            return self[
+                dict(zip(self.lower_keys(), self.keys(), strict=True))[
+                    str(item).lower()
+                ]
+            ]
         except KeyError:
             pass
 
         try:
-            return self[dict(zip(self.slugified_keys(), self.keys()))[item]]
+            return self[
+                dict(zip(self.slugified_keys(), self.keys(), strict=True))[item]
+            ]
         except KeyError:
             pass
 
-        return self[dict(zip(self.canonical_keys(), self.keys()))[item]]
+        return self[dict(zip(self.canonical_keys(), self.keys(), strict=True))[item]]
 
-    def __delitem__(self, item: str | Any):
+    def __delitem__(self, item: str | Any) -> None:
         """
-        Delete given item from the delimiter and case-insensitive
+        Delete the specified item from the delimiter and case-insensitive
         :class:`dict`-like object.
 
         Parameters
@@ -409,51 +433,58 @@ class CanonicalMapping(MutableMapping):
 
         Notes
         -----
-        -   The item can be deleted by using either its lower-case, slugified
-            or canonical variant.
+        -   The item can be deleted by using either its lower-case,
+            slugified or canonical variant.
         """
 
         try:
             del self._data[item]
-            return
         except KeyError:
             pass
+        else:
+            return
 
         try:
-            del self._data[dict(zip(self.lower_keys(), self.keys()))[str(item).lower()]]
-            return
+            del self._data[
+                dict(zip(self.lower_keys(), self.keys(), strict=True))[
+                    str(item).lower()
+                ]
+            ]
         except KeyError:
             pass
+        else:
+            return
 
         try:
-            del self[dict(zip(self.slugified_keys(), self.keys()))[item]]
-            return
+            del self[dict(zip(self.slugified_keys(), self.keys(), strict=True))[item]]
         except KeyError:
             pass
+        else:
+            return
 
-        del self[dict(zip(self.canonical_keys(), self.keys()))[item]]
+        del self[dict(zip(self.canonical_keys(), self.keys(), strict=True))[item]]
 
     def __contains__(self, item: str | Any) -> bool:
         """
         Return whether the delimiter and case-insensitive :class:`dict`-like
-        object contains given item.
+        object contains the specified item.
 
         Parameters
         ----------
         item
-            Item to find whether it is in the delimiter and case-insensitive
+            Item to check for presence in the delimiter and case-insensitive
             :class:`dict`-like object.
 
         Returns
         -------
         :class:`bool`
-            Whether given item is in the delimiter and case-insensitive
-            :class:`dict`-like object.
+            Whether the specified item exists in the delimiter and
+            case-insensitive :class:`dict`-like object.
 
         Notes
         -----
-        -   The item presence can be checked by using either its lower-case,
-            slugified or canonical variant.
+        -   Item presence can be checked using its lower-case, slugified, or
+            canonical variant.
         """
 
         return bool(
@@ -486,75 +517,80 @@ class CanonicalMapping(MutableMapping):
 
     def __len__(self) -> int:
         """
-        Return the items count.
+        Return the item count of the container.
 
         Returns
         -------
         :class:`int`
-            Items count.
+            Item count.
         """
 
         return len(self._data)
 
-    def __eq__(self, other: Any) -> bool:
+    __hash__ = None
+
+    def __eq__(self, other: object) -> bool:
         """
-        Return whether the delimiter and case-insensitive :class:`dict`-like
-        object is equal to given other object.
+        Test whether the delimiter and case-insensitive :class:`dict`-like
+        object equals the specified object.
 
         Parameters
         ----------
         other
-            Object to test whether it is equal to the delimiter and
-            case-insensitive :class:`dict`-like object
+            Object to test for equality with the delimiter and
+            case-insensitive :class:`dict`-like object.
 
         Returns
         -------
         :class:`bool`
-            Whether given object is equal to the delimiter and case-insensitive
-            :class:`dict`-like object.
+            Whether the specified object equals the delimiter and
+            case-insensitive :class:`dict`-like object.
         """
 
         if isinstance(other, Mapping):
             other_mapping = CanonicalMapping(other)
         else:
-            raise TypeError(
+            error = (
                 f"Impossible to test equality with "
                 f'"{other.__class__.__name__}" class type!'
             )
 
+            raise TypeError(error)
+
         return self._data == other_mapping.data
 
-    def __ne__(self, other: Any) -> bool:
+    def __ne__(self, other: object) -> bool:
         """
-        Return whether the delimiter and case-insensitive :class:`dict`-like
-        object is not equal to given other object.
+        Test whether the delimiter and case-insensitive
+        :class:`dict`-like object is not equal to the specified other object.
 
         Parameters
         ----------
         other
             Object to test whether it is not equal to the delimiter and
-            case-insensitive :class:`dict`-like object
+            case-insensitive :class:`dict`-like object.
 
         Returns
         -------
         :class:`bool`
-            Whether given object is not equal to the delimiter and
+            Whether the specified object is not equal to the delimiter and
             case-insensitive :class:`dict`-like object.
         """
 
         return not (self == other)
 
     @staticmethod
-    def _collision_warning(keys: list):
+    def _collision_warning(keys: list) -> None:
         """
-        Issue a runtime warning when given keys are colliding.
+        Issue a runtime warning for colliding keys.
 
         Parameters
         ----------
         keys
+            Keys to check for collisions.
         """
 
-        from colour.utilities import usage_warning
+        from colour.utilities import usage_warning  # noqa: PLC0415
 
         collisions = [key for (key, value) in Counter(keys).items() if value > 1]
 
@@ -563,8 +599,8 @@ class CanonicalMapping(MutableMapping):
 
     def copy(self) -> CanonicalMapping:
         """
-        Return a copy of the delimiter and case-insensitive :class:`dict`-like
-        object.
+        Return a copy of the delimiter and case-insensitive
+        :class:`dict`-like object.
 
         Returns
         -------
@@ -573,8 +609,8 @@ class CanonicalMapping(MutableMapping):
 
         Warnings
         --------
-        -   The :class:`CanonicalMapping` class copy returned is a
-            *copy* of the object not a *deepcopy*!
+        -   The :class:`CanonicalMapping` class copy returned is a *copy* of
+            the object not a *deepcopy*!
         """
 
         return CanonicalMapping(dict(**self._data))
@@ -587,7 +623,7 @@ class CanonicalMapping(MutableMapping):
         Yields
         ------
         Generator
-            Item generator.
+            Lower-case key generator.
         """
 
         lower_keys = [str(key).lower() for key in self._data]
@@ -611,8 +647,8 @@ class CanonicalMapping(MutableMapping):
 
     def slugified_keys(self) -> Generator:
         """
-        Iterate over the slugified keys of the delimiter and case-insensitive
-        :class:`dict`-like object.
+        Iterate over the slugified keys of the delimiter and
+        case-insensitive :class:`dict`-like object.
 
         Yields
         ------
@@ -620,7 +656,7 @@ class CanonicalMapping(MutableMapping):
             Item generator.
         """
 
-        from colour.utilities import slugify
+        from colour.utilities import slugify  # noqa: PLC0415
 
         slugified_keys = [slugify(key) for key in self.lower_keys()]
 
@@ -630,8 +666,8 @@ class CanonicalMapping(MutableMapping):
 
     def slugified_items(self) -> Generator:
         """
-        Iterate over the slugified items of the delimiter and case-insensitive
-        :class:`dict`-like object.
+        Iterate over the slugified items of the delimiter and
+        case-insensitive :class:`dict`-like object.
 
         Yields
         ------
@@ -639,12 +675,12 @@ class CanonicalMapping(MutableMapping):
             Item generator.
         """
 
-        yield from zip(self.slugified_keys(), self.values())
+        yield from zip(self.slugified_keys(), self.values(), strict=True)
 
     def canonical_keys(self) -> Generator:
         """
-        Iterate over the canonical keys of the delimiter and case-insensitive
-        :class:`dict`-like object.
+        Iterate over the canonical keys of the delimiter and
+        case-insensitive :class:`dict`-like object.
 
         Yields
         ------
@@ -669,17 +705,18 @@ class CanonicalMapping(MutableMapping):
             Item generator.
         """
 
-        yield from zip(self.canonical_keys(), self.values())
+        yield from zip(self.canonical_keys(), self.values(), strict=True)
 
 
 class LazyCanonicalMapping(CanonicalMapping):
     """
-    Implement a lazy delimiter and case-insensitive :class:`dict`-like object
-    inheriting from :class:`colour.utilities.CanonicalMapping` class.
+    Represent a lazy delimiter and case-insensitive :class:`dict`-like object
+    inheriting from :class:`colour.utilities.CanonicalMapping`.
 
-    The lazy retrieval is performed as follows: If the value is a callable,
-    then it is evaluated and its return value is stored in place of the current
-    value.
+    This class extends :class:`CanonicalMapping` with lazy evaluation
+    capabilities. When a value is a callable, it is automatically evaluated
+    upon first access and its return value is cached, replacing the original
+    callable for subsequent retrievals.
 
     Parameters
     ----------
@@ -711,7 +748,7 @@ class LazyCanonicalMapping(CanonicalMapping):
 
     def __getitem__(self, item: str | Any) -> Any:
         """
-        Return the value of given item from the lazy delimiter and
+        Return the value of the specified item from the lazy delimiter and
         case-insensitive :class:`dict`-like object.
 
         Parameters
@@ -726,7 +763,7 @@ class LazyCanonicalMapping(CanonicalMapping):
             Item value.
         """
 
-        import colour
+        import colour  # noqa: PLC0415
 
         value = super().__getitem__(item)
 

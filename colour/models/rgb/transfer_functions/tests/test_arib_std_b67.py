@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.arib_std_b67` module.
 """
 
-
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -32,7 +31,7 @@ class TestOetf_ARIBSTDB67:
 oetf_ARIBSTDB67` definition unit tests methods.
     """
 
-    def test_oetf_ARIBSTDB67(self):
+    def test_oetf_ARIBSTDB67(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_ARIBSTDB67` definition.
@@ -62,7 +61,7 @@ oetf_ARIBSTDB67` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_oetf_ARIBSTDB67(self):
+    def test_n_dimensional_oetf_ARIBSTDB67(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_ARIBSTDB67` definition n-dimensional arrays support.
@@ -89,7 +88,7 @@ oetf_ARIBSTDB67` definition n-dimensional arrays support.
             oetf_ARIBSTDB67(E), E_p, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_oetf_ARIBSTDB67(self):
+    def test_domain_range_scale_oetf_ARIBSTDB67(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_ARIBSTDB67` definition domain and range scale support.
@@ -108,7 +107,7 @@ oetf_ARIBSTDB67` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_oetf_ARIBSTDB67(self):
+    def test_nan_oetf_ARIBSTDB67(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_ARIBSTDB67` definition nan support.
@@ -123,7 +122,7 @@ class TestOetf_inverse_ARIBSTDB67:
 oetf_inverse_ARIBSTDB67` definition unit tests methods.
     """
 
-    def test_oetf_inverse_ARIBSTDB67(self):
+    def test_oetf_inverse_ARIBSTDB67(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_inverse_ARIBSTDB67` definition.
@@ -155,7 +154,7 @@ oetf_inverse_ARIBSTDB67` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_oetf_inverse_ARIBSTDB67(self):
+    def test_n_dimensional_oetf_inverse_ARIBSTDB67(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_inverse_ARIBSTDB67` definition n-dimensional arrays support.
@@ -182,7 +181,7 @@ oetf_inverse_ARIBSTDB67` definition n-dimensional arrays support.
             oetf_inverse_ARIBSTDB67(E_p), E, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_oetf_inverse_ARIBSTDB67(self):
+    def test_domain_range_scale_oetf_inverse_ARIBSTDB67(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_inverse_ARIBSTDB67` definition domain and range scale support.
@@ -201,7 +200,7 @@ oetf_inverse_ARIBSTDB67` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_oetf_inverse_ARIBSTDB67(self):
+    def test_nan_oetf_inverse_ARIBSTDB67(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
 oetf_inverse_ARIBSTDB67` definition nan support.

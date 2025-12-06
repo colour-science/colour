@@ -16,9 +16,12 @@ References
 
 from __future__ import annotations
 
-from pathlib import Path
+import typing
 
 import numpy as np
+
+if typing.TYPE_CHECKING:
+    from colour.hints import PathLike
 
 from colour.io.luts import LUT1D, LUT3D, LUT3x1D, LUTSequence
 from colour.io.luts.common import path_to_title
@@ -43,18 +46,23 @@ __all__ = [
 ]
 
 
-def read_LUT_IridasCube(path: str | Path) -> LUT3x1D | LUT3D:
+def read_LUT_IridasCube(path: str | PathLike) -> LUT3x1D | LUT3D:
     """
-    Read given *Iridas* *.cube* *LUT* file.
+    Read the specified *Iridas* *.cube* *LUT* file.
+
+    Parse an *Iridas* *.cube* Look-Up Table file and return the
+    corresponding *LUT* object. The function automatically detects
+    whether the file contains a 3x1D or 3D *LUT* based on the
+    presence of *LUT_1D_SIZE* or *LUT_3D_SIZE* declarations.
 
     Parameters
     ----------
     path
-        *LUT* path.
+        *LUT* file path.
 
     Returns
     -------
-    :class:`LUT3x1D` or :class:`LUT3D`.
+    :class:`LUT3x1D` or :class:`LUT3D`
         :class:`LUT3x1D` or :class:`LUT3D` class instance.
 
     References
@@ -184,20 +192,20 @@ def read_LUT_IridasCube(path: str | Path) -> LUT3x1D | LUT3D:
 
 
 def write_LUT_IridasCube(
-    LUT: LUT3x1D | LUT3D | LUTSequence, path: str | Path, decimals: int = 7
+    LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence, path: str | PathLike, decimals: int = 7
 ) -> bool:
     """
-    Write given *LUT* to given  *Iridas* *.cube* *LUT* file.
+    Write the specified *LUT* to the specified *Iridas* *.cube* *LUT* file.
 
     Parameters
     ----------
     LUT
-        :class:`LUT3x1D`, :class:`LUT3D` or :class:`LUTSequence` class instance
-        to write at given path.
+        :class:`LUT1D`, :class:`LUT3x1D`, :class:`LUT3D` or
+        :class:`LUTSequence` class instance to write at the specified path.
     path
-        *LUT* path.
+        *LUT* file path.
     decimals
-        Formatting decimals.
+        Number of decimal places for formatting numeric values.
 
     Returns
     -------
@@ -225,7 +233,7 @@ def write_LUT_IridasCube(
     ...     domain,
     ...     comments=["A first comment.", "A second comment."],
     ... )
-    >>> write_LUT_IridasCube(LUTxD, "My_LUT.cube")  # doctest: +SKIP
+    >>> write_LUT_IridasCube(LUT, "My_LUT.cube")  # doctest: +SKIP
 
     Writing a 3D *Iridas* *.cube* *LUT*:
 
@@ -236,7 +244,7 @@ def write_LUT_IridasCube(
     ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]),
     ...     comments=["A first comment.", "A second comment."],
     ... )
-    >>> write_LUT_IridasCube(LUTxD, "My_LUT.cube")  # doctest: +SKIP
+    >>> write_LUT_IridasCube(LUT, "My_LUT.cube")  # doctest: +SKIP
     """
 
     path = str(path)
@@ -271,8 +279,7 @@ def write_LUT_IridasCube(
         cube_file.write(f'TITLE "{LUTxD.name}"\n')
 
         if LUTxD.comments:
-            for comment in LUTxD.comments:
-                cube_file.write(f"# {comment}\n")
+            cube_file.writelines(f"# {comment}\n" for comment in LUTxD.comments)
 
         cube_file.write(
             f"{'LUT_1D_SIZE' if is_3x1D else 'LUT_3D_SIZE'} {LUTxD.table.shape[0]}\n"
@@ -291,7 +298,8 @@ def write_LUT_IridasCube(
             np.reshape(LUTxD.table, (-1, 3), order="F") if not is_3x1D else LUTxD.table
         )
 
-        for array in table:
-            cube_file.write(f"{format_array_as_row(array, decimals)}\n")
+        cube_file.writelines(
+            f"{format_array_as_row(array, decimals)}\n" for array in table
+        )
 
     return True

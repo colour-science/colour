@@ -2,7 +2,8 @@
 CAM16 Colour Appearance Model
 =============================
 
-Define the *CAM16* colour appearance model objects:
+Define the *CAM16* colour appearance model for predicting perceptual colour
+attributes under varying viewing conditions.
 
 -   :class:`colour.appearance.InductionFactors_CAM16`
 -   :attr:`colour.VIEWING_CONDITIONS_CAM16`
@@ -20,7 +21,6 @@ References
 
 from __future__ import annotations
 
-from collections import namedtuple
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -50,10 +50,17 @@ from colour.appearance.ciecam02 import (
     temporary_magnitude_quantity_inverse,
     viewing_conditions_dependent_parameters,
 )
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import (  # noqa: TC001
+    Annotated,
+    ArrayLike,
+    Domain100,
+    NDArrayFloat,
+    Range100,
+)
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
+    MixinDataclassIterable,
     as_float,
     as_float_array,
     from_range_100,
@@ -89,9 +96,10 @@ MATRIX_INVERSE_16: NDArrayFloat = np.linalg.inv(MATRIX_16)
 """Inverse adaptation matrix :math:`M^{-1}_{16}`."""
 
 
-class InductionFactors_CAM16(namedtuple("InductionFactors_CAM16", ("F", "c", "N_c"))):
+@dataclass(frozen=True)
+class InductionFactors_CAM16(MixinDataclassIterable):
     """
-    *CAM16* colour appearance model induction factors.
+    Define the *CAM16* colour appearance model induction factors.
 
     Parameters
     ----------
@@ -104,20 +112,25 @@ class InductionFactors_CAM16(namedtuple("InductionFactors_CAM16", ("F", "c", "N_
 
     Notes
     -----
-    -   The *CAM16* colour appearance model induction factors are the same as
-        *CIECAM02* colour appearance model.
+    -   The *CAM16* colour appearance model induction factors are
+        identical to the *CIECAM02* colour appearance model
+        induction factors.
 
     References
     ----------
     :cite:`Li2017`
     """
 
+    F: float
+    c: float
+    N_c: float
+
 
 VIEWING_CONDITIONS_CAM16: CanonicalMapping = CanonicalMapping(
     VIEWING_CONDITIONS_CIECAM02
 )
 VIEWING_CONDITIONS_CAM16.__doc__ = """
-Reference *CAM16* colour appearance model viewing conditions.
+Define the reference *CAM16* colour appearance model viewing conditions.
 
 References
 ----------
@@ -133,7 +146,7 @@ class CAM_Specification_CAM16(MixinDataclassArithmetic):
     Parameters
     ----------
     J
-        Correlate of *Lightness* :math:`J`.
+        Correlate of *lightness* :math:`J`.
     C
         Correlate of *chroma* :math:`C`.
     h
@@ -165,8 +178,8 @@ class CAM_Specification_CAM16(MixinDataclassArithmetic):
 
 
 def XYZ_to_CAM16(
-    XYZ: ArrayLike,
-    XYZ_w: ArrayLike,
+    XYZ: Domain100,
+    XYZ_w: Domain100,
     L_A: ArrayLike,
     Y_b: ArrayLike,
     surround: (
@@ -174,9 +187,9 @@ def XYZ_to_CAM16(
     ) = VIEWING_CONDITIONS_CAM16["Average"],
     discount_illuminant: bool = False,
     compute_H: bool = True,
-) -> CAM_Specification_CAM16:
+) -> Annotated[CAM_Specification_CAM16, (100, 100, 360, 100, 100, 100, 400)]:
     """
-    Compute the *CAM16* colour appearance model correlates from given
+    Compute the *CAM16* colour appearance model correlates from the specified
     *CIE XYZ* tristimulus values.
 
     Parameters
@@ -186,22 +199,23 @@ def XYZ_to_CAM16(
     XYZ_w
         *CIE XYZ* tristimulus values of reference white.
     L_A
-        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
-        to be 20% of the luminance of a white object in the scene).
+        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often
+        taken to be 20% of the luminance of a white object in the scene).
     Y_b
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
-        light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
-        pixels in the entire image, or frequently, a :math:`Y` value of 20,
-        approximate an :math:`L^*` of 50 is used.
+        :math:`Y_b = 100 \\times L_b / L_w` where :math:`L_w` is the
+        luminance of the light source and :math:`L_b` is the luminance of
+        the background. For viewing images, :math:`Y_b` can be the average
+        :math:`Y` value for the pixels in the entire image, or frequently,
+        a :math:`Y` value of 20, approximating an :math:`L^*` of 50 is
+        used.
     surround
         Surround viewing conditions induction factors.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
     compute_H
-        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H` is
-        rarely used, and expensive to compute.
+        Whether to compute *Hue* :math:`h` quadrature :math:`H`.
+        :math:`H` is rarely used, and expensive to compute.
 
     Returns
     -------
@@ -210,31 +224,31 @@ def XYZ_to_CAM16(
 
     Notes
     -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
-    | ``XYZ_w``  | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``XYZ``             | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``XYZ_w``           | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
 
-    +-------------------------------+-----------------------+---------------+
-    | **Range**                     | **Scale - Reference** | **Scale - 1** |
-    +===============================+=======================+===============+
-    | ``CAM_Specification_CAM16.J`` | [0, 100]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_CAM16.C`` | [0, 100]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_CAM16.h`` | [0, 360]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_CAM16.s`` | [0, 100]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_CAM16.Q`` | [0, 100]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_CAM16.M`` | [0, 100]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_CAM16.H`` | [0, 400]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``specification.J`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.C`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.h`` | 360                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.s`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.Q`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.M`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.H`` | 400                   | 1             |
+    +---------------------+-----------------------+---------------+
 
     References
     ----------
@@ -330,53 +344,57 @@ H=275.5949861..., HC=None)
     s = saturation_correlate(M, Q)
 
     return CAM_Specification_CAM16(
-        as_float(from_range_100(J)),
-        as_float(from_range_100(C)),
-        as_float(from_range_degrees(h)),
-        as_float(from_range_100(s)),
-        as_float(from_range_100(Q)),
-        as_float(from_range_100(M)),
-        as_float(from_range_degrees(H, 400)),
-        None,
+        J=as_float(from_range_100(J)),
+        C=as_float(from_range_100(C)),
+        h=as_float(from_range_degrees(h)),
+        s=as_float(from_range_100(s)),
+        Q=as_float(from_range_100(Q)),
+        M=as_float(from_range_100(M)),
+        H=as_float(from_range_degrees(H, 400)),
+        HC=None,
     )
 
 
 def CAM16_to_XYZ(
-    specification: CAM_Specification_CAM16,
-    XYZ_w: ArrayLike,
+    specification: Annotated[
+        CAM_Specification_CAM16, (100, 100, 360, 100, 100, 100, 400)
+    ],
+    XYZ_w: Domain100,
     L_A: ArrayLike,
     Y_b: ArrayLike,
     surround: (
         InductionFactors_CIECAM02 | InductionFactors_CAM16
     ) = VIEWING_CONDITIONS_CAM16["Average"],
     discount_illuminant: bool = False,
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Convert from *CAM16* specification to *CIE XYZ* tristimulus values.
+    Convert the *CAM16* colour appearance model specification to *CIE XYZ*
+    tristimulus values.
 
     Parameters
     ----------
     specification
         *CAM16* colour appearance model specification. Correlate of
-        *Lightness* :math:`J`, correlate of *chroma* :math:`C` or correlate of
-        *colourfulness* :math:`M` and *hue* angle :math:`h` in degrees must be
-        specified, e.g., :math:`JCh` or :math:`JMh`.
+        *lightness* :math:`J`, correlate of *chroma* :math:`C` or correlate
+        of *colourfulness* :math:`M` and *hue* angle :math:`h` in degrees
+        must be specified, e.g., :math:`JCh` or :math:`JMh`.
     XYZ_w
         *CIE XYZ* tristimulus values of reference white.
     L_A
-        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
-        to be 20% of the luminance of a white object in the scene).
+        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often
+        taken to be 20% of the luminance of a white object in the scene).
     Y_b
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
-        light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
-        pixels in the entire image, or frequently, a :math:`Y` value of 20,
-        approximate an :math:`L^*` of 50 is used.
+        :math:`Y_b = 100 \\times L_b / L_w` where :math:`L_w` is the
+        luminance of the light source and :math:`L_b` is the luminance of
+        the background. For viewing images, :math:`Y_b` can be the average
+        :math:`Y` value for the pixels in the entire image, or frequently,
+        a :math:`Y` value of 20, approximating an :math:`L^*` of 50 is
+        used.
     surround
-        Surround viewing conditions.
+        Surround viewing conditions induction factors.
     discount_illuminant
-        Discount the illuminant.
+        Truth value indicating if the illuminant should be discounted.
 
     Returns
     -------
@@ -386,36 +404,36 @@ def CAM16_to_XYZ(
     Raises
     ------
     ValueError
-        If neither :math:`C` or :math:`M` correlates have been defined in the
-        ``specification`` argument.
+        If neither :math:`C` nor :math:`M` correlates have been defined
+        in the ``specification`` argument.
 
     Notes
     -----
-    +-------------------------------+-----------------------+---------------+
-    | **Domain**                    | **Scale - Reference** | **Scale - 1** |
-    +===============================+=======================+===============+
-    | ``CAM_Specification_CAM16.J`` | [0, 100]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_CAM16.C`` | [0, 100]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_CAM16.h`` | [0, 360]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_CAM16.s`` | [0, 100]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_CAM16.Q`` | [0, 100]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_CAM16.M`` | [0, 100]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_CAM16.H`` | [0, 360]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``XYZ_w``                     | [0, 100]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``specification.J`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.C`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.h`` | 360                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.s`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.Q`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.M`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.H`` | 360                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``XYZ_w``           | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
 
-    +-----------+-----------------------+---------------+
-    | **Range** | **Scale - Reference** | **Scale - 1** |
-    +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
-    +-----------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``XYZ``             | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
 
     References
     ----------
@@ -469,10 +487,12 @@ def CAM16_to_XYZ(
     if has_only_nan(C) and not has_only_nan(M):
         C = M / spow(F_L, 0.25)
     elif has_only_nan(C):
-        raise ValueError(
+        error = (
             'Either "C" or "M" correlate must be defined in '
             'the "CAM_Specification_CAM16" argument!'
         )
+
+        raise ValueError(error)
 
     # Step 2
     # Computing temporary magnitude quantity :math:`t`.

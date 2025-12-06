@@ -2,29 +2,31 @@
 Whiteness Index :math:`W`
 =========================
 
-Define the *whiteness* index :math:`W` computation objects:
+Define *whiteness* index :math:`W` computation methods.
 
--   :func:`colour.colorimetry.whiteness_Berger1959`: *Whiteness* index
-    :math:`WI` computation of given sample *CIE XYZ* tristimulus values using
-    *Berger (1959)* method.
--   :func:`colour.colorimetry.whiteness_Taube1960`: *Whiteness* index
-    :math:`WI` computation of given sample *CIE XYZ* tristimulus values using
-    *Taube (1960)* method.
--   :func:`colour.colorimetry.whiteness_Stensby1968`: *Whiteness* index
-    :math:`WI` computation of given sample *CIE L\\*a\\*b\\** colourspace array
-    using *Stensby (1968)* method.
--   :func:`colour.colorimetry.whiteness_ASTME313`: *Whiteness* index :math:`WI`
-    of given sample *CIE XYZ* tristimulus values using *ASTM E313* method.
--   :func:`colour.colorimetry.whiteness_Ganz1979`: *Whiteness* index :math:`W`
-    and *tint* :math:`T` computation of given sample *CIE xy* chromaticity
-    coordinates using *Ganz and Griesser (1979)* method.
--   :func:`colour.colorimetry.whiteness_CIE2004`: *Whiteness* :math:`W` or
-    :math:`W_{10}` and *tint* :math:`T` or :math:`T_{10}` computation of given
-    sample *CIE xy* chromaticity coordinates using *CIE 2004* method.
--   :attr:`colour.WHITENESS_METHODS`: Supported *whiteness* computations
+-   :func:`colour.colorimetry.whiteness_Berger1959`: Compute *whiteness*
+    index :math:`WI` from the specified sample *CIE XYZ* tristimulus values
+    using *Berger (1959)* method.
+-   :func:`colour.colorimetry.whiteness_Taube1960`: Compute *whiteness*
+    index :math:`WI` from the specified sample *CIE XYZ* tristimulus values
+    using *Taube (1960)* method.
+-   :func:`colour.colorimetry.whiteness_Stensby1968`: Compute *whiteness*
+    index :math:`WI` from the specified sample *CIE L\\*a\\*b\\** colourspace
+    array using *Stensby (1968)* method.
+-   :func:`colour.colorimetry.whiteness_ASTME313`: Compute *whiteness*
+    index :math:`WI` from the specified sample *CIE XYZ* tristimulus values
+    using *ASTM E313* method.
+-   :func:`colour.colorimetry.whiteness_Ganz1979`: Compute *whiteness*
+    index :math:`W` and *tint* :math:`T` from the specified sample *CIE xy*
+    chromaticity coordinates using *Ganz and Griesser (1979)* method.
+-   :func:`colour.colorimetry.whiteness_CIE2004`: Compute *whiteness*
+    :math:`W` or :math:`W_{10}` and *tint* :math:`T` or :math:`T_{10}`
+    from the specified sample *CIE xy* chromaticity coordinates using
+    *CIE 2004* method.
+-   :attr:`colour.WHITENESS_METHODS`: Supported *whiteness* computation
     methods.
--   :func:`colour.whiteness`: *Whiteness* :math:`W` computation using given
-    method.
+-   :func:`colour.whiteness`: Compute *whiteness* :math:`W` using
+    specified method.
 
 References
 ----------
@@ -44,7 +46,16 @@ c/09_color_calculations_en.pdf
 
 from __future__ import annotations
 
-from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, Literal
+
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain100,
+    Range100,
+)
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -77,10 +88,10 @@ __all__ = [
 ]
 
 
-def whiteness_Berger1959(XYZ: ArrayLike, XYZ_0: ArrayLike) -> NDArrayFloat:
+def whiteness_Berger1959(XYZ: Domain100, XYZ_0: Domain100) -> Range100:
     """
-    Return the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    tristimulus values using *Berger (1959)* method.
+    Compute the *whiteness* index :math:`WI` of the specified sample *CIE XYZ*
+    tristimulus values using the *Berger (1959)* method.
 
     Parameters
     ----------
@@ -91,23 +102,23 @@ def whiteness_Berger1959(XYZ: ArrayLike, XYZ_0: ArrayLike) -> NDArrayFloat:
 
     Returns
     -------
-    :class:`np.float` or :class:`numpy.ndarray`
-        *Whiteness* :math:`WI`.
+    :class:`numpy.ndarray`
+        *Whiteness* index :math:`WI`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    | ``XYZ``    | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_0``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_0``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``WI``     | [0, 100]              | [0, 1]        |
+    | ``WI``     | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     -   *Whiteness* :math:`WI` values larger than 33.33 indicate a bluish
@@ -134,10 +145,10 @@ def whiteness_Berger1959(XYZ: ArrayLike, XYZ_0: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_100(WI))
 
 
-def whiteness_Taube1960(XYZ: ArrayLike, XYZ_0: ArrayLike) -> NDArrayFloat:
+def whiteness_Taube1960(XYZ: Domain100, XYZ_0: Domain100) -> Range100:
     """
-    Return the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    tristimulus values using *Taube (1960)* method.
+    Compute the *whiteness* index :math:`WI` of the specified sample *CIE XYZ*
+    tristimulus values using the *Taube (1960)* method.
 
     Parameters
     ----------
@@ -148,23 +159,23 @@ def whiteness_Taube1960(XYZ: ArrayLike, XYZ_0: ArrayLike) -> NDArrayFloat:
 
     Returns
     -------
-    :class:`np.float` or :class:`numpy.ndarray`
-        *Whiteness* :math:`WI`.
+    :class:`numpy.ndarray`
+        *Whiteness* index :math:`WI`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    | ``XYZ``    | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_0``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_0``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``WI``     | [0, 100]              | [0, 1]        |
+    | ``WI``     | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
@@ -191,10 +202,12 @@ def whiteness_Taube1960(XYZ: ArrayLike, XYZ_0: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_100(WI))
 
 
-def whiteness_Stensby1968(Lab: ArrayLike) -> NDArrayFloat:
+def whiteness_Stensby1968(
+    Lab: Domain100,
+) -> Range100:
     """
-    Return the *whiteness* index :math:`WI` of given sample *CIE L\\*a\\*b\\**
-    colourspace array using *Stensby (1968)* method.
+    Compute the *whiteness* index :math:`WI` of the specified sample
+    *CIE L\\*a\\*b\\** colourspace array using the *Stensby (1968)* method.
 
     Parameters
     ----------
@@ -203,25 +216,21 @@ def whiteness_Stensby1968(Lab: ArrayLike) -> NDArrayFloat:
 
     Returns
     -------
-    :class:`np.float` or :class:`numpy.ndarray`
-        *Whiteness* :math:`WI`.
+    :class:`numpy.ndarray`
+        *Whiteness* index :math:`WI`.
 
     Notes
     -----
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Lab``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    | ``Lab``    | 100                   | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``WI``     | [0, 100]              | [0, 1]          |
+    | ``WI``     | 100                   | 1               |
     +------------+-----------------------+-----------------+
 
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
@@ -246,10 +255,10 @@ def whiteness_Stensby1968(Lab: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_100(WI))
 
 
-def whiteness_ASTME313(XYZ: ArrayLike) -> NDArrayFloat:
+def whiteness_ASTME313(XYZ: Domain100) -> Range100:
     """
-    Return the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    tristimulus values using *ASTM E313* method.
+    Compute the *whiteness* index :math:`WI` of the specified sample *CIE XYZ*
+    tristimulus values using the *ASTM E313* method.
 
     Parameters
     ----------
@@ -258,21 +267,21 @@ def whiteness_ASTME313(XYZ: ArrayLike) -> NDArrayFloat:
 
     Returns
     -------
-    :class:`np.float` or :class:`numpy.ndarray`
-        *Whiteness* :math:`WI`.
+    :class:`numpy.ndarray`
+        *Whiteness* index :math:`WI`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    | ``XYZ``    | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``WI``     | [0, 100]              | [0, 1]        |
+    | ``WI``     | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -294,11 +303,11 @@ def whiteness_ASTME313(XYZ: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_100(WI))
 
 
-def whiteness_Ganz1979(xy: ArrayLike, Y: ArrayLike) -> NDArrayFloat:
+def whiteness_Ganz1979(xy: ArrayLike, Y: Domain100) -> Range100:
     """
-    Return the *whiteness* index :math:`W` and *tint* :math:`T` of given
-    sample *CIE xy* chromaticity coordinates using *Ganz and Griesser (1979)*
-    method.
+    Compute the *whiteness* index :math:`W` and *tint* :math:`T` of the
+    specified sample *CIE xy* chromaticity coordinates using the
+    *Ganz and Griesser (1979)* method.
 
     Parameters
     ----------
@@ -317,20 +326,20 @@ def whiteness_Ganz1979(xy: ArrayLike, Y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``WT``     | [0, 100]              | [0, 1]        |
+    | ``WT``     | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     -   The formula coefficients are valid for
         *CIE Standard Illuminant D Series* *D65* and
         *CIE 1964 10 Degree Standard Observer*.
-    -   Positive output *tint* :math:`T` values indicate a greener tint while
-        negative values indicate a redder tint.
+    -   Positive output *tint* :math:`T` values indicate a greener tint
+        while negative values indicate a redder tint.
     -   Whiteness differences of less than 5 Ganz units appear to be
         indistinguishable to the human eye.
     -   Tint differences of less than 0.5 Ganz units appear to be
@@ -361,17 +370,17 @@ def whiteness_Ganz1979(xy: ArrayLike, Y: ArrayLike) -> NDArrayFloat:
 
 def whiteness_CIE2004(
     xy: ArrayLike,
-    Y: ArrayLike,
+    Y: Domain100,
     xy_n: ArrayLike,
     observer: Literal[
         "CIE 1931 2 Degree Standard Observer",
         "CIE 1964 10 Degree Standard Observer",
     ] = ("CIE 1931 2 Degree Standard Observer"),
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Return the *whiteness* :math:`W` or :math:`W_{10}` and *tint* :math:`T`
-    or :math:`T_{10}` of given sample *CIE xy* chromaticity coordinates using
-    *CIE 2004* method.
+    Compute the *whiteness* :math:`W` or :math:`W_{10}` and *tint*
+    :math:`T` or :math:`T_{10}` of the specified sample *CIE xy* chromaticity
+    coordinates using the *CIE 2004* method.
 
     Parameters
     ----------
@@ -389,33 +398,33 @@ def whiteness_CIE2004(
     -------
     :class:`numpy.ndarray`
         *Whiteness* :math:`W` or :math:`W_{10}` and *tint* :math:`T` or
-        :math:`T_{10}` of given sample.
+        :math:`T_{10}` of the specified sample.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``WT``     | [0, 100]              | [0, 1]        |
+    | ``WT``     | 100                   | 1             |
     +------------+-----------------------+---------------+
 
-    -   This method may be used only for samples whose values of :math:`W` or
-        :math:`W_{10}` lie within the following limits: greater than 40 and
-        less than 5Y - 280, or 5Y10 - 280.
-    -   This method may be used only for samples whose values of :math:`T` or
-        :math:`T_{10}` lie within the following limits: greater than -4 and
-        less than +2.
-    -   Output *whiteness* :math:`W` or :math:`W_{10}` values larger than 100
-        indicate a bluish white while values smaller than 100 indicate a
-        yellowish white.
-    -   Positive output *tint* :math:`T` or :math:`T_{10}` values indicate a
-        greener tint while negative values indicate a redder tint.
+    -   This method may be used only for samples whose values of :math:`W`
+        or :math:`W_{10}` lie within the following limits: greater than 40
+        and less than 5Y - 280, or 5Y10 - 280.
+    -   This method may be used only for samples whose values of :math:`T`
+        or :math:`T_{10}` lie within the following limits: greater than -4
+        and less than +2.
+    -   Output *whiteness* :math:`W` or :math:`W_{10}` values larger than
+        100 indicate a bluish white while values smaller than 100 indicate
+        a yellowish white.
+    -   Positive output *tint* :math:`T` or :math:`T_{10}` values indicate
+        a greener tint while negative values indicate a redder tint.
 
     References
     ----------
@@ -467,7 +476,7 @@ WHITENESS_METHODS["cie2004"] = WHITENESS_METHODS["CIE 2004"]
 
 
 def whiteness(
-    XYZ: ArrayLike,
+    XYZ: Domain100,
     XYZ_0: ArrayLike,
     method: (
         Literal[
@@ -481,9 +490,10 @@ def whiteness(
         | str
     ) = "CIE 2004",
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Return the *whiteness* :math:`W` using given method.
+    Compute the *whiteness* index :math:`W` of the specified sample *CIE XYZ*
+    tristimulus values using the specified method.
 
     Parameters
     ----------
@@ -503,25 +513,24 @@ def whiteness(
 
     Returns
     -------
-    :class:`np.float` or :class:`numpy.ndarray`
-        *Whiteness* :math:`W`.
+    :class:`numpy.ndarray`
+        *Whiteness* index :math:`W`.
 
     Notes
     -----
-    +------------+-----------------------+-----------------+
-    | **Domain** | **Scale - Reference** |   **Scale - 1** |
-    +============+=======================+=================+
-    +------------+-----------------------+-----------------+
-    | ``XYZ``    | [0, 100]              |   [0, 1]        |
-    +------------+-----------------------+-----------------+
-    | ``XYZ_0``  | [0, 100]              |   [0, 1]        |
-    +------------+-----------------------+-----------------+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | 100                   | 1             |
+    +------------+-----------------------+---------------+
+    | ``XYZ_0``  | 100                   | 1             |
+    +------------+-----------------------+---------------+
 
-    +------------+-----------------------+-----------------+
-    | **Range**  | **Scale - Reference** |   **Scale - 1** |
-    +============+=======================+=================+
-    | ``W``      | [0, 100]              |   [0, 1]        |
-    +------------+-----------------------+-----------------+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``W``      | 100                   | 1             |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -552,15 +561,23 @@ def whiteness(
     function = WHITENESS_METHODS[method]
 
     if function is whiteness_Stensby1968:
-        from colour.models import XYZ_to_Lab, XYZ_to_xy
+        from colour.models import XYZ_to_Lab, XYZ_to_xy  # noqa: PLC0415
 
-        if get_domain_range_scale() == "reference":
-            XYZ = XYZ / 100
-            XYZ_0 = XYZ_0 / 100
-
-        kwargs.update({"Lab": XYZ_to_Lab(XYZ, XYZ_to_xy(XYZ_0))})
+        # XYZ_to_Lab always expects XYZ in [0, 1], convert from reference [0, 100].
+        kwargs.update(
+            {
+                "Lab": XYZ_to_Lab(
+                    XYZ / 100 if get_domain_range_scale() == "reference" else XYZ,
+                    XYZ_to_xy(
+                        XYZ_0 / 100
+                        if get_domain_range_scale() == "reference"
+                        else XYZ_0
+                    ),
+                )
+            }
+        )
     elif function in (whiteness_Ganz1979, whiteness_CIE2004):
-        from colour.models import XYZ_to_xy
+        from colour.models import XYZ_to_xy  # noqa: PLC0415
 
         _X_0, Y_0, _Z_0 = tsplit(XYZ_0)
         kwargs.update({"xy": XYZ_to_xy(XYZ), "Y": Y_0, "xy_n": XYZ_to_xy(XYZ_0)})

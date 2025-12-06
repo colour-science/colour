@@ -1,4 +1,9 @@
-"""Showcase gamut section plotting examples."""
+"""
+Demonstrate gamut section plotting.
+
+This module provides examples of plotting visible spectrum and RGB
+colourspace sections in various colour models.
+"""
 
 import numpy as np
 from matplotlib.lines import Line2D
@@ -115,12 +120,12 @@ section_colours = colour.notation.HEX_to_RGB(
 
 origins = []
 legend_lines = []
-for i, RGB in zip(np.arange(0.5, 0.9, 0.1), section_colours):
+for i, RGB in zip(np.arange(0.5, 0.9, 0.1), section_colours, strict=True):
     origins.append(i * 100)
     plot_RGB_colourspace_section(
         colourspace="sRGB",
         model="DIN99",
-        origin=i,
+        origin=i,  # pyright: ignore
         section_colours=RGB,
         section_opacity=0.15,
         contour_colours=RGB,

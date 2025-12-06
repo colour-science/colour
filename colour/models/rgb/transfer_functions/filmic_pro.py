@@ -2,7 +2,7 @@
 FiLMiC Pro 6 Encoding
 =====================
 
-Define the *FiLMiC Pro 6* encoding:
+Define the *FiLMiC Pro 6* encoding.
 
 -   :func:`colour.models.log_encoding_FilmicPro6`
 -   :func:`colour.models.log_decoding_FilmicPro6`
@@ -18,7 +18,10 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import Extrapolator, LinearInterpolator
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -34,10 +37,9 @@ __all__ = [
 ]
 
 
-def log_encoding_FilmicPro6(t: ArrayLike) -> NDArrayFloat:
+def log_encoding_FilmicPro6(t: Domain1) -> Range1:
     """
-    Define the *FiLMiC Pro 6* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *FiLMiC Pro 6* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -47,24 +49,24 @@ def log_encoding_FilmicPro6(t: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`y`.
+        Non-linear encoded data :math:`y`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``t``      | [0, 1]                | [0, 1]        |
+    | ``t``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
-    -   The *FiLMiC Pro 6* log encoding curve / opto-electronic transfer
-        function is only defined for domain (0, 1].
+    -   The *FiLMiC Pro 6* log encoding curve / opto-electronic
+        transfer function is only defined for domain (0, 1].
 
     References
     ----------
@@ -72,10 +74,11 @@ def log_encoding_FilmicPro6(t: ArrayLike) -> NDArrayFloat:
 
     Warnings
     --------
-    The *FiLMiC Pro 6* log encoding curve / opto-electronic transfer function
-    was fitted with poor precision and has :math:`Y=1.000000819999999` value
-    for :math:`t=1`. It also has no linear segment near zero and will thus be
-    undefined for :math:`t=0` when computing its logarithm.
+    The *FiLMiC Pro 6* log encoding curve / opto-electronic transfer
+    function was fitted with poor precision and has
+    :math:`Y=1.000000819999999` value for :math:`t=1`. It also has no
+    linear segment near zero and will thus be undefined for :math:`t=0`
+    when computing its logarithm.
 
     Examples
     --------
@@ -96,7 +99,7 @@ _CACHE_LOG_DECODING_FILMICPRO_INTERPOLATOR: Extrapolator | None = None
 def _log_decoding_FilmicPro6_interpolator() -> Extrapolator:
     """
     Return the *FiLMiC Pro 6* log decoding curve / electro-optical transfer
-    function interpolator and caches it if not existing.
+    function interpolator, caching it if not already existing.
 
     Returns
     -------
@@ -116,15 +119,15 @@ def _log_decoding_FilmicPro6_interpolator() -> Extrapolator:
     return _CACHE_LOG_DECODING_FILMICPRO_INTERPOLATOR
 
 
-def log_decoding_FilmicPro6(y: ArrayLike) -> NDArrayFloat:
+def log_decoding_FilmicPro6(y: Domain1) -> Range1:
     """
-    Define the *FiLMiC Pro 6* log decoding curve / electro-optical transfer
-    function.
+    Apply the *FiLMiC Pro 6* log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     y
-        Non-linear data :math:`y`.
+        Non-linear encoded data :math:`y`.
 
     Returns
     -------
@@ -136,13 +139,13 @@ def log_decoding_FilmicPro6(y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``t``      | [0, 1]                | [0, 1]        |
+    | ``t``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     -   The *FiLMiC Pro 6* log decoding curve / electro-optical transfer
@@ -155,7 +158,8 @@ def log_decoding_FilmicPro6(y: ArrayLike) -> NDArrayFloat:
     Warnings
     --------
     The *FiLMiC Pro 6* log encoding curve / opto-electronic transfer function
-    has no inverse in :math:`R`, we thus use a *LUT* based inversion.
+    has no inverse in :math:`\\mathbb{R}`, we thus use a *LUT* based
+    inversion.
 
     Examples
     --------

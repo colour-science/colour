@@ -3,14 +3,10 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.itur_bt_2020` module.
 """
 
-
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.models.rgb.transfer_functions import (
-    oetf_BT2020,
-    oetf_inverse_BT2020,
-)
+from colour.models.rgb.transfer_functions import oetf_BT2020, oetf_inverse_BT2020
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -32,7 +28,7 @@ class TestOetf_BT2020:
 oetf_BT2020` definition unit tests methods.
     """
 
-    def test_oetf_BT2020(self):
+    def test_oetf_BT2020(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2020.\
 oetf_BT2020` definition.
@@ -46,7 +42,7 @@ oetf_BT2020` definition.
 
         np.testing.assert_allclose(oetf_BT2020(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_n_dimensional_oetf_BT2020(self):
+    def test_n_dimensional_oetf_BT2020(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2020.\
 oetf_BT2020` definition n-dimensional arrays support.
@@ -67,7 +63,7 @@ oetf_BT2020` definition n-dimensional arrays support.
         E_p = np.reshape(E_p, (2, 3, 1))
         np.testing.assert_allclose(oetf_BT2020(E), E_p, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_oetf_BT2020(self):
+    def test_domain_range_scale_oetf_BT2020(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2020.\
 oetf_BT2020` definition domain and range scale support.
@@ -86,7 +82,7 @@ oetf_BT2020` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_oetf_BT2020(self):
+    def test_nan_oetf_BT2020(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2020.\
 oetf_BT2020` definition nan support.
@@ -101,7 +97,7 @@ class TestOetf_inverse_BT2020:
 oetf_inverse_BT2020` definition unit tests methods.
     """
 
-    def test_oetf_inverse_BT2020(self):
+    def test_oetf_inverse_BT2020(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2020.\
 oetf_inverse_BT2020` definition.
@@ -121,7 +117,7 @@ oetf_inverse_BT2020` definition.
             oetf_inverse_BT2020(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_n_dimensional_oetf_inverse_BT2020(self):
+    def test_n_dimensional_oetf_inverse_BT2020(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2020.\
 oetf_inverse_BT2020` definition n-dimensional arrays support.
@@ -148,7 +144,7 @@ oetf_inverse_BT2020` definition n-dimensional arrays support.
             oetf_inverse_BT2020(E_p), E, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_oetf_inverse_BT2020(self):
+    def test_domain_range_scale_oetf_inverse_BT2020(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2020.\
 oetf_inverse_BT2020` definition domain and range scale support.
@@ -167,7 +163,7 @@ oetf_inverse_BT2020` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_oetf_inverse_BT2020(self):
+    def test_nan_oetf_inverse_BT2020(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.itur_bt_2020.\
 oetf_inverse_BT2020` definition nan support.

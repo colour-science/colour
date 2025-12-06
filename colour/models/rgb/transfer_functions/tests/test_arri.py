@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.arri` module.
 """
 
-
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -36,7 +35,7 @@ class TestLogEncoding_ARRILogC3:
 log_encoding_ARRILogC3` definition unit tests methods.
     """
 
-    def test_log_encoding_ARRILogC3(self):
+    def test_log_encoding_ARRILogC3(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arri.\
 log_encoding_ARRILogC3` definition.
@@ -60,7 +59,7 @@ log_encoding_ARRILogC3` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_ARRILogC3(self):
+    def test_n_dimensional_log_encoding_ARRILogC3(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arri.\
 log_encoding_ARRILogC3` definition n-dimensional arrays support.
@@ -87,7 +86,7 @@ log_encoding_ARRILogC3` definition n-dimensional arrays support.
             log_encoding_ARRILogC3(x), t, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_ARRILogC3(self):
+    def test_domain_range_scale_log_encoding_ARRILogC3(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arri.\
 log_encoding_ARRILogC3` definition domain and range scale support.
@@ -106,7 +105,7 @@ log_encoding_ARRILogC3` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_ARRILogC3(self):
+    def test_nan_log_encoding_ARRILogC3(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arri.\
 log_encoding_ARRILogC3` definition nan support.
@@ -121,7 +120,7 @@ class TestLogDecoding_ARRILogC3:
 log_decoding_ARRILogC3` definition unit tests methods.
     """
 
-    def test_log_decoding_ARRILogC3(self):
+    def test_log_decoding_ARRILogC3(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arri.\
 log_decoding_ARRILogC3` definition.
@@ -145,7 +144,7 @@ log_decoding_ARRILogC3` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_ARRILogC3(self):
+    def test_n_dimensional_log_decoding_ARRILogC3(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arri.\
 log_decoding_ARRILogC3` definition n-dimensional arrays support.
@@ -172,7 +171,7 @@ log_decoding_ARRILogC3` definition n-dimensional arrays support.
             log_decoding_ARRILogC3(t), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_ARRILogC3(self):
+    def test_domain_range_scale_log_decoding_ARRILogC3(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arri.\
 log_decoding_ARRILogC3` definition domain and range scale support.
@@ -191,7 +190,7 @@ log_decoding_ARRILogC3` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_ARRILogC3(self):
+    def test_nan_log_decoding_ARRILogC3(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arri.\
 log_decoding_ARRILogC3` definition nan support.
@@ -206,7 +205,7 @@ class TestLogEncoding_ARRILogC4:
 log_encoding_ARRILogC4` definition unit tests methods.
     """
 
-    def test_log_encoding_ARRILogC4(self):
+    def test_log_encoding_ARRILogC4(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arri.\
 log_encoding_ARRILogC4` definition.
@@ -230,7 +229,7 @@ log_encoding_ARRILogC4` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_ARRILogC4(self):
+    def test_n_dimensional_log_encoding_ARRILogC4(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arri.\
 log_encoding_ARRILogC4` definition n-dimensional arrays support.
@@ -257,7 +256,7 @@ log_encoding_ARRILogC4` definition n-dimensional arrays support.
             log_encoding_ARRILogC4(x), t, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_ARRILogC4(self):
+    def test_domain_range_scale_log_encoding_ARRILogC4(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arri.\
 log_encoding_ARRILogC4` definition domain and range scale support.
@@ -276,7 +275,7 @@ log_encoding_ARRILogC4` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_ARRILogC4(self):
+    def test_nan_log_encoding_ARRILogC4(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arri.\
 log_encoding_ARRILogC4` definition nan support.
@@ -291,7 +290,7 @@ class TestLogDecoding_ARRILogC4:
 log_decoding_ARRILogC4` definition unit tests methods.
     """
 
-    def test_log_decoding_ARRILogC4(self):
+    def test_log_decoding_ARRILogC4(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arri.\
 log_decoding_ARRILogC4` definition.
@@ -315,7 +314,7 @@ log_decoding_ARRILogC4` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_ARRILogC4(self):
+    def test_n_dimensional_log_decoding_ARRILogC4(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arri.\
 log_decoding_ARRILogC4` definition n-dimensional arrays support.
@@ -342,7 +341,7 @@ log_decoding_ARRILogC4` definition n-dimensional arrays support.
             log_decoding_ARRILogC4(t), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_ARRILogC4(self):
+    def test_domain_range_scale_log_decoding_ARRILogC4(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arri.\
 log_decoding_ARRILogC4` definition domain and range scale support.
@@ -361,7 +360,7 @@ log_decoding_ARRILogC4` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_ARRILogC4(self):
+    def test_nan_log_decoding_ARRILogC4(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.arri.\
 log_decoding_ARRILogC4` definition nan support.

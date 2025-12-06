@@ -2,7 +2,8 @@
 Von Kries Chromatic Adaptation Model
 ====================================
 
-Define the *Von Kries* chromatic adaptation model objects:
+Define the *Von Kries* chromatic adaptation model for predicting corresponding
+colours under different viewing conditions.
 
 -   :func:`colour.adaptation.matrix_chromatic_adaptation_VonKries`
 -   :func:`colour.adaptation.chromatic_adaptation_VonKries`
@@ -16,14 +17,21 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.algebra import sdiv, sdiv_mode, vecmul
-from colour.hints import (
+
+if typing.TYPE_CHECKING:
+    from colour.hints import LiteralChromaticAdaptationTransform
+
+from colour.hints import (  # noqa: TC001
     ArrayLike,
-    LiteralChromaticAdaptationTransform,
+    Domain1,
     NDArrayFloat,
+    Range1,
 )
 from colour.utilities import (
     as_float_array,
@@ -52,15 +60,16 @@ def matrix_chromatic_adaptation_VonKries(
     transform: LiteralChromaticAdaptationTransform | str = "CAT02",
 ) -> NDArrayFloat:
     """
-    Compute the *chromatic adaptation* matrix from test viewing conditions
+    Compute the chromatic adaptation matrix from test viewing conditions
     to reference viewing conditions.
 
     Parameters
     ----------
     XYZ_w
-        Test viewing conditions *CIE XYZ* tristimulus values of whitepoint.
+        Test viewing conditions *CIE XYZ* tristimulus values of the
+        whitepoint.
     XYZ_wr
-        Reference viewing conditions *CIE XYZ* tristimulus values of
+        Reference viewing conditions *CIE XYZ* tristimulus values of the
         whitepoint.
     transform
         Chromatic adaptation transform.
@@ -75,9 +84,9 @@ def matrix_chromatic_adaptation_VonKries(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_w``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_w``  | 1                     | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_wr`` | [0, 1]                | [0, 1]        |
+    | ``XYZ_wr`` | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -126,29 +135,30 @@ def matrix_chromatic_adaptation_VonKries(
     D = row_as_diagonal(D)
 
     M_CAT = np.matmul(np.linalg.inv(M), D)
-    M_CAT = np.matmul(M_CAT, M)
 
-    return M_CAT
+    return np.matmul(M_CAT, M)
 
 
 def chromatic_adaptation_VonKries(
-    XYZ: ArrayLike,
+    XYZ: Domain1,
     XYZ_w: ArrayLike,
     XYZ_wr: ArrayLike,
     transform: LiteralChromaticAdaptationTransform | str = "CAT02",
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Adapt given stimulus from test viewing conditions to reference viewing
-    conditions.
+    Adapt the specified stimulus *CIE XYZ* tristimulus values from test
+    viewing conditions to reference viewing conditions using the *Von Kries*
+    chromatic adaptation model.
 
     Parameters
     ----------
     XYZ
-        *CIE XYZ* tristimulus values of stimulus to adapt.
+        *CIE XYZ* tristimulus values of the stimulus to adapt.
     XYZ_w
-        Test viewing conditions *CIE XYZ* tristimulus values of whitepoint.
+        Test viewing conditions *CIE XYZ* tristimulus values of the
+        whitepoint.
     XYZ_wr
-        Reference viewing conditions *CIE XYZ* tristimulus values of
+        Reference viewing conditions *CIE XYZ* tristimulus values of the
         whitepoint.
     transform
         Chromatic adaptation transform.
@@ -156,24 +166,24 @@ def chromatic_adaptation_VonKries(
     Returns
     -------
     :class:`numpy.ndarray`
-        *CIE XYZ_c* tristimulus values of the stimulus corresponding colour.
+        *CIE XYZ* tristimulus values of the stimulus corresponding colour.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    | ``XYZ``    | 1                     | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_n``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_n``  | 1                     | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_r``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_r``  | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_a``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_a``  | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

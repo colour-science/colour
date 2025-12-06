@@ -20,9 +20,12 @@ References
 
 from __future__ import annotations
 
+import typing
 
-from colour.colorimetry import SpectralDistribution
-from colour.hints import Any, ArrayLike, Literal
+if typing.TYPE_CHECKING:
+    from colour.colorimetry import SpectralDistribution
+    from colour.hints import Any, ArrayLike, Literal
+
 from colour.utilities import (
     CanonicalMapping,
     as_float_array,
@@ -30,43 +33,46 @@ from colour.utilities import (
     validate_method,
 )
 
-from .datasets import *  # noqa: F403
 from . import datasets
+from .datasets import *  # noqa: F403
 from .jakob2019 import (
-    sd_Jakob2019,
-    find_coefficients_Jakob2019,
-    XYZ_to_sd_Jakob2019,
     LUT3D_Jakob2019,
+    XYZ_to_sd_Jakob2019,
+    find_coefficients_Jakob2019,
+    sd_Jakob2019,
 )
 from .jiang2013 import (
     PCA_Jiang2013,
-    RGB_to_sd_camera_sensitivity_Jiang2013,
     RGB_to_msds_camera_sensitivities_Jiang2013,
+    RGB_to_sd_camera_sensitivity_Jiang2013,
 )
 from .mallett2019 import (
-    spectral_primary_decomposition_Mallett2019,
     RGB_to_sd_Mallett2019,
+    spectral_primary_decomposition_Mallett2019,
 )
 from .meng2015 import XYZ_to_sd_Meng2015
-from .otsu2018 import Dataset_Otsu2018, Tree_Otsu2018, XYZ_to_sd_Otsu2018
+from .otsu2018 import (
+    Dataset_Otsu2018,
+    Tree_Otsu2018,
+    XYZ_to_sd_Otsu2018,
+)
 from .smits1999 import RGB_to_sd_Smits1999
 
-__all__ = []
-__all__ += datasets.__all__
+__all__ = datasets.__all__
 __all__ += [
-    "sd_Jakob2019",
-    "find_coefficients_Jakob2019",
-    "XYZ_to_sd_Jakob2019",
     "LUT3D_Jakob2019",
+    "XYZ_to_sd_Jakob2019",
+    "find_coefficients_Jakob2019",
+    "sd_Jakob2019",
 ]
 __all__ += [
     "PCA_Jiang2013",
-    "RGB_to_sd_camera_sensitivity_Jiang2013",
     "RGB_to_msds_camera_sensitivities_Jiang2013",
+    "RGB_to_sd_camera_sensitivity_Jiang2013",
 ]
 __all__ += [
-    "spectral_primary_decomposition_Mallett2019",
     "RGB_to_sd_Mallett2019",
+    "spectral_primary_decomposition_Mallett2019",
 ]
 __all__ += [
     "XYZ_to_sd_Meng2015",
@@ -114,8 +120,8 @@ def XYZ_to_sd(
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
-    Recover the spectral distribution of given *CIE XYZ* tristimulus
-    values using given method.
+    Recover the spectral distribution of the specified *CIE XYZ* tristimulus
+    values using the specified method.
 
     Parameters
     ----------
@@ -129,7 +135,8 @@ def XYZ_to_sd(
     ----------------
     additional_data
         {:func:`colour.recovery.XYZ_to_sd_Jakob2019`},
-        If *True*, ``error`` will be returned alongside ``sd``.
+        If *True*, ``error`` will be returned alongside the recovered
+        spectral distribution.
     basis_functions
         {:func:`colour.recovery.RGB_to_sd_Mallett2019`},
         Basis functions for the method. The default is to use the built-in
@@ -138,30 +145,22 @@ def XYZ_to_sd(
     clip
         {:func:`colour.recovery.XYZ_to_sd_Otsu2018`},
         If *True*, the default, values below zero and above unity in the
-        recovered spectral distributions will be clipped. This ensures that the
-        returned reflectance is physical and conserves energy, but will cause
-        noticeable colour differences in case of very saturated colours.
+        recovered spectral distributions will be clipped. This ensures that
+        the returned reflectance is physical and conserves energy, but will
+        cause noticeable colour differences in case of very saturated
+        colours.
     cmfs
         {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Standard observer colour matching functions.
-    colourspace
-        {:func:`colour.recovery.XYZ_to_sd_Jakob2019`},
-        *RGB* colourspace of the target colour. Note that no chromatic
-        adaptation is performed between ``illuminant`` and the colourspace
-        whitepoint.
     dataset
         {:func:`colour.recovery.XYZ_to_sd_Otsu2018`},
-        Dataset to use for reconstruction. The default is to use the published
-        data.
+        Dataset to use for reconstruction. The default is to use the
+        published data.
     illuminant
         {:func:`colour.recovery.XYZ_to_sd_Jakob2019`,
         :func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Illuminant spectral distribution, default to
         *CIE Standard Illuminant D65*.
-    interval
-        {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
-        Wavelength :math:`\\lambda_{i}` range interval in nm. The smaller
-        ``interval`` is, the longer the computations will be.
     optimisation_kwargs
         {:func:`colour.recovery.XYZ_to_sd_Jakob2019`,
         :func:`colour.recovery.XYZ_to_sd_Meng2015`},
@@ -178,12 +177,12 @@ def XYZ_to_sd(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    | ``XYZ``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
-    -   *Smits (1999)* method will internally convert given *CIE XYZ*
-        tristimulus values to *sRGB* colourspace array assuming equal energy
-        illuminant *E*.
+    -   *Smits (1999)* method will internally convert specified *CIE XYZ*
+        tristimulus values to *sRGB* colourspace array assuming equal
+        energy illuminant *E*.
 
     References
     ----------
@@ -508,11 +507,11 @@ def XYZ_to_sd(
     function = XYZ_TO_SD_METHODS[method]
 
     if function is RGB_to_sd_Smits1999:
-        from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999
+        from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999  # noqa: PLC0415
 
         a = XYZ_to_RGB_Smits1999(XYZ)
     elif function is RGB_to_sd_Mallett2019:
-        from colour.models import XYZ_to_sRGB
+        from colour.models import XYZ_to_sRGB  # noqa: PLC0415
 
         a = XYZ_to_sRGB(XYZ, apply_cctf_encoding=False)
 

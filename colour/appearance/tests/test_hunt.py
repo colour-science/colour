@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.appearance.hunt` module."""
 
+from __future__ import annotations
+
 import contextlib
 from itertools import product
 
@@ -11,11 +13,7 @@ from colour.appearance import (
     XYZ_to_Hunt,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.utilities import (
-    as_float_array,
-    domain_range_scale,
-    ignore_numpy_errors,
-)
+from colour.utilities import as_float_array, domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -35,7 +33,7 @@ class TestXYZ_to_Hunt:
     methods.
     """
 
-    def test_XYZ_to_Hunt(self):
+    def test_XYZ_to_Hunt(self) -> None:
         """
         Test :func:`colour.appearance.hunt.XYZ_to_Hunt` definition.
 
@@ -84,7 +82,7 @@ class TestXYZ_to_Hunt:
             atol=0.05,
         )
 
-    def test_n_dimensional_XYZ_to_Hunt(self):
+    def test_n_dimensional_XYZ_to_Hunt(self) -> None:
         """
         Test :func:`colour.appearance.hunt.XYZ_to_Hunt` definition
         n-dimensional support.
@@ -124,7 +122,7 @@ class TestXYZ_to_Hunt:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_XYZ_to_Hunt(self):
+    def test_domain_range_scale_XYZ_to_Hunt(self) -> None:
         """
         Test :func:`colour.appearance.hunt.XYZ_to_Hunt` definition domain
         and range scale support.
@@ -159,7 +157,7 @@ class TestXYZ_to_Hunt:
                 )
 
     @ignore_numpy_errors
-    def test_raise_exception_XYZ_to_Hunt(self):
+    def test_raise_exception_XYZ_to_Hunt(self) -> None:
         """
         Test :func:`colour.appearance.hunt.XYZ_to_Hunt` definition raised
         exception.
@@ -183,7 +181,7 @@ class TestXYZ_to_Hunt:
             XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w, S_w=S_w)
 
     @ignore_numpy_errors
-    def test_XYZ_p_XYZ_to_Hunt(self):
+    def test_XYZ_p_XYZ_to_Hunt(self) -> None:
         """
         Test :func:`colour.appearance.hunt.XYZ_to_Hunt` definition *XYZ_p*
         argument handling.
@@ -222,7 +220,7 @@ class TestXYZ_to_Hunt:
         )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_Hunt(self):
+    def test_nan_XYZ_to_Hunt(self) -> None:
         """
         Test :func:`colour.appearance.hunt.XYZ_to_Hunt` definition
         nan support.

@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.log` module.
 """
 
-
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -14,7 +13,7 @@ from colour.models.rgb.transfer_functions import (
     logarithmic_function_camera,
     logarithmic_function_quasilog,
 )
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -38,7 +37,7 @@ class TestLogarithmFunction_Basic:
 logarithmic_function_basic` definition unit tests methods.
     """
 
-    def test_logarithmic_function_basic(self):
+    def test_logarithmic_function_basic(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_basic` definition.
@@ -80,7 +79,7 @@ logarithmic_function_basic` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_logarithmic_function_basic(self):
+    def test_n_dimensional_logarithmic_function_basic(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_basic` definition n-dimensional arrays support.
@@ -117,7 +116,7 @@ logarithmic_function_basic` definition n-dimensional arrays support.
             )
 
     @ignore_numpy_errors
-    def test_nan_logarithmic_function_basic(self):
+    def test_nan_logarithmic_function_basic(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_basic` definition nan support.
@@ -135,7 +134,7 @@ class TestLogarithmFunction_Quasilog:
 logarithmic_function_quasilog` definition unit tests methods.
     """
 
-    def test_logarithmic_function_quasilog(self):
+    def test_logarithmic_function_quasilog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_quasilog` definition.
@@ -221,7 +220,7 @@ logarithmic_function_quasilog` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_logarithmic_function_quasilog(self):
+    def test_n_dimensional_logarithmic_function_quasilog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_quasilog` definition n-dimensional arrays support.
@@ -258,7 +257,7 @@ logarithmic_function_quasilog` definition n-dimensional arrays support.
             )
 
     @ignore_numpy_errors
-    def test_nan_logarithmic_function_quasilog(self):
+    def test_nan_logarithmic_function_quasilog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_quasilog` definition nan support.
@@ -276,7 +275,7 @@ class TestLogarithmFunction_Camera:
 logarithmic_function_camera` definition unit tests methods.
     """
 
-    def test_logarithmic_function_camera(self):
+    def test_logarithmic_function_camera(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_camera` definition.
@@ -433,7 +432,7 @@ logarithmic_function_camera` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_logarithmic_function_camera(self):
+    def test_n_dimensional_logarithmic_function_camera(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_camera` definition n-dimensional arrays support.
@@ -470,7 +469,7 @@ logarithmic_function_camera` definition n-dimensional arrays support.
             )
 
     @ignore_numpy_errors
-    def test_nan_logarithmic_function_camera(self):
+    def test_nan_logarithmic_function_camera(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_camera` definition nan support.
@@ -488,7 +487,7 @@ class TestLogEncoding_Log2:
 log_encoding_Log2` definition unit tests methods.
     """
 
-    def test_log_encoding_Log2(self):
+    def test_log_encoding_Log2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 log_encoding_Log2` definition.
@@ -526,7 +525,7 @@ log_encoding_Log2` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_Log2(self):
+    def test_n_dimensional_log_encoding_Log2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 log_encoding_Log2` definition n-dimensional arrays support.
@@ -553,26 +552,8 @@ log_encoding_Log2` definition n-dimensional arrays support.
             log_encoding_Log2(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_Log2(self):
-        """
-        Test :func:`colour.models.rgb.transfer_functions.log.\
-log_encoding_Log2` definition domain and range scale support.
-        """
-
-        x = 0.18
-        y = log_encoding_Log2(x)
-
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
-        for scale, factor in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    log_encoding_Log2(x * factor),
-                    y * factor,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
-
     @ignore_numpy_errors
-    def test_nan_log_encoding_Log2(self):
+    def test_nan_log_encoding_Log2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 log_encoding_Log2` definition nan support.
@@ -587,7 +568,7 @@ class TestLogDecoding_Log2:
 log_decoding_Log2` definition unit tests methods.
     """
 
-    def test_log_decoding_Log2(self):
+    def test_log_decoding_Log2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 log_decoding_Log2` definition.
@@ -627,7 +608,7 @@ log_decoding_Log2` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_Log2(self):
+    def test_n_dimensional_log_decoding_Log2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 log_decoding_Log2` definition n-dimensional arrays support.
@@ -654,26 +635,8 @@ log_decoding_Log2` definition n-dimensional arrays support.
             log_decoding_Log2(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_Log2(self):
-        """
-        Test :func:`colour.models.rgb.transfer_functions.log.\
-log_decoding_Log2` definition domain and range scale support.
-        """
-
-        y = 0.5
-        x = log_decoding_Log2(y)
-
-        d_r = (("reference", 1), ("1", 1), ("100", 100))
-        for scale, factor in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    log_decoding_Log2(y * factor),
-                    x * factor,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
-
     @ignore_numpy_errors
-    def test_nan_log_decoding_Log2(self):
+    def test_nan_log_decoding_Log2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 log_decoding_Log2` definition nan support.

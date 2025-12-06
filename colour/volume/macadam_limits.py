@@ -2,20 +2,25 @@
 Optimal Colour Stimuli - MacAdam Limits
 =======================================
 
-Define the objects related to *Optimal Colour Stimuli* computations.
+Define objects for computing *Optimal Colour Stimuli* and *MacAdam Limits*.
 """
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
-from scipy.spatial import Delaunay
 
 from colour.constants import EPSILON
-from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Literal, NDArrayFloat
+
 from colour.models import xyY_to_XYZ
 from colour.utilities import (
     CACHE_REGISTRY,
     is_caching_enabled,
+    required,
     validate_method,
 )
 from colour.volume import OPTIMAL_COLOUR_STIMULI_ILLUMINANTS
@@ -44,8 +49,8 @@ def _XYZ_optimal_colour_stimuli(
     illuminant: Literal["A", "C", "D65"] | str = "D65",
 ) -> NDArrayFloat:
     """
-    Return given illuminant *Optimal Colour Stimuli* in *CIE XYZ* tristimulus
-    values and caches it if not existing.
+    Return the *Optimal Colour Stimuli* for the specified illuminant in
+    *CIE XYZ* tristimulus values and cache it if not existing.
 
     Parameters
     ----------
@@ -55,7 +60,7 @@ def _XYZ_optimal_colour_stimuli(
     Returns
     -------
     :class:`numpy.ndarray`
-        Illuminant *Optimal Colour Stimuli*.
+        *Optimal Colour Stimuli* for the specified illuminant.
     """
 
     illuminant = validate_method(
@@ -78,14 +83,15 @@ def _XYZ_optimal_colour_stimuli(
     return vertices
 
 
+@required("SciPy")
 def is_within_macadam_limits(
     xyY: ArrayLike,
     illuminant: Literal["A", "C", "D65"] | str = "D65",
     tolerance: float = 100 * EPSILON,
 ) -> NDArrayFloat:
     """
-    Return whether given *CIE xyY* colourspace array is within MacAdam limits
-    of given illuminant.
+    Determine whether the specified *CIE xyY* colourspace array are within
+    the MacAdam limits of the specified illuminant.
 
     Parameters
     ----------
@@ -99,14 +105,15 @@ def is_within_macadam_limits(
     Returns
     -------
     :class:`numpy.ndarray`
-        Whether given *CIE xyY* colourspace array is within MacAdam limits.
+        Boolean array indicating whether the specified *CIE xyY*
+        colourspace array is within MacAdam limits.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``xyY``    | [0, 1]                | [0, 1]        |
+    | ``xyY``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples
@@ -118,15 +125,16 @@ def is_within_macadam_limits(
     array([ True, False], dtype=bool)
     """
 
+    from scipy.spatial import Delaunay  # noqa: PLC0415
+
     optimal_colour_stimuli = _XYZ_optimal_colour_stimuli(illuminant)
     triangulation = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS.get(illuminant)
 
     if triangulation is None:
-        _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS[illuminant] = (
-            triangulation
-        ) = Delaunay(optimal_colour_stimuli)
+        _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS[illuminant] = triangulation = (
+            Delaunay(optimal_colour_stimuli)
+        )
 
     simplex = triangulation.find_simplex(xyY_to_XYZ(xyY), tol=tolerance)
-    simplex = np.where(simplex >= 0, True, False)
 
-    return simplex
+    return np.where(simplex >= 0, True, False)

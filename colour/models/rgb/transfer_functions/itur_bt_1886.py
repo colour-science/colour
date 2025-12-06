@@ -3,7 +3,7 @@ Recommendation ITU-R BT.1886
 ============================
 
 Define the *Recommendation ITU-R BT.1886* electro-optical transfer function
-(EOTF) and its inverse:
+(EOTF) and its inverse.
 
 -   :func:`colour.models.eotf_inverse_BT1886`
 -   :func:`colour.models.eotf_BT1886`
@@ -23,7 +23,10 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -39,38 +42,41 @@ __all__ = [
 ]
 
 
-def eotf_inverse_BT1886(L: ArrayLike, L_B: float = 0, L_W: float = 1) -> NDArrayFloat:
+def eotf_inverse_BT1886(L: Domain1, L_B: float = 0, L_W: float = 1) -> Range1:
     """
-    Define *Recommendation ITU-R BT.1886* inverse electro-optical transfer
-    function (EOTF).
+    Apply the *Recommendation ITU-R BT.1886* inverse electro-optical
+    transfer function (EOTF) for flat panel displays.
 
     Parameters
     ----------
     L
         Screen luminance in :math:`cd/m^2`.
     L_B
-        Screen luminance for black.
+        Screen luminance for black in :math:`cd/m^2`.
     L_W
-        Screen luminance for white.
+        Screen luminance for white in :math:`cd/m^2`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Input video signal level (normalised, black at :math:`V = 0`, to white
-        at :math:`V = 1`.
+        Input video signal level (normalised, with black at :math:`V = 0`
+        and white at :math:`V = 1`). For content mastered per
+        *Recommendation ITU-R BT.709*, 10-bit digital code values
+        :math:`D` map into values of :math:`V` per the following equation:
+        :math:`V = (D-64)/876`
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``L``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
+    | ``V``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -97,23 +103,23 @@ def eotf_inverse_BT1886(L: ArrayLike, L_B: float = 0, L_W: float = 1) -> NDArray
     return as_float(from_range_1(V))
 
 
-def eotf_BT1886(V: ArrayLike, L_B: float = 0, L_W: float = 1) -> NDArrayFloat:
+def eotf_BT1886(V: Domain1, L_B: float = 0, L_W: float = 1) -> Range1:
     """
-    Define *Recommendation ITU-R BT.1886* electro-optical transfer function
-    (EOTF).
+    Apply the *Recommendation ITU-R BT.1886* electro-optical transfer
+    function (EOTF) for flat panel displays.
 
     Parameters
     ----------
     V
-        Input video signal level (normalised, black at :math:`V = 0`, to white
-        at :math:`V = 1`. For content mastered per
-        *Recommendation ITU-R BT.709*, 10-bit digital code values :math:`D` map
-        into values of :math:`V` per the following equation:
+        Input video signal level (normalised, with black at :math:`V = 0`
+        and white at :math:`V = 1`). For content mastered per
+        *Recommendation ITU-R BT.709*, 10-bit digital code values
+        :math:`D` map into values of :math:`V` per the following equation:
         :math:`V = (D-64)/876`
     L_B
-        Screen luminance for black.
+        Screen luminance for black in :math:`cd/m^2`.
     L_W
-        Screen luminance for white.
+        Screen luminance for white in :math:`cd/m^2`.
 
     Returns
     -------
@@ -125,13 +131,13 @@ def eotf_BT1886(V: ArrayLike, L_B: float = 0, L_W: float = 1) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
+    | ``V``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``L``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

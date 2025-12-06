@@ -2,7 +2,7 @@
 CIE 2017 Colour Fidelity Index
 ==============================
 
-Define the *CIE 2017 Colour Fidelity Index* (CFI) computation objects:
+Define the *CIE 2017 Colour Fidelity Index* (CFI) computation objects.
 
 - :class:`colour.quality.ColourRendering_Specification_CIE2017`
 - :func:`colour.quality.colour_fidelity_index_CIE2017`
@@ -16,6 +16,7 @@ References
 from __future__ import annotations
 
 import os
+import typing
 from dataclasses import dataclass
 
 import numpy as np
@@ -37,7 +38,11 @@ from colour.colorimetry import (
     sd_CIE_illuminant_D_series,
     sd_to_XYZ,
 )
-from colour.hints import ArrayLike, List, NDArrayFloat, Tuple, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, List, Literal, Tuple
+
+from colour.hints import NDArrayFloat, cast
 from colour.models import JMh_CIECAM02_to_CAM02UCS, UCS_to_uv, XYZ_to_UCS
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.utilities import (
@@ -89,7 +94,31 @@ _CACHE_TCS_CIE2017: dict = CACHE_REGISTRY.register_cache(
 
 @dataclass
 class DataColorimetry_TCS_CIE2017:
-    """Define the class storing *test colour samples* colorimetry data."""
+    """
+    Store colorimetry data for *test colour samples* used in CIE 2017
+    colour fidelity calculations.
+
+    This dataclass encapsulates the colorimetric properties of test colour
+    samples as specified by CIE 2017, including their tristimulus values,
+    colour appearance model specifications, and perceptual colour
+    coordinates in both cylindrical and rectangular representations.
+
+    Attributes
+    ----------
+    name
+        Identifier(s) for the test colour sample(s).
+    XYZ
+        CIE XYZ tristimulus values of the test colour samples.
+    CAM
+        CIECAM02 colour appearance model specification containing the
+        complete appearance correlates.
+    JMh
+        Perceptual colour coordinates in cylindrical representation with
+        *lightness* (J), *colourfulness* (M), and *hue angle* (h).
+    Jpapbp
+        Perceptual colour coordinates in rectangular representation with
+        *lightness* (J) and opponent colour dimensions (a', b').
+    """
 
     name: str | list[str]
     XYZ: NDArrayFloat
@@ -134,12 +163,30 @@ class ColourRendering_Specification_CIE2017:
     delta_E_s: NDArrayFloat
 
 
+@typing.overload
+def colour_fidelity_index_CIE2017(
+    sd_test: SpectralDistribution, additional_data: Literal[True] = True
+) -> ColourRendering_Specification_CIE2017: ...
+
+
+@typing.overload
+def colour_fidelity_index_CIE2017(
+    sd_test: SpectralDistribution, *, additional_data: Literal[False]
+) -> float: ...
+
+
+@typing.overload
+def colour_fidelity_index_CIE2017(
+    sd_test: SpectralDistribution, additional_data: Literal[False]
+) -> float: ...
+
+
 def colour_fidelity_index_CIE2017(
     sd_test: SpectralDistribution, additional_data: bool = False
 ) -> float | ColourRendering_Specification_CIE2017:
     """
-    Return the *CIE 2017 Colour Fidelity Index* (CFI) :math:`R_f` of given
-    spectral distribution.
+    Compute the *CIE 2017 Colour Fidelity Index* (CFI) :math:`R_f` of the
+    specified spectral distribution.
 
     Parameters
     ----------
@@ -167,11 +214,13 @@ def colour_fidelity_index_CIE2017(
     """
 
     if sd_test.shape.interval > 5:
-        raise ValueError(
-            "Test spectral distribution interval is greater than"
+        error = (
+            "Test spectral distribution interval is greater than "
             "5nm which is the maximum recommended value "
             'for computing the "CIE 2017 Colour Fidelity Index"!'
         )
+
+        raise ValueError(error)
 
     shape = SpectralShape(
         SPECTRAL_SHAPE_CIE2017.start,
@@ -222,7 +271,7 @@ def colour_fidelity_index_CIE2017(
     )
 
     R_s = delta_E_to_R_f(delta_E_s)
-    R_f = cast(float, delta_E_to_R_f(np.average(delta_E_s)))
+    R_f = cast("float", delta_E_to_R_f(np.average(delta_E_s)))
 
     if additional_data:
         return ColourRendering_Specification_CIE2017(
@@ -235,17 +284,17 @@ def colour_fidelity_index_CIE2017(
             (test_tcs_colorimetry_data, reference_tcs_colorimetry_data),
             delta_E_s,
         )
-    else:
-        return R_f
+
+    return R_f
 
 
 def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
     """
-    Load the *CIE 2017 Test Colour Samples* dataset appropriate for the given
-    spectral shape.
+    Load the *CIE 2017 Test Colour Samples* dataset appropriate for the
+    specified spectral shape.
 
-    The datasets are cached and won't be loaded again on subsequent calls to
-    this definition.
+    The datasets are cached and will not be loaded again on subsequent
+    calls to this definition.
 
     Parameters
     ----------
@@ -293,8 +342,8 @@ def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
 def CCT_reference_illuminant(sd: SpectralDistribution) -> NDArrayFloat:
     """
     Compute the reference illuminant correlated colour temperature
-    :math:`T_{cp}` and :math:`\\Delta_{uv}` for given test spectral
-    distribution using *Ohno (2013)* method.
+    :math:`T_{cp}` and :math:`\\Delta_{uv}` for the specified test spectral
+    distribution using the *Ohno (2013)* method.
 
     Parameters
     ----------
@@ -323,9 +372,9 @@ def CCT_reference_illuminant(sd: SpectralDistribution) -> NDArrayFloat:
 
 def sd_reference_illuminant(CCT: float, shape: SpectralShape) -> SpectralDistribution:
     """
-    Compute the reference illuminant for a given correlated colour temperature
-    :math:`T_{cp}` for use in *CIE 2017 Colour Fidelity Index* (CFI)
-    computation.
+    Compute the reference illuminant for the specified correlated colour
+    temperature :math:`T_{cp}` for use in *CIE 2017 Colour Fidelity Index*
+    (CFI) computation.
 
     Parameters
     ----------
@@ -414,15 +463,15 @@ def tcs_colorimetry_data(
     cmfs: MultiSpectralDistributions,
 ) -> Tuple[DataColorimetry_TCS_CIE2017, ...]:
     """
-    Return the *test colour samples* colorimetry data under given test light
-    source or reference illuminant spectral distribution for the
+    Compute the *test colour samples* colorimetry data under the specified
+    test light source or reference illuminant spectral distribution for the
     *CIE 2017 Colour Fidelity Index* (CFI) computations.
 
     Parameters
     ----------
     sd_irradiance
-        Test light source or reference illuminant spectral distribution, i.e.,
-        the irradiance emitter.
+        Test light source or reference illuminant spectral distribution,
+        i.e., the irradiance emitter.
     sds_tcs
         *Test colour samples* spectral reflectance distributions.
     cmfs
@@ -431,8 +480,8 @@ def tcs_colorimetry_data(
     Returns
     -------
     :class:`tuple`
-        *Test colour samples* colorimetry data under the given test light
-        source or reference illuminant spectral distribution.
+        *Test colour samples* colorimetry data under the specified test
+        light source or reference illuminant spectral distribution.
 
     Examples
     --------
@@ -491,19 +540,18 @@ def tcs_colorimetry_data(
 
     JMh = tstack(
         [
-            cast(NDArrayFloat, specification.J),
-            cast(NDArrayFloat, specification.M),
-            cast(NDArrayFloat, specification.h),
+            cast("NDArrayFloat", specification.J),
+            cast("NDArrayFloat", specification.M),
+            cast("NDArrayFloat", specification.h),
         ]
     )
     Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)
-    tcs_data = []
 
     specification = as_float_array(specification).transpose((0, 2, 1))
     specification = [CAM_Specification_CIECAM02(*t) for t in specification]
 
-    for sd_idx in range(len(sd_irradiance)):
-        tcs_data.append(
+    return tuple(
+        [
             DataColorimetry_TCS_CIE2017(
                 sds_tcs.display_labels,
                 XYZ[sd_idx],
@@ -511,15 +559,15 @@ def tcs_colorimetry_data(
                 JMh[sd_idx],
                 Jpapbp[sd_idx],
             )
-        )
-
-    return tuple(tcs_data)
+            for sd_idx in range(len(sd_irradiance))
+        ]
+    )
 
 
 def delta_E_to_R_f(delta_E: ArrayLike) -> NDArrayFloat:
     """
-    Convert from colour-appearance difference to
-    *CIE 2017 Colour Fidelity Index* (CFI) :math:`R_f` value.
+    Convert colour-appearance difference to *CIE 2017 Colour Fidelity Index*
+    (CFI) :math:`R_f` value.
 
     Parameters
     ----------
@@ -529,7 +577,8 @@ def delta_E_to_R_f(delta_E: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding *CIE 2017 Colour Fidelity Index* (CFI) :math:`R_f` value.
+        Corresponding *CIE 2017 Colour Fidelity Index* (CFI) :math:`R_f`
+        value.
     """
 
     delta_E = as_float_array(delta_E)

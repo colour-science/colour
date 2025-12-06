@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.rgb.prismatic` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -27,7 +29,7 @@ class TestRGB_to_Prismatic:
     unit tests methods.
     """
 
-    def test_RGB_to_Prismatic(self):
+    def test_RGB_to_Prismatic(self) -> None:
         """Test :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition."""
 
         np.testing.assert_allclose(
@@ -42,7 +44,7 @@ class TestRGB_to_Prismatic:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_RGB_to_Prismatic(self):
+    def test_n_dimensional_RGB_to_Prismatic(self) -> None:
         """
         Test :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition
         n-dimensional support.
@@ -63,7 +65,7 @@ class TestRGB_to_Prismatic:
             RGB_to_Prismatic(RGB), Lrgb, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_RGB_to_Prismatic(self):
+    def test_domain_range_scale_RGB_to_Prismatic(self) -> None:
         """
         Test :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition
         domain and range scale support.
@@ -82,7 +84,7 @@ class TestRGB_to_Prismatic:
                 )
 
     @ignore_numpy_errors
-    def test_nan_RGB_to_Prismatic(self):
+    def test_nan_RGB_to_Prismatic(self) -> None:
         """
         Test :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition
         nan support.
@@ -99,7 +101,7 @@ class TestPrismatic_to_RGB:
     unit tests methods.
     """
 
-    def test_Prismatic_to_RGB(self):
+    def test_Prismatic_to_RGB(self) -> None:
         """Test :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition."""
 
         np.testing.assert_allclose(
@@ -114,7 +116,7 @@ class TestPrismatic_to_RGB:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_Prismatic_to_RGB(self):
+    def test_n_dimensional_Prismatic_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition
         n-dimensional support.
@@ -135,7 +137,7 @@ class TestPrismatic_to_RGB:
             Prismatic_to_RGB(Lrgb), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_Prismatic_to_RGB(self):
+    def test_domain_range_scale_Prismatic_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition
         domain and range scale support.
@@ -154,7 +156,7 @@ class TestPrismatic_to_RGB:
                 )
 
     @ignore_numpy_errors
-    def test_nan_Prismatic_to_RGB(self):
+    def test_nan_Prismatic_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition
         nan support.

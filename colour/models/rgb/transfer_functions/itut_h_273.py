@@ -3,7 +3,7 @@ Recommendation ITU-T H.273 Transfer Characteristics
 ===================================================
 
 Define the *Recommendation ITU-T H.273* transfer functions that do not belong
-in another specification or standard, or have been modified for inclusion:
+in another specification or standard, or have been modified for inclusion.
 
 -   :func:`colour.models.oetf_H273_Log`
 -   :func:`colour.models.oetf_inverse_H273_Log`
@@ -25,21 +25,22 @@ References
     Distribution Master — Image Characteristic. doi:10.5594/SMPTE.ST428-1.2019
 """
 
+from __future__ import annotations
+
 import numpy as np
 
 from colour.algebra import spow
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.models.rgb.transfer_functions import (
     eotf_DCDM,
     eotf_inverse_DCDM,
     eotf_inverse_sRGB,
     eotf_sRGB,
 )
-from colour.utilities import (
-    as_float,
-    as_float_array,
-    from_range_1,
-    to_domain_1,
-)
+from colour.utilities import as_float, as_float_array, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -55,38 +56,38 @@ __all__ = [
     "oetf_inverse_H273_LogSqrt",
     "oetf_H273_IEC61966_2",
     "oetf_inverse_H273_IEC61966_2",
-    "eotf_inverse_H273_ST428_1",
     "eotf_H273_ST428_1",
+    "eotf_inverse_H273_ST428_1",
 ]
 
 
-def oetf_H273_Log(L_c):
+def oetf_H273_Log(L_c: Domain1) -> Range1:
     """
-    Define *Recommendation ITU-T H.273* opto-electronic transfer function
-    (OETF) for logarithmic encoding (100:1 range).
+    Apply the *Recommendation ITU-T H.273* opto-electronic transfer function
+    (OETF) for logarithmic encoding with 100:1 dynamic range.
 
     Parameters
     ----------
     L_c
-        Scene *Luminance* :math:`L_c`.
+        Scene *luminance* :math:`L_c`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding electrical signal :math:`V`.
+        Electrical signal :math:`V`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_c``    | [0, 1]                | [0, 1]        |
+    | ``L_c``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
+    | ``V``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -122,10 +123,10 @@ def oetf_H273_Log(L_c):
     return as_float(from_range_1(V))
 
 
-def oetf_inverse_H273_Log(V):
+def oetf_inverse_H273_Log(V: Domain1) -> Range1:
     """
-    Define *Recommendation ITU-T H.273* inverse-opto-electronic transfer
-    function (OETF) for logarithmic encoding (100:1 range).
+    Apply the *Recommendation ITU-T H.273* inverse opto-electronic transfer
+    function (OETF) for logarithmic encoding with 100:1 dynamic range.
 
     Parameters
     ----------
@@ -135,20 +136,20 @@ def oetf_inverse_H273_Log(V):
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding scene *Luminance* :math:`L_c`.
+        Scene *luminance* :math:`L_c`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
+    | ``V``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_c``    | [0, 1]                | [0, 1]        |
+    | ``L_c``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -183,33 +184,33 @@ def oetf_inverse_H273_Log(V):
     return as_float(from_range_1(L_c))
 
 
-def oetf_H273_LogSqrt(L_c):
+def oetf_H273_LogSqrt(L_c: Domain1) -> Range1:
     """
-    Define *Recommendation ITU-T H.273* opto-electronic transfer function
+    Apply the *Recommendation ITU-T H.273* opto-electronic transfer function
     (OETF) for logarithmic encoding (100\\*Sqrt(10):1 range).
 
     Parameters
     ----------
     L_c
-        Scene *Luminance* :math:`L_c`.
+        Scene *luminance* :math:`L_c`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding electrical signal :math:`V`.
+        Electrical signal :math:`V`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_c``    | [0, 1]                | [0, 1]        |
+    | ``L_c``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
+    | ``V``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -219,7 +220,8 @@ def oetf_H273_LogSqrt(L_c):
     Warnings
     --------
     -   The function is clamped to domain
-        [:func:`colour.models.oetf_H273_LogSqrt` (sqrt(10) / 1000), np.inf].
+        [:func:`colour.models.oetf_H273_LogSqrt` (sqrt(10) / 1000),
+        np.inf].
 
     Examples
     --------
@@ -246,9 +248,9 @@ def oetf_H273_LogSqrt(L_c):
     return as_float(from_range_1(V))
 
 
-def oetf_inverse_H273_LogSqrt(V):
+def oetf_inverse_H273_LogSqrt(V: Domain1) -> Range1:
     """
-    Define *Recommendation ITU-T H.273* inverse-opto-electronic transfer
+    Apply the *Recommendation ITU-T H.273* inverse opto-electronic transfer
     function (OETF) for logarithmic encoding (100\\*Sqrt(10):1 range).
 
     Parameters
@@ -259,20 +261,20 @@ def oetf_inverse_H273_LogSqrt(V):
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding scene *Luminance* :math:`L_c`.
+        Scene *luminance* :math:`L_c`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
+    | ``V``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_c``    | [0, 1]                | [0, 1]        |
+    | ``L_c``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -306,42 +308,41 @@ def oetf_inverse_H273_LogSqrt(V):
     return as_float(from_range_1(L_c))
 
 
-def oetf_H273_IEC61966_2(L_c):
+def oetf_H273_IEC61966_2(L_c: Domain1) -> Range1:
     """
-    Define *Recommendation ITU-T H.273* opto-electronic transfer function
-    (OETF) for *IEC 61966-2* family of transfer functions (*2-1 sRGB*,
-    *2-1 sYCC*, *2-4 xvYCC*).
+    Apply the *Recommendation ITU-T H.273* opto-electronic transfer function
+    (OETF) for *IEC 61966-2* family of transfer functions (*2-1 sRGB*, *2-1
+    sYCC*, *2-4 xvYCC*).
 
     Parameters
     ----------
     L_c
-        Scene *Luminance* :math:`L_c`.
+        Scene *luminance* :math:`L_c`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding electrical signal :math:`V`.
+        Electrical signal :math:`V`.
 
     Notes
     -----
     Usage in :cite:`InternationalTelecommunicationUnion2021` is as follows:
 
-    -   For *IEC 61966-2-1 sRGB (MatrixCoefficients=0)*, the function is only
-        defined for :math:`L_c` in [0-1] range.
-    -   For *IEC 61966-2-1 sYCC (MatrixCoefficients=5)* and
-        *IEC 61966-2-4 xvYCC*, the function is defined for any real-valued
-        :math:`L_c`.
+    -   For *IEC 61966-2-1 sRGB (MatrixCoefficients=0)*, the function is
+        only defined for :math:`L_c` in [0-1] range.
+    -   For *IEC 61966-2-1 sYCC (MatrixCoefficients=5)* and *IEC 61966-2-4
+        xvYCC*, the function is defined for any real-valued :math:`L_c`.
 
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_c``    | [0, 1]                | [0, 1]        |
+    | ``L_c``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
+    | ``V``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -356,8 +357,10 @@ def oetf_H273_IEC61966_2(L_c):
     -0.4613561295004...
     """
 
+    L_c = as_float_array(L_c)
+
     V = np.where(
-        as_float_array(L_c) >= 0,
+        L_c >= 0,
         eotf_inverse_sRGB(L_c),
         -eotf_inverse_sRGB(-L_c),
     )
@@ -365,11 +368,13 @@ def oetf_H273_IEC61966_2(L_c):
     return as_float(V)
 
 
-def oetf_inverse_H273_IEC61966_2(V):
+def oetf_inverse_H273_IEC61966_2(
+    V: Domain1,
+) -> Range1:
     """
-    Define *Recommendation ITU-T H.273* inverse opto-electronic transfer
-    function (OETF) for *IEC 61966-2* family of transfer functions (*2-1 sRGB*,
-    *2-1 sYCC*, *2-4 xvYCC*).
+    Apply the *Recommendation ITU-T H.273* inverse opto-electronic
+    transfer function (OETF) for the *IEC 61966-2* family of transfer
+    functions (*2-1 sRGB*, *2-1 sYCC*, *2-4 xvYCC*).
 
     Parameters
     ----------
@@ -379,28 +384,29 @@ def oetf_inverse_H273_IEC61966_2(V):
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding scene luminance :math:`L_c`.
+        Scene *luminance* :math:`L_c`.
 
     Notes
     -----
-    Usage in :cite:`InternationalTelecommunicationUnion2021` is as follows:
+    Usage in :cite:`InternationalTelecommunicationUnion2021` is
+    specified as follows:
 
-    -   For *IEC 61966-2-1 sRGB (MatrixCoefficients=0)*, the function is only
-        defined for :math:`L_c` in [0-1] range.
-    -   For *IEC 61966-2-1 sYCC (MatrixCoefficients=5)* and
-        *IEC 61966-2-4 xvYCC*, the function is defined for any real-valued
+    -   For *IEC 61966-2-1 sRGB (MatrixCoefficients=0)*, the function is
+        only defined for :math:`L_c` in [0-1] range.
+    -   For *IEC 61966-2-1 sYCC (MatrixCoefficients=5)* and *IEC
+        61966-2-4 xvYCC*, the function is defined for any real-valued
         :math:`L_c`.
-
-    +------------+-----------------------+---------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
-    +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_c``    | [0, 1]                | [0, 1]        |
+    | ``V``      | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``L_c``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -415,8 +421,10 @@ def oetf_inverse_H273_IEC61966_2(V):
     -0.1799999999...
     """
 
+    V = as_float_array(V)
+
     L_c = np.where(
-        as_float_array(V) >= 0,
+        V >= 0,
         eotf_sRGB(V),
         -eotf_sRGB(-V),
     )
@@ -424,59 +432,10 @@ def oetf_inverse_H273_IEC61966_2(V):
     return as_float(L_c)
 
 
-def eotf_inverse_H273_ST428_1(L_o):
+def eotf_H273_ST428_1(V: Domain1) -> Range1:
     """
-    Define *Recommendation ITU-T H.273* inverse electro-optical transfer
-    function (EOTF) for *SMPTE ST 428-1 (2019)*.
-
-    Parameters
-    ----------
-    L_o
-        Output display *Luminance* :math:`L_o` of the image.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Corresponding electrical signal :math:`V`.
-
-    Notes
-    -----
-    -   The function given in :cite:`InternationalTelecommunicationUnion2021`
-        multiplies :math:`L_o` by 48 contrary to what is given in
-        :cite:`SocietyofMotionPictureandTelevisionEngineers2019` and
-        :func:`colour.models.eotf_inverse_DCDM`.
-
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``L_o``    | [0, 1]                | [0, 1]        |
-    +------------+-----------------------+---------------+
-
-    +------------+-----------------------+---------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
-    +------------+-----------------------+---------------+
-
-    References
-    ----------
-    -   :cite:`InternationalTelecommunicationUnion2021`,
-        :cite:`SocietyofMotionPictureandTelevisionEngineers2019`
-
-    Examples
-    --------
-    >>> eotf_inverse_H273_ST428_1(0.18)  # doctest: +ELLIPSIS
-    0.5000483...
-    """
-
-    L_o = to_domain_1(L_o)
-
-    return as_float(from_range_1(eotf_inverse_DCDM(L_o * 48)))
-
-
-def eotf_H273_ST428_1(V):
-    """
-    Define the *SMPTE ST 428-1 (2019)* electro-optical transfer function (EOTF).
+    Apply the *SMPTE ST 428-1 (2019)* electro-optical transfer function
+    (EOTF) as specified in *ITU-T H.273*.
 
     Parameters
     ----------
@@ -486,25 +445,26 @@ def eotf_H273_ST428_1(V):
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding output display *Luminance* :math:`L_o` of the image.
+        Output display *Luminance* :math:`L_o` of the image.
 
     Notes
     -----
-    -   The function given in :cite:`InternationalTelecommunicationUnion2021`
-        divides :math:`L_o` by 48 contrary to what is given in
+    -   The function specified in
+        :cite:`InternationalTelecommunicationUnion2021` divides
+        :math:`L_o` by 48, contrary to what is specified in
         :cite:`SocietyofMotionPictureandTelevisionEngineers2019` and
         :func:`colour.models.eotf_DCDM`.
 
     +------------+-----------------------+---------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 1]                | [0, 1]        |
+    | ``V``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_o``    | [0, 1]                | [0, 1]        |
+    | ``L_o``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -521,3 +481,56 @@ def eotf_H273_ST428_1(V):
     V = to_domain_1(V)
 
     return as_float(from_range_1(eotf_DCDM(V) / 48))
+
+
+def eotf_inverse_H273_ST428_1(
+    L_o: Domain1,
+) -> Range1:
+    """
+    Apply the *SMPTE ST 428-1 (2019)* inverse electro-optical transfer function
+    (EOTF) as specified in *ITU-T H.273*.
+
+    Parameters
+    ----------
+    L_o
+        Output display *Luminance* :math:`L_o` of the image.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Electrical signal :math:`V`.
+
+    Notes
+    -----
+    -   The function specified in
+        :cite:`InternationalTelecommunicationUnion2021` multiplies :math:`L_o`
+        by 48, contrary to what is specified in
+        :cite:`SocietyofMotionPictureandTelevisionEngineers2019` and
+        :func:`colour.models.eotf_inverse_DCDM`.
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``L_o``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``V``      | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    -   :cite:`InternationalTelecommunicationUnion2021`,
+        :cite:`SocietyofMotionPictureandTelevisionEngineers2019`
+
+    Examples
+    --------
+    >>> eotf_inverse_H273_ST428_1(0.18)  # doctest: +ELLIPSIS
+    0.5000483...
+    """
+
+    L_o = to_domain_1(L_o)
+
+    return as_float(from_range_1(eotf_inverse_DCDM(L_o * 48)))

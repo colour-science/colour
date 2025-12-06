@@ -1,9 +1,11 @@
-"""Showcase corresponding chromaticities prediction plotting examples."""
+"""
+Demonstrate corresponding chromaticities prediction plotting.
 
-from colour.plotting import (
-    colour_style,
-    plot_corresponding_chromaticities_prediction,
-)
+This module provides examples of plotting corresponding chromaticities
+prediction using various chromatic adaptation models.
+"""
+
+from colour.plotting import colour_style, plot_corresponding_chromaticities_prediction
 from colour.utilities import message_box
 
 message_box("Corresponding Chromaticities Prediction Plots")

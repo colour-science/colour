@@ -1,5 +1,6 @@
 """Define the unit tests for the :mod:`colour.plotting.tm3018.report` module."""
 
+from __future__ import annotations
 
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -33,7 +34,7 @@ class TestPlotSingleSdColourRenditionReportFull:
 plot_single_sd_colour_rendition_report_full` definition unit tests methods.
     """
 
-    def test_plot_single_sd_colour_rendition_report_full(self):
+    def test_plot_single_sd_colour_rendition_report_full(self) -> None:
         """
         Test :func:`colour.plotting.tm3018.report.\
 plot_single_sd_colour_rendition_report_full` definition.
@@ -54,7 +55,7 @@ plot_single_sd_colour_rendition_report_intermediate` definition unit tests
     methods.
     """
 
-    def test_plot_single_sd_colour_rendition_report_intermediate(self):
+    def test_plot_single_sd_colour_rendition_report_intermediate(self) -> None:
         """
         Test :func:`colour.plotting.tm3018.report.\
 plot_single_sd_colour_rendition_report_intermediate` definition.
@@ -74,7 +75,7 @@ class TestPlotSingleSdColourRenditionReportSimple:
 plot_single_sd_colour_rendition_report_simple` definition unit tests methods.
     """
 
-    def test_plot_color_vector_graphic(self):
+    def test_plot_color_vector_graphic(self) -> None:
         """
         Test :func:`colour.plotting.tm3018.report.\
 plot_single_sd_colour_rendition_report_simple` definition.
@@ -94,13 +95,30 @@ class TestPlotSingleSdColourRenditionReport:
 plot_single_sd_colour_rendition_report` definition unit tests methods.
     """
 
-    def test_plot_single_sd_colour_rendition_report(self):
+    def test_plot_single_sd_colour_rendition_report(self) -> None:
         """
         Test :func:`colour.plotting.tm3018.report.\
 plot_single_sd_colour_rendition_report` definition.
         """
 
+        # Test default method (full)
         figure, axes = plot_single_sd_colour_rendition_report(SDS_ILLUMINANTS["FL2"])
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        # Test intermediate method
+        figure, axes = plot_single_sd_colour_rendition_report(
+            SDS_ILLUMINANTS["FL2"], method="intermediate"
+        )
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        # Test simple method
+        figure, axes = plot_single_sd_colour_rendition_report(
+            SDS_ILLUMINANTS["FL2"], method="simple"
+        )
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)

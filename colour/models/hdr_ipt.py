@@ -1,11 +1,10 @@
 """
-Hdr-IPT Colourspace
+hdr-IPT Colourspace
 ===================
 
-Define the *hdr-IPT* colourspace transformations:
+Define the *hdr-IPT* colourspace transformations.
 
--   :attr:`colour.HDR_IPT_METHODS`: Supported *hdr-IPT* colourspace computation
-    methods.
+-   :attr:`colour.HDR_IPT_METHODS`
 -   :func:`colour.XYZ_to_hdr_IPT`
 -   :func:`colour.hdr_IPT_to_XYZ`
 
@@ -23,6 +22,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import vecmul
@@ -32,7 +33,18 @@ from colour.colorimetry import (
     luminance_Fairchild2010,
     luminance_Fairchild2011,
 )
-from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Literal
+
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    Domain100,
+    NDArrayFloat,
+    Range1,
+    Range100,
+)
 from colour.models.ipt import (
     MATRIX_IPT_IPT_TO_LMS_P,
     MATRIX_IPT_LMS_P_TO_IPT,
@@ -48,10 +60,7 @@ from colour.utilities import (
     to_domain_100,
     validate_method,
 )
-from colour.utilities.documentation import (
-    DocstringTuple,
-    is_documentation_building,
-)
+from colour.utilities.documentation import DocstringTuple, is_documentation_building
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -80,13 +89,14 @@ References
 
 
 def exponent_hdr_IPT(
-    Y_s: ArrayLike,
+    Y_s: Domain1,
     Y_abs: ArrayLike,
     method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
 ) -> NDArrayFloat:
     """
-    Compute *hdr-IPT* colourspace *Lightness* :math:`\\epsilon` exponent using
-    *Fairchild and Wyble (2010)* or *Fairchild and Chen (2011)* method.
+    Compute the *hdr-IPT* colourspace *Lightness* :math:`\\epsilon` exponent
+    using the *Fairchild and Wyble (2010)* or *Fairchild and Chen (2011)*
+    methods.
 
     Parameters
     ----------
@@ -108,7 +118,7 @@ def exponent_hdr_IPT(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y_s``    | [0, 1]                | [0, 1]        |
+    | ``Y_s``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples
@@ -137,11 +147,11 @@ def exponent_hdr_IPT(
 
 
 def XYZ_to_hdr_IPT(
-    XYZ: ArrayLike,
-    Y_s: ArrayLike = 0.2,
+    XYZ: Domain1,
+    Y_s: Domain1 = 0.2,
     Y_abs: ArrayLike = 100,
     method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
-) -> NDArrayFloat:
+) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to *hdr-IPT* colourspace.
 
@@ -167,19 +177,15 @@ def XYZ_to_hdr_IPT(
     +-------------+-------------------------+---------------------+
     | **Domain**  | **Scale - Reference**   | **Scale - 1**       |
     +=============+=========================+=====================+
-    | ``XYZ``     | [0, 1]                  | [0, 1]              |
+    | ``XYZ``     | 1                       | 1                   |
     +-------------+-------------------------+---------------------+
-    | ``Y_s``     | [0, 1]                  | [0, 1]              |
+    | ``Y_s``     | 1                       | 1                   |
     +-------------+-------------------------+---------------------+
 
     +-------------+-------------------------+---------------------+
     | **Range**   | **Scale - Reference**   | **Scale - 1**       |
     +=============+=========================+=====================+
-    | ``IPT_hdr`` | ``I_hdr`` : [0, 100]    | ``I_hdr`` : [0, 1]  |
-    |             |                         |                     |
-    |             | ``P_hdr`` : [-100, 100] | ``P_hdr`` : [-1, 1] |
-    |             |                         |                     |
-    |             | ``T_hdr`` : [-100, 100] | ``T_hdr`` : [-1, 1] |
+    | ``IPT_hdr`` | 100                     | 1                   |
     +-------------+-------------------------+---------------------+
 
     -   Input *CIE XYZ* tristimulus values must be adapted to
@@ -220,11 +226,11 @@ def XYZ_to_hdr_IPT(
 
 
 def hdr_IPT_to_XYZ(
-    IPT_hdr: ArrayLike,
-    Y_s: ArrayLike = 0.2,
+    IPT_hdr: Domain100,
+    Y_s: Domain1 = 0.2,
     Y_abs: ArrayLike = 100,
     method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
-) -> NDArrayFloat:
+) -> Range1:
     """
     Convert from *hdr-IPT* colourspace to *CIE XYZ* tristimulus values.
 
@@ -250,19 +256,15 @@ def hdr_IPT_to_XYZ(
     +-------------+-------------------------+---------------------+
     | **Domain**  | **Scale - Reference**   | **Scale - 1**       |
     +=============+=========================+=====================+
-    | ``IPT_hdr`` | ``I_hdr`` : [0, 100]    | ``I_hdr`` : [0, 1]  |
-    |             |                         |                     |
-    |             | ``P_hdr`` : [-100, 100] | ``P_hdr`` : [-1, 1] |
-    |             |                         |                     |
-    |             | ``T_hdr`` : [-100, 100] | ``T_hdr`` : [-1, 1] |
+    | ``IPT_hdr`` | 100                     | 1                   |
     +-------------+-------------------------+---------------------+
-    | ``Y_s``     | [0, 1]                  | [0, 1]              |
+    | ``Y_s``     | 1                       | 1                   |
     +-------------+-------------------------+---------------------+
 
     +-------------+-------------------------+---------------------+
     | **Range**   | **Scale - Reference**   | **Scale - 1**       |
     +=============+=========================+=====================+
-    | ``XYZ``     | [0, 1]                  | [0, 1]              |
+    | ``XYZ``     | 1                       | 1                   |
     +-------------+-------------------------+---------------------+
 
     References

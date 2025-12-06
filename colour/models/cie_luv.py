@@ -2,7 +2,7 @@
 CIE L*u*v* Colourspace
 ======================
 
-Define the *CIE L\\*u\\*v\\** colourspace transformations:
+Define the *CIE L\\*u\\*v\\** colourspace transformations.
 
 -   :func:`colour.XYZ_to_Luv`
 -   :func:`colour.Luv_to_XYZ`
@@ -33,17 +33,23 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.colorimetry import (
-    CCS_ILLUMINANTS,
-    lightness_CIE1976,
-    luminance_CIE1976,
+from colour.colorimetry import CCS_ILLUMINANTS, lightness_CIE1976, luminance_CIE1976
+from colour.hints import (  # noqa: TC001
+    Annotated,
+    ArrayLike,
+    Domain1,
+    Domain100,
+    NDArrayFloat,
+    Range1,
+    Range100,
 )
-from colour.hints import ArrayLike, NDArrayFloat
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (
     domain_range_scale,
     from_range_1,
     from_range_100,
+    get_domain_range_scale,
+    optional,
     to_domain_1,
     to_domain_100,
     tsplit,
@@ -70,11 +76,11 @@ __all__ = [
 
 
 def XYZ_to_Luv(
-    XYZ: ArrayLike,
+    XYZ: Domain1,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> NDArrayFloat:
+) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE L\\*u\\*v\\**
     colourspace.
@@ -97,19 +103,15 @@ def XYZ_to_Luv(
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``XYZ``        | [0, 1]                | [0, 1]          |
+    | ``XYZ``        | 1                     | 1               |
     +----------------+-----------------------+-----------------+
-    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    | ``illuminant`` | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     +----------------+-----------------------+-----------------+
     | **Range**      | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``Luv``        | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
-    |                |                       |                 |
-    |                | ``u`` : [-100, 100]   | ``u`` : [-1, 1] |
-    |                |                       |                 |
-    |                | ``v`` : [-100, 100]   | ``v`` : [-1, 1] |
+    | ``Luv``        | 100                   | 1               |
     +----------------+-----------------------+-----------------+
 
     References
@@ -144,11 +146,11 @@ def XYZ_to_Luv(
 
 
 def Luv_to_XYZ(
-    Luv: ArrayLike,
+    Luv: Domain100,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> NDArrayFloat:
+) -> Range1:
     """
     Convert from *CIE L\\*u\\*v\\** colourspace to *CIE XYZ* tristimulus
     values.
@@ -171,19 +173,15 @@ def Luv_to_XYZ(
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``Luv``        | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
-    |                |                       |                 |
-    |                | ``u`` : [-100, 100]   | ``u`` : [-1, 1] |
-    |                |                       |                 |
-    |                | ``v`` : [-100, 100]   | ``v`` : [-1, 1] |
+    | ``Luv``        | 100                   | 1               |
     +----------------+-----------------------+-----------------+
-    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    | ``illuminant`` | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     +----------------+-----------------------+-----------------+
     | **Range**      | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``XYZ``        | [0, 1]                | [0, 1]          |
+    | ``XYZ``        | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     References
@@ -226,14 +224,14 @@ def Luv_to_XYZ(
 
 
 def Luv_to_uv(
-    Luv: ArrayLike,
+    Luv: Domain100,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
 ) -> NDArrayFloat:
     """
-    Return the :math:`uv^p` chromaticity coordinates from given
-    *CIE L\\*u\\*v\\** colourspace array.
+    Convert from *CIE L\\*u\\*v\\** colourspace to :math:`uv^p` chromaticity
+    coordinates.
 
     Parameters
     ----------
@@ -253,13 +251,9 @@ def Luv_to_uv(
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``Luv``        | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
-    |                |                       |                 |
-    |                | ``u`` : [-100, 100]   | ``u`` : [-1, 1] |
-    |                |                       |                 |
-    |                | ``v`` : [-100, 100]   | ``v`` : [-1, 1] |
+    | ``Luv``        | 100                   | 1               |
     +----------------+-----------------------+-----------------+
-    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    | ``illuminant`` | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     References
@@ -281,9 +275,7 @@ def Luv_to_uv(
     X_Y_Z = X + 15 * Y + 3 * Z
 
     with sdiv_mode():
-        uv = tstack([4 * sdiv(X, X_Y_Z), 9 * sdiv(Y, X_Y_Z)])
-
-    return uv
+        return tstack([4 * sdiv(X, X_Y_Z), 9 * sdiv(Y, X_Y_Z)])
 
 
 def uv_to_Luv(
@@ -291,12 +283,12 @@ def uv_to_Luv(
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-    L: NDArrayFloat = np.array(100),
-) -> NDArrayFloat:
+    L: Domain100 | None = None,
+) -> Range100:
     """
-    Return the *CIE L\\*u\\*v\\** colourspace array from given :math:`uv^p`
-    chromaticity coordinates by extending the array last dimension with given
-    :math:`L` *Lightness*.
+    Convert from :math:`uv^p` chromaticity coordinates to *CIE L\\*u\\*v\\**
+    colourspace by extending the array's last dimension with the specified
+    :math:`L^*` *Lightness*.
 
     Parameters
     ----------
@@ -306,9 +298,9 @@ def uv_to_Luv(
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
     L
-        Optional :math:`L^*` *Lightness* value used to construct the intermediate
-        *CIE XYZ* colourspace array, the default :math:`L^*` *Lightness* value is
-        100.
+        Optional :math:`L^*` *Lightness* value used to construct the
+        intermediate *CIE XYZ* colourspace array, the default :math:`L^*`
+        *Lightness* value is 100.
 
     Returns
     -------
@@ -320,13 +312,9 @@ def uv_to_Luv(
     +----------------+-----------------------+-----------------+
     | **Range**      | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``Luv``        | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
-    |                |                       |                 |
-    |                | ``u`` : [-100, 100]   | ``u`` : [-1, 1] |
-    |                |                       |                 |
-    |                | ``v`` : [-100, 100]   | ``v`` : [-1, 1] |
+    | ``Luv``        | 100                   | 1               |
     +----------------+-----------------------+-----------------+
-    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    | ``illuminant`` | 100                   | 1               |
     +----------------+-----------------------+-----------------+
 
     References
@@ -342,7 +330,9 @@ def uv_to_Luv(
     """
 
     u, v = tsplit(uv)
-    L = to_domain_100(L)
+    L = to_domain_100(
+        optional(L, 100 if get_domain_range_scale() == "reference" else 1)
+    )
 
     _X_r, Y_r, _Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
@@ -360,8 +350,8 @@ def uv_to_Luv(
 
 def Luv_uv_to_xy(uv: ArrayLike) -> NDArrayFloat:
     """
-    Return the *CIE xy* chromaticity coordinates from given *CIE L\\*u\\*v\\**
-    colourspace :math:`uv^p` chromaticity coordinates.
+    Convert from *CIE L\\*u\\*v\\** colourspace :math:`u'v'` chromaticity
+    coordinates to *CIE xy* chromaticity coordinates.
 
     Parameters
     ----------
@@ -390,15 +380,13 @@ def Luv_uv_to_xy(uv: ArrayLike) -> NDArrayFloat:
     d = 6 * u - 16 * v + 12
 
     with sdiv_mode():
-        xy = tstack([sdiv(9 * u, d), sdiv(4 * v, d)])
-
-    return xy
+        return tstack([sdiv(9 * u, d), sdiv(4 * v, d)])
 
 
 def xy_to_Luv_uv(xy: ArrayLike) -> NDArrayFloat:
     """
-    Return the *CIE L\\*u\\*v\\** colourspace :math:`uv^p` chromaticity
-    coordinates from given *CIE xy* chromaticity coordinates.
+    Convert from *CIE xy* chromaticity coordinates to *CIE L\\*u\\*v\\**
+    colourspace :math:`u'v'` chromaticity coordinates.
 
     Parameters
     ----------
@@ -427,22 +415,21 @@ def xy_to_Luv_uv(xy: ArrayLike) -> NDArrayFloat:
     d = -2 * x + 12 * y + 3
 
     with sdiv_mode():
-        uv = tstack([sdiv(4 * x, d), sdiv(9 * y, d)])
-
-    return uv
+        return tstack([sdiv(4 * x, d), sdiv(9 * y, d)])
 
 
 def XYZ_to_CIE1976UCS(
-    XYZ: ArrayLike,
+    XYZ: Domain1,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> NDArrayFloat:
+) -> Annotated[NDArrayFloat, (1, 1, 100)]:
     """
-    Convert from *CIE XYZ* tristimulus values to :math:`uv^pL\\*` colourspace.
+    Convert from *CIE XYZ* tristimulus values to :math:`uv^pL^*` colourspace.
 
-    This colourspace combines the :math:`uv^p` chromaticity coordinates with
-    the *Lightness* :math:`L\\*` from the *CIE L\\*u\\*v\\** colourspace.
+    This colourspace combines the :math:`uv^p` chromaticity
+    coordinates with the *Lightness* :math:`L^{*}` from the
+    *CIE L*u*v** colourspace.
 
     It is a convenient definition for use with the
     *CIE 1976 UCS Chromaticity Diagram*.
@@ -458,26 +445,26 @@ def XYZ_to_CIE1976UCS(
     Returns
     -------
     :class:`numpy.ndarray`
-        :math:`uv^pL\\*` colourspace array.
+        :math:`uv^pL^*` colourspace array.
 
     Notes
     -----
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``XYZ``        | [0, 1]                | [0, 1]          |
+    | ``XYZ``        | 1                     | 1               |
     +----------------+-----------------------+-----------------+
-    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    | ``illuminant`` | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     +----------------+-----------------------+-----------------+
     | **Range**      | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``uvL``        | ``u`` : [-1, 1]       | ``u`` : [-1, 1] |
+    | ``uvL``        | ``u`` : 1             | ``u`` : 1       |
     |                |                       |                 |
-    |                | ``v`` : [-1, 1]       | ``v`` : [-1, 1] |
+    |                | ``v`` : 1             | ``v`` : 1       |
     |                |                       |                 |
-    |                | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
+    |                | ``L`` : 100           | ``L`` : 1       |
     +----------------+-----------------------+-----------------+
 
     Examples
@@ -498,16 +485,17 @@ def XYZ_to_CIE1976UCS(
 
 
 def CIE1976UCS_to_XYZ(
-    uvL: ArrayLike,
+    uvL: Annotated[ArrayLike, (1, 1, 100)],
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Convert from *CIE XYZ* tristimulus values to :math:`uv^pL\\*` colourspace.
+    Convert from :math:`uv^pL^*` colourspace to *CIE XYZ* tristimulus values.
 
-    This colourspace combines the :math:`uv^p` chromaticity coordinates with
-    the *Lightness* :math:`L\\*` from the *CIE L\\*u\\*v\\** colourspace.
+    This colourspace combines the :math:`uv^p` chromaticity
+    coordinates with the *Lightness* :math:`L^{*}` from the
+    *CIE L*u*v** colourspace.
 
     It is a convenient definition for use with the
     *CIE 1976 UCS Chromaticity Diagram*.
@@ -515,7 +503,7 @@ def CIE1976UCS_to_XYZ(
     Parameters
     ----------
     uvL
-        :math:`uv^pL\\*` colourspace array.
+        :math:`uv^pL^*` colourspace array.
     illuminant
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
@@ -523,26 +511,26 @@ def CIE1976UCS_to_XYZ(
     Returns
     -------
     :class:`numpy.ndarray`
-        :math:`uv^pL\\*` colourspace array.
+        *CIE XYZ* tristimulus values.
 
     Notes
     -----
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``uvL``        | ``u`` : [-1, 1]       | ``u`` : [-1, 1] |
+    | ``uvL``        | ``u`` : 1             | ``u`` : 1       |
     |                |                       |                 |
-    |                | ``v`` : [-1, 1]       | ``v`` : [-1, 1] |
+    |                | ``v`` : 1             | ``v`` : 1       |
     |                |                       |                 |
-    |                | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
+    |                | ``L`` : 100           | ``L`` : 1       |
     +----------------+-----------------------+-----------------+
-    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    | ``illuminant`` | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     +----------------+-----------------------+-----------------+
     | **Range**      | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``XYZ``        | [0, 1]                | [0, 1]          |
+    | ``XYZ``        | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     Examples

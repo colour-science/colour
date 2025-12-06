@@ -2,7 +2,7 @@
 GoPro Encoding
 ==============
 
-Define the *GoPro* *Protune* encoding:
+Define the *GoPro* *Protune* encoding.
 
 -   :func:`colour.models.log_encoding_Protune`
 -   :func:`colour.models.log_decoding_Protune`
@@ -19,7 +19,10 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -35,10 +38,9 @@ __all__ = [
 ]
 
 
-def log_encoding_Protune(x: ArrayLike) -> NDArrayFloat:
+def log_encoding_Protune(x: Domain1) -> Range1:
     """
-    Define the *Protune* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Protune* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -48,20 +50,20 @@ def log_encoding_Protune(x: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`y`.
+        Non-linear encoded data :math:`y`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -81,15 +83,14 @@ def log_encoding_Protune(x: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_1(y))
 
 
-def log_decoding_Protune(y: ArrayLike) -> NDArrayFloat:
+def log_decoding_Protune(y: Domain1) -> Range1:
     """
-    Define the *Protune* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Protune* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     y
-        Non-linear data :math:`y`.
+        Non-linear encoded data :math:`y`.
 
     Returns
     -------
@@ -101,13 +102,13 @@ def log_decoding_Protune(y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

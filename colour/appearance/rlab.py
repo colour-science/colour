@@ -2,7 +2,8 @@
 RLAB Colour Appearance Model
 ============================
 
-Define the *RLAB* colour appearance model objects:
+Define the *RLAB* colour appearance model for predicting perceptual colour
+attributes under varying viewing conditions.
 
 -   :attr:`colour.VIEWING_CONDITIONS_RLAB`
 -   :attr:`colour.D_FACTOR_RLAB`
@@ -26,7 +27,7 @@ import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 from colour.appearance.hunt import MATRIX_XYZ_TO_HPE, XYZ_to_rgb
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import Annotated, ArrayLike, Domain100, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArray,
@@ -67,7 +68,7 @@ VIEWING_CONDITIONS_RLAB: CanonicalMapping = CanonicalMapping(
     {"Average": 1 / 2.3, "Dim": 1 / 2.9, "Dark": 1 / 3.5}
 )
 VIEWING_CONDITIONS_RLAB.__doc__ = """
-Reference *RLAB* colour appearance model viewing conditions.
+Define the reference *RLAB* colour appearance model viewing conditions.
 
 References
 ----------
@@ -82,7 +83,8 @@ D_FACTOR_RLAB: CanonicalMapping = CanonicalMapping(
     }
 )
 D_FACTOR_RLAB.__doc__ = """
-*RLAB* colour appearance model *Discounting-the-Illuminant* factor values.
+Define the *RLAB* colour appearance model *Discounting-the-Illuminant*
+factor values for the specified media types.
 
 References
 ----------
@@ -104,13 +106,13 @@ class CAM_ReferenceSpecification_RLAB(MixinDataclassArray):
     """
     Define the *RLAB* colour appearance model reference specification.
 
-    This specification has field names consistent with *Fairchild (2013)*
-    reference.
+    This specification contains field names consistent with the *Fairchild
+    (2013)* reference.
 
     Parameters
     ----------
     LR
-        Correlate of *Lightness* :math:`L^R`.
+        Correlate of *lightness* :math:`L^R`.
     CR
         Correlate of *achromatic chroma* :math:`C^R`.
     hR
@@ -143,14 +145,16 @@ class CAM_Specification_RLAB(MixinDataclassArray):
     """
     Define the *RLAB* colour appearance model specification.
 
-    This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from
-    *Fairchild (2013)* reference.
+    This specification provides a standardized interface for the *RLAB* model
+    with field names consistent across all colour appearance models in
+    :mod:`colour.appearance`. While the field names differ from the original
+    *Fairchild (2013)* reference notation, they map directly to the model's
+    perceptual correlates.
 
     Parameters
     ----------
     J
-        Correlate of *Lightness* :math:`L^R`.
+        Correlate of *lightness* :math:`L^R`.
     C
         Correlate of *achromatic chroma* :math:`C^R`.
     h
@@ -166,7 +170,8 @@ class CAM_Specification_RLAB(MixinDataclassArray):
 
     Notes
     -----
-    -   This specification is the one used in the current model implementation.
+    -   This specification is the one used in the current model
+        implementation.
 
     References
     ----------
@@ -183,14 +188,15 @@ class CAM_Specification_RLAB(MixinDataclassArray):
 
 
 def XYZ_to_RLAB(
-    XYZ: ArrayLike,
-    XYZ_n: ArrayLike,
+    XYZ: Domain100,
+    XYZ_n: Domain100,
     Y_n: ArrayLike,
     sigma: ArrayLike = VIEWING_CONDITIONS_RLAB["Average"],
     D: ArrayLike = D_FACTOR_RLAB["Hard Copy Images"],
-) -> CAM_Specification_RLAB:
+) -> Annotated[CAM_Specification_RLAB, 360]:
     """
-    Compute the *RLAB* model color appearance correlates.
+    Compute the *RLAB* colour appearance model correlates from the specified
+    *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -213,24 +219,19 @@ def XYZ_to_RLAB(
 
     Notes
     -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
-    | ``XYZ_n``  | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``XYZ``             | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``XYZ_n``           | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
 
-    +------------------------------+-----------------------\
-+---------------+
-    | **Range**                    | **Scale - Reference** \
-| **Scale - 1** |
-    +==============================+=======================\
-+===============+
-    | ``CAM_Specification_RLAB.h`` | [0, 360]              \
-| [0, 1]        |
-    +------------------------------+-----------------------\
-+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``specification.h`` | 360                   | 1             |
+    +---------------------+-----------------------+---------------+
 
     References
     ----------
@@ -269,6 +270,7 @@ b=-52.6142956...)
     M = np.matmul(np.matmul(MATRIX_R, row_as_diagonal(LMS_a_L)), MATRIX_XYZ_TO_HPE)
     XYZ_ref = vecmul(M, XYZ)
 
+    Y_ref: NDArrayFloat
     X_ref, Y_ref, Z_ref = tsplit(XYZ_ref)
 
     # Computing the correlate of *Lightness* :math:`L^R`.
@@ -290,11 +292,11 @@ b=-52.6142956...)
         sR = sdiv(CR, LR)
 
     return CAM_Specification_RLAB(
-        LR,
-        CR,
-        as_float(from_range_degrees(hR)),
-        sR,
-        None,
-        as_float(aR),
-        as_float(bR),
+        J=LR,
+        C=CR,
+        h=as_float(from_range_degrees(hR)),
+        s=sR,
+        HC=None,
+        a=as_float(aR),
+        b=as_float(bR),
     )

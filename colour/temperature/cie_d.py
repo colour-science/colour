@@ -3,14 +3,14 @@ CIE Illuminant D Series Correlated Colour Temperature
 =====================================================
 
 Define the *CIE Illuminant D Series* correlated colour temperature
-:math:`T_{cp} computations objects:
+:math:`T_{cp}` computation objects.
 
--   :func:`colour.temperature.xy_to_CCT_CIE_D`: Correlated colour temperature
-    :math:`T_{cp}` computation of a *CIE Illuminant D Series* from its *CIE xy*
-    chromaticity coordinates.
--   :func:`colour.temperature.CCT_to_xy_CIE_D`: *CIE xy* chromaticity
-    coordinates computation of a *CIE Illuminant D Series* from its correlated
-    colour temperature :math:`T_{cp}`.
+-   :func:`colour.temperature.xy_to_CCT_CIE_D`: Compute correlated colour
+    temperature :math:`T_{cp}` of a *CIE Illuminant D Series* from its
+    *CIE xy* chromaticity coordinates.
+-   :func:`colour.temperature.CCT_to_xy_CIE_D`: Compute *CIE xy*
+    chromaticity coordinates of a *CIE Illuminant D Series* from its
+    correlated colour temperature :math:`T_{cp}`.
 
 References
 ----------
@@ -22,12 +22,16 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
-from scipy.optimize import minimize
 
 from colour.colorimetry import daylight_locus_function
-from colour.hints import ArrayLike, NDArrayFloat
-from colour.utilities import as_float, as_float_array, tstack, usage_warning
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
+
+from colour.utilities import as_float, as_float_array, required, tstack, usage_warning
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -42,12 +46,14 @@ __all__ = [
 ]
 
 
+@required("SciPy")
 def xy_to_CCT_CIE_D(
     xy: ArrayLike, optimisation_kwargs: dict | None = None
 ) -> NDArrayFloat:
     """
-    Return the correlated colour temperature :math:`T_{cp}` of a
-    *CIE Illuminant D Series* from its *CIE xy* chromaticity coordinates.
+    Compute the correlated colour temperature :math:`T_{cp}` of a
+    *CIE Illuminant D Series* from the specified *CIE xy* chromaticity
+    coordinates.
 
     Parameters
     ----------
@@ -63,11 +69,11 @@ def xy_to_CCT_CIE_D(
 
     Warnings
     --------
-    The *CIE Illuminant D Series* method does not give an analytical inverse
+    The *CIE Illuminant D Series* method does not provide an analytical inverse
     transformation to compute the correlated colour temperature :math:`T_{cp}`
-    from given *CIE xy* chromaticity coordinates, the current implementation
-    relies on optimisation using :func:`scipy.optimize.minimize` definition and
-    thus has reduced precision and poor performance.
+    from the specified *CIE xy* chromaticity coordinates. The current
+    implementation relies on optimisation using :func:`scipy.optimize.minimize`
+    definition and thus has reduced precision and poor performance.
 
     References
     ----------
@@ -80,11 +86,13 @@ def xy_to_CCT_CIE_D(
     6504.3895840...
     """
 
+    from scipy.optimize import minimize  # noqa: PLC0415
+
     xy = as_float_array(xy)
     shape = xy.shape
     xy = np.atleast_1d(np.reshape(xy, (-1, 2)))
 
-    def objective_function(CCT: NDArrayFloat, xy: NDArrayFloat) -> NDArrayFloat:
+    def objective_function(CCT: NDArrayFloat, xy: NDArrayFloat) -> DTypeFloat:
         """Objective function."""
 
         objective = np.linalg.norm(CCT_to_xy_CIE_D(CCT) - xy)
@@ -104,7 +112,7 @@ def xy_to_CCT_CIE_D(
         [
             minimize(
                 objective_function,
-                x0=6500,
+                x0=[6500],
                 args=(xy_i,),
                 **optimisation_settings,
             ).x
@@ -117,8 +125,8 @@ def xy_to_CCT_CIE_D(
 
 def CCT_to_xy_CIE_D(CCT: ArrayLike) -> NDArrayFloat:
     """
-    Return the *CIE xy* chromaticity coordinates of a
-    *CIE Illuminant D Series* from its correlated colour temperature
+    Compute the *CIE xy* chromaticity coordinates of a
+    *CIE Illuminant D Series* from the specified correlated colour temperature
     :math:`T_{cp}`.
 
     Parameters
@@ -134,7 +142,8 @@ def CCT_to_xy_CIE_D(CCT: ArrayLike) -> NDArrayFloat:
     Raises
     ------
     ValueError
-        If the correlated colour temperature is not in appropriate domain.
+        If the correlated colour temperature is not in the appropriate
+        domain.
 
     References
     ----------

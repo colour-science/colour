@@ -3,7 +3,8 @@ Blackbody - Planck (1900) - Correlated Colour Temperature
 =========================================================
 
 Define the *Planck (1900)* correlated colour temperature :math:`T_{cp}`
-computations objects based on the spectral radiance of a planckian radiator:
+computation objects based on the spectral radiance of a planckian
+radiator:
 
 -   :func:`colour.temperature.uv_to_CCT_Planck1900`
 -   :func:`colour.temperature.CCT_to_uv_Planck1900`
@@ -17,8 +18,9 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
-from scipy.optimize import minimize
 
 from colour.colorimetry import (
     MultiSpectralDistributions,
@@ -26,9 +28,12 @@ from colour.colorimetry import (
     msds_to_XYZ_integration,
     planck_law,
 )
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
+
 from colour.models import UCS_to_uv, XYZ_to_UCS
-from colour.utilities import as_float, as_float_array
+from colour.utilities import as_float, as_float_array, required
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -43,15 +48,16 @@ __all__ = [
 ]
 
 
+@required("SciPy")
 def uv_to_CCT_Planck1900(
     uv: ArrayLike,
     cmfs: MultiSpectralDistributions | None = None,
     optimisation_kwargs: dict | None = None,
 ) -> NDArrayFloat:
     """
-    Return the correlated colour temperature :math:`T_{cp}` of a blackbody from
-    given *CIE UCS* colourspace *uv* chromaticity coordinates and colour
-    matching functions.
+    Compute the correlated colour temperature :math:`T_{cp}` of a blackbody
+    from specified *CIE UCS* colourspace *uv* chromaticity coordinates using
+    colour matching functions.
 
     Parameters
     ----------
@@ -71,8 +77,8 @@ def uv_to_CCT_Planck1900(
     Warnings
     --------
     The current implementation relies on optimisation using
-    :func:`scipy.optimize.minimize` definition and thus has reduced precision
-    and poor performance.
+    :func:`scipy.optimize.minimize` definition and thus has reduced
+    precision and poor performance.
 
     References
     ----------
@@ -85,13 +91,15 @@ def uv_to_CCT_Planck1900(
     6504.0000617...
     """
 
+    from scipy.optimize import minimize  # noqa: PLC0415
+
     uv = as_float_array(uv)
     cmfs, _illuminant = handle_spectral_arguments(cmfs)
 
     shape = uv.shape
     uv = np.atleast_1d(np.reshape(uv, (-1, 2)))
 
-    def objective_function(CCT: NDArrayFloat, uv: NDArrayFloat) -> NDArrayFloat:
+    def objective_function(CCT: NDArrayFloat, uv: NDArrayFloat) -> DTypeFloat:
         """Objective function."""
 
         objective = np.linalg.norm(CCT_to_uv_Planck1900(CCT, cmfs) - uv)
@@ -111,7 +119,7 @@ def uv_to_CCT_Planck1900(
         [
             minimize(
                 objective_function,
-                x0=6500,
+                x0=[6500],
                 args=(uv_i,),
                 **optimisation_settings,
             ).x
@@ -126,15 +134,15 @@ def CCT_to_uv_Planck1900(
     CCT: ArrayLike, cmfs: MultiSpectralDistributions | None = None
 ) -> NDArrayFloat:
     """
-    Return the *CIE UCS* colourspace *uv* chromaticity coordinates from given
-    correlated colour temperature :math:`T_{cp}` and colour matching functions
-    using the spectral radiance of a blackbody at the given thermodynamic
-    temperature.
+    Compute the *CIE UCS* colourspace *uv* chromaticity coordinates from the
+    specified correlated colour temperature :math:`T_{cp}` and colour
+    matching functions using the spectral radiance of a blackbody at the
+    specified thermodynamic temperature.
 
     Parameters
     ----------
     CCT
-        Colour temperature :math:`T_{cp}`.
+        Correlated colour temperature :math:`T_{cp}`.
     cmfs
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.

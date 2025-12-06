@@ -4,13 +4,22 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
-from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.quality import (
-    ColourRendering_Specification_CRI,
-    colour_rendering_index,
+from colour.colorimetry import (
+    MSDS_CMFS,
+    SDS_ILLUMINANTS,
+    SPECTRAL_SHAPE_DEFAULT,
+    SpectralDistribution,
+    reshape_msds,
+    reshape_sd,
 )
-from colour.quality.cri import DataColorimetry_TCS, DataColourQualityScale_TCS
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.quality import ColourRendering_Specification_CRI, colour_rendering_index
+from colour.quality.cri import (
+    DataColorimetry_TCS,
+    DataColourQualityScale_TCS,
+    tcs_colorimetry_data,
+)
+from colour.quality.datasets.tcs import SDS_TCS
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -114,29 +123,31 @@ class TestColourRenderingIndex:
     definition unit tests methods.
     """
 
-    def test_colour_rendering_index(self):
+    def test_colour_rendering_index(self) -> None:
         """Test :func:`colour.quality.cri.colour_rendering_index` definition."""
 
         np.testing.assert_allclose(
-            colour_rendering_index(SDS_ILLUMINANTS["FL1"]),
+            colour_rendering_index(SDS_ILLUMINANTS["FL1"], additional_data=False),
             75.852827992149358,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            colour_rendering_index(SDS_ILLUMINANTS["FL2"]),
+            colour_rendering_index(SDS_ILLUMINANTS["FL2"], additional_data=False),
             64.233724121664778,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            colour_rendering_index(SDS_ILLUMINANTS["A"]),
+            colour_rendering_index(SDS_ILLUMINANTS["A"], additional_data=False),
             99.996230290506887,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            colour_rendering_index(SpectralDistribution(DATA_SAMPLE)),
+            colour_rendering_index(
+                SpectralDistribution(DATA_SAMPLE), additional_data=False
+            ),
             70.815265381660197,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -159,9 +170,10 @@ class TestColourRenderingIndex:
                 12: DataColourQualityScale_TCS(name="TCS12", Q_a=74.890093866757994),
                 13: DataColourQualityScale_TCS(name="TCS13", Q_a=72.771930354944615),
                 14: DataColourQualityScale_TCS(name="TCS14", Q_a=94.884867470552663),
+                15: DataColourQualityScale_TCS(name="TCS15", Q_a=59.613744524909143),
             },
             colorimetry_data=(
-                [
+                (
                     DataColorimetry_TCS(
                         name="TCS01",
                         XYZ=np.array([31.19561134, 29.74560797, 23.44190201]),
@@ -246,8 +258,14 @@ class TestColourRenderingIndex:
                         uv=np.array([0.18328188, 0.35214117]),
                         UVW=np.array([-6.11563143, 19.91896684, 40.34566797]),
                     ),
-                ],
-                [
+                    DataColorimetry_TCS(
+                        name="TCS15",
+                        XYZ=np.array([31.87001132, 31.71897232, 22.84936407]),
+                        uv=np.array([0.22124167, 0.33028974]),
+                        UVW=np.array([20.88976213, 12.62627126, 62.13702346]),
+                    ),
+                ),
+                (
                     DataColorimetry_TCS(
                         name="TCS01",
                         XYZ=np.array([33.04774537, 29.80902109, 24.23929188]),
@@ -332,12 +350,18 @@ class TestColourRenderingIndex:
                         uv=np.array([0.18597686, 0.34955284]),
                         UVW=np.array([-6.34991066, 18.99712303, 39.76962229]),
                     ),
-                ],
+                    DataColorimetry_TCS(
+                        name="TCS15",
+                        XYZ=np.array([35.0651964, 32.69237678, 24.25024725]),
+                        uv=np.array([0.23447077, 0.32790662]),
+                        UVW=np.array([29.62847425, 12.35345214, 62.93841026]),
+                    ),
+                ),
             ),
         )
 
         specification_t = colour_rendering_index(
-            SDS_ILLUMINANTS["FL1"], additional_data=True
+            SDS_ILLUMINANTS["FL1"], additional_data=True, method="CIE 2024"
         )
 
         np.testing.assert_allclose(
@@ -345,3 +369,68 @@ class TestColourRenderingIndex:
             [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        specification_r.Q_as.pop(15)
+        test_col_data = specification_r.colorimetry_data[0][:-1]
+        ref_col_data = specification_r.colorimetry_data[1][:-1]
+        specification_r.colorimetry_data = (test_col_data, ref_col_data)
+
+        specification_t = colour_rendering_index(
+            SDS_ILLUMINANTS["FL1"], additional_data=True, method="CIE 1995"
+        )
+
+        np.testing.assert_allclose(
+            [data.Q_a for _index, data in sorted(specification_r.Q_as.items())],
+            [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        specification_t = colour_rendering_index(
+            SDS_ILLUMINANTS["FL1"], additional_data=True
+        )
+
+        np.testing.assert_allclose(
+            specification_r.Q_a, specification_t.Q_a, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        np.testing.assert_allclose(
+            [data.Q_a for _index, data in sorted(specification_r.Q_as.items())],
+            [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        for data in ["XYZ", "uv", "UVW"]:
+            np.testing.assert_allclose(
+                [
+                    getattr(tcs, data)
+                    for colorimetry_data in specification_r.colorimetry_data
+                    for tcs in colorimetry_data
+                ],
+                [
+                    getattr(tcs, data)
+                    for colorimetry_data in specification_t.colorimetry_data
+                    for tcs in colorimetry_data
+                ],
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
+        # Test with missing TCS data
+        sd_test = SDS_ILLUMINANTS["FL1"]
+        cmfs = reshape_msds(
+            MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
+            SPECTRAL_SHAPE_DEFAULT,
+            copy=False,
+        )
+        shape = cmfs.shape
+        sd_test = reshape_sd(sd_test, shape, copy=False)
+
+        sds_tcs_full = SDS_TCS["CIE 1995"]
+        tcs_dict_full = {
+            sd.name: reshape_sd(sd, shape, copy=False) for sd in sds_tcs_full.values()
+        }
+        tcs_dict_partial = {k: v for k, v in tcs_dict_full.items() if k != "TCS09"}
+
+        result = tcs_colorimetry_data(
+            sd_test, sd_test, tcs_dict_partial, cmfs, method="CIE 1995"
+        )
+        assert len(result) == 13

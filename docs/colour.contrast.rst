@@ -35,8 +35,8 @@ Barten (1999) Contrast Sensitivity Function
 .. autosummary::
     :toctree: generated/
 
+    maximum_angular_size_Barten1999
     optical_MTF_Barten1999
     pupil_diameter_Barten1999
-    sigma_Barten1999
     retinal_illuminance_Barten1999
-    maximum_angular_size_Barten1999
+    sigma_Barten1999

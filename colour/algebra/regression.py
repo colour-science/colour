@@ -2,7 +2,7 @@
 Regression
 ==========
 
-Define various objects to perform regression:
+Various objects to perform regression:
 
 -   :func:`colour.algebra.least_square_mapping_MoorePenrose`: *Least-squares*
     mapping using *Moore-Penrose* inverse.
@@ -17,9 +17,12 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -49,7 +52,7 @@ def least_square_mapping_MoorePenrose(y: ArrayLike, x: ArrayLike) -> NDArrayFloa
     Returns
     -------
     :class:`numpy.ndarray`
-        *Least-squares* mapping.
+        *Least-squares* mapping matrix.
 
     References
     ----------

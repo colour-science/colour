@@ -23,25 +23,19 @@ whitepaper_howtocalculateluminositywavelengthandpurity.pdf
 
 from __future__ import annotations
 
-import numpy as np
-import scipy.spatial.distance
+import typing
 
-from colour.algebra import (
-    euclidean_distance,
-    sdiv,
-    sdiv_mode,
-)
-from colour.colorimetry import (
-    MultiSpectralDistributions,
-    handle_spectral_arguments,
-)
-from colour.geometry import (
-    extend_line_segment,
-    intersect_line_segments,
-)
-from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Tuple
+import numpy as np
+
+from colour.algebra import euclidean_distance, sdiv, sdiv_mode
+from colour.colorimetry import MultiSpectralDistributions, handle_spectral_arguments
+from colour.geometry import extend_line_segment, intersect_line_segments
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Tuple
+
 from colour.models import XYZ_to_xy
-from colour.utilities import as_float_array
+from colour.utilities import as_float_array, required
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -59,14 +53,15 @@ __all__ = [
 ]
 
 
+@required("SciPy")
 def closest_spectral_locus_wavelength(
     xy: ArrayLike, xy_n: ArrayLike, xy_s: ArrayLike, inverse: bool = False
 ) -> Tuple[NDArrayInt, NDArrayFloat]:
     """
-    Return the coordinates and closest spectral locus wavelength index to the
-    point where the line defined by the given achromatic stimulus :math:`xy_n`
-    to colour stimulus :math:`xy_n` *CIE xy* chromaticity coordinates
-    intersects the spectral locus.
+    Compute the coordinates and closest spectral locus wavelength index to the
+    point where the line defined by the achromatic stimulus :math:`xy_n` to
+    colour stimulus :math:`xy` *CIE xy* chromaticity coordinates intersects
+    the spectral locus.
 
     Parameters
     ----------
@@ -105,6 +100,8 @@ def closest_spectral_locus_wavelength(
     [ 0.6835474...  0.3162840...]
     """
 
+    import scipy.spatial.distance  # noqa: PLC0415
+
     xy = as_float_array(xy)
     xy_n = np.resize(xy_n, xy.shape)
     xy_s = as_float_array(xy_s)
@@ -136,17 +133,17 @@ def dominant_wavelength(
     inverse: bool = False,
 ) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:
     """
-    Return the *dominant wavelength* :math:`\\lambda_d` for given colour
-    stimulus :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}`
-    second intersection coordinates with the spectral locus.
+    Compute the *dominant wavelength* :math:`\\lambda_d` for colour stimulus
+    :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}` second
+    intersection coordinates with the spectral locus.
 
     In the eventuality where the :math:`xy_wl` first intersection coordinates
-    are on the line of purples, the *complementary wavelength* will be computed
-    in lieu.
+    are on the line of purples, the *complementary wavelength* will be
+    computed in lieu.
 
     The *complementary wavelength* is indicated by a negative sign and the
-    :math:`xy_{cw}` second intersection coordinates which are set by default to
-    the same value as :math:`xy_wl` first intersection coordinates will be
+    :math:`xy_{cw}` second intersection coordinates which are set by default
+    to the same value as :math:`xy_wl` first intersection coordinates will be
     set to the *complementary dominant wavelength* intersection coordinates
     with the spectral locus.
 
@@ -230,19 +227,20 @@ def complementary_wavelength(
     cmfs: MultiSpectralDistributions | None = None,
 ) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:
     """
-    Return the *complementary wavelength* :math:`\\lambda_c` for given colour
-    stimulus :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}`
-    second intersection coordinates with the spectral locus.
+    Compute the *complementary wavelength* :math:`\\lambda_c` for the
+    specified colour stimulus :math:`xy` and the related :math:`xy_wl` first
+    and :math:`xy_{cw}` second intersection coordinates with the spectral
+    locus.
 
     In the eventuality where the :math:`xy_wl` first intersection coordinates
     are on the line of purples, the *dominant wavelength* will be computed in
     lieu.
 
     The *dominant wavelength* is indicated by a negative sign and the
-    :math:`xy_{cw}` second intersection coordinates which are set by default to
-    the same value than :math:`xy_wl` first intersection coordinates will be
-    set to the *dominant wavelength* intersection coordinates with the spectral
-    locus.
+    :math:`xy_{cw}` second intersection coordinates which are set by default
+    to the same value as :math:`xy_wl` first intersection coordinates will be
+    set to the *dominant wavelength* intersection coordinates with the
+    spectral locus.
 
     Parameters
     ----------
@@ -298,8 +296,8 @@ def excitation_purity(
     cmfs: MultiSpectralDistributions | None = None,
 ) -> NDArrayFloat:
     """
-    Return the *excitation purity* :math:`P_e` for given colour stimulus
-    :math:`xy`.
+    Compute the *excitation purity* :math:`P_e` for the specified colour
+    stimulus :math:`xy`.
 
     Parameters
     ----------
@@ -333,12 +331,10 @@ def excitation_purity(
     _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
 
     with sdiv_mode():
-        P_e = sdiv(
+        return sdiv(
             euclidean_distance(xy_n, xy),
             euclidean_distance(xy_n, xy_wl),
         )
-
-    return P_e
 
 
 def colorimetric_purity(
@@ -347,8 +343,8 @@ def colorimetric_purity(
     cmfs: MultiSpectralDistributions | None = None,
 ) -> NDArrayFloat:
     """
-    Return the *colorimetric purity* :math:`P_c` for given colour stimulus
-    :math:`xy`.
+    Compute the *colorimetric purity* :math:`P_c` for the specified
+    colour stimulus :math:`xy`.
 
     Parameters
     ----------
@@ -385,6 +381,4 @@ def colorimetric_purity(
     P_e = excitation_purity(xy, xy_n, cmfs)
 
     with sdiv_mode():
-        P_c = P_e * sdiv(xy_wl[..., 1], xy[..., 1])
-
-    return P_c
+        return P_e * sdiv(xy_wl[..., 1], xy[..., 1])

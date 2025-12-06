@@ -2,7 +2,8 @@
 CSS Color Module Level 3 - Web Colours
 ======================================
 
-Define the conversion of colour keywords to *RGB* colourspace:
+Define the conversion utilities for CSS Color Module Level 3 colour keywords
+to *RGB* colourspace representations.
 
 -   :attr:`colour.notation.keyword_to_RGB_CSSColor3`
 
@@ -14,7 +15,7 @@ References
 
 from __future__ import annotations
 
-from colour.hints import NDArrayFloat
+from colour.hints import Range1  # noqa: TC001
 from colour.notation import CSS_COLOR_3, HEX_to_RGB
 from colour.utilities import attest
 
@@ -30,9 +31,9 @@ __all__ = [
 ]
 
 
-def keyword_to_RGB_CSSColor3(keyword: str) -> NDArrayFloat:
+def keyword_to_RGB_CSSColor3(keyword: str) -> Range1:
     """
-    Convert given colour keyword to *RGB* colourspace according to
+    Convert specified colour keyword to *RGB* colourspace according to
     *CSS Color Module Level 3* *W3C Recommendation*.
 
     Parameters
@@ -47,8 +48,14 @@ def keyword_to_RGB_CSSColor3(keyword: str) -> NDArrayFloat:
 
     Notes
     -----
-    -   All the RGB colors are specified in the *IEC 61966-2-1:1999* *sRGB*
-        colourspace.
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
+    -   All the RGB colors are specified in the *IEC 61966-2-1:1999*
+        *sRGB* colourspace.
 
     Examples
     --------

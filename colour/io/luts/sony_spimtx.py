@@ -2,7 +2,8 @@
 Sony .spimtx LUT Format Input / Output Utilities
 ================================================
 
-Define *Sony* *.spimtx* *LUT* format related input / output utilities objects.
+Define the *Sony* *.spimtx* *LUT* format related input / output utilities
+objects:
 
 -   :func:`colour.io.read_LUT_SonySPImtx`
 -   :func:`colour.io.write_LUT_SonySPImtx`
@@ -10,11 +11,15 @@ Define *Sony* *.spimtx* *LUT* format related input / output utilities objects.
 
 from __future__ import annotations
 
-from pathlib import Path
+import typing
 
 import numpy as np
 
 from colour.constants import DTYPE_FLOAT_DEFAULT
+
+if typing.TYPE_CHECKING:
+    from colour.hints import PathLike
+
 from colour.io.luts import LUTOperatorMatrix
 from colour.io.luts.common import path_to_title
 
@@ -31,19 +36,25 @@ __all__ = [
 ]
 
 
-def read_LUT_SonySPImtx(path: str | Path) -> LUTOperatorMatrix:
+def read_LUT_SonySPImtx(path: str | PathLike) -> LUTOperatorMatrix:
     """
-    Read given *Sony* *.spimtx* *LUT* file.
+    Read the specified *Sony* *.spimtx* *LUT* file.
+
+    Parse the *.spimtx* format which contains a 3x4 matrix stored as 12
+    values. Extract the 3x3 transformation matrix and offset vector from
+    the fourth column (scaled by 65535) to create a
+    :class:`colour.LUTOperatorMatrix` instance.
 
     Parameters
     ----------
     path
-        *LUT* path.
+        *LUT* file path.
 
     Returns
     -------
     :class:`colour.LUTOperatorMatrix`
-        :class:`colour.io.Matrix` class instance.
+        *LUT* operator matrix instance containing the extracted 3x3 matrix
+        and offset vector.
 
     Examples
     --------
@@ -79,20 +90,22 @@ def read_LUT_SonySPImtx(path: str | Path) -> LUTOperatorMatrix:
 
 
 def write_LUT_SonySPImtx(
-    LUT: LUTOperatorMatrix, path: str | Path, decimals: int = 7
+    LUT: LUTOperatorMatrix,
+    path: str | PathLike | typing.IO[typing.Any],
+    decimals: int = 7,
 ) -> bool:
     """
-    Write given *LUT* to given *Sony* *.spimtx* *LUT* file.
+    Write the specified *LUT* to the specified *Sony* *.spimtx* *LUT* file.
 
     Parameters
     ----------
     LUT
-        :class:`colour.LUTOperatorMatrix` class instance to write at given
-        path.
+        :class:`LUTOperatorMatrix` class instance to write at the
+        specified path.
     path
-        *LUT* path.
+        *LUT* file path.
     decimals
-        Formatting decimals.
+        Number of decimal places for formatting numeric values.
 
     Returns
     -------
@@ -109,10 +122,8 @@ def write_LUT_SonySPImtx(
     ...     ]
     ... )
     >>> M = LUTOperatorMatrix(matrix)
-    >>> write_LUT_SonySPI1D(M, "My_LUT.spimtx")  # doctest: +SKIP
+    >>> write_LUT_SonySPImtx(M, "My_LUT.spimtx")  # doctest: +SKIP
     """
-
-    path = str(path)
 
     matrix, offset = LUT.matrix, LUT.offset
     offset *= 65535

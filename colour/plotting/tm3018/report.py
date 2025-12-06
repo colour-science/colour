@@ -5,21 +5,26 @@ ANSI/IES TM-30-18 Colour Rendition Report
 Define the *ANSI/IES TM-30-18 Colour Rendition Report* plotting objects:
 
 -   :func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_full`
--   :func:`colour.plotting.
-tm3018.plot_single_sd_colour_rendition_report_intermediate`
--   :func:`colour.plotting.
-tm3018.plot_single_sd_colour_rendition_report_simple`
+-   :func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_intermediate`
+-   :func:`colour.plotting.tm3018.plot_single_sd_colour_rendition_report_simple`
 -   :func:`colour.plotting.plot_single_sd_colour_rendition_report`
 """
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from matplotlib.figure import Figure
+    from matplotlib.axes import Axes
+
 import matplotlib.pyplot as plt
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
 
 from colour.colorimetry import SpectralDistribution, sd_to_XYZ
-from colour.hints import Any, Dict, Literal, Tuple, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, Dict, Literal, Tuple
+
 from colour.io import SpectralDistribution_IESTM2714
 from colour.models import Luv_to_uv, XYZ_to_Luv, XYZ_to_xy
 from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, render
@@ -32,8 +37,6 @@ from colour.plotting.tm3018.components import (
     plot_spectra_ANSIIESTM3018,
 )
 from colour.quality import (
-    ColourQuality_Specification_ANSIIESTM3018,
-    ColourRendering_Specification_CRI,
     colour_fidelity_index_ANSIIESTM3018,
     colour_rendering_index,
 )
@@ -156,7 +159,7 @@ _VALUE_NOT_APPLICABLE: str = "N/A"
 
 def _plot_report_header(axes: Axes) -> Axes:
     """
-    Plot the report header, i.e., the title, on given axes.
+    Plot the report header on the specified axes.
 
     Parameters
     ----------
@@ -166,7 +169,7 @@ def _plot_report_header(axes: Axes) -> Axes:
     Returns
     -------
     :class:`matplotlib.axes._axes.Axes`
-        Axes the report header was added to.
+        Axes with the report header added.
     """
 
     axes.set_axis_off()
@@ -186,7 +189,7 @@ def _plot_report_header(axes: Axes) -> Axes:
 
 def _plot_report_footer(axes: Axes) -> Axes:
     """
-    Plot the report footer on given axes.
+    Plot the report footer on the specified axes.
 
     Parameters
     ----------
@@ -196,7 +199,7 @@ def _plot_report_footer(axes: Axes) -> Axes:
     Returns
     -------
     :class:`matplotlib.axes._axes.Axes`
-        Axes the report footer was added to.
+        Axes with the report footer added.
     """
 
     try:
@@ -204,7 +207,7 @@ def _plot_report_footer(axes: Axes) -> Axes:
             "colour-science.org"
         ]["colour"]
         version = f" {describe}."
-    except Exception:  # pragma: no cover
+    except Exception:  # pragma: no cover # noqa: BLE001
         version = "."
 
     axes.set_axis_off()
@@ -235,8 +238,8 @@ def plot_single_sd_colour_rendition_report_full(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Generate the full *ANSI/IES TM-30-18 Colour Rendition Report* for given
-    spectral distribution.
+    Generate the full *ANSI/IES TM-30-18 Colour Rendition Report* for the
+    specified spectral distribution.
 
     Parameters
     ----------
@@ -244,32 +247,32 @@ def plot_single_sd_colour_rendition_report_full(
         Spectral distribution of the emission source to generate the report
         for.
     source
-        Emission source name, defaults to
+        Emission source name, defaults to the
         `colour.SpectralDistribution_IESTM2714.header.description` or
-        `colour.SpectralDistribution_IESTM2714.name` properties value.
+        `colour.SpectralDistribution_IESTM2714.name` property value.
     date
-        Emission source measurement date, defaults to
+        Emission source measurement date, defaults to the
         `colour.SpectralDistribution_IESTM2714.header.report_date` property
         value.
     manufacturer
-        Emission source manufacturer, defaults to
+        Emission source manufacturer, defaults to the
         `colour.SpectralDistribution_IESTM2714.header.manufacturer` property
         value.
     model
-        Emission source model, defaults to
-        `colour.SpectralDistribution_IESTM2714.header.catalog_number` property
-        value.
+        Emission source model, defaults to the
+        `colour.SpectralDistribution_IESTM2714.header.catalog_number`
+        property value.
     notes
-        Notes pertaining to the emission source, defaults to
+        Notes pertaining to the emission source, defaults to the
         `colour.SpectralDistribution_IESTM2714.header.comments` property
         value.
     report_size
-        Report size, default to A4 paper size in inches.
+        Report size, defaults to A4 paper size in inches.
     report_row_height_ratios
         Report size row height ratios.
     report_box_padding
-        Report box padding, tries to define the padding around the figure and
-        in-between the axes.
+        Report box padding, defines the padding around the figure and
+        between the axes.
 
     Other Parameters
     ----------------
@@ -294,14 +297,11 @@ def plot_single_sd_colour_rendition_report_full(
 Plot_Single_SD_Colour_Rendition_Report_Full.png
         :align: center
         :alt: plot_single_sd_colour_rendition_report_full
-    """  # noqa: D405, D407, D410, D411
+    """
 
     report_box_padding = optional(report_box_padding, CONSTANT_REPORT_PADDING_FULL)
 
-    specification: ColourQuality_Specification_ANSIIESTM3018 = cast(
-        ColourQuality_Specification_ANSIIESTM3018,
-        colour_fidelity_index_ANSIIESTM3018(sd, True),
-    )
+    specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
 
     sd = (
         SpectralDistribution_IESTM2714(data=sd, name=sd.name)
@@ -475,10 +475,7 @@ Plot_Single_SD_Colour_Rendition_Report_Full.png
 
     gridspec_CRI = gridspec_chromaticities_CRI[1].subgridspec(1, 1)
 
-    CRI_spec: ColourRendering_Specification_CRI = cast(
-        ColourRendering_Specification_CRI,
-        colour_rendering_index(specification.sd_test, additional_data=True),
-    )
+    CRI_spec = colour_rendering_index(specification.sd_test, additional_data=True)
 
     axes_CRI = figure.add_subplot(gridspec_CRI[0])
     axes_CRI.set_xticks([])
@@ -544,8 +541,8 @@ def plot_single_sd_colour_rendition_report_intermediate(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Generate the intermediate *ANSI/IES TM-30-18 Colour Rendition Report* for
-    given spectral distribution.
+    Generate the intermediate *ANSI/IES TM-30-18 Colour Rendition Report*
+    for the specified spectral distribution.
 
     Parameters
     ----------
@@ -553,12 +550,12 @@ def plot_single_sd_colour_rendition_report_intermediate(
         Spectral distribution of the emission source to generate the report
         for.
     report_size
-        Report size, default to A4 paper size in inches.
+        Report size, defaults to A4 paper size in inches.
     report_row_height_ratios
         Report size row height ratios.
     report_box_padding
-        Report box padding, tries to define the padding around the figure and
-        in-between the axes.
+        Report box padding, defines the padding around the figure and
+        between the axes.
 
     Other Parameters
     ----------------
@@ -589,10 +586,7 @@ Plot_Single_SD_Colour_Rendition_Report_Intermediate.png
         report_box_padding, CONSTANT_REPORT_PADDING_INTERMEDIATE
     )
 
-    specification: ColourQuality_Specification_ANSIIESTM3018 = cast(
-        ColourQuality_Specification_ANSIIESTM3018,
-        colour_fidelity_index_ANSIIESTM3018(sd, True),
-    )
+    specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
 
     figure = plt.figure(figsize=report_size, constrained_layout=True)
 
@@ -641,8 +635,8 @@ def plot_single_sd_colour_rendition_report_simple(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Generate the simple *ANSI/IES TM-30-18 Colour Rendition Report* for given
-    spectral distribution.
+    Generate the simple *ANSI/IES TM-30-18 Colour Rendition Report* for the
+    specified spectral distribution.
 
     Parameters
     ----------
@@ -650,12 +644,12 @@ def plot_single_sd_colour_rendition_report_simple(
         Spectral distribution of the emission source to generate the report
         for.
     report_size
-        Report size, default to A4 paper size in inches.
+        Report size, defaults to A4 paper size in inches.
     report_row_height_ratios
         Report size row height ratios.
     report_box_padding
-        Report box padding, tries to define the padding around the figure and
-        in-between the axes.
+        Report box padding, defines the padding around the figure and
+        between the axes.
 
     Other Parameters
     ----------------
@@ -684,10 +678,7 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
 
     report_box_padding = optional(report_box_padding, CONSTANT_REPORT_PADDING_SIMPLE)
 
-    specification: ColourQuality_Specification_ANSIIESTM3018 = cast(
-        ColourQuality_Specification_ANSIIESTM3018,
-        colour_fidelity_index_ANSIIESTM3018(sd, True),
-    )
+    specification = colour_fidelity_index_ANSIIESTM3018(sd, True)
 
     figure = plt.figure(figsize=report_size, constrained_layout=True)
 
@@ -726,14 +717,14 @@ def plot_single_sd_colour_rendition_report(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Generate the *ANSI/IES TM-30-18 Colour Rendition Report* for given
-    spectral distribution according to given method.
+    Generate the *ANSI/IES TM-30-18 Colour Rendition Report* for the
+    specified spectral distribution using the specified method.
 
     Parameters
     ----------
     sd
-        Spectral distribution of the emission source to generate the report
-        for.
+        Spectral distribution of the emission source to generate the
+        report for.
     method
         Report plotting method.
 
@@ -788,7 +779,9 @@ Plot_Single_SD_Colour_Rendition_Report_Simple.png
 
     if method == "full":
         return plot_single_sd_colour_rendition_report_full(sd, **kwargs)
-    elif method == "intermediate":
+
+    if method == "intermediate":
         return plot_single_sd_colour_rendition_report_intermediate(sd, **kwargs)
-    else:  # method == 'simple'
-        return plot_single_sd_colour_rendition_report_simple(sd, **kwargs)
+
+    # method == 'simple'
+    return plot_single_sd_colour_rendition_report_simple(sd, **kwargs)

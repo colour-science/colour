@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import contextlib
 import platform
+import typing
 from itertools import product
 
 import numpy as np
@@ -28,7 +29,10 @@ from colour.characterisation.correction import (
     polynomial_expansion_Vandermonde,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
 from colour.utilities import ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -120,7 +124,7 @@ class TestMatrixAugmentedCheung2004:
 matrix_augmented_Cheung2004` definition unit tests methods.
     """
 
-    def test_matrix_augmented_Cheung2004(self):
+    def test_matrix_augmented_Cheung2004(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 matrix_augmented_Cheung2004` definition.
@@ -364,7 +368,7 @@ matrix_augmented_Cheung2004` definition.
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-    def test_raise_exception_matrix_augmented_Cheung2004(self):
+    def test_raise_exception_matrix_augmented_Cheung2004(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 matrix_augmented_Cheung2004` definition raised exception.
@@ -378,7 +382,7 @@ matrix_augmented_Cheung2004` definition raised exception.
         )
 
     @ignore_numpy_errors
-    def test_nan_matrix_augmented_Cheung2004(self):
+    def test_nan_matrix_augmented_Cheung2004(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 matrix_augmented_Cheung2004` definition nan support.
@@ -395,7 +399,7 @@ class TestPolynomialExpansionFinlayson2015:
 polynomial_expansion_Finlayson2015` definition unit tests methods.
     """
 
-    def test_polynomial_expansion_Finlayson2015(self):
+    def test_polynomial_expansion_Finlayson2015(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 polynomial_expansion_Finlayson2015` definition.
@@ -555,7 +559,7 @@ polynomial_expansion_Finlayson2015` definition.
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-    def test_raise_exception_polynomial_expansion_Finlayson2015(self):
+    def test_raise_exception_polynomial_expansion_Finlayson2015(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 polynomial_expansion_Finlayson2015` definition raised exception.
@@ -569,7 +573,7 @@ polynomial_expansion_Finlayson2015` definition raised exception.
         )
 
     @ignore_numpy_errors
-    def test_nan_polynomial_expansion_Finlayson2015(self):
+    def test_nan_polynomial_expansion_Finlayson2015(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 polynomial_expansion_Finlayson2015` definition nan support.
@@ -586,7 +590,7 @@ class TestPolynomialExpansionVandermonde:
 polynomial_expansion_Vandermonde` definition unit tests methods.
     """
 
-    def test_polynomial_expansion_Vandermonde(self):
+    def test_polynomial_expansion_Vandermonde(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 polynomial_expansion_Vandermonde` definition.
@@ -648,7 +652,7 @@ polynomial_expansion_Vandermonde` definition.
             )
 
     @ignore_numpy_errors
-    def test_nan_polynomial_expansion_Vandermonde(self):
+    def test_nan_polynomial_expansion_Vandermonde(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 polynomial_expansion_Vandermonde` definition nan support.
@@ -665,7 +669,7 @@ class TestMatrixColourCorrectionCheung2004:
 matrix_colour_correction_Cheung2004` definition unit tests methods.
     """
 
-    def test_matrix_colour_correction_Cheung2004(self):
+    def test_matrix_colour_correction_Cheung2004(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 matrix_colour_correction_Cheung2004` definition.
@@ -720,15 +724,15 @@ matrix_colour_correction_Cheung2004` definition.
         )
 
     @ignore_numpy_errors
-    def test_nan_matrix_colour_correction_Cheung2004(self):  # pragma: no cover
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
+    def test_nan_matrix_colour_correction_Cheung2004(self) -> None:  # pragma: no cover
         """
         Test :func:`colour.characterisation.correction.\
         matrix_colour_correction_Cheung2004` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
@@ -746,7 +750,7 @@ class TestMatrixColourCorrectionFinlayson2015:
 matrix_colour_correction_Finlayson2015` definition unit tests methods.
     """
 
-    def test_matrix_colour_correction_Finlayson2015(self):
+    def test_matrix_colour_correction_Finlayson2015(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 matrix_colour_correction_Finlayson2015` definition.
@@ -821,17 +825,17 @@ matrix_colour_correction_Finlayson2015` definition.
         )
 
     @ignore_numpy_errors
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
     def test_nan_matrix_colour_correction_Finlayson2015(
         self,
-    ):  # pragma: no cover
+    ) -> None:  # pragma: no cover
         """
         Test :func:`colour.characterisation.correction.\
         matrix_colour_correction_Finlayson2015` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
@@ -849,7 +853,7 @@ class TestMatrixColourCorrectionVandermonde:
 matrix_colour_correction_Vandermonde` definition unit tests methods.
     """
 
-    def test_matrix_colour_correction_Vandermonde(self):
+    def test_matrix_colour_correction_Vandermonde(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 matrix_colour_correction_Vandermonde` definition.
@@ -915,17 +919,17 @@ matrix_colour_correction_Vandermonde` definition.
         )
 
     @ignore_numpy_errors
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
     def test_nan_matrix_colour_correction_Vandermonde(
         self,
-    ):  # pragma: no cover
+    ) -> None:  # pragma: no cover
         """
         Test :func:`colour.characterisation.correction.\
         matrix_colour_correction_Vandermonde` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
@@ -943,7 +947,7 @@ class TestApplyMatrixColourCorrectionCheung2004:
 apply_matrix_colour_correction_Cheung2004` definition unit tests methods.
     """
 
-    def test_apply_matrix_colour_correction_Cheung2004(self):
+    def test_apply_matrix_colour_correction_Cheung2004(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Cheung2004` definition.
@@ -966,7 +970,7 @@ apply_matrix_colour_correction_Cheung2004` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_apply_matrix_colour_correction_Cheung2004(self):
+    def test_n_dimensional_apply_matrix_colour_correction_Cheung2004(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Cheung2004` definition n-dimensional support.
@@ -999,17 +1003,17 @@ apply_matrix_colour_correction_Cheung2004` definition n-dimensional support.
         )
 
     @ignore_numpy_errors
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
     def test_nan_apply_matrix_colour_correction_Cheung2004(
         self,
-    ):  # pragma: no cover
+    ) -> None:  # pragma: no cover
         """
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Cheung2004` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
@@ -1027,7 +1031,7 @@ class TestApplyMatrixColourCorrectionFinlayson2015:
 apply_matrix_colour_correction_Finlayson2015` definition unit tests methods.
     """
 
-    def test_apply_matrix_colour_correction_Finlayson2015(self):
+    def test_apply_matrix_colour_correction_Finlayson2015(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Finlayson2015` definition.
@@ -1050,7 +1054,7 @@ apply_matrix_colour_correction_Finlayson2015` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_apply_matrix_colour_correction_Finlayson2015(self):
+    def test_n_dimensional_apply_matrix_colour_correction_Finlayson2015(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Finlayson2015` definition n-dimensional support.
@@ -1083,17 +1087,17 @@ apply_matrix_colour_correction_Finlayson2015` definition n-dimensional support.
         )
 
     @ignore_numpy_errors
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
     def test_nan_apply_matrix_colour_correction_Finlayson2015(
         self,
-    ):  # pragma: no cover
+    ) -> None:  # pragma: no cover
         """
                 Test :func:`colour.characterisation.correction.
         apply_matrix_colour_correction_Finlayson2015` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
@@ -1111,7 +1115,7 @@ class TestApplyMatrixColourCorrectionVandermonde:
 apply_matrix_colour_correction_Vandermonde` definition unit tests methods.
     """
 
-    def test_apply_matrix_colour_correction_Vandermonde(self):
+    def test_apply_matrix_colour_correction_Vandermonde(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Vandermonde` definition.
@@ -1134,7 +1138,7 @@ apply_matrix_colour_correction_Vandermonde` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_apply_matrix_colour_correction_Vandermonde(self):
+    def test_n_dimensional_apply_matrix_colour_correction_Vandermonde(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Vandermonde` definition n-dimensional support.
@@ -1167,17 +1171,17 @@ apply_matrix_colour_correction_Vandermonde` definition n-dimensional support.
         )
 
     @ignore_numpy_errors
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
     def test_nan_apply_matrix_colour_correction_Vandermonde(
         self,
-    ):  # pragma: no cover
+    ) -> None:  # pragma: no cover
         """
         Test :func:`colour.characterisation.correction.\
 apply_matrix_colour_correction_Vandermonde` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
@@ -1195,7 +1199,7 @@ class TestColourCorrectionCheung2004:
 colour_correction_Cheung2004` definition unit tests methods.
     """
 
-    def test_colour_correction_Cheung2004(self):
+    def test_colour_correction_Cheung2004(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Cheung2004` definition.
@@ -1215,7 +1219,7 @@ colour_correction_Cheung2004` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_colour_correction_Cheung2004(self):
+    def test_n_dimensional_colour_correction_Cheung2004(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Cheung2004` definition n-dimensional support.
@@ -1241,15 +1245,15 @@ colour_correction_Cheung2004` definition n-dimensional support.
         )
 
     @ignore_numpy_errors
-    def test_nan_colour_correction_Cheung2004(self):  # pragma: no cover
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
+    def test_nan_colour_correction_Cheung2004(self) -> None:  # pragma: no cover
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Cheung2004` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
@@ -1268,7 +1272,7 @@ class TestColourCorrectionFinlayson2015:
 colour_correction_Finlayson2015` definition unit tests methods.
     """
 
-    def test_colour_correction_Finlayson2015(self):
+    def test_colour_correction_Finlayson2015(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Finlayson2015` definition.
@@ -1290,7 +1294,7 @@ colour_correction_Finlayson2015` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_colour_correction_Finlayson2015(self):
+    def test_n_dimensional_colour_correction_Finlayson2015(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Finlayson2015` definition n-dimensional support.
@@ -1316,15 +1320,15 @@ colour_correction_Finlayson2015` definition n-dimensional support.
         )
 
     @ignore_numpy_errors
-    def test_nan_colour_correction_Finlayson2015(self):  # pragma: no cover
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
+    def test_nan_colour_correction_Finlayson2015(self) -> None:  # pragma: no cover
         """
                 Test :func:`colour.characterisation.correction.
         colour_correction_Finlayson2015` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
@@ -1343,7 +1347,7 @@ class TestColourCorrectionVandermonde:
 colour_correction_Vandermonde` definition unit tests methods.
     """
 
-    def test_colour_correction_Vandermonde(self):
+    def test_colour_correction_Vandermonde(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Vandermonde` definition.
@@ -1363,7 +1367,7 @@ colour_correction_Vandermonde` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_colour_correction_Vandermonde(self):
+    def test_n_dimensional_colour_correction_Vandermonde(self) -> None:
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Vandermonde` definition n-dimensional support.
@@ -1389,15 +1393,15 @@ colour_correction_Vandermonde` definition n-dimensional support.
         )
 
     @ignore_numpy_errors
-    def test_nan_colour_correction_Vandermonde(self):  # pragma: no cover
+    @pytest.mark.skipif(
+        platform.system() in ("Darwin", "Linux"),
+        reason="Hangs on macOS and Linux",
+    )
+    def test_nan_colour_correction_Vandermonde(self) -> None:  # pragma: no cover
         """
         Test :func:`colour.characterisation.correction.\
 colour_correction_Vandermonde` definition nan support.
         """
-
-        # NOTE: Hangs on "macOS" and "Linux".
-        if platform.system() in ("Darwin", "Linux"):
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))

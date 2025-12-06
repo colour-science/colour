@@ -3,7 +3,7 @@ Recommendation ITU-R BT.601-7
 =============================
 
 Define the *Recommendation ITU-R BT.601-7* opto-electrical transfer function
-(OETF) and its inverse:
+(OETF) and its inverse.
 
 -   :func:`colour.models.oetf_BT601`
 -   :func:`colour.models.oetf_inverse_BT601`
@@ -23,13 +23,11 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, NDArrayFloat
-from colour.utilities import (
-    as_float,
-    domain_range_scale,
-    from_range_1,
-    to_domain_1,
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
 )
+from colour.utilities import as_float, domain_range_scale, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -44,10 +42,10 @@ __all__ = [
 ]
 
 
-def oetf_BT601(L: ArrayLike) -> NDArrayFloat:
+def oetf_BT601(L: Domain1) -> Range1:
     """
-    Define *Recommendation ITU-R BT.601-7* opto-electronic transfer function
-    (OETF).
+    Apply the *Recommendation ITU-R BT.601-7* opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
@@ -57,20 +55,20 @@ def oetf_BT601(L: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding electrical signal :math:`E`.
+        Electrical signal :math:`E`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``L``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E``      | [0, 1]                | [0, 1]        |
+    | ``E``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -90,10 +88,10 @@ def oetf_BT601(L: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_1(E))
 
 
-def oetf_inverse_BT601(E: ArrayLike) -> NDArrayFloat:
+def oetf_inverse_BT601(E: Domain1) -> Range1:
     """
-    Define *Recommendation ITU-R BT.601-7* inverse opto-electronic transfer
-    function (OETF).
+    Apply the *Recommendation ITU-R BT.601-7* inverse opto-electronic
+    transfer function (OETF).
 
     Parameters
     ----------
@@ -103,20 +101,20 @@ def oetf_inverse_BT601(E: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding *luminance* :math:`L` of the image.
+        *Luminance* :math:`L` of the image.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E``      | [0, 1]                | [0, 1]        |
+    | ``E``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``L``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

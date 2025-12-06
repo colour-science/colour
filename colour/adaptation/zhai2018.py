@@ -2,7 +2,8 @@
 Zhai and Luo (2018) Chromatic Adaptation Model
 ==============================================
 
-Define the *Zhai and Luo (2018)* chromatic adaptation model object:
+Define the *Zhai and Luo (2018)* two-step chromatic adaptation for predicting
+corresponding colours under different viewing conditions.
 
 -   :func:`colour.adaptation.chromatic_adaptation_Zhai2018`
 
@@ -13,14 +14,28 @@ References
     Express, 26(6), 7724. doi:10.1364/OE.26.007724
 """
 
+from __future__ import annotations
+
+import typing
+
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.algebra import vecmul
-from colour.hints import ArrayLike, Literal, NDArrayFloat, Union
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Literal
+
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain100,
+    Range100,
+)
 from colour.utilities import (
     as_float_array,
     from_range_100,
+    get_domain_range_scale,
+    optional,
     to_domain_100,
     validate_method,
 )
@@ -38,46 +53,45 @@ __all__ = [
 
 
 def chromatic_adaptation_Zhai2018(
-    XYZ_b: ArrayLike,
-    XYZ_wb: ArrayLike,
-    XYZ_wd: ArrayLike,
+    XYZ_b: Domain100,
+    XYZ_wb: Domain100,
+    XYZ_wd: Domain100,
     D_b: ArrayLike = 1,
     D_d: ArrayLike = 1,
-    XYZ_wo: ArrayLike = np.array([1, 1, 1]),
-    transform: Union[Literal["CAT02", "CAT16"], str] = "CAT02",
-) -> NDArrayFloat:
+    XYZ_wo: ArrayLike | None = None,
+    transform: Literal["CAT02", "CAT16"] | str = "CAT02",
+) -> Range100:
     """
-    Adapt given sample colour :math:`XYZ_{\\beta}` tristimulus values from
-    input viewing conditions under :math:`\\beta` illuminant to output viewing
-    conditions under :math:`\\delta` illuminant using *Zhai and Luo (2018)*
-    chromatic adaptation model.
+    Adapt the specified stimulus *CIE XYZ* tristimulus values from test
+    viewing conditions to reference viewing conditions using the
+    *Zhai and Luo (2018)* chromatic adaptation model.
 
-    According to the definition of :math:`D`, a one-step CAT such as CAT02 can
-    only be used to transform colors from an incomplete adapted field into a
-    complete adapted field. When CAT02 are used to transform an incomplete to
-    incomplete case, :math:`D` has no baseline level to refer to.
-    *Smet et al. (2017)* proposed a new concept of two-step CAT to replace the
-    present CATs such as CAT02 with only one-step transform in order to define
-    :math:`D` more clearly. A two-step CAT involves an illuminant representing
-    the baseline states between the test and reference illuminants for the
-    calculation. In the first step the test color is transformed from test
-    illuminant to the baseline illuminant (:math:`BI`), and it is then
-    transformed to the reference illuminant Degrees of adaptation under the
-    other illuminants should be calculated relative to the adaptation under the
-    :math:`BI`. When :math:`D` becomes lower towards zero, the adaptation point
-    of the observer moves towards the :math:`BI`. Therefore, the chromaticity
-    of the :math:`BI` should be an intrinsic property of the human vision
-    system.
+    According to the definition of :math:`D`, a one-step chromatic adaptation
+    transform (CAT) such as CAT02 can only transform colours from an
+    incomplete adapted field into a complete adapted field. When CAT02 is
+    used to transform from incomplete to incomplete adaptation, :math:`D` has
+    no baseline level to refer to. *Smet et al. (2017)* proposed a two-step
+    CAT concept to replace existing one-step transforms such as CAT02,
+    providing a clearer definition of :math:`D`. A two-step CAT involves a
+    baseline illuminant (BI) representing the baseline state between the test
+    and reference illuminants. In the first step, the test colour is
+    transformed from the test illuminant to the baseline illuminant
+    (:math:`BI`), then subsequently transformed to the reference illuminant.
+    Degrees of adaptation under other illuminants are calculated relative to
+    the adaptation under the :math:`BI`. As :math:`D` approaches zero, the
+    observer's adaptation point moves towards the :math:`BI`. Therefore, the
+    chromaticity of the :math:`BI` is an intrinsic property of the human
+    visual system.
 
     Parameters
     ----------
     XYZ_b
-        Sample colour :math:`XYZ_{\\beta}` under input illuminant
-        :math:`\\beta`.
+        Sample colour :math:`XYZ_{\\beta}` tristimulus values under input
+        illuminant :math:`\\beta`.
     XYZ_wb
-        Input illuminant :math:`\\beta`.
+        Input illuminant :math:`\\beta` tristimulus values.
     XYZ_wd
-        Output illuminant :math:`\\delta`.
+        Output illuminant :math:`\\delta` tristimulus values.
     D_b
         Degree of adaptation :math:`D_{\\beta}` of input illuminant
         :math:`\\beta`.
@@ -85,34 +99,33 @@ def chromatic_adaptation_Zhai2018(
         Degree of adaptation :math:`D_{\\delta}` of output illuminant
         :math:`\\delta`.
     XYZ_wo
-        Baseline illuminant (:math:`BI`) :math:`o`.
+        Baseline illuminant (:math:`BI`) :math:`o` tristimulus values.
     transform
-        Chromatic adaptation transform.
+        Chromatic adaptation transform matrix.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Sample corresponding colour :math:`XYZ_{\\delta}` tristimulus values
-        under output illuminant :math:`D_{\\delta}`.
+        *CIE XYZ* tristimulus values of the stimulus corresponding colour.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_b``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_b``  | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_wb`` | [0, 1]                | [0, 1]        |
+    | ``XYZ_wb`` | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_wd`` | [0, 1]                | [0, 1]        |
+    | ``XYZ_wd`` | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_wo`` | [0, 1]                | [0, 1]        |
+    | ``XYZ_wo`` | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_d``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_d``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -141,7 +154,14 @@ def chromatic_adaptation_Zhai2018(
     XYZ_b = to_domain_100(XYZ_b)
     XYZ_wb = to_domain_100(XYZ_wb)
     XYZ_wd = to_domain_100(XYZ_wd)
-    XYZ_wo = to_domain_100(XYZ_wo)
+    XYZ_wo = to_domain_100(
+        optional(
+            XYZ_wo,
+            np.array([1, 1, 1])
+            if get_domain_range_scale() == "reference"
+            else np.array([0.01, 0.01, 0.01]),
+        )
+    )
     D_b = as_float_array(D_b)
     D_d = as_float_array(D_d)
 

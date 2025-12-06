@@ -2,7 +2,7 @@
 Fujifilm F-Log Log Encoding
 ===========================
 
-Define the *Fujifilm F-Log* log encoding:
+Define the *Fujifilm F-Log* log encoding.
 
 -   :func:`colour.models.log_encoding_FLog`
 -   :func:`colour.models.log_decoding_FLog`
@@ -21,9 +21,12 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
-from colour.utilities import Structure, as_float, from_range_1, to_domain_1
+from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -67,47 +70,46 @@ CONSTANTS_FLOG2: Structure = Structure(
 
 
 def log_encoding_FLog(
-    in_r: ArrayLike,
+    in_r: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-    constants: Structure = CONSTANTS_FLOG,
-) -> NDArrayFloat:
+    constants: Structure | None = None,
+) -> Range1:
     """
-    Define the *Fujifilm F-Log* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Fujifilm F-Log* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     in_r
-        Linear reflection data :math`in`.
+        Linear reflection data :math:`in`.
     bit_depth
         Bit-depth used for conversion.
     out_normalised_code_value
-        Whether the non-linear *Fujifilm F-Log* data :math:`out` is encoded as
+        Whether the *Fujifilm F-Log* non-linear data :math:`out` is encoded as
         normalised code values.
     in_reflection
-        Whether the light level :math`in` to a camera is reflection.
+        Whether the light level :math:`in` to a camera is reflection.
     constants
         *Fujifilm F-Log* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`out`.
+        *Fujifilm F-Log* non-linear encoded data :math:`out`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``in_r``   | [0, 1]                | [0, 1]        |
+    | ``in_r``   | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``out_r``  | [0, 1]                | [0, 1]        |
+    | ``out_r``  | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -119,8 +121,8 @@ def log_encoding_FLog(
     >>> log_encoding_FLog(0.18)  # doctest: +ELLIPSIS
     0.4593184...
 
-    The values of *2-2. F-Log Code Value* table in :cite:`Fujifilm2022` are
-    obtained as follows:
+    The values of *2-2. F-Log Code Value* table in :cite:`Fujifilm2022`
+    are obtained as follows:
 
     >>> x = np.array([0, 18, 90]) / 100
     >>> np.around(log_encoding_FLog(x, 10, False) * 100, 1)
@@ -130,6 +132,7 @@ def log_encoding_FLog(
     """
 
     in_r = to_domain_1(in_r)
+    constants = optional(constants, CONSTANTS_FLOG)
 
     if not in_reflection:
         in_r = in_r * 0.9
@@ -154,47 +157,48 @@ def log_encoding_FLog(
 
 
 def log_decoding_FLog(
-    out_r: ArrayLike,
+    out_r: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-    constants: Structure = CONSTANTS_FLOG,
-) -> NDArrayFloat:
+    constants: Structure | None = None,
+) -> Range1:
     """
-    Define the *Fujifilm F-Log* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Fujifilm F-Log* log decoding inverse opto-electronic transfer
+
+    function (OETF).
 
     Parameters
     ----------
     out_r
-        Non-linear data :math:`out`.
+        *Fujifilm F-Log* non-linear encoded data :math:`out`.
     bit_depth
         Bit-depth used for conversion.
     in_normalised_code_value
-        Whether the non-linear *Fujifilm F-Log* data :math:`out` is encoded as
+        Whether the *Fujifilm F-Log* non-linear data :math:`out` is encoded as
         normalised code values.
     out_reflection
-        Whether the light level :math`in` to a camera is reflection.
+        Whether the light level :math:`in` to a camera is reflection.
     constants
         *Fujifilm F-Log* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Linear reflection data :math`in`.
+        Linear reflection data :math:`in`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``out_r``  | [0, 1]                | [0, 1]        |
+    | ``out_r``  | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``in_r``   | [0, 1]                | [0, 1]        |
+    | ``in_r``   | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -208,6 +212,7 @@ def log_decoding_FLog(
     """
 
     out_r = to_domain_1(out_r)
+    constants = optional(constants, CONSTANTS_FLOG)
 
     out_r = out_r if in_normalised_code_value else full_to_legal(out_r, bit_depth)
 
@@ -232,47 +237,46 @@ def log_decoding_FLog(
 
 
 def log_encoding_FLog2(
-    in_r: ArrayLike,
+    in_r: Domain1,
     bit_depth: int = 10,
     out_normalised_code_value: bool = True,
     in_reflection: bool = True,
-    constants: Structure = CONSTANTS_FLOG2,
-) -> NDArrayFloat:
+    constants: Structure | None = None,
+) -> Range1:
     """
-    Define the *Fujifilm F-Log2* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Fujifilm F-Log2* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     in_r
-        Linear reflection data :math`in`.
+        Linear reflection data :math:`in`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     out_normalised_code_value
-        Whether the non-linear *Fujifilm F-Log2* data :math:`out` is encoded as
+        Whether the *Fujifilm F-Log2* non-linear data :math:`out` is encoded as
         normalised code values.
     in_reflection
-        Whether the light level :math`in` to a camera is reflection.
+        Whether the light level :math:`in` to a camera is reflection.
     constants
         *Fujifilm F-Log2* constants.
 
     Returns
     -------
     :class:`numpy.floating` or :class:`numpy.ndarray`
-        Non-linear data :math:`out`.
+        *Fujifilm F-Log2* non-linear encoded data :math:`out`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``in_r``   | [0, 1]                | [0, 1]        |
+    | ``in_r``   | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``out_r``  | [0, 1]                | [0, 1]        |
+    | ``out_r``  | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -284,8 +288,8 @@ def log_encoding_FLog2(
     >>> log_encoding_FLog2(0.18)  # doctest: +ELLIPSIS
     0.3910072...
 
-    The values of *2-2. F-Log2 Code Value* table in :cite:`Fujifilm2022a` are
-    obtained as follows:
+    The values of *2-2. F-Log2 Code Value* table in
+    :cite:`Fujifilm2022a` are obtained as follows:
 
     >>> x = np.array([0, 18, 90]) / 100
     >>> np.around(log_encoding_FLog2(x, 10, False) * 100, 1)
@@ -294,53 +298,55 @@ def log_encoding_FLog2(
     array([ 95, 400, 570])
     """
 
+    constants = optional(constants, CONSTANTS_FLOG2)
+
     return log_encoding_FLog(
         in_r, bit_depth, out_normalised_code_value, in_reflection, constants
     )
 
 
 def log_decoding_FLog2(
-    out_r: ArrayLike,
+    out_r: Domain1,
     bit_depth: int = 10,
     in_normalised_code_value: bool = True,
     out_reflection: bool = True,
-    constants: Structure = CONSTANTS_FLOG2,
-) -> NDArrayFloat:
+    constants: Structure | None = None,
+) -> Range1:
     """
-    Define the *Fujifilm F-Log2* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Fujifilm F-Log2* log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     out_r
-        Non-linear data :math:`out`.
+        *Fujifilm F-Log2* non-linear encoded data :math:`out`.
     bit_depth
-        Bit depth used for conversion.
+        Bit-depth used for conversion.
     in_normalised_code_value
-        Whether the non-linear *Fujifilm F-Log2* data :math:`out` is encoded as
+        Whether the *Fujifilm F-Log2* non-linear data :math:`out` is encoded as
         normalised code values.
     out_reflection
-        Whether the light level :math`in` to a camera is reflection.
+        Whether the light level :math:`in` to a camera is reflection.
     constants
         *Fujifilm F-Log2* constants.
 
     Returns
     -------
     :class:`numpy.floating` or :class:`numpy.ndarray`
-        Linear reflection data :math`in`.
+        Linear reflection data :math:`in`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``out_r``  | [0, 1]                | [0, 1]        |
+    | ``out_r``  | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``in_r``   | [0, 1]                | [0, 1]        |
+    | ``in_r``   | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -352,6 +358,8 @@ def log_decoding_FLog2(
     >>> log_decoding_FLog2(0.39100724189123004)  # doctest: +ELLIPSIS
     0.1799999...
     """
+
+    constants = optional(constants, CONSTANTS_FLOG2)
 
     return log_decoding_FLog(
         out_r, bit_depth, in_normalised_code_value, out_reflection, constants

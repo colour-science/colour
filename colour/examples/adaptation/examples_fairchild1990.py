@@ -1,4 +1,10 @@
-"""Showcase *Fairchild (1990)* chromatic adaptation model computations."""
+"""
+Demonstrate *Fairchild (1990)* chromatic adaptation model computations.
+
+This module provides examples of chromatic adaptation computations using the
+*Fairchild (1990)* chromatic adaptation model, illustrating colour
+transformations under different viewing conditions.
+"""
 
 import numpy as np
 
@@ -12,7 +18,7 @@ XYZ_n = np.array([1.1115, 1.0000, 0.3520])
 XYZ_r = np.array([0.9481, 1.0000, 1.0730])
 Y_n = 200
 message_box(
-    f'Computing chromatic adaptation using "Fairchild (1990)" chromatic '
+    f'Compute chromatic adaptation using "Fairchild (1990)" chromatic '
     f"adaptation model.\n\n"
     f'\t"XYZ_1": {XYZ_1}\n'
     f'\t"XYZ_n": {XYZ_n}\n'

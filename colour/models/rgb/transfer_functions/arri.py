@@ -2,7 +2,7 @@
 ARRI Log Encodings
 ==================
 
-Define the *ARRI LogC3* and *ARRI LogC4* log encodings:
+Define the *ARRI LogC3* and *ARRI LogC4* log encodings.
 
 -   :func:`colour.models.log_encoding_ARRILogC3`
 -   :func:`colour.models.log_decoding_ARRILogC3`
@@ -21,14 +21,23 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import ArrayLike, Literal, NDArrayFloat
+if typing.TYPE_CHECKING:
+    from colour.hints import Literal
+
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import (
     CanonicalMapping,
     Structure,
     as_float,
     from_range_1,
+    optional,
     to_domain_1,
     validate_method,
 )
@@ -553,16 +562,15 @@ exposure factor for *SUP 3.x* and signal and normalised sensor signal for
 
 
 def log_encoding_ARRILogC3(
-    x: ArrayLike,
+    x: Domain1,
     firmware: Literal["SUP 2.x", "SUP 3.x"] | str = "SUP 3.x",
     method: (
         Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"] | str
     ) = "Linear Scene Exposure Factor",
     EI: Literal[160, 200, 250, 320, 400, 500, 640, 800, 1000, 1280, 1600] = 800,
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Define the *ARRI LogC3* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *ARRI LogC3* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -578,7 +586,7 @@ def log_encoding_ARRILogC3(
     Returns
     -------
     :class:`numpy.ndarray`
-        *ARRI LogC3* encoded data :math:`t`.
+        *ARRI LogC3* non-linear encoded data :math:`t`.
 
     References
     ----------
@@ -589,13 +597,13 @@ def log_encoding_ARRILogC3(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``t``      | [0, 1]                | [0, 1]        |
+    | ``t``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples
@@ -620,21 +628,21 @@ def log_encoding_ARRILogC3(
 
 
 def log_decoding_ARRILogC3(
-    t: ArrayLike,
+    t: Domain1,
     firmware: Literal["SUP 2.x", "SUP 3.x"] | str = "SUP 3.x",
     method: (
         Literal["Linear Scene Exposure Factor", "Normalised Sensor Signal"] | str
     ) = "Linear Scene Exposure Factor",
     EI: Literal[160, 200, 250, 320, 400, 500, 640, 800, 1000, 1280, 1600] = 800,
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Define the *ARRI LogC3* log decoding curve / electro-optical transfer
-    function.
+    Apply the *ARRI LogC3* log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     t
-        *ARRI LogC3* encoded data :math:`t`.
+        *ARRI LogC3* non-linear encoded data :math:`t`.
     firmware
         Alexa firmware version.
     method
@@ -652,13 +660,13 @@ def log_decoding_ARRILogC3(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``t``      | [0, 1]                | [0, 1]        |
+    | ``t``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -703,12 +711,11 @@ del _a, _b, _c
 
 
 def log_encoding_ARRILogC4(
-    E_scene: ArrayLike,
-    constants: Structure = CONSTANTS_ARRILOGC4,
-) -> NDArrayFloat:
+    E_scene: Domain1,
+    constants: Structure | None = None,
+) -> Range1:
     """
-    Define the *ARRI LogC4* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *ARRI LogC4* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -720,7 +727,7 @@ def log_encoding_ARRILogC4(
     Returns
     -------
     :class:`numpy.ndarray`
-        *ARRI LogC4* encoded signal :math:`E'`.
+        *ARRI LogC4* non-linear encoded signal :math:`E'`.
 
     References
     ----------
@@ -731,13 +738,13 @@ def log_encoding_ARRILogC4(
     +-------------+-----------------------+---------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``E_scene`` | [0, 1]                | [0, 1]        |
+    | ``E_scene`` | 1                     | 1             |
     +-------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E_p``    | [0, 1]                | [0, 1]        |
+    | ``E_p``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples
@@ -747,6 +754,7 @@ def log_encoding_ARRILogC4(
     """
 
     E_scene = to_domain_1(E_scene)
+    constants = optional(constants, CONSTANTS_ARRILOGC4)
 
     a = constants.a
     b = constants.b
@@ -764,37 +772,37 @@ def log_encoding_ARRILogC4(
 
 
 def log_decoding_ARRILogC4(
-    E_p: ArrayLike,
-    constants: Structure = CONSTANTS_ARRILOGC4,
-) -> NDArrayFloat:
+    E_p: Domain1,
+    constants: Structure | None = None,
+) -> Range1:
     """
-    Define the *ARRI LogC4* log decoding curve / electro-optical transfer
-    function.
+    Apply the *ARRI LogC4* log decoding inverse opto-electronic transfer
+    function (OETF).
 
     Parameters
     ----------
     E_p
-        *ARRI LogC4* encoded signal :math:`E'`.
+        *ARRI LogC4* non-linear encoded signal :math:`E'`.
     constants
         *ARRI LogC4* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Linear data :math:`E_{scene}`.
+        Relative scene linear signal :math:`E_{scene}`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E_p``    | [0, 1]                | [0, 1]        |
+    | ``E_p``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +-------------+-----------------------+---------------+
     | **Range**   | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``E_scene`` | [0, 1]                | [0, 1]        |
+    | ``E_scene`` | 1                     | 1             |
     +-------------+-----------------------+---------------+
 
     References
@@ -808,6 +816,7 @@ def log_decoding_ARRILogC4(
     """
 
     E_p = to_domain_1(E_p)
+    constants = optional(constants, CONSTANTS_ARRILOGC4)
 
     a = constants.a
     b = constants.b

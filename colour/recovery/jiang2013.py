@@ -2,8 +2,8 @@
 Jiang et al. (2013) - Camera RGB Sensitivities Recovery
 =======================================================
 
-Define the objects for camera *RGB* sensitivities recovery using
-*Jiang, Liu, Gu and Süsstrunk (2013)* method:
+Define the objects for camera *RGB* sensitivities recovery using the
+*Jiang, Liu, Gu and Süsstrunk (2013)* method.
 
 -   :func:`colour.recovery.PCA_Jiang2013`
 -   :func:`colour.recovery.RGB_to_sd_camera_sensitivity_Jiang2013`
@@ -19,6 +19,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import eigen_decomposition
@@ -30,13 +32,18 @@ from colour.colorimetry import (
     reshape_msds,
     reshape_sd,
 )
-from colour.hints import (
-    ArrayLike,
-    Mapping,
-    NDArrayFloat,
-    Tuple,
-    cast,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        Domain1,
+        Literal,
+        Mapping,
+        NDArrayFloat,
+        Tuple,
+    )
+
+from colour.hints import cast
 from colour.recovery import BASIS_FUNCTIONS_DYER2017
 from colour.utilities import as_float_array, optional, runtime_warning, tsplit
 
@@ -54,6 +61,34 @@ __all__ = [
 ]
 
 
+@typing.overload
+def PCA_Jiang2013(
+    msds_camera_sensitivities: Mapping[str, MultiSpectralDistributions],
+    eigen_w_v_count: int | None = ...,
+    additional_data: Literal[True] = True,
+) -> Tuple[
+    Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat],
+    Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat],
+]: ...
+
+
+@typing.overload
+def PCA_Jiang2013(
+    msds_camera_sensitivities: Mapping[str, MultiSpectralDistributions],
+    eigen_w_v_count: int | None = ...,
+    *,
+    additional_data: Literal[False],
+) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]: ...
+
+
+@typing.overload
+def PCA_Jiang2013(
+    msds_camera_sensitivities: Mapping[str, MultiSpectralDistributions],
+    eigen_w_v_count: int | None,
+    additional_data: Literal[False],
+) -> Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]: ...
+
+
 def PCA_Jiang2013(
     msds_camera_sensitivities: Mapping[str, MultiSpectralDistributions],
     eigen_w_v_count: int | None = None,
@@ -66,7 +101,7 @@ def PCA_Jiang2013(
     | Tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]
 ):
     """
-    Perform the *Principal Component Analysis* (PCA) on given camera *RGB*
+    Perform *Principal Component Analysis* (PCA) on specified camera *RGB*
     sensitivities.
 
     Parameters
@@ -76,8 +111,8 @@ def PCA_Jiang2013(
     eigen_w_v_count
         Eigen-values :math:`w` and eigen-vectors :math:`v` count.
     additional_data
-        Whether to return both the eigen-values :math:`w` and eigen-vectors
-        :math:`v`.
+        Whether to return both the eigen-values :math:`w` and
+        eigen-vectors :math:`v`.
 
     Returns
     -------
@@ -104,9 +139,9 @@ def PCA_Jiang2013(
     def normalised_sensitivity(
         msds: MultiSpectralDistributions, channel: str
     ) -> NDArrayFloat:
-        """Return a normalised camera *RGB* sensitivity."""
+        """Generate a normalised camera *RGB* sensitivity."""
 
-        sensitivity = cast(SpectralDistribution, msds.signals[channel].copy())
+        sensitivity = cast("SpectralDistribution", msds.signals[channel].copy())
 
         return sensitivity.normalise().values
 
@@ -130,20 +165,20 @@ def PCA_Jiang2013(
             (R_w_v[1], G_w_v[1], B_w_v[1]),
             (R_w_v[0], G_w_v[0], B_w_v[0]),
         )
-    else:
-        return R_w_v[1], G_w_v[1], B_w_v[1]
+
+    return R_w_v[1], G_w_v[1], B_w_v[1]
 
 
 def RGB_to_sd_camera_sensitivity_Jiang2013(
-    RGB: ArrayLike,
+    RGB: Domain1,
     illuminant: SpectralDistribution,
     reflectances: MultiSpectralDistributions,
     eigen_w: ArrayLike,
     shape: SpectralShape | None = None,
 ) -> SpectralDistribution:
     """
-    Recover a single camera *RGB* sensitivity for given camera *RGB* values
-    using *Jiang et al. (2013)* method.
+    Recover a single camera *RGB* sensitivity for the specified camera *RGB*
+    values using *Jiang et al. (2013)* method.
 
     Parameters
     ----------
@@ -153,20 +188,28 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
         Illuminant spectral distribution used to produce the camera *RGB*
         values.
     reflectances
-        Reflectance spectral distributions used to produce the camera *RGB*
-        values.
+        Reflectance spectral distributions used to produce the camera
+        *RGB* values.
     eigen_w
-        Eigen-vectors :math:`v` for the particular camera *RGB* sensitivity
-        being recovered.
+        Eigen-vectors :math:`v` for the particular camera *RGB*
+        sensitivity being recovered.
     shape
         Spectral shape of the recovered camera *RGB* sensitivity,
-        ``illuminant`` and ``reflectances`` will be aligned to it if passed,
-        otherwise, ``illuminant`` shape is used.
+        ``illuminant`` and ``reflectances`` will be aligned to it if
+        passed, otherwise, ``illuminant`` shape is used.
 
     Returns
     -------
     :class:`colour.RGB_CameraSensitivities`
         Recovered camera *RGB* sensitivities.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
     Examples
     --------
@@ -187,15 +230,18 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
     ...     for sd in SDS_COLOURCHECKERS["BabelColor Average"].values()
     ... ]
     >>> reflectances = sds_and_msds_to_msds(reflectances)
-    >>> R, G, B = tsplit(
-    ...     msds_to_XYZ(
-    ...         reflectances,
-    ...         method="Integration",
-    ...         cmfs=sensitivities,
-    ...         illuminant=illuminant,
-    ...         k=1,
-    ...         shape=SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
+    >>> R, G, B = (
+    ...     tsplit(
+    ...         msds_to_XYZ(
+    ...             reflectances,
+    ...             method="Integration",
+    ...             cmfs=sensitivities,
+    ...             illuminant=illuminant,
+    ...             k=1,
+    ...             shape=SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
+    ...         )
     ...     )
+    ...     / 100
     ... )
     >>> R_w, G_w, B_w = tsplit(np.moveaxis(BASIS_FUNCTIONS_DYER2017, 0, 1))
     >>> RGB_to_sd_camera_sensitivity_Jiang2013(
@@ -205,37 +251,37 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
     ...     R_w,
     ...     SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
     ... )  # doctest: +ELLIPSIS
-    SpectralDistribution([[  4.00000000e+02,   7.2066502...e-04],
-                          [  4.10000000e+02,  -8.9698693...e-04],
-                          [  4.20000000e+02,   4.6871961...e-03],
-                          [  4.30000000e+02,   7.7694971...e-03],
-                          [  4.40000000e+02,   6.9335511...e-03],
-                          [  4.50000000e+02,   5.3134947...e-03],
-                          [  4.60000000e+02,   4.4819958...e-03],
-                          [  4.70000000e+02,   4.6393791...e-03],
-                          [  4.80000000e+02,   5.1866668...e-03],
-                          [  4.90000000e+02,   4.3828317...e-03],
-                          [  5.00000000e+02,   4.2001231...e-03],
-                          [  5.10000000e+02,   5.4065544...e-03],
-                          [  5.20000000e+02,   9.6445141...e-03],
-                          [  5.30000000e+02,   1.4277112...e-02],
-                          [  5.40000000e+02,   7.9950718...e-03],
-                          [  5.50000000e+02,   4.6429813...e-03],
-                          [  5.60000000e+02,   5.3423840...e-03],
-                          [  5.70000000e+02,   1.0519383...e-02],
-                          [  5.80000000e+02,   5.2889443...e-02],
-                          [  5.90000000e+02,   9.7851167...e-02],
-                          [  6.00000000e+02,   9.9600382...e-02],
-                          [  6.10000000e+02,   8.3840892...e-02],
-                          [  6.20000000e+02,   6.9180858...e-02],
-                          [  6.30000000e+02,   5.6967854...e-02],
-                          [  6.40000000e+02,   4.2930308...e-02],
-                          [  6.50000000e+02,   3.0241267...e-02],
-                          [  6.60000000e+02,   2.3230047...e-02],
-                          [  6.70000000e+02,   1.3721943...e-02],
-                          [  6.80000000e+02,   4.0944885...e-03],
-                          [  6.90000000e+02,  -4.4223475...e-04],
-                          [  7.00000000e+02,  -6.1427769...e-04]],
+    SpectralDistribution([[  4.00000000e+02,   7.2066502...e-06],
+                          [  4.10000000e+02,  -8.9698693...e-06],
+                          [  4.20000000e+02,   4.6871961...e-05],
+                          [  4.30000000e+02,   7.7694971...e-05],
+                          [  4.40000000e+02,   6.9335511...e-05],
+                          [  4.50000000e+02,   5.3134947...e-05],
+                          [  4.60000000e+02,   4.4819958...e-05],
+                          [  4.70000000e+02,   4.6393791...e-05],
+                          [  4.80000000e+02,   5.1866668...e-05],
+                          [  4.90000000e+02,   4.3828317...e-05],
+                          [  5.00000000e+02,   4.2001231...e-05],
+                          [  5.10000000e+02,   5.4065544...e-05],
+                          [  5.20000000e+02,   9.6445141...e-05],
+                          [  5.30000000e+02,   1.4277112...e-04],
+                          [  5.40000000e+02,   7.9950718...e-05],
+                          [  5.50000000e+02,   4.6429813...e-05],
+                          [  5.60000000e+02,   5.3423840...e-05],
+                          [  5.70000000e+02,   1.0519383...e-04],
+                          [  5.80000000e+02,   5.2889443...e-04],
+                          [  5.90000000e+02,   9.7851167...e-04],
+                          [  6.00000000e+02,   9.9600382...e-04],
+                          [  6.10000000e+02,   8.3840892...e-04],
+                          [  6.20000000e+02,   6.9180858...e-04],
+                          [  6.30000000e+02,   5.6967854...e-04],
+                          [  6.40000000e+02,   4.2930308...e-04],
+                          [  6.50000000e+02,   3.0241267...e-04],
+                          [  6.60000000e+02,   2.3230047...e-04],
+                          [  6.70000000e+02,   1.3721943...e-04],
+                          [  6.80000000e+02,   4.0944885...e-05],
+                          [  6.90000000e+02,  -4.4223475...e-06],
+                          [  7.00000000e+02,  -6.1427769...e-06]],
                          SpragueInterpolator,
                          {},
                          Extrapolator,
@@ -267,15 +313,15 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
 
 
 def RGB_to_msds_camera_sensitivities_Jiang2013(
-    RGB: ArrayLike,
+    RGB: Domain1,
     illuminant: SpectralDistribution,
     reflectances: MultiSpectralDistributions,
-    basis_functions=BASIS_FUNCTIONS_DYER2017,
+    basis_functions: ArrayLike = BASIS_FUNCTIONS_DYER2017,
     shape: SpectralShape | None = None,
 ) -> MultiSpectralDistributions:
     """
-    Recover the camera *RGB* sensitivities for given camera *RGB* values using
-    *Jiang et al. (2013)* method.
+    Recover the camera *RGB* sensitivities for the specified camera *RGB*
+    values using *Jiang et al. (2013)* method.
 
     Parameters
     ----------
@@ -285,21 +331,29 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
         Illuminant spectral distribution used to produce the camera *RGB*
         values.
     reflectances
-        Reflectance spectral distributions used to produce the camera *RGB*
-        values.
+        Reflectance spectral distributions used to produce the camera
+        *RGB* values.
     basis_functions
-        Basis functions for the method. The default is to use the built-in
-        *sRGB* basis functions, i.e.,
+        Basis functions for the method. The default is to use the
+        built-in *sRGB* basis functions, i.e.,
         :attr:`colour.recovery.BASIS_FUNCTIONS_DYER2017`.
     shape
-        Spectral shape of the recovered camera *RGB* sensitivities,
-        ``illuminant`` and ``reflectances`` will be aligned to it if passed,
-        otherwise, ``illuminant`` shape is used.
+        Spectral shape of the recovered camera *RGB* sensitivities.
+        The ``illuminant`` and ``reflectances`` will be aligned to it if
+        passed, otherwise, the ``illuminant`` shape is used.
 
     Returns
     -------
     :class:`colour.RGB_CameraSensitivities`
         Recovered camera *RGB* sensitivities.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
     Examples
     --------
@@ -320,13 +374,16 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
     ...     for sd in SDS_COLOURCHECKERS["BabelColor Average"].values()
     ... ]
     >>> reflectances = sds_and_msds_to_msds(reflectances)
-    >>> RGB = msds_to_XYZ(
-    ...     reflectances,
-    ...     method="Integration",
-    ...     cmfs=sensitivities,
-    ...     illuminant=illuminant,
-    ...     k=1,
-    ...     shape=SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
+    >>> RGB = (
+    ...     msds_to_XYZ(
+    ...         reflectances,
+    ...         method="Integration",
+    ...         cmfs=sensitivities,
+    ...         illuminant=illuminant,
+    ...         k=1,
+    ...         shape=SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
+    ...     )
+    ...     / 100
     ... )
     >>> RGB_to_msds_camera_sensitivities_Jiang2013(
     ...     RGB,
@@ -369,6 +426,7 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
     """
 
     R, G, B = tsplit(np.reshape(RGB, [-1, 3]))
+    basis_functions = as_float_array(basis_functions)
     shape = optional(shape, illuminant.shape)
 
     R_w, G_w, B_w = tsplit(np.moveaxis(basis_functions, 0, 1))

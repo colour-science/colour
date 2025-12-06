@@ -3,14 +3,18 @@ Linear Colour Component Transfer Function
 =========================================
 
 Define the linear encoding / decoding colour component transfer function
-related objects:
+related objects.
 
 - :func:`colour.linear_function`
 """
 
 from __future__ import annotations
 
-from colour.hints import ArrayLike, NDArrayFloat
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, DTypeFloat, NDArray, NDArrayFloat
+
 from colour.utilities import as_float
 
 __author__ = "Colour Developers"
@@ -25,20 +29,29 @@ __all__ = [
 ]
 
 
-def linear_function(a: ArrayLike) -> NDArrayFloat:
+@typing.overload
+def linear_function(a: float | DTypeFloat) -> DTypeFloat: ...
+@typing.overload
+def linear_function(a: NDArray) -> NDArrayFloat: ...
+@typing.overload
+def linear_function(a: ArrayLike) -> DTypeFloat | NDArrayFloat: ...
+def linear_function(a: ArrayLike) -> DTypeFloat | NDArrayFloat:
     """
-    Define a typical linear encoding / decoding function, essentially a
-    pass-through function.
+    Perform pass-through linear encoding/decoding transformation.
+
+    Implement an identity transformation where the output equals the input,
+    commonly used as a reference or default encoding/decoding function in
+    colour science workflows.
 
     Parameters
     ----------
     a
-        Array to encode / decode.
+        Array to encode/decode.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Encoded / decoded array.
+        Encoded/decoded array, identical to input.
 
     Examples
     --------

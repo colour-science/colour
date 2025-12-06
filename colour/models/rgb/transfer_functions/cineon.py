@@ -2,7 +2,7 @@
 Kodak Cineon Encoding
 =====================
 
-Define the *Kodak Cineon* encoding:
+Define the *Kodak Cineon* encoding.
 
 -   :func:`colour.models.log_encoding_Cineon`
 -   :func:`colour.models.log_decoding_Cineon`
@@ -19,13 +19,12 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat
-from colour.utilities import (
-    as_float,
-    as_float_array,
-    from_range_1,
-    to_domain_1,
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    Range1,
 )
+from colour.utilities import as_float, as_float_array, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -41,12 +40,11 @@ __all__ = [
 
 
 def log_encoding_Cineon(
-    x: ArrayLike,
+    x: Domain1,
     black_offset: ArrayLike = 10 ** ((95 - 685) / 300),
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Define the *Cineon* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Cineon* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -58,20 +56,20 @@ def log_encoding_Cineon(
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`y`.
+        *Cineon* non-linear encoded data :math:`y`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -93,17 +91,16 @@ def log_encoding_Cineon(
 
 
 def log_decoding_Cineon(
-    y: ArrayLike,
+    y: Domain1,
     black_offset: ArrayLike = 10 ** ((95 - 685) / 300),
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Define the *Cineon* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Cineon* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     y
-        Non-linear data :math:`y`.
+        *Cineon* non-linear encoded data :math:`y`.
     black_offset
         Black offset.
 
@@ -117,13 +114,13 @@ def log_decoding_Cineon(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

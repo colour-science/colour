@@ -1,5 +1,6 @@
 """Define the unit tests for the :mod:`colour.plotting.models` module."""
 
+from __future__ import annotations
 
 import numpy as np
 import pytest
@@ -30,6 +31,7 @@ from colour.plotting.models import (
     plot_RGB_chromaticities_in_chromaticity_diagram,
     plot_RGB_colourspaces_in_chromaticity_diagram,
 )
+from colour.utilities import is_scipy_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -66,7 +68,7 @@ class TestCommonColourspaceModelAxisReorder:
     definition unit tests methods.
     """
 
-    def test_colourspace_model_axis_reorder(self):
+    def test_colourspace_model_axis_reorder(self) -> None:
         """
         Test :func:`colour.plotting.models.colourspace_model_axis_reorder`
         definition.
@@ -109,7 +111,7 @@ class TestLinesPointerGamut:
     tests methods.
     """
 
-    def test_lines_pointer_gamut(self):
+    def test_lines_pointer_gamut(self) -> None:
         """
         Test :func:`colour.plotting.models.lines_pointer_gamut` definition.
         """
@@ -123,7 +125,7 @@ class TestPlotPointerGamut:
     tests methods.
     """
 
-    def test_plot_pointer_gamut(self):
+    def test_plot_pointer_gamut(self) -> None:
         """Test :func:`colour.plotting.models.plot_pointer_gamut` definition."""
 
         figure, axes = plot_pointer_gamut()
@@ -150,7 +152,7 @@ class TestPlotRGBColourspacesInChromaticityDiagram:
 plot_RGB_colourspaces_in_chromaticity_diagram` definition unit tests methods.
     """
 
-    def test_plot_RGB_colourspaces_in_chromaticity_diagram(self):
+    def test_plot_RGB_colourspaces_in_chromaticity_diagram(self) -> None:
         """
         Test :func:`colour.plotting.models.\
 plot_RGB_colourspaces_in_chromaticity_diagram` definition.
@@ -191,7 +193,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931` definition unit tests
     methods.
     """
 
-    def test_plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(self):
+    def test_plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(self) -> None:
         """
         Test :func:`colour.plotting.models.\
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931` definition.
@@ -212,7 +214,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS` definition unit tests
     methods.
     """
 
-    def test_plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(self):
+    def test_plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(self) -> None:
         """
         Test :func:`colour.plotting.models.\
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS` definition.
@@ -236,7 +238,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS` definition unit tests
     methods.
     """
 
-    def test_plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(self):
+    def test_plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(self) -> None:
         """
         Test :func:`colour.plotting.models.\
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS` definition.
@@ -259,7 +261,7 @@ class TestPlotRGBChromaticitiesInChromaticityDiagram:
 plot_RGB_chromaticities_in_chromaticity_diagram` definition unit tests methods.
     """
 
-    def test_plot_RGB_chromaticities_in_chromaticity_diagram(self):
+    def test_plot_RGB_chromaticities_in_chromaticity_diagram(self) -> None:
         """
         Test :func:`colour.plotting.models.\
 plot_RGB_chromaticities_in_chromaticity_diagram` definition.
@@ -280,7 +282,7 @@ plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931` definition unit tests
     methods.
     """
 
-    def test_plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(self):
+    def test_plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(self) -> None:
         """
         Test :func:`colour.plotting.models.\
 plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931` definition.
@@ -301,7 +303,7 @@ plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS` definition unit
     tests methods.
     """
 
-    def test_plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(self):
+    def test_plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(self) -> None:
         """
         Test :func:`colour.plotting.models.\
 plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS` definition.
@@ -325,7 +327,7 @@ plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS` definition unit
     tests methods.
     """
 
-    def test_plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(self):
+    def test_plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(self) -> None:
         """
         Test :func:`colour.plotting.models.\
 plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS` definition.
@@ -348,7 +350,7 @@ class TestEllipsesMacAdam1942:
     tests methods.
     """
 
-    def test_ellipses_MacAdam1942(self):
+    def test_ellipses_MacAdam1942(self) -> None:
         """Test :func:`colour.plotting.models.ellipses_MacAdam1942` definition."""
 
         assert len(ellipses_MacAdam1942()) == 25
@@ -363,7 +365,7 @@ plot_ellipses_MacAdam1942_in_chromaticity_diagram` definition unit tests
     methods.
     """
 
-    def test_plot_ellipses_MacAdam1942_in_chromaticity_diagram(self):
+    def test_plot_ellipses_MacAdam1942_in_chromaticity_diagram(self) -> None:
         """
         Test :func:`colour.plotting.models.\
 plot_ellipses_MacAdam1942_in_chromaticity_diagram` definition.
@@ -392,7 +394,7 @@ plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931` definition unit
     tests methods.
     """
 
-    def test_plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(self):
+    def test_plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(self) -> None:
         """
         Test :func:`colour.plotting.models.\
 plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931` definition.
@@ -416,7 +418,7 @@ plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS` definition unit
 
     def test_plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS(
         self,
-    ):
+    ) -> None:
         """
         Test :func:`colour.plotting.models.\
 plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS` definition.
@@ -440,7 +442,7 @@ plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS` definition unit
 
     def test_plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS(
         self,
-    ):
+    ) -> None:
         """
         Test :func:`colour.plotting.models.\
 plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS` definition.
@@ -461,7 +463,7 @@ class TestPlotSingleCctf:
     tests methods.
     """
 
-    def test_plot_single_cctf(self):
+    def test_plot_single_cctf(self) -> None:
         """Test :func:`colour.plotting.models.plot_single_cctf` definition."""
 
         figure, axes = plot_single_cctf("ITU-R BT.709")
@@ -476,7 +478,7 @@ class TestPlotMultiCctfs:
     tests methods.
     """
 
-    def test_plot_multi_cctfs(self):
+    def test_plot_multi_cctfs(self) -> None:
         """Test :func:`colour.plotting.models.plot_multi_cctfs` definition."""
 
         figure, axes = plot_multi_cctfs(["ITU-R BT.709", "sRGB"])
@@ -491,8 +493,11 @@ class TestPlotConstantHueLoci:
     unit tests methods.
     """
 
-    def test_plot_constant_hue_loci(self):
+    def test_plot_constant_hue_loci(self) -> None:
         """Test :func:`colour.plotting.models.plot_constant_hue_loci` definition."""
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         data = [
             [

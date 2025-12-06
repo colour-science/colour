@@ -2,9 +2,7 @@
 :math:`\\Delta E^*_{ab}` - Delta E Colour Difference
 ====================================================
 
-Define the :math:`\\Delta E^*_{ab}` colour difference computation objects:
-
-The following attributes and methods are available:
+Define the :math:`\\Delta E^*_{ab}` colour difference computation objects.
 
 -   :attr:`colour.difference.JND_CIE1976`
 -   :func:`colour.difference.delta_E_CIE1976`
@@ -12,14 +10,19 @@ The following attributes and methods are available:
 -   :func:`colour.difference.delta_E_CIE2000`
 -   :func:`colour.difference.delta_E_CMC`
 -   :func:`colour.difference.delta_E_ITP`
+-   :func:`colour.difference.delta_E_HyAB`
+-   :func:`colour.difference.delta_E_HyCH`
 
 References
 ----------
+-   :cite:`Abasi2020a` : Abasi, S., Amani Tehran, M., & Fairchild, M. D. (2020).
+    Distance metrics for very large color differences. Color Research &
+    Application, 45(2), 208-223. doi:10.1002/col.22451
 -   :cite:`InternationalTelecommunicationUnion2019` : International
     Telecommunication Union. (2019). Recommendation ITU-R BT.2124-0 -
     Objective metric for the assessment of the potential visibility of colour
-    differences in television (pp. 1-36). http://www.itu.int/dms_pubrec/itu-r/\
-rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
+    differences in television (pp. 1-36).
+    https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2124-0-201901-I!!PDF-E.pdf
 -   :cite:`Lindbloom2003c` : Lindbloom, B. (2003). Delta E (CIE 1976).
     Retrieved February 24, 2014, from
     http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
@@ -41,15 +44,24 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
 
 from __future__ import annotations
 
+from dataclasses import astuple, dataclass, field
+
 import numpy as np
 
 from colour.algebra import euclidean_distance
-from colour.hints import ArrayLike, NDArrayFloat
-from colour.utilities import as_float, to_domain_100, tsplit, zeros
-from colour.utilities.documentation import (
-    DocstringFloat,
-    is_documentation_building,
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Domain100,
+    NDArrayFloat,
 )
+from colour.utilities import (
+    MixinDataclassArithmetic,
+    as_float,
+    to_domain_100,
+    tsplit,
+    zeros,
+)
+from colour.utilities.documentation import DocstringFloat, is_documentation_building
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -62,9 +74,12 @@ __all__ = [
     "JND_CIE1976",
     "delta_E_CIE1976",
     "delta_E_CIE1994",
+    "intermediate_attributes_CIE2000",
     "delta_E_CIE2000",
     "delta_E_CMC",
     "delta_E_ITP",
+    "delta_E_HyAB",
+    "delta_E_HyCH",
 ]
 
 JND_CIE1976 = 2.3
@@ -92,10 +107,11 @@ References
 """
 
 
-def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> NDArrayFloat:
+def delta_E_CIE1976(Lab_1: Domain100, Lab_2: Domain100) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{76}` between two given
-    *CIE L\\*a\\*b\\** colourspace arrays using *CIE 1976* recommendation.
+    Compute the colour difference :math:`\\Delta E_{76}` between two
+    specified *CIE L\\*a\\*b\\** colourspace arrays using the *CIE 1976*
+    recommendation.
 
     Parameters
     ----------
@@ -114,17 +130,9 @@ def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+-------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**     |
     +============+=======================+===================+
-    | ``Lab_1``  | ``L_1`` : [0, 100]    | ``L_1`` : [0, 1]  |
-    |            |                       |                   |
-    |            | ``a_1`` : [-100, 100] | ``a_1`` : [-1, 1] |
-    |            |                       |                   |
-    |            | ``b_1`` : [-100, 100] | ``b_1`` : [-1, 1] |
+    | ``Lab_1``  | 100                   | 1                 |
     +------------+-----------------------+-------------------+
-    | ``Lab_2``  | ``L_2`` : [0, 100]    | ``L_2`` : [0, 1]  |
-    |            |                       |                   |
-    |            | ``a_2`` : [-100, 100] | ``a_2`` : [-1, 1] |
-    |            |                       |                   |
-    |            | ``b_2`` : [-100, 100] | ``b_2`` : [-1, 1] |
+    | ``Lab_2``  | 100                   | 1                 |
     +------------+-----------------------+-------------------+
 
     References
@@ -133,23 +141,23 @@ def delta_E_CIE1976(Lab_1: ArrayLike, Lab_2: ArrayLike) -> NDArrayFloat:
 
     Examples
     --------
-    >>> Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
-    >>> Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+    >>> Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
+    >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E_CIE1976(Lab_1, Lab_2)  # doctest: +ELLIPSIS
-    451.7133019...
+    2.7335037...
     """
 
-    d_E = euclidean_distance(to_domain_100(Lab_1), to_domain_100(Lab_2))
-
-    return d_E
+    return euclidean_distance(to_domain_100(Lab_1), to_domain_100(Lab_2))
 
 
 def delta_E_CIE1994(
-    Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: bool = False
+    Lab_1: Domain100,
+    Lab_2: Domain100,
+    textiles: bool = False,
 ) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{94}` between two given
-    *CIE L\\*a\\*b\\** colourspace arrays using *CIE 1994* recommendation.
+    Compute the colour difference :math:`\\Delta E_{94}` between two specified
+    *CIE L\\*a\\*b\\** colourspace arrays using the *CIE 1994* recommendation.
 
     Parameters
     ----------
@@ -172,17 +180,9 @@ def delta_E_CIE1994(
     +------------+-----------------------+-------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**     |
     +============+=======================+===================+
-    | ``Lab_1``  | ``L_1`` : [0, 100]    | ``L_1`` : [0, 1]  |
-    |            |                       |                   |
-    |            | ``a_1`` : [-100, 100] | ``a_1`` : [-1, 1] |
-    |            |                       |                   |
-    |            | ``b_1`` : [-100, 100] | ``b_1`` : [-1, 1] |
+    | ``Lab_1``  | 100                   | 1                 |
     +------------+-----------------------+-------------------+
-    | ``Lab_2``  | ``L_2`` : [0, 100]    | ``L_2`` : [0, 1]  |
-    |            |                       |                   |
-    |            | ``a_2`` : [-100, 100] | ``a_2`` : [-1, 1] |
-    |            |                       |                   |
-    |            | ``b_2`` : [-100, 100] | ``b_2`` : [-1, 1] |
+    | ``Lab_2``  | 100                   | 1                 |
     +------------+-----------------------+-------------------+
 
     -   *CIE 1994* colour differences are not symmetrical: difference between
@@ -196,12 +196,12 @@ def delta_E_CIE1994(
 
     Examples
     --------
-    >>> Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
-    >>> Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+    >>> Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
+    >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E_CIE1994(Lab_1, Lab_2)  # doctest: +ELLIPSIS
-    83.7792255...
+    1.6711191...
     >>> delta_E_CIE1994(Lab_1, Lab_2, textiles=True)  # doctest: +ELLIPSIS
-    88.3355530...
+    0.8404677...
     """
 
     L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
@@ -238,12 +238,51 @@ def delta_E_CIE1994(
     return as_float(d_E)
 
 
-def delta_E_CIE2000(
-    Lab_1: ArrayLike, Lab_2: ArrayLike, textiles: bool = False
-) -> NDArrayFloat:
+@dataclass
+class Attributes_Specification_CIE2000(MixinDataclassArithmetic):
     """
-    Return the difference :math:`\\Delta E_{00}` between two given
-    *CIE L\\*a\\*b\\** colourspace arrays using *CIE 2000* recommendation.
+    Define the *CIE 2000* colour-difference formula attribute specification.
+
+    Parameters
+    ----------
+    J
+        Correlate of *lightness* :math:`J`.
+    C
+        Correlate of *chroma* :math:`C`.
+    h
+        *Hue* angle :math:`h` in degrees.
+    s
+        Correlate of *saturation* :math:`s`.
+    Q
+        Correlate of *brightness* :math:`Q`.
+    M
+        Correlate of *colourfulness* :math:`M`.
+    H
+        *Hue* :math:`h` quadrature :math:`H`.
+    HC
+        *Hue* :math:`h` composition :math:`H^C`.
+    """
+
+    S_L: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    S_C: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    S_H: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    delta_L_p: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    delta_C_p: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    delta_H_p: float | NDArrayFloat | None = field(default_factory=lambda: None)
+    R_T: float | NDArrayFloat | None = field(default_factory=lambda: None)
+
+
+def intermediate_attributes_CIE2000(
+    Lab_1: Domain100, Lab_2: Domain100
+) -> Attributes_Specification_CIE2000:
+    """
+    Compute intermediate attributes for CIE 2000 colour difference calculation
+    between two specified *CIE L\\*a\\*b\\** colourspace arrays.
+
+    The intermediate attributes include the lightness, chroma, and hue
+    weighting functions (S_L, S_C, S_H), as well as the adjusted colour
+    differences (delta_L_p, delta_C_p, delta_H_p) and the rotation term (R_T)
+    required for computing :math:`\\Delta E_{00}`.
 
     Parameters
     ----------
@@ -251,47 +290,21 @@ def delta_E_CIE2000(
         *CIE L\\*a\\*b\\** colourspace array 1.
     Lab_2
         *CIE L\\*a\\*b\\** colourspace array 2.
-    textiles
-        Textiles application specific parametric factors.
-        :math:`k_L=2,\\ k_C=k_H=1` weights are used instead of
-        :math:`k_L=k_C=k_H=1`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Colour difference :math:`\\Delta E_{00}`.
+        Intermediate attributes to compute the difference :math:`\\Delta E_{00}`.
 
     Notes
     -----
     +------------+-----------------------+-------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**     |
     +============+=======================+===================+
-    | ``Lab_1``  | ``L_1`` : [0, 100]    | ``L_1`` : [0, 1]  |
-    |            |                       |                   |
-    |            | ``a_1`` : [-100, 100] | ``a_1`` : [-1, 1] |
-    |            |                       |                   |
-    |            | ``b_1`` : [-100, 100] | ``b_1`` : [-1, 1] |
+    | ``Lab_1``  | 100                   | 1                 |
     +------------+-----------------------+-------------------+
-    | ``Lab_2``  | ``L_2`` : [0, 100]    | ``L_2`` : [0, 1]  |
-    |            |                       |                   |
-    |            | ``a_2`` : [-100, 100] | ``a_2`` : [-1, 1] |
-    |            |                       |                   |
-    |            | ``b_2`` : [-100, 100] | ``b_2`` : [-1, 1] |
+    | ``Lab_2``  | 100                   | 1                 |
     +------------+-----------------------+-------------------+
-
-    -   Parametric factors :math:`k_L=k_C=k_H=1` weights under
-        *reference conditions*:
-
-        -   Illumination: D65 source
-        -   Illuminance: 1000 lx
-        -   Observer: Normal colour vision
-        -   Background field: Uniform, neutral gray with :math:`L^*=50`
-        -   Viewing mode: Object
-        -   Sample size: Greater than 4 degrees
-        -   Sample separation: Direct edge contact
-        -   Sample colour-difference magnitude: Lower than 5.0
-            :math:`\\Delta E_{00}`
-        -   Sample structure: Homogeneous (without texture)
 
     References
     ----------
@@ -299,23 +312,16 @@ def delta_E_CIE2000(
 
     Examples
     --------
-    >>> Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
-    >>> Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
-    >>> delta_E_CIE2000(Lab_1, Lab_2)  # doctest: +ELLIPSIS
-    94.0356490...
-    >>> Lab_2 = np.array([50.00000000, 426.67945353, 72.39590835])
-    >>> delta_E_CIE2000(Lab_1, Lab_2)  # doctest: +ELLIPSIS
-    100.8779470...
-    >>> delta_E_CIE2000(Lab_1, Lab_2, textiles=True)  # doctest: +ELLIPSIS
-    95.7920535...
+    >>> Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
+    >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
+    >>> intermediate_attributes_CIE2000(Lab_1, Lab_2)  # doctest: +ELLIPSIS
+    Attributes_Specification_CIE2000(S_L=1.0001021..., S_C=19.0782682..., \
+S_H=4.7226695..., delta_L_p=1.6672370..., delta_C_p=2.1661609..., \
+delta_H_p=0.0105030..., R_T=-3...)
     """
 
     L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
     L_2, a_2, b_2 = tsplit(to_domain_100(Lab_2))
-
-    k_L = 2 if textiles else 1
-    k_C = 1
-    k_H = 1
 
     C_1_ab = np.hypot(a_1, b_1)
     C_2_ab = np.hypot(a_2, b_2)
@@ -408,6 +414,88 @@ def delta_E_CIE2000(
 
     R_T = -np.sin(np.deg2rad(2 * delta_theta)) * R_C
 
+    return Attributes_Specification_CIE2000(
+        S_L,
+        S_C,
+        S_H,
+        delta_L_p,
+        delta_C_p,
+        delta_H_p,
+        R_T,
+    )
+
+
+def delta_E_CIE2000(
+    Lab_1: Domain100,
+    Lab_2: Domain100,
+    textiles: bool = False,
+) -> NDArrayFloat:
+    """
+    Compute the colour difference :math:`\\Delta E_{00}` between two specified
+    *CIE L\\*a\\*b\\** colourspace arrays using the *CIE 2000* recommendation.
+
+    Parameters
+    ----------
+    Lab_1
+        *CIE L\\*a\\*b\\** colourspace array 1.
+    Lab_2
+        *CIE L\\*a\\*b\\** colourspace array 2.
+    textiles
+        Textiles application specific parametric factors.
+        :math:`k_L=2,\\ k_C=k_H=1` weights are used instead of
+        :math:`k_L=k_C=k_H=1`.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Colour difference :math:`\\Delta E_{00}`.
+
+    Notes
+    -----
+    +------------+-----------------------+-------------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**     |
+    +============+=======================+===================+
+    | ``Lab_1``  | 100                   | 1                 |
+    +------------+-----------------------+-------------------+
+    | ``Lab_2``  | 100                   | 1                 |
+    +------------+-----------------------+-------------------+
+
+    -   Parametric factors :math:`k_L=k_C=k_H=1` weights under
+        *reference conditions*:
+
+        -   Illumination: D65 source
+        -   Illuminance: 1000 lx
+        -   Observer: Normal colour vision
+        -   Background field: Uniform, neutral gray with :math:`L^*=50`
+        -   Viewing mode: Object
+        -   Sample size: Greater than 4 degrees
+        -   Sample separation: Direct edge contact
+        -   Sample colour-difference magnitude: Lower than 5.0
+            :math:`\\Delta E_{00}`
+        -   Sample structure: Homogeneous (without texture)
+
+    References
+    ----------
+    :cite:`Melgosa2013b`, :cite:`Sharma2005b`
+
+    Examples
+    --------
+    >>> Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
+    >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
+    >>> delta_E_CIE2000(Lab_1, Lab_2)  # doctest: +ELLIPSIS
+    1.6709303...
+    >>> delta_E_CIE2000(Lab_1, Lab_2, textiles=True)  # doctest: +ELLIPSIS
+    0.8412338...
+    """
+
+    S_L, S_C, S_H, delta_L_p, delta_C_p, delta_H_p, R_T = astuple(
+        intermediate_attributes_CIE2000(Lab_1, Lab_2)
+    )
+
+    k_L = 2 if textiles else 1
+    k_C = 1
+    k_H = 1
+
     d_E = np.sqrt(
         (delta_L_p / (k_L * S_L)) ** 2
         + (delta_C_p / (k_C * S_C)) ** 2
@@ -419,20 +507,20 @@ def delta_E_CIE2000(
 
 
 def delta_E_CMC(
-    Lab_1: ArrayLike,
-    Lab_2: ArrayLike,
+    Lab_1: Domain100,
+    Lab_2: Domain100,
     l: float = 2,  # noqa: E741
     c: float = 1,
 ) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{CMC}` between two given
-    *CIE L\\*a\\*b\\** colourspace arrays using *Colour Measurement Committee*
-    recommendation.
+    Compute the colour difference :math:`\\Delta E_{CMC}` between two
+    specified *CIE L\\*a\\*b\\** colourspace arrays using the *Colour
+    Measurement Committee* recommendation.
 
-    The quasimetric has two parameters: *Lightness* (l) and *chroma* (c),
-    allowing the users to weight the difference based on the ratio of l:c.
-    Commonly used values are 2:1 for acceptability and 1:1 for the threshold of
-    imperceptibility.
+    The quasimetric has two parameters: *lightness* (l) and *chroma* (c),
+    allowing users to weight the difference based on the ratio of l:c.
+    Commonly used values are 2:1 for acceptability and 1:1 for the
+    threshold of imperceptibility.
 
     Parameters
     ----------
@@ -441,9 +529,9 @@ def delta_E_CMC(
     Lab_2
         *CIE L\\*a\\*b\\** colourspace array 2.
     l
-        Lightness weighting factor.
+        *Lightness* weighting factor.
     c
-        Chroma weighting factor.
+        *Chroma* weighting factor.
 
     Returns
     -------
@@ -455,17 +543,9 @@ def delta_E_CMC(
     +------------+-----------------------+-------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**     |
     +============+=======================+===================+
-    | ``Lab_1``  | ``L_1`` : [0, 100]    | ``L_1`` : [0, 1]  |
-    |            |                       |                   |
-    |            | ``a_1`` : [-100, 100] | ``a_1`` : [-1, 1] |
-    |            |                       |                   |
-    |            | ``b_1`` : [-100, 100] | ``b_1`` : [-1, 1] |
+    | ``Lab_1``  | 100                   | 1                 |
     +------------+-----------------------+-------------------+
-    | ``Lab_2``  | ``L_2`` : [0, 100]    | ``L_2`` : [0, 1]  |
-    |            |                       |                   |
-    |            | ``a_2`` : [-100, 100] | ``a_2`` : [-1, 1] |
-    |            |                       |                   |
-    |            | ``b_2`` : [-100, 100] | ``b_2`` : [-1, 1] |
+    | ``Lab_2``  | 100                   | 1                 |
     +------------+-----------------------+-------------------+
 
     References
@@ -474,10 +554,10 @@ def delta_E_CMC(
 
     Examples
     --------
-    >>> Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
-    >>> Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+    >>> Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
+    >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E_CMC(Lab_1, Lab_2)  # doctest: +ELLIPSIS
-    172.7047712...
+    0.8996999...
     """
 
     L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
@@ -514,10 +594,10 @@ def delta_E_CMC(
     return as_float(d_E)
 
 
-def delta_E_ITP(ICtCp_1: ArrayLike, ICtCp_2: ArrayLike) -> NDArrayFloat:
+def delta_E_ITP(ICtCp_1: Domain1, ICtCp_2: Domain1) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{ITP}` between two given
-    :math:`IC_TC_P` colour encoding arrays using
+    Compute the colour difference :math:`\\Delta E_{ITP}` between two specified
+    :math:`IC_TC_P` colour encoding arrays using the
     *Recommendation ITU-R BT.2124*.
 
     Parameters
@@ -536,6 +616,14 @@ def delta_E_ITP(ICtCp_1: ArrayLike, ICtCp_2: ArrayLike) -> NDArrayFloat:
     -----
     -   A value of 1 is equivalent to a just noticeable difference when viewed
         in the most critical adaptation state.
+
+    +--------------+-----------------------+--------------------+
+    | **Domain**   | **Scale - Reference** | **Scale - 1**      |
+    +==============+=======================+====================+
+    | ``ICtCp_1``  | 1                     | 1                  |
+    +--------------+-----------------------+--------------------+
+    | ``ICtCp_2``  | 1                     | 1                  |
+    +--------------+-----------------------+--------------------+
 
     References
     ----------
@@ -560,3 +648,118 @@ def delta_E_ITP(ICtCp_1: ArrayLike, ICtCp_2: ArrayLike) -> NDArrayFloat:
     )
 
     return as_float(d_E_ITP)
+
+
+def delta_E_HyAB(Lab_1: Domain100, Lab_2: Domain100) -> NDArrayFloat:
+    """
+    Compute the colour difference between two *CIE L\\*a\\*b\\** colourspace arrays
+    using a combination of a Euclidean metric in hue and chroma with a
+    city-block metric to incorporate lightness differences.
+
+    This metric is intended for large colour differences, on the order of 10
+    *CIE L\\*a\\*b\\** units or greater.
+
+    Parameters
+    ----------
+    Lab_1
+        *CIE L\\*a\\*b\\** colourspace array 1.
+    Lab_2
+        *CIE L\\*a\\*b\\** colourspace array 2.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Colour difference :math:`\\Delta E_{HyAB}`.
+
+    Notes
+    -----
+    +------------+-----------------------+-------------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**     |
+    +============+=======================+===================+
+    | ``Lab_1``  | 100                   | 1                 |
+    +------------+-----------------------+-------------------+
+    | ``Lab_2``  | 100                   | 1                 |
+    +------------+-----------------------+-------------------+
+
+    References
+    ----------
+    :cite:`Abasi2020a`
+
+    Examples
+    --------
+    >>> Lab_1 = np.array([39.91531343, 51.16658481, 146.12933781])
+    >>> Lab_2 = np.array([53.12207516, -39.92365056, 249.54831278])
+    >>> delta_E_HyAB(Lab_1, Lab_2)  # doctest: +ELLIPSIS
+    151.0215481...
+    """
+
+    dLab = to_domain_100(Lab_1) - to_domain_100(Lab_2)
+    dL, da, db = tsplit(dLab)
+    HyAB = np.abs(dL) + np.hypot(da, db)
+
+    return as_float(HyAB)
+
+
+def delta_E_HyCH(
+    Lab_1: Domain100,
+    Lab_2: Domain100,
+    textiles: bool = False,
+) -> NDArrayFloat:
+    """
+    Compute the colour difference between two *CIE L\\*a\\*b\\** colourspace
+    arrays using a combination of Euclidean metric in hue and chroma with a
+    city-block metric to incorporate lightness differences based on
+    *CIE 2000* recommendation attributes.
+
+    This metric is intended for large colour differences, on the order of 10
+    *CIE L\\*a\\*b\\** units or greater.
+
+    Parameters
+    ----------
+    Lab_1
+        *CIE L\\*a\\*b\\** colourspace array 1.
+    Lab_2
+        *CIE L\\*a\\*b\\** colourspace array 2.
+    textiles
+        Whether to use the textile-specific parametrization.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Colour difference :math:`\\Delta E_{HyCH}`.
+
+    Notes
+    -----
+    +------------+-----------------------+-------------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**     |
+    +============+=======================+===================+
+    | ``Lab_1``  | 100                   | 1                 |
+    +------------+-----------------------+-------------------+
+    | ``Lab_2``  | 100                   | 1                 |
+    +------------+-----------------------+-------------------+
+
+    References
+    ----------
+    :cite:`Abasi2020a`
+
+    Examples
+    --------
+    >>> Lab_1 = np.array([39.91531343, 51.16658481, 146.12933781])
+    >>> Lab_2 = np.array([53.12207516, -39.92365056, 249.54831278])
+    >>> delta_E_HyCH(Lab_1, Lab_2)  # doctest: +ELLIPSIS
+    48.664279419760369...
+    """
+
+    S_L, S_C, S_H, delta_L_p, delta_C_p, delta_H_p, R_T = astuple(
+        intermediate_attributes_CIE2000(Lab_1, Lab_2)
+    )
+
+    k_L = 2 if textiles else 1
+    k_C = 1
+    k_H = 1
+
+    HyCH = np.abs(delta_L_p / (k_L * S_L)) + np.sqrt(
+        (delta_C_p / (k_C * S_C)) ** 2 + (delta_H_p / (k_H * S_H)) ** 2
+    )
+
+    return as_float(HyCH)

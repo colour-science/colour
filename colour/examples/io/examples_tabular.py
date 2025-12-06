@@ -1,4 +1,9 @@
-"""Showcase input / output *CSV* tabular data related examples."""
+"""
+Demonstrate CSV tabular data input/output operations.
+
+This module provides examples of reading and writing CSV tabular data
+for spectral distributions.
+"""
 
 import os
 from pprint import pprint

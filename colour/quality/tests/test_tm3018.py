@@ -8,6 +8,7 @@ Notes
     http://media.ies.org/docs/errata/TM-30-18_tools_etc.zip.
 """
 
+from __future__ import annotations
 
 import numpy as np
 
@@ -37,12 +38,19 @@ class TestColourFidelityIndexANSIIESTM3018:
     definition unit tests methods.
     """
 
-    def test_colour_fidelity_index_ANSIIESTM3018(self):
+    def test_colour_fidelity_index_ANSIIESTM3018(self) -> None:
         """
         Test :func:`colour.quality.tm3018.colour_fidelity_index_ANSIIESTM3018`
         definition.
         """
 
+        # Test without additional data (returns R_f only)
+        R_f = colour_fidelity_index_ANSIIESTM3018(
+            SDS_ILLUMINANTS["FL2"], additional_data=False
+        )
+        np.testing.assert_allclose(R_f, 70, atol=2e-1)
+
+        # Test with additional data (returns full specification)
         specification = colour_fidelity_index_ANSIIESTM3018(
             SDS_ILLUMINANTS["FL2"], additional_data=True
         )
@@ -198,7 +206,7 @@ class TestAveragesArea:
     methods.
     """
 
-    def test_averages_area(self):
+    def test_averages_area(self) -> None:
         """Test :func:`colour.quality.tm3018.averages_area` definition."""
 
         # Simple 3 * sqrt(2) by sqrt(2) rectangle.

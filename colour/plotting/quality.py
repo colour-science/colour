@@ -2,7 +2,7 @@
 Colour Quality Plotting
 =======================
 
-Define the colour quality plotting objects:
+Define the colour quality plotting objects.
 
 -   :func:`colour.plotting.plot_single_sd_colour_rendering_index_bars`
 -   :func:`colour.plotting.plot_multi_sds_colour_rendering_indexes_bars`
@@ -12,11 +12,18 @@ Define the colour quality plotting objects:
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from collections.abc import ValuesView
+
 from itertools import cycle
 
+if typing.TYPE_CHECKING:
+    from matplotlib.figure import Figure
+    from matplotlib.axes import Axes
+
 import numpy as np
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
 
 from colour.colorimetry import (
     MultiSpectralDistributions,
@@ -24,15 +31,16 @@ from colour.colorimetry import (
     sds_and_msds_to_sds,
 )
 from colour.constants import DTYPE_FLOAT_DEFAULT
-from colour.hints import (
-    Any,
-    Dict,
-    List,
-    Literal,
-    Sequence,
-    Tuple,
-    cast,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Dict,
+        Literal,
+        Sequence,
+        Tuple,
+    )
+
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
     XYZ_to_plotting_colourspace,
@@ -77,13 +85,14 @@ def plot_colour_quality_bars(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the colour quality data of given illuminants or light sources colour
-    quality specifications.
+    Plot the colour quality data of the specified illuminants or light sources
+    colour quality specifications.
 
     Parameters
     ----------
     specifications
-        Array of illuminants or light sources colour quality specifications.
+        Array of illuminants or light sources colour quality
+        specifications.
     labels
         Add labels above bars.
     hatching
@@ -243,14 +252,14 @@ def plot_single_sd_colour_rendering_index_bars(
     sd: SpectralDistribution, **kwargs: Any
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Colour Rendering Index* (CRI) of given illuminant or light
-    source spectral distribution.
+    Plot the *Colour Rendering Index* (CRI) of the specified illuminant or
+    light source spectral distribution.
 
     Parameters
     ----------
     sd
-        Illuminant or light source spectral distribution to plot the
-        *Colour Rendering Index* (CRI).
+        Illuminant or light source spectral distribution for which to plot
+        the *Colour Rendering Index* (CRI).
 
     Other Parameters
     ----------------
@@ -288,21 +297,22 @@ def plot_multi_sds_colour_rendering_indexes_bars(
         Sequence[SpectralDistribution | MultiSpectralDistributions]
         | SpectralDistribution
         | MultiSpectralDistributions
+        | ValuesView
     ),
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Colour Rendering Index* (CRI) of given illuminants or light
-    sources spectral distributions.
+    Plot the *Colour Rendering Index* (CRI) of the specified illuminants or
+    light sources spectral distributions.
 
     Parameters
     ----------
     sds
-        Spectral distributions or multi-spectral distributions to
-        plot. `sds` can be a single
-        :class:`colour.MultiSpectralDistributions` class instance, a list
-        of :class:`colour.MultiSpectralDistributions` class instances or a
-        List of :class:`colour.SpectralDistribution` class instances.
+        Spectral distributions or multi-spectral distributions to plot.
+        `sds` can be a single :class:`colour.MultiSpectralDistributions`
+        class instance, a list of  :class:`colour.MultiSpectralDistributions`
+        class instances or a list of :class:`colour.SpectralDistribution` class
+        instances.
 
     Other Parameters
     ----------------
@@ -338,10 +348,9 @@ Plot_Multi_SDS_Colour_Rendering_Indexes_Bars.png
     settings: Dict[str, Any] = dict(kwargs)
     settings.update({"show": False})
 
-    specifications = cast(
-        List[ColourRendering_Specification_CRI],
-        [colour_rendering_index(sd, additional_data=True) for sd in sds_converted],
-    )
+    specifications = [
+        colour_rendering_index(sd, additional_data=True) for sd in sds_converted
+    ]
 
     # *colour rendering index* colorimetry data tristimulus values are
     # computed in [0, 100] domain however `plot_colour_quality_bars` expects
@@ -373,14 +382,14 @@ def plot_single_sd_colour_quality_scale_bars(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Colour Quality Scale* (CQS) of given illuminant or light source
-    spectral distribution.
+    Plot the *Colour Quality Scale* (CQS) of the specified illuminant or
+    light source spectral distribution.
 
     Parameters
     ----------
     sd
-        Illuminant or light source spectral distribution to plot the
-        *Colour Quality Scale* (CQS).
+        Illuminant or light source spectral distribution for which to plot
+        the *Colour Quality Scale* (CQS).
     method
         *Colour Quality Scale* (CQS) computation method.
 
@@ -422,22 +431,23 @@ def plot_multi_sds_colour_quality_scales_bars(
         Sequence[SpectralDistribution | MultiSpectralDistributions]
         | SpectralDistribution
         | MultiSpectralDistributions
+        | ValuesView
     ),
     method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = "NIST CQS 9.0",
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the *Colour Quality Scale* (CQS) of given illuminants or light
+    Plot the *Colour Quality Scale* (CQS) of the specified illuminants or light
     sources spectral distributions.
 
     Parameters
     ----------
     sds
-        Spectral distributions or multi-spectral distributions to
-        plot. `sds` can be a single
-        :class:`colour.MultiSpectralDistributions` class instance, a list
-        of :class:`colour.MultiSpectralDistributions` class instances or a
-        List of :class:`colour.SpectralDistribution` class instances.
+        Spectral distributions or multi-spectral distributions to plot.
+        `sds` can be a single :class:`colour.MultiSpectralDistributions`
+        class instance, a list of  :class:`colour.MultiSpectralDistributions`
+        class instances or a list of :class:`colour.SpectralDistribution` class
+        instances.
     method
         *Colour Quality Scale* (CQS) computation method.
 
@@ -476,16 +486,12 @@ Plot_Multi_SDS_Colour_Quality_Scales_Bars.png
     settings: Dict[str, Any] = dict(kwargs)
     settings.update({"show": False})
 
-    specifications = cast(
-        List[ColourRendering_Specification_CQS],
-        [colour_quality_scale(sd, True, method) for sd in sds_converted],
-    )
+    specifications = [colour_quality_scale(sd, True, method) for sd in sds_converted]
 
     _figure, axes = plot_colour_quality_bars(specifications, **settings)
 
     title = (
-        f"Colour Quality Scale - "
-        f"{', '.join([sd.display_name for sd in sds_converted])}"
+        f"Colour Quality Scale - {', '.join([sd.display_name for sd in sds_converted])}"
     )
 
     settings = {"axes": axes, "title": title}

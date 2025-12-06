@@ -2,7 +2,8 @@
 Hellwig and Fairchild (2022) Colour Appearance Model
 ====================================================
 
-Define the *Hellwig and Fairchild (2022)* colour appearance model objects:
+Define the *Hellwig and Fairchild (2022)* colour appearance model for
+predicting perceptual colour attributes under varying viewing conditions.
 
 -   :class:`colour.appearance.InductionFactors_Hellwig2022`
 -   :attr:`colour.VIEWING_CONDITIONS_HELLWIG2022`
@@ -24,16 +25,13 @@ References
 
 from __future__ import annotations
 
-from collections import namedtuple
+import typing
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode, spow, vecmul
-from colour.appearance.cam16 import (
-    MATRIX_16,
-    MATRIX_INVERSE_16,
-)
+from colour.appearance.cam16 import MATRIX_16, MATRIX_INVERSE_16
 from colour.appearance.ciecam02 import (
     VIEWING_CONDITIONS_CIECAM02,
     InductionFactors_CIECAM02,
@@ -49,10 +47,21 @@ from colour.appearance.ciecam02 import (
     post_adaptation_non_linear_response_compression_inverse,
 )
 from colour.appearance.hunt import luminance_level_adaptation_factor
-from colour.hints import ArrayLike, NDArrayFloat, Tuple
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Tuple
+
+from colour.hints import (  # noqa: TC001
+    Annotated,
+    ArrayLike,
+    Domain100,
+    NDArrayFloat,
+    Range100,
+)
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
+    MixinDataclassIterable,
     as_float,
     as_float_array,
     from_range_100,
@@ -91,11 +100,11 @@ __all__ = [
 ]
 
 
-class InductionFactors_Hellwig2022(
-    namedtuple("InductionFactors_Hellwig2022", ("F", "c", "N_c"))
-):
+@dataclass(frozen=True)
+class InductionFactors_Hellwig2022(MixinDataclassIterable):
     """
-    *Hellwig and Fairchild (2022)* colour appearance model induction factors.
+    Define the *Hellwig and Fairchild (2022)* colour appearance model
+    induction factors.
 
     Parameters
     ----------
@@ -116,13 +125,17 @@ class InductionFactors_Hellwig2022(
     :cite:`Fairchild2022`, :cite:`Hellwig2022`
     """
 
+    F: float
+    c: float
+    N_c: float
+
 
 VIEWING_CONDITIONS_HELLWIG2022: CanonicalMapping = CanonicalMapping(
     VIEWING_CONDITIONS_CIECAM02
 )
 VIEWING_CONDITIONS_HELLWIG2022.__doc__ = """
-Reference *Hellwig and Fairchild (2022)* colour appearance model viewing
-conditions.
+Define the reference *Hellwig and Fairchild (2022)* colour appearance model
+viewing conditions.
 
 References
 ----------
@@ -136,13 +149,19 @@ class CAM_Specification_Hellwig2022(MixinDataclassArithmetic):
     Define the *Hellwig and Fairchild (2022)* colour appearance model
     specification.
 
-    This specification supports the *Helmholtz-Kohlrausch* effect extension
-    from :cite:`Hellwig2022a`.
+    Represent colour appearance attributes calculated by the
+    *Hellwig and Fairchild (2022)* colour appearance model. The
+    specification includes correlates for lightness, chroma, hue,
+    saturation, brightness, colourfulness, and hue quadrature. This
+    implementation supports the *Helmholtz-Kohlrausch* effect extension
+    from :cite:`Hellwig2022a`, providing adjusted lightness and brightness
+    correlates that account for the increased brightness perception of
+    highly saturated colours.
 
     Parameters
     ----------
     J
-        Correlate of *Lightness* :math:`J`.
+        Correlate of *lightness* :math:`J`.
     C
         Correlate of *chroma* :math:`C`.
     h
@@ -158,7 +177,7 @@ class CAM_Specification_Hellwig2022(MixinDataclassArithmetic):
     HC
         *Hue* :math:`h` composition :math:`H^C`.
     J_HK
-        Correlate of *Lightness* :math:`J_{HK}` accounting for
+        Correlate of *lightness* :math:`J_{HK}` accounting for
         *Helmholtz-Kohlrausch* effect.
     Q_HK
         Correlate of *brightness* :math:`Q_{HK}` accounting for
@@ -182,8 +201,8 @@ class CAM_Specification_Hellwig2022(MixinDataclassArithmetic):
 
 
 def XYZ_to_Hellwig2022(
-    XYZ: ArrayLike,
-    XYZ_w: ArrayLike,
+    XYZ: Domain100,
+    XYZ_w: Domain100,
     L_A: ArrayLike,
     Y_b: ArrayLike,
     surround: (
@@ -191,10 +210,12 @@ def XYZ_to_Hellwig2022(
     ) = VIEWING_CONDITIONS_HELLWIG2022["Average"],
     discount_illuminant: bool = False,
     compute_H: bool = True,
-) -> CAM_Specification_Hellwig2022:
+) -> Annotated[
+    CAM_Specification_Hellwig2022, (100, 100, 360, 100, 100, 100, 400, 100, 100)
+]:
     """
     Compute the *Hellwig and Fairchild (2022)* colour appearance model
-    correlates from given *CIE XYZ* tristimulus values.
+    correlates from the specified *CIE XYZ* tristimulus values.
 
     This implementation supports the *Helmholtz-Kohlrausch* effect extension
     from :cite:`Hellwig2022a`.
@@ -210,11 +231,11 @@ def XYZ_to_Hellwig2022(
         to be 20% of the luminance of a white object in the scene).
     Y_b
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
-        light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
-        pixels in the entire image, or frequently, a :math:`Y` value of 20,
-        approximate an :math:`L^*` of 50 is used.
+        :math:`Y_b = 100 \\times L_b / L_w` where :math:`L_w` is the luminance
+        of the light source and :math:`L_b` is the luminance of the background.
+        For viewing images, :math:`Y_b` can be the average :math:`Y` value for
+        the pixels in the entire image, or frequently, a :math:`Y` value of 20,
+        approximating an :math:`L^*` of 50 is used.
     surround
         Surround viewing conditions induction factors.
     discount_illuminant
@@ -230,56 +251,35 @@ def XYZ_to_Hellwig2022(
 
     Notes
     -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
-    | ``XYZ_w``  | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
+    +------------------------+-----------------------+---------------+
+    | **Domain**             | **Scale - Reference** | **Scale - 1** |
+    +========================+=======================+===============+
+    | ``XYZ``                | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``XYZ_w``              | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
 
-    +----------------------------------------+-----------------------\
-+---------------+
-    | **Range**                              | **Scale - Reference** \
-| **Scale - 1** |
-    +========================================+=======================\
-+===============+
-    | ``CAM_Specification_Hellwig2022.J``    | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_Hellwig2022.C``    | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_Hellwig2022.h``    | [0, 360]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_Hellwig2022.s``    | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_Hellwig2022.Q``    | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_Hellwig2022.M``    | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_Hellwig2022.H``    | [0, 400]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_Hellwig2022.J_HK`` | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_Hellwig2022.Q_HK`` | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
+    +------------------------+-----------------------+---------------+
+    | **Range**              | **Scale - Reference** | **Scale - 1** |
+    +========================+=======================+===============+
+    | ``specification.J``    | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``specification.C``    | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``specification.h``    | 360                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``specification.s``    | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``specification.Q``    | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``specification.M``    | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``specification.H``    | 400                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``specification.J_HK`` | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``specification.Q_HK`` | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
 
     References
     ----------
@@ -380,32 +380,34 @@ H=275.5949861..., HC=None, J_HK=41.8802782..., Q_HK=56.0518358...)
     Q_HK = (2 / surround.c) * (J_HK / 100) * A_w
 
     return CAM_Specification_Hellwig2022(
-        as_float(from_range_100(J)),
-        as_float(from_range_100(C)),
-        as_float(from_range_degrees(h)),
-        as_float(from_range_100(s)),
-        as_float(from_range_100(Q)),
-        as_float(from_range_100(M)),
-        as_float(from_range_degrees(H, 400)),
-        None,
-        as_float(from_range_100(J_HK)),
-        as_float(from_range_100(Q_HK)),
+        J=as_float(from_range_100(J)),
+        C=as_float(from_range_100(C)),
+        h=as_float(from_range_degrees(h)),
+        s=as_float(from_range_100(s)),
+        Q=as_float(from_range_100(Q)),
+        M=as_float(from_range_100(M)),
+        H=as_float(from_range_degrees(H, 400)),
+        HC=None,
+        J_HK=as_float(from_range_100(J_HK)),
+        Q_HK=as_float(from_range_100(Q_HK)),
     )
 
 
 def Hellwig2022_to_XYZ(
-    specification: CAM_Specification_Hellwig2022,
-    XYZ_w: ArrayLike,
+    specification: Annotated[
+        CAM_Specification_Hellwig2022, (100, 100, 360, 100, 100, 100, 400, 100, 100)
+    ],
+    XYZ_w: Domain100,
     L_A: ArrayLike,
     Y_b: ArrayLike,
     surround: (
         InductionFactors_CIECAM02 | InductionFactors_Hellwig2022
     ) = VIEWING_CONDITIONS_HELLWIG2022["Average"],
     discount_illuminant: bool = False,
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Convert from *Hellwig and Fairchild (2022)* specification to *CIE XYZ*
-    tristimulus values.
+    Convert the *Hellwig and Fairchild (2022)* colour appearance model
+    specification to *CIE XYZ* tristimulus values.
 
     This implementation supports the *Helmholtz-Kohlrausch* effect extension
     from :cite:`Hellwig2022a`.
@@ -414,21 +416,21 @@ def Hellwig2022_to_XYZ(
     ----------
     specification
         *Hellwig and Fairchild (2022)* colour appearance model specification.
-        Correlate of *Lightness* :math:`J`, correlate of *chroma* :math:`C` or
-        correlate of *colourfulness* :math:`M` and *hue* angle :math:`h` in
-        degrees must be specified, e.g., :math:`JCh` or :math:`JMh`.
+        Correlate of *lightness* :math:`J`, correlate of *chroma* :math:`C`
+        or correlate of *colourfulness* :math:`M` and *hue* angle :math:`h`
+        in degrees must be specified, e.g., :math:`JCh` or :math:`JMh`.
     XYZ_w
         *CIE XYZ* tristimulus values of reference white.
     L_A
-        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
-        to be 20% of the luminance of a white object in the scene).
+        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often
+        taken to be 20% of the luminance of a white object in the scene).
     Y_b
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
-        light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
-        pixels in the entire image, or frequently, a :math:`Y` value of 20,
-        approximate an :math:`L^*` of 50 is used.
+        :math:`Y_b = 100 \\times L_b / L_w` where :math:`L_w` is the
+        luminance of the light source and :math:`L_b` is the luminance of the
+        background. For viewing images, :math:`Y_b` can be the average
+        :math:`Y` value for the pixels in the entire image, or frequently, a
+        :math:`Y` value of 20, approximating an :math:`L^*` of 50 is used.
     surround
         Surround viewing conditions.
     discount_illuminant
@@ -442,63 +444,40 @@ def Hellwig2022_to_XYZ(
     Raises
     ------
     ValueError
-        If neither :math:`C` or :math:`M` correlates have been defined in the
-        ``specification`` argument.
+        If neither :math:`C` or :math:`M` correlates have been defined in
+        the ``specification`` argument.
 
     Notes
     -----
-    +----------------------------------------+-----------------------\
-+---------------+
-    | **Domain**                             | **Scale - Reference** \
-| **Scale - 1** |
-    +========================================+=======================\
-+===============+
-    | ``CAM_Specification_Hellwig2022.J``    | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_Hellwig2022.C``    | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_Hellwig2022.h``    | [0, 360]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_Hellwig2022.s``    | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_Hellwig2022.Q``    | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_Hellwig2022.M``    | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_Hellwig2022.H``    | [0, 400]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_Hellwig2022.J_HK`` | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
-    | ``CAM_Specification_Hellwig2022.Q_HK`` | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
-    | ``XYZ_w``                              | [0, 100]              \
-| [0, 1]        |
-    +----------------------------------------+-----------------------\
-+---------------+
+    +------------------------+-----------------------+---------------+
+    | **Domain**             | **Scale - Reference** | **Scale - 1** |
+    +========================+=======================+===============+
+    | ``specification.J``    | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``specification.C``    | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``specification.h``    | 360                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``specification.s``    | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``specification.Q``    | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``specification.M``    | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``specification.H``    | 400                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``specification.J_HK`` | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``specification.Q_HK`` | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
+    | ``XYZ_w``              | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
 
-    +-----------+-----------------------+---------------+
-    | **Range** | **Scale - Reference** | **Scale - 1** |
-    +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
-    +-----------+-----------------------+---------------+
+    +------------------------+-----------------------+---------------+
+    | **Range**              | **Scale - Reference** | **Scale - 1** |
+    +========================+=======================+===============+
+    | ``XYZ``                | 100                   | 1             |
+    +------------------------+-----------------------+---------------+
 
     References
     ----------
@@ -536,10 +515,12 @@ def Hellwig2022_to_XYZ(
 
         J = J_HK - hue_angle_dependency_Hellwig2022(h) * spow(C, 0.587)
     elif has_only_nan(J):
-        raise ValueError(
+        error = (
             'Either "J" or "J_HK" correlate must be defined in '
             'the "CAM_Specification_Hellwig2022" argument!'
         )
+
+        raise ValueError(error)
     else:
         J = to_domain_100(J)
 
@@ -573,10 +554,12 @@ def Hellwig2022_to_XYZ(
     if has_only_nan(M) and not has_only_nan(C):
         M = (C * A_w) / 35
     elif has_only_nan(M):
-        raise ValueError(
+        error = (
             'Either "C" or "M" correlate must be defined in '
             'the "CAM_Specification_Hellwig2022" argument!'
         )
+
+        raise ValueError(error)
 
     # Step 2
     # Computing eccentricity factor *e_t*.
@@ -617,7 +600,7 @@ def viewing_conditions_dependent_parameters(
     L_A: ArrayLike,
 ) -> Tuple[NDArrayFloat, NDArrayFloat]:
     """
-    Return the viewing condition dependent parameters.
+    Compute the viewing condition dependent parameters.
 
     Parameters
     ----------
@@ -654,9 +637,9 @@ def viewing_conditions_dependent_parameters(
 
 def achromatic_response_forward(RGB: ArrayLike) -> NDArrayFloat:
     """
-    Return the achromatic response :math:`A` from given compressed
-    *CAM16* transform sharpened *RGB* array and :math:`N_{bb}` chromatic
-    induction factor for forward *Hellwig and Fairchild (2022)* implementation.
+    Compute the achromatic response :math:`A` from the specified compressed
+    *CAM16* transform sharpened *RGB* array for forward *Hellwig and Fairchild
+    (2022)* implementation.
 
     Parameters
     ----------
@@ -677,17 +660,15 @@ def achromatic_response_forward(RGB: ArrayLike) -> NDArrayFloat:
 
     R, G, B = tsplit(RGB)
 
-    A = 2 * R + G + 0.05 * B - 0.305
-
-    return A
+    return 2 * R + G + 0.05 * B - 0.305
 
 
 def opponent_colour_dimensions_inverse(
     P_p_1: ArrayLike, h: ArrayLike, M: ArrayLike
 ) -> NDArrayFloat:
     """
-    Return opponent colour dimensions from given point :math:`P'_1`, hue
-    :math:`h` in degrees and correlate of *colourfulness* :math:`M` for
+    Compute opponent colour dimensions from the specified point :math:`P'_1`,
+    hue :math:`h` in degrees and correlate of *colourfulness* :math:`M` for
     inverse *Hellwig and Fairchild (2022)* implementation.
 
     Parameters
@@ -724,15 +705,13 @@ def opponent_colour_dimensions_inverse(
     a = gamma * np.cos(hr)
     b = gamma * np.sin(hr)
 
-    ab = tstack([a, b])
-
-    return ab
+    return tstack([a, b])
 
 
 def eccentricity_factor(h: ArrayLike) -> NDArrayFloat:
     """
-    Return the eccentricity factor :math:`e_t` from given hue :math:`h` angle
-    in degrees for forward *CIECAM02* implementation.
+    Compute the eccentricity factor :math:`e_t` from the specified hue
+    :math:`h` angle in degrees for forward *CIECAM02* implementation.
 
     Parameters
     ----------
@@ -759,7 +738,7 @@ def eccentricity_factor(h: ArrayLike) -> NDArrayFloat:
     _3_h = 3 * hr
     _4_h = 4 * hr
 
-    e_t = (
+    return (
         -0.0582 * np.cos(_h)
         - 0.0258 * np.cos(_2_h)
         - 0.1347 * np.cos(_3_h)
@@ -771,8 +750,6 @@ def eccentricity_factor(h: ArrayLike) -> NDArrayFloat:
         + 1
     )
 
-    return e_t
-
 
 def brightness_correlate(
     c: ArrayLike,
@@ -780,7 +757,7 @@ def brightness_correlate(
     A_w: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the *brightness* correlate :math:`Q`.
+    Compute the *brightness* correlate :math:`Q`.
 
     Parameters
     ----------
@@ -810,9 +787,7 @@ def brightness_correlate(
     A_w = as_float_array(A_w)
 
     with sdiv_mode():
-        Q = (2 / c) * (J / 100) * A_w
-
-    return Q
+        return (2 / c) * (J / 100) * A_w
 
 
 def colourfulness_correlate(
@@ -822,12 +797,12 @@ def colourfulness_correlate(
     b: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the *colourfulness* correlate :math:`M`.
+    Compute the *colourfulness* correlate :math:`M`.
 
     Parameters
     ----------
     N_c
-        Surround chromatic induction factor :math:`N_{c}`.
+        Surround chromatic induction factor :math:`N_c`.
     e_t
         Eccentricity factor :math:`e_t`.
     a
@@ -855,9 +830,7 @@ def colourfulness_correlate(
     a = as_float_array(a)
     b = as_float_array(b)
 
-    M = 43.0 * N_c * e_t * np.hypot(a, b)
-
-    return M
+    return 43.0 * N_c * e_t * np.hypot(a, b)
 
 
 def chroma_correlate(
@@ -865,7 +838,7 @@ def chroma_correlate(
     A_w: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the *chroma* correlate :math:`C`.
+    Compute the *chroma* correlate :math:`C`.
 
     Parameters
     ----------
@@ -891,21 +864,19 @@ def chroma_correlate(
     A_w = as_float_array(A_w)
 
     with sdiv_mode():
-        C = 35 * sdiv(M, A_w)
-
-    return C
+        return 35 * sdiv(M, A_w)
 
 
 def saturation_correlate(M: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     """
-    Return the *saturation* correlate :math:`s`.
+    Compute the *saturation* correlate :math:`s`.
 
     Parameters
     ----------
     M
         *Colourfulness* correlate :math:`M`.
     Q
-        *Brightness* correlate :math:`C`.
+        *Brightness* correlate :math:`Q`.
 
     Returns
     -------
@@ -924,9 +895,7 @@ def saturation_correlate(M: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     Q = as_float_array(Q)
 
     with sdiv_mode():
-        s = 100 * sdiv(M, Q)
-
-    return s
+        return 100 * sdiv(M, Q)
 
 
 def P_p(
@@ -935,7 +904,7 @@ def P_p(
     A: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the points :math:`P'_1` and :math:`P'_2`.
+    Compute the points :math:`P'_1` and :math:`P'_2`.
 
     Parameters
     ----------
@@ -944,12 +913,13 @@ def P_p(
     e_t
         Eccentricity factor :math:`e_t`.
     A
-        Achromatic response  :math:`A` for the stimulus.
+        Achromatic response :math:`A` for the stimulus.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Points :math:`P'`.
+        Points :math:`P'` as an array containing :math:`P'_1` and
+        :math:`P'_2`.
 
     Examples
     --------
@@ -967,9 +937,7 @@ def P_p(
     P_p_1 = 43 * N_c * e_t
     P_p_2 = A
 
-    P_p_n = tstack([P_p_1, P_p_2])
-
-    return P_p_n
+    return tstack([P_p_1, P_p_2])
 
 
 def hue_angle_dependency_Hellwig2022(
@@ -986,7 +954,7 @@ def hue_angle_dependency_Hellwig2022(
     Returns
     -------
     :class:`numpy.ndarray`
-        Hue angle dependency.
+        Hue angle dependency of the *Helmholtz-Kohlrausch* effect.
 
     References
     ----------

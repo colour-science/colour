@@ -9,11 +9,13 @@ imports.
 
 from __future__ import annotations
 
-import numpy as np
 import re
-from numpy.typing import ArrayLike, NDArray
+import typing
+from collections.abc import Generator, Iterable, Iterator, Mapping, Sequence
+from os import PathLike
 from types import ModuleType
 from typing import (  # noqa: UP035
+    Annotated,
     Any,
     Callable,
     ClassVar,
@@ -21,23 +23,24 @@ from typing import (  # noqa: UP035
     List,
     Literal,
     NewType,
-    Optional,
+    NoReturn,
     Protocol,
+    Self,
     Set,
     SupportsIndex,
-    TYPE_CHECKING,
     TextIO,
     Tuple,
     Type,
-    TypeVar,
+    TypeAlias,
     TypedDict,
-    Union,
+    TypeVar,
     cast,
     overload,
     runtime_checkable,
 )
-from collections.abc import Generator, Iterable, Iterator, Mapping, Sequence
-from typing_extensions import Self
+
+import numpy as np
+from numpy.typing import ArrayLike, NDArray
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -47,6 +50,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "Annotated",
     "ArrayLike",
     "NDArray",
     "ModuleType",
@@ -60,19 +64,18 @@ __all__ = [
     "List",
     "Literal",
     "Mapping",
+    "NoReturn",
     "NewType",
-    "Optional",
     "Protocol",
     "Sequence",
+    "PathLike",
     "Set",
     "SupportsIndex",
-    "TYPE_CHECKING",
     "TextIO",
     "Tuple",
     "Type",
     "TypeVar",
     "TypedDict",
-    "Union",
     "cast",
     "overload",
     "runtime_checkable",
@@ -92,6 +95,16 @@ __all__ = [
     "NDArrayComplex",
     "NDArrayBoolean",
     "NDArrayStr",
+    "Domain1",
+    "Domain10",
+    "Domain100",
+    "Domain360",
+    "Domain100_100_360",
+    "Range1",
+    "Range10",
+    "Range100",
+    "Range360",
+    "Range100_100_360",
     "ProtocolInterpolator",
     "ProtocolExtrapolator",
     "ProtocolLUTSequenceItem",
@@ -116,33 +129,46 @@ __all__ = [
 
 RegexFlag = NewType("RegexFlag", re.RegexFlag)
 
-DTypeInt = Union[
-    np.int8,
-    np.int16,
-    np.int32,
-    np.int64,
-    np.uint8,
-    np.uint16,
-    np.uint32,
-    np.uint64,
-]
-DTypeFloat = Union[np.float16, np.float32, np.float64]
-DTypeReal = Union[DTypeInt, DTypeFloat]
-DTypeComplex = Union[np.csingle, np.cdouble]
-DTypeBoolean = np.bool_
-DType = Union[DTypeBoolean, DTypeReal, DTypeComplex]
+DTypeInt: TypeAlias = (
+    np.int8
+    | np.int16
+    | np.int32
+    | np.int64
+    | np.uint8
+    | np.uint16
+    | np.uint32
+    | np.uint64
+)
+DTypeFloat: TypeAlias = np.float16 | np.float32 | np.float64
+DTypeReal: TypeAlias = DTypeInt | DTypeFloat
+DTypeComplex: TypeAlias = np.complex64 | np.complex128
+DTypeBoolean: TypeAlias = np.bool_
+DType: TypeAlias = DTypeBoolean | DTypeReal | DTypeComplex
 
-Real = Union[int, float]
+Real: TypeAlias = int | float
 
 # TODO: Revisit to use Protocol.
-Dataclass = Any
+Dataclass: TypeAlias = Any
 
-NDArrayInt = NDArray[DTypeInt]
-NDArrayFloat = NDArray[DTypeFloat]
-NDArrayReal = NDArray[Union[DTypeInt, DTypeFloat]]
-NDArrayComplex = NDArray[DTypeComplex]
-NDArrayBoolean = NDArray[DTypeBoolean]
-NDArrayStr = NDArray[np.str_]
+NDArrayInt: TypeAlias = NDArray[DTypeInt]
+NDArrayFloat: TypeAlias = NDArray[DTypeFloat]
+NDArrayReal: TypeAlias = NDArray[DTypeInt | DTypeFloat]
+NDArrayComplex: TypeAlias = NDArray[DTypeComplex]
+NDArrayBoolean: TypeAlias = NDArray[DTypeBoolean]
+NDArrayStr: TypeAlias = NDArray[np.str_]
+
+# Domain-Range Scale Type Aliases
+Domain1: TypeAlias = Annotated[ArrayLike, 1]
+Domain10: TypeAlias = Annotated[ArrayLike, 10]
+Domain100: TypeAlias = Annotated[ArrayLike, 100]
+Domain360: TypeAlias = Annotated[ArrayLike, 360]
+Domain100_100_360: TypeAlias = Annotated[ArrayLike, (100, 100, 360)]
+
+Range1: TypeAlias = Annotated[NDArrayFloat, 1]
+Range10: TypeAlias = Annotated[NDArrayFloat, 10]
+Range100: TypeAlias = Annotated[NDArrayFloat, 100]
+Range360: TypeAlias = Annotated[NDArrayFloat, 360]
+Range100_100_360: TypeAlias = Annotated[NDArrayFloat, (100, 100, 360)]
 
 
 class ProtocolInterpolator(Protocol):  # noqa: D101  # pragma: no cover
@@ -151,21 +177,18 @@ class ProtocolInterpolator(Protocol):  # noqa: D101  # pragma: no cover
         ...
 
     @x.setter
-    def x(self, value: ArrayLike):
-        ...
+    def x(self, value: ArrayLike, /) -> None: ...
 
     @property
     def y(self) -> NDArray:  # noqa: D102
         ...
 
     @y.setter
-    def y(self, value: ArrayLike):
-        ...
+    def y(self, value: ArrayLike, /) -> None: ...
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        ...  # pragma: no cover
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...  # pragma: no cover
 
-    def __call__(self, x: ArrayLike) -> NDArray:  # noqa: D102
+    def __call__(self, x: NDArrayFloat) -> NDArray:  # noqa: D102
         ...  # pragma: no cover
 
 
@@ -175,13 +198,11 @@ class ProtocolExtrapolator(Protocol):  # noqa: D101  # pragma: no cover
         ...
 
     @interpolator.setter
-    def interpolator(self, value: ProtocolInterpolator):
-        ...
+    def interpolator(self, value: ProtocolInterpolator, /) -> None: ...
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        ...  # pragma: no cover
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...  # pragma: no cover
 
-    def __call__(self, x: ArrayLike) -> NDArray:  # noqa: D102
+    def __call__(self, x: NDArrayFloat) -> NDArray:  # noqa: D102
         ...  # pragma: no cover
 
 
@@ -211,6 +232,7 @@ LiteralChromaticAdaptationTransform = Literal[
     "Von Kries",
     "XYZ Scaling",
 ]
+
 LiteralColourspaceModel = Literal[
     "CAM02LCD",
     "CAM02SCD",
@@ -248,7 +270,9 @@ LiteralColourspaceModel = Literal[
     "Yrg",
     "hdr-CIELAB",
     "hdr-IPT",
+    "sUCS",
 ]
+
 LiteralRGBColourspace = Literal[
     "ACES2065-1",
     "ACEScc",
@@ -264,6 +288,7 @@ LiteralRGBColourspace = Literal[
     "Beta RGB",
     "Blackmagic Wide Gamut",
     "CIE RGB",
+    "CIE XYZ-D65 - Scene-referred",
     "Cinema Gamut",
     "ColorMatch RGB",
     "DCDM XYZ",
@@ -280,13 +305,23 @@ LiteralRGBColourspace = Literal[
     "ERIMM RGB",
     "Ekta Space PS 5",
     "F-Gamut",
+    "F-Gamut C",
     "FilmLight E-Gamut",
+    "FilmLight E-Gamut 2",
+    "Gamma 1.8 Encoded Rec.709",
+    "Gamma 2.2 Encoded AP1",
+    "Gamma 2.2 Encoded AdobeRGB",
+    "Gamma 2.2 Encoded Rec.709",
     "ITU-R BT.2020",
     "ITU-R BT.470 - 525",
     "ITU-R BT.470 - 625",
     "ITU-R BT.709",
     "ITU-T H.273 - 22 Unspecified",
     "ITU-T H.273 - Generic Film",
+    "Linear AdobeRGB",
+    "Linear P3-D65",
+    "Linear Rec.2020",
+    "Linear Rec.709 (sRGB)",
     "Max RGB",
     "N-Gamut",
     "NTSC (1953)",
@@ -316,9 +351,27 @@ LiteralRGBColourspace = Literal[
     "Xtreme RGB",
     "aces",
     "adobe1998",
+    "g18_rec709_scene",
+    "g22_adobergb_scene",
+    "g22_ap1_scene",
+    "g22_rec709_scene",
+    "lin_adobergb_scene",
+    "lin_ap0_scene",
+    "lin_ap1_scene",
+    "lin_ciexyzd65_scene",
+    "lin_p3d65_scene",
+    "lin_rec2020_scene",
+    "lin_rec709_scene",
     "prophoto",
     "sRGB",
+    "sRGB Encoded AP1",
+    "sRGB Encoded P3-D65",
+    "sRGB Encoded Rec.709 (sRGB)",
+    "srgb_ap1_scene",
+    "srgb_p3d65_scene",
+    "srgb_rec709_scene",
 ]
+
 LiteralLogEncoding = Literal[
     "ACEScc",
     "ACEScct",
@@ -339,6 +392,7 @@ LiteralLogEncoding = Literal[
     "Log2",
     "Log3G10",
     "Log3G12",
+    "Mi-Log",
     "N-Log",
     "PLog",
     "Panalog",
@@ -352,6 +406,7 @@ LiteralLogEncoding = Literal[
     "V-Log",
     "ViperLog",
 ]
+
 LiteralLogDecoding = Literal[
     "ACEScc",
     "ACEScct",
@@ -372,6 +427,7 @@ LiteralLogDecoding = Literal[
     "Log2",
     "Log3G10",
     "Log3G12",
+    "Mi-Log",
     "N-Log",
     "PLog",
     "Panalog",
@@ -385,6 +441,7 @@ LiteralLogDecoding = Literal[
     "V-Log",
     "ViperLog",
 ]
+
 LiteralOETF = Literal[
     "ARIB STD-B67",
     "Blackmagic Film Generation 5",
@@ -399,6 +456,7 @@ LiteralOETF = Literal[
     "ITU-T H.273 Log Sqrt",
     "SMPTE 240M",
 ]
+
 LiteralOETFInverse = Literal[
     "ARIB STD-B67",
     "Blackmagic Film Generation 5",
@@ -412,6 +470,7 @@ LiteralOETFInverse = Literal[
     "ITU-T H.273 Log",
     "ITU-T H.273 Log Sqrt",
 ]
+
 LiteralEOTF = Literal[
     "DCDM",
     "DICOM GSDF",
@@ -423,6 +482,7 @@ LiteralEOTF = Literal[
     "ST 2084",
     "sRGB",
 ]
+
 LiteralEOTFInverse = Literal[
     "DCDM",
     "DICOM GSDF",
@@ -433,6 +493,7 @@ LiteralEOTFInverse = Literal[
     "ST 2084",
     "sRGB",
 ]
+
 LiteralCCTFEncoding = Literal[
     "ACEScc",
     "ACEScct",
@@ -471,6 +532,7 @@ LiteralCCTFEncoding = Literal[
     "Log2",
     "Log3G10",
     "Log3G12",
+    "Mi-Log",
     "N-Log",
     "PLog",
     "Panalog",
@@ -490,6 +552,7 @@ LiteralCCTFEncoding = Literal[
     "ViperLog",
     "sRGB",
 ]
+
 LiteralCCTFDecoding = Literal[
     "ACEScc",
     "ACEScct",
@@ -528,6 +591,7 @@ LiteralCCTFDecoding = Literal[
     "Log2",
     "Log3G10",
     "Log3G12",
+    "Mi-Log",
     "N-Log",
     "PLog",
     "Panalog",
@@ -547,8 +611,11 @@ LiteralCCTFDecoding = Literal[
     "ViperLog",
     "sRGB",
 ]
+
 LiteralOOTF = Literal["ITU-R BT.2100 HLG", "ITU-R BT.2100 PQ"]
+
 LiteralOOTFInverse = Literal["ITU-R BT.2100 HLG", "ITU-R BT.2100 PQ"]
+
 LiteralLUTReadMethod = Literal[
     "Cinespace",
     "Iridas Cube",
@@ -557,6 +624,7 @@ LiteralLUTReadMethod = Literal[
     "Sony SPI3D",
     "Sony SPImtx",
 ]
+
 LiteralLUTWriteMethod = Literal[
     "Cinespace",
     "Iridas Cube",
@@ -565,6 +633,27 @@ LiteralLUTWriteMethod = Literal[
     "Sony SPI3D",
     "Sony SPImtx",
 ]
+
+LiteralDeltaEMethod = Literal[
+    "CAM02-LCD",
+    "CAM02-SCD",
+    "CAM02-UCS",
+    "CAM16-LCD",
+    "CAM16-SCD",
+    "CAM16-UCS",
+    "CIE 1976",
+    "CIE 1994",
+    "CIE 2000",
+    "CMC",
+    "DIN99",
+    "HyAB",
+    "HyCH",
+    "ITP",
+    "cie1976",
+    "cie1994",
+    "cie2000",
+]
+
 LiteralFontScaling = Literal[
     "xx-small",
     "x-small",
@@ -586,12 +675,10 @@ LiteralFontScaling = Literal[
 # LITERALISE::END
 
 
-def arraylike(a: ArrayLike) -> NDArray:  # noqa: ARG001
-    ...
+def arraylike(a: ArrayLike) -> NDArray: ...
 
 
-def number_or_arraylike(a: ArrayLike) -> NDArray:  # noqa: ARG001
-    ...
+def number_or_arraylike(a: ArrayLike) -> NDArray: ...
 
 
 a: DTypeFloat = np.float64(1)
@@ -641,7 +728,7 @@ del a, b, c, d, e, s_a, s_b, s_c
 # ----------------------------------------------------------------------------#
 # ---                API Changes and Deprecation Management                ---#
 # ----------------------------------------------------------------------------#
-if not TYPE_CHECKING:
+if not typing.TYPE_CHECKING:
     DTypeFloating = DTypeFloat
     DTypeInteger = DTypeInt
     DTypeNumber = DTypeReal

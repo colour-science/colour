@@ -2,11 +2,15 @@
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.colorimetry import spectral_uniformity
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -227,22 +231,24 @@ class TestSpectralUniformity:
     definition unit tests methods.
     """
 
-    def test_spectral_uniformity(self):
+    def test_spectral_uniformity(self) -> None:
         """
         Test :func:`colour.colorimetry.uniformity.spectral_uniformity`
         definition.
         """
 
-        from colour.quality.datasets import SDS_TCS
+        from colour.quality.datasets import SDS_TCS  # noqa: PLC0415
 
         np.testing.assert_allclose(
-            spectral_uniformity(SDS_TCS.values()),
+            spectral_uniformity(SDS_TCS["CIE 1995"].values()),
             DATA_UNIFORMITY_FIRST_ORDER_DERIVATIVES,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         np.testing.assert_allclose(
-            spectral_uniformity(SDS_TCS.values(), use_second_order_derivatives=True),
+            spectral_uniformity(
+                SDS_TCS["CIE 1995"].values(), use_second_order_derivatives=True
+            ),
             DATA_UNIFORMITY_SECOND_ORDER_DERIVATIVES,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

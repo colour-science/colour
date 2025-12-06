@@ -1,4 +1,9 @@
-"""Showcase *Colour Fidelity Index* (CFI) computations."""
+"""
+Demonstrate *Colour Fidelity Index* (CFI) computations.
+
+This module provides examples of colour fidelity index calculations
+using various standard methods.
+"""
 
 from pprint import pprint
 
@@ -21,8 +26,7 @@ print(colour.quality.colour_fidelity_index_ANSIIESTM3018(colour.SDS_ILLUMINANTS[
 print("\n")
 
 message_box(
-    'Computing "F2" illuminant "Colour Fidelity Index" (CFI) with detailed '
-    "output data."
+    'Computing "F2" illuminant "Colour Fidelity Index" (CFI) with detailed output data.'
 )
 pprint(
     colour.colour_fidelity_index(colour.SDS_ILLUMINANTS["FL2"], additional_data=True)

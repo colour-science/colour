@@ -2,16 +2,20 @@
 OpenColorIO Processing
 ======================
 
-Define the object for *OpenColorIO* processing:
+Define the object for *OpenColorIO* processing.
 
 -   :func:`colour.io.process_image_OpenColorIO`
 """
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import Any, ArrayLike, NDArrayFloat
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ArrayLike, NDArrayFloat
+
 from colour.io import as_3_channels_image
 from colour.utilities import as_float, as_float_array, required
 
@@ -30,7 +34,7 @@ __all__ = [
 @required("OpenColorIO")
 def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArrayFloat:
     """
-    Process given image data with *OpenColorIO*.
+    Process the specified image data with *OpenColorIO*.
 
     Parameters
     ----------
@@ -40,18 +44,23 @@ def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArra
     Other Parameters
     ----------------
     config
-        *OpenColorIO* config to use for processing. If not defined, the
-        *OpenColorIO* set defined by the ``$OCIO`` environment variable is
-        used.
+        *OpenColorIO* configuration to use for processing. If not specified,
+        the *OpenColorIO* configuration defined by the ``$OCIO`` environment
+        variable is used.
     args
-        Arguments for `Config.getProcessor` method.
-        See https://opencolorio.readthedocs.io/en/latest/api/config.html for
+        Arguments for the ``Config.getProcessor`` method. See
+        https://opencolorio.readthedocs.io/en/latest/api/config.html for
         more information.
 
     Returns
     -------
     :class:`numpy.ndarray`
         Processed image data.
+
+    Raises
+    ------
+    RuntimeError
+        If *OpenColorIO* is not available.
 
     Examples
     --------
@@ -125,7 +134,7 @@ def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArra
             [ 0.3559542...,  0.3559542...,  0.3559542...]]])
     """
 
-    import PyOpenColorIO as ocio
+    import PyOpenColorIO as ocio  # noqa: PLC0415
 
     config = kwargs.get("config")
     config = (
@@ -136,7 +145,7 @@ def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArra
 
     a = as_float_array(a)
     shape, dtype = a.shape, a.dtype
-    a = np.ascontiguousarray(as_3_channels_image(a).astype(np.float32))
+    a = as_3_channels_image(a).astype(np.float32)
 
     height, width, channels = a.shape
 
@@ -152,7 +161,8 @@ def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArra
 
     if len(shape) == 0:
         return as_float(np.squeeze(b)[0])
-    elif shape[-1] == 1:
+
+    if shape[-1] == 1:
         return np.reshape(b[..., 0], shape)
-    else:
-        return np.reshape(b, shape)
+
+    return np.reshape(b, shape)

@@ -1,24 +1,70 @@
 """Define the unit tests for the :mod:`colour.utilities.array` module."""
 
+from __future__ import annotations
+
+import typing
 import unittest
 from copy import deepcopy
 from dataclasses import dataclass, field, fields
+from functools import partial
 
 import numpy as np
 import pytest
 
 from colour.constants import (
+    DTYPE_COMPLEX_DEFAULT,
     DTYPE_FLOAT_DEFAULT,
     DTYPE_INT_DEFAULT,
     TOLERANCE_ABSOLUTE_TESTS,
 )
-from colour.hints import NDArray, Optional, Type, Union
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Annotated,
+        Any,
+        ArrayLike,
+        Domain1,
+        Domain10,
+        Domain100,
+        Domain100_100_360,
+        Domain360,
+        DType,
+        NDArray,
+        NDArrayFloat,
+        Range1,
+        Range10,
+        Range100,
+        Range100_100_360,
+        Range360,
+        Type,
+    )
+else:
+    # Import Annotated at runtime for test helper function signatures
+    # get_domain_range_scale_metadata() needs to access Annotated.__metadata__
+    from colour.hints import (  # noqa: TC001
+        Annotated,
+        Any,
+        ArrayLike,
+        Domain1,
+        Domain10,
+        Domain100,
+        Domain360,
+        Domain100_100_360,
+        NDArrayFloat,
+        Range1,
+        Range10,
+        Range100,
+        Range360,
+        Range100_100_360,
+    )
+
 from colour.utilities import (
     MixinDataclassArithmetic,
     MixinDataclassArray,
     MixinDataclassFields,
     MixinDataclassIterable,
     as_array,
+    as_complex_array,
     as_float,
     as_float_array,
     as_float_scalar,
@@ -38,12 +84,14 @@ from colour.utilities import (
     from_range_int,
     full,
     get_domain_range_scale,
+    get_domain_range_scale_metadata,
     has_only_nan,
     in_array,
     index_along_last_axis,
     interval,
     is_ndarray_copy_enabled,
     is_networkx_installed,
+    is_scipy_installed,
     is_uniform,
     ndarray_copy,
     ndarray_copy_enable,
@@ -82,6 +130,7 @@ __all__ = [
     "TestAsFloat",
     "TestAsIntArray",
     "TestAsFloatArray",
+    "TestAsComplexArray",
     "TestAsIntScalar",
     "TestAsFloatScalar",
     "TestSetDefaultIntegerDtype",
@@ -89,6 +138,7 @@ __all__ = [
     "TestGetDomainRangeScale",
     "TestSetDomainRangeScale",
     "TestDomainRangeScale",
+    "TestGetDomainRangeScaleMetadata",
     "TestToDomain1",
     "TestToDomain10",
     "TestToDomain100",
@@ -129,7 +179,7 @@ class TestMixinDataclassFields(unittest.TestCase):
     tests methods.
     """
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Initialise the common tests attributes."""
 
         @dataclass
@@ -140,7 +190,7 @@ class TestMixinDataclassFields(unittest.TestCase):
 
         self._data: Data = Data(a="Foo", b="Bar", c="Baz")
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = ("fields",)
@@ -148,7 +198,7 @@ class TestMixinDataclassFields(unittest.TestCase):
         for method in required_attributes:
             assert method in dir(MixinDataclassFields)
 
-    def test_fields(self):
+    def test_fields(self) -> None:
         """
         Test :meth:`colour.utilities.array.MixinDataclassIterable._fields`
         method.
@@ -163,7 +213,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
     tests methods.
     """
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Initialise the common tests attributes."""
 
         @dataclass
@@ -174,7 +224,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
 
         self._data: Data = Data(a="Foo", b="Bar", c="Baz")
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = (
@@ -186,7 +236,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
         for method in required_attributes:
             assert method in dir(MixinDataclassIterable)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__iter__",)
@@ -194,17 +244,17 @@ class TestMixinDataclassIterable(unittest.TestCase):
         for method in required_methods:
             assert method in dir(MixinDataclassIterable)
 
-    def test__iter__(self):
+    def test__iter__(self) -> None:
         """
         Test :meth:`colour.utilities.array.MixinDataclassIterable.__iter__`
         method.
         """
 
-        assert {key: value for key, value in self._data} == (  # noqa: C416
+        assert {key: value for key, value in self._data} == (
             {"a": "Foo", "b": "Bar", "c": "Baz"}
         )
 
-    def test_keys(self):
+    def test_keys(self) -> None:
         """
         Test :meth:`colour.utilities.array.MixinDataclassIterable.keys`
         method.
@@ -212,7 +262,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
 
         assert tuple(self._data.keys) == ("a", "b", "c")
 
-    def test_values(self):
+    def test_values(self) -> None:
         """
         Test :meth:`colour.utilities.array.MixinDataclassIterable.values`
         method.
@@ -220,7 +270,7 @@ class TestMixinDataclassIterable(unittest.TestCase):
 
         assert tuple(self._data.values) == ("Foo", "Bar", "Baz")
 
-    def test_items(self):
+    def test_items(self) -> None:
         """
         Test :meth:`colour.utilities.array.MixinDataclassIterable.items`
         method.
@@ -235,20 +285,20 @@ class TestMixinDataclassArray(unittest.TestCase):
     tests methods.
     """
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Initialise the common tests attributes."""
 
         @dataclass
         class Data(MixinDataclassArray):
-            a: Optional[Union[float, list, tuple, np.ndarray]] = field(
+            a: float | list | tuple | np.ndarray | None = field(
                 default_factory=lambda: None
             )
 
-            b: Optional[Union[float, list, tuple, np.ndarray]] = field(
+            b: float | list | tuple | np.ndarray | None = field(
                 default_factory=lambda: None
             )
 
-            c: Optional[Union[float, list, tuple, np.ndarray]] = field(
+            c: float | list | tuple | np.ndarray | None = field(
                 default_factory=lambda: None
             )
 
@@ -263,7 +313,7 @@ class TestMixinDataclassArray(unittest.TestCase):
             ]
         )
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__array__",)
@@ -271,7 +321,7 @@ class TestMixinDataclassArray(unittest.TestCase):
         for method in required_methods:
             assert method in dir(MixinDataclassArray)
 
-    def test__array__(self):
+    def test__array__(self) -> None:
         """
         Test :meth:`colour.utilities.array.MixinDataclassArray.__array__`
         method.
@@ -288,20 +338,20 @@ class TestMixinDataclassArithmetic(unittest.TestCase):
     tests methods.
     """
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Initialise the common tests attributes."""
 
         @dataclass
         class Data(MixinDataclassArithmetic):
-            a: Optional[Union[float, list, tuple, np.ndarray]] = field(
+            a: float | list | tuple | np.ndarray | None = field(
                 default_factory=lambda: None
             )
 
-            b: Optional[Union[float, list, tuple, np.ndarray]] = field(
+            b: float | list | tuple | np.ndarray | None = field(
                 default_factory=lambda: None
             )
 
-            c: Optional[Union[float, list, tuple, np.ndarray]] = field(
+            c: float | list | tuple | np.ndarray | None = field(
                 default_factory=lambda: None
             )
 
@@ -317,7 +367,7 @@ class TestMixinDataclassArithmetic(unittest.TestCase):
             ]
         )
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (
@@ -337,7 +387,7 @@ class TestMixinDataclassArithmetic(unittest.TestCase):
         for method in required_methods:
             assert method in dir(MixinDataclassArithmetic)
 
-    def test_arithmetical_operation(self):
+    def test_arithmetical_operation(self) -> None:
         """
         Test :meth:`colour.utilities.array.MixinDataclassArithmetic.\
 arithmetical_operation` method.
@@ -473,7 +523,7 @@ class TestAsArray(unittest.TestCase):
     methods.
     """
 
-    def test_as_array(self):
+    def test_as_array(self) -> None:
         """Test :func:`colour.utilities.array.as_array` definition."""
 
         np.testing.assert_equal(as_array([1, 2, 3]), np.array([1, 2, 3]))
@@ -483,7 +533,8 @@ class TestAsArray(unittest.TestCase):
         assert as_array([1, 2, 3], DTYPE_INT_DEFAULT).dtype == DTYPE_INT_DEFAULT
 
         np.testing.assert_equal(
-            as_array(dict(zip("abc", [1, 2, 3])).values()), np.array([1, 2, 3])
+            as_array(dict(zip("abc", [1, 2, 3], strict=True)).values()),
+            np.array([1, 2, 3]),
         )
 
 
@@ -493,7 +544,7 @@ class TestAsInt(unittest.TestCase):
     methods.
     """
 
-    def test_as_int(self):
+    def test_as_int(self) -> None:
         """Test :func:`colour.utilities.array.as_int` definition."""
 
         assert as_int(1) == 1
@@ -517,7 +568,7 @@ class TestAsFloat(unittest.TestCase):
     methods.
     """
 
-    def test_as_float(self):
+    def test_as_float(self) -> None:
         """Test :func:`colour.utilities.array.as_float` definition."""
 
         assert as_float(1) == 1.0
@@ -543,7 +594,7 @@ class TestAsIntArray(unittest.TestCase):
     methods.
     """
 
-    def test_as_int_array(self):
+    def test_as_int_array(self) -> None:
         """Test :func:`colour.utilities.array.as_int_array` definition."""
 
         np.testing.assert_equal(as_int_array([1.0, 2.0, 3.0]), np.array([1, 2, 3]))
@@ -557,12 +608,34 @@ class TestAsFloatArray(unittest.TestCase):
     methods.
     """
 
-    def test_as_float_array(self):
+    def test_as_float_array(self) -> None:
         """Test :func:`colour.utilities.array.as_float_array` definition."""
 
         np.testing.assert_equal(as_float_array([1, 2, 3]), np.array([1, 2, 3]))
 
         assert as_float_array([1, 2, 3]).dtype == DTYPE_FLOAT_DEFAULT
+
+
+class TestAsComplexArray(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.array.as_complex_array` definition unit tests
+    methods.
+    """
+
+    def test_as_complex_array(self) -> None:
+        """Test :func:`colour.utilities.array.as_complex_array` definition."""
+
+        np.testing.assert_equal(
+            as_complex_array([1, 2, 3]), np.array([1 + 0j, 2 + 0j, 3 + 0j])
+        )
+
+        np.testing.assert_equal(
+            as_complex_array([1 + 2j, 3 + 4j]), np.array([1 + 2j, 3 + 4j])
+        )
+
+        assert as_complex_array([1, 2, 3]).dtype == DTYPE_COMPLEX_DEFAULT
+
+        assert as_complex_array([1, 2, 3], np.complex64).dtype == np.complex64
 
 
 class TestAsIntScalar(unittest.TestCase):
@@ -571,12 +644,12 @@ class TestAsIntScalar(unittest.TestCase):
     methods.
     """
 
-    def test_as_int_scalar(self):
+    def test_as_int_scalar(self) -> None:
         """Test :func:`colour.utilities.array.as_int_scalar` definition."""
 
         assert as_int_scalar(1.0) == 1
 
-        assert as_int_scalar(1.0).dtype == DTYPE_INT_DEFAULT
+        assert as_int_scalar(1.0).dtype == DTYPE_INT_DEFAULT  # pyright: ignore
 
 
 class TestAsFloatScalar(unittest.TestCase):
@@ -585,12 +658,12 @@ class TestAsFloatScalar(unittest.TestCase):
     tests methods.
     """
 
-    def test_as_float_scalar(self):
+    def test_as_float_scalar(self) -> None:
         """Test :func:`colour.utilities.array.as_float_scalar` definition."""
 
         assert as_float_scalar(1) == 1.0
 
-        assert as_float_scalar(1).dtype == DTYPE_FLOAT_DEFAULT
+        assert as_float_scalar(1).dtype == DTYPE_FLOAT_DEFAULT  # pyright: ignore
 
 
 class TestSetDefaultIntegerDtype(unittest.TestCase):
@@ -599,7 +672,7 @@ class TestSetDefaultIntegerDtype(unittest.TestCase):
     tests methods.
     """
 
-    def test_set_default_int_dtype(self):
+    def test_set_default_int_dtype(self) -> None:
         """
         Test :func:`colour.utilities.array.set_default_int_dtype` definition.
         """
@@ -614,7 +687,7 @@ class TestSetDefaultIntegerDtype(unittest.TestCase):
 
         assert as_int_array(np.ones(3)).dtype == np.int64
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         """After tests actions."""
 
         set_default_int_dtype(np.int64)
@@ -626,7 +699,7 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
     tests methods.
     """
 
-    def test_set_default_float_dtype(self):
+    def test_set_default_float_dtype(self) -> None:
         """
         Test :func:`colour.utilities.array.set_default_float_dtype`
         definition.
@@ -645,24 +718,28 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
         finally:
             set_default_float_dtype(np.float64)
 
-    def test_set_default_float_dtype_enforcement(self):
+    def test_set_default_float_dtype_enforcement(self) -> None:
         """
         Test whether :func:`colour.utilities.array.set_default_float_dtype`
         effect is applied through most of *Colour* public API.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         if not is_networkx_installed():  # pragma: no cover
             return
 
-        from colour.appearance import (
+        from colour.appearance import (  # noqa: PLC0415
             CAM_Specification_CAM16,
             CAM_Specification_CIECAM02,
             CAM_Specification_CIECAM16,
             CAM_Specification_Hellwig2022,
             CAM_Specification_Kim2009,
+            CAM_Specification_sCAM,
             CAM_Specification_ZCAM,
         )
-        from colour.graph.conversion import (
+        from colour.graph.conversion import (  # noqa: PLC0415
             CONVERSION_SPECIFICATIONS_DATA,
             convert,
         )
@@ -678,7 +755,7 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
                 # Spectral distributions are instantiated with float64 data and
                 # spectral up-sampling optimization fails.
                 if (
-                    "Spectral Distribution" in (source, target)
+                    "Spectral Distribution" in (source, target)  # noqa: PLR1714
                     or target == "Complementary Wavelength"
                     or target == "Dominant Wavelength"
                 ):
@@ -700,6 +777,9 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
 
                 if source == "Kim 2009":
                     a = CAM_Specification_Kim2009(J=0.25, M=0.5, h=0.25)
+
+                if source == "sCAM":
+                    a = CAM_Specification_sCAM(J=0.25, M=0.5, h=0.25)
 
                 if source == "ZCAM":
                     a = CAM_Specification_ZCAM(J=0.25, M=0.5, h=0.25)
@@ -726,7 +806,7 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
                 ):
                     a = np.array([(0.25, 0.5), (0.25, 0.5)])
 
-                def dtype_getter(x):
+                def dtype_getter(x: NDArray) -> DType:
                     """Dtype getter callable."""
 
                     for specification in (
@@ -739,12 +819,13 @@ class TestSetDefaultFloatDtype(unittest.TestCase):
                         "LLAB",
                         "Nayatani95",
                         "RLAB",
+                        "sCAM",
                         "ZCAM",
                     ):
                         if target.endswith(specification):  # noqa: B023
-                            return getattr(x, fields(x)[0].name).dtype
+                            return getattr(x, fields(x)[0].name).dtype  # pyright: ignore
 
-                    return x.dtype
+                    return x.dtype  # pyright: ignore
 
                 assert dtype_getter(convert(a, source, target)) == dtype
         finally:
@@ -757,7 +838,7 @@ class TestGetDomainRangeScale(unittest.TestCase):
     unit tests methods.
     """
 
-    def test_get_domain_range_scale(self):
+    def test_get_domain_range_scale(self) -> None:
         """
         Test :func:`colour.utilities.common.get_domain_range_scale`
         definition.
@@ -779,7 +860,7 @@ class TestSetDomainRangeScale(unittest.TestCase):
     unit tests methods.
     """
 
-    def test_set_domain_range_scale(self):
+    def test_set_domain_range_scale(self) -> None:
         """
         Test :func:`colour.utilities.common.set_domain_range_scale`
         definition.
@@ -807,7 +888,7 @@ class TestDomainRangeScale(unittest.TestCase):
     unit tests methods.
     """
 
-    def test_domain_range_scale(self):
+    def test_domain_range_scale(self) -> None:
         """
         Test :func:`colour.utilities.common.domain_range_scale`
         definition.
@@ -830,7 +911,7 @@ class TestDomainRangeScale(unittest.TestCase):
 
         assert get_domain_range_scale() == "reference"
 
-        def fn_a(a):
+        def fn_a(a: ArrayLike) -> NDArrayFloat:
             """Change the domain-range scale for unit testing."""
 
             b = to_domain_10(a)
@@ -858,7 +939,7 @@ class TestDomainRangeScale(unittest.TestCase):
         assert get_domain_range_scale() == "reference"
 
         @domain_range_scale("1")
-        def fn_b(a):
+        def fn_b(a: ArrayLike) -> NDArrayFloat:
             """Change the domain-range scale for unit testing."""
 
             b = to_domain_10(a)
@@ -870,13 +951,201 @@ class TestDomainRangeScale(unittest.TestCase):
         assert fn_b(10) == 2.0
 
 
+class TestGetDomainRangeScaleMetadata(unittest.TestCase):
+    """
+    Define :func:`colour.utilities.array.get_domain_range_scale_metadata`
+    definition unit tests methods.
+    """
+
+    def test_get_domain_range_scale_metadata(self) -> None:
+        """
+        Test :func:`colour.utilities.array.get_domain_range_scale_metadata`
+        definition.
+        """
+
+        # Pattern 1: Uniform parameter scaling
+        def function_a(
+            XYZ: Annotated[ArrayLike, 1],
+            illuminant: ArrayLike = None,  # type: ignore
+        ) -> Annotated[NDArrayFloat, 100]:  # type: ignore
+            """Test uniform parameter scaling."""
+
+        metadata = get_domain_range_scale_metadata(function_a)
+        assert metadata["domain"] == {"XYZ": 1}
+        assert metadata["range"] == 100
+
+        # Pattern 2: Per-parameter scaling (only some params scaled)
+        def function_b(
+            uv: ArrayLike,
+            illuminant: ArrayLike = None,  # type: ignore
+            L: Annotated[ArrayLike, 100] = 100,
+        ) -> Annotated[NDArrayFloat, 100]:  # type: ignore
+            """Test per-parameter scaling."""
+
+        metadata = get_domain_range_scale_metadata(function_b)
+        assert metadata["domain"] == {"L": 100}
+        assert metadata["range"] == 100
+
+        # Pattern 3: Per-component tuple scaling (CAM models)
+        def function_c(
+            XYZ: Annotated[ArrayLike, 100],
+        ) -> Annotated[tuple, (100, 100, 360, 100, 100, 100, 400)]:  # type: ignore
+            """Test tuple return scaling."""
+
+        metadata = get_domain_range_scale_metadata(function_c)
+        assert metadata["domain"] == {"XYZ": 100}
+        assert metadata["range"] == (100, 100, 360, 100, 100, 100, 400)
+
+        # Multiple domain parameters
+        def function_d(
+            XYZ: Annotated[ArrayLike, 100],
+            XYZ_w: Annotated[ArrayLike, 100],
+            illuminant: ArrayLike = None,  # type: ignore
+        ) -> Annotated[NDArrayFloat, 100]:  # type: ignore
+            """Test multiple domain parameters."""
+
+        metadata = get_domain_range_scale_metadata(function_d)
+        assert metadata["domain"] == {"XYZ": 100, "XYZ_w": 100}
+        assert metadata["range"] == 100
+
+        # No annotations (backward compatibility)
+        def function_e(XYZ: Any, illuminant: Any = None) -> None:
+            """Test backward compatibility."""
+
+        metadata = get_domain_range_scale_metadata(function_e)
+        assert metadata["domain"] == {}
+        assert metadata["range"] is None
+
+        # Only domain scaling, no range
+        def function_f(
+            XYZ: Annotated[ArrayLike, 1],
+        ) -> NDArrayFloat:  # type: ignore
+            """Test domain-only scaling."""
+
+        metadata = get_domain_range_scale_metadata(function_f)
+        assert metadata["domain"] == {"XYZ": 1}
+        assert metadata["range"] is None
+
+        # Only range scaling, no domain
+        def function_g(
+            XYZ: ArrayLike,
+        ) -> Annotated[NDArrayFloat, 100]:  # type: ignore
+            """Test range-only scaling."""
+
+        metadata = get_domain_range_scale_metadata(function_g)
+        assert metadata["domain"] == {}
+        assert metadata["range"] == 100
+
+        # Type aliases: Domain1/Range1
+        def function_h(XYZ: Domain1, XYZ_w: Domain1 = 1) -> Range1:  # type: ignore
+            """Test Domain1/Range1 type aliases."""
+
+        metadata = get_domain_range_scale_metadata(function_h)
+        assert metadata["domain"] == {"XYZ": 1, "XYZ_w": 1}
+
+        # Union with Annotated types
+        def function_i(
+            value: Annotated[int, 100] | Annotated[float, 200],
+        ) -> NDArrayFloat:  # type: ignore
+            """Test Union with Annotated members."""
+
+        metadata = get_domain_range_scale_metadata(function_i)
+        assert metadata["domain"] == {"value": 100}
+        assert metadata["range"] is None
+
+        # Type aliases: Domain100/Range100
+        def function_j(Y: Domain100, Y_n: Domain100 = 100) -> Range100:  # type: ignore
+            """Test Domain100/Range100 type aliases."""
+
+        metadata = get_domain_range_scale_metadata(function_j)
+        assert metadata["domain"] == {"Y": 100, "Y_n": 100}
+        assert metadata["range"] == 100
+
+        # Type aliases: Domain10/Range10
+        def function_k(L: Domain10) -> Range10:  # type: ignore
+            """Test Domain10/Range10 type aliases."""
+
+        metadata = get_domain_range_scale_metadata(function_k)
+        assert metadata["domain"] == {"L": 10}
+        assert metadata["range"] == 10
+
+        # Type aliases: Domain360/Range360
+        def function_l(hue: Domain360) -> Range360:  # type: ignore
+            """Test Domain360/Range360 type aliases."""
+
+        metadata = get_domain_range_scale_metadata(function_l)
+        assert metadata["domain"] == {"hue": 360}
+        assert metadata["range"] == 360
+
+        # Type aliases: Domain100_100_360/Range100_100_360
+        def function_m(Lab: Domain100_100_360) -> Range100_100_360:  # type: ignore
+            """Test Domain100_100_360/Range100_100_360 type aliases."""
+
+        metadata = get_domain_range_scale_metadata(function_m)
+        assert metadata["domain"] == {"Lab": (100, 100, 360)}
+        assert metadata["range"] == (100, 100, 360)
+
+        # Mixed: type aliases and explicit Annotated
+        def function_n(
+            XYZ: Domain1, L: Domain100, custom: Annotated[ArrayLike, 50]
+        ) -> Range100:  # type: ignore
+            """Test mixed type aliases and Annotated."""
+
+        metadata = get_domain_range_scale_metadata(function_n)
+        assert metadata["domain"] == {"XYZ": 1, "L": 100, "custom": 50}
+        assert metadata["range"] == 100
+
+        # functools.partial with type aliases
+        def function_o(
+            XYZ: Domain1,
+            colourspace: str,
+            illuminant: ArrayLike | None = None,
+        ) -> Range1:  # type: ignore
+            """Test function for partial wrapping."""
+
+        partial_func = partial(function_o, colourspace="sRGB")
+        metadata = get_domain_range_scale_metadata(partial_func)
+        assert metadata["domain"] == {"XYZ": 1}
+        assert metadata["range"] == 1
+
+        # functools.partial with explicit Annotated
+        def function_p(
+            Lab: Annotated[ArrayLike, 100],
+            illuminant: ArrayLike | None = None,
+            method: str = "CIE 1976",
+        ) -> Annotated[NDArrayFloat, 100]:  # type: ignore
+            """Test function for partial wrapping with Annotated."""
+
+        partial_func2 = partial(function_p, method="CIE 2000")
+        metadata = get_domain_range_scale_metadata(partial_func2)
+        assert metadata["domain"] == {"Lab": 100}
+        assert metadata["range"] == 100
+
+        # Test string annotation with unevaluable scale (triggers exception handler)
+        # This simulates what happens with `from __future__ import annotations`
+        # when the annotation contains an undefined variable
+        def function_q(x: Any) -> Any:
+            """Test function with mock string annotation."""
+
+        # Manually set __annotations__ to simulate string annotation with undefined var
+        function_q.__annotations__ = {
+            "x": "Annotated[float, undefined_variable]",
+            "return": "Annotated[float, another_undefined]",
+        }
+
+        metadata = get_domain_range_scale_metadata(function_q)
+        # The eval will fail, so it falls back to the string itself
+        assert metadata["domain"] == {"x": "undefined_variable"}
+        assert metadata["range"] == "another_undefined"
+
+
 class TestToDomain1(unittest.TestCase):
     """
     Define :func:`colour.utilities.common.to_domain_1` definition unit
     tests methods.
     """
 
-    def test_to_domain_1(self):
+    def test_to_domain_1(self) -> None:
         """Test :func:`colour.utilities.common.to_domain_1` definition."""
 
         with domain_range_scale("Reference"):
@@ -901,7 +1170,7 @@ class TestToDomain10(unittest.TestCase):
     tests methods.
     """
 
-    def test_to_domain_10(self):
+    def test_to_domain_10(self) -> None:
         """Test :func:`colour.utilities.common.to_domain_10` definition."""
 
         with domain_range_scale("Reference"):
@@ -926,7 +1195,7 @@ class TestToDomain100(unittest.TestCase):
     tests methods.
     """
 
-    def test_to_domain_100(self):
+    def test_to_domain_100(self) -> None:
         """Test :func:`colour.utilities.common.to_domain_100` definition."""
 
         with domain_range_scale("Reference"):
@@ -951,7 +1220,7 @@ class TestToDomainDegrees(unittest.TestCase):
     tests methods.
     """
 
-    def test_to_domain_degrees(self):
+    def test_to_domain_degrees(self) -> None:
         """Test :func:`colour.utilities.common.to_domain_degrees` definition."""
 
         with domain_range_scale("Reference"):
@@ -976,7 +1245,7 @@ class TestToDomainInt(unittest.TestCase):
     tests methods.
     """
 
-    def test_to_domain_int(self):
+    def test_to_domain_int(self) -> None:
         """Test :func:`colour.utilities.common.to_domain_int` definition."""
 
         with domain_range_scale("Reference"):
@@ -1001,7 +1270,7 @@ class TestFromRange1(unittest.TestCase):
     tests methods.
     """
 
-    def test_from_range_1(self):
+    def test_from_range_1(self) -> None:
         """Test :func:`colour.utilities.common.from_range_1` definition."""
 
         with domain_range_scale("Reference"):
@@ -1023,7 +1292,7 @@ class TestFromRange10(unittest.TestCase):
     tests methods.
     """
 
-    def test_from_range_10(self):
+    def test_from_range_10(self) -> None:
         """Test :func:`colour.utilities.common.from_range_10` definition."""
 
         with domain_range_scale("Reference"):
@@ -1045,7 +1314,7 @@ class TestFromRange100(unittest.TestCase):
     tests methods.
     """
 
-    def test_from_range_100(self):
+    def test_from_range_100(self) -> None:
         """Test :func:`colour.utilities.common.from_range_100` definition."""
 
         with domain_range_scale("Reference"):
@@ -1067,7 +1336,7 @@ class TestFromRangeDegrees(unittest.TestCase):
     tests methods.
     """
 
-    def test_from_range_degrees(self):
+    def test_from_range_degrees(self) -> None:
         """Test :func:`colour.utilities.common.from_range_degrees` definition."""
 
         with domain_range_scale("Reference"):
@@ -1089,7 +1358,7 @@ class TestFromRangeInt(unittest.TestCase):
     tests methods.
     """
 
-    def test_from_range_int(self):
+    def test_from_range_int(self) -> None:
         """Test :func:`colour.utilities.common.from_range_int` definition."""
 
         with domain_range_scale("Reference"):
@@ -1114,7 +1383,7 @@ class TestIsNdarrayCopyEnabled(unittest.TestCase):
     unit tests methods.
     """
 
-    def test_is_ndarray_copy_enabled(self):
+    def test_is_ndarray_copy_enabled(self) -> None:
         """
         Test :func:`colour.utilities.array.is_ndarray_copy_enabled` definition.
         """
@@ -1132,7 +1401,7 @@ class TestSetNdarrayCopyEnabled(unittest.TestCase):
     unit tests methods.
     """
 
-    def test_set_ndarray_copy_enable(self):
+    def test_set_ndarray_copy_enable(self) -> None:
         """
         Test :func:`colour.utilities.array.set_ndarray_copy_enable` definition.
         """
@@ -1152,7 +1421,7 @@ class TestNdarrayCopyEnable(unittest.TestCase):
     tests methods.
     """
 
-    def test_ndarray_copy_enable(self):
+    def test_ndarray_copy_enable(self) -> None:
         """
         Test :func:`colour.utilities.array.ndarray_copy_enable` definition.
         """
@@ -1164,7 +1433,7 @@ class TestNdarrayCopyEnable(unittest.TestCase):
             assert not is_ndarray_copy_enabled()
 
         @ndarray_copy_enable(True)
-        def fn_a():
+        def fn_a() -> None:
             """:func:`ndarray_copy_enable` unit tests :func:`fn_a` definition."""
 
             assert is_ndarray_copy_enabled()
@@ -1172,7 +1441,7 @@ class TestNdarrayCopyEnable(unittest.TestCase):
         fn_a()
 
         @ndarray_copy_enable(False)
-        def fn_b():
+        def fn_b() -> None:
             """:func:`ndarray_copy_enable` unit tests :func:`fn_b` definition."""
 
             assert not is_ndarray_copy_enabled()
@@ -1186,7 +1455,7 @@ class TestNdarrayCopy(unittest.TestCase):
     tests methods.
     """
 
-    def test_ndarray_copy(self):
+    def test_ndarray_copy(self) -> None:
         """Test :func:`colour.utilities.array.ndarray_copy` definition."""
 
         a = np.linspace(0, 1, 10)
@@ -1203,7 +1472,7 @@ class TestClosestIndexes(unittest.TestCase):
     tests methods.
     """
 
-    def test_closest_indexes(self):
+    def test_closest_indexes(self) -> None:
         """Test :func:`colour.utilities.array.closest_indexes` definition."""
 
         a = np.array(
@@ -1235,7 +1504,7 @@ class TestClosest(unittest.TestCase):
     methods.
     """
 
-    def test_closest(self):
+    def test_closest(self) -> None:
         """Test :func:`colour.utilities.array.closest` definition."""
 
         a = np.array(
@@ -1268,7 +1537,7 @@ class TestInterval(unittest.TestCase):
     methods.
     """
 
-    def test_interval(self):
+    def test_interval(self) -> None:
         """Test :func:`colour.utilities.array.interval` definition."""
 
         np.testing.assert_array_equal(interval(range(0, 10, 2)), np.array([2]))
@@ -1296,7 +1565,7 @@ class TestIsUniform(unittest.TestCase):
     methods.
     """
 
-    def test_is_uniform(self):
+    def test_is_uniform(self) -> None:
         """Test :func:`colour.utilities.array.is_uniform` definition."""
 
         assert is_uniform(range(0, 10, 2))
@@ -1310,7 +1579,7 @@ class TestInArray(unittest.TestCase):
     methods.
     """
 
-    def test_in_array(self):
+    def test_in_array(self) -> None:
         """Test :func:`colour.utilities.array.in_array` definition."""
 
         assert np.array_equal(
@@ -1328,7 +1597,7 @@ class TestInArray(unittest.TestCase):
             np.array([[True], [True]]),
         )
 
-    def test_n_dimensional_in_array(self):
+    def test_n_dimensional_in_array(self) -> None:
         """
         Test :func:`colour.utilities.array.in_array` definition n-dimensional
         support.
@@ -1356,7 +1625,7 @@ class TestTstack(unittest.TestCase):
     methods.
     """
 
-    def test_tstack(self):
+    def test_tstack(self) -> None:
         """Test :func:`colour.utilities.array.tstack` definition."""
 
         a = 0
@@ -1407,6 +1676,33 @@ class TestTstack(unittest.TestCase):
             ),
         )
 
+        # Ensuring that contiguity is maintained.
+        a = np.array([0, 1, 2], dtype=DTYPE_FLOAT_DEFAULT)
+        b = tstack([a, a, a])
+        assert b.flags.contiguous
+
+        # Ensuring that independence is maintained.
+        a *= 2
+        np.testing.assert_array_equal(
+            b,
+            np.array(
+                [
+                    [0, 0, 0],
+                    [1, 1, 1],
+                    [2, 2, 2],
+                ],
+            ),
+        )
+
+        a = np.array([0, 1, 2], dtype=DTYPE_FLOAT_DEFAULT)
+        b = tstack([a, a, a])
+
+        b[1] *= 2
+        np.testing.assert_array_equal(
+            a,
+            np.array([0, 1, 2]),
+        )
+
 
 class TestTsplit(unittest.TestCase):
     """
@@ -1414,7 +1710,7 @@ class TestTsplit(unittest.TestCase):
     methods.
     """
 
-    def test_tsplit(self):
+    def test_tsplit(self) -> None:
         """Test :func:`colour.utilities.array.tsplit` definition."""
 
         a = np.array([0, 0, 0])
@@ -1482,6 +1778,53 @@ class TestTsplit(unittest.TestCase):
             ),
         )
 
+        # Ensuring that contiguity is maintained.
+        a = np.array(
+            [
+                [0, 0, 0],
+                [1, 1, 1],
+                [2, 2, 2],
+            ],
+            dtype=DTYPE_FLOAT_DEFAULT,
+        )
+        b = tsplit(a)
+        assert b.flags.contiguous
+
+        # Ensuring that independence is maintained.
+        a *= 2
+        np.testing.assert_array_equal(
+            b,
+            np.array(
+                [
+                    [0, 1, 2],
+                    [0, 1, 2],
+                    [0, 1, 2],
+                ]
+            ),
+        )
+
+        a = np.array(
+            [
+                [0, 0, 0],
+                [1, 1, 1],
+                [2, 2, 2],
+            ],
+            dtype=DTYPE_FLOAT_DEFAULT,
+        )
+        b = tsplit(a)
+
+        b[1] *= 2
+        np.testing.assert_array_equal(
+            a,
+            np.array(
+                [
+                    [0, 0, 0],
+                    [1, 1, 1],
+                    [2, 2, 2],
+                ]
+            ),
+        )
+
 
 class TestRowAsDiagonal(unittest.TestCase):
     """
@@ -1489,7 +1832,7 @@ class TestRowAsDiagonal(unittest.TestCase):
     tests methods.
     """
 
-    def test_row_as_diagonal(self):
+    def test_row_as_diagonal(self) -> None:
         """Test :func:`colour.utilities.array.row_as_diagonal` definition."""
 
         np.testing.assert_allclose(
@@ -1543,7 +1886,7 @@ class TestOrient(unittest.TestCase):
     methods.
     """
 
-    def test_orient(self):
+    def test_orient(self) -> None:
         """Test :func:`colour.utilities.array.orient` definition."""
 
         a = np.tile(np.arange(5), (5, 1))
@@ -1622,7 +1965,7 @@ class TestCentroid(unittest.TestCase):
     methods.
     """
 
-    def test_centroid(self):
+    def test_centroid(self) -> None:
         """Test :func:`colour.utilities.array.centroid` definition."""
 
         a = np.arange(5)
@@ -1644,7 +1987,7 @@ class TestFillNan(unittest.TestCase):
     methods.
     """
 
-    def test_fill_nan(self):
+    def test_fill_nan(self) -> None:
         """Test :func:`colour.utilities.array.fill_nan` definition."""
 
         a = np.array([0.1, 0.2, np.nan, 0.4, 0.5])
@@ -1667,14 +2010,14 @@ class TestHasNanOnly(unittest.TestCase):
     methods.
     """
 
-    def test_has_only_nan(self):
+    def test_has_only_nan(self) -> None:
         """Test :func:`colour.utilities.array.has_only_nan` definition."""
 
-        assert has_only_nan(None)
+        assert has_only_nan(None)  # pyright: ignore
 
-        assert has_only_nan([None, None])
+        assert has_only_nan([None, None])  # pyright: ignore
 
-        assert not has_only_nan([True, None])
+        assert not has_only_nan([True, None])  # pyright: ignore
 
         assert not has_only_nan([0.1, np.nan, 0.3])
 
@@ -1685,7 +2028,7 @@ class TestNdarrayWrite(unittest.TestCase):
     methods.
     """
 
-    def test_ndarray_write(self):
+    def test_ndarray_write(self) -> None:
         """Test :func:`colour.utilities.array.ndarray_write` definition."""
 
         a = np.linspace(0, 1, 10)
@@ -1704,7 +2047,7 @@ class TestZeros(unittest.TestCase):
     methods.
     """
 
-    def test_zeros(self):
+    def test_zeros(self) -> None:
         """Test :func:`colour.utilities.array.zeros` definition."""
 
         np.testing.assert_equal(zeros(3), np.zeros(3))
@@ -1716,7 +2059,7 @@ class TestOnes(unittest.TestCase):
     methods.
     """
 
-    def test_ones(self):
+    def test_ones(self) -> None:
         """Test :func:`colour.utilities.array.ones` definition."""
 
         np.testing.assert_equal(ones(3), np.ones(3))
@@ -1728,7 +2071,7 @@ class TestFull(unittest.TestCase):
     methods.
     """
 
-    def test_full(self):
+    def test_full(self) -> None:
         """Test :func:`colour.utilities.array.full` definition."""
 
         np.testing.assert_equal(full(3, 0.5), np.full(3, 0.5))
@@ -1740,7 +2083,7 @@ class TestIndexAlongLastAxis(unittest.TestCase):
     unit tests methods.
     """
 
-    def test_index_along_last_axis(self):
+    def test_index_along_last_axis(self) -> None:
         """Test :func:`colour.utilities.array.index_along_last_axis` definition."""
         a = np.array(
             [
@@ -1790,7 +2133,7 @@ class TestIndexAlongLastAxis(unittest.TestCase):
             ),
         )
 
-    def test_compare_with_argmin_argmax(self):
+    def test_compare_with_argmin_argmax(self) -> None:
         """
         Test :func:`colour.utilities.array.index_along_last_axis` definition
         by comparison with :func:`argmin` and :func:`argmax`.
@@ -1806,7 +2149,7 @@ class TestIndexAlongLastAxis(unittest.TestCase):
             index_along_last_axis(a, np.argmax(a, axis=-1)), np.max(a, axis=-1)
         )
 
-    def test_exceptions(self):
+    def test_exceptions(self) -> None:
         """
         Test :func:`colour.utilities.array.index_along_last_axis` definition
         handling of invalid inputs.
@@ -1836,7 +2179,7 @@ class TestFormatArrayAsRow(unittest.TestCase):
     tests methods.
     """
 
-    def test_format_array_as_row(self):
+    def test_format_array_as_row(self) -> None:
         """Test :func:`colour.utilities.array.format_array_as_row` definition."""
 
         assert format_array_as_row([1.25, 2.5, 3.75]) == "1.2500000 2.5000000 3.7500000"

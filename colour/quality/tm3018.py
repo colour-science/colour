@@ -3,7 +3,7 @@ ANSI/IES TM-30-18 Colour Fidelity Index
 =======================================
 
 Define the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) computation
-objects:
+objects.
 
 - :class:`colour.quality.ColourQuality_Specification_ANSIIESTM3018`
 - :func:`colour.quality.colour_fidelity_index_ANSIIESTM3018`
@@ -19,15 +19,17 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass
 
 import numpy as np
 
-from colour.colorimetry import SpectralDistribution
-from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Tuple, cast
+if typing.TYPE_CHECKING:
+    from colour.colorimetry import SpectralDistribution
+    from colour.hints import ArrayLike, Literal, NDArrayFloat, NDArrayInt, Tuple
+
 from colour.quality import colour_fidelity_index_CIE2017
 from colour.quality.cfi2017 import (
-    ColourRendering_Specification_CIE2017,
     DataColorimetry_TCS_CIE2017,
     delta_E_to_R_f,
 )
@@ -37,8 +39,8 @@ from colour.utilities import as_float_array, as_float_scalar, as_int_array
 @dataclass
 class ColourQuality_Specification_ANSIIESTM3018:
     """
-    Define the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) colour quality
-    specification.
+    Define the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) colour
+    quality specification.
 
     Parameters
     ----------
@@ -61,11 +63,11 @@ class ColourQuality_Specification_ANSIIESTM3018:
     R_g
         Gamut index :math:`R_g`.
     bins
-        List of 16 lists, each containing the indexes of colour samples that
-        lie in the respective hue bin.
+        List of 16 lists, each containing the indexes of colour samples
+        that lie in the respective hue bin.
     averages_test
-        Averages of *CAM02-UCS* a', b' coordinates for each hue bin for test
-        samples.
+        Averages of *CAM02-UCS* a', b' coordinates for each hue bin for
+        test samples.
     averages_reference
         Averages for reference samples.
     average_norms
@@ -96,16 +98,30 @@ class ColourQuality_Specification_ANSIIESTM3018:
     R_hs: NDArrayFloat
 
 
+@typing.overload
+def colour_fidelity_index_ANSIIESTM3018(
+    sd_test: SpectralDistribution, additional_data: Literal[True] = True
+) -> ColourQuality_Specification_ANSIIESTM3018: ...
+
+
+@typing.overload
+def colour_fidelity_index_ANSIIESTM3018(
+    sd_test: SpectralDistribution, *, additional_data: Literal[False]
+) -> float: ...
+
+
+@typing.overload
+def colour_fidelity_index_ANSIIESTM3018(
+    sd_test: SpectralDistribution, additional_data: Literal[False]
+) -> float: ...
+
+
 def colour_fidelity_index_ANSIIESTM3018(
     sd_test: SpectralDistribution, additional_data: bool = False
-) -> (
-    float
-    | ColourQuality_Specification_ANSIIESTM3018
-    | ColourRendering_Specification_CIE2017
-):
+) -> float | ColourQuality_Specification_ANSIIESTM3018:
     """
-    Return the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) :math:`R_f`
-    of given spectral distribution.
+    Compute the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) :math:`R_f`
+    for the specified test spectral distribution.
 
     Parameters
     ----------
@@ -117,7 +133,7 @@ def colour_fidelity_index_ANSIIESTM3018(
     Returns
     -------
     :class:`float` or \
-:class:`colour.quality.ColourQuality_Specification_ANSIIESTM3018`
+    :class:`colour.quality.ColourQuality_Specification_ANSIIESTM3018`
         *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI).
 
     References
@@ -135,10 +151,7 @@ def colour_fidelity_index_ANSIIESTM3018(
     if not additional_data:
         return colour_fidelity_index_CIE2017(sd_test, False)
 
-    specification = cast(
-        ColourRendering_Specification_CIE2017,
-        colour_fidelity_index_CIE2017(sd_test, True),
-    )
+    specification = colour_fidelity_index_CIE2017(sd_test, True)
 
     # Setup bins based on where the reference a'b' points are located.
     bins = as_int_array(np.floor(specification.colorimetry_data[1].JMh[:, 2] / 22.5))

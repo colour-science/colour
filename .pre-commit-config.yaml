@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: "v4.5.0"
+    rev: "v5.0.0"
     hooks:
       - id: check-added-large-files
       - id: check-case-conflict
@@ -16,32 +16,31 @@ repos:
       - id: requirements-txt-fixer
       - id: trailing-whitespace
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.6
+    rev: v2.4.1
     hooks:
       - id: codespell
-        args: ["--ignore-words-list=co-ordinates,exitance,fro,hart,ist"]
+        args:
+          [
+            "--ignore-words-list=co-ordinates,exitance,hart,ist,rIn,shepard,socio-economic",
+          ]
         exclude: "BIBLIOGRAPHY.bib|CONTRIBUTORS.rst"
-  - repo: https://github.com/ikamensh/flynt
-    rev: "1.0.1"
-    hooks:
-      - id: flynt
-        args: [--verbose]
   - repo: https://github.com/PyCQA/isort
-    rev: "5.13.2"
+    rev: "6.0.1"
     hooks:
       - id: isort
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.1.14"
+    rev: "v0.12.4"
     hooks:
       - id: ruff-format
       - id: ruff
+        args: [--fix]
   - repo: https://github.com/adamchainz/blacken-docs
-    rev: 1.16.0
+    rev: 1.19.1
     hooks:
       - id: blacken-docs
-        language_version: python3.10
+        language_version: python3.11
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: "v3.1.0"
+    rev: "v4.0.0-alpha.8"
     hooks:
       - id: prettier
         exclude: config-aces-reference.ocio.yaml

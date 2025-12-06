@@ -2,7 +2,8 @@
 CSV Tabular Data Input / Output
 ===============================
 
-Define various input / output objects for *CSV* tabular data files:
+Define input / output utilities for reading and writing spectral data and
+spectral distributions from/to *CSV* tabular data files.
 
 -   :func:`colour.read_spectral_data_from_csv_file`
 -   :func:`colour.read_sds_from_csv_file`
@@ -14,13 +15,17 @@ from __future__ import annotations
 import csv
 import os
 import tempfile
-from pathlib import Path
+import typing
 
 import numpy as np
 
 from colour.colorimetry import SpectralDistribution
 from colour.constants import DTYPE_FLOAT_DEFAULT
-from colour.hints import Any, Dict, NDArrayFloat, cast
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, Dict, NDArrayFloat, PathLike
+
+from colour.hints import cast
 from colour.utilities import filter_kwargs
 
 __author__ = "Colour Developers"
@@ -38,10 +43,10 @@ __all__ = [
 
 
 def read_spectral_data_from_csv_file(
-    path: str | Path, **kwargs: Any
+    path: str | PathLike, **kwargs: Any
 ) -> Dict[str, NDArrayFloat]:
     """
-    Read the spectral data from given *CSV* file in the following form::
+    Read spectral data from the specified *CSV* file in the following form::
 
         390, 4.15003e-04, 3.68349e-04, 9.54729e-03
         395, 1.05192e-03, 9.58658e-04, 2.38250e-02
@@ -49,7 +54,7 @@ def read_spectral_data_from_csv_file(
         ...
         830, 9.74306e-07, 9.53411e-08, 0.00000
 
-    and returns it as an *dict* as follows::
+    and convert it to a *dict* as follows::
 
         {
             'wavelength': ndarray,
@@ -74,10 +79,15 @@ def read_spectral_data_from_csv_file(
     :class:`dict`
         *CSV* file content.
 
+    Raises
+    ------
+    IOError
+        If the file cannot be read.
+
     Notes
     -----
-    -   A *CSV* spectral data file should define at least define two fields:
-        one for the wavelengths and one for the associated values of one
+    -   A *CSV* spectral data file should at least define two fields: one
+        for the wavelengths and one for the associated values of one
         spectral distribution.
 
     Examples
@@ -134,17 +144,17 @@ def read_spectral_data_from_csv_file(
 
     transpose = settings.get("transpose")
     if transpose:
-        delimiter = cast(str, settings.get("delimiter", ","))
+        delimiter = cast("str", settings.get("delimiter", ","))
 
         with open(path) as csv_file:
-            content = zip(*csv.reader(csv_file, delimiter=delimiter))
+            content = zip(*csv.reader(csv_file, delimiter=delimiter), strict=True)
 
         settings["delimiter"] = ","
 
-        transposed_csv_file = tempfile.NamedTemporaryFile(mode="w", delete=False)
-        path = transposed_csv_file.name
-        csv.writer(transposed_csv_file).writerows(content)
-        transposed_csv_file.close()
+        with tempfile.NamedTemporaryFile(mode="w", delete=False) as transposed_csv_file:
+            path = transposed_csv_file.name
+            csv.writer(transposed_csv_file).writerows(content)
+            transposed_csv_file.close()
 
     data = np.genfromtxt(path, **filter_kwargs(np.genfromtxt, **settings))
 
@@ -155,11 +165,11 @@ def read_spectral_data_from_csv_file(
 
 
 def read_sds_from_csv_file(
-    path: str | Path, **kwargs: Any
+    path: str | PathLike, **kwargs: Any
 ) -> Dict[str, SpectralDistribution]:
     """
-    Read the spectral data from given *CSV* file and returns its content as a
-    *dict* of :class:`colour.SpectralDistribution` class instances.
+    Read spectral data from the specified *CSV* file and convert its content
+    to a *dict* of :class:`colour.SpectralDistribution` class instances.
 
     Parameters
     ----------
@@ -169,12 +179,17 @@ def read_sds_from_csv_file(
     Other Parameters
     ----------------
     kwargs
-        Keywords arguments passed to :func:`numpy.recfromcsv` definition.
+        Keywords arguments passed to :func:`numpy.genfromtxt` definition.
 
     Returns
     -------
     :class:`dict`
         *dict* of :class:`colour.SpectralDistribution` class instances.
+
+    Raises
+    ------
+    IOError
+        If the file cannot be read.
 
     Examples
     --------
@@ -287,28 +302,26 @@ def read_sds_from_csv_file(
     fields = list(data.keys())
     wavelength_field, sd_fields = fields[0], fields[1:]
 
-    sds = {
+    return {
         sd_field: SpectralDistribution(
             data[sd_field], data[wavelength_field], name=sd_field
         )
         for sd_field in sd_fields
     }
 
-    return sds
-
 
 def write_sds_to_csv_file(
-    sds: Dict[str, SpectralDistribution], path: str | Path
+    sds: Dict[str, SpectralDistribution], path: str | PathLike
 ) -> bool:
     """
-    Write the given spectral distributions to given *CSV* file.
+    Write spectral distributions to a CSV file.
 
     Parameters
     ----------
     sds
-        Spectral distributions to write to given *CSV* file.
+        Spectral distributions to write to the specified CSV file.
     path
-        *CSV* file path.
+        CSV file path.
 
     Returns
     -------
@@ -318,7 +331,7 @@ def write_sds_to_csv_file(
     Raises
     ------
     ValueError
-        If the given spectral distributions have different shapes.
+        If the specified spectral distributions have different shapes.
     """
 
     path = str(path)
@@ -326,10 +339,12 @@ def write_sds_to_csv_file(
     if len(sds) != 1:
         shapes = [sd.shape for sd in sds.values()]
         if not all(shape == shapes[0] for shape in shapes):
-            raise ValueError(
+            error = (
                 "Cannot write spectral distributions "
                 'with different shapes to "CSV" file!'
             )
+
+            raise ValueError(error)
 
     wavelengths = next(iter(sds.values())).wavelengths
     with open(path, "w") as csv_file:

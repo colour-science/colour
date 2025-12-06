@@ -2,9 +2,11 @@
 Extrapolation
 =============
 
-Define the classes for extrapolating variables:
+Define classes for extrapolating one-dimensional functions beyond their
+original domain.
 
--   :class:`colour.Extrapolator`: 1-D function extrapolation.
+-   :class:`colour.Extrapolator`: Extrapolate 1-D functions using various
+    methods to extend function values beyond the original interpolation range.
 
 References
 ----------
@@ -18,20 +20,25 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import NullInterpolator, sdiv, sdiv_mode
 from colour.constants import DTYPE_FLOAT_DEFAULT
-from colour.hints import (
-    Any,
-    ArrayLike,
-    DTypeReal,
-    Literal,
-    NDArrayFloat,
-    ProtocolInterpolator,
-    Real,
-    Type,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        DTypeReal,
+        Literal,
+        NDArrayFloat,
+        ProtocolInterpolator,
+        Real,
+        Type,
+    )
+
 from colour.utilities import (
     as_float,
     as_float_array,
@@ -55,21 +62,23 @@ __all__ = [
 
 class Extrapolator:
     """
-    Extrapolate the 1-D function of given interpolator.
+    Extrapolate 1-D function values beyond the specified interpolator's
+    domain boundaries.
 
-    The :class:`colour.Extrapolator` class acts as a wrapper around a given
-    *Colour* or *scipy* interpolator class instance with compatible signature.
-    Two extrapolation methods are available:
+    The :class:`colour.Extrapolator` class wraps a specified *Colour* or
+    *scipy* interpolator instance with compatible signature to provide
+    controlled extrapolation behaviour. Two extrapolation methods are
+    supported:
 
-    -   *Linear*: Linearly extrapolates given points using the slope defined by
-        the interpolator boundaries (xi[0], xi[1]) if x < xi[0] and
-        (xi[-1], xi[-2]) if x > xi[-1].
-    -   *Constant*: Extrapolates given points by assigning the interpolator
-        boundaries values xi[0] if x < xi[0] and xi[-1] if x > xi[-1].
+    -   *Linear*: Extrapolate values linearly using the slope defined by
+        boundary points (xi[0], xi[1]) for x < xi[0] and (xi[-1], xi[-2])
+        for x > xi[-1].
+    -   *Constant*: Assign boundary values xi[0] for x < xi[0] and xi[-1]
+        for x > xi[-1].
 
-    Specifying the *left* and *right* arguments takes precedence on the chosen
-    extrapolation method and will assign the respective *left* and *right*
-    values to the given points.
+    Specifying *left* and *right* arguments overrides the chosen
+    extrapolation method, assigning these values to points outside the
+    interpolator's domain.
 
     Parameters
     ----------
@@ -161,25 +170,29 @@ class Extrapolator:
     @property
     def interpolator(self) -> ProtocolInterpolator:
         """
-        Getter and setter property for the *Colour* or *scipy* interpolator
-        class instance.
+        Getter and setter for the interpolator.
+
+        The interpolator must implement the interpolator protocol with an
+        `x` attribute containing the independent variable data.
 
         Parameters
         ----------
         value
-            Value to set the *Colour* or *scipy* interpolator class instance
+            Value to set the interpolator instance implementing the required
+            protocol with an `x` attribute for wavelength or frequency values
             with.
 
         Returns
         -------
         ProtocolInterpolator
-            *Colour* or *scipy* interpolator class instance.
+            Interpolator instance implementing the required protocol with
+            an `x` attribute for wavelength or frequency values.
         """
 
         return self._interpolator
 
     @interpolator.setter
-    def interpolator(self, value: ProtocolInterpolator):
+    def interpolator(self, value: ProtocolInterpolator) -> None:
         """Setter for the **self.interpolator** property."""
 
         attest(
@@ -197,23 +210,29 @@ class Extrapolator:
     @property
     def method(self) -> Literal["Linear", "Constant"] | str:
         """
-        Getter and setter property for the extrapolation method.
+        Getter and setter for the extrapolation method for the interpolator.
+
+        This property controls the behaviour of the interpolator when
+        extrapolating values outside the interpolation domain. The method
+        determines how values are computed beyond the specified boundaries.
 
         Parameters
         ----------
         value
-            Value to set the extrapolation method. with.
+            Value to set the extrapolation method to use, either ``'Linear'``
+            for linear extrapolation or ``'Constant'`` for constant value
+            extrapolation at the boundaries.
 
         Returns
         -------
         :class:`str`
-            Extrapolation method.
+            Extrapolation method to use.
         """
 
         return self._method
 
     @method.setter
-    def method(self, value: Literal["Linear", "Constant"] | str):
+    def method(self, value: Literal["Linear", "Constant"] | str) -> None:
         """Setter for the **self.method** property."""
 
         attest(
@@ -228,23 +247,28 @@ class Extrapolator:
     @property
     def left(self) -> Real | None:
         """
-        Getter and setter property for left value to return for x < xi[0].
+        Getter and setter for the left boundary value.
+
+        Specifies the value to return when evaluating the interpolant at
+        points beyond the leftmost data point ( x < xi[0]).
 
         Parameters
         ----------
         value
-            Left value to return for x < xi[0].
+            Value to return for x < xi[0] for extrapolation beyond the
+            leftmost data point.
 
         Returns
         -------
-        :py:data:`None` or Real
-            Left value to return for x < xi[0].
+        Real or :py:data:`None`
+            Value to return for x < xi[0] for extrapolation beyond the
+            leftmost data point.
         """
 
         return self._left
 
     @left.setter
-    def left(self, value: Real | None):
+    def left(self, value: Real | None) -> None:
         """Setter for the **self.left** property."""
 
         if value is not None:
@@ -258,23 +282,28 @@ class Extrapolator:
     @property
     def right(self) -> Real | None:
         """
-        Getter and setter property for right value to return for x > xi[-1].
+        Getter and setter for the right boundary value.
+
+        Specifies the value to return when evaluating the interpolant at
+        points beyond the rightmost data point (x > xi[-1]).
 
         Parameters
         ----------
         value
-            Right value to return for x > xi[-1].
+            Value to return for x > xi[-1] for extrapolation beyond the
+            rightmost data point.
 
         Returns
         -------
-        :py:data:`None` or Real
-            Right value to return for x > xi[-1].
+        :class:`numbers.Real` or :py:data:`None`
+            Value to return for x > xi[-1] for extrapolation beyond the
+            rightmost data point.
         """
 
         return self._right
 
     @right.setter
-    def right(self, value: Real | None):
+    def right(self, value: Real | None) -> None:
         """Setter for the **self.right** property."""
 
         if value is not None:
@@ -287,17 +316,17 @@ class Extrapolator:
 
     def __call__(self, x: ArrayLike) -> NDArrayFloat:
         """
-        Evaluate the Extrapolator at given point(s).
+        Evaluate the extrapolator at specified point(s).
 
         Parameters
         ----------
         x
-            Point(s) to evaluate the Extrapolator at.
+            Point(s) to evaluate the extrapolator at.
 
         Returns
         -------
         :class:`numpy.ndarray`
-            Extrapolated points value(s).
+            Extrapolated point value(s).
         """
 
         x = as_float_array(x)
@@ -308,17 +337,17 @@ class Extrapolator:
 
     def _evaluate(self, x: NDArrayFloat) -> NDArrayFloat:
         """
-        Perform the extrapolating evaluation at given points.
+        Perform the extrapolating evaluation at specified points.
 
         Parameters
         ----------
         x
-            Points to evaluate the Extrapolator at.
+            Points to evaluate the extrapolator at.
 
         Returns
         -------
         :class:`numpy.ndarray`
-            Extrapolated points values.
+            Extrapolated point values.
         """
 
         xi = self._interpolator.x

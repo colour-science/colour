@@ -2,7 +2,11 @@
 Kim, Weyrich and Kautz (2009) Colour Appearance Model
 =====================================================
 
-Define the *Kim, Weyrich and Kautz (2009)* colour appearance model objects:
+Define the *Kim, Weyrich and Kautz (2009)* colour appearance model for
+predicting perceptual colour attributes under varying viewing conditions.
+
+This model extends *CIECAM02* to handle high dynamic range viewing conditions
+by introducing media-specific parameters that modulate lightness prediction.
 
 -   :class:`colour.appearance.InductionFactors_Kim2009`
 -   :attr:`colour.VIEWING_CONDITIONS_KIM2009`
@@ -21,7 +25,6 @@ References
 
 from __future__ import annotations
 
-from collections import namedtuple
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -38,10 +41,17 @@ from colour.appearance.ciecam02 import (
     hue_quadrature,
     rgb_to_RGB,
 )
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import (  # noqa: TC001
+    Annotated,
+    ArrayLike,
+    Domain100,
+    NDArrayFloat,
+    Range100,
+)
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
+    MixinDataclassIterable,
     as_float,
     as_float_array,
     from_range_100,
@@ -72,11 +82,11 @@ __all__ = [
 ]
 
 
-class InductionFactors_Kim2009(
-    namedtuple("InductionFactors_Kim2009", ("F", "c", "N_c"))
-):
+@dataclass(frozen=True)
+class InductionFactors_Kim2009(MixinDataclassIterable):
     """
-    *Kim, Weyrich and Kautz (2009)* colour appearance model induction factors.
+    Define the *Kim, Weyrich and Kautz (2009)* colour appearance model
+    surround induction factors.
 
     Parameters
     ----------
@@ -90,11 +100,11 @@ class InductionFactors_Kim2009(
     Notes
     -----
     -   The *Kim, Weyrich and Kautz (2009)* colour appearance model induction
-        factors are the same as *CIECAM02* colour appearance model.
+        factors are the same as the *CIECAM02* colour appearance model.
     -   The *Kim, Weyrich and Kautz (2009)* colour appearance model separates
         the surround modelled by the
-        :class:`colour.appearance.InductionFactors_Kim2009` class instance from
-        the media, modeled with the
+        :class:`colour.appearance.InductionFactors_Kim2009` class instance
+        from the media, modelled with the
         :class:`colour.appearance.MediaParameters_Kim2009` class instance.
 
     References
@@ -102,13 +112,17 @@ class InductionFactors_Kim2009(
     :cite:`Kim2009`
     """
 
+    F: float
+    c: float
+    N_c: float
+
 
 VIEWING_CONDITIONS_KIM2009: CanonicalMapping = CanonicalMapping(
     VIEWING_CONDITIONS_CIECAM02
 )
 VIEWING_CONDITIONS_KIM2009.__doc__ = """
-Reference *Kim, Weyrich and Kautz (2009)* colour appearance model viewing
-conditions.
+Define the reference *Kim, Weyrich and Kautz (2009)* colour appearance model
+viewing conditions inherited from *CIECAM02*.
 
 References
 ----------
@@ -116,9 +130,11 @@ References
 """
 
 
-class MediaParameters_Kim2009(namedtuple("MediaParameters_Kim2009", ("E",))):
+@dataclass(frozen=True)
+class MediaParameters_Kim2009:
     """
-    *Kim, Weyrich and Kautz (2009)* colour appearance model media parameters.
+    Define the media parameters for the *Kim, Weyrich and Kautz (2009)* colour
+    appearance model.
 
     Parameters
     ----------
@@ -130,13 +146,7 @@ class MediaParameters_Kim2009(namedtuple("MediaParameters_Kim2009", ("E",))):
     :cite:`Kim2009`
     """
 
-    def __new__(cls, E):
-        """
-        Return a new instance of the
-        :class:`colour.appearance.MediaParameters_Kim2009` class.
-        """
-
-        return super().__new__(cls, E)
+    E: float
 
 
 MEDIA_PARAMETERS_KIM2009: CanonicalMapping = CanonicalMapping(
@@ -148,8 +158,8 @@ MEDIA_PARAMETERS_KIM2009: CanonicalMapping = CanonicalMapping(
     }
 )
 MEDIA_PARAMETERS_KIM2009.__doc__ = """
-Reference *Kim, Weyrich and Kautz (2009)* colour appearance model media
-parameters.
+Define the reference *Kim, Weyrich and Kautz (2009)* colour appearance model
+media parameters.
 
 References
 ----------
@@ -175,8 +185,8 @@ MEDIA_PARAMETERS_KIM2009["paper"] = MEDIA_PARAMETERS_KIM2009["Reflective Paper"]
 @dataclass
 class CAM_Specification_Kim2009(MixinDataclassArithmetic):
     """
-    Define the *Kim, Weyrich and Kautz (2009)* colour appearance model
-    specification.
+    Represent the *Kim, Weyrich and Kautz (2009)* colour appearance model
+    output specification.
 
     Parameters
     ----------
@@ -213,18 +223,18 @@ class CAM_Specification_Kim2009(MixinDataclassArithmetic):
 
 
 def XYZ_to_Kim2009(
-    XYZ: ArrayLike,
-    XYZ_w: ArrayLike,
+    XYZ: Domain100,
+    XYZ_w: Domain100,
     L_A: ArrayLike,
     media: MediaParameters_Kim2009 = MEDIA_PARAMETERS_KIM2009["CRT Displays"],
     surround: InductionFactors_Kim2009 = VIEWING_CONDITIONS_KIM2009["Average"],
     n_c: float = 0.57,
     discount_illuminant: bool = False,
     compute_H: bool = True,
-) -> CAM_Specification_Kim2009:
+) -> Annotated[CAM_Specification_Kim2009, (100, 100, 360, 100, 100, 100, 400)]:
     """
     Compute the *Kim, Weyrich and Kautz (2009)* colour appearance model
-    correlates from given *CIE XYZ* tristimulus values.
+    correlates from the specified *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -233,8 +243,8 @@ def XYZ_to_Kim2009(
     XYZ_w
         *CIE XYZ* tristimulus values of reference white.
     L_A
-        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
-        to be 20% of the luminance of a white object in the scene).
+        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often
+        taken to be 20% of the luminance of a white object in the scene).
     media
         Media parameters.
     surround
@@ -242,43 +252,44 @@ def XYZ_to_Kim2009(
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
     compute_H
-        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H` is
-        rarely used, and expensive to compute.
+        Whether to compute *Hue* :math:`h` quadrature :math:`H`.
+        :math:`H` is rarely used, and expensive to compute.
     n_c
         Cone response sigmoidal curve modulating factor :math:`n_c`.
 
     Returns
     -------
     :class:`colour.CAM_Specification_Kim2009`
-       *Kim, Weyrich and Kautz (2009)* colour appearance model specification.
+       *Kim, Weyrich and Kautz (2009)* colour appearance model
+       specification.
 
     Notes
     -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``XYZ``    | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
-    | ``XYZ_w``  | [0, 100]              | [0, 1]        |
-    +------------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``XYZ``             | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``XYZ_w``           | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
 
-    +---------------------------------+-----------------------+---------------+
-    | **Range**                       | **Scale - Reference** | **Scale - 1** |
-    +=================================+=======================+===============+
-    | ``CAM_Specification_Kim2009.J`` | [0, 100]              | [0, 1]        |
-    +---------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_Kim2009.C`` | [0, 100]              | [0, 1]        |
-    +---------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_Kim2009.h`` | [0, 360]              | [0, 1]        |
-    +---------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_Kim2009.s`` | [0, 100]              | [0, 1]        |
-    +---------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_Kim2009.Q`` | [0, 100]              | [0, 1]        |
-    +---------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_Kim2009.M`` | [0, 100]              | [0, 1]        |
-    +---------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_Kim2009.H`` | [0, 400]              | [0, 1]        |
-    +---------------------------------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``specification.J`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.C`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.h`` | 360                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.s`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.Q`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.M`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.H`` | 400                   | 1             |
+    +---------------------+-----------------------+---------------+
 
     References
     ----------
@@ -369,29 +380,31 @@ H=278.0602824..., HC=None)
     H = hue_quadrature(h) if compute_H else np.full(h.shape, np.nan)
 
     return CAM_Specification_Kim2009(
-        as_float(from_range_100(J)),
-        as_float(from_range_100(C)),
-        as_float(from_range_degrees(h)),
-        as_float(from_range_100(s)),
-        as_float(from_range_100(Q)),
-        as_float(from_range_100(M)),
-        as_float(from_range_degrees(H, 400)),
-        None,
+        J=as_float(from_range_100(J)),
+        C=as_float(from_range_100(C)),
+        h=as_float(from_range_degrees(h)),
+        s=as_float(from_range_100(s)),
+        Q=as_float(from_range_100(Q)),
+        M=as_float(from_range_100(M)),
+        H=as_float(from_range_degrees(H, 400)),
+        HC=None,
     )
 
 
 def Kim2009_to_XYZ(
-    specification: CAM_Specification_Kim2009,
-    XYZ_w: ArrayLike,
+    specification: Annotated[
+        CAM_Specification_Kim2009, (100, 100, 360, 100, 100, 100, 400)
+    ],
+    XYZ_w: Domain100,
     L_A: ArrayLike,
     media: MediaParameters_Kim2009 = MEDIA_PARAMETERS_KIM2009["CRT Displays"],
     surround: InductionFactors_Kim2009 = VIEWING_CONDITIONS_KIM2009["Average"],
     n_c: float = 0.57,
     discount_illuminant: bool = False,
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Convert from *Kim, Weyrich and Kautz (2009)* specification to *CIE XYZ*
-    tristimulus values.
+    Convert the *Kim, Weyrich and Kautz (2009)* colour appearance model
+    specification to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -407,12 +420,12 @@ def Kim2009_to_XYZ(
         to be 20% of the luminance of a white object in the scene).
     media
         Media parameters.
-    surroundl
+    surround
         Surround viewing conditions induction factors.
-    discount_illuminant
-        Discount the illuminant.
     n_c
         Cone response sigmoidal curve modulating factor :math:`n_c`.
+    discount_illuminant
+        Truth value indicating if the illuminant should be discounted.
 
     Returns
     -------
@@ -422,36 +435,36 @@ def Kim2009_to_XYZ(
     Raises
     ------
     ValueError
-        If neither :math:`C` or :math:`M` correlates have been defined in the
+        If neither :math:`C` nor :math:`M` correlates have been defined in the
         ``specification`` argument.
 
     Notes
     -----
-    +---------------------------------+-----------------------+---------------+
-    | **Domain**                      | **Scale - Reference** | **Scale - 1** |
-    +=================================+=======================+===============+
-    | ``CAM_Specification_Kim2009.J`` | [0, 100]              | [0, 1]        |
-    +---------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_Kim2009.C`` | [0, 100]              | [0, 1]        |
-    +---------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_Kim2009.h`` | [0, 360]              | [0, 1]        |
-    +---------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_Kim2009.s`` | [0, 100]              | [0, 1]        |
-    +---------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_Kim2009.Q`` | [0, 100]              | [0, 1]        |
-    +---------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_Kim2009.M`` | [0, 100]              | [0, 1]        |
-    +---------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_Kim2009.H`` | [0, 360]              | [0, 1]        |
-    +---------------------------------+-----------------------+---------------+
-    | ``XYZ_w``                       | [0, 100]              | [0, 1]        |
-    +---------------------------------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Domain**          | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``specification.J`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.C`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.h`` | 360                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.s`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.Q`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.M`` | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``specification.H`` | 360                   | 1             |
+    +---------------------+-----------------------+---------------+
+    | ``XYZ_w``           | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
 
-    +-----------+-----------------------+---------------+
-    | **Range** | **Scale - Reference** | **Scale - 1** |
-    +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
-    +-----------+-----------------------+---------------+
+    +---------------------+-----------------------+---------------+
+    | **Range**           | **Scale - Reference** | **Scale - 1** |
+    +=====================+=======================+===============+
+    | ``XYZ``             | 100                   | 1             |
+    +---------------------+-----------------------+---------------+
 
     References
     ----------
@@ -504,10 +517,12 @@ def Kim2009_to_XYZ(
         a_m, b_m = 0.11, 0.61
         C = M / (a_m * np.log10(Y_w) + b_m)
     elif has_only_nan(C):
-        raise ValueError(
+        error = (
             'Either "C" or "M" correlate must be defined in '
             'the "CAM_Specification_Kim2009" argument!'
         )
+
+        raise ValueError(error)
 
     # Cones absolute response.
     LMS_w_n_c = spow(LMS_w, n_c)

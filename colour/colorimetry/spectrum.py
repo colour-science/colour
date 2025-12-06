@@ -2,7 +2,7 @@
 Spectrum
 ========
 
-Define the classes and objects handling spectral data computations:
+Define classes and objects for handling spectral data computations.
 
 -   :class:`colour.SPECTRAL_SHAPE_DEFAULT`
 -   :class:`colour.SpectralShape`
@@ -27,7 +27,8 @@ References
 
 from __future__ import annotations
 
-from collections.abc import Mapping
+import typing
+from collections.abc import KeysView, Mapping, ValuesView
 
 import numpy as np
 
@@ -40,24 +41,25 @@ from colour.algebra import (
 )
 from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.continuous import MultiSignals, Signal
-from colour.hints import (
-    TYPE_CHECKING,
-    Any,
-    ArrayLike,
-    DTypeFloat,
-    Generator,
-    List,
-    Literal,
-    NDArrayFloat,
-    ProtocolExtrapolator,
-    ProtocolInterpolator,
-    Real,
-    Self,
-    Sequence,
-    Type,
-    TypeVar,
-    cast,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        DTypeFloat,
+        Generator,
+        List,
+        Literal,
+        NDArrayFloat,
+        ProtocolExtrapolator,
+        ProtocolInterpolator,
+        Real,
+        Self,
+        Sequence,
+        Type,
+        TypeVar,
+    )
+
+from colour.hints import Any, TypeVar, cast
 from colour.utilities import (
     CACHE_REGISTRY,
     as_float_array,
@@ -77,7 +79,7 @@ from colour.utilities import (
     validate_method,
 )
 
-if TYPE_CHECKING or is_pandas_installed():
+if typing.TYPE_CHECKING or is_pandas_installed():
     from pandas import DataFrame, Series  # pragma: no cover
 else:  # pragma: no cover
     from unittest import mock
@@ -111,6 +113,11 @@ _CACHE_SHAPE_RANGE: dict = CACHE_REGISTRY.register_cache(
 class SpectralShape:
     """
     Define the base object for spectral distribution shape.
+
+    The :class:`colour.SpectralShape` class represents the shape of spectral
+    data by defining its wavelength range and sampling interval. It provides
+    a structured way to handle spectral data boundaries and generate
+    wavelength arrays for spectral computations.
 
     Parameters
     ----------
@@ -159,23 +166,23 @@ class SpectralShape:
     @property
     def start(self) -> Real:
         """
-        Getter and setter property for the spectral shape start.
+        Getter and setter for the spectral shape start.
 
         Parameters
         ----------
         value
-            Value to set the spectral shape start with.
+            Value to set the spectral shape start wavelength with.
 
         Returns
         -------
         Real
-            Spectral shape start.
+            Start wavelength of the spectral shape in nanometres.
         """
 
         return self._start
 
     @start.setter
-    def start(self, value: Real):
+    def start(self, value: Real) -> None:
         """Setter for the **self.start** property."""
 
         attest(
@@ -193,23 +200,24 @@ class SpectralShape:
     @property
     def end(self) -> Real:
         """
-        Getter and setter property for the spectral shape end.
+         Getter and setter for the spectral shape end.
 
         Parameters
         ----------
-        value
-            Value to set the spectral shape end with.
+         value
+             Value to set the spectral shape end wavelength with.
 
         Returns
         -------
-        Real
-            Spectral shape end.
+         Real
+             End wavelength of the spectral shape in nanometres.
+        .
         """
 
         return self._end
 
     @end.setter
-    def end(self, value: Real):
+    def end(self, value: Real) -> None:
         """Setter for the **self.end** property."""
 
         attest(
@@ -227,7 +235,10 @@ class SpectralShape:
     @property
     def interval(self) -> Real:
         """
-        Getter and setter property for the spectral shape interval.
+        Getter and setter for the spectral shape interval.
+
+        The interval defines the wavelength spacing between consecutive
+        samples in the spectral distribution.
 
         Parameters
         ----------
@@ -243,7 +254,7 @@ class SpectralShape:
         return self._interval
 
     @interval.setter
-    def interval(self, value: Real):
+    def interval(self, value: Real) -> None:
         """Setter for the **self.interval** property."""
 
         attest(
@@ -256,7 +267,10 @@ class SpectralShape:
     @property
     def boundaries(self) -> tuple:
         """
-        Getter and setter property for the spectral shape boundaries.
+        Getter and setter for the boundaries of the spectral shape.
+
+        The boundaries define the start and end points of the spectral
+        range as a tuple of two values.
 
         Parameters
         ----------
@@ -272,7 +286,7 @@ class SpectralShape:
         return self._start, self._end
 
     @boundaries.setter
-    def boundaries(self, value: ArrayLike):
+    def boundaries(self, value: ArrayLike) -> None:
         """Setter for the **self.boundaries** property."""
 
         value = np.asarray(value)
@@ -287,7 +301,7 @@ class SpectralShape:
     @property
     def wavelengths(self) -> NDArrayFloat:
         """
-        Getter property for the spectral shape wavelengths.
+        Getter for the spectral shape wavelengths.
 
         Returns
         -------
@@ -323,24 +337,27 @@ class SpectralShape:
 
     def __hash__(self) -> int:
         """
-        Return the spectral shape hash.
+        Return the hash value of the spectral shape.
+
+        The hash is computed based on the spectral shape's start wavelength,
+        end wavelength, and wavelength interval.
 
         Returns
         -------
         :class:`int`
-            Object hash.
+            Hash value of the spectral shape.
         """
 
         return hash((self.start, self.end, self.interval))
 
     def __iter__(self) -> Generator:
         """
-        Return a generator for the spectral shape data.
+        Generate wavelengths for the spectral shape range.
 
         Yields
         ------
         Generator
-            Spectral shape data generator.
+            Wavelength values from start to end at the specified interval.
 
         Examples
         --------
@@ -364,19 +381,19 @@ class SpectralShape:
 
     def __contains__(self, wavelength: ArrayLike) -> bool:
         """
-        Return if the spectral shape contains given wavelength
+        Determine if the spectral shape contains the specified wavelength
         :math:`\\lambda`.
 
         Parameters
         ----------
         wavelength
-            Wavelength :math:`\\lambda`.
+            Wavelength :math:`\\lambda` to check for containment.
 
         Returns
         -------
         :class:`bool`
-            Whether wavelength :math:`\\lambda` is contained in the spectral
-            shape.
+            Whether  the wavelength :math:`\\lambda` is contained within the
+            spectral shape.
 
         Examples
         --------
@@ -392,11 +409,11 @@ class SpectralShape:
         False
         """
 
-        decimals = np.finfo(cast(Any, DTYPE_FLOAT_DEFAULT)).precision
+        decimals = np.finfo(cast("Any", DTYPE_FLOAT_DEFAULT)).precision
 
         return bool(
             np.all(
-                np.isin(  # pyright: ignore
+                np.isin(
                     np.around(
                         wavelength,  # pyright: ignore
                         decimals,
@@ -426,19 +443,20 @@ class SpectralShape:
 
         return len(self.wavelengths)
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
-        Return whether the spectral shape is equal to given other object.
+        Determine whether the spectral shape is equal to the specified other
+        object.
 
         Parameters
         ----------
         other
-            Object to test whether it is equal to the spectral shape.
+            Object to determine whether it is equal to the spectral shape.
 
         Returns
         -------
         :class:`bool`
-            Whether given object is equal to the spectral shape.
+            Whether the specified object is equal to the spectral shape.
 
         Examples
         --------
@@ -450,22 +468,25 @@ class SpectralShape:
 
         if isinstance(other, SpectralShape):
             return np.array_equal(self.wavelengths, other.wavelengths)
-        else:
-            return False
 
-    def __ne__(self, other: Any) -> bool:
+        return False
+
+    def __ne__(self, other: object) -> bool:
         """
-        Return whether the spectral shape is not equal to given other object.
+        Determine whether the spectral shape is not equal to the specified
+        other object.
 
         Parameters
         ----------
         other
-            Object to test whether it is not equal to the spectral shape.
+            Object to determine whether it is not equal to the spectral
+            shape.
 
         Returns
         -------
         :class:`bool`
-            Whether given object is not equal to the spectral shape.
+            Whether the specified object is not equal to the spectral
+            shape.
 
         Examples
         --------
@@ -489,7 +510,7 @@ class SpectralShape:
         Returns
         -------
         :class:`numpy.ndarray`
-            Iterable range for the spectral distribution shape
+            Iterable range for the spectral distribution shape.
 
         Examples
         --------
@@ -511,6 +532,7 @@ class SpectralShape:
         dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
         hash_key = hash((self, dtype))
+
         if is_caching_enabled() and hash_key in _CACHE_SHAPE_RANGE:
             return _CACHE_SHAPE_RANGE[hash_key].copy()
 
@@ -528,7 +550,7 @@ class SpectralShape:
         _CACHE_SHAPE_RANGE[hash_key] = range_
 
         if interval_effective != self._interval:
-            self._interval = cast(float, interval_effective)
+            self._interval = cast("float", interval_effective)
             runtime_warning(
                 f'"{(start, end, interval)}" shape could not be honoured, '
                 f'using "{self}"!'
@@ -546,16 +568,16 @@ class SpectralDistribution(Signal):
     Define the spectral distribution: the base object for spectral
     computations.
 
-    The spectral distribution will be initialised according to *CIE 15:2004*
-    recommendation: the method developed by *Sprague (1880)* will be used for
-    interpolating functions having a uniformly spaced independent variable and
-    the *Cubic Spline* method for non-uniformly spaced independent variable.
-    Extrapolation is performed according to *CIE 167:2005* recommendation.
+    Initialise spectral distribution according to *CIE 15:2004* recommendation:
+    use the method developed by *Sprague (1880)* for interpolating functions
+    having uniformly spaced independent variables and the *Cubic Spline* method
+    for non-uniformly spaced independent variables. Perform extrapolation
+    according to *CIE 167:2005* recommendation.
 
     .. important::
 
-        Specific documentation about getting, setting, indexing and slicing the
-        spectral power distribution values is available in the
+        Specific documentation about getting, setting, indexing and slicing
+        the spectral power distribution values is available in the
         :ref:`spectral-representation-and-continuous-signal` section.
 
     Parameters
@@ -565,8 +587,8 @@ class SpectralDistribution(Signal):
     domain
         Values to initialise the
         :attr:`colour.SpectralDistribution.wavelength` property with.
-        If both ``data`` and ``domain`` arguments are defined, the latter will
-        be used to initialise the
+        If both ``data`` and ``domain`` arguments are defined, the latter
+        will be used to initialise the
         :attr:`colour.SpectralDistribution.wavelength` property.
 
     Other Parameters
@@ -673,8 +695,8 @@ class SpectralDistribution(Signal):
 
     def __init__(
         self,
-        data: ArrayLike | dict | Series | Signal | None = None,
-        domain: ArrayLike | SpectralShape | None = None,
+        data: ArrayLike | dict | Series | Signal | ValuesView | None = None,
+        domain: ArrayLike | SpectralShape | KeysView | None = None,
         **kwargs: Any,
     ) -> None:
         domain = domain.wavelengths if isinstance(domain, SpectralShape) else domain
@@ -708,8 +730,32 @@ class SpectralDistribution(Signal):
         self.register_callback("_domain", "on_domain_changed", self._on_domain_changed)
 
     @staticmethod
-    def _on_domain_changed(sd, name: str, value: NDArrayFloat) -> NDArrayFloat:
-        """Invalidate *sd._shape* when *sd._domain* is changed."""
+    def _on_domain_changed(
+        sd: SpectralDistribution, name: str, value: NDArrayFloat
+    ) -> NDArrayFloat:
+        """
+        Invalidate the cached spectral shape when the spectral
+        distribution domain is modified.
+
+        This callback ensures that the internal *_shape* attribute is reset
+        to *None* whenever the domain values change, maintaining consistency
+        between the domain and its derived shape representation.
+
+        Parameters
+        ----------
+        sd
+            Spectral distribution instance whose domain has changed.
+        name
+            Name of the modified attribute (expected to be "_domain").
+        value
+            New domain values that triggered the callback.
+
+        Returns
+        -------
+        :class:`numpy.ndarray`
+            The specified domain values, unchanged.
+        """
+
         if name == "_domain":
             sd._shape = None
 
@@ -718,23 +764,27 @@ class SpectralDistribution(Signal):
     @property
     def display_name(self) -> str:
         """
-        Getter and setter property for the spectral distribution display name.
+        Getter and setter for the spectral distribution's display name.
+
+        The display name provides a human-readable identifier for the
+        spectral distribution, used for visualization and reporting purposes.
 
         Parameters
         ----------
         value
-            Value to set the spectral distribution display name with.
+            Value to set the spectral distribution's display name
+            with.
 
         Returns
         -------
         :class:`str`
-            Spectral distribution display name.
+            Spectral distribution's display name.
         """
 
         return self._display_name
 
     @display_name.setter
-    def display_name(self, value: str):
+    def display_name(self, value: str) -> None:
         """Setter for the **self.display_name** property."""
 
         attest(
@@ -747,7 +797,7 @@ class SpectralDistribution(Signal):
     @property
     def wavelengths(self) -> NDArrayFloat:
         """
-        Getter and setter property for the spectral distribution wavelengths
+        Getter and setter for the spectral distribution wavelengths
         :math:`\\lambda_n`.
 
         Parameters
@@ -765,7 +815,7 @@ class SpectralDistribution(Signal):
         return self.domain
 
     @wavelengths.setter
-    def wavelengths(self, value: ArrayLike):
+    def wavelengths(self, value: ArrayLike) -> None:
         """Setter for the **self.wavelengths** property."""
 
         self.domain = as_float_array(value, self.dtype)
@@ -773,7 +823,7 @@ class SpectralDistribution(Signal):
     @property
     def values(self) -> NDArrayFloat:
         """
-        Getter and setter property for the spectral distribution values.
+        Getter and setter for the spectral distribution values.
 
         Parameters
         ----------
@@ -789,7 +839,7 @@ class SpectralDistribution(Signal):
         return self.range
 
     @values.setter
-    def values(self, value: ArrayLike):
+    def values(self, value: ArrayLike) -> None:
         """Setter for the **self.values** property."""
 
         self.range = as_float_array(value, self.dtype)
@@ -858,11 +908,11 @@ class SpectralDistribution(Signal):
     ) -> Self:
         """
         Interpolate the spectral distribution in-place according to
-        *CIE 167:2005* recommendation (if the interpolator has not been changed
-        at instantiation time) or given interpolation arguments.
+        *CIE 167:2005* recommendation (if the interpolator has not been
+        changed at instantiation time) or specified interpolation arguments.
 
         The logic for choosing the interpolator class when ``interpolator`` is
-        not given is as follows:
+        not specified is as follows:
 
         .. code-block:: python
 
@@ -877,7 +927,7 @@ class SpectralDistribution(Signal):
                 interpolator = CubicSplineInterpolator
 
         The logic for choosing the interpolator keyword arguments when
-        ``interpolator_kwargs`` is not given is as follows:
+        ``interpolator_kwargs`` is not specified is as follows:
 
         .. code-block:: python
 
@@ -905,8 +955,8 @@ class SpectralDistribution(Signal):
 
         Notes
         -----
-        -   Interpolation will be performed over boundaries range, if you need
-            to extend the range of the spectral distribution use the
+        -   Interpolation will be performed over boundaries range, if it is
+            required to extend the range of the spectral distribution use the
             :meth:`colour.SpectralDistribution.extrapolate` or
             :meth:`colour.SpectralDistribution.align` methods.
 
@@ -923,8 +973,8 @@ class SpectralDistribution(Signal):
 
         Examples
         --------
-        Spectral distribution with a uniformly spaced independent variable uses
-        *Sprague (1880)* interpolation:
+        Spectral distribution with a uniformly spaced independent variable
+        uses *Sprague (1880)* interpolation:
 
         >>> from colour.utilities import numpy_print_options
         >>> data = {
@@ -1041,8 +1091,8 @@ class SpectralDistribution(Signal):
          [ 599.            0.1349201...]
          [ 600.            0.136    ...]]
 
-        Spectral distribution with a non-uniformly spaced independent variable
-        uses *Cubic Spline* interpolation:
+        Spectral distribution with a non-uniformly spaced independent
+        variable uses *Cubic Spline* interpolation:
 
         >>> sd = SpectralDistribution(data)
         >>> sd[510] = np.pi / 10
@@ -1166,21 +1216,15 @@ class SpectralDistribution(Signal):
                 for x in zip(
                     (shape.start, shape.end, shape.interval),
                     (shape_start, shape_end, shape_interval),
+                    strict=True,
                 )
             ]
         )
 
-        # Defining proper interpolation bounds.
-        # TODO: Provide support for fractional interval like 0.1, etc...
-        if np.around(shape_start) != shape_start or np.around(shape_end) != shape_end:
-            runtime_warning("Fractional bound encountered, rounding will occur!")
-
-        shape.start = max([shape.start, np.ceil(shape_start)])
-        shape.end = min([shape.end, np.floor(shape_end)])
+        shape.start = max([shape.start, shape_start])
+        shape.end = min([shape.end, shape_end])
 
         if interpolator is None:
-            # User has specifically chosen the interpolator thus it is used
-            # instead of those from *CIE 167:2005* recommendation.
             if self.interpolator not in (
                 SpragueInterpolator,
                 CubicSplineInterpolator,
@@ -1192,8 +1236,6 @@ class SpectralDistribution(Signal):
                 interpolator = CubicSplineInterpolator
 
         if interpolator_kwargs is None:
-            # User has specifically chosen the interpolator thus its keyword
-            # arguments are used.
             if self.interpolator not in (
                 SpragueInterpolator,
                 CubicSplineInterpolator,
@@ -1202,12 +1244,19 @@ class SpectralDistribution(Signal):
             else:
                 interpolator_kwargs = {}
 
-        wavelengths, values = self.wavelengths, self.values
+        self_interpolator, self.interpolator = self.interpolator, interpolator
+        self_interpolator_kwargs, self.interpolator_kwargs = (
+            self.interpolator_kwargs,
+            interpolator_kwargs,
+        )
+
+        values = self[shape.wavelengths]
 
         self.domain = shape.wavelengths
-        self.range = interpolator(wavelengths, values, **interpolator_kwargs)(
-            self.domain
-        )
+        self.values = values
+
+        self.interpolator = self_interpolator
+        self.interpolator_kwargs = self_interpolator_kwargs
 
         return self
 
@@ -1219,7 +1268,7 @@ class SpectralDistribution(Signal):
     ) -> Self:
         """
         Extrapolate the spectral distribution in-place according to
-        *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
+        *CIE 15:2004* and *CIE 167:2005* recommendations or specified extrapolation
         arguments.
 
         Parameters
@@ -1319,15 +1368,15 @@ class SpectralDistribution(Signal):
         extrapolator_kwargs: dict | None = None,
     ) -> Self:
         """
-        Align the spectral distribution in-place to given spectral shape:
-        Interpolates first then extrapolates to fit the given range.
+        Align the spectral distribution in-place to the specified spectral
+        shape: Interpolate first then extrapolate to fit the specified range.
 
-        Interpolation is performed according to *CIE 167:2005* recommendation
-        (if the interpolator has not been changed at instantiation time) or
-        given interpolation arguments.
+        Interpolation is performed according to *CIE 167:2005*
+        recommendation (if the interpolator has not been changed at
+        instantiation time) or specified interpolation arguments.
 
-        The logic for choosing the interpolator class when ``interpolator`` is
-        not given is as follows:
+        The logic for choosing the interpolator class when ``interpolator``
+        is not specified is as follows:
 
         .. code-block:: python
 
@@ -1342,7 +1391,7 @@ class SpectralDistribution(Signal):
                 interpolator = CubicSplineInterpolator
 
         The logic for choosing the interpolator keyword arguments when
-        ``interpolator_kwargs`` is not given is as follows:
+        ``interpolator_kwargs`` is not specified is as follows:
 
         .. code-block:: python
 
@@ -1457,7 +1506,7 @@ class SpectralDistribution(Signal):
 
     def trim(self, shape: SpectralShape) -> Self:
         """
-        Trim the spectral distribution wavelengths to given spectral shape.
+        Trim the spectral distribution wavelengths to the specified spectral shape.
 
         Parameters
         ----------
@@ -1568,12 +1617,13 @@ class SpectralDistribution(Signal):
 
     def normalise(self, factor: Real = 1) -> Self:
         """
-        Normalise the spectral distribution using given normalization factor.
+        Normalise the spectral distribution with the specified normalization
+        factor.
 
         Parameters
         ----------
         factor
-            Normalization factor.
+            Normalisation factor.
 
         Returns
         -------
@@ -1610,21 +1660,21 @@ class SpectralDistribution(Signal):
 
 class MultiSpectralDistributions(MultiSignals):
     """
-    Define the multi-spectral distributions: the base object for multi
-    spectral computations. It is used to model colour matching functions,
-    display primaries, camera sensitivities, etc...
+    Define multi-spectral distributions: the base object for multi-spectral
+    computations. Model colour matching functions, display primaries, camera
+    sensitivities, and related spectral data sets.
 
-    The multi-spectral distributions will be initialised according to
-    *CIE 15:2004* recommendation: the method developed by *Sprague (1880)* will
-    be used for interpolating functions having a uniformly spaced independent
-    variable and the *Cubic Spline* method for non-uniformly spaced independent
-    variable. Extrapolation is performed according to *CIE 167:2005*
+    Initialise multi-spectral distributions according to *CIE 15:2004*
+    recommendation: use the method developed by *Sprague (1880)* for
+    interpolating functions having uniformly spaced independent variables
+    and the *Cubic Spline* method for non-uniformly spaced independent
+    variables. Perform extrapolation according to *CIE 167:2005*
     recommendation.
 
     .. important::
 
-        Specific documentation about getting, setting, indexing and slicing the
-        multi-spectral power distributions values is available in the
+        Specific documentation about getting, setting, indexing and slicing
+        the multi-spectral power distributions values is available in the
         :ref:`spectral-representation-and-continuous-signal` section.
 
     Parameters
@@ -1634,8 +1684,8 @@ class MultiSpectralDistributions(MultiSignals):
     domain
         Values to initialise the multiple :class:`colour.SpectralDistribution`
         class instances :attr:`colour.continuous.Signal.wavelengths` attribute
-        with. If both ``data`` and ``domain`` arguments are defined, the latter
-        will be used to initialise the
+        with. If both ``data`` and ``domain`` arguments are defined, the
+        latter will be used to initialise the
         :attr:`colour.continuous.Signal.wavelengths` property.
     labels
         Names to use for the :class:`colour.SpectralDistribution` class
@@ -1789,9 +1839,10 @@ class MultiSpectralDistributions(MultiSignals):
             | Series
             | Signal
             | SpectralDistribution
+            | ValuesView
             | None
         ) = None,
-        domain: ArrayLike | SpectralShape | None = None,
+        domain: ArrayLike | SpectralShape | KeysView | None = None,
         labels: Sequence | None = None,
         **kwargs: Any,
     ) -> None:
@@ -1825,24 +1876,28 @@ class MultiSpectralDistributions(MultiSignals):
     @property
     def display_name(self) -> str:
         """
-        Getter and setter property for the multi-spectral distributions display
-        name.
+        Getter and setter for the multi-spectral distributions' display name.
+
+        The display name provides a human-readable identifier for the
+        multi-spectral distribution collection, used for visualization
+        and reporting purposes.
 
         Parameters
         ----------
         value
-            Value to set the multi-spectral distributions display name with.
+            Value to set the multi-spectral distributions' display name
+            with.
 
         Returns
         -------
         :class:`str`
-            Multi-spectral distributions display name.
+            Multi-spectral distributions' display name.
         """
 
         return self._display_name
 
     @display_name.setter
-    def display_name(self, value: str):
+    def display_name(self, value: str) -> None:
         """Setter for the **self.display_name** property."""
 
         attest(
@@ -1855,8 +1910,12 @@ class MultiSpectralDistributions(MultiSignals):
     @property
     def display_labels(self) -> List[str]:
         """
-        Getter and setter property for the multi-spectral distributions display
-        labels.
+        Getter and setter for the display labels of the multi-spectral
+        distributions.
+
+        The display labels provide human-readable identifiers for each spectral
+        distribution in the multi-spectral collection, facilitating data
+        visualization and interpretation.
 
         Parameters
         ----------
@@ -1872,13 +1931,12 @@ class MultiSpectralDistributions(MultiSignals):
         return self._display_labels
 
     @display_labels.setter
-    def display_labels(self, value: Sequence):
+    def display_labels(self, value: Sequence) -> None:
         """Setter for the **self.display_labels** property."""
 
         attest(
             is_iterable(value),
-            f'"display_labels" property: "{value}" is not an "iterable" like '
-            f"object!",
+            f'"display_labels" property: "{value}" is not an "iterable" like object!',
         )
 
         attest(
@@ -1893,12 +1951,12 @@ class MultiSpectralDistributions(MultiSignals):
 
         self._display_labels = [str(label) for label in value]
         for i, signal in enumerate(self.signals.values()):
-            cast(SpectralDistribution, signal).display_name = self._display_labels[i]
+            cast("SpectralDistribution", signal).display_name = self._display_labels[i]
 
     @property
     def wavelengths(self) -> NDArrayFloat:
         """
-        Getter and setter property for the multi-spectral distributions
+        Getter and setter for the multi-spectral distributions
         wavelengths :math:`\\lambda_n`.
 
         Parameters
@@ -1916,7 +1974,7 @@ class MultiSpectralDistributions(MultiSignals):
         return self.domain
 
     @wavelengths.setter
-    def wavelengths(self, value: ArrayLike):
+    def wavelengths(self, value: ArrayLike) -> None:
         """Setter for the **self.wavelengths** property."""
 
         self.domain = as_float_array(value, self.dtype)
@@ -1924,7 +1982,7 @@ class MultiSpectralDistributions(MultiSignals):
     @property
     def values(self) -> NDArrayFloat:
         """
-        Getter and setter property for the multi-spectral distributions values.
+        Getter and setter for the multi-spectral distributions values.
 
         Parameters
         ----------
@@ -1941,7 +1999,7 @@ class MultiSpectralDistributions(MultiSignals):
         return self.range
 
     @values.setter
-    def values(self, value: ArrayLike):
+    def values(self, value: ArrayLike) -> None:
         """Setter for the **self.values** property."""
 
         self.range = as_float_array(value, self.dtype)
@@ -2000,10 +2058,10 @@ class MultiSpectralDistributions(MultiSignals):
         """
         Interpolate the multi-spectral distributions in-place according to
         *CIE 167:2005* recommendation (if the interpolator has not been changed
-        at instantiation time) or given interpolation arguments.
+        at instantiation time) or specified interpolation arguments.
 
         The logic for choosing the interpolator class when ``interpolator`` is
-        not given is as follows:
+        not specified is as follows:
 
         .. code-block:: python
 
@@ -2018,7 +2076,7 @@ class MultiSpectralDistributions(MultiSignals):
                 interpolator = CubicSplineInterpolator
 
         The logic for choosing the interpolator keyword arguments when
-        ``interpolator_kwargs`` is not given is as follows:
+        ``interpolator_kwargs`` is not specified is as follows:
 
         .. code-block:: python
 
@@ -2211,7 +2269,7 @@ class MultiSpectralDistributions(MultiSignals):
         """
 
         for signal in self.signals.values():
-            cast(SpectralDistribution, signal).interpolate(
+            cast("SpectralDistribution", signal).interpolate(
                 shape, interpolator, interpolator_kwargs
             )
 
@@ -2225,7 +2283,7 @@ class MultiSpectralDistributions(MultiSignals):
     ) -> Self:
         """
         Extrapolate the multi-spectral distributions in-place according to
-        *CIE 15:2004* and *CIE 167:2005* recommendations or given extrapolation
+        *CIE 15:2004* and *CIE 167:2005* recommendations or specified extrapolation
         arguments.
 
         Parameters
@@ -2297,7 +2355,7 @@ class MultiSpectralDistributions(MultiSignals):
         """
 
         for signal in self.signals.values():
-            cast(SpectralDistribution, signal).extrapolate(
+            cast("SpectralDistribution", signal).extrapolate(
                 shape, extrapolator, extrapolator_kwargs
             )
 
@@ -2312,15 +2370,15 @@ class MultiSpectralDistributions(MultiSignals):
         extrapolator_kwargs: dict | None = None,
     ) -> Self:
         """
-        Align the multi-spectral distributions in-place to given spectral
-        shape: Interpolates first then extrapolates to fit the given range.
+        Align the multi-spectral distributions in-place to the specified spectral
+        shape: Interpolates first then extrapolates to fit the specified range.
 
         Interpolation is performed according to *CIE 167:2005* recommendation
         (if the interpolator has not been changed at instantiation time) or
-        given interpolation arguments.
+        specified interpolation arguments.
 
         The logic for choosing the interpolator class when ``interpolator`` is
-        not given is as follows:
+        not specified is as follows:
 
         .. code-block:: python
 
@@ -2335,7 +2393,7 @@ class MultiSpectralDistributions(MultiSignals):
                 interpolator = CubicSplineInterpolator
 
         The logic for choosing the interpolator keyword arguments when
-        ``interpolator_kwargs`` is not given is as follows:
+        ``interpolator_kwargs`` is not specified is as follows:
 
         .. code-block:: python
 
@@ -2445,7 +2503,7 @@ class MultiSpectralDistributions(MultiSignals):
         """
 
         for signal in self.signals.values():
-            cast(SpectralDistribution, signal).align(
+            cast("SpectralDistribution", signal).align(
                 shape,
                 interpolator,
                 interpolator_kwargs,
@@ -2457,7 +2515,7 @@ class MultiSpectralDistributions(MultiSignals):
 
     def trim(self, shape: SpectralShape) -> Self:
         """
-        Trim the multi-spectral distributions wavelengths to given shape.
+        Trim the multi-spectral distributions wavelengths to the specified shape.
 
         Parameters
         ----------
@@ -2530,13 +2588,13 @@ class MultiSpectralDistributions(MultiSignals):
         """
 
         for signal in self.signals.values():
-            cast(SpectralDistribution, signal).trim(shape)
+            cast("SpectralDistribution", signal).trim(shape)
 
         return self
 
     def normalise(self, factor: Real = 1) -> Self:
         """
-        Normalise the multi-spectral distributions with given normalization
+        Normalise the multi-spectral distributions with the specified normalization
         factor.
 
         Parameters
@@ -2579,7 +2637,7 @@ class MultiSpectralDistributions(MultiSignals):
         """
 
         for signal in self.signals.values():
-            cast(SpectralDistribution, signal).normalise(factor)
+            cast("SpectralDistribution", signal).normalise(factor)
 
         return self
 
@@ -2633,7 +2691,7 @@ class MultiSpectralDistributions(MultiSignals):
         """
 
         return [
-            cast(SpectralDistribution, signal.copy())
+            cast("SpectralDistribution", signal.copy())
             for signal in self.signals.values()
         ]
 
@@ -2655,22 +2713,23 @@ def reshape_sd(
     **kwargs: Any,
 ) -> TypeSpectralDistribution:
     """
-    Reshape given spectral distribution with given spectral shape.
+    Reshape the specified spectral distribution to match the specified spectral
+    shape.
 
-    The reshaped object is cached, thus another call to the definition with the
-    same arguments will yield the cached object immediately.
+    The reshaped object is cached, thus another call to the definition with
+    the same arguments will yield the cached object immediately.
 
     Parameters
     ----------
     sd
         Spectral distribution to reshape.
     shape
-        Spectral shape to reshape the spectral distribution with.
+        Target spectral shape for reshaping the spectral distribution.
     method
-        Reshape method.
+        Method to use for reshaping.
     copy
-        Whether to return a copy of the cached spectral distribution. Default
-        is *True*.
+        Whether to return a copy of the cached spectral distribution.
+        Default is *True*.
 
     Other Parameters
     ----------------
@@ -2704,6 +2763,7 @@ def reshape_sd(
 
     if is_caching_enabled() and hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
         reshaped_sd = _CACHE_RESHAPED_SDS_AND_MSDS[hash_key]
+
         return reshaped_sd.copy() if copy else reshaped_sd
 
     function = getattr(sd, method)
@@ -2728,19 +2788,20 @@ def reshape_msds(
     **kwargs: Any,
 ) -> TypeMultiSpectralDistributions:
     """
-    Reshape given multi-spectral distributions with given spectral shape.
+    Reshape the specified multi-spectral distributions to match the specified
+    spectral shape.
 
-    The reshaped object is cached, thus another call to the definition with the
-    same arguments will yield the cached object immediately.
+    The reshaped object is cached, thus another call to the definition with
+    the same arguments will yield the cached object immediately.
 
     Parameters
     ----------
     msds
-        Spectral distribution to reshape.
+        Multi-spectral distributions to reshape.
     shape
-        Spectral shape to reshape the multi-spectral distributions with.
+        Target spectral shape for reshaping the multi-spectral distributions.
     method
-        Reshape method.
+        Method to use for reshaping.
     copy
         Whether to return a copy of the cached multi-spectral distributions.
         Default is *True*.
@@ -2760,7 +2821,7 @@ def reshape_msds(
 
     Warnings
     --------
-    Contrary to *Numpy*, reshaping a multi-spectral distributions alters its
+    Contrary to *Numpy*, reshaping multi-spectral distributions alters their
     data!
     """
 
@@ -2772,22 +2833,25 @@ def sds_and_msds_to_sds(
         Sequence[SpectralDistribution | MultiSpectralDistributions]
         | SpectralDistribution
         | MultiSpectralDistributions
+        | ValuesView
     ),
 ) -> List[SpectralDistribution]:
     """
-    Convert given spectral and multi-spectral distributions to a list of
+    Convert specified spectral and multi-spectral distributions to a list of
     spectral distributions.
 
     Parameters
     ----------
     sds
         Spectral and multi-spectral distributions to convert to a list of
-        spectral distributions.
+        spectral distributions. Each multi-spectral distribution is expanded
+        into its constituent spectral distributions.
 
     Returns
     -------
     :class:`list`
-        List of spectral distributions.
+        List of spectral distributions where multi-spectral distributions
+        have been expanded into individual spectral distributions.
 
     Examples
     --------
@@ -2818,10 +2882,12 @@ def sds_and_msds_to_sds(
 
     if isinstance(sds, SpectralDistribution):
         return sds_and_msds_to_sds([sds])
-    elif isinstance(sds, MultiSpectralDistributions):
+
+    if isinstance(sds, MultiSpectralDistributions):
         sds_converted = sds.to_sds()
     else:
         sds_converted = []
+
         for sd in sds:
             sds_converted += (
                 sd.to_sds() if isinstance(sd, MultiSpectralDistributions) else [sd]
@@ -2835,10 +2901,11 @@ def sds_and_msds_to_msds(
         Sequence[SpectralDistribution | MultiSpectralDistributions]
         | SpectralDistribution
         | MultiSpectralDistributions
+        | ValuesView
     ),
 ) -> MultiSpectralDistributions:
     """
-    Convert given spectral and multi-spectral distributions to
+    Convert specified spectral and multi-spectral distributions to
     multi-spectral distributions.
 
     The spectral and multi-spectral distributions will be aligned to the
@@ -2918,7 +2985,8 @@ def sds_and_msds_to_msds(
 
     if isinstance(sds, SpectralDistribution):
         return sds_and_msds_to_msds([sds])
-    elif isinstance(sds, MultiSpectralDistributions):
+
+    if isinstance(sds, MultiSpectralDistributions):
         msds_converted = sds
     else:
         sds_converted = sds_and_msds_to_sds(sds)

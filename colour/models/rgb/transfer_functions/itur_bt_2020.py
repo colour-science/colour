@@ -3,7 +3,7 @@ Recommendation ITU-R BT.2020
 ============================
 
 Define the *Recommendation ITU-R BT.2020* opto-electrical transfer function
-(OETF) and its inverse:
+(OETF) and its inverse.
 
 -   :func:`colour.models.oetf_BT2020`
 -   :func:`colour.models.oetf_inverse_BT2020`
@@ -23,12 +23,16 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import (
     Structure,
     as_float,
     domain_range_scale,
     from_range_1,
+    optional,
     to_domain_1,
 )
 
@@ -67,12 +71,12 @@ References
 
 
 def oetf_BT2020(
-    E: ArrayLike,
+    E: Domain1,
     is_12_bits_system: bool = False,
-    constants: Structure = CONSTANTS_BT2020,
-) -> NDArrayFloat:
+    constants: Structure | None = None,
+) -> Range1:
     """
-    Define *Recommendation ITU-R BT.2020* opto-electronic transfer function
+    Apply the *Recommendation ITU-R BT.2020* opto-electronic transfer function
     (OETF).
 
     Parameters
@@ -82,27 +86,28 @@ def oetf_BT2020(
         proportional to the implicit light intensity that would be detected
         with a reference camera colour channel R, G, B.
     is_12_bits_system
-        *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
+        *BT.709* *alpha* and *beta* constants are used if system is not
+        12-bit.
     constants
         *Recommendation ITU-R BT.2020* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Resulting non-linear signal :math:`E'`.
+        Non-linear signal :math:`E'`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E``      | [0, 1]                | [0, 1]        |
+    | ``E``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E_p``    | [0, 1]                | [0, 1]        |
+    | ``E_p``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -116,6 +121,7 @@ def oetf_BT2020(
     """
 
     E = to_domain_1(E)
+    constants = optional(constants, CONSTANTS_BT2020)
 
     a = constants.alpha(is_12_bits_system)
     b = constants.beta(is_12_bits_system)
@@ -126,40 +132,43 @@ def oetf_BT2020(
 
 
 def oetf_inverse_BT2020(
-    E_p: ArrayLike,
+    E_p: Domain1,
     is_12_bits_system: bool = False,
-    constants: Structure = CONSTANTS_BT2020,
-) -> NDArrayFloat:
+    constants: Structure | None = None,
+) -> Range1:
     """
-    Define *Recommendation ITU-R BT.2020* inverse opto-electronic transfer
-    function (OETF).
+    Apply the *Recommendation ITU-R BT.2020* inverse opto-electronic transfer function
+    (OETF).
 
     Parameters
     ----------
     E_p
         Non-linear signal :math:`E'`.
     is_12_bits_system
-        *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
+        *BT.709* *alpha* and *beta* constants are used if system is not
+        12-bit.
     constants
         *Recommendation ITU-R BT.2020* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Resulting voltage :math:`E`.
+        Voltage :math:`E` normalised by the reference white level and
+        proportional to the implicit light intensity that would be detected
+        with a reference camera colour channel R, G, B.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E_p``    | [0, 1]                | [0, 1]        |
+    | ``E_p``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``E``      | [0, 1]                | [0, 1]        |
+    | ``E``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -173,6 +182,7 @@ def oetf_inverse_BT2020(
     """
 
     E_p = to_domain_1(E_p)
+    constants = optional(constants, CONSTANTS_BT2020)
 
     a = constants.alpha(is_12_bits_system)
     b = constants.beta(is_12_bits_system)

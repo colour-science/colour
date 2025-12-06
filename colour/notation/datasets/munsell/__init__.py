@@ -1,7 +1,8 @@
+from colour.utilities import CanonicalMapping
+
 from .all import MUNSELL_COLOURS_ALL
 from .experimental import MUNSELL_COLOURS_1929
 from .real import MUNSELL_COLOURS_REAL
-from colour.utilities import CanonicalMapping
 
 __all__ = [
     "MUNSELL_COLOURS_ALL",

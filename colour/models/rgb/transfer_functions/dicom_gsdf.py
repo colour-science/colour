@@ -3,7 +3,7 @@ DICOM - Grayscale Standard Display Function
 ===========================================
 
 Define the *DICOM - Grayscale Standard Display Function* electro-optical
-transfer function (EOTF) and its inverse:
+transfer function (EOTF) and its inverse.
 
 -   :func:`colour.models.eotf_inverse_DICOMGSDF`
 -   :func:`colour.models.eotf_DICOMGSDF`
@@ -25,14 +25,24 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayReal
+
+from colour.hints import (  # noqa: TC001
+    Annotated,
+    Domain1,
+    Range1,
+)
 from colour.utilities import (
     Structure,
     as_float,
     as_int,
     from_range_1,
+    optional,
     to_domain_1,
 )
 
@@ -74,12 +84,12 @@ CONSTANTS_DICOMGSDF: Structure = Structure(
 
 
 def eotf_inverse_DICOMGSDF(
-    L: ArrayLike,
+    L: Domain1,
     out_int: bool = False,
-    constants: Structure = CONSTANTS_DICOMGSDF,
-) -> NDArrayReal:
+    constants: Structure | None = None,
+) -> Annotated[NDArrayReal, 1]:
     """
-    Define the *DICOM - Grayscale Standard Display Function* inverse
+    Apply the *DICOM - Grayscale Standard Display Function* inverse
     electro-optical transfer function (EOTF).
 
     Parameters
@@ -87,8 +97,8 @@ def eotf_inverse_DICOMGSDF(
     L
         *Luminance* :math:`L`.
     out_int
-        Whether to return value as int code value or float equivalent of a
-        code value at a given bit-depth.
+        Whether to return value as integer code value or float equivalent
+        of a code value at a specified bit-depth.
     constants
         *DICOM - Grayscale Standard Display Function* constants.
 
@@ -102,13 +112,13 @@ def eotf_inverse_DICOMGSDF(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``L``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``J``      | [0, 1]                | [0, 1]        |
+    | ``J``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -124,6 +134,7 @@ def eotf_inverse_DICOMGSDF(
     """
 
     L = to_domain_1(L)
+    constants = optional(constants, CONSTANTS_DICOMGSDF)
 
     L_lg = np.log10(L)
 
@@ -151,17 +162,17 @@ def eotf_inverse_DICOMGSDF(
 
     if out_int:
         return as_int(np.round(J))
-    else:
-        return as_float(from_range_1(J / 1023))
+
+    return as_float(from_range_1(J / 1023))
 
 
 def eotf_DICOMGSDF(
-    J: ArrayLike,
+    J: Domain1,
     in_int: bool = False,
-    constants: Structure = CONSTANTS_DICOMGSDF,
-) -> NDArrayFloat:
+    constants: Structure | None = None,
+) -> Range1:
     """
-    Define the *DICOM - Grayscale Standard Display Function* electro-optical
+    Apply the *DICOM - Grayscale Standard Display Function* electro-optical
     transfer function (EOTF).
 
     Parameters
@@ -169,28 +180,28 @@ def eotf_DICOMGSDF(
     J
         Just-Noticeable Difference (JND) Index, :math:`j`.
     in_int
-        Whether to treat the input value as int code value or float
-        equivalent of a code value at a given bit-depth.
+        Whether to treat the input value as integer code value or float
+        equivalent of a code value at a specified bit-depth.
     constants
         *DICOM - Grayscale Standard Display Function* constants.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding *luminance* :math:`L`.
+        *Luminance* :math:`L`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``J``      | [0, 1]                | [0, 1]        |
+    | ``J``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 1]                | [0, 1]        |
+    | ``L``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -206,6 +217,7 @@ def eotf_DICOMGSDF(
     """
 
     J = to_domain_1(J)
+    constants = optional(constants, CONSTANTS_DICOMGSDF)
 
     if not in_int:
         J = J * 1023

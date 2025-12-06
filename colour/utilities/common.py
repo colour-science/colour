@@ -2,7 +2,7 @@
 Common Utilities
 ================
 
-Define the common utilities objects that don't fall in any specific category.
+Provide common utility objects that don't fall in any specific category.
 
 References
 ----------
@@ -23,6 +23,7 @@ import inspect
 import os
 import re
 import types
+import typing
 import unicodedata
 import warnings
 from contextlib import contextmanager
@@ -32,17 +33,22 @@ from pprint import pformat
 import numpy as np
 
 from colour.constants import THRESHOLD_INTEGER
-from colour.hints import (
-    Any,
-    Callable,
-    DTypeBoolean,
-    Generator,
-    Iterable,
-    Literal,
-    Mapping,
-    Sequence,
-    TypeVar,
-)
+from colour.utilities import as_bool
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Callable,
+        DTypeBoolean,
+        Generator,
+        Iterable,
+        Literal,
+        Mapping,
+        Self,
+        Sequence,
+    )
+
+from colour.hints import TypeVar
 from colour.utilities import CanonicalMapping, Lookup, is_xxhash_installed
 
 __author__ = "Colour Developers"
@@ -82,7 +88,9 @@ __all__ = [
     "int_digest",
 ]
 
-_CACHING_ENABLED: bool = not os.environ.get("COLOUR_SCIENCE__DISABLE_CACHING", False)
+_CACHING_ENABLED: bool = not as_bool(
+    os.environ.get("COLOUR_SCIENCE__DISABLE_CACHING", "False")
+)
 """
 Global variable storing the current *Colour* caching enabled state.
 """
@@ -90,7 +98,12 @@ Global variable storing the current *Colour* caching enabled state.
 
 def is_caching_enabled() -> bool:
     """
-    Return whether *Colour* caching is enabled.
+    Determine whether *Colour* caching is enabled.
+
+    The caching state is controlled by the global
+    *COLOUR_SCIENCE__DISABLE_CACHING* environment variable and can be
+    temporarily modified using the :func:`set_caching_enable` function or the
+    :class:`caching_enable` context manager.
 
     Returns
     -------
@@ -110,9 +123,9 @@ def is_caching_enabled() -> bool:
     return _CACHING_ENABLED
 
 
-def set_caching_enable(enable: bool):
+def set_caching_enable(enable: bool) -> None:
     """
-    Set *Colour* caching enabled state.
+    Set the *Colour* caching enabled state.
 
     Parameters
     ----------
@@ -136,8 +149,8 @@ def set_caching_enable(enable: bool):
 
 class caching_enable:
     """
-    Define a context manager and decorator temporarily setting *Colour* caching
-    enabled state.
+    Define a context manager and decorator to temporarily set the *Colour*
+    caching enabled state.
 
     Parameters
     ----------
@@ -149,26 +162,27 @@ class caching_enable:
         self._enable = enable
         self._previous_state = is_caching_enabled()
 
-    def __enter__(self) -> caching_enable:
+    def __enter__(self) -> Self:
         """
-        Set the *Colour* caching enabled state upon entering the context
-        manager.
+        Enter the caching context and set the *Colour* caching state.
         """
 
         set_caching_enable(self._enable)
 
         return self
 
-    def __exit__(self, *args: Any):
+    def __exit__(self, *args: Any) -> None:
         """
-        Set the *Colour* caching enabled state upon exiting the context
-        manager.
+        Exit the caching context manager and restore the previous *Colour*
+        caching state.
         """
 
         set_caching_enable(self._previous_state)
 
     def __call__(self, function: Callable) -> Callable:
-        """Call the wrapped definition."""
+        """
+        Decorate and call the specified function with caching control.
+        """
 
         @functools.wraps(function)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
@@ -180,7 +194,11 @@ class caching_enable:
 
 class CacheRegistry:
     """
-    A registry for mapping-based caches.
+    Provide a registry for managing mapping-based caches.
+
+    The registry maintains a collection of named caches that can be
+    registered, cleared, and unregistered. Each cache operates as a
+    dictionary-like mapping for storing key-value pairs.
 
     Attributes
     ----------
@@ -221,12 +239,12 @@ class CacheRegistry:
     @property
     def registry(self) -> dict:
         """
-        Getter property for the cache registry.
+        Getter for the cache registry.
 
         Returns
         -------
         :class:`dict`
-            Cache registry.
+            Cache registry containing cached computation results.
         """
 
         return self._registry
@@ -250,7 +268,7 @@ class CacheRegistry:
 
     def register_cache(self, name: str) -> dict:
         """
-        Register a new cache with given name in the registry.
+        Register a new cache with the specified name in the registry.
 
         Parameters
         ----------
@@ -278,9 +296,9 @@ class CacheRegistry:
 
         return self._registry[name]
 
-    def unregister_cache(self, name: str):
+    def unregister_cache(self, name: str) -> None:
         """
-        Unregister cache with given name in the registry.
+        Unregister the cache with the specified name from the registry.
 
         Parameters
         ----------
@@ -312,9 +330,9 @@ class CacheRegistry:
 
         del self._registry[name]
 
-    def clear_cache(self, name: str):
+    def clear_cache(self, name: str) -> None:
         """
-        Clear the cache with given name.
+        Clear the cache with the specified name.
 
         Parameters
         ----------
@@ -335,9 +353,9 @@ class CacheRegistry:
 
         self._registry[name].clear()
 
-    def clear_all_caches(self):
+    def clear_all_caches(self) -> None:
         """
-        Clear all the caches in the registry.
+        Clear all caches in the registry.
 
         Examples
         --------
@@ -367,16 +385,18 @@ processes.
 
 def handle_numpy_errors(**kwargs: Any) -> Callable:
     """
-    Decorate a function to handle *Numpy* errors.
+    Handle *Numpy* errors through function decoration.
 
     Other Parameters
     ----------------
     kwargs
-        Keywords arguments.
+        Keyword arguments passed to :func:`numpy.seterr` to control
+        error handling behaviour.
 
     Returns
     -------
     Callable
+        Decorated function with specified *Numpy* error handling.
 
     References
     ----------
@@ -394,11 +414,11 @@ def handle_numpy_errors(**kwargs: Any) -> Callable:
     keyword_arguments = kwargs
 
     def wrapper(function: Callable) -> Callable:
-        """Wrap given function wrapper."""
+        """Wrap specified function wrapper."""
 
         @functools.wraps(function)
         def wrapped(*args: Any, **kwargs: Any) -> Any:
-            """Wrap given function."""
+            """Wrap specified function."""
 
             with np.errstate(**keyword_arguments):
                 return function(*args, **kwargs)
@@ -426,6 +446,8 @@ def ignore_python_warnings(function: Callable) -> Callable:
     Returns
     -------
     Callable
+        Decorated function that suppresses *Python* warnings during
+        execution.
 
     Examples
     --------
@@ -437,7 +459,7 @@ def ignore_python_warnings(function: Callable) -> Callable:
 
     @functools.wraps(function)
     def wrapper(*args: Any, **kwargs: Any) -> Any:
-        """Wrap given function."""
+        """Wrap specified function."""
 
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -447,9 +469,9 @@ def ignore_python_warnings(function: Callable) -> Callable:
     return wrapper
 
 
-def attest(condition: bool | DTypeBoolean, message: str = ""):
+def attest(condition: bool | DTypeBoolean, message: str = "") -> None:
     """
-    Provide the `assert` statement functionality without being disabled by
+    Provide the ``assert`` statement functionality without being disabled by
     optimised Python execution.
 
     Parameters
@@ -466,7 +488,7 @@ def attest(condition: bool | DTypeBoolean, message: str = ""):
 
 def batch(sequence: Sequence, k: int | Literal[3] = 3) -> Generator:
     """
-    Return a batch generator from given sequence.
+    Generate batches from the specified sequence.
 
     Parameters
     ----------
@@ -496,11 +518,11 @@ _MULTIPROCESSING_ENABLED: bool = True
 
 class disable_multiprocessing:
     """
-    Define a context manager and decorator to temporarily disabling *Colour*
+    Define a context manager and decorator to temporarily disable *Colour*
     multiprocessing state.
     """
 
-    def __enter__(self) -> disable_multiprocessing:
+    def __enter__(self) -> Self:
         """
         Disable *Colour* multiprocessing state upon entering the context
         manager.
@@ -512,7 +534,7 @@ class disable_multiprocessing:
 
         return self
 
-    def __exit__(self, *args: Any):
+    def __exit__(self, *args: Any) -> None:
         """
         Enable *Colour* multiprocessing state upon exiting the context
         manager.
@@ -523,11 +545,13 @@ class disable_multiprocessing:
         _MULTIPROCESSING_ENABLED = True
 
     def __call__(self, function: Callable) -> Callable:
-        """Call the wrapped definition."""
+        """
+        Execute the decorated function with optional multiprocessing support.
+        """
 
         @functools.wraps(function)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
-            """Wrap given function."""
+            """Wrap specified function."""
 
             with self:
                 return function(*args, **kwargs)
@@ -535,34 +559,34 @@ class disable_multiprocessing:
         return wrapper
 
 
-def _initializer(kwargs: Any):
+def _initializer(kwargs: Any) -> None:
     """
-    Initialize a multiprocessing pool.
+    Initialize a multiprocessing pool worker process.
 
-    It is used to ensure that processes on *Windows* inherit correctly from the
-    current domain-range scale.
+    Ensure that worker processes on *Windows* correctly inherit the current
+    domain-range scale configuration from the parent process.
 
     Parameters
     ----------
     kwargs
-        Initialisation arguments.
+        Initialization arguments for configuring the worker process state.
     """
 
     # NOTE: No coverage information is available as this code is executed in
     # sub-processes.
 
-    import colour.utilities.array  # pragma: no cover
+    import colour.utilities.array  # pragma: no cover  # noqa: PLC0415
 
-    colour.utilities.array._DOMAIN_RANGE_SCALE = kwargs.get(
+    colour.utilities.array._DOMAIN_RANGE_SCALE = kwargs.get(  # noqa: SLF001
         "scale", "reference"
     )  # pragma: no cover
 
-    import colour.algebra.common  # pragma: no cover
+    import colour.algebra.common  # pragma: no cover  # noqa: PLC0415
 
-    colour.algebra.common._SDIV_MODE = kwargs.get(
+    colour.algebra.common._SDIV_MODE = kwargs.get(  # noqa: SLF001
         "sdiv_mode", "Ignore Zero Conversion"
     )  # pragma: no cover
-    colour.algebra.common._SPOW_ENABLED = kwargs.get(
+    colour.algebra.common._SPOW_ENABLED = kwargs.get(  # noqa: SLF001
         "spow_enabled", True
     )  # pragma: no cover
 
@@ -570,19 +594,20 @@ def _initializer(kwargs: Any):
 @contextmanager
 def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
     """
-    Define a context manager providing a multiprocessing pool.
+    Provide a context manager for a multiprocessing pool.
 
     Other Parameters
     ----------------
     args
-        Arguments.
+        Arguments passed to the multiprocessing pool constructor.
     kwargs
-        Keywords arguments.
+        Keyword arguments passed to the multiprocessing pool
+        constructor.
 
     Yields
     ------
     Generator
-        Multiprocessing pool.
+        Multiprocessing pool context manager.
 
     Examples
     --------
@@ -595,8 +620,8 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
     [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     """
 
-    from colour.algebra import get_sdiv_mode, is_spow_enabled
-    from colour.utilities import get_domain_range_scale
+    from colour.algebra import get_sdiv_mode, is_spow_enabled  # noqa: PLC0415
+    from colour.utilities import get_domain_range_scale  # noqa: PLC0415
 
     class _DummyPool:
         """
@@ -613,12 +638,17 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
         def __init__(self, *args: Any, **kwargs: Any) -> None:
             pass
 
-        def map(self, func, iterable, chunksize=None):  # noqa: ARG002
-            """Apply given function to each element of given iterable."""
+        def map(
+            self,
+            func: Callable,
+            iterable: Sequence,
+            chunksize: int | None = None,  # noqa: ARG002
+        ) -> list[Any]:
+            """Apply specified function to each element of the specified iterable."""
 
             return [func(a) for a in iterable]
 
-        def terminate(self):
+        def terminate(self) -> None:
             """Terminate the process."""
 
     kwargs["initializer"] = _initializer
@@ -632,7 +662,7 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
 
     pool_factory: Callable
     if _MULTIPROCESSING_ENABLED:
-        import multiprocessing
+        import multiprocessing  # noqa: PLC0415
 
         pool_factory = multiprocessing.Pool
     else:
@@ -648,17 +678,17 @@ def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
 
 def is_iterable(a: Any) -> bool:
     """
-    Return whether given variable :math:`a` is iterable.
+    Determine whether the specified variable :math:`a` is iterable.
 
     Parameters
     ----------
     a
-        Variable :math:`a` to check the iterability.
+        Variable :math:`a` to check for iterability.
 
     Returns
     -------
     :class:`bool`
-        Whether variable :math:`a` is iterable.
+        Whether the variable :math:`a` is iterable.
 
     Examples
     --------
@@ -673,8 +703,8 @@ def is_iterable(a: Any) -> bool:
 
 def is_numeric(a: Any) -> bool:
     """
-    Return whether given variable :math:`a` is a :class:`Real`-like
-    variable.
+    Determine whether the specified variable :math:`a` is a
+    :class:`Real`-like variable.
 
     Parameters
     ----------
@@ -714,16 +744,16 @@ def is_numeric(a: Any) -> bool:
             np.float16,
             np.float32,
             np.float64,
-            np.csingle,
-            np.cdouble,
+            np.complex64,
+            np.complex128,
         ),  # pyright: ignore
     )
 
 
 def is_integer(a: Any) -> bool:
     """
-    Return whether given variable :math:`a` is an :class:`numpy.integer`-like
-    variable under given threshold.
+    Determine whether the specified variable :math:`a` is an
+    :class:`numpy.integer`-like variable under the specified threshold.
 
     Parameters
     ----------
@@ -733,7 +763,8 @@ def is_integer(a: Any) -> bool:
     Returns
     -------
     :class:`bool`
-        Whether variable :math:`a` is an :class:`numpy.integer`-like variable.
+        Whether variable :math:`a` is an :class:`numpy.integer`-like
+        variable.
 
     Notes
     -----
@@ -753,19 +784,22 @@ def is_integer(a: Any) -> bool:
 
 def is_sibling(element: Any, mapping: Mapping) -> bool:
     """
-    Return whether given element type is present in given mapping types.
+    Determine whether the type of the specified element is present in the
+    specified mapping types.
 
     Parameters
     ----------
     element
-        Element to check whether its type is present in the mapping types.
+        Element to check whether its type is present in the mapping
+        types.
     mapping
-        Mapping types.
+        Mapping types to check against.
 
     Returns
     -------
     :class:`bool`
-        Whether given element type is present in given mapping types.
+        Whether the type of the specified element is present in the
+        specified mapping types.
     """
 
     return isinstance(element, tuple({type(element) for element in mapping.values()}))
@@ -773,22 +807,23 @@ def is_sibling(element: Any, mapping: Mapping) -> bool:
 
 def filter_kwargs(function: Callable, **kwargs: Any) -> dict:
     """
-    Filter keyword arguments incompatible with the given function signature.
+    Filter keyword arguments incompatible with the specified function
+    signature.
 
     Parameters
     ----------
     function
-        Callable to filter the incompatible keyword arguments.
+        Callable to filter the incompatible keyword arguments against.
 
     Other Parameters
     ----------------
     kwargs
-        Keywords arguments.
+        Keyword arguments to be filtered.
 
     Returns
     -------
     dict
-        Filtered keyword arguments.
+        Filtered keyword arguments compatible with the function signature.
 
     Examples
     --------
@@ -821,27 +856,27 @@ def filter_kwargs(function: Callable, **kwargs: Any) -> dict:
 
 def filter_mapping(mapping: Mapping, names: str | Sequence[str]) -> dict:
     """
-    Filter given mapping with given names.
+    Filter the specified mapping with specified names.
 
     Parameters
     ----------
     mapping
         Mapping to filter.
     names
-        Name for given mapping elements or a list of names.
+        Name for the mapping elements to filter or a sequence of names.
 
     Returns
     -------
     dict
-        Filtered mapping elements.
+        Filtered mapping containing only the specified elements.
 
     Notes
     -----
-    -   If the mapping passed is a :class:`colour.utilities.CanonicalMapping`
-        class instance, then the lower, slugified and canonical keys are also
+    -   If the mapping is a :class:`colour.utilities.CanonicalMapping`
+        instance, then the lower, slugified and canonical keys are also
         used for matching.
-    -   To honour the filterers ordering, the return value is a :class:`dict`
-        class instance.
+    -   To honour the filterers ordering, the return value is a
+        :class:`dict` instance.
 
     Examples
     --------
@@ -859,14 +894,14 @@ def filter_mapping(mapping: Mapping, names: str | Sequence[str]) -> dict:
 
     def filter_mapping_with_name(mapping: Mapping, name: str) -> dict:
         """
-        Filter given mapping with given name.
+        Filter specified mapping with the specified name.
 
         Parameters
         ----------
         mapping
             Mapping to filter.
         name
-            Name for given mapping elements.
+            Name for the specified mapping elements.
 
         Returns
         -------
@@ -899,16 +934,17 @@ def filter_mapping(mapping: Mapping, names: str | Sequence[str]) -> dict:
 
 def first_item(a: Iterable) -> Any:
     """
-    Return the first item of given iterable.
+    Return the first item from the specified iterable.
 
     Parameters
     ----------
     a
-        Iterable to get the first item from.
+        Iterable to retrieve the first item from.
 
     Returns
     -------
     :class:`object`
+        First item from the iterable.
 
     Raises
     ------
@@ -935,12 +971,12 @@ def copy_definition(definition: Callable, name: str | None = None) -> Callable:
     definition
         Definition to be copied.
     name
-        Optional definition copy name.
+        Optional name for the definition copy.
 
     Returns
     -------
     Callable
-        Definition copy.
+        Copy of the specified definition.
     """
 
     copy = types.FunctionType(
@@ -951,6 +987,7 @@ def copy_definition(definition: Callable, name: str | None = None) -> Callable:
         definition.__closure__,
     )
     copy.__dict__.update(definition.__dict__)
+    copy.__annotations__ = definition.__annotations__.copy()
 
     return copy
 
@@ -963,8 +1000,8 @@ def validate_method(
     as_lowercase: bool = True,
 ) -> str:
     """
-    Validate whether given method exists in the given valid methods and
-    optionally returns the method lower cased.
+    Validate whether the specified method exists in the specified valid
+    methods and optionally return the method lower cased.
 
     Parameters
     ----------
@@ -975,7 +1012,7 @@ def validate_method(
     message
         Message for the exception.
     as_lowercase
-        Whether to convert the given method to lower case or not.
+        Whether to convert the specified method to lower case or not.
 
     Returns
     -------
@@ -1009,7 +1046,7 @@ T = TypeVar("T")
 
 def optional(value: T | None, default: T) -> T:
     """
-    Handle optional argument value by providing a default value.
+    Return the specified value or a default if the value is *None*.
 
     Parameters
     ----------
@@ -1033,17 +1070,18 @@ def optional(value: T | None, default: T) -> T:
 
     if value is None:
         return default
-    else:
-        return value
+
+    return value
 
 
 def slugify(object_: Any, allow_unicode: bool = False) -> str:
     """
-    Generate a *SEO* friendly and human-readable slug from given object.
+    Generate a *SEO* friendly and human-readable slug from the specified
+    object.
 
     Convert to ASCII if ``allow_unicode`` is *False*. Convert spaces or
-    repeated dashes to single dashes. Remove characters that aren't
-    alphanumerics, underscores, or hyphens. Convert to lowercase. Also strip
+    repeated dashes to single dashes. Remove characters that are not
+    alphanumerics, underscores, or hyphens. Convert to lowercase. Strip
     leading and trailing whitespace, dashes, and underscores.
 
     Parameters
@@ -1087,37 +1125,6 @@ def slugify(object_: Any, allow_unicode: bool = False) -> str:
 if is_xxhash_installed():
     import xxhash
 
-    from colour.utilities.documentation import is_documentation_building
-
     int_digest = xxhash.xxh3_64_intdigest
-
-    if is_documentation_building():  # pragma: no cover
-        import array
-
-        def int_digest(
-            args: (  # noqa: ARG001
-                str | bytes | bytearray | memoryview | array.ArrayType[int]
-            ),
-            seed: int = 0,  # noqa: ARG001
-        ) -> int:
-            """
-            Generate an integer digest for given argument using *xxhash* if
-            available or falling back to :func:`hash` if not.
-
-            Parameters
-            ----------
-            args
-                Argument to generate the int digest of.
-            seed
-                Seed used to alter result predictably.
-
-            Returns
-            -------
-            :class:`int`
-                Integer digest.
-            """
-
-            return -1
-
 else:
-    int_digest = hash  # pyright: ignore  # pragma: no cover
+    int_digest = hash  # pragma: no cover

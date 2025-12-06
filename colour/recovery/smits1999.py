@@ -2,7 +2,7 @@
 Smits (1999) - Reflectance Recovery
 ===================================
 
-Define the objects for reflectance recovery using *Smits (1999)* method.
+Define objects for reflectance recovery using the *Smits (1999)* method.
 
 References
 ----------
@@ -14,12 +14,12 @@ References
 from __future__ import annotations
 
 from colour.colorimetry import CCS_ILLUMINANTS, SpectralDistribution
-from colour.hints import ArrayLike, NDArrayFloat
-from colour.models import (
-    RGB_Colourspace,
-    RGB_COLOURSPACE_sRGB,
-    XYZ_to_RGB,
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    NDArrayFloat,
+    Range1,
 )
+from colour.models import RGB_Colourspace, RGB_COLOURSPACE_sRGB, XYZ_to_RGB
 from colour.recovery import SDS_SMITS1999
 from colour.utilities import to_domain_1
 
@@ -65,10 +65,11 @@ References
 """
 
 
-def XYZ_to_RGB_Smits1999(XYZ: ArrayLike) -> NDArrayFloat:
+def XYZ_to_RGB_Smits1999(XYZ: Domain1) -> Range1:
     """
-    Convert from *CIE XYZ* tristimulus values to *RGB* colourspace with
-    conditions required by the current *Smits (1999)* method implementation.
+    Convert from *CIE XYZ* tristimulus values to *RGB* colourspace using
+    the conditions required by the current *Smits (1999)* method
+    implementation.
 
     Parameters
     ----------
@@ -79,6 +80,20 @@ def XYZ_to_RGB_Smits1999(XYZ: ArrayLike) -> NDArrayFloat:
     -------
     :class:`numpy.ndarray`
         *RGB* colour array.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
     Examples
     --------
@@ -91,10 +106,10 @@ def XYZ_to_RGB_Smits1999(XYZ: ArrayLike) -> NDArrayFloat:
     return XYZ_to_RGB(XYZ, RGB_COLOURSPACE_SMITS1999)
 
 
-def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
+def RGB_to_sd_Smits1999(RGB: Domain1) -> SpectralDistribution:
     """
-    Recover the spectral distribution of given *RGB* colourspace array using
-    *Smits (1999)* method.
+    Recover the spectral distribution of the specified *RGB* colourspace array
+    using the *Smits (1999)* method.
 
     Parameters
     ----------
@@ -111,7 +126,7 @@ def RGB_to_sd_Smits1999(RGB: ArrayLike) -> SpectralDistribution:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

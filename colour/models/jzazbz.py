@@ -2,7 +2,7 @@
 :math:`J_za_zb_z` Colourspace
 =============================
 
-Define the :math:`J_za_zb_z` colourspace:
+Define the :math:`J_za_zb_z` colourspace transformations.
 
 -   :func:`colour.models.IZAZBZ_METHODS`
 -   :func:`colour.models.XYZ_to_Izazbz`
@@ -23,14 +23,16 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import vecmul
-from colour.hints import ArrayLike, Literal, NDArrayFloat
-from colour.models.rgb.transfer_functions import (
-    eotf_inverse_ST2084,
-    eotf_ST2084,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Domain1, Literal, NDArrayFloat, Range1
+
+from colour.models.rgb.transfer_functions import eotf_inverse_ST2084, eotf_ST2084
 from colour.models.rgb.transfer_functions.st_2084 import CONSTANTS_ST2084
 from colour.utilities import (
     Structure,
@@ -41,10 +43,7 @@ from colour.utilities import (
     tstack,
     validate_method,
 )
-from colour.utilities.documentation import (
-    DocstringTuple,
-    is_documentation_building,
-)
+from colour.utilities.documentation import DocstringTuple, is_documentation_building
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -170,7 +169,7 @@ def XYZ_to_Izazbz(
     XYZ_D65: ArrayLike,
     constants: Structure | None = None,
     method: (Literal["Safdar 2017", "Safdar 2021", "ZCAM"] | str) = "Safdar 2017",
-) -> NDArrayFloat:
+) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to :math:`I_za_zb_z`
     colourspace.
@@ -188,9 +187,9 @@ def XYZ_to_Izazbz(
     Returns
     -------
     :class:`numpy.ndarray`
-        :math:`I_za_zb_z` colourspace array where :math:`I_z` is the achromatic
-        response, :math:`a_z` is redness-greenness and :math:`b_z` is
-        yellowness-blueness.
+        :math:`I_za_zb_z` colourspace array where :math:`I_z` is the
+        achromatic response, :math:`a_z` is redness-greenness and
+        :math:`b_z` is yellowness-blueness.
 
     Warnings
     --------
@@ -199,12 +198,12 @@ def XYZ_to_Izazbz(
 
     Notes
     -----
-    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations. The effective domain of *SMPTE ST 2084:2014*
-        inverse electro-optical transfer function (EOTF) is
-        [0.0001, 10000].
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an
+        absolute transfer function, thus the domain and range values for
+        the *Reference* and *1* scales are only indicative that the data
+        is not affected by scale transformations. The effective domain of
+        *SMPTE ST 2084:2014* inverse electro-optical transfer function
+        (EOTF) is [0.0001, 10000].
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
@@ -215,11 +214,7 @@ def XYZ_to_Izazbz(
     +------------+-----------------------+------------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``Izazbz`` | ``Iz`` : [0, 1]       | ``Iz`` : [0, 1]  |
-    |            |                       |                  |
-    |            | ``az`` : [-1, 1]      | ``az`` : [-1, 1] |
-    |            |                       |                  |
-    |            | ``bz`` : [-1, 1]      | ``bz`` : [-1, 1] |
+    | ``Izazbz`` | 1                     | 1                |
     +------------+-----------------------+------------------+
 
     References
@@ -266,7 +261,7 @@ def XYZ_to_Izazbz(
 
 
 def Izazbz_to_XYZ(
-    Izazbz: ArrayLike,
+    Izazbz: Domain1,
     constants: Structure | None = None,
     method: (Literal["Safdar 2017", "Safdar 2021", "ZCAM"] | str) = "Safdar 2017",
 ) -> NDArrayFloat:
@@ -298,19 +293,17 @@ def Izazbz_to_XYZ(
 
     Notes
     -----
-    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations.
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an
+        absolute transfer function, thus the domain and range values for
+        the *Reference* and *1* scales are only indicative that the data
+        is not affected by scale transformations. The effective domain of
+        *SMPTE ST 2084:2014* inverse electro-optical transfer function
+        (EOTF) is [0.0001, 10000].
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``Izazbz`` | ``Iz`` : [0, 1]       | ``Iz`` : [0, 1]  |
-    |            |                       |                  |
-    |            | ``az`` : [-1, 1]      | ``az`` : [-1, 1] |
-    |            |                       |                  |
-    |            | ``bz`` : [-1, 1]      | ``bz`` : [-1, 1] |
+    | ``Izazbz`` | 1                     | 1                |
     +------------+-----------------------+------------------+
 
     +------------+-----------------------+------------------+
@@ -357,72 +350,68 @@ def Izazbz_to_XYZ(
     X_D65 = (X_p_D65 + (constants.b - 1) * Z_p_D65) / constants.b
     Y_D65 = (Y_p_D65 + (constants.g - 1) * X_D65) / constants.g
 
-    XYZ_D65 = tstack([X_D65, Y_D65, Z_p_D65])
-
-    return XYZ_D65
+    return tstack([X_D65, Y_D65, Z_p_D65])
 
 
 def XYZ_to_Jzazbz(
     XYZ_D65: ArrayLike, constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Convert from *CIE XYZ* tristimulus values to :math:`J_za_zb_z`
-    colourspace.
+        Convert from *CIE XYZ* tristimulus values to :math:`J_za_zb_z`
+        colourspace.
 
     Parameters
     ----------
-    XYZ_D65
-        *CIE XYZ* tristimulus values under
-        *CIE Standard Illuminant D Series D65*.
-    constants
-        :math:`J_za_zb_z` colourspace constants.
+        XYZ_D65
+            *CIE XYZ* tristimulus values under
+            *CIE Standard Illuminant D Series D65*.
+        constants
+            :math:`J_za_zb_z` colourspace constants.
 
     Returns
     -------
-    :class:`numpy.ndarray`
-        :math:`J_za_zb_z` colourspace array where :math:`J_z` is Lightness,
-        :math:`a_z` is redness-greenness and :math:`b_z` is
-        yellowness-blueness.
+        :class:`numpy.ndarray`
+            :math:`J_za_zb_z` colourspace array where :math:`J_z` is
+            Lightness, :math:`a_z` is redness-greenness and :math:`b_z` is
+            yellowness-blueness.
 
-    Warnings
-    --------
-    The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-    transfer function.
+        Warnings
+        --------
+        The underlying *SMPTE ST 2084:2014* transfer function is an absolute
+        transfer function.
 
     Notes
     -----
-    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations. The effective domain of *SMPTE ST 2084:2014*
-        inverse electro-optical transfer function (EOTF) is
-        [0.0001, 10000].
+        -   The underlying *SMPTE ST 2084:2014* transfer function is an
+            absolute transfer function, thus the domain and range values for
+            the *Reference* and *1* scales are only indicative that the data
+            is not affected by scale transformations. The effective domain of
+            *SMPTE ST 2084:2014* inverse electro-optical transfer function
+            (EOTF) is [0.0001, 10000].
+    domain of *SMPTE ST 2084:2014* inverse electro-optical transfer
+            function (EOTF) is [0.0001, 10000].
 
-    +------------+-----------------------+------------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1**    |
-    +============+=======================+==================+
-    | ``XYZ``    | ``UN``                | ``UN``           |
-    +------------+-----------------------+------------------+
+        +------------+-----------------------+------------------+
+        | **Domain** | **Scale - Reference** | **Scale - 1**    |
+        +============+=======================+==================+
+        | ``XYZ``    | ``UN``                | ``UN``           |
+        +------------+-----------------------+------------------+
 
-    +------------+-----------------------+------------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1**    |
-    +============+=======================+==================+
-    | ``Jzazbz`` | ``Jz`` : [0, 1]       | ``Jz`` : [0, 1]  |
-    |            |                       |                  |
-    |            | ``az`` : [-1, 1]      | ``az`` : [-1, 1] |
-    |            |                       |                  |
-    |            | ``bz`` : [-1, 1]      | ``bz`` : [-1, 1] |
-    +------------+-----------------------+------------------+
+        +------------+-----------------------+------------------+
+        | **Range**  | **Scale - Reference** | **Scale - 1**    |
+        +============+=======================+==================+
+        | ``Jzazbz`` | 1                     | 1                |
+        +------------+-----------------------+------------------+
 
     References
     ----------
-    :cite:`Safdar2017`
+        :cite:`Safdar2017`
 
     Examples
     --------
-    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-    >>> XYZ_to_Jzazbz(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.0053504...,  0.0092430...,  0.0052600...])
+        >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        >>> XYZ_to_Jzazbz(XYZ)  # doctest: +ELLIPSIS
+        array([ 0.0053504...,  0.0092430...,  0.0052600...])
     """
 
     XYZ_D65 = as_float_array(XYZ_D65)
@@ -434,13 +423,11 @@ def XYZ_to_Jzazbz(
 
     J_z = ((1 + constants.d) * I_z) / (1 + constants.d * I_z) - constants.d_0
 
-    Jzazbz = tstack([J_z, a_z, b_z])
-
-    return Jzazbz
+    return tstack([J_z, a_z, b_z])
 
 
 def Jzazbz_to_XYZ(
-    Jzazbz: ArrayLike, constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
+    Jzazbz: Domain1, constants: Structure = CONSTANTS_JZAZBZ_SAFDAR2017
 ) -> NDArrayFloat:
     """
     Convert from :math:`J_za_zb_z` colourspace to *CIE XYZ* tristimulus
@@ -449,7 +436,7 @@ def Jzazbz_to_XYZ(
     Parameters
     ----------
     Jzazbz
-        :math:`J_za_zb_z` colourspace array  where :math:`J_z` is Lightness,
+        :math:`J_za_zb_z` colourspace array where :math:`J_z` is Lightness,
         :math:`a_z` is redness-greenness and :math:`b_z` is
         yellowness-blueness.
     constants
@@ -468,19 +455,17 @@ def Jzazbz_to_XYZ(
 
     Notes
     -----
-    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations.
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an
+        absolute transfer function, thus the domain and range values for
+        the *Reference* and *1* scales are only indicative that the data
+        is not affected by scale transformations. The effective domain of
+        *SMPTE ST 2084:2014* inverse electro-optical transfer function
+        (EOTF) is [0.0001, 10000].
 
     +------------+-----------------------+------------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**    |
     +============+=======================+==================+
-    | ``Jzazbz`` | ``Jz`` : [0, 1]       | ``Jz`` : [0, 1]  |
-    |            |                       |                  |
-    |            | ``az`` : [-1, 1]      | ``az`` : [-1, 1] |
-    |            |                       |                  |
-    |            | ``bz`` : [-1, 1]      | ``bz`` : [-1, 1] |
+    | ``Jzazbz`` | 1                     | 1                |
     +------------+-----------------------+------------------+
 
     +------------+-----------------------+------------------+
@@ -507,8 +492,6 @@ def Jzazbz_to_XYZ(
     )
 
     with domain_range_scale("ignore"):
-        XYZ_D65 = Izazbz_to_XYZ(
+        return Izazbz_to_XYZ(
             tstack([I_z, a_z, b_z]), CONSTANTS_JZAZBZ_SAFDAR2017, "Safdar 2017"
         )
-
-    return XYZ_D65

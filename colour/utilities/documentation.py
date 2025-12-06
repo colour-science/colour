@@ -2,7 +2,7 @@
 Documentation
 =============
 
-Define the documentation related objects.
+Define objects and utilities for documentation generation and processing.
 """
 
 from __future__ import annotations
@@ -28,44 +28,44 @@ __all__ = [
 
 class DocstringDict(dict):
     """
-    A :class:`dict` sub-class that allows settings a docstring to :class:`dict`
-    instances.
+    Define a :class:`dict` sub-class that allows docstring attachment to
+    :class:`dict` instances.
     """
 
 
 class DocstringFloat(float):
     """
-    A :class:`float` sub-class that allows settings a docstring to
+    Define a :class:`float` sub-class that allows docstring attachment to
     :class:`float` instances.
     """
 
 
 class DocstringInt(int):
     """
-    A :class:`numpy.integer` sub-class that allows settings a docstring to
-    :class:`numpy.integer` instances.
+    Define an :class:`int` sub-class that allows docstring attachment to
+    :class:`int` instances.
     """
 
 
-class DocstringText(str):
+class DocstringText(str):  # noqa: SLOT000
     """
-    A :class:`str` sub-class that allows settings a docstring to
+    Define a :class:`str` sub-class that allows docstring attachment to
     :class:`str` instances.
     """
 
 
-class DocstringTuple(tuple):
+class DocstringTuple(tuple):  # noqa: SLOT001
     """
-    A :class:`tuple` sub-class that allows settings a docstring to
+    Define a :class:`tuple` sub-class that allows docstring attachment to
     :class:`tuple` instances.
     """
 
 
 def is_documentation_building() -> bool:
     """
-    Return whether the documentation is being built by checking whether the
+    Determine whether the documentation is being built by checking for the
     *READTHEDOCS* or *COLOUR_SCIENCE__DOCUMENTATION_BUILD* environment
-    variables are defined, their value is not accounted for.
+    variables.
 
     Returns
     -------

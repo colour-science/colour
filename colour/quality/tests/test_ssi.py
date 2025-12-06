@@ -4,8 +4,15 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.colorimetry import SDS_ILLUMINANTS, SpectralDistribution
+from colour.colorimetry import (
+    SDS_ILLUMINANTS,
+    SpectralDistribution,
+    sd_single_led,
+    sds_and_msds_to_msds,
+)
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.quality import spectral_similarity_index
+from colour.utilities import is_scipy_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -559,8 +566,11 @@ class TestSpectralSimilarityIndex:
     definition unit tests methods.
     """
 
-    def test_spectral_similarity_index(self):
+    def test_spectral_similarity_index(self) -> None:
         """Test :func:`colour.quality.ssi.spectral_similarity_index` definition."""
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         assert (
             spectral_similarity_index(SDS_ILLUMINANTS["C"], SDS_ILLUMINANTS["D65"])
@@ -573,28 +583,51 @@ class TestSpectralSimilarityIndex:
             == 72.0
         )
 
-    def test_spectral_similarity_rounding(self):
-        """
-        Test :func:`colour.quality.ssi.spectral_similarity_index` for
-        producing continuous values.
-        """
-
-        # Test values were computed at ed2e90
         np.testing.assert_allclose(
             spectral_similarity_index(
                 SDS_ILLUMINANTS["C"],
                 SDS_ILLUMINANTS["D65"],
                 round_result=False,
             ),
-            94.182,
-            atol=0.01,
+            94.182971057336000,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
         np.testing.assert_allclose(
             spectral_similarity_index(
                 SpectralDistribution(DATA_HMI),
                 SDS_ILLUMINANTS["D50"],
                 round_result=False,
             ),
-            71.775,
-            atol=0.01,
+            71.775054824255550,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        sd_led_1 = sd_single_led(520, half_spectral_width=45)
+        sd_led_2 = sd_single_led(540, half_spectral_width=55)
+        sd_led_3 = sd_single_led(560, half_spectral_width=50)
+
+        msds = sds_and_msds_to_msds([sd_led_1, sd_led_2, sd_led_3])
+        sd_reference = sd_single_led(535, half_spectral_width=48)
+
+        np.testing.assert_array_equal(
+            spectral_similarity_index(msds, msds), [100.0, 100.0, 100.0]
+        )
+
+        np.testing.assert_allclose(
+            spectral_similarity_index(msds, msds, round_result=False),
+            [100.0, 100.0, 100.0],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            spectral_similarity_index(msds, sd_reference),
+            [52.0, 82.0, 18.0],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            spectral_similarity_index(sd_reference, msds),
+            [50.0, 84.0, 20.0],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )

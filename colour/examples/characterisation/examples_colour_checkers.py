@@ -1,4 +1,10 @@
-"""Showcase colour rendition charts computations."""
+"""
+Demonstrate colour rendition chart computations.
+
+This module demonstrates the usage of colour rendition chart datasets,
+including chromaticity coordinates and spectral distributions, and
+their conversion to various colourspaces.
+"""
 
 from pprint import pprint
 
@@ -23,25 +29,25 @@ message_box(
     '"ColorChecker 2005" colour rendition chart chromaticity coordinates data:\n\n'
     '\t("Patch Number", "Patch Name", "xyY")'
 )
-name, data, illuminant, rows, columns = colour.CCS_COLOURCHECKERS["ColorChecker 2005"]
-for name, xyY in data.items():
+colour_checker = colour.CCS_COLOURCHECKERS["ColorChecker 2005"]
+for name, xyY in colour_checker.data.items():
     print(name, xyY)
 
 print("\n")
 
 message_box(
-    'Converting the "ColorChecker 2005" colour rendition chart "CIE xyY" '
+    'Convert the "ColorChecker 2005" colour rendition chart "CIE xyY" '
     'colourspace values to "sRGB" colourspace "RGB" values:\n\n'
     '\t("Patch Name", ["R", "G", "B"])'
 )
-for name, xyY in data.items():
+for name, xyY in colour_checker.data.items():
     RGB = colour.XYZ_to_RGB(
         colour.xyY_to_XYZ(xyY),
         colour.RGB_COLOURSPACES["sRGB"],
-        illuminant,
+        colour_checker.illuminant,
         "Bradford",
         apply_cctf_encoding=True,
     )
 
-    RGB_i = [int(round(x * 255)) if x >= 0 else 0 for x in np.ravel(RGB)]
+    RGB_i = [round(x * 255) if x >= 0 else 0 for x in np.ravel(RGB)]
     print(f'"{name}": {RGB_i}')

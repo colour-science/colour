@@ -2,8 +2,8 @@
 Spectral Uniformity
 ===================
 
-Define the objects to compute the *spectral uniformity*
-(or *spectral flatness*) of spectral distributions.
+Define objects to compute the *spectral uniformity* (or *spectral flatness*)
+of spectral distributions.
 
 References
 ----------
@@ -15,6 +15,11 @@ References
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from collections.abc import ValuesView
+
 import numpy as np
 
 from colour.colorimetry import (
@@ -22,7 +27,9 @@ from colour.colorimetry import (
     SpectralDistribution,
     sds_and_msds_to_msds,
 )
-from colour.hints import NDArrayFloat, Sequence
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat, Sequence
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -41,16 +48,17 @@ def spectral_uniformity(
         Sequence[SpectralDistribution | MultiSpectralDistributions]
         | SpectralDistribution
         | MultiSpectralDistributions
+        | ValuesView
     ),
     use_second_order_derivatives: bool = False,
 ) -> NDArrayFloat:
     """
-    Compute the *spectral uniformity* (or *spectral flatness*) of given
+    Compute the *spectral uniformity* (or *spectral flatness*) of the specified
     spectral distributions.
 
     Spectral uniformity :math:`(r')^2` is computed as follows:
 
-    :math:`mean((r'_1)^2, (r'_2)^2, ..., (r'_n)^2)`
+    :math:`\\text{mean}((r'_1)^2, (r'_2)^2, ..., (r'_n)^2)`
 
     where :math:`(r'_i)^2` is the first-order derivative, squared, of the
     reflectance :math:`r_i` of a test sample.
@@ -58,11 +66,11 @@ def spectral_uniformity(
     Parameters
     ----------
     sds
-        Spectral distributions or multi-spectral distributions to
-        compute the spectral uniformity of. `sds` can be a single
+        Spectral distributions or multi-spectral distributions to compute
+        the spectral uniformity of. `sds` can be a single
         :class:`colour.MultiSpectralDistributions` class instance, a list
-        of :class:`colour.MultiSpectralDistributions` class instances or a
-        List of :class:`colour.SpectralDistribution` class instances.
+        of :class:`colour.MultiSpectralDistributions` class instances or
+        a list of :class:`colour.SpectralDistribution` class instances.
     use_second_order_derivatives
         Whether to use the second-order derivatives in the computations.
 
@@ -82,7 +90,7 @@ def spectral_uniformity(
     Examples
     --------
     >>> from colour.quality.datasets import SDS_TCS
-    >>> spectral_uniformity(SDS_TCS.values())  # doctest: +ELLIPSIS
+    >>> spectral_uniformity(SDS_TCS["CIE 1995"].values())  # doctest: +ELLIPSIS
     array([  9.5514285...e-06,   1.1482142...e-05,   1.8784285...e-05,
              2.8711428...e-05,   3.1971428...e-05,   3.2342857...e-05,
              3.3850000...e-05,   3.9925714...e-05,   4.1333571...e-05,

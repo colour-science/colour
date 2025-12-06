@@ -2,25 +2,31 @@
 Colour Blindness Plotting
 =========================
 
-Define the colour blindness plotting objects:
+Define the colour blindness plotting objects.
 
 -   :func:`colour.plotting.plot_cvd_simulation_Machado2009`
 """
 
 from __future__ import annotations
 
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
+import typing
+
+if typing.TYPE_CHECKING:
+    from matplotlib.figure import Figure
+    from matplotlib.axes import Axes
 
 from colour.algebra import vecmul
 from colour.blindness import matrix_cvd_Machado2009
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Dict,
-    Literal,
-    Tuple,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Dict,
+        Literal,
+        Tuple,
+    )
+
 from colour.plotting import CONSTANTS_COLOUR_STYLE, override_style, plot_image
 from colour.utilities import optional
 
@@ -47,8 +53,8 @@ def plot_cvd_simulation_Machado2009(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Perform colour vision deficiency simulation on given *RGB* colourspace
-    array using *Machado et al. (2009)* model.
+    Perform colour vision deficiency simulation on the specified *RGB*
+    colourspace array using the *Machado et al. (2009)* model.
 
     Parameters
     ----------
@@ -59,7 +65,7 @@ def plot_cvd_simulation_Machado2009(
     severity
         Severity of the colour vision deficiency in domain [0, 1].
     M_a
-        Anomalous trichromacy matrix to use instead of Machado (2010)
+        Anomalous trichromacy matrix to use instead of the Machado (2010)
         pre-computed matrix.
 
     Other Parameters

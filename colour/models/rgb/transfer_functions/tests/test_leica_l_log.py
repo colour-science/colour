@@ -3,14 +3,10 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 leica_l_log` module.
 """
 
-
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.models.rgb.transfer_functions import (
-    log_decoding_LLog,
-    log_encoding_LLog,
-)
+from colour.models.rgb.transfer_functions import log_decoding_LLog, log_encoding_LLog
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -32,7 +28,7 @@ class TestLogEncoding_LLog:
 log_encoding_LLog` definition unit tests methods.
     """
 
-    def test_log_encoding_LLog(self):
+    def test_log_encoding_LLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.leica_l_log.\
 log_encoding_LLog` definition.
@@ -74,7 +70,7 @@ log_encoding_LLog` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_LLog(self):
+    def test_n_dimensional_log_encoding_LLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.leica_l_log.\
 log_encoding_LLog` definition n-dimensional arrays support.
@@ -101,7 +97,7 @@ log_encoding_LLog` definition n-dimensional arrays support.
             log_encoding_LLog(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_LLog(self):
+    def test_domain_range_scale_log_encoding_LLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.leica_l_log.\
 log_encoding_LLog` definition domain and range scale support.
@@ -120,7 +116,7 @@ log_encoding_LLog` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_LLog(self):
+    def test_nan_log_encoding_LLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.leica_l_log.\
 log_encoding_LLog` definition nan support.
@@ -135,7 +131,7 @@ class TestLogDecoding_LLog:
 log_decoding_LLog` definition unit tests methods.
     """
 
-    def test_log_decoding_LLog(self):
+    def test_log_decoding_LLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.leica_l_log.\
 log_decoding_LLog` definition.
@@ -177,7 +173,7 @@ log_decoding_LLog` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_LLog(self):
+    def test_n_dimensional_log_decoding_LLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.leica_l_log.\
 log_decoding_LLog` definition n-dimensional arrays support.
@@ -204,7 +200,7 @@ log_decoding_LLog` definition n-dimensional arrays support.
             log_decoding_LLog(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_LLog(self):
+    def test_domain_range_scale_log_decoding_LLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.leica_l_log.\
 log_decoding_LLog` definition domain and range scale support.
@@ -223,7 +219,7 @@ log_decoding_LLog` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_LLog(self):
+    def test_nan_log_decoding_LLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.leica_l_log.\
 log_decoding_LLog` definition nan support.

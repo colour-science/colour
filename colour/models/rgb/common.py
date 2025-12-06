@@ -2,16 +2,23 @@
 Common RGB Colour Models Utilities
 ==================================
 
-Define various RGB colour models common utilities.
+Define utilities for RGB colour models including transformations,
+chromaticity coordinates, and primaries matrices.
 """
 
 from __future__ import annotations
 
+import typing
+
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import (
+
+if typing.TYPE_CHECKING:
+    from colour.hints import LiteralChromaticAdaptationTransform
+
+from colour.hints import (  # noqa: TC001
     ArrayLike,
-    LiteralChromaticAdaptationTransform,
-    NDArrayFloat,
+    Domain1,
+    Range1,
 )
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 
@@ -29,7 +36,7 @@ __all__ = [
 
 
 def XYZ_to_sRGB(
-    XYZ: ArrayLike,
+    XYZ: Domain1,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
@@ -37,7 +44,7 @@ def XYZ_to_sRGB(
         LiteralChromaticAdaptationTransform | str | None
     ) = "CAT02",
     apply_cctf_encoding: bool = True,
-) -> NDArrayFloat:
+) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to *sRGB* colourspace.
 
@@ -50,8 +57,8 @@ def XYZ_to_sRGB(
     chromatic_adaptation_transform
         *Chromatic adaptation* transform.
     apply_cctf_encoding
-        Whether to apply the *sRGB* encoding colour component transfer function
-        / inverse electro-optical transfer function.
+        Whether to apply the *sRGB* encoding colour component transfer
+        function / inverse electro-optical transfer function.
 
     Returns
     -------
@@ -63,13 +70,13 @@ def XYZ_to_sRGB(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    | ``XYZ``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples
@@ -90,7 +97,7 @@ def XYZ_to_sRGB(
 
 
 def sRGB_to_XYZ(
-    RGB: ArrayLike,
+    RGB: Domain1,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
@@ -98,7 +105,7 @@ def sRGB_to_XYZ(
         LiteralChromaticAdaptationTransform | str | None
     ) = "CAT02",
     apply_cctf_decoding: bool = True,
-) -> NDArrayFloat:
+) -> Range1:
     """
     Convert from *sRGB* colourspace to *CIE XYZ* tristimulus values.
 
@@ -111,8 +118,8 @@ def sRGB_to_XYZ(
     chromatic_adaptation_transform
         *Chromatic adaptation* transform.
     apply_cctf_decoding
-        Whether to apply the *sRGB* decoding colour component transfer function
-        / electro-optical transfer function.
+        Whether to apply the *sRGB* decoding colour component transfer
+        function / electro-optical transfer function.
 
     Returns
     -------
@@ -124,13 +131,13 @@ def sRGB_to_XYZ(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    | ``XYZ``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples

@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.cie_ucs` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -42,7 +44,7 @@ class TestXYZ_to_UCS:
     methods.
     """
 
-    def test_XYZ_to_UCS(self):
+    def test_XYZ_to_UCS(self) -> None:
         """Test :func:`colour.models.cie_ucs.XYZ_to_UCS` definition."""
 
         np.testing.assert_allclose(
@@ -63,7 +65,7 @@ class TestXYZ_to_UCS:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_UCS(self):
+    def test_n_dimensional_XYZ_to_UCS(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.XYZ_to_UCS` definition n-dimensional
         support.
@@ -80,7 +82,7 @@ class TestXYZ_to_UCS:
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_allclose(XYZ_to_UCS(XYZ), UCS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_XYZ_to_UCS(self):
+    def test_domain_range_scale_XYZ_to_UCS(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.XYZ_to_UCS` definition domain and
         range scale support.
@@ -99,7 +101,7 @@ class TestXYZ_to_UCS:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_UCS(self):
+    def test_nan_XYZ_to_UCS(self) -> None:
         """Test :func:`colour.models.cie_ucs.XYZ_to_UCS` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -113,7 +115,7 @@ class TestUCS_to_XYZ:
     methods.
     """
 
-    def test_UCS_to_XYZ(self):
+    def test_UCS_to_XYZ(self) -> None:
         """Test :func:`colour.models.cie_ucs.UCS_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -134,7 +136,7 @@ class TestUCS_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_UCS_to_XYZ(self):
+    def test_n_dimensional_UCS_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.UCS_to_XYZ` definition n-dimensional
         support.
@@ -151,7 +153,7 @@ class TestUCS_to_XYZ:
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_allclose(UCS_to_XYZ(UCS), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_UCS_to_XYZ(self):
+    def test_domain_range_scale_UCS_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.UCS_to_XYZ` definition domain and
         range scale support.
@@ -170,7 +172,7 @@ class TestUCS_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_UCS_to_XYZ(self):
+    def test_nan_UCS_to_XYZ(self) -> None:
         """Test :func:`colour.models.cie_ucs.UCS_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -184,7 +186,7 @@ class TestUCS_to_uv:
     methods.
     """
 
-    def test_UCS_to_uv(self):
+    def test_UCS_to_uv(self) -> None:
         """Test :func:`colour.models.cie_ucs.UCS_to_uv` definition."""
 
         np.testing.assert_allclose(
@@ -205,7 +207,7 @@ class TestUCS_to_uv:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_UCS_to_uv(self):
+    def test_n_dimensional_UCS_to_uv(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.UCS_to_uv` definition n-dimensional
         support.
@@ -222,7 +224,7 @@ class TestUCS_to_uv:
         uv = np.reshape(uv, (2, 3, 2))
         np.testing.assert_allclose(UCS_to_uv(UCS), uv, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_UCS_to_uv(self):
+    def test_domain_range_scale_UCS_to_uv(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.UCS_to_uv` definition domain and
         range scale support.
@@ -239,7 +241,7 @@ class TestUCS_to_uv:
                 )
 
     @ignore_numpy_errors
-    def test_nan_UCS_to_uv(self):
+    def test_nan_UCS_to_uv(self) -> None:
         """Test :func:`colour.models.cie_ucs.UCS_to_uv` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -253,7 +255,7 @@ class Testuv_to_UCS:
     methods.
     """
 
-    def test_uv_to_UCS(self):
+    def test_uv_to_UCS(self) -> None:
         """Test :func:`colour.models.cie_ucs.uv_to_UCS` definition."""
 
         np.testing.assert_allclose(
@@ -280,7 +282,7 @@ class Testuv_to_UCS:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_uv_to_UCS(self):
+    def test_n_dimensional_uv_to_UCS(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.uv_to_UCS` definition n-dimensional
         support.
@@ -297,7 +299,7 @@ class Testuv_to_UCS:
         UCS = np.reshape(UCS, (2, 3, 3))
         np.testing.assert_allclose(uv_to_UCS(uv), UCS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_uv_to_UCS(self):
+    def test_domain_range_scale_uv_to_UCS(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.uv_to_UCS` definition domain and
         range scale support.
@@ -317,7 +319,7 @@ class Testuv_to_UCS:
                 )
 
     @ignore_numpy_errors
-    def test_nan_uv_to_UCS(self):
+    def test_nan_uv_to_UCS(self) -> None:
         """Test :func:`colour.models.cie_ucs.uv_to_UCS` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -331,7 +333,7 @@ class TestUCS_uv_to_xy:
     methods.
     """
 
-    def test_UCS_uv_to_xy(self):
+    def test_UCS_uv_to_xy(self) -> None:
         """Test :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition."""
 
         np.testing.assert_allclose(
@@ -352,7 +354,7 @@ class TestUCS_uv_to_xy:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_UCS_uv_to_xy(self):
+    def test_n_dimensional_UCS_uv_to_xy(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition
         n-dimensional arrays support.
@@ -370,7 +372,7 @@ class TestUCS_uv_to_xy:
         np.testing.assert_allclose(UCS_uv_to_xy(uv), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
-    def test_nan_UCS_uv_to_xy(self):
+    def test_nan_UCS_uv_to_xy(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition nan
         support.
@@ -387,7 +389,7 @@ class TestXy_to_UCS_uv:
     methods.
     """
 
-    def test_xy_to_UCS_uv(self):
+    def test_xy_to_UCS_uv(self) -> None:
         """Test :func:`colour.models.cie_ucs.xy_to_UCS_uv` definition."""
 
         np.testing.assert_allclose(
@@ -408,7 +410,7 @@ class TestXy_to_UCS_uv:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_xy_to_UCS_uv(self):
+    def test_n_dimensional_xy_to_UCS_uv(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.xy_to_UCS_uv` definition
         n-dimensional arrays support.
@@ -426,7 +428,7 @@ class TestXy_to_UCS_uv:
         np.testing.assert_allclose(xy_to_UCS_uv(xy), uv, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
-    def test_nan_xy_to_UCS_uv(self):
+    def test_nan_xy_to_UCS_uv(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.xy_to_UCS_uv` definition nan
         support.
@@ -443,7 +445,7 @@ class TestXYZ_to_CIE1960UCS:
     methods.
     """
 
-    def test_XYZ_to_CIE1960UCS(self):
+    def test_XYZ_to_CIE1960UCS(self) -> None:
         """Test :func:`colour.models.cie_ucs.XYZ_to_CIE1960UCS` definition."""
 
         np.testing.assert_allclose(
@@ -464,7 +466,7 @@ class TestXYZ_to_CIE1960UCS:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_CIE1960UCS(self):
+    def test_n_dimensional_XYZ_to_CIE1960UCS(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.XYZ_to_CIE1960UCS` definition n-dimensional
         support.
@@ -485,7 +487,7 @@ class TestXYZ_to_CIE1960UCS:
             XYZ_to_CIE1960UCS(XYZ), uvV, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_XYZ_to_CIE1960UCS(self):
+    def test_domain_range_scale_XYZ_to_CIE1960UCS(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.XYZ_to_CIE1960UCS` definition domain and
         range scale support.
@@ -504,7 +506,7 @@ class TestXYZ_to_CIE1960UCS:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_CIE1960UCS(self):
+    def test_nan_XYZ_to_CIE1960UCS(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.XYZ_to_CIE1960UCS` definition nan
         support.
@@ -521,7 +523,7 @@ class TestCIE1960UCS_to_XYZ:
     methods.
     """
 
-    def test_CIE1960UCS_to_XYZ(self):
+    def test_CIE1960UCS_to_XYZ(self) -> None:
         """Test :func:`colour.models.cie_ucs.CIE1960UCS_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -542,7 +544,7 @@ class TestCIE1960UCS_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_CIE1960UCS_to_XYZ(self):
+    def test_n_dimensional_CIE1960UCS_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.CIE1960UCS_to_XYZ` definition n-dimensional
         support.
@@ -563,7 +565,7 @@ class TestCIE1960UCS_to_XYZ:
             CIE1960UCS_to_XYZ(uvV), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_CIE1960UCS_to_XYZ(self):
+    def test_domain_range_scale_CIE1960UCS_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.CIE1960UCS_to_XYZ` definition domain and
         range scale support.
@@ -582,7 +584,7 @@ class TestCIE1960UCS_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_CIE1960UCS_to_XYZ(self):
+    def test_nan_CIE1960UCS_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cie_ucs.CIE1960UCS_to_XYZ` definition nan
         support.

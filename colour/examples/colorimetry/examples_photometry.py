@@ -1,4 +1,9 @@
-"""Showcase *Photometry* computations."""
+"""
+Demonstrate photometry computations.
+
+This module provides examples of photometric calculations including luminous
+flux, efficiency and efficacy.
+"""
 
 import colour
 from colour.utilities import message_box

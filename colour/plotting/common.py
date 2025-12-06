@@ -2,7 +2,7 @@
 Common Plotting
 ===============
 
-Define the common plotting objects:
+Define the common plotting objects.
 
 -   :func:`colour.plotting.colour_style`
 -   :func:`colour.plotting.override_style`
@@ -30,10 +30,10 @@ from __future__ import annotations
 import contextlib
 import functools
 import itertools
+import typing
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from functools import partial
-from pathlib import Path
 
 import matplotlib.cm
 import matplotlib.font_manager
@@ -41,11 +41,13 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker
 import numpy as np
 from cycler import cycler
-from matplotlib.axes import Axes
 from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.figure import Figure, SubFigure
-from matplotlib.patches import Patch
-from mpl_toolkits.mplot3d.axes3d import Axes3D
+
+if typing.TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from matplotlib.patches import Patch
+    from mpl_toolkits.mplot3d.axes3d import Axes3D
 
 from colour.characterisation import CCS_COLOURCHECKERS, ColourChecker
 from colour.colorimetry import (
@@ -55,24 +57,27 @@ from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralDistribution,
 )
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Callable,
-    Dict,
-    Generator,
-    List,
-    Literal,
-    LiteralChromaticAdaptationTransform,
-    LiteralFontScaling,
-    LiteralRGBColourspace,
-    Mapping,
-    NDArrayFloat,
-    Sequence,
-    Tuple,
-    TypedDict,
-    cast,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Callable,
+        Dict,
+        Domain1,
+        Generator,
+        Literal,
+        LiteralChromaticAdaptationTransform,
+        LiteralFontScaling,
+        LiteralRGBColourspace,
+        Mapping,
+        PathLike,
+        Range1,
+        Real,
+        Sequence,
+        Tuple,
+    )
+
+from colour.hints import ArrayLike, List, TypedDict, cast
 from colour.models import RGB_COLOURSPACES, RGB_Colourspace, XYZ_to_RGB
 from colour.utilities import (
     CanonicalMapping,
@@ -124,101 +129,95 @@ __all__ = [
     "plot_single_function",
     "plot_multi_functions",
     "plot_image",
+    "plot_ray",
 ]
 
 CONSTANTS_COLOUR_STYLE: Structure = Structure(
-    **{
-        "colour": Structure(
-            **{
-                "darkest": "#111111",
-                "darker": "#222222",
-                "dark": "#333333",
-                "dim": "#505050",
-                "average": "#808080",
-                "light": "#D5D5D5",
-                "bright": "#EEEEEE",
-                "brighter": "#F0F0F0",
-                "brightest": "#F5F5F5",
-                "cycle": (
-                    "#F44336",
-                    "#9C27B0",
-                    "#3F51B5",
-                    "#03A9F4",
-                    "#009688",
-                    "#8BC34A",
-                    "#FFEB3B",
-                    "#FF9800",
-                    "#795548",
-                    "#607D8B",
-                ),
-                "map": LinearSegmentedColormap.from_list(
-                    "colour",
-                    (
-                        "#F44336",
-                        "#9C27B0",
-                        "#3F51B5",
-                        "#03A9F4",
-                        "#009688",
-                        "#8BC34A",
-                        "#FFEB3B",
-                        "#FF9800",
-                        "#795548",
-                        "#607D8B",
-                    ),
-                ),
-                "colourspace": RGB_COLOURSPACES["sRGB"],
-            }
+    colour=Structure(
+        darkest="#111111",
+        darker="#222222",
+        dark="#333333",
+        dim="#505050",
+        average="#808080",
+        light="#D5D5D5",
+        bright="#EEEEEE",
+        brighter="#F0F0F0",
+        brightest="#F5F5F5",
+        cycle=(
+            "#F44336",
+            "#9C27B0",
+            "#3F51B5",
+            "#03A9F4",
+            "#009688",
+            "#8BC34A",
+            "#FFEB3B",
+            "#FF9800",
+            "#795548",
+            "#607D8B",
         ),
-        "font": Structure(
-            {
-                "size": 10,
-                "scaling": Structure(
-                    **{
-                        "xx_small": 0.579,
-                        "x_small": 0.694,
-                        "small": 0.833,
-                        "medium": 1,
-                        "large": 1 / 0.579,
-                        "x_large": 1 / 0.694,
-                        "xx_large": 1 / 0.833,
-                    }
-                ),
-            }
+        map=LinearSegmentedColormap.from_list(
+            "colour",
+            (
+                "#F44336",
+                "#9C27B0",
+                "#3F51B5",
+                "#03A9F4",
+                "#009688",
+                "#8BC34A",
+                "#FFEB3B",
+                "#FF9800",
+                "#795548",
+                "#607D8B",
+            ),
         ),
-        "opacity": Structure(**{"high": 0.75, "medium": 0.5, "low": 0.25}),
-        "geometry": Structure(**{"long": 5, "medium": 2.5, "short": 1}),
-        "hatch": Structure(
-            **{
-                "patterns": (
-                    "\\\\",
-                    "o",
-                    "x",
-                    ".",
-                    "*",
-                    "//",
-                )
-            }
-        ),
-        "zorder": Structure(
-            {
-                "background_polygon": -140,
-                "background_scatter": -130,
-                "background_line": -120,
-                "background_annotation": -110,
-                "background_label": -100,
-                "midground_polygon": -90,
-                "midground_scatter": -80,
-                "midground_line": -70,
-                "midground_annotation": -60,
-                "midground_label": -50,
-                "foreground_polygon": -40,
-                "foreground_scatter": -30,
-                "foreground_line": -20,
-                "foreground_annotation": -10,
-                "foreground_label": 0,
-            }
-        ),
-    }
+        cmap="inferno",
+        colourspace=RGB_COLOURSPACES["sRGB"],
+    ),
+    font=Structure(
+        {
+            "size": 10,
+            "scaling": Structure(
+                xx_small=0.579,
+                x_small=0.694,
+                small=0.833,
+                medium=1,
+                large=1 / 0.579,
+                x_large=1 / 0.694,
+                xx_large=1 / 0.833,
+            ),
+        }
+    ),
+    opacity=Structure(high=0.75, medium=0.5, low=0.25),
+    geometry=Structure(x_long=10, long=5, medium=2.5, short=1, x_short=0.5),
+    hatch=Structure(
+        patterns=(
+            "\\\\",
+            "o",
+            "x",
+            ".",
+            "*",
+            "//",
+        )
+    ),
+    zorder=Structure(
+        {
+            "background_polygon": -140,
+            "background_scatter": -130,
+            "background_line": -120,
+            "background_annotation": -110,
+            "background_label": -100,
+            "midground_polygon": -90,
+            "midground_scatter": -80,
+            "midground_line": -70,
+            "midground_annotation": -60,
+            "midground_label": -50,
+            "foreground_polygon": -40,
+            "foreground_scatter": -30,
+            "foreground_line": -20,
+            "foreground_annotation": -10,
+            "foreground_label": 0,
+        }
+    ),
 )
 """Various defaults settings used across the plotting sub-package."""
 
@@ -226,37 +225,35 @@ CONSTANTS_COLOUR_STYLE: Structure = Structure(
 # affecting *Matplotplib* ones.
 for _scaling, _value in CONSTANTS_COLOUR_STYLE.font.scaling.items():
     matplotlib.font_manager.font_scalings[
-        f'{_scaling.replace("_", "-")}-colour-science'
+        f"{_scaling.replace('_', '-')}-colour-science"
     ] = _value
 
 del _scaling, _value
 
 CONSTANTS_ARROW_STYLE: Structure = Structure(
-    **{
-        "color": CONSTANTS_COLOUR_STYLE.colour.dark,
-        "headwidth": CONSTANTS_COLOUR_STYLE.geometry.short * 4,
-        "headlength": CONSTANTS_COLOUR_STYLE.geometry.long,
-        "width": CONSTANTS_COLOUR_STYLE.geometry.short * 0.5,
-        "shrink": CONSTANTS_COLOUR_STYLE.geometry.short * 0.1,
-        "connectionstyle": "arc3,rad=-0.2",
-    }
+    color=CONSTANTS_COLOUR_STYLE.colour.dark,
+    headwidth=CONSTANTS_COLOUR_STYLE.geometry.short * 4,
+    headlength=CONSTANTS_COLOUR_STYLE.geometry.long,
+    width=CONSTANTS_COLOUR_STYLE.geometry.short * 0.5,
+    shrink=CONSTANTS_COLOUR_STYLE.geometry.short * 0.1,
+    connectionstyle="arc3,rad=-0.2",
 )
 """Annotation arrow settings used across the plotting sub-package."""
 
 
 def colour_style(use_style: bool = True) -> dict:
     """
-    Return *Colour* plotting style.
+    Return the *Colour* plotting style configuration.
 
     Parameters
     ----------
     use_style
-        Whether to use the style and load it into *Matplotlib*.
+        Whether to apply the style configuration to *Matplotlib*.
 
     Returns
     -------
     :class:`dict`
-        *Colour* style.
+        *Colour* plotting style configuration dictionary.
     """
 
     constants = CONSTANTS_COLOUR_STYLE
@@ -334,11 +331,12 @@ def override_style(**kwargs: Any) -> Callable:
     Other Parameters
     ----------------
     kwargs
-        Keywords arguments.
+        Keywords arguments for *Matplotlib* style configuration.
 
     Returns
     -------
     Callable
+        Decorated function with overridden *Matplotlib* style.
 
     Examples
     --------
@@ -352,11 +350,11 @@ def override_style(**kwargs: Any) -> Callable:
     keywords = dict(kwargs)
 
     def wrapper(function: Callable) -> Callable:
-        """Wrap given function wrapper."""
+        """Wrap specified function wrapper."""
 
         @functools.wraps(function)
         def wrapped(*args: Any, **kwargs: Any) -> Any:
-            """Wrap given function."""
+            """Wrap specified function."""
 
             keywords.update(kwargs)
 
@@ -375,7 +373,7 @@ def override_style(**kwargs: Any) -> Callable:
 @contextmanager
 def font_scaling(scaling: LiteralFontScaling, value: float) -> Generator:
     """
-    Define a context manager setting temporarily a *Matplotlib* font scaling.
+    Set a temporary *Matplotlib* font scaling using a context manager.
 
     Parameters
     ----------
@@ -407,13 +405,13 @@ def font_scaling(scaling: LiteralFontScaling, value: float) -> Generator:
 
 
 def XYZ_to_plotting_colourspace(
-    XYZ: ArrayLike,
+    XYZ: Domain1,
     illuminant: ArrayLike = RGB_COLOURSPACES["sRGB"].whitepoint,
     chromatic_adaptation_transform: (
         LiteralChromaticAdaptationTransform | str | None
     ) = "CAT02",
     apply_cctf_encoding: bool = True,
-) -> NDArrayFloat:
+) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to the default plotting
     colourspace.
@@ -427,13 +425,28 @@ def XYZ_to_plotting_colourspace(
     chromatic_adaptation_transform
         *Chromatic adaptation* transform.
     apply_cctf_encoding
-        Apply the default plotting colourspace encoding colour component
-        transfer function / opto-electronic transfer function.
+        Apply the default plotting colourspace encoding colour
+        component transfer function / opto-electronic transfer
+        function.
 
     Returns
     -------
     :class:`numpy.ndarray`
         Default plotting colourspace colour array.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
 
     Examples
     --------
@@ -460,9 +473,9 @@ class ColourSwatch:
     Parameters
     ----------
     RGB
-        RGB Colour.
+        RGB colour values representing the swatch.
     name
-        Colour name.
+        Name identifier for the colour swatch.
     """
 
     RGB: ArrayLike
@@ -471,7 +484,7 @@ class ColourSwatch:
 
 def colour_cycle(**kwargs: Any) -> itertools.cycle:
     """
-    Return a colour cycle iterator using given colour map.
+    Create a colour cycle iterator using the specified colour map.
 
     Other Parameters
     ----------------
@@ -487,10 +500,8 @@ def colour_cycle(**kwargs: Any) -> itertools.cycle:
     """
 
     settings = Structure(
-        **{
-            "colour_cycle_map": CONSTANTS_COLOUR_STYLE.colour.map,
-            "colour_cycle_count": len(CONSTANTS_COLOUR_STYLE.colour.cycle),
-        }
+        colour_cycle_map=CONSTANTS_COLOUR_STYLE.colour.map,
+        colour_cycle_count=len(CONSTANTS_COLOUR_STYLE.colour.cycle),
     )
     settings.update(kwargs)
 
@@ -505,7 +516,7 @@ def colour_cycle(**kwargs: Any) -> itertools.cycle:
 
 class KwargsArtist(TypedDict):
     """
-    Define the keyword argument types for the :func:`colour.plotting.artist`
+    Define keyword argument types for the :func:`colour.plotting.artist`
     definition.
 
     Parameters
@@ -522,7 +533,7 @@ class KwargsArtist(TypedDict):
 
 def artist(**kwargs: KwargsArtist | Any) -> Tuple[Figure, Axes]:
     """
-    Return the current figure and its axes or creates a new one.
+    Return the current figure and its axes or create a new one.
 
     Other Parameters
     ----------------
@@ -545,20 +556,20 @@ def artist(**kwargs: KwargsArtist | Any) -> Tuple[Figure, Axes]:
         figure = plt.figure(figsize=figure_size)
 
         return figure, figure.gca()
-    else:
-        axes = cast(Axes, axes)
-        figure = axes.figure
 
-        if isinstance(figure, SubFigure):
-            figure = figure.get_figure()
+    axes = cast("Axes", axes)
+    figure = axes.figure
 
-        return cast(Figure, figure), axes
+    if isinstance(figure, SubFigure):
+        figure = figure.get_figure()
+
+    return cast("Figure", figure), axes
 
 
 class KwargsCamera(TypedDict):
     """
-    Define the keyword argument types for the :func:`colour.plotting.camera`
-    definition.
+    Define the keyword argument types for the
+    :func:`colour.plotting.camera` definition.
 
     Parameters
     ----------
@@ -583,7 +594,7 @@ class KwargsCamera(TypedDict):
 
 def camera(**kwargs: KwargsCamera | Any) -> Tuple[Figure, Axes3D]:
     """
-    Set the camera settings.
+    Configure camera settings for the current 3D visualization.
 
     Other Parameters
     ----------------
@@ -597,12 +608,10 @@ def camera(**kwargs: KwargsCamera | Any) -> Tuple[Figure, Axes3D]:
         Current figure and axes.
     """
 
-    figure = cast(Figure, kwargs.get("figure", plt.gcf()))
-    axes = cast(Axes3D, kwargs.get("axes", plt.gca()))
+    figure = cast("Figure", kwargs.get("figure", plt.gcf()))
+    axes = cast("Axes3D", kwargs.get("axes", plt.gca()))
 
-    settings = Structure(
-        **{"camera_aspect": "equal", "elevation": None, "azimuth": None}
-    )
+    settings = Structure(camera_aspect="equal", elevation=None, azimuth=None)
     settings.update(kwargs)
 
     if settings.camera_aspect == "equal":
@@ -615,8 +624,8 @@ def camera(**kwargs: KwargsCamera | Any) -> Tuple[Figure, Axes3D]:
 
 class KwargsRender(TypedDict):
     """
-    Define the keyword argument types for the :func:`colour.plotting.render`
-    definition.
+    Define the keyword argument types for the
+    :func:`colour.plotting.render` definition.
 
     Parameters
     ----------
@@ -625,25 +634,24 @@ class KwargsRender(TypedDict):
     axes
         Axes to apply the render elements onto.
     filename
-        Figure will be saved using given ``filename`` argument.
+        Figure will be saved using the specified ``filename`` argument.
     show
-        Whether to show the figure and call :func:`matplotlib.pyplot.show`
-        definition.
+        Whether to show the figure and call
+        :func:`matplotlib.pyplot.show` definition.
     block
         Whether to wait for all figures to be closed before returning.
-        If `True` block and run the GUI main loop until all figure windows
-        are closed.
-        If `False` ensure that all figure windows are displayed and return
-        immediately.  In this case, you are responsible for ensuring
-        that the event loop is running to have responsive figures.
-        Defaults to True in non-interactive mode and to False in interactive
-        mode.
+        If `True` block and run the GUI main loop until all figure
+        windows are closed. If `False` ensure that all figure windows
+        are displayed and return immediately. In this case, you are
+        responsible for ensuring that the event loop is running to have
+        responsive figures. Defaults to True in non-interactive mode and
+        to False in interactive mode.
     aspect
         Matplotlib axes aspect.
     axes_visible
         Whether the axes are visible. Default is *True*.
     bounding_box
-        Array defining current axes limits such
+        Array defining current axes limits such as
         `bounding_box = (x min, x max, y min, y max)`.
     tight_layout
         Whether to invoke the :func:`matplotlib.pyplot.tight_layout`
@@ -670,7 +678,7 @@ class KwargsRender(TypedDict):
 
     figure: Figure
     axes: Axes
-    filename: str | Path
+    filename: str | PathLike
     show: bool
     block: bool
     aspect: Literal["auto", "equal"] | float
@@ -693,7 +701,7 @@ def render(
 ) -> Tuple[Figure, Axes] | Tuple[Figure, Axes3D]:
     """
     Render the current figure while adjusting various settings such as the
-    bounding box, the title or background transparency.
+    bounding box, title, or background transparency.
 
     Other Parameters
     ----------------
@@ -707,8 +715,8 @@ def render(
         Current figure and axes.
     """
 
-    figure = cast(Figure, kwargs.get("figure", plt.gcf()))
-    axes = cast(Axes, kwargs.get("axes", plt.gca()))
+    figure = cast("Figure", kwargs.get("figure", plt.gcf()))
+    axes = cast("Axes", kwargs.get("axes", plt.gca()))
 
     kwargs = handle_arguments_deprecation(
         {
@@ -718,24 +726,22 @@ def render(
     )
 
     settings = Structure(
-        **{
-            "filename": None,
-            "show": True,
-            "block": True,
-            "aspect": None,
-            "axes_visible": True,
-            "bounding_box": None,
-            "tight_layout": True,
-            "legend": False,
-            "legend_columns": 1,
-            "transparent_background": True,
-            "title": None,
-            "wrap_title": True,
-            "x_label": None,
-            "y_label": None,
-            "x_ticker": True,
-            "y_ticker": True,
-        }
+        filename=None,
+        show=True,
+        block=True,
+        aspect=None,
+        axes_visible=True,
+        bounding_box=None,
+        tight_layout=True,
+        legend=False,
+        legend_columns=1,
+        transparent_background=True,
+        title=None,
+        wrap_title=True,
+        x_label=None,
+        y_label=None,
+        x_ticker=True,
+        y_ticker=True,
     )
     settings.update(kwargs)
 
@@ -776,7 +782,7 @@ def render(
 
 
 def label_rectangles(
-    labels: Sequence[str],
+    labels: Sequence[str | Real],
     rectangles: Sequence[Patch],
     rotation: Literal["horizontal", "vertical"] | str = "vertical",
     text_size: float = CONSTANTS_COLOUR_STYLE.font.scaling.medium,
@@ -784,20 +790,20 @@ def label_rectangles(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Add labels above given rectangles.
+    Add labels above specified rectangles.
 
     Parameters
     ----------
     labels
-        Labels to display.
+        Text labels to display above the rectangles.
     rectangles
-        Rectangles to used to set the labels value and position.
+        Rectangle patches used to determine label positions and values.
     rotation
-        Labels orientation.
+        Orientation of the labels.
     text_size
-        Labels text size.
+        Font size for the labels.
     offset
-        Labels offset as percentages of the largest rectangle dimensions.
+        Label offset as percentages of the largest rectangle dimensions.
 
     Other Parameters
     ----------------
@@ -847,9 +853,9 @@ def label_rectangles(
     return figure, axes
 
 
-def uniform_axes3d(**kwargs: Any) -> Tuple[Figure, Axes]:
+def uniform_axes3d(**kwargs: Any) -> Tuple[Figure, Axes3D]:
     """
-    Set equal aspect ratio to given 3d axes.
+    Set equal aspect ratio to the specified 3D axes.
 
     Other Parameters
     ----------------
@@ -877,7 +883,7 @@ def uniform_axes3d(**kwargs: Any) -> Tuple[Figure, Axes]:
     centers = np.mean(extents, axis=1)
     extent = np.max(np.abs(extents[..., 1] - extents[..., 0]))
 
-    for center, axis in zip(centers, "xyz"):
+    for center, axis in zip(centers, "xyz", strict=True):
         getattr(axes, f"set_{axis}lim")(center - extent / 2, center + extent / 2)
 
     return figure, axes
@@ -889,14 +895,15 @@ def filter_passthrough(
     allow_non_siblings: bool = True,
 ) -> dict:
     """
-    Return mapping objects matching given filterers while passing through
+    Filter mapping objects matching specified filterers while passing through
     class instances whose type is one of the mapping element types.
 
-    This definition allows passing custom but compatible objects to the various
-    plotting definitions that by default expect the key from a dataset element.
+    Enable passing custom but compatible objects to plotting definitions that
+    by default expect keys from dataset elements.
 
-    For example, a typical call to :func:`colour.plotting.\
-plot_multi_illuminant_sds` definition is as follows:
+    For example, a typical call to the
+    :func:`colour.plotting.plot_multi_illuminant_sds` definition is as
+    follows:
 
     >>> import colour
     >>> colour.plotting.plot_multi_illuminant_sds(["A"])
@@ -918,12 +925,11 @@ plot_multi_illuminant_sds` definition is as follows:
     ... )
     ... # doctest: +SKIP
 
-    Similarly, a typical call to :func:`colour.plotting.\
-plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
+    Similarly, a typical call to the
+    :func:`colour.plotting.plot_planckian_locus_in_chromaticity_diagram_CIE1931`
+    definition is as follows:
 
-    >>> colour.plotting.plot_planckian_locus_in_chromaticity_diagram_CIE1931(
-    ...     ["A"]
-    ... )
+    >>> colour.plotting.plot_planckian_locus_in_chromaticity_diagram_CIE1931(["A"])
     ... # doctest: +SKIP
 
     But it is also possible to pass a custom whitepoint as follows:
@@ -938,9 +944,9 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
     mapping
         Mapping to filter.
     filterers
-        Filterer or object class instance (which is passed through directly if
-        its type is one of the mapping element types) or list
-        of filterers.
+        Filterer or object class instance (which is passed through directly
+        if its type is one of the mapping element types) or list of
+        filterers.
     allow_non_siblings
         Whether to allow non-siblings to be also passed through.
 
@@ -952,8 +958,8 @@ plot_planckian_locus_in_chromaticity_diagram_CIE1931` definition is as follows:
     Notes
     -----
     -   If the mapping passed is a :class:`colour.utilities.CanonicalMapping`
-        class instance, then the lower, slugified and canonical keys are also
-        used for matching.
+        class instance, then the lower, slugified and canonical keys are
+        also used for matching.
     """
 
     if isinstance(filterers, str) or not isinstance(filterers, (list, tuple)):
@@ -1012,16 +1018,16 @@ def filter_RGB_colourspaces(
     allow_non_siblings: bool = True,
 ) -> Dict[str, RGB_Colourspace]:
     """
-    Return the *RGB* colourspaces matching given filterers.
+    Filter the *RGB* colourspaces matching the specified filterers.
 
     Parameters
     ----------
     filterers
-        Filterer or :class:`colour.RGB_Colourspace` class instance (which is
+        Filterer, :class:`colour.RGB_Colourspace` class instance (which is
         passed through directly if its type is one of the mapping element
-        types) or list of filterers. ``filterers`` elements can also be of any
-        form supported by the :func:`colour.plotting.common.filter_passthrough`
-        definition.
+        types), or list of filterers. The ``filterers`` elements can also
+        be of any form supported by the
+        :func:`colour.plotting.common.filter_passthrough` definition.
     allow_non_siblings
         Whether to allow non-siblings to be also passed through.
 
@@ -1041,7 +1047,7 @@ def filter_cmfs(
     allow_non_siblings: bool = True,
 ) -> Dict[str, MultiSpectralDistributions]:
     """
-    Return the colour matching functions matching given filterers.
+    Filter the colour matching functions matching the specified filterers.
 
     Parameters
     ----------
@@ -1050,9 +1056,9 @@ def filter_cmfs(
         :class:`colour.RGB_ColourMatchingFunctions` or
         :class:`colour.XYZ_ColourMatchingFunctions` class instance (which is
         passed through directly if its type is one of the mapping element
-        types) or list of filterers. ``filterers`` elements can also be of any
-        form supported by the :func:`colour.plotting.common.filter_passthrough`
-        definition.
+        types) or list of filterers. ``filterers`` elements can also be of
+        any form supported by the
+        :func:`colour.plotting.common.filter_passthrough` definition.
     allow_non_siblings
         Whether to allow non-siblings to be also passed through.
 
@@ -1070,15 +1076,15 @@ def filter_illuminants(
     allow_non_siblings: bool = True,
 ) -> Dict[str, SpectralDistribution]:
     """
-    Return the illuminants matching given filterers.
+    Filter the illuminants matching the specified filterers.
 
     Parameters
     ----------
     filterers
         Filterer or :class:`colour.SpectralDistribution` class instance
-        (which is passed through directly if its type is one of the mapping
-        element types) or list of filterers. ``filterers`` elements can also be
-        of any form supported by the
+        (which is passed through directly if its type is one of the
+        mapping element types) or list of filterers. ``filterers``
+        elements can also be of any form supported by the
         :func:`colour.plotting.common.filter_passthrough` definition.
     allow_non_siblings
         Whether to allow non-siblings to be also passed through.
@@ -1107,15 +1113,15 @@ def filter_colour_checkers(
     allow_non_siblings: bool = True,
 ) -> Dict[str, ColourChecker]:
     """
-    Return the colour checkers matching given filterers.
+    Filter the colour checkers matching the specified filterers.
 
     Parameters
     ----------
     filterers
         Filterer or :class:`colour.characterisation.ColourChecker` class
-        instance (which is passed through directly if its type is one of the
-        mapping element types) or list of filterers. ``filterers`` elements
-        can also be of any form supported by the
+        instance (which is passed through directly if its type is one of
+        the mapping element types) or list of filterers. ``filterers``
+        elements can also be of any form supported by the
         :func:`colour.plotting.common.filter_passthrough` definition.
     allow_non_siblings
         Whether to allow non-siblings to be also passed through.
@@ -1133,10 +1139,10 @@ def update_settings_collection(
     settings_collection: dict | List[dict],
     keyword_arguments: dict | List[dict],
     expected_count: int,
-):
+) -> None:
     """
-    Update given settings collection, *in-place*, with given keyword arguments
-    and expected count of settings collection elements.
+    Update the specified settings collection *in-place* with the specified
+    keyword arguments and expected count of settings collection elements.
 
     Parameters
     ----------
@@ -1188,12 +1194,12 @@ def plot_single_colour_swatch(
     colour_swatch: ArrayLike | ColourSwatch, **kwargs: Any
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given colour swatch.
+    Plot a single colour swatch.
 
     Parameters
     ----------
     colour_swatch
-        Colour swatch, either a regular `ArrayLike` or a
+        Colour swatch to plot, either a regular `ArrayLike` or a
         :class:`colour.plotting.ColourSwatch` class instance.
 
     Other Parameters
@@ -1233,7 +1239,7 @@ def plot_single_colour_swatch(
     }
 )
 def plot_multi_colour_swatches(
-    colour_swatches: Sequence[ArrayLike | ColourSwatch],
+    colour_swatches: ArrayLike | Sequence[ArrayLike | ColourSwatch],
     width: float = 1,
     height: float = 1,
     spacing: float = 0,
@@ -1245,13 +1251,13 @@ def plot_multi_colour_swatches(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given colours swatches.
+    Plot colour swatches with configurable layout and comparison options.
 
     Parameters
     ----------
     colour_swatches
-        Colour swatch sequence, either a regular `ArrayLike` or a sequence of
-        :class:`colour.plotting.ColourSwatch` class instances.
+        Colour swatch sequence, either a regular `ArrayLike` or a sequence
+        of :class:`colour.plotting.ColourSwatch` class instances.
     width
         Colour swatch width.
     height
@@ -1259,13 +1265,13 @@ def plot_multi_colour_swatches(
     spacing
         Colour swatches spacing.
     columns
-        Colour swatches columns count, defaults to the colour swatch count or
-        half of it if comparing.
+        Colour swatches columns count, defaults to the colour swatch count
+        or half of it if comparing.
     direction
         Row stacking direction.
     text_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.text` definition.
-        The following special keywords can also be used:
+        Keyword arguments for the :func:`matplotlib.pyplot.text`
+        definition. The following special keywords can also be used:
 
         -   ``offset``: Sets the text offset.
         -   ``visible``: Sets the text visibility.
@@ -1273,16 +1279,18 @@ def plot_multi_colour_swatches(
         Background colour.
     compare_swatches
         Whether to compare the swatches, in which case the colour swatch
-        count must be an even number with alternating reference colour swatches
-        and test colour swatches. *Stacked* will draw the test colour swatch in
-        the center of the reference colour swatch, *Diagonal* will draw
-        the reference colour swatch in the upper left diagonal area and the
-        test colour swatch in the bottom right diagonal area.
+        count must be an even number with alternating reference colour
+        swatches and test colour swatches. *Stacked* will draw the test
+        colour swatch in the center of the reference colour swatch,
+        *Diagonal* will draw the reference colour swatch in the upper left
+        diagonal area and the test colour swatch in the bottom right
+        diagonal area.
 
     Other Parameters
     ----------------
     kwargs
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
 
     Returns
@@ -1318,17 +1326,17 @@ def plot_multi_colour_swatches(
     _figure, axes = artist(**kwargs)
 
     # Handling case where `colour_swatches` is a regular *ArrayLike*.
-    colour_swatches = list(colour_swatches)
+    colour_swatches = list(colour_swatches)  # pyright: ignore
     colour_swatches_converted = []
     if not isinstance(first_item(colour_swatches), ColourSwatch):
         for _i, colour_swatch in enumerate(
             np.reshape(
-                as_float_array(cast(ArrayLike, colour_swatches))[..., :3], (-1, 3)
+                as_float_array(cast("ArrayLike", colour_swatches))[..., :3], (-1, 3)
             )
         ):
             colour_swatches_converted.append(ColourSwatch(colour_swatch))
     else:
-        colour_swatches_converted = cast(List[ColourSwatch], colour_swatches)
+        colour_swatches_converted = cast("List[ColourSwatch]", colour_swatches)
 
     colour_swatches = colour_swatches_converted
 
@@ -1369,7 +1377,7 @@ def plot_multi_colour_swatches(
         axes.fill(
             (x_0, x_1, x_1, x_0),
             (y_0, y_0, y_1, y_1),
-            color=np.clip(colour_swatches_reference[i].RGB, 0, 1),
+            color=np.clip(colour_swatch.RGB, 0, 1),
             zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_polygon,
         )
 
@@ -1453,7 +1461,7 @@ def plot_single_function(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given function.
+    Plot the specified function.
 
     Parameters
     ----------
@@ -1462,14 +1470,14 @@ def plot_single_function(
     samples
         Samples to evaluate the functions with.
     log_x
-        Log base to use for the *x* axis scale, if *None*, the *x* axis scale
-        will be linear.
+        Log base to use for the *x* axis scale, if *None*, the *x* axis
+        scale will be linear.
     log_y
-        Log base to use for the *y* axis scale, if *None*, the *y* axis scale
-        will be linear.
+        Log base to use for the *y* axis scale, if *None*, the *y* axis
+        scale will be linear.
     plot_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
-        used to control the style of the plotted function.
+        Keyword arguments for the :func:`matplotlib.pyplot.plot`
+        definition, used to control the style of the plotted function.
 
     Other Parameters
     ----------------
@@ -1522,7 +1530,7 @@ def plot_multi_functions(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given functions.
+    Plot specified functions.
 
     Parameters
     ----------
@@ -1531,22 +1539,23 @@ def plot_multi_functions(
     samples
         Samples to evaluate the functions with.
     log_x
-        Log base to use for the *x* axis scale, if *None*, the *x* axis scale
-        will be linear.
+        Log base to use for the *x* axis scale, if *None*, the *x* axis
+        scale will be linear.
     log_y
-        Log base to use for the *y* axis scale, if *None*, the *y* axis scale
-        will be linear.
+        Log base to use for the *y* axis scale, if *None*, the *y* axis
+        scale will be linear.
     plot_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.plot` definition,
-        used to control the style of the plotted functions. ``plot_kwargs``
-        can be either a single dictionary applied to all the plotted functions
-        with the same settings or a sequence of dictionaries with different
-        settings for each plotted function.
+        Keyword arguments for the :func:`matplotlib.pyplot.plot`
+        definition, used to control the style of the plotted functions.
+        ``plot_kwargs`` can be either a single dictionary applied to all
+        the plotted functions with the same settings or a sequence of
+        dictionaries with different settings for each plotted function.
 
     Other Parameters
     ----------------
     kwargs
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.render`},
         See the documentation of the previously listed definitions.
 
     Returns
@@ -1635,30 +1644,33 @@ def plot_image(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given image.
+    Plot the specified image using matplotlib.
 
     Parameters
     ----------
     image
-        Image to plot.
+        Image array to plot, typically as RGB or grayscale data.
     imshow_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.imshow` definition.
+        Keyword arguments for the :func:`matplotlib.pyplot.imshow`
+        definition, controlling image display properties.
     text_kwargs
-        Keyword arguments for the :func:`matplotlib.pyplot.text` definition.
-        The following special keyword arguments can also be used:
+        Keyword arguments for the :func:`matplotlib.pyplot.text`
+        definition, controlling text overlay properties. The following
+        special keyword arguments can also be used:
 
-        -   ``offset`` : Sets the text offset.
+        -   ``offset`` : Sets the text offset position.
 
     Other Parameters
     ----------------
     kwargs
-        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
-        See the documentation of the previously listed definitions.
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.render`}, See the documentation of the
+        previously listed definitions for additional plotting controls.
 
     Returns
     -------
     :class:`tuple`
-        Current figure and axes.
+        Current figure and axes objects from matplotlib.
 
     Examples
     --------
@@ -1725,3 +1737,95 @@ def plot_image(
     settings.update(kwargs)
 
     return render(**settings)
+
+
+def plot_ray(
+    axes: Axes,
+    x_coords: ArrayLike,
+    y_coords: ArrayLike,
+    style: Literal["solid", "dashed"] | str = "solid",
+    label: str | None = None,
+    show_arrow: bool = True,
+    show_dots: bool = False,
+) -> None:
+    """
+    Draw a ray path with optional arrow and interface dots.
+
+    Parameters
+    ----------
+    axes
+        Axes to draw the ray on.
+    x_coords
+        X coordinates of the ray path.
+    y_coords
+        Y coordinates of the ray path.
+    style
+        Line style: 'solid' for transmitted rays, 'dashed' for reflected rays.
+    label
+        Label for the legend (only on first segment).
+    show_arrow
+        Whether to show directional arrow at midpoint.
+    show_dots
+        Whether to show dots at intermediate points.
+
+    Examples
+    --------
+    >>> import matplotlib.pyplot as plt
+    >>> import numpy as np
+    >>> _fig, axes = plt.subplots()
+    >>> x = np.array([0, 1, 2])
+    >>> y = np.array([0, 1, 0])
+    >>> plot_ray(axes, x, y, style="solid", label="Ray")
+    >>> plt.close()
+    """
+
+    x_coords = as_float_array(x_coords)
+    y_coords = as_float_array(y_coords)
+
+    # Validate style
+    style = validate_method(style, ("solid", "dashed"))
+
+    # Draw the ray line
+    linestyle = "-" if style == "solid" else "--"
+    axes.plot(
+        x_coords,
+        y_coords,
+        linestyle=linestyle,
+        color="black",
+        linewidth=2,
+        label=label,
+        zorder=CONSTANTS_COLOUR_STYLE.zorder.midground_line,
+    )
+
+    # Draw arrows on each segment
+    if show_arrow:
+        for i in range(len(x_coords) - 1):
+            x_start, x_end = x_coords[i], x_coords[i + 1]
+            y_start, y_end = y_coords[i], y_coords[i + 1]
+
+            # Calculate midpoint
+            mid_x = (x_start + x_end) / 2
+            mid_y = (y_start + y_end) / 2
+
+            # Calculate direction
+            dx = x_end - x_start
+            dy = y_end - y_start
+
+            # Draw arrow at midpoint
+            axes.annotate(
+                "",
+                xy=(mid_x + dx * 0.1, mid_y + dy * 0.1),
+                xytext=(mid_x, mid_y),
+                arrowprops=dict(arrowstyle="->", color="black", lw=1.5),
+                zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_annotation,
+            )
+
+    # Draw dots at intermediate points (exclude first and last)
+    if show_dots and len(x_coords) > 2:
+        axes.plot(
+            x_coords[1:-1],
+            y_coords[1:-1],
+            "ko",
+            markersize=6,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.foreground_scatter,
+        )

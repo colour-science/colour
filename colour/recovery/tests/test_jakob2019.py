@@ -1,8 +1,11 @@
 """Define the unit tests for the :mod:`colour.recovery.jakob2019` module."""
 
+from __future__ import annotations
+
 import os
 import shutil
 import tempfile
+import typing
 
 import numpy as np
 import pytest
@@ -11,12 +14,11 @@ from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import handle_spectral_arguments, sd_to_XYZ
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.difference import JND_CIE1976, delta_E_CIE1976
-from colour.models import (
-    RGB_COLOURSPACE_sRGB,
-    RGB_to_XYZ,
-    XYZ_to_Lab,
-    XYZ_to_xy,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Type
+
+from colour.models import RGB_COLOURSPACE_sRGB, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_xy
 from colour.recovery.jakob2019 import (
     SPECTRAL_SHAPE_JAKOB2019,
     LUT3D_Jakob2019,
@@ -25,7 +27,7 @@ from colour.recovery.jakob2019 import (
     error_function,
     sd_Jakob2019,
 )
-from colour.utilities import domain_range_scale, full, ones, zeros
+from colour.utilities import domain_range_scale, full, is_scipy_installed, ones, zeros
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -47,7 +49,7 @@ class TestErrorFunction:
     tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
@@ -57,7 +59,7 @@ class TestErrorFunction:
 
         self._Lab_e = np.array([72, -20, 61])
 
-    def test_intermediates(self):
+    def test_intermediates(self) -> None:
         """
         Test intermediate results of
         :func:`colour.recovery.jakob2019.error_function` with
@@ -104,7 +106,7 @@ class TestErrorFunction:
             assert abs(error_reference - error) < JND_CIE1976 / 100
             assert delta_E_CIE1976(Lab, sd_Lab) < JND_CIE1976 / 100
 
-    def test_derivatives(self):
+    def test_derivatives(self) -> None:
         """
         Test the gradients computed using closed-form expressions of the
         derivatives with finite difference approximations.
@@ -122,7 +124,7 @@ class TestErrorFunction:
                 coefficients = ones(3)
                 coefficients[coefficient_i] = sample
 
-                error, derror = error_function(
+                error, derror = error_function(  # pyright: ignore
                     coefficients, self._Lab_e, self._cmfs, self._sd_D65
                 )
 
@@ -145,14 +147,17 @@ class TestXYZ_to_sd_Jakob2019:
     unit tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._shape = SPECTRAL_SHAPE_JAKOB2019
         self._cmfs, self._sd_D65 = handle_spectral_arguments(shape_default=self._shape)
 
-    def test_XYZ_to_sd_Jakob2019(self):
+    def test_XYZ_to_sd_Jakob2019(self) -> None:
         """Test :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition."""
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         # Tests the round-trip with values of a colour checker.
         for name, sd in SDS_COLOURCHECKERS["ColorChecker N Ohta"].items():
@@ -165,15 +170,18 @@ class TestXYZ_to_sd_Jakob2019:
             if error > JND_CIE1976 / 100:  # pragma: no cover
                 pytest.fail(f"Delta E for '{name}' is {error}!")
 
-    def test_domain_range_scale_XYZ_to_sd_Jakob2019(self):
+    def test_domain_range_scale_XYZ_to_sd_Jakob2019(self) -> None:
         """
         Test :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition
         domain and range scale support.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         XYZ_i = np.array([0.20654008, 0.12197225, 0.05136952])
         XYZ_o = sd_to_XYZ(
-            XYZ_to_sd_Jakob2019(XYZ_i, self._cmfs, self._sd_D65),
+            XYZ_to_sd_Jakob2019(XYZ_i, self._cmfs, self._sd_D65, additional_data=False),
             self._cmfs,
             self._sd_D65,
         )
@@ -183,7 +191,12 @@ class TestXYZ_to_sd_Jakob2019:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
                     sd_to_XYZ(
-                        XYZ_to_sd_Jakob2019(XYZ_i * factor_a, self._cmfs, self._sd_D65),
+                        XYZ_to_sd_Jakob2019(
+                            XYZ_i * factor_a,
+                            self._cmfs,
+                            self._sd_D65,
+                            additional_data=False,
+                        ),
                         self._cmfs,
                         self._sd_D65,
                     ),
@@ -199,7 +212,7 @@ class TestLUT3D_Jakob2019:
     """
 
     @classmethod
-    def generate_LUT(cls):
+    def generate_LUT(cls: Type[TestLUT3D_Jakob2019]) -> LUT3D_Jakob2019:
         """
         Generate the *LUT* used for the unit tests.
 
@@ -223,7 +236,7 @@ class TestLUT3D_Jakob2019:
 
         return cls._LUT
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = (
@@ -236,7 +249,7 @@ class TestLUT3D_Jakob2019:
         for attribute in required_attributes:
             assert attribute in dir(LUT3D_Jakob2019)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = (
@@ -251,12 +264,15 @@ class TestLUT3D_Jakob2019:
         for method in required_methods:
             assert method in dir(LUT3D_Jakob2019)
 
-    def test_size(self):
+    def test_size(self) -> None:
         """Test :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.size` property."""
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         assert TestLUT3D_Jakob2019.generate_LUT().size == 5
 
-    def test_lightness_scale(self):
+    def test_lightness_scale(self) -> None:
         """
         Test :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.lightness_scale`
         property.
@@ -268,7 +284,7 @@ class TestLUT3D_Jakob2019:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_coefficients(self):
+    def test_coefficients(self) -> None:
         """
         Test :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.coefficients`
         property.
@@ -276,11 +292,28 @@ class TestLUT3D_Jakob2019:
 
         assert TestLUT3D_Jakob2019.generate_LUT().coefficients.shape == (3, 5, 5, 5, 3)
 
-    def test_LUT3D_Jakob2019(self):
+    def test_interpolator(self) -> None:
+        """
+        Test :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.interpolator`
+        property.
+        """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
+        from scipy.interpolate import RegularGridInterpolator  # noqa: PLC0415
+
+        interpolator = TestLUT3D_Jakob2019.generate_LUT().interpolator
+        assert isinstance(interpolator, RegularGridInterpolator)
+
+    def test_LUT3D_Jakob2019(self) -> None:
         """
         Test the entirety of the
         :class:`colour.recovery.jakob2019.LUT3D_Jakob2019`class.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         LUT = TestLUT3D_Jakob2019.generate_LUT()
 
@@ -327,7 +360,7 @@ class TestLUT3D_Jakob2019:
                     f"{self._RGB_colourspace.name} is {error}!"
                 )
 
-    def test_raise_exception_RGB_to_coefficients(self):
+    def test_raise_exception_RGB_to_coefficients(self) -> None:
         """
         Test :func:`colour.recovery.jakob2019.LUT3D_Jakob2019.\
 RGB_to_coefficients` method raised exception.
@@ -337,7 +370,7 @@ RGB_to_coefficients` method raised exception.
 
         pytest.raises(RuntimeError, LUT.RGB_to_coefficients, np.array([1, 2, 3, 4]))
 
-    def test_raise_exception_read(self):
+    def test_raise_exception_read(self) -> None:
         """
         Test :func:`colour.recovery.jakob2019.LUT3D_Jakob2019.read` method
         raised exception.

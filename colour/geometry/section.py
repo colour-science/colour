@@ -2,24 +2,33 @@
 Geometry / Hull Section
 =======================
 
-Define various objects to compute hull sections:
+Define objects for computing hull sections in colour spaces.
 
--   :func:`colour.geometry.hull_section`
+This module provides functionality to compute and analyze hull sections,
+which represent the boundary surfaces of colour gamuts when intersected
+with the specified planes in various colour spaces.
+
+Key Components
+--------------
+
+-   :func:`colour.geometry.hull_section`: Compute hull sections for colour
+    space analysis.
 """
 
 from __future__ import annotations
+
+import typing
 
 import numpy as np
 
 from colour.algebra import linear_conversion
 from colour.constants import DTYPE_FLOAT_DEFAULT
-from colour.hints import Any, ArrayLike, Literal, NDArrayFloat, cast
-from colour.utilities import (
-    as_float_array,
-    as_float_scalar,
-    required,
-    validate_method,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+from colour.hints import List, cast
+from colour.utilities import as_float_array, as_float_scalar, required, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -38,7 +47,11 @@ __all__ = [
 
 def edges_to_chord(edges: ArrayLike, index: int = 0) -> NDArrayFloat:
     """
-    Convert given edges to a chord, starting at given index.
+    Convert specified edges to a chord, starting at specified index.
+
+    Transforms a collection of edges into a continuous chord by
+    connecting them sequentially, beginning from the specified index
+    position.
 
     Parameters
     ----------
@@ -85,7 +98,7 @@ def edges_to_chord(edges: ArrayLike, index: int = 0) -> NDArrayFloat:
            [-0. , -0.5,  0. ]])
     """
 
-    edge_list = as_float_array(edges).tolist()
+    edge_list = cast("List[List[float]]", as_float_array(edges).tolist())
 
     edges_ordered = [edge_list.pop(index)]
     segment = np.array(edges_ordered[0][1])
@@ -108,7 +121,7 @@ def edges_to_chord(edges: ArrayLike, index: int = 0) -> NDArrayFloat:
 
 def close_chord(vertices: ArrayLike) -> NDArrayFloat:
     """
-    Close the chord.
+    Close a chord by appending its first vertex to the end.
 
     Parameters
     ----------
@@ -118,7 +131,8 @@ def close_chord(vertices: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Closed chord.
+        Closed chord with the first vertex appended to create a closed
+        path.
 
     Examples
     --------
@@ -135,26 +149,29 @@ def close_chord(vertices: ArrayLike) -> NDArrayFloat:
 
 def unique_vertices(
     vertices: ArrayLike,
-    decimals: int = np.finfo(cast(Any, DTYPE_FLOAT_DEFAULT)).precision - 1,
+    decimals: int = np.finfo(DTYPE_FLOAT_DEFAULT).precision - 1,  # pyright: ignore
 ) -> NDArrayFloat:
     """
-    Return the unique vertices from given vertices.
+    Return the unique vertices from the specified vertices after rounding.
 
     Parameters
     ----------
     vertices
         Vertices to return the unique vertices from.
     decimals
-        Decimals used when rounding the vertices prior to comparison.
+        Number of decimal places for rounding the vertices prior to
+        uniqueness comparison.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Unique vertices.
+        Unique vertices with duplicates removed.
 
     Notes
     -----
-    -   The vertices are rounded at given ``decimals``.
+    -   The vertices are rounded to the specified number of decimal places
+        before uniqueness comparison to handle floating-point precision
+        issues.
 
     Examples
     --------
@@ -180,23 +197,41 @@ def hull_section(
     normalise: bool = False,
 ) -> NDArrayFloat:
     """
-    Compute the hull section for given axis at given origin.
+    Compute the hull section for the specified axis at the specified origin.
+
+    Generate a cross-sectional contour of a 3D hull by intersecting it with
+    a plane perpendicular to the specified axis at the specified origin
+    coordinate. This operation produces vertices that define the boundary of
+    the hull's intersection with the cutting plane.
 
     Parameters
     ----------
     hull
-        *Trimesh* hull.
+        *Trimesh* hull object representing the 3D geometry to section.
     axis
-        Axis the hull section will be normal to.
+        Axis perpendicular to which the hull section will be computed.
+        Options are "+x", "+y", or "+z".
     origin
-        Coordinate along ``axis`` at which to plot the hull section.
+        Coordinate along ``axis`` at which to compute the hull section.
+        The value represents either an absolute position or a normalised
+        position depending on the ``normalise`` parameter.
     normalise
-        Whether to normalise ``axis`` to the extent of the hull along it.
+        Whether to normalise the ``origin`` coordinate to the extent of the
+        hull along the specified ``axis``. When ``True``, ``origin`` is
+        interpreted as a value in [0, 1] where 0 represents the minimum
+        extent and 1 represents the maximum extent along ``axis``.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Hull section vertices.
+        Hull section vertices forming a closed contour. The vertices are
+        ordered to form a continuous path around the section boundary.
+
+    Raises
+    ------
+    ValueError
+        If no section exists on the specified axis at the specified origin,
+        typically when the cutting plane does not intersect the hull.
 
     Examples
     --------
@@ -219,7 +254,7 @@ def hull_section(
            [-0. , -0.5,  0. ]])
     """
 
-    import trimesh.intersections
+    import trimesh.intersections  # noqa: PLC0415
 
     axis = validate_method(
         axis,
@@ -243,8 +278,8 @@ def hull_section(
 
     section = trimesh.intersections.mesh_plane(hull, normal, plane)
     if len(section) == 0:
-        raise ValueError(f'No section exists on "{axis}" axis at {origin} origin!')
+        error = f'No section exists on "{axis}" axis at {origin} origin!'
 
-    section = close_chord(unique_vertices(edges_to_chord(section)))
+        raise ValueError(error)
 
-    return section
+    return close_chord(unique_vertices(edges_to_chord(section)))

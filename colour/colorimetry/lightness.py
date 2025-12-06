@@ -2,31 +2,31 @@
 Lightness :math:`L`
 ===================
 
-Define the *Lightness* :math:`L` computation objects.
-
-The following methods are available:
+Define the *lightness* :math:`L` computation methods.
 
 -   :func:`colour.colorimetry.lightness_Glasser1958`: *Lightness* :math:`L`
-    computation of given *luminance* :math:`Y` using
+    computation of the specified *luminance* :math:`Y` using
     *Glasser, Mckinney, Reilly and Schnelle (1958)* method.
--   :func:`colour.colorimetry.lightness_Wyszecki1963`: *Lightness* :math:`W`
-    computation of given *luminance* :math:`Y` using *Wyszecki (1963)* method.
+-   :func:`colour.colorimetry.lightness_Wyszecki1963`: *Lightness*
+    :math:`W` computation of the specified *luminance* :math:`Y` using
+    *Wyszecki (1963)* method.
 -   :func:`colour.colorimetry.lightness_CIE1976`: *Lightness* :math:`L^*`
-    computation of given *luminance* :math:`Y` as per *CIE 1976*
+    computation of the specified *luminance* :math:`Y` as per *CIE 1976*
     recommendation.
 -   :func:`colour.colorimetry.lightness_Fairchild2010`: *Lightness*
-    :math:`L_{hdr}` computation of given *luminance* :math:`Y` using
+    :math:`L_{hdr}` computation of the specified *luminance* :math:`Y` using
     *Fairchild and Wyble (2010)* method.
 -   :func:`colour.colorimetry.lightness_Fairchild2011`: *Lightness*
-    :math:`L_{hdr}` computation of given *luminance* :math:`Y` using
+    :math:`L_{hdr}` computation of the specified *luminance* :math:`Y` using
     *Fairchild and Chen (2011)* method.
 -   :func:`colour.colorimetry.lightness_Abebe2017`: *Lightness* :math:`L`
-    computation of given *luminance* :math:`Y` using
-    *Abebe, Pouli, Larabi and Reinhard (2017)* method.
+    computation of the specified *luminance* :math:`Y` using
+    *Abebe, Pouli, Larabi and Reinhard (2017)* adaptive method for
+    high-dynamic-range imaging.
 -   :attr:`colour.LIGHTNESS_METHODS`: Supported *Lightness* :math:`L`
     computation methods.
--   :func:`colour.lightness`: *Lightness* :math:`L` computation of given
-    *luminance* :math:`Y` using given method.
+-   :func:`colour.lightness`: *Lightness* :math:`L` computation of
+    specified *luminance* :math:`Y` using the specified method.
 
 References
 ----------
@@ -62,6 +62,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import spow
@@ -69,7 +71,17 @@ from colour.biochemistry import (
     reaction_rate_MichaelisMenten_Abebe2017,
     reaction_rate_MichaelisMenten_Michaelis1913,
 )
-from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, Literal
+
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    Domain100,
+    NDArrayFloat,
+    Range100,
+)
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -77,6 +89,7 @@ from colour.utilities import (
     filter_kwargs,
     from_range_100,
     get_domain_range_scale,
+    optional,
     to_domain_1,
     to_domain_100,
     usage_warning,
@@ -103,10 +116,10 @@ __all__ = [
 ]
 
 
-def lightness_Glasser1958(Y: ArrayLike) -> NDArrayFloat:
+def lightness_Glasser1958(Y: Domain100) -> Range100:
     """
-    Return the *Lightness* :math:`L` of given *luminance* :math:`Y` using
-    *Glasser et al. (1958)* method.
+    Compute *lightness* :math:`L` from the specified *luminance* :math:`Y` using
+    the *Glasser et al. (1958)* method.
 
     Parameters
     ----------
@@ -123,13 +136,13 @@ def lightness_Glasser1958(Y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 100]              | [0, 1]        |
+    | ``L``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -149,11 +162,12 @@ def lightness_Glasser1958(Y: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_100(L))
 
 
-def lightness_Wyszecki1963(Y: ArrayLike) -> NDArrayFloat:
+def lightness_Wyszecki1963(
+    Y: Domain100,
+) -> Range100:
     """
-    Return the *Lightness* :math:`W` of given *luminance* :math:`Y` using
-    *Wyszecki (1963)* method.
-
+    Compute *lightness* :math:`W` from the specified *luminance* :math:`Y`
+    using the *Wyszecki (1963)* method.
 
     Parameters
     ----------
@@ -170,13 +184,13 @@ def lightness_Wyszecki1963(Y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``W``      | [0, 100]              | [0, 1]        |
+    | ``W``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -206,9 +220,9 @@ def intermediate_lightness_function_CIE1976(
     Y: ArrayLike, Y_n: ArrayLike = 100
 ) -> NDArrayFloat:
     """
-    Return the intermediate value :math:`f(Y/Yn)` in the *Lightness*
-    :math:`L^*` computation for given *luminance* :math:`Y` using given
-    reference white *luminance* :math:`Y_n` as per *CIE 1976* recommendation.
+    Compute the intermediate value :math:`f(Y/Y_n)` from the specified *luminance*
+    :math:`Y` using the specified reference white *luminance* :math:`Y_n` as per
+    *CIE 1976* recommendation.
 
     Parameters
     ----------
@@ -220,20 +234,20 @@ def intermediate_lightness_function_CIE1976(
     Returns
     -------
     :class:`numpy.ndarray`
-        Intermediate value :math:`f(Y/Yn)`.
+        Intermediate value :math:`f(Y/Y_n)`.
 
     Notes
     -----
     +-------------+-----------------------+---------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``Y``       | [0, 100]              | [0, 100]      |
+    | ``Y``       | 100                   | 100           |
     +-------------+-----------------------+---------------+
 
     +-------------+-----------------------+---------------+
     | **Range**   | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``f_Y_Y_n`` | [0, 1]                | [0, 1]        |
+    | ``f_Y_Y_n`` | 1                     | 1             |
     +-------------+-----------------------+---------------+
 
     References
@@ -264,10 +278,10 @@ def intermediate_lightness_function_CIE1976(
     return as_float(f_Y_Y_n)
 
 
-def lightness_CIE1976(Y: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
+def lightness_CIE1976(Y: Domain100, Y_n: ArrayLike | None = None) -> Range100:
     """
-    Return the *Lightness* :math:`L^*` of given *luminance* :math:`Y` using
-    given reference white *luminance* :math:`Y_n` as per *CIE 1976*
+    Compute the *lightness* :math:`L^*` of the specified *luminance* :math:`Y`
+    using the specified reference white *luminance* :math:`Y_n` as per *CIE 1976*
     recommendation.
 
     Parameters
@@ -287,13 +301,13 @@ def lightness_CIE1976(Y: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_star`` | [0, 100]              | [0, 1]        |
+    | ``L_star`` | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -307,17 +321,19 @@ def lightness_CIE1976(Y: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
     """
 
     Y = to_domain_100(Y)
-    Y_n = to_domain_100(Y_n)
+    Y_n = to_domain_100(
+        optional(Y_n, 100 if get_domain_range_scale() == "reference" else 1)
+    )
 
     L_star = 116 * intermediate_lightness_function_CIE1976(Y, Y_n) - 16
 
     return as_float(from_range_100(L_star))
 
 
-def lightness_Fairchild2010(Y: ArrayLike, epsilon: ArrayLike = 1.836) -> NDArrayFloat:
+def lightness_Fairchild2010(Y: Domain1, epsilon: ArrayLike = 1.836) -> Range100:
     """
-    Compute *Lightness* :math:`L_{hdr}` of given *luminance* :math:`Y` using
-    *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
+    Compute *lightness* :math:`L_{hdr}` from the specified *luminance* :math:`Y`
+    using *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
     kinetics.
 
     Parameters
@@ -337,13 +353,13 @@ def lightness_Fairchild2010(Y: ArrayLike, epsilon: ArrayLike = 1.836) -> NDArray
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 1]                | [0, 1]        |
+    | ``Y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_hdr``  | [0, 100]              | [0, 1]        |
+    | ``L_hdr``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -371,13 +387,13 @@ def lightness_Fairchild2010(Y: ArrayLike, epsilon: ArrayLike = 1.836) -> NDArray
 
 
 def lightness_Fairchild2011(
-    Y: ArrayLike,
+    Y: Domain1,
     epsilon: ArrayLike = 0.474,
     method: Literal["hdr-CIELAB", "hdr-IPT"] | str = "hdr-CIELAB",
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Compute *Lightness* :math:`L_{hdr}` of given *luminance* :math:`Y` using
-    *Fairchild and Chen (2011)* method according to *Michaelis-Menten*
+    Compute *lightness* :math:`L_{hdr}` from the specified *luminance* :math:`Y`
+    using *Fairchild and Chen (2011)* method according to *Michaelis-Menten*
     kinetics.
 
     Parameters
@@ -399,13 +415,13 @@ def lightness_Fairchild2011(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 1]                | [0, 1]        |
+    | ``Y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_hdr``  | [0, 100]              | [0, 1]        |
+    | ``L_hdr``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -438,13 +454,14 @@ def lightness_Fairchild2011(
 
 def lightness_Abebe2017(
     Y: ArrayLike,
-    Y_n: ArrayLike = 100,
+    Y_n: ArrayLike | None = None,
     method: Literal["Michaelis-Menten", "Stevens"] | str = "Michaelis-Menten",
 ) -> NDArrayFloat:
     """
-    Compute *Lightness* :math:`L` of given *luminance* :math:`Y` using
-    *Abebe, Pouli, Larabi and Reinhard (2017)* method according to
-    *Michaelis-Menten* kinetics or *Stevens's Power Law*.
+    Compute *lightness* :math:`L` from the specified *luminance* :math:`Y` using
+    *Abebe, Pouli, Larabi and Reinhard (2017)* adaptive method for
+    high-dynamic-range imaging according to *Michaelis-Menten* kinetics or
+    *Stevens's Power Law*.
 
     Parameters
     ----------
@@ -463,9 +480,9 @@ def lightness_Abebe2017(
     Notes
     -----
     -   *Abebe, Pouli, Larabi and Reinhard (2017)* method uses absolute
-        luminance levels, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations.
+        luminance levels, thus the domain and range values for the
+        *Reference* and *1* scales are only indicative that the data is
+        not affected by scale transformations.
 
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
@@ -495,7 +512,7 @@ def lightness_Abebe2017(
     """
 
     Y = as_float_array(Y)
-    Y_n = as_float_array(Y_n)
+    Y_n = as_float_array(optional(Y_n, 100))
     method = validate_method(method, ("Michaelis-Menten", "Stevens"))
 
     Y_Y_n = Y / Y_n
@@ -530,7 +547,7 @@ LIGHTNESS_METHODS: CanonicalMapping = CanonicalMapping(
     }
 )
 LIGHTNESS_METHODS.__doc__ = """
-Supported *Lightness* computation methods.
+Supported *lightness* computation methods.
 
 References
 ----------
@@ -545,7 +562,7 @@ LIGHTNESS_METHODS["Lstar1976"] = LIGHTNESS_METHODS["CIE 1976"]
 
 
 def lightness(
-    Y: ArrayLike,
+    Y: Domain100,
     method: (
         Literal[
             "Abebe 2017",
@@ -558,10 +575,9 @@ def lightness(
         | str
     ) = "CIE 1976",
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Return the *Lightness* :math:`L` of given *luminance* :math:`Y` using
-    given method.
+    Compute the *lightness* :math:`L` from the specified *luminance* :math:`Y`.
 
     Parameters
     ----------
@@ -591,13 +607,13 @@ def lightness(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L``      | [0, 100]              | [0, 1]        |
+    | ``L``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -634,26 +650,30 @@ def lightness(
 
     function = LIGHTNESS_METHODS[method]
 
-    # NOTE: "Abebe et al. (2017)" uses absolute luminance levels and has
-    # undefined domain-range scale, yet we modify its behaviour consistency
-    # with the other methods.
     domain_range_reference = get_domain_range_scale() == "reference"
     domain_range_1 = get_domain_range_scale() == "1"
-    domain_range_100 = get_domain_range_scale() == "100"
 
-    domain_1 = (lightness_Fairchild2010, lightness_Fairchild2011)
-    domain_undefined = (lightness_Abebe2017,)
-
-    if function in domain_1 and domain_range_reference:
+    # Fairchild methods expect Y in [0, 1].
+    if (
+        function
+        in (
+            lightness_Fairchild2010,
+            lightness_Fairchild2011,
+        )
+        and domain_range_reference
+    ):
         Y = Y / 100
 
-    if function in domain_undefined and domain_range_1:
+    # Abebe uses absolute luminance, scale inputs to cd/m² in scale 1.
+    if function in (lightness_Abebe2017,) and domain_range_1:
         Y = Y * 100
-        kwargs["Y_n"] = kwargs.get("Y_n", 100) * 100
+        if "Y_n" in kwargs:
+            kwargs["Y_n"] = kwargs["Y_n"] * 100
 
     L = function(Y, **filter_kwargs(function, **kwargs))
 
-    if function in domain_undefined and (domain_range_reference or domain_range_100):
-        L *= 100
+    # Scale Abebe output to [0, 100] for comparability (not in scale 1).
+    if function in (lightness_Abebe2017,) and not domain_range_1:
+        return L * 100
 
     return L

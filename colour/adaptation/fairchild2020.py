@@ -2,7 +2,8 @@
 Von Kries 2020 (vK20) Chromatic Adaptation Model
 ================================================
 
-Define the *Von Kries 2020* (*vK20*) chromatic adaptation model objects:
+Define the *Von Kries 2020* (*vK20*) chromatic adaptation model for predicting
+corresponding colours under different viewing conditions.
 
 -   :attr:`colour.adaptation.CONDITIONS_DEGREE_OF_ADAPTATION_VK20`
 -   :func:`colour.adaptation.matrix_chromatic_adaptation_vk20`
@@ -10,24 +11,37 @@ Define the *Von Kries 2020* (*vK20*) chromatic adaptation model objects:
 
 References
 ----------
--   :cite:`Fairchild2020` : Fairchild, M. D. (2020). Von Kries 2020: Evolution
-    of degree of chromatic adaptation. Color and Imaging Conference, 28(1),
-    252-257. doi:10.2352/issn.2169-2629.2020.28.40
+-   :cite:`Fairchild2020` : Fairchild, M. D. (2020). Von Kries 2020:
+    Evolution of degree of chromatic adaptation. Color and Imaging
+    Conference, 28(1), 252-257. doi:10.2352/issn.2169-2629.2020.28.40
 """
 
 from __future__ import annotations
 
-from collections import namedtuple
+import typing
+from dataclasses import dataclass
 
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.algebra import sdiv, sdiv_mode, vecmul
-from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Literal
+
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.utilities import (
     CanonicalMapping,
+    MixinDataclassIterable,
     as_float_array,
     from_range_1,
+    get_domain_range_scale,
+    optional,
     row_as_diagonal,
     to_domain_1,
     validate_method,
@@ -49,11 +63,11 @@ __all__ = [
 ]
 
 
-class Coefficients_DegreeOfAdaptation_vK20(
-    namedtuple("Coefficients_DegreeOfAdaptation_vK20", ("D_n", "D_r", "D_p"))
-):
+@dataclass(frozen=True)
+class Coefficients_DegreeOfAdaptation_vK20(MixinDataclassIterable):
     """
-    *Von Kries 2020* (*vK20*) degree of adaptation coefficients.
+    Define the degree of adaptation coefficients for the *Von Kries 2020*
+    (*vK20*) chromatic adaptation model.
 
     Parameters
     ----------
@@ -68,6 +82,10 @@ class Coefficients_DegreeOfAdaptation_vK20(
     ----------
     :cite:`Fairchild2020`
     """
+
+    D_n: float
+    D_r: float
+    D_p: float
 
 
 CONDITIONS_DEGREE_OF_ADAPTATION_VK20: CanonicalMapping = CanonicalMapping(
@@ -86,7 +104,8 @@ CONDITIONS_DEGREE_OF_ADAPTATION_VK20: CanonicalMapping = CanonicalMapping(
     }
 )
 CONDITIONS_DEGREE_OF_ADAPTATION_VK20.__doc__ = """
-Conditions for the *Von Kries 2020* (*vK20*) degree of adaptation coefficients.
+Define the degree of adaptation coefficient conditions for the *Von Kries 2020*
+(*vK20*) chromatic adaptation model.
 
 References
 ----------
@@ -128,18 +147,21 @@ def matrix_chromatic_adaptation_vk20(
     ),
 ) -> NDArrayFloat:
     """
-    Compute the *chromatic adaptation* matrix from previous viewing conditions
-    to adapting viewing conditions using *Von Kries 2020* (*vK20*) method.
+    Compute the chromatic adaptation matrix from previous viewing conditions
+    to adapting viewing conditions using the *Von Kries 2020* (*vK20*)
+    method.
 
     Parameters
     ----------
     XYZ_p
-        Previous viewing conditions *CIE XYZ* tristimulus values of whitepoint.
+        *CIE XYZ* tristimulus values of the whitepoint under previous viewing
+        conditions.
     XYZ_n
-        Adapting viewing conditions *CIE XYZ* tristimulus values of whitepoint.
+        *CIE XYZ* tristimulus values of the whitepoint under adapting viewing
+        conditions.
     XYZ_r
-        Reference viewing conditions *CIE XYZ* tristimulus values of
-        whitepoint.
+        *CIE XYZ* tristimulus values of the whitepoint under reference viewing
+        conditions.
     transform
         Chromatic adaptation transform.
     coefficients
@@ -155,11 +177,11 @@ def matrix_chromatic_adaptation_vk20(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_p``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_p``  | 1                     | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_n``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_n``  | 1                     | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_r``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_r``  | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -200,7 +222,7 @@ def matrix_chromatic_adaptation_vk20(
 
     M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]
 
-    D_n, D_r, D_p = coefficients
+    D_n, D_r, D_p = coefficients.values
 
     LMS_n = vecmul(M, XYZ_n)
     LMS_r = vecmul(M, XYZ_r)
@@ -210,16 +232,15 @@ def matrix_chromatic_adaptation_vk20(
         D = row_as_diagonal(sdiv(1, (D_n * LMS_n + D_r * LMS_r + D_p * LMS_p)))
 
     M_CAT = np.matmul(np.linalg.inv(M), D)
-    M_CAT = np.matmul(M_CAT, M)
 
-    return M_CAT
+    return np.matmul(M_CAT, M)
 
 
 def chromatic_adaptation_vK20(
-    XYZ: ArrayLike,
-    XYZ_p: ArrayLike,
-    XYZ_n: ArrayLike,
-    XYZ_r: ArrayLike = TVS_XYZ_R_VK20,
+    XYZ: Domain1,
+    XYZ_p: Domain1,
+    XYZ_n: Domain1,
+    XYZ_r: ArrayLike | None = None,
     transform: Literal[
         "Bianco 2010",
         "Bianco PC 2010",
@@ -238,21 +259,24 @@ def chromatic_adaptation_vK20(
     coefficients: Coefficients_DegreeOfAdaptation_vK20 = (
         CONDITIONS_DEGREE_OF_ADAPTATION_VK20["Fairchild"]
     ),
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Adapt given stimulus from previous viewing conditions to adapting viewing
-    conditions using *Von Kries 2020* (*vK20*) method.
+    Adapt the specified stimulus *CIE XYZ* tristimulus values from test
+    viewing conditions to reference viewing conditions using the
+    *Von Kries 2020* (*vK20*) chromatic adaptation model.
 
     Parameters
     ----------
     XYZ
-        *CIE XYZ* tristimulus values of stimulus to adapt.
+        *CIE XYZ* tristimulus values of the stimulus to adapt.
     XYZ_p
-        Previous viewing conditions *CIE XYZ* tristimulus values of whitepoint.
+        Previous viewing conditions *CIE XYZ* tristimulus values of the
+        whitepoint.
     XYZ_n
-        Adapting viewing conditions *CIE XYZ* tristimulus values of whitepoint.
+        Adapting viewing conditions *CIE XYZ* tristimulus values of the
+        whitepoint.
     XYZ_r
-        Reference viewing conditions *CIE XYZ* tristimulus values of
+        Reference viewing conditions *CIE XYZ* tristimulus values of the
         whitepoint.
     transform
         Chromatic adaptation transform.
@@ -262,26 +286,26 @@ def chromatic_adaptation_vK20(
     Returns
     -------
     :class:`numpy.ndarray`
-        *CIE XYZ_c* tristimulus values of the stimulus corresponding colour.
+        *CIE XYZ* tristimulus values of the stimulus corresponding colour.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    | ``XYZ``    | 1                     | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_p``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_p``  | 1                     | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_n``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_n``  | 1                     | 1             |
     +------------+-----------------------+---------------+
-    | ``XYZ_r``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_r``  | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_a``  | [0, 1]                | [0, 1]        |
+    | ``XYZ_a``  | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -311,7 +335,14 @@ def chromatic_adaptation_vK20(
     XYZ = to_domain_1(XYZ)
     XYZ_p = to_domain_1(XYZ_p)
     XYZ_n = to_domain_1(XYZ_n)
-    XYZ_r = to_domain_1(XYZ_r)
+    XYZ_r = to_domain_1(
+        optional(
+            XYZ_r,
+            TVS_XYZ_R_VK20
+            if get_domain_range_scale() == "reference"
+            else TVS_XYZ_R_VK20 / 100,
+        )
+    )
 
     M_CAT = matrix_chromatic_adaptation_vk20(
         XYZ_p, XYZ_n, XYZ_r, transform, coefficients

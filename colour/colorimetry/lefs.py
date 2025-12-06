@@ -2,7 +2,8 @@
 Luminous Efficiency Functions Spectral Distributions
 ====================================================
 
-Define the luminous efficiency functions computation related objects.
+Define the luminous efficiency functions and their computation objects for
+photopic, scotopic, and mesopic vision conditions.
 
 References
 ----------
@@ -13,6 +14,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 from colour.colorimetry import (
     SDS_LEFS_PHOTOPIC,
     SDS_LEFS_SCOTOPIC,
@@ -20,7 +23,10 @@ from colour.colorimetry import (
     SpectralShape,
 )
 from colour.colorimetry.datasets.lefs import DATA_MESOPIC_X
-from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Literal, NDArrayFloat
+
 from colour.utilities import closest, optional, validate_method
 
 __author__ = "Colour Developers"
@@ -45,8 +51,13 @@ def mesopic_weighting_function(
     scotopic_lef: SpectralDistribution | None = None,
 ) -> NDArrayFloat:
     """
-    Calculate the mesopic weighting function factor :math:`V_m` at given
-    wavelength :math:`\\lambda` using the photopic luminance :math:`L_p`.
+    Calculate the mesopic weighting function factor :math:`V_m` at the specified
+    wavelength :math:`\\lambda` using the specified photopic luminance
+    :math:`L_p`.
+
+    The mesopic weighting function provides a transition between photopic and
+    scotopic vision, accounting for the combined response of rods and cones
+    under intermediate lighting conditions.
 
     Parameters
     ----------
@@ -60,11 +71,11 @@ def mesopic_weighting_function(
     method
         Method to calculate the weighting factor.
     photopic_lef
-        :math:`V(\\lambda)` photopic luminous efficiency function, default to
+        :math:`V(\\lambda)` photopic luminous efficiency function, defaults to
         the *CIE 1924 Photopic Standard Observer*.
     scotopic_lef
         :math:`V^\\prime(\\lambda)` scotopic luminous efficiency function,
-        default to the *CIE 1951 Scotopic Standard Observer*.
+        defaults to the *CIE 1951 Scotopic Standard Observer*.
 
     Returns
     -------
@@ -102,9 +113,7 @@ def mesopic_weighting_function(
     index = mesopic_x_luminance_values.index(closest(mesopic_x_luminance_values, L_p))
     x = DATA_MESOPIC_X[mesopic_x_luminance_values[index]][source][method]
 
-    V_m = (1 - x) * scotopic_lef[wavelength] + x * photopic_lef[wavelength]
-
-    return V_m
+    return (1 - x) * scotopic_lef[wavelength] + x * photopic_lef[wavelength]
 
 
 def sd_mesopic_luminous_efficiency_function(
@@ -116,7 +125,7 @@ def sd_mesopic_luminous_efficiency_function(
 ) -> SpectralDistribution:
     """
     Return the mesopic luminous efficiency function :math:`V_m(\\lambda)` for
-    given photopic luminance :math:`L_p`.
+    the specified photopic luminance :math:`L_p`.
 
     Parameters
     ----------

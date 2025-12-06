@@ -16,11 +16,12 @@ Notes
 -----
 -   The intent of the data in this module is to provide a practical reference
     if it is required to use the exact *CIE XYZ* tristimulus values of the
-    *CIE* illuminants as given in :cite:`Carter2018`. Indeed different rounding
-    practises in the colorimetric conversions yield different values for those
-    illuminants, as a related example, *CIE Standard Illuminant D Series D65*
-    chromaticity coordinates are commonly given as (0.31270, 0.32900) but
-    :cite:`Carter2018` defines them as (0.31271, 0.32903).
+    *CIE* illuminants as specified in :cite:`Carter2018`. Indeed, different
+    rounding practices in the colorimetric conversions yield different values
+    for those illuminants. As a related example, *CIE Standard Illuminant D
+    Series D65* chromaticity coordinates are commonly specified as
+    (0.31270, 0.32900) but :cite:`Carter2018` defines them as
+    (0.31271, 0.32903).
 
 References
 ----------

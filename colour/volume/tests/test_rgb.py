@@ -18,6 +18,7 @@ References
 reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 """
 
+from __future__ import annotations
 
 import numpy as np
 
@@ -27,7 +28,7 @@ from colour.models import (
     RGB_COLOURSPACE_BT709,
     RGB_COLOURSPACE_BT2020,
 )
-from colour.utilities import disable_multiprocessing
+from colour.utilities import disable_multiprocessing, is_scipy_installed
 from colour.volume import (
     RGB_colourspace_limits,
     RGB_colourspace_pointer_gamut_coverage_MonteCarlo,
@@ -59,7 +60,7 @@ class TestRGB_colourspaceLimits:
     tests methods.
     """
 
-    def test_RGB_colourspace_limits(self):
+    def test_RGB_colourspace_limits(self) -> None:
         """Test :func:`colour.volume.rgb.RGB_colourspace_limits` definition."""
 
         np.testing.assert_allclose(
@@ -110,7 +111,7 @@ class TestRGB_colourspaceVolumeMonteCarlo:
     """
 
     @disable_multiprocessing()
-    def test_RGB_colourspace_volume_MonteCarlo(self):
+    def test_RGB_colourspace_volume_MonteCarlo(self) -> None:
         """
         Test :func:`colour.volume.rgb.RGB_colourspace_volume_MonteCarlo`
         definition.
@@ -119,7 +120,7 @@ class TestRGB_colourspaceVolumeMonteCarlo:
         np.testing.assert_allclose(
             RGB_colourspace_volume_MonteCarlo(
                 RGB_COLOURSPACE_BT709,
-                10e3,
+                int(10e3),
                 random_state=np.random.RandomState(2),
             )
             * 1e-6,
@@ -138,17 +139,20 @@ RGB_colourspace_volume_coverage_MonteCarlo` definition unit tests methods.
     :cite:`Laurent2012a`
     """
 
-    def test_RGB_colourspace_volume_coverage_MonteCarlo(self):
+    def test_RGB_colourspace_volume_coverage_MonteCarlo(self) -> None:
         """
         Test :func:`colour.volume.rgb.\
 RGB_colourspace_volume_coverage_MonteCarlo` definition.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         np.testing.assert_allclose(
             RGB_colourspace_volume_coverage_MonteCarlo(
                 RGB_COLOURSPACE_BT709,
                 is_within_pointer_gamut,
-                10e3,
+                int(10e3),
                 random_state=np.random.RandomState(2),
             ),
             81.044349070100140,
@@ -167,16 +171,19 @@ RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition unit tests
     :cite:`Laurent2012a`
     """
 
-    def test_RGB_colourspace_pointer_gamut_coverage_MonteCarlo(self):
+    def test_RGB_colourspace_pointer_gamut_coverage_MonteCarlo(self) -> None:
         """
         Test :func:`colour.volume.rgb.\
 RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         np.testing.assert_allclose(
             RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
                 RGB_COLOURSPACE_BT709,
-                10e3,
+                int(10e3),
                 random_state=np.random.RandomState(2),
             ),
             81.044349070100140,
@@ -195,16 +202,19 @@ RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition unit tests
     :cite:`Laurent2012a`
     """
 
-    def test_RGB_colourspace_visible_spectrum_coverage_MonteCarlo(self):
+    def test_RGB_colourspace_visible_spectrum_coverage_MonteCarlo(self) -> None:
         """
         Test :func:`colour.volume.rgb.\
 RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition.
         """
 
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
         np.testing.assert_allclose(
             RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
                 RGB_COLOURSPACE_BT709,
-                10e3,
+                int(10e3),
                 random_state=np.random.RandomState(2),
             ),
             46.931407942238266,

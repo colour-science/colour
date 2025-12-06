@@ -1,15 +1,13 @@
 """Define the unit tests for the :mod:`colour.difference.cam02_ucs` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.difference import (
-    delta_E_CAM02LCD,
-    delta_E_CAM02SCD,
-    delta_E_CAM02UCS,
-)
+from colour.difference import delta_E_CAM02LCD, delta_E_CAM02SCD, delta_E_CAM02UCS
 from colour.difference.cam02_ucs import delta_E_Luo2006
 from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006
 from colour.utilities import ignore_numpy_errors
@@ -32,7 +30,7 @@ class TestDelta_E_Luo2006:
     tests methods.
     """
 
-    def test_delta_E_Luo2006(self):
+    def test_delta_E_Luo2006(self) -> None:
         """Test :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition."""
 
         np.testing.assert_allclose(
@@ -84,7 +82,7 @@ class TestDelta_E_Luo2006:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_delta_E_Luo2006(self):
+    def test_n_dimensional_delta_E_Luo2006(self) -> None:
         """
         Test :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition
         n-dimensional arrays support.
@@ -115,7 +113,7 @@ class TestDelta_E_Luo2006:
         )
 
     @ignore_numpy_errors
-    def test_nan_delta_E_Luo2006(self):
+    def test_nan_delta_E_Luo2006(self) -> None:
         """
         Test :func:`colour.difference.cam02_ucs.delta_E_Luo2006`
         definition nan support.

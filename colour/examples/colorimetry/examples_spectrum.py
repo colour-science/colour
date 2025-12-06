@@ -1,4 +1,9 @@
-"""Showcase colour spectrum computations."""
+"""
+Demonstrate colour spectrum computations.
+
+This module provides examples of spectral distribution operations including
+arithmetical operations, interpolation and extrapolation.
+"""
 
 import numpy as np
 

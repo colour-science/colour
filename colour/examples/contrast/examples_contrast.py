@@ -1,9 +1,14 @@
-"""Showcase contrast sensitivity computations."""
+"""
+Demonstrate contrast sensitivity computations.
+
+This module demonstrates contrast sensitivity function computations using
+*Barten (1999)* method, including spatial frequency optimization and minimum
+detectable contrast calculations for various viewing conditions.
+"""
 
 from pprint import pprint
 
 import numpy as np
-from scipy.optimize import fmin
 
 import colour
 from colour.hints import ArrayLike, NDArrayFloat
@@ -15,7 +20,7 @@ message_box("Contrast Sensitivity Computations")
 colour_style()
 
 message_box(
-    'Computing the contrast sensitivity for a spatial frequency "u" of 4, an '
+    'Compute the contrast sensitivity for a spatial frequency "u" of 4, an '
     'angular size "X_0" of 60 and a retinal illuminance "E" of 65 using '
     '"Barten (1999)" method.'
 )
@@ -25,7 +30,7 @@ pprint(colour.contrast.contrast_sensitivity_function_Barten1999(u=4, X_0=60, E=6
 print("\n")
 
 message_box(
-    "Computing the minimum detectable contrast with the assumed conditions "
+    "Compute the minimum detectable contrast with the assumed conditions "
     'for UHDTV applications as given in the "ITU-R BT.2246-4" "Figure 31" and '
     'using "Barten (1999)" method.'
 )
@@ -57,6 +62,8 @@ def maximise_spatial_frequency(L: ArrayLike) -> NDArrayFloat:
         Maximised spatial frequency :math:`u`.
     """
 
+    from scipy.optimize import fmin  # noqa: PLC0415
+
     L = as_float_array(L)
 
     maximised_spatial_frequency = []
@@ -75,8 +82,8 @@ def maximise_spatial_frequency(L: ArrayLike) -> NDArrayFloat:
                         E=E,  # noqa: B023
                         **settings_BT2246,
                     )
-                ),
-                0,
+                ).item(),
+                [0],
                 disp=False,
             )[0]
         )

@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 fujifilm_f_log` module.
 """
 
-
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -36,7 +35,7 @@ class TestLogEncoding_FLog:
 log_encoding_FLog` definition unit tests methods.
     """
 
-    def test_log_encoding_FLog(self):
+    def test_log_encoding_FLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.fujifilm_f_log.\
 log_encoding_FLog` definition.
@@ -78,7 +77,7 @@ log_encoding_FLog` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_FLog(self):
+    def test_n_dimensional_log_encoding_FLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.fujifilm_f_log.\
 log_encoding_FLog` definition n-dimensional arrays support.
@@ -105,7 +104,7 @@ log_encoding_FLog` definition n-dimensional arrays support.
             log_encoding_FLog(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_FLog(self):
+    def test_domain_range_scale_log_encoding_FLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.fujifilm_f_log.\
 log_encoding_FLog` definition domain and range scale support.
@@ -124,7 +123,7 @@ log_encoding_FLog` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_FLog(self):
+    def test_nan_log_encoding_FLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.fujifilm_f_log.\
 log_encoding_FLog` definition nan support.
@@ -139,7 +138,7 @@ class TestLogDecoding_FLog:
 log_decoding_FLog` definition unit tests methods.
     """
 
-    def test_log_decoding_FLog(self):
+    def test_log_decoding_FLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.fujifilm_f_log.\
 log_decoding_FLog` definition.
@@ -181,7 +180,7 @@ log_decoding_FLog` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_FLog(self):
+    def test_n_dimensional_log_decoding_FLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.fujifilm_f_log.\
 log_decoding_FLog` definition n-dimensional arrays support.
@@ -208,7 +207,7 @@ log_decoding_FLog` definition n-dimensional arrays support.
             log_decoding_FLog(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_FLog(self):
+    def test_domain_range_scale_log_decoding_FLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.fujifilm_f_log.\
 log_decoding_FLog` definition domain and range scale support.
@@ -227,7 +226,7 @@ log_decoding_FLog` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_FLog(self):
+    def test_nan_log_decoding_FLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.fujifilm_f_log.\
 log_decoding_FLog` definition nan support.
@@ -242,7 +241,7 @@ class TestLogEncoding_FLog2:
 log_encoding_FLog2` definition unit tests methods.
     """
 
-    def test_log_encoding_FLog2(self):
+    def test_log_encoding_FLog2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_encoding_FLog2` definition.
@@ -284,7 +283,7 @@ log_encoding_FLog2` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_FLog2(self):
+    def test_n_dimensional_log_encoding_FLog2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_encoding_FLog2` definition n-dimensional arrays support.
@@ -311,7 +310,7 @@ log_encoding_FLog2` definition n-dimensional arrays support.
             log_encoding_FLog2(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_FLog2(self):
+    def test_domain_range_scale_log_encoding_FLog2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_encoding_FLog2` definition domain and range scale support.
@@ -328,7 +327,7 @@ log_encoding_FLog2` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_FLog2(self):
+    def test_nan_log_encoding_FLog2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_encoding_FLog2` definition nan support.
@@ -343,7 +342,7 @@ class TestLogDecoding_FLog2:
 log_decoding_FLog2` definition unit tests methods.
     """
 
-    def test_log_decoding_FLog2(self):
+    def test_log_decoding_FLog2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_decoding_FLog2` definition.
@@ -385,7 +384,7 @@ log_decoding_FLog2` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_FLog2(self):
+    def test_n_dimensional_log_decoding_FLog2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_decoding_FLog2` definition n-dimensional arrays support.
@@ -412,7 +411,7 @@ log_decoding_FLog2` definition n-dimensional arrays support.
             log_decoding_FLog2(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_FLog2(self):
+    def test_domain_range_scale_log_decoding_FLog2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_decoding_FLog2` definition domain and range scale support.
@@ -430,7 +429,7 @@ log_decoding_FLog2` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_FLog2(self):
+    def test_nan_log_decoding_FLog2(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.fujifilm_flog.\
 log_decoding_FLog2` definition nan support.

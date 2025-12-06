@@ -17,11 +17,13 @@ References
 
 from __future__ import annotations
 
-from pathlib import Path
+import typing
 
 import numpy as np
 
-from colour.hints import ArrayLike, List, NDArrayFloat
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, List, NDArrayFloat, NDArrayInt, PathLike
+
 from colour.io.luts import LUT1D, LUT3D, LUT3x1D, LUTSequence
 from colour.utilities import (
     as_float_array,
@@ -45,21 +47,21 @@ __all__ = [
 ]
 
 
-def read_LUT_Cinespace(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
+def read_LUT_Cinespace(path: str | PathLike) -> LUT3x1D | LUT3D | LUTSequence:
     """
-    Read given *Cinespace* *.csp* *LUT* file.
+    Read the specified *Cinespace* *.csp* *LUT* file.
 
     Parameters
     ----------
     path
-        *LUT* path.
+        *LUT* file path.
 
     Returns
     -------
     :class:`colour.LUT3x1D` or :class:`colour.LUT3D` or \
-:class:`colour.LUTSequence`
-        :class:`LUT3x1D` or :class:`LUT3D` or :class:`LUTSequence` class
-        instance.
+    :class:`colour.LUTSequence`
+        :class:`LUT3x1D`, :class:`LUT3D`, or :class:`LUTSequence`
+        class instance.
 
     References
     ----------
@@ -108,12 +110,12 @@ def read_LUT_Cinespace(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
     unity_range = np.array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]])
 
     def _parse_metadata_section(metadata: list) -> tuple:
-        """Parse the metadata at given lines."""
+        """Parse the metadata at specified lines."""
 
         return (metadata[0], metadata[1:]) if len(metadata) > 0 else ("", [])
 
     def _parse_domain_section(lines: List[str]) -> NDArrayFloat:
-        """Parse the domain at given lines."""
+        """Parse the domain at specified lines."""
 
         pre_LUT_size = max(int(lines[i]) for i in [0, 3, 6])
         pre_LUT = [as_float_array(lines[i].split()) for i in [1, 2, 4, 5, 7, 8]]
@@ -134,8 +136,8 @@ def read_LUT_Cinespace(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
 
         return np.asarray(pre_LUT_padded)
 
-    def _parse_table_section(lines):
-        """Parse the table at given lines."""
+    def _parse_table_section(lines: list[str]) -> tuple[NDArrayInt, NDArrayFloat]:
+        """Parse the table at specified lines."""
 
         size = as_int_array(lines[0].split())
         table = as_float_array([line.split() for line in lines[1:]])
@@ -163,7 +165,7 @@ def read_LUT_Cinespace(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
             if line == "BEGIN METADATA":
                 is_metadata = True
                 continue
-            elif line == "END METADATA":
+            if line == "END METADATA":
                 seek += i
                 break
 
@@ -242,20 +244,20 @@ def read_LUT_Cinespace(path: str | Path) -> LUT3x1D | LUT3D | LUTSequence:
 
 
 def write_LUT_Cinespace(
-    LUT: LUT3x1D | LUT3D | LUTSequence, path: str | Path, decimals: int = 7
+    LUT: LUT1D | LUT3x1D | LUT3D | LUTSequence, path: str | PathLike, decimals: int = 7
 ) -> bool:
     """
-    Write given *LUT* to given  *Cinespace* *.csp* *LUT* file.
+    Write the specified *LUT* to the specified *Cinespace* *.csp* *LUT* file.
 
     Parameters
     ----------
     LUT
         :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUT3D` or
-        :class:`LUTSequence` class instance to write at given path.
+        :class:`LUTSequence` class instance to write at the specified path.
     path
-        *LUT* path.
+        *LUT* file path.
     decimals
-        Formatting decimals.
+        Number of decimal places for formatting numeric values.
 
     Returns
     -------
@@ -324,7 +326,9 @@ def write_LUT_Cinespace(
         LUT = LUTSequence(LUT3x1D(), LUT)
 
     else:
-        raise TypeError("LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!")
+        error = "LUT must be 1D, 3x1D, 3D, 1D + 3D or 3x1D + 3D!"
+
+        raise TypeError(error)
 
     if has_3x1D:
         attest(
@@ -335,7 +339,7 @@ def write_LUT_Cinespace(
         attest(2 <= LUT[1].size <= 256, "Cube size must be in domain [2, 256]!")
 
     def _ragged_size(table: ArrayLike) -> list:
-        """Return the ragged size of given table."""
+        """Return the ragged size of the specified table."""
 
         R, G, B = tsplit(table)
 
@@ -357,12 +361,10 @@ def write_LUT_Cinespace(
         csp_file.write(f"{name}\n")
 
         if LUT[0].comments:
-            for comment in LUT[0].comments:
-                csp_file.write(f"{comment}\n")
+            csp_file.writelines(f"{comment}\n" for comment in LUT[0].comments)
 
         if LUT[1].comments:
-            for comment in LUT[1].comments:
-                csp_file.write(f"{comment}\n")
+            csp_file.writelines(f"{comment}\n" for comment in LUT[1].comments)
 
         csp_file.write("END METADATA\n\n")
 
@@ -414,8 +416,9 @@ def write_LUT_Cinespace(
             )
             table = np.reshape(LUT[1].table, (-1, 3), order="F")
 
-            for array in table:
-                csp_file.write(f"{format_array_as_row(array, decimals)}\n")
+            csp_file.writelines(
+                f"{format_array_as_row(array, decimals)}\n" for array in table
+            )
         else:
             for i in range(3):
                 csp_file.write("2\n")
@@ -427,7 +430,8 @@ def write_LUT_Cinespace(
             csp_file.write(f"\n{LUT[0].size}\n")
             table = LUT[0].table
 
-            for array in table:
-                csp_file.write(f"{format_array_as_row(array, decimals)}\n")
+            csp_file.writelines(
+                f"{format_array_as_row(array, decimals)}\n" for array in table
+            )
 
     return True

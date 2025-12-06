@@ -14,10 +14,14 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.colorimetry import SpectralShape
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -1316,6 +1320,6 @@ SELECTOR_ARRAY_OTSU2018: NDArrayFloat = np.array(
     ]
 )
 """
-Array describing how to select the appropriate cluster for given *CIE xy*
+Array describing how to select the appropriate cluster for the specified *CIE xy*
 chromaticity coordinates.
 """

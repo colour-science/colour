@@ -1,4 +1,11 @@
-"""Showcase interpolation computations."""
+"""
+Demonstrate interpolation computations.
+
+This module provides examples of various interpolation methods and their
+application to spectral data and colour lookup table operations, illustrating
+the differences between interpolation techniques for both uniform and
+non-uniform data distributions.
+"""
 
 import os
 
@@ -13,7 +20,7 @@ from colour.utilities import message_box
 message_box("Interpolation Computations")
 
 message_box(
-    'Comparing the "Sprague (1880)" and "Cubic Spline" recommended '
+    'Compare the "Sprague (1880)" and "Cubic Spline" recommended '
     'interpolation methods to the "Pchip" method.'
 )
 
@@ -156,7 +163,7 @@ print("\n")
 
 V_xyz = np.random.random((6, 3))
 message_box(
-    f'Performing "trilinear" interpolation of given "xyz" values:\n\n'
+    f'Perform "trilinear" interpolation of given "xyz" values:\n\n'
     f"{V_xyz}\n\n"
     f"using given interpolation table."
 )
@@ -171,14 +178,14 @@ path = os.path.join(
     "iridas_cube",
     "Colour_Correct.cube",
 )
-table = cast(colour.LUT3D, colour.read_LUT(path)).table
+table = cast("colour.LUT3D", colour.read_LUT(path)).table
 print(colour.table_interpolation(V_xyz, table, method="Trilinear"))
 print(colour.algebra.table_interpolation_trilinear(V_xyz, table))
 
 print("\n")
 
 message_box(
-    f'Performing "tetrahedral" interpolation of given "xyz" values:\n\n'
+    f'Perform "tetrahedral" interpolation of given "xyz" values:\n\n'
     f"{V_xyz}\n\n"
     f"using given interpolation table."
 )

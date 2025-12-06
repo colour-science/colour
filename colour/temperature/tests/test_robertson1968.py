@@ -139,7 +139,7 @@ class TestMired_to_CCT:
     definition unit tests methods.
     """
 
-    def test_mired_to_CCT(self):
+    def test_mired_to_CCT(self) -> None:
         """
         Test :func:`colour.temperature.robertson1968.mired_to_CCT`
         definition.
@@ -159,7 +159,7 @@ class TestMired_to_CCT:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_mired_to_CCT(self):
+    def test_n_dimensional_mired_to_CCT(self) -> None:
         """
         Test :func:`colour.temperature.robertson1968.mired_to_CCT`
         definition n-dimensional arrays support.
@@ -181,7 +181,7 @@ class TestMired_to_CCT:
         )
 
     @ignore_numpy_errors
-    def test_nan_mired_to_CCT(self):
+    def test_nan_mired_to_CCT(self) -> None:
         """
         Test :func:`colour.temperature.robertson1968.mired_to_CCT`
         definition nan support.
@@ -198,7 +198,7 @@ class TestCCT_to_mired:
     definition unit tests methods.
     """
 
-    def test_CCT_to_mired(self):
+    def test_CCT_to_mired(self) -> None:
         """
         Test :func:`colour.temperature.robertson1968.CCT_to_mired`
         definition.
@@ -218,7 +218,7 @@ class TestCCT_to_mired:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_CCT_to_mired(self):
+    def test_n_dimensional_CCT_to_mired(self) -> None:
         """
         Test :func:`colour.temperature.robertson1968.CCT_to_mired`
         definition n-dimensional arrays support.
@@ -240,7 +240,7 @@ class TestCCT_to_mired:
         )
 
     @ignore_numpy_errors
-    def test_nan_CCT_to_mired(self):
+    def test_nan_CCT_to_mired(self) -> None:
         """
         Test :func:`colour.temperature.robertson1968.CCT_to_mired`
         definition nan support.
@@ -257,7 +257,7 @@ class TestUv_to_CCT_Robertson1968:
     definition unit tests methods.
     """
 
-    def test_uv_to_CCT_Robertson1968(self):
+    def test_uv_to_CCT_Robertson1968(self) -> None:
         """
         Test :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
         definition.
@@ -266,7 +266,7 @@ class TestUv_to_CCT_Robertson1968:
         for key, value in TEMPERATURE_DUV_TO_UV.items():
             np.testing.assert_allclose(uv_to_CCT_Robertson1968(value), key, atol=0.25)
 
-    def test_n_dimensional_uv_to_CCT_Robertson1968(self):
+    def test_n_dimensional_uv_to_CCT_Robertson1968(self) -> None:
         """
         Test :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
         definition n-dimensional arrays support.
@@ -292,7 +292,7 @@ class TestUv_to_CCT_Robertson1968:
         )
 
     @ignore_numpy_errors
-    def test_nan_uv_to_CCT_Robertson1968(self):
+    def test_nan_uv_to_CCT_Robertson1968(self) -> None:
         """
         Test :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
         definition nan support.
@@ -309,7 +309,7 @@ class TestCCT_to_uv_Robertson1968:
     definition unit tests methods.
     """
 
-    def test_CCT_to_uv_Robertson1968(self):
+    def test_CCT_to_uv_Robertson1968(self) -> None:
         """
         Test :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
         definition.
@@ -322,7 +322,7 @@ class TestCCT_to_uv_Robertson1968:
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-    def test_n_dimensional_CCT_to_uv_Robertson1968(self):
+    def test_n_dimensional_CCT_to_uv_Robertson1968(self) -> None:
         """
         Test :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
         definition n-dimensional arrays support.
@@ -348,7 +348,7 @@ class TestCCT_to_uv_Robertson1968:
         )
 
     @ignore_numpy_errors
-    def test_nan_CCT_to_uv_Robertson1968(self):
+    def test_nan_CCT_to_uv_Robertson1968(self) -> None:
         """
         Test :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
         definition nan support.

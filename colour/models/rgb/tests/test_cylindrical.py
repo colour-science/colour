@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.rgb.cylindrical` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -38,7 +40,7 @@ class TestRGB_to_HSV:
     tests methods.
     """
 
-    def test_RGB_to_HSV(self):
+    def test_RGB_to_HSV(self) -> None:
         """Test :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition."""
 
         np.testing.assert_allclose(
@@ -65,7 +67,7 @@ class TestRGB_to_HSV:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_RGB_to_HSV(self):
+    def test_n_dimensional_RGB_to_HSV(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition
         n-dimensional arrays support.
@@ -82,7 +84,7 @@ class TestRGB_to_HSV:
         HSV = np.reshape(HSV, (2, 3, 3))
         np.testing.assert_allclose(RGB_to_HSV(RGB), HSV, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_RGB_to_HSV(self):
+    def test_domain_range_scale_RGB_to_HSV(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition
         domain and range scale support.
@@ -101,7 +103,7 @@ class TestRGB_to_HSV:
                 )
 
     @ignore_numpy_errors
-    def test_nan_RGB_to_HSV(self):
+    def test_nan_RGB_to_HSV(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition nan
         support.
@@ -118,7 +120,7 @@ class TestHSV_to_RGB:
     tests methods.
     """
 
-    def test_HSV_to_RGB(self):
+    def test_HSV_to_RGB(self) -> None:
         """Test :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition."""
 
         np.testing.assert_allclose(
@@ -145,7 +147,7 @@ class TestHSV_to_RGB:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_HSV_to_RGB(self):
+    def test_n_dimensional_HSV_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition
         n-dimensional arrays support.
@@ -162,7 +164,7 @@ class TestHSV_to_RGB:
         RGB = np.reshape(RGB, (2, 3, 3))
         np.testing.assert_allclose(HSV_to_RGB(HSV), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_HSV_to_RGB(self):
+    def test_domain_range_scale_HSV_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition
         domain and range scale support.
@@ -181,7 +183,7 @@ class TestHSV_to_RGB:
                 )
 
     @ignore_numpy_errors
-    def test_nan_HSV_to_RGB(self):
+    def test_nan_HSV_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition nan
         support.
@@ -198,7 +200,7 @@ class TestRGB_to_HSL:
     tests methods.
     """
 
-    def test_RGB_to_HSL(self):
+    def test_RGB_to_HSL(self) -> None:
         """Test :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition."""
 
         np.testing.assert_allclose(
@@ -225,7 +227,7 @@ class TestRGB_to_HSL:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_RGB_to_HSL(self):
+    def test_n_dimensional_RGB_to_HSL(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition
         n-dimensional arrays support.
@@ -242,7 +244,7 @@ class TestRGB_to_HSL:
         HSL = np.reshape(HSL, (2, 3, 3))
         np.testing.assert_allclose(RGB_to_HSL(RGB), HSL, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_RGB_to_HSL(self):
+    def test_domain_range_scale_RGB_to_HSL(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition
         domain and range scale support.
@@ -261,7 +263,7 @@ class TestRGB_to_HSL:
                 )
 
     @ignore_numpy_errors
-    def test_nan_RGB_to_HSL(self):
+    def test_nan_RGB_to_HSL(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition nan
         support.
@@ -278,7 +280,7 @@ class TestHSL_to_RGB:
     tests methods.
     """
 
-    def test_HSL_to_RGB(self):
+    def test_HSL_to_RGB(self) -> None:
         """Test :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition."""
 
         np.testing.assert_allclose(
@@ -305,7 +307,7 @@ class TestHSL_to_RGB:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_HSL_to_RGB(self):
+    def test_n_dimensional_HSL_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition
         n-dimensional arrays support.
@@ -322,7 +324,7 @@ class TestHSL_to_RGB:
         RGB = np.reshape(RGB, (2, 3, 3))
         np.testing.assert_allclose(HSL_to_RGB(HSL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_HSL_to_RGB(self):
+    def test_domain_range_scale_HSL_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition
         domain and range scale support.
@@ -341,7 +343,7 @@ class TestHSL_to_RGB:
                 )
 
     @ignore_numpy_errors
-    def test_nan_HSL_to_RGB(self):
+    def test_nan_HSL_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition nan
         support.
@@ -358,7 +360,7 @@ class TestRGB_to_HCL:
     tests methods.
     """
 
-    def test_RGB_to_HCL(self):
+    def test_RGB_to_HCL(self) -> None:
         """Test :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition."""
 
         np.testing.assert_allclose(
@@ -385,7 +387,7 @@ class TestRGB_to_HCL:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_RGB_to_HCL(self):
+    def test_n_dimensional_RGB_to_HCL(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition
         n-dimensional arrays support.
@@ -402,7 +404,7 @@ class TestRGB_to_HCL:
         HCL = np.reshape(HCL, (2, 3, 3))
         np.testing.assert_allclose(RGB_to_HCL(RGB), HCL, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_RGB_to_HCL(self):
+    def test_domain_range_scale_RGB_to_HCL(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition
         domain and range scale support.
@@ -421,7 +423,7 @@ class TestRGB_to_HCL:
                 )
 
     @ignore_numpy_errors
-    def test_nan_RGB_to_HCL(self):
+    def test_nan_RGB_to_HCL(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition nan
         support.
@@ -438,7 +440,7 @@ class TestHCL_to_RGB:
     tests methods.
     """
 
-    def test_HCL_to_RGB(self):
+    def test_HCL_to_RGB(self) -> None:
         """Test :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition."""
 
         np.testing.assert_allclose(
@@ -465,7 +467,7 @@ class TestHCL_to_RGB:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_HCL_to_RGB(self):
+    def test_n_dimensional_HCL_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition
         n-dimensional arrays support.
@@ -482,7 +484,7 @@ class TestHCL_to_RGB:
         RGB = np.reshape(RGB, (2, 3, 3))
         np.testing.assert_allclose(HCL_to_RGB(HCL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_HCL_to_RGB(self):
+    def test_domain_range_scale_HCL_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition
         domain and range scale support.
@@ -501,7 +503,7 @@ class TestHCL_to_RGB:
                 )
 
     @ignore_numpy_errors
-    def test_nan_HCL_to_RGB(self):
+    def test_nan_HCL_to_RGB(self) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition nan
         support.

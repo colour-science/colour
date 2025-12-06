@@ -18,10 +18,15 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat
-from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
+from colour.hints import Domain100  # noqa: TC001
+from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006, Coefficients_UCS_Luo2006
 from colour.utilities import as_float, tsplit
 
 __author__ = "Colour Developers"
@@ -40,18 +45,20 @@ __all__ = [
 
 
 def delta_E_Luo2006(
-    Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike, coefficients: ArrayLike
+    Jpapbp_1: Domain100,
+    Jpapbp_2: Domain100,
+    coefficients: Coefficients_UCS_Luo2006,
 ) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E'` between two given
-    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspaces
-    :math:`J'a'b'` arrays.
+    Compute the colour difference :math:`\\Delta E'` between two specified
+    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
+    colourspaces :math:`J'a'b'` arrays.
 
     Parameters
     ----------
     Jpapbp_1
-        Standard / reference *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or
-        *CAM02-UCS* colourspaces :math:`J'a'b'` array.
+        Standard / reference *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*,
+        or *CAM02-UCS* colourspaces :math:`J'a'b'` array.
     Jpapbp_2
         Sample / test *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or
         *CAM02-UCS* colourspaces :math:`J'a'b'` array.
@@ -67,25 +74,17 @@ def delta_E_Luo2006(
     Warnings
     --------
     The :math:`J'a'b'` array should have been computed with a
-    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspace
-    and not with the *CIE L\\*a\\*b\\** colourspace.
+    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
+    colourspace and not with the *CIE L\\*a\\*b\\** colourspace.
 
     Notes
     -----
     +--------------+------------------------+--------------------+
     | **Domain**   |  **Scale - Reference** | **Scale - 1**      |
     +==============+========================+====================+
-    | ``Jpapbp_1`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
-    |              |                        |                    |
-    |              | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
-    |              |                        |                    |
-    |              | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
+    | ``Jpapbp_1`` | 100                    | 1                  |
     +--------------+------------------------+--------------------+
-    | ``Jpapbp_2`` | ``Jp_2`` : [0, 100]    | ``Jp_2`` : [0, 1]  |
-    |              |                        |                    |
-    |              | ``ap_2`` : [-100, 100] | ``ap_2`` : [-1, 1] |
-    |              |                        |                    |
-    |              | ``bp_2`` : [-100, 100] | ``bp_2`` : [-1, 1] |
+    | ``Jpapbp_2`` | 100                    | 1                  |
     +--------------+------------------------+--------------------+
 
     Examples
@@ -99,7 +98,7 @@ def delta_E_Luo2006(
 
     J_p_1, a_p_1, b_p_1 = tsplit(Jpapbp_1)
     J_p_2, a_p_2, b_p_2 = tsplit(Jpapbp_2)
-    K_L, _c_1, _c_2 = tsplit(coefficients)
+    K_L, _c_1, _c_2 = coefficients.values
 
     d_E = np.sqrt(
         ((J_p_1 - J_p_2) / K_L) ** 2 + (a_p_1 - a_p_2) ** 2 + (b_p_1 - b_p_2) ** 2
@@ -108,19 +107,20 @@ def delta_E_Luo2006(
     return as_float(d_E)
 
 
-def delta_E_CAM02LCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
+def delta_E_CAM02LCD(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E'` between two given
-    *Luo et al. (2006)* *CAM02-LCD* colourspaces :math:`J'a'b'` arrays.
+    Compute the colour difference :math:`\\Delta E'` between two specified
+    *CAM02-LCD* colourspace :math:`J'a'b'` arrays using the
+    *Luo et al. (2006)* formula.
 
     Parameters
     ----------
     Jpapbp_1
-        Standard / reference *Luo et al. (2006)* *CAM02-LCD* colourspaces
-        :math:`J'a'b'` array.
+        Standard / reference *CAM02-LCD* colourspace :math:`J'a'b'` array as
+        computed by the *Luo et al. (2006)* uniform colour space model.
     Jpapbp_2
-        Sample / test *Luo et al. (2006)* *CAM02-LCD* colourspaces
-        :math:`J'a'b'` array.
+        Sample / test *CAM02-LCD* colourspace :math:`J'a'b'` array as computed
+        by the *Luo et al. (2006)* uniform colour space model.
 
     Returns
     -------
@@ -129,26 +129,18 @@ def delta_E_CAM02LCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
 
     Warnings
     --------
-    The :math:`J'a'b'` array should have been computed with a
-    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspace
-    and not with the *CIE L\\*a\\*b\\** colourspace.
+    The :math:`J'a'b'` arrays should have been computed with the
+    *Luo et al. (2006)* *CAM02-LCD* colourspace and not with the
+    *CIE L\\*a\\*b\\** colourspace.
 
     Notes
     -----
     +--------------+------------------------+--------------------+
     | **Domain**   |  **Scale - Reference** | **Scale - 1**      |
     +==============+========================+====================+
-    | ``Jpapbp_1`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
-    |              |                        |                    |
-    |              | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
-    |              |                        |                    |
-    |              | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
+    | ``Jpapbp_1`` | 100                    | 1                  |
     +--------------+------------------------+--------------------+
-    | ``Jpapbp_2`` | ``Jp_2`` : [0, 100]    | ``Jp_2`` : [0, 1]  |
-    |              |                        |                    |
-    |              | ``ap_2`` : [-100, 100] | ``ap_2`` : [-1, 1] |
-    |              |                        |                    |
-    |              | ``bp_2`` : [-100, 100] | ``bp_2`` : [-1, 1] |
+    | ``Jpapbp_2`` | 100                    | 1                  |
     +--------------+------------------------+--------------------+
 
     References
@@ -166,19 +158,20 @@ def delta_E_CAM02LCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
     return delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
 
 
-def delta_E_CAM02SCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
+def delta_E_CAM02SCD(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E'` between two given
-    *Luo et al. (2006)* *CAM02-SCD* colourspaces :math:`J'a'b'` arrays.
+    Compute the colour difference :math:`\\Delta E'` between two specified
+    *CAM02-SCD* colourspace :math:`J'a'b'` arrays using the
+    *Luo et al. (2006)* formula.
 
     Parameters
     ----------
     Jpapbp_1
-        Standard / reference *Luo et al. (2006)* *CAM02-SCD* colourspaces
-        :math:`J'a'b'` array.
+        Standard / reference *CAM02-SCD* colourspace :math:`J'a'b'` array as
+        computed by the *Luo et al. (2006)* uniform colour space model.
     Jpapbp_2
-        Sample / test *Luo et al. (2006)* *CAM02-SCD* colourspaces
-        :math:`J'a'b'` array.
+        Sample / test *CAM02-SCD* colourspace :math:`J'a'b'` array as computed
+        by the *Luo et al. (2006)* uniform colour space model.
 
     Returns
     -------
@@ -187,26 +180,18 @@ def delta_E_CAM02SCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
 
     Warnings
     --------
-    The :math:`J'a'b'` array should have been computed with a
-    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspace
-    and not with the *CIE L\\*a\\*b\\** colourspace.
+    The :math:`J'a'b'` arrays should have been computed with the
+    *Luo et al. (2006)* *CAM02-SCD* colourspace and not with the
+    *CIE L\\*a\\*b\\** colourspace.
 
     Notes
     -----
     +--------------+------------------------+--------------------+
     | **Domain**   |  **Scale - Reference** | **Scale - 1**      |
     +==============+========================+====================+
-    | ``Jpapbp_1`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
-    |              |                        |                    |
-    |              | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
-    |              |                        |                    |
-    |              | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
+    | ``Jpapbp_1`` | 100                    | 1                  |
     +--------------+------------------------+--------------------+
-    | ``Jpapbp_2`` | ``Jp_2`` : [0, 100]    | ``Jp_2`` : [0, 1]  |
-    |              |                        |                    |
-    |              | ``ap_2`` : [-100, 100] | ``ap_2`` : [-1, 1] |
-    |              |                        |                    |
-    |              | ``bp_2`` : [-100, 100] | ``bp_2`` : [-1, 1] |
+    | ``Jpapbp_2`` | 100                    | 1                  |
     +--------------+------------------------+--------------------+
 
     References
@@ -224,19 +209,20 @@ def delta_E_CAM02SCD(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
     return delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-SCD"])
 
 
-def delta_E_CAM02UCS(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
+def delta_E_CAM02UCS(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E'` between two given
-    *Luo et al. (2006)* *CAM02-UCS* colourspaces :math:`J'a'b'` arrays.
+    Compute the colour difference :math:`\\Delta E'` between two specified
+    *CAM02-UCS* colourspace :math:`J'a'b'` arrays using the
+    *Luo et al. (2006)* formula.
 
     Parameters
     ----------
     Jpapbp_1
-        Standard / reference *Luo et al. (2006)* *CAM02-UCS* colourspaces
-        :math:`J'a'b'` array.
+        Standard / reference *CAM02-UCS* colourspace :math:`J'a'b'` array as
+        computed by the *Luo et al. (2006)* uniform colour space model.
     Jpapbp_2
-        Sample / test *Luo et al. (2006)* *CAM02-UCS* colourspaces
-        :math:`J'a'b'` array.
+        Sample / test *CAM02-UCS* colourspace :math:`J'a'b'` array as computed
+        by the *Luo et al. (2006)* uniform colour space model.
 
     Returns
     -------
@@ -245,26 +231,18 @@ def delta_E_CAM02UCS(Jpapbp_1: ArrayLike, Jpapbp_2: ArrayLike) -> NDArrayFloat:
 
     Warnings
     --------
-    The :math:`J'a'b'` array should have been computed with a
-    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspace
-    and not with the *CIE L\\*a\\*b\\** colourspace.
+    The :math:`J'a'b'` arrays should have been computed with the
+    *Luo et al. (2006)* *CAM02-UCS* colourspace and not with the
+    *CIE L\\*a\\*b\\** colourspace.
 
     Notes
     -----
     +--------------+------------------------+--------------------+
     | **Domain**   |  **Scale - Reference** | **Scale - 1**      |
     +==============+========================+====================+
-    | ``Jpapbp_1`` | ``Jp_1`` : [0, 100]    | ``Jp_1`` : [0, 1]  |
-    |              |                        |                    |
-    |              | ``ap_1`` : [-100, 100] | ``ap_1`` : [-1, 1] |
-    |              |                        |                    |
-    |              | ``bp_1`` : [-100, 100] | ``bp_1`` : [-1, 1] |
+    | ``Jpapbp_1`` | 100                    | 1                  |
     +--------------+------------------------+--------------------+
-    | ``Jpapbp_2`` | ``Jp_2`` : [0, 100]    | ``Jp_2`` : [0, 1]  |
-    |              |                        |                    |
-    |              | ``ap_2`` : [-100, 100] | ``ap_2`` : [-1, 1] |
-    |              |                        |                    |
-    |              | ``bp_2`` : [-100, 100] | ``bp_2`` : [-1, 1] |
+    | ``Jpapbp_2`` | 100                    | 1                  |
     +--------------+------------------------+--------------------+
 
     References

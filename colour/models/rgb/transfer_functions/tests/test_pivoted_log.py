@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 pivoted_log` module.
 """
 
-
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -32,7 +31,7 @@ class TestLogEncoding_PivotedLog:
 log_encoding_PivotedLog` definition unit tests methods.
     """
 
-    def test_log_encoding_PivotedLog(self):
+    def test_log_encoding_PivotedLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_encoding_PivotedLog` definition.
@@ -56,7 +55,7 @@ log_encoding_PivotedLog` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_PivotedLog(self):
+    def test_n_dimensional_log_encoding_PivotedLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_encoding_PivotedLog` definition n-dimensional arrays support.
@@ -83,7 +82,7 @@ log_encoding_PivotedLog` definition n-dimensional arrays support.
             log_encoding_PivotedLog(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_PivotedLog(self):
+    def test_domain_range_scale_log_encoding_PivotedLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_encoding_PivotedLog` definition domain and range scale support.
@@ -102,7 +101,7 @@ log_encoding_PivotedLog` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_PivotedLog(self):
+    def test_nan_log_encoding_PivotedLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_encoding_PivotedLog` definition nan support.
@@ -117,7 +116,7 @@ class TestLogDecoding_PivotedLog:
 log_decoding_PivotedLog` definition unit tests methods.
     """
 
-    def test_log_decoding_PivotedLog(self):
+    def test_log_decoding_PivotedLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_decoding_PivotedLog` definition.
@@ -141,7 +140,7 @@ log_decoding_PivotedLog` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_PivotedLog(self):
+    def test_n_dimensional_log_decoding_PivotedLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_decoding_PivotedLog` definition n-dimensional arrays support.
@@ -168,7 +167,7 @@ log_decoding_PivotedLog` definition n-dimensional arrays support.
             log_decoding_PivotedLog(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_PivotedLog(self):
+    def test_domain_range_scale_log_decoding_PivotedLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_decoding_PivotedLog` definition domain and range scale support.
@@ -187,7 +186,7 @@ log_decoding_PivotedLog` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_PivotedLog(self):
+    def test_nan_log_decoding_PivotedLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_decoding_PivotedLog` definition nan support.

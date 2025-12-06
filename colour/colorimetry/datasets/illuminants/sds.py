@@ -16,13 +16,13 @@ The following *CIE* illuminants are available:
 -   CIE Illuminant C
 -   CIE Illuminant D Series (D50, D55, D60, D65, D75)
 -   CIE Illuminant E
--   Illuminants F Series (FL1, FL2, FL3, FL4, FL5, FL6, FL7, FL8, FL9, FL10,
-    FL11, FL12, FL3.1, FL3.10, FL3.11, FL3.12, FL3.13, FL3.14, FL3.15, FL3.2,
-    FL3.3, FL3.4, FL3.5, FL3.6, FL3.7, FL3.8, FL3.9)
+-   Illuminants F Series (FL1, FL2, FL3, FL4, FL5, FL6, FL7, FL8, FL9,
+    FL10, FL11, FL12, FL3.1, FL3.10, FL3.11, FL3.12, FL3.13, FL3.14,
+    FL3.15, FL3.2, FL3.3, FL3.4, FL3.5, FL3.6, FL3.7, FL3.8, FL3.9)
 -   High Pressure Discharge Lamps (HP1, HP2, HP3, HP4, HP5)
--   Typical LED illuminants (LED-B1, LED-B2, LED-B3, LED-B4, LED-B5, LED-BH1,
-    LED-RGB1, LED-V1, LED-V2)
--   Recommended indoor illuminants ID65 and ID50.
+-   Typical LED illuminants (LED-B1, LED-B2, LED-B3, LED-B4, LED-B5,
+    LED-BH1, LED-RGB1, LED-V1, LED-V2)
+-   Recommended indoor illuminants ID65 and ID50
 
 The following *ISO* illuminants are available:
 
@@ -36,9 +36,10 @@ The following *ISO* illuminants are available:
 
 Notes
 -----
--   The spectral distributions are typically provided at 5nm or 10nm interval.
--   *CIE Illuminant D Series* *D60* spectral distribution is calculated using
-    :func:`colour.sd_CIE_illuminant_D_series` definition.
+-   The spectral distributions are typically provided at 5nm or 10nm
+    interval.
+-   *CIE Illuminant D Series* *D60* spectral distribution is calculated
+    using :func:`colour.sd_CIE_illuminant_D_series` definition.
 
 References
 ----------
@@ -4602,7 +4603,7 @@ computed as follows::
     CCT = 6000 * 1.4388 / 1.438
     xy = colour.temperature.CCT_to_xy_CIE_D(CCT)
 
-    sd = colour.sd_CIE_illuminant_D_series(xy)
+        sd = colour.sd_CIE_illuminant_D_series(xy)
 
 References
 ----------
@@ -4875,10 +4876,11 @@ Spectral distributions of the *ISO* illuminants.
 
 Notes
 -----
--   All the *ISO 7589 Sensitometric* spectral distributions are transmitted by
-    the *ISO Standard Lens* given in :attr:`colour.SDS_LENSES` attribute except
-    for the *ISO 7589 Sensitometric Printer* spectral distribution which is
-    modulated by both the *ISO Standard Lens* and the *ISO 7589 Diffuser* given
+-   All the *ISO 7589 Sensitometric* spectral distributions are
+    transmitted by the *ISO Standard Lens* specified in
+    :attr:`colour.SDS_LENSES` attribute except for the *ISO 7589
+    Sensitometric Printer* spectral distribution which is modulated by
+    both the *ISO Standard Lens* and the *ISO 7589 Diffuser* specified
     in :attr:`colour.FILTERS_SDS` attribute:
 
     -   *ISO 7589 Sensitometric Daylight* = \
@@ -4901,9 +4903,9 @@ Spectral distributions of the illuminants.
 
 Notes
 -----
--   *CIE 15:2004* recommends using linear interpolation for
-    *CIE Standard Illuminant D Series*, for consistency all the illuminants are
-    using a linear interpolator.
+-   *CIE 15:2004* recommends using linear interpolation for the
+    *CIE Standard Illuminant D Series*. For consistency, all illuminants
+    use a linear interpolator.
 
 References
 ----------

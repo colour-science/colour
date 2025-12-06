@@ -2,19 +2,17 @@
 Callback Management
 ===================
 
-Define the callback management objects.
+Provide callback management functionality for event-driven systems.
 """
 
 from __future__ import annotations
 
+import typing
 from collections import defaultdict
 from dataclasses import dataclass
 
-from colour.hints import (
-    Any,
-    Callable,
-    List,
-)
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, Callable, List
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -32,14 +30,17 @@ __all__ = [
 @dataclass
 class Callback:
     """
-    Define a callback.
+    Represent a named callback with its associated callable function.
+
+    This dataclass encapsulates a callback's identifying name and its
+    callable function for use in event-driven callback systems.
 
     Parameters
     ----------
     name
-        Callback name.
+        Callback identifier used for registration and management.
     function
-        Callback callable.
+        Callable object to execute when the callback is triggered.
     """
 
     name: str
@@ -48,7 +49,11 @@ class Callback:
 
 class MixinCallback:
     """
-    A mixin providing support for callbacks.
+    Provide callback support for attribute changes in classes.
+
+    This mixin extends class functionality to enable callback registration,
+    allowing automatic invocation when specified attributes are modified.
+    Callbacks can transform or validate attribute values before they are set.
 
     Attributes
     ----------
@@ -85,24 +90,26 @@ class MixinCallback:
     @property
     def callbacks(self) -> defaultdict[str, List[Callback]]:
         """
-        Getter property for the callbacks.
+        Getter for the event callbacks dictionary.
 
         Returns
         -------
         :class:`defaultdict`
-            Callbacks.
+            Dictionary mapping event names to lists of callback functions.
+            Each key represents an event identifier, and each value contains
+            the registered callbacks for that event.
         """
 
         return self._callbacks
 
     def __setattr__(self, name: str, value: Any) -> None:
         """
-        Set given value to the attribute with given name.
+        Set the specified value to the attribute with the specified name.
 
         Parameters
         ----------
-        attribute
-            Attribute to set the value of.
+        name
+            Name of the attribute to set.
         value
             Value to set the attribute with.
         """
@@ -115,7 +122,8 @@ class MixinCallback:
 
     def register_callback(self, attribute: str, name: str, function: Callable) -> None:
         """
-        Register the callback with given name for given attribute.
+        Register a callback with the specified name for the specified
+        attribute.
 
         Parameters
         ----------
@@ -132,7 +140,6 @@ class MixinCallback:
         ...     def __init__(self):
         ...         super().__init__()
         ...         self.attribute_a = "a"
-        ...
         >>> with_callback = WithCallback()
         >>> with_callback.register_callback(
         ...     "attribute_a", "callback", lambda *args: None
@@ -146,7 +153,8 @@ class MixinCallback:
 
     def unregister_callback(self, attribute: str, name: str) -> None:
         """
-        Unregister the callback with given name for given attribute.
+        Unregister the callback with the specified name for the specified
+        attribute.
 
         Parameters
         ----------
@@ -161,7 +169,6 @@ class MixinCallback:
         ...     def __init__(self):
         ...         super().__init__()
         ...         self.attribute_a = "a"
-        ...
         >>> with_callback = WithCallback()
         >>> with_callback.register_callback(
         ...     "attribute_a", "callback", lambda s, n, v: v

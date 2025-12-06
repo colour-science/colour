@@ -2,9 +2,9 @@
 Recommendation ITU-T H.273 Code points for Video Signal Type Identification
 ===========================================================================
 
-Define a set of standard video signal colour primaries, transfer functions and
-matrix coefficients used in deriving luma and chroma signals along with
-related definitions:
+Define standard video signal colour primaries, transfer functions, and matrix
+coefficients used in deriving luma and chroma signals along with related
+definitions:
 
 -   :attr:`colour.COLOUR_PRIMARIES_ITUTH273`
 -   :attr:`colour.TRANSFER_CHARACTERISTICS_ITUTH273`
@@ -14,11 +14,11 @@ related definitions:
 -   :attr:`colour.models.describe_video_signal_matrix_coefficients`
 
 These values were historically defined in
-:cite:`InternationalOrganizationforStandardization2013` then
-superseded and duplicated by other standards such as
+:cite:`InternationalOrganizationforStandardization2013` then superseded and
+duplicated by other standards such as
 :cite:`InternationalOrganizationforStandardization2020`,
 :cite:`InternationalOrganizationforStandardization2021` and
-:cite:`InternationalTelecommunicationUnion2021`. They are widely in use to
+:cite:`InternationalTelecommunicationUnion2021`. They are widely used to
 define colour-related properties in video encoding and decoding software
 libraries, including *FFmpeg*.
 
@@ -54,13 +54,18 @@ blob/c469c3c3b18fbacd6ee0165573034d2a0408b83f/libavutil/pixfmt.h#L532
     https://www.itu.int/rec/T-REC-H.273-202107-I/en
 """
 
+from __future__ import annotations
+
 import functools
+import typing
 from dataclasses import dataclass
 from enum import IntEnum, auto
 
 import numpy as np
 
-from colour.hints import Any, Callable, Dict, NDArrayFloat, Union
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ArrayLike, Callable, Dict, NDArrayFloat, NoReturn
+
 from colour.models.rgb.datasets.dcdm_xyz import (
     CCS_WHITEPOINT_DCDM_XYZ,
     MATRIX_DCDM_XYZ_TO_XYZ,
@@ -143,10 +148,7 @@ from colour.models.rgb.transfer_functions import (
     oetf_SMPTE240M,
 )
 from colour.utilities import message_box, multiline_str
-from colour.utilities.documentation import (
-    DocstringDict,
-    is_documentation_building,
-)
+from colour.utilities.documentation import DocstringDict, is_documentation_building
 
 __all__ = [
     "COLOUR_PRIMARIES_ITUTH273",
@@ -187,11 +189,11 @@ __all__ = [
 
 
 def _clipped_domain_function(
-    function: Callable, domain: Union[list, tuple] = (0, 1)
+    function: Callable, domain: list | tuple = (0, 1)
 ) -> Callable:
     """
-    Wrap given function and produce a new callable clipping the input value to
-    given domain.
+    Wrap specified function and produce a new callable clipping the input value
+    to the specified domain.
 
     Parameters
     ----------
@@ -208,17 +210,17 @@ def _clipped_domain_function(
     """
 
     @functools.wraps(function)
-    def wrapped(x, *args: Any, **kwargs: Any) -> Any:
-        """Wrap given function."""
+    def wrapped(x: ArrayLike, *args: Any, **kwargs: Any) -> Any:
+        """Wrap specified function."""
 
         return function(np.clip(x, *domain), *args, **kwargs)
 
     return wrapped
 
 
-def _reserved(*args: Any):  # noqa: ARG001
+def _reserved(*args: Any) -> NoReturn:  # noqa: ARG001
     """
-    Define a reserved function.
+    Indicate a reserved function by raising a runtime error.
 
     Examples
     --------
@@ -228,12 +230,19 @@ def _reserved(*args: Any):  # noqa: ARG001
     ...     pass
     """
 
-    raise RuntimeError("Reserved; For future use by ITU-T | ISO/IEC.")
+    error = "Reserved; For future use by ITU-T | ISO/IEC."
+
+    raise RuntimeError(error)
 
 
-def _unspecified(*args: Any):  # noqa: ARG001
+def _unspecified(*args: Any) -> NoReturn:  # noqa: ARG001
     """
-    Define an unspecified function.
+    Indicate unspecified video signal characteristics by raising a runtime
+    error.
+
+    Raise a runtime error when called to signal that image characteristics
+    are unknown or determined by the application, as defined in ITU-T H.273
+    and related video signal type identification standards.
 
     Examples
     --------
@@ -243,10 +252,12 @@ def _unspecified(*args: Any):  # noqa: ARG001
     ...     pass
     """
 
-    raise RuntimeError(
+    error = (
         "Unspecified; Image characteristics are unknown or are determined by "
         "the application."
     )
+
+    raise RuntimeError(error)
 
 
 COLOUR_PRIMARIES_ITUTH273: Dict[int, NDArrayFloat] = {
@@ -333,18 +344,20 @@ References
 
 class FFmpegConstantsColourPrimaries_ITUTH273(IntEnum):
     """
-    Define the constant names used by *FFmpeg* in the `AVColorPrimaries` enum.
+    Define the constant names used by *FFmpeg* in the `AVColorPrimaries`
+    enum.
 
     Notes
     -----
     -   *AVCOL_PRI_JEDEC_P22* is equal to `AVCOL_PRI_EBU3213` in *FFmpeg*
-        but neither *Recommendation ITU-T H.273* (2021) nor *ISO/IEC 23091-2*
-        (2021) define the same primaries as *EBU Tech 3213*, nor do they refer
-        to it. *ColourPrimaries 22* in both standards specifies the
-        informative remark *No corresponding industry specification identified*.
-        However, *ISO/IEC 23001-8* (2013) and *ISO/IEC 14497-10* (2020)
-        specify the *JEDEC P22 phosphors* and *EBU Tech. 3213-E (1975)*
-        informative remarks respectively while defining the same primaries and
+        but neither *Recommendation ITU-T H.273* (2021) nor
+        *ISO/IEC 23091-2* (2021) define the same primaries as
+        *EBU Tech 3213*, nor do they refer to it. *ColourPrimaries 22* in
+        both standards specifies the informative remark *No corresponding
+        industry specification identified*. However, *ISO/IEC 23001-8*
+        (2013) and *ISO/IEC 14497-10* (2020) specify the
+        *JEDEC P22 phosphors* and *EBU Tech. 3213-E (1975)* informative
+        remarks respectively while defining the same primaries and
         whitepoint as the 2021 standards. This is likely an error in the
         earlier standards that was discovered and corrected.
 
@@ -489,7 +502,7 @@ Notes
 -----
 -   For simplicity, no clipping is implemented for *TransferCharacteristics 13*
     as it is a function of whether the context is *sRGB* or *sYCC*.
--   For TransferCharacteristics equal to 18, the equations given in Table 3 are
+-   For TransferCharacteristics equal to 18, the equations specified in Table 3 are
     normalized for a source input linear optical intensity Lc with a nominal
     real-valued range of 0 to 1. An alternative scaling that is mathematically
     equivalent is used in ARIB STD-B67 (2015) with the source input linear
@@ -507,7 +520,8 @@ References
 class FFmpegConstantsTransferCharacteristics_ITUTH273(IntEnum):
     """
     Define the constant names used by *FFmpeg* in the
-    `AVColorTransferCharacteristic` enum.
+    `AVColorTransferCharacteristic` enum for transfer characteristics as
+    specified in ITU-T H.273.
 
     References
     ----------
@@ -798,8 +812,8 @@ MATRICES_ITUTH273_RGB_TO_XYZ = {
     23: np.array("Reserved"),
 }
 if is_documentation_building():  # pragma: no cover
-    WHITEPOINT_NAMES_ITUTH273 = DocstringDict(WHITEPOINT_NAMES_ITUTH273)
-    WHITEPOINT_NAMES_ITUTH273.__doc__ = """
+    MATRICES_ITUTH273_RGB_TO_XYZ = DocstringDict(MATRICES_ITUTH273_RGB_TO_XYZ)
+    MATRICES_ITUTH273_RGB_TO_XYZ.__doc__ = """
 *RGB* to *CIE XYZ* tristimulus values matrices associated with the source
 colour primaries as specified in Table 3 of
 :cite:`InternationalOrganizationforStandardization2021` and
@@ -831,8 +845,8 @@ MATRICES_XYZ_TO_ITUTH273_RGB = {
     23: np.array("Reserved"),
 }
 if is_documentation_building():  # pragma: no cover
-    WHITEPOINT_NAMES_ITUTH273 = DocstringDict(WHITEPOINT_NAMES_ITUTH273)
-    WHITEPOINT_NAMES_ITUTH273.__doc__ = """
+    MATRICES_XYZ_TO_ITUTH273_RGB = DocstringDict(MATRICES_XYZ_TO_ITUTH273_RGB)
+    MATRICES_XYZ_TO_ITUTH273_RGB.__doc__ = """
 *CIE XYZ* tristimulus values to *RGB* matrices associated with the source
 colour primaries as specified in Table 3 of
 :cite:`InternationalOrganizationforStandardization2021` and
@@ -887,10 +901,10 @@ MATRICES_XYZ_TO_ISO14496_10_RGB = MATRICES_XYZ_TO_ITUTH273_RGB
 
 
 def describe_video_signal_colour_primaries(
-    code_point: int, print_description: bool = True, **kwargs
+    code_point: int, print_description: bool = True, **kwargs: Any
 ) -> str:
     """
-    Describe given video signal colour primaries code point.
+    Describe the specified video signal colour primaries code point.
 
     Parameters
     ----------
@@ -1043,10 +1057,10 @@ def describe_video_signal_colour_primaries(
 
 
 def describe_video_signal_transfer_characteristics(
-    code_point: int, print_description: bool = True, **kwargs
+    code_point: int, print_description: bool = True, **kwargs: Any
 ) -> str:
     """
-    Describe given video signal transfer characteristics code point.
+    Describe the specified video signal transfer characteristics code point.
 
     Parameters
     ----------
@@ -1071,7 +1085,7 @@ def describe_video_signal_transfer_characteristics(
     Returns
     -------
     str
-        Video signal colour primaries code point description.
+        Video signal transfer characteristics code point description.
 
     References
     ----------
@@ -1167,15 +1181,15 @@ def describe_video_signal_transfer_characteristics(
 
 
 def describe_video_signal_matrix_coefficients(
-    code_point: int, print_description: bool = True, **kwargs
+    code_point: int, print_description: bool = True, **kwargs: Any
 ) -> str:
     """
-    Describe given video signal matrix coefficients code point.
+    Describe the specified video signal matrix coefficients code point.
 
     Parameters
     ----------
     code_point
-        Video signal matrix coefficients code point to describe from
+        Video signal matrix coefficients code point to describe from the
         :attr:`colour.MATRIX_COEFFICIENTS_ITUTH273` attribute.
     print_description
         Whether to print the description.
@@ -1195,7 +1209,7 @@ def describe_video_signal_matrix_coefficients(
     Returns
     -------
     str
-        Video signal colour primaries code point description.
+        Video signal matrix coefficients code point description.
 
     References
     ----------

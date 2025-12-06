@@ -1,5 +1,6 @@
 """Define the unit tests for the :mod:`colour.difference.stress` module."""
 
+from __future__ import annotations
 
 import numpy as np
 
@@ -24,7 +25,7 @@ class TestIndexStress:
     unit tests methods.
     """
 
-    def test_index_stress(self):
+    def test_index_stress(self) -> None:
         """
         Test :func:`colour.difference.stress.index_stress_Garcia2007`
         definition.

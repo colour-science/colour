@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.prolab` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -27,7 +29,7 @@ class TestXYZ_to_ProLab:
     tests methods.
     """
 
-    def test_XYZ_to_ProLab(self):
+    def test_XYZ_to_ProLab(self) -> None:
         """Test :func:`colour.models.ProLab.XYZ_to_ProLab` definition."""
 
         np.testing.assert_allclose(
@@ -48,7 +50,7 @@ class TestXYZ_to_ProLab:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_ProLab(self):
+    def test_n_dimensional_XYZ_to_ProLab(self) -> None:
         """
         Test :func:`colour.models.prolab.XYZ_to_ProLab` definition
         n-dimensional support.
@@ -69,7 +71,7 @@ class TestXYZ_to_ProLab:
             XYZ_to_ProLab(XYZ), ProLab, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_XYZ_to_ProLab(self):
+    def test_domain_range_scale_XYZ_to_ProLab(self) -> None:
         """
         Test :func:`colour.models.prolab.XYZ_to_ProLab` definition domain and
         range scale support.
@@ -88,7 +90,7 @@ class TestXYZ_to_ProLab:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_ProLab(self):
+    def test_nan_XYZ_to_ProLab(self) -> None:
         """
         Test :func:`colour.models.ProLab.XYZ_to_ProLab` definition
         nan support.
@@ -105,7 +107,7 @@ class TestProLab_to_XYZ:
     methods.
     """
 
-    def test_ProLab_to_XYZ(self):
+    def test_ProLab_to_XYZ(self) -> None:
         """Test :func:`colour.models.ProLab.ProLab_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -126,7 +128,7 @@ class TestProLab_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_ProLab(self):
+    def test_n_dimensional_XYZ_to_ProLab(self) -> None:
         """
         Test :func:`colour.models.prolab.XYZ_to_ProLab` definition
         n-dimensional support.
@@ -147,7 +149,7 @@ class TestProLab_to_XYZ:
             ProLab_to_XYZ(ProLab), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_XYZ_to_ProLab(self):
+    def test_domain_range_scale_XYZ_to_ProLab(self) -> None:
         """
         Test :func:`colour.models.prolab.XYZ_to_ProLab` definition domain and
         range scale support.
@@ -166,7 +168,7 @@ class TestProLab_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_ProLab_to_XYZ(self):
+    def test_nan_ProLab_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.ProLab.ProLab_to_XYZ` definition nan
         support.

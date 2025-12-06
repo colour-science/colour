@@ -1,27 +1,28 @@
 """
-Hdr-CIELAB Colourspace
+hdr-CIELAB Colourspace
 ======================
 
-Define the *hdr-CIELAB* colourspace transformations:
+Define the *hdr-CIELAB* colourspace transformations.
 
--   :attr:`colour.HDR_CIELAB_METHODS`: Supported *hdr-CIELAB* colourspace
-    computation methods.
+-   :attr:`colour.HDR_CIELAB_METHODS`
 -   :func:`colour.XYZ_to_hdr_CIELab`
 -   :func:`colour.hdr_CIELab_to_XYZ`
 
 References
 ----------
--   :cite:`Fairchild2010` : Fairchild, M. D., & Wyble, D. R. (2010). hdr-CIELAB
-    and hdr-IPT: Simple Models for Describing the Color of High-Dynamic-Range
-    and Wide-Color-Gamut Images. Proc. of Color and Imaging Conference,
-    322-326. ISBN:978-1-62993-215-6
--   :cite:`Fairchild2011` : Fairchild, M. D., & Chen, P. (2011). Brightness,
-    lightness, and specifying color in high-dynamic-range scenes and images. In
-    S. P. Farnand & F. Gaykema (Eds.), Proc. SPIE 7867, Image Quality and
-    System Performance VIII (p. 78670O). doi:10.1117/12.872075
+-   :cite:`Fairchild2010` : Fairchild, M. D., & Wyble, D. R. (2010).
+    hdr-CIELAB and hdr-IPT: Simple Models for Describing the Color of
+    High-Dynamic-Range and Wide-Color-Gamut Images. Proc. of Color and
+    Imaging Conference, 322-326. ISBN:978-1-62993-215-6
+-   :cite:`Fairchild2011` : Fairchild, M. D., & Chen, P. (2011).
+    Brightness, lightness, and specifying color in high-dynamic-range scenes
+    and images. In S. P. Farnand & F. Gaykema (Eds.), Proc. SPIE 7867, Image
+    Quality and System Performance VIII (p. 78670O). doi:10.1117/12.872075
 """
 
 from __future__ import annotations
+
+import typing
 
 import numpy as np
 
@@ -32,7 +33,18 @@ from colour.colorimetry import (
     luminance_Fairchild2010,
     luminance_Fairchild2011,
 )
-from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Literal
+
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    Domain100,
+    NDArrayFloat,
+    Range1,
+    Range100,
+)
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (
     as_float_array,
@@ -45,10 +57,7 @@ from colour.utilities import (
     tstack,
     validate_method,
 )
-from colour.utilities.documentation import (
-    DocstringTuple,
-    is_documentation_building,
-)
+from colour.utilities.documentation import DocstringTuple, is_documentation_building
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -77,13 +86,14 @@ References
 
 
 def exponent_hdr_CIELab(
-    Y_s: ArrayLike,
+    Y_s: Domain1,
     Y_abs: ArrayLike,
     method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
 ) -> NDArrayFloat:
     """
-    Compute *hdr-CIELAB* colourspace *Lightness* :math:`\\epsilon` exponent
-    using *Fairchild and Wyble (2010)* or *Fairchild and Chen (2011)* method.
+    Compute the *hdr-CIELAB* colourspace *Lightness* :math:`\\epsilon`
+    exponent using the *Fairchild and Wyble (2010)* or *Fairchild and Chen
+    (2011)* methods.
 
     Parameters
     ----------
@@ -105,7 +115,7 @@ def exponent_hdr_CIELab(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y_s``    | [0, 1]                | [0, 1]        |
+    | ``Y_s``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples
@@ -134,14 +144,14 @@ def exponent_hdr_CIELab(
 
 
 def XYZ_to_hdr_CIELab(
-    XYZ: ArrayLike,
+    XYZ: Domain1,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-    Y_s: ArrayLike = 0.2,
+    Y_s: Domain1 = 0.2,
     Y_abs: ArrayLike = 100,
     method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
-) -> NDArrayFloat:
+) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to *hdr-CIELAB* colourspace.
 
@@ -170,30 +180,26 @@ def XYZ_to_hdr_CIELab(
     +----------------+-------------------------+---------------------+
     | **Domain**     | **Scale - Reference**   | **Scale - 1**       |
     +================+=========================+=====================+
-    | ``XYZ``        | [0, 1]                  | [0, 1]              |
+    | ``XYZ``        | 1                       | 1                   |
     +----------------+-------------------------+---------------------+
-    | ``illuminant`` | [0, 1]                  | [0, 1]              |
+    | ``illuminant`` | 1                       | 1                   |
     +----------------+-------------------------+---------------------+
-    | ``Y_s``        | [0, 1]                  | [0, 1]              |
+    | ``Y_s``        | 1                       | 1                   |
     +----------------+-------------------------+---------------------+
 
     +----------------+-------------------------+---------------------+
     | **Range**      | **Scale - Reference**   | **Scale - 1**       |
     +================+=========================+=====================+
-    | ``Lab_hdr``    | ``L_hdr`` : [0, 100]    | ``L_hdr`` : [0, 1]  |
-    |                |                         |                     |
-    |                | ``a_hdr`` : [-100, 100] | ``a_hdr`` : [-1, 1] |
-    |                |                         |                     |
-    |                | ``b_hdr`` : [-100, 100] | ``b_hdr`` : [-1, 1] |
+    | ``Lab_hdr``    | 100                     | 1                   |
     +----------------+-------------------------+---------------------+
 
-    -   Conversion to polar coordinates to compute the *chroma* :math:`C_{hdr}`
-        and *hue* :math:`h_{hdr}` correlates can be safely performed with
-        :func:`colour.Lab_to_LCHab` definition.
+    -   Conversion to polar coordinates to compute the *chroma*
+        :math:`C_{hdr}` and *hue* :math:`h_{hdr}` correlates can be
+        safely performed with :func:`colour.Lab_to_LCHab` definition.
     -   Conversion to cartesian coordinates from the *Lightness*
-        :math:`L_{hdr}`, *chroma* :math:`C_{hdr}` and *hue* :math:`h_{hdr}`
-        correlates can be safely performed with :func:`colour.LCHab_to_Lab`
-        definition.
+        :math:`L_{hdr}`, *chroma* :math:`C_{hdr}` and *hue*
+        :math:`h_{hdr}` correlates can be safely performed with
+        :func:`colour.LCHab_to_Lab` definition.
 
     References
     ----------
@@ -232,14 +238,14 @@ def XYZ_to_hdr_CIELab(
 
 
 def hdr_CIELab_to_XYZ(
-    Lab_hdr: ArrayLike,
+    Lab_hdr: Domain100,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-    Y_s: ArrayLike = 0.2,
+    Y_s: Domain1 = 0.2,
     Y_abs: ArrayLike = 100,
     method: (Literal["Fairchild 2011", "Fairchild 2010"] | str) = "Fairchild 2011",
-) -> NDArrayFloat:
+) -> Range1:
     """
     Convert from *hdr-CIELAB* colourspace to *CIE XYZ* tristimulus values.
 
@@ -268,21 +274,17 @@ def hdr_CIELab_to_XYZ(
     +----------------+-------------------------+---------------------+
     | **Domain**     | **Scale - Reference**   | **Scale - 1**       |
     +================+=========================+=====================+
-    | ``Lab_hdr``    | ``L_hdr`` : [0, 100]    | ``L_hdr`` : [0, 1]  |
-    |                |                         |                     |
-    |                | ``a_hdr`` : [-100, 100] | ``a_hdr`` : [-1, 1] |
-    |                |                         |                     |
-    |                | ``b_hdr`` : [-100, 100] | ``b_hdr`` : [-1, 1] |
+    | ``Lab_hdr``    | 100                     | 1                   |
     +----------------+-------------------------+---------------------+
-    | ``illuminant`` | [0, 1]                  | [0, 1]              |
+    | ``illuminant`` | 1                       | 1                   |
     +----------------+-------------------------+---------------------+
-    | ``Y_s``        | [0, 1]                  | [0, 1]              |
+    | ``Y_s``        | 1                       | 1                   |
     +----------------+-------------------------+---------------------+
 
     +----------------+-------------------------+---------------------+
     | **Range**      | **Scale - Reference**   | **Scale - 1**       |
     +================+=========================+=====================+
-    | ``XYZ``        | [0, 1]                  | [0, 1]              |
+    | ``XYZ``        | 1                       | 1                   |
     +----------------+-------------------------+---------------------+
 
     References

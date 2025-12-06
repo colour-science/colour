@@ -1,4 +1,9 @@
-"""Showcase RGB colourspace volume computations."""
+"""
+Demonstrate RGB colourspace volume computations.
+
+This module demonstrates the computation of RGB colourspace limits, volumes,
+and gamut coverage using Monte Carlo methods for colourspace analysis.
+"""
 
 import colour
 from colour.utilities import message_box
@@ -8,7 +13,7 @@ from colour.utilities import message_box
 if __name__ == "__main__":
     message_box("RGB Colourspace Volume Computations")
 
-    message_box('Computing the "ProPhoto RGB" RGB colourspace limits.')
+    message_box('Compute the "ProPhoto RGB" RGB colourspace limits.')
     limits = colour.RGB_colourspace_limits(colour.RGB_COLOURSPACES["ProPhoto RGB"])
     print(limits)
 
@@ -16,8 +21,7 @@ if __name__ == "__main__":
 
     samples = int(10e4)
     message_box(
-        f'Computing the "ProPhoto RGB" RGB colourspace volume using {samples} '
-        f"samples."
+        f'Compute the "ProPhoto RGB" RGB colourspace volume using {samples} samples.'
     )
     print(
         colour.RGB_colourspace_volume_MonteCarlo(
@@ -30,7 +34,7 @@ if __name__ == "__main__":
     print("\n")
 
     message_box(
-        f'Computing "ProPhoto RGB" RGB colourspace coverage of '
+        f'Compute "ProPhoto RGB" RGB colourspace coverage of '
         f'"Pointer\'s Gamut" using {samples} samples.'
     )
     print(

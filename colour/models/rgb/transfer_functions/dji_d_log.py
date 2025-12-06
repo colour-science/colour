@@ -2,7 +2,7 @@
 DJI D-Log Log Encoding
 ======================
 
-Define the *DJI D-Log* log encoding:
+Define the *DJI D-Log* log encoding.
 
 -   :func:`colour.models.log_encoding_DJIDLog`
 -   :func:`colour.models.log_decoding_DJIDLog`
@@ -19,7 +19,10 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
 from colour.utilities import as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
@@ -35,19 +38,19 @@ __all__ = [
 ]
 
 
-def log_encoding_DJIDLog(x: ArrayLike) -> NDArrayFloat:
+def log_encoding_DJIDLog(x: Domain1) -> Range1:
     """
-    Define the *DJI D-Log* log encoding curve.
+    Apply the *DJI D-Log* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     x
-        Linear reflection data :math`x`.
+        Linear reflection data :math:`x`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *DJI D-Log* encoded data :math:`y`.
+        *DJI D-Log* non-linear encoded data :math:`y`.
 
     References
     ----------
@@ -58,13 +61,13 @@ def log_encoding_DJIDLog(x: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples
@@ -84,19 +87,19 @@ def log_encoding_DJIDLog(x: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_1(y))
 
 
-def log_decoding_DJIDLog(y: ArrayLike) -> NDArrayFloat:
+def log_decoding_DJIDLog(y: Domain1) -> Range1:
     """
-    Define the *DJI D-Log* log decoding curve.
+    Apply the *DJI D-Log* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     y
-        *DJI D-Log* encoded data :math:`y`.
+        *DJI D-Log* non-linear encoded data :math:`y`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Linear reflection data :math`x`.
+        Linear reflection data :math:`x`.
 
     References
     ----------
@@ -107,13 +110,13 @@ def log_decoding_DJIDLog(y: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples

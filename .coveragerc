@@ -4,6 +4,8 @@ concurrency = multiprocessing
 sigterm = True
 [report]
 exclude_lines =
-    pragma: no cover
+    if TYPE_CHECKING:
     if __name__ == .__main__.:
+    if typing.TYPE_CHECKING:
     pass
+    pragma: no cover

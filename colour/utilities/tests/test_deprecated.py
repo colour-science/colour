@@ -1,21 +1,22 @@
 """Define the unit tests helper module for the deprecation management."""
 
+from __future__ import annotations
+
 import contextlib
 import sys
+import typing
 
-from colour.hints import Any
-from colour.utilities.deprecation import (
-    ModuleAPI,
-    ObjectRemoved,
-    ObjectRenamed,
-)
+if typing.TYPE_CHECKING:
+    from colour.hints import Any
+
+from colour.utilities.deprecation import ModuleAPI, ObjectRemoved, ObjectRenamed
 
 
 class deprecated(ModuleAPI):
     """Define a class acting like the *deprecated* module."""
 
-    def __getattr__(self, attribute) -> Any:
-        """Return the value from the attribute with given name."""
+    def __getattr__(self, attribute: str) -> Any:
+        """Return the value from the attribute with the specified name."""
 
         return super().__getattr__(attribute)
 

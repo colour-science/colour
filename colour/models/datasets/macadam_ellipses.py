@@ -2,7 +2,8 @@
 MacAdam (1942) Ellipses (Observer PGN)
 ======================================
 
-Define the *MacAdam (1942) Ellipses (Observer PGN)* ellipses data.
+Define the *MacAdam (1942) Ellipses (Observer PGN)* ellipses data for colour
+discrimination threshold analysis.
 
 References
 ----------
@@ -18,9 +19,12 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import NDArrayFloat
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

@@ -2,7 +2,7 @@
 Ellipse
 =======
 
-Define the objects related to ellipse computations:
+Define objects for ellipse computations and fitting operations.
 
 -   :func:`colour.algebra.ellipse_coefficients_general_form`
 -   :func:`colour.algebra.ellipse_coefficients_canonical_form`
@@ -21,9 +21,14 @@ jsessionid=BEEAFC85DE53308286D626302F4A3E3C?doi=10.1.1.1.7559&rep=rep1&type=pdf
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
-from colour.hints import ArrayLike, Literal, NDArrayFloat, cast
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Literal
+
+from colour.hints import NDArrayFloat, cast
 from colour.utilities import (
     CanonicalMapping,
     ones,
@@ -51,23 +56,28 @@ __all__ = [
 
 def ellipse_coefficients_general_form(coefficients: ArrayLike) -> NDArrayFloat:
     """
-    Return the general form ellipse coefficients from given canonical form
-    ellipse coefficients.
+    Compute general form ellipse coefficients from the specified canonical
+    form ellipse coefficients.
 
-    The canonical form ellipse coefficients are as follows: the center
-    coordinates :math:`x_c` and :math:`y_c`, semi-major axis length
-    :math:`a_a`, semi-minor axis length :math:`a_b` and rotation angle
-    :math:`\\theta` in degrees of its semi-major axis :math:`a_a`.
+    Transform ellipse coefficients from canonical representation (center,
+    semi-axes, rotation) to general quadratic form
+    :math:`Ax^2 + Bxy + Cy^2 + Dx + Ey + F = 0`.
+
+    The canonical form ellipse coefficients are: center coordinates
+    :math:`(x_c, y_c)`, semi-major axis length :math:`a`, semi-minor axis
+    length :math:`b`, and rotation angle :math:`\\theta` (degrees) of the
+    semi-major axis from the positive x-axis.
 
     Parameters
     ----------
     coefficients
-        Canonical form ellipse coefficients.
+        Canonical form ellipse coefficients as
+        :math:`[x_c, y_c, a, b, \\theta]`.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        General form ellipse coefficients.
+        General form coefficients :math:`[A, B, C, D, E, F]`.
 
     References
     ----------
@@ -104,17 +114,18 @@ def ellipse_coefficients_canonical_form(
     coefficients: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Return the canonical form ellipse coefficients from given general form
-    ellipse coefficients.
+    Compute canonical form ellipse coefficients from the specified general
+    form ellipse coefficients.
 
-    The general form ellipse coefficients are the coefficients of the implicit
-    second-order polynomial/quadratic curve expressed as follows:
+    The general form ellipse coefficients are the coefficients of the
+    implicit second-order polynomial/quadratic curve expressed as follows:
 
-    :math:`F\\left(x, y\\right)` = ax^2 + bxy + cy^2 + dx + ey + f = 0`
+    :math:`F\\left(x, y\\right) = ax^2 + bxy + cy^2 + dx + ey + f = 0`
 
-    with an ellipse-specific constraint such as :math:`b^2 -4ac < 0` and where
-    :math:`a, b, c, d, e, f` are coefficients of the ellipse and
-    :math:`F\\left(x, y\\right)` are coordinates of points lying on it.
+    with an ellipse-specific constraint such as :math:`b^2 - 4ac < 0` and
+    where :math:`a, b, c, d, e, f` are the ellipse coefficients and
+    :math:`F\\left(x, y\\right)` are coordinates of points lying on the
+    ellipse.
 
     Parameters
     ----------
@@ -167,8 +178,8 @@ def ellipse_coefficients_canonical_form(
 
 def point_at_angle_on_ellipse(phi: ArrayLike, coefficients: ArrayLike) -> NDArrayFloat:
     """
-    Return the coordinates of the point at angle :math:`\\phi` in degrees on
-    the ellipse with given canonical form coefficients.
+    Compute the coordinates of the point at angle :math:`\\phi` in degrees on
+    the ellipse with the specified canonical form coefficients.
 
     Parameters
     ----------
@@ -176,7 +187,7 @@ def point_at_angle_on_ellipse(phi: ArrayLike, coefficients: ArrayLike) -> NDArra
         Point at angle :math:`\\phi` in degrees to retrieve the coordinates
         of.
     coefficients
-        General form ellipse coefficients as follows: the center coordinates
+        Canonical form ellipse coefficients as follows: the center coordinates
         :math:`x_c` and :math:`y_c`, semi-major axis length :math:`a_a`,
         semi-minor axis length :math:`a_b` and rotation angle :math:`\\theta`
         in degrees of its semi-major axis :math:`a_a`.
@@ -184,7 +195,7 @@ def point_at_angle_on_ellipse(phi: ArrayLike, coefficients: ArrayLike) -> NDArra
     Returns
     -------
     :class:`numpy.ndarray`
-        Coordinates of the point at angle :math:`\\phi`
+        Coordinates of the point at angle :math:`\\phi`.
 
     Examples
     --------
@@ -210,16 +221,16 @@ def point_at_angle_on_ellipse(phi: ArrayLike, coefficients: ArrayLike) -> NDArra
 
 def ellipse_fitting_Halir1998(a: ArrayLike) -> NDArrayFloat:
     """
-    Return the coefficients of the implicit second-order polynomial/quadratic
-    curve that fits given point array :math:`a` using
-    *Halir and Flusser (1998)* method.
+    Compute the coefficients of the implicit second-order
+    polynomial/quadratic curve that fits the specified point array
+    :math:`a` using the *Halir and Flusser (1998)* method.
 
     The implicit second-order polynomial is expressed as follows:
 
-    :math:`F\\left(x, y\\right)` = ax^2 + bxy + cy^2 + dx + ey + f = 0`
+    :math:`F\\left(x, y\\right) = ax^2 + bxy + cy^2 + dx + ey + f = 0`
 
-    with an ellipse-specific constraint such as :math:`b^2 -4ac < 0` and where
-    :math:`a, b, c, d, e, f` are coefficients of the ellipse and
+    with an ellipse-specific constraint such as :math:`b^2 - 4ac < 0` and
+    where :math:`a, b, c, d, e, f` are coefficients of the ellipse and
     :math:`F\\left(x, y\\right)` are coordinates of points lying on it.
 
     Parameters
@@ -230,8 +241,8 @@ def ellipse_fitting_Halir1998(a: ArrayLike) -> NDArrayFloat:
     Returns
     -------
     :class:`numpy.ndarray`
-        Coefficients of the implicit second-order polynomial/quadratic
-        curve that fits given point array :math:`a`.
+        Coefficients of the implicit second-order polynomial/quadratic curve
+        that fits the specified point array :math:`a`.
 
     References
     ----------
@@ -275,9 +286,7 @@ def ellipse_fitting_Halir1998(a: ArrayLike) -> NDArrayFloat:
     A1 = v[:, np.nonzero(4 * v[0, :] * v[2, :] - v[1, :] ** 2 > 0)[0]]
     A2 = np.dot(T, A1)
 
-    A = cast(NDArrayFloat, np.ravel([A1, A2]))
-
-    return A
+    return cast("NDArrayFloat", np.ravel([A1, A2]))
 
 
 ELLIPSE_FITTING_METHODS: CanonicalMapping = CanonicalMapping(
@@ -296,16 +305,15 @@ def ellipse_fitting(
     a: ArrayLike, method: Literal["Halir 1998"] | str = "Halir 1998"
 ) -> NDArrayFloat:
     """
-    Return the coefficients of the implicit second-order polynomial/quadratic
-    curve that fits given point array :math:`a` using
-    given method.
+    Compute the coefficients of the implicit second-order
+    polynomial/quadratic curve that fits the specified point array :math:`a`.
 
     The implicit second-order polynomial is expressed as follows:
 
-    :math:`F\\left(x, y\\right)` = ax^2 + bxy + cy^2 + dx + ey + f = 0`
+    :math:`F\\left(x, y\\right) = ax^2 + bxy + cy^2 + dx + ey + f = 0`
 
-    with an ellipse-specific constraint such as :math:`b^2 -4ac < 0` and where
-    :math:`a, b, c, d, e, f` are coefficients of the ellipse and
+    with an ellipse-specific constraint such as :math:`b^2 - 4ac < 0` and
+    where :math:`a, b, c, d, e, f` are coefficients of the ellipse and
     :math:`F\\left(x, y\\right)` are coordinates of points lying on it.
 
     Parameters
@@ -318,8 +326,8 @@ def ellipse_fitting(
     Returns
     -------
     :class:`numpy.ndarray`
-        Coefficients of the implicit second-order polynomial/quadratic
-        curve that fits given point array :math:`a`.
+        Coefficients of the implicit second-order polynomial/quadratic curve
+        that fits the specified point array :math:`a`.
 
     References
     ----------

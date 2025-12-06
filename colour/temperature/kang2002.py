@@ -3,14 +3,15 @@ Kang, Moon, Hong, Lee, Cho and Kim (2002) Correlated Colour Temperature
 =======================================================================
 
 Define the *Kang et al. (2002)* correlated colour temperature :math:`T_{cp}`
-computations objects:
+computation objects.
 
--   :func:`colour.temperature.xy_to_CCT_Kang2002`: Correlated colour
-    temperature :math:`T_{cp}` of given *CIE xy* chromaticity coordinates
-    computation  using *Kang, Moon, Hong, Lee, Cho and Kim (2002)* method.
--   :func:`colour.temperature.CCT_to_xy_Kang2002`: *CIE xy* chromaticity
-    coordinates computation of given correlated colour temperature
-    :math:`T_{cp}` using *Kang, Moon, Hong, Lee, Cho and Kim (2002)* method.
+-   :func:`colour.temperature.xy_to_CCT_Kang2002`: Compute correlated colour
+    temperature :math:`T_{cp}` from specified *CIE xy* chromaticity
+    coordinates using the *Kang, Moon, Hong, Lee, Cho and Kim (2002)* method.
+-   :func:`colour.temperature.CCT_to_xy_Kang2002`: Compute *CIE xy*
+    chromaticity coordinates from specified correlated colour temperature
+    :math:`T_{cp}` using the *Kang, Moon, Hong, Lee, Cho and Kim (2002)*
+    method.
 
 References
 ----------
@@ -21,11 +22,14 @@ References
 
 from __future__ import annotations
 
-import numpy as np
-from scipy.optimize import minimize
+import typing
 
-from colour.hints import ArrayLike, NDArrayFloat
-from colour.utilities import as_float, as_float_array, tstack, usage_warning
+import numpy as np
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
+
+from colour.utilities import as_float, as_float_array, required, tstack, usage_warning
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -40,12 +44,14 @@ __all__ = [
 ]
 
 
+@required("SciPy")
 def xy_to_CCT_Kang2002(
     xy: ArrayLike, optimisation_kwargs: dict | None = None
 ) -> NDArrayFloat:
     """
-    Return the correlated colour temperature :math:`T_{cp}` from given
-    *CIE xy* chromaticity coordinates using *Kang et al. (2002)* method.
+    Compute the correlated colour temperature :math:`T_{cp}` from the
+    specified *CIE xy* chromaticity coordinates using *Kang et al. (2002)*
+    method.
 
     Parameters
     ----------
@@ -61,11 +67,12 @@ def xy_to_CCT_Kang2002(
 
     Warnings
     --------
-    *Kang et al. (2002)* does not give an analytical inverse transformation to
-    compute the correlated colour temperature :math:`T_{cp}` from given
-    *CIE xy* chromaticity coordinates, the current implementation relies on
-    optimisation using :func:`scipy.optimize.minimize` definition and thus has
-    reduced precision and poor performance.
+    The *Kang et al. (2002)* method does not provide an analytical inverse
+    transformation to compute the correlated colour temperature
+    :math:`T_{cp}` from the specified *CIE xy* chromaticity coordinates.
+    The current implementation relies on optimisation using
+    :func:`scipy.optimize.minimize` definition and thus has reduced
+    precision and poor performance.
 
     References
     ----------
@@ -78,11 +85,13 @@ def xy_to_CCT_Kang2002(
     6504.3893128...
     """
 
+    from scipy.optimize import minimize  # noqa: PLC0415
+
     xy = as_float_array(xy)
     shape = xy.shape
     xy = np.atleast_1d(np.reshape(xy, (-1, 2)))
 
-    def objective_function(CCT: NDArrayFloat, xy: NDArrayFloat) -> NDArrayFloat:
+    def objective_function(CCT: NDArrayFloat, xy: NDArrayFloat) -> DTypeFloat:
         """Objective function."""
 
         objective = np.linalg.norm(CCT_to_xy_Kang2002(CCT) - xy)
@@ -102,7 +111,7 @@ def xy_to_CCT_Kang2002(
         [
             minimize(
                 objective_function,
-                x0=6500,
+                x0=[6500],
                 args=(xy_i,),
                 **optimisation_settings,
             ).x
@@ -115,8 +124,9 @@ def xy_to_CCT_Kang2002(
 
 def CCT_to_xy_Kang2002(CCT: ArrayLike) -> NDArrayFloat:
     """
-    Return the *CIE xy* chromaticity coordinates from given correlated colour
-    temperature :math:`T_{cp}` using *Kang et al. (2002)* method.
+    Compute the *CIE xy* chromaticity coordinates from the specified
+    correlated colour temperature :math:`T_{cp}` using *Kang et al. (2002)*
+    method.
 
     Parameters
     ----------

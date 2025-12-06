@@ -9,12 +9,8 @@ import tempfile
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.io import (
-    LUT1D,
-    LUTSequence,
-    read_LUT_IridasCube,
-    write_LUT_IridasCube,
-)
+from colour.hints import cast
+from colour.io import LUT1D, LUTSequence, read_LUT_IridasCube, write_LUT_IridasCube
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -38,7 +34,7 @@ class TestReadLUTIridasCube:
     unit tests methods.
     """
 
-    def test_read_LUT_IridasCube(self):
+    def test_read_LUT_IridasCube(self) -> None:
         """
         Test :func:`colour.io.luts.iridas_cube.read_LUT_IridasCube`
         definition.
@@ -111,17 +107,17 @@ class TestWriteLUTIridasCube:
     unit tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         self._temporary_directory = tempfile.mkdtemp()
 
-    def teardown_method(self):
+    def teardown_method(self) -> None:
         """After tests actions."""
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_write_LUT_IridasCube(self):
+    def test_write_LUT_IridasCube(self) -> None:
         """
         Test :func:`colour.io.luts.iridas_cube.write_LUT_IridasCube`
         definition.
@@ -171,7 +167,7 @@ class TestWriteLUTIridasCube:
             os.path.join(ROOT_LUTS, "ACES_Proxy_10_to_ACES.cube")
         )
         write_LUT_IridasCube(
-            LUT_4_r.convert(LUT1D, force_conversion=True),
+            cast("LUT1D", LUT_4_r.convert(LUT1D, force_conversion=True)),
             os.path.join(self._temporary_directory, "ACES_Proxy_10_to_ACES.cube"),
         )
         LUT_4_t = read_LUT_IridasCube(

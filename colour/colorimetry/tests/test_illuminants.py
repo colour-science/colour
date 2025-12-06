@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.colorimetry import (
@@ -12,7 +14,10 @@ from colour.colorimetry import (
     sd_CIE_standard_illuminant_A,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
+
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import ignore_numpy_errors
 
@@ -137,7 +142,7 @@ class TestSdCIEStandardIlluminantA:
 sd_CIE_standard_illuminant_A` definition unit tests methods.
     """
 
-    def test_sd_CIE_standard_illuminant_A(self):
+    def test_sd_CIE_standard_illuminant_A(self) -> None:
         """
         Test :func:`colour.colorimetry.illuminants.\
 sd_CIE_standard_illuminant_A` definition.
@@ -156,7 +161,7 @@ class TestSdCIEIlluminantDSeries:
     definition unit tests methods.
     """
 
-    def test_sd_CIE_illuminant_D_series(self):
+    def test_sd_CIE_illuminant_D_series(self) -> None:
         """
         Test :func:`colour.colorimetry.illuminants.\
 sd_CIE_illuminant_D_series` definition.
@@ -186,7 +191,7 @@ class TestDaylightLocusFunction:
     definition unit tests methods.
     """
 
-    def test_daylight_locus_function(self):
+    def test_daylight_locus_function(self) -> None:
         """
         Test :func:`colour.colorimetry.illuminants.daylight_locus_function`
         definition.
@@ -210,7 +215,7 @@ class TestDaylightLocusFunction:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_daylight_locus_function(self):
+    def test_n_dimensional_daylight_locus_function(self) -> None:
         """
         Test :func:`colour.colorimetry.illuminants.daylight_locus_function`
         definition n-dimensional support.
@@ -232,7 +237,7 @@ class TestDaylightLocusFunction:
         )
 
     @ignore_numpy_errors
-    def test_nan_daylight_locus_function(self):
+    def test_nan_daylight_locus_function(self) -> None:
         """
         Test :func:`colour.colorimetry.illuminants.daylight_locus_function`
         definition nan support.

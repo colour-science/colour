@@ -2,14 +2,14 @@
 :math:`IC_AC_B` Colourspace
 ===========================
 
-Define the :math:`IC_AC_B` colourspace transformations:
+Define the :math:`IC_AC_B` colourspace transformations.
 
 -   :func:`colour.XYZ_to_ICaCb`
 -   :func:`colour.ICaCb_to_XYZ`
 
 References
 ----------
--   :cite:`Frohlich2017` : Fröhlich, J. (2017). Encoding high dynamic range
+-   :cite:`Frohlich2017` : Frohlich, J. (2017). Encoding high dynamic range
     and wide color gamut imagery. doi:10.18419/OPUS-9664
 """
 
@@ -17,12 +17,14 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat
-from colour.models import Iab_to_XYZ, XYZ_to_Iab
-from colour.models.rgb.transfer_functions import (
-    eotf_inverse_ST2084,
-    eotf_ST2084,
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    NDArrayFloat,
+    Range1,
 )
+from colour.models import Iab_to_XYZ, XYZ_to_Iab
+from colour.models.rgb.transfer_functions import eotf_inverse_ST2084, eotf_ST2084
 from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"
@@ -66,7 +68,7 @@ MATRIX_ICACB_LMS_TO_XYZ_2: NDArrayFloat = np.linalg.inv(MATRIX_ICACB_XYZ_TO_LMS_
 """:math:`IC_AC_B` to normalised non-linear cone responses colourspace matrix."""
 
 
-def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArrayFloat:
+def XYZ_to_ICaCb(XYZ: Domain1) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to :math:`IC_AC_B` colourspace.
 
@@ -85,17 +87,13 @@ def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``ICaCb``  | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``Ca`` : [-1, 1]      | ``Ca``: [-1, 1] |
-    |            |                       |                 |
-    |            | ``Cb`` : [-1, 1]      | ``Cb``: [-1, 1] |
+    | ``ICaCb``  | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     -   Input *CIE XYZ* tristimulus values must be adapted to
@@ -108,8 +106,8 @@ def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-    >>> XYZ_to_ICaCb(XYZ)
-    array([ 0.06875297,  0.05753352,  0.02081548])
+    >>> XYZ_to_ICaCb(XYZ)  # doctest: +ELLIPSIS
+    array([ 0.0687529...,  0.0575335...,  0.0208154...])
     """
 
     def LMS_to_LMS_p_callable(LMS: ArrayLike) -> NDArrayFloat:
@@ -129,37 +127,36 @@ def XYZ_to_ICaCb(XYZ: ArrayLike) -> NDArrayFloat:
     )
 
 
-def ICaCb_to_XYZ(ICaCb: ArrayLike) -> NDArrayFloat:
+def ICaCb_to_XYZ(ICaCb: Domain1) -> Range1:
     """
-    Convert from :math:`IC_AC_B` tristimulus values to *CIE XYZ* colourspace.
+    Convert from :math:`IC_AC_B` colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
     ICaCb
-        :math:`IC_AC_B` tristimulus values.
+        :math:`IC_AC_B` colourspace array.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *CIE XYZ* colourspace array.
+        *CIE XYZ* tristimulus values.
 
     Notes
     -----
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``ICaCb``  | ``I`` : [0, 1]        | ``I`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``Ca`` : [-1, 1]      | ``Ca``: [-1, 1] |
-    |            |                       |                 |
-    |            | ``Cb`` : [-1, 1]      | ``Cb``: [-1, 1] |
+    | ``ICaCb``  | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
+
+    -   Output *CIE XYZ* tristimulus values are adapted to
+        *CIE Standard Illuminant D Series* *D65*.
 
     References
     ----------
@@ -167,9 +164,9 @@ def ICaCb_to_XYZ(ICaCb: ArrayLike) -> NDArrayFloat:
 
     Examples
     --------
-    >>> XYZ = np.array([0.06875297, 0.05753352, 0.02081548])
-    >>> ICaCb_to_XYZ(XYZ)
-    array([ 0.20654008,  0.12197225,  0.05136951])
+    >>> ICaCb = np.array([0.06875297, 0.05753352, 0.02081548])
+    >>> ICaCb_to_XYZ(ICaCb)  # doctest: +ELLIPSIS
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
     def LMS_p_to_LMS_callable(LMS_p: ArrayLike) -> NDArrayFloat:

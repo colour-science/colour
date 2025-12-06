@@ -2,7 +2,7 @@
 CIE 1964 U*V*W* Colourspace
 ===========================
 
-Define the *CIE 1964 U\\*V\\*W\\** colourspace transformations:
+Define the *CIE 1964 U\\*V\\*W\\** colourspace transformations.
 
 -   :func:`colour.XYZ_to_UVW`
 -   :func:`colour.UVW_to_XYZ`
@@ -18,14 +18,12 @@ from __future__ import annotations
 
 from colour.algebra import sdiv, sdiv_mode, spow
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, NDArrayFloat
-from colour.models import (
-    UCS_uv_to_xy,
-    XYZ_to_xy,
-    xy_to_UCS_uv,
-    xyY_to_xy,
-    xyY_to_XYZ,
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain100,
+    Range100,
 )
+from colour.models import UCS_uv_to_xy, XYZ_to_xy, xy_to_UCS_uv, xyY_to_xy, xyY_to_XYZ
 from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
 __author__ = "Colour Developers"
@@ -42,11 +40,11 @@ __all__ = [
 
 
 def XYZ_to_UVW(
-    XYZ: ArrayLike,
+    XYZ: Domain100,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> NDArrayFloat:
+) -> Range100:
     """
     Convert from *CIE XYZ* tristimulus values to *CIE 1964 U\\*V\\*W\\**
     colourspace.
@@ -69,19 +67,15 @@ def XYZ_to_UVW(
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``XYZ``        | [0, 100]              | [0, 1]          |
+    | ``XYZ``        | 100                   | 1               |
     +----------------+-----------------------+-----------------+
-    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    | ``illuminant`` | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     +----------------+-----------------------+-----------------+
     | **Range**      | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``UVW``        | ``U`` : [-100, 100]   | ``U`` : [-1, 1] |
-    |                |                       |                 |
-    |                | ``V`` : [-100, 100]   | ``V`` : [-1, 1] |
-    |                |                       |                 |
-    |                | ``W`` : [0, 100]      | ``W`` : [0, 1]  |
+    | ``UVW``        | 100                   | 1               |
     +----------------+-----------------------+-----------------+
 
     References
@@ -114,13 +108,13 @@ def XYZ_to_UVW(
 
 
 def UVW_to_XYZ(
-    UVW: ArrayLike,
+    UVW: Domain100,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Convert *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus
+    Convert from *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus
     values.
 
     Parameters
@@ -141,19 +135,15 @@ def UVW_to_XYZ(
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``UVW``        | ``U`` : [-100, 100]   | ``U`` : [-1, 1] |
-    |                |                       |                 |
-    |                | ``V`` : [-100, 100]   | ``V`` : [-1, 1] |
-    |                |                       |                 |
-    |                | ``W`` : [0, 100]      | ``W`` : [0, 1]  |
+    | ``UVW``        | 100                   | 1               |
     +----------------+-----------------------+-----------------+
-    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    | ``illuminant`` | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     +----------------+-----------------------+-----------------+
     | **Range**      | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``XYZ``        | [0, 100               | [0, 1]          |
+    | ``XYZ``        | 100                   | 1               |
     +----------------+-----------------------+-----------------+
 
     References

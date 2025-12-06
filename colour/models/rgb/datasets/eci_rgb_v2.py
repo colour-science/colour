@@ -15,20 +15,20 @@ References
 
 from __future__ import annotations
 
+import typing
 from functools import partial
 
 import numpy as np
 
-from colour.colorimetry import (
-    CCS_ILLUMINANTS,
-    lightness_CIE1976,
-    luminance_CIE1976,
-)
-from colour.hints import (
-    ArrayLike,
-    Callable,
-    NDArrayFloat,
-)
+from colour.colorimetry import CCS_ILLUMINANTS, lightness_CIE1976, luminance_CIE1976
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        Callable,
+        NDArrayFloat,
+    )
+
 from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
 from colour.utilities import as_float_array
 
@@ -76,8 +76,8 @@ MATRIX_XYZ_TO_ECI_RGB_V2: NDArrayFloat = np.linalg.inv(MATRIX_ECI_RGB_V2_TO_XYZ)
 
 def _scale_domain_0_100_range_0_1(a: ArrayLike, callable_: Callable) -> NDArrayFloat:
     """
-    Scale the input domain of given *luminance* :math:`Y` or *Lightness*
-    :math:`L^*` array to [0, 100], call the given callable, and
+    Scale the input domain of the specified *luminance* :math:`Y` or *Lightness*
+    :math:`L^*` array to [0, 100], call the specified callable, and
     scales the output range to [0, 1].
 
     Parameters

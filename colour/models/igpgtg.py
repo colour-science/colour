@@ -2,7 +2,7 @@
 :math:`I_GP_GT_G` Colourspace
 =============================
 
-Define the :math:`I_GP_GT_G` colourspace transformations:
+Define the :math:`I_GP_GT_G` colourspace transformations.
 
 -   :func:`colour.XYZ_to_IgPgTg`
 -   :func:`colour.IgPgTg_to_XYZ`
@@ -19,7 +19,12 @@ from __future__ import annotations
 import numpy as np
 
 from colour.algebra import spow
-from colour.hints import ArrayLike, NDArrayFloat, cast
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.models import Iab_to_XYZ, XYZ_to_Iab
 
 __author__ = "Colour Developers"
@@ -65,7 +70,7 @@ MATRIX_IGPGTG_IGPGTG_TO_LMS_P: NDArrayFloat = np.linalg.inv(
 """:math:`I_GP_GT_G` colourspace to normalised non-linear cone responses matrix."""
 
 
-def XYZ_to_IgPgTg(XYZ: ArrayLike) -> NDArrayFloat:
+def XYZ_to_IgPgTg(XYZ: Domain1) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to :math:`I_GP_GT_G`
     colourspace.
@@ -85,17 +90,13 @@ def XYZ_to_IgPgTg(XYZ: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``IgPgTg`` | ``IG`` : [0, 1]       | ``IG`` : [0, 1] |
-    |            |                       |                 |
-    |            | ``PG`` : [-1, 1]      | ``PG`` : [-1, 1]|
-    |            |                       |                 |
-    |            | ``TG`` : [-1, 1]      | ``TG`` : [-1, 1]|
+    | ``IgPgTg`` | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     -   Input *CIE XYZ* tristimulus values must be adapted to
@@ -128,7 +129,7 @@ def XYZ_to_IgPgTg(XYZ: ArrayLike) -> NDArrayFloat:
     )
 
 
-def IgPgTg_to_XYZ(IgPgTg: ArrayLike) -> NDArrayFloat:
+def IgPgTg_to_XYZ(IgPgTg: Domain1) -> Range1:
     """
     Convert from :math:`I_GP_GT_G` colourspace to *CIE XYZ* tristimulus
     values.
@@ -148,18 +149,17 @@ def IgPgTg_to_XYZ(IgPgTg: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``IgPgTg`` | ``IG`` : [0, 1]       | ``IG`` : [0, 1] |
-    |            |                       |                 |
-    |            | ``PG`` : [-1, 1]      | ``PG`` : [-1, 1]|
-    |            |                       |                 |
-    |            | ``TG`` : [-1, 1]      | ``TG`` : [-1, 1]|
+    | ``IgPgTg`` | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
+
+    -   Output *CIE XYZ* tristimulus values are adapted to
+        *CIE Standard Illuminant D Series* *D65*.
 
     References
     ----------
@@ -178,10 +178,7 @@ def IgPgTg_to_XYZ(IgPgTg: ArrayLike) -> NDArrayFloat:
         colourspace array.
         """
 
-        return cast(
-            NDArrayFloat,
-            spow(LMS_p, 1 / 0.427) * np.array([18.36, 21.46, 19435]),
-        )
+        return spow(LMS_p, 1 / 0.427) * np.array([18.36, 21.46, 19435])
 
     return Iab_to_XYZ(
         IgPgTg,

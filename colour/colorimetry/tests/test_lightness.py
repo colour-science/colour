@@ -1,5 +1,6 @@
 """Define the unit tests for the :mod:`colour.colorimetry.lightness` module."""
 
+from __future__ import annotations
 
 import numpy as np
 
@@ -41,7 +42,7 @@ class TestLightnessGlasser1958:
     definition unit tests methods.
     """
 
-    def test_lightness_Glasser1958(self):
+    def test_lightness_Glasser1958(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Glasser1958`
         definition.
@@ -65,7 +66,7 @@ class TestLightnessGlasser1958:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_lightness_Glasser1958(self):
+    def test_n_dimensional_lightness_Glasser1958(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Glasser1958`
         definition n-dimensional arrays support.
@@ -92,7 +93,7 @@ class TestLightnessGlasser1958:
             lightness_Glasser1958(Y), L, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_lightness_Glasser1958(self):
+    def test_domain_range_scale_lightness_Glasser1958(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Glasser1958`
         definition domain and range scale support.
@@ -110,7 +111,7 @@ class TestLightnessGlasser1958:
                 )
 
     @ignore_numpy_errors
-    def test_nan_lightness_Glasser1958(self):
+    def test_nan_lightness_Glasser1958(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Glasser1958`
         definition nan support.
@@ -125,7 +126,7 @@ class TestLightnessWyszecki1963:
     definition unit tests methods.
     """
 
-    def test_lightness_Wyszecki1963(self):
+    def test_lightness_Wyszecki1963(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Wyszecki1963`
         definition.
@@ -149,7 +150,7 @@ class TestLightnessWyszecki1963:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_lightness_Wyszecki1963(self):
+    def test_n_dimensional_lightness_Wyszecki1963(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Wyszecki1963`
         definition n-dimensional arrays support.
@@ -176,7 +177,7 @@ class TestLightnessWyszecki1963:
             lightness_Wyszecki1963(Y), W, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_lightness_Wyszecki1963(self):
+    def test_domain_range_scale_lightness_Wyszecki1963(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Wyszecki1963`
         definition domain and range scale support.
@@ -194,7 +195,7 @@ class TestLightnessWyszecki1963:
                 )
 
     @ignore_numpy_errors
-    def test_nan_lightness_Wyszecki1963(self):
+    def test_nan_lightness_Wyszecki1963(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Wyszecki1963`
         definition nan support.
@@ -209,7 +210,7 @@ class TestIntermediateLightnessFunctionCIE1976:
 intermediate_lightness_function_CIE1976` definition unit tests methods.
     """
 
-    def test_intermediate_lightness_function_CIE1976(self):
+    def test_intermediate_lightness_function_CIE1976(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.\
 intermediate_lightness_function_CIE1976` definition.
@@ -233,7 +234,7 @@ intermediate_lightness_function_CIE1976` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_intermediate_lightness_function_CIE1976(self):
+    def test_n_dimensional_intermediate_lightness_function_CIE1976(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.\
 intermediate_lightness_function_CIE1976` definition n-dimensional arrays
@@ -267,7 +268,7 @@ intermediate_lightness_function_CIE1976` definition n-dimensional arrays
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_intermediate_lightness_function_CIE1976(self):
+    def test_domain_range_scale_intermediate_lightness_function_CIE1976(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.\
 intermediate_lightness_function_CIE1976` definition domain and range scale
@@ -285,7 +286,7 @@ intermediate_lightness_function_CIE1976` definition domain and range scale
                 )
 
     @ignore_numpy_errors
-    def test_nan_intermediate_lightness_function_CIE1976(self):
+    def test_nan_intermediate_lightness_function_CIE1976(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.\
 intermediate_lightness_function_CIE1976` definition nan support.
@@ -302,7 +303,7 @@ class TestLightnessCIE1976:
     unit tests methods.
     """
 
-    def test_lightness_CIE1976(self):
+    def test_lightness_CIE1976(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_CIE1976`
         definition.
@@ -344,7 +345,7 @@ class TestLightnessCIE1976:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_lightness_CIE1976(self):
+    def test_n_dimensional_lightness_CIE1976(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_CIE1976`
         definition n-dimensional arrays support.
@@ -371,7 +372,7 @@ class TestLightnessCIE1976:
             lightness_CIE1976(Y), L_star, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_lightness_CIE1976(self):
+    def test_domain_range_scale_lightness_CIE1976(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_CIE1976`
         definition domain and range scale support.
@@ -389,7 +390,7 @@ class TestLightnessCIE1976:
                 )
 
     @ignore_numpy_errors
-    def test_nan_lightness_CIE1976(self):
+    def test_nan_lightness_CIE1976(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_CIE1976`
         definition nan support.
@@ -404,7 +405,7 @@ class TestLightnessFairchild2010:
     definition unit tests methods.
     """
 
-    def test_lightness_Fairchild2010(self):
+    def test_lightness_Fairchild2010(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Fairchild2010`
         definition.
@@ -446,7 +447,7 @@ class TestLightnessFairchild2010:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_lightness_Fairchild2010(self):
+    def test_n_dimensional_lightness_Fairchild2010(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Fairchild2010`
         definition n-dimensional arrays support.
@@ -473,7 +474,7 @@ class TestLightnessFairchild2010:
             lightness_Fairchild2010(Y), L_hdr, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_lightness_Fairchild2010(self):
+    def test_domain_range_scale_lightness_Fairchild2010(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Fairchild2010`
         definition domain and range scale support.
@@ -491,7 +492,7 @@ class TestLightnessFairchild2010:
                 )
 
     @ignore_numpy_errors
-    def test_nan_lightness_Fairchild2010(self):
+    def test_nan_lightness_Fairchild2010(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Fairchild2010`
         definition nan support.
@@ -506,7 +507,7 @@ class TestLightnessFairchild2011:
     definition unit tests methods.
     """
 
-    def test_lightness_Fairchild2011(self):
+    def test_lightness_Fairchild2011(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Fairchild2011`
         definition.
@@ -548,7 +549,7 @@ class TestLightnessFairchild2011:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_lightness_Fairchild2011(self):
+    def test_n_dimensional_lightness_Fairchild2011(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Fairchild2011`
         definition n-dimensional arrays support.
@@ -575,7 +576,7 @@ class TestLightnessFairchild2011:
             lightness_Fairchild2011(Y), L_hdr, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_lightness_Fairchild2011(self):
+    def test_domain_range_scale_lightness_Fairchild2011(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Fairchild2011`
         definition domain and range scale support.
@@ -593,7 +594,7 @@ class TestLightnessFairchild2011:
                 )
 
     @ignore_numpy_errors
-    def test_nan_lightness_Fairchild2011(self):
+    def test_nan_lightness_Fairchild2011(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Fairchild2011`
         definition nan support.
@@ -608,7 +609,7 @@ class TestLightnessAbebe2017:
     definition unit tests methods.
     """
 
-    def test_lightness_Abebe2017(self):
+    def test_lightness_Abebe2017(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Abebe2017`
         definition.
@@ -644,7 +645,7 @@ class TestLightnessAbebe2017:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_lightness_Abebe2017(self):
+    def test_n_dimensional_lightness_Abebe2017(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Abebe2017`
         definition n-dimensional arrays support.
@@ -671,31 +672,15 @@ class TestLightnessAbebe2017:
             lightness_Abebe2017(Y), L, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_lightness_Abebe2017(self):
-        """
-        Test :func:`colour.colorimetry.lightness.lightness_Abebe2017`
-        definition domain and range scale support.
-        """
-
-        L = lightness_Abebe2017(12.19722535)
-
-        d_r = (("reference", 1), ("1", 1), ("100", 1))
-        for scale, factor in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    lightness_Abebe2017(12.19722535 * factor, 100 * factor),
-                    L * factor,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
-
     @ignore_numpy_errors
-    def test_nan_lightness_Abebe2017(self):
+    def test_nan_lightness_Abebe2017(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness_Abebe2017`
         definition nan support.
         """
 
-        lightness_Abebe2017(*[np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])] * 2)
+        cases = np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        lightness_Abebe2017(cases, cases)
 
 
 class TestLightness:
@@ -704,7 +689,7 @@ class TestLightness:
     tests methods.
     """
 
-    def test_domain_range_scale_lightness(self):
+    def test_domain_range_scale_lightness(self) -> None:
         """
         Test :func:`colour.colorimetry.lightness.lightness` definition domain
         and range scale support.
@@ -721,7 +706,7 @@ class TestLightness:
         v = [lightness(12.19722535, method, Y_n=100) for method in m]
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
-        for method, value in zip(m, v):
+        for method, value in zip(m, v, strict=True):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
                     np.testing.assert_allclose(

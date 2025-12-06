@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -16,7 +18,9 @@ from colour.corresponding.prediction import (
     CorrespondingColourDataset,
     convert_experiment_results_Breneman1987,
 )
-from colour.hints import NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -123,8 +127,8 @@ DATASET_CORRESPONDING_COLOUR_1: CorrespondingColourDataset = CorrespondingColour
             ],
         ]
     ),
-    Y_r=np.array(1500),
-    Y_t=np.array(1500),
+    Y_r=1500,
+    Y_t=1500,
     B_r=0.3,
     B_t=0.3,
     metadata={},
@@ -223,7 +227,7 @@ convert_experiment_results_Breneman1987` definition unit tests
     methods.
     """
 
-    def test_convert_experiment_results_Breneman1987(self):
+    def test_convert_experiment_results_Breneman1987(self) -> None:
         """
         Test :func:`colour.corresponding.prediction.\
 convert_experiment_results_Breneman1987` definition.
@@ -275,7 +279,7 @@ corresponding_chromaticities_prediction_Fairchild1990` definition unit tests
     methods.
     """
 
-    def test_corresponding_chromaticities_prediction_Fairchild1990(self):
+    def test_corresponding_chromaticities_prediction_Fairchild1990(self) -> None:
         """
         Test :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_Fairchild1990` definition.
@@ -299,7 +303,7 @@ class TestCorrespondingChromaticitiesPredictionCIE1994:
 corresponding_chromaticities_prediction_CIE1994` definition unit tests methods.
     """
 
-    def test_corresponding_chromaticities_prediction_CIE1994(self):
+    def test_corresponding_chromaticities_prediction_CIE1994(self) -> None:
         """
         Test :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_CIE1994` definition.
@@ -324,7 +328,7 @@ corresponding_chromaticities_prediction_CMCCAT2000` definition unit tests
     methods.
     """
 
-    def test_corresponding_chromaticities_prediction_CMCCAT2000(self):
+    def test_corresponding_chromaticities_prediction_CMCCAT2000(self) -> None:
         """
         Test :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_CMCCAT2000` definition.
@@ -349,7 +353,7 @@ corresponding_chromaticities_prediction_VonKries` definition unit tests
     methods.
     """
 
-    def test_corresponding_chromaticities_prediction_VonKries(self):
+    def test_corresponding_chromaticities_prediction_VonKries(self) -> None:
         """
         Test :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_VonKries` definition.
@@ -374,7 +378,7 @@ corresponding_chromaticities_prediction_Zhai2018` definition unit tests
     methods.
     """
 
-    def test_corresponding_chromaticities_prediction_Zhai2018(self):
+    def test_corresponding_chromaticities_prediction_Zhai2018(self) -> None:
         """
         Test :func:`colour.corresponding.prediction.\
 corresponding_chromaticities_prediction_Zhai2018` definition.

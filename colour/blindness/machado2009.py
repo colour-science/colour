@@ -2,8 +2,8 @@
 Simulation of CVD - Machado, Oliveira and Fernandes (2009)
 ==========================================================
 
-Define the *Machado et al. (2009)* objects for simulation of colour vision
-deficiency:
+Define the *Machado et al. (2009)* physiologically-based model for
+simulation of colour vision deficiency.
 
 -   :func:`colour.msds_cmfs_anomalous_trichromacy_Machado2009`
 -   :func:`colour.matrix_anomalous_trichromacy_Machado2009`
@@ -28,17 +28,21 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import vecmul
 from colour.blindness import CVD_MATRICES_MACHADO2010
-from colour.characterisation import RGB_DisplayPrimaries
-from colour.colorimetry import (
-    LMS_ConeFundamentals,
-    SpectralShape,
-    reshape_msds,
-)
-from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.characterisation import RGB_DisplayPrimaries
+
+from colour.colorimetry import LMS_ConeFundamentals, SpectralShape, reshape_msds
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ArrayLike, Literal, NDArrayFloat
+
 from colour.utilities import (
     as_float_array,
     as_int_scalar,
@@ -79,8 +83,8 @@ def matrix_RGB_to_WSYBRG(
     cmfs: LMS_ConeFundamentals, primaries: RGB_DisplayPrimaries
 ) -> NDArrayFloat:
     """
-    Compute the matrix transforming from *RGB* colourspace to opponent-colour
-    space using *Machado et al. (2009)* method.
+    Compute the matrix for transforming from *RGB* colourspace to
+    opponent-colour space using *Machado et al. (2009)* method.
 
     Parameters
     ----------
@@ -92,7 +96,8 @@ def matrix_RGB_to_WSYBRG(
     Returns
     -------
     :class:`numpy.ndarray`
-        Matrix transforming from *RGB* colourspace to opponent-colour space.
+        Matrix transforming from *RGB* colourspace to opponent-colour
+        space.
 
     Examples
     --------
@@ -120,17 +125,17 @@ def matrix_RGB_to_WSYBRG(
 
     R, G, B = tsplit(primaries.values)
 
-    WS_R = np.trapezoid(R * WS, wavelengths)  # pyright: ignore
-    WS_G = np.trapezoid(G * WS, wavelengths)  # pyright: ignore
-    WS_B = np.trapezoid(B * WS, wavelengths)  # pyright: ignore
+    WS_R = np.trapezoid(R * WS, wavelengths)
+    WS_G = np.trapezoid(G * WS, wavelengths)
+    WS_B = np.trapezoid(B * WS, wavelengths)
 
-    YB_R = np.trapezoid(R * YB, wavelengths)  # pyright: ignore
-    YB_G = np.trapezoid(G * YB, wavelengths)  # pyright: ignore
-    YB_B = np.trapezoid(B * YB, wavelengths)  # pyright: ignore
+    YB_R = np.trapezoid(R * YB, wavelengths)
+    YB_G = np.trapezoid(G * YB, wavelengths)
+    YB_B = np.trapezoid(B * YB, wavelengths)
 
-    RG_R = np.trapezoid(R * RG, wavelengths)  # pyright: ignore
-    RG_G = np.trapezoid(G * RG, wavelengths)  # pyright: ignore
-    RG_B = np.trapezoid(B * RG, wavelengths)  # pyright: ignore
+    RG_R = np.trapezoid(R * RG, wavelengths)
+    RG_G = np.trapezoid(G * RG, wavelengths)
+    RG_B = np.trapezoid(B * RG, wavelengths)
 
     M_G = as_float_array(
         [
@@ -149,16 +154,17 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
     cmfs: LMS_ConeFundamentals, d_LMS: ArrayLike
 ) -> LMS_ConeFundamentals:
     """
-    Shift given *LMS* cone fundamentals colour matching functions with given
-    :math:`\\Delta_{LMS}` shift amount in nanometers to simulate anomalous
-    trichromacy using *Machado et al. (2009)* method.
+    Shift the specified *LMS* cone fundamentals colour matching functions
+    with the specified :math:`\\Delta_{LMS}` shift amount in nanometers to
+    simulate anomalous trichromacy using *Machado et al. (2009)* method.
 
     Parameters
     ----------
     cmfs
         *LMS* cone fundamentals colour matching functions.
     d_LMS
-        :math:`\\Delta_{LMS}` shift amount in nanometers.
+        :math:`\\Delta_{LMS}` wavelength shift amount in nanometers for each
+        cone type.
 
     Notes
     -----
@@ -219,8 +225,8 @@ def msds_cmfs_anomalous_trichromacy_Machado2009(
             "deuteranomaly simulation."
         )
 
-    area_L = np.trapezoid(L, cmfs.wavelengths)  # pyright: ignore
-    area_M = np.trapezoid(M, cmfs.wavelengths)  # pyright: ignore
+    area_L = np.trapezoid(L, cmfs.wavelengths)
+    area_M = np.trapezoid(M, cmfs.wavelengths)
 
     def alpha(x: NDArrayFloat) -> NDArrayFloat:
         """Compute :math:`alpha` factor."""
@@ -251,10 +257,10 @@ def matrix_anomalous_trichromacy_Machado2009(
     d_LMS: ArrayLike,
 ) -> NDArrayFloat:
     """
-    Compute the *Machado et al. (2009)* *CVD* matrix for given *LMS* cone
-    fundamentals colour matching functions and display primaries tri-spectral
-    distributions with given :math:`\\Delta_{LMS}` shift amount in nanometers
-    to simulate anomalous trichromacy.
+    Compute the *Machado et al. (2009)* colour vision deficiency matrix for
+    anomalous trichromacy simulation.
+    primaries tri-spectral distributions with the specified :math:`\\Delta_{LMS}` shift
+    amount in nanometers to simulate anomalous trichromacy.
 
     Parameters
     ----------
@@ -263,7 +269,13 @@ def matrix_anomalous_trichromacy_Machado2009(
     primaries
         *RGB* display primaries tri-spectral distributions.
     d_LMS
-        :math:`\\Delta_{LMS}` shift amount in nanometers.
+        :math:`\\Delta_{LMS}` wavelength shift amount in nanometers for each
+        cone type.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Anomalous trichromacy transformation matrix.
 
     Notes
     -----
@@ -271,11 +283,6 @@ def matrix_anomalous_trichromacy_Machado2009(
         expected to be 1 nanometer, incompatible input will be interpolated
         at 1 nanometer interval.
     -   Input :math:`\\Delta_{LMS}` shift amount is in domain [0, 20].
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Anomalous trichromacy matrix.
 
     References
     ----------
@@ -316,29 +323,30 @@ def matrix_cvd_Machado2009(
     severity: float,
 ) -> NDArrayFloat:
     """
-    Compute *Machado et al. (2009)* *CVD* matrix for given deficiency and
-    severity using the pre-computed matrices dataset.
+    Compute the *Machado et al. (2009)* colour vision deficiency matrix for
+    the specified deficiency and severity using pre-computed matrices.
 
     Parameters
     ----------
     deficiency
-        Colour blindness / vision deficiency types :
-        - *Protanomaly* : defective long-wavelength cones (L-cones). The
-        complete absence of L-cones is known as *Protanopia* or
-        *red-dichromacy*.
-        - *Deuteranomaly* : defective medium-wavelength cones (M-cones) with
-        peak of sensitivity moved towards the red sensitive cones. The complete
-        absence of M-cones is known as *Deuteranopia*.
-        - *Tritanomaly* : defective short-wavelength cones (S-cones), an
-        alleviated form of blue-yellow color blindness. The complete absence of
-        S-cones is known as *Tritanopia*.
+        Colour vision deficiency type:
+
+        - *Protanomaly*: Defective long-wavelength cones (L-cones) with
+          reduced sensitivity. Complete absence of L-cones is
+          *Protanopia* or *red-dichromacy*.
+        - *Deuteranomaly*: Defective medium-wavelength cones (M-cones)
+          with peak sensitivity shifted towards red-sensitive cones.
+          Complete absence of M-cones is *Deuteranopia*.
+        - *Tritanomaly*: Defective short-wavelength cones (S-cones),
+          representing an alleviated form of blue-yellow colour
+          blindness. Complete absence of S-cones is *Tritanopia*.
     severity
         Severity of the colour vision deficiency in domain [0, 1].
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *CVD* matrix.
+        Colour vision deficiency matrix.
 
     References
     ----------
@@ -375,7 +383,7 @@ def matrix_cvd_Machado2009(
     m1, m2 = matrices[a], matrices[b]
 
     if a == b:
-        # 1.0 severity CVD matrix, returning directly.
+        # 1.0 severity colour vision deficiency matrix, returning directly.
         return m1
-    else:
-        return m1 + (severity - a) * ((m2 - m1) / (b - a))
+
+    return m1 + (severity - a) * ((m2 - m1) / (b - a))

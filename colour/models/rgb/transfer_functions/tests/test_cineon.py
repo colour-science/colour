@@ -3,7 +3,6 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.cineon` module.
 """
 
-
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -32,7 +31,7 @@ class TestLogEncoding_Cineon:
 log_encoding_Cineon` definition unit tests methods.
     """
 
-    def test_log_encoding_Cineon(self):
+    def test_log_encoding_Cineon(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.cineon.\
 log_encoding_Cineon` definition.
@@ -56,7 +55,7 @@ log_encoding_Cineon` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_Cineon(self):
+    def test_n_dimensional_log_encoding_Cineon(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.cineon.\
 log_encoding_Cineon` definition n-dimensional arrays support.
@@ -83,7 +82,7 @@ log_encoding_Cineon` definition n-dimensional arrays support.
             log_encoding_Cineon(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_Cineon(self):
+    def test_domain_range_scale_log_encoding_Cineon(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.cineon.\
 log_encoding_Cineon` definition domain and range scale support.
@@ -102,7 +101,7 @@ log_encoding_Cineon` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_Cineon(self):
+    def test_nan_log_encoding_Cineon(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.cineon.\
 log_encoding_Cineon` definition nan support.
@@ -117,7 +116,7 @@ class TestLogDecoding_Cineon:
 log_decoding_Cineon` definition unit tests methods.
     """
 
-    def test_log_decoding_Cineon(self):
+    def test_log_decoding_Cineon(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.cineon.\
 log_decoding_Cineon` definition.
@@ -141,7 +140,7 @@ log_decoding_Cineon` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_Cineon(self):
+    def test_n_dimensional_log_decoding_Cineon(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.cineon.\
 log_decoding_Cineon` definition n-dimensional arrays support.
@@ -168,7 +167,7 @@ log_decoding_Cineon` definition n-dimensional arrays support.
             log_decoding_Cineon(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_Cineon(self):
+    def test_domain_range_scale_log_decoding_Cineon(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.cineon.\
 log_decoding_Cineon` definition domain and range scale support.
@@ -187,7 +186,7 @@ log_decoding_Cineon` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_Cineon(self):
+    def test_nan_log_decoding_Cineon(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.cineon.\
 log_decoding_Cineon` definition nan support.

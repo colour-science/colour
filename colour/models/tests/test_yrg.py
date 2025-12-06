@@ -1,16 +1,13 @@
 """Define the unit tests for the :mod:`colour.models.yrg` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.models import (
-    LMS_to_Yrg,
-    XYZ_to_Yrg,
-    Yrg_to_LMS,
-    Yrg_to_XYZ,
-)
+from colour.models import LMS_to_Yrg, XYZ_to_Yrg, Yrg_to_LMS, Yrg_to_XYZ
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = "Colour Developers"
@@ -34,7 +31,7 @@ class TestLMS_to_Yrg:
     methods.
     """
 
-    def test_LMS_to_Yrg(self):
+    def test_LMS_to_Yrg(self) -> None:
         """Test :func:`colour.models.yrg.LMS_to_Yrg` definition."""
 
         np.testing.assert_allclose(
@@ -55,7 +52,7 @@ class TestLMS_to_Yrg:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_LMS_to_Yrg(self):
+    def test_n_dimensional_LMS_to_Yrg(self) -> None:
         """
         Test :func:`colour.models.yrg.LMS_to_Yrg` definition n-dimensional
         support.
@@ -72,7 +69,7 @@ class TestLMS_to_Yrg:
         Yrg = np.reshape(Yrg, (2, 3, 3))
         np.testing.assert_allclose(LMS_to_Yrg(LMS), Yrg, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_LMS_to_Yrg(self):
+    def test_domain_range_scale_LMS_to_Yrg(self) -> None:
         """
         Test :func:`colour.models.yrg.LMS_to_Yrg` definition domain and range
         scale support.
@@ -91,7 +88,7 @@ class TestLMS_to_Yrg:
                 )
 
     @ignore_numpy_errors
-    def test_nan_LMS_to_Yrg(self):
+    def test_nan_LMS_to_Yrg(self) -> None:
         """Test :func:`colour.models.yrg.LMS_to_Yrg` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -104,7 +101,7 @@ class TestYrg_to_LMS:
     Define :func:`colour.models.yrg.Yrg_to_LMS` definition unit tests methods.
     """
 
-    def test_Yrg_to_LMS(self):
+    def test_Yrg_to_LMS(self) -> None:
         """Test :func:`colour.models.yrg.Yrg_to_LMS` definition."""
 
         np.testing.assert_allclose(
@@ -125,7 +122,7 @@ class TestYrg_to_LMS:
             atol=1e-4,
         )
 
-    def test_n_dimensional_Yrg_to_LMS(self):
+    def test_n_dimensional_Yrg_to_LMS(self) -> None:
         """
         Test :func:`colour.models.yrg.Yrg_to_LMS` definition n-dimensional
         support.
@@ -142,7 +139,7 @@ class TestYrg_to_LMS:
         LMS = np.reshape(LMS, (2, 3, 3))
         np.testing.assert_allclose(Yrg_to_LMS(Yrg), LMS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_Yrg_to_LMS(self):
+    def test_domain_range_scale_Yrg_to_LMS(self) -> None:
         """
         Test :func:`colour.models.yrg.Yrg_to_LMS` definition domain and range
         scale support.
@@ -161,7 +158,7 @@ class TestYrg_to_LMS:
                 )
 
     @ignore_numpy_errors
-    def test_nan_Yrg_to_LMS(self):
+    def test_nan_Yrg_to_LMS(self) -> None:
         """Test :func:`colour.models.yrg.Yrg_to_LMS` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -175,7 +172,7 @@ class TestXYZ_to_Yrg:
     methods.
     """
 
-    def test_XYZ_to_Yrg(self):
+    def test_XYZ_to_Yrg(self) -> None:
         """Test :func:`colour.models.yrg.XYZ_to_Yrg` definition."""
 
         np.testing.assert_allclose(
@@ -196,7 +193,7 @@ class TestXYZ_to_Yrg:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_Yrg(self):
+    def test_n_dimensional_XYZ_to_Yrg(self) -> None:
         """
         Test :func:`colour.models.yrg.XYZ_to_Yrg` definition n-dimensional
         support.
@@ -213,7 +210,7 @@ class TestXYZ_to_Yrg:
         Yrg = np.reshape(Yrg, (2, 3, 3))
         np.testing.assert_allclose(XYZ_to_Yrg(XYZ), Yrg, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_XYZ_to_Yrg(self):
+    def test_domain_range_scale_XYZ_to_Yrg(self) -> None:
         """
         Test :func:`colour.models.yrg.XYZ_to_Yrg` definition domain and range
         scale support.
@@ -232,7 +229,7 @@ class TestXYZ_to_Yrg:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_Yrg(self):
+    def test_nan_XYZ_to_Yrg(self) -> None:
         """Test :func:`colour.models.yrg.XYZ_to_Yrg` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -245,7 +242,7 @@ class TestYrg_to_XYZ:
     Define :func:`colour.models.yrg.Yrg_to_XYZ` definition unit tests methods.
     """
 
-    def test_Yrg_to_XYZ(self):
+    def test_Yrg_to_XYZ(self) -> None:
         """Test :func:`colour.models.yrg.Yrg_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -266,7 +263,7 @@ class TestYrg_to_XYZ:
             atol=2e-4,
         )
 
-    def test_n_dimensional_Yrg_to_XYZ(self):
+    def test_n_dimensional_Yrg_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.yrg.Yrg_to_XYZ` definition n-dimensional
         support.
@@ -283,7 +280,7 @@ class TestYrg_to_XYZ:
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_allclose(Yrg_to_XYZ(Yrg), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_Yrg_to_XYZ(self):
+    def test_domain_range_scale_Yrg_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.yrg.Yrg_to_XYZ` definition domain and range
         scale support.
@@ -302,7 +299,7 @@ class TestYrg_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_Yrg_to_XYZ(self):
+    def test_nan_Yrg_to_XYZ(self) -> None:
         """Test :func:`colour.models.yrg.Yrg_to_XYZ` definition nan support."""
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]

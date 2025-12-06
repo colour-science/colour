@@ -2,7 +2,7 @@
 Common Constants
 ================
 
-Define the common constants objects that don't belong to any specific
+Define common constants objects that don't belong to any specific
 category.
 """
 
@@ -12,11 +12,8 @@ import os
 
 import numpy as np
 
-from colour.hints import DTypeFloat, Type, Union, cast
-from colour.utilities.documentation import (
-    DocstringFloat,
-    is_documentation_building,
-)
+from colour.hints import DTypeComplex, DTypeFloat, Type, cast
+from colour.utilities.documentation import DocstringFloat, is_documentation_building
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -31,6 +28,7 @@ __all__ = [
     "EPSILON",
     "DTYPE_INT_DEFAULT",
     "DTYPE_FLOAT_DEFAULT",
+    "DTYPE_COMPLEX_DEFAULT",
     "TOLERANCE_ABSOLUTE_DEFAULT",
     "TOLERANCE_RELATIVE_DEFAULT",
     "TOLERANCE_ABSOLUTE_TESTS",
@@ -44,18 +42,18 @@ THRESHOLD_INTEGER: float = 1e-3
 if is_documentation_building():  # pragma: no cover
     THRESHOLD_INTEGER = DocstringFloat(THRESHOLD_INTEGER)
     THRESHOLD_INTEGER.__doc__ = """
-Integer threshold value when checking if a float point number is almost an
-int.
+Integer threshold value when checking if a floating point number is almost an
+integer.
 """
 
-EPSILON: float = cast(float, np.finfo(np.double).eps)
+EPSILON: float = cast("float", np.finfo(np.double).eps)
 """
 Default epsilon value for tolerance and singularities avoidance in various
 computations.
 """
 
 DTYPE_INT_DEFAULT: Type[np.int32 | np.int64] = cast(
-    Type[Union[np.int32, np.int64]],
+    "Type[np.int32 | np.int64]",
     np.sctypeDict.get(
         os.environ.get("COLOUR_SCIENCE__DEFAULT_INT_DTYPE", "int64"), np.int64
     ),
@@ -64,13 +62,22 @@ DTYPE_INT_DEFAULT: Type[np.int32 | np.int64] = cast(
 
 
 DTYPE_FLOAT_DEFAULT: Type[DTypeFloat] = cast(
-    Type[DTypeFloat],
+    "Type[DTypeFloat]",
     np.sctypeDict.get(
         os.environ.get("COLOUR_SCIENCE__DEFAULT_FLOAT_DTYPE", "float64"),
         np.float64,
     ),
 )
 """Default floating point number dtype."""
+
+DTYPE_COMPLEX_DEFAULT: Type[DTypeComplex] = cast(
+    "Type[DTypeComplex]",
+    np.sctypeDict.get(
+        os.environ.get("COLOUR_SCIENCE__DEFAULT_COMPLEX_DTYPE", "complex128"),
+        np.complex128,
+    ),
+)
+"""Default complex number dtype."""
 
 TOLERANCE_ABSOLUTE_DEFAULT: float = 1e-8
 """Default absolute tolerance for computations."""

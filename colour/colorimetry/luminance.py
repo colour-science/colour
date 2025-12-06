@@ -2,32 +2,30 @@
 Luminance :math:`Y`
 ===================
 
-Define the *luminance* :math:`Y` computation objects.
+Define *luminance* :math:`Y` computation methods.
 
-The following methods are available:
-
--   :func:`colour.colorimetry.luminance_Newhall1943`: *luminance* :math:`Y`
-    computation of given *Munsell* value :math:`V` using
-    *Newhall, Nickerson and Judd (1943)* method.
--   :func:`colour.colorimetry.luminance_ASTMD1535`: *luminance* :math:`Y`
-    computation of given *Munsell* value :math:`V` using *ASTM D1535-08e1*
-    method.
--   :func:`colour.colorimetry.luminance_CIE1976`: *luminance* :math:`Y`
-    computation of given *Lightness* :math:`L^*` as per *CIE 1976*
-    recommendation.
--   :func:`colour.colorimetry.luminance_Fairchild2010`: *luminance* :math:`Y`
-    computation of given *Lightness* :math:`L_{hdr}` using
-    *Fairchild and Wyble (2010)* method.
--   :func:`colour.colorimetry.luminance_Fairchild2011`: *luminance* :math:`Y`
-    computation of given *Lightness* :math:`L_{hdr}` using
-    *Fairchild and Chen (2011)* method.
--   :func:`colour.colorimetry.luminance_Abebe2017`: *Luminance* :math:`Y`
-    computation of given *Lightness* :math:`L` using
-    *Abebe, Pouli, Larabi and Reinhard (2017)* method.
+-   :func:`colour.colorimetry.luminance_Newhall1943`: Compute *luminance*
+    :math:`Y` from *Munsell* value :math:`V` using *Newhall, Nickerson and
+    Judd (1943)* polynomial approximation.
+-   :func:`colour.colorimetry.luminance_ASTMD1535`: Compute *luminance*
+    :math:`Y` from *Munsell* value :math:`V` using *ASTM D1535-08e1*
+    standard polynomial.
+-   :func:`colour.colorimetry.luminance_CIE1976`: Compute *luminance*
+    :math:`Y` from *CIE 1976* *Lightness* :math:`L^*` using the inverse
+    of the standard lightness function.
+-   :func:`colour.colorimetry.luminance_Fairchild2010`: Compute *luminance*
+    :math:`Y` from *lightness* :math:`L_{hdr}` using *Fairchild and
+    Wyble (2010)* method according to *Michaelis-Menten* kinetics.
+-   :func:`colour.colorimetry.luminance_Fairchild2011`: Compute *luminance*
+    :math:`Y` from *lightness* :math:`L_{hdr}` using *Fairchild and
+    Chen (2011)* method according to *Michaelis-Menten* kinetics.
+-   :func:`colour.colorimetry.luminance_Abebe2017`: Compute *luminance*
+    :math:`Y` from *lightness* :math:`L` using *Abebe, Pouli, Larabi and
+    Reinhard (2017)* adaptive method for high-dynamic-range imaging.
 -   :attr:`colour.LUMINANCE_METHODS`: Supported *luminance* :math:`Y`
-    computation methods.
--   :func:`colour.luminance`: *Luminance* :math:`Y` computation of given
-    *Lightness* :math:`L^*` or given *Munsell* value :math:`V` using given
+    computation methods registry.
+-   :func:`colour.luminance`: Compute *luminance* :math:`Y` from
+    *Lightness* :math:`L^*` or *Munsell* value :math:`V` using the specified
     method.
 
 References
@@ -63,6 +61,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import spow
@@ -70,7 +70,18 @@ from colour.biochemistry import (
     substrate_concentration_MichaelisMenten_Abebe2017,
     substrate_concentration_MichaelisMenten_Michaelis1913,
 )
-from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, Literal
+
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain10,
+    Domain100,
+    NDArrayFloat,
+    Range1,
+    Range100,
+)
 from colour.utilities import (
     CanonicalMapping,
     as_float,
@@ -79,6 +90,7 @@ from colour.utilities import (
     from_range_1,
     from_range_100,
     get_domain_range_scale,
+    optional,
     to_domain_10,
     to_domain_100,
     validate_method,
@@ -104,10 +116,10 @@ __all__ = [
 ]
 
 
-def luminance_Newhall1943(V: ArrayLike) -> NDArrayFloat:
+def luminance_Newhall1943(V: Domain10) -> Range100:
     """
-    Return the *luminance* :math:`R_Y` of given *Munsell* value :math:`V`
-    using *Newhall et al. (1943)* method.
+    Compute the *luminance* :math:`R_Y` from the specified *Munsell* value
+    :math:`V` using *Newhall et al. (1943)* method.
 
     Parameters
     ----------
@@ -124,13 +136,13 @@ def luminance_Newhall1943(V: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 10]               | [0, 1]        |
+    | ``V``      | 10                    | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``R_Y``    | [0, 100]              | [0, 1]        |
+    | ``R_Y``    | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -156,10 +168,10 @@ def luminance_Newhall1943(V: ArrayLike) -> NDArrayFloat:
     return as_float(from_range_100(R_Y))
 
 
-def luminance_ASTMD1535(V: ArrayLike) -> NDArrayFloat:
+def luminance_ASTMD1535(V: Domain10) -> Range100:
     """
-    Return the *luminance* :math:`Y` of given *Munsell* value :math:`V` using
-    *ASTM D1535-08e1* method.
+    Compute *luminance* :math:`Y` from the specified *Munsell* value :math:`V`
+    using *ASTM D1535-08e1* method.
 
     Parameters
     ----------
@@ -176,13 +188,13 @@ def luminance_ASTMD1535(V: ArrayLike) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``V``      | [0, 10]               | [0, 1]        |
+    | ``V``      | 10                    | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -212,14 +224,14 @@ def intermediate_luminance_function_CIE1976(
     f_Y_Y_n: ArrayLike, Y_n: ArrayLike = 100
 ) -> NDArrayFloat:
     """
-    Return the *luminance* :math:`Y` in the *luminance* :math:`Y`
-    computation for given intermediate value :math:`f(Y/Yn)` using given
-    reference white *luminance* :math:`Y_n` as per *CIE 1976* recommendation.
+    Compute *luminance* :math:`Y` from the specified intermediate value
+    :math:`f(Y/Y_n)` using the specified reference white *luminance* :math:`Y_n`
+    as per *CIE 1976* recommendation.
 
     Parameters
     ----------
     f_Y_Y_n
-        Intermediate value :math:`f(Y/Yn)`.
+        Intermediate value :math:`f(Y/Y_n)`.
     Y_n
         White reference *luminance* :math:`Y_n`.
 
@@ -233,13 +245,13 @@ def intermediate_luminance_function_CIE1976(
     +-------------+-----------------------+---------------+
     | **Domain**  | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``f_Y_Y_n`` | [0, 1]                | [0, 1]        |
+    | ``f_Y_Y_n`` | 1                     | 1             |
     +-------------+-----------------------+---------------+
 
     +-------------+-----------------------+---------------+
     | **Range**   | **Scale - Reference** | **Scale - 1** |
     +=============+=======================+===============+
-    | ``Y``       | [0, 100]              | [0, 100]      |
+    | ``Y``       | 100                   | 100           |
     +-------------+-----------------------+---------------+
 
     References
@@ -268,15 +280,15 @@ def intermediate_luminance_function_CIE1976(
     return as_float(Y)
 
 
-def luminance_CIE1976(L_star: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
+def luminance_CIE1976(L_star: Domain100, Y_n: ArrayLike | None = None) -> Range100:
     """
-    Return the *luminance* :math:`Y` of given *Lightness* :math:`L^*` with
-    given reference white *luminance* :math:`Y_n`.
+    Compute the *luminance* :math:`Y` from the specified *lightness* :math:`L^*`
+    with the specified reference white *luminance* :math:`Y_n`.
 
     Parameters
     ----------
     L_star
-        *Lightness* :math:`L^*`
+        *Lightness* :math:`L^*`.
     Y_n
         White reference *luminance* :math:`Y_n`.
 
@@ -290,13 +302,13 @@ def luminance_CIE1976(L_star: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_star`` | [0, 100]              | [0, 1]        |
+    | ``L_star`` | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -312,7 +324,9 @@ def luminance_CIE1976(L_star: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
     """
 
     L_star = to_domain_100(L_star)
-    Y_n = to_domain_100(Y_n)
+    Y_n = to_domain_100(
+        optional(Y_n, 100 if get_domain_range_scale() == "reference" else 1)
+    )
 
     f_Y_Y_n = (L_star + 16) / 116
 
@@ -321,12 +335,10 @@ def luminance_CIE1976(L_star: ArrayLike, Y_n: ArrayLike = 100) -> NDArrayFloat:
     return as_float(from_range_100(Y))
 
 
-def luminance_Fairchild2010(
-    L_hdr: ArrayLike, epsilon: ArrayLike = 1.836
-) -> NDArrayFloat:
+def luminance_Fairchild2010(L_hdr: Domain100, epsilon: ArrayLike = 1.836) -> Range1:
     """
-    Compute *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
-    *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
+    Compute *luminance* :math:`Y` from the specified *lightness* :math:`L_{hdr}`
+    using *Fairchild and Wyble (2010)* method according to *Michaelis-Menten*
     kinetics.
 
     Parameters
@@ -346,13 +358,13 @@ def luminance_Fairchild2010(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_hdr``  | [0, 100]              | [0, 1]        |
+    | ``L_hdr``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 1]                | [0, 1]        |
+    | ``Y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -381,13 +393,13 @@ def luminance_Fairchild2010(
 
 
 def luminance_Fairchild2011(
-    L_hdr: ArrayLike,
+    L_hdr: Domain100,
     epsilon: ArrayLike = 0.474,
     method: Literal["hdr-CIELAB", "hdr-IPT"] | str = "hdr-CIELAB",
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Compute *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
-    *Fairchild and Chen (2011)* method according to *Michaelis-Menten*
+    Compute *luminance* :math:`Y` from the specified *lightness* :math:`L_{hdr}`
+    using *Fairchild and Chen (2011)* method according to *Michaelis-Menten*
     kinetics.
 
     Parameters
@@ -409,13 +421,13 @@ def luminance_Fairchild2011(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``L_hdr``  | [0, 100]              | [0, 1]        |
+    | ``L_hdr``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 1]                | [0, 1]        |
+    | ``Y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -450,13 +462,14 @@ def luminance_Fairchild2011(
 
 def luminance_Abebe2017(
     L: ArrayLike,
-    Y_n: ArrayLike = 100,
+    Y_n: ArrayLike | None = None,
     method: Literal["Michaelis-Menten", "Stevens"] | str = "Michaelis-Menten",
 ) -> NDArrayFloat:
     """
-    Compute *luminance* :math:`Y` of *Lightness* :math:`L` using
-    *Abebe, Pouli, Larabi and Reinhard (2017)* method according to
-    *Michaelis-Menten* kinetics or *Stevens's Power Law*.
+    Compute *luminance* :math:`Y` from *lightness* :math:`L` using
+    *Abebe, Pouli, Larabi and Reinhard (2017)* adaptive method for
+    high-dynamic-range imaging according to *Michaelis-Menten* kinetics or
+    *Stevens's Power Law*.
 
     Parameters
     ----------
@@ -475,9 +488,9 @@ def luminance_Abebe2017(
     Notes
     -----
     -   *Abebe, Pouli, Larabi and Reinhard (2017)* method uses absolute
-        luminance levels, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations.
+        luminance levels, thus the domain and range values for the
+        *Reference* and *1* scales are only indicative that the data is not
+        affected by scale transformations.
 
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
@@ -507,7 +520,7 @@ def luminance_Abebe2017(
     """
 
     L = as_float_array(L)
-    Y_n = as_float_array(Y_n)
+    Y_n = as_float_array(optional(Y_n, 100))
     method = validate_method(method, ("Michaelis-Menten", "Stevens"))
 
     if method == "stevens":
@@ -552,8 +565,9 @@ Supported *luminance* computation methods.
 
 References
 ----------
-:cite:`ASTMInternational2008a`, :cite:`CIETC1-482004m`, :cite:`Fairchild2010`,
-:cite:`Fairchild2011`, :cite:`Newhall1943a`, :cite:`Wyszecki2000bd`
+:cite:`ASTMInternational2008a`, :cite:`CIETC1-482004m`,
+:cite:`Fairchild2010`, :cite:`Fairchild2011`, :cite:`Newhall1943a`,
+:cite:`Wyszecki2000bd`
 
 Aliases:
 
@@ -565,7 +579,7 @@ LUMINANCE_METHODS["cie1976"] = LUMINANCE_METHODS["CIE 1976"]
 
 
 def luminance(
-    LV: ArrayLike,
+    LV: Domain100,
     method: (
         Literal[
             "Abebe 2017",
@@ -578,10 +592,10 @@ def luminance(
         | str
     ) = "CIE 1976",
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Return the *luminance* :math:`Y` of given *Lightness* :math:`L^*` or given
-    *Munsell* value :math:`V`.
+    Compute the *luminance* :math:`Y` from the specified *lightness*
+    :math:`L^*` or *Munsell* value :math:`V`.
 
     Parameters
     ----------
@@ -597,8 +611,8 @@ def luminance(
         :func:`colour.colorimetry.luminance_CIE1976`},
         White reference *luminance* :math:`Y_n`.
     epsilon
-        {:func:`colour.colorimetry.lightness_Fairchild2010`,
-        :func:`colour.colorimetry.lightness_Fairchild2011`},
+        {:func:`colour.colorimetry.luminance_Fairchild2010`,
+        :func:`colour.colorimetry.luminance_Fairchild2011`},
         :math:`\\epsilon` exponent.
 
     Returns
@@ -611,20 +625,20 @@ def luminance(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``LV``     | [0, 100]              | [0, 1]        |
+    | ``LV``     | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Y``      | [0, 100]              | [0, 1]        |
+    | ``Y``      | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
     ----------
-    :cite:`Abebe2017`, :cite:`ASTMInternational2008a`, :cite:`CIETC1-482004m`,
-    :cite:`Fairchild2010`, :cite:`Fairchild2011`, :cite:`Newhall1943a`,
-    :cite:`Wikipedia2001b`, :cite:`Wyszecki2000bd`
+    :cite:`Abebe2017`, :cite:`ASTMInternational2008a`,
+    :cite:`CIETC1-482004m`, :cite:`Fairchild2010`, :cite:`Fairchild2011`,
+    :cite:`Newhall1943a`, :cite:`Wikipedia2001b`, :cite:`Wyszecki2000bd`
 
     Examples
     --------
@@ -643,6 +657,9 @@ def luminance(
     >>> luminance(29.829510892279330, epsilon=0.710, method="Fairchild 2011")
     ... # doctest: +ELLIPSIS
     12.1972253...
+    >>> luminance(48.695557110922894, method="Abebe 2017")
+    ... # doctest: +ELLIPSIS
+    12.1972253...
     """
 
     LV = as_float_array(LV)
@@ -650,29 +667,35 @@ def luminance(
 
     function = LUMINANCE_METHODS[method]
 
-    # NOTE: "Abebe et al. (2017)" uses absolute luminance levels and has
-    # undefined domain-range scale, yet we modify its behaviour consistency
-    # with the other methods.
     domain_range_reference = get_domain_range_scale() == "reference"
     domain_range_1 = get_domain_range_scale() == "1"
+    domain_range_100 = get_domain_range_scale() == "100"
 
-    domain_1 = (luminance_Fairchild2010, luminance_Fairchild2011)
-    domain_10 = (luminance_Newhall1943, luminance_ASTMD1535)
-    domain_undefined = (luminance_Abebe2017,)
-
-    if function in domain_10 and domain_range_reference:
+    # Newhall/ASTM methods expect V in [0, 10].
+    if (
+        function in (luminance_Newhall1943, luminance_ASTMD1535)
+        and domain_range_reference
+    ):
         LV = LV / 10
 
-    if function in domain_undefined and domain_range_1:
-        LV = LV * 100
-        kwargs["Y_n"] = kwargs.get("Y_n", 100) * 100
+    # Abebe expects L in [0, 1] and Y_n in cd/m².
+    if function in (luminance_Abebe2017,):
+        if domain_range_reference or domain_range_100:
+            LV = LV / 100
+        if domain_range_1 and "Y_n" in kwargs:
+            kwargs["Y_n"] = kwargs["Y_n"] * 100
 
     Y_V = function(LV, **filter_kwargs(function, **kwargs))
 
-    if function in domain_1 and domain_range_reference:
-        Y_V *= 100
+    # Fairchild methods output Y in [0, 1], scale to [0, 100] in reference.
+    if (
+        function in (luminance_Fairchild2010, luminance_Fairchild2011)
+        and domain_range_reference
+    ):
+        Y_V = Y_V * 100
 
-    if function in domain_undefined and domain_range_1:
-        Y_V /= 100
+    # Abebe outputs absolute cd/m², scale to [0, 1] in scale 1.
+    if function in (luminance_Abebe2017,) and domain_range_1:
+        Y_V = Y_V / 100
 
     return Y_V

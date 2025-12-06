@@ -31,14 +31,14 @@ from colour.algebra import (
     kernel_sinc,
     lagrange_coefficients,
     random_triplet_generator,
+    table_interpolation,
     table_interpolation_tetrahedral,
     table_interpolation_trilinear,
 )
-from colour.algebra.interpolation import vertices_and_relative_coordinates
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import NDArrayFloat, cast
 from colour.io import LUT3D, read_LUT
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import ignore_numpy_errors, is_scipy_installed
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -67,7 +67,6 @@ __all__ = [
     "TestPchipInterpolator",
     "TestNullInterpolator",
     "TestLagrangeCoefficients",
-    "TestVerticesAndRelativeCoordinates",
     "TestTableInterpolationTrilinear",
     "TestTableInterpolationTetrahedral",
 ]
@@ -483,7 +482,7 @@ LAGRANGE_COEFFICIENTS_B: NDArrayFloat = np.array(
 )
 
 LUT_TABLE: NDArrayFloat = cast(
-    LUT3D,
+    "LUT3D",
     read_LUT(
         os.path.join(
             os.path.dirname(__file__),
@@ -506,7 +505,7 @@ class TestKernelNearestNeighbour:
     definition unit tests methods.
     """
 
-    def test_kernel_nearest(self):
+    def test_kernel_nearest(self) -> None:
         """
         Test :func:`colour.algebra.interpolation.kernel_nearest_neighbour`
         definition.
@@ -553,7 +552,7 @@ class TestKernelLinear:
     unit tests methods.
     """
 
-    def test_kernel_linear(self):
+    def test_kernel_linear(self) -> None:
         """Test :func:`colour.algebra.interpolation.kernel_linear` definition."""
 
         np.testing.assert_allclose(
@@ -597,7 +596,7 @@ class TestKernelSinc:
     unit tests methods.
     """
 
-    def test_kernel_sinc(self):
+    def test_kernel_sinc(self) -> None:
         """Test :func:`colour.algebra.interpolation.kernel_sinc` definition."""
 
         np.testing.assert_allclose(
@@ -675,7 +674,7 @@ class TestKernelLanczos:
     unit tests methods.
     """
 
-    def test_kernel_lanczos(self):
+    def test_kernel_lanczos(self) -> None:
         """Test :func:`colour.algebra.interpolation.kernel_lanczos` definition."""
 
         np.testing.assert_allclose(
@@ -753,7 +752,7 @@ class TestKernelCardinalSpline:
     definition unit tests methods.
     """
 
-    def test_kernel_cardinal_spline(self):
+    def test_kernel_cardinal_spline(self) -> None:
         """
         Test :func:`colour.algebra.interpolation.kernel_cardinal_spline`
         definition.
@@ -834,8 +833,11 @@ class TestKernelInterpolator:
     tests methods.
     """
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         required_attributes = (
             "x",
@@ -849,7 +851,7 @@ class TestKernelInterpolator:
         for attribute in required_attributes:
             assert attribute in dir(KernelInterpolator)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__init__", "__call__")
@@ -857,7 +859,7 @@ class TestKernelInterpolator:
         for method in required_methods:  # pragma: no cover
             assert method in dir(KernelInterpolator)
 
-    def test_x(self):
+    def test_x(self) -> None:
         """
         Test :attr:`colour.algebra.interpolation.KernelInterpolator.x`
         property.
@@ -868,18 +870,21 @@ class TestKernelInterpolator:
 
         np.testing.assert_equal(kernel_interpolator.x, x)
 
-    def test_y(self):
+    def test_y(self) -> None:
         """
         Test :attr:`colour.algebra.interpolation.KernelInterpolator.y`
         property.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         x = y = np.linspace(0, 1, 10)
         kernel_interpolator = KernelInterpolator(x, y)
 
         np.testing.assert_equal(kernel_interpolator.y, y)
 
-    def test_window(self):
+    def test_window(self) -> None:
         """
         Test :attr:`colour.algebra.interpolation.KernelInterpolator.window`
         property.
@@ -890,7 +895,7 @@ class TestKernelInterpolator:
 
         assert kernel_interpolator.window == 3
 
-    def test_kernel(self):
+    def test_kernel(self) -> None:
         """
         Test :attr:`colour.algebra.interpolation.KernelInterpolator.kernel`
         property.
@@ -901,7 +906,7 @@ class TestKernelInterpolator:
 
         assert kernel_interpolator.kernel is kernel_linear
 
-    def test_kernel_kwargs(self):
+    def test_kernel_kwargs(self) -> None:
         """
         Test :attr:`colour.algebra.interpolation.KernelInterpolator.\
 kernel_kwargs` property.
@@ -913,7 +918,7 @@ kernel_kwargs` property.
 
         assert kernel_interpolator.kernel_kwargs == kernel_kwargs
 
-    def test_padding_kwargs(self):
+    def test_padding_kwargs(self) -> None:
         """
         Test :attr:`colour.algebra.interpolation.KernelInterpolator.\
 padding_kwargs` property.
@@ -925,7 +930,7 @@ padding_kwargs` property.
 
         assert kernel_interpolator.padding_kwargs == padding_kwargs
 
-    def test_raise_exception___init__(self):
+    def test_raise_exception___init__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.KernelInterpolator.__init__`
         method raised exception.
@@ -938,11 +943,14 @@ padding_kwargs` property.
             np.linspace(0, 1, 15),
         )
 
-    def test__call__(self):
+    def test__call__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.KernelInterpolator.__call__`
         method.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         x = np.arange(11, 26, 1)
         y = np.sin(x / len(x) * np.pi * 6) / (x / len(x)) + np.pi
@@ -1143,7 +1151,7 @@ padding_kwargs` property.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_raise_exception___call__(self):
+    def test_raise_exception___call__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.KernelInterpolator.__call__`
         method raised exception.
@@ -1157,7 +1165,7 @@ padding_kwargs` property.
         pytest.raises(ValueError, kernel_interpolator, 11)
 
     @ignore_numpy_errors
-    def test_nan__call__(self):
+    def test_nan__call__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.KernelInterpolator.__call__`
         method nan support.
@@ -1175,15 +1183,18 @@ class TestNearestNeighbourInterpolator:
     class unit tests methods.
     """
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         required_attributes = ()
 
         for attribute in required_attributes:  # pragma: no cover
             assert attribute in dir(NearestNeighbourInterpolator)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__init__",)
@@ -1191,7 +1202,7 @@ class TestNearestNeighbourInterpolator:
         for method in required_methods:  # pragma: no cover
             assert method in dir(NearestNeighbourInterpolator)
 
-    def test___init__(self):
+    def test___init__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.KernelInterpolator.__init__`
         method.
@@ -1211,15 +1222,18 @@ class TestLinearInterpolator:
     tests methods.
     """
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         required_attributes = ("x", "y")
 
         for attribute in required_attributes:
             assert attribute in dir(LinearInterpolator)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__init__", "__call__")
@@ -1227,7 +1241,7 @@ class TestLinearInterpolator:
         for method in required_methods:  # pragma: no cover
             assert method in dir(LinearInterpolator)
 
-    def test_raise_exception___init__(self):
+    def test_raise_exception___init__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.LinearInterpolator.__init__`
         method raised exception.
@@ -1236,11 +1250,14 @@ class TestLinearInterpolator:
         x, y = np.linspace(0, 1, 10), np.linspace(0, 1, 15)
         pytest.raises(ValueError, LinearInterpolator, x, y)
 
-    def test__call__(self):
+    def test__call__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.LinearInterpolator.__call__`
         method.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         interval = 0.1
         x = np.arange(len(DATA_POINTS_A))
@@ -1263,7 +1280,7 @@ class TestLinearInterpolator:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_raise_exception___call__(self):
+    def test_raise_exception___call__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.LinearInterpolator.__call__`
         method raised exception.
@@ -1277,7 +1294,7 @@ class TestLinearInterpolator:
         pytest.raises(ValueError, linear_interpolator, 11)
 
     @ignore_numpy_errors
-    def test_nan__call__(self):
+    def test_nan__call__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.LinearInterpolator.__call__`
         method nan support.
@@ -1299,15 +1316,18 @@ class TestSpragueInterpolator:
     unit tests methods.
     """
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         required_attributes = ("x", "y")
 
         for attribute in required_attributes:
             assert attribute in dir(SpragueInterpolator)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__init__", "__call__")
@@ -1315,7 +1335,7 @@ class TestSpragueInterpolator:
         for method in required_methods:  # pragma: no cover
             assert method in dir(SpragueInterpolator)
 
-    def test_raise_exception___init__(self):
+    def test_raise_exception___init__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.SpragueInterpolator.__init__`
         method raised exception.
@@ -1324,11 +1344,14 @@ class TestSpragueInterpolator:
         x, y = np.linspace(0, 1, 10), np.linspace(0, 1, 15)
         pytest.raises(ValueError, SpragueInterpolator, x, y)
 
-    def test__call__(self):
+    def test__call__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.SpragueInterpolator.__call__`
         method.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         interval = 0.1
         x = np.arange(len(DATA_POINTS_A))
@@ -1351,7 +1374,7 @@ class TestSpragueInterpolator:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_raise_exception___call__(self):
+    def test_raise_exception___call__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.SpragueInterpolator.__call__`
         method raised exception.
@@ -1365,7 +1388,7 @@ class TestSpragueInterpolator:
         pytest.raises(ValueError, sprague_interpolator, 11)
 
     @ignore_numpy_errors
-    def test_nan__call__(self):
+    def test_nan__call__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.SpragueInterpolator.__call__`
         method nan support.
@@ -1387,7 +1410,7 @@ class TestCubicSplineInterpolator:
     unit tests methods.
     """
 
-    def test__call__(self):
+    def test__call__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.CubicSplineInterpolator.\
 __call__` method.
@@ -1397,6 +1420,9 @@ __call__` method.
         -   This class is a wrapper around *scipy.interpolate.interp1d* class
             and is assumed to be unit tested thoroughly.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         np.testing.assert_allclose(
             CubicSplineInterpolator(
@@ -1413,15 +1439,18 @@ class TestPchipInterpolator:
     unit tests methods.
     """
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         required_attributes = ("x", "y")
 
         for attribute in required_attributes:
             assert attribute in dir(PchipInterpolator)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__init__",)
@@ -1429,16 +1458,19 @@ class TestPchipInterpolator:
         for method in required_methods:  # pragma: no cover
             assert method in dir(PchipInterpolator)
 
-    def test_y(self):
+    def test_y(self) -> None:
         """
         Test :attr:`colour.algebra.interpolation.PchipInterpolator.y` property.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         interpolator = PchipInterpolator(np.linspace(0, 1, 10), np.linspace(0, 1, 10))
 
         interpolator.y = np.linspace(0, 1, 10)
 
-        assert interpolator(5) == 5
+        assert interpolator(np.array(5)) == 5
 
 
 class TestNullInterpolator:
@@ -1447,15 +1479,18 @@ class TestNullInterpolator:
     unit tests methods.
     """
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         required_attributes = ("x", "y")
 
         for attribute in required_attributes:
             assert attribute in dir(NullInterpolator)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__init__", "__call__")
@@ -1463,7 +1498,7 @@ class TestNullInterpolator:
         for method in required_methods:  # pragma: no cover
             assert method in dir(NullInterpolator)
 
-    def test_x(self):
+    def test_x(self) -> None:
         """
         Test :attr:`colour.algebra.interpolation.NullInterpolator.x`
         property.
@@ -1474,18 +1509,21 @@ class TestNullInterpolator:
 
         np.testing.assert_equal(null_interpolator.x, x)
 
-    def test_y(self):
+    def test_y(self) -> None:
         """
         Test :attr:`colour.algebra.interpolation.NullInterpolator.y`
         property.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         x = y = np.linspace(0, 1, 10)
         null_interpolator = NullInterpolator(x, y)
 
         np.testing.assert_equal(null_interpolator.y, y)
 
-    def test_absolute_tolerance(self):
+    def test_absolute_tolerance(self) -> None:
         """
         Test :attr:`colour.algebra.interpolation.NullInterpolator.\
 absolute_tolerance` property.
@@ -1496,7 +1534,7 @@ absolute_tolerance` property.
 
         np.testing.assert_equal(null_interpolator.absolute_tolerance, 0.1)
 
-    def test_relative_tolerance(self):
+    def test_relative_tolerance(self) -> None:
         """
         Test :attr:`colour.algebra.interpolation.NullInterpolator.\
 relative_tolerance` property.
@@ -1507,7 +1545,7 @@ relative_tolerance` property.
 
         np.testing.assert_equal(null_interpolator.relative_tolerance, 0.1)
 
-    def test_default(self):
+    def test_default(self) -> None:
         """
         Test :attr:`colour.algebra.interpolation.NullInterpolator.\
 default` property.
@@ -1518,7 +1556,7 @@ default` property.
 
         np.testing.assert_equal(null_interpolator.default, 0)
 
-    def test_raise_exception___init__(self):
+    def test_raise_exception___init__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.NullInterpolator.__init__`
         method raised exception.
@@ -1527,11 +1565,14 @@ default` property.
         x, y = np.linspace(0, 1, 10), np.linspace(0, 1, 15)
         pytest.raises(ValueError, NullInterpolator, x, y)
 
-    def test__call__(self):
+    def test__call__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.NullInterpolator.__call__`
         method.
         """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
 
         x = np.arange(len(DATA_POINTS_A))
         null_interpolator = NullInterpolator(x, DATA_POINTS_A)
@@ -1548,7 +1589,7 @@ default` property.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_raise_exception___call__(self):
+    def test_raise_exception___call__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.NullInterpolator.__call__`
         method raised exception.
@@ -1562,7 +1603,7 @@ default` property.
         pytest.raises(ValueError, null_interpolator, 11)
 
     @ignore_numpy_errors
-    def test_nan__call__(self):
+    def test_nan__call__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.NullInterpolator.__call__`
         method nan support.
@@ -1584,7 +1625,7 @@ class TestLagrangeCoefficients:
     definition unit tests methods.
     """
 
-    def test_lagrange_coefficients(self):
+    def test_lagrange_coefficients(self) -> None:
         """
         Test :func:`colour.algebra.interpolation.lagrange_coefficients`
         definition.
@@ -1610,101 +1651,13 @@ class TestLagrangeCoefficients:
         )
 
 
-class TestVerticesAndRelativeCoordinates:
-    """
-    Define :func:`colour.algebra.interpolation.\
-vertices_and_relative_coordinates` definition unit tests methods.
-    """
-
-    def test_vertices_and_relative_coordinates(self):
-        """
-        Test :func:`colour.algebra.interpolation.\
-vertices_and_relative_coordinates` definition.
-        """
-
-        prng = np.random.RandomState(4)
-
-        V_xyz = random_triplet_generator(4, random_state=prng)
-        vertices, V_xyzr = vertices_and_relative_coordinates(V_xyz, LUT_TABLE)
-
-        np.testing.assert_allclose(
-            vertices,
-            np.array(
-                [
-                    [
-                        [0.58919500, 0.58919500, 0.13916400],
-                        [0.33333300, 0.00000000, 0.33333300],
-                        [0.83331100, 0.83331100, 0.83331100],
-                        [0.79789400, -0.03541200, -0.03541200],
-                    ],
-                    [
-                        [0.59460100, 0.59460100, 0.36958600],
-                        [0.39062300, 0.00000000, 0.78124600],
-                        [0.83331100, 0.83331100, 1.24996300],
-                        [0.75276700, -0.02847900, 0.36214400],
-                    ],
-                    [
-                        [0.66343200, 0.93018800, 0.12992000],
-                        [0.41665500, 0.41665500, 0.41665500],
-                        [0.70710200, 1.11043500, 0.70710200],
-                        [0.63333300, 0.31666700, 0.00000000],
-                    ],
-                    [
-                        [0.68274900, 0.99108200, 0.37441600],
-                        [0.41665500, 0.41665500, 0.83330800],
-                        [0.51971400, 0.74472900, 0.74472900],
-                        [0.73227800, 0.31562600, 0.31562600],
-                    ],
-                    [
-                        [0.89131800, 0.61982300, 0.07683300],
-                        [0.75276700, -0.02847900, 0.36214400],
-                        [1.06561000, 0.64895700, 0.64895700],
-                        [1.19684100, -0.05311700, -0.05311700],
-                    ],
-                    [
-                        [0.95000000, 0.63333300, 0.31666700],
-                        [0.66666700, 0.00000000, 0.66666700],
-                        [1.00000000, 0.66666700, 1.00000000],
-                        [1.16258800, -0.05037200, 0.35394800],
-                    ],
-                    [
-                        [0.88379200, 0.88379200, 0.20874600],
-                        [0.73227800, 0.31562600, 0.31562600],
-                        [0.89460600, 0.89460600, 0.66959000],
-                        [1.03843900, 0.31089900, -0.05287000],
-                    ],
-                    [
-                        [0.88919900, 0.88919900, 0.43916800],
-                        [0.66666700, 0.33333300, 0.66666700],
-                        [1.24996600, 1.24996600, 1.24996600],
-                        [1.13122500, 0.29792000, 0.29792000],
-                    ],
-                ]
-            ),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            V_xyzr,
-            np.array(
-                [
-                    [0.90108952, 0.09318647, 0.75894709],
-                    [0.64169675, 0.64826849, 0.30437460],
-                    [0.91805308, 0.92882336, 0.33814877],
-                    [0.14444798, 0.01869077, 0.59305522],
-                ]
-            ),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-
 class TestTableInterpolationTrilinear:
     """
     Define :func:`colour.algebra.interpolation.\
 table_interpolation_trilinear` definition unit tests methods.
     """
 
-    def test_interpolation_trilinear(self):
+    def test_interpolation_trilinear(self) -> None:
         """
         Test :func:`colour.algebra.interpolation.\
 table_interpolation_trilinear` definition.
@@ -1746,7 +1699,7 @@ class TestTableInterpolationTetrahedral:
 table_interpolation_tetrahedral` definition unit tests methods.
     """
 
-    def test_interpolation_tetrahedral(self):
+    def test_interpolation_tetrahedral(self) -> None:
         """
         Test :func:`colour.algebra.interpolation.\
 table_interpolation_tetrahedral` definition.
@@ -1778,5 +1731,35 @@ table_interpolation_tetrahedral` definition.
                     [0.61272658, 0.92799297, 0.29650424],
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+
+class TestTableInterpolation:
+    """
+    Define :func:`colour.algebra.interpolation.table_interpolation`
+    wrapper definition unit tests methods.
+    """
+
+    def test_table_interpolation(self) -> None:
+        """
+        Test :func:`colour.algebra.interpolation.table_interpolation`
+        wrapper definition.
+        """
+
+        prng = np.random.RandomState(4)
+        V_xyz = prng.random_sample((10, 3))
+
+        # Test with "Trilinear" method
+        np.testing.assert_allclose(
+            table_interpolation(V_xyz, LUT_TABLE, method="Trilinear"),
+            table_interpolation_trilinear(V_xyz, LUT_TABLE),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # Test with "Tetrahedral" method
+        np.testing.assert_allclose(
+            table_interpolation(V_xyz, LUT_TABLE, method="Tetrahedral"),
+            table_interpolation_tetrahedral(V_xyz, LUT_TABLE),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

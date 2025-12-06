@@ -1,99 +1,108 @@
+from __future__ import annotations
+
 import sys
+import typing
 
 from colour.utilities.deprecation import ModuleAPI, build_API_changes
 from colour.utilities.documentation import is_documentation_building
 
-from colour.hints import Any
+if typing.TYPE_CHECKING:
+    from colour.hints import Any
 
 from .common import (
-    get_sdiv_mode,
-    set_sdiv_mode,
-    sdiv_mode,
-    sdiv,
-    is_spow_enabled,
-    set_spow_enable,
-    spow_enable,
-    spow,
-    normalise_vector,
-    normalise_maximum,
-    vecmul,
+    eigen_decomposition,
     euclidean_distance,
-    manhattan_distance,
+    get_sdiv_mode,
+    is_identity,
+    is_spow_enabled,
+    lerp,
     linear_conversion,
     linstep_function,
-    lerp,
-    smoothstep_function,
+    manhattan_distance,
+    normalise_maximum,
+    normalise_vector,
+    sdiv,
+    sdiv_mode,
+    set_sdiv_mode,
+    set_spow_enable,
     smooth,
-    is_identity,
-    eigen_decomposition,
+    smoothstep_function,
+    spow,
+    spow_enable,
+    vecmul,
 )
-from .coordinates import *  # noqa: F403
+
+# isort: split
+
 from . import coordinates
+from .coordinates import *  # noqa: F403
 from .interpolation import (
-    kernel_nearest_neighbour,
-    kernel_linear,
-    kernel_sinc,
-    kernel_lanczos,
-    kernel_cardinal_spline,
-    KernelInterpolator,
-    NearestNeighbourInterpolator,
-    LinearInterpolator,
-    SpragueInterpolator,
-    CubicSplineInterpolator,
-    PchipInterpolator,
-    NullInterpolator,
-    lagrange_coefficients,
-    table_interpolation_trilinear,
-    table_interpolation_tetrahedral,
     TABLE_INTERPOLATION_METHODS,
+    CubicSplineInterpolator,
+    KernelInterpolator,
+    LinearInterpolator,
+    NearestNeighbourInterpolator,
+    NullInterpolator,
+    PchipInterpolator,
+    SpragueInterpolator,
+    kernel_cardinal_spline,
+    kernel_lanczos,
+    kernel_linear,
+    kernel_nearest_neighbour,
+    kernel_sinc,
+    lagrange_coefficients,
     table_interpolation,
+    table_interpolation_tetrahedral,
+    table_interpolation_trilinear,
 )
+
+# isort: split
+
 from .extrapolation import Extrapolator
 from .prng import random_triplet_generator
 from .regression import least_square_mapping_MoorePenrose
 
-__all__ = []
-__all__ += [
-    "get_sdiv_mode",
-    "set_sdiv_mode",
-    "sdiv_mode",
-    "sdiv",
-    "is_spow_enabled",
-    "set_spow_enable",
-    "spow_enable",
-    "spow",
-    "normalise_vector",
-    "normalise_maximum",
-    "vecmul",
+__all__ = [
+    "eigen_decomposition",
     "euclidean_distance",
-    "manhattan_distance",
+    "get_sdiv_mode",
+    "is_identity",
+    "is_spow_enabled",
+    "lerp",
     "linear_conversion",
     "linstep_function",
-    "lerp",
-    "smoothstep_function",
+    "manhattan_distance",
+    "normalise_maximum",
+    "normalise_vector",
+    "sdiv",
+    "sdiv_mode",
+    "set_sdiv_mode",
+    "set_spow_enable",
     "smooth",
-    "is_identity",
-    "eigen_decomposition",
+    "smoothstep_function",
+    "spow",
+    "spow_enable",
+    "vecmul",
 ]
 __all__ += coordinates.__all__
 __all__ += [
-    "kernel_nearest_neighbour",
-    "kernel_linear",
-    "kernel_sinc",
-    "kernel_lanczos",
-    "kernel_cardinal_spline",
-    "KernelInterpolator",
-    "NearestNeighbourInterpolator",
-    "LinearInterpolator",
-    "SpragueInterpolator",
-    "CubicSplineInterpolator",
-    "PchipInterpolator",
-    "NullInterpolator",
-    "lagrange_coefficients",
-    "table_interpolation_trilinear",
-    "table_interpolation_tetrahedral",
     "TABLE_INTERPOLATION_METHODS",
+    "CubicSplineInterpolator",
+    "KernelInterpolator",
+    "LinearInterpolator",
+    "NearestNeighbourInterpolator",
+    "NullInterpolator",
+    "PchipInterpolator",
+    "SpragueInterpolator",
+    "kernel_cardinal_spline",
+    "kernel_lanczos",
+    "kernel_linear",
+    "kernel_nearest_neighbour",
+    "kernel_sinc",
+    "lagrange_coefficients",
     "table_interpolation",
+    "table_interpolation_tetrahedral",
+    "table_interpolation_trilinear",
 ]
 __all__ += [
     "Extrapolator",
@@ -112,7 +121,7 @@ __all__ += [
 class algebra(ModuleAPI):
     """Define a class acting like the *algebra* module."""
 
-    def __getattr__(self, attribute) -> Any:
+    def __getattr__(self, attribute: str) -> Any:
         """Return the value from the attribute with given name."""
 
         return super().__getattr__(attribute)
@@ -127,10 +136,10 @@ API_CHANGES: dict = {
         ],
     ]
 }
-"""Defines the *colour.algebra* sub-package API changes."""
+"""*colour.algebra* sub-package API changes."""
 
 
-API_CHANGES["ObjectRemoved"] = [  # pyright: ignore
+API_CHANGES["ObjectRemoved"] = [
     "colour.algebra.matrix_dot",
 ]
 

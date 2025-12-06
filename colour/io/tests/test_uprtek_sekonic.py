@@ -4,17 +4,18 @@ from __future__ import annotations
 
 import json
 import os
+import typing
 
 import numpy as np
 import pytest
 
 from colour.colorimetry import SpectralDistribution
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import Any
-from colour.io import (
-    SpectralDistribution_Sekonic,
-    SpectralDistribution_UPRTek,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any
+
+from colour.io import SpectralDistribution_Sekonic, SpectralDistribution_UPRTek
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -24,7 +25,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 __all__ = [
     "ROOT_RESOURCES",
-    "FixtureAbstractSpectralDistribution",
+    "AbstractTestSpectralDistribution",
     "TestSpectralDistributionUprTek",
     "TestSpectralDistributionSekonic",
 ]
@@ -32,7 +33,7 @@ __all__ = [
 ROOT_RESOURCES: str = os.path.join(os.path.dirname(__file__), "resources")
 
 
-class FixtureAbstractSpectralDistribution:
+class AbstractTestSpectralDistribution:
     """
     Define :class:`colour.SpectralDistribution_UPRTek`,
     :class:`colour.SpectralDistribution_Sekonic` classes common unit tests
@@ -44,11 +45,12 @@ class FixtureAbstractSpectralDistribution:
         """Configure the class instance."""
 
         self._sd_factory: Any = None
-        self._path: str | None = None
+        self._path: str = ROOT_RESOURCES
         self._spectral_data: dict | None = None
-        self._prefix: str | None = None
+        self._prefix: str = ""
+        self._header: dict = {}
 
-    def test_required_attributes(self):
+    def test_required_attributes(self) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = (
@@ -66,7 +68,7 @@ class FixtureAbstractSpectralDistribution:
         for attribute in required_attributes:
             assert attribute in dir(SpectralDistribution_UPRTek)
 
-    def test_required_methods(self):
+    def test_required_methods(self) -> None:
         """Test the presence of required methods."""
 
         required_methods = ("__init__", "__str__", "read", "write")
@@ -74,7 +76,7 @@ class FixtureAbstractSpectralDistribution:
         for method in required_methods:
             assert method in dir(SpectralDistribution_UPRTek)
 
-    def test__str__(self):
+    def test__str__(self) -> None:
         """
         Test :meth:`colour.SpectralDistribution_UPRTek.__str__` and
         :meth:`colour.SpectralDistribution_Sekonic.__str__` methods.
@@ -84,7 +86,7 @@ class FixtureAbstractSpectralDistribution:
             self._sd_factory(os.path.join(ROOT_RESOURCES, self._path)).read()
         ).startswith(self._prefix)
 
-    def test_read(self):
+    def test_read(self) -> None:
         """
         Test :meth:`colour.SpectralDistribution_UPRTek.read` and
         :meth:`colour.SpectralDistribution_Sekonic.read` methods.
@@ -107,8 +109,15 @@ class FixtureAbstractSpectralDistribution:
                     else:
                         assert getattr(sd.header, specification.attribute) == value
 
+        metadata = sd.metadata
+        assert isinstance(metadata, dict)
+        comments = json.loads(sd.header.comments)
+        for key in comments:
+            if key in metadata:
+                assert metadata[key] == comments[key]
 
-class TestSpectralDistributionUprTek(FixtureAbstractSpectralDistribution):
+
+class TestSpectralDistributionUprTek(AbstractTestSpectralDistribution):
     """
     Define :class:`colour.SpectralDistribution_UPRTek` class unit tests
     methods.
@@ -581,7 +590,7 @@ class TestSpectralDistributionUprTek(FixtureAbstractSpectralDistribution):
         self._prefix = "UPRTek"
 
 
-class TestSpectralDistributionSekonic(FixtureAbstractSpectralDistribution):
+class TestSpectralDistributionSekonic(AbstractTestSpectralDistribution):
     """
     Define :class:`colour.SpectralDistribution_Sekonic` class unit tests
     methods.

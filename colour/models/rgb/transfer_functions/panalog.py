@@ -2,7 +2,7 @@
 Panalog Encoding
 ================
 
-Define the *Panalog* encoding:
+Define the *Panalog* encoding.
 
 -   :func:`colour.models.log_encoding_Panalog`
 -   :func:`colour.models.log_decoding_Panalog`
@@ -19,13 +19,12 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat
-from colour.utilities import (
-    as_float,
-    as_float_array,
-    from_range_1,
-    to_domain_1,
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    Range1,
 )
+from colour.utilities import as_float, as_float_array, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -41,12 +40,11 @@ __all__ = [
 
 
 def log_encoding_Panalog(
-    x: ArrayLike,
+    x: Domain1,
     black_offset: ArrayLike = 10 ** ((64 - 681) / 444),
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Define the *Panalog* log encoding curve / opto-electronic transfer
-    function.
+    Apply the *Panalog* log encoding opto-electronic transfer function (OETF).
 
     Parameters
     ----------
@@ -58,7 +56,7 @@ def log_encoding_Panalog(
     Returns
     -------
     :class:`numpy.ndarray`
-        Non-linear data :math:`y`.
+        *Panalog* non-linear encoded data :math:`y`.
 
     Warnings
     --------
@@ -70,13 +68,13 @@ def log_encoding_Panalog(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -98,17 +96,16 @@ def log_encoding_Panalog(
 
 
 def log_decoding_Panalog(
-    y: ArrayLike,
+    y: Domain1,
     black_offset: ArrayLike = 10 ** ((64 - 681) / 444),
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Define the *Panalog* log decoding curve / electro-optical transfer
-    function.
+    Apply the *Panalog* log decoding inverse opto-electronic transfer function (OETF).
 
     Parameters
     ----------
     y
-        Non-linear data :math:`y`.
+        *Panalog* non-linear encoded data :math:`y`.
     black_offset
         Black offset.
 
@@ -119,21 +116,21 @@ def log_decoding_Panalog(
 
     Warnings
     --------
-    These are estimations known to be close enough, the actual log encoding
-    curves are not published.
+    These are estimations known to be close enough, the actual log
+    encoding curves are not published.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References

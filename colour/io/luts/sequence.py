@@ -1,8 +1,9 @@
 """
-LUT Operator
+LUT Sequence
 ============
 
-Define the *LUT* sequence class:
+Define the *LUT* sequence container for Look-Up Table (LUT) processing
+pipelines:
 
 -   :class:`colour.LUTSequence`
 """
@@ -10,17 +11,20 @@ Define the *LUT* sequence class:
 from __future__ import annotations
 
 import re
+import typing
 from collections.abc import MutableSequence
 from copy import deepcopy
 
-from colour.hints import (
-    Any,
-    ArrayLike,
-    List,
-    NDArrayFloat,
-    ProtocolLUTSequenceItem,
-    Sequence,
-)
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        List,
+        NDArrayFloat,
+        Sequence,
+    )
+
+from colour.hints import ProtocolLUTSequenceItem
 from colour.utilities import as_float_array, attest, is_iterable
 
 __author__ = "Colour Developers"
@@ -37,12 +41,14 @@ __all__ = [
 
 class LUTSequence(MutableSequence):
     """
-    Define the base class for a *LUT* sequence, i.e., a series of *LUTs*,
-    *LUT* operators or objects implementing the
-    :class:`colour.hints.ProtocolLUTSequenceItem` protocol.
+    Define the base class for a *LUT* sequence.
 
-    The `colour.LUTSequence` class can be used to model series of *LUTs* such
-    as when a shaper *LUT* is combined with a 3D *LUT*.
+    A *LUT* sequence represents a series of *LUTs*, *LUT* operators or
+    objects implementing the :class:`colour.hints.ProtocolLUTSequenceItem`
+    protocol.
+
+    The :class:`colour.LUTSequence` class can be used to model series of
+    *LUTs* such as when a shaper *LUT* is combined with a 3D *LUT*.
 
     Other Parameters
     ----------------
@@ -116,7 +122,10 @@ class LUTSequence(MutableSequence):
     @property
     def sequence(self) -> List[ProtocolLUTSequenceItem]:
         """
-        Getter and setter property for the underlying *LUT* sequence.
+        Getter and setter for the underlying *LUT* sequence.
+
+        Access and modify the sequence of lookup table operations that
+        define the transformation pipeline.
 
         Parameters
         ----------
@@ -132,43 +141,43 @@ class LUTSequence(MutableSequence):
         return self._sequence
 
     @sequence.setter
-    def sequence(self, value: Sequence[ProtocolLUTSequenceItem]):
+    def sequence(self, value: Sequence[ProtocolLUTSequenceItem]) -> None:
         """Setter for the **self.sequence** property."""
 
         for item in value:
             attest(
                 isinstance(item, ProtocolLUTSequenceItem),
-                '"value" items must implement the "ProtocolLUTSequenceItem" '
-                "protocol!",
+                '"value" items must implement the "ProtocolLUTSequenceItem" protocol!',
             )
 
         self._sequence = list(value)
 
     def __getitem__(self, index: int | slice) -> Any:
         """
-        Return the *LUT* sequence item(s) at given index (or slice).
+        Return *LUT* sequence item(s) at specified index or slice.
 
         Parameters
         ----------
         index
-            Index (or slice) to return the *LUT* sequence item(s) at.
+            Index or slice to return *LUT* sequence item(s) at.
 
         Returns
         -------
         ProtocolLUTSequenceItem
-            *LUT* sequence item(s) at given index (or slice).
+            *LUT* sequence item(s) at specified index or slice.
         """
 
         return self._sequence[index]
 
-    def __setitem__(self, index: int | slice, value: Any):
+    def __setitem__(self, index: int | slice, value: Any) -> None:
         """
-        Set the *LUT* sequence at given index (or slice) with given value.
+        Set the *LUT* sequence at the specified index or slice with the
+        specified value.
 
         Parameters
         ----------
         index
-            Index (or slice) to set the *LUT* sequence value at.
+            Index or slice to set the *LUT* sequence value at.
         value
             Value to set the *LUT* sequence with.
         """
@@ -176,15 +185,14 @@ class LUTSequence(MutableSequence):
         for item in value if is_iterable(value) else [value]:
             attest(
                 isinstance(item, ProtocolLUTSequenceItem),
-                '"value" items must implement the "ProtocolLUTSequenceItem" '
-                "protocol!",
+                '"value" items must implement the "ProtocolLUTSequenceItem" protocol!',
             )
 
         self._sequence[index] = value
 
-    def __delitem__(self, index: int | slice):
+    def __delitem__(self, index: int | slice) -> None:
         """
-        Delete the *LUT* sequence item(s) at given index (or slice).
+        Delete the *LUT* sequence item(s) at the specified index (or slice).
 
         Parameters
         ----------
@@ -245,6 +253,9 @@ class LUTSequence(MutableSequence):
         """
         Return an evaluable string representation of the *LUT* sequence.
 
+        Generate a string representation that can be evaluated to recreate
+        the *LUT* sequence with its current state.
+
         Returns
         -------
         :class:`str`
@@ -261,9 +272,14 @@ class LUTSequence(MutableSequence):
 
         return f"{self.__class__.__name__}(\n{operations}\n)"
 
-    def __eq__(self, other) -> bool:
+    __hash__ = None  # pyright: ignore
+
+    def __eq__(self, other: object) -> bool:
         """
-        Return whether the *LUT* sequence is equal to given other object.
+        Test whether the *LUT* sequence is equal to the specified other object.
+
+        Compare this *LUT* sequence with another object for equality. The
+        comparison evaluates structural and content equivalence.
 
         Parameters
         ----------
@@ -273,7 +289,7 @@ class LUTSequence(MutableSequence):
         Returns
         -------
         :class:`bool`
-            Whether given object is equal to the *LUT* sequence.
+            Whether specified object is equal to the *LUT* sequence.
         """
 
         if not isinstance(other, LUTSequence):
@@ -284,9 +300,10 @@ class LUTSequence(MutableSequence):
 
         return all(self[i] == other[i] for i in range(len(self)))
 
-    def __ne__(self, other) -> bool:
+    def __ne__(self, other: object) -> bool:
         """
-        Return whether the *LUT* sequence is not equal to given other object.
+        Return whether the *LUT* sequence is not equal to the specified other
+        object.
 
         Parameters
         ----------
@@ -296,19 +313,20 @@ class LUTSequence(MutableSequence):
         Returns
         -------
         :class:`bool`
-            Whether given object is not equal to the *LUT* sequence.
+            Whether the specified object is not equal to the *LUT* sequence.
         """
 
         return not (self == other)
 
-    def insert(self, index: int, value: ProtocolLUTSequenceItem):
+    def insert(self, index: int, value: ProtocolLUTSequenceItem) -> None:
         """
-        Insert given *LUT* at given index into the *LUT* sequence.
+        Insert the specified *LUT* at the specified index in the *LUT*
+        sequence.
 
         Parameters
         ----------
         index
-            Index to insert the item at into the *LUT* sequence.
+            Index at which to insert the item in the *LUT* sequence.
         value
             *LUT* to insert into the *LUT* sequence.
         """
@@ -322,7 +340,7 @@ class LUTSequence(MutableSequence):
 
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArrayFloat:
         """
-        Apply the *LUT* sequence sequentially to given *RGB* colourspace
+        Apply the *LUT* sequence sequentially to the specified *RGB* colourspace
         array.
 
         Parameters
@@ -334,12 +352,12 @@ class LUTSequence(MutableSequence):
         Other Parameters
         ----------------
         kwargs
-            Keywords arguments, the keys must be the class type names for which
-            they are intended to be used with. There is no implemented way to
-            discriminate which class instance the keyword arguments should be
-            used with, thus if many class instances of the same type are
-            members of the sequence, any matching keyword arguments will be
-            used with all the class instances.
+            Keywords arguments. The keys must be the class type names for
+            which they are intended to be used with. There is no implemented
+            way to discriminate which class instance the keyword arguments
+            should be used with, thus if many class instances of the same
+            type are members of the sequence, any matching keyword arguments
+            will be used with all the class instances.
 
         Returns
         -------

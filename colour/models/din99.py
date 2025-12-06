@@ -3,7 +3,7 @@ DIN99 Colourspace and DIN99b, DIN99c, DIN99d Refined Formulas
 =============================================================
 
 Define the *DIN99* colourspace and *DIN99b*, *DIN99c*, *DIN99d* refined
-formulas transformations:
+formulas transformations.
 
 -   :func:`colour.Lab_to_DIN99`
 -   :func:`colour.DIN99_to_Lab`
@@ -23,11 +23,23 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import spow
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Literal
+
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    Domain100,
+    Range1,
+    Range100,
+)
 from colour.models import Lab_to_XYZ, XYZ_to_Lab
 from colour.utilities import (
     CanonicalMapping,
@@ -65,8 +77,8 @@ DIN99_METHODS: CanonicalMapping = CanonicalMapping(
     }
 )
 """
-*DIN99* colourspace methods, i.e., the coefficients for the *DIN99b*, *DIN99c*,
-and *DIN99d* refined formulas according to *Cui et al. (2002)*.
+Supported *DIN99* colourspace methods, i.e., the coefficients for the *DIN99b*,
+*DIN99c*, and *DIN99d* refined formulas according to *Cui et al. (2002)*.
 
 References
 ----------
@@ -75,31 +87,30 @@ References
 
 
 def Lab_to_DIN99(
-    Lab: ArrayLike,
+    Lab: Domain100,
     k_E: float = 1,
     k_CH: float = 1,
     method: (
         Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"] | str
     ) = "DIN99",
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Convert from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace or
-    one of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according
-    to *Cui et al. (2002)*.
+    Convert from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace or one
+    of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according to
+    *Cui et al. (2002)*.
 
     Parameters
     ----------
     Lab
         *CIE L\\*a\\*b\\** colourspace array.
     k_E
-        Parametric factor :math:`K_E` used to compensate for texture and other
-        specimen presentation effects.
-    k_CH
-        Parametric factor :math:`K_{CH}` used to compensate for texture and
+        Parametric factor :math:`K_E` used to compensate for texture and
         other specimen presentation effects.
+    k_CH
+        Parametric factor :math:`K_{CH}` used to compensate for texture
+        and other specimen presentation effects.
     method
-        Computation method to choose between the :cite:`ASTMInternational2007`
-        formula and the refined formulas according to *Cui et al. (2002)*.
+        Computation method.
 
     Returns
     -------
@@ -111,21 +122,13 @@ def Lab_to_DIN99(
     +------------+------------------------+--------------------+
     | **Domain** | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
-    | ``Lab``    | ``L`` : [0, 100]       | ``L`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``a`` : [-100, 100]    | ``a`` : [-1, 1]    |
-    |            |                        |                    |
-    |            | ``b`` : [-100, 100]    | ``b`` : [-1, 1]    |
+    | ``Lab``    | 100                    | 1                  |
     +------------+------------------------+--------------------+
 
     +------------+------------------------+--------------------+
     | **Range**  | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
-    | ``Lab_99`` | ``L_99`` : [0, 100]    | ``L_99`` : [0, 1]  |
-    |            |                        |                    |
-    |            | ``a_99`` : [-100, 100] | ``a_99`` : [-1, 1] |
-    |            |                        |                    |
-    |            | ``b_99`` : [-100, 100] | ``b_99`` : [-1, 1] |
+    | ``Lab_99`` | 100                    | 1                  |
     +------------+------------------------+--------------------+
 
     References
@@ -167,31 +170,30 @@ def Lab_to_DIN99(
 
 
 def DIN99_to_Lab(
-    Lab_99: ArrayLike,
+    Lab_99: Domain100,
     k_E: float = 1,
     k_CH: float = 1,
     method: (
         Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"] | str
     ) = "DIN99",
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
-    *DIN99d* refined formulas according to *Cui et al. (2002)* to
-    *CIE L\\*a\\*b\\** colourspace.
+    Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*, *DIN99d*
+    refined formulas according to *Cui et al. (2002)* to *CIE L\\*a\\*b\\**
+    colourspace.
 
     Parameters
     ----------
     Lab_99
         *DIN99* colourspace array.
     k_E
-        Parametric factor :math:`K_E` used to compensate for texture and other
-        specimen presentation effects.
+        Parametric factor :math:`K_E` used to compensate for texture
+        and other specimen presentation effects.
     k_CH
-        Parametric factor :math:`K_{CH}` used to compensate for texture and
-        other specimen presentation effects.
+        Parametric factor :math:`K_{CH}` used to compensate for texture
+        and other specimen presentation effects.
     method
-        Computation method to choose between the :cite:`ASTMInternational2007`
-        formula and the refined formulas according to *Cui et al. (2002)*.
+        Computation method.
 
     Returns
     -------
@@ -203,21 +205,13 @@ def DIN99_to_Lab(
     +------------+------------------------+--------------------+
     | **Domain** | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
-    | ``Lab_99`` | ``L_99`` : [0, 100]    | ``L_99`` : [0, 1]  |
-    |            |                        |                    |
-    |            | ``a_99`` : [-100, 100] | ``a_99`` : [-1, 1] |
-    |            |                        |                    |
-    |            | ``b_99`` : [-100, 100] | ``b_99`` : [-1, 1] |
+    | ``Lab_99`` | 100                    | 1                  |
     +------------+------------------------+--------------------+
 
     +------------+------------------------+--------------------+
     | **Range**  | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
-    | ``Lab``    | ``L`` : [0, 100]       | ``L`` : [0, 1]     |
-    |            |                        |                    |
-    |            | ``a`` : [-100, 100]    | ``a`` : [-1, 1]    |
-    |            |                        |                    |
-    |            | ``b`` : [-100, 100]    | ``b`` : [-1, 1]    |
+    | ``Lab``    | 100                    | 1                  |
     +------------+------------------------+--------------------+
 
     References
@@ -259,7 +253,7 @@ def DIN99_to_Lab(
 
 
 def XYZ_to_DIN99(
-    XYZ: ArrayLike,
+    XYZ: Domain1,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
@@ -268,11 +262,11 @@ def XYZ_to_DIN99(
     method: (
         Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"] | str
     ) = "DIN99",
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Convert from *CIE XYZ* tristimulus values to *DIN99* colourspace or
-    one of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according
-    to *Cui et al. (2002)*.
+    Convert from *CIE XYZ* tristimulus values to *DIN99* colourspace or one
+    of the *DIN99b*, *DIN99c*, *DIN99d* refined formulas according to
+    *Cui et al. (2002)*.
 
     Parameters
     ----------
@@ -282,14 +276,13 @@ def XYZ_to_DIN99(
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
     k_E
-        Parametric factor :math:`K_E` used to compensate for texture and other
-        specimen presentation effects.
+        Parametric factor :math:`K_E` used to compensate for texture and
+        other specimen presentation effects.
     k_CH
         Parametric factor :math:`K_{CH}` used to compensate for texture and
         other specimen presentation effects.
     method
-        Computation method to choose between the :cite:`ASTMInternational2007`
-        formula and the refined formulas according to *Cui et al. (2002)*.
+        Computation method.
 
     Returns
     -------
@@ -301,19 +294,15 @@ def XYZ_to_DIN99(
     +----------------+-----------------------+-----------------+
     | **Domain**     | **Scale - Reference** | **Scale - 1**   |
     +================+=======================+=================+
-    | ``XYZ``        | [0, 1]                | [0, 1]          |
+    | ``XYZ``        | 1                     | 1               |
     +----------------+-----------------------+-----------------+
-    | ``illuminant`` | [0, 1]                | [0, 1]          |
+    | ``illuminant`` | 1                     | 1               |
     +----------------+-----------------------+-----------------+
 
     +------------+------------------------+--------------------+
     | **Range**  | **Scale - Reference**  | **Scale - 1**      |
     +============+========================+====================+
-    | ``Lab_99`` | ``L_99`` : [0, 100]    | ``L_99`` : [0, 1]  |
-    |            |                        |                    |
-    |            | ``a_99`` : [-100, 100] | ``a_99`` : [-1, 1] |
-    |            |                        |                    |
-    |            | ``b_99`` : [-100, 100] | ``b_99`` : [-1, 1] |
+    | ``Lab_99`` | 100                    | 1                  |
     +------------+------------------------+--------------------+
 
     References
@@ -334,7 +323,7 @@ def XYZ_to_DIN99(
 
 
 def DIN99_to_XYZ(
-    Lab_99: ArrayLike,
+    Lab_99: Domain100,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
@@ -343,11 +332,11 @@ def DIN99_to_XYZ(
     method: (
         Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"] | str
     ) = "DIN99",
-) -> NDArrayFloat:
+) -> Range1:
     """
     Convert from *DIN99* colourspace or one of the *DIN99b*, *DIN99c*,
-    *DIN99d* refined formulas according to *Cui et al. (2002)* to *CIE XYZ*
-    tristimulus values.
+    *DIN99d* refined formulas according to *Cui et al. (2002)* to
+    *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -357,14 +346,13 @@ def DIN99_to_XYZ(
         Reference *illuminant* *CIE xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
     k_E
-        Parametric factor :math:`K_E` used to compensate for texture and other
-        specimen presentation effects.
+        Parametric factor :math:`K_E` used to compensate for texture
+        and other specimen presentation effects.
     k_CH
-        Parametric factor :math:`K_{CH}` used to compensate for texture and
-        other specimen presentation effects.
+        Parametric factor :math:`K_{CH}` used to compensate for texture
+        and other specimen presentation effects.
     method
-        Computation method to choose between the :cite:`ASTMInternational2007`
-        formula and the refined formulas according to *Cui et al. (2002)*.
+        Computation method.
 
     Returns
     -------
@@ -376,19 +364,15 @@ def DIN99_to_XYZ(
     +----------------+------------------------+--------------------+
     | **Domain**     | **Scale - Reference**  | **Scale - 1**      |
     +================+========================+====================+
-    | ``Lab_99``     | ``L_99`` : [0, 100]    | ``L_99`` : [0, 1]  |
-    |                |                        |                    |
-    |                | ``a_99`` : [-100, 100] | ``a_99`` : [-1, 1] |
-    |                |                        |                    |
-    |                | ``b_99`` : [-100, 100] | ``b_99`` : [-1, 1] |
+    | ``Lab_99``     | 100                    | 1                  |
     +----------------+------------------------+--------------------+
-    | ``illuminant`` | [0, 1]                 | [0, 1]             |
+    | ``illuminant`` | 1                      | 1                  |
     +----------------+------------------------+--------------------+
 
     +----------------+-----------------------+---------------------+
     | **Range**      | **Scale - Reference** | **Scale - 1**       |
     +================+=======================+=====================+
-    | ``XYZ``        | [0, 1]                | [0, 1]              |
+    | ``XYZ``        | 1                     | 1                   |
     +----------------+-----------------------+---------------------+
 
     References

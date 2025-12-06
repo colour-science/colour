@@ -1,4 +1,9 @@
-"""Showcase *ICtCp* *colour encoding* computations."""
+"""
+Demonstrate *ICtCp* colour encoding computations.
+
+This module provides examples of conversions between RGB colourspaces
+and the *ICtCp* colour encoding.
+"""
 
 import numpy as np
 

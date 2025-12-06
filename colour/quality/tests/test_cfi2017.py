@@ -12,6 +12,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
+from colour import MSDS_CMFS
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
     SpectralDistribution,
@@ -22,7 +23,9 @@ from colour.colorimetry import (
 from colour.quality.cfi2017 import (
     CCT_reference_illuminant,
     colour_fidelity_index_CIE2017,
+    load_TCS_CIE2017,
     sd_reference_illuminant,
+    tcs_colorimetry_data,
 )
 from colour.utilities import ColourUsageWarning
 
@@ -41,6 +44,7 @@ __all__ = [
     "TestColourFidelityIndexCIE2017",
     "TestCctReferenceIlluminant",
     "TestSdReferenceIlluminant",
+    "TestTcsColorimetryData",
 ]
 
 DATA_SD_SAMPLE_5NM: dict = {
@@ -552,7 +556,7 @@ class TestColourFidelityIndexCIE2017:
     definition unit tests methods.
     """
 
-    def test_colour_fidelity_index_CIE2017(self):
+    def test_colour_fidelity_index_CIE2017(self) -> None:
         """
         Test :func:`colour.quality.CIE2017.colour_fidelity_index_CIE2017`
         definition.
@@ -887,7 +891,7 @@ class TestColourFidelityIndexCIE2017:
             atol=0.1,
         )
 
-    def test_raise_exception_colour_fidelity_index_CFI2017(self):
+    def test_raise_exception_colour_fidelity_index_CFI2017(self) -> None:
         """
         Test :func:`colour.quality.CIE2017.colour_fidelity_index_CFI2017`
         definition raised exception.
@@ -906,7 +910,7 @@ class TestCctReferenceIlluminant:
     definition unit tests methods.
     """
 
-    def test_CCT_reference_illuminant(self):
+    def test_CCT_reference_illuminant(self) -> None:
         """
         Test :func:`colour.quality.CIE2017.CCT_reference_illuminant`
         definition.
@@ -924,7 +928,7 @@ class TestSdReferenceIlluminant:
     definition unit tests methods.
     """
 
-    def test_sd_reference_illuminant(self):
+    def test_sd_reference_illuminant(self) -> None:
         """
         Test :func:`colour.quality.CIE2017.sd_reference_illuminant`
         definition.
@@ -942,3 +946,24 @@ class TestSdReferenceIlluminant:
                 sd_blackbody(3288, shape).values,
                 atol=1.75,
             )
+
+
+class TestTcsColorimetryData:
+    """
+    Define :func:`colour.quality.cfi2017.tcs_colorimetry_data`
+    definition unit tests methods.
+    """
+
+    def test_tcs_colorimetry_data_single_sd(self) -> None:
+        """
+        Test :func:`colour.quality.cfi2017.tcs_colorimetry_data` definition
+        with a single spectral distribution (not a list).
+        """
+
+        shape = SpectralShape(380, 780, 5)
+        sd = SD_SAMPLE_5NM.copy().align(shape)
+        cmfs = MSDS_CMFS["CIE 1964 10 Degree Standard Observer"].copy().align(shape)
+        test_sds = load_TCS_CIE2017(shape)
+
+        result = tcs_colorimetry_data(sd, test_sds, cmfs)
+        assert len(result) == 1

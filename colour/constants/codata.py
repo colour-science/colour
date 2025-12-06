@@ -6,10 +6,7 @@ Define various constants from recommended values by the Committee on Data for
 Science and Technology (CODATA).
 """
 
-from colour.utilities.documentation import (
-    DocstringFloat,
-    is_documentation_building,
-)
+from colour.utilities.documentation import DocstringFloat, is_documentation_building
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

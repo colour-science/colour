@@ -1,13 +1,14 @@
-"""Showcase characterisation plotting examples."""
+"""
+Demonstrate characterisation plotting.
+
+This module provides examples of plotting colour rendition charts and
+spectral distributions for colour characterisation.
+"""
 
 from pprint import pprint
 
 import colour
-from colour.plotting import (
-    colour_style,
-    plot_multi_sds,
-    plot_single_colour_checker,
-)
+from colour.plotting import colour_style, plot_multi_sds, plot_single_colour_checker
 from colour.utilities import message_box
 
 message_box("Characterisation Plots")

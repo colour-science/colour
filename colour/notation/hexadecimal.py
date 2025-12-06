@@ -2,7 +2,8 @@
 Hexadecimal Notation
 ====================
 
-Define the objects for hexadecimal notation:
+Define objects for converting between RGB colour values and hexadecimal
+notation.
 
 -   :func:`colour.notation.RGB_to_HEX`
 -   :func:`colour.notation.HEX_to_RGB`
@@ -10,10 +11,20 @@ Define the objects for hexadecimal notation:
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import normalise_maximum
-from colour.hints import ArrayLike, NDArrayFloat, NDArrayStr
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayStr
+
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    Range1,
+)
 from colour.models import eotf_inverse_sRGB, eotf_sRGB
 from colour.utilities import (
     as_float_array,
@@ -36,26 +47,26 @@ __all__ = [
 ]
 
 
-def RGB_to_HEX(RGB: ArrayLike) -> NDArrayStr:
+def RGB_to_HEX(RGB: Domain1) -> NDArrayStr:
     """
     Convert from *RGB* colourspace to hexadecimal representation.
 
     Parameters
     ----------
     RGB
-        *RGB* colourspace array.
+        *RGB* colourspace array with values typically normalised to [0, 1].
 
     Returns
     -------
     :class:`str` or :class:`numpy.array`
-        Hexadecimal representation.
+        Hexadecimal representation as a string in the format '#RRGGBB'.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``RGB``    | [0, 1]                | [0, 1]        |
+    | ``RGB``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     Examples
@@ -86,31 +97,30 @@ def RGB_to_HEX(RGB: ArrayLike) -> NDArrayStr:
     to_HEX = np.vectorize("{:02x}".format)
 
     HEX = to_HEX(as_int_array(RGB * 255, dtype=np.uint8)).astype(object)
-    HEX = np.asarray("#") + HEX[..., 0] + HEX[..., 1] + HEX[..., 2]
 
-    return HEX
+    return np.asarray("#") + HEX[..., 0] + HEX[..., 1] + HEX[..., 2]
 
 
-def HEX_to_RGB(HEX: ArrayLike) -> NDArrayFloat:
+def HEX_to_RGB(HEX: ArrayLike) -> Range1:
     """
     Convert from hexadecimal representation to *RGB* colourspace.
 
     Parameters
     ----------
     HEX
-        Hexadecimal representation.
+        Hexadecimal representation as a string in the format '#RRGGBB'.
 
     Returns
     -------
     :class:`numpy.array`
-        *RGB* colourspace array.
+        *RGB* colourspace array with values typically normalised to [0, 1].
 
     Notes
     -----
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``RGB``   | [0, 1]                | [0, 1]        |
+    | ``RGB``   | 1                     | 1             |
     +-----------+-----------------------+---------------+
 
     Examples
@@ -123,7 +133,7 @@ def HEX_to_RGB(HEX: ArrayLike) -> NDArrayFloat:
     HEX = np.char.lstrip(HEX, "#")  # pyright: ignore
 
     def to_RGB(x: list) -> list:
-        """Convert given hexadecimal representation to *RGB*."""
+        """Convert specified hexadecimal representation to *RGB*."""
 
         l_x = len(x)
 

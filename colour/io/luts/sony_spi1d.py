@@ -11,9 +11,12 @@ objects:
 
 from __future__ import annotations
 
-from pathlib import Path
+import typing
 
 import numpy as np
+
+if typing.TYPE_CHECKING:
+    from colour.hints import PathLike
 
 from colour.io.luts import LUT1D, LUT3x1D, LUTSequence
 from colour.io.luts.common import path_to_title
@@ -38,14 +41,14 @@ __all__ = [
 ]
 
 
-def read_LUT_SonySPI1D(path: str | Path) -> LUT1D | LUT3x1D:
+def read_LUT_SonySPI1D(path: str | PathLike) -> LUT1D | LUT3x1D:
     """
-    Read given *Sony* *.spi1d* *LUT* file.
+    Read the specified *Sony* *.spi1d* *LUT* file.
 
     Parameters
     ----------
     path
-        *LUT* path.
+        *LUT* file path.
 
     Returns
     -------
@@ -103,7 +106,7 @@ def read_LUT_SonySPI1D(path: str | Path) -> LUT1D | LUT3x1D:
     comments = []
 
     with open(path) as spi1d_file:
-        lines = filter(None, (line.strip() for line in spi1d_file.readlines()))
+        lines = filter(None, (line.strip() for line in spi1d_file))
         for line in lines:
             if line.startswith("#"):
                 comments.append(line[1:].strip())
@@ -156,30 +159,30 @@ def read_LUT_SonySPI1D(path: str | Path) -> LUT1D | LUT3x1D:
 
 
 def write_LUT_SonySPI1D(
-    LUT: LUT1D | LUT3x1D | LUTSequence, path: str | Path, decimals: int = 7
+    LUT: LUT1D | LUT3x1D | LUTSequence, path: str | PathLike, decimals: int = 7
 ) -> bool:
     """
-    Write given *LUT* to given *Sony* *.spi1d* *LUT* file.
+    Write the specified *LUT* to the specified *Sony* *.spi1d* *LUT* file.
 
     Parameters
     ----------
     LUT
-        :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUTSequence` class instance
-        to write at given path.
+        :class:`LUT1D`, :class:`LUT3x1D` or :class:`LUTSequence` class
+        instance to write at the specified path.
     path
-        *LUT* path.
+        *LUT* file path.
     decimals
-        Formatting decimals.
+        Number of decimal places for formatting numeric values.
 
     Returns
     -------
     :class:`bool`
-        Definition success.
+        Whether the write operation was successful.
 
     Warnings
     --------
-    -   If a :class:`LUTSequence` class instance is passed as ``LUT``, the
-        first *LUT* in the *LUT* sequence will be used.
+    -   If a :class:`LUTSequence` class instance is passed as ``LUT``,
+        the first *LUT* in the *LUT* sequence will be used.
 
     Examples
     --------
@@ -193,7 +196,7 @@ def write_LUT_SonySPI1D(
     ...     domain,
     ...     comments=["A first comment.", "A second comment."],
     ... )
-    >>> write_LUT_SonySPI1D(LUT, "My_LUT.cube")  # doctest: +SKIP
+    >>> write_LUT_SonySPI1D(LUT, "My_LUT.spi1d")  # doctest: +SKIP
 
     Writing a 3x1D *Sony* *.spi1d* *LUT*:
 
@@ -204,7 +207,7 @@ def write_LUT_SonySPI1D(
     ...     domain,
     ...     comments=["A first comment.", "A second comment."],
     ... )
-    >>> write_LUT_SonySPI1D(LUT, "My_LUT.cube")  # doctest: +SKIP
+    >>> write_LUT_SonySPI1D(LUT, "My_LUT.spi1d")  # doctest: +SKIP
     """
 
     path = str(path)
@@ -246,12 +249,12 @@ def write_LUT_SonySPI1D(
         spi1d_file.write(f"Components {1 if is_1D else 3}\n")
 
         spi1d_file.write("{\n")
-        for array in LUTxD.table:
-            spi1d_file.write(f" {format_array_as_row(array, decimals)}\n")
+        spi1d_file.writelines(
+            f" {format_array_as_row(array, decimals)}\n" for array in LUTxD.table
+        )
         spi1d_file.write("}\n")
 
         if LUTxD.comments:
-            for comment in LUTxD.comments:
-                spi1d_file.write(f"# {comment}\n")
+            spi1d_file.writelines(f"# {comment}\n" for comment in LUTxD.comments)
 
     return True

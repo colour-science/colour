@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.colorimetry.yellowness` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -9,10 +11,7 @@ from colour.colorimetry import (
     yellowness_ASTME313,
     yellowness_ASTME313_alternative,
 )
-from colour.colorimetry.yellowness import (
-    YELLOWNESS_COEFFICIENTS_ASTME313,
-    yellowness,
-)
+from colour.colorimetry.yellowness import YELLOWNESS_COEFFICIENTS_ASTME313, yellowness
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
@@ -37,7 +36,7 @@ class TestYellownessASTMD1925:
     definition unit tests methods.
     """
 
-    def test_yellowness_ASTMD1925(self):
+    def test_yellowness_ASTMD1925(self) -> None:
         """
         Test :func:`colour.colorimetry.yellowness.yellowness_ASTMD1925`
         definition.
@@ -61,7 +60,7 @@ class TestYellownessASTMD1925:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_yellowness_ASTMD1925(self):
+    def test_n_dimensional_yellowness_ASTMD1925(self) -> None:
         """
         Test :func:`colour.colorimetry.yellowness.yellowness_ASTMD1925`
         definition n_dimensional arrays support.
@@ -82,7 +81,7 @@ class TestYellownessASTMD1925:
             yellowness_ASTMD1925(XYZ), YI, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_yellowness_ASTMD1925(self):
+    def test_domain_range_scale_yellowness_ASTMD1925(self) -> None:
         """
         Test :func:`colour.colorimetry.yellowness.yellowness_ASTMD1925`
         definition domain and range scale support.
@@ -101,7 +100,7 @@ class TestYellownessASTMD1925:
                 )
 
     @ignore_numpy_errors
-    def test_nan_yellowness_ASTMD1925(self):
+    def test_nan_yellowness_ASTMD1925(self) -> None:
         """
         Test :func:`colour.colorimetry.yellowness.yellowness_ASTMD1925`
         definition nan support.
@@ -118,7 +117,7 @@ class TestYellownessASTM313Alternative:
 yellowness_ASTME313_alternative` definition unit tests methods.
     """
 
-    def test_yellowness_ASTME313_alternative(self):
+    def test_yellowness_ASTME313_alternative(self) -> None:
         """
         Test :func:`colour.colorimetry.yellowness.\
 yellowness_ASTME313_alternative` definition.
@@ -148,7 +147,7 @@ yellowness_ASTME313_alternative` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_yellowness_ASTME313_alternative(self):
+    def test_n_dimensional_yellowness_ASTME313_alternative(self) -> None:
         """
         Test :func:`colour.colorimetry.yellowness.\
 yellowness_ASTME313_alternative` definition n_dimensional arrays support.
@@ -173,7 +172,7 @@ yellowness_ASTME313_alternative` definition n_dimensional arrays support.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_yellowness_ASTME313_alternative(self):
+    def test_domain_range_scale_yellowness_ASTME313_alternative(self) -> None:
         """
         Test :func:`colour.colorimetry.yellowness.\
 yellowness_ASTME313_alternative` definition domain and range scale support.
@@ -192,7 +191,7 @@ yellowness_ASTME313_alternative` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_yellowness_ASTME313_alternative(self):
+    def test_nan_yellowness_ASTME313_alternative(self) -> None:
         """
         Test :func:`colour.colorimetry.yellowness.\
 yellowness_ASTME313_alternative` definition nan support.
@@ -209,7 +208,7 @@ class TestYellownessASTM313:
     definition unit tests methods.
     """
 
-    def test_yellowness_ASTME313(self):
+    def test_yellowness_ASTME313(self) -> None:
         """
         Test :func:`colour.colorimetry.yellowness.yellowness_ASTME313`
         definition.
@@ -244,7 +243,7 @@ class TestYellownessASTM313:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_yellowness_ASTME313(self):
+    def test_n_dimensional_yellowness_ASTME313(self) -> None:
         """
         Test :func:`colour.colorimetry.yellowness.yellowness_ASTME313`
         definition n_dimensional arrays support.
@@ -265,7 +264,7 @@ class TestYellownessASTM313:
             yellowness_ASTME313(XYZ), YI, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_yellowness_ASTME313(self):
+    def test_domain_range_scale_yellowness_ASTME313(self) -> None:
         """
         Test :func:`colour.colorimetry.yellowness.yellowness_ASTME313`
         definition domain and range scale support.
@@ -284,7 +283,7 @@ class TestYellownessASTM313:
                 )
 
     @ignore_numpy_errors
-    def test_nan_yellowness_ASTME313(self):
+    def test_nan_yellowness_ASTME313(self) -> None:
         """
         Test :func:`colour.colorimetry.yellowness.yellowness_ASTME313`
         definition nan support.
@@ -301,7 +300,7 @@ class TestYellowness:
     tests methods.
     """
 
-    def test_domain_range_scale_yellowness(self):
+    def test_domain_range_scale_yellowness(self) -> None:
         """
         Test :func:`colour.colorimetry.yellowness.yellowness` definition
         domain and range scale support.
@@ -313,7 +312,7 @@ class TestYellowness:
         v = [yellowness(XYZ, method) for method in m]
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
-        for method, value in zip(m, v):
+        for method, value in zip(m, v, strict=True):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
                     np.testing.assert_allclose(

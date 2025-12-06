@@ -2,7 +2,9 @@
 CTL Processing
 ==============
 
-Define the object for the *Color Transformation Language* (CTL) processing:
+Define objects and functions for *Color Transformation Language* (CTL)
+processing, enabling programmatic colour transformations through the Academy
+Color Encoding System (ACES) CTL interpreter.
 
 -   :func:`colour.io.ctl_render`
 -   :func:`colour.io.process_image_ctl`
@@ -16,24 +18,22 @@ import os
 import subprocess
 import tempfile
 import textwrap
-from pathlib import Path
+import typing
 
 import numpy as np
 
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Dict,
-    NDArrayFloat,
-    Sequence,
-)
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Dict,
+        NDArrayFloat,
+        PathLike,
+    )
+
+from colour.hints import Sequence
 from colour.io import as_3_channels_image, read_image, write_image
-from colour.utilities import (
-    as_float,
-    as_float_array,
-    optional,
-    required,
-)
+from colour.utilities import as_float, as_float_array, optional, required
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -68,14 +68,15 @@ ARGUMENTS_CTL_RENDER_DEFAULTS: tuple = ("-verbose", "-force")
 
 @required("ctlrender")
 def ctl_render(
-    path_input: str | Path,
-    path_output: str | Path,
+    path_input: str | PathLike,
+    path_output: str | PathLike,
     ctl_transforms: Sequence[str] | Dict[str, Sequence[str]],
     *args: Any,
     **kwargs: Any,
 ) -> subprocess.CompletedProcess:  # pragma: no cover
     """
-    Call *ctlrender* on given input image using given *CTL* transforms.
+    Invoke *ctlrender* on the specified input image using the specified
+    *CTL* transforms.
 
     Parameters
     ----------
@@ -85,27 +86,33 @@ def ctl_render(
         Output image path.
     ctl_transforms
         Sequence of *CTL* transforms to apply on the image, either paths to
-        existing *CTL* transforms, multi-line *CTL* code transforms or a mix of
-        both or dictionary of sequence of *CTL* transforms to apply on the
-        image and their sequence of parameters.
+        existing *CTL* transforms, multi-line *CTL* code transforms or a mix
+        of both, or dictionary of sequence of *CTL* transforms to apply on
+        the image and their sequence of parameters.
 
     Other Parameters
     ----------------
     args
         Arguments passed to *ctlrender*, e.g., ``-verbose``, ``-force``.
     kwargs
-        Keywords arguments passed to the sub-process calling *ctlrender*, e.g.,
-        to define the environment variables such as ``CTL_MODULE_PATH``.
-
-    Notes
-    -----
-    -   The multi-line *CTL* code transforms are written to disk in a temporary
-        location so that they can be used by *ctlrender*.
+        Keywords arguments passed to the sub-process calling *ctlrender*,
+        e.g., to define the environment variables such as
+        ``CTL_MODULE_PATH``.
 
     Returns
     -------
     :class:`subprocess.CompletedProcess`
         *ctlrender* process completed output.
+
+    Raises
+    ------
+    FileNotFoundError
+        If a specified *CTL* transform file does not exist.
+
+    Notes
+    -----
+    -   The multi-line *CTL* code transforms are written to disk in a
+        temporary location so that they can be used by *ctlrender*.
 
     Examples
     --------
@@ -162,7 +169,7 @@ def ctl_render(
 
     ctl_transforms_mapping: Dict[str, Sequence]
     if isinstance(ctl_transforms, Sequence):
-        ctl_transforms_mapping = dict.fromkeys(ctl_transforms, [])
+        ctl_transforms_mapping = {ctl_transform: [] for ctl_transform in ctl_transforms}
     else:
         ctl_transforms_mapping = ctl_transforms
 
@@ -175,7 +182,9 @@ def ctl_render(
                 ctl_transform = temp_filename  # noqa: PLW2901
                 temp_filenames.append(temp_filename)
         elif not os.path.exists(ctl_transform):
-            raise FileNotFoundError(f'{ctl_transform} "CTL" transform does not exist!')
+            error = f'{ctl_transform} "CTL" transform does not exist!'
+
+            raise FileNotFoundError(error)
 
         command.extend(["-ctl", ctl_transform])
         for parameter in parameters:
@@ -186,8 +195,8 @@ def ctl_render(
     for arg in args:
         command += arg.split()
 
-    completed_process = subprocess.run(
-        command,  # noqa: S603
+    completed_process = subprocess.run(  # noqa: S603
+        command,
         check=False,
         **kwargs,
     )
@@ -206,35 +215,42 @@ def process_image_ctl(
     **kwargs: Any,
 ) -> NDArrayFloat:  # pragma: no cover
     """
-    Process given image data with *ctlrender* using given *CTL* transforms.
+    Process the specified image data with *ctlrender* using the specified
+    *CTL* transforms.
 
     Parameters
     ----------
     a
         Image data to process with *ctlrender*.
     ctl_transforms
-        Sequence of *CTL* transforms to apply on the image, either paths to
-        existing *CTL* transforms, multi-line *CTL* code transforms or a mix of
-        both or dictionary of sequence of *CTL* transforms to apply on the
-        image and their sequence of parameters.
+        Sequence of *CTL* transforms to apply to the image, either paths to
+        existing *CTL* transform files, multi-line *CTL* code transforms, or
+        a combination of both. Alternatively, a dictionary mapping sequences
+        of *CTL* transforms to their corresponding parameter sequences.
 
     Other Parameters
     ----------------
     args
         Arguments passed to *ctlrender*, e.g., ``-verbose``, ``-force``.
     kwargs
-        Keywords arguments passed to the sub-process calling *ctlrender*, e.g.,
-        to define the environment variables such as ``CTL_MODULE_PATH``.
-
-    Notes
-    -----
-    -   The multi-line *CTL* code transforms are written to disk in a temporary
-        location so that they can be used by *ctlrender*.
+        Keywords arguments passed to the sub-process calling *ctlrender*,
+        e.g., to define the environment variables such as
+        ``CTL_MODULE_PATH``.
 
     Returns
     -------
-    :class`numpy.ndarray`
+    :class:`numpy.ndarray`
         Processed image data.
+
+    Raises
+    ------
+    RuntimeError
+        If the *ctlrender* process returns a non-zero exit code.
+
+    Notes
+    -----
+    -   The multi-line *CTL* code transforms are written to disk in a
+        temporary location so that they can be used by *ctlrender*.
 
     Examples
     --------
@@ -297,10 +313,11 @@ def process_image_ctl(
 
     if len(shape) == 0:
         return as_float(np.squeeze(b)[0])
-    elif shape[-1] == 1:
+
+    if shape[-1] == 1:
         return np.reshape(b[..., 0], shape)
-    else:
-        return np.reshape(b, shape)
+
+    return np.reshape(b, shape)
 
 
 def template_ctl_transform_float(
@@ -313,8 +330,8 @@ def template_ctl_transform_float(
     header: str | None = None,
 ) -> str:
     """
-    Generate the code for a *CTL* transform to test a function processing
-    per-float channel.
+    Generate *CTL* transform code for testing a function that processes
+    per-float channels.
 
     Parameters
     ----------
@@ -331,7 +348,8 @@ def template_ctl_transform_float(
     imports
         List of imports to use with the *CTL* transform.
     header
-        Header code that can be used to define various functions and globals.
+        Header code that can be used to define various functions and
+        globals.
 
     Returns
     -------
@@ -403,7 +421,7 @@ def template_ctl_transform_float(
         bOut = Y_2_linCV(bIn, CINEMA_WHITE, CINEMA_BLACK);
         aOut = aIn;
     }
-    """  # noqa: D405, D407, D410, D411
+    """
 
     G_function = optional(G_function, R_function)
     B_function = optional(B_function, R_function)
@@ -466,8 +484,8 @@ def template_ctl_transform_float3(
     header: str | None = None,
 ) -> str:
     """
-    Generate the code for a *CTL* transform to test a function processing
-    RGB channels.
+    Generate *CTL* transform code for testing a function that processes
+    *RGB* channels.
 
     Parameters
     ----------
@@ -480,7 +498,8 @@ def template_ctl_transform_float3(
     imports
         List of imports to use with the *CTL* transform.
     header
-        Header code that can be used to define various functions and globals.
+        Header code that can be used to define various functions and
+        globals.
 
     Returns
     -------
@@ -529,7 +548,7 @@ def template_ctl_transform_float3(
         bOut = rgbOut[2];
         aOut = aIn;
     }
-    """  # noqa: D405, D407, D410, D411
+    """
 
     parameters = optional(parameters, "")
     imports = optional(imports, [])

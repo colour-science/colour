@@ -2,7 +2,8 @@
 Geometry Primitive Vertices
 ===========================
 
-Define various geometry primitive vertices generation methods:
+Define methods for generating vertices of fundamental geometric primitives
+used in colour science visualisations and computations.
 
 -   :func:`colour.geometry.primitive_vertices_quad_mpl`
 -   :func:`colour.geometry.primitive_vertices_grid_mpl`
@@ -14,11 +15,16 @@ Define various geometry primitive vertices generation methods:
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import spherical_to_cartesian
 from colour.geometry import MAPPING_PLANE_TO_AXIS
-from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ArrayLike, Literal, NDArrayFloat, Sequence
+
 from colour.utilities import (
     CanonicalMapping,
     as_float_array,
@@ -52,26 +58,26 @@ def primitive_vertices_quad_mpl(
     width: float = 1,
     height: float = 1,
     depth: float = 0,
-    origin: ArrayLike = np.array([0, 0]),
+    origin: ArrayLike = (0, 0),
     axis: Literal["+z", "+x", "+y", "yz", "xz", "xy"] | str = "+z",
 ) -> NDArrayFloat:
     """
-    Return the vertices of a quad primitive for use with *Matplotlib*
+    Generate vertices of a quad primitive for use with *Matplotlib*
     :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection` class.
 
     Parameters
     ----------
     width
-        Quad width.
+        Width of the primitive.
     height
-        Quad height.
+        Height of the primitive.
     depth
-        Quad depth.
+        Depth of the primitive.
     origin
-        Quad origin on the construction plane.
+        Origin of the primitive on the construction plane.
     axis
-        Axis the quad will be normal to, or plane the quad will be co-planar
-        with.
+        Axis to which the primitive will be normal, or plane with which the
+        primitive will be co-planar.
 
     Returns
     -------
@@ -125,31 +131,33 @@ def primitive_vertices_grid_mpl(
     depth: float = 0,
     width_segments: int = 1,
     height_segments: int = 1,
-    origin: ArrayLike = np.array([0, 0]),
+    origin: ArrayLike = (0, 0),
     axis: Literal["+z", "+x", "+y", "yz", "xz", "xy"] | str = "+z",
 ) -> NDArrayFloat:
     """
-    Return the vertices of a grid primitive made of quad primitives for use
-    with *Matplotlib* :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection`
-    class.
+    Generate vertices for a grid primitive composed of quadrilateral
+    primitives for use with *Matplotlib*
+    :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection` class.
 
     Parameters
     ----------
     width
-        Grid width.
+        Width of the primitive.
     height
-        Grid height.
+        Height of the primitive.
     depth
-        Grid depth.
+        Depth of the primitive.
     width_segments:
-        Grid width segments, quad primitive counts along the width.
+        Number of width segments defining quad primitive counts along
+        the width axis.
     height_segments:
-        Grid height segments, quad primitive counts along the height.
+        Number of height segments defining quad primitive counts along
+        the height axis.
     origin
-        Grid origin on the construction plane.
+        Origin of the primitive on the construction plane.
     axis
-        Axis the grid will be normal to, or plane the grid will be co-planar
-        with.
+        Axis to which the primitive will be normal, or plane with which the
+        primitive will be co-planar.
 
     Returns
     -------
@@ -187,7 +195,7 @@ def primitive_vertices_grid_mpl(
     quads = []
     for i in range(width_segments):
         for j in range(height_segments):
-            quads.append(
+            quads.append(  # noqa: PERF401
                 primitive_vertices_quad_mpl(
                     w_x, h_y, depth, (i * w_x + u, j * h_y + v), axis
                 )
@@ -203,46 +211,51 @@ def primitive_vertices_cube_mpl(
     width_segments: int = 1,
     height_segments: int = 1,
     depth_segments: int = 1,
-    origin: ArrayLike = np.array([0, 0, 0]),
+    origin: ArrayLike = (0, 0, 0),
     planes: (
-        Literal[
-            "-x",
-            "+x",
-            "-y",
-            "+y",
-            "-z",
-            "+z",
-            "xy",
-            "xz",
-            "yz",
-            "yx",
-            "zx",
-            "zy",
+        Sequence[
+            Literal[
+                "-x",
+                "+x",
+                "-y",
+                "+y",
+                "-z",
+                "+z",
+                "xy",
+                "xz",
+                "yz",
+                "yx",
+                "zx",
+                "zy",
+            ]
         ]
         | None
     ) = None,
 ) -> NDArrayFloat:
     """
-    Return the vertices of a cube primitive made of grid primitives for use
-    with *Matplotlib* :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection`
+    Generate vertices of a cube primitive made of grid primitives for
+    use with *Matplotlib* :class:`mpl_toolkits.mplot3d.art3d.Poly3DCollection`
     class.
 
     Parameters
     ----------
     width
-        Cube width.
+        Width of the primitive.
     height
-        Cube height.
+        Height of the primitive.
     depth
-        Cube depth.
+        Depth of the primitive.
     width_segments
-        Cube segments count along the width.
+        Number of width segments defining quad primitive counts along
+        the width axis.
     height_segments
-        Cube segments count along the height.
+        Number of height segments defining quad primitive counts along
+        the height axis.
     depth_segments
-        Cube segments count along the depth.
+        Number of depth segments defining quad primitive counts along
+        the depth axis.
     origin
-        Cube origin.
+        Origin of the primitive.
     planes
         Grid primitives to include in the cube construction.
 
@@ -336,29 +349,31 @@ def primitive_vertices_sphere(
     radius: float = 0.5,
     segments: int = 8,
     intermediate: bool = False,
-    origin: ArrayLike = np.array([0, 0, 0]),
+    origin: ArrayLike = (0, 0, 0),
     axis: Literal["+z", "+x", "+y", "yz", "xz", "xy"] | str = "+z",
 ) -> NDArrayFloat:
     """
-    Return the vertices of a latitude-longitude sphere primitive.
+    Generate vertices of a latitude-longitude sphere primitive.
 
     Parameters
     ----------
     radius
-        Sphere radius.
+        Radius of the sphere.
     segments
-        Latitude-longitude segments, if the ``intermediate`` argument is
-        *True*, then the sphere will have one less segment along its longitude.
+        Number of latitude-longitude segments. If the ``intermediate``
+        argument is *True*, the sphere will have one fewer segment
+        along its longitude.
     intermediate
-        Whether to generate the sphere vertices at the center of the faces
+        Whether to generate sphere vertices at the centres of the faces
         outlined by the segments of a regular sphere generated without
-        the ``intermediate`` argument set to *True*. The resulting sphere is
-        inscribed on the regular sphere faces but possesses the same poles.
+        the ``intermediate`` argument set to *True*. The resulting
+        sphere is inscribed within the regular sphere faces while
+        maintaining identical poles.
     origin
-        Sphere origin on the construction plane.
+        Origin of the primitive on the construction plane.
     axis
-        Axis (or normal of the plane) the poles of the sphere will be aligned
-        with.
+        Axis to which the primitive will be normal, or plane with which the
+        primitive will be co-planar.
 
     Returns
     -------
@@ -464,7 +479,7 @@ PRIMITIVE_VERTICES_METHODS: CanonicalMapping = CanonicalMapping(
     }
 )
 PRIMITIVE_VERTICES_METHODS.__doc__ = """
-Supported geometry primitive vertices generation methods.
+Supported methods for generating vertices of geometry primitives.
 """
 
 
@@ -473,12 +488,12 @@ def primitive_vertices(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Return the vertices of a geometry primitive using given method.
+    Generate vertices of a geometry primitive.
 
     Parameters
     ----------
     method
-        Vertices generation method.
+        Method for generating primitive vertices.
 
     Other Parameters
     ----------------
@@ -487,64 +502,68 @@ def primitive_vertices(
         :func:`colour.geometry.primitive_vertices_grid_mpl`,
         :func:`colour.geometry.primitive_vertices_sphere`},
         **{'+z', '+x', '+y', 'yz', 'xz', 'xy'}**,
-        Axis the primitive will be normal to, or plane the primitive will be
-        co-planar with.
+        Axis to which the primitive will be normal, or plane with which
+        the primitive will be co-planar.
     depth
         {:func:`colour.geometry.primitive_vertices_quad_mpl`,
         :func:`colour.geometry.primitive_vertices_grid_mpl`,
         :func:`colour.geometry.primitive_vertices_cube_mpl`},
-        Primitive depth.
+        Depth of the primitive.
     depth_segments
-        {:func:`colour.geometry.primitive_vertices_grid_mpl`,
-        :func:`colour.geometry.primitive_vertices_cube_mpl`},
-        Primitive depth segments, quad primitive counts along the depth.
+        {:func:`colour.geometry.primitive_vertices_cube_mpl`},
+        Number of depth segments defining quad primitive counts along
+        the depth axis.
     height
         {:func:`colour.geometry.primitive_vertices_quad_mpl`,
         :func:`colour.geometry.primitive_vertices_grid_mpl`,
         :func:`colour.geometry.primitive_vertices_cube_mpl`},
-        Primitive height.
+        Height of the primitive.
     height_segments
         {:func:`colour.geometry.primitive_vertices_grid_mpl`,
         :func:`colour.geometry.primitive_vertices_cube_mpl`},
-        Primitive height segments, quad primitive counts along the height.
+        Number of height segments defining quad primitive counts along
+        the height axis.
     intermediate
         {:func:`colour.geometry.primitive_vertices_sphere`},
-        Whether to generate the sphere vertices at the center of the faces
+        Whether to generate sphere vertices at the centres of the faces
         outlined by the segments of a regular sphere generated without
-        the ``intermediate`` argument set to *True*. The resulting sphere is
-        inscribed on the regular sphere faces but possesses the same poles.
+        the ``intermediate`` argument set to *True*. The resulting
+        sphere is inscribed within the regular sphere faces while
+        maintaining identical poles.
     origin
         {:func:`colour.geometry.primitive_vertices_quad_mpl`,
         :func:`colour.geometry.primitive_vertices_grid_mpl`,
         :func:`colour.geometry.primitive_vertices_cube_mpl`,
         :func:`colour.geometry.primitive_vertices_sphere`},
-        Primitive origin on the construction plane.
+        Origin of the primitive on the construction plane.
     planes
         {:func:`colour.geometry.primitive_vertices_cube_mpl`},
         **{'-x', '+x', '-y', '+y', '-z', '+z',
         'xy', 'xz', 'yz', 'yx', 'zx', 'zy'}**,
-        Included grid primitives in the cube construction.
+        Grid primitives to include in the cube construction.
     radius
         {:func:`colour.geometry.primitive_vertices_sphere`},
-        Sphere radius.
+        Radius of the sphere.
     segments
         {:func:`colour.geometry.primitive_vertices_sphere`},
-        Latitude-longitude segments, if the ``intermediate`` argument is
-        *True*, then the sphere will have one less segment along its longitude.
+        Number of latitude-longitude segments. If the ``intermediate``
+        argument is *True*, the sphere will have one fewer segment
+        along its longitude.
     width
         {:func:`colour.geometry.primitive_vertices_quad_mpl`,
         :func:`colour.geometry.primitive_vertices_grid_mpl`,
         :func:`colour.geometry.primitive_vertices_cube_mpl`},
-        Primitive width.
+        Width of the primitive.
     width_segments
         {:func:`colour.geometry.primitive_vertices_grid_mpl`,
         :func:`colour.geometry.primitive_vertices_cube_mpl`},
-        Primitive width segments, quad primitive counts along the width.
+        Number of width segments defining quad primitive counts along
+        the width axis.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Primitive vertices.
+        Vertices of the primitive.
 
     Examples
     --------

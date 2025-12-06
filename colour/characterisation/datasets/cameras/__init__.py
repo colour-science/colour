@@ -9,8 +9,9 @@ References
 
 from __future__ import annotations
 
-from .dslr import MSDS_CAMERA_SENSITIVITIES_DSLR
 from colour.utilities import LazyCanonicalMapping
+
+from .dslr import MSDS_CAMERA_SENSITIVITIES_DSLR
 
 MSDS_CAMERA_SENSITIVITIES: LazyCanonicalMapping = LazyCanonicalMapping(
     MSDS_CAMERA_SENSITIVITIES_DSLR
@@ -24,5 +25,5 @@ References
 """
 
 __all__ = [
-    "MSDS_CAMERA_SENSITIVITIES",
+    "MSDS_CAMERA_SENSITIVITIES_DSLR",
 ]

@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.adaptation.zhai2018` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -26,7 +28,7 @@ class TestChromaticAdaptationZhai2018:
     definition unit tests methods.
     """
 
-    def test_chromatic_adaptation_Zhai2018(self):
+    def test_chromatic_adaptation_Zhai2018(self) -> None:
         """
         Test :func:`colour.adaptation.zhai2018.chromatic_adaptation_Zhai2018`
         definition.
@@ -96,7 +98,7 @@ class TestChromaticAdaptationZhai2018:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_chromatic_adaptation_Zhai2018(self):
+    def test_n_dimensional_chromatic_adaptation_Zhai2018(self) -> None:
         """
         Test :func:`colour.adaptation.zhai2018.chromatic_adaptation_Zhai2018`
         definition n-dimensional arrays support.
@@ -139,7 +141,7 @@ class TestChromaticAdaptationZhai2018:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_chromatic_adaptation_Zhai2018(self):
+    def test_domain_range_scale_chromatic_adaptation_Zhai2018(self) -> None:
         """
         Test :func:`colour.adaptation.zhai2018.chromatic_adaptation_Zhai2018`
         definition domain and range scale support.
@@ -162,7 +164,7 @@ class TestChromaticAdaptationZhai2018:
                 )
 
     @ignore_numpy_errors
-    def test_nan_chromatic_adaptation_Zhai2018(self):
+    def test_nan_chromatic_adaptation_Zhai2018(self) -> None:
         """
         Test :func:`colour.adaptation.zhai2018.chromatic_adaptation_Zhai2018`
         definition nan support.

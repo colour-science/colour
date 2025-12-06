@@ -1,5 +1,7 @@
 """Define the unit tests for the :mod:`colour.models.cam02_ucs` module."""
 
+from __future__ import annotations
+
 from itertools import product
 
 import numpy as np
@@ -54,7 +56,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006:
     definition unit tests methods.
     """
 
-    def setup_method(self):
+    def setup_method(self) -> None:
         """Initialise the common tests attributes."""
 
         XYZ = np.array([19.01, 20.00, 21.78])
@@ -66,7 +68,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006:
 
         self._JMh = np.array([specification.J, specification.M, specification.h])
 
-    def test_JMh_CIECAM02_to_UCS_Luo2006(self):
+    def test_JMh_CIECAM02_to_UCS_Luo2006(self) -> None:
         """
         Test :func:`colour.models.cam02_ucs.JMh_CIECAM02_to_UCS_Luo2006`
         definition.
@@ -120,7 +122,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_JMh_CIECAM02_to_UCS_Luo2006(self):
+    def test_n_dimensional_JMh_CIECAM02_to_UCS_Luo2006(self) -> None:
         """
         Test :func:`colour.models.cam02_ucs.JMh_CIECAM02_to_UCS_Luo2006`
         definition n-dimensional support.
@@ -145,7 +147,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_JMh_CIECAM02_to_UCS_Luo2006(self):
+    def test_domain_range_scale_JMh_CIECAM02_to_UCS_Luo2006(self) -> None:
         """
         Test :func:`colour.models.cam02_ucs.JMh_CIECAM02_to_UCS_Luo2006`
         definition domain and range scale support.
@@ -170,7 +172,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006:
                 )
 
     @ignore_numpy_errors
-    def test_nan_JMh_CIECAM02_to_UCS_Luo2006(self):
+    def test_nan_JMh_CIECAM02_to_UCS_Luo2006(self) -> None:
         """
         Test :func:`colour.models.cam02_ucs.JMh_CIECAM02_to_UCS_Luo2006`
         definition nan support.
@@ -187,7 +189,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02:
     definition unit tests methods.
     """
 
-    def test_UCS_Luo2006_to_JMh_CIECAM02(self):
+    def test_UCS_Luo2006_to_JMh_CIECAM02(self) -> None:
         """
         Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_JMh_CIECAM02`
         definition.
@@ -247,7 +249,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_UCS_Luo2006_to_JMh_CIECAM02(self):
+    def test_n_dimensional_UCS_Luo2006_to_JMh_CIECAM02(self) -> None:
         """
         Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_JMh_CIECAM02`
         definition n-dimensional support.
@@ -272,7 +274,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_UCS_Luo2006_to_JMh_CIECAM02(self):
+    def test_domain_range_scale_UCS_Luo2006_to_JMh_CIECAM02(self) -> None:
         """
         Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_JMh_CIECAM02`
         definition domain and range scale support.
@@ -298,7 +300,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02:
                 )
 
     @ignore_numpy_errors
-    def test_nan_UCS_Luo2006_to_JMh_CIECAM02(self):
+    def test_nan_UCS_Luo2006_to_JMh_CIECAM02(self) -> None:
         """
         Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_JMh_CIECAM02`
         definition nan support.
@@ -315,7 +317,7 @@ class TestXYZ_to_UCS_Luo2006:
     unit tests methods.
     """
 
-    def test_XYZ_to_UCS_Luo2006(self):
+    def test_XYZ_to_UCS_Luo2006(self) -> None:
         """Test :func:`colour.models.cam02_ucs.XYZ_to_UCS_Luo2006` definition."""
 
         np.testing.assert_allclose(
@@ -372,7 +374,7 @@ class TestXYZ_to_UCS_Luo2006:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_UCS_Luo2006(self):
+    def test_n_dimensional_XYZ_to_UCS_Luo2006(self) -> None:
         """
         Test :func:`colour.models.cam02_ucs.XYZ_to_UCS_Luo2006` definition
         n-dimensional support.
@@ -397,7 +399,7 @@ class TestXYZ_to_UCS_Luo2006:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_XYZ_to_UCS_Luo2006(self):
+    def test_domain_range_scale_XYZ_to_UCS_Luo2006(self) -> None:
         """
         Test :func:`colour.models.cam02_ucs.XYZ_to_UCS_Luo2006` definition
         domain and range scale support.
@@ -421,7 +423,7 @@ class TestXYZ_to_UCS_Luo2006:
                 )
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_UCS_Luo2006(self):
+    def test_nan_XYZ_to_UCS_Luo2006(self) -> None:
         """
         Test :func:`colour.models.cam02_ucs.XYZ_to_UCS_Luo2006` definition nan
         support.
@@ -438,7 +440,7 @@ class TestUCS_Luo2006_to_XYZ:
     unit tests methods.
     """
 
-    def test_UCS_Luo2006_to_XYZ(self):
+    def test_UCS_Luo2006_to_XYZ(self) -> None:
         """Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_XYZ` definition."""
 
         np.testing.assert_allclose(
@@ -495,7 +497,7 @@ class TestUCS_Luo2006_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_UCS_Luo2006_to_XYZ(self):
+    def test_n_dimensional_UCS_Luo2006_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_XYZ` definition
         n-dimensional support.
@@ -520,7 +522,7 @@ class TestUCS_Luo2006_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_UCS_Luo2006_to_XYZ(self):
+    def test_domain_range_scale_UCS_Luo2006_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_XYZ` definition
         domain and range scale support.
@@ -544,7 +546,7 @@ class TestUCS_Luo2006_to_XYZ:
                 )
 
     @ignore_numpy_errors
-    def test_nan_UCS_Luo2006_to_XYZ(self):
+    def test_nan_UCS_Luo2006_to_XYZ(self) -> None:
         """
         Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_XYZ` definition nan
         support.

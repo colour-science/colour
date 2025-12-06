@@ -1,14 +1,27 @@
 """Define the unit tests for the :mod:`colour.graph.conversion` module."""
 
+from __future__ import annotations
+
+import sys
 
 import numpy as np
 import pytest
 
-from colour.characterisation import SDS_COLOURCHECKERS
-from colour.colorimetry import CCS_ILLUMINANTS, SDS_ILLUMINANTS
-from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.graph import convert, describe_conversion_path
-from colour.models import COLOURSPACE_MODELS, RGB_COLOURSPACE_ACES2065_1
+pytestmark = pytest.mark.skipif(
+    sys.version_info >= (3, 14, 1),
+    reason="networkx 3.6 is incompatible with Python 3.14.1+",
+)
+
+from colour.characterisation import SDS_COLOURCHECKERS  # noqa: E402
+from colour.colorimetry import CCS_ILLUMINANTS, SDS_ILLUMINANTS  # noqa: E402
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS  # noqa: E402
+from colour.graph import convert, describe_conversion_path  # noqa: E402
+from colour.models import (  # noqa: E402
+    COLOURSPACE_MODELS,
+    RGB_COLOURSPACE_ACES2065_1,
+    XYZ_to_Lab,
+)
+from colour.utilities import get_domain_range_scale_metadata  # noqa: E402
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -29,7 +42,7 @@ class TestDescribeConversionPath:
     unit tests methods.
     """
 
-    def test_describe_conversion_path(self):
+    def test_describe_conversion_path(self) -> None:
         """
         Test :func:`colour.graph.conversion.describe_conversion_path`
         definition.
@@ -56,7 +69,7 @@ class TestConvert:
     methods.
     """
 
-    def test_convert(self):
+    def test_convert(self) -> None:
         """Test :func:`colour.graph.conversion.convert` definition."""
 
         RGB_a = convert(
@@ -129,7 +142,7 @@ class TestConvert:
                 model,
             )
 
-    def test_convert_direct_keyword_argument_passing(self):
+    def test_convert_direct_keyword_argument_passing(self) -> None:
         """
         Test :func:`colour.graph.conversion.convert` definition behaviour when
         direct keyword arguments are passed.
@@ -154,4 +167,101 @@ class TestConvert:
                 "sRGB",
                 illuminant=tuple(illuminant),
             ),
+        )
+
+    def test_convert_reference_scale(self) -> None:
+        """
+        Test :func:`colour.graph.conversion.convert` definition behaviour with
+        `from_reference_scale` and `to_reference_scale` parameters.
+        """
+
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+
+        Lab_auto = convert(XYZ, "CIE XYZ", "CIE Lab", to_reference_scale=True)
+
+        Lab_manual = convert(XYZ, "CIE XYZ", "CIE Lab")
+        metadata = get_domain_range_scale_metadata(XYZ_to_Lab)
+        range_scale = metadata["range"]
+        Lab_manual_scaled = Lab_manual * range_scale
+
+        np.testing.assert_allclose(
+            Lab_auto,
+            Lab_manual_scaled,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        Lab_native = Lab_auto
+
+        XYZ_auto = convert(
+            Lab_native,
+            "CIE Lab",
+            "CIE XYZ",
+            from_reference_scale=True,
+        )
+
+        Lab_manual_normalized = Lab_native / range_scale
+        XYZ_manual = convert(Lab_manual_normalized, "CIE Lab", "CIE XYZ")
+
+        np.testing.assert_allclose(
+            XYZ_auto,
+            XYZ_manual,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        XYZ_roundtrip = convert(
+            convert(
+                XYZ,
+                "CIE XYZ",
+                "CIE Lab",
+                to_reference_scale=True,
+            ),
+            "CIE Lab",
+            "CIE XYZ",
+            from_reference_scale=True,
+        )
+
+        np.testing.assert_allclose(
+            XYZ_roundtrip,
+            XYZ,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+
+        # Test CIE Lab and CIE LCHab consistency
+        Lab = convert(XYZ, "CIE XYZ", "CIE Lab", to_reference_scale=True)
+        LCHab = convert(XYZ, "CIE XYZ", "CIE LCHab", to_reference_scale=True)
+
+        # L component should be identical
+        np.testing.assert_allclose(
+            Lab[0],
+            LCHab[0],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # C should equal sqrt(a^2 + b^2)
+        expected_C = np.sqrt(Lab[1] ** 2 + Lab[2] ** 2)
+        np.testing.assert_allclose(
+            LCHab[1],
+            expected_C,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # Test CIE Luv and CIE LCHuv consistency
+        Luv = convert(XYZ, "CIE XYZ", "CIE Luv", to_reference_scale=True)
+        LCHuv = convert(XYZ, "CIE XYZ", "CIE LCHuv", to_reference_scale=True)
+
+        # L component should be identical
+        np.testing.assert_allclose(
+            Luv[0],
+            LCHuv[0],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # C should equal sqrt(u^2 + v^2)
+        expected_C = np.sqrt(Luv[1] ** 2 + Luv[2] ** 2)
+        np.testing.assert_allclose(
+            LCHuv[1],
+            expected_C,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )

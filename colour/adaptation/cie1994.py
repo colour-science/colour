@@ -2,7 +2,8 @@
 CIE 1994 Chromatic Adaptation Model
 ===================================
 
-Define the *CIE 1994* chromatic adaptation model objects:
+Define the *CIE 1994* chromatic adaptation model for predicting corresponding
+colours under different viewing conditions.
 
 -   :func:`colour.adaptation.chromatic_adaptation_CIE1994`
 
@@ -16,11 +17,22 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.adaptation import CAT_VON_KRIES
 from colour.algebra import sdiv, sdiv_mode, spow, vecmul
-from colour.hints import ArrayLike, NDArrayFloat
+
+if typing.TYPE_CHECKING:
+    from colour.hints import DTypeFloat, NDArray
+
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain100,
+    NDArrayFloat,
+    Range100,
+)
 from colour.utilities import (
     as_float_array,
     from_range_100,
@@ -66,18 +78,18 @@ values matrix.
 
 
 def chromatic_adaptation_CIE1994(
-    XYZ_1: ArrayLike,
+    XYZ_1: Domain100,
     xy_o1: ArrayLike,
     xy_o2: ArrayLike,
-    Y_o: ArrayLike,
+    Y_o: Domain100,
     E_o1: ArrayLike,
     E_o2: ArrayLike,
     n: ArrayLike = 1,
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Adapt given stimulus *CIE XYZ_1* tristimulus values from test viewing
-    conditions to reference viewing conditions using *CIE 1994* chromatic
-    adaptation model.
+    Adapt the specified stimulus *CIE XYZ* tristimulus values from test
+    viewing conditions to reference viewing conditions using the
+    *CIE 1994* chromatic adaptation model.
 
     Parameters
     ----------
@@ -87,37 +99,37 @@ def chromatic_adaptation_CIE1994(
         Chromaticity coordinates :math:`x_{o1}` and :math:`y_{o1}` of test
         illuminant and background.
     xy_o2
-        Chromaticity coordinates :math:`x_{o2}` and :math:`y_{o2}` of reference
-        illuminant and background.
+        Chromaticity coordinates :math:`x_{o2}` and :math:`y_{o2}` of
+        reference illuminant and background.
     Y_o
         Luminance factor :math:`Y_o` of achromatic background as percentage
         normalised to domain [18, 100] in **'Reference'** domain-range scale.
     E_o1
-        Test illuminance :math:`E_{o1}` in :math:`cd/m^2`.
+        Test illuminance :math:`E_{o1}` in lux.
     E_o2
-        Reference illuminance :math:`E_{o2}` in :math:`cd/m^2`.
+        Reference illuminance :math:`E_{o2}` in lux.
     n
         Noise component in fundamental primary system.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Adapted *CIE XYZ_2* tristimulus values of test stimulus.
+        *CIE XYZ* tristimulus values of the stimulus corresponding colour.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_1``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_1``  | 100                   | 1             |
     +------------+-----------------------+---------------+
-    | ``Y_o``    | [0, 100]              | [0, 1]        |
+    | ``Y_o``    | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ_2``  | [0, 100]              | [0, 1]        |
+    | ``XYZ_2``  | 100                   | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -169,7 +181,8 @@ def chromatic_adaptation_CIE1994(
 
 def XYZ_to_RGB_CIE1994(XYZ: ArrayLike) -> NDArrayFloat:
     """
-    Convert from *CIE XYZ* tristimulus values to cone responses.
+    Convert from *CIE XYZ* tristimulus values to cone responses using the
+    *CIE 1994* colour appearance model transformation.
 
     Parameters
     ----------
@@ -193,7 +206,8 @@ def XYZ_to_RGB_CIE1994(XYZ: ArrayLike) -> NDArrayFloat:
 
 def RGB_to_XYZ_CIE1994(RGB: ArrayLike) -> NDArrayFloat:
     """
-    Convert from cone responses to *CIE XYZ* tristimulus values.
+    Convert from cone responses to *CIE XYZ* tristimulus values using the
+    *CIE 1994* colour appearance model inverse transformation.
 
     Parameters
     ----------
@@ -217,18 +231,20 @@ def RGB_to_XYZ_CIE1994(RGB: ArrayLike) -> NDArrayFloat:
 
 def intermediate_values(xy_o: ArrayLike) -> NDArrayFloat:
     """
-    Return the intermediate values :math:`\\xi`, :math:`\\eta`,
+    Compute the intermediate values :math:`\\xi`, :math:`\\eta`, and
     :math:`\\zeta`.
 
     Parameters
     ----------
     xy_o
-        Chromaticity coordinates :math:`x_o` and :math:`y_o` of whitepoint.
+        Chromaticity coordinates :math:`x_o` and :math:`y_o` of the
+        whitepoint.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        Intermediate values :math:`\\xi`, :math:`\\eta`, :math:`\\zeta`.
+        Intermediate values :math:`\\xi`, :math:`\\eta`, and
+        :math:`\\zeta`.
 
     Examples
     --------
@@ -244,16 +260,14 @@ def intermediate_values(xy_o: ArrayLike) -> NDArrayFloat:
     eta = (-0.27200 * x_o + 1.11962 * y_o + 0.04570) / y_o
     zeta = (0.91822 * (1 - x_o - y_o)) / y_o
 
-    xez = tstack([xi, eta, zeta])
-
-    return xez
+    return tstack([xi, eta, zeta])
 
 
 def effective_adapting_responses(
     xez: ArrayLike, Y_o: ArrayLike, E_o: ArrayLike
 ) -> NDArrayFloat:
     """
-    Derive the effective adapting responses in the fundamental primary system
+    Compute the effective adapting responses in the fundamental primary system
     of the test or reference field.
 
     Parameters
@@ -264,7 +278,7 @@ def effective_adapting_responses(
         Luminance factor :math:`Y_o` of achromatic background as percentage
         normalised to domain [18, 100] in **'Reference'** domain-range scale.
     E_o
-        Test or reference illuminance :math:`E_{o}` in lux.
+        Test or reference illuminance :math:`E_o` in lux.
 
     Returns
     -------
@@ -284,12 +298,16 @@ def effective_adapting_responses(
     Y_o = as_float_array(Y_o)
     E_o = as_float_array(E_o)
 
-    RGB_o = ((Y_o[..., None] * E_o[..., None]) / (100 * np.pi)) * xez
-
-    return RGB_o
+    return ((Y_o[..., None] * E_o[..., None]) / (100 * np.pi)) * xez
 
 
-def beta_1(x: ArrayLike) -> NDArrayFloat:
+@typing.overload
+def beta_1(x: float | DTypeFloat) -> DTypeFloat: ...
+@typing.overload
+def beta_1(x: NDArray) -> NDArrayFloat: ...
+@typing.overload
+def beta_1(x: ArrayLike) -> DTypeFloat | NDArrayFloat: ...
+def beta_1(x: ArrayLike) -> DTypeFloat | NDArrayFloat:
     """
     Compute the exponent :math:`\\beta_1` for the middle and long-wavelength
     sensitive cones.
@@ -312,10 +330,16 @@ def beta_1(x: ArrayLike) -> NDArrayFloat:
 
     x_p = spow(x, 0.4495)
 
-    return (6.469 + 6.362 * x_p) / (6.469 + x_p)
+    return (x_p * 6.362 + 6.469) / (x_p + 6.469)
 
 
-def beta_2(x: ArrayLike) -> NDArrayFloat:
+@typing.overload
+def beta_2(x: float | DTypeFloat) -> DTypeFloat: ...
+@typing.overload
+def beta_2(x: NDArray) -> NDArrayFloat: ...
+@typing.overload
+def beta_2(x: ArrayLike) -> DTypeFloat | NDArrayFloat: ...
+def beta_2(x: ArrayLike) -> DTypeFloat | NDArrayFloat:
     """
     Compute the exponent :math:`\\beta_2` for the short-wavelength sensitive
     cones.
@@ -338,18 +362,19 @@ def beta_2(x: ArrayLike) -> NDArrayFloat:
 
     x_p = spow(x, 0.5128)
 
-    return 0.7844 * (8.414 + 8.091 * x_p) / (8.414 + x_p)
+    return (x_p * 8.091 + 8.414) * 0.7844 / (x_p + 8.414)
 
 
 def exponential_factors(RGB_o: ArrayLike) -> NDArrayFloat:
     """
-    Return the chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-    :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)` of given cone responses.
+    Compute the chromatic adaptation exponential factors
+    :math:`\\beta_1(R_o)`, :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)` of
+    the specified cone responses.
 
     Parameters
     ----------
     RGB_o
-         Cone responses.
+        Cone responses.
 
     Returns
     -------
@@ -370,9 +395,7 @@ def exponential_factors(RGB_o: ArrayLike) -> NDArrayFloat:
     bG_o = beta_1(G_o)
     bB_o = beta_2(B_o)
 
-    bRGB_o = tstack([bR_o, bG_o, bB_o])
-
-    return bRGB_o
+    return tstack([bR_o, bG_o, bB_o])
 
 
 def K_coefficient(
@@ -385,7 +408,7 @@ def K_coefficient(
 ) -> NDArrayFloat:
     """
     Compute the coefficient :math:`K` for correcting the difference between
-    the test and references illuminances.
+    the test and reference illuminances.
 
     Parameters
     ----------
@@ -453,8 +476,8 @@ def corresponding_colour(
     n: ArrayLike = 1,
 ) -> NDArrayFloat:
     """
-    Compute the corresponding colour cone responses of given test sample cone
-    responses :math:`RGB_1`.
+    Compute corresponding colour cone responses of the specified test sample cone
+    responses :math:`RGB_1` under chromatic adaptation.
 
     Parameters
     ----------
@@ -462,20 +485,22 @@ def corresponding_colour(
         Test sample cone responses :math:`RGB_1`.
     xez_1
         Intermediate values :math:`\\xi_1`, :math:`\\eta_1`, :math:`\\zeta_1`
-        for the test illuminant and background.
+        for test illuminant and background.
     xez_2
         Intermediate values :math:`\\xi_2`, :math:`\\eta_2`, :math:`\\zeta_2`
-        for the reference illuminant and background.
+        for reference illuminant and background.
     bRGB_o1
         Chromatic adaptation exponential factors :math:`\\beta_1(R_{o1})`,
-        :math:`\\beta_1(G_{o1})` and :math:`\\beta_2(B_{o1})` of test sample.
+        :math:`\\beta_1(G_{o1})` and :math:`\\beta_2(B_{o1})` of test
+        sample.
     bRGB_o2
         Chromatic adaptation exponential factors :math:`\\beta_1(R_{o2})`,
         :math:`\\beta_1(G_{o2})` and :math:`\\beta_2(B_{o2})` of reference
         sample.
     Y_o
         Luminance factor :math:`Y_o` of achromatic background as percentage
-        normalised to domain [18, 100] in **'Reference'** domain-range scale.
+        normalised to domain [18, 100] in **'Reference'** domain-range
+        scale.
     K
         Coefficient :math:`K`.
     n
@@ -484,7 +509,7 @@ def corresponding_colour(
     Returns
     -------
     :class:`numpy.ndarray`
-        Corresponding colour cone responses of given test sample cone
+        Corresponding colour cone responses of the specified test sample cone
         responses.
 
     Examples
@@ -529,6 +554,4 @@ def corresponding_colour(
     G_2 = RGB_c(eta_1, eta_2, bG_o1, bG_o2, G_1, n)
     B_2 = RGB_c(zeta_1, zeta_2, bB_o1, bB_o2, B_1, n)
 
-    RGB_2 = tstack([R_2, G_2, B_2])
-
-    return RGB_2
+    return tstack([R_2, G_2, B_2])

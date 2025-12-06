@@ -2,7 +2,7 @@
 Metrics
 =======
 
-Define various metrics:
+Define various metrics for evaluating signal quality and comparing data:
 
 -   :func:`colour.utilities.metric_mse`
 -   :func:`colour.utilities.metric_psnr`
@@ -18,15 +18,20 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import sdiv, sdiv_mode
-from colour.hints import (
-    ArrayLike,
-    NDArrayFloat,
-    Real,
-    Tuple,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        ArrayLike,
+        NDArrayFloat,
+        Real,
+        Tuple,
+    )
+
 from colour.utilities import as_float, as_float_array, zeros
 
 __author__ = "Colour Developers"
@@ -48,8 +53,8 @@ def metric_mse(
     axis: int | Tuple[int] | None = None,
 ) -> NDArrayFloat:
     """
-    Compute the mean squared error (MSE) or mean squared deviation (MSD)
-    between given variables :math:`a` and :math:`b`.
+    Compute the mean squared error (MSE) between the specified arrays
+    :math:`a` and :math:`b`.
 
     Parameters
     ----------
@@ -59,9 +64,9 @@ def metric_mse(
         Variable :math:`b`.
     axis
         Axis or axes along which the means are computed. The default is to
-        compute the mean of the flattened array.
-        If this is a tuple of ints, a mean is performed over multiple axes,
-        instead of a single axis or all the axes as before.
+        compute the mean of the flattened array. If this is a tuple of
+        integers, a mean is performed over multiple axes instead of a
+        single axis or all the axes as before.
 
     Returns
     -------
@@ -90,22 +95,22 @@ def metric_psnr(
     axis: int | Tuple[int] | None = None,
 ) -> NDArrayFloat:
     """
-    Compute the peak signal-to-noise ratio (PSNR) between given variables
-    :math:`a` and :math:`b`.
+    Compute the peak signal-to-noise ratio (PSNR) between the specified
+    arrays :math:`a` and :math:`b`.
 
     Parameters
     ----------
     a
-        Variable :math:`a`.
+        Array :math:`a`.
     b
-        Variable :math:`b`.
+        Array :math:`b`.
     max_a
-        Maximum possible pixel value of the :math:`a` variable.
+        Maximum possible value of the array :math:`a`.
     axis
-        Axis or axes along which the means are computed. The default is to
-        compute the mean of the flattened array.
-        If this is a tuple of ints, a mean is performed over multiple axes,
-        instead of a single axis or all the axes as before.
+        Axis or axes along which the means are computed. The default is
+        to compute the mean of the flattened array. If this is a tuple
+        of integers, a mean is performed over multiple axes, instead of
+        a single axis or all the axes as before.
 
     Returns
     -------

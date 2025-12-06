@@ -2,7 +2,7 @@
 Gamut Section Plotting
 ======================
 
-Define the gamut section plotting objects:
+Define the gamut section plotting objects.
 
 -   :func:`colour.plotting.section.plot_hull_section_colours`
 -   :func:`colour.plotting.section.plot_hull_section_contour`
@@ -12,10 +12,18 @@ Define the gamut section plotting objects:
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
-from matplotlib.axes import Axes
+
+if typing.TYPE_CHECKING:
+    from matplotlib.axes import Axes
+
 from matplotlib.collections import LineCollection
-from matplotlib.figure import Figure
+
+if typing.TYPE_CHECKING:
+    from matplotlib.figure import Figure
+
 from matplotlib.patches import Polygon
 
 from colour.colorimetry import (
@@ -25,22 +33,23 @@ from colour.colorimetry import (
     reshape_msds,
 )
 from colour.geometry import hull_section, primitive_cube
-from colour.graph import convert
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Dict,
-    Literal,
-    LiteralColourspaceModel,
-    LiteralRGBColourspace,
-    Real,
-    Sequence,
-    Tuple,
-    cast,
-)
+from colour.graph import colourspace_model_to_reference, convert
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Dict,
+        Literal,
+        LiteralColourspaceModel,
+        LiteralRGBColourspace,
+        Sequence,
+        Tuple,
+    )
+
+from colour.hints import Real, cast
 from colour.models import (
     COLOURSPACE_MODELS_AXIS_LABELS,
-    COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE,
     RGB_Colourspace,
     RGB_to_XYZ,
 )
@@ -61,6 +70,7 @@ from colour.utilities import (
     as_int_array,
     first_item,
     full,
+    ones,
     optional,
     required,
     suppress_warnings,
@@ -87,7 +97,12 @@ __all__ = [
 MAPPING_AXIS_TO_PLANE: CanonicalMapping = CanonicalMapping(
     {"+x": (1, 2), "+y": (0, 2), "+z": (0, 1)}
 )
-MAPPING_AXIS_TO_PLANE.__doc__ = """Axis to plane mapping."""
+MAPPING_AXIS_TO_PLANE.__doc__ = """
+Mapping from axes to their orthogonal planes.
+
+Maps each positive axis ('+x', '+y', '+z') to the indices of the two
+dimensions that form the perpendicular plane in 3D space.
+"""
 
 
 @required("trimesh")
@@ -105,16 +120,16 @@ def plot_hull_section_colours(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the section colours of given *trimesh* hull along given axis and
-    origin.
+    Plot the section colours of the specified *trimesh* hull along the
+    specified axis and origin.
 
     Parameters
     ----------
     hull
         *Trimesh* hull.
     model
-        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
-        the list of supported colourspace models.
+        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute
+        for the list of supported colourspace models.
     axis
         Axis the hull section will be normal to.
     origin
@@ -123,8 +138,7 @@ def plot_hull_section_colours(
         Whether to normalise ``axis`` to the extent of the hull along it.
     section_colours
         Colours of the hull section, if ``section_colours`` is set to *RGB*,
-        the colours will be computed according to the corresponding
-        coordinates.
+        the colours will be computed using the corresponding coordinates.
     section_opacity
         Opacity of the hull section colours.
     convert_kwargs
@@ -188,7 +202,7 @@ def plot_hull_section_colours(
             convert(hull.vertices, "CIE XYZ", model, **convert_kwargs), model
         )
         ijk_vertices = np.nan_to_num(ijk_vertices)
-        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+        ijk_vertices = colourspace_model_to_reference(ijk_vertices, model)
 
     hull.vertices = ijk_vertices
 
@@ -202,7 +216,7 @@ def plot_hull_section_colours(
 
     section = hull_section(hull, axis, origin, normalise)
 
-    padding = 0.1 * np.mean(COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
+    padding = 0.1 * np.mean(colourspace_model_to_reference(ones(3), model))
     min_x = np.min(ijk_vertices[..., plane[0]]) - padding
     max_x = np.max(ijk_vertices[..., plane[0]]) + padding
     min_y = np.min(ijk_vertices[..., plane[1]]) - padding
@@ -218,10 +232,10 @@ def plot_hull_section_colours(
         ij = tstack([ii, jj])
         ijk_section = full(
             (samples, samples, 3),
-            cast(Real, np.median(section[..., index_origin])),
+            cast("Real", np.median(section[..., index_origin])),
         )
         ijk_section[..., plane] = ij
-        ijk_section /= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+        ijk_section = ijk_section / colourspace_model_to_reference(ones(3), model)
         XYZ_section = convert(
             colourspace_model_axis_reorder(ijk_section, model, "Inverse"),
             model,
@@ -245,7 +259,7 @@ def plot_hull_section_colours(
         image = axes.imshow(
             np.clip(RGB_section, 0, 1),
             interpolation="bilinear",
-            extent=extent,
+            extent=extent,  # type: ignore
             clip_path=None,
             alpha=section_opacity,
             zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
@@ -275,16 +289,16 @@ def plot_hull_section_contour(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the section contour of given *trimesh* hull along given axis and
-    origin.
+    Plot the section contour of the specified *trimesh* hull along the
+    specified axis and origin.
 
     Parameters
     ----------
     hull
         *Trimesh* hull.
     model
-        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
-        the list of supported colourspace models.
+        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute
+        for the list of supported colourspace models.
     axis
         Axis the hull section will be normal to.
     origin
@@ -292,8 +306,8 @@ def plot_hull_section_contour(
     normalise
         Whether to normalise ``axis`` to the extent of the hull along it.
     contour_colours
-        Colours of the hull section contour, if ``contour_colours`` is set to
-        *RGB*, the colours will be computed according to the corresponding
+        Colours of the hull section contour, if ``contour_colours`` is set
+        to *RGB*, the colours will be computed using the corresponding
         coordinates.
     contour_opacity
         Opacity of the hull section contour.
@@ -348,13 +362,13 @@ def plot_hull_section_contour(
             convert(hull.vertices, "CIE XYZ", model, **convert_kwargs), model
         )
         ijk_vertices = np.nan_to_num(ijk_vertices)
-        ijk_vertices *= COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model]
+        ijk_vertices = colourspace_model_to_reference(ijk_vertices, model)
 
     hull.vertices = ijk_vertices
 
     plane = MAPPING_AXIS_TO_PLANE[axis]
 
-    padding = 0.1 * np.mean(COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
+    padding = 0.1 * np.mean(colourspace_model_to_reference(np.ones(3), model))
     min_x = np.min(ijk_vertices[..., plane[0]]) - padding
     max_x = np.max(ijk_vertices[..., plane[0]]) + padding
     min_y = np.min(ijk_vertices[..., plane[1]]) - padding
@@ -364,9 +378,7 @@ def plot_hull_section_contour(
     use_RGB_contour_colours = str(contour_colours).upper() == "RGB"
     section = hull_section(hull, axis, origin, normalise)
     if use_RGB_contour_colours:
-        ijk_section = (
-            section / (COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model])
-        )
+        ijk_section = section / colourspace_model_to_reference(np.ones(3), model)
         XYZ_section = convert(
             colourspace_model_axis_reorder(ijk_section, model, "Inverse"),
             model,
@@ -409,23 +421,25 @@ def plot_visible_spectrum_section(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot the visible spectrum volume, i.e., *Rösch-MacAdam* colour solid,
-    section colours along given axis and origin.
+    Plot the visible spectrum volume section colours along the specified axis
+    and origin.
+
+    The visible spectrum volume represents the *Rösch-MacAdam* colour solid.
 
     Parameters
     ----------
     cmfs
         Standard observer colour matching functions, default to the
-        *CIE 1931 2 Degree Standard Observer*.  ``cmfs`` can be of any type or
-        form supported by the :func:`colour.plotting.common.filter_cmfs`
+        *CIE 1931 2 Degree Standard Observer*.  ``cmfs`` can be of any type
+        or form supported by the :func:`colour.plotting.common.filter_cmfs`
         definition.
     illuminant
         Illuminant spectral distribution, default to *CIE Illuminant D65*.
         ``illuminant`` can be of any type or form supported by the
         :func:`colour.plotting.common.filter_illuminants` definition.
     model
-        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
-        the list of supported colourspace models.
+        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute
+        for the list of supported colourspace models.
     axis
         Axis the hull section will be normal to.
     origin
@@ -464,8 +478,8 @@ def plot_visible_spectrum_section(
         :alt: plot_visible_spectrum_section
     """
 
-    import trimesh.convex
-    from trimesh import Trimesh
+    import trimesh.convex  # noqa: PLC0415
+    from trimesh import Trimesh  # noqa: PLC0415
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
@@ -473,7 +487,7 @@ def plot_visible_spectrum_section(
     _figure, axes = artist(**settings)
 
     cmfs = cast(
-        MultiSpectralDistributions,
+        "MultiSpectralDistributions",
         reshape_msds(
             first_item(filter_cmfs(cmfs).values()),
             SpectralShape(360, 780, 1),
@@ -481,7 +495,7 @@ def plot_visible_spectrum_section(
         ),
     )
     illuminant = cast(
-        SpectralDistribution,
+        "SpectralDistribution",
         first_item(filter_illuminants(illuminant).values()),
     )
 
@@ -556,26 +570,29 @@ def plot_RGB_colourspace_section(
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
-    Plot given *RGB* colourspace section colours along given axis and origin.
+    Plot the specified *RGB* colourspace section colours along the
+    specified axis and origin.
 
     Parameters
     ----------
     colourspace
-        *RGB* colourspace of the *RGB* array. ``colourspace`` can be of any
-        type or form supported by the
-        :func:`colour.plotting.common.filter_RGB_colourspaces` definition.
+        *RGB* colourspace of the *RGB* array. ``colourspace`` can be of
+        any type or form supported by the
+        :func:`colour.plotting.common.filter_RGB_colourspaces`
+        definition.
     model
-        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS` attribute for
-        the list of supported colourspace models.
+        Colourspace model, see :attr:`colour.COLOURSPACE_MODELS`
+        attribute for the list of supported colourspace models.
     axis
         Axis the hull section will be normal to.
     origin
         Coordinate along ``axis`` at which to plot the hull section.
     normalise
-        Whether to normalise ``axis`` to the extent of the hull along it.
+        Whether to normalise ``axis`` to the extent of the hull along
+        it.
     size:
-        Size of the underlying *RGB* colourspace cube; used for plotting HDR
-        related sections.
+        Size of the underlying *RGB* colourspace cube; used for plotting
+        HDR related sections.
     show_section_colours
         Whether to show the hull section colours.
     show_section_contour
@@ -612,7 +629,7 @@ def plot_RGB_colourspace_section(
         :alt: plot_RGB_colourspace_section
     """
 
-    from trimesh import Trimesh
+    from trimesh import Trimesh  # noqa: PLC0415
 
     settings: Dict[str, Any] = {"uniform": True}
     settings.update(kwargs)
@@ -620,7 +637,7 @@ def plot_RGB_colourspace_section(
     _figure, axes = artist(**settings)
 
     colourspace = cast(
-        RGB_Colourspace,
+        "RGB_Colourspace",
         first_item(filter_RGB_colourspaces(colourspace).values()),
     )
 

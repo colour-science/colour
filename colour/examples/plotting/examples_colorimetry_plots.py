@@ -1,4 +1,9 @@
-"""Showcase colorimetry plotting examples."""
+"""
+Demonstrate colorimetry plotting.
+
+This module provides examples of plotting colorimetric data including
+illuminants, spectral distributions and colour matching functions.
+"""
 
 from pprint import pprint
 
@@ -36,8 +41,7 @@ plot_multi_illuminant_sds(["A", "B", "C", "D50", "D55", "D60", "D65", "D75", "FL
 print("\n")
 
 message_box(
-    'Plotting "CIE Standard Illuminant "A", "B", and "C" with their '
-    "normalised colours."
+    'Plotting "CIE Standard Illuminant "A", "B", and "C" with their normalised colours.'
 )
 plot_multi_illuminant_sds(
     ["A", "B", "C"],

@@ -2,7 +2,8 @@
 ZCAM Colour Appearance Model
 ============================
 
-Define the *ZCAM* colour appearance model objects:
+Define the *ZCAM* colour appearance model for predicting perceptual colour
+attributes under varying viewing conditions.
 
 -   :class:`colour.appearance.InductionFactors_ZCAM`
 -   :attr:`colour.VIEWING_CONDITIONS_ZCAM`
@@ -26,7 +27,6 @@ References
 
 from __future__ import annotations
 
-from collections import namedtuple
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -39,11 +39,18 @@ from colour.appearance.ciecam02 import (
     hue_angle,
 )
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import (  # noqa: TC001
+    Annotated,
+    ArrayLike,
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.models import Izazbz_to_XYZ, XYZ_to_Izazbz, xy_to_XYZ
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
+    MixinDataclassIterable,
     as_float,
     as_float_array,
     as_int_array,
@@ -74,11 +81,10 @@ __all__ = [
 ]
 
 
-class InductionFactors_ZCAM(
-    namedtuple("InductionFactors_ZCAM", ("F_s", "F", "c", "N_c"))
-):
+@dataclass(frozen=True)
+class InductionFactors_ZCAM(MixinDataclassIterable):
     """
-    *ZCAM* colour appearance model induction factors.
+    Define the *ZCAM* colour appearance model induction factors.
 
     Parameters
     ----------
@@ -93,24 +99,46 @@ class InductionFactors_ZCAM(
 
     Notes
     -----
-    -   The *ZCAM* colour appearance model induction factors are inherited from
-        the *CIECAM02* colour appearance model.
+    -   The *ZCAM* colour appearance model induction factors are inherited
+        from the *CIECAM02* colour appearance model.
 
     References
     ----------
     :cite:`Safdar2021`
     """
 
+    F_s: float
+    F: float
+    c: float
+    N_c: float
+
 
 VIEWING_CONDITIONS_ZCAM: CanonicalMapping = CanonicalMapping(
     {
-        "Average": InductionFactors_ZCAM(0.69, *VIEWING_CONDITIONS_CIECAM02["Average"]),
-        "Dim": InductionFactors_ZCAM(0.59, *VIEWING_CONDITIONS_CIECAM02["Dim"]),
-        "Dark": InductionFactors_ZCAM(0.525, *VIEWING_CONDITIONS_CIECAM02["Dark"]),
+        "Average": InductionFactors_ZCAM(
+            0.69, *VIEWING_CONDITIONS_CIECAM02["Average"].values
+        ),
+        "Dim": InductionFactors_ZCAM(0.59, *VIEWING_CONDITIONS_CIECAM02["Dim"].values),
+        "Dark": InductionFactors_ZCAM(
+            0.525, *VIEWING_CONDITIONS_CIECAM02["Dark"].values
+        ),
     }
 )
 VIEWING_CONDITIONS_ZCAM.__doc__ = """
-Reference *ZCAM* colour appearance model viewing conditions.
+Define the reference *ZCAM* colour appearance model
+viewing conditions.
+
+Provide three standard viewing conditions (*Average*, *Dim*, and *Dark*)
+with corresponding induction factors. Each condition specifies a unique
+surround impact factor (:math:`F_s`) alongside inherited *CIECAM02*
+parameters for maximum degree of adaptation (:math:`F`), exponential
+non-linearity (:math:`c`), and chromatic induction factor (:math:`N_c`).
+
+Notes
+-----
+-   The *ZCAM* viewing conditions inherit parameters from *CIECAM02* while
+    introducing model-specific surround impact factors: 0.69 (*Average*),
+    0.59 (*Dim*), and 0.525 (*Dark*).
 
 References
 ----------
@@ -129,13 +157,13 @@ class CAM_ReferenceSpecification_ZCAM(MixinDataclassArithmetic):
     """
     Define the *ZCAM* colour appearance model reference specification.
 
-    This specification has field names consistent with :cite:`Safdar2021`
-    reference.
+    This specification contains field names consistent with the *Fairchild
+    (2013)* reference.
 
     Parameters
     ----------
     J_z
-        Correlate of *Lightness* :math:`J_z`.
+        Correlate of *lightness* :math:`J_z`.
     C_z
         Correlate of *chroma* :math:`C_z`.
     h_z
@@ -179,6 +207,12 @@ class CAM_ReferenceSpecification_ZCAM(MixinDataclassArithmetic):
 class CAM_Specification_ZCAM(MixinDataclassArithmetic):
     """
     Define the *ZCAM* colour appearance model specification.
+
+    This specification provides a standardized interface for the *ZCAM* model
+    with field names consistent across all colour appearance models in
+    :mod:`colour.appearance`. While the field names differ from the original
+    *Fairchild (2013)* reference notation, they map directly to the model's
+    perceptual correlates.
 
     Parameters
     ----------
@@ -297,17 +331,17 @@ TVS_D65: NDArrayFloat = xy_to_XYZ(
 
 
 def XYZ_to_ZCAM(
-    XYZ: ArrayLike,
-    XYZ_w: ArrayLike,
+    XYZ: Domain1,
+    XYZ_w: Domain1,
     L_A: ArrayLike,
     Y_b: ArrayLike,
     surround: InductionFactors_ZCAM = VIEWING_CONDITIONS_ZCAM["Average"],
     discount_illuminant: bool = False,
     compute_H: bool = True,
-) -> CAM_Specification_ZCAM:
+) -> Annotated[CAM_Specification_ZCAM, (1, 1, 360, 1, 1, 1, 400, 1, 1, 1)]:
     """
-    Compute the *ZCAM* colour appearance model correlates from given *CIE XYZ*
-    tristimulus values.
+    Compute the *ZCAM* colour appearance model correlates from the specified
+    *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -322,18 +356,18 @@ def XYZ_to_ZCAM(
         reference white and :math:`Y_b` is the background luminance factor).
     Y_b
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 * L_b / L_w` where :math:`L_w` is the luminance of the
-        light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
-        pixels in the entire image, or frequently, a :math:`Y` value of 20,
-        approximate an :math:`L^*` of 50 is used.
+        :math:`Y_b = 100 * L_b / L_w` where :math:`L_w` is the luminance of
+        the light source and :math:`L_b` is the luminance of the background.
+        For viewing images, :math:`Y_b` can be the average :math:`Y` value
+        for the pixels in the entire image, or frequently, a :math:`Y` value
+        of 20, approximating an :math:`L^*` of 50 is used.
     surround
         Surround viewing conditions induction factors.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
     compute_H
-        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H` is
-        rarely used, and expensive to compute.
+        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H`
+        is rarely used, and expensive to compute.
 
     Returns
     -------
@@ -347,58 +381,57 @@ def XYZ_to_ZCAM(
 
     Notes
     -----
-    -   *Safdar, Hardeberg and Luo (2021)* does not specify how the chromatic
-        adaptation to *CIE Standard Illuminant D65* in *Step 0* should be
-        performed. A one-step *Von Kries* chromatic adaptation transform is not
-        symmetrical or transitive when a degree of adaptation is involved.
-        *Safdar, Hardeberg and Luo (2018)* uses *Zhai and Luo (2018)* two-steps
-        chromatic adaptation transform, thus it seems sensible to adopt this
-        transform for the *ZCAM* colour appearance model until more information
-        is available. It is worth noting that a one-step *Von Kries* chromatic
-        adaptation transform with support for degree of adaptation produces
-        values closer to the supplemental document compared to the
-        *Zhai and Luo (2018)* two-steps chromatic adaptation transform but then
-        the *ZCAM* colour appearance model does not round-trip properly.
+    -   *Safdar, Hardeberg and Luo (2021)* does not specify how the
+        chromatic adaptation to *CIE Standard Illuminant D65* in *Step 0*
+        should be performed. A one-step *Von Kries* chromatic adaptation
+        transform is not symmetrical or transitive when a degree of
+        adaptation is involved. *Safdar, Hardeberg and Luo (2018)* uses
+        *Zhai and Luo (2018)* two-steps chromatic adaptation transform, thus
+        it seems sensible to adopt this transform for the *ZCAM* colour
+        appearance model until more information is available. It is worth
+        noting that a one-step *Von Kries* chromatic adaptation transform
+        with support for degree of adaptation produces values closer to the
+        supplemental document compared to the *Zhai and Luo (2018)*
+        two-steps chromatic adaptation transform but then the *ZCAM* colour
+        appearance model does not round-trip properly.
     -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations.
+        transfer function, thus the domain and range values for the
+        *Reference* and *1* scales are only indicative that the data is not
+        affected by scale transformations.
 
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``XYZ``    | [UN]                  | [UN]          |
-    +------------+-----------------------+---------------+
-    | ``XYZ_tw`` | [UN]                  | [UN]          |
-    +------------+-----------------------+---------------+
-    | ``XYZ_rw`` | [UN]                  | [UN]          |
-    +------------+-----------------------+---------------+
+    +----------------------+-----------------------+---------------+
+    | **Domain**           | **Scale - Reference** | **Scale - 1** |
+    +======================+=======================+===============+
+    | ``XYZ``              | UN                    | UN            |
+    +----------------------+-----------------------+---------------+
+    | ``XYZ_w``            | UN                    | UN            |
+    +----------------------+-----------------------+---------------+
 
-    +-------------------------------+-----------------------+---------------+
-    | **Range**                     | **Scale - Reference** | **Scale - 1** |
-    +===============================+=======================+===============+
-    | ``CAM_Specification_ZCAM.J``  | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.C``  | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.h``  | [0, 360]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.s``  | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.Q``  | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.M``  | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.H``  | [0, 400]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.HC`` | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.V``  | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.K``  | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.H``  | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
+    +----------------------+-----------------------+---------------+
+    | **Range**            | **Scale - Reference** | **Scale - 1** |
+    +======================+=======================+===============+
+    | ``specification.J``  | UN                    | 1             |
+    +----------------------+-----------------------+---------------+
+    | ``specification.C``  | UN                    | 1             |
+    +----------------------+-----------------------+---------------+
+    | ``specification.h``  | 360                   | 1             |
+    +----------------------+-----------------------+---------------+
+    | ``specification.s``  | UN                    | 1             |
+    +----------------------+-----------------------+---------------+
+    | ``specification.Q``  | UN                    | 1             |
+    +----------------------+-----------------------+---------------+
+    | ``specification.M``  | UN                    | 1             |
+    +----------------------+-----------------------+---------------+
+    | ``specification.H``  | 400                   | 1             |
+    +----------------------+-----------------------+---------------+
+    | ``specification.HC`` | UN                    | 1             |
+    +----------------------+-----------------------+---------------+
+    | ``specification.V``  | UN                    | 1             |
+    +----------------------+-----------------------+---------------+
+    | ``specification.K``  | UN                    | 1             |
+    +----------------------+-----------------------+---------------+
+    | ``specification.H``  | UN                    | 1             |
+    +----------------------+-----------------------+---------------+
 
     References
     ----------
@@ -424,7 +457,7 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     L_A = as_float_array(L_A)
     Y_b = as_float_array(Y_b)
 
-    F_s, F, _c, _N_c = surround
+    F_s, F, _c, _N_c = surround.values
 
     # Step 0 (Forward) - Chromatic adaptation from reference illuminant to
     # "CIE Standard Illuminant D65" illuminant using "CAT02".
@@ -487,38 +520,40 @@ HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
     W_z = 100 - np.sqrt((100 - J_z) ** 2 + C_z**2)
 
     return CAM_Specification_ZCAM(
-        as_float(from_range_1(J_z)),
-        as_float(from_range_1(C_z)),
-        as_float(from_range_degrees(h_z)),
-        as_float(from_range_1(S_z)),
-        as_float(from_range_1(Q_z)),
-        as_float(from_range_1(M_z)),
-        as_float(from_range_degrees(H, 400)),
-        None,
-        as_float(from_range_1(V_z)),
-        as_float(from_range_1(K_z)),
-        as_float(from_range_1(W_z)),
+        J=as_float(from_range_1(J_z)),
+        C=as_float(from_range_1(C_z)),
+        h=as_float(from_range_degrees(h_z)),
+        s=as_float(from_range_1(S_z)),
+        Q=as_float(from_range_1(Q_z)),
+        M=as_float(from_range_1(M_z)),
+        H=as_float(from_range_degrees(H, 400)),
+        HC=None,
+        V=as_float(from_range_1(V_z)),
+        K=as_float(from_range_1(K_z)),
+        W=as_float(from_range_1(W_z)),
     )
 
 
 def ZCAM_to_XYZ(
-    specification: CAM_Specification_ZCAM,
-    XYZ_w: ArrayLike,
+    specification: Annotated[
+        CAM_Specification_ZCAM, (1, 1, 360, 1, 1, 1, 400, 1, 1, 1)
+    ],
+    XYZ_w: Domain1,
     L_A: ArrayLike,
     Y_b: ArrayLike,
     surround: InductionFactors_ZCAM = VIEWING_CONDITIONS_ZCAM["Average"],
     discount_illuminant: bool = False,
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Convert from *ZCAM* specification to *CIE XYZ* tristimulus values.
+    Convert the *ZCAM* specification to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
     specification
-         *ZCAM* colour appearance model specification.
-         Correlate of *Lightness* :math:`J`, correlate of *chroma* :math:`C` or
-         correlate of *colourfulness* :math:`M` and *hue* angle :math:`h` in
-         degrees must be specified, e.g., :math:`JCh` or :math:`JMh`.
+        *ZCAM* colour appearance model specification.
+        Correlate of *lightness* :math:`J`, correlate of *chroma* :math:`C` or
+        correlate of *colourfulness* :math:`M` and *hue* angle :math:`h` in
+        degrees must be specified, e.g., :math:`JCh` or :math:`JMh`.
     XYZ_w
         Absolute *CIE XYZ* tristimulus values of the white under reference
         illuminant.
@@ -528,11 +563,11 @@ def ZCAM_to_XYZ(
         reference white and :math:`Y_b` is the background luminance factor).
     Y_b
         Luminous factor of background :math:`Y_b` such as
-        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of the
-        light source and :math:`L_b` is the luminance of the background. For
-        viewing images, :math:`Y_b` can be the average :math:`Y` value for the
-        pixels in the entire image, or frequently, a :math:`Y` value of 20,
-        approximate an :math:`L^*` of 50 is used.
+        :math:`Y_b = 100 x L_b / L_w` where :math:`L_w` is the luminance of
+        the light source and :math:`L_b` is the luminance of the background.
+        For viewing images, :math:`Y_b` can be the average :math:`Y` value for
+        the pixels in the entire image, or frequently, a :math:`Y` value of
+        20, approximating an :math:`L^*` of 50 is used.
     surround
         Surround viewing conditions induction factors.
     discount_illuminant
@@ -556,60 +591,63 @@ def ZCAM_to_XYZ(
 
     Notes
     -----
-    -   *Safdar, Hardeberg and Luo (2021)* does not specify how the chromatic
-        adaptation to *CIE Standard Illuminant D65* in *Step 0* should be
-        performed. A one-step *Von Kries* chromatic adaptation transform is not
-        symmetrical or transitive when a degree of adptation is involved.
-        *Safdar, Hardeberg and Luo (2018)* uses *Zhai and Luo (2018)* two-steps
-        chromatic adaptation transform, thus it seems sensible to adopt this
-        transform for the *ZCAM* colour appearance model until more information
-        is available. It is worth noting that a one-step *Von Kries* chromatic
-        adaptation transform with support for degree of adaptation produces
-        values closer to the supplemental document compared to the
-        *Zhai and Luo (2018)* two-steps chromatic adaptation transform but then
-        the *ZCAM* colour appearance model does not round-trip properly.
+    -   *Safdar, Hardeberg and Luo (2021)* does not specify how the
+        chromatic adaptation to *CIE Standard Illuminant D65* in *Step 0*
+        should be performed. A one-step *Von Kries* chromatic adaptation
+        transform is not symmetrical or transitive when a degree of
+        adaptation is involved. *Safdar, Hardeberg and Luo (2018)* uses
+        *Zhai and Luo (2018)* two-steps chromatic adaptation transform, thus
+        it seems sensible to adopt this transform for the *ZCAM* colour
+        appearance model until more information is available. It is worth
+        noting that a one-step *Von Kries* chromatic adaptation transform
+        with support for degree of adaptation produces values closer to the
+        supplemental document compared to the *Zhai and Luo (2018)*
+        two-steps chromatic adaptation transform but then the *ZCAM* colour
+        appearance model does not round-trip properly.
+    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
+        transfer function, thus the domain and range values for the
+        *Reference* and *1* scales are only indicative that the data is not
+        affected by scale transformations.
     -   *Step 4* of the inverse model uses a rounded exponent of 1.3514
         preventing the model to round-trip properly. Given that this
         implementation takes some liberties with respect to the chromatic
         adaptation transform to use, it was deemed appropriate to use an
         exponent value that enables the *ZCAM* colour appearance model to
         round-trip.
-    -   The underlying *SMPTE ST 2084:2014* transfer function is an absolute
-        transfer function, thus the domain and range values for the *Reference*
-        and *1* scales are only indicative that the data is not affected by
-        scale transformations.
 
-    +-------------------------------+-----------------------+---------------+
-    | **Domain**                    | **Scale - Reference** | **Scale - 1** |
-    +===============================+=======================+===============+
-    | ``CAM_Specification_ZCAM.J``  | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.C``  | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.h``  | [0, 360]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.s``  | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.Q``  | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.M``  | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.H``  | [0, 400]              | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.HC`` | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.V``  | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.K``  | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
-    | ``CAM_Specification_ZCAM.H``  | [UN]                  | [0, 1]        |
-    +-------------------------------+-----------------------+---------------+
+    +----------------------+-----------------------+---------------+
+    | **Domain**           | **Scale - Reference** | **Scale - 1** |
+    +======================+=======================+===============+
+    | ``specification.J``  | UN                    | UN            |
+    +----------------------+-----------------------+---------------+
+    | ``specification.C``  | UN                    | UN            |
+    +----------------------+-----------------------+---------------+
+    | ``specification.h``  | 360                   | 1             |
+    +----------------------+-----------------------+---------------+
+    | ``specification.s``  | UN                    | UN            |
+    +----------------------+-----------------------+---------------+
+    | ``specification.Q``  | UN                    | UN            |
+    +----------------------+-----------------------+---------------+
+    | ``specification.M``  | UN                    | UN            |
+    +----------------------+-----------------------+---------------+
+    | ``specification.H``  | 400                   | 1             |
+    +----------------------+-----------------------+---------------+
+    | ``specification.HC`` | UN                    | UN            |
+    +----------------------+-----------------------+---------------+
+    | ``specification.V``  | UN                    | UN            |
+    +----------------------+-----------------------+---------------+
+    | ``specification.K``  | UN                    | UN            |
+    +----------------------+-----------------------+---------------+
+    | ``specification.H``  | UN                    | UN            |
+    +----------------------+-----------------------+---------------+
+    | ``XYZ_w``            | UN                    | UN            |
+    +----------------------+-----------------------+---------------+
 
-    +-----------+-----------------------+---------------+
-    | **Range** | **Scale - Reference** | **Scale - 1** |
-    +===========+=======================+===============+
-    | ``XYZ``   | [UN]                  | [UN]          |
-    +-----------+-----------------------+---------------+
+    +----------------------+-----------------------+---------------+
+    | **Range**            | **Scale - Reference** | **Scale - 1** |
+    +======================+=======================+===============+
+    | ``XYZ``              | UN                    | UN            |
+    +----------------------+-----------------------+---------------+
 
     References
     ----------
@@ -641,7 +679,7 @@ def ZCAM_to_XYZ(
     L_A = as_float_array(L_A)
     Y_b = as_float_array(Y_b)
 
-    F_s, F, c, N_c = surround
+    F_s, F, c, N_c = surround.values
 
     # Step 0 (Forward) - Chromatic adaptation from reference illuminant to
     # "CIE Standard Illuminant D65" illuminant using "CAT02".
@@ -675,10 +713,12 @@ def ZCAM_to_XYZ(
     if has_only_nan(M_z) and not has_only_nan(C_z):
         M_z = (C_z * Q_z_w) / 100
     elif has_only_nan(M_z):
-        raise ValueError(
+        error = (
             'Either "C" or "M" correlate must be defined in '
             'the "CAM_Specification_ZCAM" argument!'
         )
+
+        raise ValueError(error)
 
     # Step 3 (Inverse) - Computing hue angle :math:`h_z`
     # :math:`h_z` is currently required as an input.
@@ -712,7 +752,8 @@ def ZCAM_to_XYZ(
 
 def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     """
-    Return the hue quadrature from given hue :math:`h` angle in degrees.
+    Compute the hue quadrature from the specified hue :math:`h` angle in
+    degrees.
 
     Parameters
     ----------

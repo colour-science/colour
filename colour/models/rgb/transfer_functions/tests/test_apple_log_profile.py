@@ -3,7 +3,6 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 apple_log_profile` module.
 """
 
-
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -32,7 +31,7 @@ class TestLogEncoding_AppleLogProfile:
 log_encoding_AppleLogProfile` definition unit tests methods.
     """
 
-    def test_log_encoding_AppleLogProfile(self):
+    def test_log_encoding_AppleLogProfile(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.apple_log_profile.\
 log_encoding_AppleLogProfile` definition.
@@ -56,7 +55,7 @@ log_encoding_AppleLogProfile` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_DLog(self):
+    def test_n_dimensional_log_encoding_DLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.apple_log_profile.\
 log_encoding_AppleLogProfile` definition n-dimensional arrays support.
@@ -83,7 +82,7 @@ log_encoding_AppleLogProfile` definition n-dimensional arrays support.
             log_encoding_AppleLogProfile(R), P, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_encoding_DLog(self):
+    def test_domain_range_scale_log_encoding_DLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.apple_log_profile.\
 log_encoding_AppleLogProfile` definition domain and range scale support.
@@ -102,7 +101,7 @@ log_encoding_AppleLogProfile` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_encoding_DLog(self):
+    def test_nan_log_encoding_DLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.apple_log_profile.\
 log_encoding_AppleLogProfile` definition nan support.
@@ -119,7 +118,7 @@ class TestLogDecoding_AppleLogProfile:
 log_decoding_AppleLogProfile` definition unit tests methods.
     """
 
-    def test_log_decoding_AppleLogProfile(self):
+    def test_log_decoding_AppleLogProfile(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.apple_log_profile.\
 log_decoding_AppleLogProfile` definition.
@@ -143,7 +142,7 @@ log_decoding_AppleLogProfile` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_DLog(self):
+    def test_n_dimensional_log_decoding_DLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.apple_log_profile.\
 log_decoding_AppleLogProfile` definition n-dimensional arrays support.
@@ -170,7 +169,7 @@ log_decoding_AppleLogProfile` definition n-dimensional arrays support.
             log_decoding_AppleLogProfile(P), R, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-    def test_domain_range_scale_log_decoding_DLog(self):
+    def test_domain_range_scale_log_decoding_DLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.apple_log_profile.\
 log_decoding_AppleLogProfile` definition domain and range scale support.
@@ -189,7 +188,7 @@ log_decoding_AppleLogProfile` definition domain and range scale support.
                 )
 
     @ignore_numpy_errors
-    def test_nan_log_decoding_DLog(self):
+    def test_nan_log_decoding_DLog(self) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.apple_log_profile.\
 log_decoding_AppleLogProfile` definition nan support.

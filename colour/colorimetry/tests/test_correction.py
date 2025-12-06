@@ -1,12 +1,10 @@
 """Define the unit tests for the :mod:`colour.colorimetry.correction` module."""
 
+from __future__ import annotations
 
 import numpy as np
 
-from colour.colorimetry import (
-    SpectralDistribution,
-    bandpass_correction_Stearns1988,
-)
+from colour.colorimetry import SpectralDistribution, bandpass_correction_Stearns1988
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 
 __author__ = "Colour Developers"
@@ -67,7 +65,7 @@ class TestBandpassCorrectionStearns1988:
 bandpass_correction_Stearns1988` definition unit tests methods.
     """
 
-    def test_bandpass_correction_Stearns1988(self):
+    def test_bandpass_correction_Stearns1988(self) -> None:
         """
         Test :func:`colour.colorimetry.correction.\
 bandpass_correction_Stearns1988` definition.
@@ -78,6 +76,7 @@ bandpass_correction_Stearns1988` definition.
                 zip(
                     range(len(DATA_NON_BANDPASS_CORRECTED)),
                     DATA_NON_BANDPASS_CORRECTED,
+                    strict=True,
                 )
             )
         )

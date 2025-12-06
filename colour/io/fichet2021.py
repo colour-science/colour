@@ -2,7 +2,8 @@
 OpenEXR Layout for Spectral Images - Fichet, Pacanowski and Wilkie (2021)
 =========================================================================
 
-Define the *Fichet et al. (2021)* spectral image input / output objects.
+Define spectral image input/output functionality based on the
+*Fichet et al. (2021)* OpenEXR layout specification.
 
 References
 ----------
@@ -14,9 +15,10 @@ References
 from __future__ import annotations
 
 import re
+import typing
 from collections import defaultdict
+from collections.abc import ValuesView
 from dataclasses import dataclass, field
-from pathlib import Path
 
 import numpy as np
 
@@ -30,16 +32,16 @@ from colour.colorimetry import (
     sds_and_msds_to_msds,
 )
 from colour.constants import CONSTANT_LIGHT_SPEED
-from colour.hints import (
-    Callable,
-    Dict,
-    List,
-    Literal,
-    NDArrayFloat,
-    Sequence,
-    Tuple,
-    Union,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Callable,
+        Literal,
+        PathLike,
+    )
+
+from colour.hints import Dict, NDArrayFloat, Sequence, Tuple
 from colour.io.image import (
     MAPPING_BIT_DEPTH,
     Image_Specification_Attribute,
@@ -69,6 +71,7 @@ __all__ = [
     "sd_to_spectrum_attribute_Fichet2021",
     "spectrum_attribute_to_sd_Fichet2021",
     "Specification_Fichet2021",
+    "SPECIFICATION_FICHET2021_DEFAULT",
     "read_spectral_image_Fichet2021",
     "sds_and_msds_to_components_Fichet2021",
     "components_to_sRGB_Fichet2021",
@@ -114,7 +117,7 @@ References
 """
 
 
-ComponentsFichet2021 = Dict[Union[str, float], Tuple[NDArrayFloat, NDArrayFloat]]
+ComponentsFichet2021 = Dict[str | float, Tuple[NDArrayFloat, NDArrayFloat]]
 
 
 def match_groups_to_nm(
@@ -142,7 +145,7 @@ def match_groups_to_nm(
     units: Literal["m", "Hz"] | str,
 ) -> float:
     """
-    Convert match groups of a wavelength (or frequency) to the nanometer value.
+    Convert wavelength or frequency match groups to nanometre values.
 
     Parameters
     ----------
@@ -156,7 +159,12 @@ def match_groups_to_nm(
     Returns
     -------
     :class:`float`
-        Nanometer value.
+        Nanometre value.
+
+    Raises
+    ------
+    ValueError
+        If the multiplier or units are not supported.
 
     Examples
     --------
@@ -194,8 +202,12 @@ def sd_to_spectrum_attribute_Fichet2021(
     sd: SpectralDistribution, decimals: int = 7
 ) -> str:
     """
-    Convert a spectral distribution to a spectrum attribute value according to
-    *Fichet et al. (2021)*.
+    Convert the specified spectral distribution to a spectrum attribute value
+    according to *Fichet et al. (2021)*.
+
+    The conversion produces a string representation of the spectral
+    distribution suitable for use in rendering systems, with wavelength-value
+    pairs formatted as a semicolon-delimited list.
 
     Parameters
     ----------
@@ -221,7 +233,7 @@ def sd_to_spectrum_attribute_Fichet2021(
 
     return ";".join(
         f"{wavelength:.{decimals}f}nm:{value:.{decimals}f}"
-        for wavelength, value in zip(sd.wavelengths, sd.values)
+        for wavelength, value in zip(sd.wavelengths, sd.values, strict=True)
     )
 
 
@@ -229,8 +241,8 @@ def spectrum_attribute_to_sd_Fichet2021(
     spectrum_attribute: str,
 ) -> SpectralDistribution:
     """
-    Convert a spectrum attribute value to a spectral distribution according to
-    *Fichet et al. (2021)*.
+    Convert the specified spectrum attribute value to a spectral distribution
+    according to *Fichet et al. (2021)*.
 
     Parameters
     ----------
@@ -266,8 +278,7 @@ def spectrum_attribute_to_sd_Fichet2021(
     parts = spectrum_attribute.split(";")
     for part in parts:
         domain, range_ = part.split(":")
-        match = pattern.match(domain.replace(".", ","))
-        if match is not None:
+        if (match := pattern.match(domain.replace(".", ","))) is not None:
             multiplier, units = match.group(3, 4)
             wavelength = match_groups_to_nm(match.group(1), multiplier, units)
             data[wavelength] = float(range_)
@@ -285,15 +296,15 @@ class Specification_Fichet2021:
     path
         Path of the spectral image.
     components
-        Components of the spectral image, e.g., *S0*, *S1*, *S2*, *S3*, *T*, or
-        any wavelength number for bi-spectral images.
+        Components of the spectral image, e.g., *S0*, *S1*, *S2*, *S3*, *T*,
+        or any wavelength number for bi-spectral images.
     is_emissive
-        Whether the image is emissive, i.e, using the *S0* component.
+        Whether the image is emissive, i.e., using the *S0* component.
     is_polarised
-        Whether the image is polarised, i.e, using the *S0*, *S1*, *S2*, and
-        *S3* components.
+        Whether the image is polarised, i.e., using the *S0*, *S1*, *S2*,
+        and *S3* components.
     is_bispectral
-        Whether the image is bi-spectral, i.e, using the *T*, and any
+        Whether the image is bi-spectral, i.e., using the *T*, and any
         wavelength number.
     attributes
         An array of :class:`colour.io.Image_Specification_Attribute` class
@@ -306,26 +317,26 @@ class Specification_Fichet2021:
     References
     ----------
     :cite:`Fichet2021`
-    """  # noqa: D405, D407, D410, D411
+    """
 
     path: str | None = field(default_factory=lambda: None)
     components: defaultdict = field(default_factory=lambda: defaultdict(dict))
     is_emissive: bool = field(default_factory=lambda: False)
     is_polarised: bool = field(default_factory=lambda: False)
     is_bispectral: bool = field(default_factory=lambda: False)
-    attributes: List | None = field(default_factory=lambda: None)
+    attributes: Tuple = field(default_factory=lambda: ())
 
     @staticmethod
     @required("OpenImageIO")
-    def from_spectral_image(path: str | Path) -> Specification_Fichet2021:
+    def from_spectral_image(path: str | PathLike) -> Specification_Fichet2021:
         """
-        Create a *Fichet et al. (2021)* spectral image specification from given
-        image path.
+        Create a *Fichet et al. (2021)* spectral image specification from the
+        specified image path.
 
         Parameters
         ----------
         path
-            Image path
+            Image path.
 
         Returns
         -------
@@ -349,7 +360,7 @@ class Specification_Fichet2021:
         True
         """
 
-        from OpenImageIO import ImageInput  # pyright: ignore
+        from OpenImageIO import ImageInput  # noqa: PLC0415
 
         path = str(path)
 
@@ -364,12 +375,12 @@ class Specification_Fichet2021:
             rf"^T\.*{PATTERN_FICHET2021}\.*{PATTERN_FICHET2021}$"
         )
 
-        image_specification = ImageInput.open(path).spec()
+        image_input = ImageInput.open(path)
+        image_specification = image_input.spec()
         channels = image_specification.channelnames
 
         for i, channel in enumerate(channels):
-            match = pattern_emissive.match(channel)
-            if match:
+            if (match := pattern_emissive.match(channel)) is not None:
                 is_emissive = True
 
                 component = match.group(1)
@@ -380,8 +391,7 @@ class Specification_Fichet2021:
                 if len(components) > 1:
                     is_polarised = True
 
-            match = pattern_bispectral.match(channel)
-            if match:
+            if (match := pattern_bispectral.match(channel)) is not None:
                 is_bispectral = True
 
                 input_multiplier, input_units = match.group(3, 4)
@@ -394,19 +404,19 @@ class Specification_Fichet2021:
                 )
                 components[input_wavelength][output_wavelength] = i
 
-            match = pattern_reflective.match(channel)
-            if match:
+            if (match := pattern_reflective.match(channel)) is not None:
                 multiplier, units = match.group(3, 4)
                 wavelength = match_groups_to_nm(match.group(1), multiplier, units)
                 components["T"][wavelength] = i
 
-        attributes = []
-        for attribute in image_specification.extra_attribs:
-            attributes.append(
-                Image_Specification_Attribute(
-                    attribute.name, attribute.value, attribute.type
-                )
+        attributes = [
+            Image_Specification_Attribute(
+                attribute.name, attribute.value, attribute.type
             )
+            for attribute in image_specification.extra_attribs
+        ]
+
+        image_input.close()
 
         return Specification_Fichet2021(
             path,
@@ -414,19 +424,53 @@ class Specification_Fichet2021:
             is_emissive,
             is_polarised,
             is_bispectral,
-            attributes,
+            tuple(attributes),
         )
+
+
+SPECIFICATION_FICHET2021_DEFAULT: Specification_Fichet2021 = Specification_Fichet2021()
+"""
+Default *Fichet et al. (2021)* spectral image specification.
+"""
+
+
+@typing.overload
+@required("OpenImageIO")
+def read_spectral_image_Fichet2021(
+    path: str | PathLike,
+    bit_depth: Literal["float16", "float32"] = ...,
+    additional_data: Literal[True] = True,
+) -> Tuple[ComponentsFichet2021, Specification_Fichet2021]: ...
+
+
+@typing.overload
+@required("OpenImageIO")
+def read_spectral_image_Fichet2021(
+    path: str | PathLike,
+    bit_depth: Literal["float16", "float32"] = ...,
+    *,
+    additional_data: Literal[False],
+) -> ComponentsFichet2021: ...
+
+
+@typing.overload
+@required("OpenImageIO")
+def read_spectral_image_Fichet2021(
+    path: str | PathLike,
+    bit_depth: Literal["float16", "float32"],
+    additional_data: bool = False,
+) -> ComponentsFichet2021: ...
 
 
 @required("OpenImageIO")
 def read_spectral_image_Fichet2021(
-    path: str | Path,
+    path: str | PathLike,
     bit_depth: Literal["float16", "float32"] = "float32",
     additional_data: bool = False,
 ) -> ComponentsFichet2021 | Tuple[ComponentsFichet2021, Specification_Fichet2021]:
     """
-    Read the *Fichet et al. (2021)* spectral image at given path using
-    *OpenImageIO*.
+    Read the *Fichet et al. (2021)* spectral image at the specified path
+    using *OpenImageIO*.
 
     Parameters
     ----------
@@ -441,14 +485,14 @@ def read_spectral_image_Fichet2021(
     -------
     :class:`dict` or :class:`tuple`
         Dictionary of component names and their corresponding tuple of
-        wavelengths and values or tuple of the aforementioned dictionary and
-        :class:`colour.Specification_Fichet2021` class instance.
+        wavelengths and values or tuple of the aforementioned dictionary
+        and :class:`colour.Specification_Fichet2021` class instance.
 
     Notes
     -----
-    -   Spectrum attributes are not parsed but can be converted to spectral
-        distribution using the :func:`colour.io.spectrum_attribute_to_sd_Fichet2021`
-        definition.
+    -   Spectrum attributes are not parsed but can be converted to
+        spectral distribution using the
+        :func:`colour.io.spectrum_attribute_to_sd_Fichet2021` definition.
 
     References
     ----------
@@ -478,20 +522,22 @@ def read_spectral_image_Fichet2021(
     True
     """
 
-    from OpenImageIO import ImageInput  # pyright: ignore
+    from OpenImageIO import ImageInput  # noqa: PLC0415
 
     path = str(path)
 
     bit_depth_specification = MAPPING_BIT_DEPTH[bit_depth]
 
     specification = Specification_Fichet2021.from_spectral_image(path)
-    image = ImageInput.open(path).read_image(bit_depth_specification.openimageio)
+    image_input = ImageInput.open(path)
+    image = image_input.read_image(bit_depth_specification.openimageio)
+    image_input.close()
 
     components = {}
     for component, wavelengths_indexes in specification.components.items():
-        wavelengths, indexes = zip(*wavelengths_indexes.items())
+        wavelengths, indexes = zip(*wavelengths_indexes.items(), strict=True)
         values = as_float_array(
-            image[:, :, indexes],
+            image[:, :, indexes],  # pyright: ignore
             dtype=bit_depth_specification.numpy,
         )
         components[component] = (
@@ -501,23 +547,24 @@ def read_spectral_image_Fichet2021(
 
     if additional_data:
         return components, specification
-    else:
-        return components
+
+    return components
 
 
 def sds_and_msds_to_components_Fichet2021(
     sds: Sequence[SpectralDistribution | MultiSpectralDistributions]
     | SpectralDistribution
-    | MultiSpectralDistributions,
-    specification: Specification_Fichet2021 = Specification_Fichet2021(),
-    **kwargs,
+    | MultiSpectralDistributions
+    | ValuesView,
+    specification: Specification_Fichet2021 = SPECIFICATION_FICHET2021_DEFAULT,
+    **kwargs: Any,
 ) -> ComponentsFichet2021:
     """
-    Convert given spectral and multi-spectral distributions to
+    Convert specified spectral and multi-spectral distributions to
     *Fichet et al. (2021)* components.
 
-    The spectral and multi-spectral distributions will be aligned to the
-    intersection of their spectral shapes.
+    Align the spectral and multi-spectral distributions to the intersection
+    of their spectral shapes before conversion.
 
     Parameters
     ----------
@@ -525,16 +572,16 @@ def sds_and_msds_to_components_Fichet2021(
         Spectral and multi-spectral distributions to convert to
         *Fichet et al. (2021)* components.
     specification
-        *Fichet et al. (2021)* spectral image specification, used to generate
-        the proper component type, i.e., emissive or other.
+        *Fichet et al. (2021)* spectral image specification, used to
+        determine the proper component type, i.e., emissive or other.
 
     Other Parameters
     ----------------
     shape
-        Optional shape the *Fichet et al. (2021)* components should take: Used
-        when converting spectral distributions of a colour
-        rendition chart to create a rectangular image rather than a single
-        line of values.
+        Optional shape the *Fichet et al. (2021)* components should take.
+        Used when converting spectral distributions of a colour rendition
+        chart to create a rectangular image rather than a single line of
+        values.
 
     Returns
     -------
@@ -578,10 +625,11 @@ def sds_and_msds_to_components_Fichet2021(
 @required("OpenImageIO")
 def components_to_sRGB_Fichet2021(
     components: ComponentsFichet2021,
-    specification: Specification_Fichet2021 = Specification_Fichet2021(),
+    specification: Specification_Fichet2021 = SPECIFICATION_FICHET2021_DEFAULT,
 ) -> Tuple[NDArrayFloat | None, Sequence[Image_Specification_Attribute]]:
     """
-    Convert given *Fichet et al. (2021)* components to *sRGB* colourspace values.
+    Convert the specified *Fichet et al. (2021)* components to *sRGB*
+    colourspace values.
 
     Parameters
     ----------
@@ -600,13 +648,13 @@ def components_to_sRGB_Fichet2021(
     Warnings
     --------
     -   This definition currently assumes a uniform wavelength interval.
-    -   This definition currently does not support integration of bi-spectral
-        component.
+    -   This definition currently does not support integration of
+        bi-spectral component.
 
     Notes
     -----
-    -   When an emissive component is given, its exposure will be normalised so
-        that its median is 0.18.
+    -   When an emissive component is specified, its exposure will be
+        normalised so that its median is 0.18.
 
     References
     ----------
@@ -634,7 +682,7 @@ def components_to_sRGB_Fichet2021(
     EV
     """
 
-    from OpenImageIO import TypeDesc  # pyright: ignore
+    from OpenImageIO import TypeDesc  # noqa: PLC0415
 
     component = components.get("S0", components.get("T"))
 
@@ -649,7 +697,7 @@ def components_to_sRGB_Fichet2021(
         )
 
     # TODO: Implement support for re-binning component with non-uniform interval.
-    if len(interval(component[0])) != 1:
+    if len(interval(component[0])) != 1:  # pragma: no cover
         usage_warning(
             "Components have a non-uniform interval, unexpected results might occur!"
         )
@@ -717,15 +765,17 @@ def write_spectral_image_Fichet2021(
     components: Sequence[SpectralDistribution | MultiSpectralDistributions]
     | SpectralDistribution
     | MultiSpectralDistributions
-    | ComponentsFichet2021,
-    path: str | Path,
+    | ComponentsFichet2021
+    | ValuesView,
+    path: str | PathLike,
     bit_depth: Literal["float16", "float32"] = "float32",
-    specification: Specification_Fichet2021 = Specification_Fichet2021(),
+    specification: Specification_Fichet2021 = SPECIFICATION_FICHET2021_DEFAULT,
     components_to_RGB_callable: Callable = components_to_sRGB_Fichet2021,
-    **kwargs,
-):
+    **kwargs: Any,
+) -> bool:
     """
-    Write given *Fichet et al. (2021)* components to given path using *OpenImageIO*.
+    Write the specified *Fichet et al. (2021)* components to the specified
+    path using *OpenImageIO*.
 
     Parameters
     ----------
@@ -734,8 +784,8 @@ def write_spectral_image_Fichet2021(
     path
         Image path.
     bit_depth
-        Bit-depth to write the image at, the bit-depth conversion behaviour is
-        ruled directly by *OpenImageIO*.
+        Bit-depth to write the image at, the bit-depth conversion behaviour
+        is ruled directly by *OpenImageIO*.
     specification
         *Fichet et al. (2021)* spectral image specification.
     components_to_RGB_callable
@@ -744,14 +794,14 @@ def write_spectral_image_Fichet2021(
     Other Parameters
     ----------------
     shape
-        Optional shape the *Fichet et al. (2021)* components should take: Used
-        when converting spectral distributions of a colour
-        rendition chart to create a rectangular image rather than a single
-        line of values.
+        Optional shape the *Fichet et al. (2021)* components should take:
+        Used when converting spectral distributions of a colour rendition
+        chart to create a rectangular image rather than a single line of
+        values.
 
     Returns
     -------
-    :class:`bool`:
+    :class:`bool`
         Definition success.
 
     Examples
@@ -777,12 +827,13 @@ def write_spectral_image_Fichet2021(
     True
     """
 
-    from OpenImageIO import ImageBuf, ImageBufAlgo  # pyright: ignore
+    from OpenImageIO import ImageBuf, ImageBufAlgo  # noqa: PLC0415
 
     path = str(path)
 
     if isinstance(
-        components, (Sequence, SpectralDistribution, MultiSpectralDistributions)
+        components,
+        (Sequence, SpectralDistribution, MultiSpectralDistributions, ValuesView),
     ):
         components = sds_and_msds_to_components_Fichet2021(
             components, specification, **kwargs
@@ -814,13 +865,13 @@ def write_spectral_image_Fichet2021(
         for i, wavelength in enumerate(wavelengths):
             component_type = str(component)[0]
             if component_type == "S":  # Emissive Component Type # noqa: SIM114
-                channel_name = f'{component}.{str(wavelength).replace(".", ",")}nm'
+                channel_name = f"{component}.{str(wavelength).replace('.', ',')}nm"
             elif component_type == "T":  # Reflectance et al. Component Type
-                channel_name = f'{component}.{str(wavelength).replace(".", ",")}nm'
+                channel_name = f"{component}.{str(wavelength).replace('.', ',')}nm"
             else:  # Bi-spectral Component Type
                 channel_name = (
-                    f'T.{str(component).replace(".", ",")}nm.'
-                    f'{str(wavelength).replace(".", ",")}nm'
+                    f"T.{str(component).replace('.', ',')}nm."
+                    f"{str(wavelength).replace('.', ',')}nm"
                 )
 
             channels[channel_name] = values[..., i]
@@ -829,13 +880,12 @@ def write_spectral_image_Fichet2021(
     for channel_name, channel_data in channels.items():
         channel_buffer = ImageBuf(channel_data.astype(bit_depth_specification.numpy))
         channel_specification = channel_buffer.specmod()
-        channel_specification.channelnames = [channel_name]
+        channel_specification.channelnames = [channel_name]  # pyright: ignore
         image_buffer = ImageBufAlgo.channel_append(image_buffer, channel_buffer)
 
     add_attributes_to_image_specification_OpenImageIO(
-        image_buffer.specmod(), [*specification.attributes, *attributes]
+        image_buffer.specmod(),  # pyright: ignore
+        [*specification.attributes, *attributes],
     )
 
-    image_buffer.write(path)
-
-    return True
+    return image_buffer.write(path)

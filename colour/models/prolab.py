@@ -2,7 +2,7 @@
 ProLab Colourspace
 ==================
 
-Define the *ProLab* colourspace transformations:
+Define the *ProLab* colourspace transformations.
 
 -   :func:`colour.XYZ_to_ProLab`
 -   :func:`colour.ProLab_to_XYZ`
@@ -19,7 +19,12 @@ from __future__ import annotations
 import numpy as np
 
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import ArrayLike, NDArrayFloat
+from colour.hints import (  # noqa: TC001
+    ArrayLike,
+    Domain1,
+    NDArrayFloat,
+    Range1,
+)
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import as_float_array, from_range_1, ones, to_domain_1
 
@@ -53,8 +58,8 @@ MATRIX_INVERSE_Q: NDArrayFloat = np.linalg.inv(MATRIX_Q)
 
 def projective_transformation(a: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     """
-    Transform given array :math:`a` with the projective transformation matrix
-    :math:`Q`.
+    Apply the specified projective transformation matrix :math:`Q` to the
+    array :math:`a`.
 
     Parameters
     ----------
@@ -85,11 +90,11 @@ def projective_transformation(a: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
 
 
 def XYZ_to_ProLab(
-    XYZ: ArrayLike,
+    XYZ: Domain1,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> NDArrayFloat:
+) -> Range1:
     """
     Convert from *CIE XYZ* tristimulus values to *ProLab* colourspace.
 
@@ -111,17 +116,13 @@ def XYZ_to_ProLab(
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``ProLab`` | ``L`` : [0, 1]        | ``L`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``a`` : [-1, 1]       | ``a`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``b`` : [-1, 1]       | ``b`` : [-1, 1] |
+    | ``ProLab`` | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     References
@@ -144,11 +145,11 @@ def XYZ_to_ProLab(
 
 
 def ProLab_to_XYZ(
-    ProLab: ArrayLike,
+    ProLab: Domain1,
     illuminant: ArrayLike = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"][
         "D65"
     ],
-) -> NDArrayFloat:
+) -> Range1:
     """
     Convert from *ProLab* colourspace to *CIE XYZ* tristimulus values.
 
@@ -170,17 +171,13 @@ def ProLab_to_XYZ(
     +------------+-----------------------+-----------------+
     | **Domain** | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``Lab``    | ``L`` : [0, 1]        | ``L`` : [0, 1]  |
-    |            |                       |                 |
-    |            | ``a`` : [-1, 1]       | ``a`` : [-1, 1] |
-    |            |                       |                 |
-    |            | ``b`` : [-1, 1]       | ``b`` : [-1, 1] |
+    | ``ProLab`` | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     +------------+-----------------------+-----------------+
     | **Range**  | **Scale - Reference** | **Scale - 1**   |
     +============+=======================+=================+
-    | ``XYZ``    | [0, 1]                | [0, 1]          |
+    | ``XYZ``    | 1                     | 1               |
     +------------+-----------------------+-----------------+
 
     References

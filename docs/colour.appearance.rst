@@ -11,8 +11,8 @@ ATD (1995)
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_ATD95
     CAM_Specification_ATD95
+    XYZ_to_ATD95
 
 CIECAM02
 --------
@@ -24,10 +24,10 @@ CIECAM02
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_CIECAM02
-    CIECAM02_to_XYZ
     CAM_Specification_CIECAM02
+    CIECAM02_to_XYZ
     VIEWING_CONDITIONS_CIECAM02
+    XYZ_to_CIECAM02
 
 **Ancillary Objects**
 
@@ -51,10 +51,10 @@ CIECAM16
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_CIECAM16
-    CIECAM16_to_XYZ
     CAM_Specification_CIECAM16
+    CIECAM16_to_XYZ
     VIEWING_CONDITIONS_CIECAM16
+    XYZ_to_CIECAM16
 
 **Ancillary Objects**
 
@@ -77,10 +77,10 @@ CAM16
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_CAM16
     CAM16_to_XYZ
     CAM_Specification_CAM16
     VIEWING_CONDITIONS_CAM16
+    XYZ_to_CAM16
 
 **Ancillary Objects**
 
@@ -103,10 +103,10 @@ Hellwig and Fairchild (2022) Colour Appearance Model
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_Hellwig2022
-    Hellwig2022_to_XYZ
     CAM_Specification_Hellwig2022
+    Hellwig2022_to_XYZ
     VIEWING_CONDITIONS_HELLWIG2022
+    XYZ_to_Hellwig2022
 
 **Ancillary Objects**
 
@@ -129,9 +129,9 @@ Hunt
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_Hunt
     CAM_Specification_Hunt
     VIEWING_CONDITIONS_HUNT
+    XYZ_to_Hunt
 
 Kim, Weyrich and Kautz (2009)
 -----------------------------
@@ -143,11 +143,11 @@ Kim, Weyrich and Kautz (2009)
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_Kim2009
-    Kim2009_to_XYZ
     CAM_Specification_Kim2009
+    Kim2009_to_XYZ
     MEDIA_PARAMETERS_KIM2009
     VIEWING_CONDITIONS_KIM2009
+    XYZ_to_Kim2009
 
 **Ancillary Objects**
 
@@ -171,9 +171,9 @@ Kim, Weyrich and Kautz (2009)
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_LLAB
     CAM_Specification_LLAB
     VIEWING_CONDITIONS_LLAB
+    XYZ_to_LLAB
 
 **Ancillary Objects**
 
@@ -196,8 +196,8 @@ Nayatani (1995)
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_Nayatani95
     CAM_Specification_Nayatani95
+    XYZ_to_Nayatani95
 
 RLAB
 ----
@@ -209,9 +209,9 @@ RLAB
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_RLAB
     CAM_Specification_RLAB
     VIEWING_CONDITIONS_RLAB
+    XYZ_to_RLAB
 
 **Ancillary Objects**
 
@@ -224,6 +224,32 @@ RLAB
 
     D_FACTOR_RLAB
 
+sCAM
+-----
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    CAM_Specification_sCAM
+    sCAM_to_XYZ
+    VIEWING_CONDITIONS_sCAM
+    XYZ_to_sCAM
+
+**Ancillary Objects**
+
+``colour.appearance``
+
+.. currentmodule:: colour.appearance
+
+.. autosummary::
+    :toctree: generated/
+
+    InductionFactors_sCAM
+
 ZCAM
 ----
 
@@ -234,10 +260,10 @@ ZCAM
 .. autosummary::
     :toctree: generated/
 
-    XYZ_to_ZCAM
-    ZCAM_to_XYZ
     CAM_Specification_ZCAM
     VIEWING_CONDITIONS_ZCAM
+    XYZ_to_ZCAM
+    ZCAM_to_XYZ
 
 **Ancillary Objects**
 
@@ -260,9 +286,9 @@ Helmholtz-Kohlrausch Effect Estimation
 .. autosummary::
     :toctree: generated/
 
-    HKE_NAYATANI1997_METHODS
-    HelmholtzKohlrausch_effect_object_Nayatani1997
     HelmholtzKohlrausch_effect_luminous_Nayatani1997
+    HelmholtzKohlrausch_effect_object_Nayatani1997
+    HKE_NAYATANI1997_METHODS
 
 **Ancillary Objects**
 
@@ -273,5 +299,5 @@ Helmholtz-Kohlrausch Effect Estimation
 .. autosummary::
     :toctree: generated/
 
-    coefficient_q_Nayatani1997
     coefficient_K_Br_Nayatani1997
+    coefficient_q_Nayatani1997

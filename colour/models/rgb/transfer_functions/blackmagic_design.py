@@ -2,7 +2,7 @@
 Blackmagic Design Transfer Functions
 ====================================
 
-Define the *Blackmagic Design* colour component transfer functions:
+Define the *Blackmagic Design* colour component transfer functions.
 
 -   :func:`colour.models.oetf_BlackmagicFilmGeneration5`
 -   :func:`colour.models.oetf_inverse_BlackmagicFilmGeneration5`
@@ -18,8 +18,11 @@ from __future__ import annotations
 
 import numpy as np
 
-from colour.hints import ArrayLike, NDArrayFloat
-from colour.utilities import Structure, as_float, from_range_1, to_domain_1
+from colour.hints import (  # noqa: TC001
+    Domain1,
+    Range1,
+)
+from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -46,17 +49,17 @@ CONSTANTS_BLACKMAGIC_FILM_GENERATION_5: Structure = Structure(
 
 
 def oetf_BlackmagicFilmGeneration5(
-    x: ArrayLike,
-    constants: Structure = CONSTANTS_BLACKMAGIC_FILM_GENERATION_5,
-) -> NDArrayFloat:
+    x: Domain1,
+    constants: Structure | None = None,
+) -> Range1:
     """
-    Define the *Blackmagic Film Generation 5* opto-electronic transfer
-    function (OETF).
+    Apply the *Blackmagic Film Generation 5* opto-electronic transfer function
+    (OETF).
 
     Parameters
     ----------
     x
-        Linear light value :math`x`.
+        Linear light value :math:`x`.
     constants
         *Blackmagic Film Generation 5* constants.
 
@@ -70,13 +73,13 @@ def oetf_BlackmagicFilmGeneration5(
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -90,6 +93,7 @@ def oetf_BlackmagicFilmGeneration5(
     """
 
     x = to_domain_1(x)
+    constants = optional(constants, CONSTANTS_BLACKMAGIC_FILM_GENERATION_5)
 
     A = constants.A
     B = constants.B
@@ -108,12 +112,12 @@ def oetf_BlackmagicFilmGeneration5(
 
 
 def oetf_inverse_BlackmagicFilmGeneration5(
-    y: ArrayLike,
-    constants: Structure = CONSTANTS_BLACKMAGIC_FILM_GENERATION_5,
-) -> NDArrayFloat:
+    y: Domain1,
+    constants: Structure | None = None,
+) -> Range1:
     """
-    Define the *Blackmagic Film Generation 5* inverse opto-electronic transfer
-    function (OETF).
+    Apply the *Blackmagic Film Generation 5* inverse opto-electronic
+    transfer function (OETF).
 
     Parameters
     ----------
@@ -125,20 +129,20 @@ def oetf_inverse_BlackmagicFilmGeneration5(
     Returns
     -------
     :class:`numpy.ndarray`
-        Linear light value :math`x`.
+        Linear light value :math:`x`.
 
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``      | [0, 1]                | [0, 1]        |
+    | ``y``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``      | [0, 1]                | [0, 1]        |
+    | ``x``      | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     References
@@ -153,6 +157,7 @@ def oetf_inverse_BlackmagicFilmGeneration5(
     """
 
     y = to_domain_1(y)
+    constants = optional(constants, CONSTANTS_BLACKMAGIC_FILM_GENERATION_5)
 
     A = constants.A
     B = constants.B

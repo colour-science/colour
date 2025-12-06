@@ -2,8 +2,8 @@
 Meng et al. (2015) - Reflectance Recovery
 =========================================
 
-Define the objects for reflectance recovery using
-*Meng, Simon and Hanika (2015)* method:
+Define the objects for reflectance recovery using the *Meng, Simon and
+Hanika (2015)* method.
 
 -   :func:`colour.recovery.XYZ_to_sd_Meng2015`
 
@@ -16,8 +16,9 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
-from scipy.optimize import minimize
 
 from colour.colorimetry import (
     MultiSpectralDistributions,
@@ -27,8 +28,12 @@ from colour.colorimetry import (
     sd_ones,
     sd_to_XYZ_integration,
 )
-from colour.hints import ArrayLike, NDArrayFloat, cast
-from colour.utilities import from_range_100, to_domain_1
+
+if typing.TYPE_CHECKING:
+    from colour.hints import DTypeFloat
+
+from colour.hints import Domain1, NDArrayFloat  # noqa: TC001
+from colour.utilities import from_range_100, required, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -49,50 +54,57 @@ of 5.
 """
 
 
+@required("SciPy")
 def XYZ_to_sd_Meng2015(
-    XYZ: ArrayLike,
+    XYZ: Domain1,
     cmfs: MultiSpectralDistributions | None = None,
     illuminant: SpectralDistribution | None = None,
     optimisation_kwargs: dict | None = None,
 ) -> SpectralDistribution:
     """
-    Recover the spectral distribution of given *CIE XYZ* tristimulus values
-    using *Meng et al. (2015)* method.
+    Recover the spectral distribution from the specified *CIE XYZ* tristimulus
+    values using the *Meng et al. (2015)* method.
 
     Parameters
     ----------
     XYZ
-        *CIE XYZ* tristimulus values to recover the spectral distribution from.
+        *CIE XYZ* tristimulus values from which to recover the spectral
+        distribution.
     cmfs
         Standard observer colour matching functions. The wavelength
         :math:`\\lambda_{i}` range interval of the colour matching functions
-        affects directly the time the computations take. The current default
-        interval of 5 is a good compromise between precision and time spent,
-        default to the *CIE 1931 2 Degree Standard Observer*.
+        directly affects the computation time. The current default interval
+        of 5 provides a good compromise between precision and computation
+        time. Defaults to the *CIE 1931 2 Degree Standard Observer*.
     illuminant
-        Illuminant spectral distribution, default to
+        Illuminant spectral distribution. Defaults to
         *CIE Standard Illuminant D65*.
     optimisation_kwargs
-        Parameters for :func:`scipy.optimize.minimize` definition.
+        Parameters for the :func:`scipy.optimize.minimize` definition.
 
     Returns
     -------
     :class:`colour.SpectralDistribution`
         Recovered spectral distribution.
 
+    Raises
+    ------
+    RuntimeError
+        If the optimisation fails.
+
     Notes
     -----
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    | ``XYZ``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
     -   The definition used to convert spectrum to *CIE XYZ* tristimulus
         values is :func:`colour.colorimetry.spectral_to_XYZ_integration`
-        definition because it processes any measurement interval opposed to
-        :func:`colour.colorimetry.sd_to_XYZ_ASTME308` definition that
-        handles only measurement interval of 1, 5, 10 or 20nm.
+        because it processes any measurement interval, as opposed to
+        :func:`colour.colorimetry.sd_to_XYZ_ASTME308` which handles only
+        measurement intervals of 1, 5, 10 or 20nm.
 
     References
     ----------
@@ -163,6 +175,8 @@ def XYZ_to_sd_Meng2015(
     array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
+    from scipy.optimize import minimize  # noqa: PLC0415
+
     XYZ = to_domain_1(XYZ)
 
     cmfs, illuminant = handle_spectral_arguments(
@@ -171,15 +185,16 @@ def XYZ_to_sd_Meng2015(
 
     sd = sd_ones(cmfs.shape)
 
-    def objective_function(a: ArrayLike) -> NDArrayFloat:
+    def objective_function(a: NDArrayFloat) -> DTypeFloat:
         """Define the objective function."""
 
-        return cast(NDArrayFloat, np.sum(np.diff(a) ** 2))
+        return np.sum(np.square(np.diff(a)))
 
-    def constraint_function(a: ArrayLike) -> NDArrayFloat:
+    def constraint_function(a: NDArrayFloat) -> NDArrayFloat:
         """Define the constraint function."""
 
         sd[:] = a
+
         return sd_to_XYZ_integration(sd, cmfs=cmfs, illuminant=illuminant) - XYZ
 
     wavelengths = sd.wavelengths
@@ -199,10 +214,12 @@ def XYZ_to_sd_Meng2015(
     result = minimize(objective_function, sd.values, **optimisation_settings)
 
     if not result.success:
-        raise RuntimeError(
+        error = (
             f"Optimisation failed for {XYZ} after {result.nit} iterations: "
             f'"{result.message}".'
         )
+
+        raise RuntimeError(error)
 
     return SpectralDistribution(
         from_range_100(result.x * 100),

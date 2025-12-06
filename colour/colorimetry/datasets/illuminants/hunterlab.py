@@ -7,8 +7,8 @@ dataset for the *CIE 1931 2 Degree Standard Observer* and
 *CIE 1964 10 Degree Standard Observer*.
 
 The currently implemented data has been extracted from :cite:`HunterLab2008b`,
-however you may want to use different data according to the tables given in
-:cite:`HunterLab2008c`.
+however you may want to use different data according to the tables specified
+in :cite:`HunterLab2008c`.
 
 References
 ----------
@@ -22,9 +22,13 @@ an02_02.pdf
 
 from __future__ import annotations
 
-from collections import namedtuple
+import typing
+from dataclasses import dataclass
 
 import numpy as np
+
+if typing.TYPE_CHECKING:
+    from colour.hints import NDArrayFloat
 
 from colour.utilities import CanonicalMapping
 
@@ -44,9 +48,27 @@ __all__ = [
     "TVS_ILLUMINANTS_HUNTERLAB",
 ]
 
-Illuminant_Specification_HunterLab = namedtuple(
-    "Illuminant_Specification_HunterLab", ("name", "XYZ_n", "K_ab")
-)
+
+@dataclass(frozen=True)
+class Illuminant_Specification_HunterLab:
+    """
+    Define the specification for an *HunterLab* illuminant.
+
+    Parameters
+    ----------
+    name
+        Illuminant name.
+    XYZ_n
+        Illuminant *CIE XYZ* tristimulus values.
+    K_ab
+        Illuminant :math:`K_{a}` and :math:`K_{b}` chromaticity
+        coefficients.
+    """
+
+    name: str
+    XYZ_n: NDArrayFloat
+    K_ab: NDArrayFloat
+
 
 DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931: tuple = (
     ("A", np.array([109.83, 100.00, 35.55]), np.array([185.20, 38.40])),
@@ -60,13 +82,13 @@ DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931: tuple = (
     ("UL 3000", np.array([107.99, 100.00, 33.91]), np.array([183.70, 37.50])),
 )
 
-TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931: (
-    CanonicalMapping
-) = CanonicalMapping(
-    {
-        x[0]: Illuminant_Specification_HunterLab(*x)
-        for x in DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931
-    }
+TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931: CanonicalMapping = (
+    CanonicalMapping(
+        {
+            x[0]: Illuminant_Specification_HunterLab(*x)
+            for x in DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_2_DEGREE_CIE1931
+        }
+    )
 )
 """
 *CIE XYZ* tristimulus values of the *Hunter L,a,b* illuminants for the
@@ -89,13 +111,13 @@ DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964: tuple = (
     ("UL 3000", np.array([111.12, 100.00, 35.21]), np.array([186.30, 38.20])),
 )
 
-TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964: (
-    CanonicalMapping
-) = CanonicalMapping(
-    {
-        x[0]: Illuminant_Specification_HunterLab(*x)
-        for x in DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964
-    }
+TVS_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964: CanonicalMapping = (
+    CanonicalMapping(
+        {
+            x[0]: Illuminant_Specification_HunterLab(*x)
+            for x in DATA_ILLUMINANTS_HUNTERLAB_STANDARD_OBSERVER_10_DEGREE_CIE1964
+        }
+    )
 )
 """
 *CIE XYZ* tristimulus values of the *Hunter L,a,b* illuminants for the

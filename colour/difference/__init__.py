@@ -1,6 +1,9 @@
 """
 References
 ----------
+-   :cite:`Abasi2020a` : Abasi, S., Amani Tehran, M., & Fairchild, M. D. (2020).
+    Distance metrics for very large color differences. Color Research &
+    Application, 45(2), 208-223. doi:10.1002/col.22451
 -   :cite:`ASTMInternational2007` : ASTM International. (2007). ASTM D2244-07 -
     Standard Practice for Calculation of Color Tolerances and Color Differences
     from Instrumentally Measured Color Coordinates: Vol. i (pp. 1-10).
@@ -30,11 +33,19 @@ rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
 Melgosa_CIEDE2000_Workshop-July4.pdf
 -   :cite:`Wikipedia2008b` : Wikipedia. (2008). Color difference. Retrieved
     August 29, 2014, from http://en.wikipedia.org/wiki/Color_difference
+-   :cite:ISO18314-4_2024 : International Organization for Standardization. (2024).
+    ISO 18314-4:2024. Analytical colorimetry, Part 4: Metamerism index for pairs
+    of samples for change of illuminant (2nd ed., 24 pp.).
+    ISO/TC 256. https://www.iso.org/standard/85116.html
 """
 
 from __future__ import annotations
 
-from colour.hints import Any, ArrayLike, NDArrayFloat, Literal
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ArrayLike, NDArrayFloat, LiteralDeltaEMethod
+
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
@@ -49,11 +60,14 @@ from .delta_e import (
     delta_E_CIE1994,
     delta_E_CIE2000,
     delta_E_CMC,
+    delta_E_HyAB,
+    delta_E_HyCH,
     delta_E_ITP,
 )
 from .din99 import delta_E_DIN99
 from .huang2015 import power_function_Huang2015
-from .stress import index_stress_Garcia2007, INDEX_STRESS_METHODS, index_stress
+from .metamerism_index import Lab_to_metamerism_index, XYZ_to_metamerism_index
+from .stress import INDEX_STRESS_METHODS, index_stress, index_stress_Garcia2007
 
 __all__ = [
     "delta_E_CAM02LCD",
@@ -71,6 +85,8 @@ __all__ += [
     "delta_E_CIE1994",
     "delta_E_CIE2000",
     "delta_E_CMC",
+    "delta_E_HyAB",
+    "delta_E_HyCH",
     "delta_E_ITP",
 ]
 __all__ += [
@@ -80,9 +96,13 @@ __all__ += [
     "power_function_Huang2015",
 ]
 __all__ += [
-    "index_stress_Garcia2007",
     "INDEX_STRESS_METHODS",
     "index_stress",
+    "index_stress_Garcia2007",
+]
+__all__ += [
+    "Lab_to_metamerism_index",
+    "XYZ_to_metamerism_index",
 ]
 
 DELTA_E_METHODS: CanonicalMapping = CanonicalMapping(
@@ -99,16 +119,18 @@ DELTA_E_METHODS: CanonicalMapping = CanonicalMapping(
         "CAM16-SCD": delta_E_CAM16SCD,
         "CAM16-UCS": delta_E_CAM16UCS,
         "DIN99": delta_E_DIN99,
+        "HyAB": delta_E_HyAB,
+        "HyCH": delta_E_HyCH,
     }
 )
 DELTA_E_METHODS.__doc__ = """
-Supported :math:`\\Delta E_{ab}` computation methods.
+Supported :math:`\\Delta E_{ab}` colour difference computation methods.
 
 References
 ----------
-:cite:`ASTMInternational2007`, :cite:`Li2017`, :cite:`Lindbloom2003c`,
-:cite:`Lindbloom2011a`, :cite:`Lindbloom2009f`, :cite:`Luo2006b`,
-:cite:`Melgosa2013b`, :cite:`Wikipedia2008b`
+:cite:`ASTMInternational2007`, :cite:`Abasi2020a`, :cite:`Li2017`,
+:cite:`Lindbloom2003c`, :cite:`Lindbloom2011a`, :cite:`Lindbloom2009f`,
+:cite:`Luo2006b`, :cite:`Melgosa2013b`, :cite:`Wikipedia2008b`
 
 Aliases:
 
@@ -124,29 +146,13 @@ DELTA_E_METHODS["cie2000"] = DELTA_E_METHODS["CIE 2000"]
 def delta_E(
     a: ArrayLike,
     b: ArrayLike,
-    method: (
-        Literal[
-            "CIE 1976",
-            "CIE 1994",
-            "CIE 2000",
-            "CMC",
-            "ITP",
-            "CAM02-LCD",
-            "CAM02-SCD",
-            "CAM02-UCS",
-            "CAM16-LCD",
-            "CAM16-SCD",
-            "CAM16-UCS",
-            "DIN99",
-        ]
-        | str
-    ) = "CIE 2000",
+    method: LiteralDeltaEMethod | str = "CIE 2000",
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Return the difference :math:`\\Delta E_{ab}` between two given
-    *CIE L\\*a\\*b\\**, :math:`IC_TC_P`, or :math:`J'a'b'` colourspace arrays
-    using given method.
+    Compute the colour difference :math:`\\Delta E_{ab}` between two
+    specified *CIE L\\*a\\*b\\**, :math:`IC_TC_P`, or :math:`J'a'b'`
+    colourspace arrays.
 
     Parameters
     ----------
@@ -162,19 +168,19 @@ def delta_E(
     Other Parameters
     ----------------
     c
-        {:func:`colour.difference.delta_E_CIE2000`},
-        Chroma weighting factor.
+        {:func:`colour.difference.delta_E_CMC`},
+        *Chroma* weighting factor.
     l
-        {:func:`colour.difference.delta_E_CIE2000`},
-        Lightness weighting factor.
+        {:func:`colour.difference.delta_E_CMC`},
+        *Lightness* weighting factor.
     textiles
         {:func:`colour.difference.delta_E_CIE1994`,
         :func:`colour.difference.delta_E_CIE2000`,
         :func:`colour.difference.delta_E_DIN99`},
         Textiles application specific parametric factors
-        :math:`k_L=2,\\ k_C=k_H=1,\\ k_1=0.048,\\ k_2=0.014,\\ k_E=2,\
-\\ k_CH=0.5` weights are used instead of
-        :math:`k_L=k_C=k_H=1,\\ k_1=0.045,\\ k_2=0.015,\\ k_E=k_CH=1.0`.
+        :math:`k_L=2,\\ k_C=k_H=1,\\ k_1=0.048,\\ k_2=0.014,\\ k_E=2,\\ k_{CH}=0.5`
+        weights are used instead of
+        :math:`k_L=k_C=k_H=1,\\ k_1=0.045,\\ k_2=0.015,\\ k_E=k_{CH}=1.0`.
 
     Returns
     -------
@@ -191,21 +197,21 @@ def delta_E(
     Examples
     --------
     >>> import numpy as np
-    >>> a = np.array([100.00000000, 21.57210357, 272.22819350])
-    >>> b = np.array([100.00000000, 426.67945353, 72.39590835])
+    >>> a = np.array([48.99183622, -0.10561667, 400.65619925])
+    >>> b = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E(a, b)  # doctest: +ELLIPSIS
-    94.0356490...
+    1.6709303...
     >>> delta_E(a, b, method="CIE 2000")  # doctest: +ELLIPSIS
-    94.0356490...
+    1.6709303...
     >>> delta_E(a, b, method="CIE 1976")  # doctest: +ELLIPSIS
-    451.7133019...
+    2.7335037...
     >>> delta_E(a, b, method="CIE 1994")  # doctest: +ELLIPSIS
-    83.7792255...
-    >>> delta_E(a, b, method="CIE 1994", textiles=False)
+    1.6711191...
+    >>> delta_E(a, b, method="CIE 1994", textiles=True)
     ... # doctest: +ELLIPSIS
-    83.7792255...
+    0.8404677...
     >>> delta_E(a, b, method="DIN99")  # doctest: +ELLIPSIS
-    66.1119282...
+    1.5591089...
     >>> a = np.array([0.4885468072, -0.04739350675, 0.07475401302])
     >>> b = np.array([0.4899203231, -0.04567508203, 0.07361341775])
     >>> delta_E(a, b, method="ITP")  # doctest: +ELLIPSIS
@@ -216,6 +222,14 @@ def delta_E(
     0.0001034...
     >>> delta_E(a, b, method="CAM16-LCD")  # doctest: +ELLIPSIS
     0.0001034...
+    >>> a = np.array([39.91531343, 51.16658481, 146.12933781])
+    >>> b = np.array([53.12207516, -39.92365056, 249.54831278])
+    >>> delta_E(a, b, method="HyAB")  # doctest: +ELLIPSIS
+    151.0215481...
+    >>> a = np.array([39.91531343, 51.16658481, 146.12933781])
+    >>> b = np.array([53.12207516, -39.92365056, 249.54831278])
+    >>> delta_E(a, b, method="HyCH")  # doctest: +ELLIPSIS
+    48.66427941...
     """
 
     method = validate_method(method, tuple(DELTA_E_METHODS))

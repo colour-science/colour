@@ -2,7 +2,12 @@
 Tristimulus Values
 ==================
 
-Define the objects for tristimulus values computation from spectral data:
+Define objects for computing CIE tristimulus values from spectral data.
+
+This module provides comprehensive functionality for converting spectral
+distributions to CIE XYZ tristimulus values using various integration and
+summation methods. The default implementation follows the *ASTM E308-15*
+standard practice.
 
 -   :attr:`colour.SPECTRAL_SHAPE_ASTME308`
 -   :func:`colour.colorimetry.handle_spectral_arguments`
@@ -19,8 +24,6 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
 -   :func:`colour.msds_to_XYZ`
 -   :func:`colour.wavelength_to_XYZ`
 
-The default implementation is based on practise *ASTM E308-15* method.
-
 References
 ----------
 -   :cite:`ASTMInternational2011a` : ASTM International. (2011). ASTM E2022-11
@@ -36,6 +39,8 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
 
 from colour.algebra import lagrange_coefficients, sdiv, sdiv_mode
@@ -47,15 +52,19 @@ from colour.colorimetry import (
     reshape_msds,
     reshape_sd,
 )
-from colour.hints import (
-    Any,
-    ArrayLike,
-    Literal,
-    NDArrayFloat,
-    Real,
-    Tuple,
-    cast,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        ArrayLike,
+        Literal,
+        NDArrayFloat,
+        Range1,
+        Range100,
+        Tuple,
+    )
+
+from colour.hints import Real, cast
 from colour.utilities import (
     CACHE_REGISTRY,
     CanonicalMapping,
@@ -99,7 +108,8 @@ __all__ = [
 
 SPECTRAL_SHAPE_ASTME308: SpectralShape = SPECTRAL_SHAPE_DEFAULT
 SPECTRAL_SHAPE_ASTME308.__doc__ = """
-Shape for *ASTM E308-15* practise: (360, 780, 1).
+Define the spectral shape for *ASTM E308-15* practice with wavelength range
+from 360 to 780 nm at 1 nm intervals: (360, 780, 1).
 
 References
 ----------
@@ -126,17 +136,17 @@ def handle_spectral_arguments(
     issue_runtime_warnings: bool = True,
 ) -> Tuple[MultiSpectralDistributions, SpectralDistribution]:
     """
-    Handle the spectral arguments of various *Colour* definitions performing
+    Handle spectral arguments for various *Colour* definitions that perform
     spectral computations.
 
-    -   If ``cmfs`` is not given, one is chosen according to ``cmfs_default``.
-        The returned colour matching functions adopt the spectral shape given
-        by ``shape_default``.
-    -   If ``illuminant`` is not given, one is chosen according to
+    -   If ``cmfs`` is not specified, select one according to
+        ``cmfs_default``. The returned colour matching functions adopt the
+        spectral shape specified by ``shape_default``.
+    -   If ``illuminant`` is not specified, select one according to
         ``illuminant_default``. The returned illuminant adopts the spectral
         shape of the returned colour matching functions.
-    -   If ``illuminant`` is given, the returned illuminant spectral shape is
-        aligned to that of the returned colour matching functions.
+    -   If ``illuminant`` is specified, align the returned illuminant's
+        spectral shape to that of the returned colour matching functions.
 
     Parameters
     ----------
@@ -147,14 +157,15 @@ def handle_spectral_arguments(
         Illuminant spectral distribution, default to
         *CIE Standard Illuminant D65*.
     cmfs_default
-        The default colour matching functions to use if ``cmfs`` is not given.
+        Default colour matching functions to use if ``cmfs`` is not
+        specified.
     illuminant_default
-        The default illuminant to use if ``illuminant`` is not given.
+        Default illuminant to use if ``illuminant`` is not specified.
     shape_default
-        The default spectral shape to align the final colour matching functions
+        Default spectral shape to align the final colour matching functions
         and illuminant.
     issue_runtime_warnings
-        Whether to issue the runtime warnings.
+        Whether to issue runtime warnings.
 
     Returns
     -------
@@ -175,7 +186,7 @@ def handle_spectral_arguments(
 SpectralShape(400.0, 700.0, 20.0), 'D65', SpectralShape(400.0, 700.0, 20.0))
     """
 
-    from colour import MSDS_CMFS, SDS_ILLUMINANTS
+    from colour import MSDS_CMFS, SDS_ILLUMINANTS  # noqa: PLC0415
 
     cmfs = optional(
         cmfs, reshape_msds(MSDS_CMFS[cmfs_default], shape_default, copy=False)
@@ -201,15 +212,15 @@ def lagrange_coefficients_ASTME2022(
     interval_type: Literal["Boundary", "Inner"] | str = "Inner",
 ) -> NDArrayFloat:
     """
-    Compute the *Lagrange Coefficients* for given interval size using practise
-    *ASTM E2022-11* method.
+    Compute *Lagrange Coefficients* for the specified interval size using
+    practice *ASTM E2022-11* method.
 
     Parameters
     ----------
     interval
         Interval size in nm.
     interval_type
-        If the interval is an *inner* interval *Lagrange Coefficients* are
+        If the interval is an *inner* interval, *Lagrange Coefficients* are
         computed for degree 4. Degree 3 is used for a *boundary* interval.
 
     Returns
@@ -256,6 +267,7 @@ def lagrange_coefficients_ASTME2022(
     )
 
     hash_key = hash((interval, interval_type))
+
     if is_caching_enabled() and hash_key in _CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS:
         return np.copy(_CACHE_LAGRANGE_INTERPOLATING_COEFFICIENTS[hash_key])
 
@@ -279,8 +291,8 @@ def tristimulus_weighting_factors_ASTME2022(
     k: Real | None = None,
 ) -> NDArrayFloat:
     """
-    Return a table of tristimulus weighting factors for given colour matching
-    functions and illuminant using practise *ASTM E2022-11* method.
+    Compute a table of tristimulus weighting factors for the specified colour
+    matching functions and illuminant using practise *ASTM E2022-11* method.
 
     The computed table of tristimulus weighting factors should be used with
     spectral data that has been corrected for spectral bandpass dependence.
@@ -294,20 +306,22 @@ def tristimulus_weighting_factors_ASTME2022(
     shape
         Shape used to build the table, only the interval is needed.
     k
-        Normalisation constant :math:`k`. For reflecting or transmitting object
-        colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
-        which the spectral reflectance factor :math:`R(\\lambda)` of the object
-        colour or the spectral transmittance factor :math:`\\tau(\\lambda)` of
-        the object is equal to unity for all wavelengths. For self-luminous
-        objects and illuminants, the constants :math:`k` is usually chosen on
-        the grounds of convenience. If, however, in the CIE 1931 standard
-        colorimetric system, the :math:`Y` value is required to be numerically
-        equal to the absolute value of a photometric quantity, the constant,
-        :math:`k`, must be put equal to the numerical value of :math:`K_m`, the
-        maximum spectral luminous efficacy (which is equal to
-        683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
-        be the spectral concentration of the radiometric quantity corresponding
-        to the photometric quantity required.
+        Normalisation constant :math:`k`. For reflecting or transmitting
+        object colours, :math:`k` is chosen so that :math:`Y = 100` for
+        objects for which the spectral reflectance factor
+        :math:`R(\\lambda)` of the object colour or the spectral
+        transmittance factor :math:`\\tau(\\lambda)` of the object is equal
+        to unity for all wavelengths. For self-luminous objects and
+        illuminants, the constants :math:`k` is usually chosen on the
+        grounds of convenience. If, however, in the CIE 1931 standard
+        colorimetric system, the :math:`Y` value is required to be
+        numerically equal to the absolute value of a photometric quantity,
+        the constant, :math:`k`, must be put equal to the numerical value
+        of :math:`K_m`, the maximum spectral luminous efficacy (which is
+        equal to 683 :math:`lm\\cdot W^{-1}`) and
+        :math:`\\Phi_\\lambda(\\lambda)` must be the spectral concentration
+        of the radiometric quantity corresponding to the photometric
+        quantity required.
 
     Returns
     -------
@@ -317,18 +331,18 @@ def tristimulus_weighting_factors_ASTME2022(
     Raises
     ------
     ValueError
-        If the colour matching functions or illuminant intervals are not equal
-        to 1 nm.
+        If the colour matching functions or illuminant intervals are not
+        equal to 1 nm.
 
     Notes
     -----
-    -   Input colour matching functions and illuminant intervals are expected
-        to be equal to 1 nm. If the illuminant data is not available at 1 nm
-        interval, it needs to be interpolated using *CIE* recommendations:
-        The method developed by *Sprague (1880)* should be used for
-        interpolating functions having a uniformly spaced independent variable
-        and a *Cubic Spline* method for non-uniformly spaced independent
-        variable.
+    -   Input colour matching functions and illuminant intervals are
+        expected to be equal to 1 nm. If the illuminant data is not
+        available at 1 nm interval, it needs to be interpolated using *CIE*
+        recommendations: The method developed by *Sprague (1880)* should be
+        used for interpolating functions having a uniformly spaced
+        independent variable and a *Cubic Spline* method for non-uniformly
+        spaced independent variable.
 
     References
     ----------
@@ -377,14 +391,19 @@ def tristimulus_weighting_factors_ASTME2022(
     """
 
     if cmfs.shape.interval != 1:
-        raise ValueError(f'"{cmfs}" shape "interval" must be 1!')
+        error = f'"{cmfs}" shape "interval" must be 1!'
+
+        raise ValueError(error)
 
     if illuminant.shape.interval != 1:
-        raise ValueError(f'"{illuminant}" shape "interval" must be 1!')
+        error = f'"{illuminant}" shape "interval" must be 1!'
+
+        raise ValueError(error)
 
     global _CACHE_TRISTIMULUS_WEIGHTING_FACTORS  # noqa: PLW0602
 
     hash_key = hash((cmfs, illuminant, shape, k, get_domain_range_scale()))
+
     if is_caching_enabled() and hash_key in _CACHE_TRISTIMULUS_WEIGHTING_FACTORS:
         return np.copy(_CACHE_TRISTIMULUS_WEIGHTING_FACTORS[hash_key])
 
@@ -410,38 +429,35 @@ def tristimulus_weighting_factors_ASTME2022(
     i_c = W.shape[0]
     i_cm = i_c - 1
 
-    # "k" is used as index in the nested loop.
-    k_n = k
-
     for i in range(3):
         # First interval.
-        for j in range(r_c):
-            for k in range(3):
-                W[k, i] = W[k, i] + c_c[j, k] * S[j + 1] * Y[j + 1, i]
+        for h in range(r_c):
+            for g in range(3):
+                W[g, i] = W[g, i] + c_c[h, g] * S[h + 1] * Y[h + 1, i]
 
         # Last interval.
-        for j in range(r_c):
-            for k in range(i_cm, i_cm - 3, -1):
-                W[k, i] = (
-                    W[k, i]
-                    + c_c[r_c - j - 1, i_cm - k] * S[j + w_lif] * Y[j + w_lif, i]
+        for h in range(r_c):
+            for g in range(i_cm, i_cm - 3, -1):
+                W[g, i] = (
+                    W[g, i]
+                    + c_c[r_c - h - 1, i_cm - g] * S[h + w_lif] * Y[h + w_lif, i]
                 )
 
         # Intermediate intervals.
-        for j in range(i_c - 3):
-            for k in range(r_c):
-                w_i = (r_c + 1) * (j + 1) + 1 + k
-                W[j, i] = W[j, i] + c_b[k, 0] * S[w_i] * Y[w_i, i]
-                W[j + 1, i] = W[j + 1, i] + c_b[k, 1] * S[w_i] * Y[w_i, i]
-                W[j + 2, i] = W[j + 2, i] + c_b[k, 2] * S[w_i] * Y[w_i, i]
-                W[j + 3, i] = W[j + 3, i] + c_b[k, 3] * S[w_i] * Y[w_i, i]
+        for h in range(i_c - 3):
+            for g in range(r_c):
+                w_i = (r_c + 1) * (h + 1) + 1 + g
+                W[h, i] = W[h, i] + c_b[g, 0] * S[w_i] * Y[w_i, i]
+                W[h + 1, i] = W[h + 1, i] + c_b[g, 1] * S[w_i] * Y[w_i, i]
+                W[h + 2, i] = W[h + 2, i] + c_b[g, 2] * S[w_i] * Y[w_i, i]
+                W[h + 3, i] = W[h + 3, i] + c_b[g, 3] * S[w_i] * Y[w_i, i]
 
         # Extrapolation of potential incomplete interval.
-        for j in range(as_int_scalar(w_c - ((w_c - 1) % interval_i)), w_c, 1):
-            W[i_cm, i] = W[i_cm, i] + S[j] * Y[j, i]
+        for h in range(as_int_scalar(w_c - ((w_c - 1) % interval_i)), w_c, 1):
+            W[i_cm, i] = W[i_cm, i] + S[h] * Y[h, i]
 
     with sdiv_mode():
-        W *= optional(k_n, sdiv(100, np.sum(W, axis=0)[1]))
+        W *= optional(k, sdiv(100, np.sum(W, axis=0)[1]))
 
     _CACHE_TRISTIMULUS_WEIGHTING_FACTORS[hash_key] = np.copy(W)
 
@@ -452,12 +468,13 @@ def adjust_tristimulus_weighting_factors_ASTME308(
     W: ArrayLike, shape_r: SpectralShape, shape_t: SpectralShape
 ) -> NDArrayFloat:
     """
-    Adjust given table of tristimulus weighting factors to account for a
-    shorter wavelengths range of the test spectral shape compared to the
-    reference spectral shape using practise *ASTM E308-15* method:
-    Weights at the wavelengths for which data are not available are added to
-    the weights at the shortest and longest wavelength for which spectral data
-    are available.
+    Adjust the specified table of tristimulus weighting factors to account for a
+    shorter wavelength range of the test spectral shape compared to the
+    reference spectral shape using practice *ASTM E308-15* method.
+
+    The adjustment redistributes weights at wavelengths for which data are
+    not available by adding them to the weights at the shortest and longest
+    wavelengths for which spectral data are available.
 
     Parameters
     ----------
@@ -533,11 +550,11 @@ def sd_to_XYZ_integration(
     illuminant: SpectralDistribution | None = None,
     k: Real | None = None,
     shape: SpectralShape | None = None,
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Convert given spectral distribution to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant according to classical
-    integration method.
+    Convert the specified spectral distribution to *CIE XYZ* tristimulus
+    values using the specified colour matching functions and illuminant
+    using the classical integration method.
 
     The spectral distribution can be either a
     :class:`colour.SpectralDistribution` class instance or an `ArrayLike` in
@@ -555,23 +572,25 @@ def sd_to_XYZ_integration(
     illuminant
         Illuminant spectral distribution, default to *CIE Illuminant E*.
     k
-        Normalisation constant :math:`k`. For reflecting or transmitting object
-        colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
-        which the spectral reflectance factor :math:`R(\\lambda)` of the object
-        colour or the spectral transmittance factor :math:`\\tau(\\lambda)` of
-        the object is equal to unity for all wavelengths. For self-luminous
-        objects and illuminants, the constants :math:`k` is usually chosen on
-        the grounds of convenience. If, however, in the CIE 1931 standard
-        colorimetric system, the :math:`Y` value is required to be numerically
-        equal to the absolute value of a photometric quantity, the constant,
-        :math:`k`, must be put equal to the numerical value of :math:`K_m`, the
-        maximum spectral luminous efficacy (which is equal to
-        683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
-        be the spectral concentration of the radiometric quantity corresponding
-        to the photometric quantity required.
+        Normalisation constant :math:`k`. For reflecting or transmitting
+        object colours, :math:`k` is chosen so that :math:`Y = 100` for
+        objects for which the spectral reflectance factor
+        :math:`R(\\lambda)` of the object colour or the spectral
+        transmittance factor :math:`\\tau(\\lambda)` of the object is equal
+        to unity for all wavelengths. For self-luminous objects and
+        illuminants, the constants :math:`k` is usually chosen on the
+        grounds of convenience. If, however, in the CIE 1931 standard
+        colorimetric system, the :math:`Y` value is required to be
+        numerically equal to the absolute value of a photometric quantity,
+        the constant, :math:`k`, must be put equal to the numerical value
+        of :math:`K_m`, the maximum spectral luminous efficacy (which is
+        equal to 683 :math:`lm\\cdot W^{-1}`) and
+        :math:`\\Phi_\\lambda(\\lambda)` must be the spectral concentration
+        of the radiometric quantity corresponding to the photometric
+        quantity required.
     shape
         Spectral shape that ``sd``, ``cmfs`` and ``illuminant`` will be
-        aligned to it if passed.
+        aligned to if passed.
 
     Returns
     -------
@@ -583,7 +602,7 @@ def sd_to_XYZ_integration(
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    | ``XYZ``   | 100                   | 1             |
     +-----------+-----------------------+---------------+
 
     -   When :math:`k` is set to a value other than *None*, the computed
@@ -592,10 +611,10 @@ def sd_to_XYZ_integration(
     -   The code path using the `ArrayLike` spectral distribution produces
         results different to the code path using a
         :class:`colour.SpectralDistribution` class instance: the former
-        favours execution speed by aligning the colour matching functions and
-        illuminant to the given spectral shape while the latter favours
-        precision by aligning the spectral distribution to the colour matching
-        functions.
+        favours execution speed by aligning the colour matching functions
+        and illuminant to the specified spectral shape while the latter
+        favours precision by aligning the spectral distribution to the
+        colour matching functions.
 
     References
     ----------
@@ -684,7 +703,7 @@ def sd_to_XYZ_integration(
             "A spectral shape must be explicitly passed with a spectral data array!",
         )
 
-        shape = cast(SpectralShape, shape)
+        shape = cast("SpectralShape", shape)
 
         R = as_float_array(sd)
         shape_R = R.shape
@@ -712,7 +731,7 @@ def sd_to_XYZ_integration(
     d_w = cmfs.shape.interval
 
     with sdiv_mode():
-        k = cast(Real, optional(k, sdiv(100, (np.sum(XYZ_b[..., 1] * S) * d_w))))
+        k = cast("Real", optional(k, sdiv(100, (np.sum(XYZ_b[..., 1] * S) * d_w))))
 
     XYZ = k * np.dot(R * S, XYZ_b) * d_w
 
@@ -729,11 +748,12 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     cmfs: MultiSpectralDistributions | None = None,
     illuminant: SpectralDistribution | None = None,
     k: Real | None = None,
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Convert given spectral distribution to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant using a table of
-    tristimulus weighting factors according to practise *ASTM E308-15* method.
+    Convert the specified spectral distribution to *CIE XYZ* tristimulus
+    values using the specified colour matching functions and illuminant
+    with a table of tristimulus weighting factors according to the
+    *ASTM E308-15* method.
 
     Parameters
     ----------
@@ -745,20 +765,22 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     illuminant
         Illuminant spectral distribution, default to *CIE Illuminant E*.
     k
-        Normalisation constant :math:`k`. For reflecting or transmitting object
-        colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
-        which the spectral reflectance factor :math:`R(\\lambda)` of the object
-        colour or the spectral transmittance factor :math:`\\tau(\\lambda)` of
-        the object is equal to unity for all wavelengths. For self-luminous
-        objects and illuminants, the constants :math:`k` is usually chosen on
-        the grounds of convenience. If, however, in the CIE 1931 standard
-        colorimetric system, the :math:`Y` value is required to be numerically
-        equal to the absolute value of a photometric quantity, the constant,
-        :math:`k`, must be put equal to the numerical value of :math:`K_m`, the
-        maximum spectral luminous efficacy (which is equal to
-        683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
-        be the spectral concentration of the radiometric quantity corresponding
-        to the photometric quantity required.
+        Normalisation constant :math:`k`. For reflecting or transmitting
+        object colours, :math:`k` is chosen so that :math:`Y = 100` for
+        objects for which the spectral reflectance factor
+        :math:`R(\\lambda)` of the object colour or the spectral
+        transmittance factor :math:`\\tau(\\lambda)` of the object is equal
+        to unity for all wavelengths. For self-luminous objects and
+        illuminants, the constants :math:`k` is usually chosen on the
+        grounds of convenience. If, however, in the CIE 1931 standard
+        colorimetric system, the :math:`Y` value is required to be
+        numerically equal to the absolute value of a photometric quantity,
+        the constant, :math:`k`, must be put equal to the numerical value
+        of :math:`K_m`, the maximum spectral luminous efficacy (which is
+        equal to 683 :math:`lm\\cdot W^{-1}`) and
+        :math:`\\Phi_\\lambda(\\lambda)` must be the spectral concentration
+        of the radiometric quantity corresponding to the photometric
+        quantity required.
 
     Returns
     -------
@@ -770,7 +792,7 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    | ``XYZ``   | 100                   | 1             |
     +-----------+-----------------------+---------------+
 
     References
@@ -875,11 +897,11 @@ def sd_to_XYZ_ASTME308(
     mi_5nm_omission_method: bool = True,
     mi_20nm_interpolation_method: bool = True,
     k: Real | None = None,
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Convert given spectral distribution to *CIE XYZ* tristimulus values using
-    given colour matching functions and illuminant according to practise
-    *ASTM E308-15* method.
+    Convert the specified spectral distribution to *CIE XYZ* tristimulus values
+    using the specified colour matching functions and illuminant according to
+    practice *ASTM E308-15* method.
 
     Parameters
     ----------
@@ -891,7 +913,7 @@ def sd_to_XYZ_ASTME308(
     illuminant
         Illuminant spectral distribution, default to *CIE Illuminant E*.
     use_practice_range
-        Practise *ASTM E308-15* working wavelengths range is [360, 780],
+        Practice *ASTM E308-15* working wavelengths range is [360, 780],
         if *True* this argument will trim the colour matching functions
         appropriately.
     mi_5nm_omission_method
@@ -903,20 +925,22 @@ def sd_to_XYZ_ASTME308(
         tristimulus values will use a dedicated interpolation method instead
         of a table of tristimulus weighting factors.
     k
-        Normalisation constant :math:`k`. For reflecting or transmitting object
-        colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
-        which the spectral reflectance factor :math:`R(\\lambda)` of the object
-        colour or the spectral transmittance factor :math:`\\tau(\\lambda)` of
-        the object is equal to unity for all wavelengths. For self-luminous
-        objects and illuminants, the constants :math:`k` is usually chosen on
-        the grounds of convenience. If, however, in the CIE 1931 standard
-        colorimetric system, the :math:`Y` value is required to be numerically
-        equal to the absolute value of a photometric quantity, the constant,
-        :math:`k`, must be put equal to the numerical value of :math:`K_m`, the
-        maximum spectral luminous efficacy (which is equal to
-        683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
-        be the spectral concentration of the radiometric quantity corresponding
-        to the photometric quantity required.
+        Normalisation constant :math:`k`. For reflecting or transmitting
+        object colours, :math:`k` is chosen so that :math:`Y = 100` for
+        objects for which the spectral reflectance factor
+        :math:`R(\\lambda)` of the object colour or the spectral
+        transmittance factor :math:`\\tau(\\lambda)` of the object is equal
+        to unity for all wavelengths. For self-luminous objects and
+        illuminants, the constants :math:`k` is usually chosen on the
+        grounds of convenience. If, however, in the CIE 1931 standard
+        colorimetric system, the :math:`Y` value is required to be
+        numerically equal to the absolute value of a photometric quantity,
+        the constant, :math:`k`, must be put equal to the numerical value
+        of :math:`K_m`, the maximum spectral luminous efficacy (which is
+        equal to 683 :math:`lm\\cdot W^{-1}`) and
+        :math:`\\Phi_\\lambda(\\lambda)` must be the spectral concentration
+        of the radiometric quantity corresponding to the photometric
+        quantity required.
 
     Returns
     -------
@@ -928,7 +952,7 @@ def sd_to_XYZ_ASTME308(
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    | ``XYZ``   | 100                   | 1             |
     +-----------+-----------------------+---------------+
 
     -   When :math:`k` is set to a value other than *None*, the computed
@@ -989,11 +1013,13 @@ def sd_to_XYZ_ASTME308(
     )
 
     if sd.shape.interval not in (1, 5, 10, 20):
-        raise ValueError(
+        error = (
             "Tristimulus values conversion from spectral data according to "
             'practise "ASTM E308-15" should be performed on spectral data '
             "with measurement interval of 1, 5, 10 or 20nm!"
         )
+
+        raise ValueError(error)
 
     if sd.shape.interval in (10, 20) and (
         sd.shape.start % 10 != 0 or sd.shape.end % 10 != 0
@@ -1098,10 +1124,10 @@ def sd_to_XYZ(
     k: Real | None = None,
     method: Literal["ASTM E308", "Integration"] | str = "ASTM E308",
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Convert given spectral distribution to *CIE XYZ* tristimulus values using
-    given colour matching functions, illuminant and method.
+    Convert specified spectral distribution to *CIE XYZ* tristimulus values using
+    specified colour matching functions, illuminant and method.
 
     If ``method`` is *Integration*, the spectral distribution can be either a
     :class:`colour.SpectralDistribution` class instance or an `ArrayLike` in
@@ -1120,20 +1146,22 @@ def sd_to_XYZ(
     illuminant
         Illuminant spectral distribution, default to *CIE Illuminant E*.
     k
-        Normalisation constant :math:`k`. For reflecting or transmitting object
-        colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
-        which the spectral reflectance factor :math:`R(\\lambda)` of the object
-        colour or the spectral transmittance factor :math:`\\tau(\\lambda)` of
-        the object is equal to unity for all wavelengths. For self-luminous
-        objects and illuminants, the constants :math:`k` is usually chosen on
-        the grounds of convenience. If, however, in the CIE 1931 standard
-        colorimetric system, the :math:`Y` value is required to be numerically
-        equal to the absolute value of a photometric quantity, the constant,
-        :math:`k`, must be put equal to the numerical value of :math:`K_m`, the
-        maximum spectral luminous efficacy (which is equal to
-        683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
-        be the spectral concentration of the radiometric quantity corresponding
-        to the photometric quantity required.
+        Normalisation constant :math:`k`. For reflecting or transmitting
+        object colours, :math:`k` is chosen so that :math:`Y = 100` for
+        objects for which the spectral reflectance factor
+        :math:`R(\\lambda)` of the object colour or the spectral
+        transmittance factor :math:`\\tau(\\lambda)` of the object is equal
+        to unity for all wavelengths. For self-luminous objects and
+        illuminants, the constants :math:`k` is usually chosen on the
+        grounds of convenience. If, however, in the CIE 1931 standard
+        colorimetric system, the :math:`Y` value is required to be
+        numerically equal to the absolute value of a photometric quantity,
+        the constant, :math:`k`, must be put equal to the numerical value
+        of :math:`K_m`, the maximum spectral luminous efficacy (which is
+        equal to 683 :math:`lm\\cdot W^{-1}`) and
+        :math:`\\Phi_\\lambda(\\lambda)` must be the spectral concentration
+        of the radiometric quantity corresponding to the photometric
+        quantity required.
     method
         Computation method.
 
@@ -1152,7 +1180,7 @@ def sd_to_XYZ(
     shape
         {:func:`colour.colorimetry.sd_to_XYZ_integration`},
         Spectral shape that ``sd``, ``cmfs`` and ``illuminant`` will be
-        aligned to it if passed.
+        aligned to if passed.
     use_practice_range
         {:func:`colour.colorimetry.sd_to_XYZ_ASTME308`},
         Practise *ASTM E308-15* working wavelengths range is [360, 780],
@@ -1169,7 +1197,7 @@ def sd_to_XYZ(
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    | ``XYZ``   | 100                   | 1             |
     +-----------+-----------------------+---------------+
 
     -   When :math:`k` is set to a value other than *None*, the computed
@@ -1179,7 +1207,7 @@ def sd_to_XYZ(
         results different to the code path using a
         :class:`colour.SpectralDistribution` class instance: the former
         favours execution speed by aligning the colour matching functions and
-        illuminant to the given spectral shape while the latter favours
+        illuminant to the specified spectral shape while the latter favours
         precision by aligning the spectral distribution to the colour matching
         functions.
 
@@ -1249,8 +1277,8 @@ def sd_to_XYZ(
             (
                 sd
                 if isinstance(sd, (SpectralDistribution, MultiSpectralDistributions))
-                else int_digest(np.asarray(sd).tobytes())  # pyright: ignore
-            ),  # pyright: ignore
+                else int_digest(np.asarray(sd).tobytes())
+            ),
             cmfs,
             illuminant,
             k,
@@ -1265,8 +1293,7 @@ def sd_to_XYZ(
 
     if isinstance(sd, MultiSpectralDistributions):
         runtime_warning(
-            "A multi-spectral distributions was passed, enforcing integration "
-            "method!"
+            "A multi-spectral distributions was passed, enforcing integration method!"
         )
         function = sd_to_XYZ_integration
     else:
@@ -1285,10 +1312,10 @@ def msds_to_XYZ_integration(
     illuminant: SpectralDistribution | None = None,
     k: Real | None = None,
     shape: SpectralShape | None = None,
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Convert given multi-spectral distributions to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant.
+    Convert the specified multi-spectral distributions to *CIE XYZ* tristimulus
+    values using the specified colour matching functions and illuminant.
 
     The multi-spectral distributions can be either a
     :class:`colour.MultiSpectralDistributions` class instance or an
@@ -1306,23 +1333,25 @@ def msds_to_XYZ_integration(
     illuminant
         Illuminant spectral distribution, default to *CIE Illuminant E*.
     k
-        Normalisation constant :math:`k`. For reflecting or transmitting object
-        colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
-        which the spectral reflectance factor :math:`R(\\lambda)` of the object
-        colour or the spectral transmittance factor :math:`\\tau(\\lambda)` of
-        the object is equal to unity for all wavelengths. For self-luminous
-        objects and illuminants, the constants :math:`k` is usually chosen on
-        the grounds of convenience. If, however, in the CIE 1931 standard
-        colorimetric system, the :math:`Y` value is required to be numerically
-        equal to the absolute value of a photometric quantity, the constant,
-        :math:`k`, must be put equal to the numerical value of :math:`K_m`, the
-        maximum spectral luminous efficacy (which is equal to
-        683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
-        be the spectral concentration of the radiometric quantity corresponding
-        to the photometric quantity required.
+        Normalisation constant :math:`k`. For reflecting or transmitting
+        object colours, :math:`k` is chosen so that :math:`Y = 100` for
+        objects for which the spectral reflectance factor
+        :math:`R(\\lambda)` of the object colour or the spectral
+        transmittance factor :math:`\\tau(\\lambda)` of the object is equal
+        to unity for all wavelengths. For self-luminous objects and
+        illuminants, the constants :math:`k` is usually chosen on the
+        grounds of convenience. If, however, in the CIE 1931 standard
+        colorimetric system, the :math:`Y` value is required to be
+        numerically equal to the absolute value of a photometric quantity,
+        the constant, :math:`k`, must be put equal to the numerical value
+        of :math:`K_m`, the maximum spectral luminous efficacy (which is
+        equal to 683 :math:`lm\\cdot W^{-1}`) and
+        :math:`\\Phi_\\lambda(\\lambda)` must be the spectral concentration
+        of the radiometric quantity corresponding to the photometric
+        quantity required.
     shape
         Spectral shape that ``sd``, ``cmfs`` and ``illuminant`` will be
-        aligned to it if passed.
+        aligned to if passed.
 
     Returns
     -------
@@ -1335,7 +1364,7 @@ def msds_to_XYZ_integration(
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    | ``XYZ``   | 100                   | 1             |
     +-----------+-----------------------+---------------+
 
     -   When :math:`k` is set to a value other than *None*, the computed
@@ -1343,11 +1372,11 @@ def msds_to_XYZ_integration(
         converted from percentages by a final division by 100.
     -   The code path using the `ArrayLike` multi-spectral distributions
         produces results different to the code path using a
-        :class:`colour.MultiSpectralDistributions` class instance: the former
-        favours execution speed by aligning the colour matching functions and
-        illuminant to the given spectral shape while the latter favours
-        precision by aligning the multi-spectral distributions to the colour
-        matching functions.
+        :class:`colour.MultiSpectralDistributions` class instance: the
+        former favours execution speed by aligning the colour matching
+        functions and illuminant to the specified spectral shape while the
+        latter favours precision by aligning the multi-spectral distributions
+        to the colour matching functions.
     -   If precision is required, it is possible to interpolate the
         multi-spectral distributions with :py:class:`scipy.interpolate.interp1d`
         class on the last / tail axis as follows:
@@ -1523,11 +1552,11 @@ def msds_to_XYZ_ASTME308(
     use_practice_range: bool = True,
     mi_5nm_omission_method: bool = True,
     mi_20nm_interpolation_method: bool = True,
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Convert given multi-spectral distributions to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant according to practise
-    *ASTM E308-15* method.
+    Convert specified multi-spectral distributions to *CIE XYZ* tristimulus
+    values using the specified colour matching functions and illuminant according
+    to practise *ASTM E308-15* method.
 
     Parameters
     ----------
@@ -1539,20 +1568,22 @@ def msds_to_XYZ_ASTME308(
     illuminant
         Illuminant spectral distribution, default to *CIE Illuminant E*.
     k
-        Normalisation constant :math:`k`. For reflecting or transmitting object
-        colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
-        which the spectral reflectance factor :math:`R(\\lambda)` of the object
-        colour or the spectral transmittance factor :math:`\\tau(\\lambda)` of
-        the object is equal to unity for all wavelengths. For self-luminous
-        objects and illuminants, the constants :math:`k` is usually chosen on
-        the grounds of convenience. If, however, in the CIE 1931 standard
-        colorimetric system, the :math:`Y` value is required to be numerically
-        equal to the absolute value of a photometric quantity, the constant,
-        :math:`k`, must be put equal to the numerical value of :math:`K_m`, the
-        maximum spectral luminous efficacy (which is equal to
-        683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
-        be the spectral concentration of the radiometric quantity corresponding
-        to the photometric quantity required.
+        Normalisation constant :math:`k`. For reflecting or transmitting
+        object colours, :math:`k` is chosen so that :math:`Y = 100` for
+        objects for which the spectral reflectance factor
+        :math:`R(\\lambda)` of the object colour or the spectral
+        transmittance factor :math:`\\tau(\\lambda)` of the object is equal
+        to unity for all wavelengths. For self-luminous objects and
+        illuminants, the constants :math:`k` is usually chosen on the
+        grounds of convenience. If, however, in the CIE 1931 standard
+        colorimetric system, the :math:`Y` value is required to be
+        numerically equal to the absolute value of a photometric quantity,
+        the constant, :math:`k`, must be put equal to the numerical value
+        of :math:`K_m`, the maximum spectral luminous efficacy (which is
+        equal to 683 :math:`lm\\cdot W^{-1}`) and
+        :math:`\\Phi_\\lambda(\\lambda)` must be the spectral concentration
+        of the radiometric quantity corresponding to the photometric
+        quantity required.
     use_practice_range
         Practise *ASTM E308-15* working wavelengths range is [360, 780],
         if *True* this argument will trim the colour matching functions
@@ -1576,7 +1607,7 @@ def msds_to_XYZ_ASTME308(
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    | ``XYZ``   | 100                   | 1             |
     +-----------+-----------------------+---------------+
 
     -   When :math:`k` is set to a value other than *None*, the computed
@@ -1740,19 +1771,21 @@ def msds_to_XYZ_ASTME308(
                 for sd in msds.to_sds()
             ]
         )
-    else:
-        raise TypeError(
-            '"ASTM E308-15" method does not support "ArrayLike" '
-            "multi-spectral distributions!"
-        )
+
+    error = (
+        '"ASTM E308-15" method does not support "ArrayLike" '
+        "multi-spectral distributions!"
+    )
+
+    raise TypeError(error)
 
 
 MSDS_TO_XYZ_METHODS = CanonicalMapping(
     {"ASTM E308": msds_to_XYZ_ASTME308, "Integration": msds_to_XYZ_integration}
 )
 MSDS_TO_XYZ_METHODS.__doc__ = """
-Supported multi-spectral array to *CIE XYZ* tristimulus values conversion
-methods.
+Supported multi-spectral distributions to *CIE XYZ* tristimulus values
+conversion methods.
 
 References
 ----------
@@ -1773,11 +1806,11 @@ def msds_to_XYZ(
     k: Real | None = None,
     method: Literal["ASTM E308", "Integration"] | str = "ASTM E308",
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> Range100:
     """
-    Convert given multi-spectral distributions to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant. For the *Integration*
-    method, the multi-spectral distributions can be either a
+    Convert specified multi-spectral distributions to *CIE XYZ* tristimulus
+    values using the specified colour matching functions and illuminant. For the
+    *Integration* method, the multi-spectral distributions can be either a
     :class:`colour.MultiSpectralDistributions` class instance or an
     `ArrayLike` in which case the ``shape`` must be passed.
 
@@ -1793,20 +1826,22 @@ def msds_to_XYZ(
     illuminant
         Illuminant spectral distribution, default to *CIE Illuminant E*.
     k
-        Normalisation constant :math:`k`. For reflecting or transmitting object
-        colours, :math:`k` is chosen so that :math:`Y = 100` for objects for
-        which the spectral reflectance factor :math:`R(\\lambda)` of the object
-        colour or the spectral transmittance factor :math:`\\tau(\\lambda)` of
-        the object is equal to unity for all wavelengths. For self-luminous
-        objects and illuminants, the constants :math:`k` is usually chosen on
-        the grounds of convenience. If, however, in the CIE 1931 standard
-        colorimetric system, the :math:`Y` value is required to be numerically
-        equal to the absolute value of a photometric quantity, the constant,
-        :math:`k`, must be put equal to the numerical value of :math:`K_m`, the
-        maximum spectral luminous efficacy (which is equal to
-        683 :math:`lm\\cdot W^{-1}`) and :math:`\\Phi_\\lambda(\\lambda)` must
-        be the spectral concentration of the radiometric quantity corresponding
-        to the photometric quantity required.
+        Normalisation constant :math:`k`. For reflecting or transmitting
+        object colours, :math:`k` is chosen so that :math:`Y = 100` for
+        objects for which the spectral reflectance factor
+        :math:`R(\\lambda)` of the object colour or the spectral
+        transmittance factor :math:`\\tau(\\lambda)` of the object is equal
+        to unity for all wavelengths. For self-luminous objects and
+        illuminants, the constants :math:`k` is usually chosen on the
+        grounds of convenience. If, however, in the CIE 1931 standard
+        colorimetric system, the :math:`Y` value is required to be
+        numerically equal to the absolute value of a photometric quantity,
+        the constant, :math:`k`, must be put equal to the numerical value
+        of :math:`K_m`, the maximum spectral luminous efficacy (which is
+        equal to 683 :math:`lm\\cdot W^{-1}`) and
+        :math:`\\Phi_\\lambda(\\lambda)` must be the spectral concentration
+        of the radiometric quantity corresponding to the photometric
+        quantity required.
     method
         Computation method.
 
@@ -1824,8 +1859,8 @@ def msds_to_XYZ(
         of a table of tristimulus weighting factors.
     shape
         {:func:`colour.colorimetry.msds_to_XYZ_integration`},
-        Spectral shape that ``sd``, ``cmfs`` and ``illuminant`` will be
-        aligned to it if passed.
+        Spectral shape that ``msds``, ``cmfs`` and ``illuminant`` will be
+        aligned to if passed.
     use_practice_range
         {:func:`colour.colorimetry.msds_to_XYZ_ASTME308`},
         Practise *ASTM E308-15* working wavelengths range is [360, 780],
@@ -1835,15 +1870,15 @@ def msds_to_XYZ(
     Returns
     -------
     :class:`numpy.ndarray`
-        *CIE XYZ* tristimulus values, for a 512x384 multi-spectral image with
-        77 wavelengths, the output shape will be (384, 512, 3).
+        *CIE XYZ* tristimulus values, for a 512x384 multi-spectral image
+        with 77 wavelengths, the output shape will be (384, 512, 3).
 
     Notes
     -----
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    | ``XYZ``   | 100                   | 1             |
     +-----------+-----------------------+---------------+
 
     -   When :math:`k` is set to a value other than *None*, the computed
@@ -1851,14 +1886,15 @@ def msds_to_XYZ(
         converted from percentages by a final division by 100.
     -   The code path using the `ArrayLike` multi-spectral distributions
         produces results different to the code path using a
-        :class:`colour.MultiSpectralDistributions` class instance: the former
-        favours execution speed by aligning the colour matching functions and
-        illuminant to the given spectral shape while the latter favours
-        precision by aligning the multi-spectral distributions to the colour
-        matching functions.
+        :class:`colour.MultiSpectralDistributions` class instance: the
+        former favours execution speed by aligning the colour matching
+        functions and illuminant to the specified spectral shape while the
+        latter favours precision by aligning the multi-spectral distributions
+        to the colour matching functions.
     -   If precision is required, it is possible to interpolate the
-        multi-spectral distributions with :py:class:`scipy.interpolate.interp1d`
-        class on the last / tail axis as follows:
+        multi-spectral distributions with
+        :py:class:`scipy.interpolate.interp1d` class on the last / tail axis
+        as follows:
 
         .. code-block:: python
 
@@ -2031,16 +2067,17 @@ def msds_to_XYZ(
 def wavelength_to_XYZ(
     wavelength: ArrayLike,
     cmfs: MultiSpectralDistributions | None = None,
-) -> NDArrayFloat:
+) -> Range1:
     """
-    Convert given wavelength :math:`\\lambda` to *CIE XYZ* tristimulus values
-    using given colour matching functions.
+    Convert the specified wavelength :math:`\\lambda` to *CIE XYZ* tristimulus
+    values using the specified colour matching functions.
 
-    If the wavelength :math:`\\lambda` is not available in the colour matching
-    function, its value will be calculated according to *CIE 15:2004*
-    recommendation: the method developed by *Sprague (1880)* will be used for
-    interpolating functions having a uniformly spaced independent variable and
-    the *Cubic Spline* method for non-uniformly spaced independent variable.
+    If the wavelength :math:`\\lambda` is not available in the colour
+    matching function, its value will be calculated according to
+    *CIE 15:2004* recommendation: the method developed by *Sprague (1880)*
+    will be used for interpolating functions having a uniformly spaced
+    independent variable and the *Cubic Spline* method for non-uniformly
+    spaced independent variable.
 
     Parameters
     ----------
@@ -2058,15 +2095,15 @@ def wavelength_to_XYZ(
     Raises
     ------
     ValueError
-        If wavelength :math:`\\lambda` is not contained in the colour matching
-        functions domain.
+        If wavelength :math:`\\lambda` is not contained in the colour
+        matching functions domain.
 
     Notes
     -----
     +-----------+-----------------------+---------------+
     | **Range** | **Scale - Reference** | **Scale - 1** |
     +===========+=======================+===============+
-    | ``XYZ``   | [0, 1]                | [0, 1]        |
+    | ``XYZ``   | 1                     | 1             |
     +-----------+-----------------------+---------------+
 
     Examples
@@ -2084,11 +2121,11 @@ def wavelength_to_XYZ(
 
     shape = cmfs.shape
     if np.min(wavelength) < shape.start or np.max(wavelength) > shape.end:
-        raise ValueError(
+        error = (
             f'"{wavelength}nm" wavelength is not in '
             f'"[{shape.start}, {shape.end}]" domain!'
         )
 
-    XYZ = np.reshape(cmfs[np.ravel(wavelength)], (*wavelength.shape, 3))
+        raise ValueError(error)
 
-    return XYZ
+    return np.reshape(cmfs[np.ravel(wavelength)], (*wavelength.shape, 3))

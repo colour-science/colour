@@ -1,5 +1,6 @@
 """Define the unit tests for the :mod:`colour.blindness.machado2009` module."""
 
+from __future__ import annotations
 
 import numpy as np
 
@@ -34,13 +35,13 @@ class TestMsdsCmfsAnomalousTrichromacyMachado2009:
 msds_cmfs_anomalous_trichromacy_Machado2009` definition unit tests methods.
     """
 
-    def test_msds_cmfs_anomalous_trichromacy_Machado2009(self):
+    def test_msds_cmfs_anomalous_trichromacy_Machado2009(self) -> None:
         """
         Test :func:`colour.blindness.machado2009.\
 msds_cmfs_anomalous_trichromacy_Machado2009` definition.
         """
 
-        cmfs = MSDS_CMFS_LMS.get("Smith & Pokorny 1975 Normal Trichromats")
+        cmfs = MSDS_CMFS_LMS["Smith & Pokorny 1975 Normal Trichromats"]
         np.testing.assert_allclose(
             msds_cmfs_anomalous_trichromacy_Machado2009(
                 cmfs,
@@ -125,13 +126,13 @@ class TestMatrixAnomalousTrichromacyMachado2009:
 matrix_anomalous_trichromacy_Machado2009` definition unit tests methods.
     """
 
-    def test_matrix_anomalous_trichromacy_Machado2009(self):
+    def test_matrix_anomalous_trichromacy_Machado2009(self) -> None:
         """
         Test :func:`colour.blindness.machado2009.\
 matrix_anomalous_trichromacy_Machado2009` definition.
         """
 
-        cmfs = MSDS_CMFS_LMS.get("Smith & Pokorny 1975 Normal Trichromats")
+        cmfs = MSDS_CMFS_LMS["Smith & Pokorny 1975 Normal Trichromats"]
         primaries = MSDS_DISPLAY_PRIMARIES["Typical CRT Brainard 1997"]
         np.testing.assert_allclose(
             matrix_anomalous_trichromacy_Machado2009(
@@ -145,7 +146,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
             matrix_anomalous_trichromacy_Machado2009(
                 cmfs, primaries, np.array([2, 0, 0])
             ),
-            CVD_MATRICES_MACHADO2010.get("Protanomaly").get(0.1),
+            CVD_MATRICES_MACHADO2010["Protanomaly"][0.1],
             atol=0.0001,
         )
 
@@ -153,7 +154,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
             matrix_anomalous_trichromacy_Machado2009(
                 cmfs, primaries, np.array([10, 0, 0])
             ),
-            CVD_MATRICES_MACHADO2010.get("Protanomaly").get(0.5),
+            CVD_MATRICES_MACHADO2010["Protanomaly"][0.5],
             atol=0.0001,
         )
 
@@ -161,7 +162,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
             matrix_anomalous_trichromacy_Machado2009(
                 cmfs, primaries, np.array([20, 0, 0])
             ),
-            CVD_MATRICES_MACHADO2010.get("Protanomaly").get(1.0),
+            CVD_MATRICES_MACHADO2010["Protanomaly"][1.0],
             atol=0.0001,
         )
 
@@ -169,7 +170,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
             matrix_anomalous_trichromacy_Machado2009(
                 cmfs, primaries, np.array([0, 2, 0])
             ),
-            CVD_MATRICES_MACHADO2010.get("Deuteranomaly").get(0.1),
+            CVD_MATRICES_MACHADO2010["Deuteranomaly"][0.1],
             atol=0.0001,
         )
 
@@ -177,7 +178,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
             matrix_anomalous_trichromacy_Machado2009(
                 cmfs, primaries, np.array([0, 10, 0])
             ),
-            CVD_MATRICES_MACHADO2010.get("Deuteranomaly").get(0.5),
+            CVD_MATRICES_MACHADO2010["Deuteranomaly"][0.5],
             atol=0.0001,
         )
 
@@ -185,7 +186,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
             matrix_anomalous_trichromacy_Machado2009(
                 cmfs, primaries, np.array([0, 20, 0])
             ),
-            CVD_MATRICES_MACHADO2010.get("Deuteranomaly").get(1.0),
+            CVD_MATRICES_MACHADO2010["Deuteranomaly"][1.0],
             atol=0.0001,
         )
 
@@ -193,7 +194,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
             matrix_anomalous_trichromacy_Machado2009(
                 cmfs, primaries, np.array([0, 0, 5.00056688094503])
             ),
-            CVD_MATRICES_MACHADO2010.get("Tritanomaly").get(0.1),
+            CVD_MATRICES_MACHADO2010["Tritanomaly"][0.1],
             atol=0.0001,
         )
 
@@ -201,7 +202,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
             matrix_anomalous_trichromacy_Machado2009(
                 cmfs, primaries, np.array([0, 0, 29.002939088780934])
             ),
-            CVD_MATRICES_MACHADO2010.get("Tritanomaly").get(0.5),
+            CVD_MATRICES_MACHADO2010["Tritanomaly"][0.5],
             atol=0.0001,
         )
 
@@ -209,7 +210,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
             matrix_anomalous_trichromacy_Machado2009(
                 cmfs, primaries, np.array([0, 0, 59.00590434857581])
             ),
-            CVD_MATRICES_MACHADO2010.get("Tritanomaly").get(1.0),
+            CVD_MATRICES_MACHADO2010["Tritanomaly"][1.0],
             atol=0.001,
         )
 
@@ -220,7 +221,7 @@ class TestMatrixCvdMachado2009:
     definition unit tests methods.
     """
 
-    def test_matrix_cvd_Machado2009(self):
+    def test_matrix_cvd_Machado2009(self) -> None:
         """
         Test :func:`colour.blindness.machado2009.matrix_cvd_Machado2009`
         definition.
@@ -275,7 +276,7 @@ class TestMatrixCvdMachado2009:
         )
 
     @ignore_numpy_errors
-    def test_nan_matrix_cvd_Machado2009(self):
+    def test_nan_matrix_cvd_Machado2009(self) -> None:
         """
         Test :func:`colour.blindness.machado2009.matrix_cvd_Machado2009`
         definition nan support.

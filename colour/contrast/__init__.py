@@ -18,7 +18,11 @@ References
 
 from __future__ import annotations
 
-from colour.hints import NDArrayFloat, Literal
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, NDArrayFloat, Literal
+
 from colour.utilities import (
     CanonicalMapping,
     filter_kwargs,
@@ -26,21 +30,21 @@ from colour.utilities import (
 )
 
 from .barten1999 import (
+    contrast_sensitivity_function_Barten1999,
+    maximum_angular_size_Barten1999,
     optical_MTF_Barten1999,
     pupil_diameter_Barten1999,
-    sigma_Barten1999,
     retinal_illuminance_Barten1999,
-    maximum_angular_size_Barten1999,
-    contrast_sensitivity_function_Barten1999,
+    sigma_Barten1999,
 )
 
 __all__ = [
+    "contrast_sensitivity_function_Barten1999",
+    "maximum_angular_size_Barten1999",
     "optical_MTF_Barten1999",
     "pupil_diameter_Barten1999",
-    "sigma_Barten1999",
     "retinal_illuminance_Barten1999",
-    "maximum_angular_size_Barten1999",
-    "contrast_sensitivity_function_Barten1999",
+    "sigma_Barten1999",
 ]
 
 CONTRAST_SENSITIVITY_METHODS: CanonicalMapping = CanonicalMapping(
@@ -49,7 +53,7 @@ CONTRAST_SENSITIVITY_METHODS: CanonicalMapping = CanonicalMapping(
     }
 )
 CONTRAST_SENSITIVITY_METHODS.__doc__ = """
-Supported contrast sensitivity methods.
+Supported contrast sensitivity function computation methods.
 
 References
 ----------
@@ -59,11 +63,10 @@ References
 
 
 def contrast_sensitivity_function(
-    method: Literal["Barten 1999"] | str = "Barten 1999", **kwargs
+    method: Literal["Barten 1999"] | str = "Barten 1999", **kwargs: Any
 ) -> NDArrayFloat:
     """
-    Return the contrast sensitivity :math:`S` of the human eye according to
-    the contrast sensitivity function (CSF) described by given method.
+    Compute the contrast sensitivity :math:`S` of the human eye.
 
     Parameters
     ----------
@@ -146,9 +149,7 @@ def contrast_sensitivity_function(
 
     function = CONTRAST_SENSITIVITY_METHODS[method]
 
-    S = function(**filter_kwargs(function, **kwargs))
-
-    return S
+    return function(**filter_kwargs(function, **kwargs))
 
 
 __all__ += [
