@@ -16,7 +16,7 @@ References
 -   :cite:`Moroney2003` : Moroney, N. (2003). A Radial Sampling of the OSA
     Uniform Color Scales. Color and Imaging Conference, 2003(1), 175-180.
     ISSN:2166-9635
--   :cite:`Schlomer2019` : Schlömer, N. (2019). On the conversion from OSA-UCS
+-   :cite:`Schlomer2019` : Schlömer, N. (2019). On the conversion from OSA-UCS
     to CIEXYZ (Version 2). arXiv. doi:10.48550/ARXIV.1911.08323
 """
 

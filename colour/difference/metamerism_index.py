@@ -2,17 +2,17 @@
 :math:`M_{t}` - Metamerism Index
 ================================
 
-Define the :math:`M_{t}` metamerism computation objects.
+Define the :math:`M_{t}` *metamerism index* computation objects:
 
 -   :func:`colour.difference.Lab_to_metamerism_index`
 -   :func:`colour.difference.XYZ_to_metamerism_index`
 
 References
 ----------
--   :cite:ISO18314-4_2024 : International Organization for Standardization. (2024).
-    ISO 18314-4:2024. Analytical colorimetry, Part 4: Metamerism index for pairs
-    of samples for change of illuminant (2nd ed., 24 pp.).
-    ISO/TC 256. https://www.iso.org/standard/85116.html
+-   :cite:`InternationalOrganizationforStandardization2024` : International
+    Organization for Standardization. (2024). INTERNATIONAL STANDARD ISO
+    18314-4 - Analytical colorimetry Part 4: Metamerism index for pairs of
+    samples for change of illuminant. https://www.iso.org/standard/85116.html
 """
 
 from __future__ import annotations
@@ -56,33 +56,38 @@ def Lab_to_metamerism_index(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Compute the metamerism index :math:`M_{t}` between four specified
-    *CIE L\\*a\\*b\\** colourspace arrays. Before computing the metamerism index,
-    we apply either an additive or multiplicative correction. The correction is
-    based on the difference between the colour sample and colour standard under
-    reference illuminant and applied to the colour sample under test illuminant.
-    The correction is applied in *CIE L\\*a\\*b\\** colourspace.
+    Compute the *metamerism index* :math:`M_{t}` between four specified
+    *CIE L\\*a\\*b\\** colourspace arrays.
 
-    :cite:ISO18314-4_2024 recommends to use additive correction in *CIE L\\*a\\*b\\**.
+    Before computing the *metamerism index*, apply either an additive or
+    multiplicative correction. The correction is based on the difference
+    between the colour sample and colour standard under the reference
+    illuminant and is applied to the colour sample under the test illuminant.
+    The correction is applied in *CIE L\\*a\\*b\\** colourspace, which is then
+    used to compute the *metamerism index*.
+
+    :cite:`InternationalOrganizationforStandardization2024` recommends using
+    additive correction in *CIE L\\*a\\*b\\**.
 
     Parameters
     ----------
     Lab_spl_t
-        *CIE L\\*a\\*b\\** colourspace array of colour sample under
-        test illuminant.
+        *CIE L\\*a\\*b\\** colourspace array of the colour sample under the test
+        illuminant.
     Lab_std_t
-        *CIE L\\*a\\*b\\** colourspace array of colour standard under
+        *CIE L\\*a\\*b\\** colourspace array of the colour standard under the
         test illuminant.
     Lab_spl_r
-        *CIE L\\*a\\*b\\** colourspace array of colour sample under
+        *CIE L\\*a\\*b\\** colourspace array of the colour sample under the
         reference illuminant.
     Lab_std_r
-        *CIE L\\*a\\*b\\** colourspace array of colour standard under
+        *CIE L\\*a\\*b\\** colourspace array of the colour standard under the
         reference illuminant.
     correction
-        Correction method to apply, either 'Additive' or 'Multiplicative'.
-    metric
-        Colour difference metric to use.
+        Correction method to apply, either ``'Additive'`` or
+        ``'Multiplicative'``.
+    method
+        Colour-difference method.
 
     Other Parameters
     ----------------
@@ -104,7 +109,7 @@ def Lab_to_metamerism_index(
     Returns
     -------
     :class:`numpy.ndarray`
-        Metamerism index :math:`M_{t}`.
+        *Metamerism index* :math:`M_{t}`.
 
     Notes
     -----
@@ -122,7 +127,7 @@ def Lab_to_metamerism_index(
 
     References
     ----------
-    :cite:ISO18314-4_2024
+    :cite:`InternationalOrganizationforStandardization2024`
 
     Examples
     --------
@@ -177,34 +182,36 @@ def XYZ_to_metamerism_index(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Compute the metamerism index :math:`M_{t}` between four specified
-    *CIE XYZ* colourspace arrays. Before computing the metamerism index,
-    we apply either an additive or multiplicative correction. The correction is
-    based on the difference between the colour sample and colour standard under
-    reference illuminant and applied to the colour sample under test illuminant.
-    The correction is applied in *CIE XYZ* colourspace. Afterwards, we convert to
-    *CIE L\\*a\\*b\\** colourspace to compute the metamerism index.
+    Compute the *metamerism index* :math:`M_{t}` from four specified
+    *CIE XYZ* colourspace arrays.
 
-    :cite:ISO18314-4_2024 recommends to use multiplicative correction in
-    *CIE L\\*a\\*b\\**.
+    Before computing the *metamerism index*, apply either an additive or
+    multiplicative correction. The correction is based on the difference
+    between the colour sample and colour standard under the reference
+    illuminant and is applied to the colour sample under the test illuminant.
+    The correction is applied in *CIE XYZ* colourspace. Afterwards, convert
+    to *CIE L\\*a\\*b\\** colourspace to compute the *metamerism index*.
+
+    :cite:`InternationalOrganizationforStandardization2024` recommends using
+    multiplicative correction in *CIE L\\*a\\*b\\**.
 
     Parameters
     ----------
     XYZ_spl_t
-        *CIE XYZ* tristimulus array of the sample under test
+        *CIE XYZ* tristimulus array of the colour sample under the test
         illuminant.
     XYZ_std_t
-        *CIE XYZ* tristimulus array of the standard under test
+        *CIE XYZ* tristimulus array of the colour standard under the test
         illuminant.
     XYZ_spl_r
-        *CIE XYZ* tristimulus array of the sample under reference
+        *CIE XYZ* tristimulus array of the colour sample under the reference
         illuminant.
     XYZ_std_r
-        *CIE XYZ* tristimulus array of the standard under reference
+        *CIE XYZ* tristimulus array of the colour standard under the reference
         illuminant.
     correction
-        Correction method to apply, either 'Additive' or
-        'Multiplicative'.
+        Correction method to apply, either ``'Additive'`` or
+        ``'Multiplicative'``.
     method
         Colour-difference method.
 
@@ -232,7 +239,7 @@ def XYZ_to_metamerism_index(
     Returns
     -------
     :class:`numpy.ndarray`
-        Metamerism index :math:`M_{t}`.
+        *Metamerism index* :math:`M_{t}`.
 
     Notes
     -----
@@ -250,7 +257,7 @@ def XYZ_to_metamerism_index(
 
     References
     ----------
-    :cite:ISO18314-4_2024
+    :cite:`InternationalOrganizationforStandardization2024`
 
     Examples
     --------

@@ -66,7 +66,7 @@ from .delta_e import (
 )
 from .din99 import delta_E_DIN99
 from .huang2015 import power_function_Huang2015
-from .metamerism import Lab_to_metamerism_index, XYZ_to_metamerism_index
+from .metamerism_index import Lab_to_metamerism_index, XYZ_to_metamerism_index
 from .stress import INDEX_STRESS_METHODS, index_stress, index_stress_Garcia2007
 
 __all__ = [

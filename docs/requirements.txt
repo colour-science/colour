@@ -8,11 +8,11 @@ babel==2.17.0
     # via
     #   pydata-sphinx-theme
     #   sphinx
-beautifulsoup4==4.14.2
+beautifulsoup4==4.14.3
     # via pydata-sphinx-theme
 biblib-simple==0.1.2
     # via colour-science
-certifi==2025.10.5
+certifi==2025.11.12
     # via requests
 charset-normalizer==3.4.4
     # via requests
@@ -20,24 +20,22 @@ colorama==0.4.6 ; sys_platform == 'win32'
     # via
     #   sphinx
     #   tqdm
-contourpy==1.3.2 ; python_full_version < '3.11'
-    # via matplotlib
-contourpy==1.3.3 ; python_full_version >= '3.11'
+contourpy==1.3.3
     # via matplotlib
 cycler==0.12.1
     # via matplotlib
-docutils==0.21.2
+docutils==0.22.3
     # via
     #   pybtex-docutils
     #   pydata-sphinx-theme
     #   restructuredtext-lint
     #   sphinx
     #   sphinxcontrib-bibtex
-fonttools==4.60.1
+fonttools==4.61.0
     # via matplotlib
 idna==3.11
     # via requests
-imageio==2.37.0
+imageio==2.37.2
     # via colour-science
 imagesize==1.4.1
     # via sphinx
@@ -51,11 +49,9 @@ markupsafe==3.0.3
     # via jinja2
 matplotlib==3.10.7
     # via colour-science
-networkx==3.4.2 ; python_full_version < '3.11'
+networkx==3.6
     # via colour-science
-networkx==3.5 ; python_full_version >= '3.11'
-    # via colour-science
-numpy==2.2.6 ; python_full_version < '3.11'
+numpy==2.3.5
     # via
     #   colour-science
     #   contourpy
@@ -65,19 +61,9 @@ numpy==2.2.6 ; python_full_version < '3.11'
     #   pandas
     #   scipy
     #   trimesh
-numpy==2.3.4 ; python_full_version >= '3.11'
-    # via
-    #   colour-science
-    #   contourpy
-    #   imageio
-    #   matplotlib
-    #   openimageio
-    #   pandas
-    #   scipy
-    #   trimesh
-opencolorio==2.5.0
+opencolorio==2.5.0 ; python_full_version < '3.14'
     # via colour-science
-openimageio==3.1.7.0
+openimageio==3.1.8.0
     # via colour-science
 packaging==25.0
     # via
@@ -118,13 +104,11 @@ pyyaml==6.0.3
     # via pybtex
 requests==2.32.5
     # via sphinx
-restructuredtext-lint==1.4.0
+restructuredtext-lint==2.0.2
     # via colour-science
-roman-numerals-py==3.1.0 ; python_full_version >= '3.11'
+roman-numerals==3.1.0
     # via sphinx
-scipy==1.15.3 ; python_full_version < '3.11'
-    # via colour-science
-scipy==1.16.3 ; python_full_version >= '3.11'
+scipy==1.16.3
     # via colour-science
 six==1.17.0
     # via python-dateutil
@@ -132,12 +116,7 @@ snowballstemmer==3.0.1
     # via sphinx
 soupsieve==2.8
     # via beautifulsoup4
-sphinx==8.1.3 ; python_full_version < '3.11'
-    # via
-    #   colour-science
-    #   pydata-sphinx-theme
-    #   sphinxcontrib-bibtex
-sphinx==8.2.3 ; python_full_version >= '3.11'
+sphinx==9.0.4
     # via
     #   colour-science
     #   pydata-sphinx-theme
@@ -156,11 +135,9 @@ sphinxcontrib-qthelp==2.0.0
     # via sphinx
 sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
-tomli==2.3.0 ; python_full_version < '3.11'
-    # via sphinx
 tqdm==4.67.1
     # via colour-science
-trimesh==4.9.0
+trimesh==4.10.0
     # via colour-science
 typing-extensions==4.15.0
     # via
@@ -169,7 +146,7 @@ typing-extensions==4.15.0
     #   pydata-sphinx-theme
 tzdata==2025.2
     # via pandas
-urllib3==2.5.0
+urllib3==2.6.0
     # via requests
 xxhash==3.6.0
     # via colour-science
