@@ -46,7 +46,6 @@ classifiers = [
 ]
 dependencies = [
     "numpy>=2.0.0,<3",
-    "typing-extensions>=4,<5",
 ]
 
 [project.optional-dependencies]
