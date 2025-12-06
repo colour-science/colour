@@ -1,6 +1,6 @@
 [project]
 name = "colour-science"
-version = "0.4.6"
+version = "0.4.7"
 description = "Colour Science for Python"
 readme = "README.rst"
 requires-python = ">=3.11,<3.15"
