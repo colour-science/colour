@@ -381,18 +381,18 @@ def sd_gaussian_normal(
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     **kwargs: Any,
 ) -> SpectralDistribution:
-    r"""
+    """
     Generate a Gaussian spectral distribution of the specified spectral shape at
-    specified mean wavelength :math:`\mu` and standard deviation
-    :math:`\sigma`.
+    specified mean wavelength :math:`\\mu` and standard deviation
+    :math:`\\sigma`.
 
     Parameters
     ----------
     mu
-        Mean wavelength :math:`\mu` at which the Gaussian spectral
+        Mean wavelength :math:`\\mu` at which the Gaussian spectral
         distribution will peak.
     sigma
-        Standard deviation :math:`\sigma` of the Gaussian spectral
+        Standard deviation :math:`\\sigma` of the Gaussian spectral
         distribution.
     shape
         Spectral shape used to create the spectral distribution.

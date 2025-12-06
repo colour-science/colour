@@ -516,11 +516,11 @@ def opponent_colour_dimensions(
     F_S: ArrayLike,
     F_L: ArrayLike,
 ) -> NDArrayFloat:
-    r"""
+    """
     Compute opponent colour dimensions from the specified adapted *CIE XYZ*
     tristimulus values.
 
-    The opponent colour dimensions are based on a modified *CIE L\*a\*b\**
+    The opponent colour dimensions are based on a modified *CIE L\\*a\\*b\\**
     colourspace formulae.
 
     Parameters

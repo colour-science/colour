@@ -699,13 +699,13 @@ def XYZ_to_sd_Jakob2019(
 
 
 class LUT3D_Jakob2019:
-    r"""
+    """
     Define a class for working with pre-computed lookup tables for the
     *Jakob and Hanika (2019)* spectral upsampling method. This class
     enables significant time savings by performing expensive numerical
     optimisation ahead of time and storing the results in a file.
 
-    The file format is compatible with the code and *\*.coeff* files in the
+    The file format is compatible with the code and *\\*.coeff* files in the
     supplemental material published alongside the article. These files are
     directly available from
     `Colour - Datasets <https://github.com/colour-science/colour-datasets>`__
