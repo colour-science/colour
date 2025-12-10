@@ -183,8 +183,7 @@ def ranges_YCbCr(bits: int, is_legal: bool, is_int: bool) -> NDArrayFloat:
     """
 
     if is_legal:
-        ranges = as_float_array([16, 235, 16, 240])
-        ranges *= 2 ** (bits - 8)
+        ranges = as_float_array([16, 235, 16, 240]) * 2 ** (bits - 8)
     else:
         ranges = as_float_array([0, 2**bits - 1, 0, 2**bits - 1])
 
@@ -192,13 +191,10 @@ def ranges_YCbCr(bits: int, is_legal: bool, is_int: bool) -> NDArrayFloat:
         ranges = as_int_array(ranges) / (2**bits - 1)
 
     if is_int and not is_legal:
-        ranges = as_float_array(ranges)
-        ranges[2] = 0.5
-        ranges[3] = 2**bits - 0.5
+        ranges = as_float_array([ranges[0], ranges[1], 0.5, 2**bits - 0.5])
 
     if not is_int and not is_legal:
-        ranges[2] = -0.5
-        ranges[3] = 0.5
+        ranges = as_float_array([ranges[0], ranges[1], -0.5, 0.5])
 
     return ranges
 
@@ -283,9 +279,9 @@ def matrix_YCbCr(
     Y = np.array([Kr, (1 - Kr - Kb), Kb])
     Cb = 0.5 * (np.array([0, 0, 1]) - Y) / (1 - Kb)
     Cr = 0.5 * (np.array([1, 0, 0]) - Y) / (1 - Kr)
-    Y *= Y_max - Y_min
-    Cb *= C_max - C_min
-    Cr *= C_max - C_min
+    Y = Y * (Y_max - Y_min)
+    Cb = Cb * (C_max - C_min)
+    Cr = Cr * (C_max - C_min)
 
     return np.linalg.inv(np.vstack([Y, Cb, Cr]))
 
@@ -653,19 +649,18 @@ def YCbCr_to_RGB(
     )
     RGB_min, RGB_max = kwargs.get("out_range", CV_range(out_bits, out_legal, out_int))
 
-    Y -= Y_min
-    Cb -= (C_max + C_min) / 2
-    Cr -= (C_max + C_min) / 2
-    Y *= 1 / (Y_max - Y_min)
-    Cb *= 1 / (C_max - C_min)
-    Cr *= 1 / (C_max - C_min)
+    Y = Y - Y_min
+    Cb = Cb - (C_max + C_min) / 2
+    Cr = Cr - (C_max + C_min) / 2
+    Y = Y * (1 / (Y_max - Y_min))
+    Cb = Cb * (1 / (C_max - C_min))
+    Cr = Cr * (1 / (C_max - C_min))
     R = Y + (2 - 2 * Kr) * Cr
     B = Y + (2 - 2 * Kb) * Cb
     G = (Y - Kr * R - Kb * B) / (1 - Kr - Kb)
 
     RGB = tstack([R, G, B])
-    RGB *= RGB_max - RGB_min
-    RGB += RGB_min
+    RGB = RGB * (RGB_max - RGB_min) + RGB_min
 
     return (
         as_int_array(
@@ -774,12 +769,9 @@ def RGB_to_YcCbcCrc(
 
     Cbc = np.where((B - Yc) <= 0, (B - Yc) / 1.9404, (B - Yc) / 1.5816)
     Crc = np.where((R - Yc) <= 0, (R - Yc) / 1.7184, (R - Yc) / 0.9936)
-    Yc *= Y_max - Y_min
-    Yc += Y_min
-    Cbc *= C_max - C_min
-    Crc *= C_max - C_min
-    Cbc += (C_max + C_min) / 2
-    Crc += (C_max + C_min) / 2
+    Yc = Yc * (Y_max - Y_min) + Y_min
+    Cbc = Cbc * (C_max - C_min) + (C_max + C_min) / 2
+    Crc = Crc * (C_max - C_min) + (C_max + C_min) / 2
 
     YcCbcCrc = tstack([Yc, Cbc, Crc])
 
@@ -882,12 +874,9 @@ def YcCbcCrc_to_RGB(
         "in_range", ranges_YCbCr(in_bits, in_legal, in_int)
     )
 
-    Yc -= Y_min
-    Cbc -= (C_max + C_min) / 2
-    Crc -= (C_max + C_min) / 2
-    Yc *= 1 / (Y_max - Y_min)
-    Cbc *= 1 / (C_max - C_min)
-    Crc *= 1 / (C_max - C_min)
+    Yc = (Yc - Y_min) * (1 / (Y_max - Y_min))
+    Cbc = (Cbc - (C_max + C_min) / 2) * (1 / (C_max - C_min))
+    Crc = (Crc - (C_max + C_min) / 2) * (1 / (C_max - C_min))
     B = np.where(Cbc <= 0, Cbc * 1.9404 + Yc, Cbc * 1.5816 + Yc)
     R = np.where(Crc <= 0, Crc * 1.7184 + Yc, Crc * 0.9936 + Yc)
 

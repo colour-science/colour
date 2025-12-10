@@ -255,7 +255,9 @@ def XYZ_to_Izazbz(
         Izazbz = vecmul(MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2017, LMS_p)
     else:
         Izazbz = vecmul(MATRIX_JZAZBZ_LMS_P_TO_IZAZBZ_SAFDAR2021, LMS_p)
-        Izazbz[..., 0] -= constants.d_0
+        Izazbz = tstack(
+            [Izazbz[..., 0] - constants.d_0, Izazbz[..., 1], Izazbz[..., 2]]
+        )
 
     return Izazbz
 
@@ -339,8 +341,10 @@ def Izazbz_to_XYZ(
     if method == "safdar 2017":
         LMS_p = vecmul(MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2017, Izazbz)
     else:
-        Izazbz[..., 0] += constants.d_0
-        LMS_p = vecmul(MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2021, Izazbz)
+        Izazbz_adjusted = tstack(
+            [Izazbz[..., 0] + constants.d_0, Izazbz[..., 1], Izazbz[..., 2]]
+        )
+        LMS_p = vecmul(MATRIX_JZAZBZ_IZAZBZ_TO_LMS_P_SAFDAR2021, Izazbz_adjusted)
 
     with domain_range_scale("ignore"):
         LMS = eotf_ST2084(LMS_p, 10000, constants)

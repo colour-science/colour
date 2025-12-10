@@ -298,7 +298,7 @@ def error_function(
     )
 
     XYZ_n = sd_to_XYZ_integration(illuminant, cmfs)
-    XYZ_n /= XYZ_n[1]
+    XYZ_n = XYZ_n / XYZ_n[1]
     XYZ_XYZ_n = XYZ / XYZ_n
 
     XYZ_f = intermediate_lightness_function_CIE1976(XYZ, XYZ_n)

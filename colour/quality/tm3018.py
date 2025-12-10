@@ -249,12 +249,9 @@ def averages_area(averages: ArrayLike) -> float:
 
     averages = as_float_array(averages)
 
-    N = averages.shape[0]
-
-    triangle_areas = np.empty(N)
-    for i in range(N):
-        u = averages[i, :]
-        v = averages[(i + 1) % N, :]
-        triangle_areas[i] = (u[0] * v[1] - u[1] * v[0]) / 2
+    # Vectorized shoelace formula
+    u = averages
+    v = np.roll(averages, -1, axis=0)
+    triangle_areas = (u[:, 0] * v[:, 1] - u[:, 1] * v[:, 0]) / 2
 
     return as_float_scalar(np.sum(triangle_areas))

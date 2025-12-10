@@ -435,12 +435,14 @@ def sd_reference_illuminant(CCT: float, shape: SpectralShape) -> SpectralDistrib
     elif 4000 <= CCT <= 5000:
         # Planckian and daylight illuminant must be normalised so that the
         # mixture isn't biased.
-        sd_planckian /= sd_to_XYZ(
-            sd_planckian.values, shape=shape, method="Integration"
-        )[1]
-        sd_daylight /= sd_to_XYZ(sd_daylight.values, shape=shape, method="Integration")[
-            1
-        ]
+        sd_planckian = (
+            sd_planckian
+            / sd_to_XYZ(sd_planckian.values, shape=shape, method="Integration")[1]
+        )
+        sd_daylight = (
+            sd_daylight
+            / sd_to_XYZ(sd_daylight.values, shape=shape, method="Integration")[1]
+        )
 
         # Mixture: 4200K should be 80% Planckian, 20% CIE Illuminant D Series.
         m = (CCT - 4000) / 1000
@@ -499,18 +501,13 @@ def tcs_colorimetry_data(
     if isinstance(sd_irradiance, SpectralDistribution):
         sd_irradiance = [sd_irradiance]
 
-    XYZ_w = np.full((len(sd_irradiance), 3), np.nan)
-    for idx, sd in enumerate(sd_irradiance):
-        XYZ_t = sd_to_XYZ(
-            sd.values,
-            cmfs,
-            shape=sd.shape,
-            method="Integration",
-        )
-        k = 100 / XYZ_t[1]
-        XYZ_w[idx] = k * XYZ_t
-        sd_irradiance[idx] = sd_irradiance[idx].copy() * k
-    XYZ_w = as_float_array(XYZ_w)
+    XYZ_t_s = [
+        sd_to_XYZ(sd.values, cmfs, shape=sd.shape, method="Integration")
+        for sd in sd_irradiance
+    ]
+    k_s = [100 / XYZ_t[1] for XYZ_t in XYZ_t_s]
+    XYZ_w = as_float_array([k * XYZ_t for k, XYZ_t in zip(k_s, XYZ_t_s, strict=False)])
+    sd_irradiance = [sd.copy() * k for sd, k in zip(sd_irradiance, k_s, strict=False)]
 
     Y_b = 20
     L_A = 100

@@ -33,7 +33,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import NDArrayFloat
 
 
-from colour.utilities import required, zeros
+from colour.utilities import required
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -113,17 +113,22 @@ def spectral_similarity_index(
     global _MATRIX_INTEGRATION  # noqa: PLW0603
 
     if _MATRIX_INTEGRATION is None:
-        _MATRIX_INTEGRATION = zeros(
-            (
-                len(_SPECTRAL_SHAPE_SSI_LARGE.wavelengths),
-                len(SPECTRAL_SHAPE_SSI.wavelengths),
-            )
-        )
-
+        n_rows = len(_SPECTRAL_SHAPE_SSI_LARGE.wavelengths)
+        n_cols = len(SPECTRAL_SHAPE_SSI.wavelengths)
         weights = np.array([0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5])
 
-        for i in range(_MATRIX_INTEGRATION.shape[0]):
-            _MATRIX_INTEGRATION[i, (10 * i) : (10 * i + 11)] = weights
+        _MATRIX_INTEGRATION = np.vstack(
+            [
+                np.concatenate(
+                    [
+                        np.zeros(10 * i),
+                        weights,
+                        np.zeros(max(0, n_cols - 10 * i - 11)),
+                    ]
+                )[:n_cols]
+                for i in range(n_rows)
+            ]
+        )
 
     settings = {
         "interpolator": LinearInterpolator,

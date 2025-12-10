@@ -145,9 +145,7 @@ def matrix_RGB_to_WSYBRG(
         ]
     )
 
-    M_G /= np.sum(M_G, axis=-1)[:, None]
-
-    return M_G
+    return M_G / np.sum(M_G, axis=-1)[:, None]
 
 
 def msds_cmfs_anomalous_trichromacy_Machado2009(

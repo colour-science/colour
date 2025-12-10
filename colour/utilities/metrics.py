@@ -32,7 +32,7 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.utilities import as_float, as_float_array, zeros
+from colour.utilities import as_float, as_float_array
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -130,9 +130,8 @@ def metric_psnr(
     """
 
     mse = as_float_array(metric_mse(a, b, axis))
-    psnr = zeros(mse.shape)
 
     with sdiv_mode():
-        psnr[mse != 0] = 10 * np.log10(sdiv(max_a**2, mse[mse != 0]))
+        psnr = np.where(mse != 0, 10 * np.log10(sdiv(max_a**2, mse)), 0)
 
     return as_float(psnr)

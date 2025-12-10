@@ -241,9 +241,14 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
     )
 
     lms_bar = vecmul(M, rgb_bar)
-    lms_bar[..., -1][np.asarray(np.asarray(wavelength) > 505)] = 0
-
-    return lms_bar
+    # Set S cone (last column) to 0 for wavelengths > 505nm
+    return tstack(
+        [
+            lms_bar[..., 0],
+            lms_bar[..., 1],
+            np.where(np.asarray(wavelength) > 505, 0, lms_bar[..., -1]),
+        ]
+    )
 
 
 def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(

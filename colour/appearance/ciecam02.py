@@ -1109,7 +1109,7 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     H_i = HUE_DATA_FOR_HUE_QUADRATURE["H_i"]
 
     # *np.searchsorted* returns an erroneous index if a *nan* is used as input.
-    h[np.asarray(np.isnan(h))] = 0
+    h = np.where(np.isnan(h), 0, h)
     i = as_int_array(np.searchsorted(h_i, h, side="left") - 1)
 
     h_ii = h_i[i]

@@ -353,26 +353,47 @@ class Extrapolator:
         xi = self._interpolator.x
         yi = self._interpolator.y
 
-        y = np.empty_like(x)
+        below = x < xi[0]
+        above = x > xi[-1]
+        in_range = np.logical_and(x >= xi[0], x <= xi[-1])
+
+        y = np.zeros_like(x)
 
         if self._method == "linear":
             with sdiv_mode():
-                y[x < xi[0]] = yi[0] + (x[x < xi[0]] - xi[0]) * sdiv(
-                    yi[1] - yi[0], xi[1] - xi[0]
+                y = np.where(
+                    below,
+                    yi[0] + (x - xi[0]) * sdiv(yi[1] - yi[0], xi[1] - xi[0]),
+                    y,
                 )
-                y[x > xi[-1]] = yi[-1] + (x[x > xi[-1]] - xi[-1]) * sdiv(
-                    yi[-1] - yi[-2], xi[-1] - xi[-2]
+                y = np.where(
+                    above,
+                    yi[-1] + (x - xi[-1]) * sdiv(yi[-1] - yi[-2], xi[-1] - xi[-2]),
+                    y,
                 )
         elif self._method == "constant":
-            y[x < xi[0]] = yi[0]
-            y[x > xi[-1]] = yi[-1]
+            y = np.where(below, yi[0], y)
+            y = np.where(above, yi[-1], y)
 
         if self._left is not None:
-            y[x < xi[0]] = self._left
+            y = np.where(below, self._left, y)
         if self._right is not None:
-            y[x > xi[-1]] = self._right
+            y = np.where(above, self._right, y)
 
-        in_range = np.logical_and(x >= xi[0], x <= xi[-1])
-        y[in_range] = self._interpolator(x[in_range])
+        if np.any(in_range):
+            # Flatten for multi-dimensional array support
+            shape = x.shape
+            x_ravel = np.ravel(x)
+            in_range_ravel = np.ravel(in_range)
+            y_ravel = np.ravel(y)
+
+            interpolated_values = np.atleast_1d(
+                self._interpolator(x_ravel[in_range_ravel])
+            )
+            # Scatter interpolated values back to full array positions
+            dense_idx = np.cumsum(in_range_ravel.astype(np.int64)) - 1
+            safe_idx = np.clip(dense_idx, 0, len(interpolated_values) - 1)
+            y_ravel = np.where(in_range_ravel, interpolated_values[safe_idx], y_ravel)
+            y = np.reshape(y_ravel, shape)
 
         return y

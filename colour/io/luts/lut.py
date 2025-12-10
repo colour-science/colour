@@ -2187,9 +2187,11 @@ class LUT3D(AbstractLUT):
                     gy = np.gradient(LUT_q.table[..., i], axis=1)
                     gz = np.gradient(LUT_q.table[..., i], axis=2)
 
-                    gradient_magnitude += np.sqrt(gx**2 + gy**2 + gz**2)
+                    gradient_magnitude = gradient_magnitude + np.sqrt(
+                        gx**2 + gy**2 + gz**2
+                    )
 
-                gradient_magnitude /= 3.0
+                gradient_magnitude = gradient_magnitude / 3.0
 
                 # Identify high-gradient regions using percentile threshold
                 threshold = np.percentile(gradient_magnitude, tau * 100)

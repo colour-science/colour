@@ -338,9 +338,7 @@ def CCT_to_uv_Ohno2013(
             ]
         )
 
-    uv[D_uv == 0] = uv_0[D_uv == 0]
-
-    return uv
+    return np.where((D_uv == 0)[..., None], uv_0, uv)
 
 
 def XYZ_to_CCT_Ohno2013(

@@ -227,8 +227,8 @@ def read_LUT_Cinespace(path: str | PathLike) -> LUT3x1D | LUT3D | LUTSequence:
         if table.shape == (2, 3):
             table_max = table[1]
             table_min = table[0]
-            pre_table *= table_max - table_min
-            pre_table += table_min
+            pre_table = pre_table * (table_max - table_min)
+            pre_table = pre_table + table_min
 
             LUT = LUT3x1D(pre_table, title, pre_domain, comments=comments)
         else:

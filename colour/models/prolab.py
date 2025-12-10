@@ -77,16 +77,12 @@ def projective_transformation(a: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     a = as_float_array(a)
     Q = as_float_array(Q)
 
-    shape = list(a.shape)
-    shape[-1] = shape[-1] + 1
-
-    M = ones(tuple(shape))
-    M[..., :-1] = a
+    # Concatenate array with ones along last axis for homogeneous coordinates
+    M = np.concatenate([a, ones((*a.shape[:-1], 1))], axis=-1)
 
     homography = np.dot(M, np.transpose(Q))
-    homography[..., 0:-1] /= homography[..., -1][..., None]
 
-    return homography[..., 0:-1]
+    return homography[..., 0:-1] / homography[..., -1][..., None]
 
 
 def XYZ_to_ProLab(
@@ -196,6 +192,6 @@ def ProLab_to_XYZ(
 
     XYZ = projective_transformation(ProLab, MATRIX_INVERSE_Q)
 
-    XYZ *= XYZ_n
+    XYZ = XYZ * XYZ_n
 
     return from_range_1(XYZ)

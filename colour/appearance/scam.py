@@ -522,7 +522,7 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     e_i = HUE_DATA_FOR_HUE_QUADRATURE_sCAM["e_i"]
     H_i = HUE_DATA_FOR_HUE_QUADRATURE_sCAM["H_i"]
 
-    h_n[np.asarray(np.isnan(h_n))] = 0
+    h_n = np.where(np.isnan(h_n), 0, h_n)
     h_n = np.where(h_n < h_i[0], h_n + 360, h_n)
 
     i = np.searchsorted(h_i, h_n, side="right") - 1
