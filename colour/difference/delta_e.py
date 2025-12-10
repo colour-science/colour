@@ -59,7 +59,6 @@ from colour.utilities import (
     as_float,
     to_domain_100,
     tsplit,
-    zeros,
 )
 from colour.utilities.documentation import DocstringFloat, is_documentation_building
 
@@ -226,8 +225,7 @@ def delta_E_CIE1994(
     delta_B = b_1 - b_2
 
     radical = delta_A**2 + delta_B**2 - delta_C**2
-    delta_H = zeros(radical.shape)
-    delta_H[radical > 0] = np.sqrt(radical[radical > 0])
+    delta_H = np.where(radical > 0, np.sqrt(np.maximum(radical, 0)), 0)
 
     L = (delta_L / (k_L * s_L)) ** 2
     C = (delta_C / (k_C * s_C)) ** 2

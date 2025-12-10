@@ -565,12 +565,18 @@ def XYZ_to_sd_Otsu2018(
 
         basis_functions, mean = dataset.cluster(xy)
 
-        M = np.empty((3, 3))
-        for i in range(3):
-            sd = SpectralDistribution(basis_functions[i, :], shape.wavelengths)
-
-            with domain_range_scale("ignore"):
-                M[:, i] = sd_to_XYZ(sd, cmfs, illuminant) / 100
+        with domain_range_scale("ignore"):
+            M = np.column_stack(
+                [
+                    sd_to_XYZ(
+                        SpectralDistribution(basis_functions[i, :], shape.wavelengths),
+                        cmfs,
+                        illuminant,
+                    )
+                    / 100
+                    for i in range(3)
+                ]
+            )
 
         M_inverse = np.linalg.inv(M)
 

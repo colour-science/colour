@@ -307,7 +307,7 @@ def colour_quality_scale(
         scaling_f = 3.2
     else:
         XYZ_r = sd_to_XYZ(sd_reference, cmfs)
-        XYZ_r /= XYZ_r[1]
+        XYZ_r = XYZ_r / XYZ_r[1]
         CCT_f = CCT_factor(reference_vs_colorimetry_data, XYZ_r)
         scaling_f = 3.104
 

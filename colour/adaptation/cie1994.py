@@ -454,15 +454,12 @@ def K_coefficient(
     Y_o = as_float_array(Y_o)
     n = as_float_array(n)
 
-    K = spow((Y_o * xi_1 + n) / (20 * xi_1 + n), (2 / 3) * bR_o1) / spow(
-        (Y_o * xi_2 + n) / (20 * xi_2 + n), (2 / 3) * bR_o2
+    return (
+        spow((Y_o * xi_1 + n) / (20 * xi_1 + n), (2 / 3) * bR_o1)
+        / spow((Y_o * xi_2 + n) / (20 * xi_2 + n), (2 / 3) * bR_o2)
+        * spow((Y_o * eta_1 + n) / (20 * eta_1 + n), (1 / 3) * bG_o1)
+        / spow((Y_o * eta_2 + n) / (20 * eta_2 + n), (1 / 3) * bG_o2)
     )
-
-    K *= spow((Y_o * eta_1 + n) / (20 * eta_1 + n), (1 / 3) * bG_o1) / spow(
-        (Y_o * eta_2 + n) / (20 * eta_2 + n), (1 / 3) * bG_o2
-    )
-
-    return K
 
 
 def corresponding_colour(

@@ -51,7 +51,6 @@ from colour.utilities import (
     as_float_array,
     tsplit,
     tstack,
-    zeros,
 )
 
 if TYPE_CHECKING:
@@ -729,7 +728,6 @@ v_{n+1} \\\\ w_{n+1} \\end{pmatrix}
     theta = np.atleast_1d(as_float_array(theta))
     wavelength = np.atleast_1d(as_float_array(wavelength))
 
-    angles_count = theta.shape[0]
     wavelengths_count = wavelength.shape[0]
 
     # Convert 1D n to column vector and tile across wavelengths
@@ -744,8 +742,6 @@ v_{n+1} \\\\ w_{n+1} \\end{pmatrix}
 
     media_count = n.shape[0]
     layers_count = media_count - 2
-
-    thickness_count = t.shape[0]
 
     n_0 = n[0, 0] if n.ndim == 2 else n[0]
 
@@ -802,11 +798,6 @@ v_{n+1} \\\\ w_{n+1} \\end{pmatrix}
 
     # Layer matrices: M_n = L_n * I_{n,n+1} (Byrnes Eq. 10-11)
     # (W, A, T, L, 2, 2, 2) for [wavelengths, angles, thickness, layers, 2x2, pol]
-    M = zeros(
-        (wavelengths_count, angles_count, thickness_count, layers_count, 2, 2, 2),
-        dtype=DTYPE_COMPLEX_DEFAULT,  # pyright: ignore
-    )
-
     r_s = r_media_s[:, 1 : layers_count + 1, :]  # (A, L, W)
     r_p = r_media_p[:, 1 : layers_count + 1, :]  # (A, L, W)
     t_s = t_media_s[:, 1 : layers_count + 1, :]  # (A, L, W)
@@ -819,40 +810,49 @@ v_{n+1} \\\\ w_{n+1} \\end{pmatrix}
     t_s_b = np.transpose(t_s, (2, 0, 1))[:, :, None, :]
     t_p_b = np.transpose(t_p, (2, 0, 1))[:, :, None, :]
 
-    M[:, :, :, :, 0, 0, 0] = 1 / (A * t_s_b)
-    M[:, :, :, :, 0, 1, 0] = r_s_b / (A * t_s_b)
-    M[:, :, :, :, 1, 0, 0] = A * r_s_b / t_s_b
-    M[:, :, :, :, 1, 1, 0] = A / t_s_b
-
-    M[:, :, :, :, 0, 0, 1] = 1 / (A * t_p_b)
-    M[:, :, :, :, 0, 1, 1] = r_p_b / (A * t_p_b)
-    M[:, :, :, :, 1, 0, 1] = A * r_p_b / t_p_b
-    M[:, :, :, :, 1, 1, 1] = A / t_p_b
+    # Build 2x2 matrices for s and p polarizations using np.stack
+    M_s_layer = np.stack(
+        [
+            np.stack([1 / (A * t_s_b), r_s_b / (A * t_s_b)], axis=-1),
+            np.stack([A * r_s_b / t_s_b, A / t_s_b], axis=-1),
+        ],
+        axis=-2,
+    )
+    M_p_layer = np.stack(
+        [
+            np.stack([1 / (A * t_p_b), r_p_b / (A * t_p_b)], axis=-1),
+            np.stack([A * r_p_b / t_p_b, A / t_p_b], axis=-1),
+        ],
+        axis=-2,
+    )
+    M = np.stack([M_s_layer, M_p_layer], axis=-1)
 
     # Initial interface matrix (Byrnes Eq. 11)
     # Shape: (W, A, T, 2, 2)
-    M_s = zeros(
-        (wavelengths_count, angles_count, thickness_count, 2, 2),
-        dtype=DTYPE_COMPLEX_DEFAULT,  # pyright: ignore
-    )
     # Fresnel coefficients at incident → first layer interface
     t_s_01 = t_media_s[:, 0, :]  # (A, W)
     r_s_01 = r_media_s[:, 0, :]  # (A, W)
-    M_s[:, :, :, 0, 0] = (1 / t_s_01).T[:, :, None]  # (W, A, 1)
-    M_s[:, :, :, 0, 1] = (r_s_01 / t_s_01).T[:, :, None]
-    M_s[:, :, :, 1, 0] = (r_s_01 / t_s_01).T[:, :, None]
-    M_s[:, :, :, 1, 1] = (1 / t_s_01).T[:, :, None]
-
-    M_p = zeros(
-        (wavelengths_count, angles_count, thickness_count, 2, 2),
-        dtype=DTYPE_COMPLEX_DEFAULT,  # pyright: ignore
+    inv_t_s = (1 / t_s_01).T[:, :, None]  # (W, A, 1)
+    r_over_t_s = (r_s_01 / t_s_01).T[:, :, None]
+    M_s = np.stack(
+        [
+            np.stack([inv_t_s, r_over_t_s], axis=-1),
+            np.stack([r_over_t_s, inv_t_s], axis=-1),
+        ],
+        axis=-2,
     )
+
     t_p_01 = t_media_p[:, 0, :]  # (A, W)
     r_p_01 = r_media_p[:, 0, :]  # (A, W)
-    M_p[:, :, :, 0, 0] = (1 / t_p_01).T[:, :, None]
-    M_p[:, :, :, 0, 1] = (r_p_01 / t_p_01).T[:, :, None]
-    M_p[:, :, :, 1, 0] = (r_p_01 / t_p_01).T[:, :, None]
-    M_p[:, :, :, 1, 1] = (1 / t_p_01).T[:, :, None]
+    inv_t_p = (1 / t_p_01).T[:, :, None]
+    r_over_t_p = (r_p_01 / t_p_01).T[:, :, None]
+    M_p = np.stack(
+        [
+            np.stack([inv_t_p, r_over_t_p], axis=-1),
+            np.stack([r_over_t_p, inv_t_p], axis=-1),
+        ],
+        axis=-2,
+    )
 
     # Overall transfer matrix: M_tilde = I_01 @ M_1 @ M_2 @ ... (Byrnes Eq. 12)
     for i in range(layers_count):

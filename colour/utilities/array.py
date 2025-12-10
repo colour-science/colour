@@ -1369,7 +1369,7 @@ def to_domain_1(
     a = as_float_array(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == "100":
-        a /= as_float_array(scale_factor)
+        a = as_float_array(a / np.asarray(scale_factor), dtype)
 
     return a
 
@@ -1436,10 +1436,10 @@ def to_domain_10(
     a = as_float_array(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == "1":
-        a *= as_float_array(scale_factor)
+        a = as_float_array(a * np.asarray(scale_factor), dtype)
 
     if _DOMAIN_RANGE_SCALE == "100":
-        a /= as_float_array(scale_factor)
+        a = as_float_array(a / np.asarray(scale_factor), dtype)
 
     return a
 
@@ -1503,7 +1503,7 @@ def to_domain_100(
     a = as_float_array(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == "1":
-        a *= as_float_array(scale_factor)
+        a = as_float_array(a * np.asarray(scale_factor), dtype)
 
     return a
 
@@ -1568,10 +1568,10 @@ def to_domain_degrees(
     a = as_float_array(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == "1":
-        a *= as_float_array(scale_factor)
+        a = as_float_array(a * np.asarray(scale_factor), dtype)
 
     if _DOMAIN_RANGE_SCALE == "100":
-        a *= as_float_array(scale_factor) / 100
+        a = as_float_array(a * np.asarray(scale_factor) / 100, dtype)
 
     return a
 
@@ -1642,10 +1642,10 @@ def to_domain_int(
 
     maximum_code_value: NDArray[DTypeInt] = np.power(2, bit_depth) - 1
     if _DOMAIN_RANGE_SCALE == "1":
-        a *= maximum_code_value
+        a = as_float_array(a * maximum_code_value, dtype)
 
     if _DOMAIN_RANGE_SCALE == "100":
-        a *= maximum_code_value / 100
+        a = as_float_array(a * maximum_code_value / 100, dtype)
 
     return a
 
@@ -1713,7 +1713,7 @@ def from_range_1(
     a = as_float_array(a, dtype)
 
     if _DOMAIN_RANGE_SCALE == "100":
-        a *= as_float_array(scale_factor)
+        a = as_float_array(a * np.asarray(scale_factor), dtype)
 
     return a
 
@@ -1784,10 +1784,10 @@ def from_range_10(
     a = as_float_array(a, dtype)
 
     if _DOMAIN_RANGE_SCALE == "1":
-        a /= as_float_array(scale_factor)
+        a = as_float_array(a / np.asarray(scale_factor), dtype)
 
     if _DOMAIN_RANGE_SCALE == "100":
-        a *= as_float_array(scale_factor)
+        a = as_float_array(a * np.asarray(scale_factor), dtype)
 
     return a
 
@@ -1855,7 +1855,7 @@ def from_range_100(
     a = as_float_array(a, dtype)
 
     if _DOMAIN_RANGE_SCALE == "1":
-        a /= as_float_array(scale_factor)
+        a = as_float_array(a / np.asarray(scale_factor), dtype)
 
     return a
 
@@ -1925,10 +1925,10 @@ def from_range_degrees(
     a = as_float_array(a, dtype)
 
     if _DOMAIN_RANGE_SCALE == "1":
-        a /= as_float_array(scale_factor)
+        a = as_float_array(a / np.asarray(scale_factor), dtype)
 
     if _DOMAIN_RANGE_SCALE == "100":
-        a /= as_float_array(scale_factor) / 100
+        a = as_float_array(a / (np.asarray(scale_factor) / 100), dtype)
 
     return a
 
@@ -2005,10 +2005,10 @@ def from_range_int(
 
     maximum_code_value: NDArray[DTypeInt] = np.power(2, bit_depth) - 1
     if _DOMAIN_RANGE_SCALE == "1":
-        a /= maximum_code_value
+        a = as_float_array(a / maximum_code_value, dtype)
 
     if _DOMAIN_RANGE_SCALE == "100":
-        a /= maximum_code_value / 100
+        a = as_float_array(a / (maximum_code_value / 100), dtype)
 
     return a
 
@@ -2715,10 +2715,18 @@ def fill_nan(
 
     mask = np.isnan(a)
 
+    if not np.any(mask):
+        return a
+
     if method == "interpolation":
-        a[mask] = np.interp(np.flatnonzero(mask), np.flatnonzero(~mask), a[~mask])
+        # Interpolate at all indices, then use np.where to replace only NaN positions
+        a = np.where(
+            mask,
+            np.interp(np.arange(len(a)), np.flatnonzero(~mask), a[~mask]),
+            a,
+        )
     elif method == "constant":
-        a[mask] = default
+        a = np.where(mask, default, a)
 
     return a
 

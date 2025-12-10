@@ -56,7 +56,6 @@ from colour.utilities import (
     as_float_array,
     optional,
     validate_method,
-    zeros,
 )
 
 __author__ = "Colour Developers"
@@ -343,31 +342,36 @@ def logarithmic_function_camera(
 
     linear_offset = log_side_break - linear_slope * lin_side_break
 
-    y = zeros(x.shape)
     if style == "cameralintolog":
         m_x = x <= lin_side_break
-        y[m_x] = linear_slope * x[m_x] + linear_offset
-        y[~m_x] = logarithmic_function_quasilog(
-            x[~m_x],
-            "linToLog",
-            base,
-            log_side_slope,
-            lin_side_slope,
-            log_side_offset,
-            lin_side_offset,
-        )
-    else:  # style == 'cameralogtolin'
-        with sdiv_mode():
-            m_x = x <= log_side_break
-            y[m_x] = sdiv(x[m_x] - linear_offset, linear_slope)
-            y[~m_x] = logarithmic_function_quasilog(
-                x[~m_x],
-                "logToLin",
+        y = np.where(
+            m_x,
+            linear_slope * x + linear_offset,
+            logarithmic_function_quasilog(
+                x,
+                "linToLog",
                 base,
                 log_side_slope,
                 lin_side_slope,
                 log_side_offset,
                 lin_side_offset,
+            ),
+        )
+    else:  # style == 'cameralogtolin'
+        with sdiv_mode():
+            m_x = x <= log_side_break
+            y = np.where(
+                m_x,
+                sdiv(x - linear_offset, linear_slope),
+                logarithmic_function_quasilog(
+                    x,
+                    "logToLin",
+                    base,
+                    log_side_slope,
+                    lin_side_slope,
+                    log_side_offset,
+                    lin_side_offset,
+                ),
             )
 
     return as_float(y)

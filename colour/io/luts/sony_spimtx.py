@@ -126,7 +126,7 @@ def write_LUT_SonySPImtx(
     """
 
     matrix, offset = LUT.matrix, LUT.offset
-    offset *= 65535
+    offset = offset * 65535
 
     array = np.hstack(
         [

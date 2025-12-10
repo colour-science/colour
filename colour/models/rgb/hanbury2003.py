@@ -28,7 +28,7 @@ from colour.hints import (  # noqa: TC001
     NDArrayFloat,
     Range1,
 )
-from colour.utilities import from_range_1, to_domain_1, tsplit, tstack, zeros
+from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -104,8 +104,7 @@ def RGB_to_IHLS(RGB: Domain1) -> Range1:
     with sdiv_mode():
         C_1_C = sdiv(C_1, C)
 
-    arcos_C_1_C_2 = zeros(C_1_C.shape)
-    arcos_C_1_C_2[C_1_C != 0] = np.arccos(C_1_C[C_1_C != 0])
+    arcos_C_1_C_2 = np.where(C_1_C != 0, np.arccos(np.clip(C_1_C, -1, 1)), 0)
 
     H = np.where(C_2 <= 0, arcos_C_1_C_2, (np.pi * 2) - arcos_C_1_C_2)
 

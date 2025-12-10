@@ -746,9 +746,9 @@ def whitepoint_preserving_matrix(
     M = as_float_array(M)
     RGB_w = as_float_array(RGB_w)
 
-    M[..., -1] = RGB_w - np.sum(M[..., :-1], axis=-1)
+    tail = (RGB_w - np.sum(M[..., :-1], axis=-1))[..., None]
 
-    return M
+    return np.concatenate([M[..., :-1], tail], axis=-1)
 
 
 def optimisation_factory_rawtoaces_v1() -> Tuple[

@@ -465,9 +465,7 @@ def primitive_vertices_sphere(
     elif axis == "+x":
         vertices = np.roll(vertices, 1, -1)
 
-    vertices += origin
-
-    return vertices
+    return vertices + origin
 
 
 PRIMITIVE_VERTICES_METHODS: CanonicalMapping = CanonicalMapping(

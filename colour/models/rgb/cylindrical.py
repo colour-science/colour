@@ -136,9 +136,9 @@ def RGB_to_HSV(RGB: Domain1) -> Range1:
     H = delta_B - delta_G
     H = np.where(maximum == G, (1 / 3) + delta_R - delta_B, H)
     H = np.where(maximum == B, (2 / 3) + delta_G - delta_R, H)
-    H[np.asarray(H < 0)] += 1
-    H[np.asarray(H > 1)] -= 1
-    H[np.asarray(delta == 0)] = 0
+    H = np.where(H < 0, H + 1, H)
+    H = np.where(H > 1, H - 1, H)
+    H = np.where(delta == 0, 0, H)
 
     HSV = tstack([H, S, V])
 
@@ -187,7 +187,7 @@ def HSV_to_RGB(HSV: Domain1) -> Range1:
     H, S, V = tsplit(to_domain_1(HSV))
 
     h = as_float_array(H * 6)
-    h[np.asarray(h == 6)] = 0
+    h = np.where(h == 6, 0, h)
 
     i = np.floor(h)
     j = V * (1 - S)
@@ -275,9 +275,9 @@ def RGB_to_HSL(RGB: Domain1) -> Range1:
     H = delta_B - delta_G
     H = np.where(maximum == G, (1 / 3) + delta_R - delta_B, H)
     H = np.where(maximum == B, (2 / 3) + delta_G - delta_R, H)
-    H[np.asarray(H < 0)] += 1
-    H[np.asarray(H > 1)] -= 1
-    H[np.asarray(delta == 0)] = 0
+    H = np.where(H < 0, H + 1, H)
+    H = np.where(H > 1, H - 1, H)
+    H = np.where(delta == 0, 0, H)
 
     HSL = tstack([H, S, L])
 
@@ -330,8 +330,8 @@ def HSL_to_RGB(HSL: Domain1) -> Range1:
 
         vH = as_float_array(vH)
 
-        vH[np.asarray(vH < 0)] += 1
-        vH[np.asarray(vH > 1)] -= 1
+        vH = np.where(vH < 0, vH + 1, vH)
+        vH = np.where(vH > 1, vH - 1, vH)
 
         v = np.where(
             6 * vH < 1,

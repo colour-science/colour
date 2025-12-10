@@ -20,12 +20,14 @@ from __future__ import annotations
 
 import typing
 
+import numpy as np
+
 from colour.algebra import sdiv, sdiv_mode
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
-from colour.utilities import as_float, as_float_array, validate_method, zeros
+from colour.utilities import as_float, as_float_array, validate_method
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -166,24 +168,19 @@ def exponent_function_basic(
 
         return y ** (as_float_array(1) / exponent)
 
-    y = zeros(x.shape)
     m_x = x >= 0
     if style == "basicfwd":
-        y[m_x] = exponent_forward(x[m_x])
+        y = np.where(m_x, exponent_forward(x), 0)
     elif style == "basicrev":
-        y[m_x] = exponent_reverse(x[m_x])
+        y = np.where(m_x, exponent_reverse(x), 0)
     elif style == "basicmirrorfwd":
-        y[m_x] = exponent_forward(x[m_x])
-        y[~m_x] = -exponent_forward(-x[~m_x])
+        y = np.where(m_x, exponent_forward(x), -exponent_forward(-x))
     elif style == "basicmirrorrev":
-        y[m_x] = exponent_reverse(x[m_x])
-        y[~m_x] = -exponent_reverse(-x[~m_x])
+        y = np.where(m_x, exponent_reverse(x), -exponent_reverse(-x))
     elif style == "basicpassthrufwd":
-        y[m_x] = exponent_forward(x[m_x])
-        y[~m_x] = x[~m_x]
+        y = np.where(m_x, exponent_forward(x), x)
     else:  # style == 'basicpassthrurev'
-        y[m_x] = exponent_reverse(x[m_x])
-        y[~m_x] = x[~m_x]
+        y = np.where(m_x, exponent_reverse(x), x)
 
     return as_float(y)
 
@@ -302,9 +299,7 @@ def exponent_function_monitor_curve(
 
         y = as_float_array(x * s)
 
-        y[x >= x_break] = ((x[x >= x_break] + offset) / (1 + offset)) ** exponent
-
-        return y
+        return np.where(x >= x_break, ((x + offset) / (1 + offset)) ** exponent, y)
 
     def monitor_curve_reverse(
         y: NDArrayFloat, offset: NDArrayFloat, exponent: NDArrayFloat
@@ -318,21 +313,26 @@ def exponent_function_monitor_curve(
 
             x = as_float_array(y / s)
 
-        x[y >= y_break] = ((1 + offset) * (y[y >= y_break] ** (1 / exponent))) - offset
+        return np.where(
+            y >= y_break, ((1 + offset) * (y ** (1 / exponent))) - offset, x
+        )
 
-        return x
-
-    y = zeros(x.shape)
     m_x = x >= 0
     if style == "moncurvefwd":
         y = monitor_curve_forward(x, offset, exponent)
     elif style == "moncurverev":
         y = monitor_curve_reverse(x, offset, exponent)
     elif style == "moncurvemirrorfwd":
-        y[m_x] = monitor_curve_forward(x[m_x], offset, exponent)
-        y[~m_x] = -monitor_curve_forward(-x[~m_x], offset, exponent)
+        y = np.where(
+            m_x,
+            monitor_curve_forward(x, offset, exponent),
+            -monitor_curve_forward(-x, offset, exponent),
+        )
     else:  # style == 'moncurvemirrorrev'
-        y[m_x] = monitor_curve_reverse(x[m_x], offset, exponent)
-        y[~m_x] = -monitor_curve_reverse(-x[~m_x], offset, exponent)
+        y = np.where(
+            m_x,
+            monitor_curve_reverse(x, offset, exponent),
+            -monitor_curve_reverse(-x, offset, exponent),
+        )
 
     return as_float(y)

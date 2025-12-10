@@ -344,12 +344,11 @@ def XYZ_to_LMS_ATD95(XYZ: ArrayLike) -> NDArrayFloat:
         ],
         XYZ,
     )
-    LMS *= np.array([0.66, 1.0, 0.43])
+    LMS = LMS * np.array([0.66, 1.0, 0.43])
 
     LMS_p = spow(LMS, 0.7)
-    LMS_p += np.array([0.024, 0.036, 0.31])
 
-    return LMS_p
+    return LMS_p + np.array([0.024, 0.036, 0.31])
 
 
 def opponent_colour_dimensions(LMS_g: ArrayLike) -> NDArrayFloat:

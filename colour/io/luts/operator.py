@@ -291,8 +291,16 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
             f'"matrix" property: "{value}" shape is not (3, 3) or (4, 4)!',
         )
 
-        M = np.identity(4)
-        M[:shape_t, :shape_t] = value
+        if shape_t == 4:
+            M = value
+        else:
+            # Embed 3x3 matrix in 4x4 identity
+            M = np.vstack(
+                [
+                    np.hstack([value, np.zeros((3, 1))]),
+                    np.array([[0, 0, 0, 1]]),
+                ]
+            )
 
         self._matrix = M
 
@@ -330,10 +338,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
             f'"offset" property: "{value}" shape is not (3, ) or (4, )!',
         )
 
-        offset = zeros(4)
-        offset[:shape_t] = value
-
-        self._offset = offset
+        self._offset = value if shape_t == 4 else np.concatenate([value, zeros(1)])
 
     def __str__(self) -> str:
         """
@@ -526,11 +531,11 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
             offset = offset[:3]
 
         if apply_offset_first:
-            RGB += offset
+            RGB = RGB + offset
 
         RGB = vecmul(M, RGB)
 
         if not apply_offset_first:
-            RGB += offset
+            RGB = RGB + offset
 
         return RGB

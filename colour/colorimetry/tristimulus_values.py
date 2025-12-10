@@ -429,35 +429,50 @@ def tristimulus_weighting_factors_ASTME2022(
     i_c = W.shape[0]
     i_cm = i_c - 1
 
-    for i in range(3):
-        # First interval.
-        for h in range(r_c):
-            for g in range(3):
-                W[g, i] = W[g, i] + c_c[h, g] * S[h + 1] * Y[h + 1, i]
+    # Only apply Lagrange interpolation when interval > 1
+    if r_c > 0:
+        # First interval: W[:3, :] += sum over h of c_c[h, g] * S[h+1] * Y[h+1, :]
+        first_interval = np.sum(
+            c_c[:, :, None] * (S[1 : r_c + 1, None, None] * Y[1 : r_c + 1, None, :]),
+            axis=0,
+        )
+        W = np.concatenate([W[:3, :] + first_interval, W[3:, :]], axis=0)
 
-        # Last interval.
-        for h in range(r_c):
-            for g in range(i_cm, i_cm - 3, -1):
-                W[g, i] = (
-                    W[g, i]
-                    + c_c[r_c - h - 1, i_cm - g] * S[h + w_lif] * Y[h + w_lif, i]
-                )
+        # Last interval: W[i_cm-2:i_cm+1, :] += contributions with reversed c_c
+        last_interval = np.sum(
+            c_c[::-1, :, None]
+            * (S[w_lif : w_lif + r_c, None, None] * Y[w_lif : w_lif + r_c, None, :]),
+            axis=0,
+        )
+        W = np.concatenate(
+            [W[: i_cm - 2, :], W[i_cm - 2 : i_cm + 1, :] + last_interval[::-1, :]],
+            axis=0,
+        )
 
-        # Intermediate intervals.
+        # Intermediate intervals: accumulate c_b contributions
         for h in range(i_c - 3):
-            for g in range(r_c):
-                w_i = (r_c + 1) * (h + 1) + 1 + g
-                W[h, i] = W[h, i] + c_b[g, 0] * S[w_i] * Y[w_i, i]
-                W[h + 1, i] = W[h + 1, i] + c_b[g, 1] * S[w_i] * Y[w_i, i]
-                W[h + 2, i] = W[h + 2, i] + c_b[g, 2] * S[w_i] * Y[w_i, i]
-                W[h + 3, i] = W[h + 3, i] + c_b[g, 3] * S[w_i] * Y[w_i, i]
+            w_indices = (r_c + 1) * (h + 1) + 1 + np.arange(r_c)
+            contrib = np.sum(
+                c_b[:, :, None] * (S[w_indices, None, None] * Y[w_indices, None, :]),
+                axis=0,
+            )
+            W = np.concatenate(
+                [W[:h, :], W[h : h + 4, :] + contrib, W[h + 4 :, :]], axis=0
+            )
 
-        # Extrapolation of potential incomplete interval.
-        for h in range(as_int_scalar(w_c - ((w_c - 1) % interval_i)), w_c, 1):
-            W[i_cm, i] = W[i_cm, i] + S[h] * Y[h, i]
+        # Extrapolation of potential incomplete interval
+        extrap_start = as_int_scalar(w_c - ((w_c - 1) % interval_i))
+        if extrap_start < w_c:
+            extrap_contrib = np.sum(
+                S[extrap_start:w_c, None] * Y[extrap_start:w_c, :], axis=0
+            )
+            W = np.concatenate(
+                [W[:i_cm, :], W[i_cm : i_cm + 1, :] + extrap_contrib, W[i_cm + 1 :, :]],
+                axis=0,
+            )
 
     with sdiv_mode():
-        W *= optional(k, sdiv(100, np.sum(W, axis=0)[1]))
+        W = W * optional(k, sdiv(100, np.sum(W, axis=0)[1]))
 
     _CACHE_TRISTIMULUS_WEIGHTING_FACTORS[hash_key] = np.copy(W)
 
@@ -531,17 +546,27 @@ def adjust_tristimulus_weighting_factors_ASTME308(
            [  0.4171109...,   0.1618194...,   0.       ...]])
     """
 
-    W = as_float_array(W).copy()
+    W = as_float_array(W)
 
     start_index = int((shape_t.start - shape_r.start) / shape_r.interval)
-    for i in range(start_index):
-        W[start_index] += W[i]
-
     end_index = int((shape_r.end - shape_t.end) / shape_r.interval)
-    for i in range(end_index):
-        W[-end_index - 1] += W[-i - 1]
 
-    return W[start_index : -end_index or None, ...]
+    # Compute sums of trimmed portions
+    first_summation = np.sum(W[:start_index], axis=0) if start_index > 0 else 0
+    last_summation = np.sum(W[-end_index:], axis=0) if end_index > 0 else 0
+
+    # Get the result slice
+    end_slice = -end_index if end_index > 0 else None
+    W_slice = W[start_index:end_slice, ...]
+
+    # Build adjustment array using row index broadcasting
+    n = W_slice.shape[0]
+    row_indices = np.arange(n)
+    adjustment = (row_indices == 0)[:, None] * first_summation + (row_indices == n - 1)[
+        :, None
+    ] * last_summation
+
+    return W_slice + adjustment
 
 
 def sd_to_XYZ_integration(

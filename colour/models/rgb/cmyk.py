@@ -183,9 +183,10 @@ def CMY_to_CMYK(CMY: Domain1) -> Range1:
     M = as_float_array((M - K) / (1 - K))
     Y = as_float_array((Y - K) / (1 - K))
 
-    C[np.asarray(K == 1)] = 0
-    M[np.asarray(K == 1)] = 0
-    Y[np.asarray(K == 1)] = 0
+    K_1 = K == 1
+    C = np.where(K_1, 0, C)
+    M = np.where(K_1, 0, M)
+    Y = np.where(K_1, 0, Y)
 
     CMYK = tstack([C, M, Y, K])
 

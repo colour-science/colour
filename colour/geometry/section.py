@@ -274,7 +274,7 @@ def hull_section(
         origin = as_float_scalar(
             linear_conversion(origin, [0, 1], [np.min(vertices), np.max(vertices)])
         )
-        plane[plane != 0] = origin
+        plane = np.where(plane != 0, origin, plane)
 
     section = trimesh.intersections.mesh_plane(hull, normal, plane)
     if len(section) == 0:

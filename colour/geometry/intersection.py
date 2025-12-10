@@ -227,7 +227,7 @@ def intersect_line_segments(
 
     intersect = np.logical_and.reduce((u_a >= 0, u_a <= 1, u_b >= 0, u_b <= 1))
     xy = tstack([x_1 + x_2_x_1 * u_a, y_1 + y_2_y_1 * u_a])
-    xy[~intersect] = np.nan
+    xy = np.where(intersect[..., None], xy, np.nan)
     parallel = denominator == 0
     coincident = np.logical_and.reduce((numerator_a == 0, numerator_b == 0, parallel))
 

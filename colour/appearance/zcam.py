@@ -778,9 +778,9 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     H_i = HUE_DATA_FOR_HUE_QUADRATURE["H_i"]
 
     # :math:`h_p` = :math:`h_z` + 360 if :math:`h_z` < :math:`h_1, i.e., h_i[0]
-    h[h <= h_i[0]] += 360
+    h = np.where(h <= h_i[0], h + 360, h)
     # *np.searchsorted* returns an erroneous index if a *nan* is used as input.
-    h[np.asarray(np.isnan(h))] = 0
+    h = np.where(np.isnan(h), 0, h)
     i = as_int_array(np.searchsorted(h_i, h, side="left") - 1)
 
     h_ii = h_i[i]

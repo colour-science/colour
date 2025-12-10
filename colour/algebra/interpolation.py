@@ -360,7 +360,7 @@ def kernel_cardinal_spline(
         + 24 * a
         + 8 * b,
     )
-    y[x_abs >= 2] = 0
+    y = np.where(x_abs >= 2, 0, y)
 
     return 1 / 6 * y
 
@@ -1760,14 +1760,13 @@ class NullInterpolator:
 
         indexes = closest_indexes(self._x, x)
         values = self._y[indexes]
-        values[
-            ~np.isclose(
-                self._x[indexes],
-                x,
-                rtol=self._absolute_tolerance,
-                atol=self._relative_tolerance,
-            )
-        ] = self._default
+        close = np.isclose(
+            self._x[indexes],
+            x,
+            rtol=self._absolute_tolerance,
+            atol=self._relative_tolerance,
+        )
+        values = np.where(~close, self._default, values)
 
         return np.squeeze(values)
 
