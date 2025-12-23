@@ -1861,7 +1861,7 @@ Reflectance Recovery
 
 .. code-block:: text
 
-    ['Jakob 2019', 'Mallett 2019', 'Meng 2015', 'Otsu 2018', 'Smits 1999']
+    ['Gaussian', 'Jakob 2019', 'Mallett 2019', 'Meng 2015', 'Otsu 2018', 'Smits 1999']
 
 Camera RGB Sensitivities Recovery
 *********************************

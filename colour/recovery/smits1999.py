@@ -13,15 +13,15 @@ References
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from colour.colorimetry import CCS_ILLUMINANTS, SpectralDistribution
-from colour.hints import (  # noqa: TC001
-    Domain1,
-    NDArrayFloat,
-    Range1,
-)
 from colour.models import RGB_Colourspace, RGB_COLOURSPACE_sRGB, XYZ_to_RGB
 from colour.recovery import SDS_SMITS1999
-from colour.utilities import to_domain_1
+from colour.utilities import CanonicalMapping, to_domain_1
+
+if TYPE_CHECKING:
+    from colour.hints import Domain1, NDArrayFloat, Range1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -36,6 +36,7 @@ __all__ = [
     "CCS_WHITEPOINT_SMITS1999",
     "RGB_COLOURSPACE_SMITS1999",
     "XYZ_to_RGB_Smits1999",
+    "sd_from_RGB_Smits1999",
     "RGB_to_sd_Smits1999",
 ]
 
@@ -106,6 +107,91 @@ def XYZ_to_RGB_Smits1999(XYZ: Domain1) -> Range1:
     return XYZ_to_RGB(XYZ, RGB_COLOURSPACE_SMITS1999)
 
 
+def sd_from_RGB_Smits1999(
+    RGB: Domain1,
+    basis: dict | CanonicalMapping,
+    name: str | None = None,
+) -> SpectralDistribution:
+    """
+    Generate a spectral distribution from *RGB* values using the
+    *Smits (1999)* decomposition algorithm.
+
+    Parameters
+    ----------
+    RGB
+        *RGB* colourspace array to recover the spectral distribution from.
+    basis
+        Dictionary of basis spectral distributions with keys: white, cyan,
+        magenta, yellow, red, green, blue.
+    name
+        Name for the resulting spectral distribution.
+
+    Returns
+    -------
+    :class:`colour.SpectralDistribution`
+        Recovered spectral distribution.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`Smits1999a`
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from colour.recovery import SDS_SMITS1999
+    >>> sd = sd_from_RGB_Smits1999(np.array([0.4, 0.03, 0.04]), SDS_SMITS1999, "test")
+    >>> sd[380]  # doctest: +ELLIPSIS
+    0.0764...
+    """
+
+    sd_white = basis["white"].copy()
+    sd_cyan = basis["cyan"].copy()
+    sd_magenta = basis["magenta"].copy()
+    sd_yellow = basis["yellow"].copy()
+    sd_red = basis["red"].copy()
+    sd_green = basis["green"].copy()
+    sd_blue = basis["blue"].copy()
+
+    R, G, B = to_domain_1(RGB)
+    sd = sd_white.copy() * 0
+    sd.name = name
+
+    if R <= G and R <= B:
+        sd += sd_white * R
+        if G <= B:
+            sd += sd_cyan * (G - R)
+            sd += sd_blue * (B - G)
+        else:
+            sd += sd_cyan * (B - R)
+            sd += sd_green * (G - B)
+    elif G <= R and G <= B:
+        sd += sd_white * G
+        if R <= B:
+            sd += sd_magenta * (R - G)
+            sd += sd_blue * (B - R)
+        else:
+            sd += sd_magenta * (B - G)
+            sd += sd_red * (R - B)
+    else:
+        sd += sd_white * B
+        if R <= G:
+            sd += sd_yellow * (R - B)
+            sd += sd_green * (G - R)
+        else:
+            sd += sd_yellow * (G - B)
+            sd += sd_red * (R - G)
+
+    return sd
+
+
 def RGB_to_sd_Smits1999(RGB: Domain1) -> SpectralDistribution:
     """
     Recover the spectral distribution of the specified *RGB* colourspace array
@@ -168,41 +254,4 @@ def RGB_to_sd_Smits1999(RGB: Domain1) -> SpectralDistribution:
     array([ 0.1894770...,  0.1126470...,  0.0474420...])
     """
 
-    sd_white = SDS_SMITS1999["white"].copy()
-    sd_cyan = SDS_SMITS1999["cyan"].copy()
-    sd_magenta = SDS_SMITS1999["magenta"].copy()
-    sd_yellow = SDS_SMITS1999["yellow"].copy()
-    sd_red = SDS_SMITS1999["red"].copy()
-    sd_green = SDS_SMITS1999["green"].copy()
-    sd_blue = SDS_SMITS1999["blue"].copy()
-
-    R, G, B = to_domain_1(RGB)
-    sd = sd_white.copy() * 0
-    sd.name = f"Smits (1999) - {RGB!r}"
-
-    if R <= G and R <= B:
-        sd += sd_white * R
-        if G <= B:
-            sd += sd_cyan * (G - R)
-            sd += sd_blue * (B - G)
-        else:
-            sd += sd_cyan * (B - R)
-            sd += sd_green * (G - B)
-    elif G <= R and G <= B:
-        sd += sd_white * G
-        if R <= B:
-            sd += sd_magenta * (R - G)
-            sd += sd_blue * (B - R)
-        else:
-            sd += sd_magenta * (B - G)
-            sd += sd_red * (R - B)
-    else:
-        sd += sd_white * B
-        if R <= G:
-            sd += sd_yellow * (R - B)
-            sd += sd_green * (G - R)
-        else:
-            sd += sd_yellow * (G - B)
-            sd += sd_red * (R - G)
-
-    return sd
+    return sd_from_RGB_Smits1999(RGB, SDS_SMITS1999, f"Smits (1999) - {RGB!r}")

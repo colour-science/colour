@@ -6,8 +6,8 @@ import numpy as np
 
 from colour.colorimetry import sd_to_XYZ_integration
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.recovery import RGB_to_sd_Smits1999
-from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999
+from colour.recovery import SDS_SMITS1999, RGB_to_sd_Smits1999
+from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999, sd_from_RGB_Smits1999
 from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"
@@ -18,8 +18,79 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "TestSd_from_RGB_Smits1999",
     "TestRGB_to_sd_Smits1999",
 ]
+
+
+class TestSd_from_RGB_Smits1999:
+    """
+    Define :func:`colour.recovery.smits1999.sd_from_RGB_Smits1999`
+    definition unit tests methods.
+    """
+
+    def test_sd_from_RGB_Smits1999(self) -> None:
+        """
+        Test :func:`colour.recovery.smits1999.sd_from_RGB_Smits1999`
+        definition.
+        """
+
+        RGB = np.array([0.4, 0.03, 0.04])
+        sd = sd_from_RGB_Smits1999(RGB, SDS_SMITS1999, "test")
+
+        np.testing.assert_equal(sd.name, "test")
+        np.testing.assert_equal(sd.shape, SDS_SMITS1999["white"].shape)
+
+        np.testing.assert_allclose(
+            sd.values,
+            np.array(
+                [
+                    0.076432,
+                    0.05854,
+                    0.039682,
+                    0.032208,
+                    0.029976,
+                    0.030452,
+                    0.338069,
+                    0.405364,
+                    0.405364,
+                    0.405323,
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        RGB_white = np.array([1.0, 1.0, 1.0])
+        sd_white = sd_from_RGB_Smits1999(RGB_white, SDS_SMITS1999, "white")
+        np.testing.assert_allclose(
+            sd_white.values,
+            SDS_SMITS1999["white"].values,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        RGB_red = np.array([1.0, 0.0, 0.0])
+        sd_red = sd_from_RGB_Smits1999(RGB_red, SDS_SMITS1999, "red")
+        np.testing.assert_allclose(
+            sd_red.values,
+            SDS_SMITS1999["red"].values,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        RGB_green = np.array([0.0, 1.0, 0.0])
+        sd_green = sd_from_RGB_Smits1999(RGB_green, SDS_SMITS1999, "green")
+        np.testing.assert_allclose(
+            sd_green.values,
+            SDS_SMITS1999["green"].values,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        RGB_blue = np.array([0.0, 0.0, 1.0])
+        sd_blue = sd_from_RGB_Smits1999(RGB_blue, SDS_SMITS1999, "blue")
+        np.testing.assert_allclose(
+            sd_blue.values,
+            SDS_SMITS1999["blue"].values,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
 
 
 class TestRGB_to_sd_Smits1999:
