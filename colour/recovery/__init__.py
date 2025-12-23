@@ -35,6 +35,20 @@ from colour.utilities import (
 
 from . import datasets
 from .datasets import *  # noqa: F403
+from .gaussian import (
+    CCS_WHITEPOINT_GAUSSIAN,
+    FWHM_GAUSSIAN_BASIS,
+    PEAK_WAVELENGTHS_GAUSSIAN_BASIS,
+    PRIMARIES_GAUSSIAN,
+    RGB_COLOURSPACE_GAUSSIAN,
+    SDS_GAUSSIAN_BASIS,
+    WHITEPOINT_NAME_GAUSSIAN,
+    RGB_to_sd_Gaussian,
+    XYZ_to_RGB_Gaussian,
+    generate_gaussian_basis,
+    optimise_gaussian_basis_parameters,
+    sd_gaussian_clamped,
+)
 from .jakob2019 import (
     LUT3D_Jakob2019,
     XYZ_to_sd_Jakob2019,
@@ -56,7 +70,7 @@ from .otsu2018 import (
     Tree_Otsu2018,
     XYZ_to_sd_Otsu2018,
 )
-from .smits1999 import RGB_to_sd_Smits1999
+from .smits1999 import RGB_to_sd_Smits1999, sd_from_RGB_Smits1999
 
 __all__ = datasets.__all__
 __all__ += [
@@ -84,10 +98,26 @@ __all__ += [
 ]
 __all__ += [
     "RGB_to_sd_Smits1999",
+    "sd_from_RGB_Smits1999",
+]
+__all__ += [
+    "CCS_WHITEPOINT_GAUSSIAN",
+    "FWHM_GAUSSIAN_BASIS",
+    "PEAK_WAVELENGTHS_GAUSSIAN_BASIS",
+    "PRIMARIES_GAUSSIAN",
+    "RGB_COLOURSPACE_GAUSSIAN",
+    "RGB_to_sd_Gaussian",
+    "SDS_GAUSSIAN_BASIS",
+    "WHITEPOINT_NAME_GAUSSIAN",
+    "XYZ_to_RGB_Gaussian",
+    "generate_gaussian_basis",
+    "optimise_gaussian_basis_parameters",
+    "sd_gaussian_clamped",
 ]
 
 XYZ_TO_SD_METHODS: CanonicalMapping = CanonicalMapping(
     {
+        "Gaussian": RGB_to_sd_Gaussian,
         "Jakob 2019": XYZ_to_sd_Jakob2019,
         "Mallett 2019": RGB_to_sd_Mallett2019,
         "Meng 2015": XYZ_to_sd_Meng2015,
@@ -109,6 +139,7 @@ def XYZ_to_sd(
     XYZ: ArrayLike,
     method: (
         Literal[
+            "Gaussian",
             "Jakob 2019",
             "Mallett 2019",
             "Meng 2015",
@@ -180,9 +211,9 @@ def XYZ_to_sd(
     | ``XYZ``    | 1                     | 1             |
     +------------+-----------------------+---------------+
 
-    -   *Smits (1999)* method will internally convert specified *CIE XYZ*
-        tristimulus values to *sRGB* colourspace array assuming equal
-        energy illuminant *E*.
+    -   *Gaussian* and *Smits (1999)* methods will internally convert
+        specified *CIE XYZ* tristimulus values to *RGB* colourspace array
+        assuming *sRGB* primaries and equal energy illuminant *E*.
 
     References
     ----------
@@ -191,13 +222,74 @@ def XYZ_to_sd(
 
     Examples
     --------
-    *Jakob and Hanika (2019)* reflectance recovery:
+    *Gaussian* reflectance recovery:
 
     >>> import numpy as np
     >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS, SpectralShape
     >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> cmfs = (
+    ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    ...     .copy()
+    ...     .align(SpectralShape(360, 780, 10))
+    ... )
+    >>> illuminant = SDS_ILLUMINANTS["E"].copy().align(cmfs.shape)
+    >>> sd = XYZ_to_sd(XYZ, method="Gaussian").align(SpectralShape(360, 780, 10))
+    >>> with numpy_print_options(suppress=True):
+    ...     sd  # doctest: +ELLIPSIS
+    SpectralDistribution([[ 360.        ,    0.0450201...],
+                          [ 370.        ,    0.0450201...],
+                          [ 380.        ,    0.0450201...],
+                          [ 390.        ,    0.0450201...],
+                          [ 400.        ,    0.0450201...],
+                          [ 410.        ,    0.0450201...],
+                          [ 420.        ,    0.0450201...],
+                          [ 430.        ,    0.0450201...],
+                          [ 440.        ,    0.0450201...],
+                          [ 450.        ,    0.0449106...],
+                          [ 460.        ,    0.0440152...],
+                          [ 470.        ,    0.0423976...],
+                          [ 480.        ,    0.0403790...],
+                          [ 490.        ,    0.0383067...],
+                          [ 500.        ,    0.0364608...],
+                          [ 510.        ,    0.0350120...],
+                          [ 520.        ,    0.0340596...],
+                          [ 530.        ,    0.0338074...],
+                          [ 540.        ,    0.0350031...],
+                          [ 550.        ,    0.0397867...],
+                          [ 560.        ,    0.0527660...],
+                          [ 570.        ,    0.0811874...],
+                          [ 580.        ,    0.1321498...],
+                          [ 590.        ,    0.2059634...],
+                          [ 600.        ,    0.2892693...],
+                          [ 610.        ,    0.3557119...],
+                          [ 620.        ,    0.3786455...],
+                          [ 630.        ,    0.3786455...],
+                          [ 640.        ,    0.3786454...],
+                          [ 650.        ,    0.3786454...],
+                          [ 660.        ,    0.3786454...],
+                          [ 670.        ,    0.3786454...],
+                          [ 680.        ,    0.3786454...],
+                          [ 690.        ,    0.3786454...],
+                          [ 700.        ,    0.3786454...],
+                          [ 710.        ,    0.3786454...],
+                          [ 720.        ,    0.3786454...],
+                          [ 730.        ,    0.3786454...],
+                          [ 740.        ,    0.3786454...],
+                          [ 750.        ,    0.3786454...],
+                          [ 760.        ,    0.3786454...],
+                          [ 770.        ,    0.3786454...],
+                          [ 780.        ,    0.3786454...]],
+                         LinearInterpolator,
+                         {},
+                         Extrapolator,
+                         {'method': 'Constant', 'left': None, 'right': None})
+    >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
+    array([ 0.2038334...,  0.1254643...,  0.0434193...])
+
+    *Jakob and Hanika (2019)* reflectance recovery:
+
     >>> cmfs = (
     ...     MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     ...     .copy()
@@ -506,7 +598,9 @@ def XYZ_to_sd(
 
     function = XYZ_TO_SD_METHODS[method]
 
-    if function is RGB_to_sd_Smits1999:
+    if function is RGB_to_sd_Gaussian:
+        a = XYZ_to_RGB_Gaussian(XYZ)
+    elif function is RGB_to_sd_Smits1999:
         from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999  # noqa: PLC0415
 
         a = XYZ_to_RGB_Smits1999(XYZ)

@@ -113,8 +113,37 @@ Smits (1999)
 .. autosummary::
     :toctree: generated/
 
+    sd_from_RGB_Smits1999
     RGB_to_sd_Smits1999
     SDS_SMITS1999
+
+Gaussian Basis
+~~~~~~~~~~~~~~
+
+``colour.recovery``
+
+.. currentmodule:: colour.recovery
+
+.. autosummary::
+    :toctree: generated/
+
+    RGB_to_sd_Gaussian
+    SDS_GAUSSIAN_BASIS
+
+**Ancillary Objects**
+
+``colour.recovery``
+
+.. currentmodule:: colour.recovery
+
+.. autosummary::
+    :toctree: generated/
+
+    FWHM_GAUSSIAN_BASIS
+    PEAK_WAVELENGTHS_GAUSSIAN_BASIS
+    generate_gaussian_basis
+    optimise_gaussian_basis_parameters
+    sd_gaussian_clamped
 
 Camera RGB Sensitivities Recovery
 ---------------------------------
