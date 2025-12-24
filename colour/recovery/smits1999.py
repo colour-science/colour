@@ -15,13 +15,24 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from colour.colorimetry import CCS_ILLUMINANTS, SpectralDistribution
+import numpy as np
+
+from colour.colorimetry import (
+    CCS_ILLUMINANTS,
+    MultiSpectralDistributions,
+    SpectralDistribution,
+)
 from colour.models import RGB_Colourspace, RGB_COLOURSPACE_sRGB, XYZ_to_RGB
-from colour.recovery import SDS_SMITS1999
-from colour.utilities import CanonicalMapping, to_domain_1
+from colour.recovery import MSDS_SMITS1999
+from colour.utilities import (
+    as_float_array,
+    optional,
+    to_domain_1,
+    tsplit,
+)
 
 if TYPE_CHECKING:
-    from colour.hints import Domain1, NDArrayFloat, Range1
+    from colour.hints import ArrayLike, Domain1, NDArrayFloat, Range1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -36,7 +47,7 @@ __all__ = [
     "CCS_WHITEPOINT_SMITS1999",
     "RGB_COLOURSPACE_SMITS1999",
     "XYZ_to_RGB_Smits1999",
-    "sd_from_RGB_Smits1999",
+    "RGB_to_msds_Smits1999",
     "RGB_to_sd_Smits1999",
 ]
 
@@ -57,7 +68,7 @@ RGB_COLOURSPACE_SMITS1999 = RGB_Colourspace(
     CCS_WHITEPOINT_SMITS1999,
     WHITEPOINT_NAME_SMITS1999,
 )
-RGB_COLOURSPACE_sRGB.__doc__ = """
+RGB_COLOURSPACE_SMITS1999.__doc__ = """
 *Smits (1999)* colourspace.
 
 References
@@ -107,29 +118,29 @@ def XYZ_to_RGB_Smits1999(XYZ: Domain1) -> Range1:
     return XYZ_to_RGB(XYZ, RGB_COLOURSPACE_SMITS1999)
 
 
-def sd_from_RGB_Smits1999(
-    RGB: Domain1,
-    basis: dict | CanonicalMapping,
-    name: str | None = None,
-) -> SpectralDistribution:
+def RGB_to_msds_Smits1999(
+    RGB: ArrayLike,
+    basis: MultiSpectralDistributions | None = None,
+) -> NDArrayFloat:
     """
-    Generate a spectral distribution from *RGB* values using the
+    Recover spectral values from *RGB* colourspace array using the
     *Smits (1999)* decomposition algorithm.
+
+    This is a vectorised implementation supporting multi-dimensional arrays.
 
     Parameters
     ----------
     RGB
-        *RGB* colourspace array to recover the spectral distribution from.
+        *RGB* colourspace array to recover spectral values from. The last
+        dimension must be size 3.
     basis
-        Dictionary of basis spectral distributions with keys: white, cyan,
-        magenta, yellow, red, green, blue.
-    name
-        Name for the resulting spectral distribution.
+        Multi-spectral distributions basis with signals: white, cyan, magenta,
+        yellow, red, green, blue. Defaults to :attr:`MSDS_SMITS1999`.
 
     Returns
     -------
-    :class:`colour.SpectralDistribution`
-        Recovered spectral distribution.
+    :class:`numpy.ndarray`
+        Recovered spectral values with shape ``(*RGB.shape[:-1], wavelengths)``.
 
     Notes
     -----
@@ -146,61 +157,100 @@ def sd_from_RGB_Smits1999(
     Examples
     --------
     >>> import numpy as np
-    >>> from colour.recovery import SDS_SMITS1999
-    >>> sd = sd_from_RGB_Smits1999(np.array([0.4, 0.03, 0.04]), SDS_SMITS1999, "test")
-    >>> sd[380]  # doctest: +ELLIPSIS
-    0.0764...
+    >>> RGB = np.array(
+    ...     [
+    ...         [0.45623196, 0.03080455, 0.04093343],
+    ...         [0.05438271, 0.29877169, 0.07188444],
+    ...         [0.01863137, 0.05139773, 0.28887675],
+    ...     ]
+    ... )
+    >>> RGB_to_msds_Smits1999(RGB).shape
+    (3, 10)
+    >>> RGB_to_msds_Smits1999(RGB)[0, 0]  # doctest: +ELLIPSIS
+    0.0829...
     """
 
-    sd_white = basis["white"].copy()
-    sd_cyan = basis["cyan"].copy()
-    sd_magenta = basis["magenta"].copy()
-    sd_yellow = basis["yellow"].copy()
-    sd_red = basis["red"].copy()
-    sd_green = basis["green"].copy()
-    sd_blue = basis["blue"].copy()
+    basis = optional(basis, MSDS_SMITS1999)
 
-    R, G, B = to_domain_1(RGB)
-    sd = sd_white.copy() * 0
-    sd.name = name
+    RGB = to_domain_1(as_float_array(RGB))
+    shape = RGB.shape
+    RGB = np.atleast_2d(RGB.reshape(-1, 3))
 
-    if R <= G and R <= B:
-        sd += sd_white * R
-        if G <= B:
-            sd += sd_cyan * (G - R)
-            sd += sd_blue * (B - G)
-        else:
-            sd += sd_cyan * (B - R)
-            sd += sd_green * (G - B)
-    elif G <= R and G <= B:
-        sd += sd_white * G
-        if R <= B:
-            sd += sd_magenta * (R - G)
-            sd += sd_blue * (B - R)
-        else:
-            sd += sd_magenta * (B - G)
-            sd += sd_red * (R - B)
-    else:
-        sd += sd_white * B
-        if R <= G:
-            sd += sd_yellow * (R - B)
-            sd += sd_green * (G - R)
-        else:
-            sd += sd_yellow * (G - B)
-            sd += sd_red * (R - G)
+    R, G, B = tsplit(RGB)
 
-    return sd
+    labels = list(basis.labels)
+    white = basis.values[:, labels.index("white")]
+    cyan = basis.values[:, labels.index("cyan")]
+    magenta = basis.values[:, labels.index("magenta")]
+    yellow = basis.values[:, labels.index("yellow")]
+    red = basis.values[:, labels.index("red")]
+    green = basis.values[:, labels.index("green")]
+    blue = basis.values[:, labels.index("blue")]
+
+    R = R[..., np.newaxis]
+    G = G[..., np.newaxis]
+    B = B[..., np.newaxis]
+
+    # if R <= G and R <= B:
+    #     sd += white * R
+    #     if G <= B:
+    #         sd += cyan * (G - R) + blue * (B - G)
+    #     else:
+    #         sd += cyan * (B - R) + green * (G - B)
+    R_le_G_le_B = (R <= G) & (R <= B) & (G <= B)
+    R_le_B_lt_G = (R <= G) & (R <= B) & (G > B)
+
+    # elif G <= R and G <= B:
+    #     sd += white * G
+    #     if R <= B:
+    #         sd += magenta * (R - G) + blue * (B - R)
+    #     else:
+    #         sd += magenta * (B - G) + red * (R - B)
+    G_lt_R_le_B = (G < R) & (G <= B) & (R <= B)
+    G_le_B_lt_R = (G < R) & (G <= B) & (R > B)
+
+    # else:  # B < R and B < G
+    #     sd += white * B
+    #     if R <= G:
+    #         sd += yellow * (R - B) + green * (G - R)
+    #     else:
+    #         sd += yellow * (G - B) + red * (R - G)
+    B_lt_R_le_G = (B < R) & (B < G) & (R <= G)
+    B_lt_G_lt_R = (B < R) & (B < G) & (R > G)
+
+    spectra = np.select(
+        [R_le_G_le_B, R_le_B_lt_G, G_lt_R_le_B, G_le_B_lt_R, B_lt_R_le_G, B_lt_G_lt_R],
+        [
+            white * R + cyan * (G - R) + blue * (B - G),
+            white * R + cyan * (B - R) + green * (G - B),
+            white * G + magenta * (R - G) + blue * (B - R),
+            white * G + magenta * (B - G) + red * (R - B),
+            white * B + yellow * (R - B) + green * (G - R),
+            white * B + yellow * (G - B) + red * (R - G),
+        ],
+    )
+
+    return np.reshape(spectra, [*list(shape[:-1]), len(white)])
 
 
-def RGB_to_sd_Smits1999(RGB: Domain1) -> SpectralDistribution:
+def RGB_to_sd_Smits1999(
+    RGB: Domain1,
+    basis: MultiSpectralDistributions | None = None,
+    name: str | None = None,
+) -> SpectralDistribution:
     """
-    Recover the spectral distribution of the specified *RGB* colourspace array
-    using the *Smits (1999)* method.
+    Generate a spectral distribution from *RGB* values using the
+    *Smits (1999)* decomposition algorithm.
 
     Parameters
     ----------
     RGB
         *RGB* colourspace array to recover the spectral distribution from.
+    basis
+        Multi-spectral distributions basis with signals: white, cyan, magenta,
+        yellow, red, green, blue. Defaults to :attr:`MSDS_SMITS1999`.
+    name
+        Name for the resulting spectral distribution.
 
     Returns
     -------
@@ -254,4 +304,15 @@ def RGB_to_sd_Smits1999(RGB: Domain1) -> SpectralDistribution:
     array([ 0.1894770...,  0.1126470...,  0.0474420...])
     """
 
-    return sd_from_RGB_Smits1999(RGB, SDS_SMITS1999, f"Smits (1999) - {RGB!r}")
+    basis = optional(basis, MSDS_SMITS1999)
+    name = optional(name, f"Smits (1999) - {RGB!r}")
+
+    values = RGB_to_msds_Smits1999(RGB, basis)
+
+    return SpectralDistribution(
+        values,
+        basis.wavelengths,
+        name=name,
+        interpolator=basis.interpolator,
+        interpolator_kwargs=basis.interpolator_kwargs,
+    )

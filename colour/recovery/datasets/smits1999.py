@@ -14,7 +14,7 @@ References
 from __future__ import annotations
 
 from colour.algebra import LinearInterpolator
-from colour.colorimetry.spectrum import SpectralDistribution
+from colour.colorimetry import MultiSpectralDistributions, SpectralDistribution
 from colour.utilities import CanonicalMapping
 
 __author__ = "Colour Developers"
@@ -27,6 +27,7 @@ __status__ = "Production"
 __all__ = [
     "DATA_SMITS1999",
     "SDS_SMITS1999",
+    "MSDS_SMITS1999",
 ]
 
 DATA_SMITS1999: dict = {
@@ -118,13 +119,27 @@ DATA_SMITS1999: dict = {
 
 SDS_SMITS1999: CanonicalMapping = CanonicalMapping(
     {
-        "white": SpectralDistribution(DATA_SMITS1999["white"], name="white"),
-        "cyan": SpectralDistribution(DATA_SMITS1999["cyan"], name="cyan"),
-        "magenta": SpectralDistribution(DATA_SMITS1999["magenta"], name="magenta"),
-        "yellow": SpectralDistribution(DATA_SMITS1999["yellow"], name="yellow"),
-        "red": SpectralDistribution(DATA_SMITS1999["red"], name="red"),
-        "green": SpectralDistribution(DATA_SMITS1999["green"], name="green"),
-        "blue": SpectralDistribution(DATA_SMITS1999["blue"], name="blue"),
+        "white": SpectralDistribution(
+            DATA_SMITS1999["white"], name="white", interpolator=LinearInterpolator
+        ),
+        "cyan": SpectralDistribution(
+            DATA_SMITS1999["cyan"], name="cyan", interpolator=LinearInterpolator
+        ),
+        "magenta": SpectralDistribution(
+            DATA_SMITS1999["magenta"], name="magenta", interpolator=LinearInterpolator
+        ),
+        "yellow": SpectralDistribution(
+            DATA_SMITS1999["yellow"], name="yellow", interpolator=LinearInterpolator
+        ),
+        "red": SpectralDistribution(
+            DATA_SMITS1999["red"], name="red", interpolator=LinearInterpolator
+        ),
+        "green": SpectralDistribution(
+            DATA_SMITS1999["green"], name="green", interpolator=LinearInterpolator
+        ),
+        "blue": SpectralDistribution(
+            DATA_SMITS1999["blue"], name="blue", interpolator=LinearInterpolator
+        ),
     }
 )
 SDS_SMITS1999.__doc__ = """
@@ -135,7 +150,16 @@ References
 :cite:`Smits1999a`
 """
 
-# Using linear interpolation to preserve the shape of the basis spectral
-# distributions once combined and interpolated.
-for _sd in SDS_SMITS1999.values():
-    _sd.interpolator = LinearInterpolator
+MSDS_SMITS1999: MultiSpectralDistributions = MultiSpectralDistributions(
+    list(SDS_SMITS1999.values()),
+    labels=list(SDS_SMITS1999.keys()),
+    name="Smits (1999)",
+    interpolator=LinearInterpolator,
+)
+MSDS_SMITS1999.__doc__ = """
+*Smits (1999)* multi-spectral distributions.
+
+References
+----------
+:cite:`Smits1999a`
+"""

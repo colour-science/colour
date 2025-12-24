@@ -16,18 +16,19 @@ from colour.colorimetry import (
     MSDS_CMFS,
     SDS_ILLUMINANTS,
     SPECTRAL_SHAPE_DEFAULT,
+    MultiSpectralDistributions,
     SpectralDistribution,
     SpectralShape,
+    msds_to_XYZ_integration,
     sd_constant,
     sd_gaussian,
-    sd_to_XYZ_integration,
 )
 from colour.models import RGB_Colourspace, RGB_COLOURSPACE_sRGB, XYZ_to_RGB
-from colour.recovery.smits1999 import sd_from_RGB_Smits1999
-from colour.utilities import CanonicalMapping, optional, required
+from colour.recovery.smits1999 import RGB_to_msds_Smits1999, RGB_to_sd_Smits1999
+from colour.utilities import as_float, optional, required
 
 if TYPE_CHECKING:
-    from colour.hints import Domain1, NDArrayFloat, Range1
+    from colour.hints import ArrayLike, Domain1, DTypeFloat, NDArrayFloat, Range1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -45,9 +46,10 @@ __all__ = [
     "sd_gaussian_clamped",
     "optimise_gaussian_basis_parameters",
     "generate_gaussian_basis",
-    "SDS_GAUSSIAN_BASIS",
+    "MSDS_GAUSSIAN_BASIS",
     "PEAK_WAVELENGTHS_GAUSSIAN_BASIS",
     "FWHM_GAUSSIAN_BASIS",
+    "RGB_to_msds_Gaussian",
     "RGB_to_sd_Gaussian",
 ]
 
@@ -167,26 +169,29 @@ def sd_gaussian_clamped(
 @required("SciPy")
 def optimise_gaussian_basis_parameters(
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    initial_peaks: dict | None = None,
+    initial_peak_wavelengths: dict | None = None,
     initial_fwhm: dict | None = None,
+    optimisation_kwargs: dict | None = None,
 ) -> tuple[dict, dict]:
     """
     Optimise Gaussian basis parameters for colorimetric accuracy.
 
-    This function uses scipy's L-BFGS-B optimizer to find peak wavelengths
-    and FWHM values that minimize the colorimetric error between the basis
-    spectra XYZ values and the target RGB colourspace primaries.
+    This function finds the peak wavelengths and FWHM values that minimize the
+    colorimetric error between the basis spectra tristimulus values and the
+    target *RGB* colourspace primaries.
 
     Parameters
     ----------
     shape
         Spectral shape for the distributions.
-    initial_peaks
+    initial_peak_wavelengths
         Initial peak wavelengths for optimization. Default is
         ``{"red": 600, "green": 540, "blue": 460}``.
     initial_fwhm
         Initial FWHM values for optimization. Default is
         ``{"red": 65, "green": 65, "blue": 65}``.
+    optimisation_kwargs
+        Parameters for :func:`scipy.optimize.minimize` definition.
 
     Returns
     -------
@@ -196,13 +201,15 @@ def optimise_gaussian_basis_parameters(
     Examples
     --------
     >>> peaks, fwhm = optimise_gaussian_basis_parameters()
-    >>> print(f"Red: peak={peaks['red']:.1f}nm, FWHM={fwhm['red']:.1f}nm")
+    >>> print(f"Red: peak={peak_wavelengths['red']:.1f}nm, FWHM={fwhm['red']:.1f}nm")
     ... # doctest: +SKIP
     """
 
     from scipy.optimize import minimize  # noqa: PLC0415
 
-    initial_peaks = optional(initial_peaks, {"red": 600, "green": 540, "blue": 460})
+    initial_peak_wavelengths = optional(
+        initial_peak_wavelengths, {"red": 600, "green": 540, "blue": 460}
+    )
     initial_fwhm = optional(initial_fwhm, {"red": 70, "green": 70, "blue": 70})
 
     # CMFs and illuminant for XYZ integration
@@ -223,10 +230,10 @@ def optimise_gaussian_basis_parameters(
         ]
     )
 
-    def objective(params: NDArrayFloat) -> float:
+    def objective(parameters: NDArrayFloat) -> DTypeFloat:
         """Minimize round-trip XYZ error."""
 
-        R_peak, G_peak, B_peak, R_fwhm, G_fwhm, B_fwhm = params
+        R_peak, G_peak, B_peak, R_fwhm, G_fwhm, B_fwhm = parameters
 
         # Generate basis spectra
         sd_R = sd_gaussian_clamped(R_peak, R_fwhm, shape, clamp="right")
@@ -242,30 +249,29 @@ def optimise_gaussian_basis_parameters(
         sd_yellow.name = "yellow"
         sd_white = sd_constant(1, shape)
 
-        basis = {
-            "white": sd_white,
-            "cyan": sd_cyan,
-            "magenta": sd_magenta,
-            "yellow": sd_yellow,
-            "red": sd_R,
-            "green": sd_G,
-            "blue": sd_B,
-        }
+        basis = MultiSpectralDistributions(
+            [sd_white, sd_cyan, sd_magenta, sd_yellow, sd_R, sd_G, sd_B],
+            labels=["white", "cyan", "magenta", "yellow", "red", "green", "blue"],
+            name="Gaussian Basis (Optimisation)",
+        )
 
-        # Round-trip error
-        total_error = 0.0
-        for XYZ in test_XYZ:
-            RGB = XYZ_to_RGB(XYZ, RGB_COLOURSPACE_GAUSSIAN)
-            sd = sd_from_RGB_Smits1999(RGB, basis, "optimisation")
-            XYZ_recovered = sd_to_XYZ_integration(sd, cmfs, illuminant) / 100
-            total_error += np.sum((XYZ_recovered - XYZ) ** 2)
+        msds = MultiSpectralDistributions(
+            np.transpose(
+                RGB_to_msds_Smits1999(
+                    XYZ_to_RGB(test_XYZ, RGB_COLOURSPACE_GAUSSIAN), basis
+                )
+            ),
+            basis.wavelengths,
+            labels=[str(i) for i in range(len(test_XYZ))],
+        )
+        XYZ_recovered = msds_to_XYZ_integration(msds, cmfs, illuminant) / 100
 
-        return float(total_error)
+        return as_float(np.sum((XYZ_recovered - test_XYZ) ** 2))
 
     x0 = [
-        initial_peaks["red"],
-        initial_peaks["green"],
-        initial_peaks["blue"],
+        initial_peak_wavelengths["red"],
+        initial_peak_wavelengths["green"],
+        initial_peak_wavelengths["blue"],
         initial_fwhm["red"],
         initial_fwhm["green"],
         initial_fwhm["blue"],
@@ -280,7 +286,14 @@ def optimise_gaussian_basis_parameters(
         (20, 150),  # blue fwhm
     ]
 
-    result = minimize(objective, x0, bounds=bounds, method="L-BFGS-B")
+    optimisation_settings = {
+        "method": "L-BFGS-B",
+        "bounds": bounds,
+    }
+    if optimisation_kwargs is not None:
+        optimisation_settings.update(optimisation_kwargs)
+
+    result = minimize(objective, x0, **optimisation_settings)
     R_peak, G_peak, B_peak, R_fwhm, G_fwhm, B_fwhm = result.x
 
     peak_wavelengths = {
@@ -302,9 +315,9 @@ def generate_gaussian_basis(
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     peak_wavelengths: dict | None = None,
     fwhm: dict | None = None,
-) -> CanonicalMapping:
+) -> MultiSpectralDistributions:
     """
-    Generate a set of Gaussian basis spectral distributions.
+    Generate a set of Gaussian basis multi-spectral distributions.
 
     Parameters
     ----------
@@ -317,14 +330,14 @@ def generate_gaussian_basis(
 
     Returns
     -------
-    :class:`colour.utilities.CanonicalMapping`
-        Gaussian basis spectral distributions with keys: white, cyan, magenta,
-        yellow, red, green, blue.
+    :class:`colour.MultiSpectralDistributions`
+        Gaussian basis multi-spectral distributions with signals: white, cyan,
+        magenta, yellow, red, green, blue.
 
     Examples
     --------
     >>> basis = generate_gaussian_basis()
-    >>> sorted(basis.keys())
+    >>> sorted(basis.labels)
     ['blue', 'cyan', 'green', 'magenta', 'red', 'white', 'yellow']
     """
 
@@ -354,16 +367,12 @@ def generate_gaussian_basis(
     sd_white = sd_constant(1, shape)
     sd_white.name = "white"
 
-    return CanonicalMapping(
-        {
-            "white": sd_white,
-            "cyan": sd_cyan,
-            "magenta": sd_magenta,
-            "yellow": sd_yellow,
-            "red": sd_red,
-            "green": sd_green,
-            "blue": sd_blue,
-        }
+    sds = [sd_white, sd_cyan, sd_magenta, sd_yellow, sd_red, sd_green, sd_blue]
+
+    return MultiSpectralDistributions(
+        sds,
+        labels=[sd.name for sd in sds],
+        name="Gaussian Basis",
     )
 
 
@@ -391,9 +400,9 @@ These values are optimized for round-trip colorimetric accuracy using
 :func:`optimise_gaussian_basis_parameters`.
 """
 
-SDS_GAUSSIAN_BASIS: CanonicalMapping = generate_gaussian_basis()
-SDS_GAUSSIAN_BASIS.__doc__ = """
-Gaussian basis spectral distributions for spectral upsampling.
+MSDS_GAUSSIAN_BASIS: MultiSpectralDistributions = generate_gaussian_basis()
+MSDS_GAUSSIAN_BASIS.__doc__ = """
+Gaussian basis multi-spectral distributions for spectral upsampling.
 
 The basis spectra use clamped Gaussians with parameters optimized for round-trip
 colorimetric accuracy with *sRGB* primaries:
@@ -406,6 +415,49 @@ colorimetric accuracy with *sRGB* primaries:
 
 Parameters can be recomputed using :func:`optimise_gaussian_basis_parameters`.
 """
+
+
+def RGB_to_msds_Gaussian(RGB: ArrayLike) -> NDArrayFloat:
+    """
+    Recover spectral values from *RGB* colourspace array using *Gaussian*
+    basis spectra and the *Smits (1999)* decomposition algorithm.
+
+    Parameters
+    ----------
+    RGB
+        *RGB* colourspace array to recover spectral values from. The last
+        dimension must be size 3.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Recovered spectral values with shape ``(*RGB.shape[:-1], wavelengths)``.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> RGB = np.array(
+    ...     [
+    ...         [0.45623196, 0.03080455, 0.04093343],
+    ...         [0.05438271, 0.29877169, 0.07188444],
+    ...         [0.01863137, 0.05139773, 0.28887675],
+    ...     ]
+    ... )
+    >>> RGB_to_msds_Gaussian(RGB).shape
+    (3, 421)
+    >>> RGB_to_msds_Gaussian(RGB)[0, 300]  # doctest: +ELLIPSIS
+    0.4562...
+    """
+
+    return RGB_to_msds_Smits1999(RGB, MSDS_GAUSSIAN_BASIS)
 
 
 def RGB_to_sd_Gaussian(RGB: Domain1) -> SpectralDistribution:
@@ -449,4 +501,4 @@ def RGB_to_sd_Gaussian(RGB: Domain1) -> SpectralDistribution:
     array([ 0.2038334...,  0.1254643...,  0.0434193...])
     """
 
-    return sd_from_RGB_Smits1999(RGB, SDS_GAUSSIAN_BASIS, f"Gaussian - {RGB!r}")
+    return RGB_to_sd_Smits1999(RGB, MSDS_GAUSSIAN_BASIS, f"Gaussian - {RGB!r}")

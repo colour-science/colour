@@ -12,7 +12,7 @@ from .otsu2018 import (
     SELECTOR_ARRAY_OTSU2018,
     SPECTRAL_SHAPE_OTSU2018,
 )
-from .smits1999 import SDS_SMITS1999
+from .smits1999 import MSDS_SMITS1999, SDS_SMITS1999
 
 __all__ = [
     "BASIS_FUNCTIONS_DYER2017",
@@ -29,5 +29,6 @@ __all__ += [
     "SPECTRAL_SHAPE_OTSU2018",
 ]
 __all__ += [
+    "MSDS_SMITS1999",
     "SDS_SMITS1999",
 ]
