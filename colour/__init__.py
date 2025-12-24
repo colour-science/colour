@@ -454,7 +454,7 @@ from .quality import (
     colour_rendering_index,
     spectral_similarity_index,
 )
-from .recovery import XYZ_TO_SD_METHODS, XYZ_to_sd
+from .recovery import XYZ_TO_MSDS_METHODS, XYZ_TO_SD_METHODS, XYZ_to_msds, XYZ_to_sd
 from .temperature import (
     CCT_TO_UV_METHODS,
     CCT_TO_XY_METHODS,
@@ -878,7 +878,9 @@ __all__ += [
     "spectral_similarity_index",
 ]
 __all__ += [
+    "XYZ_TO_MSDS_METHODS",
     "XYZ_TO_SD_METHODS",
+    "XYZ_to_msds",
     "XYZ_to_sd",
 ]
 __all__ += [

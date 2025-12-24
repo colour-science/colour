@@ -24,7 +24,7 @@ import typing
 
 if typing.TYPE_CHECKING:
     from colour.colorimetry import SpectralDistribution
-    from colour.hints import Any, ArrayLike, Literal
+    from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
 
 from colour.utilities import (
     CanonicalMapping,
@@ -38,11 +38,12 @@ from .datasets import *  # noqa: F403
 from .gaussian import (
     CCS_WHITEPOINT_GAUSSIAN,
     FWHM_GAUSSIAN_BASIS,
+    MSDS_GAUSSIAN_BASIS,
     PEAK_WAVELENGTHS_GAUSSIAN_BASIS,
     PRIMARIES_GAUSSIAN,
     RGB_COLOURSPACE_GAUSSIAN,
-    SDS_GAUSSIAN_BASIS,
     WHITEPOINT_NAME_GAUSSIAN,
+    RGB_to_msds_Gaussian,
     RGB_to_sd_Gaussian,
     XYZ_to_RGB_Gaussian,
     generate_gaussian_basis,
@@ -70,7 +71,10 @@ from .otsu2018 import (
     Tree_Otsu2018,
     XYZ_to_sd_Otsu2018,
 )
-from .smits1999 import RGB_to_sd_Smits1999, sd_from_RGB_Smits1999
+from .smits1999 import (
+    RGB_to_msds_Smits1999,
+    RGB_to_sd_Smits1999,
+)
 
 __all__ = datasets.__all__
 __all__ += [
@@ -97,17 +101,18 @@ __all__ += [
     "XYZ_to_sd_Otsu2018",
 ]
 __all__ += [
+    "RGB_to_msds_Smits1999",
     "RGB_to_sd_Smits1999",
-    "sd_from_RGB_Smits1999",
 ]
 __all__ += [
     "CCS_WHITEPOINT_GAUSSIAN",
     "FWHM_GAUSSIAN_BASIS",
+    "MSDS_GAUSSIAN_BASIS",
     "PEAK_WAVELENGTHS_GAUSSIAN_BASIS",
     "PRIMARIES_GAUSSIAN",
     "RGB_COLOURSPACE_GAUSSIAN",
+    "RGB_to_msds_Gaussian",
     "RGB_to_sd_Gaussian",
-    "SDS_GAUSSIAN_BASIS",
     "WHITEPOINT_NAME_GAUSSIAN",
     "XYZ_to_RGB_Gaussian",
     "generate_gaussian_basis",
@@ -281,7 +286,7 @@ def XYZ_to_sd(
                           [ 760.        ,    0.3786454...],
                           [ 770.        ,    0.3786454...],
                           [ 780.        ,    0.3786454...]],
-                         LinearInterpolator,
+                         SpragueInterpolator,
                          {},
                          Extrapolator,
                          {'method': 'Constant', 'left': None, 'right': None})
@@ -615,4 +620,100 @@ def XYZ_to_sd(
 __all__ += [
     "XYZ_TO_SD_METHODS",
     "XYZ_to_sd",
+]
+
+XYZ_TO_MSDS_METHODS: CanonicalMapping = CanonicalMapping(
+    {
+        "Gaussian": RGB_to_msds_Gaussian,
+        "Smits 1999": RGB_to_msds_Smits1999,
+    }
+)
+XYZ_TO_MSDS_METHODS.__doc__ = """
+Supported multi-spectral distributions recovery methods.
+
+References
+----------
+:cite:`Smits1999a`
+"""
+
+
+def XYZ_to_msds(
+    XYZ: ArrayLike,
+    method: (Literal["Gaussian", "Smits 1999"] | str) = "Gaussian",
+) -> NDArrayFloat:
+    """
+    Recover spectral values from the specified *CIE XYZ* tristimulus values
+    using the specified method.
+
+    Parameters
+    ----------
+    XYZ
+        *CIE XYZ* tristimulus values to recover the spectral values from.
+        The last dimension must be size 3.
+    method
+        Computation method.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Recovered spectral values with shape ``(*XYZ.shape[:-1], wavelengths)``.
+
+    Notes
+    -----
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | 1                     | 1             |
+    +------------+-----------------------+---------------+
+
+    -   Both methods will internally convert specified *CIE XYZ* tristimulus
+        values to *RGB* colourspace array assuming *sRGB* primaries and equal
+        energy illuminant *E*.
+
+    References
+    ----------
+    :cite:`Smits1999a`
+
+    Examples
+    --------
+    *Gaussian* reflectance recovery:
+
+    >>> import numpy as np
+    >>> XYZ = np.array(
+    ...     [
+    ...         [0.20654008, 0.12197225, 0.05136952],
+    ...         [0.14223761, 0.23042375, 0.10498415],
+    ...         [0.07820260, 0.06157595, 0.28106183],
+    ...     ]
+    ... )
+    >>> XYZ_to_msds(XYZ, method="Gaussian").shape
+    (3, 421)
+    >>> XYZ_to_msds(XYZ, method="Gaussian")[0, 300]  # doctest: +ELLIPSIS
+    0.3786...
+
+    *Smits (1999)* reflectance recovery:
+
+    >>> XYZ_to_msds(XYZ, method="Smits 1999").shape
+    (3, 10)
+    >>> XYZ_to_msds(XYZ, method="Smits 1999")[0, 6]  # doctest: +ELLIPSIS
+    0.3207...
+    """
+
+    method = validate_method(method, tuple(XYZ_TO_MSDS_METHODS))
+
+    function = XYZ_TO_MSDS_METHODS[method]
+
+    if function is RGB_to_msds_Gaussian:
+        a = XYZ_to_RGB_Gaussian(XYZ)
+    else:  # RGB_to_msds_Smits1999
+        from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999  # noqa: PLC0415
+
+        a = XYZ_to_RGB_Smits1999(XYZ)
+
+    return function(a)
+
+
+__all__ += [
+    "XYZ_TO_MSDS_METHODS",
+    "XYZ_to_msds",
 ]

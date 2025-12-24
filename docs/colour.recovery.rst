@@ -16,6 +16,8 @@ CIE XYZ Colourspace to Spectral
 
     XYZ_to_sd
     XYZ_TO_SD_METHODS
+    XYZ_to_msds
+    XYZ_TO_MSDS_METHODS
 
 Jakob and Hanika (2019)
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -113,8 +115,9 @@ Smits (1999)
 .. autosummary::
     :toctree: generated/
 
-    sd_from_RGB_Smits1999
+    RGB_to_msds_Smits1999
     RGB_to_sd_Smits1999
+    MSDS_SMITS1999
     SDS_SMITS1999
 
 Gaussian Basis
@@ -127,8 +130,9 @@ Gaussian Basis
 .. autosummary::
     :toctree: generated/
 
+    RGB_to_msds_Gaussian
     RGB_to_sd_Gaussian
-    SDS_GAUSSIAN_BASIS
+    MSDS_GAUSSIAN_BASIS
 
 **Ancillary Objects**
 

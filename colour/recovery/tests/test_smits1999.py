@@ -6,8 +6,13 @@ import numpy as np
 
 from colour.colorimetry import sd_to_XYZ_integration
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.recovery import SDS_SMITS1999, RGB_to_sd_Smits1999
-from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999, sd_from_RGB_Smits1999
+from colour.recovery import (
+    MSDS_SMITS1999,
+    SDS_SMITS1999,
+    RGB_to_msds_Smits1999,
+    RGB_to_sd_Smits1999,
+)
+from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999
 from colour.utilities import domain_range_scale
 
 __author__ = "Colour Developers"
@@ -18,25 +23,128 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "TestMsds_from_RGB_Smits1999",
+    "TestRGB_to_msds_Smits1999",
     "TestSd_from_RGB_Smits1999",
     "TestRGB_to_sd_Smits1999",
 ]
 
 
-class TestSd_from_RGB_Smits1999:
+class TestMsds_from_RGB_Smits1999:
     """
-    Define :func:`colour.recovery.smits1999.sd_from_RGB_Smits1999`
+    Define :func:`colour.recovery.smits1999.RGB_to_msds_Smits1999`
     definition unit tests methods.
     """
 
-    def test_sd_from_RGB_Smits1999(self) -> None:
+    def test_RGB_to_msds_Smits1999(self) -> None:
         """
-        Test :func:`colour.recovery.smits1999.sd_from_RGB_Smits1999`
+        Test :func:`colour.recovery.smits1999.RGB_to_msds_Smits1999`
+        definition.
+        """
+
+        RGB = np.array(
+            [
+                [0.45623196, 0.03080455, 0.04093343],
+                [0.05438271, 0.29877169, 0.07188444],
+                [0.01863137, 0.05139773, 0.28887675],
+            ]
+        )
+
+        msds = RGB_to_msds_Smits1999(RGB, MSDS_SMITS1999)
+
+        assert msds.shape == (3, 10)
+
+        np.testing.assert_allclose(
+            msds,
+            np.array(
+                [
+                    [
+                        0.08296164,
+                        0.06232130,
+                        0.04061129,
+                        0.03304071,
+                        0.03077991,
+                        0.03126229,
+                        0.38501744,
+                        0.46241991,
+                        0.46241991,
+                        0.46237838,
+                    ],
+                    [
+                        0.07137689,
+                        0.07087984,
+                        0.07808527,
+                        0.25193903,
+                        0.29874044,
+                        0.28556823,
+                        0.09612190,
+                        0.05438271,
+                        0.05438271,
+                        0.05494993,
+                    ],
+                    [
+                        0.28792653,
+                        0.28699596,
+                        0.26315510,
+                        0.13032190,
+                        0.05140576,
+                        0.05141694,
+                        0.02382727,
+                        0.02739435,
+                        0.03010161,
+                        0.03041033,
+                    ],
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+
+class TestRGB_to_msds_Smits1999:
+    """
+    Define :func:`colour.recovery.smits1999.RGB_to_msds_Smits1999`
+    definition unit tests methods.
+    """
+
+    def test_RGB_to_msds_Smits1999(self) -> None:
+        """
+        Test :func:`colour.recovery.smits1999.RGB_to_msds_Smits1999`
+        definition.
+        """
+
+        RGB = np.array(
+            [
+                [0.45623196, 0.03080455, 0.04093343],
+                [0.05438271, 0.29877169, 0.07188444],
+                [0.01863137, 0.05139773, 0.28887675],
+            ]
+        )
+
+        msds = RGB_to_msds_Smits1999(RGB)
+
+        assert msds.shape == (3, 10)
+
+        np.testing.assert_allclose(
+            msds[0, 0],
+            0.08296164,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+
+class TestSd_from_RGB_Smits1999:
+    """
+    Define :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
+    definition unit tests methods.
+    """
+
+    def test_RGB_to_sd_Smits1999(self) -> None:
+        """
+        Test :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
         definition.
         """
 
         RGB = np.array([0.4, 0.03, 0.04])
-        sd = sd_from_RGB_Smits1999(RGB, SDS_SMITS1999, "test")
+        sd = RGB_to_sd_Smits1999(RGB, MSDS_SMITS1999, "test")
 
         np.testing.assert_equal(sd.name, "test")
         np.testing.assert_equal(sd.shape, SDS_SMITS1999["white"].shape)
@@ -61,7 +169,7 @@ class TestSd_from_RGB_Smits1999:
         )
 
         RGB_white = np.array([1.0, 1.0, 1.0])
-        sd_white = sd_from_RGB_Smits1999(RGB_white, SDS_SMITS1999, "white")
+        sd_white = RGB_to_sd_Smits1999(RGB_white, MSDS_SMITS1999, "white")
         np.testing.assert_allclose(
             sd_white.values,
             SDS_SMITS1999["white"].values,
@@ -69,7 +177,7 @@ class TestSd_from_RGB_Smits1999:
         )
 
         RGB_red = np.array([1.0, 0.0, 0.0])
-        sd_red = sd_from_RGB_Smits1999(RGB_red, SDS_SMITS1999, "red")
+        sd_red = RGB_to_sd_Smits1999(RGB_red, MSDS_SMITS1999, "red")
         np.testing.assert_allclose(
             sd_red.values,
             SDS_SMITS1999["red"].values,
@@ -77,7 +185,7 @@ class TestSd_from_RGB_Smits1999:
         )
 
         RGB_green = np.array([0.0, 1.0, 0.0])
-        sd_green = sd_from_RGB_Smits1999(RGB_green, SDS_SMITS1999, "green")
+        sd_green = RGB_to_sd_Smits1999(RGB_green, MSDS_SMITS1999, "green")
         np.testing.assert_allclose(
             sd_green.values,
             SDS_SMITS1999["green"].values,
@@ -85,7 +193,7 @@ class TestSd_from_RGB_Smits1999:
         )
 
         RGB_blue = np.array([0.0, 0.0, 1.0])
-        sd_blue = sd_from_RGB_Smits1999(RGB_blue, SDS_SMITS1999, "blue")
+        sd_blue = RGB_to_sd_Smits1999(RGB_blue, MSDS_SMITS1999, "blue")
         np.testing.assert_allclose(
             sd_blue.values,
             SDS_SMITS1999["blue"].values,

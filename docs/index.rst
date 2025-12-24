@@ -1598,6 +1598,32 @@ Reflectance Recovery
 
     ['Gaussian', 'Jakob 2019', 'Mallett 2019', 'Meng 2015', 'Otsu 2018', 'Smits 1999']
 
+.. code-block:: python
+
+    import colour
+
+    colour.XYZ_to_msds(
+        [
+            [0.20654008, 0.12197225, 0.05136952],
+            [0.14223761, 0.23042375, 0.10498415],
+            [0.07820260, 0.06157595, 0.28106183],
+        ]
+    ).shape
+
+.. code-block:: text
+
+    (3, 421)
+
+.. code-block:: python
+
+    import colour
+
+    sorted(colour.XYZ_TO_MSDS_METHODS)
+
+.. code-block:: text
+
+    ['Gaussian', 'Smits 1999']
+
 Camera RGB Sensitivities Recovery
 *********************************
 
