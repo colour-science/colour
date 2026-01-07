@@ -311,10 +311,13 @@ def optimise_gaussian_basis_parameters(
     return peak_wavelengths, fwhm
 
 
+@required("SciPy")
 def generate_gaussian_basis(
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     peak_wavelengths: dict | None = None,
     fwhm: dict | None = None,
+    clip_cmy_basis: bool = True,
+    clip_smoothing: float = 2,
 ) -> MultiSpectralDistributions:
     """
     Generate a set of Gaussian basis multi-spectral distributions.
@@ -327,6 +330,14 @@ def generate_gaussian_basis(
         Dictionary with peak wavelengths for red, green, and blue.
     fwhm
         Dictionary with FWHM values for red, green, and blue.
+    clip_cmy_basis
+        Whether to clip secondary colours (cyan, magenta, yellow) to prevent
+        values exceeding 1. Uses hard clipping followed by Gaussian smoothing
+        to preserve smooth spectral shapes.
+    clip_smoothing
+        Gaussian blur sigma for smoothing derivative discontinuities after
+        clipping. Higher values create smoother transitions. Only used when
+        ``clip_cmy_basis`` is *True*.
 
     Returns
     -------
@@ -339,6 +350,11 @@ def generate_gaussian_basis(
     >>> basis = generate_gaussian_basis()
     >>> sorted(basis.labels)
     ['blue', 'cyan', 'green', 'magenta', 'red', 'white', 'yellow']
+    >>> basis.signals["yellow"].values.max()  # doctest: +ELLIPSIS
+    1.0...
+    >>> basis_unclipped = generate_gaussian_basis(clip_cmy_basis=False)
+    >>> basis_unclipped.signals["yellow"].values.max()  # doctest: +ELLIPSIS
+    1.1422...
     """
 
     peak_wavelengths = optional(peak_wavelengths, PEAK_WAVELENGTHS_GAUSSIAN_BASIS)
@@ -362,6 +378,14 @@ def generate_gaussian_basis(
     sd_magenta.name = "magenta"
     sd_yellow = sd_red + sd_green
     sd_yellow.name = "yellow"
+
+    if clip_cmy_basis:
+        from scipy.ndimage import gaussian_filter1d  # noqa: PLC0415
+
+        # Hard clip at 1, then Gaussian blur to smooth derivative discontinuities
+        for sd in [sd_cyan, sd_magenta, sd_yellow]:
+            clipped = np.minimum(sd.values, 1)
+            sd.values = gaussian_filter1d(clipped, sigma=clip_smoothing)
 
     # White as constant
     sd_white = sd_constant(1, shape)
@@ -498,7 +522,7 @@ def RGB_to_sd_Gaussian(RGB: Domain1) -> SpectralDistribution:
     >>> illuminant = SDS_ILLUMINANTS["E"].copy().align(cmfs.shape)
     >>> sd = RGB_to_sd_Gaussian(RGB)
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
-    array([ 0.2038334...,  0.1254643...,  0.0434193...])
+    array([ 0.2038320...,  0.1254691...,  0.0434135...])
     """
 
     return RGB_to_sd_Smits1999(RGB, MSDS_GAUSSIAN_BASIS, f"Gaussian - {RGB!r}")
