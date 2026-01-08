@@ -12,6 +12,7 @@ from colour.colorimetry.generation import (
     sd_gaussian,
     sd_gaussian_fwhm,
     sd_gaussian_normal,
+    sd_gaussian_super_clamped,
     sd_multi_leds,
     sd_multi_leds_Ohno2005,
     sd_ones,
@@ -37,6 +38,7 @@ __all__ = [
     "TestMsdsOnes",
     "TestSdGaussianNormal",
     "TestSdGaussianFwhm",
+    "TestSdGaussianSuperClamped",
     "TestSdGaussian",
     "TestSdSingleLedOhno2005",
     "TestSdSingleLed",
@@ -220,6 +222,40 @@ class TestSdGaussianFwhm:
         np.testing.assert_allclose(sd[555 - 25 / 2], 0.5, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
+class TestSdGaussianSuperClamped:
+    """
+    Define :func:`colour.colorimetry.generation.sd_gaussian_super_clamped`
+    definition unit tests methods.
+    """
+
+    def test_sd_gaussian_super_clamped(self) -> None:
+        """
+        Test :func:`colour.colorimetry.generation.sd_gaussian_super_clamped`
+        definition.
+        """
+
+        # Test without clamping (symmetric)
+        sd = sd_gaussian_super_clamped(555, 25, clamp="none")
+        np.testing.assert_allclose(sd[555], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        # Test right clamping
+        sd = sd_gaussian_super_clamped(600, 50, clamp="right")
+        np.testing.assert_allclose(sd[600], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        np.testing.assert_allclose(sd[700], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert sd[500] < 1
+
+        # Test left clamping
+        sd = sd_gaussian_super_clamped(450, 40, clamp="left")
+        np.testing.assert_allclose(sd[450], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        np.testing.assert_allclose(sd[400], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert sd[500] < 1
+
+        # Test super-Gaussian exponent (flatter peak)
+        sd = sd_gaussian_super_clamped(555, 25, exponent=4.0)
+        np.testing.assert_allclose(sd[555], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        # With higher exponent, the falloff is steeper but the peak is flatter
+
+
 class TestSdGaussian:
     """
     Define :func:`colour.colorimetry.generation.sd_gaussian` definition unit
@@ -237,6 +273,10 @@ class TestSdGaussian:
 
         sd = sd_gaussian(555, 25, method="FWHM")
         np.testing.assert_allclose(sd[530], 0.0625, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        sd = sd_gaussian(600, 50, method="Super-Gaussian Clamped", clamp="right")
+        np.testing.assert_allclose(sd[600], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        np.testing.assert_allclose(sd[700], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestSdSingleLedOhno2005:
