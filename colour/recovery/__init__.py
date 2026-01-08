@@ -37,6 +37,7 @@ from . import datasets
 from .datasets import *  # noqa: F403
 from .gaussian import (
     CCS_WHITEPOINT_GAUSSIAN,
+    EXPONENT_GAUSSIAN_BASIS,
     FWHM_GAUSSIAN_BASIS,
     MSDS_GAUSSIAN_BASIS,
     PEAK_WAVELENGTHS_GAUSSIAN_BASIS,
@@ -48,7 +49,6 @@ from .gaussian import (
     XYZ_to_RGB_Gaussian,
     generate_gaussian_basis,
     optimise_gaussian_basis_parameters,
-    sd_gaussian_clamped,
 )
 from .jakob2019 import (
     LUT3D_Jakob2019,
@@ -106,6 +106,7 @@ __all__ += [
 ]
 __all__ += [
     "CCS_WHITEPOINT_GAUSSIAN",
+    "EXPONENT_GAUSSIAN_BASIS",
     "FWHM_GAUSSIAN_BASIS",
     "MSDS_GAUSSIAN_BASIS",
     "PEAK_WAVELENGTHS_GAUSSIAN_BASIS",
@@ -117,7 +118,6 @@ __all__ += [
     "XYZ_to_RGB_Gaussian",
     "generate_gaussian_basis",
     "optimise_gaussian_basis_parameters",
-    "sd_gaussian_clamped",
 ]
 
 XYZ_TO_SD_METHODS: CanonicalMapping = CanonicalMapping(
@@ -243,45 +243,45 @@ def XYZ_to_sd(
     >>> sd = XYZ_to_sd(XYZ, method="Gaussian").align(SpectralShape(360, 780, 10))
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    SpectralDistribution([[ 360.        ,    0.04502007],
-                          [ 370.        ,    0.04501982],
-                          [ 380.        ,    0.04501904],
-                          [ 390.        ,    0.04501674],
-                          [ 400.        ,    0.04501044],
-                          [ 410.        ,    0.04499446],
-                          [ 420.        ,    0.04495688],
-                          [ 430.        ,    0.04487501],
-                          [ 440.        ,    0.04470998],
-                          [ 450.        ,    0.04440261],
-                          [ 460.        ,    0.04387468],
-                          [ 470.        ,    0.04304062],
-                          [ 480.        ,    0.04183304],
-                          [ 490.        ,    0.04023947],
-                          [ 500.        ,    0.03833948],
-                          [ 510.        ,    0.03632532],
-                          [ 520.        ,    0.03449895],
-                          [ 530.        ,    0.03328757],
-                          [ 540.        ,    0.03344854],
-                          [ 550.        ,    0.03681723],
-                          [ 560.        ,    0.04782283],
-                          [ 570.        ,    0.07473123],
-                          [ 580.        ,    0.12724675],
-                          [ 590.        ,    0.20735718],
-                          [ 600.        ,    0.29799751],
-                          [ 610.        ,    0.36379568],
-                          [ 620.        ,    0.37716167],
-                          [ 630.        ,    0.37781923],
-                          [ 640.        ,    0.37821682],
-                          [ 650.        ,    0.37843829],
-                          [ 660.        ,    0.37855218],
-                          [ 670.        ,    0.37860633],
-                          [ 680.        ,    0.37863017],
-                          [ 690.        ,    0.3786399 ],
-                          [ 700.        ,    0.37864358],
-                          [ 710.        ,    0.37864488],
-                          [ 720.        ,    0.3786453 ],
-                          [ 730.        ,    0.37864543],
-                          [ 740.        ,    0.37864546],
+    SpectralDistribution([[ 360.        ,    0.04502017],
+                          [ 370.        ,    0.04502017],
+                          [ 380.        ,    0.04502017],
+                          [ 390.        ,    0.04502017],
+                          [ 400.        ,    0.04502017],
+                          [ 410.        ,    0.04502017],
+                          [ 420.        ,    0.04502017],
+                          [ 430.        ,    0.04502015],
+                          [ 440.        ,    0.04501943],
+                          [ 450.        ,    0.04500378],
+                          [ 460.        ,    0.04485416],
+                          [ 470.        ,    0.04414019],
+                          [ 480.        ,    0.04225346],
+                          [ 490.        ,    0.03923158],
+                          [ 500.        ,    0.03607704],
+                          [ 510.        ,    0.03383282],
+                          [ 520.        ,    0.03275723],
+                          [ 530.        ,    0.03246214],
+                          [ 540.        ,    0.03244087],
+                          [ 550.        ,    0.03248904],
+                          [ 560.        ,    0.03291355],
+                          [ 570.        ,    0.03423511],
+                          [ 580.        ,    0.03674078],
+                          [ 590.        ,    0.23102363],
+                          [ 600.        ,    0.37618614],
+                          [ 610.        ,    0.37801185],
+                          [ 620.        ,    0.37854111],
+                          [ 630.        ,    0.37863674],
+                          [ 640.        ,    0.37864515],
+                          [ 650.        ,    0.37864547],
+                          [ 660.        ,    0.37864547],
+                          [ 670.        ,    0.37864547],
+                          [ 680.        ,    0.37864547],
+                          [ 690.        ,    0.37864547],
+                          [ 700.        ,    0.37864547],
+                          [ 710.        ,    0.37864547],
+                          [ 720.        ,    0.37864547],
+                          [ 730.        ,    0.37864547],
+                          [ 740.        ,    0.37864547],
                           [ 750.        ,    0.37864547],
                           [ 760.        ,    0.37864547],
                           [ 770.        ,    0.37864547],
@@ -291,7 +291,7 @@ def XYZ_to_sd(
                          Extrapolator,
                          {'method': 'Constant', 'left': None, 'right': None})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
-    array([ 0.2040735...,  0.1246902...,  0.0435716...])
+    array([ 0.2040109...,  0.1185102...,  0.0438842...])
 
     *Jakob and Hanika (2019)* reflectance recovery:
 
@@ -689,7 +689,7 @@ def XYZ_to_msds(
     >>> XYZ_to_msds(XYZ, method="Gaussian").shape
     (3, 421)
     >>> XYZ_to_msds(XYZ, method="Gaussian")[0, 300]  # doctest: +ELLIPSIS
-    0.3785...
+    0.3786...
 
     *Smits (1999)* reflectance recovery:
 

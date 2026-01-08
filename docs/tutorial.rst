@@ -419,6 +419,7 @@ the objects needed for spectral computations and many others:
      'sd_gaussian',
      'sd_gaussian_normal',
      'sd_gaussian_fwhm',
+     'sd_gaussian_super_clamped',
      'SD_SINGLE_LED_METHODS',
      'sd_single_led',
      'sd_single_led_Ohno2005',

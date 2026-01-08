@@ -76,6 +76,7 @@ Spectral Data Generation
     rayleigh_jeans_law
     sd_gaussian_fwhm
     sd_gaussian_normal
+    sd_gaussian_super_clamped
     sd_multi_leds_Ohno2005
     sd_single_led_Ohno2005
 

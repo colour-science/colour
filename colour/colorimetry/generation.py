@@ -13,6 +13,7 @@ distributions with the specified characteristics.
 -   :func:`colour.msds_ones`
 -   :func:`colour.colorimetry.sd_gaussian_normal`
 -   :func:`colour.colorimetry.sd_gaussian_fwhm`
+-   :func:`colour.colorimetry.sd_gaussian_super_clamped`
 -   :attr:`colour.SD_GAUSSIAN_METHODS`
 -   :func:`colour.sd_gaussian`
 -   :func:`colour.colorimetry.sd_single_led_Ohno2005`
@@ -80,6 +81,7 @@ __all__ = [
     "msds_ones",
     "sd_gaussian_normal",
     "sd_gaussian_fwhm",
+    "sd_gaussian_super_clamped",
     "SD_GAUSSIAN_METHODS",
     "sd_gaussian",
     "sd_single_led_Ohno2005",
@@ -489,8 +491,94 @@ def sd_gaussian_fwhm(
     return SpectralDistribution(values, shape.wavelengths, **settings)
 
 
+def sd_gaussian_super_clamped(
+    peak_wavelength: float,
+    fwhm: float,
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+    clamp: Literal["none", "left", "right"] | str = "none",
+    exponent: float = 2.0,
+    **kwargs: Any,
+) -> SpectralDistribution:
+    """
+    Generate a super-Gaussian spectral distribution, optionally clamped flat on
+    one side of the peak, with the peak normalized to 1.
+
+    A super-Gaussian (exponent > 2) has a flatter peak than a regular Gaussian,
+    which can better model real-world reflectance spectra.
+
+    Parameters
+    ----------
+    peak_wavelength
+        Peak wavelength of the Gaussian.
+    fwhm
+        Full width at half maximum.
+    shape
+        Spectral shape for the distribution.
+    clamp
+        Clamping mode: ``"none"`` for symmetric Gaussian, ``"left"`` for flat
+        from start to peak, ``"right"`` for flat from peak to end.
+    exponent
+        Exponent for the Gaussian function. Default 2.0 gives a standard
+        Gaussian. Values > 2 give a flatter peak (super-Gaussian).
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:class:`colour.SpectralDistribution`},
+        See the documentation of the previously listed class.
+
+    Returns
+    -------
+    :class:`colour.SpectralDistribution`
+        Clamped super-Gaussian spectral distribution with peak normalized to 1.
+
+    Notes
+    -----
+    -   By default, the spectral distribution will use the shape specified
+        by :attr:`colour.SPECTRAL_SHAPE_DEFAULT` attribute.
+
+    Examples
+    --------
+    >>> sd = sd_gaussian_super_clamped(600, 50, clamp="right")
+    >>> sd.shape
+    SpectralShape(360.0, 780.0, 1.0)
+    >>> round(sd[600], 5)
+    1.0
+    >>> round(sd[700], 5)
+    1.0
+    >>> sd = sd_gaussian_super_clamped(450, 40, clamp="left", exponent=4.0)
+    >>> round(sd[450], 5)
+    1.0
+    >>> round(sd[350], 5)  # doctest: +SKIP
+    1.0
+    """
+
+    settings = {"name": f"{peak_wavelength}nm - {fwhm} FWHM - Super-Gaussian Clamped"}
+    settings.update(kwargs)
+
+    wavelengths = shape.wavelengths
+    # Convert FWHM to sigma: FWHM = 2 * sigma * (2 * ln(2))^(1/exponent)
+    sigma = fwhm / (2 * (2 * np.log(2)) ** (1 / exponent))
+    # Super-Gaussian: exp(-|x/sigma|^exponent)
+    values = np.exp(-(np.abs((wavelengths - peak_wavelength) / sigma) ** exponent))
+
+    sd = SpectralDistribution(values, wavelengths, **settings)
+    sd.range = sd.range / sd.range.max()  # Normalize peak to 1
+
+    if clamp == "left":
+        sd[sd.wavelengths[sd.wavelengths <= peak_wavelength]] = 1.0
+    elif clamp == "right":
+        sd[sd.wavelengths[sd.wavelengths >= peak_wavelength]] = 1.0
+
+    return sd
+
+
 SD_GAUSSIAN_METHODS: CanonicalMapping = CanonicalMapping(
-    {"Normal": sd_gaussian_normal, "FWHM": sd_gaussian_fwhm}
+    {
+        "Normal": sd_gaussian_normal,
+        "FWHM": sd_gaussian_fwhm,
+        "Super-Gaussian Clamped": sd_gaussian_super_clamped,
+    }
 )
 SD_GAUSSIAN_METHODS.__doc__ = """
 Supported gaussian spectral distribution generation methods.
@@ -501,7 +589,7 @@ def sd_gaussian(
     mu_peak_wavelength: float,
     sigma_fwhm: float,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
-    method: Literal["Normal", "FWHM"] | str = "Normal",
+    method: Literal["Normal", "FWHM", "Super-Gaussian Clamped"] | str = "Normal",
     **kwargs: Any,
 ) -> SpectralDistribution:
     """
@@ -527,7 +615,8 @@ def sd_gaussian(
     ----------------
     kwargs
         {:func:`colour.colorimetry.sd_gaussian_normal`,
-        :func:`colour.colorimetry.sd_gaussian_fwhm`},
+        :func:`colour.colorimetry.sd_gaussian_fwhm`,
+        :func:`colour.colorimetry.sd_gaussian_super_clamped`},
         See the documentation of the previously listed definitions.
 
     Returns
@@ -556,6 +645,13 @@ def sd_gaussian(
     1.0
     >>> sd[530]  # doctest: +ELLIPSIS
     0.062...
+    >>> sd = sd_gaussian(600, 50, method="Super-Gaussian Clamped", clamp="right")
+    >>> sd.shape
+    SpectralShape(360.0, 780.0, 1.0)
+    >>> round(sd[600], 5)
+    1.0
+    >>> round(sd[700], 5)
+    1.0
     """
 
     method = validate_method(method, tuple(SD_GAUSSIAN_METHODS))

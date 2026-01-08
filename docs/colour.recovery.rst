@@ -147,7 +147,6 @@ Gaussian Basis
     PEAK_WAVELENGTHS_GAUSSIAN_BASIS
     generate_gaussian_basis
     optimise_gaussian_basis_parameters
-    sd_gaussian_clamped
 
 Camera RGB Sensitivities Recovery
 ---------------------------------
