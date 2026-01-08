@@ -176,20 +176,29 @@ def optimise_gaussian_basis_parameters(
     """
     Optimise Gaussian basis parameters for colorimetric accuracy.
 
-    This function finds the peak wavelengths and FWHM values that minimize the
-    colorimetric error between the basis spectra tristimulus values and the
-    target *RGB* colourspace primaries.
+    This function finds the peak wavelengths and FWHM values that minimize
+    the colorimetric error between the basis spectra tristimulus values and
+    the target *RGB* colourspace primaries.
+
+    The secondary colours are modeled based on their spectral characteristics:
+
+    -   **Cyan**: Peak in blue-green region (absorbs red), modeled as a
+        Gaussian peak clamped left, similar to blue.
+    -   **Yellow**: Peak in red-green region (absorbs blue), modeled as a
+        Gaussian peak clamped right, similar to red.
+    -   **Magenta**: High at red and blue, low at green (absorbs green),
+        modeled as an inverted Gaussian (valley at green wavelengths).
 
     Parameters
     ----------
     shape
         Spectral shape for the distributions.
     initial_peak_wavelengths
-        Initial peak wavelengths for optimization. Default is
-        ``{"red": 600, "green": 540, "blue": 460}``.
+        Initial peak wavelengths for optimization. Default includes RGB peaks
+        plus cyan, magenta, and yellow peak positions.
     initial_fwhm
-        Initial FWHM values for optimization. Default is
-        ``{"red": 65, "green": 65, "blue": 65}``.
+        Initial FWHM values for optimization. Default includes RGB FWHM
+        plus cyan, magenta, and yellow FWHM values.
     optimisation_kwargs
         Parameters for :func:`scipy.optimize.minimize` definition.
 
@@ -197,20 +206,30 @@ def optimise_gaussian_basis_parameters(
     -------
     :class:`tuple`
         Tuple of (peak_wavelengths, fwhm) dictionaries with optimized values.
+        Both include entries for red, green, blue, cyan, magenta, and yellow.
 
-    Examples
-    --------
-    >>> peaks, fwhm = optimise_gaussian_basis_parameters()
-    >>> print(f"Red: peak={peak_wavelengths['red']:.1f}nm, FWHM={fwhm['red']:.1f}nm")
-    ... # doctest: +SKIP
+    References
+    ----------
+    :cite:`Smits1999a`
     """
 
     from scipy.optimize import minimize  # noqa: PLC0415
 
     initial_peak_wavelengths = optional(
-        initial_peak_wavelengths, {"red": 600, "green": 540, "blue": 460}
+        initial_peak_wavelengths,
+        {
+            "red": 600,
+            "green": 540,
+            "blue": 460,
+            "cyan": 500,
+            "magenta": 540,
+            "yellow": 580,
+        },
     )
-    initial_fwhm = optional(initial_fwhm, {"red": 70, "green": 70, "blue": 70})
+    initial_fwhm = optional(
+        initial_fwhm,
+        {"red": 70, "green": 70, "blue": 70, "cyan": 100, "magenta": 70, "yellow": 100},
+    )
 
     # CMFs and illuminant for XYZ integration
     cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"].copy().align(shape)
@@ -233,20 +252,39 @@ def optimise_gaussian_basis_parameters(
     def objective(parameters: NDArrayFloat) -> DTypeFloat:
         """Minimize round-trip XYZ error."""
 
-        R_peak, G_peak, B_peak, R_fwhm, G_fwhm, B_fwhm = parameters
+        (
+            R_peak,
+            G_peak,
+            B_peak,
+            C_peak,
+            M_peak,
+            Y_peak,
+            R_fwhm,
+            G_fwhm,
+            B_fwhm,
+            C_fwhm,
+            M_fwhm,
+            Y_fwhm,
+        ) = parameters
 
-        # Generate basis spectra
+        # Primary colours
         sd_R = sd_gaussian_clamped(R_peak, R_fwhm, shape, clamp="right")
         sd_G = sd_gaussian_clamped(G_peak, G_fwhm, shape, clamp="none")
         sd_B = sd_gaussian_clamped(B_peak, B_fwhm, shape, clamp="left")
 
-        # Secondary colours derived from primaries
-        sd_cyan = sd_G + sd_B
+        # Cyan: peak in blue-green region, clamped left
+        sd_cyan = sd_gaussian_clamped(C_peak, C_fwhm, shape, clamp="left")
         sd_cyan.name = "cyan"
-        sd_magenta = sd_R + sd_B
-        sd_magenta.name = "magenta"
-        sd_yellow = sd_R + sd_G
+
+        # Yellow: peak in red-green region, clamped right
+        sd_yellow = sd_gaussian_clamped(Y_peak, Y_fwhm, shape, clamp="right")
         sd_yellow.name = "yellow"
+
+        # Magenta: inverted Gaussian (valley) with independent peak and fwhm
+        sd_M_gaussian = sd_gaussian_clamped(M_peak, M_fwhm, shape, clamp="none")
+        sd_magenta = sd_constant(1, shape) - sd_M_gaussian
+        sd_magenta.name = "magenta"
+
         sd_white = sd_constant(1, shape)
 
         basis = MultiSpectralDistributions(
@@ -266,24 +304,39 @@ def optimise_gaussian_basis_parameters(
         )
         XYZ_recovered = msds_to_XYZ_integration(msds, cmfs, illuminant) / 100
 
-        return as_float(np.sum((XYZ_recovered - test_XYZ) ** 2))
+        # Colorimetric error
+        colorimetric_error = np.sum((XYZ_recovered - test_XYZ) ** 2)
+
+        return as_float(colorimetric_error)
 
     x0 = [
         initial_peak_wavelengths["red"],
         initial_peak_wavelengths["green"],
         initial_peak_wavelengths["blue"],
+        initial_peak_wavelengths["cyan"],
+        initial_peak_wavelengths["magenta"],
+        initial_peak_wavelengths["yellow"],
         initial_fwhm["red"],
         initial_fwhm["green"],
         initial_fwhm["blue"],
+        initial_fwhm["cyan"],
+        initial_fwhm["magenta"],
+        initial_fwhm["yellow"],
     ]
 
     bounds = [
         (580, 650),  # red peak
         (510, 570),  # green peak
         (420, 480),  # blue peak
+        (460, 530),  # cyan peak (must be below green at ~540nm)
+        (510, 570),  # magenta peak (valley at green region)
+        (560, 620),  # yellow peak (must be above green at ~540nm)
         (20, 150),  # red fwhm
         (20, 150),  # green fwhm
         (20, 150),  # blue fwhm
+        (50, 150),  # cyan fwhm (wide to cover blue-green)
+        (20, 150),  # magenta fwhm
+        (50, 150),  # yellow fwhm (wide to cover green-red)
     ]
 
     optimisation_settings = {
@@ -294,56 +347,79 @@ def optimise_gaussian_basis_parameters(
         optimisation_settings.update(optimisation_kwargs)
 
     result = minimize(objective, x0, **optimisation_settings)
-    R_peak, G_peak, B_peak, R_fwhm, G_fwhm, B_fwhm = result.x
+    (
+        R_peak,
+        G_peak,
+        B_peak,
+        C_peak,
+        M_peak,
+        Y_peak,
+        R_fwhm,
+        G_fwhm,
+        B_fwhm,
+        C_fwhm,
+        M_fwhm,
+        Y_fwhm,
+    ) = result.x
 
     peak_wavelengths = {
         "red": float(R_peak),
         "green": float(G_peak),
         "blue": float(B_peak),
+        "cyan": float(C_peak),
+        "magenta": float(M_peak),
+        "yellow": float(Y_peak),
     }
 
     fwhm = {
         "red": float(R_fwhm),
         "green": float(G_fwhm),
         "blue": float(B_fwhm),
+        "cyan": float(C_fwhm),
+        "magenta": float(M_fwhm),
+        "yellow": float(Y_fwhm),
     }
 
     return peak_wavelengths, fwhm
 
 
-@required("SciPy")
 def generate_gaussian_basis(
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     peak_wavelengths: dict | None = None,
     fwhm: dict | None = None,
-    clip_cmy_basis: bool = True,
-    clip_smoothing: float = 2,
 ) -> MultiSpectralDistributions:
     """
     Generate a set of Gaussian basis multi-spectral distributions.
+
+    The secondary colours are modeled based on their spectral characteristics:
+
+    -   **Cyan**: Peak in blue-green region (absorbs red), modeled as a
+        Gaussian peak clamped left, similar to blue.
+    -   **Yellow**: Peak in red-green region (absorbs blue), modeled as a
+        Gaussian peak clamped right, similar to red.
+    -   **Magenta**: High at red and blue, low at green (absorbs green),
+        modeled as an inverted Gaussian (valley at green wavelengths).
 
     Parameters
     ----------
     shape
         Spectral shape for the distributions.
     peak_wavelengths
-        Dictionary with peak wavelengths for red, green, and blue.
+        Dictionary with peak wavelengths for red, green, blue, cyan, magenta,
+        and yellow.
     fwhm
-        Dictionary with FWHM values for red, green, and blue.
-    clip_cmy_basis
-        Whether to clip secondary colours (cyan, magenta, yellow) to prevent
-        values exceeding 1. Uses hard clipping followed by Gaussian smoothing
-        to preserve smooth spectral shapes.
-    clip_smoothing
-        Gaussian blur sigma for smoothing derivative discontinuities after
-        clipping. Higher values create smoother transitions. Only used when
-        ``clip_cmy_basis`` is *True*.
+        Dictionary with FWHM values for red, green, blue, cyan, magenta, and
+        yellow.
 
     Returns
     -------
     :class:`colour.MultiSpectralDistributions`
         Gaussian basis multi-spectral distributions with signals: white, cyan,
         magenta, yellow, red, green, blue.
+
+    References
+    ----------
+    :cite:`Smits1999a`
 
     Examples
     --------
@@ -352,9 +428,6 @@ def generate_gaussian_basis(
     ['blue', 'cyan', 'green', 'magenta', 'red', 'white', 'yellow']
     >>> basis.signals["yellow"].values.max()  # doctest: +ELLIPSIS
     1.0...
-    >>> basis_unclipped = generate_gaussian_basis(clip_cmy_basis=False)
-    >>> basis_unclipped.signals["yellow"].values.max()  # doctest: +ELLIPSIS
-    1.1422...
     """
 
     peak_wavelengths = optional(peak_wavelengths, PEAK_WAVELENGTHS_GAUSSIAN_BASIS)
@@ -371,21 +444,22 @@ def generate_gaussian_basis(
         peak_wavelengths["blue"], fwhm["blue"], shape, clamp="left", name="blue"
     )
 
-    # Secondary colours derived from primaries
-    sd_cyan = sd_green + sd_blue
-    sd_cyan.name = "cyan"
-    sd_magenta = sd_red + sd_blue
+    # Cyan: peak in blue-green region, clamped left
+    sd_cyan = sd_gaussian_clamped(
+        peak_wavelengths["cyan"], fwhm["cyan"], shape, clamp="left", name="cyan"
+    )
+
+    # Yellow: peak in red-green region, clamped right
+    sd_yellow = sd_gaussian_clamped(
+        peak_wavelengths["yellow"], fwhm["yellow"], shape, clamp="right", name="yellow"
+    )
+
+    # Magenta: inverted Gaussian (valley) with independent peak and fwhm
+    sd_M_gaussian = sd_gaussian_clamped(
+        peak_wavelengths["magenta"], fwhm["magenta"], shape, clamp="none"
+    )
+    sd_magenta = sd_constant(1, shape) - sd_M_gaussian
     sd_magenta.name = "magenta"
-    sd_yellow = sd_red + sd_green
-    sd_yellow.name = "yellow"
-
-    if clip_cmy_basis:
-        from scipy.ndimage import gaussian_filter1d  # noqa: PLC0415
-
-        # Hard clip at 1, then Gaussian blur to smooth derivative discontinuities
-        for sd in [sd_cyan, sd_magenta, sd_yellow]:
-            clipped = np.minimum(sd.values, 1)
-            sd.values = gaussian_filter1d(clipped, sigma=clip_smoothing)
 
     # White as constant
     sd_white = sd_constant(1, shape)
@@ -401,9 +475,12 @@ def generate_gaussian_basis(
 
 
 PEAK_WAVELENGTHS_GAUSSIAN_BASIS: dict = {
-    "red": 619.2,
-    "green": 541.8,
-    "blue": 445.2,
+    "red": 616.132,
+    "green": 542.302,
+    "blue": 450.532,
+    "cyan": 529.500,
+    "magenta": 542.285,
+    "yellow": 560.000,
 }
 """
 Default peak wavelengths for Gaussian basis spectra.
@@ -413,9 +490,12 @@ These values are optimized for round-trip colorimetric accuracy using
 """
 
 FWHM_GAUSSIAN_BASIS: dict = {
-    "red": 58.5,
-    "green": 89.4,
-    "blue": 85.4,
+    "red": 52.523,
+    "green": 88.502,
+    "blue": 69.404,
+    "cyan": 113.579,
+    "magenta": 88.511,
+    "yellow": 120.402,
 }
 """
 Default full width at half maximum for Gaussian basis spectra.
@@ -431,10 +511,12 @@ Gaussian basis multi-spectral distributions for spectral upsampling.
 The basis spectra use clamped Gaussians with parameters optimized for round-trip
 colorimetric accuracy with *sRGB* primaries:
 
-- Red: Gaussian centered at 619.2nm, FWHM 58.5nm, clamped flat toward long wavelengths
-- Green: Symmetric Gaussian centered at 541.8nm, FWHM 89.4nm
-- Blue: Gaussian centered at 445.2nm, FWHM 85.4nm, clamped flat toward short wavelengths
-- Cyan, Magenta, Yellow: Derived as C=G+B, M=R+B, Y=R+G
+- Red: Gaussian clamped flat toward long wavelengths
+- Green: Symmetric Gaussian
+- Blue: Gaussian clamped flat toward short wavelengths
+- Cyan: Independent Gaussian clamped flat toward short wavelengths
+- Yellow: Independent Gaussian clamped flat toward long wavelengths
+- Magenta: Inverted Gaussian (valley at green wavelengths)
 - White: Constant value of 1
 
 Parameters can be recomputed using :func:`optimise_gaussian_basis_parameters`.
@@ -478,7 +560,7 @@ def RGB_to_msds_Gaussian(RGB: ArrayLike) -> NDArrayFloat:
     >>> RGB_to_msds_Gaussian(RGB).shape
     (3, 421)
     >>> RGB_to_msds_Gaussian(RGB)[0, 300]  # doctest: +ELLIPSIS
-    0.4562...
+    0.4561...
     """
 
     return RGB_to_msds_Smits1999(RGB, MSDS_GAUSSIAN_BASIS)
@@ -522,7 +604,7 @@ def RGB_to_sd_Gaussian(RGB: Domain1) -> SpectralDistribution:
     >>> illuminant = SDS_ILLUMINANTS["E"].copy().align(cmfs.shape)
     >>> sd = RGB_to_sd_Gaussian(RGB)
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
-    array([ 0.2038320...,  0.1254691...,  0.0434135...])
+    array([ 0.2040735...,  0.1246902...,  0.0435716...])
     """
 
     return RGB_to_sd_Smits1999(RGB, MSDS_GAUSSIAN_BASIS, f"Gaussian - {RGB!r}")
