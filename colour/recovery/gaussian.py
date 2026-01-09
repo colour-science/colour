@@ -174,27 +174,34 @@ def optimise_gaussian_basis_parameters(
     initial_peak_wavelengths = optional(
         initial_peak_wavelengths,
         {
-            "red": 600,
-            "green": 540,
-            "blue": 460,
-            "cyan": 500,
-            "magenta": 540,
-            "yellow": 580,
+            "red": 650,
+            "green": 536,
+            "blue": 405,
+            "cyan": 554,
+            "magenta": 536,
+            "yellow": 550,
         },
     )
     initial_fwhm = optional(
         initial_fwhm,
-        {"red": 70, "green": 70, "blue": 70, "cyan": 100, "magenta": 70, "yellow": 100},
+        {
+            "red": 138,
+            "green": 137,
+            "blue": 192,
+            "cyan": 100,
+            "magenta": 137,
+            "yellow": 170,
+        },
     )
     initial_exponent = optional(
         initial_exponent,
         {
-            "red": 2.0,
-            "green": 2.0,
-            "blue": 2.0,
-            "cyan": 2.0,
-            "magenta": 2.0,
-            "yellow": 2.0,
+            "red": 4.0,
+            "green": 3.3,
+            "blue": 3.3,
+            "cyan": 2.4,
+            "magenta": 3.3,
+            "yellow": 2.8,
         },
     )
 
@@ -310,8 +317,12 @@ def optimise_gaussian_basis_parameters(
         delta_E_cc = delta_E(Lab_cc_r, Lab_cc_t, method="CIE 2000")
         colorchecker_error = np.mean(delta_E_cc)
 
-        # Combined loss: colorimetric error + ColorChecker Delta E
-        return as_float(colorimetric_error + colorchecker_error)
+        # Smoothness penalty: penalize deviation from standard Gaussian (exp=2)
+        exponents = np.array([R_exp, G_exp, B_exp, C_exp, M_exp, Y_exp])
+        smoothness_penalty = np.sum((exponents - 2.0) ** 2) * 0.1
+
+        # Combined loss: colorimetric error + ColorChecker Delta E + smoothness
+        return as_float(colorimetric_error + colorchecker_error + smoothness_penalty)
 
     x0 = [
         initial_peak_wavelengths["red"],
@@ -335,24 +346,24 @@ def optimise_gaussian_basis_parameters(
     ]
 
     bounds = [
-        (560, 650),  # red peak
-        (510, 570),  # green peak
-        (400, 480),  # blue peak
-        (460, 530),  # cyan peak (must be below green at ~540nm)
-        (510, 570),  # magenta peak (valley at green region)
-        (550, 620),  # yellow peak (must be above green at ~540nm)
-        (15, 200),  # red fwhm
-        (20, 200),  # green fwhm
-        (20, 200),  # blue fwhm
-        (50, 200),  # cyan fwhm (wide to cover blue-green)
-        (20, 200),  # magenta fwhm
-        (50, 200),  # yellow fwhm (wide to cover green-red)
-        (2.0, 20.0),  # red exponent
-        (2.0, 20.0),  # green exponent
-        (2.0, 20.0),  # blue exponent
-        (2.0, 20.0),  # cyan exponent
-        (2.0, 20.0),  # magenta exponent
-        (2.0, 20.0),  # yellow exponent
+        (475, 790),  # red peak
+        (400, 670),  # green peak
+        (360, 510),  # blue peak
+        (420, 700),  # cyan peak
+        (400, 670),  # magenta peak (valley at green region)
+        (400, 670),  # yellow peak
+        (75, 175),  # red fwhm
+        (75, 175),  # green fwhm
+        (110, 240),  # blue fwhm
+        (55, 125),  # cyan fwhm
+        (75, 175),  # magenta fwhm
+        (95, 215),  # yellow fwhm
+        (2.0, 5.0),  # red exponent
+        (2.0, 5.0),  # green exponent
+        (2.0, 5.0),  # blue exponent
+        (2.0, 5.0),  # cyan exponent
+        (2.0, 5.0),  # magenta exponent
+        (2.0, 5.0),  # yellow exponent
     ]
 
     optimisation_settings = {
@@ -541,12 +552,12 @@ def generate_gaussian_basis(
 
 
 PEAK_WAVELENGTHS_GAUSSIAN_BASIS: dict = {
-    "red": 618.475,
-    "green": 538.009,
-    "blue": 440.212,
-    "cyan": 505.050,
-    "magenta": 538.865,
-    "yellow": 563.309,
+    "red": 633.256,
+    "green": 538.296,
+    "blue": 429.172,
+    "cyan": 560.133,
+    "magenta": 539.403,
+    "yellow": 536.836,
 }
 """
 Default peak wavelengths for Gaussian basis spectra.
@@ -556,12 +567,12 @@ These values are optimized for round-trip colorimetric accuracy using
 """
 
 FWHM_GAUSSIAN_BASIS: dict = {
-    "red": 60.425,
-    "green": 118.441,
-    "blue": 120.610,
-    "cyan": 177.833,
-    "magenta": 114.867,
-    "yellow": 183.251,
+    "red": 103.200,
+    "green": 118.477,
+    "blue": 144.000,
+    "cyan": 75.000,
+    "magenta": 124.702,
+    "yellow": 128.241,
 }
 """
 Default full width at half maximum for Gaussian basis spectra.
@@ -571,12 +582,12 @@ These values are optimized for round-trip colorimetric accuracy using
 """
 
 EXPONENT_GAUSSIAN_BASIS: dict = {
-    "red": 15.38,
-    "green": 3.67,
-    "blue": 2.30,
-    "cyan": 17.06,
-    "magenta": 3.59,
-    "yellow": 4.16,
+    "red": 3.01,
+    "green": 2.73,
+    "blue": 2.53,
+    "cyan": 2.19,
+    "magenta": 2.60,
+    "yellow": 2.09,
 }
 """
 Default exponents for Gaussian basis spectra.
@@ -686,7 +697,7 @@ def RGB_to_sd_Gaussian(RGB: Domain1) -> SpectralDistribution:
     >>> illuminant = SDS_ILLUMINANTS["E"].copy().align(cmfs.shape)
     >>> sd = RGB_to_sd_Gaussian(RGB)
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
-    array([ 0.2040109...,  0.1185102...,  0.0438842...])
+    array([ 0.1934227...,  0.1161235...,  0.0435094...])
     """
 
     return RGB_to_sd_Smits1999(RGB, MSDS_GAUSSIAN_BASIS, f"Gaussian - {RGB!r}")
