@@ -21,6 +21,8 @@ from colour.colorimetry import (
     SpectralDistribution,
     SpectralShape,
     msds_to_XYZ_integration,
+    reshape_msds,
+    reshape_sd,
     sd_constant,
     sd_gaussian_super_clamped,
     sd_to_XYZ,
@@ -119,6 +121,9 @@ def XYZ_to_RGB_Gaussian(XYZ: Domain1) -> Range1:
 @required("SciPy")
 def optimise_gaussian_basis_parameters(
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+    colourspace: RGB_Colourspace | None = None,
+    cmfs: MultiSpectralDistributions | None = None,
+    illuminant: SpectralDistribution | None = None,
     initial_peak_wavelengths: dict | None = None,
     initial_fwhm: dict | None = None,
     initial_exponent: dict | None = None,
@@ -146,6 +151,18 @@ def optimise_gaussian_basis_parameters(
     ----------
     shape
         Spectral shape for the distributions.
+    colourspace
+        *RGB* colourspace for the optimization. Default is
+        :attr:`RGB_COLOURSPACE_GAUSSIAN` which uses *sRGB* primaries and
+        illuminant *E* whitepoint.
+    cmfs
+        Standard observer colour matching functions used for computing the
+        spectral tristimulus values. Default is
+        *CIE 1931 2 Degree Standard Observer*.
+    illuminant
+        Illuminant spectral distribution for *XYZ* integration. If not
+        provided, defaults to the illuminant matching the colourspace's
+        whitepoint name, or illuminant *E* if not found.
     initial_peak_wavelengths
         Initial peak wavelengths for optimization. Default includes RGB peaks
         plus cyan, magenta, and yellow peak positions.
@@ -175,6 +192,17 @@ def optimise_gaussian_basis_parameters(
     """
 
     from scipy.optimize import minimize  # noqa: PLC0415
+
+    colourspace = optional(colourspace, RGB_COLOURSPACE_GAUSSIAN)
+    cmfs = optional(cmfs, MSDS_CMFS["CIE 1931 2 Degree Standard Observer"])
+
+    whitepoint_name = colourspace.whitepoint_name
+    illuminant = optional(
+        illuminant,
+        SDS_ILLUMINANTS[whitepoint_name]
+        if whitepoint_name in SDS_ILLUMINANTS
+        else SDS_ILLUMINANTS["E"],
+    )
 
     initial_peak_wavelengths = optional(
         initial_peak_wavelengths,
@@ -211,11 +239,11 @@ def optimise_gaussian_basis_parameters(
     )
 
     # CMFs and illuminant for XYZ integration
-    cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"].copy().align(shape)
-    illuminant = SDS_ILLUMINANTS["E"].copy().align(shape)
+    cmfs = reshape_msds(cmfs, shape)
+    illuminant = reshape_sd(illuminant, shape)
 
     # XYZ values for round-trip optimization (RGB, CMY, grey)
-    M = RGB_COLOURSPACE_GAUSSIAN.matrix_RGB_to_XYZ
+    M = colourspace.matrix_RGB_to_XYZ
     XYZ_c = np.array(
         [
             np.dot(M, [1, 0, 0]),  # Red
@@ -232,7 +260,7 @@ def optimise_gaussian_basis_parameters(
     XYZ_cc_r = np.array(
         [sd_to_XYZ(sd, cmfs=cmfs, illuminant=illuminant) / 100 for sd in sds_cc_r]
     )
-    RGB_cc_r = XYZ_to_RGB(XYZ_cc_r, RGB_COLOURSPACE_GAUSSIAN)
+    RGB_cc_r = XYZ_to_RGB(XYZ_cc_r, colourspace)
     Lab_cc_r = XYZ_to_Lab(XYZ_cc_r)
 
     def objective(parameters: NDArrayFloat) -> DTypeFloat:
@@ -298,11 +326,7 @@ def optimise_gaussian_basis_parameters(
         )
 
         msds = MultiSpectralDistributions(
-            np.transpose(
-                RGB_to_msds_Smits1999(
-                    XYZ_to_RGB(XYZ_c, RGB_COLOURSPACE_GAUSSIAN), basis
-                )
-            ),
+            np.transpose(RGB_to_msds_Smits1999(XYZ_to_RGB(XYZ_c, colourspace), basis)),
             basis.wavelengths,
             labels=[str(i) for i in range(len(XYZ_c))],
         )
