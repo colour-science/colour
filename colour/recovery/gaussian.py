@@ -122,6 +122,7 @@ def optimise_gaussian_basis_parameters(
     initial_peak_wavelengths: dict | None = None,
     initial_fwhm: dict | None = None,
     initial_exponent: dict | None = None,
+    smoothness_penalty_weight: float = 1.0,
     optimisation_kwargs: dict | None = None,
 ) -> tuple[dict, dict, dict]:
     """
@@ -154,6 +155,10 @@ def optimise_gaussian_basis_parameters(
     initial_exponent
         Initial exponents for super-Gaussian per basis function. Default 2.0
         gives standard Gaussian. Values > 2 give flatter peaks.
+    smoothness_penalty_weight
+        Weight for the smoothness penalty that penalizes deviation from
+        standard Gaussian (exponent=2). Higher values produce smoother curves
+        closer to standard Gaussians.
     optimisation_kwargs
         Parameters for :func:`scipy.optimize.minimize` definition.
 
@@ -319,7 +324,7 @@ def optimise_gaussian_basis_parameters(
 
         # Smoothness penalty: penalize deviation from standard Gaussian (exp=2)
         exponents = np.array([R_exp, G_exp, B_exp, C_exp, M_exp, Y_exp])
-        smoothness_penalty = np.sum((exponents - 2.0) ** 2) * 0.1
+        smoothness_penalty = np.sum((exponents - 2.0) ** 2) * smoothness_penalty_weight
 
         # Combined loss: colorimetric error + ColorChecker Delta E + smoothness
         return as_float(colorimetric_error + colorchecker_error + smoothness_penalty)
@@ -552,12 +557,12 @@ def generate_gaussian_basis(
 
 
 PEAK_WAVELENGTHS_GAUSSIAN_BASIS: dict = {
-    "red": 633.256,
-    "green": 538.296,
-    "blue": 429.172,
-    "cyan": 560.133,
-    "magenta": 539.403,
-    "yellow": 536.836,
+    "red": 624.583,
+    "green": 542.485,
+    "blue": 440.486,
+    "cyan": 548.360,
+    "magenta": 550.210,
+    "yellow": 545.691,
 }
 """
 Default peak wavelengths for Gaussian basis spectra.
@@ -567,12 +572,12 @@ These values are optimized for round-trip colorimetric accuracy using
 """
 
 FWHM_GAUSSIAN_BASIS: dict = {
-    "red": 103.200,
-    "green": 118.477,
-    "blue": 144.000,
-    "cyan": 75.000,
-    "magenta": 124.702,
-    "yellow": 128.241,
+    "red": 95.901,
+    "green": 115.777,
+    "blue": 126.318,
+    "cyan": 107.096,
+    "magenta": 113.483,
+    "yellow": 143.538,
 }
 """
 Default full width at half maximum for Gaussian basis spectra.
@@ -582,12 +587,12 @@ These values are optimized for round-trip colorimetric accuracy using
 """
 
 EXPONENT_GAUSSIAN_BASIS: dict = {
-    "red": 3.01,
-    "green": 2.73,
-    "blue": 2.53,
-    "cyan": 2.19,
-    "magenta": 2.60,
-    "yellow": 2.09,
+    "red": 2.13,
+    "green": 2.00,
+    "blue": 2.05,
+    "cyan": 2.02,
+    "magenta": 2.11,
+    "yellow": 2.02,
 }
 """
 Default exponents for Gaussian basis spectra.
@@ -653,7 +658,7 @@ def RGB_to_msds_Gaussian(RGB: ArrayLike) -> NDArrayFloat:
     >>> RGB_to_msds_Gaussian(RGB).shape
     (3, 421)
     >>> RGB_to_msds_Gaussian(RGB)[0, 300]  # doctest: +ELLIPSIS
-    0.4562...
+    0.4561...
     """
 
     return RGB_to_msds_Smits1999(RGB, MSDS_GAUSSIAN_BASIS)
@@ -697,7 +702,7 @@ def RGB_to_sd_Gaussian(RGB: Domain1) -> SpectralDistribution:
     >>> illuminant = SDS_ILLUMINANTS["E"].copy().align(cmfs.shape)
     >>> sd = RGB_to_sd_Gaussian(RGB)
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
-    array([ 0.1934227...,  0.1161235...,  0.0435094...])
+    array([ 0.20254...,  0.12651658...,  0.04436014...])
     """
 
     return RGB_to_sd_Smits1999(RGB, MSDS_GAUSSIAN_BASIS, f"Gaussian - {RGB!r}")
