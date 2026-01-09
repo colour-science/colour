@@ -233,7 +233,7 @@ def optimise_gaussian_basis_parameters(
         [sd_to_XYZ(sd, cmfs=cmfs, illuminant=illuminant) / 100 for sd in sds_cc_r]
     )
     RGB_cc_r = XYZ_to_RGB(XYZ_cc_r, RGB_COLOURSPACE_GAUSSIAN)
-    Lab_cc_r = XYZ_to_Lab(RGB_cc_r)
+    Lab_cc_r = XYZ_to_Lab(XYZ_cc_r)
 
     def objective(parameters: NDArrayFloat) -> DTypeFloat:
         """Minimize round-trip XYZ error and ColorChecker Delta E."""
@@ -557,12 +557,12 @@ def generate_gaussian_basis(
 
 
 PEAK_WAVELENGTHS_GAUSSIAN_BASIS: dict = {
-    "red": 624.583,
-    "green": 542.485,
-    "blue": 440.486,
-    "cyan": 548.360,
-    "magenta": 550.210,
-    "yellow": 545.691,
+    "red": 620.280,
+    "green": 538.554,
+    "blue": 443.979,
+    "cyan": 568.405,
+    "magenta": 540.500,
+    "yellow": 534.422,
 }
 """
 Default peak wavelengths for Gaussian basis spectra.
@@ -572,12 +572,12 @@ These values are optimized for round-trip colorimetric accuracy using
 """
 
 FWHM_GAUSSIAN_BASIS: dict = {
-    "red": 95.901,
-    "green": 115.777,
-    "blue": 126.318,
-    "cyan": 107.096,
-    "magenta": 113.483,
-    "yellow": 143.538,
+    "red": 75.000,
+    "green": 118.702,
+    "blue": 112.619,
+    "cyan": 55.000,
+    "magenta": 128.926,
+    "yellow": 123.124,
 }
 """
 Default full width at half maximum for Gaussian basis spectra.
@@ -587,12 +587,12 @@ These values are optimized for round-trip colorimetric accuracy using
 """
 
 EXPONENT_GAUSSIAN_BASIS: dict = {
-    "red": 2.13,
-    "green": 2.00,
-    "blue": 2.05,
+    "red": 2.10,
+    "green": 2.13,
+    "blue": 2.00,
     "cyan": 2.02,
-    "magenta": 2.11,
-    "yellow": 2.02,
+    "magenta": 2.10,
+    "yellow": 2.00,
 }
 """
 Default exponents for Gaussian basis spectra.
@@ -702,7 +702,7 @@ def RGB_to_sd_Gaussian(RGB: Domain1) -> SpectralDistribution:
     >>> illuminant = SDS_ILLUMINANTS["E"].copy().align(cmfs.shape)
     >>> sd = RGB_to_sd_Gaussian(RGB)
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
-    array([ 0.20254...,  0.12651658...,  0.04436014...])
+    array([ 0.19324...,  0.11592...,  0.04332...])
     """
 
     return RGB_to_sd_Smits1999(RGB, MSDS_GAUSSIAN_BASIS, f"Gaussian - {RGB!r}")
