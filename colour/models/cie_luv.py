@@ -123,7 +123,7 @@ def XYZ_to_Luv(
     >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_Luv(XYZ)  # doctest: +ELLIPSIS
-    array([ 41.5278752...,  96.8362605...,  17.7521014...])
+    array([41.5278752..., 96.8362605..., 17.7521014...])
     """
 
     X, Y, Z = tsplit(to_domain_1(XYZ))
@@ -193,7 +193,7 @@ def Luv_to_XYZ(
     >>> import numpy as np
     >>> Luv = np.array([41.52787529, 96.83626054, 17.75210149])
     >>> Luv_to_XYZ(Luv)  # doctest: +ELLIPSIS
-    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
     L, u, v = tsplit(to_domain_100(Luv))
@@ -265,7 +265,7 @@ def Luv_to_uv(
     >>> import numpy as np
     >>> Luv = np.array([41.52787529, 96.83626054, 17.75210149])
     >>> Luv_to_uv(Luv)  # doctest: +ELLIPSIS
-    array([ 0.3772021...,  0.5012026...])
+    array([0.3772021..., 0.5012026...])
     """
 
     Luv = to_domain_100(Luv)
@@ -326,7 +326,7 @@ def uv_to_Luv(
     >>> import numpy as np
     >>> uv = np.array([0.37720213, 0.50120264])
     >>> uv_to_Luv(uv, L=41.5278752)  # doctest: +ELLIPSIS
-    array([ 41.5278752...,  96.8362609...,  17.7521029...])
+    array([41.5278752..., 96.8362609..., 17.7521029...])
     """
 
     u, v = tsplit(uv)
@@ -372,7 +372,7 @@ def Luv_uv_to_xy(uv: ArrayLike) -> NDArrayFloat:
     >>> import numpy as np
     >>> uv = np.array([0.37720213, 0.50120264])
     >>> Luv_uv_to_xy(uv)  # doctest: +ELLIPSIS
-    array([ 0.5436955...,  0.3210794...])
+    array([0.5436955..., 0.3210794...])
     """
 
     u, v = tsplit(uv)
@@ -407,7 +407,7 @@ def xy_to_Luv_uv(xy: ArrayLike) -> NDArrayFloat:
     >>> import numpy as np
     >>> xy = np.array([0.54369558, 0.32107944])
     >>> xy_to_Luv_uv(xy)  # doctest: +ELLIPSIS
-    array([ 0.3772021...,  0.5012026...])
+    array([0.3772021..., 0.5012026...])
     """
 
     x, y = tsplit(xy)
@@ -472,7 +472,7 @@ def XYZ_to_CIE1976UCS(
     >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_CIE1976UCS(XYZ)  # doctest: +ELLIPSIS
-    array([  0.3772021...,   0.5012026...,  41.5278752...])
+    array([ 0.3772021...,  0.5012026..., 41.5278752...])
     """
 
     Luv = XYZ_to_Luv(XYZ, illuminant)
@@ -538,7 +538,7 @@ def CIE1976UCS_to_XYZ(
     >>> import numpy as np
     >>> uvL = np.array([0.37720213, 0.50120264, 41.52787529])
     >>> CIE1976UCS_to_XYZ(uvL)  # doctest: +ELLIPSIS
-    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
     u, v, L = tsplit(uvL)

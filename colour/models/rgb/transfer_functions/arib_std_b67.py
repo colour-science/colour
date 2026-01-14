@@ -104,7 +104,7 @@ def oetf_ARIBSTDB67(
     Examples
     --------
     >>> oetf_ARIBSTDB67(0.18)  # doctest: +ELLIPSIS
-    0.2121320...
+    np.float64(0.2121320...)
     """
 
     E = to_domain_1(E)
@@ -170,7 +170,7 @@ def oetf_inverse_ARIBSTDB67(
     Examples
     --------
     >>> oetf_inverse_ARIBSTDB67(0.212132034355964)  # doctest: +ELLIPSIS
-    0.1799999...
+    np.float64(0.1799999...)
     """
 
     E_p = to_domain_1(E_p)

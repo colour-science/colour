@@ -107,7 +107,7 @@ def XYZ_to_ICaCb(XYZ: Domain1) -> Range1:
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_ICaCb(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.0687529...,  0.0575335...,  0.0208154...])
+    array([0.0687529..., 0.0575335..., 0.0208154...])
     """
 
     def LMS_to_LMS_p_callable(LMS: ArrayLike) -> NDArrayFloat:
@@ -166,7 +166,7 @@ def ICaCb_to_XYZ(ICaCb: Domain1) -> Range1:
     --------
     >>> ICaCb = np.array([0.06875297, 0.05753352, 0.02081548])
     >>> ICaCb_to_XYZ(ICaCb)  # doctest: +ELLIPSIS
-    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
     def LMS_p_to_LMS_callable(LMS_p: ArrayLike) -> NDArrayFloat:

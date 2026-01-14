@@ -231,9 +231,11 @@ def XYZ_to_ATD95(
     >>> k_1 = 0.0
     >>> k_2 = 50.0
     >>> XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2)  # doctest: +ELLIPSIS
-    CAM_Specification_ATD95(h=1.9089869..., C=1.2064060..., Q=0.1814003..., \
-A_1=0.1787931... T_1=0.0286942..., D_1=0.0107584..., A_2=0.0192182..., \
-T_2=0.0205377..., D_2=0.0107584...)
+    CAM_Specification_ATD95(h=np.float64(1.9089869...), \
+C=np.float64(1.2064060...), Q=np.float64(0.1814003...), \
+A_1=np.float64(0.1787931...), T_1=np.float64(0.0286942...), \
+D_1=np.float64(0.0107584...), A_2=np.float64(0.0192182...), \
+T_2=np.float64(0.0205377...), D_2=np.float64(0.0107584...))
     """
 
     XYZ = to_domain_100(XYZ)
@@ -305,7 +307,7 @@ def luminance_to_retinal_illuminance(XYZ: ArrayLike, Y_c: ArrayLike) -> NDArrayF
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> Y_0 = 318.31
     >>> luminance_to_retinal_illuminance(XYZ, Y_0)  # doctest: +ELLIPSIS
-    array([ 479.4445924...,  499.3174313...,  534.5631673...])
+    array([479.4445924..., 499.3174313..., 534.5631673...])
     """
 
     XYZ = as_float_array(XYZ)
@@ -333,7 +335,7 @@ def XYZ_to_LMS_ATD95(XYZ: ArrayLike) -> NDArrayFloat:
     --------
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_to_LMS_ATD95(XYZ)  # doctest: +ELLIPSIS
-    array([ 6.2283272...,  7.4780666...,  3.8859772...])
+    array([6.2283272..., 7.4780666..., 3.8859772...])
     """
 
     LMS = vecmul(
@@ -370,7 +372,7 @@ def opponent_colour_dimensions(LMS_g: ArrayLike) -> NDArrayFloat:
     --------
     >>> LMS_g = np.array([6.95457922, 7.08945043, 6.44069316])
     >>> opponent_colour_dimensions(LMS_g)  # doctest: +ELLIPSIS
-    array([ 0.1787931...,  0.0286942...,  0.0107584...,  0.0192182..., ...])
+    array([0.1787931..., 0.0286942..., 0.0107584..., 0.0192182..., ...])
     """
 
     L_g, M_g, S_g = tsplit(LMS_g)
@@ -409,7 +411,7 @@ def final_response(value: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> final_response(43.54399695501678)  # doctest: +ELLIPSIS
-    0.1787931...
+    np.float64(0.1787931...)
     """
 
     value = as_float_array(value)

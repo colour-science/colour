@@ -70,11 +70,11 @@ def read_LUT_SonySPImtx(path: str | PathLike) -> LUTOperatorMatrix:
     LUTOperatorMatrix - dt
     ----------------------
     <BLANKLINE>
-    Matrix     : [[ 0.864274  0.        0.        0.      ]
-                  [ 0.        0.864274  0.        0.      ]
-                  [ 0.        0.        0.864274  0.      ]
-                  [ 0.        0.        0.        1.      ]]
-    Offset     : [ 0.  0.  0.  0.]
+    Matrix     : [[0.864274 0.       0.       0.      ]
+                  [0.       0.864274 0.       0.      ]
+                  [0.       0.       0.864274 0.      ]
+                  [0.       0.       0.       1.      ]]
+    Offset     : [0. 0. 0. 0.]
     """
 
     path = str(path)

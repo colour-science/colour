@@ -316,7 +316,7 @@ def chromatic_adaptation(
     >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
     >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_wr)
     ... # doctest: +ELLIPSIS
-    array([ 0.2163881...,  0.1257    ,  0.0384749...])
+    array([0.2163881..., 0.1257    , 0.0384749...])
 
     *vK2020* chromatic adaptation:
 
@@ -324,7 +324,7 @@ def chromatic_adaptation(
     >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
     >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method="vK20")
     ... # doctest: +ELLIPSIS
-    array([ 0.2146884...,  0.1245616...,  0.0466255...])
+    array([0.2146884..., 0.1245616..., 0.0466255...])
 
     *CIE 1994* chromatic adaptation, requires extra *kwargs*:
 
@@ -337,7 +337,7 @@ def chromatic_adaptation(
     ...     XYZ, XYZ_w, XYZ_wr, method="CIE 1994", Y_o=Y_o, E_o1=E_o, E_o2=E_o
     ... )
     ... # doctest: +ELLIPSIS
-    array([ 0.2403379...,  0.2115621...,  0.1764301...])
+    array([0.2403379..., 0.2115621..., 0.1764301...])
 
     *CMCCAT2000* chromatic adaptation, requires extra *kwargs*:
 
@@ -349,7 +349,7 @@ def chromatic_adaptation(
     ...     XYZ, XYZ_w, XYZ_wr, method="CMCCAT2000", L_A1=L_A, L_A2=L_A
     ... )
     ... # doctest: +ELLIPSIS
-    array([ 0.1952698...,  0.2306834...,  0.2497175...])
+    array([0.1952698..., 0.2306834..., 0.2497175...])
 
     *Fairchild (1990)* chromatic adaptation, requires extra *kwargs*:
 
@@ -357,7 +357,7 @@ def chromatic_adaptation(
     >>> Y_n = 200
     >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method="Fairchild 1990", Y_n=Y_n)
     ... # doctest: +ELLIPSIS
-    array([ 0.2332526...,  0.2332455...,  0.7611593...])
+    array([0.2332526..., 0.2332455..., 0.7611593...])
 
     *Li (2025)* chromatic adaptation:
 
@@ -368,7 +368,7 @@ def chromatic_adaptation(
     ...     XYZ, XYZ_w, XYZ_wr, method="Li 2025", L_A=L_A, F_surround=F_surround
     ... )
     ... # doctest: +ELLIPSIS
-    array([ 0.2039701...,  0.2304747...,  0.6783065...])
+    array([0.2039701..., 0.2304747..., 0.6783065...])
 
     *Zhai and Luo (2018)* chromatic adaptation:
 
@@ -377,7 +377,7 @@ def chromatic_adaptation(
     >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
     >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method="Zhai 2018")
     ... # doctest: +ELLIPSIS
-    array([ 0.2163881...,  0.1257    ,  0.0384749...])
+    array([0.2163881..., 0.1257    , 0.0384749...])
     >>> chromatic_adaptation(
     ...     XYZ,
     ...     XYZ_w,
@@ -387,7 +387,7 @@ def chromatic_adaptation(
     ...     XYZ_wo=np.array([100, 100, 100]),
     ... )
     ... # doctest: +ELLIPSIS
-    array([ 0.2152436...,  0.1253522...,  0.0388406...])
+    array([0.2152436..., 0.1253522..., 0.0388406...])
     """
 
     method = validate_method(method, tuple(CHROMATIC_ADAPTATION_METHODS))

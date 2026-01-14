@@ -84,7 +84,7 @@ as input for the API objects, it is possible to use tuples or lists:
 
 .. code-block:: text
 
-    array([ 0.11518475,  0.1008    ,  0.05089373])
+    array([0.11518475,  0.1008    ,  0.05089373])
 
 .. code:: python
 
@@ -93,7 +93,7 @@ as input for the API objects, it is possible to use tuples or lists:
 
 .. code-block:: text
 
-    array([ 0.11518475,  0.1008    ,  0.05089373])
+    array([0.11518475,  0.1008    ,  0.05089373])
 
 .. code:: python
 
@@ -106,9 +106,9 @@ as input for the API objects, it is possible to use tuples or lists:
 
 .. code-block:: text
 
-    array([[ 0.11518475,  0.1008    ,  0.05089373],
-           [ 0.11518475,  0.1008    ,  0.05089373],
-           [ 0.11518475,  0.1008    ,  0.05089373]])
+    array([[0.11518475,  0.1008    ,  0.05089373],
+           [0.11518475,  0.1008    ,  0.05089373],
+           [0.11518475,  0.1008    ,  0.05089373]])
 
 As shown in the above example, there is widespread support for n-dimensional
 arrays:
@@ -123,12 +123,12 @@ arrays:
 
 .. code-block:: text
 
-    array([[ 0.11518475,  0.1008    ,  0.05089373],
-           [ 0.11518475,  0.1008    ,  0.05089373],
-           [ 0.11518475,  0.1008    ,  0.05089373],
-           [ 0.11518475,  0.1008    ,  0.05089373],
-           [ 0.11518475,  0.1008    ,  0.05089373],
-           [ 0.11518475,  0.1008    ,  0.05089373]])
+    array([[0.11518475,  0.1008    ,  0.05089373],
+           [0.11518475,  0.1008    ,  0.05089373],
+           [0.11518475,  0.1008    ,  0.05089373],
+           [0.11518475,  0.1008    ,  0.05089373],
+           [0.11518475,  0.1008    ,  0.05089373],
+           [0.11518475,  0.1008    ,  0.05089373]])
 
 .. code:: python
 
@@ -136,13 +136,13 @@ arrays:
 
 .. code-block:: text
 
-    array([[[ 0.11518475,  0.1008    ,  0.05089373],
-            [ 0.11518475,  0.1008    ,  0.05089373],
-            [ 0.11518475,  0.1008    ,  0.05089373]],
+    array([[[0.11518475,  0.1008    ,  0.05089373],
+            [0.11518475,  0.1008    ,  0.05089373],
+            [0.11518475,  0.1008    ,  0.05089373]],
 
-           [[ 0.11518475,  0.1008    ,  0.05089373],
-            [ 0.11518475,  0.1008    ,  0.05089373],
-            [ 0.11518475,  0.1008    ,  0.05089373]]])
+           [[0.11518475,  0.1008    ,  0.05089373],
+            [0.11518475,  0.1008    ,  0.05089373],
+            [0.11518475,  0.1008    ,  0.05089373]]])
 
 Which enables image processing:
 
@@ -335,7 +335,7 @@ Multiple wavelength values can be retrieved as follows:
 
 .. code-block:: text
 
-    array([ 0.08313518,  0.08395997,  0.08488108,  0.085897  ,  0.087     ])
+    array([0.08313518,  0.08395997,  0.08488108,  0.085897  ,  0.087     ])
 
 However, slices will return the values for the corresponding wavelength
 *indexes*:
@@ -346,7 +346,7 @@ However, slices will return the values for the corresponding wavelength
 
 .. code-block:: text
 
-    array([ 0.0651,  0.0705,  0.0772])
+    array([0.0651,  0.0705,  0.0772])
 
 .. code:: python
 
@@ -354,7 +354,7 @@ However, slices will return the values for the corresponding wavelength
 
 .. code-block:: text
 
-    array([ 0.0651,  0.0705,  0.0772,  0.087 ,  0.1128,  0.136 ])
+    array([0.0651,  0.0705,  0.0772,  0.087 ,  0.1128,  0.136 ])
 
 .. note::
 
@@ -404,7 +404,7 @@ Instead, the values can be set indirectly:
 
 .. code-block:: text
 
-    array([ 0.    ,  0.0705,  0.0772,  0.087 ,  0.1128,  0.136 ])
+    array([0.    ,  0.0705,  0.0772,  0.087 ,  0.1128,  0.136 ])
 
 Domain-Range Scales
 -------------------
@@ -533,7 +533,7 @@ with the :func:`colour.set_domain_range_scale` definition:
 
 .. code-block:: text
 
-    array([ 24.03379521,  21.15621214,  17.64301199])
+    array([24.03379521,  21.15621214,  17.64301199])
 
 .. code:: python
 
@@ -545,7 +545,7 @@ with the :func:`colour.set_domain_range_scale` definition:
 
 .. code-block:: text
 
-    array([ 0.24033795,  0.21156212,  0.17643012])
+    array([0.24033795,  0.21156212,  0.17643012])
 
 The output tristimulus values with the **'1'** domain-range scale are equal to
 those from **'Reference'** default domain-range scale divided by *100*.
@@ -568,7 +568,7 @@ would result in unexpected values and a warning in that case:
       warning(('"Y_o" luminance factor must be in [18, 100] domain, '
     /colour-science/colour/colour/utilities/verbose.py:207: ColourWarning: "Y_o" luminance factor must be in [18, 100] domain, unpredictable results may occur!
       warn(*args, **kwargs)
-    array([ 0.17171825,  0.13731098,  0.09972054])
+    array([0.17171825,  0.13731098,  0.09972054])
 
 Setting the **'1'** domain-range scale has the following effect on the
 :func:`colour.adaptation.chromatic_adaptation_CIE1994` definition:
@@ -683,7 +683,7 @@ The following modes are available:
 
     /Users/kelsolaar/Documents/Development/colour-science/colour/colour/algebra/common.py:317: RuntimeWarning: invalid value encountered in true_divide
       c = a / b
-    array([ nan,  nan])
+    array([nan,  nan])
 
 .. code:: python
 
@@ -692,4 +692,4 @@ The following modes are available:
 
 .. code-block:: text
 
-    array([ 0.,  0.])
+    array([0.,  0.])

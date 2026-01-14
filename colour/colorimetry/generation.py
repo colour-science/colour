@@ -130,7 +130,7 @@ def sd_constant(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[400]
-    100.0
+    np.float64(100.0)
     """
 
     settings = {"name": f"{k} Constant", "interpolator": LinearInterpolator}
@@ -176,7 +176,7 @@ def sd_zeros(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[400]
-    0.0
+    np.float64(0.0)
     """
 
     return sd_constant(0, shape, **kwargs)
@@ -217,7 +217,7 @@ def sd_ones(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[400]
-    1.0
+    np.float64(1.0)
     """
 
     return sd_constant(1, shape, **kwargs)
@@ -266,7 +266,7 @@ def msds_constant(
     >>> msds.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> msds[400]
-    array([ 100.,  100.,  100.])
+    array([100., 100., 100.])
     >>> msds.labels  # doctest: +SKIP
     ['a', 'b', 'c']
     """
@@ -320,7 +320,7 @@ def msds_zeros(
     >>> msds.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> msds[400]
-    array([ 0.,  0.,  0.])
+    array([0., 0., 0.])
     >>> msds.labels  # doctest: +SKIP
     ['a', 'b', 'c']
     """
@@ -369,7 +369,7 @@ def msds_ones(
     >>> msds.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> msds[400]
-    array([ 1.,  1.,  1.])
+    array([1., 1., 1.])
     >>> msds.labels  # doctest: +SKIP
     ['a', 'b', 'c']
     """
@@ -421,9 +421,9 @@ def sd_gaussian_normal(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +SKIP
-    1.0
+    np.float64(1.0)
     >>> sd[530]  # doctest: +ELLIPSIS
-    0.6065306...
+    np.float64(0.6065306...)
     """
 
     settings = {"name": f"{mu}nm - {sigma} Sigma - Gaussian"}
@@ -477,9 +477,9 @@ def sd_gaussian_fwhm(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +SKIP
-    1.0
+    np.float64(1.0)
     >>> sd[530]  # doctest: +ELLIPSIS
-    0.062...
+    np.float64(0.062...)
     """
 
     settings = {"name": f"{peak_wavelength}nm - {fwhm} FWHM - Gaussian"}
@@ -543,12 +543,12 @@ def sd_gaussian_super_clamped(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> round(sd[600], 5)
-    1.0
+    np.float64(1.0)
     >>> round(sd[700], 5)
-    1.0
+    np.float64(1.0)
     >>> sd = sd_gaussian_super_clamped(450, 40, clamp="left", exponent=4.0)
     >>> round(sd[450], 5)
-    1.0
+    np.float64(1.0)
     >>> round(sd[350], 5)  # doctest: +SKIP
     1.0
     """
@@ -635,23 +635,23 @@ def sd_gaussian(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +SKIP
-    1.0
+    np.float64(1.0)
     >>> sd[530]  # doctest: +ELLIPSIS
-    0.6065306...
+    np.float64(0.6065306...)
     >>> sd = sd_gaussian(555, 25, method="FWHM")
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +SKIP
-    1.0
+    np.float64(1.0)
     >>> sd[530]  # doctest: +ELLIPSIS
-    0.062...
+    np.float64(0.062...)
     >>> sd = sd_gaussian(600, 50, method="Super-Gaussian Clamped", clamp="right")
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> round(sd[600], 5)
-    1.0
+    np.float64(1.0)
     >>> round(sd[700], 5)
-    1.0
+    np.float64(1.0)
     """
 
     method = validate_method(method, tuple(SD_GAUSSIAN_METHODS))
@@ -705,7 +705,7 @@ def sd_single_led_Ohno2005(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +ELLIPSIS
-    1...
+    np.float64(1...)
     """
 
     settings = {
@@ -777,7 +777,7 @@ def sd_single_led(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[555]  # doctest: +ELLIPSIS
-    1...
+    np.float64(1...)
     """
 
     method = validate_method(method, tuple(SD_SINGLE_LED_METHODS))
@@ -848,7 +848,7 @@ def sd_multi_leds_Ohno2005(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[500]  # doctest: +ELLIPSIS
-    0.1295132...
+    np.float64(0.1295132...)
     """
 
     peak_wavelengths = as_float_array(peak_wavelengths)
@@ -944,7 +944,7 @@ def sd_multi_leds(
     >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> sd[500]  # doctest: +ELLIPSIS
-    0.1295132...
+    np.float64(0.1295132...)
     """
 
     method = validate_method(method, tuple(SD_MULTI_LEDS_METHODS))

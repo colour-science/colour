@@ -57,9 +57,9 @@ def CV_range(
     >>> CV_range(8, True, True)
     array([ 16, 235])
     >>> CV_range(8, True, False)  # doctest: +ELLIPSIS
-    array([ 0.0627451...,  0.9215686...])
+    array([0.0627451..., 0.9215686...])
     >>> CV_range(10, False, False)
-    array([ 0.,  1.])
+    array([0., 1.])
     """
 
     if is_legal:
@@ -108,21 +108,21 @@ def legal_to_full(
     Examples
     --------
     >>> legal_to_full(64 / 1023)
-    0.0
+    np.float64(0.0)
     >>> legal_to_full(940 / 1023)
-    1.0
+    np.float64(1.0)
     >>> legal_to_full(64 / 1023, out_int=True)
-    0
+    np.int64(0)
     >>> legal_to_full(940 / 1023, out_int=True)
-    1023
+    np.int64(1023)
     >>> legal_to_full(64, in_int=True)
-    0.0
+    np.float64(0.0)
     >>> legal_to_full(940, in_int=True)
-    1.0
+    np.float64(1.0)
     >>> legal_to_full(64, in_int=True, out_int=True)
-    0
+    np.int64(0)
     >>> legal_to_full(940, in_int=True, out_int=True)
-    1023
+    np.int64(1023)
     """
 
     CV = as_float_array(CV)
@@ -175,21 +175,21 @@ def full_to_legal(
     Examples
     --------
     >>> full_to_legal(0.0)  # doctest: +ELLIPSIS
-    0.0625610...
+    np.float64(0.0625610...)
     >>> full_to_legal(1.0)  # doctest: +ELLIPSIS
-    0.9188660...
+    np.float64(0.9188660...)
     >>> full_to_legal(0.0, out_int=True)
-    64
+    np.int64(64)
     >>> full_to_legal(1.0, out_int=True)
-    940
+    np.int64(940)
     >>> full_to_legal(0, in_int=True)  # doctest: +ELLIPSIS
-    0.0625610...
+    np.float64(0.0625610...)
     >>> full_to_legal(1023, in_int=True)  # doctest: +ELLIPSIS
-    0.9188660...
+    np.float64(0.9188660...)
     >>> full_to_legal(0, in_int=True, out_int=True)
-    64
+    np.int64(64)
     >>> full_to_legal(1023, in_int=True, out_int=True)
-    940
+    np.int64(940)
     """
 
     CV = as_float_array(CV)

@@ -116,12 +116,12 @@ class Extrapolator:
     >>> interpolator = LinearInterpolator(x, y)
     >>> extrapolator = Extrapolator(interpolator)
     >>> extrapolator(1)
-    -1.0
+    np.float64(-1.0)
 
     Extrapolating an `ArrayLike` variable:
 
     >>> extrapolator(np.array([6, 7, 8]))
-    array([ 4.,  5.,  6.])
+    array([4., 5., 6.])
 
     Using the *Constant* extrapolation method:
 
@@ -130,7 +130,7 @@ class Extrapolator:
     >>> interpolator = LinearInterpolator(x, y)
     >>> extrapolator = Extrapolator(interpolator, method="Constant")
     >>> extrapolator(np.array([0.1, 0.2, 8, 9]))
-    array([ 1.,  1.,  3.,  3.])
+    array([1., 1., 3., 3.])
 
     Using defined *left* boundary and *Constant* extrapolation method:
 
@@ -139,7 +139,7 @@ class Extrapolator:
     >>> interpolator = LinearInterpolator(x, y)
     >>> extrapolator = Extrapolator(interpolator, method="Constant", left=0)
     >>> extrapolator(np.array([0.1, 0.2, 8, 9]))
-    array([ 0.,  0.,  3.,  3.])
+    array([0., 0., 3., 3.])
     """
 
     def __init__(

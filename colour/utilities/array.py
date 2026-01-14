@@ -600,7 +600,7 @@ def as_array(
     >>> as_array([1, 2, 3])  # doctest: +ELLIPSIS
     array([1, 2, 3]...)
     >>> as_array([1, 2, 3], dtype=DTYPE_FLOAT_DEFAULT)
-    array([ 1.,  2.,  3.])
+    array([1., 2., 3.])
     """
 
     # TODO: Remove when https://github.com/numpy/numpy/issues/5718 is
@@ -647,7 +647,7 @@ def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> DTypeInt | NDAr
     Examples
     --------
     >>> as_int(np.array(1))
-    1
+    np.int64(1)
     >>> as_int(np.array([1]))  # doctest: +SKIP
     array([1])
     >>> as_int(np.arange(10))  # doctest: +SKIP
@@ -700,11 +700,11 @@ def as_float(
     Examples
     --------
     >>> as_float(np.array(1))
-    1.0
+    np.float64(1.0)
     >>> as_float(np.array([1]))
-    array([ 1.])
+    array([1.])
     >>> as_float(np.arange(10))
-    array([ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.])
+    array([0., 1., 2., 3., 4., 5., 6., 7., 8., 9.])
     """
 
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
@@ -778,7 +778,7 @@ def as_float_array(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> NDArr
     Examples
     --------
     >>> as_float_array([1, 2, 3])
-    array([ 1.,  2.,  3.])
+    array([1., 2., 3.])
     """
 
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
@@ -815,7 +815,7 @@ def as_int_scalar(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> int:
     Examples
     --------
     >>> as_int_scalar(np.array(1))
-    1
+    np.int64(1)
     """
 
     a = np.squeeze(as_int_array(a, dtype))
@@ -853,7 +853,7 @@ def as_float_scalar(a: ArrayLike, dtype: Type[DTypeFloat] | None = None) -> floa
     Examples
     --------
     >>> as_float_scalar(np.array(1))
-    1.0
+    np.float64(1.0)
     """
 
     a = np.squeeze(as_float_array(a, dtype))
@@ -890,9 +890,9 @@ def as_complex_array(
     Examples
     --------
     >>> as_complex_array([1, 2, 3])
-    array([ 1.+0.j,  2.+0.j,  3.+0.j])
+    array([1.+0.j, 2.+0.j, 3.+0.j])
     >>> as_complex_array([1 + 2j, 3 + 4j])
-    array([ 1.+2.j,  3.+4.j])
+    array([1.+2.j, 3.+4.j])
     """
 
     dtype = optional(dtype, DTYPE_COMPLEX_DEFAULT)
@@ -1112,19 +1112,19 @@ class domain_range_scale:
 
     >>> with domain_range_scale("1"):
     ...     to_domain_1(1)
-    array(1.0)
+    array(1.)
     >>> with domain_range_scale("Reference"):
     ...     from_range_1(1)
-    array(1.0)
+    array(1.)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     to_domain_1(1)
-    array(1.0)
+    array(1.)
     >>> with domain_range_scale("1"):
     ...     from_range_1(1)
-    array(1.0)
+    array(1.)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
@@ -1133,7 +1133,7 @@ class domain_range_scale:
     array(0.01)
     >>> with domain_range_scale("100"):
     ...     from_range_1(1)
-    array(100.0)
+    array(100.)
     """
 
     def __init__(
@@ -1349,13 +1349,13 @@ def to_domain_1(
 
     >>> with domain_range_scale("Reference"):
     ...     to_domain_1(1)
-    array(1.0)
+    array(1.)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     to_domain_1(1)
-    array(1.0)
+    array(1.)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
@@ -1416,13 +1416,13 @@ def to_domain_10(
 
     >>> with domain_range_scale("Reference"):
     ...     to_domain_10(1)
-    array(1.0)
+    array(1.)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     to_domain_10(1)
-    array(10.0)
+    array(10.)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
@@ -1483,19 +1483,19 @@ def to_domain_100(
 
     >>> with domain_range_scale("Reference"):
     ...     to_domain_100(1)
-    array(1.0)
+    array(1.)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     to_domain_100(1)
-    array(100.0)
+    array(100.)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
     >>> with domain_range_scale("100"):
     ...     to_domain_100(1)
-    array(1.0)
+    array(1.)
     """
 
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
@@ -1548,13 +1548,13 @@ def to_domain_degrees(
 
     >>> with domain_range_scale("Reference"):
     ...     to_domain_degrees(1)
-    array(1.0)
+    array(1.)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     to_domain_degrees(1)
-    array(360.0)
+    array(360.)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
@@ -1621,13 +1621,13 @@ def to_domain_int(
 
     >>> with domain_range_scale("Reference"):
     ...     to_domain_int(1)
-    array(1.0)
+    array(1.)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     to_domain_int(1)
-    array(255.0)
+    array(255.)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
@@ -1693,19 +1693,19 @@ def from_range_1(
 
     >>> with domain_range_scale("Reference"):
     ...     from_range_1(1)
-    array(1.0)
+    array(1.)
 
     With *Colour* domain-range scale set to **'1'**:
 
     >>> with domain_range_scale("1"):
     ...     from_range_1(1)
-    array(1.0)
+    array(1.)
 
     With *Colour* domain-range scale set to **'100'** (unsupported):
 
     >>> with domain_range_scale("100"):
     ...     from_range_1(1)
-    array(100.0)
+    array(100.)
     """
 
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
@@ -1764,7 +1764,7 @@ def from_range_10(
 
     >>> with domain_range_scale("Reference"):
     ...     from_range_10(1)
-    array(1.0)
+    array(1.)
 
     With *Colour* domain-range scale set to **'1'**:
 
@@ -1776,7 +1776,7 @@ def from_range_10(
 
     >>> with domain_range_scale("100"):
     ...     from_range_10(1)
-    array(10.0)
+    array(10.)
     """
 
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
@@ -1835,7 +1835,7 @@ def from_range_100(
 
     >>> with domain_range_scale("Reference"):
     ...     from_range_100(1)
-    array(1.0)
+    array(1.)
 
     With *Colour* domain-range scale set to **'1'**:
 
@@ -1847,7 +1847,7 @@ def from_range_100(
 
     >>> with domain_range_scale("100"):
     ...     from_range_100(1)
-    array(1.0)
+    array(1.)
     """
 
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
@@ -1905,7 +1905,7 @@ def from_range_degrees(
 
     >>> with domain_range_scale("Reference"):
     ...     from_range_degrees(1)
-    array(1.0)
+    array(1.)
 
     With *Colour* domain-range scale set to **'1'**:
 
@@ -1984,7 +1984,7 @@ def from_range_int(
 
     >>> with domain_range_scale("Reference"):
     ...     from_range_int(1)
-    array(1.0)
+    array(1.)
 
     With *Colour* domain-range scale set to **'1'**:
 
@@ -2232,9 +2232,9 @@ def closest(a: ArrayLike, b: ArrayLike) -> NDArray:
     ...     ]
     ... )
     >>> closest(a, 63)
-    array([ 62.70988028])
+    array([62.70988028])
     >>> closest(a, [63, 25])
-    array([ 62.70988028,  25.40026416])
+    array([62.70988028, 25.40026416])
     """
 
     a = np.array(a)
@@ -2270,17 +2270,17 @@ def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
 
     >>> y = np.array([1, 2, 3, 4, 5])
     >>> interval(y)
-    array([ 1.])
+    array([1.])
     >>> interval(y, False)
-    array([ 1.,  1.,  1.,  1.])
+    array([1., 1., 1., 1.])
 
     Non-uniformly spaced variable:
 
     >>> y = np.array([1, 2, 3, 4, 8])
     >>> interval(y)
-    array([ 1.,  4.])
+    array([1., 4.])
     >>> interval(y, False)
-    array([ 1.,  1.,  1.,  4.])
+    array([1., 1., 1., 4.])
     """
 
     distribution = as_float_array(distribution)
@@ -2372,9 +2372,9 @@ def in_array(a: ArrayLike, b: ArrayLike, tolerance: Real = EPSILON) -> NDArray:
     >>> a = np.array([0.50, 0.60])
     >>> b = np.linspace(0, 10, 101)
     >>> np.isin(a, b)
-    array([ True, False], dtype=bool)
+    array([ True, False])
     >>> in_array(a, b)
-    array([ True,  True], dtype=bool)
+    array([ True,  True])
     """
 
     a = as_float_array(a)
@@ -2414,31 +2414,31 @@ def tstack(
     --------
     >>> a = 0
     >>> tstack([a, a, a])
-    array([ 0.,  0.,  0.])
+    array([0., 0., 0.])
     >>> a = np.arange(0, 6)
     >>> tstack([a, a, a])
-    array([[ 0.,  0.,  0.],
-           [ 1.,  1.,  1.],
-           [ 2.,  2.,  2.],
-           [ 3.,  3.,  3.],
-           [ 4.,  4.,  4.],
-           [ 5.,  5.,  5.]])
+    array([[0., 0., 0.],
+           [1., 1., 1.],
+           [2., 2., 2.],
+           [3., 3., 3.],
+           [4., 4., 4.],
+           [5., 5., 5.]])
     >>> a = np.reshape(a, (1, 6))
     >>> tstack([a, a, a])
-    array([[[ 0.,  0.,  0.],
-            [ 1.,  1.,  1.],
-            [ 2.,  2.,  2.],
-            [ 3.,  3.,  3.],
-            [ 4.,  4.,  4.],
-            [ 5.,  5.,  5.]]])
+    array([[[0., 0., 0.],
+            [1., 1., 1.],
+            [2., 2., 2.],
+            [3., 3., 3.],
+            [4., 4., 4.],
+            [5., 5., 5.]]])
     >>> a = np.reshape(a, (1, 1, 6))
     >>> tstack([a, a, a])
-    array([[[[ 0.,  0.,  0.],
-             [ 1.,  1.,  1.],
-             [ 2.,  2.,  2.],
-             [ 3.,  3.,  3.],
-             [ 4.,  4.,  4.],
-             [ 5.,  5.,  5.]]]])
+    array([[[[0., 0., 0.],
+             [1., 1., 1.],
+             [2., 2., 2.],
+             [3., 3., 3.],
+             [4., 4., 4.],
+             [5., 5., 5.]]]])
     """
 
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
@@ -2477,12 +2477,12 @@ def tsplit(
     --------
     >>> a = np.array([0, 0, 0])
     >>> tsplit(a)
-    array([ 0.,  0.,  0.])
+    array([0., 0., 0.])
     >>> a = np.array([[0, 0, 0], [1, 1, 1], [2, 2, 2], [3, 3, 3], [4, 4, 4], [5, 5, 5]])
     >>> tsplit(a)
-    array([[ 0.,  1.,  2.,  3.,  4.,  5.],
-           [ 0.,  1.,  2.,  3.,  4.,  5.],
-           [ 0.,  1.,  2.,  3.,  4.,  5.]])
+    array([[0., 1., 2., 3., 4., 5.],
+           [0., 1., 2., 3., 4., 5.],
+           [0., 1., 2., 3., 4., 5.]])
     >>> a = np.array(
     ...     [
     ...         [
@@ -2496,11 +2496,11 @@ def tsplit(
     ...     ]
     ... )
     >>> tsplit(a)
-    array([[[ 0.,  1.,  2.,  3.,  4.,  5.]],
+    array([[[0., 1., 2., 3., 4., 5.]],
     <BLANKLINE>
-           [[ 0.,  1.,  2.,  3.,  4.,  5.]],
+           [[0., 1., 2., 3., 4., 5.]],
     <BLANKLINE>
-           [[ 0.,  1.,  2.,  3.,  4.,  5.]]])
+           [[0., 1., 2., 3., 4., 5.]]])
     """
 
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
@@ -2540,25 +2540,25 @@ def row_as_diagonal(a: ArrayLike) -> NDArray:
     ...     ]
     ... )
     >>> row_as_diagonal(a)
-    array([[[ 0.25891593,  0.        ,  0.        ],
-            [ 0.        ,  0.07299478,  0.        ],
-            [ 0.        ,  0.        ,  0.36586996]],
+    array([[[0.25891593, 0.        , 0.        ],
+            [0.        , 0.07299478, 0.        ],
+            [0.        , 0.        , 0.36586996]],
     <BLANKLINE>
-           [[ 0.30851087,  0.        ,  0.        ],
-            [ 0.        ,  0.37131459,  0.        ],
-            [ 0.        ,  0.        ,  0.16274825]],
+           [[0.30851087, 0.        , 0.        ],
+            [0.        , 0.37131459, 0.        ],
+            [0.        , 0.        , 0.16274825]],
     <BLANKLINE>
-           [[ 0.71061831,  0.        ,  0.        ],
-            [ 0.        ,  0.67718718,  0.        ],
-            [ 0.        ,  0.        ,  0.09562581]],
+           [[0.71061831, 0.        , 0.        ],
+            [0.        , 0.67718718, 0.        ],
+            [0.        , 0.        , 0.09562581]],
     <BLANKLINE>
-           [[ 0.71588836,  0.        ,  0.        ],
-            [ 0.        ,  0.76772047,  0.        ],
-            [ 0.        ,  0.        ,  0.15476079]],
+           [[0.71588836, 0.        , 0.        ],
+            [0.        , 0.76772047, 0.        ],
+            [0.        , 0.        , 0.15476079]],
     <BLANKLINE>
-           [[ 0.92985142,  0.        ,  0.        ],
-            [ 0.        ,  0.22263399,  0.        ],
-            [ 0.        ,  0.        ,  0.88027331]]])
+           [[0.92985142, 0.        , 0.        ],
+            [0.        , 0.22263399, 0.        ],
+            [0.        , 0.        , 0.88027331]]])
     """
 
     d = as_array(a)
@@ -2599,17 +2599,17 @@ def orient(
            [0, 1, 2, 3, 4],
            [0, 1, 2, 3, 4]])
     >>> orient(a, "90 CW")
-    array([[ 0.,  0.,  0.,  0.,  0.],
-           [ 1.,  1.,  1.,  1.,  1.],
-           [ 2.,  2.,  2.,  2.,  2.],
-           [ 3.,  3.,  3.,  3.,  3.],
-           [ 4.,  4.,  4.,  4.,  4.]])
+    array([[0., 0., 0., 0., 0.],
+           [1., 1., 1., 1., 1.],
+           [2., 2., 2., 2., 2.],
+           [3., 3., 3., 3., 3.],
+           [4., 4., 4., 4., 4.]])
     >>> orient(a, "Flip")
-    array([[ 4.,  3.,  2.,  1.,  0.],
-           [ 4.,  3.,  2.,  1.,  0.],
-           [ 4.,  3.,  2.,  1.,  0.],
-           [ 4.,  3.,  2.,  1.,  0.],
-           [ 4.,  3.,  2.,  1.,  0.]])
+    array([[4., 3., 2., 1., 0.],
+           [4., 3., 2., 1., 0.],
+           [4., 3., 2., 1., 0.],
+           [4., 3., 2., 1., 0.],
+           [4., 3., 2., 1., 0.]])
     """
 
     a = as_float_array(a)
@@ -2705,9 +2705,9 @@ def fill_nan(
     --------
     >>> a = np.array([0.1, 0.2, np.nan, 0.4, 0.5])
     >>> fill_nan(a)
-    array([ 0.1,  0.2,  0.3,  0.4,  0.5])
+    array([0.1, 0.2, 0.3, 0.4, 0.5])
     >>> fill_nan(a, method="Constant")
-    array([ 0.1,  0.2,  0. ,  0.4,  0.5])
+    array([0.1, 0.2, 0. , 0.4, 0.5])
     """
 
     a = np.array(a, copy=True)
@@ -2833,7 +2833,7 @@ def zeros(
     Examples
     --------
     >>> zeros(3)
-    array([ 0.,  0.,  0.])
+    array([0., 0., 0.])
     """
 
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
@@ -2873,7 +2873,7 @@ def ones(
     Examples
     --------
     >>> ones(3)
-    array([ 1.,  1.,  1.])
+    array([1., 1., 1.])
     """
 
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
@@ -2917,7 +2917,7 @@ def full(
     Examples
     --------
     >>> full(3, 2.5)
-    array([ 2.5,  2.5,  2.5])
+    array([2.5, 2.5, 2.5])
     """
 
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
@@ -2985,10 +2985,10 @@ def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
     ... )
     >>> indexes = np.array([[2, 0, 1, 1], [2, 1, 1, 0], [0, 0, 1, 2], [0, 0, 1, 2]])
     >>> index_along_last_axis(a, indexes)
-    array([[ 6.9,  3.3,  7.5,  1.6],
-           [ 2.8,  4.9,  9.7,  6.3],
-           [ 0.8,  5.6,  8.2,  1.4],
-           [ 4. ,  4. ,  7.1,  1.6]])
+    array([[6.9, 3.3, 7.5, 1.6],
+           [2.8, 4.9, 9.7, 6.3],
+           [0.8, 5.6, 8.2, 1.4],
+           [4. , 4. , 7.1, 1.6]])
 
     This function can be used to compute the result of :func:`np.min` along
     the last axis given the corresponding :func:`np.argmin` indexes.
@@ -3002,10 +3002,10 @@ def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
     get elements directly following the smallest elements:
 
     >>> index_along_last_axis(a, (indexes + 1) % 3)
-    array([[ 0.5,  3.3,  4.4,  7.4],
-           [ 5.9,  8.6,  9.7,  6.3],
-           [ 0.8,  5.6,  6.7,  7.1],
-           [ 4.8,  6.9,  7.1,  1.9]])
+    array([[0.5, 3.3, 4.4, 7.4],
+           [5.9, 8.6, 9.7, 6.3],
+           [0.8, 5.6, 6.7, 7.1],
+           [4.8, 6.9, 7.1, 1.9]])
     """
 
     a = np.array(a)

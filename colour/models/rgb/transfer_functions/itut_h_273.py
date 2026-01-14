@@ -101,13 +101,13 @@ def oetf_H273_Log(L_c: Domain1) -> Range1:
     Examples
     --------
     >>> oetf_H273_Log(0.18)  # doctest: +ELLIPSIS
-    0.6276362525516...
+    np.float64(0.6276362525516...)
     >>> oetf_H273_Log(0.01)  # doctest: +ELLIPSIS
-    0.0
+    np.float64(0.0)
     >>> oetf_H273_Log(0.001)  # doctest: +ELLIPSIS
-    0.0
+    np.float64(0.0)
     >>> oetf_H273_Log(1.0)  # doctest: +ELLIPSIS
-    1.0
+    np.float64(1.0)
     """
 
     L_c = to_domain_1(L_c)
@@ -164,11 +164,11 @@ def oetf_inverse_H273_Log(V: Domain1) -> Range1:
     Examples
     --------
     >>> oetf_inverse_H273_Log(0.6276362525516)  # doctest: +ELLIPSIS
-    0.17999999...
+    np.float64(0.17999999...)
     >>> oetf_inverse_H273_Log(0.0)  # doctest: +ELLIPSIS
-    0.01
+    np.float64(0.01)
     >>> oetf_inverse_H273_Log(1.0)  # doctest: +ELLIPSIS
-    1.0
+    np.float64(1.0)
     """
 
     V = to_domain_1(V)
@@ -226,13 +226,13 @@ def oetf_H273_LogSqrt(L_c: Domain1) -> Range1:
     Examples
     --------
     >>> oetf_H273_LogSqrt(0.18)  # doctest: +ELLIPSIS
-    0.702109002041...
+    np.float64(0.702109002041...)
     >>> oetf_H273_LogSqrt(0.003162277660168)  # doctest: +ELLIPSIS
-    0.0
+    np.float64(0.0)
     >>> oetf_H273_LogSqrt(0.0001)  # doctest: +ELLIPSIS
-    0.0
+    np.float64(0.0)
     >>> oetf_H273_LogSqrt(1.0)  # doctest: +ELLIPSIS
-    1.0
+    np.float64(1.0)
     """
 
     L_c = to_domain_1(L_c)
@@ -288,11 +288,11 @@ def oetf_inverse_H273_LogSqrt(V: Domain1) -> Range1:
     Examples
     --------
     >>> oetf_inverse_H273_LogSqrt(0.702109002041)  # doctest: +ELLIPSIS
-    0.1799999999...
+    np.float64(0.1799999999...)
     >>> oetf_inverse_H273_LogSqrt(0.0)  # doctest: +ELLIPSIS
-    0.00316227766...
+    np.float64(0.00316227766...)
     >>> oetf_inverse_H273_LogSqrt(1.0)  # doctest: +ELLIPSIS
-    1.0
+    np.float64(1.0)
     """
 
     V = to_domain_1(V)
@@ -352,9 +352,9 @@ def oetf_H273_IEC61966_2(L_c: Domain1) -> Range1:
     Examples
     --------
     >>> oetf_H273_IEC61966_2(0.18)  # doctest: +ELLIPSIS
-    0.4613561295004...
+    np.float64(0.4613561295004...)
     >>> oetf_H273_IEC61966_2(-0.18)  # doctest: +ELLIPSIS
-    -0.4613561295004...
+    np.float64(-0.4613561295004...)
     """
 
     L_c = as_float_array(L_c)
@@ -416,9 +416,9 @@ def oetf_inverse_H273_IEC61966_2(
     Examples
     --------
     >>> oetf_inverse_H273_IEC61966_2(0.461356129500)  # doctest: +ELLIPSIS
-    0.1799999999...
+    np.float64(0.1799999999...)
     >>> oetf_inverse_H273_IEC61966_2(-0.461356129500)  # doctest: +ELLIPSIS
-    -0.1799999999...
+    np.float64(-0.1799999999...)
     """
 
     V = as_float_array(V)
@@ -475,7 +475,7 @@ def eotf_H273_ST428_1(V: Domain1) -> Range1:
     Examples
     --------
     >>> eotf_H273_ST428_1(0.5000483377172)  # doctest: +ELLIPSIS
-    0.1799999...
+    np.float64(0.1799999...)
     """
 
     V = to_domain_1(V)
@@ -528,7 +528,7 @@ def eotf_inverse_H273_ST428_1(
     Examples
     --------
     >>> eotf_inverse_H273_ST428_1(0.18)  # doctest: +ELLIPSIS
-    0.5000483...
+    np.float64(0.5000483...)
     """
 
     L_o = to_domain_1(L_o)

@@ -232,14 +232,14 @@ def colourspace_model_axis_reorder(
     --------
     >>> a = np.array([0, 1, 2])
     >>> colourspace_model_axis_reorder(a, "CIE Lab")
-    array([ 1.,  2.,  0.])
+    array([1., 2., 0.])
     >>> colourspace_model_axis_reorder(a, "IPT")
-    array([ 1.,  2.,  0.])
+    array([1., 2., 0.])
     >>> colourspace_model_axis_reorder(a, "OSA UCS")
-    array([ 1.,  2.,  0.])
+    array([1., 2., 0.])
     >>> b = np.array([1, 2, 0])
     >>> colourspace_model_axis_reorder(b, "OSA UCS", "Inverse")
-    array([ 0.,  1.,  2.])
+    array([0., 1., 2.])
     """
 
     a = as_float_array(a)

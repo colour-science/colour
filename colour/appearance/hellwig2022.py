@@ -294,9 +294,11 @@ def XYZ_to_Hellwig2022(
     >>> surround = VIEWING_CONDITIONS_HELLWIG2022["Average"]
     >>> XYZ_to_Hellwig2022(XYZ, XYZ_w, L_A, Y_b, surround)
     ... # doctest: +ELLIPSIS
-    CAM_Specification_Hellwig2022(J=41.7312079..., C=0.0257636..., \
-h=217.0679597..., s=0.0608550..., Q=55.8523226..., M=0.0339889..., \
-H=275.5949861..., HC=None, J_HK=41.8802782..., Q_HK=56.0518358...)
+    CAM_Specification_Hellwig2022(J=np.float64(41.7312079...), \
+C=np.float64(0.0257636...), h=np.float64(217.0679597...), \
+s=np.float64(0.0608550...), Q=np.float64(55.8523226...), \
+M=np.float64(0.0339889...), H=np.float64(275.5949861...), HC=None, \
+J_HK=np.float64(41.8802782...), Q_HK=np.float64(56.0518358...))
     """
 
     XYZ = to_domain_100(XYZ)
@@ -493,7 +495,7 @@ def Hellwig2022_to_XYZ(
     >>> Y_b = 20.0
     >>> Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b)
     ... # doctest: +ELLIPSIS
-    array([ 19.01...,  20...  ,  21.78...])
+    array([19.01..., 20...  , 21.78...])
     >>> specification = CAM_Specification_Hellwig2022(
     ...     J_HK=41.880278283880095,
     ...     C=0.025763615829912909,
@@ -501,7 +503,7 @@ def Hellwig2022_to_XYZ(
     ... )
     >>> Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b)
     ... # doctest: +ELLIPSIS
-    array([ 19.01...,  20...  ,  21.78...])
+    array([19.01..., 20...  , 21.78...])
     """
 
     J, C, h, _s, _Q, M, _H, _HC, J_HK, _Q_HK = astuple(specification)
@@ -620,7 +622,7 @@ def viewing_conditions_dependent_parameters(
     --------
     >>> viewing_conditions_dependent_parameters(20.0, 100.0, 318.31)
     ... # doctest: +ELLIPSIS
-    (1.1675444..., 1.9272135...)
+    (np.float64(1.1675444...), np.float64(1.9272135...))
     """
 
     Y_b = as_float_array(Y_b)
@@ -655,7 +657,7 @@ def achromatic_response_forward(RGB: ArrayLike) -> NDArrayFloat:
     --------
     >>> RGB = np.array([7.94634384, 7.94713791, 7.9488967])
     >>> achromatic_response_forward(RGB)  # doctest: +ELLIPSIS
-    23.9322704...
+    np.float64(23.9322704...)
     """
 
     R, G, B = tsplit(RGB)
@@ -726,7 +728,7 @@ def eccentricity_factor(h: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> eccentricity_factor(217.067959767393)  # doctest: +ELLIPSIS
-    0.9945215...
+    np.float64(0.9945215...)
     """
 
     h = as_float_array(h)
@@ -779,7 +781,7 @@ def brightness_correlate(
     >>> J = 41.7310911325
     >>> A_w = 46.1741997997
     >>> brightness_correlate(c, J, A_w)  # doctest: +ELLIPSIS
-    55.8521663...
+    np.float64(55.8521663...)
     """
 
     c = as_float_array(c)
@@ -822,7 +824,7 @@ def colourfulness_correlate(
     >>> a = -0.00063418423001
     >>> b = -0.000479072513542
     >>> colourfulness_correlate(N_c, e_t, a, b)  # doctest: +ELLIPSIS
-    0.0387637...
+    np.float64(0.0387637...)
     """
 
     N_c = as_float_array(N_c)
@@ -857,7 +859,7 @@ def chroma_correlate(
     >>> M = 0.0387637282462
     >>> A_w = 46.1741997997
     >>> chroma_correlate(M, A_w)  # doctest: +ELLIPSIS
-    0.0293828...
+    np.float64(0.0293828...)
     """
 
     M = as_float_array(M)
@@ -888,7 +890,7 @@ def saturation_correlate(M: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     >>> M = 0.0387637282462
     >>> Q = 55.8523226578
     >>> saturation_correlate(M, Q)  # doctest: +ELLIPSIS
-    0.0694039...
+    np.float64(0.0694039...)
     """
 
     M = as_float_array(M)
@@ -927,7 +929,7 @@ def P_p(
     >>> e_t = 1.13423124867
     >>> A = 23.9322704261
     >>> P_p(N_c, e_t, A)  # doctest: +ELLIPSIS
-    array([ 48.7719436...,  23.9322704...])
+    array([48.7719436..., 23.9322704...])
     """
 
     N_c = as_float_array(N_c)
@@ -964,7 +966,7 @@ def hue_angle_dependency_Hellwig2022(
     --------
     >>> hue_angle_dependency_Hellwig2022(217.06795976739301)
     ... # doctest: +ELLIPSIS
-    1.2768219...
+    np.float64(1.2768219...)
     """
 
     h = as_float_array(h)

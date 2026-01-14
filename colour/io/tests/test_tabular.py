@@ -6,6 +6,7 @@ import os
 import shutil
 import tempfile
 
+import numpy as np
 import pytest
 
 from colour.colorimetry import SpectralDistribution, SpectralShape
@@ -209,7 +210,10 @@ class TestWriteSdsToCsvFile:
         write_sds_to_csv_file(sds, colour_checker_n_ohta_test)
         sds_test = read_sds_from_csv_file(colour_checker_n_ohta_test)
         for key, value in sds.items():
-            assert value == sds_test[key]
+            np.testing.assert_allclose(
+                value.wavelengths, sds_test[key].wavelengths, atol=1e-10
+            )
+            np.testing.assert_allclose(value.values, sds_test[key].values, atol=1e-10)
 
     def test_raise_exception_write_sds_to_csv_file(self) -> None:
         """

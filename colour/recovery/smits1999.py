@@ -112,7 +112,7 @@ def XYZ_to_RGB_Smits1999(XYZ: Domain1) -> Range1:
     >>> import numpy as np
     >>> XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
     >>> XYZ_to_RGB_Smits1999(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.4063959...,  0.0275289...,  0.0398219...])
+    array([0.4063959..., 0.0275289..., 0.0398219...])
     """
 
     return XYZ_to_RGB(XYZ, RGB_COLOURSPACE_SMITS1999)
@@ -166,7 +166,7 @@ def RGB_to_msds_Smits1999(
     ... )
     >>> RGB_to_msds_Smits1999(RGB).shape
     (3, 10)
-    >>> RGB_to_msds_Smits1999(RGB)[0, 0]  # doctest: +ELLIPSIS
+    >>> float(RGB_to_msds_Smits1999(RGB)[0, 0])  # doctest: +ELLIPSIS
     0.0829...
     """
 
@@ -286,22 +286,22 @@ def RGB_to_sd_Smits1999(
     >>> sd = RGB_to_sd_Smits1999(RGB)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
-    SpectralDistribution([[ 380.        ,    0.0787830...],
-                          [ 417.7778    ,    0.0622018...],
-                          [ 455.5556    ,    0.0446206...],
-                          [ 493.3333    ,    0.0352220...],
-                          [ 531.1111    ,    0.0324149...],
-                          [ 568.8889    ,    0.0330105...],
-                          [ 606.6667    ,    0.3207115...],
-                          [ 644.4444    ,    0.3836164...],
-                          [ 682.2222    ,    0.3836164...],
-                          [ 720.        ,    0.3835649...]],
+    SpectralDistribution([[380.        ,   0.0787830...],
+                          [417.7778    ,   0.0622018...],
+                          [455.5556    ,   0.0446206...],
+                          [493.3333    ,   0.0352220...],
+                          [531.1111    ,   0.0324149...],
+                          [568.8889    ,   0.0330105...],
+                          [606.6667    ,   0.3207115...],
+                          [644.4444    ,   0.3836164...],
+                          [682.2222    ,   0.3836164...],
+                          [720.        ,   0.3835649...]],
                          LinearInterpolator,
                          {},
                          Extrapolator,
                          {'method': 'Constant', 'left': None, 'right': None})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
-    array([ 0.1894770...,  0.1126470...,  0.0474420...])
+    array([0.1894770..., 0.1126470..., 0.0474420...])
     """
 
     basis = optional(basis, MSDS_SMITS1999)

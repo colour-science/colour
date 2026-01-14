@@ -82,7 +82,7 @@ def RGB_to_CMY(RGB: Domain1) -> Range1:
     --------
     >>> RGB = np.array([0.45620519, 0.03081071, 0.04091952])
     >>> RGB_to_CMY(RGB)  # doctest: +ELLIPSIS
-    array([ 0.5437948...,  0.9691892...,  0.9590804...])
+    array([0.5437948..., 0.9691892..., 0.9590804...])
     """
 
     CMY = 1 - to_domain_1(RGB)
@@ -126,7 +126,7 @@ def CMY_to_RGB(CMY: Domain1) -> Range1:
     --------
     >>> CMY = np.array([0.54379481, 0.96918929, 0.95908048])
     >>> CMY_to_RGB(CMY)  # doctest: +ELLIPSIS
-    array([ 0.4562051...,  0.0308107...,  0.0409195...])
+    array([0.4562051..., 0.0308107..., 0.0409195...])
     """
 
     RGB = 1 - to_domain_1(CMY)
@@ -170,7 +170,7 @@ def CMY_to_CMYK(CMY: Domain1) -> Range1:
     --------
     >>> CMY = np.array([0.54379481, 0.96918929, 0.95908048])
     >>> CMY_to_CMYK(CMY)  # doctest: +ELLIPSIS
-    array([ 0.        ,  0.9324630...,  0.9103045...,  0.5437948...])
+    array([0.        , 0.9324630..., 0.9103045..., 0.5437948...])
     """
 
     C, M, Y = tsplit(to_domain_1(CMY))
@@ -229,7 +229,7 @@ def CMYK_to_CMY(CMYK: Domain1) -> Range1:
     --------
     >>> CMYK = np.array([0.50000000, 0.00000000, 0.74400000, 0.01960784])
     >>> CMYK_to_CMY(CMYK)  # doctest: +ELLIPSIS
-    array([ 0.5098039...,  0.0196078...,  0.7490196...])
+    array([0.5098039..., 0.0196078..., 0.7490196...])
     """
 
     C, M, Y, K = tsplit(to_domain_1(CMYK))

@@ -154,7 +154,7 @@ def matrix_augmented_Cheung2004(
     --------
     >>> RGB = np.array([0.17224810, 0.09170660, 0.06416938])
     >>> matrix_augmented_Cheung2004(RGB, terms=5)  # doctest: +ELLIPSIS
-    array([ 0.1722481...,  0.0917066...,  0.0641693...,  0.0010136...,  1...])
+    array([0.1722481..., 0.0917066..., 0.0641693..., 0.0010136..., 1...])
     """
 
     RGB = as_float_array(RGB)
@@ -456,9 +456,8 @@ def polynomial_expansion_Finlayson2015(
     --------
     >>> RGB = np.array([0.17224810, 0.09170660, 0.06416938])
     >>> polynomial_expansion_Finlayson2015(RGB, degree=2)  # doctest: +ELLIPSIS
-    array([ 0.1722481...,  0.0917066...,  0.0641693...,  0.1256832...,  \
-0.0767121...,
-            0.1051335...])
+    array([0.1722481..., 0.0917066..., 0.0641693..., 0.1256832..., 0.0767121...,
+           0.1051335...])
     """
 
     RGB = as_float_array(RGB)
@@ -645,7 +644,7 @@ def polynomial_expansion_Vandermonde(a: ArrayLike, degree: int = 1) -> NDArrayFl
     --------
     >>> RGB = np.array([0.17224810, 0.09170660, 0.06416938])
     >>> polynomial_expansion_Vandermonde(RGB)  # doctest: +ELLIPSIS
-    array([ 0.1722481 ,  0.0917066 ,  0.06416938,  1.        ])
+    array([0.1722481..., 0.0917066..., 0.0641693..., 1...])
     """
 
     a = as_float_array(a)
@@ -719,9 +718,9 @@ def polynomial_expansion(
     --------
     >>> RGB = np.array([0.17224810, 0.09170660, 0.06416938])
     >>> polynomial_expansion(RGB)  # doctest: +ELLIPSIS
-    array([ 0.1722481...,  0.0917066...,  0.0641693...])
+    array([0.1722481..., 0.0917066..., 0.0641693...])
     >>> polynomial_expansion(RGB, "Cheung 2004", terms=5)  # doctest: +ELLIPSIS
-    array([ 0.1722481...,  0.0917066...,  0.0641693...,  0.0010136...,  1...])
+    array([0.1722481..., 0.0917066..., 0.0641693..., 0.0010136..., 1...])
     """
 
     method = validate_method(method, tuple(POLYNOMIAL_EXPANSION_METHODS))
@@ -1052,7 +1051,7 @@ def apply_matrix_colour_correction_Cheung2004(
     ...     ]
     ... )
     >>> apply_matrix_colour_correction_Cheung2004(RGB, CCM)  # doctest: +ELLIPSIS
-    array([ 0.1793456...,  0.1003392...,  0.0617218...])
+    array([0.1793456..., 0.1003392..., 0.0617218...])
     """
 
     RGB = as_float_array(RGB)
@@ -1107,7 +1106,7 @@ def apply_matrix_colour_correction_Finlayson2015(
     ...     ]
     ... )
     >>> apply_matrix_colour_correction_Finlayson2015(RGB, CCM)  # doctest: +ELLIPSIS
-    array([ 0.1793456...,  0.1003392...,  0.0617218...])
+    array([0.1793456..., 0.1003392..., 0.0617218...])
     """
 
     RGB = as_float_array(RGB)
@@ -1157,7 +1156,7 @@ def apply_matrix_colour_correction_Vandermonde(
     ...     ]
     ... )
     >>> apply_matrix_colour_correction_Vandermonde(RGB, CCM)  # doctest: +ELLIPSIS
-    array([ 0.2128689...,  0.1106242...,  0.0362129...])
+    array([0.2128689..., 0.1106242..., 0.0362129...])
     """
 
     RGB = as_float_array(RGB)
@@ -1250,7 +1249,7 @@ def apply_matrix_colour_correction(
     ...     ]
     ... )
     >>> apply_matrix_colour_correction(RGB, CCM)  # doctest: +ELLIPSIS
-    array([ 0.1793456...,  0.1003392...,  0.0617218...])
+    array([0.1793456..., 0.1003392..., 0.0617218...])
     """
 
     method = validate_method(method, tuple(APPLY_MATRIX_COLOUR_CORRECTION_METHODS))
@@ -1299,7 +1298,7 @@ def colour_correction_Cheung2004(
     >>> M_T = prng.random_sample((24, 3))
     >>> M_R = M_T + (prng.random_sample((24, 3)) - 0.5) * 0.5
     >>> colour_correction_Cheung2004(RGB, M_T, M_R)  # doctest: +ELLIPSIS
-    array([ 0.1793456...,  0.1003392...,  0.0617218...])
+    array([0.1793456..., 0.1003392..., 0.0617218...])
     """
 
     return apply_matrix_colour_correction_Cheung2004(
@@ -1349,7 +1348,7 @@ def colour_correction_Finlayson2015(
     >>> M_T = prng.random_sample((24, 3))
     >>> M_R = M_T + (prng.random_sample((24, 3)) - 0.5) * 0.5
     >>> colour_correction_Finlayson2015(RGB, M_T, M_R)  # doctest: +ELLIPSIS
-    array([ 0.1793456...,  0.1003392...,  0.0617218...])
+    array([0.1793456..., 0.1003392..., 0.0617218...])
     """
 
     return apply_matrix_colour_correction_Finlayson2015(
@@ -1397,7 +1396,7 @@ def colour_correction_Vandermonde(
     >>> M_T = prng.random_sample((24, 3))
     >>> M_R = M_T + (prng.random_sample((24, 3)) - 0.5) * 0.5
     >>> colour_correction_Vandermonde(RGB, M_T, M_R)  # doctest: +ELLIPSIS
-    array([ 0.2128689...,  0.1106242...,  0.036213 ...])
+    array([0.2128689..., 0.1106242..., 0.036213...])
     """
 
     return apply_matrix_colour_correction_Vandermonde(
@@ -1532,7 +1531,7 @@ def colour_correction(
     ...     ]
     ... )
     >>> colour_correction(RGB, M_T, M_R)  # doctest: +ELLIPSIS
-    array([ 0.1334872...,  0.0843921...,  0.0599014...])
+    array([0.1334872..., 0.0843921..., 0.0599014...])
     """
 
     method = validate_method(method, tuple(COLOUR_CORRECTION_METHODS))

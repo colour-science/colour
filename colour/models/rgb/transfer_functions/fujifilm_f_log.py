@@ -119,14 +119,14 @@ def log_encoding_FLog(
     Examples
     --------
     >>> log_encoding_FLog(0.18)  # doctest: +ELLIPSIS
-    0.4593184...
+    np.float64(0.4593184...)
 
     The values of *2-2. F-Log Code Value* table in :cite:`Fujifilm2022`
     are obtained as follows:
 
     >>> x = np.array([0, 18, 90]) / 100
     >>> np.around(log_encoding_FLog(x, 10, False) * 100, 1)
-    array([  3.5,  46.3,  73.2])
+    array([ 3.5, 46.3, 73.2])
     >>> np.around(log_encoding_FLog(x) * (2**10 - 1)).astype(np.int_)
     array([ 95, 470, 705])
     """
@@ -208,7 +208,7 @@ def log_decoding_FLog(
     Examples
     --------
     >>> log_decoding_FLog(0.45931845866162124)  # doctest: +ELLIPSIS
-    0.1800000...
+    np.float64(0.1800000...)
     """
 
     out_r = to_domain_1(out_r)
@@ -286,14 +286,14 @@ def log_encoding_FLog2(
     Examples
     --------
     >>> log_encoding_FLog2(0.18)  # doctest: +ELLIPSIS
-    0.3910072...
+    np.float64(0.3910072...)
 
     The values of *2-2. F-Log2 Code Value* table in
     :cite:`Fujifilm2022a` are obtained as follows:
 
     >>> x = np.array([0, 18, 90]) / 100
     >>> np.around(log_encoding_FLog2(x, 10, False) * 100, 1)
-    array([  3.5,  38.4,  57.8])
+    array([ 3.5, 38.4, 57.8])
     >>> np.around(log_encoding_FLog2(x) * (2**10 - 1)).astype(np.int_)
     array([ 95, 400, 570])
     """
@@ -356,7 +356,7 @@ def log_decoding_FLog2(
     Examples
     --------
     >>> log_decoding_FLog2(0.39100724189123004)  # doctest: +ELLIPSIS
-    0.1799999...
+    np.float64(0.18...)
     """
 
     constants = optional(constants, CONSTANTS_FLOG2)

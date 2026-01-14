@@ -72,7 +72,7 @@ def xy_to_CCT_Hernandez1999(xy: ArrayLike) -> NDArrayFloat:
     --------
     >>> xy = np.array([0.31270, 0.32900])
     >>> xy_to_CCT_Hernandez1999(xy)  # doctest: +ELLIPSIS
-    6500.7420431...
+    np.float64(6500.7420431...)
     """
 
     x, y = tsplit(xy)
@@ -138,7 +138,7 @@ def CCT_to_xy_Hernandez1999(
     Examples
     --------
     >>> CCT_to_xy_Hernandez1999(6500.7420431786531)  # doctest: +ELLIPSIS
-    array([ 0.3127...,  0.329...])
+    array([0.3127..., 0.329...])
     """
 
     from scipy.optimize import minimize  # noqa: PLC0415

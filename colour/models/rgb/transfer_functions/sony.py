@@ -105,7 +105,7 @@ def log_encoding_SLog(
     Examples
     --------
     >>> log_encoding_SLog(0.18)  # doctest: +ELLIPSIS
-    0.3849708...
+    np.float64(0.3849708...)
 
     The values of *IRE and CV of S-Log2 @ISO800* table in
     :cite:`SonyCorporation2012a` are obtained as follows:
@@ -182,7 +182,7 @@ def log_decoding_SLog(
     Examples
     --------
     >>> log_decoding_SLog(0.384970815928670)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     """
 
     y = to_domain_1(y)
@@ -251,7 +251,7 @@ def log_encoding_SLog2(
     Examples
     --------
     >>> log_encoding_SLog2(0.18)  # doctest: +ELLIPSIS
-    0.3395325...
+    np.float64(0.3395325...)
 
     The values of *IRE and CV of S-Log2 @ISO800* table in
     :cite:`SonyCorporation2012a` are obtained as follows:
@@ -319,7 +319,7 @@ def log_decoding_SLog2(
     Examples
     --------
     >>> log_decoding_SLog2(0.339532524633774)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     """
 
     return (
@@ -378,7 +378,7 @@ def log_encoding_SLog3(
     Examples
     --------
     >>> log_encoding_SLog3(0.18)  # doctest: +ELLIPSIS
-    0.4105571...
+    np.float64(0.4105571...)
 
     The values of *S-Log3 10bit code values (18%, 90%)* table in
     :cite:`SonyCorporationd` are obtained as follows:
@@ -455,7 +455,7 @@ def log_decoding_SLog3(
     Examples
     --------
     >>> log_decoding_SLog3(0.410557184750733)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     """
 
     y = to_domain_1(y)

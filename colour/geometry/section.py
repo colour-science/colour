@@ -137,9 +137,9 @@ def close_chord(vertices: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> close_chord(np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]]))
-    array([[ 0. ,  0.5,  0. ],
-           [ 0. ,  0. ,  0.5],
-           [ 0. ,  0.5,  0. ]])
+    array([[0. , 0.5, 0. ],
+           [0. , 0. , 0.5],
+           [0. , 0.5, 0. ]])
     """
 
     vertices = as_float_array(vertices)
@@ -176,8 +176,8 @@ def unique_vertices(
     Examples
     --------
     >>> unique_vertices(np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5], [0.0, 0.5, 0.0]]))
-    array([[ 0. ,  0.5,  0. ],
-           [ 0. ,  0. ,  0.5]])
+    array([[0. , 0.5, 0. ],
+           [0. , 0. , 0.5]])
     """
 
     vertices = as_float_array(vertices)

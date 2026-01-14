@@ -194,9 +194,9 @@ def matrix_chromatic_adaptation_vk20(
     >>> XYZ_n = np.array([0.96429568, 1.00000000, 0.82510460])
     >>> matrix_chromatic_adaptation_vk20(XYZ_p, XYZ_n)
     ... # doctest: +ELLIPSIS
-    array([[  1.0279139...e+00,   2.9137117...e-02,  -2.2794068...e-02],
-           [  2.0702840...e-02,   9.9005316...e-01,  -9.2143464...e-03],
-           [ -6.3758553...e-04,  -1.1577319...e-03,   9.1296320...e-01]])
+    array([[ 1.0279139...e+00,  2.9137117...e-02, -2.2794068...e-02],
+           [ 2.0702840...e-02,  9.9005316...e-01, -9.2143464...e-03],
+           [-6.3758553...e-04, -1.1577319...e-03,  9.1296320...e-01]])
 
     Using *Bradford* transform:
 
@@ -319,7 +319,7 @@ def chromatic_adaptation_vK20(
     >>> XYZ_n = np.array([0.96429568, 1.00000000, 0.82510460])
     >>> chromatic_adaptation_vK20(XYZ, XYZ_p, XYZ_n)
     ... # doctest: +ELLIPSIS
-    array([ 0.2146884...,  0.1245616...,  0.0466255...])
+    array([0.2146884..., 0.1245616..., 0.0466255...])
 
     Using *Bradford* transform:
 
@@ -329,7 +329,7 @@ def chromatic_adaptation_vK20(
     >>> transform = "Bradford"
     >>> chromatic_adaptation_vK20(XYZ, XYZ_p, XYZ_n, transform=transform)
     ... # doctest: +ELLIPSIS
-    array([ 0.2153837...,  0.1250885...,  0.0466455...])
+    array([0.2153837..., 0.1250885..., 0.0466455...])
     """
 
     XYZ = to_domain_1(XYZ)

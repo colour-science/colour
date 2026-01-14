@@ -225,7 +225,7 @@ def XYZ_to_Izazbz(
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_Izazbz(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.0120779...,  0.0092430...,  0.0052600...])
+    array([0.0120779..., 0.0092430..., 0.0052600...])
     """
 
     X_D65, Y_D65, Z_D65 = tsplit(as_float_array(XYZ_D65))
@@ -322,7 +322,7 @@ def Izazbz_to_XYZ(
     --------
     >>> Izazbz = np.array([0.01207793, 0.00924302, 0.00526007])
     >>> Izazbz_to_XYZ(Izazbz)  # doctest: +ELLIPSIS
-    array([ 0.2065401...,  0.1219723...,  0.0513696...])
+    array([0.2065401..., 0.1219723..., 0.0513696...])
     """
 
     Izazbz = as_float_array(Izazbz)
@@ -415,7 +415,7 @@ def XYZ_to_Jzazbz(
     --------
         >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         >>> XYZ_to_Jzazbz(XYZ)  # doctest: +ELLIPSIS
-        array([ 0.0053504...,  0.0092430...,  0.0052600...])
+        array([0.0053504..., 0.0092430..., 0.0052600...])
     """
 
     XYZ_D65 = as_float_array(XYZ_D65)
@@ -486,7 +486,7 @@ def Jzazbz_to_XYZ(
     --------
     >>> Jzazbz = np.array([0.00535048, 0.00924302, 0.00526007])
     >>> Jzazbz_to_XYZ(Jzazbz)  # doctest: +ELLIPSIS
-    array([ 0.2065402...,  0.1219723...,  0.0513696...])
+    array([0.2065402..., 0.1219723..., 0.0513696...])
     """
 
     J_z, a_z, b_z = tsplit(as_float_array(Jzazbz))

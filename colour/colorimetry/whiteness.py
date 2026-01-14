@@ -134,7 +134,7 @@ def whiteness_Berger1959(XYZ: Domain100, XYZ_0: Domain100) -> Range100:
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
     >>> whiteness_Berger1959(XYZ, XYZ_0)  # doctest: +ELLIPSIS
-    30.3638017...
+    np.float64(30.3638017...)
     """
 
     X, Y, Z = tsplit(to_domain_100(XYZ))
@@ -191,7 +191,7 @@ def whiteness_Taube1960(XYZ: Domain100, XYZ_0: Domain100) -> Range100:
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
     >>> whiteness_Taube1960(XYZ, XYZ_0)  # doctest: +ELLIPSIS
-    91.4071738...
+    np.float64(91.4071738...)
     """
 
     _X, Y, Z = tsplit(to_domain_100(XYZ))
@@ -245,7 +245,7 @@ def whiteness_Stensby1968(
     >>> import numpy as np
     >>> Lab = np.array([100.00000000, -2.46875131, -16.72486654])
     >>> whiteness_Stensby1968(Lab)  # doctest: +ELLIPSIS
-    142.7683456...
+    np.float64(142.7683456...)
     """
 
     L, a, b = tsplit(to_domain_100(Lab))
@@ -293,7 +293,7 @@ def whiteness_ASTME313(XYZ: Domain100) -> Range100:
     >>> import numpy as np
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> whiteness_ASTME313(XYZ)  # doctest: +ELLIPSIS
-    55.7400000...
+    np.float64(55.7400000...)
     """
 
     _X, Y, Z = tsplit(to_domain_100(XYZ))
@@ -354,7 +354,7 @@ def whiteness_Ganz1979(xy: ArrayLike, Y: Domain100) -> Range100:
     >>> import numpy as np
     >>> xy = np.array([0.3167, 0.3334])
     >>> whiteness_Ganz1979(xy, 100)  # doctest: +ELLIPSIS
-    array([ 85.6003766...,   0.6789003...])
+    array([85.6003766...,  0.6789003...])
     """
 
     x, y = tsplit(xy)
@@ -436,7 +436,7 @@ def whiteness_CIE2004(
     >>> xy = np.array([0.3167, 0.3334])
     >>> xy_n = np.array([0.3139, 0.3311])
     >>> whiteness_CIE2004(xy, 100, xy_n)  # doctest: +ELLIPSIS
-    array([ 93.85...,  -1.305...])
+    array([93.85..., -1.305...])
     """
 
     x, y = tsplit(xy)
@@ -544,11 +544,11 @@ def whiteness(
     >>> XYZ = xyY_to_XYZ(np.array([0.3167, 0.3334, 100]))
     >>> XYZ_0 = xyY_to_XYZ(np.array([0.3139, 0.3311, 100]))
     >>> whiteness(XYZ, XYZ_0)  # doctest: +ELLIPSIS
-    array([ 93.85...,  -1.305...])
+    array([93.85..., -1.305...])
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
     >>> whiteness(XYZ, XYZ_0, method="Taube 1960")  # doctest: +ELLIPSIS
-    91.4071738...
+    np.float64(91.4071738...)
     """
 
     XYZ = as_float_array(XYZ)

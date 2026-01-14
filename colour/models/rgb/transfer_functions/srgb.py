@@ -84,7 +84,7 @@ def eotf_inverse_sRGB(L: Domain1) -> Range1:
     Examples
     --------
     >>> eotf_inverse_sRGB(0.18)  # doctest: +ELLIPSIS
-    0.4613561...
+    np.float64(0.4613561...)
     """
 
     L = to_domain_1(L)
@@ -131,7 +131,7 @@ def eotf_sRGB(V: Domain1) -> Range1:
     Examples
     --------
     >>> eotf_sRGB(0.461356129500442)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     """
 
     V = to_domain_1(V)

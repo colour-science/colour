@@ -44,12 +44,9 @@ Sub-packages
 -   volume: Colourspace volumes computation and optimal colour stimuli.
 """
 
-import contextlib
 import json
 import os
 import sys
-
-import numpy as np
 
 # Loading the "colour-science" JEnv file.
 _JENV_FILE_PATH = os.path.join(
@@ -929,10 +926,6 @@ __major_version__ = "0"
 __minor_version__ = "4"
 __change_version__ = "7"
 __version__ = f"{__major_version__}.{__minor_version__}.{__change_version__}"
-
-# TODO: Remove legacy printing support when deemed appropriate.
-with contextlib.suppress(TypeError):
-    np.set_printoptions(legacy="1.13")
 
 
 # ----------------------------------------------------------------------------#

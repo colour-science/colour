@@ -129,7 +129,7 @@ def XYZ_to_ProLab(
     --------
     >>> Lab = np.array([0.51634019, 0.15469500, 0.06289579])
     >>> XYZ_to_ProLab(Lab)  # doctest: +ELLIPSIS
-    array([  59.846628... ,  115.039635... ,   20.1251035...])
+    array([ 59.8466286..., 115.0396354...,  20.1251035...])
     """
 
     XYZ = to_domain_1(XYZ)
@@ -184,7 +184,7 @@ def ProLab_to_XYZ(
     --------
     >>> ProLab = np.array([59.8466286, 115.0396354, 20.12510352])
     >>> ProLab_to_XYZ(ProLab)  # doctest: +ELLIPSIS
-    array([ 0.5163401...,  0.154695 ...,  0.0628957...])
+    array([0.5163401..., 0.154695..., 0.0628957...])
     """
 
     ProLab = to_domain_1(ProLab)

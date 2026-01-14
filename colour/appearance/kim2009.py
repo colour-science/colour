@@ -304,9 +304,9 @@ def XYZ_to_Kim2009(
     >>> surround = VIEWING_CONDITIONS_KIM2009["Average"]
     >>> XYZ_to_Kim2009(XYZ, XYZ_w, L_A, media, surround)
     ... # doctest: +ELLIPSIS
-    CAM_Specification_Kim2009(J=28.8619089..., C=0.5592455..., \
-h=219.0480667..., s=9.3837797..., Q=52.7138883..., M=0.4641738..., \
-H=278.0602824..., HC=None)
+    CAM_Specification_Kim2009(J=np.float64(28.8619089...), C=np.float64(0.5592455...), \
+h=np.float64(219.0480667...), s=np.float64(9.3837797...), Q=np.float64(52.7138883...), \
+M=np.float64(0.4641738...), H=np.float64(278.0602824...), HC=None)
     """
 
     XYZ = to_domain_100(XYZ)
@@ -481,7 +481,7 @@ def Kim2009_to_XYZ(
     >>> surround = VIEWING_CONDITIONS_KIM2009["Average"]
     >>> Kim2009_to_XYZ(specification, XYZ_w, L_A, media, surround)
     ... # doctest: +ELLIPSIS
-    array([ 19.0099995...,  19.9999999...,  21.7800000...])
+    array([19.0099995..., 19.9999999..., 21.7800000...])
     """
 
     J, C, h, _s, _Q, M, _H, _HC = astuple(specification)

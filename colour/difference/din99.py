@@ -78,7 +78,7 @@ def delta_E_DIN99(
     >>> Lab_1 = np.array([60.2574, -34.0099, 36.2677])
     >>> Lab_2 = np.array([60.4626, -34.1751, 39.4387])
     >>> delta_E_DIN99(Lab_1, Lab_2)  # doctest: +ELLIPSIS
-    1.1772166...
+    np.float64(1.1772166...)
     """
 
     k_E = 2 if textiles else 1

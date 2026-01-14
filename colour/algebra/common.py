@@ -307,7 +307,7 @@ def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     >>> a = np.array([0, 1, 2])
     >>> b = np.array([2, 1, 0])
     >>> sdiv(a, b)
-    array([ 0.,  1.,  0.])
+    array([0., 1., 0.])
     >>> try:
     ...     with sdiv_mode("Raise"):
     ...         sdiv(a, b)
@@ -316,22 +316,22 @@ def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     FloatingPointError('divide by zero encountered in...divide')
     >>> with sdiv_mode("Ignore Zero Conversion"):
     ...     sdiv(a, b)
-    array([ 0.,  1.,  0.])
+    array([0., 1., 0.])
     >>> with sdiv_mode("Warning Zero Conversion"):
     ...     sdiv(a, b)
-    array([ 0.,  1.,  0.])
+    array([0., 1., 0.])
     >>> with sdiv_mode("Ignore Limit Conversion"):
     ...     sdiv(a, b)  # doctest: +SKIP
-    array([  0.00000000e+000,   1.00000000e+000,   1.79769313e+308])
+    array([0.00000000e+000, 1.00000000e+000, 1.79769313e+308])
     >>> with sdiv_mode("Warning Limit Conversion"):
     ...     sdiv(a, b)  # doctest: +SKIP
-    array([  0.00000000e+000,   1.00000000e+000,   1.79769313e+308])
+    array([0.00000000e+000, 1.00000000e+000, 1.79769313e+308])
     >>> with sdiv_mode("Replace With Epsilon"):
     ...     sdiv(a, b)  # doctest: +ELLIPSIS
-    array([  0.00000000e+00,   1.00000000e+00,  ...])
+    array([0.00000000e+00, 1.00000000e+00, ...])
     >>> with sdiv_mode("Warning Replace With Epsilon"):
     ...     sdiv(a, b)  # doctest: +ELLIPSIS
-    array([  0.00000000e+00,   1.00000000e+00,  ...])
+    array([0.00000000e+00, 1.00000000e+00, ...])
     """
 
     a = as_float_array(a)
@@ -525,11 +525,11 @@ def spow(a: ArrayLike, p: ArrayLike) -> DTypeFloat | NDArrayFloat:
     Examples
     --------
     >>> np.power(-2, 0.15)
-    nan
+    np.float64(nan)
     >>> spow(-2, 0.15)  # doctest: +ELLIPSIS
-    -1.1095694...
+    np.float64(-1.1095694...)
     >>> spow(0, 0)
-    0.0
+    np.float64(0.0)
     """
 
     if not _SPOW_ENABLED:
@@ -564,7 +564,7 @@ def normalise_vector(a: ArrayLike) -> NDArrayFloat:
     --------
     >>> a = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> normalise_vector(a)  # doctest: +ELLIPSIS
-    array([ 0.8419703...,  0.4972256...,  0.2094102...])
+    array([0.8419703..., 0.4972256..., 0.2094102...])
     """
 
     a = as_float_array(a)
@@ -603,7 +603,7 @@ def normalise_maximum(
     --------
     >>> a = np.array([0.48222001, 0.31654775, 0.22070353])
     >>> normalise_maximum(a)  # doctest: +ELLIPSIS
-    array([ 1.        ,  0.6564384...,  0.4576822...])
+    array([1.        , 0.6564384..., 0.4576822...])
     """
 
     a = as_float_array(a)
@@ -652,12 +652,12 @@ def vecmul(m: ArrayLike, v: ArrayLike) -> NDArrayFloat:
     >>> v = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> v = np.tile(v, (6, 1))
     >>> vecmul(m, v)  # doctest: +ELLIPSIS
-    array([[ 0.1954094...,  0.0620396...,  0.0527952...],
-           [ 0.1954094...,  0.0620396...,  0.0527952...],
-           [ 0.1954094...,  0.0620396...,  0.0527952...],
-           [ 0.1954094...,  0.0620396...,  0.0527952...],
-           [ 0.1954094...,  0.0620396...,  0.0527952...],
-           [ 0.1954094...,  0.0620396...,  0.0527952...]])
+    array([[0.1954094..., 0.0620396..., 0.0527952...],
+           [0.1954094..., 0.0620396..., 0.0527952...],
+           [0.1954094..., 0.0620396..., 0.0527952...],
+           [0.1954094..., 0.0620396..., 0.0527952...],
+           [0.1954094..., 0.0620396..., 0.0527952...],
+           [0.1954094..., 0.0620396..., 0.0527952...]])
     """
 
     return np.matmul(as_float_array(m), as_float_array(v)[..., None]).squeeze(-1)
@@ -689,7 +689,7 @@ def euclidean_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     >>> a = np.array([100.00000000, 21.57210357, 272.22819350])
     >>> b = np.array([100.00000000, 426.67945353, 72.39590835])
     >>> euclidean_distance(a, b)  # doctest: +ELLIPSIS
-    451.7133019...
+    np.float64(451.7133019...)
     """
 
     return as_float(np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1))
@@ -721,7 +721,7 @@ def manhattan_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     >>> a = np.array([100.00000000, 21.57210357, 272.22819350])
     >>> b = np.array([100.00000000, 426.67945353, 72.39590835])
     >>> manhattan_distance(a, b)  # doctest: +ELLIPSIS
-    604.9396351...
+    np.float64(604.9396351...)
     """
 
     return as_float(np.sum(np.abs(as_float_array(a) - as_float_array(b)), axis=-1))
@@ -752,7 +752,7 @@ def linear_conversion(
     --------
     >>> a = np.linspace(0, 1, 10)
     >>> linear_conversion(a, np.array([0, 1]), np.array([1, 10]))
-    array([  1.,   2.,   3.,   4.,   5.,   6.,   7.,   8.,   9.,  10.])
+    array([ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9., 10.])
     """
 
     a = as_float_array(a)
@@ -795,7 +795,7 @@ def linstep_function(
     >>> a = 0
     >>> b = 2
     >>> linstep_function(0.5, a, b)
-    1.0
+    np.float64(1.0)
     """
 
     x = as_float_array(x)
@@ -846,7 +846,7 @@ def smoothstep_function(
     --------
     >>> x = np.linspace(-2, 2, 5)
     >>> smoothstep_function(x, -2, 2, clip=True)
-    array([ 0.     ,  0.15625,  0.5    ,  0.84375,  1.     ])
+    array([0.     , 0.15625, 0.5    , 0.84375, 1.     ])
     """
 
     x = as_float_array(x)
@@ -928,32 +928,32 @@ def eigen_decomposition(
     >>> a = np.diag([1, 2, 3])
     >>> w, v = eigen_decomposition(a)
     >>> w
-    array([ 3.,  2.,  1.])
+    array([3., 2., 1.])
     >>> v
-    array([[ 0.,  0.,  1.],
-           [ 0.,  1.,  0.],
-           [ 1.,  0.,  0.]])
+    array([[0., 0., 1.],
+           [0., 1., 0.],
+           [1., 0., 0.]])
     >>> w, v = eigen_decomposition(a, 1)
     >>> w
-    array([ 3.])
+    array([3.])
     >>> v
-    array([[ 0.],
-           [ 0.],
-           [ 1.]])
+    array([[0.],
+           [0.],
+           [1.]])
     >>> w, v = eigen_decomposition(a, descending_order=False)
     >>> w
-    array([ 1.,  2.,  3.])
+    array([1., 2., 3.])
     >>> v
-    array([[ 1.,  0.,  0.],
-           [ 0.,  1.,  0.],
-           [ 0.,  0.,  1.]])
+    array([[1., 0., 0.],
+           [0., 1., 0.],
+           [0., 0., 1.]])
     >>> w, v = eigen_decomposition(a, covariance_matrix=True)
     >>> w
-    array([ 9.,  4.,  1.])
+    array([9., 4., 1.])
     >>> v
-    array([[ 0.,  0.,  1.],
-           [ 0.,  1.,  0.],
-           [ 1.,  0.,  0.]])
+    array([[0., 0., 1.],
+           [0., 1., 0.],
+           [1., 0., 0.]])
     """
 
     A = as_float_array(a)

@@ -87,7 +87,7 @@ def uv_to_CCT_Krystek1985(
     --------
     >>> uv_to_CCT_Krystek1985(np.array([0.20047203, 0.31029290]))
     ... # doctest: +ELLIPSIS
-    6504.3894290...
+    np.float64(6504.3894290...)
     """
 
     from scipy.optimize import minimize  # noqa: PLC0415
@@ -155,7 +155,7 @@ def CCT_to_uv_Krystek1985(CCT: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> CCT_to_uv_Krystek1985(6504.38938305)  # doctest: +ELLIPSIS
-    array([ 0.2004720...,  0.3102929...])
+    array([0.2004720..., 0.3102929...])
     """
 
     T = as_float_array(CCT)

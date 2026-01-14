@@ -247,7 +247,7 @@ def Jab_to_JCh(Jab: Domain1) -> Annotated[NDArrayFloat, (1, 1, 360)]:
     --------
     >>> Jab = np.array([41.52787529, 52.63858304, 26.92317922])
     >>> Jab_to_JCh(Jab)  # doctest: +ELLIPSIS
-    array([ 41.5278752...,  59.1242590...,  27.0884878...])
+    array([41.5278752..., 59.1242590..., 27.0884878...])
     """
 
     L, a, b = tsplit(Jab)
@@ -305,7 +305,7 @@ def JCh_to_Jab(
     --------
     >>> JCh = np.array([41.52787529, 59.12425901, 27.08848784])
     >>> JCh_to_Jab(JCh)  # doctest: +ELLIPSIS
-    array([ 41.5278752...,  52.6385830...,  26.9231792...])
+    array([41.5278752..., 52.6385830..., 26.9231792...])
     """
 
     L, C, h = tsplit(JCh)
@@ -385,7 +385,7 @@ def XYZ_to_Iab(
     ... )
     >>> XYZ_to_Iab(XYZ, LMS_to_LMS_p, M_XYZ_to_LMS, M_LMS_p_to_Iab)
     ... # doctest: +ELLIPSIS
-    array([ 0.3842619...,  0.3848730...,  0.1888683...])
+    array([0.3842619..., 0.3848730..., 0.1888683...])
     """
 
     XYZ = to_domain_1(XYZ)
@@ -471,7 +471,7 @@ def Iab_to_XYZ(
     ... )
     >>> Iab_to_XYZ(Iab, LMS_p_to_LMS, M_Iab_to_LMS_p, M_LMS_to_XYZ)
     ... # doctest: +ELLIPSIS
-    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
     Iab = to_domain_1(Iab)

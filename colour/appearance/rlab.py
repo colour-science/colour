@@ -245,9 +245,10 @@ def XYZ_to_RLAB(
     >>> sigma = VIEWING_CONDITIONS_RLAB["Average"]
     >>> D = D_FACTOR_RLAB["Hard Copy Images"]
     >>> XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)  # doctest: +ELLIPSIS
-    CAM_Specification_RLAB(J=49.8347069..., C=54.8700585..., \
-h=286.4860208..., s=1.1010410..., HC=None, a=15.5711021..., \
-b=-52.6142956...)
+    CAM_Specification_RLAB(J=np.float64(49.8347069...), \
+C=np.float64(54.8700585...), h=np.float64(286.4860208...), \
+s=np.float64(1.1010410...), HC=None, a=np.float64(15.5711021...), \
+b=np.float64(-52.6142956...))
     """
 
     XYZ = to_domain_100(XYZ)

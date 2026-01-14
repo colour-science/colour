@@ -97,7 +97,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)  # doctest: +ELLIPSIS
-    array([ 0.0113577...,  0.004102  ,  0.        ])
+    array([0.0113577..., 0.004102  , 0.        ])
     """
 
     cmfs = MSDS_CMFS_RGB["Wright & Guild 1931 2 Degree RGB CMFs"]
@@ -225,7 +225,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700)  # doctest: +ELLIPSIS
-    array([ 0.0052860...,  0.0003252...,  0.        ])
+    array([0.0052860..., 0.0003252..., 0.        ])
     """
 
     cmfs = MSDS_CMFS_RGB["Stiles & Burch 1959 10 Degree RGB CMFs"]
@@ -283,7 +283,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)  # doctest: +ELLIPSIS
-    array([ 0.0109677...,  0.0041959...,  0.        ])
+    array([0.0109677..., 0.0041959..., 0.        ])
     """
 
     cmfs = MSDS_CMFS_LMS["Stockman & Sharpe 2 Degree Cone Fundamentals"]
@@ -333,7 +333,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)  # doctest: +ELLIPSIS
-    array([ 0.0098162...,  0.0037761...,  0.        ])
+    array([0.0098162..., 0.0037761..., 0.        ])
     """
 
     cmfs = MSDS_CMFS_LMS["Stockman & Sharpe 10 Degree Cone Fundamentals"]

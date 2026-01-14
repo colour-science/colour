@@ -441,7 +441,7 @@ def munsell_value_Priest1920(
     Examples
     --------
     >>> munsell_value_Priest1920(12.23634268)  # doctest: +ELLIPSIS
-    3.4980484...
+    np.float64(3.4980484...)
     """
 
     Y = to_domain_100(Y)
@@ -489,7 +489,7 @@ def munsell_value_Munsell1933(
     Examples
     --------
     >>> munsell_value_Munsell1933(12.23634268)  # doctest: +ELLIPSIS
-    4.1627702...
+    np.float64(4.1627702...)
     """
 
     Y = to_domain_100(Y)
@@ -535,7 +535,7 @@ def munsell_value_Moon1943(Y: Domain100) -> Range10:
     Examples
     --------
     >>> munsell_value_Moon1943(12.23634268)  # doctest: +ELLIPSIS
-    4.0688120...
+    np.float64(4.0688120...)
     """
 
     Y = to_domain_100(Y)
@@ -583,7 +583,7 @@ def munsell_value_Saunderson1944(
     Examples
     --------
     >>> munsell_value_Saunderson1944(12.23634268)  # doctest: +ELLIPSIS
-    4.0444736...
+    np.float64(4.0444736...)
     """
 
     Y = to_domain_100(Y)
@@ -629,7 +629,7 @@ def munsell_value_Ladd1955(Y: Domain100) -> Range10:
     Examples
     --------
     >>> munsell_value_Ladd1955(12.23634268)  # doctest: +ELLIPSIS
-    4.0511633...
+    np.float64(4.0511633...)
     """
 
     Y = to_domain_100(Y)
@@ -677,7 +677,7 @@ def munsell_value_McCamy1987(
     Examples
     --------
     >>> munsell_value_McCamy1987(12.23634268)  # doctest: +ELLIPSIS
-    4.0814348...
+    np.float64(4.0814348...)
     """
 
     Y = to_domain_100(Y)
@@ -739,7 +739,7 @@ def munsell_value_ASTMD1535(
     Examples
     --------
     >>> munsell_value_ASTMD1535(12.23634268)  # doctest: +ELLIPSIS
-    4.0824437...
+    np.float64(4.0824437...)
     """
 
     Y = to_domain_100(Y)
@@ -826,20 +826,20 @@ def munsell_value(
     Examples
     --------
     >>> munsell_value(12.23634268)  # doctest: +ELLIPSIS
-    4.0824437...
+    np.float64(4.0824437...)
     >>> munsell_value(12.23634268, method="Priest 1920")  # doctest: +ELLIPSIS
-    3.4980484...
+    np.float64(3.4980484...)
     >>> munsell_value(12.23634268, method="Munsell 1933")  # doctest: +ELLIPSIS
-    4.1627702...
+    np.float64(4.1627702...)
     >>> munsell_value(12.23634268, method="Moon 1943")  # doctest: +ELLIPSIS
-    4.0688120...
+    np.float64(4.0688120...)
     >>> munsell_value(12.23634268, method="Saunderson 1944")
     ... # doctest: +ELLIPSIS
-    4.0444736...
+    np.float64(4.0444736...)
     >>> munsell_value(12.23634268, method="Ladd 1955")  # doctest: +ELLIPSIS
-    4.0511633...
+    np.float64(4.0511633...)
     >>> munsell_value(12.23634268, method="McCamy 1987")  # doctest: +ELLIPSIS
-    4.0814348...
+    np.float64(4.0814348...)
     """
 
     method = validate_method(method, tuple(MUNSELL_VALUE_METHODS))
@@ -983,10 +983,10 @@ def munsell_specification_to_xyY(specification: ArrayLike) -> NDArrayFloat:
     --------
     >>> munsell_specification_to_xyY(np.array([2.1, 8.0, 17.9, 4]))
     ... # doctest: +ELLIPSIS
-    array([ 0.4400632...,  0.5522428...,  0.5761962...])
+    array([0.4400632..., 0.5522428..., 0.5761962...])
     >>> munsell_specification_to_xyY(np.array([np.nan, 8.9, np.nan, np.nan]))
     ... # doctest: +ELLIPSIS
-    array([ 0.31006  ,  0.31616  ,  0.7461345...])
+    array([0.31006  , 0.31616  , 0.7461345...])
     """
 
     specification = as_float_array(specification)
@@ -1029,9 +1029,9 @@ def munsell_colour_to_xyY(munsell_colour: ArrayLike) -> Range1:
     Examples
     --------
     >>> munsell_colour_to_xyY("4.2YR 8.1/5.3")  # doctest: +ELLIPSIS
-    array([ 0.3873694...,  0.3575165...,  0.59362   ])
+    array([0.3873694..., 0.3575165..., 0.59362   ])
     >>> munsell_colour_to_xyY("N8.9")  # doctest: +ELLIPSIS
-    array([ 0.31006  ,  0.31616  ,  0.7461345...])
+    array([0.31006  , 0.31616  , 0.7461345...])
     """
 
     munsell_colour = np.array(munsell_colour)
@@ -1412,7 +1412,7 @@ def xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
     --------
     >>> xyY = np.array([0.38736945, 0.35751656, 0.59362000])
     >>> xyY_to_munsell_specification(xyY)  # doctest: +ELLIPSIS
-    array([ 4.2000019...,  8.0999999...,  5.2999996...,  6.        ])
+    array([4.2000019..., 8.0999999..., 5.2999996..., 6.        ])
     """
 
     xyY = as_float_array(xyY)
@@ -1514,9 +1514,9 @@ def parse_munsell_colour(munsell_colour: str) -> NDArrayFloat:
     Examples
     --------
     >>> parse_munsell_colour("N5.2")
-    array([ nan,  5.2,  nan,  nan])
+    array([nan, 5.2, nan, nan])
     >>> parse_munsell_colour("0YR 2.0/4.0")
-    array([ 0.,  2.,  4.,  6.])
+    array([0., 2., 4., 6.])
     """
 
     match = re.match(MUNSELL_GRAY_PATTERN, munsell_colour, flags=re.IGNORECASE)
@@ -1596,9 +1596,9 @@ def normalise_munsell_specification(specification: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> normalise_munsell_specification(np.array([0.0, 2.0, 4.0, 6]))
-    array([ 10.,   2.,   4.,   7.])
+    array([10.,  2.,  4.,  7.])
     >>> normalise_munsell_specification(np.array([np.nan, 0.5, np.nan, np.nan]))
-    array([ nan,  0.5,  nan,  nan])
+    array([nan, 0.5, nan, nan])
     """
 
     specification = as_float_array(specification)
@@ -1639,9 +1639,9 @@ def munsell_colour_to_munsell_specification(
     Examples
     --------
     >>> munsell_colour_to_munsell_specification("N5.2")
-    array([ nan,  5.2,  nan,  nan])
+    array([nan, 5.2, nan, nan])
     >>> munsell_colour_to_munsell_specification("0YR 2.0/4.0")
-    array([ 10.,   2.,   4.,   7.])
+    array([10.,  2.,  4.,  7.])
     """
 
     return normalise_munsell_specification(parse_munsell_colour(munsell_colour))
@@ -1764,7 +1764,7 @@ def xyY_from_renotation(
     Examples
     --------
     >>> xyY_from_renotation(np.array([2.5, 0.2, 2.0, 4]))  # doctest: +ELLIPSIS
-    array([ 0.71...,  1.41...,  0.23...])
+    array([0.71..., 1.41..., 0.23...])
     """
 
     specification = normalise_munsell_specification(specification)
@@ -1847,14 +1847,14 @@ def bounding_hues_from_renotation(hue_and_code: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> bounding_hues_from_renotation([3.2, 4])
-    array([[ 2.5,  4. ],
-           [ 5. ,  4. ]])
+    array([[2.5, 4. ],
+           [5. , 4. ]])
 
     # Coverage Doctests
 
     >>> bounding_hues_from_renotation([0.0, 1])
-    array([[ 10.,   2.],
-           [ 10.,   2.]])
+    array([[10.,  2.],
+           [10.,  2.]])
     """
 
     hue, code = as_float_array(hue_and_code)
@@ -1913,8 +1913,8 @@ def hue_to_hue_angle(hue_and_code: ArrayLike) -> float:
 
     Examples
     --------
-    >>> hue_to_hue_angle([3.2, 4])
-    65.5
+    >>> hue_to_hue_angle([3.2, 4])  # doctest: +ELLIPSIS
+    np.float64(65.5)
     """
 
     hue, code = as_float_array(hue_and_code)
@@ -1951,7 +1951,7 @@ def hue_angle_to_hue(hue_angle: float) -> NDArrayFloat:
     Examples
     --------
     >>> hue_angle_to_hue(65.54)  # doctest: +ELLIPSIS
-    array([ 3.216,  4.   ])
+    array([3.216, 4.   ])
     """
 
     single_hue = LinearInterpolator(
@@ -2011,7 +2011,7 @@ def hue_to_ASTM_hue(hue_and_code: ArrayLike) -> float:
     Examples
     --------
     >>> hue_to_ASTM_hue([3.2, 4])  # doctest: +ELLIPSIS
-    33.2...
+    np.float64(33.2...)
     """
 
     hue, code = as_float_array(hue_and_code)
@@ -2335,10 +2335,10 @@ def xy_from_renotation_ovoid(specification: ArrayLike) -> NDArrayFloat:
     --------
     >>> xy_from_renotation_ovoid([2.5, 5.0, 12.0, 4])
     ... # doctest: +ELLIPSIS
-    array([ 0.4333...,  0.5602...])
+    array([0.4333..., 0.5602...])
     >>> xy_from_renotation_ovoid([np.nan, 8, np.nan, np.nan])
     ... # doctest: +ELLIPSIS
-    array([ 0.31006...,  0.31616...])
+    array([0.31006..., 0.31616...])
     """
 
     specification = normalise_munsell_specification(specification)
@@ -2479,7 +2479,7 @@ def LCHab_to_munsell_specification(LCHab: ArrayLike) -> NDArrayFloat:
     --------
     >>> LCHab = np.array([100, 17.50664796, 244.93046842])
     >>> LCHab_to_munsell_specification(LCHab)  # doctest: +ELLIPSIS
-    array([  8.0362412...,  10.        ,   3.5013295...,   1.        ])
+    array([ 8.0362412..., 10.        ,  3.5013295...,  1.        ])
     """
 
     L, C, Hab = tsplit(LCHab)
@@ -2539,8 +2539,8 @@ def maximum_chroma_from_renotation(hue_and_value_and_code: ArrayLike) -> float:
 
     Examples
     --------
-    >>> maximum_chroma_from_renotation([2.5, 5, 5])
-    14.0
+    >>> maximum_chroma_from_renotation([2.5, 5, 5])  # doctest: +ELLIPSIS
+    np.float64(14.0)
     """
 
     hue, value, code = as_float_array(hue_and_value_and_code)
@@ -2630,10 +2630,10 @@ def munsell_specification_to_xy(specification: ArrayLike) -> NDArrayFloat:
     --------
     >>> munsell_specification_to_xy([2.1, 8.0, 17.9, 4])
     ... # doctest: +ELLIPSIS
-    array([ 0.4400632...,  0.5522428...])
+    array([0.4400632..., 0.5522428...])
     >>> munsell_specification_to_xy([np.nan, 8, np.nan, np.nan])
     ... # doctest: +ELLIPSIS
-    array([ 0.31006...,  0.31616...])
+    array([0.31006..., 0.31616...])
     """
 
     specification = normalise_munsell_specification(specification)

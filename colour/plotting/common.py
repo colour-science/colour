@@ -453,7 +453,7 @@ def XYZ_to_plotting_colourspace(
     >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_plotting_colourspace(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.7057393...,  0.1924826...,  0.2235416...])
+    array([0.7057393..., 0.1924826..., 0.2235416...])
     """
 
     return XYZ_to_RGB(

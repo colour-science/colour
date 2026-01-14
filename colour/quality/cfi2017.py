@@ -210,7 +210,7 @@ def colour_fidelity_index_CIE2017(
     >>> from colour.colorimetry import SDS_ILLUMINANTS
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> colour_fidelity_index_CIE2017(sd)  # doctest: +ELLIPSIS
-    70.1208244...
+    np.float64(70.1208244...)
     """
 
     if sd_test.shape.interval > 5:
@@ -360,7 +360,7 @@ def CCT_reference_illuminant(sd: SpectralDistribution) -> NDArrayFloat:
     >>> from colour import SDS_ILLUMINANTS
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> CCT_reference_illuminant(sd)  # doctest: +ELLIPSIS
-    array([  4.2244776...e+03,   1.7885608...e-03])
+    array([4.2244776...e+03, 1.7885608...e-03])
     """
 
     XYZ = sd_to_XYZ(sd.values, shape=sd.shape, method="Integration")
@@ -396,27 +396,27 @@ def sd_reference_illuminant(CCT: float, shape: SpectralShape) -> SpectralDistrib
     ...     sd_reference_illuminant(  # doctest: +ELLIPSIS
     ...         4224.469705295263300, SpectralShape(380, 780, 20)
     ...     )
-    SpectralDistribution([[ 380.        ,    0.0034089...],
-                          [ 400.        ,    0.0044208...],
-                          [ 420.        ,    0.0053260...],
-                          [ 440.        ,    0.0062857...],
-                          [ 460.        ,    0.0072767...],
-                          [ 480.        ,    0.0080207...],
-                          [ 500.        ,    0.0086590...],
-                          [ 520.        ,    0.0092242...],
-                          [ 540.        ,    0.0097686...],
-                          [ 560.        ,    0.0101444...],
-                          [ 580.        ,    0.0104475...],
-                          [ 600.        ,    0.0107642...],
-                          [ 620.        ,    0.0110439...],
-                          [ 640.        ,    0.0112535...],
-                          [ 660.        ,    0.0113922...],
-                          [ 680.        ,    0.0115185...],
-                          [ 700.        ,    0.0113155...],
-                          [ 720.        ,    0.0108192...],
-                          [ 740.        ,    0.0111582...],
-                          [ 760.        ,    0.0101299...],
-                          [ 780.        ,    0.0105638...]],
+    SpectralDistribution([[380.        ,   0.0034089...],
+                          [400.        ,   0.0044208...],
+                          [420.        ,   0.0053260...],
+                          [440.        ,   0.0062857...],
+                          [460.        ,   0.0072767...],
+                          [480.        ,   0.0080207...],
+                          [500.        ,   0.0086590...],
+                          [520.        ,   0.0092242...],
+                          [540.        ,   0.0097686...],
+                          [560.        ,   0.0101444...],
+                          [580.        ,   0.0104475...],
+                          [600.        ,   0.0107642...],
+                          [620.        ,   0.0110439...],
+                          [640.        ,   0.0112535...],
+                          [660.        ,   0.0113922...],
+                          [680.        ,   0.0115185...],
+                          [700.        ,   0.0113155...],
+                          [720.        ,   0.0108192...],
+                          [740.        ,   0.0111582...],
+                          [760.        ,   0.0101299...],
+                          [780.        ,   0.0105638...]],
                          SpragueInterpolator,
                          {},
                          Extrapolator,

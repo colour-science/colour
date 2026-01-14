@@ -86,12 +86,12 @@ def bandpass_correction_Stearns1988(
     >>> with numpy_print_options(suppress=True):
     ...     bandpass_correction_Stearns1988(SpectralDistribution(data))
     ... # doctest: +ELLIPSIS
-    SpectralDistribution([[ 500.        ,    0.0646518...],
-                          [ 520.        ,    0.0704293...],
-                          [ 540.        ,    0.0769485...],
-                          [ 560.        ,    0.0856928...],
-                          [ 580.        ,    0.1129644...],
-                          [ 600.        ,    0.1379256...]],
+    SpectralDistribution([[500.        ,   0.0646518...],
+                          [520.        ,   0.0704293...],
+                          [540.        ,   0.0769485...],
+                          [560.        ,   0.0856928...],
+                          [580.        ,   0.1129644...],
+                          [600.        ,   0.1379256...]],
                          SpragueInterpolator,
                          {},
                          Extrapolator,
@@ -166,12 +166,12 @@ def bandpass_correction(
     >>> with numpy_print_options(suppress=True):
     ...     bandpass_correction(SpectralDistribution(data))
     ... # doctest: +ELLIPSIS
-    SpectralDistribution([[ 500.        ,    0.0646518...],
-                          [ 520.        ,    0.0704293...],
-                          [ 540.        ,    0.0769485...],
-                          [ 560.        ,    0.0856928...],
-                          [ 580.        ,    0.1129644...],
-                          [ 600.        ,    0.1379256...]],
+    SpectralDistribution([[500.        ,   0.0646518...],
+                          [520.        ,   0.0704293...],
+                          [540.        ,   0.0769485...],
+                          [560.        ,   0.0856928...],
+                          [580.        ,   0.1129644...],
+                          [600.        ,   0.1379256...]],
                          SpragueInterpolator,
                          {},
                          Extrapolator,

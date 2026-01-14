@@ -152,7 +152,7 @@ def lightness_Glasser1958(Y: Domain100) -> Range100:
     Examples
     --------
     >>> lightness_Glasser1958(12.19722535)  # doctest: +ELLIPSIS
-    39.8351264...
+    np.float64(39.8351264...)
     """
 
     Y = to_domain_100(Y)
@@ -200,7 +200,7 @@ def lightness_Wyszecki1963(
     Examples
     --------
     >>> lightness_Wyszecki1963(12.19722535)  # doctest: +ELLIPSIS
-    40.5475745...
+    np.float64(40.5475745...)
     """
 
     Y = to_domain_100(Y)
@@ -258,10 +258,10 @@ def intermediate_lightness_function_CIE1976(
     --------
     >>> intermediate_lightness_function_CIE1976(12.19722535)
     ... # doctest: +ELLIPSIS
-    0.4959299...
+    np.float64(0.4959299...)
     >>> intermediate_lightness_function_CIE1976(12.19722535, 95)
     ... # doctest: +ELLIPSIS
-    0.5044821...
+    np.float64(0.5044821...)
     """
 
     Y = as_float_array(Y)
@@ -317,7 +317,7 @@ def lightness_CIE1976(Y: Domain100, Y_n: ArrayLike | None = None) -> Range100:
     Examples
     --------
     >>> lightness_CIE1976(12.19722535)  # doctest: +ELLIPSIS
-    41.5278758...
+    np.float64(41.5278758...)
     """
 
     Y = to_domain_100(Y)
@@ -369,7 +369,7 @@ def lightness_Fairchild2010(Y: Domain1, epsilon: ArrayLike = 1.836) -> Range100:
     Examples
     --------
     >>> lightness_Fairchild2010(12.19722535 / 100)  # doctest: +ELLIPSIS
-    31.9963902...
+    np.float64(31.9963902...)
     """
 
     Y = to_domain_1(Y)
@@ -431,10 +431,10 @@ def lightness_Fairchild2011(
     Examples
     --------
     >>> lightness_Fairchild2011(12.19722535 / 100)  # doctest: +ELLIPSIS
-    51.8529584...
+    np.float64(51.8529584...)
     >>> lightness_Fairchild2011(12.19722535 / 100, method="hdr-IPT")
     ... # doctest: +ELLIPSIS
-    51.6431084...
+    np.float64(51.6431084...)
     """
 
     Y = to_domain_1(Y)
@@ -505,10 +505,10 @@ def lightness_Abebe2017(
     Examples
     --------
     >>> lightness_Abebe2017(12.19722535)  # doctest: +ELLIPSIS
-    0.4869555...
+    np.float64(0.4869555...)
     >>> lightness_Abebe2017(12.19722535, method="Stevens")
     ... # doctest: +ELLIPSIS
-    0.4745447...
+    np.float64(0.4745447...)
     """
 
     Y = as_float_array(Y)
@@ -625,24 +625,24 @@ def lightness(
     Examples
     --------
     >>> lightness(12.19722535)  # doctest: +ELLIPSIS
-    41.5278758...
+    np.float64(41.5278758...)
     >>> lightness(12.19722535, Y_n=100)  # doctest: +ELLIPSIS
-    41.5278758...
+    np.float64(41.5278758...)
     >>> lightness(12.19722535, Y_n=95)  # doctest: +ELLIPSIS
-    42.5199307...
+    np.float64(42.5199307...)
     >>> lightness(12.19722535, method="Glasser 1958")  # doctest: +ELLIPSIS
-    39.8351264...
+    np.float64(39.8351264...)
     >>> lightness(12.19722535, method="Wyszecki 1963")  # doctest: +ELLIPSIS
-    40.5475745...
+    np.float64(40.5475745...)
     >>> lightness(12.19722535, epsilon=0.710, method="Fairchild 2011")
     ... # doctest: +ELLIPSIS
-    29.8295108...
+    np.float64(29.8295108...)
     >>> lightness(12.19722535, epsilon=0.710, method="Fairchild 2011")
     ... # doctest: +ELLIPSIS
-    29.8295108...
+    np.float64(29.8295108...)
     >>> lightness(12.19722535, method="Abebe 2017")
     ... # doctest: +ELLIPSIS
-    48.6955571...
+    np.float64(48.6955571...)
     """
 
     Y = as_float_array(Y)

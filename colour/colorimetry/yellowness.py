@@ -117,7 +117,7 @@ def yellowness_ASTMD1925(
     --------
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> yellowness_ASTMD1925(XYZ)  # doctest: +ELLIPSIS
-    10.2999999...
+    np.float64(10.2999999...)
     """
 
     X, Y, Z = tsplit(to_domain_100(XYZ))
@@ -179,7 +179,7 @@ def yellowness_ASTME313_alternative(
     --------
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> yellowness_ASTME313_alternative(XYZ)  # doctest: +ELLIPSIS
-    11.0650000...
+    np.float64(11.0650000...)
     """
 
     _X, Y, Z = tsplit(to_domain_100(XYZ))
@@ -277,7 +277,7 @@ def yellowness_ASTME313(
     --------
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> yellowness_ASTME313(XYZ)  # doctest: +ELLIPSIS
-    4.3400000...
+    np.float64(4.3400000...)
     """
 
     X, Y, Z = tsplit(to_domain_100(XYZ))
@@ -358,11 +358,11 @@ def yellowness(
     --------
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> yellowness(XYZ)  # doctest: +ELLIPSIS
-    4.3400000...
+    np.float64(4.3400000...)
     >>> yellowness(XYZ, method="ASTM E313 Alternative")  # doctest: +ELLIPSIS
-    11.0650000...
+    np.float64(11.0650000...)
     >>> yellowness(XYZ, method="ASTM D1925")  # doctest: +ELLIPSIS
-    10.2999999...
+    np.float64(10.2999999...)
     """
 
     method = validate_method(method, tuple(YELLOWNESS_METHODS))

@@ -71,7 +71,7 @@ def xy_to_CCT_McCamy1992(xy: ArrayLike) -> NDArrayFloat:
     >>> import numpy as np
     >>> xy = np.array([0.31270, 0.32900])
     >>> xy_to_CCT_McCamy1992(xy)  # doctest: +ELLIPSIS
-    6505.0805913...
+    np.float64(6505.0805913...)
     """
 
     x, y = tsplit(xy)
@@ -122,7 +122,7 @@ def CCT_to_xy_McCamy1992(
     Examples
     --------
     >>> CCT_to_xy_McCamy1992(6505.0805913074782)  # doctest: +ELLIPSIS
-    array([ 0.3127...,  0.329...])
+    array([0.3127..., 0.329...])
     """
 
     from scipy.optimize import minimize  # noqa: PLC0415

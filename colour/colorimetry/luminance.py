@@ -152,7 +152,7 @@ def luminance_Newhall1943(V: Domain10) -> Range100:
     Examples
     --------
     >>> luminance_Newhall1943(4.08244375)  # doctest: +ELLIPSIS
-    12.5500788...
+    np.float64(12.5500788...)
     """
 
     V = to_domain_10(V)
@@ -204,7 +204,7 @@ def luminance_ASTMD1535(V: Domain10) -> Range100:
     Examples
     --------
     >>> luminance_ASTMD1535(4.08244375)  # doctest: +ELLIPSIS
-    12.2363426...
+    np.float64(12.2363426...)
     """
 
     V = to_domain_10(V)
@@ -262,10 +262,10 @@ def intermediate_luminance_function_CIE1976(
     --------
     >>> intermediate_luminance_function_CIE1976(0.495929964178047)
     ... # doctest: +ELLIPSIS
-    12.1972253...
+    np.float64(12.1972253...)
     >>> intermediate_luminance_function_CIE1976(0.504482161449319, 95)
     ... # doctest: +ELLIPSIS
-    12.1972253...
+    np.float64(12.1972253...)
     """
 
     f_Y_Y_n = as_float_array(f_Y_Y_n)
@@ -318,9 +318,9 @@ def luminance_CIE1976(L_star: Domain100, Y_n: ArrayLike | None = None) -> Range1
     Examples
     --------
     >>> luminance_CIE1976(41.527875844653451)  # doctest: +ELLIPSIS
-    12.1972253...
+    np.float64(12.1972253...)
     >>> luminance_CIE1976(41.527875844653451, 95)  # doctest: +ELLIPSIS
-    11.5873640...
+    np.float64(11.5873640...)
     """
 
     L_star = to_domain_100(L_star)
@@ -375,7 +375,7 @@ def luminance_Fairchild2010(L_hdr: Domain100, epsilon: ArrayLike = 1.836) -> Ran
     --------
     >>> luminance_Fairchild2010(31.996390226262736, 1.836)
     ... # doctest: +ELLIPSIS
-    0.1219722...
+    np.float64(0.1219722...)
     """
 
     L_hdr = to_domain_100(L_hdr)
@@ -437,10 +437,10 @@ def luminance_Fairchild2011(
     Examples
     --------
     >>> luminance_Fairchild2011(51.852958445912506)  # doctest: +ELLIPSIS
-    0.1219722...
+    np.float64(0.1219722...)
     >>> luminance_Fairchild2011(51.643108411718522, method="hdr-IPT")
     ... # doctest: +ELLIPSIS
-    0.1219722...
+    np.float64(0.1219722...)
     """
 
     L_hdr = to_domain_100(L_hdr)
@@ -513,10 +513,10 @@ def luminance_Abebe2017(
     Examples
     --------
     >>> luminance_Abebe2017(0.486955571109229)  # doctest: +ELLIPSIS
-    12.1972253...
+    np.float64(12.1972253...)
     >>> luminance_Abebe2017(0.474544792145434, method="Stevens")
     ... # doctest: +ELLIPSIS
-    12.1972253...
+    np.float64(12.1972253...)
     """
 
     L = as_float_array(L)
@@ -643,23 +643,23 @@ def luminance(
     Examples
     --------
     >>> luminance(41.527875844653451)  # doctest: +ELLIPSIS
-    12.1972253...
+    np.float64(12.1972253...)
     >>> luminance(41.527875844653451, Y_n=100)  # doctest: +ELLIPSIS
-    12.1972253...
+    np.float64(12.1972253...)
     >>> luminance(42.51993072812094, Y_n=95)  # doctest: +ELLIPSIS
-    12.1972253...
+    np.float64(12.1972253...)
     >>> luminance(4.08244375 * 10, method="Newhall 1943")
     ... # doctest: +ELLIPSIS
-    12.5500788...
+    np.float64(12.5500788...)
     >>> luminance(4.08244375 * 10, method="ASTM D1535")
     ... # doctest: +ELLIPSIS
-    12.2363426...
+    np.float64(12.2363426...)
     >>> luminance(29.829510892279330, epsilon=0.710, method="Fairchild 2011")
     ... # doctest: +ELLIPSIS
-    12.1972253...
+    np.float64(12.1972253...)
     >>> luminance(48.695557110922894, method="Abebe 2017")
     ... # doctest: +ELLIPSIS
-    12.1972253...
+    np.float64(12.1972253...)
     """
 
     LV = as_float_array(LV)

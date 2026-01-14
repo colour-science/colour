@@ -102,7 +102,7 @@ def log_encoding_LLog(
     Examples
     --------
     >>> log_encoding_LLog(0.18)  # doctest: +ELLIPSIS
-    0.4353139...
+    np.float64(0.4353139...)
     """
 
     LSR = to_domain_1(LSR)
@@ -181,7 +181,7 @@ def log_decoding_LLog(
     Examples
     --------
     >>> log_decoding_LLog(0.43531390404392656)  # doctest: +ELLIPSIS
-    0.1800000...
+    np.float64(0.1800000...)
     """
 
     LLog = to_domain_1(LLog)

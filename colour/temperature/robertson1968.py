@@ -162,7 +162,7 @@ def mired_to_CCT(mired: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> CCT_to_mired(153.84615384615384)  # doctest: +ELLIPSIS
-    6500.0
+    np.float64(6500.0)
     """
 
     mired = as_float_array(mired)
@@ -189,7 +189,7 @@ def CCT_to_mired(CCT: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> CCT_to_mired(6500)  # doctest: +ELLIPSIS
-    153.8461538...
+    np.float64(153.8461538...)
     """
 
     CCT = as_float_array(CCT)
@@ -222,7 +222,7 @@ def uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArrayFloat:
     --------
     >>> uv = np.array([0.193741375998230, 0.315221043940594])
     >>> uv_to_CCT_Robertson1968(uv)  # doctest: +ELLIPSIS
-    array([  6.5000162...e+03,   8.3333289...e-03])
+    array([6.5000162...e+03, 8.3333289...e-03])
     """
 
     uv = as_float_array(uv)
@@ -311,7 +311,7 @@ def CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArrayFloat:
     --------
     >>> CCT_D_uv = np.array([6500.0081378199056, 0.008333331244225])
     >>> CCT_to_uv_Robertson1968(CCT_D_uv)  # doctest: +ELLIPSIS
-    array([ 0.1937413...,  0.3152210...])
+    array([0.1937413..., 0.3152210...])
     """
 
     CCT_D_uv = as_float_array(CCT_D_uv)

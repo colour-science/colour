@@ -144,7 +144,7 @@ def Lab_to_metamerism_index(
     ...     correction="Additive",
     ...     method="CIE 1976",
     ... )  # doctest: +ELLIPSIS
-    3.8267581...
+    np.float64(3.8267581...)
     >>> Lab_to_metamerism_index(
     ...     Lab_spl_t,
     ...     Lab_std_t,
@@ -153,7 +153,7 @@ def Lab_to_metamerism_index(
     ...     correction="Multiplicative",
     ...     method="CIE 1976",
     ... )  # doctest: +ELLIPSIS
-    3.9842216...
+    np.float64(3.9842216...)
     """
 
     correction = validate_method(correction, ("Additive", "Multiplicative"))
@@ -276,7 +276,7 @@ def XYZ_to_metamerism_index(
     ...     method="CIE 1976",
     ...     illuminant=CCS_ILLUMINANTS["CIE 1964 10 Degree Standard Observer"]["A"],
     ... )  # doctest: +ELLIPSIS
-    3.7906989...
+    np.float64(3.7906989...)
     >>> XYZ_to_metamerism_index(
     ...     XYZ_spl_t,
     ...     XYZ_std_t,
@@ -286,7 +286,7 @@ def XYZ_to_metamerism_index(
     ...     method="CIE 1976",
     ...     illuminant=CCS_ILLUMINANTS["CIE 1964 10 Degree Standard Observer"]["A"],
     ... )  # doctest: +ELLIPSIS
-    4.6910648...
+    np.float64(4.6910648...)
     """
 
     correction = validate_method(correction, ("Additive", "Multiplicative"))

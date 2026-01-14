@@ -88,7 +88,7 @@ def uv_to_CCT_Planck1900(
     --------
     >>> uv_to_CCT_Planck1900(np.array([0.20042808, 0.31033343]))
     ... # doctest: +ELLIPSIS
-    6504.0000617...
+    np.float64(6504.0000617...)
     """
 
     from scipy.optimize import minimize  # noqa: PLC0415
@@ -159,7 +159,7 @@ def CCT_to_uv_Planck1900(
     Examples
     --------
     >>> CCT_to_uv_Planck1900(6504)  # doctest: +ELLIPSIS
-    array([ 0.2004280...,  0.3103334...])
+    array([0.2004280..., 0.3103334...])
     """
 
     CCT = as_float_array(CCT)

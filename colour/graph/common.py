@@ -58,7 +58,7 @@ def colourspace_model_to_reference(
     >>> import numpy as np
     >>> Lab = np.array([0.41527875, 0.52638583, 0.26923179])
     >>> colourspace_model_to_reference(Lab, "CIE Lab")  # doctest: +ELLIPSIS
-    array([ 41.527875...,  52.638583...,  26.923179...])
+    array([41.527875..., 52.638583..., 26.923179...])
     """
 
     import networkx as nx  # noqa: PLC0415

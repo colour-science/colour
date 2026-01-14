@@ -215,7 +215,7 @@ def colour_rendering_index(
     >>> from colour import SDS_ILLUMINANTS
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> colour_rendering_index(sd)  # doctest: +ELLIPSIS
-    64.2337241...
+    np.float64(64.2337241...)
     """
 
     method = validate_method(method, tuple(COLOUR_RENDERING_INDEX_METHODS))

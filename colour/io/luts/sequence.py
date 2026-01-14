@@ -95,23 +95,23 @@ class LUTSequence(MutableSequence):
         ----------------
     <BLANKLINE>
         Dimensions : 1
-        Domain     : [ 0.  1.]
+        Domain     : [0. 1.]
         Size       : (10,)
     <BLANKLINE>
         LUT3D - Unity 3
         ---------------
     <BLANKLINE>
         Dimensions : 3
-        Domain     : [[ 0.  0.  0.]
-                      [ 1.  1.  1.]]
+        Domain     : [[0. 0. 0.]
+                      [1. 1. 1.]]
         Size       : (3, 3, 3, 3)
     <BLANKLINE>
         LUT3x1D - Unity 10
         ------------------
     <BLANKLINE>
         Dimensions : 2
-        Domain     : [[ 0.  0.  0.]
-                      [ 1.  1.  1.]]
+        Domain     : [[0. 0. 0.]
+                      [1. 1. 1.]]
         Size       : (10, 3)
     """
 
@@ -377,11 +377,11 @@ class LUTSequence(MutableSequence):
         >>> RGB = tstack([samples, samples, samples])
         >>> LUT_sequence.apply(RGB, LUT1D={"direction": "Inverse"})
         ... # doctest: +ELLIPSIS
-        array([[ 0.       ...,  0.       ...,  0.       ...],
-               [ 0.2899886...,  0.2899886...,  0.2899886...],
-               [ 0.4797662...,  0.4797662...,  0.4797662...],
-               [ 0.6055328...,  0.6055328...,  0.6055328...],
-               [ 0.7057779...,  0.7057779...,  0.7057779...]])
+        array([[0.       ..., 0.       ..., 0.       ...],
+               [0.2899886..., 0.2899886..., 0.2899886...],
+               [0.4797662..., 0.4797662..., 0.4797662...],
+               [0.6055328..., 0.6055328..., 0.6055328...],
+               [0.7057779..., 0.7057779..., 0.7057779...]])
         """
 
         RGB = as_float_array(RGB)

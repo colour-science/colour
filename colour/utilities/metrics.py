@@ -82,7 +82,7 @@ def metric_mse(
     >>> a = np.array([0.48222001, 0.31654775, 0.22070353])
     >>> b = a * 0.9
     >>> metric_mse(a, b)  # doctest: +ELLIPSIS
-    0.0012714...
+    np.float64(0.0012714...)
     """
 
     return as_float(np.mean((as_float_array(a) - as_float_array(b)) ** 2, axis=axis))
@@ -126,7 +126,7 @@ def metric_psnr(
     >>> a = np.array([0.48222001, 0.31654775, 0.22070353])
     >>> b = a * 0.9
     >>> metric_psnr(a, b)  # doctest: +ELLIPSIS
-    28.9568515...
+    np.float64(28.9568515...)
     """
 
     mse = as_float_array(metric_mse(a, b, axis))

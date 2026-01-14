@@ -145,7 +145,7 @@ def ellipse_coefficients_canonical_form(
     --------
     >>> coefficients = np.array([2.5, -3.0, 2.5, -1.0, -1.0, -3.5])
     >>> ellipse_coefficients_canonical_form(coefficients)
-    array([  0.5,   0.5,   2. ,   1. ,  45. ])
+    array([ 0.5,  0.5,  2. ,  1. , 45. ])
     """
 
     a, b, c, d, e, f = tsplit(coefficients)
@@ -201,7 +201,7 @@ def point_at_angle_on_ellipse(phi: ArrayLike, coefficients: ArrayLike) -> NDArra
     --------
     >>> coefficients = np.array([0.5, 0.5, 2, 1, 45])
     >>> point_at_angle_on_ellipse(45, coefficients)  # doctest: +ELLIPSIS
-    array([ 1.,  2.])
+    array([1., 2.])
     """
 
     phi = np.radians(phi)

@@ -89,7 +89,7 @@ def oetf_BlackmagicFilmGeneration5(
     Examples
     --------
     >>> oetf_BlackmagicFilmGeneration5(0.18)  # doctest: +ELLIPSIS
-    0.3835616...
+    np.float64(0.3835616...)
     """
 
     x = to_domain_1(x)
@@ -153,7 +153,7 @@ def oetf_inverse_BlackmagicFilmGeneration5(
     --------
     >>> oetf_inverse_BlackmagicFilmGeneration5(0.38356164383561653)
     ... # doctest: +ELLIPSIS
-    0.1799999...
+    np.float64(0.1799999...)
     """
 
     y = to_domain_1(y)

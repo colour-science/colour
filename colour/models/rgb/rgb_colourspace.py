@@ -216,32 +216,32 @@ class RGB_Colourspace:
     ...     matrix_XYZ_to_RGB,
     ... )
     >>> colourspace.matrix_RGB_to_XYZ
-    array([[ 1.,  0.,  0.],
-           [ 0.,  1.,  0.],
-           [ 0.,  0.,  1.]])
+    array([[1., 0., 0.],
+           [0., 1., 0.],
+           [0., 0., 1.]])
     >>> colourspace.matrix_XYZ_to_RGB
-    array([[ 1.,  0.,  0.],
-           [ 0.,  1.,  0.],
-           [ 0.,  0.,  1.]])
+    array([[1., 0., 0.],
+           [0., 1., 0.],
+           [0., 0., 1.]])
     >>> colourspace.use_derived_transformation_matrices(True)
     >>> colourspace.matrix_RGB_to_XYZ  # doctest: +ELLIPSIS
-    array([[  9.5255239...e-01,   0.0000000...e+00,   9.3678631...e-05],
-           [  3.4396645...e-01,   7.2816609...e-01,  -7.2132546...e-02],
-           [  0.0000000...e+00,   0.0000000...e+00,   1.0088251...e+00]])
+    array([[ 9.5255239...e-01,  0.0000000...e+00,  9.3678631...e-05],
+           [ 3.4396645...e-01,  7.2816609...e-01, -7.2132546...e-02],
+           [ 0.0000000...e+00,  0.0000000...e+00,  1.0088251...e+00]])
     >>> colourspace.matrix_XYZ_to_RGB  # doctest: +ELLIPSIS
-    array([[  1.0498110...e+00,   0.0000000...e+00,  -9.7484540...e-05],
-           [ -4.9590302...e-01,   1.3733130...e+00,   9.8240036...e-02],
-           [  0.0000000...e+00,   0.0000000...e+00,   9.9125201...e-01]])
+    array([[ 1.0498110...e+00,  0.0000000...e+00, -9.7484540...e-05],
+           [-4.9590302...e-01,  1.3733130...e+00,  9.8240036...e-02],
+           [ 0.0000000...e+00,  0.0000000...e+00,  9.9125201...e-01]])
     >>> colourspace.use_derived_matrix_RGB_to_XYZ = False
     >>> colourspace.matrix_RGB_to_XYZ
-    array([[ 1.,  0.,  0.],
-           [ 0.,  1.,  0.],
-           [ 0.,  0.,  1.]])
+    array([[1., 0., 0.],
+           [0., 1., 0.],
+           [0., 0., 1.]])
     >>> colourspace.use_derived_matrix_XYZ_to_RGB = False
     >>> colourspace.matrix_XYZ_to_RGB
-    array([[ 1.,  0.,  0.],
-           [ 0.,  1.,  0.],
-           [ 0.,  0.,  1.]])
+    array([[1., 0., 0.],
+           [0., 1., 0.],
+           [0., 0., 1.]])
     """
 
     def __init__(
@@ -655,15 +655,13 @@ class RGB_Colourspace:
 
         Examples
         --------
-        >>> p = np.array(
-        ...     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
-        ... )
+        >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
         >>> whitepoint = np.array([0.32168, 0.33767])
         >>> matrix_RGB_to_XYZ = np.identity(3)
         >>> matrix_XYZ_to_RGB = np.identity(3)
         >>> cctf_encoding = lambda x: x
         >>> cctf_decoding = lambda x: x
-        >>> print(
+        >>> print(  # doctest: +ELLIPSIS
         ...     RGB_Colourspace(
         ...         "RGB Colourspace",
         ...         p,
@@ -675,35 +673,28 @@ class RGB_Colourspace:
         ...         cctf_decoding,
         ...     )
         ... )
-        ... # doctest: +ELLIPSIS
         RGB Colourspace
         ---------------
         <BLANKLINE>
-        Primaries          : [[  7.34700000e-01   2.65300000e-01]
-                              [  0.00000000e+00   1.00000000e+00]
-                              [  1.00000000e-04  -7.70000000e-02]]
-        Whitepoint         : [ 0.32168  0.33767]
+        Primaries          : [[ 7.347e-01  2.653e-01]
+                              [ 0.000e+00  1.000e+00]
+                              [ 1.000e-04 -7.700e-02]]
+        Whitepoint         : [0.32168 0.33767]
         Whitepoint Name    : ACES
         Encoding CCTF      : <function <lambda> at 0x...>
         Decoding CCTF      : <function <lambda> at 0x...>
-        NPM                : [[ 1.  0.  0.]
-                              [ 0.  1.  0.]
-                              [ 0.  0.  1.]]
-        NPM -1             : [[ 1.  0.  0.]
-                              [ 0.  1.  0.]
-                              [ 0.  0.  1.]]
-        Derived NPM        : \
-[[  9.5255239...e-01   0.0000000...e+00   9.3678631...e-05]
-                             \
- [  3.4396645...e-01   7.2816609...e-01  -7.2132546...e-02]
-                             \
- [  0.0000000...e+00   0.0000000...e+00   1.0088251...e+00]]
-        Derived NPM -1     : \
-[[  1.0498110...e+00   0.0000000...e+00  -9.7484540...e-05]
-                             \
- [ -4.9590302...e-01   1.3733130...e+00   9.8240036...e-02]
-                             \
- [  0.0000000...e+00   0.0000000...e+00   9.9125201...e-01]]
+        NPM                : [[1. 0. 0.]
+                              [0. 1. 0.]
+                              [0. 0. 1.]]
+        NPM -1             : [[1. 0. 0.]
+                              [0. 1. 0.]
+                              [0. 0. 1.]]
+        Derived NPM        : [[ 9.5255239...e-01  0.0000000...e+00  9.3678631...e-05]
+                              [ 3.4396645...e-01  7.2816609...e-01 -7.2132546...e-02]
+                              [ 0.0000000...e+00  0.0000000...e+00  1.0088251...e+00]]
+        Derived NPM -1     : [[ 1.0498110...e+00  0.0000000...e+00 -9.7484540...e-05]
+                              [-4.9590302...e-01  1.3733130...e+00  9.8240036...e-02]
+                              [ 0.0000000...e+00  0.0000000...e+00  9.9125201...e-01]]
         Use Derived NPM    : False
         Use Derived NPM -1 : False
         """
@@ -760,7 +751,7 @@ class RGB_Colourspace:
         >>> whitepoint = np.array([0.32168, 0.33767])
         >>> matrix_RGB_to_XYZ = np.identity(3)
         >>> matrix_XYZ_to_RGB = np.identity(3)
-        >>> RGB_Colourspace(
+        >>> RGB_Colourspace(  # doctest: +ELLIPSIS
         ...     "RGB Colourspace",
         ...     p,
         ...     whitepoint,
@@ -770,19 +761,18 @@ class RGB_Colourspace:
         ...     linear_function,
         ...     linear_function,
         ... )
-        ... # doctest: +ELLIPSIS
         RGB_Colourspace('RGB Colourspace',
-                        [[  7.34700000e-01,   2.65300000e-01],
-                         [  0.00000000e+00,   1.00000000e+00],
-                         [  1.00000000e-04,  -7.70000000e-02]],
-                        [ 0.32168,  0.33767],
+                        [[ 7.347e-01,  2.653e-01],
+                         [ 0.000e+00,  1.000e+00],
+                         [ 1.000e-04, -7.700e-02]],
+                        [0.32168, 0.33767],
                         'ACES',
-                        [[ 1.,  0.,  0.],
-                         [ 0.,  1.,  0.],
-                         [ 0.,  0.,  1.]],
-                        [[ 1.,  0.,  0.],
-                         [ 0.,  1.,  0.],
-                         [ 0.,  0.,  1.]],
+                        [[1., 0., 0.],
+                         [0., 1., 0.],
+                         [0., 0., 1.]],
+                        [[1., 0., 0.],
+                         [0., 1., 0.],
+                         [0., 0., 1.]],
                         linear_function,
                         linear_function,
                         False,
@@ -891,15 +881,16 @@ class RGB_Colourspace:
         >>> w_t = np.array([0.32168, 0.33767])
         >>> w_r = np.array([0.31270, 0.32900])
         >>> colourspace = RGB_Colourspace("RGB Colourspace", p, w_t, "D65")
-        >>> print(colourspace.chromatically_adapt(w_r, "D50", "Bradford"))
-        ... # doctest: +ELLIPSIS
+        >>> print(
+        ...     colourspace.chromatically_adapt(w_r, "D50", "Bradford")
+        ... )  # doctest: +ELLIPSIS
         RGB Colourspace - Chromatically Adapted to 'D50'
         ------------------------------------------------
         <BLANKLINE>
         Primaries          : [[ 0.73485524  0.26422533]
                               [-0.00617091  1.01131496]
                               [ 0.01596756 -0.0642355 ]]
-        Whitepoint         : [ 0.3127  0.329 ]
+        Whitepoint         : [0.3127 0.329 ]
         Whitepoint Name    : D50
         Encoding CCTF      : None
         Decoding CCTF      : None
@@ -1020,12 +1011,12 @@ def XYZ_to_RGB(
     >>> from colour.models import RGB_COLOURSPACE_sRGB
     >>> XYZ = np.array([0.21638819, 0.12570000, 0.03847493])
     >>> illuminant = np.array([0.34570, 0.35850])
-    >>> XYZ_to_RGB(XYZ, RGB_COLOURSPACE_sRGB, illuminant, "Bradford")
-    ... # doctest: +ELLIPSIS
-    array([ 0.4559528...,  0.0304078...,  0.0408731...])
-    >>> XYZ_to_RGB(XYZ, "sRGB", illuminant, "Bradford")
-    ... # doctest: +ELLIPSIS
-    array([ 0.4559528...,  0.0304078...,  0.0408731...])
+    >>> XYZ_to_RGB(
+    ...     XYZ, RGB_COLOURSPACE_sRGB, illuminant, "Bradford"
+    ... )  # doctest: +ELLIPSIS
+    array([0.4559528..., 0.0304078..., 0.0408731...])
+    >>> XYZ_to_RGB(XYZ, "sRGB", illuminant, "Bradford")  # doctest: +ELLIPSIS
+    array([0.4559528..., 0.0304078..., 0.0408731...])
     """
 
     from colour.models import RGB_COLOURSPACES  # noqa: PLC0415
@@ -1154,12 +1145,12 @@ def RGB_to_XYZ(
     >>> from colour.models import RGB_COLOURSPACE_sRGB
     >>> RGB = np.array([0.45595571, 0.03039702, 0.04087245])
     >>> illuminant = np.array([0.34570, 0.35850])
-    >>> RGB_to_XYZ(RGB, RGB_COLOURSPACE_sRGB, illuminant, "Bradford")
-    ... # doctest: +ELLIPSIS
-    array([ 0.2163881...,  0.1257    ,  0.0384749...])
-    >>> RGB_to_XYZ(RGB, "sRGB", illuminant, "Bradford")
-    ... # doctest: +ELLIPSIS
-    array([ 0.2163881...,  0.1257    ,  0.0384749...])
+    >>> RGB_to_XYZ(
+    ...     RGB, RGB_COLOURSPACE_sRGB, illuminant, "Bradford"
+    ... )  # doctest: +ELLIPSIS
+    array([0.2163881..., 0.1257    , 0.0384749...])
+    >>> RGB_to_XYZ(RGB, "sRGB", illuminant, "Bradford")  # doctest: +ELLIPSIS
+    array([0.2163881..., 0.1257    , 0.0384749...])
     """
 
     from colour.models import RGB_COLOURSPACES  # noqa: PLC0415
@@ -1256,16 +1247,16 @@ def matrix_RGB_to_RGB(
     ...     RGB_COLOURSPACE_sRGB,
     ...     RGB_COLOURSPACE_PROPHOTO_RGB,
     ... )
-    >>> matrix_RGB_to_RGB(RGB_COLOURSPACE_sRGB, RGB_COLOURSPACE_PROPHOTO_RGB)
-    ... # doctest: +ELLIPSIS
-    array([[ 0.5288241...,  0.3340609...,  0.1373616...],
-           [ 0.0975294...,  0.8790074...,  0.0233981...],
-           [ 0.0163599...,  0.1066124...,  0.8772485...]])
-    >>> matrix_RGB_to_RGB("sRGB", "ProPhoto RGB")
-    ... # doctest: +ELLIPSIS
-    array([[ 0.5288241...,  0.3340609...,  0.1373616...],
-           [ 0.0975294...,  0.8790074...,  0.0233981...],
-           [ 0.0163599...,  0.1066124...,  0.8772485...]])
+    >>> matrix_RGB_to_RGB(
+    ...     RGB_COLOURSPACE_sRGB, RGB_COLOURSPACE_PROPHOTO_RGB
+    ... )  # doctest: +ELLIPSIS
+    array([[0.5288241..., 0.3340609..., 0.1373616...],
+           [0.0975294..., 0.8790074..., 0.0233981...],
+           [0.0163599..., 0.1066124..., 0.8772485...]])
+    >>> matrix_RGB_to_RGB("sRGB", "ProPhoto RGB")  # doctest: +ELLIPSIS
+    array([[0.5288241..., 0.3340609..., 0.1373616...],
+           [0.0975294..., 0.8790074..., 0.0233981...],
+           [0.0163599..., 0.1066124..., 0.8772485...]])
     """
 
     from colour.models import RGB_COLOURSPACES  # noqa: PLC0415
@@ -1367,12 +1358,12 @@ def RGB_to_RGB(
     ...     RGB_COLOURSPACE_PROPHOTO_RGB,
     ... )
     >>> RGB = np.array([0.45595571, 0.03039702, 0.04087245])
-    >>> RGB_to_RGB(RGB, RGB_COLOURSPACE_sRGB, RGB_COLOURSPACE_PROPHOTO_RGB)
-    ... # doctest: +ELLIPSIS
-    array([ 0.2568891...,  0.0721446...,  0.0465553...])
-    >>> RGB_to_RGB(RGB, "sRGB", "ProPhoto RGB")
-    ... # doctest: +ELLIPSIS
-    array([ 0.2568891...,  0.0721446...,  0.0465553...])
+    >>> RGB_to_RGB(
+    ...     RGB, RGB_COLOURSPACE_sRGB, RGB_COLOURSPACE_PROPHOTO_RGB
+    ... )  # doctest: +ELLIPSIS
+    array([0.2568891..., 0.0721446..., 0.0465553...])
+    >>> RGB_to_RGB(RGB, "sRGB", "ProPhoto RGB")  # doctest: +ELLIPSIS
+    array([0.2568891..., 0.0721446..., 0.0465553...])
     """
 
     from colour.models import RGB_COLOURSPACES  # noqa: PLC0415

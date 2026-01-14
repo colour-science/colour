@@ -144,7 +144,7 @@ def log_encoding_CanonLog_v1(
     Examples
     --------
     >>> log_encoding_CanonLog_v1(0.18) * 100  # doctest: +ELLIPSIS
-    34.3389651...
+    np.float64(34.3389651...)
 
     The values of *Table 2 Canon-Log Code Values* table in
     :cite:`Thorpe2012a` are obtained as follows:
@@ -153,7 +153,7 @@ def log_encoding_CanonLog_v1(
     >>> np.around(log_encoding_CanonLog_v1(x) * (2**10 - 1)).astype(np.int_)
     array([ 128,  169,  351,  614, 1016])
     >>> np.around(log_encoding_CanonLog_v1(x, 10, False) * 100, 1)
-    array([   7.3,   12. ,   32.8,   62.7,  108.7])
+    array([  7.3,  12. ,  32.8,  62.7, 108.7])
     """
 
     x = to_domain_1(x)
@@ -221,7 +221,7 @@ def log_decoding_CanonLog_v1(
     Examples
     --------
     >>> log_decoding_CanonLog_v1(34.338965172606912 / 100)  # doctest: +ELLIPSIS
-    0.17999999...
+    np.float64(0.17999999...)
     """
 
     clog = to_domain_1(clog)
@@ -287,7 +287,7 @@ def log_encoding_CanonLog_v1_2(
     Examples
     --------
     >>> log_encoding_CanonLog_v1_2(0.18) * 100  # doctest: +ELLIPSIS
-    34.3389649...
+    np.float64(34.3389649...)
     """
 
     x = to_domain_1(x)
@@ -359,7 +359,7 @@ def log_decoding_CanonLog_v1_2(
     --------
     >>> log_decoding_CanonLog_v1_2(34.338964929528061 / 100)
     ... # doctest: +ELLIPSIS
-    0.17999999...
+    np.float64(0.17999999...)
     """
 
     clog = to_domain_1(clog)
@@ -446,9 +446,9 @@ def log_encoding_CanonLog(
     Examples
     --------
     >>> log_encoding_CanonLog(0.18) * 100  # doctest: +ELLIPSIS
-    34.3389649...
+    np.float64(34.3389649...)
     >>> log_encoding_CanonLog(0.18, method="v1") * 100  # doctest: +ELLIPSIS
-    34.3389651...
+    np.float64(34.3389651...)
 
     The values of *Table 2 Canon-Log Code Values* table in
     :cite:`Thorpe2012a` are obtained as follows:
@@ -457,7 +457,7 @@ def log_encoding_CanonLog(
     >>> np.around(log_encoding_CanonLog(x, method="v1") * (2**10 - 1)).astype(np.int_)
     array([ 128,  169,  351,  614, 1016])
     >>> np.around(log_encoding_CanonLog(x, 10, False, method="v1") * 100, 1)
-    array([   7.3,   12. ,   32.8,   62.7,  108.7])
+    array([  7.3,  12. ,  32.8,  62.7, 108.7])
     """
 
     method = validate_method(method, tuple(CANON_LOG_ENCODING_METHODS))
@@ -533,10 +533,10 @@ def log_decoding_CanonLog(
     Examples
     --------
     >>> log_decoding_CanonLog(34.338964929528061 / 100)  # doctest: +ELLIPSIS
-    0.17999999...
+    np.float64(0.17999999...)
     >>> log_decoding_CanonLog(34.338965172606912 / 100, method="v1")
     ... # doctest: +ELLIPSIS
-    0.17999999...
+    np.float64(0.17999999...)
     """
 
     method = validate_method(method, tuple(CANON_LOG_DECODING_METHODS))
@@ -593,7 +593,7 @@ def log_encoding_CanonLog2_v1(
     Examples
     --------
     >>> log_encoding_CanonLog2_v1(0.18) * 100  # doctest: +ELLIPSIS
-    39.8254694...
+    np.float64(39.8254694...)
     """
 
     x = to_domain_1(x)
@@ -661,7 +661,7 @@ def log_decoding_CanonLog2_v1(
     Examples
     --------
     >>> log_decoding_CanonLog2_v1(39.825469498316735 / 100)  # doctest: +ELLIPSIS
-    0.1799999...
+    np.float64(0.1799999...)
     """
 
     clog2 = to_domain_1(clog2)
@@ -728,7 +728,7 @@ def log_encoding_CanonLog2_v1_2(
     Examples
     --------
     >>> log_encoding_CanonLog2_v1_2(0.18) * 100  # doctest: +ELLIPSIS
-    39.8254692...
+    np.float64(39.8254692...)
     """
 
     x = to_domain_1(x)
@@ -799,7 +799,7 @@ def log_decoding_CanonLog2_v1_2(
     --------
     >>> log_decoding_CanonLog2_v1_2(39.825469256149191 / 100)
     ... # doctest: +ELLIPSIS
-    0.1799999...
+    np.float64(0.1799999...)
     """
 
     clog2 = to_domain_1(clog2)
@@ -886,7 +886,7 @@ def log_encoding_CanonLog2(
     Examples
     --------
     >>> log_encoding_CanonLog2(0.18) * 100  # doctest: +ELLIPSIS
-    39.8254692...
+    np.float64(39.8254692...)
     """
 
     method = validate_method(method, tuple(CANON_LOG_2_ENCODING_METHODS))
@@ -963,7 +963,7 @@ def log_decoding_CanonLog2(
     Examples
     --------
     >>> log_decoding_CanonLog2(39.825469256149191 / 100)  # doctest: +ELLIPSIS
-    0.1799999...
+    np.float64(0.1799999...)
     """
 
     method = validate_method(method, tuple(CANON_LOG_2_DECODING_METHODS))
@@ -1032,7 +1032,7 @@ def log_encoding_CanonLog3_v1(
     Examples
     --------
     >>> log_encoding_CanonLog3_v1(0.18) * 100  # doctest: +ELLIPSIS
-    34.3389369...
+    np.float64(34.3389369...)
     """
 
     x = to_domain_1(x)
@@ -1107,7 +1107,7 @@ def log_decoding_CanonLog3_v1(
     Examples
     --------
     >>> log_decoding_CanonLog3_v1(34.338936938868677 / 100)  # doctest: +ELLIPSIS
-    0.1800000...
+    np.float64(0.1800000...)
     """
 
     clog3 = to_domain_1(clog3)
@@ -1177,7 +1177,7 @@ def log_encoding_CanonLog3_v1_2(
     Examples
     --------
     >>> log_encoding_CanonLog3_v1_2(0.18) * 100  # doctest: +ELLIPSIS
-    34.3389370...
+    np.float64(34.3389370...)
     """
 
     x = to_domain_1(x)
@@ -1255,7 +1255,7 @@ def log_decoding_CanonLog3_v1_2(
     --------
     >>> log_decoding_CanonLog3_v1_2(34.338937037393549 / 100)
     ... # doctest: +ELLIPSIS
-    0.1799999...
+    np.float64(0.1799999...)
     """
 
     clog3 = to_domain_1(clog3)
@@ -1356,7 +1356,7 @@ def log_encoding_CanonLog3(
     Examples
     --------
     >>> log_encoding_CanonLog3(0.18) * 100  # doctest: +ELLIPSIS
-    34.3389370...
+    np.float64(34.3389370...)
     """
 
     method = validate_method(method, tuple(CANON_LOG_3_ENCODING_METHODS))
@@ -1433,7 +1433,7 @@ def log_decoding_CanonLog3(
     Examples
     --------
     >>> log_decoding_CanonLog3(34.338937037393549 / 100)  # doctest: +ELLIPSIS
-    0.1799999...
+    np.float64(0.1799999...)
     """
 
     method = validate_method(method, tuple(CANON_LOG_3_DECODING_METHODS))

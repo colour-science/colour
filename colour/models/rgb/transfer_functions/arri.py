@@ -609,7 +609,7 @@ def log_encoding_ARRILogC3(
     Examples
     --------
     >>> log_encoding_ARRILogC3(0.18)  # doctest: +ELLIPSIS
-    0.3910068...
+    np.float64(0.3910068...)
     """
 
     x = to_domain_1(x)
@@ -676,7 +676,7 @@ def log_decoding_ARRILogC3(
     Examples
     --------
     >>> log_decoding_ARRILogC3(0.391006832034084)  # doctest: +ELLIPSIS
-    0.18...
+    np.float64(0.18...)
     """
 
     t = to_domain_1(t)
@@ -750,7 +750,7 @@ def log_encoding_ARRILogC4(
     Examples
     --------
     >>> log_encoding_ARRILogC4(0.18)  # doctest: +ELLIPSIS
-    0.2783958...
+    np.float64(0.2783958...)
     """
 
     E_scene = to_domain_1(E_scene)
@@ -812,7 +812,7 @@ def log_decoding_ARRILogC4(
     Examples
     --------
     >>> log_decoding_ARRILogC4(0.27839583654826527)  # doctest: +ELLIPSIS
-    0.18...
+    np.float64(0.18...)
     """
 
     E_p = to_domain_1(E_p)

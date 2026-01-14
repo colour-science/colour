@@ -502,14 +502,14 @@ def log_encoding(
     Examples
     --------
     >>> log_encoding(0.18)  # doctest: +ELLIPSIS
-    0.4573196...
+    np.float64(0.4573196...)
     >>> log_encoding(0.18, function="ACEScc")  # doctest: +ELLIPSIS
-    0.4135884...
+    np.float64(0.4135884...)
     >>> log_encoding(0.18, function="PLog", log_reference=400)
     ... # doctest: +ELLIPSIS
-    0.3910068...
+    np.float64(0.3910068...)
     >>> log_encoding(0.18, function="S-Log")  # doctest: +ELLIPSIS
-    0.3849708...
+    np.float64(0.3849708...)
     """
 
     function = validate_method(
@@ -624,16 +624,16 @@ def log_decoding(
     Examples
     --------
     >>> log_decoding(0.457319613085418)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     >>> log_decoding(0.413588402492442, function="ACEScc")
     ... # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     >>> log_decoding(0.391006842619746, function="PLog", log_reference=400)
     ... # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     >>> log_decoding(0.376512722254600, function="S-Log")
     ... # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     """
 
     function = validate_method(
@@ -712,9 +712,9 @@ def oetf(
     Examples
     --------
     >>> oetf(0.18)  # doctest: +ELLIPSIS
-    0.4090077...
+    np.float64(0.4090077...)
     >>> oetf(0.18, function="ITU-R BT.601")  # doctest: +ELLIPSIS
-    0.4090077...
+    np.float64(0.4090077...)
     """
 
     function = validate_method(
@@ -784,11 +784,11 @@ def oetf_inverse(
     Examples
     --------
     >>> oetf_inverse(0.409007728864150)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     >>> oetf_inverse(  # doctest: +ELLIPSIS
     ...     0.409007728864150, function="ITU-R BT.601"
     ... )
-    0.1...
+    np.float64(0.1...)
     """
 
     function = validate_method(
@@ -856,10 +856,10 @@ def eotf(
     Examples
     --------
     >>> eotf(0.461356129500442)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     >>> eotf(0.182011532850008, function="ST 2084", L_p=1000)
     ... # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     """
 
     function = validate_method(
@@ -925,11 +925,11 @@ def eotf_inverse(
     Examples
     --------
     >>> eotf_inverse(0.11699185725296059)  # doctest: +ELLIPSIS
-    0.4090077...
+    np.float64(0.4090077...)
     >>> eotf_inverse(  # doctest: +ELLIPSIS
     ...     0.11699185725296059, function="ITU-R BT.1886"
     ... )
-    0.4090077...
+    np.float64(0.4090077...)
     """
 
     function = validate_method(
@@ -1021,14 +1021,14 @@ def cctf_encoding(
     --------
     >>> cctf_encoding(0.18, function="PLog", log_reference=400)
     ... # doctest: +ELLIPSIS
-    0.3910068...
+    np.float64(0.3910068...)
     >>> cctf_encoding(0.18, function="ST 2084", L_p=1000)
     ... # doctest: +ELLIPSIS
-    0.1820115...
+    np.float64(0.1820115...)
     >>> cctf_encoding(  # doctest: +ELLIPSIS
     ...     0.11699185725296059, function="ITU-R BT.1886"
     ... )
-    0.4090077...
+    np.float64(0.4090077...)
     """
 
     function = validate_method(
@@ -1117,14 +1117,14 @@ def cctf_decoding(
     --------
     >>> cctf_decoding(0.391006842619746, function="PLog", log_reference=400)
     ... # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     >>> cctf_decoding(0.182011532850008, function="ST 2084", L_p=1000)
     ... # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     >>> cctf_decoding(  # doctest: +ELLIPSIS
     ...     0.461356129500442, function="ITU-R BT.1886"
     ... )
-    0.1...
+    np.float64(0.1...)
     """
 
     function = validate_method(
@@ -1196,9 +1196,9 @@ def ootf(
     Examples
     --------
     >>> ootf(0.1)  # doctest: +ELLIPSIS
-    779.9883608...
+    np.float64(779.9883608...)
     >>> ootf(0.1, function="ITU-R BT.2100 HLG")  # doctest: +ELLIPSIS
-    63.0957344...
+    np.float64(63.0957344...)
     """
 
     function = validate_method(
@@ -1253,11 +1253,11 @@ def ootf_inverse(
     Examples
     --------
     >>> ootf_inverse(779.988360834115840)  # doctest: +ELLIPSIS
-    0.1000000...
+    np.float64(0.1000000...)
     >>> ootf_inverse(  # doctest: +ELLIPSIS
     ...     63.095734448019336, function="ITU-R BT.2100 HLG"
     ... )
-    0.1000000...
+    np.float64(0.1000000...)
     """
 
     function = validate_method(

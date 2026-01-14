@@ -86,8 +86,8 @@ def read_LUT_IridasCube(path: str | PathLike) -> LUT3x1D | LUT3D:
     -------------------------------
     <BLANKLINE>
     Dimensions : 2
-    Domain     : [[ 0.  0.  0.]
-                  [ 1.  1.  1.]]
+    Domain     : [[0. 0. 0.]
+                  [1. 1. 1.]]
     Size       : (32, 3)
 
     Reading a 3D *Iridas* *.cube* *LUT*:
@@ -104,8 +104,8 @@ def read_LUT_IridasCube(path: str | PathLike) -> LUT3x1D | LUT3D:
     ---------------------------------
     <BLANKLINE>
     Dimensions : 3
-    Domain     : [[ 0.  0.  0.]
-                  [ 1.  1.  1.]]
+    Domain     : [[0. 0. 0.]
+                  [1. 1. 1.]]
     Size       : (4, 4, 4, 3)
 
     Reading a 3D *Iridas* *.cube* *LUT* with comments:
@@ -122,8 +122,8 @@ def read_LUT_IridasCube(path: str | PathLike) -> LUT3x1D | LUT3D:
     --------------
     <BLANKLINE>
     Dimensions : 2
-    Domain     : [[ 0.  0.  0.]
-                  [ 1.  2.  3.]]
+    Domain     : [[0. 0. 0.]
+                  [1. 2. 3.]]
     Size       : (3, 3)
     Comment 01 : Comments can go anywhere
     """

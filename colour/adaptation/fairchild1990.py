@@ -128,7 +128,7 @@ def chromatic_adaptation_Fairchild1990(
     >>> Y_n = 200
     >>> chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n)
     ... # doctest: +ELLIPSIS
-    array([ 23.3252634...,  23.3245581...,  76.1159375...])
+    array([23.3252634..., 23.3245581..., 76.1159375...])
     """
 
     XYZ_1 = to_domain_100(XYZ_1)
@@ -181,7 +181,7 @@ def XYZ_to_RGB_Fairchild1990(XYZ: ArrayLike) -> NDArrayFloat:
     --------
     >>> XYZ = np.array([19.53, 23.07, 24.97])
     >>> XYZ_to_RGB_Fairchild1990(XYZ)  # doctest: +ELLIPSIS
-    array([ 22.1231935...,  23.6054224...,  22.9279534...])
+    array([22.1231935..., 23.6054224..., 22.9279534...])
     """
 
     return vecmul(MATRIX_XYZ_TO_RGB_FAIRCHILD1990, XYZ)
@@ -205,7 +205,7 @@ def RGB_to_XYZ_Fairchild1990(RGB: ArrayLike) -> NDArrayFloat:
     --------
     >>> RGB = np.array([22.12319350, 23.60542240, 22.92795340])
     >>> RGB_to_XYZ_Fairchild1990(RGB)  # doctest: +ELLIPSIS
-    array([ 19.53,  23.07,  24.97])
+    array([19.53, 23.07, 24.97])
     """
 
     return vecmul(MATRIX_RGB_TO_XYZ_FAIRCHILD1990, RGB)
@@ -242,9 +242,9 @@ def degrees_of_adaptation(
     >>> LMS = np.array([20.00052060, 19.99978300, 19.99883160])
     >>> Y_n = 31.83
     >>> degrees_of_adaptation(LMS, Y_n)  # doctest: +ELLIPSIS
-    array([ 0.9799324...,  0.9960035...,  1.0233041...])
+    array([0.9799324..., 0.9960035..., 1.0233041...])
     >>> degrees_of_adaptation(LMS, Y_n, 1 / 3, True)
-    array([ 1.,  1.,  1.])
+    array([1., 1., 1.])
     """
 
     LMS = as_float_array(LMS)

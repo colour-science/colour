@@ -68,10 +68,10 @@ def light_water_molar_refraction_Schiebener1990(
     Examples
     --------
     >>> light_water_molar_refraction_Schiebener1990(589)  # doctest: +ELLIPSIS
-    0.2062114...
+    np.float64(0.2062114...)
     >>> light_water_molar_refraction_Schiebener1990([400, 500, 600])
     ... # doctest: +ELLIPSIS
-    array([ 0.2119202...,  0.2081386...,  0.2060235...])
+    array([0.2119202..., 0.2081386..., 0.2060235...])
 
     References
     ----------
@@ -134,7 +134,7 @@ def light_water_refractive_index_Schiebener1990(
     >>> light_water_refractive_index_Schiebener1990(
     ...     [400, 500, 600]
     ... )  # doctest: +ELLIPSIS
-    array([ 1.3441433...,  1.3373637...,  1.3335851...])
+    array([1.3441433..., 1.3373637..., 1.3335851...])
 
     References
     ----------
@@ -211,7 +211,7 @@ def thin_film_tmm(
     ((1, 1, 1, 2), (1, 1, 1, 2))
     >>> R[0, 0, 0]  # [R_s, R_p] at 555nm, shape (W, A, T, 2) = (1, 1, 1, 2)
     ... # doctest: +ELLIPSIS
-    array([ 0.1215919...,  0.1215919...])
+    array([0.1215919..., 0.1215919...])
     >>> np.allclose(R + T, 1.0)  # Energy conservation
     True
 

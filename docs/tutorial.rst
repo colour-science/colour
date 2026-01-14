@@ -368,7 +368,7 @@ The codebase is documented and most docstrings have usage examples:
     ... )
     >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
     >>> CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)  # doctest: +ELLIPSIS
-    array([ 0.1977999...,  0.3122004...])
+    array([0.1977999...,  0.3122004...])
 
 At the core of **Colour** is the ``colour.colorimetry`` sub-package, it defines
 the objects needed for spectral computations and many others:
@@ -768,7 +768,7 @@ spectral dimensions and is instantiated as follows:
 
 .. code-block:: text
 
-    array([  0. ,   0.5,   1. ,   1.5,   2. ,   2.5,   3. ,   3.5,   4. ,
+    array([0. ,   0.5,   1. ,   1.5,   2. ,   2.5,   3. ,   3.5,   4. ,
              4.5,   5. ,   5.5,   6. ,   6.5,   7. ,   7.5,   8. ,   8.5,
              9. ,   9.5,  10. ])
 
@@ -1125,7 +1125,7 @@ this tutorial but the core capability can be described.
 
 .. code-block:: text
 
-    array([ 94.74700025,  50.62829102,  72.93120155,  81.86179968,
+    array([94.74700025,  50.62829102,  72.93120155,  81.86179968,
             70.14736394,  83.11336665,  51.17649751,  71.00638621,
             86.94761009,  78.01845818])
 

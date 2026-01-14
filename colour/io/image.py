@@ -304,12 +304,12 @@ def convert_bit_depth(
     >>> convert_bit_depth(a, "uint16")
     array([    0, 32768, 65535], dtype=uint16)
     >>> convert_bit_depth(a, "float16")
-    array([ 0. ,  0.5,  1. ], dtype=float16)
+    array([0. , 0.5, 1. ], dtype=float16)
     >>> a = np.array([0, 128, 255], dtype=np.uint8)
     >>> convert_bit_depth(a, "uint16")
     array([    0, 32896, 65535], dtype=uint16)
     >>> convert_bit_depth(a, "float32")  # doctest: +ELLIPSIS
-    array([ 0.       ,  0.501960...,  1.       ], dtype=float32)
+    array([0.       , 0.501960..., 1.       ], dtype=float32)
     """
 
     a = np.asarray(a)
@@ -987,17 +987,17 @@ def as_3_channels_image(a: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> as_3_channels_image(0.18)
-    array([[[ 0.18,  0.18,  0.18]]])
+    array([[[0.18, 0.18, 0.18]]])
     >>> as_3_channels_image([0.18])
-    array([[[ 0.18,  0.18,  0.18]]])
+    array([[[0.18, 0.18, 0.18]]])
     >>> as_3_channels_image([0.18, 0.18, 0.18])
-    array([[[ 0.18,  0.18,  0.18]]])
+    array([[[0.18, 0.18, 0.18]]])
     >>> as_3_channels_image([[0.18, 0.18, 0.18]])
-    array([[[ 0.18,  0.18,  0.18]]])
+    array([[[0.18, 0.18, 0.18]]])
     >>> as_3_channels_image([[[0.18, 0.18, 0.18]]])
-    array([[[ 0.18,  0.18,  0.18]]])
+    array([[[0.18, 0.18, 0.18]]])
     >>> as_3_channels_image([[[[0.18, 0.18, 0.18]]]])
-    array([[[ 0.18,  0.18,  0.18]]])
+    array([[[0.18, 0.18, 0.18]]])
     """
 
     a = np.squeeze(as_float_array(a))

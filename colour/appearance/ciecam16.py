@@ -255,9 +255,10 @@ def XYZ_to_CIECAM16(
     >>> Y_b = 20.0
     >>> surround = VIEWING_CONDITIONS_CIECAM16["Average"]
     >>> XYZ_to_CIECAM16(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
-    CAM_Specification_CIECAM16(J=41.7312079..., C=0.1033557..., \
-h=217.0679597..., s=2.3450150..., Q=195.3717089..., M=0.1074367..., \
-H=275.5949861..., HC=None)
+    CAM_Specification_CIECAM16(J=np.float64(41.7312079...), \
+C=np.float64(0.1033557...), h=np.float64(217.0679597...), \
+s=np.float64(2.3450150...), Q=np.float64(195.3717089...), \
+M=np.float64(0.1074367...), H=np.float64(275.5949861...), HC=None)
     """
 
     XYZ = to_domain_100(XYZ)
@@ -440,7 +441,7 @@ def CIECAM16_to_XYZ(
     >>> L_A = 318.31
     >>> Y_b = 20.0
     >>> CIECAM16_to_XYZ(specification, XYZ_w, L_A, Y_b)  # doctest: +ELLIPSIS
-    array([ 19.01...,  20...  ,  21.78...])
+    array([19.01..., 20...  , 21.78...])
     """
 
     J, C, h, _s, _Q, M, _H, _HC = astuple(specification)
@@ -550,7 +551,7 @@ def f_e_forward(RGB_c: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
     >>> F_L = 1.16754446415
     >>> f_e_forward(RGB_c, F_L)
     ... # doctest: +ELLIPSIS
-    array([ 7.8463202...,  7.8471152...,  7.8489959...])
+    array([7.8463202..., 7.8471152..., 7.8489959...])
     """
 
     RGB_c = as_float_array(RGB_c)
@@ -605,7 +606,7 @@ def f_e_inverse(RGB_a: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
     >>> F_L = 1.16754446415
     >>> f_e_inverse(RGB_a, F_L)
     ... # doctest: +ELLIPSIS
-    array([ 19.9969397...,  20.0018612...,  20.0135052...])
+    array([19.9969397..., 20.0018612..., 20.0135052...])
     """
 
     RGB_a = as_float_array(RGB_a)
@@ -649,7 +650,7 @@ def f_q(F_L: ArrayLike, q: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> f_q(1.17, 0.26)  # doctest: +ELLIPSIS
-    1.2886520...
+    np.float64(1.2886520...)
     """
 
     F_L = as_float_array(F_L)
@@ -679,7 +680,7 @@ def d_f_q(F_L: ArrayLike, q: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> d_f_q(1.17, 0.26)  # doctest: +ELLIPSIS
-    2.0749623...
+    np.float64(2.0749623...)
     """
 
     F_L = as_float_array(F_L)

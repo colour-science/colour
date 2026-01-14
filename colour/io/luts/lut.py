@@ -875,7 +875,7 @@ class LUT1D(AbstractLUT):
     ----------------
     <BLANKLINE>
     Dimensions : 1
-    Domain     : [ 0.  1.]
+    Domain     : [0. 1.]
     Size       : (16,)
 
     Instantiating a LUT using a custom table with 16 elements:
@@ -885,7 +885,7 @@ class LUT1D(AbstractLUT):
     --------...
     <BLANKLINE>
     Dimensions : 1
-    Domain     : [ 0.  1.]
+    Domain     : [0. 1.]
     Size       : (16,)
 
     Instantiating a LUT using a custom table with 16 elements, custom name,
@@ -1063,22 +1063,22 @@ class LUT1D(AbstractLUT):
         --------
         >>> LUT = LUT1D(LUT1D.linear_table() ** (1 / 2.2))
         >>> print(LUT.table)  # doctest: +ELLIPSIS
-        [ 0.       ...  0.3683438...  0.5047603...  0.6069133...  \
-0.6916988...  0.7655385...
-          0.8316843...  0.8920493...  0.9478701...  1.        ]
+        [0.       ... 0.3683438... 0.5047603... 0.6069133... \
+0.6916988... 0.7655385...
+         0.8316843... 0.8920493... 0.9478701... 1.       ...]
         >>> print(LUT.invert())  # doctest: +ELLIPSIS
         LUT1D - ... - Inverse
         --------...----------
         <BLANKLINE>
         Dimensions : 1
-        Domain     : [ 0.          0.3683438...  0.5047603...  0.6069133...  \
-0.6916988...  0.7655385...
-                       0.8316843...  0.8920493...  0.9478701...  1.        ]
+        Domain     : [0.         0.3683438... 0.5047603... 0.6069133... \
+0.6916988... 0.7655385...
+                      0.8316843... 0.8920493... 0.9478701... 1.       ...]
         Size       : (10,)
         >>> print(LUT.invert().table)  # doctest: +ELLIPSIS
-        [ 0.       ...  0.1111111...  0.2222222...  0.3333333...  \
-0.4444444...  0.5555555...
-          0.6666666...  0.7777777...  0.8888888...  1.        ]
+        [0.       ... 0.1111111... 0.2222222... 0.3333333... \
+0.4444444... 0.5555555...
+         0.6666666... 0.7777777... 0.8888888... 1.       ...]
         """
 
         if self.is_domain_explicit():
@@ -1133,14 +1133,14 @@ class LUT1D(AbstractLUT):
         direction:
 
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
-        array([ 0.4529220...,  0.4529220...,  0.4529220...])
+        array([0.4529220..., 0.4529220..., 0.4529220...])
 
         *LUT* applied to the modified *RGB* colourspace in the inverse
         direction:
 
         >>> LUT.apply(LUT.apply(RGB), direction="Inverse")
         ... # doctest: +ELLIPSIS
-        array([ 0.18...,  0.18...,  0.18...])
+        array([0.18..., 0.18..., 0.18...])
         """
 
         direction = validate_method(
@@ -1208,8 +1208,8 @@ class LUT3x1D(AbstractLUT):
     ------------------
     <BLANKLINE>
     Dimensions : 2
-    Domain     : [[ 0.  0.  0.]
-                  [ 1.  1.  1.]]
+    Domain     : [[0. 0. 0.]
+                  [1. 1. 1.]]
     Size       : (16, 3)
 
     Instantiating a LUT using a custom table with 16x3 elements:
@@ -1220,8 +1220,8 @@ class LUT3x1D(AbstractLUT):
     ----------...
     <BLANKLINE>
     Dimensions : 2
-    Domain     : [[ 0.  0.  0.]
-                  [ 1.  1.  1.]]
+    Domain     : [[0. 0. 0.]
+                  [1. 1. 1.]]
     Size       : (16, 3)
 
     Instantiating a LUT using a custom table with 16x3 elements, custom
@@ -1460,43 +1460,43 @@ class LUT3x1D(AbstractLUT):
         --------
         >>> LUT = LUT3x1D(LUT3x1D.linear_table() ** (1 / 2.2))
         >>> print(LUT.table)
-        [[ 0.          0.          0.        ]
-         [ 0.36834383  0.36834383  0.36834383]
-         [ 0.50476034  0.50476034  0.50476034]
-         [ 0.60691337  0.60691337  0.60691337]
-         [ 0.69169882  0.69169882  0.69169882]
-         [ 0.76553851  0.76553851  0.76553851]
-         [ 0.83168433  0.83168433  0.83168433]
-         [ 0.89204934  0.89204934  0.89204934]
-         [ 0.94787016  0.94787016  0.94787016]
-         [ 1.          1.          1.        ]]
+        [[0.         0.         0.        ]
+         [0.36834383 0.36834383 0.36834383]
+         [0.50476034 0.50476034 0.50476034]
+         [0.60691337 0.60691337 0.60691337]
+         [0.69169882 0.69169882 0.69169882]
+         [0.76553851 0.76553851 0.76553851]
+         [0.83168433 0.83168433 0.83168433]
+         [0.89204934 0.89204934 0.89204934]
+         [0.94787016 0.94787016 0.94787016]
+         [1.         1.         1.        ]]
         >>> print(LUT.invert())  # doctest: +ELLIPSIS
         LUT3x1D - ... - Inverse
         ----------...----------
         <BLANKLINE>
         Dimensions : 2
-        Domain     : [[ 0.       ...  0.       ...  0.       ...]
-                      [ 0.3683438...  0.3683438...  0.3683438...]
-                      [ 0.5047603...  0.5047603...  0.5047603...]
-                      [ 0.6069133...  0.6069133...  0.6069133...]
-                      [ 0.6916988...  0.6916988...  0.6916988...]
-                      [ 0.7655385...  0.7655385...  0.7655385...]
-                      [ 0.8316843...  0.8316843...  0.8316843...]
-                      [ 0.8920493...  0.8920493...  0.8920493...]
-                      [ 0.9478701...  0.9478701...  0.9478701...]
-                      [ 1.       ...  1.       ...  1.       ...]]
+        Domain     : [[0.       ... 0.       ... 0.       ...]
+                      [0.3683438... 0.3683438... 0.3683438...]
+                      [0.5047603... 0.5047603... 0.5047603...]
+                      [0.6069133... 0.6069133... 0.6069133...]
+                      [0.6916988... 0.6916988... 0.6916988...]
+                      [0.7655385... 0.7655385... 0.7655385...]
+                      [0.8316843... 0.8316843... 0.8316843...]
+                      [0.8920493... 0.8920493... 0.8920493...]
+                      [0.9478701... 0.9478701... 0.9478701...]
+                      [1.       ... 1.       ... 1.       ...]]
         Size       : (10, 3)
         >>> print(LUT.invert().table)  # doctest: +ELLIPSIS
-        [[ 0.       ...  0.       ...  0.       ...]
-         [ 0.1111111...  0.1111111...  0.1111111...]
-         [ 0.2222222...  0.2222222...  0.2222222...]
-         [ 0.3333333...  0.3333333...  0.3333333...]
-         [ 0.4444444...  0.4444444...  0.4444444...]
-         [ 0.5555555...  0.5555555...  0.5555555...]
-         [ 0.6666666...  0.6666666...  0.6666666...]
-         [ 0.7777777...  0.7777777...  0.7777777...]
-         [ 0.8888888...  0.8888888...  0.8888888...]
-         [ 1.       ...  1.       ...  1.       ...]]
+        [[0.       ... 0.       ... 0.       ...]
+         [0.1111111... 0.1111111... 0.1111111...]
+         [0.2222222... 0.2222222... 0.2222222...]
+         [0.3333333... 0.3333333... 0.3333333...]
+         [0.4444444... 0.4444444... 0.4444444...]
+         [0.5555555... 0.5555555... 0.5555555...]
+         [0.6666666... 0.6666666... 0.6666666...]
+         [0.7777777... 0.7777777... 0.7777777...]
+         [0.8888888... 0.8888888... 0.8888888...]
+         [1.       ... 1.       ... 1.       ...]]
         """
 
         size = self.table.size // 3
@@ -1551,17 +1551,17 @@ class LUT3x1D(AbstractLUT):
         >>> LUT = LUT3x1D(LUT3x1D.linear_table() ** (1 / 2.2))
         >>> RGB = np.array([0.18, 0.18, 0.18])
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
-        array([ 0.4529220...,  0.4529220...,  0.4529220...])
+        array([0.4529220..., 0.4529220..., 0.4529220...])
         >>> LUT.apply(LUT.apply(RGB), direction="Inverse")
         ... # doctest: +ELLIPSIS
-        array([ 0.18...,  0.18...,  0.18...])
+        array([0.18..., 0.18..., 0.18...])
         >>> from colour.algebra import spow
         >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
         >>> table = spow(LUT3x1D.linear_table(domain=domain), 1 / 2.2)
         >>> LUT = LUT3x1D(table, domain=domain)
         >>> RGB = np.array([0.18, 0.18, 0.18])
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
-        array([ 0.4423903...,  0.4503801...,  0.3581625...])
+        array([0.4423903..., 0.4503801..., 0.3581625...])
         >>> domain = np.array(
         ...     [
         ...         [-0.1, -0.2, -0.4],
@@ -1662,8 +1662,8 @@ class LUT3D(AbstractLUT):
     ----------------
     <BLANKLINE>
     Dimensions : 3
-    Domain     : [[ 0.  0.  0.]
-                  [ 1.  1.  1.]]
+    Domain     : [[0. 0. 0.]
+                  [1. 1. 1.]]
     Size       : (16, 16, 16, 3)
 
     Instantiating a LUT using a custom table with 16x16x16x3 elements:
@@ -1673,8 +1673,8 @@ class LUT3D(AbstractLUT):
     --------...
     <BLANKLINE>
     Dimensions : 3
-    Domain     : [[ 0.  0.  0.]
-                  [ 1.  1.  1.]]
+    Domain     : [[0. 0. 0.]
+                  [1. 1. 1.]]
     Size       : (16, 16, 16, 3)
 
     Instantiating a LUT using a custom table with 16x16x16x3 elements,
@@ -2061,16 +2061,16 @@ class LUT3D(AbstractLUT):
         ----------------
         <BLANKLINE>
         Dimensions : 3
-        Domain     : [[ 0.  0.  0.]
-                      [ 1.  1.  1.]]
+        Domain     : [[0. 0. 0.]
+                      [1. 1. 1.]]
         Size       : (33, 33, 33, 3)
         >>> print(LUT.invert())
         LUT3D - Unity 33 - Inverse
         --------------------------
         <BLANKLINE>
         Dimensions : 3
-        Domain     : [[ 0.  0.  0.]
-                      [ 1.  1.  1.]]
+        Domain     : [[0. 0. 0.]
+                      [1. 1. 1.]]
         Size       : (108, 108, 108, 3)
         """
 
@@ -2257,10 +2257,10 @@ class LUT3D(AbstractLUT):
         >>> LUT = LUT3D(LUT3D.linear_table() ** (1 / 2.2))
         >>> RGB = np.array([0.18, 0.18, 0.18])
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
-        array([ 0.4583277...,  0.4583277...,  0.4583277...])
+        array([0.4583277..., 0.4583277..., 0.4583277...])
         >>> LUT.apply(LUT.apply(RGB), direction="Inverse")
         ... # doctest: +ELLIPSIS +SKIP
-        array([ 0.1799897...,  0.1796077...,  0.1795868...])
+        array([0.1799897..., 0.1796077..., 0.1795868...])
         >>> from colour.algebra import spow
         >>> domain = np.array(
         ...     [
@@ -2370,22 +2370,22 @@ def LUT_to_LUT(
     -------------------------------------
     <BLANKLINE>
     Dimensions : 3
-    Domain     : [[ 0.  0.  0.]
-                  [ 1.  1.  1.]]
+    Domain     : [[0. 0. 0.]
+                  [1. 1. 1.]]
     Size       : (33, 33, 33, 3)
     >>> print(LUT_to_LUT(LUT3x1D(), LUT1D, force_conversion=True))
     LUT1D - Unity 10 - Converted 3x1D to 1D
     ---------------------------------------
     <BLANKLINE>
     Dimensions : 1
-    Domain     : [ 0.  1.]
+    Domain     : [0. 1.]
     Size       : (10,)
     >>> print(LUT_to_LUT(LUT3D(), LUT1D, force_conversion=True))
     LUT1D - Unity 33 - Converted 3D to 1D
     -------------------------------------
     <BLANKLINE>
     Dimensions : 1
-    Domain     : [ 0.  1.]
+    Domain     : [0. 1.]
     Size       : (10,)
     """
 

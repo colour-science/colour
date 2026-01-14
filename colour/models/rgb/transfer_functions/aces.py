@@ -177,9 +177,9 @@ def log_encoding_ACESproxy(
     Examples
     --------
     >>> log_encoding_ACESproxy(0.18)  # doctest: +ELLIPSIS
-    0.4164222...
+    np.float64(0.4164222...)
     >>> log_encoding_ACESproxy(0.18, out_int=True)
-    426
+    np.int64(426)
     """
 
     lin_AP1 = to_domain_1(lin_AP1)
@@ -263,9 +263,9 @@ def log_decoding_ACESproxy(
     Examples
     --------
     >>> log_decoding_ACESproxy(0.416422287390029)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     >>> log_decoding_ACESproxy(426, in_int=True)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     """
 
     ACESproxy = to_domain_1(ACESproxy)
@@ -321,7 +321,7 @@ def log_encoding_ACEScc(lin_AP1: Domain1) -> Range1:
     Examples
     --------
     >>> log_encoding_ACEScc(0.18)  # doctest: +ELLIPSIS
-    0.4135884...
+    np.float64(0.4135884...)
     """
 
     lin_AP1 = to_domain_1(lin_AP1)
@@ -378,7 +378,7 @@ def log_decoding_ACEScc(ACEScc: Domain1) -> Range1:
     Examples
     --------
     >>> log_decoding_ACEScc(0.413588402492442)  # doctest: +ELLIPSIS
-    0.1799999...
+    np.float64(0.1799999...)
     """
 
     ACEScc = to_domain_1(ACEScc)
@@ -439,7 +439,7 @@ def log_encoding_ACEScct(
     Examples
     --------
     >>> log_encoding_ACEScct(0.18)  # doctest: +ELLIPSIS
-    0.4135884...
+    np.float64(0.4135884...)
     """
 
     lin_AP1 = to_domain_1(lin_AP1)
@@ -496,7 +496,7 @@ def log_decoding_ACEScct(
     Examples
     --------
     >>> log_decoding_ACEScct(0.413588402492442)  # doctest: +ELLIPSIS
-    0.1799999...
+    np.float64(0.1799999...)
     """
 
     ACEScct = to_domain_1(ACEScct)

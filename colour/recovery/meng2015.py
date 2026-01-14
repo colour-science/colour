@@ -172,7 +172,7 @@ def XYZ_to_sd_Meng2015(
                          extrapolator=Extrapolator,
                          extrapolator_kwargs={...})
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
-    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
     from scipy.optimize import minimize  # noqa: PLC0415

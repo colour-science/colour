@@ -75,14 +75,14 @@ def RGB_to_Prismatic(RGB: Domain1) -> Range1:
     --------
     >>> RGB = np.array([0.25, 0.50, 0.75])
     >>> RGB_to_Prismatic(RGB)  # doctest: +ELLIPSIS
-    array([ 0.75...   ,  0.1666666...,  0.3333333...,  0.5...   ])
+    array([0.75...   , 0.1666666..., 0.3333333..., 0.5...   ])
 
     Adjusting saturation of the specified *RGB* colourspace array:
     >>> saturation = 0.5
     >>> Lrgb = RGB_to_Prismatic(RGB)
     >>> Lrgb[..., 1:] = 1 / 3 + saturation * (Lrgb[..., 1:] - 1 / 3)
     >>> Prismatic_to_RGB(Lrgb)  # doctest: +ELLIPSIS
-    array([ 0.45...,  0.6...,  0.75...])
+    array([0.45..., 0.6..., 0.75...])
     """
 
     RGB = to_domain_1(RGB)
@@ -137,7 +137,7 @@ def Prismatic_to_RGB(Lrgb: Domain1) -> Range1:
     --------
     >>> Lrgb = np.array([0.75000000, 0.16666667, 0.33333333, 0.50000000])
     >>> Prismatic_to_RGB(Lrgb)  # doctest: +ELLIPSIS
-    array([ 0.25...   ,  0.4999999...,  0.75...  ])
+    array([0.25...   , 0.4999999..., 0.75...  ])
     """
 
     Lrgb = to_domain_1(Lrgb)

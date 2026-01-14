@@ -267,9 +267,12 @@ def XYZ_to_sCAM(
     >>> Y_b = 20.0
     >>> surround = VIEWING_CONDITIONS_sCAM["Average"]
     >>> XYZ_to_sCAM(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
-    CAM_Specification_sCAM(J=49.9795668..., C=0.0140531..., h=328.2724924..., \
-Q=195.23024234..., M=0.0050244..., H=363.6013437..., HC=None, V=49.9795727..., \
-K=50.0204272..., W=34.9734327..., D=65.0265672...)
+    CAM_Specification_sCAM(J=np.float64(49.9795668...), \
+C=np.float64(0.0140531...), h=np.float64(328.2724924...), \
+Q=np.float64(195.2302423...), M=np.float64(0.0050244...), \
+H=np.float64(363.6013437...), HC=None, V=np.float64(49.9795727...), \
+K=np.float64(50.0204272...), W=np.float64(34.9734327...), \
+D=np.float64(65.0265672...))
     """
 
     XYZ = to_domain_100(XYZ)
@@ -409,7 +412,7 @@ def sCAM_to_XYZ(
     >>> L_A = 318.31
     >>> Y_b = 20
     >>> sCAM_to_XYZ(specification, XYZ_w, L_A, Y_b)  # doctest: +ELLIPSIS
-    array([ 19.01...,  20...  ,  21.78...])
+    array([19.01..., 20...  , 21.78...])
     """
 
     I_a, C, h, _Q, M, _H, _HC, _V, _K, _W, _D = astuple(specification)
@@ -512,7 +515,7 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     --------
     >>> h = np.array([0, 90, 180, 270])
     >>> hue_quadrature(h)  # doctest: +ELLIPSIS
-    array([ 386.7962881...,  122.2477064...,  229.5474711...,  326.8471216...])
+    array([386.7962881..., 122.2477064..., 229.5474711..., 326.8471216...])
     """
 
     h = as_float_array(h)

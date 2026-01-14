@@ -114,9 +114,9 @@ def cctf_encoding_ROMMRGB(
     Examples
     --------
     >>> cctf_encoding_ROMMRGB(0.18)  # doctest: +ELLIPSIS
-    0.3857114...
+    np.float64(0.3857114...)
     >>> cctf_encoding_ROMMRGB(0.18, out_int=True)
-    98
+    np.int64(98)
     """
 
     X = to_domain_1(X)
@@ -181,9 +181,9 @@ def cctf_decoding_ROMMRGB(
     Examples
     --------
     >>> cctf_decoding_ROMMRGB(0.385711424751138)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     >>> cctf_decoding_ROMMRGB(98, in_int=True)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     """
 
     X_p = to_domain_1(X_p)
@@ -273,9 +273,9 @@ def cctf_encoding_RIMMRGB(
     Examples
     --------
     >>> cctf_encoding_RIMMRGB(0.18)  # doctest: +ELLIPSIS
-    0.2916737...
+    np.float64(0.2916737...)
     >>> cctf_encoding_RIMMRGB(0.18, out_int=True)
-    74
+    np.int64(74)
     """
 
     X = to_domain_1(X)
@@ -347,9 +347,9 @@ def cctf_decoding_RIMMRGB(
     Examples
     --------
     >>> cctf_decoding_RIMMRGB(0.291673732475746)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     >>> cctf_decoding_RIMMRGB(74, in_int=True)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     """
 
     X_p = to_domain_1(X_p)
@@ -426,9 +426,9 @@ def log_encoding_ERIMMRGB(
     Examples
     --------
     >>> log_encoding_ERIMMRGB(0.18)  # doctest: +ELLIPSIS
-    0.4100523...
+    np.float64(0.4100523...)
     >>> log_encoding_ERIMMRGB(0.18, out_int=True)
-    105
+    np.int64(105)
     """
 
     X = to_domain_1(X)
@@ -514,9 +514,9 @@ def log_decoding_ERIMMRGB(
     Examples
     --------
     >>> log_decoding_ERIMMRGB(0.410052389492129)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     >>> log_decoding_ERIMMRGB(105, in_int=True)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     """
 
     X_p = to_domain_1(X_p)

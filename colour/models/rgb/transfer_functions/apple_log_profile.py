@@ -100,7 +100,7 @@ def log_encoding_AppleLogProfile(
     Examples
     --------
     >>> log_encoding_AppleLogProfile(0.18)  # doctest: +ELLIPSIS
-    0.4882724...
+    np.float64(0.4882724...)
     """
 
     R = to_domain_1(R)
@@ -174,7 +174,7 @@ def log_decoding_AppleLogProfile(
     Examples
     --------
     >>> log_decoding_AppleLogProfile(0.48827245852686763)  # doctest: +ELLIPSIS
-    0.1800000...
+    np.float64(0.1800000...)
     """
 
     P = to_domain_1(P)

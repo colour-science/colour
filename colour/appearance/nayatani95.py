@@ -250,9 +250,10 @@ def XYZ_to_Nayatani95(
     >>> E_o = 5000.0
     >>> E_or = 1000.0
     >>> XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)  # doctest: +ELLIPSIS
-    CAM_Specification_Nayatani95(L_star_P=49.9998829..., C=0.0133550..., \
-h=257.5232268..., s=0.0133550..., Q=62.6266734..., M=0.0167262..., \
-H=None, HC=None, L_star_N=50.0039154...)
+    CAM_Specification_Nayatani95(L_star_P=np.float64(49.9998829...), \
+C=np.float64(0.0133550...), h=np.float64(257.5232268...), \
+s=np.float64(0.0133550...), Q=np.float64(62.6266734...), \
+M=np.float64(0.0167262...), H=None, HC=None, L_star_N=np.float64(50.0039154...))
     """
 
     XYZ = to_domain_100(XYZ)
@@ -359,7 +360,7 @@ def illuminance_to_luminance(E: ArrayLike, Y_f: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> illuminance_to_luminance(5000.0, 20.0)  # doctest: +ELLIPSIS
-    318.3098861...
+    np.float64(318.3098861...)
     """
 
     E = as_float_array(E)
@@ -386,7 +387,7 @@ def XYZ_to_RGB_Nayatani95(XYZ: ArrayLike) -> NDArrayFloat:
     --------
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_to_RGB_Nayatani95(XYZ)  # doctest: +ELLIPSIS
-    array([ 20.0005206...,  19.999783 ...,  19.9988316...])
+    array([20.0005206..., 19.999783..., 19.9988316...])
     """
 
     return vecmul(MATRIX_XYZ_TO_RGB_NAYATANI95, XYZ)
@@ -413,7 +414,7 @@ def scaling_coefficient(x: ArrayLike, y: ArrayLike) -> NDArrayFloat:
     >>> x = 20.000520600000002
     >>> y = 1.000042192
     >>> scaling_coefficient(x, y)
-    1.0
+    np.float64(1.0)
     """
 
     x = as_float_array(x)
@@ -470,7 +471,7 @@ def achromatic_response(
     >>> n = 1.0
     >>> achromatic_response(RGB, bRGB_o, xez, bL_or, eR, eG, n)
     ... # doctest: +ELLIPSIS
-    -0.0001169...
+    np.float64(-0.0001169...)
     """
 
     R, G, _B = tsplit(RGB)
@@ -518,7 +519,7 @@ def tritanopic_response(
     >>> xez = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> n = 1.0
     >>> tritanopic_response(RGB, bRGB_o, xez, n)  # doctest: +ELLIPSIS
-    -1.7703650...e-05
+    np.float64(-1.7703650...e-05)
     """
 
     R, G, B = tsplit(RGB)
@@ -565,7 +566,7 @@ def protanopic_response(
     >>> xez = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> n = 1.0
     >>> protanopic_response(RGB, bRGB_o, xez, n)  # doctest: +ELLIPSIS
-    -8.0021426...e-05
+    np.float64(-8.0021426...e-05)
     """
 
     R, G, B = tsplit(RGB)
@@ -607,7 +608,7 @@ def brightness_correlate(
     >>> bL_or = 3.681021495604089
     >>> Q = -0.000117024294955
     >>> brightness_correlate(bRGB_o, bL_or, Q)  # doctest: +ELLIPSIS
-    62.6266734...
+    np.float64(62.6266734...)
     """
 
     bR_o, bG_o, _bB_o = tsplit(bRGB_o)
@@ -654,7 +655,7 @@ def ideal_white_brightness_correlate(
     >>> n = 1.0
     >>> ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n)
     ... # doctest: +ELLIPSIS
-    125.2435392...
+    np.float64(125.2435392...)
     """
 
     bR_o, bG_o, _bB_o = tsplit(bRGB_o)
@@ -690,7 +691,7 @@ def achromatic_lightness_correlate(
     --------
     >>> Q = -0.000117024294955
     >>> achromatic_lightness_correlate(Q)  # doctest: +ELLIPSIS
-    49.9998829...
+    np.float64(49.9998829...)
     """
 
     Q = as_float_array(Q)
@@ -723,7 +724,7 @@ def normalised_achromatic_lightness_correlate(
     >>> B_rw = 125.24353925846037
     >>> normalised_achromatic_lightness_correlate(B_r, B_rw)
     ... # doctest: +ELLIPSIS
-    50.0039154...
+    np.float64(50.0039154...)
     """
 
     B_r = as_float_array(B_r)
@@ -754,7 +755,7 @@ def hue_angle(p: ArrayLike, t: ArrayLike) -> NDArrayFloat:
     >>> p = -8.002142682085493e-05
     >>> t = -0.000017703650669
     >>> hue_angle(p, t)  # doctest: +ELLIPSIS
-    257.5250300...
+    np.float64(257.5250300...)
     """
 
     p = as_float_array(p)
@@ -787,7 +788,7 @@ def chromatic_strength_function(
     --------
     >>> h = 257.52322689806243
     >>> chromatic_strength_function(h)  # doctest: +ELLIPSIS
-    1.2267869...
+    np.float64(1.2267869...)
     """
 
     theta = np.radians(theta)
@@ -874,7 +875,7 @@ def saturation_correlate(S_RG: ArrayLike, S_YB: ArrayLike) -> NDArrayFloat:
     >>> S_RG = -0.002885271638197
     >>> S_YB = -0.013039632941332
     >>> saturation_correlate(S_RG, S_YB)  # doctest: +ELLIPSIS
-    0.0133550...
+    np.float64(0.0133550...)
     """
 
     S_RG = as_float_array(S_RG)
@@ -947,7 +948,7 @@ def chroma_correlate(L_star_P: ArrayLike, S: ArrayLike) -> NDArrayFloat:
     >>> L_star_P = 49.99988297570504
     >>> S = 0.013355029751778
     >>> chroma_correlate(L_star_P, S)  # doctest: +ELLIPSIS
-    0.0133550...
+    np.float64(0.0133550...)
     """
 
     L_star_P = as_float_array(L_star_P)
@@ -1018,7 +1019,7 @@ def colourfulness_correlate(C: ArrayLike, B_rw: ArrayLike) -> NDArrayFloat:
     >>> C = 0.013355007871689
     >>> B_rw = 125.24353925846037
     >>> colourfulness_correlate(C, B_rw)  # doctest: +ELLIPSIS
-    0.0167262...
+    np.float64(0.0167262...)
     """
 
     C = as_float_array(C)

@@ -200,36 +200,36 @@ def delta_E(
     >>> a = np.array([48.99183622, -0.10561667, 400.65619925])
     >>> b = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E(a, b)  # doctest: +ELLIPSIS
-    1.6709303...
+    np.float64(1.6709303...)
     >>> delta_E(a, b, method="CIE 2000")  # doctest: +ELLIPSIS
-    1.6709303...
+    np.float64(1.6709303...)
     >>> delta_E(a, b, method="CIE 1976")  # doctest: +ELLIPSIS
-    2.7335037...
+    np.float64(2.7335037...)
     >>> delta_E(a, b, method="CIE 1994")  # doctest: +ELLIPSIS
-    1.6711191...
+    np.float64(1.6711191...)
     >>> delta_E(a, b, method="CIE 1994", textiles=True)
     ... # doctest: +ELLIPSIS
-    0.8404677...
+    np.float64(0.8404677...)
     >>> delta_E(a, b, method="DIN99")  # doctest: +ELLIPSIS
-    1.5591089...
+    np.float64(1.5591089...)
     >>> a = np.array([0.4885468072, -0.04739350675, 0.07475401302])
     >>> b = np.array([0.4899203231, -0.04567508203, 0.07361341775])
     >>> delta_E(a, b, method="ITP")  # doctest: +ELLIPSIS
-    1.42657228...
+    np.float64(1.42657228...)
     >>> a = np.array([54.90433134, -0.08450395, -0.06854831])
     >>> b = np.array([54.90433134, -0.08442362, -0.06848314])
     >>> delta_E(a, b, method="CAM02-UCS")  # doctest: +ELLIPSIS
-    0.0001034...
+    np.float64(0.0001034...)
     >>> delta_E(a, b, method="CAM16-LCD")  # doctest: +ELLIPSIS
-    0.0001034...
+    np.float64(0.0001034...)
     >>> a = np.array([39.91531343, 51.16658481, 146.12933781])
     >>> b = np.array([53.12207516, -39.92365056, 249.54831278])
     >>> delta_E(a, b, method="HyAB")  # doctest: +ELLIPSIS
-    151.0215481...
+    np.float64(151.0215481...)
     >>> a = np.array([39.91531343, 51.16658481, 146.12933781])
     >>> b = np.array([53.12207516, -39.92365056, 249.54831278])
     >>> delta_E(a, b, method="HyCH")  # doctest: +ELLIPSIS
-    48.66427941...
+    np.float64(48.66427941...)
     """
 
     method = validate_method(method, tuple(DELTA_E_METHODS))

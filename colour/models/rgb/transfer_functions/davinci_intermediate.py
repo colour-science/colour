@@ -90,7 +90,7 @@ def oetf_DaVinciIntermediate(
     Examples
     --------
     >>> oetf_DaVinciIntermediate(0.18)  # doctest: +ELLIPSIS
-    0.3360432...
+    np.float64(0.3360432...)
     """
 
     L = to_domain_1(L)
@@ -153,7 +153,7 @@ def oetf_inverse_DaVinciIntermediate(
     --------
     >>> oetf_inverse_DaVinciIntermediate(0.336043272384855)
     ... # doctest: +ELLIPSIS
-    0.1799999...
+    np.float64(0.1799999...)
     """
 
     V = to_domain_1(V)

@@ -108,7 +108,7 @@ def XYZ_to_Oklab(XYZ: Domain1) -> Range1:
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_Oklab(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.5163401...,  0.154695 ...,  0.0628957...])
+    array([0.5163401..., 0.154695..., 0.0628957...])
     """
 
     return XYZ_to_Iab(
@@ -155,7 +155,7 @@ def Oklab_to_XYZ(Lab: Domain1) -> Range1:
     --------
     >>> Lab = np.array([0.51634019, 0.15469500, 0.06289579])
     >>> Oklab_to_XYZ(Lab)  # doctest: +ELLIPSIS
-    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
     return Iab_to_XYZ(

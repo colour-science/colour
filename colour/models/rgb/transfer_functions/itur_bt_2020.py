@@ -117,7 +117,7 @@ def oetf_BT2020(
     Examples
     --------
     >>> oetf_BT2020(0.18)  # doctest: +ELLIPSIS
-    0.4090077...
+    np.float64(0.4090077...)
     """
 
     E = to_domain_1(E)
@@ -178,7 +178,7 @@ def oetf_inverse_BT2020(
     Examples
     --------
     >>> oetf_inverse_BT2020(0.705515089922121)  # doctest: +ELLIPSIS
-    0.4999999...
+    np.float64(0.4999999...)
     """
 
     E_p = to_domain_1(E_p)

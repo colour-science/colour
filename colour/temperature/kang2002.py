@@ -82,7 +82,7 @@ def xy_to_CCT_Kang2002(
     --------
     >>> xy_to_CCT_Kang2002(np.array([0.31342600, 0.32359597]))
     ... # doctest: +ELLIPSIS
-    6504.3893128...
+    np.float64(6504.3893128...)
     """
 
     from scipy.optimize import minimize  # noqa: PLC0415
@@ -150,7 +150,7 @@ def CCT_to_xy_Kang2002(CCT: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> CCT_to_xy_Kang2002(6504.38938305)  # doctest: +ELLIPSIS
-    array([ 0.313426 ...,  0.3235959...])
+    array([0.313426..., 0.3235959...])
     """
 
     CCT = as_float_array(CCT)

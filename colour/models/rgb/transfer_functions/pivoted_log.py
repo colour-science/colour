@@ -95,7 +95,7 @@ def log_encoding_PivotedLog(
     Examples
     --------
     >>> log_encoding_PivotedLog(0.18)  # doctest: +ELLIPSIS
-    0.4349951...
+    np.float64(0.4349951...)
     """
 
     x = to_domain_1(x)
@@ -165,7 +165,7 @@ def log_decoding_PivotedLog(
     Examples
     --------
     >>> log_decoding_PivotedLog(0.434995112414467)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     """
 
     y = to_domain_1(y)

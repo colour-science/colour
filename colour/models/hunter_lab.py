@@ -77,7 +77,7 @@ def XYZ_to_K_ab_HunterLab1966(XYZ: ArrayLike) -> NDArrayFloat:
     --------
     >>> XYZ = np.array([109.850, 100.000, 35.585])
     >>> XYZ_to_K_ab_HunterLab1966(XYZ)  # doctest: +ELLIPSIS
-    array([ 185.2378721...,   38.4219142...])
+    array([185.2378721...,  38.4219142...])
     """
 
     X, _Y, Z = tsplit(XYZ)
@@ -138,7 +138,7 @@ def XYZ_to_Hunter_Lab(
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
     >>> D65 = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"]["D65"]
     >>> XYZ_to_Hunter_Lab(XYZ, D65.XYZ_n, D65.K_ab)  # doctest: +ELLIPSIS
-    array([ 34.9245257...,  47.0618985...,  14.3861510...])
+    array([34.9245257..., 47.0618985..., 14.3861510...])
     """
 
     X, Y, Z = tsplit(to_domain_100(XYZ))
@@ -218,7 +218,7 @@ def Hunter_Lab_to_XYZ(
     >>> Lab = np.array([34.92452577, 47.06189858, 14.38615107])
     >>> D65 = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"]["D65"]
     >>> Hunter_Lab_to_XYZ(Lab, D65.XYZ_n, D65.K_ab)
-    array([ 20.654008,  12.197225,   5.136952])
+    array([20.654008, 12.197225,  5.136952])
     """
 
     L, a, b = tsplit(to_domain_100(Lab))

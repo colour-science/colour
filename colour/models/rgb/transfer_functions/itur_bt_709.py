@@ -76,7 +76,7 @@ def oetf_BT709(L: Domain1) -> Range1:
     Examples
     --------
     >>> oetf_BT709(0.18)  # doctest: +ELLIPSIS
-    0.4090077...
+    np.float64(0.4090077...)
     """
 
     return oetf_BT601(L)
@@ -118,7 +118,7 @@ def oetf_inverse_BT709(V: ArrayLike) -> Range1:
     Examples
     --------
     >>> oetf_inverse_BT709(0.409007728864150)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     """
 
     return oetf_inverse_BT601(V)

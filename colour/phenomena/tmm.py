@@ -169,7 +169,7 @@ def snell_law(
     Examples
     --------
     >>> snell_law(1.0, 1.5, 30.0)  # doctest: +ELLIPSIS
-    19.4712206...
+    np.float64(19.4712206...)
     """
 
     n_1 = np.real(as_complex_array(n_1))
@@ -225,8 +225,9 @@ def polarised_light_magnitude_elements(
 
     Examples
     --------
-    >>> polarised_light_magnitude_elements(1.0, 1.5, 0.0, 0.0)
-    ((1+0j), (1+0j), (1.5+0j), (1.5+0j))
+    >>> polarised_light_magnitude_elements(1.0, 1.5, 0.0, 0.0)  # doctest: +ELLIPSIS
+    (np.complex128(1+0j), np.complex128(1+0j), np.complex128(1.5+0j), \
+np.complex128(1.5+0j))
     """
 
     n_1 = as_complex_array(n_1)
@@ -372,7 +373,7 @@ def polarised_light_reflection_coefficient(
     --------
     >>> result = polarised_light_reflection_coefficient(1.0, 1.5, 0.0, 0.0)
     >>> result.real
-    array([ 0.04,  0.04])
+    array([0.04, 0.04])
     """
 
     # Reflectance: R = |r|^2 (Byrnes Eq. 23)
@@ -436,7 +437,7 @@ def polarised_light_transmission_amplitude(
     Examples
     --------
     >>> polarised_light_transmission_amplitude(1.0, 1.5, 0.0, 0.0)
-    array([ 0.8+0.j,  0.8+0.j])
+    array([0.8+0.j, 0.8+0.j])
     """
 
     n_1_cos_theta_i, n_1_cos_theta_t, n_2_cos_theta_i, n_2_cos_theta_t = (
@@ -523,7 +524,7 @@ def polarised_light_transmission_coefficient(
     Examples
     --------
     >>> polarised_light_transmission_coefficient(1.0, 1.5, 0.0, 0.0)
-    array([ 0.96+0.j,  0.96+0.j])
+    array([0.96+0.j, 0.96+0.j])
     """
 
     n_1 = as_complex_array(n_1)

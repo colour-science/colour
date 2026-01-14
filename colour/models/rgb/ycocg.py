@@ -81,7 +81,7 @@ def RGB_to_YCoCg(RGB: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> RGB_to_YCoCg(np.array([1.0, 1.0, 1.0]))
-    array([ 1.,  0.,  0.])
+    array([1., 0., 0.])
     >>> RGB_to_YCoCg(np.array([0.75, 0.5, 0.5]))
     array([ 0.5625,  0.125 , -0.0625])
     """
@@ -111,9 +111,9 @@ def YCoCg_to_RGB(YCoCg: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> YCoCg_to_RGB(np.array([1.0, 0.0, 0.0]))
-    array([ 1.,  1.,  1.])
+    array([1., 1., 1.])
     >>> YCoCg_to_RGB(np.array([0.5625, 0.125, -0.0625]))
-    array([ 0.75,  0.5 ,  0.5 ])
+    array([0.75, 0.5 , 0.5 ])
     """
 
     return vecmul(MATRIX_YCOCG_TO_RGB, YCoCg)
