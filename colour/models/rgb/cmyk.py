@@ -29,7 +29,7 @@ from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import as_float_array, from_range_1, to_domain_1, tsplit, tstack
+from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -179,14 +179,12 @@ def CMY_to_CMYK(CMY: Domain1) -> Range1:
     K = np.where(M < K, M, K)
     K = np.where(Y < K, Y, K)
 
-    C = as_float_array((C - K) / (1 - K))
-    M = as_float_array((M - K) / (1 - K))
-    Y = as_float_array((Y - K) / (1 - K))
-
     K_1 = K == 1
-    C = np.where(K_1, 0, C)
-    M = np.where(K_1, 0, M)
-    Y = np.where(K_1, 0, Y)
+    N = np.where(K_1, 1, 1 - K)
+
+    C = np.where(K_1, 0, (C - K) / N)
+    M = np.where(K_1, 0, (M - K) / N)
+    Y = np.where(K_1, 0, (Y - K) / N)
 
     CMYK = tstack([C, M, Y, K])
 
