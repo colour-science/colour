@@ -371,8 +371,9 @@ def XYZ_to_Hunt(
     >>> CCT_w = 6504
     >>> XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
     ... # doctest: +ELLIPSIS
-    CAM_Specification_Hunt(J=30.0462678..., C=0.1210508..., h=269.2737594..., \
-s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
+    CAM_Specification_Hunt(J=np.float64(30.0462678...), C=np.float64(0.1210508...), \
+h=np.float64(269.2737594...), s=np.float64(0.0199093...), Q=np.float64(22.2097654...), \
+M=np.float64(0.1238964...), H=None, HC=None)
     """
 
     XYZ = to_domain_100(XYZ)
@@ -563,7 +564,7 @@ def luminance_level_adaptation_factor(
     Examples
     --------
     >>> luminance_level_adaptation_factor(318.31)  # doctest: +ELLIPSIS
-    1.1675444...
+    np.float64(1.1675444...)
     """
 
     L_A = as_float_array(L_A)
@@ -595,7 +596,7 @@ def illuminant_scotopic_luminance(L_A: ArrayLike, CCT: ArrayLike) -> NDArrayFloa
     Examples
     --------
     >>> illuminant_scotopic_luminance(318.31, 6504.0)  # doctest: +ELLIPSIS
-    769.9376286...
+    np.float64(769.9376286...)
     """
 
     L_A = as_float_array(L_A)
@@ -625,7 +626,7 @@ def XYZ_to_rgb(XYZ: ArrayLike) -> NDArrayFloat:
     --------
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_to_rgb(XYZ)  # doctest: +ELLIPSIS
-    array([ 19.4743367...,  20.3101217...,  21.78     ])
+    array([19.4743367..., 20.3101217..., 21.78     ])
     """
 
     return vecmul(MATRIX_XYZ_TO_HPE, XYZ)
@@ -650,7 +651,7 @@ def f_n(x: ArrayLike) -> NDArrayFloat:
     --------
     >>> x = np.array([0.23350512, 0.23351103, 0.23355179])
     >>> f_n(x)  # doctest: +ELLIPSIS
-    array([ 5.8968592...,  5.8969521...,  5.8975927...])
+    array([5.8968592..., 5.8969521..., 5.8975927...])
     """
 
     x_p = spow(x, 0.73)
@@ -711,22 +712,22 @@ def chromatic_adaptation(
     >>> L_A = 318.31
     >>> F_L = 1.16754446415
     >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_b, L_A, F_L)  # doctest: +ELLIPSIS
-    array([ 6.8959454...,  6.8959991...,  6.8965708...])
+    array([6.8959454..., 6.8959991..., 6.8965708...])
 
     # Coverage Doctests
 
     >>> chromatic_adaptation(
     ...     XYZ, XYZ_w, XYZ_b, L_A, F_L, discount_illuminant=False
     ... )  # doctest: +ELLIPSIS
-    array([ 6.8525880...,  6.8874417...,  6.9461478...])
+    array([6.8525880..., 6.8874417..., 6.9461478...])
     >>> chromatic_adaptation(
     ...     XYZ, XYZ_w, XYZ_b, L_A, F_L, helson_judd_effect=True
     ... )  # doctest: +ELLIPSIS
-    array([ 6.8959454...,  6.8959991...,  6.8965708...])
+    array([6.8959454..., 6.8959991..., 6.8965708...])
     >>> chromatic_adaptation(
     ...     XYZ, XYZ_w, XYZ_b, L_A, F_L, XYZ_p=XYZ_b, p=0.5
     ... )  # doctest: +ELLIPSIS
-    array([ 9.2069020...,  9.2070219...,  9.2078373...])
+    array([9.2069020..., 9.2070219..., 9.2078373...])
     """
 
     XYZ = as_float_array(XYZ)
@@ -812,7 +813,7 @@ def adjusted_reference_white_signals(
     >>> p = 0.1
     >>> adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p)
     ... # doctest: +ELLIPSIS
-    array([ 88.0792742...,  91.8569553...,  98.4876543...])
+    array([88.0792742..., 91.8569553..., 98.4876543...])
     """
 
     rgb_p = as_float_array(rgb_p)
@@ -847,7 +848,7 @@ def achromatic_post_adaptation_signal(rgb: ArrayLike) -> NDArrayFloat:
     --------
     >>> rgb = np.array([6.89594549, 6.89599915, 6.89657085])
     >>> achromatic_post_adaptation_signal(rgb)  # doctest: +ELLIPSIS
-    18.9827186...
+    np.float64(18.9827186...)
     """
 
     r, g, b = tsplit(rgb)
@@ -875,7 +876,7 @@ def colour_difference_signals(rgb: ArrayLike) -> NDArrayFloat:
     --------
     >>> rgb = np.array([6.89594549, 6.89599915, 6.89657085])
     >>> colour_difference_signals(rgb)  # doctest: +ELLIPSIS
-    array([ -5.3660000...e-05,  -5.7170000...e-04,   6.2536000...e-04])
+    array([-5.366...e-05, -5.717...e-04,  6.253...e-04])
     """
 
     r, g, b = tsplit(rgb)
@@ -906,7 +907,7 @@ def hue_angle(C: ArrayLike) -> NDArrayFloat:
     --------
     >>> C = np.array([-5.365865581996587e-05, -0.000571699383647, 0.000625358039467])
     >>> hue_angle(C)  # doctest: +ELLIPSIS
-    269.2737594...
+    np.float64(269.2737594...)
     """
 
     C_1, C_2, C_3 = tsplit(C)
@@ -934,7 +935,7 @@ def eccentricity_factor(hue: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> eccentricity_factor(269.273759)  # doctest: +ELLIPSIS
-    1.1108365...
+    np.float64(1.1108365...)
     """
 
     hue = as_float_array(hue)
@@ -969,7 +970,7 @@ def low_luminance_tritanopia_factor(
     Examples
     --------
     >>> low_luminance_tritanopia_factor(318.31)  # doctest: +ELLIPSIS
-    0.9996859...
+    np.float64(0.9996859...)
     """
 
     L_A = as_float_array(L_A)
@@ -1016,7 +1017,7 @@ def yellowness_blueness_response(
     >>> F_t = 0.99968593951195
     >>> yellowness_blueness_response(C, e_s, N_c, N_cb, F_t)
     ... # doctest: +ELLIPSIS
-    -0.0082372...
+    np.float64(-0.0082372...)
     """
 
     _C_1, C_2, C_3 = tsplit(C)
@@ -1062,7 +1063,7 @@ def redness_greenness_response(
     >>> N_c = 1.0
     >>> N_cb = 0.725000000000000
     >>> redness_greenness_response(C, e_s, N_c, N_cb)  # doctest: +ELLIPSIS
-    -0.0001044...
+    np.float64(-0.0001044...)
     """
 
     C_1, C_2, _C_3 = tsplit(C)
@@ -1096,7 +1097,7 @@ def overall_chromatic_response(M_yb: ArrayLike, M_rg: ArrayLike) -> NDArrayFloat
     >>> M_yb = -0.008237223618825
     >>> M_rg = -0.000104447583276
     >>> overall_chromatic_response(M_yb, M_rg)  # doctest: +ELLIPSIS
-    0.0082378...
+    np.float64(0.0082378...)
     """
 
     M_yb = as_float_array(M_yb)
@@ -1127,7 +1128,7 @@ def saturation_correlate(M: ArrayLike, rgb_a: ArrayLike) -> NDArrayFloat:
     >>> M = 0.008237885787274
     >>> rgb_a = np.array([6.89594549, 6.89599915, 6.89657085])
     >>> saturation_correlate(M, rgb_a)  # doctest: +ELLIPSIS
-    0.0199093...
+    np.float64(0.0199093...)
     """
 
     M = as_float_array(M)
@@ -1174,7 +1175,7 @@ def achromatic_signal(
     >>> N_bb = 0.725000000000000
     >>> A_a = 18.982718664838487
     >>> achromatic_signal(L_AS, S, S_w, N_bb, A_a)  # doctest: +ELLIPSIS
-    15.5068546...
+    np.float64(15.5068546...)
     """
 
     L_AS = as_float_array(L_AS)
@@ -1238,7 +1239,7 @@ def brightness_correlate(
     >>> M = 0.008237885787274
     >>> N_b = 75.0
     >>> brightness_correlate(A, A_w, M, N_b)  # doctest: +ELLIPSIS
-    22.2097654...
+    np.float64(22.2097654...)
     """
 
     A = as_float_array(A)
@@ -1284,7 +1285,7 @@ def lightness_correlate(
     >>> Q = 22.209765491265024
     >>> Q_w = 40.518065821226081
     >>> lightness_correlate(Y_b, Y_w, Q, Q_w)  # doctest: +ELLIPSIS
-    30.0462678...
+    np.float64(30.0462678...)
     """
 
     Y_b = as_float_array(Y_b)
@@ -1333,7 +1334,7 @@ def chroma_correlate(
     >>> Q = 22.209765491265024
     >>> Q_w = 40.518065821226081
     >>> chroma_correlate(s, Y_b, Y_w, Q, Q_w)  # doctest: +ELLIPSIS
-    0.1210508...
+    np.float64(0.1210508...)
     """
 
     s = as_float_array(s)
@@ -1370,7 +1371,7 @@ def colourfulness_correlate(F_L: ArrayLike, C_94: ArrayLike) -> NDArrayFloat:
     >>> F_L = 1.16754446414718
     >>> C_94 = 0.121050839936176
     >>> colourfulness_correlate(F_L, C_94)  # doctest: +ELLIPSIS
-    0.1238964...
+    np.float64(0.1238964...)
     """
 
     F_L = as_float_array(F_L)

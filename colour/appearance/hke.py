@@ -114,8 +114,7 @@ def HelmholtzKohlrausch_effect_object_Nayatani1997(
     >>> HelmholtzKohlrausch_effect_object_Nayatani1997(  # doctest: +ELLIPSIS
     ...     colour.xy_to_Luv_uv(colours), white, L_adapting
     ... )
-    array([ 2.2468383...,  1.4619799...,  1.1801658...,  0.9031318...,  \
-1.7999376...])
+    array([2.2468383..., 1.4619799..., 1.1801658..., 0.9031318..., 1.7999376...])
     """
 
     u, v = tsplit(uv)
@@ -175,8 +174,7 @@ def HelmholtzKohlrausch_effect_luminous_Nayatani1997(
     >>> HelmholtzKohlrausch_effect_luminous_Nayatani1997(  # doctest: +ELLIPSIS
     ...     colour.xy_to_Luv_uv(colours), white, L_adapting
     ... )
-    array([ 7.4460471...,  2.4767159...,  1.4723422...,  0.7938695...,  \
-4.1828629...])
+    array([7.4460471..., 2.4767159..., 1.4723422..., 0.7938695..., 4.1828629...])
     """
 
     return (
@@ -284,10 +282,9 @@ def coefficient_K_Br_Nayatani1997(L_a: ArrayLike) -> DTypeFloat | NDArrayFloat:
     --------
     >>> L_a_values = [10 + i * 20 for i in range(5)]
     >>> coefficient_K_Br_Nayatani1997(L_a_values)  # doctest: +ELLIPSIS
-    array([ 0.7134481...,  0.8781172...,  0.9606248...,  1.0156689...,  \
-1.0567008...])
+    array([0.7134481..., 0.8781172..., 0.9606248..., 1.0156689..., 1.0567008...])
     >>> coefficient_K_Br_Nayatani1997(63.66)  # doctest: +ELLIPSIS
-    1.0001284...
+    np.float64(1.0001284...)
     """
 
     L_a_4495 = spow(L_a, 0.4495)

@@ -196,7 +196,7 @@ def chromatic_adaptation_VonKries(
     >>> XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
     >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
     >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)  # doctest: +ELLIPSIS
-    array([ 0.2163881...,  0.1257    ,  0.0384749...])
+    array([0.2163881..., 0.1257    , 0.0384749...])
 
     Using *Bradford* transform:
 
@@ -206,7 +206,7 @@ def chromatic_adaptation_VonKries(
     >>> transform = "Bradford"
     >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform)
     ... # doctest: +ELLIPSIS
-    array([ 0.2166600...,  0.1260477...,  0.0385506...])
+    array([0.2166600..., 0.1260477..., 0.0385506...])
     """
 
     XYZ = to_domain_1(XYZ)

@@ -79,7 +79,7 @@ def log_encoding_Cineon(
     Examples
     --------
     >>> log_encoding_Cineon(0.18)  # doctest: +ELLIPSIS
-    0.4573196...
+    np.float64(0.4573196...)
     """
 
     x = to_domain_1(x)
@@ -130,7 +130,7 @@ def log_decoding_Cineon(
     Examples
     --------
     >>> log_decoding_Cineon(0.457319613085418)  # doctest: +ELLIPSIS
-    0.1799999...
+    np.float64(0.1799999...)
     """
 
     y = to_domain_1(y)

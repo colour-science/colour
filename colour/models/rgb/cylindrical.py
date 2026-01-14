@@ -114,7 +114,7 @@ def RGB_to_HSV(RGB: Domain1) -> Range1:
     --------
     >>> RGB = np.array([0.45620519, 0.03081071, 0.04091952])
     >>> RGB_to_HSV(RGB)  # doctest: +ELLIPSIS
-    array([ 0.9960394...,  0.9324630...,  0.4562051...])
+    array([0.9960394..., 0.9324630..., 0.4562051...])
     """
 
     RGB = to_domain_1(RGB)
@@ -181,7 +181,7 @@ def HSV_to_RGB(HSV: Domain1) -> Range1:
     --------
     >>> HSV = np.array([0.99603944, 0.93246304, 0.45620519])
     >>> HSV_to_RGB(HSV)  # doctest: +ELLIPSIS
-    array([ 0.4562051...,  0.0308107...,  0.0409195...])
+    array([0.4562051..., 0.0308107..., 0.0409195...])
     """
 
     H, S, V = tsplit(to_domain_1(HSV))
@@ -248,7 +248,7 @@ def RGB_to_HSL(RGB: Domain1) -> Range1:
     --------
     >>> RGB = np.array([0.45620519, 0.03081071, 0.04091952])
     >>> RGB_to_HSL(RGB)  # doctest: +ELLIPSIS
-    array([ 0.9960394...,  0.8734714...,  0.2435079...])
+    array([0.9960394..., 0.8734714..., 0.2435079...])
     """
 
     RGB = to_domain_1(RGB)
@@ -320,7 +320,7 @@ def HSL_to_RGB(HSL: Domain1) -> Range1:
     --------
     >>> HSL = np.array([0.99603944, 0.87347144, 0.24350795])
     >>> HSL_to_RGB(HSL)  # doctest: +ELLIPSIS
-    array([ 0.4562051...,  0.0308107...,  0.0409195...])
+    array([0.4562051..., 0.0308107..., 0.0409195...])
     """
 
     H, S, L = tsplit(to_domain_1(HSL))
@@ -499,7 +499,7 @@ def HCL_to_RGB(HCL: Domain1, gamma: float = 3, Y_0: float = 100) -> Range1:
     --------
     >>> HCL = np.array([-0.03167854, 0.28417150, 0.22859647])
     >>> HCL_to_RGB(HCL)  # doctest: +ELLIPSIS
-    array([ 0.4562033...,  0.0308104...,  0.0409192...])
+    array([0.4562033..., 0.0308104..., 0.0409192...])
     """
 
     H, C, L = tsplit(to_domain_1(HCL))

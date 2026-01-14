@@ -78,11 +78,11 @@ def oetf_BT1361(L: Domain1) -> Range1:
     Examples
     --------
     >>> oetf_BT1361(0.18)  # doctest: +ELLIPSIS
-    0.4090077288641...
+    np.float64(0.4090077288641...)
     >>> oetf_BT1361(-0.25)  # doctest: +ELLIPSIS
-    -0.25
+    np.float64(-0.25)
     >>> oetf_BT1361(1.33)  # doctest: +ELLIPSIS
-    1.1504846663972...
+    np.float64(1.1504846663972...)
     """
 
     L = to_domain_1(L)
@@ -139,11 +139,11 @@ def oetf_inverse_BT1361(E_p: Domain1) -> Range1:
     Examples
     --------
     >>> oetf_inverse_BT1361(0.4090077288641)  # doctest: +ELLIPSIS
-    0.1799999...
+    np.float64(0.1799999...)
     >>> oetf_inverse_BT1361(-0.25)  # doctest: +ELLIPSIS
-    -0.25
+    np.float64(-0.25)
     >>> oetf_inverse_BT1361(1.1504846663972)  # doctest: +ELLIPSIS
-    1.3299999...
+    np.float64(1.3299999...)
     """
 
     E_p = to_domain_1(E_p)

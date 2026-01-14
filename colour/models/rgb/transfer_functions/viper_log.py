@@ -73,7 +73,7 @@ def log_encoding_ViperLog(x: Domain1) -> Range1:
     Examples
     --------
     >>> log_encoding_ViperLog(0.18)  # doctest: +ELLIPSIS
-    0.6360080...
+    np.float64(0.6360080...)
     """
 
     x = to_domain_1(x)
@@ -118,7 +118,7 @@ def log_decoding_ViperLog(y: Domain1) -> Range1:
     Examples
     --------
     >>> log_decoding_ViperLog(0.636008067010413)  # doctest: +ELLIPSIS
-    0.1799999...
+    np.float64(0.1799999...)
     """
 
     y = to_domain_1(y)

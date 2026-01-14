@@ -262,9 +262,10 @@ def XYZ_to_CAM16(
     >>> Y_b = 20.0
     >>> surround = VIEWING_CONDITIONS_CAM16["Average"]
     >>> XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
-    CAM_Specification_CAM16(J=41.7312079..., C=0.1033557..., \
-h=217.0679597..., s=2.3450150..., Q=195.3717089..., M=0.1074367..., \
-H=275.5949861..., HC=None)
+    CAM_Specification_CAM16(J=np.float64(41.7312079...), \
+C=np.float64(0.1033557...), h=np.float64(217.0679597...), \
+s=np.float64(2.3450150...), Q=np.float64(195.3717089...), \
+M=np.float64(0.1074367...), H=np.float64(275.5949861...), HC=None)
     """
 
     XYZ = to_domain_100(XYZ)
@@ -448,7 +449,7 @@ def CAM16_to_XYZ(
     >>> L_A = 318.31
     >>> Y_b = 20.0
     >>> CAM16_to_XYZ(specification, XYZ_w, L_A, Y_b)  # doctest: +ELLIPSIS
-    array([ 19.01...,  20...  ,  21.78...])
+    array([19.01..., 20...  , 21.78...])
     """
 
     J, C, h, _s, _Q, M, _H, _HC = astuple(specification)

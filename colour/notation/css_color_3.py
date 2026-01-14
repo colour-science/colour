@@ -60,11 +60,11 @@ def keyword_to_RGB_CSSColor3(keyword: str) -> Range1:
     Examples
     --------
     >>> keyword_to_RGB_CSSColor3("black")
-    array([ 0.,  0.,  0.])
+    array([0., 0., 0.])
     >>> keyword_to_RGB_CSSColor3("white")
-    array([ 1.,  1.,  1.])
+    array([1., 1., 1.])
     >>> keyword_to_RGB_CSSColor3("aliceblue")  # doctest: +ELLIPSIS
-    array([ 0.9411764...,  0.9725490...,  1.        ])
+    array([0.9411764..., 0.9725490..., 1.        ])
     """
 
     attest(keyword in CSS_COLOR_3, f'{keyword} is not defined in "CSS Color 3"!')

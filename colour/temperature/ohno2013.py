@@ -115,11 +115,11 @@ def planckian_table(
     >>> uv = np.array([0.1978, 0.3122])
     >>> planckian_table(cmfs, 1000, 1010, 1.005)
     ... # doctest: +ELLIPSIS
-    array([[  1.00000000e+03,   4.4796...e-01,   3.5462...e-01],
-           [  1.00100000e+03,   4.4772...e-01,   3.5464...e-01],
-           [  1.00600500e+03,   4.4656...e-01,   3.5475...e-01],
-           [  1.00900000e+03,   4.4586...e-01,   3.5481...e-01],
-           [  1.01000000e+03,   4.4563...e-01,   3.5483...e-01]])
+    array([[1.00000000e+03, 4.4796288...e-01, 3.5462962...e-01],
+           [1.00100000e+03, 4.4772900...e-01, 3.5464989...e-01],
+           [1.00600500e+03, 4.4656212...e-01, 3.5475077...e-01],
+           [1.00900000e+03, 4.4586682...e-01, 3.5481069...e-01],
+           [1.01000000e+03, 4.4563515...e-01, 3.5483063...e-01]])
     """
 
     hash_key = hash((cmfs, start, end, spacing))
@@ -200,7 +200,7 @@ def uv_to_CCT_Ohno2013(
     ... )
     >>> uv = np.array([0.1978, 0.3122])
     >>> uv_to_CCT_Ohno2013(uv, cmfs)  # doctest: +ELLIPSIS
-    array([  6.50747...e+03,   3.22334...e-03])
+    array([6.5074747...e+03, 3.2233463...e-03])
     """
 
     uv = as_float_array(uv)
@@ -316,7 +316,7 @@ def CCT_to_uv_Ohno2013(
     ... )
     >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
     >>> CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)  # doctest: +ELLIPSIS
-    array([ 0.1977999...,  0.3122004...])
+    array([0.1977999..., 0.3122004...])
     """
 
     CCT, D_uv = tsplit(CCT_D_uv)
@@ -404,7 +404,7 @@ def XYZ_to_CCT_Ohno2013(
     ... )
     >>> XYZ = np.array([0.95035049, 1.0, 1.08935705])
     >>> XYZ_to_CCT_Ohno2013(XYZ, cmfs)  # doctest: +ELLIPSIS
-    array([  6.5074399...e+03,   3.2236914...e-03])
+    array([6.5074399...e+03, 3.2236914...e-03])
     """
 
     return uv_to_CCT_Ohno2013(UCS_to_uv(XYZ_to_UCS(XYZ)), cmfs, start, end, spacing)
@@ -449,7 +449,7 @@ def CCT_to_XYZ_Ohno2013(
     ... )
     >>> CCT_D_uv = np.array([6507.4342201047066, 0.003223690901513])
     >>> CCT_to_XYZ_Ohno2013(CCT_D_uv, cmfs)  # doctest: +ELLIPSIS
-    array([ 0.9503504...,  1.        ,  1.0893570...])
+    array([0.9503504..., 1.        , 1.0893570...])
     """
 
     return UCS_to_XYZ(uv_to_UCS(CCT_to_uv_Ohno2013(CCT_D_uv, cmfs)))

@@ -84,8 +84,8 @@ def read_LUT_Cinespace(path: str | PathLike) -> LUT3x1D | LUT3D | LUTSequence:
     -------------------------------
     <BLANKLINE>
     Dimensions : 2
-    Domain     : [[ 0.  0.  0.]
-                  [ 1.  1.  1.]]
+    Domain     : [[0. 0. 0.]
+                  [1. 1. 1.]]
     Size       : (32, 3)
 
     Reading a 3D *Cinespace* *.csp* *LUT*:
@@ -102,8 +102,8 @@ def read_LUT_Cinespace(path: str | PathLike) -> LUT3x1D | LUT3D | LUTSequence:
     ---------------------------------
     <BLANKLINE>
     Dimensions : 3
-    Domain     : [[ 0.  0.  0.]
-                  [ 1.  1.  1.]]
+    Domain     : [[0. 0. 0.]
+                  [1. 1. 1.]]
     Size       : (4, 4, 4, 3)
     """
 

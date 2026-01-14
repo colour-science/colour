@@ -84,7 +84,7 @@ def optical_MTF_Barten1999(u: ArrayLike, sigma: ArrayLike = 0.01) -> NDArrayFloa
     Examples
     --------
     >>> optical_MTF_Barten1999(4, 0.01)  # doctest: +ELLIPSIS
-    0.9689107...
+    np.float64(0.9689107...)
     """
 
     u = as_float_array(u)
@@ -128,7 +128,7 @@ def pupil_diameter_Barten1999(
     Examples
     --------
     >>> pupil_diameter_Barten1999(100, 60, 60)  # doctest: +ELLIPSIS
-    2.7931307...
+    np.float64(2.7931307...)
     """
 
     L = as_float_array(L)
@@ -187,7 +187,7 @@ def sigma_Barten1999(
     Examples
     --------
     >>> sigma_Barten1999(0.5 / 60, 0.08 / 60, 2.1)  # doctest: +ELLIPSIS
-    0.0087911...
+    np.float64(0.0087911...)
     """
 
     sigma_0 = as_float_array(sigma_0)
@@ -237,9 +237,9 @@ def retinal_illuminance_Barten1999(
     Examples
     --------
     >>> retinal_illuminance_Barten1999(100, 2.1)  # doctest: +ELLIPSIS
-    330.4115803...
+    np.float64(330.4115803...)
     >>> retinal_illuminance_Barten1999(100, 2.1, False)  # doctest: +ELLIPSIS
-    346.3605900...
+    np.float64(346.3605900...)
     """
 
     d = as_float_array(d)
@@ -289,7 +289,7 @@ def maximum_angular_size_Barten1999(
     Examples
     --------
     >>> maximum_angular_size_Barten1999(4)  # doctest: +ELLIPSIS
-    3.5729480...
+    np.float64(3.5729480...)
     """
 
     u = as_float_array(u)
@@ -422,7 +422,7 @@ def contrast_sensitivity_function_Barten1999(
     Examples
     --------
     >>> contrast_sensitivity_function_Barten1999(4)  # doctest: +ELLIPSIS
-    360.8691122...
+    np.float64(360.8691122...)
 
     Reproducing *Figure 31* in \
 :cite:`InternationalTelecommunicationUnion2015` illustrating the minimum
@@ -488,10 +488,8 @@ def contrast_sensitivity_function_Barten1999(
     ...     * (1 / 1.27)
     ... )
     ... # doctest: +ELLIPSIS
-    array([ 0.0218764...,  0.0141848...,  0.0095244...,  0.0066805...,  \
-0.0049246...,
-            0.0038228...,  0.0031188...,  0.0026627...,  0.0023674...,  \
-0.0021814...])
+    array([0.0218764..., 0.0141848..., 0.0095244..., 0.0066805..., 0.0049246...,
+           0.0038228..., 0.0031188..., 0.0026627..., 0.0023674..., 0.0021814...])
     """
 
     u = as_float_array(u)

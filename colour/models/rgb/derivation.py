@@ -73,7 +73,7 @@ def xy_to_z(xy: ArrayLike) -> float:
     Examples
     --------
     >>> xy_to_z(np.array([0.25, 0.25]))
-    0.5
+    np.float64(0.5)
     """
 
     x, y = tsplit(xy)
@@ -110,9 +110,9 @@ def normalised_primary_matrix(
     >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> w = np.array([0.32168, 0.33767])
     >>> normalised_primary_matrix(p, w)  # doctest: +ELLIPSIS
-    array([[  9.5255239...e-01,   0.0000000...e+00,   9.3678631...e-05],
-           [  3.4396645...e-01,   7.2816609...e-01,  -7.2132546...e-02],
-           [  0.0000000...e+00,   0.0000000...e+00,   1.0088251...e+00]])
+    array([[ 9.5255239...e-01,  0.0000000...e+00,  9.3678631...e-05],
+           [ 3.4396645...e-01,  7.2816609...e-01, -7.2132546...e-02],
+           [ 0.0000000...e+00,  0.0000000...e+00,  1.0088251...e+00]])
     """
 
     primaries = np.reshape(primaries, (3, 2))
@@ -166,9 +166,9 @@ def chromatically_adapted_primaries(
     >>> chromatic_adaptation_transform = "Bradford"
     >>> chromatically_adapted_primaries(p, w_t, w_r, chromatic_adaptation_transform)
     ... # doctest: +ELLIPSIS
-    array([[ 0.6484414...,  0.3308533...],
-           [ 0.3211951...,  0.5978443...],
-           [ 0.1558932...,  0.0660492...]])
+    array([[0.6484414..., 0.3308533...],
+           [0.3211951..., 0.5978443...],
+           [0.1558932..., 0.0660492...]])
     """
 
     primaries = np.reshape(primaries, (3, 2))
@@ -213,11 +213,11 @@ def primaries_whitepoint(npm: ArrayLike) -> Tuple[NDArrayFloat, NDArrayFloat]:
     ... )
     >>> p, w = primaries_whitepoint(npm)
     >>> p  # doctest: +ELLIPSIS
-    array([[  7.3470000...e-01,   2.6530000...e-01],
-           [  0.0000000...e+00,   1.0000000...e+00],
-           [  1.0000000...e-04,  -7.7000000...e-02]])
+    array([[ 7.3470000...e-01,  2.6530000...e-01],
+           [ 0.0000000...e+00,  1.0000000...e+00],
+           [ 1.0000000...e-04, -7.7000000...e-02]])
     >>> w  # doctest: +ELLIPSIS
-    array([ 0.32168,  0.33767])
+    array([0.32168, 0.33767])
     """
 
     npm = np.reshape(npm, (3, 3))
@@ -295,7 +295,7 @@ def RGB_luminance(
     >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = np.array([0.32168, 0.33767])
     >>> RGB_luminance(RGB, p, whitepoint)  # doctest: +ELLIPSIS
-    0.1230145...
+    np.float64(0.1230145...)
     """
 
     Y = np.sum(normalised_primary_matrix(primaries, whitepoint)[1] * RGB, axis=-1)

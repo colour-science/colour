@@ -128,9 +128,9 @@ def eotf_inverse_DICOMGSDF(
     Examples
     --------
     >>> eotf_inverse_DICOMGSDF(130.0662)  # doctest: +ELLIPSIS
-    0.5004862...
+    np.float64(0.5004862...)
     >>> eotf_inverse_DICOMGSDF(130.0662, out_int=True)
-    512
+    np.int64(512)
     """
 
     L = to_domain_1(L)
@@ -211,9 +211,9 @@ def eotf_DICOMGSDF(
     Examples
     --------
     >>> eotf_DICOMGSDF(0.500486263438448)  # doctest: +ELLIPSIS
-    130.0628647...
+    np.float64(130.0628647...)
     >>> eotf_DICOMGSDF(512, in_int=True)  # doctest: +ELLIPSIS
-    130.0652840...
+    np.float64(130.0652840...)
     """
 
     J = to_domain_1(J)

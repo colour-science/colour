@@ -91,7 +91,7 @@ def cartesian_to_spherical(a: ArrayLike) -> NDArrayFloat:
     --------
     >>> a = np.array([3, 1, 6])
     >>> cartesian_to_spherical(a)  # doctest: +ELLIPSIS
-    array([ 6.7823299...,  0.4850497...,  0.3217505...])
+    array([6.7823299..., 0.4850497..., 0.3217505...])
     """
 
     x, y, z = tsplit(a)
@@ -131,7 +131,7 @@ def spherical_to_cartesian(a: ArrayLike) -> NDArrayFloat:
     --------
     >>> a = np.array([6.78232998, 0.48504979, 0.32175055])
     >>> spherical_to_cartesian(a)  # doctest: +ELLIPSIS
-    array([ 3.0000000...,  0.9999999...,  5.9999999...])
+    array([3.0000000..., 0.9999999..., 5.9999999...])
     """
 
     rho, theta, phi = tsplit(a)
@@ -169,7 +169,7 @@ def cartesian_to_polar(a: ArrayLike) -> NDArrayFloat:
     --------
     >>> a = np.array([3, 1])
     >>> cartesian_to_polar(a)  # doctest: +ELLIPSIS
-    array([ 3.1622776...,  0.3217505...])
+    array([3.1622776..., 0.3217505...])
     """
 
     x, y = tsplit(a)
@@ -206,7 +206,7 @@ def polar_to_cartesian(a: ArrayLike) -> NDArrayFloat:
     --------
     >>> a = np.array([3.16227766, 0.32175055])
     >>> polar_to_cartesian(a)  # doctest: +ELLIPSIS
-    array([ 3.        ,  0.9999999...])
+    array([3.        , 0.9999999...])
     """
 
     rho, phi = tsplit(a)
@@ -243,7 +243,7 @@ def cartesian_to_cylindrical(a: ArrayLike) -> NDArrayFloat:
     --------
     >>> a = np.array([3, 1, 6])
     >>> cartesian_to_cylindrical(a)  # doctest: +ELLIPSIS
-    array([ 3.1622776...,  0.3217505...,  6.        ])
+    array([3.1622776..., 0.3217505..., 6.        ])
     """
 
     a = as_float_array(a)
@@ -280,7 +280,7 @@ def cylindrical_to_cartesian(a: ArrayLike) -> NDArrayFloat:
     --------
     >>> a = np.array([3.16227766, 0.32175055, 6.00000000])
     >>> cylindrical_to_cartesian(a)  # doctest: +ELLIPSIS
-    array([ 3.        ,  0.9999999...,  6.        ])
+    array([3.        , 0.9999999..., 6.        ])
     """
 
     a = as_float_array(a)

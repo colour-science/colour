@@ -125,7 +125,7 @@ def power_function_Huang2015(
     --------
     >>> d_E = np.array([2.0425, 2.8615, 3.4412])
     >>> power_function_Huang2015(d_E)  # doctest: +ELLIPSIS
-    array([ 2.3574879...,  2.9850503...,  3.3965106...])
+    array([2.3574879..., 2.9850503..., 3.3965106...])
     """
 
     coefficients = validate_method(

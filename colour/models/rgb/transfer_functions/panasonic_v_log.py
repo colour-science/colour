@@ -94,7 +94,7 @@ def log_encoding_VLog(
     Examples
     --------
     >>> log_encoding_VLog(0.18)  # doctest: +ELLIPSIS
-    0.4233114...
+    np.float64(0.4233114...)
 
     The values of *Fig.2.2 V-Log Code Value* table in :cite:`Panasonic2014a`
     are obtained as follows:
@@ -186,7 +186,7 @@ def log_decoding_VLog(
     Examples
     --------
     >>> log_decoding_VLog(0.423311448760136)  # doctest: +ELLIPSIS
-    0.1799999...
+    np.float64(0.1799999...)
     """
 
     V_out = to_domain_1(V_out)

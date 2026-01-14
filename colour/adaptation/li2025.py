@@ -117,7 +117,7 @@ def chromatic_adaptation_Li2025(
     >>> chromatic_adaptation_Li2025(  # doctest: +ELLIPSIS
     ...     XYZ_s, XYZ_ws, XYZ_wd, L_A, F_surround
     ... )
-    array([ 40.0072581...,  43.7014895...,  21.3290293...])
+    array([40.0072581..., 43.7014895..., 21.3290293...])
     """
 
     XYZ_s = as_float_array(XYZ_s)

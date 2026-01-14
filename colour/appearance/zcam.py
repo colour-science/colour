@@ -444,11 +444,13 @@ def XYZ_to_ZCAM(
     >>> L_A = 264
     >>> Y_b = 100
     >>> surround = VIEWING_CONDITIONS_ZCAM["Average"]
-    >>> XYZ_to_ZCAM(XYZ, XYZ_w, L_A, Y_b, surround)
-    ... # doctest: +ELLIPSIS
-    CAM_Specification_ZCAM(J=92.2504437..., C=3.0216926..., h=196.3245737..., \
-s=19.1319556..., Q=321.3408463..., M=10.5256217..., H=237.6114442..., \
-HC=None, V=34.7006776..., K=25.8835968..., W=91.6821728...)
+    >>> XYZ_to_ZCAM(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
+    CAM_Specification_ZCAM(J=np.float64(92.2504437...), \
+C=np.float64(3.0216926...), h=np.float64(196.3245737...), \
+s=np.float64(19.1319556...), Q=np.float64(321.3408463...), \
+M=np.float64(10.5256217...), H=np.float64(237.6114442...), HC=None, \
+V=np.float64(34.7006776...), K=np.float64(25.8835968...), \
+W=np.float64(91.6821728...))
     """
 
     XYZ = to_domain_1(XYZ)
@@ -662,9 +664,8 @@ def ZCAM_to_XYZ(
     >>> L_A = 264
     >>> Y_b = 100
     >>> surround = VIEWING_CONDITIONS_ZCAM["Average"]
-    >>> ZCAM_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
-    ... # doctest: +ELLIPSIS
-    array([ 185.,  206.,  163.])
+    >>> ZCAM_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
+    array([185., 206., 163.])
     """
 
     J_z, C_z, h_z, _S_z, _Q_z, M_z, _H, _H_Z, _V_z, _K_z, _W_z = astuple(specification)
@@ -768,7 +769,7 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> hue_quadrature(196.3185839)  # doctest: +ELLIPSIS
-    237.6052911...
+    np.float64(237.6052911...)
     """
 
     h = as_float_array(h)

@@ -94,7 +94,7 @@ def reaction_rate_MichaelisMenten_Michaelis1913(
     Examples
     --------
     >>> reaction_rate_MichaelisMenten(0.5, 2.5, 0.8)  # doctest: +ELLIPSIS
-    0.9615384...
+    np.float64(0.9615384...)
     """
 
     S = as_float_array(S)
@@ -145,7 +145,7 @@ def reaction_rate_MichaelisMenten_Abebe2017(
     --------
     >>> reaction_rate_MichaelisMenten_Abebe2017(0.5, 1.448, 0.635, 0.813)
     ... # doctest: +ELLIPSIS
-    0.6951512...
+    np.float64(0.6951512...)
     """
 
     S = as_float_array(S)
@@ -217,11 +217,11 @@ def reaction_rate_MichaelisMenten(
     Examples
     --------
     >>> reaction_rate_MichaelisMenten(0.5, 2.5, 0.8)  # doctest: +ELLIPSIS
-    0.9615384...
+    np.float64(0.9615384...)
     >>> reaction_rate_MichaelisMenten(
     ...     0.5, 2.5, 0.8, method="Abebe 2017", b_m=0.813
     ... )  # doctest: +ELLIPSIS
-    1.0360547...
+    np.float64(1.0360547...)
     """
 
     method = validate_method(method, tuple(REACTION_RATE_MICHAELISMENTEN_METHODS))
@@ -265,7 +265,7 @@ def substrate_concentration_MichaelisMenten_Michaelis1913(
     --------
     >>> substrate_concentration_MichaelisMenten(0.961538461538461, 2.5, 0.8)
     ... # doctest: +ELLIPSIS
-    0.4999999...
+    np.float64(0.4999999...)
     """
 
     v = as_float_array(v)
@@ -316,7 +316,7 @@ def substrate_concentration_MichaelisMenten_Abebe2017(
     >>> substrate_concentration_MichaelisMenten_Abebe2017(
     ...     0.695151224195871, 1.448, 0.635, 0.813
     ... )  # doctest: +ELLIPSIS
-    0.4999999...
+    np.float64(0.4999999...)
     """
 
     v = as_float_array(v)
@@ -390,12 +390,12 @@ substrate_concentration_MichaelisMenten_Abebe2017`},
     --------
     >>> substrate_concentration_MichaelisMenten(0.961538461538461, 2.5, 0.8)
     ... # doctest: +ELLIPSIS
-    0.4999999...
+    np.float64(0.4999999...)
     >>> substrate_concentration_MichaelisMenten(
     ...     1.036054703688355, 2.5, 0.8, method="Abebe 2017", b_m=0.813
     ... )
     ... # doctest: +ELLIPSIS
-    0.5000000...
+    np.float64(0.5000000...)
     """
 
     method = validate_method(

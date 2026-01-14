@@ -68,7 +68,7 @@ def luminous_flux(
     >>> from colour import SDS_LIGHT_SOURCES
     >>> sd = SDS_LIGHT_SOURCES["Neodimium Incandescent"]
     >>> luminous_flux(sd)  # doctest: +ELLIPSIS
-    23807.6555273...
+    np.float64(23807.6555273...)
     """
 
     lef = optional(lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"])
@@ -119,7 +119,7 @@ def luminous_efficiency(
     >>> from colour import SDS_LIGHT_SOURCES
     >>> sd = SDS_LIGHT_SOURCES["Neodimium Incandescent"]
     >>> luminous_efficiency(sd)  # doctest: +ELLIPSIS
-    0.1994393...
+    np.float64(0.1994393...)
     """
 
     lef = optional(lef, SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"])
@@ -172,7 +172,7 @@ def luminous_efficacy(
     >>> from colour import SDS_LIGHT_SOURCES
     >>> sd = SDS_LIGHT_SOURCES["Neodimium Incandescent"]
     >>> luminous_efficacy(sd)  # doctest: +ELLIPSIS
-    136.2170803...
+    np.float64(136.2170803...)
     """
 
     efficacy = CONSTANT_K_M * luminous_efficiency(sd, lef)

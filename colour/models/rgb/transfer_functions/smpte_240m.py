@@ -78,7 +78,7 @@ def oetf_SMPTE240M(L_c: Domain1) -> Range1:
     Examples
     --------
     >>> oetf_SMPTE240M(0.18)  # doctest: +ELLIPSIS
-    0.4022857...
+    np.float64(0.4022857...)
     """
 
     L_c = to_domain_1(L_c)
@@ -125,7 +125,7 @@ def eotf_SMPTE240M(V_r: Domain1) -> Range1:
     Examples
     --------
     >>> eotf_SMPTE240M(0.402285796753870)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     """
 
     V_r = to_domain_1(V_r)

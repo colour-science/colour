@@ -140,9 +140,9 @@ def contrast_sensitivity_function(
     Examples
     --------
     >>> contrast_sensitivity_function(u=4)  # doctest: +ELLIPSIS
-    360.8691122...
+    np.float64(360.8691122...)
     >>> contrast_sensitivity_function("Barten 1999", u=4)  # doctest: +ELLIPSIS
-    360.8691122...
+    np.float64(360.8691122...)
     """
 
     method = validate_method(method, tuple(CONTRAST_SENSITIVITY_METHODS))

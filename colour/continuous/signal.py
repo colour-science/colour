@@ -153,45 +153,45 @@ class Signal(AbstractContinuousFunction):
 
     >>> range_ = np.linspace(10, 100, 10)
     >>> print(Signal(range_))
-    [[   0.   10.]
-     [   1.   20.]
-     [   2.   30.]
-     [   3.   40.]
-     [   4.   50.]
-     [   5.   60.]
-     [   6.   70.]
-     [   7.   80.]
-     [   8.   90.]
-     [   9.  100.]]
+    [[  0.  10.]
+     [  1.  20.]
+     [  2.  30.]
+     [  3.  40.]
+     [  4.  50.]
+     [  5.  60.]
+     [  6.  70.]
+     [  7.  80.]
+     [  8.  90.]
+     [  9. 100.]]
 
     Instantiation with explicit *domain*:
 
     >>> domain = np.arange(100, 1100, 100)
     >>> print(Signal(range_, domain))
-    [[  100.    10.]
-     [  200.    20.]
-     [  300.    30.]
-     [  400.    40.]
-     [  500.    50.]
-     [  600.    60.]
-     [  700.    70.]
-     [  800.    80.]
-     [  900.    90.]
-     [ 1000.   100.]]
+    [[ 100.   10.]
+     [ 200.   20.]
+     [ 300.   30.]
+     [ 400.   40.]
+     [ 500.   50.]
+     [ 600.   60.]
+     [ 700.   70.]
+     [ 800.   80.]
+     [ 900.   90.]
+     [1000.  100.]]
 
     Instantiation with a *dict*:
 
     >>> print(Signal(dict(zip(domain, range_))))
-    [[  100.    10.]
-     [  200.    20.]
-     [  300.    30.]
-     [  400.    40.]
-     [  500.    50.]
-     [  600.    60.]
-     [  700.    70.]
-     [  800.    80.]
-     [  900.    90.]
-     [ 1000.   100.]]
+    [[ 100.   10.]
+     [ 200.   20.]
+     [ 300.   30.]
+     [ 400.   40.]
+     [ 500.   50.]
+     [ 600.   60.]
+     [ 700.   70.]
+     [ 800.   80.]
+     [ 900.   90.]
+     [1000.  100.]]
 
     Instantiation with a *Pandas* :class:`pandas.Series`:
 
@@ -199,26 +199,26 @@ class Signal(AbstractContinuousFunction):
     ...     from pandas import Series
     ...
     ...     print(Signal(Series(dict(zip(domain, range_)))))  # doctest: +SKIP
-    [[  100.    10.]
-     [  200.    20.]
-     [  300.    30.]
-     [  400.    40.]
-     [  500.    50.]
-     [  600.    60.]
-     [  700.    70.]
-     [  800.    80.]
-     [  900.    90.]
-     [ 1000.   100.]]
+    [[ 100.   10.]
+     [ 200.   20.]
+     [ 300.   30.]
+     [ 400.   40.]
+     [ 500.   50.]
+     [ 600.   60.]
+     [ 700.   70.]
+     [ 800.   80.]
+     [ 900.   90.]
+     [1000.  100.]]
 
     Retrieving domain *y* variable for arbitrary range *x* variable:
 
     >>> x = 150
     >>> range_ = np.sin(np.linspace(0, 1, 10))
     >>> Signal(range_, domain)[x]  # doctest: +ELLIPSIS
-    0.0359701...
+    np.float64(0.0359701...)
     >>> x = np.linspace(100, 1000, 3)
     >>> Signal(range_, domain)[x]  # doctest: +ELLIPSIS
-    array([  ...,   4.7669395...e-01,   8.4147098...e-01])
+    array([...e-..., 4.7669395...e-01, 8.4147098...e-01])
 
     Using an alternative interpolating function:
 
@@ -227,12 +227,12 @@ class Signal(AbstractContinuousFunction):
     >>> Signal(range_, domain, interpolator=CubicSplineInterpolator)[
     ...     x
     ... ]  # doctest: +ELLIPSIS
-    0.0555274...
+    np.float64(0.0555274...)
     >>> x = np.linspace(100, 1000, 3)
     >>> Signal(range_, domain, interpolator=CubicSplineInterpolator)[
     ...     x
     ... ]  # doctest: +ELLIPSIS
-    array([ 0.        ,  0.4794253...,  0.8414709...])
+    array([0.        , 0.4794253..., 0.8414709...])
     """
 
     def __init__(
@@ -578,16 +578,16 @@ class Signal(AbstractContinuousFunction):
         --------
         >>> range_ = np.linspace(10, 100, 10)
         >>> print(Signal(range_))
-        [[   0.   10.]
-         [   1.   20.]
-         [   2.   30.]
-         [   3.   40.]
-         [   4.   50.]
-         [   5.   60.]
-         [   6.   70.]
-         [   7.   80.]
-         [   8.   90.]
-         [   9.  100.]]
+        [[  0.  10.]
+         [  1.  20.]
+         [  2.  30.]
+         [  3.  40.]
+         [  4.  50.]
+         [  5.  60.]
+         [  6.  70.]
+         [  7.  80.]
+         [  8.  90.]
+         [  9. 100.]]
         """
 
         return str(tstack([self._domain, self._range]))
@@ -606,16 +606,16 @@ class Signal(AbstractContinuousFunction):
         --------
         >>> range_ = np.linspace(10, 100, 10)
         >>> Signal(range_)
-        Signal([[   0.,   10.],
-                [   1.,   20.],
-                [   2.,   30.],
-                [   3.,   40.],
-                [   4.,   50.],
-                [   5.,   60.],
-                [   6.,   70.],
-                [   7.,   80.],
-                [   8.,   90.],
-                [   9.,  100.]],
+        Signal([[  0.,  10.],
+                [  1.,  20.],
+                [  2.,  30.],
+                [  3.,  40.],
+                [  4.,  50.],
+                [  5.,  60.],
+                [  6.,  70.],
+                [  7.,  80.],
+                [  8.,  90.],
+                [  9., 100.]],
                KernelInterpolator,
                {},
                Extrapolator,
@@ -688,25 +688,25 @@ class Signal(AbstractContinuousFunction):
         >>> range_ = np.linspace(10, 100, 10)
         >>> signal = Signal(range_)
         >>> print(signal)
-        [[   0.   10.]
-         [   1.   20.]
-         [   2.   30.]
-         [   3.   40.]
-         [   4.   50.]
-         [   5.   60.]
-         [   6.   70.]
-         [   7.   80.]
-         [   8.   90.]
-         [   9.  100.]]
+        [[  0.  10.]
+         [  1.  20.]
+         [  2.  30.]
+         [  3.  40.]
+         [  4.  50.]
+         [  5.  60.]
+         [  6.  70.]
+         [  7.  80.]
+         [  8.  90.]
+         [  9. 100.]]
         >>> signal[0]
-        10.0
+        np.float64(10.0)
         >>> signal[np.array([0, 1, 2])]
-        array([ 10.,  20.,  30.])
+        array([10., 20., 30.])
         >>> signal[0:3]
-        array([ 10.,  20.,  30.])
+        array([10., 20., 30.])
         >>> signal[np.linspace(0, 5, 5)]  # doctest: +ELLIPSIS
-        array([ 10.        ,  22.8348902...,  34.8004492...,  \
-47.5535392...,  60.        ])
+        array([10.        , 22.8348902..., 34.8004492..., \
+47.5535392..., 60.        ])
         """
 
         if isinstance(x, slice):
@@ -731,55 +731,55 @@ class Signal(AbstractContinuousFunction):
         >>> range_ = np.linspace(10, 100, 10)
         >>> signal = Signal(range_)
         >>> print(signal)
-        [[   0.   10.]
-         [   1.   20.]
-         [   2.   30.]
-         [   3.   40.]
-         [   4.   50.]
-         [   5.   60.]
-         [   6.   70.]
-         [   7.   80.]
-         [   8.   90.]
-         [   9.  100.]]
+        [[  0.  10.]
+         [  1.  20.]
+         [  2.  30.]
+         [  3.  40.]
+         [  4.  50.]
+         [  5.  60.]
+         [  6.  70.]
+         [  7.  80.]
+         [  8.  90.]
+         [  9. 100.]]
         >>> signal[0] = 20
         >>> signal[0]
-        20.0
+        np.float64(20.0)
         >>> signal[np.array([0, 1, 2])] = 30
         >>> signal[np.array([0, 1, 2])]
-        array([ 30.,  30.,  30.])
+        array([30., 30., 30.])
         >>> signal[0:3] = 40
         >>> signal[0:3]
-        array([ 40.,  40.,  40.])
+        array([40., 40., 40.])
         >>> signal[np.linspace(0, 5, 5)] = 50
         >>> print(signal)
-        [[   0.     50.  ]
-         [   1.     40.  ]
-         [   1.25   50.  ]
-         [   2.     40.  ]
-         [   2.5    50.  ]
-         [   3.     40.  ]
-         [   3.75   50.  ]
-         [   4.     50.  ]
-         [   5.     50.  ]
-         [   6.     70.  ]
-         [   7.     80.  ]
-         [   8.     90.  ]
-         [   9.    100.  ]]
+        [[  0.    50.  ]
+         [  1.    40.  ]
+         [  1.25  50.  ]
+         [  2.    40.  ]
+         [  2.5   50.  ]
+         [  3.    40.  ]
+         [  3.75  50.  ]
+         [  4.    50.  ]
+         [  5.    50.  ]
+         [  6.    70.  ]
+         [  7.    80.  ]
+         [  8.    90.  ]
+         [  9.   100.  ]]
         >>> signal[np.array([0, 1, 2])] = np.array([10, 20, 30])
         >>> print(signal)
-        [[   0.     10.  ]
-         [   1.     20.  ]
-         [   1.25   50.  ]
-         [   2.     30.  ]
-         [   2.5    50.  ]
-         [   3.     40.  ]
-         [   3.75   50.  ]
-         [   4.     50.  ]
-         [   5.     50.  ]
-         [   6.     70.  ]
-         [   7.     80.  ]
-         [   8.     90.  ]
-         [   9.    100.  ]]
+        [[  0.    10.  ]
+         [  1.    20.  ]
+         [  1.25  50.  ]
+         [  2.    30.  ]
+         [  2.5   50.  ]
+         [  3.    40.  ]
+         [  3.75  50.  ]
+         [  4.    50.  ]
+         [  5.    50.  ]
+         [  6.    70.  ]
+         [  7.    80.  ]
+         [  8.    90.  ]
+         [  9.   100.  ]]
         """
 
         if isinstance(x, slice):
@@ -1023,57 +1023,57 @@ class Signal(AbstractContinuousFunction):
         >>> range_ = np.linspace(10, 100, 10)
         >>> signal_1 = Signal(range_)
         >>> print(signal_1)
-        [[   0.   10.]
-         [   1.   20.]
-         [   2.   30.]
-         [   3.   40.]
-         [   4.   50.]
-         [   5.   60.]
-         [   6.   70.]
-         [   7.   80.]
-         [   8.   90.]
-         [   9.  100.]]
+        [[  0.  10.]
+         [  1.  20.]
+         [  2.  30.]
+         [  3.  40.]
+         [  4.  50.]
+         [  5.  60.]
+         [  6.  70.]
+         [  7.  80.]
+         [  8.  90.]
+         [  9. 100.]]
         >>> print(signal_1.arithmetical_operation(10, "+", True))
-        [[   0.   20.]
-         [   1.   30.]
-         [   2.   40.]
-         [   3.   50.]
-         [   4.   60.]
-         [   5.   70.]
-         [   6.   80.]
-         [   7.   90.]
-         [   8.  100.]
-         [   9.  110.]]
+        [[  0.  20.]
+         [  1.  30.]
+         [  2.  40.]
+         [  3.  50.]
+         [  4.  60.]
+         [  5.  70.]
+         [  6.  80.]
+         [  7.  90.]
+         [  8. 100.]
+         [  9. 110.]]
 
         Adding an `ArrayLike` variable:
 
         >>> a = np.linspace(10, 100, 10)
         >>> print(signal_1.arithmetical_operation(a, "+", True))
-        [[   0.   30.]
-         [   1.   50.]
-         [   2.   70.]
-         [   3.   90.]
-         [   4.  110.]
-         [   5.  130.]
-         [   6.  150.]
-         [   7.  170.]
-         [   8.  190.]
-         [   9.  210.]]
+        [[  0.  30.]
+         [  1.  50.]
+         [  2.  70.]
+         [  3.  90.]
+         [  4. 110.]
+         [  5. 130.]
+         [  6. 150.]
+         [  7. 170.]
+         [  8. 190.]
+         [  9. 210.]]
 
         Adding a :class:`colour.continuous.Signal` class:
 
         >>> signal_2 = Signal(range_)
         >>> print(signal_1.arithmetical_operation(signal_2, "+", True))
-        [[   0.   40.]
-         [   1.   70.]
-         [   2.  100.]
-         [   3.  130.]
-         [   4.  160.]
-         [   5.  190.]
-         [   6.  220.]
-         [   7.  250.]
-         [   8.  280.]
-         [   9.  310.]]
+        [[  0.  40.]
+         [  1.  70.]
+         [  2. 100.]
+         [  3. 130.]
+         [  4. 160.]
+         [  5. 190.]
+         [  6. 220.]
+         [  7. 250.]
+         [  8. 280.]
+         [  9. 310.]]
         """
 
         operator, ioperator = {
@@ -1131,26 +1131,26 @@ class Signal(AbstractContinuousFunction):
         >>> range_ = np.linspace(10, 100, 10)
         >>> domain, range_ = Signal.signal_unpack_data(range_)
         >>> print(domain)
-        [ 0.  1.  2.  3.  4.  5.  6.  7.  8.  9.]
+        [0. 1. 2. 3. 4. 5. 6. 7. 8. 9.]
         >>> print(range_)
-        [  10.   20.   30.   40.   50.   60.   70.   80.   90.  100.]
+        [ 10.  20.  30.  40.  50.  60.  70.  80.  90. 100.]
 
         Unpacking using explicit *domain*:
 
         >>> domain = np.arange(100, 1100, 100)
         >>> domain, range = Signal.signal_unpack_data(range_, domain)
         >>> print(domain)
-        [  100.   200.   300.   400.   500.   600.   700.   800.   900.  1000.]
+        [ 100.  200.  300.  400.  500.  600.  700.  800.  900. 1000.]
         >>> print(range_)
-        [  10.   20.   30.   40.   50.   60.   70.   80.   90.  100.]
+        [ 10.  20.  30.  40.  50.  60.  70.  80.  90. 100.]
 
         Unpacking using a *dict*:
 
         >>> domain, range_ = Signal.signal_unpack_data(dict(zip(domain, range_)))
         >>> print(domain)
-        [  100.   200.   300.   400.   500.   600.   700.   800.   900.  1000.]
+        [ 100.  200.  300.  400.  500.  600.  700.  800.  900. 1000.]
         >>> print(range_)
-        [  10.   20.   30.   40.   50.   60.   70.   80.   90.  100.]
+        [ 10.  20.  30.  40.  50.  60.  70.  80.  90. 100.]
 
         Unpacking using a *Pandas* :class:`pandas.Series`:
 
@@ -1162,17 +1162,17 @@ class Signal(AbstractContinuousFunction):
         ...     )
         ... # doctest: +ELLIPSIS
         >>> print(domain)  # doctest: +SKIP
-        [  100.   200.   300.   400.   500.   600.   700.   800.   900.  1000.]
+        [ 100.  200.  300.  400.  500.  600.  700.  800.  900. 1000.]
         >>> print(range_)  # doctest: +SKIP
-        [  10.   20.   30.   40.   50.   60.   70.   80.   90.  100.]
+        [ 10.  20.  30.  40.  50.  60.  70.  80.  90. 100.]
 
         Unpacking using a :class:`colour.continuous.Signal` class:
 
         >>> domain, range_ = Signal.signal_unpack_data(Signal(range_, domain))
         >>> print(domain)
-        [  100.   200.   300.   400.   500.   600.   700.   800.   900.  1000.]
+        [ 100.  200.  300.  400.  500.  600.  700.  800.  900. 1000.]
         >>> print(range_)
-        [  10.   20.   30.   40.   50.   60.   70.   80.   90.  100.]
+        [ 10.  20.  30.  40.  50.  60.  70.  80.  90. 100.]
         """
 
         dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
@@ -1252,39 +1252,39 @@ class Signal(AbstractContinuousFunction):
         >>> signal = Signal(range_)
         >>> signal[3:7] = np.nan
         >>> print(signal)
-        [[   0.   10.]
-         [   1.   20.]
-         [   2.   30.]
-         [   3.   nan]
-         [   4.   nan]
-         [   5.   nan]
-         [   6.   nan]
-         [   7.   80.]
-         [   8.   90.]
-         [   9.  100.]]
+        [[  0.  10.]
+         [  1.  20.]
+         [  2.  30.]
+         [  3.  nan]
+         [  4.  nan]
+         [  5.  nan]
+         [  6.  nan]
+         [  7.  80.]
+         [  8.  90.]
+         [  9. 100.]]
         >>> print(signal.fill_nan())
-        [[   0.   10.]
-         [   1.   20.]
-         [   2.   30.]
-         [   3.   40.]
-         [   4.   50.]
-         [   5.   60.]
-         [   6.   70.]
-         [   7.   80.]
-         [   8.   90.]
-         [   9.  100.]]
+        [[  0.  10.]
+         [  1.  20.]
+         [  2.  30.]
+         [  3.  40.]
+         [  4.  50.]
+         [  5.  60.]
+         [  6.  70.]
+         [  7.  80.]
+         [  8.  90.]
+         [  9. 100.]]
         >>> signal[3:7] = np.nan
         >>> print(signal.fill_nan(method="Constant"))
-        [[   0.   10.]
-         [   1.   20.]
-         [   2.   30.]
-         [   3.    0.]
-         [   4.    0.]
-         [   5.    0.]
-         [   6.    0.]
-         [   7.   80.]
-         [   8.   90.]
-         [   9.  100.]]
+        [[  0.  10.]
+         [  1.  20.]
+         [  2.  30.]
+         [  3.   0.]
+         [  4.   0.]
+         [  5.   0.]
+         [  6.   0.]
+         [  7.  80.]
+         [  8.  90.]
+         [  9. 100.]]
         """
 
         method = validate_method(method, ("Interpolation", "Constant"))

@@ -120,7 +120,7 @@ def eotf_inverse_ST2084(
     Examples
     --------
     >>> eotf_inverse_ST2084(100)  # doctest: +ELLIPSIS
-    0.5080784...
+    np.float64(0.5080784...)
     """
 
     C = as_float_array(C)
@@ -198,7 +198,7 @@ def eotf_ST2084(
     Examples
     --------
     >>> eotf_ST2084(0.508078421517399)  # doctest: +ELLIPSIS
-    100.0000000...
+    np.float64(100.0000000...)
     """
 
     N = as_float_array(N)

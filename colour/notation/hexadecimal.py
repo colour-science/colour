@@ -127,7 +127,7 @@ def HEX_to_RGB(HEX: ArrayLike) -> Range1:
     --------
     >>> HEX = "#aaddff"
     >>> HEX_to_RGB(HEX)  # doctest: +ELLIPSIS
-    array([ 0.6666666...,  0.8666666...,  1.        ])
+    array([0.6666666..., 0.8666666..., 1.        ])
     """
 
     HEX = np.char.lstrip(HEX, "#")  # pyright: ignore

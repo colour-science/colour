@@ -73,7 +73,7 @@ def log_encoding_DJIDLog(x: Domain1) -> Range1:
     Examples
     --------
     >>> log_encoding_DJIDLog(0.18)  # doctest: +ELLIPSIS
-    0.3987645...
+    np.float64(0.3987645...)
     """
 
     x = to_domain_1(x)
@@ -122,7 +122,7 @@ def log_decoding_DJIDLog(y: Domain1) -> Range1:
     Examples
     --------
     >>> log_decoding_DJIDLog(0.3987645561893306)  # doctest: +ELLIPSIS
-    0.1799998...
+    np.float64(0.1799998...)
     """
 
     y = to_domain_1(y)

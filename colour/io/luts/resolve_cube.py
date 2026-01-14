@@ -89,8 +89,8 @@ def read_LUT_ResolveCube(path: str | PathLike) -> LUT3x1D | LUT3D | LUTSequence:
     -------------------------------
     <BLANKLINE>
     Dimensions : 2
-    Domain     : [[ 0.  0.  0.]
-                  [ 1.  1.  1.]]
+    Domain     : [[0. 0. 0.]
+                  [1. 1. 1.]]
     Size       : (32, 3)
 
     Reading a 3D *Resolve* *.cube* *LUT*:
@@ -107,8 +107,8 @@ def read_LUT_ResolveCube(path: str | PathLike) -> LUT3x1D | LUT3D | LUTSequence:
     ---------------------------------
     <BLANKLINE>
     Dimensions : 3
-    Domain     : [[ 0.  0.  0.]
-                  [ 1.  1.  1.]]
+    Domain     : [[0. 0. 0.]
+                  [1. 1. 1.]]
     Size       : (4, 4, 4, 3)
 
     Reading a 3D *Resolve* *.cube* *LUT* with comments:
@@ -125,8 +125,8 @@ def read_LUT_ResolveCube(path: str | PathLike) -> LUT3x1D | LUT3D | LUTSequence:
     --------------
     <BLANKLINE>
     Dimensions : 2
-    Domain     : [[ 0.  0.  0.]
-                  [ 3.  3.  3.]]
+    Domain     : [[0. 0. 0.]
+                  [3. 3. 3.]]
     Size       : (3, 3)
     Comment 01 : Comments can't go anywhere
 

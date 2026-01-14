@@ -342,7 +342,7 @@ def CIECAM02_to_JMh_CIECAM02(
     ...     J=34.434525727859, M=70.024939419291385, h=22.279164147957076
     ... )
     >>> CIECAM02_to_JMh_CIECAM02(specification)  # doctest: +ELLIPSIS
-    array([ 34.4345257...,  70.0249394...,  22.2791641...])
+    array([34.4345257..., 70.0249394..., 22.2791641...])
     """
 
     return tstack(
@@ -406,8 +406,9 @@ def JMh_CIECAM02_to_CIECAM02(
     >>> import numpy as np
     >>> JMh = np.array([34.4345257, 70.0249394, 22.2791641])
     >>> JMh_CIECAM02_to_CIECAM02(JMh)  # doctest: +ELLIPSIS
-    CAM_Specification_CIECAM02(J=34.4345257..., C=None, h=22.2791640..., \
-s=None, Q=None, M=70.0249393..., H=None, HC=None)
+    CAM_Specification_CIECAM02(J=np.float64(34.4345257), C=None, \
+h=np.float64(22.2791641), s=None, Q=None, M=np.float64(70.0249394), \
+H=None, HC=None)
     """
 
     J, M, h = tsplit(JMh)
@@ -469,7 +470,7 @@ def CAM16_to_JMh_CAM16(
     ...     J=33.880368498111686, M=72.18638534116765, h=19.510887327451748
     ... )
     >>> CAM16_to_JMh_CAM16(specification)  # doctest: +ELLIPSIS
-    array([ 33.8803685 ,  72.18638534,  19.51088733])
+    array([33.8803685..., 72.18638534..., 19.51088733...])
     """
 
     return tstack([specification.J, specification.M, specification.h])  # pyright: ignore
@@ -526,8 +527,9 @@ def JMh_CAM16_to_CAM16(
     >>> import numpy as np
     >>> JMh = np.array([33.8803685, 72.1863853, 19.5108873])
     >>> JMh_CAM16_to_CAM16(JMh)  # doctest: +ELLIPSIS
-    CAM_Specification_CAM16(J=33.8803685..., C=None, h=19.5108873, s=None, \
-Q=None, M=72.1863852..., H=None, HC=None)
+    CAM_Specification_CAM16(J=np.float64(33.8803685), C=None, \
+h=np.float64(19.5108873), s=None, Q=None, M=np.float64(72.1863853), \
+H=None, HC=None)
     """
 
     J, M, h = tsplit(JMh)
@@ -590,7 +592,7 @@ def CIECAM16_to_JMh_CIECAM16(
     ...     J=33.880368498111686, M=72.18638534116765, h=19.510887327451748
     ... )
     >>> CIECAM16_to_JMh_CIECAM16(specification)  # doctest: +ELLIPSIS
-    array([ 33.8803685 ,  72.18638534,  19.51088733])
+    array([33.8803685..., 72.18638534..., 19.51088733...])
     """
 
     return tstack([specification.J, specification.M, specification.h])  # pyright: ignore
@@ -648,8 +650,9 @@ def JMh_CIECAM16_to_CIECAM16(
     >>> import numpy as np
     >>> JMh = np.array([33.8803685, 72.1863853, 19.5108873])
     >>> JMh_CIECAM16_to_CIECAM16(JMh)  # doctest: +ELLIPSIS
-    CAM_Specification_CIECAM16(J=33.8803685..., C=None, h=19.5108873, \
-s=None, Q=None, M=72.1863852..., H=None, HC=None)
+    CAM_Specification_CIECAM16(J=np.float64(33.8803685), C=None, \
+h=np.float64(19.5108873), s=None, Q=None, M=np.float64(72.1863853), \
+H=None, HC=None)
     """
 
     J, M, h = tsplit(JMh)
@@ -719,7 +722,7 @@ def Hellwig2022_to_JMh_Hellwig2022(
     ...     J=33.880368498111686, M=49.57713161802121, h=19.510887327451748
     ... )
     >>> Hellwig2022_to_JMh_Hellwig2022(specification)  # doctest: +ELLIPSIS
-    array([ 33.8803685 ,  49.57713162,  19.51088733])
+    array([33.8803685..., 49.57713162..., 19.51088733...])
     """
 
     return tstack([specification.J, specification.M, specification.h])  # pyright: ignore
@@ -785,8 +788,9 @@ def JMh_Hellwig2022_to_Hellwig2022(
     >>> import numpy as np
     >>> JMh = np.array([33.8803685, 49.5771316, 19.5108873])
     >>> JMh_Hellwig2022_to_Hellwig2022(JMh)  # doctest: +ELLIPSIS
-    CAM_Specification_Hellwig2022(J=33.8803685..., C=None, h=19.5108873..., \
-s=None, Q=None, M=49.5771316..., H=None, HC=None, J_HK=None, Q_HK=None)
+    CAM_Specification_Hellwig2022(J=np.float64(33.8803685...), C=None, \
+h=np.float64(19.5108873...), s=None, Q=None, M=np.float64(49.5771316...), \
+H=None, HC=None, J_HK=None, Q_HK=None)
     """
 
     J, M, h = tsplit(JMh)
@@ -856,7 +860,7 @@ def sCAM_to_JMh_sCAM(
     ...     J=42.55099214246278, M=14.325369984981474, h=20.90445543302642
     ... )
     >>> sCAM_to_JMh_sCAM(specification)  # doctest: +ELLIPSIS
-    array([ 42.5509921...,  14.3253699...,  20.9044554...])
+    array([42.5509921..., 14.3253699..., 20.9044554...])
     """
 
     return tstack([specification.J, specification.M, specification.h])  # pyright: ignore
@@ -923,8 +927,9 @@ def JMh_sCAM_to_sCAM(
     >>> import numpy as np
     >>> JMh = np.array([42.5509921, 14.3253700, 20.9044554])
     >>> JMh_sCAM_to_sCAM(JMh)  # doctest: +ELLIPSIS
-    CAM_Specification_sCAM(J=42.5509921..., C=None, h=20.9044554, Q=None, \
-M=14.3253699..., H=None, HC=None, V=None, K=None, W=None, D=None)
+    CAM_Specification_sCAM(J=np.float64(42.5509921), C=None, \
+h=np.float64(20.9044554), Q=None, M=np.float64(14.32537), H=None, \
+HC=None, V=None, K=None, W=None, D=None)
     """
 
     J, M, h = tsplit(JMh)
@@ -994,7 +999,7 @@ def ZCAM_to_JMh_ZCAM(
     ...     J=38.34718627895636, M=42.40380583390051, h=33.71157893109518
     ... )
     >>> ZCAM_to_JMh_ZCAM(specification)  # doctest: +ELLIPSIS
-    array([ 38.3471862...,  42.4038058...,  33.7115789...])
+    array([38.3471862..., 42.4038058..., 33.7115789...])
     """
 
     return tstack(
@@ -1065,8 +1070,9 @@ def JMh_ZCAM_to_ZCAM(
     >>> import numpy as np
     >>> JMh = np.array([38.3471863, 42.4038058, 33.7115789])
     >>> JMh_ZCAM_to_ZCAM(JMh)  # doctest: +ELLIPSIS
-    CAM_Specification_ZCAM(J=38.3471862..., C=None, h=33.7115788..., s=None, \
-Q=None, M=42.4038058..., H=None, HC=None, V=None, K=None, W=None)
+    CAM_Specification_ZCAM(J=np.float64(38.3471863), C=None, \
+h=np.float64(33.7115789), s=None, Q=None, M=np.float64(42.4038058), \
+H=None, HC=None, V=None, K=None, W=None)
     """
 
     J, M, h = tsplit(JMh)
@@ -1129,7 +1135,7 @@ def Kim2009_to_JMh_Kim2009(
     ...     J=19.879918542450937, M=46.34641585822787, h=22.01338816509003
     ... )
     >>> Kim2009_to_JMh_Kim2009(specification)  # doctest: +ELLIPSIS
-    array([ 19.8799185...,  46.3464158...,  22.0133881...])
+    array([19.8799185..., 46.3464158..., 22.0133881...])
     """
 
     return tstack(
@@ -1193,8 +1199,9 @@ def JMh_Kim2009_to_Kim2009(
     >>> import numpy as np
     >>> JMh = np.array([19.8799185, 46.3464159, 22.0133882])
     >>> JMh_Kim2009_to_Kim2009(JMh)  # doctest: +ELLIPSIS
-    CAM_Specification_Kim2009(J=19.8799184..., C=None, h=22.0133882..., s=None, \
-Q=None, M=46.3464158..., H=None, HC=None)
+    CAM_Specification_Kim2009(J=np.float64(19.8799185), C=None, \
+h=np.float64(22.0133882), s=None, Q=None, M=np.float64(46.3464159), \
+H=None, HC=None)
     """
 
     J, M, h = tsplit(JMh)
@@ -1238,7 +1245,7 @@ def XYZ_to_luminance(XYZ: Domain1) -> Range1:
     >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_luminance(XYZ)  # doctest: +ELLIPSIS
-    0.1219722...
+    np.float64(0.1219722...)
     """
 
     _X, Y, _Z = tsplit(XYZ)
@@ -1277,7 +1284,7 @@ def RGB_luminance_to_RGB(Y: Domain1) -> Range1:
     Examples
     --------
     >>> RGB_luminance_to_RGB(0.123014562384318)  # doctest: +ELLIPSIS
-    array([ 0.1230145...,  0.1230145...,  0.1230145...])
+    array([0.1230145..., 0.1230145..., 0.1230145...])
     """
 
     Y = as_float_array(Y)
@@ -1304,7 +1311,7 @@ def CCT_D_uv_to_mired(CCT_D_uv: ArrayLike) -> NDArrayFloat:
     --------
     >>> CCT_D_uv = np.array([6500.0081378199056, 0.008333331244225])
     >>> CCT_D_uv_to_mired(CCT_D_uv)  # doctest: +ELLIPSIS
-    153.8459612...
+    np.float64(153.8459612...)
     """
 
     CCT, _D_uv = tsplit(CCT_D_uv)
@@ -1331,7 +1338,7 @@ def mired_to_CCT_D_uv(mired: ArrayLike) -> NDArrayFloat:
     --------
     >>> mired = 153.84596123527297
     >>> mired_to_CCT_D_uv(mired)  # doctest: +ELLIPSIS
-    array([ 6500.0081378...,     0.        ])
+    array([6500.0081378...,    0.        ])
     """
 
     mired = as_float_array(mired)
@@ -2191,7 +2198,7 @@ SDS_ILLUMINANTS["FL2"], XYZ_to_sRGB={"illuminant": illuminant})
     *   "sd_to_XYZ" --> "XYZ_to_sRGB"                                         *
     *                                                                         *
     ===========================================================================
-    array([ 0.4903477...,  0.3018587...,  0.2358768...])
+    array([0.4903477..., 0.3018587..., 0.2358768...])
     >>> illuminant = SDS_ILLUMINANTS["FL2"]
     >>> convert(
     ...     sd,
@@ -2200,11 +2207,11 @@ SDS_ILLUMINANTS["FL2"], XYZ_to_sRGB={"illuminant": illuminant})
     ...     sd_to_XYZ={"illuminant": illuminant},
     ... )
     ... # doctest: +ELLIPSIS
-    array([ 0.4792457...,  0.3167696...,  0.1736272...])
+    array([0.4792457..., 0.3167696..., 0.1736272...])
     >>> a = np.array([0.45675795, 0.30986982, 0.24861924])
     >>> convert(a, "Output-Referred RGB", "CAM16UCS")
     ... # doctest: +ELLIPSIS
-    array([ 0.3999481...,  0.0920655...,  0.0812752...])
+    array([0.3999481..., 0.0920655..., 0.0812752...])
     >>> a = np.array([0.39994811, 0.09206558, 0.08127526])
     >>> convert(a, "CAM16UCS", "sRGB", verbose={"mode": "Short", "width": 75})
     ... # doctest: +ELLIPSIS
@@ -2216,7 +2223,7 @@ SDS_ILLUMINANTS["FL2"], XYZ_to_sRGB={"illuminant": illuminant})
     *   "CAM16_to_XYZ" --> "XYZ_to_sRGB"                                      *
     *                                                                         *
     ===========================================================================
-    array([ 0.4567576...,  0.3098826...,  0.2486222...])
+    array([0.4567576..., 0.3098826..., 0.2486222...])
     """
 
     source, target = source.lower(), target.lower()

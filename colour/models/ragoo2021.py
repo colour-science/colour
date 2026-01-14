@@ -117,7 +117,7 @@ def XYZ_to_IPT_Ragoo2021(XYZ: Domain1) -> Range1:
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_IPT_Ragoo2021(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.4224824...,  0.2910514...,  0.2041066...])
+    array([0.4224824..., 0.2910514..., 0.2041066...])
     """
 
     return XYZ_to_Iab(
@@ -167,7 +167,7 @@ def IPT_Ragoo2021_to_XYZ(
     --------
     >>> IPT = np.array([0.42248243, 0.2910514, 0.20410663])
     >>> IPT_Ragoo2021_to_XYZ(IPT)  # doctest: +ELLIPSIS
-    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
     return Iab_to_XYZ(

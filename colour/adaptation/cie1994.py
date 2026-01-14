@@ -146,7 +146,7 @@ def chromatic_adaptation_CIE1994(
     >>> E_o2 = 1000
     >>> chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
     ... # doctest: +ELLIPSIS
-    array([ 24.0337952...,  21.1562121...,  17.6430119...])
+    array([24.0337952..., 21.1562121..., 17.6430119...])
     """
 
     XYZ_1 = to_domain_100(XYZ_1)
@@ -198,7 +198,7 @@ def XYZ_to_RGB_CIE1994(XYZ: ArrayLike) -> NDArrayFloat:
     --------
     >>> XYZ = np.array([28.00, 21.26, 5.27])
     >>> XYZ_to_RGB_CIE1994(XYZ)  # doctest: +ELLIPSIS
-    array([ 25.8244273...,  18.6791422...,   4.8390194...])
+    array([25.8244273..., 18.6791422...,  4.8390194...])
     """
 
     return vecmul(MATRIX_XYZ_TO_RGB_CIE1994, XYZ)
@@ -223,7 +223,7 @@ def RGB_to_XYZ_CIE1994(RGB: ArrayLike) -> NDArrayFloat:
     --------
     >>> RGB = np.array([25.82442730, 18.67914220, 4.83901940])
     >>> RGB_to_XYZ_CIE1994(RGB)  # doctest: +ELLIPSIS
-    array([ 28.  ,  21.26,   5.27])
+    array([28.  , 21.26,  5.27])
     """
 
     return vecmul(MATRIX_RGB_TO_XYZ_CIE1994, RGB)
@@ -250,7 +250,7 @@ def intermediate_values(xy_o: ArrayLike) -> NDArrayFloat:
     --------
     >>> xy_o = np.array([0.4476, 0.4074])
     >>> intermediate_values(xy_o)  # doctest: +ELLIPSIS
-    array([ 1.1185719...,  0.9329553...,  0.3268087...])
+    array([1.1185719..., 0.9329553..., 0.3268087...])
     """
 
     x_o, y_o = tsplit(xy_o)
@@ -291,7 +291,7 @@ def effective_adapting_responses(
     >>> E_o = 1000
     >>> Y_o = 20
     >>> effective_adapting_responses(xez, Y_o, E_o)  # doctest: +ELLIPSIS
-    array([ 71.2105020...,  59.3937790...,  20.8052937...])
+    array([71.2105020..., 59.3937790..., 20.8052937...])
     """
 
     xez = as_float_array(xez)
@@ -325,7 +325,7 @@ def beta_1(x: ArrayLike) -> DTypeFloat | NDArrayFloat:
     Examples
     --------
     >>> beta_1(318.323316315)  # doctest: +ELLIPSIS
-    4.6106222...
+    np.float64(4.6106222...)
     """
 
     x_p = spow(x, 0.4495)
@@ -357,7 +357,7 @@ def beta_2(x: ArrayLike) -> DTypeFloat | NDArrayFloat:
     Examples
     --------
     >>> beta_2(318.323316315)  # doctest: +ELLIPSIS
-    4.6522416...
+    np.float64(4.6522416...)
     """
 
     x_p = spow(x, 0.5128)
@@ -386,7 +386,7 @@ def exponential_factors(RGB_o: ArrayLike) -> NDArrayFloat:
     --------
     >>> RGB_o = np.array([318.32331631, 318.30352317, 318.23283482])
     >>> exponential_factors(RGB_o)  # doctest: +ELLIPSIS
-    array([ 4.6106222...,  4.6105892...,  4.6520698...])
+    array([4.6106222..., 4.6105892..., 4.6520698...])
     """
 
     R_o, G_o, B_o = tsplit(RGB_o)
@@ -444,7 +444,7 @@ def K_coefficient(
     >>> bRGB_o2 = np.array([3.68102374, 3.68102256, 3.56557351])
     >>> Y_o = 20
     >>> K_coefficient(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o)
-    1.0
+    np.float64(1.0)
     """
 
     xi_1, eta_1, _zeta_1 = tsplit(xez_1)
@@ -520,7 +520,7 @@ def corresponding_colour(
     >>> K = 1
     >>> corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K)
     ... # doctest: +ELLIPSIS
-    array([ 23.1636901...,  20.0211948...,  16.2001664...])
+    array([23.1636901..., 20.0211948..., 16.2001664...])
     """
 
     R_1, G_1, B_1 = tsplit(RGB_1)

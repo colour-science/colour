@@ -71,17 +71,17 @@ def gamma_function(
     Examples
     --------
     >>> gamma_function(0.18, 2.2)  # doctest: +ELLIPSIS
-    0.0229932...
-    >>> gamma_function(-0.18, 2.0)  # doctest: +ELLIPSIS
-    0.0323999...
+    np.float64(0.0229932...)
+    >>> gamma_function(-0.18, 2.0)
+    np.float64(0.0324)
     >>> gamma_function(-0.18, 2.2)
-    nan
+    np.float64(nan)
     >>> gamma_function(-0.18, 2.2, "Mirror")  # doctest: +ELLIPSIS
-    -0.0229932...
+    np.float64(-0.0229932...)
     >>> gamma_function(-0.18, 2.2, "Preserve")  # doctest: +ELLIPSIS
-    -0.1...
+    np.float64(-0.18)
     >>> gamma_function(-0.18, 2.2, "Clamp")  # doctest: +ELLIPSIS
-    0.0
+    np.float64(0.0)
     """
 
     a = as_float_array(a)

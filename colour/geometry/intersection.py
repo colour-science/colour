@@ -177,22 +177,22 @@ def intersect_line_segments(
     ... )
     >>> s = intersect_line_segments(l_1, l_2)
     >>> s.xy  # doctest: +ELLIPSIS
-    array([[[        nan,         nan],
-            [ 0.2279184...,  0.6006430...],
-            [        nan,         nan]],
+    array([[[       nan,        nan],
+            [0.2279184..., 0.6006430...],
+            [       nan,        nan]],
     <BLANKLINE>
-           [[ 0.4281451...,  0.5055568...],
-            [ 0.3056055...,  0.6279838...],
-            [ 0.7578749...,  0.1761301...]]])
+           [[0.4281451..., 0.5055568...],
+            [0.3056055..., 0.6279838...],
+            [0.7578749..., 0.1761301...]]])
     >>> s.intersect
     array([[False,  True, False],
-           [ True,  True,  True]], dtype=bool)
+           [ True,  True,  True]])
     >>> s.parallel
     array([[False, False, False],
-           [False, False, False]], dtype=bool)
+           [False, False, False]])
     >>> s.coincident
     array([[False, False, False],
-           [False, False, False]], dtype=bool)
+           [False, False, False]])
     """
 
     l_1 = as_float_array(l_1)

@@ -209,11 +209,11 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
     LUTOperatorMatrix - Identity
     ----------------------------
     <BLANKLINE>
-    Matrix     : [[ 1.  0.  0.  0.]
-                  [ 0.  1.  0.  0.]
-                  [ 0.  0.  1.  0.]
-                  [ 0.  0.  0.  1.]]
-    Offset     : [ 0.  0.  0.  0.]
+    Matrix     : [[1. 0. 0. 0.]
+                  [0. 1. 0. 0.]
+                  [0. 0. 1. 0.]
+                  [0. 0. 0. 1.]]
+    Offset     : [0. 0. 0. 0.]
 
     Instantiating a matrix with comments:
 
@@ -238,7 +238,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
                   [-0.07655377  1.1762297  -0.09967593  0.        ]
                   [ 0.00831615 -0.00603245  0.9977163   0.        ]
                   [ 0.          0.          0.          1.        ]]
-    Offset     : [ 0.  0.  0.  0.]
+    Offset     : [0. 0. 0. 0.]
     <BLANKLINE>
     A first comment.
     A second comment.
@@ -355,11 +355,11 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         LUTOperatorMatrix - LUT Sequence Operator ...
         ------------------------------------------...
         <BLANKLINE>
-        Matrix     : [[ 1.  0.  0.  0.]
-                      [ 0.  1.  0.  0.]
-                      [ 0.  0.  1.  0.]
-                      [ 0.  0.  0.  1.]]
-        Offset     : [ 0.  0.  0.  0.]
+        Matrix     : [[1. 0. 0. 0.]
+                      [0. 1. 0. 0.]
+                      [0. 0. 1. 0.]
+                      [0. 0. 0. 1.]]
+        Offset     : [0. 0. 0. 0.]
         """
 
         def _format(a: ArrayLike) -> str:
@@ -395,11 +395,11 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         --------
         >>> LUTOperatorMatrix(comments=["A first comment.", "A second comment."])
         ... # doctest: +ELLIPSIS
-        LUTOperatorMatrix([[ 1.,  0.,  0.,  0.],
-                           [ 0.,  1.,  0.,  0.],
-                           [ 0.,  0.,  1.,  0.],
-                           [ 0.,  0.,  0.,  1.]],
-                          [ 0.,  0.,  0.,  0.],
+        LUTOperatorMatrix([[1., 0., 0., 0.],
+                           [0., 1., 0., 0.],
+                           [0., 0., 1., 0.],
+                           [0., 0., 0., 1.]],
+                          [0., 0., 0., 0.],
                           name='LUT Sequence Operator ...',
                           comments=['A first comment.', 'A second comment.'])
         """
@@ -516,7 +516,7 @@ class LUTOperatorMatrix(AbstractLUTSequenceOperator):
         >>> M = LUTOperatorMatrix(matrix)
         >>> RGB = np.array([0.3, 0.4, 0.5])
         >>> M.apply(RGB)  # doctest: +ELLIPSIS
-        array([ 0.2333632...,  0.3976877...,  0.4989400...])
+        array([0.2333632..., 0.3976877..., 0.4989400...])
         """
 
         RGB = as_float_array(RGB)

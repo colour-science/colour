@@ -106,7 +106,7 @@ def log_encoding_FilmLightTLog(
     Examples
     --------
     >>> log_encoding_FilmLightTLog(0.18)  # doctest: +ELLIPSIS
-    0.3965678...
+    np.float64(0.3965678...)
     """
 
     x = to_domain_1(x)
@@ -202,7 +202,7 @@ def log_decoding_FilmLightTLog(
     Examples
     --------
     >>> log_decoding_FilmLightTLog(0.396567801298332)  # doctest: +ELLIPSIS
-    0.1800000...
+    np.float64(0.1800000...)
     """
 
     t = to_domain_1(t)

@@ -774,9 +774,9 @@ def is_integer(a: Any) -> bool:
     Examples
     --------
     >>> is_integer(1)
-    True
+    np.True_
     >>> is_integer(1.01)
-    False
+    np.False_
     """
 
     return abs(a - np.around(a)) <= THRESHOLD_INTEGER

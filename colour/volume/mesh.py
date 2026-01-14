@@ -66,10 +66,10 @@ def is_within_mesh_volume(
     ...     ]
     ... )
     >>> is_within_mesh_volume(np.array([0.0005, 0.0031, 0.0010]), mesh)
-    array(True, dtype=bool)
+    array(True)
     >>> a = np.array([[0.0005, 0.0031, 0.0010], [0.3205, 0.4131, 0.5100]])
     >>> is_within_mesh_volume(a, mesh)
-    array([ True, False], dtype=bool)
+    array([ True, False])
     """
 
     from scipy.spatial import Delaunay  # noqa: PLC0415

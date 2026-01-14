@@ -187,7 +187,7 @@ def chromatic_adaptation_forward_CMCCAT2000(
     >>> L_A2 = 200
     >>> chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
     ... # doctest: +ELLIPSIS
-    array([ 19.5269832...,  23.0683396...,  24.9717522...])
+    array([19.5269832..., 23.0683396..., 24.9717522...])
     """
 
     XYZ = to_domain_100(XYZ)
@@ -282,7 +282,7 @@ def chromatic_adaptation_inverse_CMCCAT2000(
     >>> L_A2 = 200
     >>> chromatic_adaptation_inverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2)
     ... # doctest: +ELLIPSIS
-    array([ 22.4839876...,  22.7419485...,   8.5393392...])
+    array([22.4839876..., 22.7419485...,  8.5393392...])
     """
 
     XYZ_c = to_domain_100(XYZ_c)
@@ -386,7 +386,7 @@ def chromatic_adaptation_CMCCAT2000(
     ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, direction="Forward"
     ... )
     ... # doctest: +ELLIPSIS
-    array([ 19.5269832...,  23.0683396...,  24.9717522...])
+    array([19.5269832..., 23.0683396..., 24.9717522...])
 
     Using the *CMCCAT2000* inverse model:
 
@@ -399,7 +399,7 @@ def chromatic_adaptation_CMCCAT2000(
     ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, direction="Inverse"
     ... )
     ... # doctest: +ELLIPSIS
-    array([ 22.48,  22.74,   8.54])
+    array([22.48, 22.74,  8.54])
     """
 
     direction = validate_method(

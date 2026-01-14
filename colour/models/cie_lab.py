@@ -99,7 +99,7 @@ def XYZ_to_Lab(
     >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_Lab(XYZ)  # doctest: +ELLIPSIS
-    array([ 41.5278752...,  52.6385830...,  26.9231792...])
+    array([41.5278752..., 52.6385830..., 26.9231792...])
     """
 
     X, Y, Z = tsplit(to_domain_1(XYZ))
@@ -166,7 +166,7 @@ def Lab_to_XYZ(
     >>> import numpy as np
     >>> Lab = np.array([41.52787529, 52.63858304, 26.92317922])
     >>> Lab_to_XYZ(Lab)  # doctest: +ELLIPSIS
-    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
     L, a, b = tsplit(to_domain_100(Lab))

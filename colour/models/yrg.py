@@ -100,7 +100,7 @@ def LMS_to_Yrg(LMS: Domain1) -> Range1:
     >>> import numpy as np
     >>> LMS = np.array([0.15639195, 0.06741689, 0.03281398])
     >>> LMS_to_Yrg(LMS)  # doctest: +ELLIPSIS
-    array([ 0.1313780...,  0.4903764...,  0.3777739...])
+    array([0.1313780..., 0.4903764..., 0.3777739...])
     """
 
     L, M, S = tsplit(to_domain_1(LMS))
@@ -160,7 +160,7 @@ def Yrg_to_LMS(Yrg: Domain1) -> Range1:
     >>> import numpy as np
     >>> Yrg = np.array([0.13137801, 0.49037644, 0.37777391])
     >>> Yrg_to_LMS(Yrg)  # doctest: +ELLIPSIS
-    array([ 0.1563929...,  0.0674150...,  0.0328213...])
+    array([0.1563929..., 0.0674150..., 0.0328213...])
     """
 
     Y, r, g = tsplit(to_domain_1(Yrg))
@@ -216,7 +216,7 @@ def XYZ_to_Yrg(XYZ: Domain1) -> Range1:
     >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_Yrg(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.1313780...,  0.4903764...,  0.3777738...])
+    array([0.1313780..., 0.4903764..., 0.3777738...])
     """
 
     return LMS_to_Yrg(vecmul(MATRIX_XYZ_TO_LMS_KIRK2019, XYZ))
@@ -261,7 +261,7 @@ def Yrg_to_XYZ(Yrg: Domain1) -> Range1:
     >>> import numpy as np
     >>> Yrg = np.array([0.13137801, 0.49037645, 0.37777388])
     >>> Yrg_to_XYZ(Yrg)  # doctest: +ELLIPSIS
-    array([ 0.2065468...,  0.1219717...,  0.0513819...])
+    array([0.2065468..., 0.1219717..., 0.0513819...])
     """
 
     return vecmul(MATRIX_LMS_TO_XYZ_KIRK2019, Yrg_to_LMS(Yrg))

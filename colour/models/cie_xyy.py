@@ -87,7 +87,7 @@ def XYZ_to_xyY(XYZ: Domain1) -> Range1:
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_xyY(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.5436955...,  0.3210794...,  0.1219722...])
+    array([0.5436955..., 0.3210794..., 0.1219722...])
     """
 
     XYZ = to_domain_1(XYZ)
@@ -140,7 +140,7 @@ def xyY_to_XYZ(xyY: Domain1) -> Range1:
     --------
     >>> xyY = np.array([0.54369557, 0.32107944, 0.12197225])
     >>> xyY_to_XYZ(xyY)  # doctest: +ELLIPSIS
-    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
     xyY = as_float_array(xyY)
@@ -192,10 +192,10 @@ def xyY_to_xy(xyY: Domain1) -> NDArrayFloat:
     --------
     >>> xyY = np.array([0.54369557, 0.32107944, 0.12197225])
     >>> xyY_to_xy(xyY)  # doctest: +ELLIPSIS
-    array([ 0.54369557...,  0.32107944...])
+    array([0.54369557..., 0.32107944...])
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xyY_to_xy(xy)  # doctest: +ELLIPSIS
-    array([ 0.54369557...,  0.32107944...])
+    array([0.54369557..., 0.32107944...])
     """
 
     xyY = as_float_array(xyY)
@@ -262,13 +262,13 @@ def xy_to_xyY(xy: ArrayLike, Y: Domain1 = 1) -> Range1:
     --------
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_to_xyY(xy)  # doctest: +ELLIPSIS
-    array([ 0.5436955...,  0.3210794...,  1.        ])
+    array([0.5436955..., 0.3210794..., 1.        ])
     >>> xy = np.array([0.54369557, 0.32107944, 1.00000000])
     >>> xy_to_xyY(xy)  # doctest: +ELLIPSIS
-    array([ 0.5436955...,  0.3210794...,  1.        ])
+    array([0.5436955..., 0.3210794..., 1.        ])
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_to_xyY(xy, 100)  # doctest: +ELLIPSIS
-    array([   0.5436955...,    0.3210794...,  100.        ])
+    array([  0.5436955...,   0.3210794..., 100.        ])
     """
 
     xy = as_float_array(xy)
@@ -317,7 +317,7 @@ def XYZ_to_xy(XYZ: Domain1) -> NDArrayFloat:
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_xy(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.5436955...,  0.3210794...])
+    array([0.5436955..., 0.3210794...])
     """
 
     return xyY_to_xy(XYZ_to_xyY(XYZ))
@@ -359,7 +359,7 @@ def xy_to_XYZ(xy: ArrayLike) -> Range1:
     --------
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_to_XYZ(xy)  # doctest: +ELLIPSIS
-    array([ 1.6933366...,  1.        ,  0.4211574...])
+    array([1.6933366..., 1.        , 0.4211574...])
     """
 
     return xyY_to_XYZ(xy_to_xyY(xy))

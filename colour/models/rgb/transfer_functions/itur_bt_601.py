@@ -78,7 +78,7 @@ def oetf_BT601(L: Domain1) -> Range1:
     Examples
     --------
     >>> oetf_BT601(0.18)  # doctest: +ELLIPSIS
-    0.4090077...
+    np.float64(0.4090077...)
     """
 
     L = to_domain_1(L)
@@ -124,7 +124,7 @@ def oetf_inverse_BT601(E: Domain1) -> Range1:
     Examples
     --------
     >>> oetf_inverse_BT601(0.409007728864150)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     """
 
     E = to_domain_1(E)

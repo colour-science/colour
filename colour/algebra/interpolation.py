@@ -212,10 +212,8 @@ def kernel_linear(x: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> kernel_linear(np.linspace(0, 1, 10))  # doctest: +ELLIPSIS
-    array([ 1.        ,  0.8888888...,  0.7777777...,  \
-0.6666666...,  0.5555555...,
-            0.4444444...,  0.3333333...,  0.2222222...,  \
-0.1111111...,  0.        ])
+    array([1.        , 0.8888888..., 0.7777777..., 0.6666666..., 0.5555555...,
+           0.4444444..., 0.3333333..., 0.2222222..., 0.1111111..., 0.        ])
     """
 
     return np.where(np.abs(x) < 1, 1 - np.abs(x), 0)
@@ -253,10 +251,9 @@ def kernel_sinc(x: ArrayLike, a: float = 3) -> NDArrayFloat:
     Examples
     --------
     >>> kernel_sinc(np.linspace(0, 1, 10))  # doctest: +ELLIPSIS
-    array([  1.0000000...e+00,   9.7981553...e-01,   9.2072542...e-01,
-             8.2699334...e-01,   7.0531659...e-01,   5.6425327...e-01,
-             4.1349667...e-01,   2.6306440...e-01,   1.2247694...e-01,
-             3.8981718...e-17])
+    array([1.00000000e+00, 9.7981553...e-01, 9.2072542...e-01, 8.2699334...e-01,
+           7.0531659...e-01, 5.6425327...e-01, 4.1349667...e-01, 2.6306440...e-01,
+           1.2247694...e-01, 3.8981718...e-17])
     """
 
     x = as_float_array(x)
@@ -295,10 +292,9 @@ def kernel_lanczos(x: ArrayLike, a: float = 3) -> NDArrayFloat:
     Examples
     --------
     >>> kernel_lanczos(np.linspace(0, 1, 10))  # doctest: +ELLIPSIS
-    array([  1.0000000...e+00,   9.7760615...e-01,   9.1243770...e-01,
-             8.1030092...e-01,   6.8012706...e-01,   5.3295773...e-01,
-             3.8071690...e-01,   2.3492839...e-01,   1.0554054...e-01,
-             3.2237621...e-17])
+    array([1.00000000e+00, 9.7760615...e-01, 9.1243770...e-01, 8.1030092...e-01,
+           6.8012706...e-01, 5.3295773...e-01, 3.8071690...e-01, 2.3492839...e-01,
+           1.0554054...e-01, 3.2237621...e-17])
     """
 
     x = as_float_array(x)
@@ -342,10 +338,8 @@ def kernel_cardinal_spline(
     Examples
     --------
     >>> kernel_cardinal_spline(np.linspace(0, 1, 10))  # doctest: +ELLIPSIS
-    array([ 1.        ,  0.9711934...,  0.8930041...,  \
-0.7777777...,  0.6378600...,
-            0.4855967...,  0.3333333...,  0.1934156...,  \
-0.0781893...,  0.        ])
+    array([1.        , 0.9711934..., 0.8930041..., 0.7777777..., 0.6378600...,
+           0.4855967..., 0.3333333..., 0.1934156..., 0.0781893..., 0.        ])
     """
 
     x = as_float_array(x)
@@ -424,18 +418,18 @@ class KernelInterpolator:
     >>> x = np.arange(len(y))
     >>> f = KernelInterpolator(x, y)
     >>> f(0.5)  # doctest: +ELLIPSIS
-    6.9411400...
+    np.float64(6.9411400...)
 
     Interpolating an `ArrayLike` variable:
 
     >>> f([0.25, 0.75])  # doctest: +ELLIPSIS
-    array([ 6.1806208...,  8.0823848...])
+    array([6.1806208..., 8.0823848...])
 
     Using a different *lanczos* kernel:
 
     >>> f = KernelInterpolator(x, y, kernel=kernel_sinc)
     >>> f([0.25, 0.75])  # doctest: +ELLIPSIS
-    array([ 6.5147317...,  8.3965466...])
+    array([6.5147317..., 8.3965466...])
 
     Using a different window size:
 
@@ -443,7 +437,7 @@ class KernelInterpolator:
     ...     x, y, window=16, kernel=kernel_lanczos, kernel_kwargs={"a": 16}
     ... )
     >>> f([0.25, 0.75])  # doctest: +ELLIPSIS
-    array([ 5.3961792...,  5.6521093...])
+    array([5.3961792..., 5.6521093...])
     """
 
     def __init__(
@@ -902,12 +896,12 @@ class LinearInterpolator:
     >>> x = np.arange(len(y))
     >>> f = LinearInterpolator(x, y)
     >>> f(0.5)  # doctest: +ELLIPSIS
-    7.64...
+    np.float64(7.64...)
 
     Interpolating an `ArrayLike` variable:
 
     >>> f([0.25, 0.75])
-    array([ 6.7825,  8.5075])
+    array([6.7825, 8.5075])
     """
 
     def __init__(
@@ -1123,12 +1117,12 @@ class SpragueInterpolator:
     >>> x = np.arange(len(y))
     >>> f = SpragueInterpolator(x, y)
     >>> f(0.5)  # doctest: +ELLIPSIS
-    7.2185025...
+    np.float64(7.2185025...)
 
     Interpolating an `ArrayLike` variable:
 
     >>> f([0.25, 0.75])  # doctest: +ELLIPSIS
-    array([ 6.7295161...,  7.8140625...])
+    array([6.7295161..., 7.8140625...])
     """
 
     SPRAGUE_C_COEFFICIENTS = np.array(
@@ -1506,12 +1500,12 @@ class NullInterpolator:
     >>> x = np.arange(len(y))
     >>> f = NullInterpolator(x, y)
     >>> f(0.5)
-    nan
-    >>> f(1.0)  # doctest: +ELLIPSIS
-    9.3699999...
+    np.float64(nan)
+    >>> f(1.0)
+    np.float64(9.37)
     >>> f = NullInterpolator(x, y, absolute_tolerance=0.01)
-    >>> f(1.01)  # doctest: +ELLIPSIS
-    9.3699999...
+    >>> f(1.01)
+    np.float64(9.37)
     """
 
     def __init__(
@@ -1875,13 +1869,13 @@ def table_interpolation_trilinear(V_xyz: ArrayLike, table: ArrayLike) -> NDArray
     >>> prng = np.random.RandomState(4)
     >>> V_xyz = colour.algebra.random_triplet_generator(3, random_state=prng)
     >>> print(V_xyz)  # doctest: +ELLIPSIS
-    [[ 0.9670298...  0.7148159...  0.9762744...]
-     [ 0.5472322...  0.6977288...  0.0062302...]
-     [ 0.9726843...  0.2160895...  0.2529823...]]
+    [[0.9670298... 0.7148159... 0.9762744...]
+     [0.5472322... 0.6977288... 0.0062302...]
+     [0.9726843... 0.2160895... 0.2529823...]]
     >>> table_interpolation_trilinear(V_xyz, table)  # doctest: +ELLIPSIS
-    array([[ 1.0120664...,  0.7539146...,  1.0228540...],
-           [ 0.5075794...,  0.6479459...,  0.1066404...],
-           [ 1.0976519...,  0.1785998...,  0.2299897...]])
+    array([[1.0120664..., 0.7539146..., 1.0228540...],
+           [0.5075794..., 0.6479459..., 0.1066404...],
+           [1.0976519..., 0.1785998..., 0.2299897...]])
     """
 
     V_xyz = cast("NDArrayFloat", V_xyz)
@@ -1973,13 +1967,13 @@ def table_interpolation_tetrahedral(V_xyz: ArrayLike, table: ArrayLike) -> NDArr
     >>> prng = np.random.RandomState(4)
     >>> V_xyz = colour.algebra.random_triplet_generator(3, random_state=prng)
     >>> print(V_xyz)  # doctest: +ELLIPSIS
-    [[ 0.9670298...  0.7148159...  0.9762744...]
-     [ 0.5472322...  0.6977288...  0.0062302...]
-     [ 0.9726843...  0.2160895...  0.2529823...]]
+    [[0.9670298... 0.7148159... 0.9762744...]
+     [0.5472322... 0.6977288... 0.0062302...]
+     [0.9726843... 0.2160895... 0.2529823...]]
     >>> table_interpolation_tetrahedral(V_xyz, table)  # doctest: +ELLIPSIS
-    array([[ 1.0196197...,  0.7674062...,  1.0311751...],
-           [ 0.5105603...,  0.6466722...,  0.1077296...],
-           [ 1.1178206...,  0.1762039...,  0.2209534...]])
+    array([[1.0196197..., 0.7674062..., 1.0311751...],
+           [0.5105603..., 0.6466722..., 0.1077296...],
+           [1.1178206..., 0.1762039..., 0.2209534...]])
     """
 
     V_xyz = cast("NDArrayFloat", V_xyz)
@@ -2110,18 +2104,18 @@ def table_interpolation(
     >>> prng = np.random.RandomState(4)
     >>> V_xyz = colour.algebra.random_triplet_generator(3, random_state=prng)
     >>> print(V_xyz)  # doctest: +ELLIPSIS
-    [[ 0.9670298...  0.7148159...  0.9762744...]
-     [ 0.5472322...  0.6977288...  0.0062302...]
-     [ 0.9726843...  0.2160895...  0.2529823...]]
+    [[0.9670298... 0.7148159... 0.9762744...]
+     [0.5472322... 0.6977288... 0.0062302...]
+     [0.9726843... 0.2160895... 0.2529823...]]
     >>> table_interpolation(V_xyz, table)  # doctest: +ELLIPSIS
-    array([[ 1.0120664...,  0.7539146...,  1.0228540...],
-           [ 0.5075794...,  0.6479459...,  0.1066404...],
-           [ 1.0976519...,  0.1785998...,  0.2299897...]])
+    array([[1.0120664..., 0.7539146..., 1.0228540...],
+           [0.5075794..., 0.6479459..., 0.1066404...],
+           [1.0976519..., 0.1785998..., 0.2299897...]])
     >>> table_interpolation(V_xyz, table, method="Tetrahedral")
     ... # doctest: +ELLIPSIS
-    array([[ 1.0196197...,  0.7674062...,  1.0311751...],
-           [ 0.5105603...,  0.6466722...,  0.1077296...],
-           [ 1.1178206...,  0.1762039...,  0.2209534...]])
+    array([[1.0196197..., 0.7674062..., 1.0311751...],
+           [0.5105603..., 0.6466722..., 0.1077296...],
+           [1.1178206..., 0.1762039..., 0.2209534...]])
     """
 
     method = validate_method(method, tuple(TABLE_INTERPOLATION_METHODS))

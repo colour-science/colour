@@ -207,7 +207,7 @@ def OSA_UCS_to_XYZ(Ljg: Domain100, optimisation_kwargs: dict | None = None) -> R
     >>> import numpy as np
     >>> Ljg = np.array([-3.00499790, 2.99713697, -9.66784231])
     >>> OSA_UCS_to_XYZ(Ljg)  # doctest: +ELLIPSIS
-    array([ 20.654008...,  12.197225...,   5.1369520...])
+    array([20.654008..., 12.197225...,  5.1369520...])
     """
 
     Ljg = to_domain_100(Ljg)

@@ -149,7 +149,7 @@ def XYZ_to_sUCS(XYZ: Domain1) -> Range100:
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_sUCS(XYZ)  # doctest: +ELLIPSIS
-    array([ 42.6292365...,  36.9764683...,  14.1230135...])
+    array([42.6292365..., 36.9764683..., 14.1230135...])
     """
 
     XYZ = to_domain_1(XYZ)
@@ -203,7 +203,7 @@ def sUCS_to_XYZ(Iab: Domain100) -> Range1:
     --------
     >>> Iab = np.array([42.62923653, 36.97646831, 14.12301358])
     >>> sUCS_to_XYZ(Iab)  # doctest: +ELLIPSIS
-    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
     Iab = to_domain_100(Iab)
@@ -255,7 +255,7 @@ def sUCS_chroma(Iab: Domain100) -> Range100:
     --------
     >>> Iab = np.array([42.62923653, 36.97646831, 14.12301358])
     >>> sUCS_chroma(Iab)  # doctest: +ELLIPSIS
-    40.4205110...
+    np.float64(40.4205110...)
     """
 
     _I, a, b = tsplit(to_domain_100(Iab))
@@ -301,7 +301,7 @@ def sUCS_hue_angle(Iab: Domain100) -> Range360:
     --------
     >>> Iab = np.array([42.62923653, 36.97646831, 14.12301358])
     >>> sUCS_hue_angle(Iab)  # doctest: +ELLIPSIS
-    20.9041560...
+    np.float64(20.9041560...)
     """
 
     _I, a, b = tsplit(to_domain_100(Iab))
@@ -354,7 +354,7 @@ def sUCS_Iab_to_sUCS_ICh(
     --------
     >>> Iab = np.array([42.62923653, 36.97646831, 14.12301358])
     >>> sUCS_Iab_to_sUCS_ICh(Iab)  # doctest: +ELLIPSIS
-    array([ 42.6292365...,  40.4205110...,  20.9041560...])
+    array([42.6292365..., 40.4205110..., 20.9041560...])
     """
 
     I, a, b = tsplit(to_domain_100(Iab))  # noqa: E741
@@ -409,7 +409,7 @@ def sUCS_ICh_to_sUCS_Iab(
     --------
     >>> ICh = np.array([42.62923653, 40.42051103, 20.90415604])
     >>> sUCS_ICh_to_sUCS_Iab(ICh)  # doctest: +ELLIPSIS
-    array([ 42.6292365...,  36.9764682...,  14.1230135...])
+    array([42.6292365..., 36.9764682..., 14.1230135...])
     """
 
     I, C, h = tsplit(ICh)  # noqa: E741

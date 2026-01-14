@@ -72,7 +72,7 @@ def index_stress_Garcia2007(d_E: ArrayLike, d_V: ArrayLike) -> NDArrayFloat:
     >>> d_E = np.array([2.0425, 2.8615, 3.4412])
     >>> d_V = np.array([1.2644, 1.2630, 1.8731])
     >>> index_stress_Garcia2007(d_E, d_V)  # doctest: +ELLIPSIS
-    0.1211709...
+    np.float64(0.1211709...)
     """
 
     d_E = as_float_array(d_E)
@@ -133,7 +133,7 @@ def index_stress(
     >>> d_E = np.array([2.0425, 2.8615, 3.4412])
     >>> d_V = np.array([1.2644, 1.2630, 1.8731])
     >>> index_stress(d_E, d_V)  # doctest: +ELLIPSIS
-    0.1211709...
+    np.float64(0.1211709...)
     """
 
     method = validate_method(method, tuple(INDEX_STRESS_METHODS))

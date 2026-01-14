@@ -210,10 +210,10 @@ def sd_to_aces_relative_exposure_values(
     >>> sd_to_aces_relative_exposure_values(
     ...     sd, chromatic_adaptation_transform=None
     ... )  # doctest: +ELLIPSIS
-    array([ 0.1171814...,  0.0866360...,  0.0589726...])
+    array([0.1171814..., 0.0866360..., 0.0589726...])
     >>> sd_to_aces_relative_exposure_values(sd, apply_chromatic_adaptation=True)
     ... # doctest: +ELLIPSIS
-    array([ 0.1180779...,  0.0869031...,  0.0589125...])
+    array([0.1180779..., 0.0869031..., 0.0589125...])
     """
 
     if isinstance(chromatic_adaptation_transform, bool):  # pragma: no cover
@@ -440,7 +440,7 @@ def white_balance_multipliers(
     >>> illuminant = SDS_ILLUMINANTS["D55"]
     >>> white_balance_multipliers(sensitivities, illuminant)
     ... # doctest: +ELLIPSIS
-    array([ 2.3414154...,  1.        ,  1.5163375...])
+    array([2.3414154..., 1.        , 1.5163375...])
     """
 
     shape = sensitivities.shape
@@ -541,10 +541,10 @@ def normalise_illuminant(
     >>> sensitivities = sds_and_msds_to_msds(read_sds_from_csv_file(path).values())
     >>> illuminant = SDS_ILLUMINANTS["D55"]
     >>> np.sum(illuminant.values)  # doctest: +ELLIPSIS
-    7276.1490000...
+    np.float64(7276.149...)
     >>> np.sum(normalise_illuminant(illuminant, sensitivities).values)
     ... # doctest: +ELLIPSIS
-    3.4390373...
+    np.float64(3.4390373...)
     """
 
     shape = sensitivities.shape
@@ -593,13 +593,13 @@ def training_data_sds_to_RGB(
     >>> training_data = read_training_data_rawtoaces_v1()
     >>> RGB, RGB_w = training_data_sds_to_RGB(training_data, sensitivities, illuminant)
     >>> RGB[:5]  # doctest: +ELLIPSIS
-    array([[ 0.0207582...,  0.0196857...,  0.0213935...],
-           [ 0.0895775...,  0.0891922...,  0.0891091...],
-           [ 0.7810230...,  0.7801938...,  0.7764302...],
-           [ 0.1995   ...,  0.1995   ...,  0.1995   ...],
-           [ 0.5898478...,  0.5904015...,  0.5851076...]])
+    array([[0.0207582..., 0.0196857..., 0.0213935...],
+           [0.0895775..., 0.0891922..., 0.0891091...],
+           [0.7810230..., 0.7801938..., 0.7764302...],
+           [0.1995   ..., 0.1995   ..., 0.1995   ...],
+           [0.5898478..., 0.5904015..., 0.5851076...]])
     >>> RGB_w  # doctest: +ELLIPSIS
-    array([ 2.3414154...,  1.        ,  1.5163375...])
+    array([2.3414154..., 1.        , 1.5163375...])
     """
 
     shape = sensitivities.shape
@@ -675,11 +675,11 @@ def training_data_sds_to_XYZ(
     >>> training_data = read_training_data_rawtoaces_v1()
     >>> training_data_sds_to_XYZ(training_data, cmfs, illuminant)[:5]
     ... # doctest: +ELLIPSIS
-    array([[ 0.0174353...,  0.0179504...,  0.0196109...],
-           [ 0.0855607...,  0.0895735...,  0.0901703...],
-           [ 0.7455880...,  0.7817549...,  0.7834356...],
-           [ 0.1900528...,  0.1995   ...,  0.2012606...],
-           [ 0.5626319...,  0.5914544...,  0.5894500...]])
+    array([[0.0174353..., 0.0179504..., 0.0196109...],
+           [0.0855607..., 0.0895735..., 0.0901703...],
+           [0.7455880..., 0.7817549..., 0.7834356...],
+           [0.1900528..., 0.1995   ..., 0.2012606...],
+           [0.5626319..., 0.5914544..., 0.5894500...]])
     """
 
     shape = cmfs.shape
@@ -1074,7 +1074,7 @@ def matrix_idt(
            [ 0.057,  1.123, -0.18 ],
            [ 0.024, -0.203,  1.179]])
     >>> RGB_w  # doctest: +ELLIPSIS
-    array([ 2.3414154...,  1.        ,  1.5163375...])
+    array([2.3414154..., 1.        , 1.5163375...])
 
     The *RAW to ACES* v1 matrix for the same camera and optimized by
     `Ceres Solver <http://ceres-solver.org>`__ is as follows::
@@ -1093,7 +1093,7 @@ def matrix_idt(
            [ 0.054,  1.122, -0.176],
            [ 0.023, -0.224,  1.2  ]])
     >>> RGB_w  # doctest: +ELLIPSIS
-    array([ 2.3414154...,  1.        ,  1.5163375...])
+    array([2.3414154..., 1.        , 1.5163375...])
 
     >>> M, RGB_w = matrix_idt(
     ...     sensitivities,
@@ -1105,7 +1105,7 @@ def matrix_idt(
            [-0.159,  0.728, -0.091,  0.651,  0.01 , -0.139],
            [-0.172, -0.403,  1.394,  0.51 , -0.295, -0.034]])
     >>> RGB_w  # doctest: +ELLIPSIS
-    array([ 2.3414154...,  1.        ,  1.5163375...])
+    array([2.3414154..., 1.        , 1.5163375...])
     """
 
     from scipy.optimize import minimize  # noqa: PLC0415
@@ -1215,7 +1215,7 @@ def camera_RGB_to_ACES2065_1(
     >>> B, b = matrix_idt(sensitivities, illuminant)
     >>> camera_RGB_to_ACES2065_1(np.array([0.1, 0.2, 0.3]), B, b)
     ... # doctest: +ELLIPSIS
-    array([ 0.270644 ...,  0.1561487...,  0.5012965...])
+    array([0.270644 ..., 0.1561487..., 0.5012965...])
     """
 
     RGB = as_float_array(RGB)

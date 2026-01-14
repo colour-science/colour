@@ -143,7 +143,7 @@ def delta_E_CIE1976(Lab_1: Domain100, Lab_2: Domain100) -> NDArrayFloat:
     >>> Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
     >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E_CIE1976(Lab_1, Lab_2)  # doctest: +ELLIPSIS
-    2.7335037...
+    np.float64(2.7335037...)
     """
 
     return euclidean_distance(to_domain_100(Lab_1), to_domain_100(Lab_2))
@@ -198,9 +198,9 @@ def delta_E_CIE1994(
     >>> Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
     >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E_CIE1994(Lab_1, Lab_2)  # doctest: +ELLIPSIS
-    1.6711191...
+    np.float64(1.6711191...)
     >>> delta_E_CIE1994(Lab_1, Lab_2, textiles=True)  # doctest: +ELLIPSIS
-    0.8404677...
+    np.float64(0.8404677...)
     """
 
     L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
@@ -313,9 +313,10 @@ def intermediate_attributes_CIE2000(
     >>> Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
     >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> intermediate_attributes_CIE2000(Lab_1, Lab_2)  # doctest: +ELLIPSIS
-    Attributes_Specification_CIE2000(S_L=1.0001021..., S_C=19.0782682..., \
-S_H=4.7226695..., delta_L_p=1.6672370..., delta_C_p=2.1661609..., \
-delta_H_p=0.0105030..., R_T=-3...)
+    Attributes_Specification_CIE2000(S_L=np.float64(1.0001021...), \
+S_C=np.float64(19.0782682...), S_H=np.float64(4.7226695...), \
+delta_L_p=np.float64(1.6672370...), delta_C_p=np.float64(2.1661609...), \
+delta_H_p=np.float64(0.0105030...), R_T=np.float64(-3...))
     """
 
     L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
@@ -481,9 +482,9 @@ def delta_E_CIE2000(
     >>> Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
     >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E_CIE2000(Lab_1, Lab_2)  # doctest: +ELLIPSIS
-    1.6709303...
+    np.float64(1.6709303...)
     >>> delta_E_CIE2000(Lab_1, Lab_2, textiles=True)  # doctest: +ELLIPSIS
-    0.8412338...
+    np.float64(0.8412338...)
     """
 
     S_L, S_C, S_H, delta_L_p, delta_C_p, delta_H_p, R_T = astuple(
@@ -555,7 +556,7 @@ def delta_E_CMC(
     >>> Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
     >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E_CMC(Lab_1, Lab_2)  # doctest: +ELLIPSIS
-    0.8996999...
+    np.float64(0.8996999...)
     """
 
     L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
@@ -632,7 +633,7 @@ def delta_E_ITP(ICtCp_1: Domain1, ICtCp_2: Domain1) -> NDArrayFloat:
     >>> ICtCp_1 = np.array([0.4885468072, -0.04739350675, 0.07475401302])
     >>> ICtCp_2 = np.array([0.4899203231, -0.04567508203, 0.07361341775])
     >>> delta_E_ITP(ICtCp_1, ICtCp_2)  # doctest: +ELLIPSIS
-    1.42657228...
+    np.float64(1.42657228...)
     """
 
     I_1, T_1, P_1 = tsplit(ICtCp_1)
@@ -688,7 +689,7 @@ def delta_E_HyAB(Lab_1: Domain100, Lab_2: Domain100) -> NDArrayFloat:
     >>> Lab_1 = np.array([39.91531343, 51.16658481, 146.12933781])
     >>> Lab_2 = np.array([53.12207516, -39.92365056, 249.54831278])
     >>> delta_E_HyAB(Lab_1, Lab_2)  # doctest: +ELLIPSIS
-    151.0215481...
+    np.float64(151.0215481...)
     """
 
     dLab = to_domain_100(Lab_1) - to_domain_100(Lab_2)
@@ -745,7 +746,7 @@ def delta_E_HyCH(
     >>> Lab_1 = np.array([39.91531343, 51.16658481, 146.12933781])
     >>> Lab_2 = np.array([53.12207516, -39.92365056, 249.54831278])
     >>> delta_E_HyCH(Lab_1, Lab_2)  # doctest: +ELLIPSIS
-    48.664279419760369...
+    np.float64(48.6642794...)
     """
 
     S_L, S_C, S_H, delta_L_p, delta_C_p, delta_H_p, R_T = astuple(

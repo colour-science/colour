@@ -84,7 +84,7 @@ def log_encoding_Panalog(
     Examples
     --------
     >>> log_encoding_Panalog(0.18)  # doctest: +ELLIPSIS
-    0.3745767...
+    np.float64(0.3745767...)
     """
 
     x = to_domain_1(x)
@@ -140,7 +140,7 @@ def log_decoding_Panalog(
     Examples
     --------
     >>> log_decoding_Panalog(0.374576791382298)  # doctest: +ELLIPSIS
-    0.1...
+    np.float64(0.1...)
     """
 
     y = to_domain_1(y)

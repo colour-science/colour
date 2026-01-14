@@ -94,7 +94,7 @@ def spectral_similarity_index(
     >>> sd_test = SDS_ILLUMINANTS["C"]
     >>> sd_reference = SDS_ILLUMINANTS["D65"]
     >>> spectral_similarity_index(sd_test, sd_reference)
-    94.0
+    np.float64(94.0)
 
     Computing SSI for multi-spectral distributions:
 
@@ -105,7 +105,7 @@ def spectral_similarity_index(
     >>> msds = sds_and_msds_to_msds([sd_led_1, sd_led_2, sd_led_3])
     >>> sd_reference = sd_single_led(535, half_spectral_width=48)
     >>> spectral_similarity_index(msds, sd_reference)
-    array([ 52.,  82.,  18.])
+    array([52., 82., 18.])
     """
 
     from scipy.ndimage import convolve1d  # noqa: PLC0415

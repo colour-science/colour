@@ -91,7 +91,7 @@ def RGB_to_IHLS(RGB: Domain1) -> Range1:
     --------
     >>> RGB = np.array([0.45595571, 0.03039702, 0.04087245])
     >>> RGB_to_IHLS(RGB)  # doctest: +ELLIPSIS
-    array([ 6.2616051...,  0.1216271...,  0.4255586...])
+    array([6.2616051..., 0.1216271..., 0.4255586...])
     """
 
     RGB = to_domain_1(RGB)
@@ -151,7 +151,7 @@ def IHLS_to_RGB(HYS: Domain1) -> Range1:
     --------
     >>> HYS = np.array([6.26160518, 0.12162712, 0.42555869])
     >>> IHLS_to_RGB(HYS)  # doctest: +ELLIPSIS
-    array([ 0.4559557...,  0.0303970...,  0.0408724...])
+    array([0.4559557..., 0.0303970..., 0.0408724...])
     """
 
     H, Y, S = tsplit(to_domain_1(HYS))

@@ -140,7 +140,7 @@ def Lab_to_DIN99(
     >>> import numpy as np
     >>> Lab = np.array([41.52787529, 52.63858304, 26.92317922])
     >>> Lab_to_DIN99(Lab)  # doctest: +ELLIPSIS
-    array([ 53.2282198...,  28.4163465...,   3.8983955...])
+    array([53.2282198..., 28.4163465...,  3.8983955...])
     """
 
     c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8 = DIN99_METHODS[
@@ -223,7 +223,7 @@ def DIN99_to_Lab(
     >>> import numpy as np
     >>> Lab_99 = np.array([53.22821988, 28.41634656, 3.89839552])
     >>> DIN99_to_Lab(Lab_99)  # doctest: +ELLIPSIS
-    array([ 41.5278752...,  52.6385830...,  26.9231792...])
+    array([41.5278752..., 52.6385830..., 26.9231792...])
     """
 
     c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8 = DIN99_METHODS[
@@ -314,7 +314,7 @@ def XYZ_to_DIN99(
     >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_DIN99(XYZ)  # doctest: +ELLIPSIS
-    array([ 53.2282198...,  28.4163465...,   3.8983955...])
+    array([53.2282198..., 28.4163465...,  3.8983955...])
     """
 
     Lab = XYZ_to_Lab(XYZ, illuminant)
@@ -384,7 +384,7 @@ def DIN99_to_XYZ(
     >>> import numpy as np
     >>> Lab_99 = np.array([53.22821989, 28.41634656, 3.89839552])
     >>> DIN99_to_XYZ(Lab_99)  # doctest: +ELLIPSIS
-    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
     Lab = DIN99_to_Lab(Lab_99, k_E, k_CH, method)

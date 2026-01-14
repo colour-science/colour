@@ -110,7 +110,7 @@ def XYZ_to_IgPgTg(XYZ: Domain1) -> Range1:
     --------
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_IgPgTg(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.4242125...,  0.1863249...,  0.1068922...])
+    array([0.4242125..., 0.1863249..., 0.1068922...])
     """
 
     def LMS_to_LMS_p_callable(LMS: ArrayLike) -> NDArrayFloat:
@@ -169,7 +169,7 @@ def IgPgTg_to_XYZ(IgPgTg: Domain1) -> Range1:
     --------
     >>> IgPgTg = np.array([0.42421258, 0.18632491, 0.10689223])
     >>> IgPgTg_to_XYZ(IgPgTg)  # doctest: +ELLIPSIS
-    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
     def LMS_p_to_LMS_callable(LMS_p: ArrayLike) -> NDArrayFloat:

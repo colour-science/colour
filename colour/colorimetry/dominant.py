@@ -97,7 +97,7 @@ def closest_spectral_locus_wavelength(
     >>> print(ix)  #
     256
     >>> print(intersect)  # doctest: +ELLIPSIS
-    [ 0.6835474...  0.3162840...]
+    [0.6835474... 0.3162840...]
     """
 
     import scipy.spatial.distance  # noqa: PLC0415
@@ -180,19 +180,19 @@ def dominant_wavelength(
     >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
-    >>> pprint(dominant_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
-    (array(616...),
-     array([ 0.6835474...,  0.3162840...]),
-     array([ 0.6835474...,  0.3162840...]))
+    >>> pprint(dominant_wavelength(xy, xy_n, cmfs), width=60)  # doctest: +ELLIPSIS
+    (array(616.),
+     array([0.6835474..., 0.3162840...]),
+     array([0.6835474..., 0.3162840...]))
 
     *Complementary dominant wavelength* is returned if the first intersection
     is located on the line of purples:
 
     >>> xy = np.array([0.37605506, 0.24452225])
-    >>> pprint(dominant_wavelength(xy, xy_n))  # doctest: +ELLIPSIS
-    (array(-509.0),
-     array([ 0.4572314...,  0.1362814...]),
-     array([ 0.0104096...,  0.7320745...]))
+    >>> pprint(dominant_wavelength(xy, xy_n), width=60)  # doctest: +ELLIPSIS
+    (array(-509.),
+     array([0.4572314..., 0.1362814...]),
+     array([0.0104096..., 0.7320745...]))
     """
 
     cmfs, _illuminant = handle_spectral_arguments(cmfs)
@@ -272,19 +272,17 @@ def complementary_wavelength(
     >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> xy = np.array([0.37605506, 0.24452225])
     >>> xy_n = np.array([0.31270000, 0.32900000])
-    >>> pprint(complementary_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
-    (array(509.0),
-     array([ 0.0104096...,  0.7320745...]),
-     array([ 0.0104096...,  0.7320745...]))
+    >>> pprint(complementary_wavelength(xy, xy_n, cmfs), width=60)  # doctest: +ELLIPSIS
+    (array(509.),
+     array([0.0104096..., 0.7320745...]),
+     array([0.0104096..., 0.7320745...]))
 
     *Dominant wavelength* is returned if the first intersection is located on
     the line of purples:
 
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> pprint(complementary_wavelength(xy, xy_n))  # doctest: +ELLIPSIS
-    (array(492.0),
-     array([ 0.0364795 ,  0.3384712...]),
-     array([ 0.0364795 ,  0.3384712...]))
+    (array(492.), array([0.0364795 , 0.3384712...]), array([0.0364795 , 0.3384712...]))
     """
 
     return dominant_wavelength(xy, xy_n, cmfs, True)
@@ -325,7 +323,7 @@ def excitation_purity(
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> excitation_purity(xy, xy_n, cmfs)  # doctest: +ELLIPSIS
-    0.6228856...
+    np.float64(0.6228856...)
     """
 
     _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
@@ -372,7 +370,7 @@ def colorimetric_purity(
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> colorimetric_purity(xy, xy_n, cmfs)  # doctest: +ELLIPSIS
-    0.6135828...
+    np.float64(0.6135828...)
     """
 
     xy = as_float_array(xy)

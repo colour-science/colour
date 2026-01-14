@@ -263,7 +263,7 @@ def colour_quality_scale(
     >>> from colour import SDS_ILLUMINANTS
     >>> sd = SDS_ILLUMINANTS["FL2"]
     >>> colour_quality_scale(sd)  # doctest: +ELLIPSIS
-    64.1118220...
+    np.float64(64.1118220...)
     """
 
     method = validate_method(method, tuple(COLOUR_QUALITY_SCALE_METHODS))
@@ -392,7 +392,7 @@ def gamut_area(Lab: ArrayLike) -> float:
     ...     np.array([40.52565174, 48.87449192, 3.45121680]),
     ... ]
     >>> gamut_area(Lab)  # doctest: +ELLIPSIS
-    8335.9482018...
+    np.float64(8335.9482018...)
     """
 
     Lab = as_float_array(Lab)

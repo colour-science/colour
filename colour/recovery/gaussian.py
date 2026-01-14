@@ -112,7 +112,7 @@ def XYZ_to_RGB_Gaussian(XYZ: Domain1) -> Range1:
     >>> import numpy as np
     >>> XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
     >>> XYZ_to_RGB_Gaussian(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.4063959...,  0.0275289...,  0.0398219...])
+    array([0.4063959..., 0.0275289..., 0.0398219...])
     """
 
     return XYZ_to_RGB(XYZ, RGB_COLOURSPACE_GAUSSIAN)
@@ -502,7 +502,7 @@ def generate_gaussian_basis(
     >>> basis = generate_gaussian_basis()
     >>> sorted(basis.labels)
     ['blue', 'cyan', 'green', 'magenta', 'red', 'white', 'yellow']
-    >>> basis.signals["yellow"].values.max()  # doctest: +ELLIPSIS
+    >>> float(basis.signals["yellow"].values.max())  # doctest: +ELLIPSIS
     1.0...
     """
 
@@ -681,7 +681,7 @@ def RGB_to_msds_Gaussian(RGB: ArrayLike) -> NDArrayFloat:
     ... )
     >>> RGB_to_msds_Gaussian(RGB).shape
     (3, 421)
-    >>> RGB_to_msds_Gaussian(RGB)[0, 300]  # doctest: +ELLIPSIS
+    >>> float(RGB_to_msds_Gaussian(RGB)[0, 300])  # doctest: +ELLIPSIS
     0.4561...
     """
 
@@ -726,7 +726,7 @@ def RGB_to_sd_Gaussian(RGB: Domain1) -> SpectralDistribution:
     >>> illuminant = SDS_ILLUMINANTS["E"].copy().align(cmfs.shape)
     >>> sd = RGB_to_sd_Gaussian(RGB)
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
-    array([ 0.19324...,  0.11592...,  0.04332...])
+    array([0.19324..., 0.11592..., 0.04332...])
     """
 
     return RGB_to_sd_Smits1999(RGB, MSDS_GAUSSIAN_BASIS, f"Gaussian - {RGB!r}")

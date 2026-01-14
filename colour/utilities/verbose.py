@@ -653,7 +653,7 @@ def numpy_print_options(*args: Any, **kwargs: Any) -> Generator:
     Examples
     --------
     >>> np.array([np.pi])  # doctest: +ELLIPSIS
-    array([ 3.1415926...])
+    array([3.1415926...])
     >>> with numpy_print_options(formatter={"float": "{:0.1f}".format}):
     ...     np.array([np.pi])
     array([3.1])

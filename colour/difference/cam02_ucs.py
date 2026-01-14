@@ -93,7 +93,7 @@ def delta_E_Luo2006(
     >>> Jpapbp_2 = np.array([54.80352754, -3.96940084, -13.57591013])
     >>> delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
     ... # doctest: +ELLIPSIS
-    14.0555464...
+    np.float64(14.0555464...)
     """
 
     J_p_1, a_p_1, b_p_1 = tsplit(Jpapbp_1)
@@ -152,7 +152,7 @@ def delta_E_CAM02LCD(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
     >>> Jpapbp_1 = np.array([54.90433134, -0.08450395, -0.06854831])
     >>> Jpapbp_2 = np.array([54.80352754, -3.96940084, -13.57591013])
     >>> delta_E_CAM02LCD(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
-    14.0555464...
+    np.float64(14.0555464...)
     """
 
     return delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
@@ -203,7 +203,7 @@ def delta_E_CAM02SCD(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
     >>> Jpapbp_1 = np.array([54.90433134, -0.08450395, -0.06854831])
     >>> Jpapbp_2 = np.array([54.80352754, -3.96940084, -13.57591013])
     >>> delta_E_CAM02SCD(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
-    14.0551718...
+    np.float64(14.0551718...)
     """
 
     return delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-SCD"])
@@ -254,7 +254,7 @@ def delta_E_CAM02UCS(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
     >>> Jpapbp_1 = np.array([54.90433134, -0.08450395, -0.06854831])
     >>> Jpapbp_2 = np.array([54.80352754, -3.96940084, -13.57591013])
     >>> delta_E_CAM02UCS(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
-    14.0552982...
+    np.float64(14.0552982...)
     """
 
     return delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-UCS"])

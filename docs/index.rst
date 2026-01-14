@@ -66,7 +66,7 @@ Automatic Colour Conversion Graph - ``colour.graph``
     *   "sd_to_XYZ" --> "XYZ_to_sRGB"                                             *
     *                                                                             *
     ===============================================================================
-    [ 0.49034776  0.30185875  0.23587685]
+    [0.49034776  0.30185875  0.23587685]
 
 .. code-block:: python
 
@@ -83,7 +83,7 @@ Automatic Colour Conversion Graph - ``colour.graph``
 
 .. code-block:: text
 
-    [ 0.47924575  0.31676968  0.17362725]
+    [0.47924575  0.31676968  0.17362725]
 
 Chromatic Adaptation - ``colour.adaptation``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -99,7 +99,7 @@ Chromatic Adaptation - ``colour.adaptation``
 
 .. code-block:: text
 
-    [ 0.25331034  0.13765286  0.01543185]
+    [0.25331034  0.13765286  0.01543185]
 
 .. code-block:: python
 
@@ -127,7 +127,7 @@ Kernel Interpolation
 
 .. code-block:: text
 
-    [  6.18062083   8.08238488  57.85783403]
+    [6.18062083   8.08238488  57.85783403]
 
 Sprague (1880) Interpolation
 ****************************
@@ -142,7 +142,7 @@ Sprague (1880) Interpolation
 
 .. code-block:: text
 
-    [  6.72951612   7.81406251  43.77379185]
+    [6.72951612   7.81406251  43.77379185]
 
 Colour Appearance Models - ``colour.appearance``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -257,7 +257,7 @@ Colour Blindness - ``colour.blindness``
 
 .. code-block:: text
 
-    [ 0.08912884  0.0870524   0.955393  ]
+    [0.08912884  0.0870524   0.955393  ]
 
 .. code-block:: python
 
@@ -271,8 +271,8 @@ Colour Blindness - ``colour.blindness``
 .. code-block:: text
 
     [[-0.27774652  2.65150084 -1.37375432]
-     [ 0.27189369  0.20047862  0.52762768]
-     [ 0.00644047  0.25921579  0.73434374]]
+     [0.27189369  0.20047862  0.52762768]
+     [0.00644047  0.25921579  0.73434374]]
 
 Colour Correction - ``colour characterisation``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -289,7 +289,7 @@ Colour Correction - ``colour characterisation``
 
 .. code-block:: text
 
-    [ 0.17960686  0.08935744  0.06766639]  # (results will vary due to random inputs)
+    [0.17960686  0.08935744  0.06766639]  # (results will vary due to random inputs)
 
 .. code-block:: python
 
@@ -314,9 +314,9 @@ ACES Input Transform - ``colour characterisation``
 
 .. code-block:: text
 
-    (array([[ 0.59368175,  0.30418373,  0.10213451],
-           [ 0.0045798 ,  1.14946005, -0.15403985],
-           [ 0.03552214, -0.16312291,  1.12760078]]), array([ 1.58214188,  1.        ,  1.28910346]))
+    (array([[0.59368175,  0.30418373,  0.10213451],
+           [0.0045798 ,  1.14946005, -0.15403985],
+           [0.03552214, -0.16312291,  1.12760078]]), array([1.58214188,  1.        ,  1.28910346]))
 
 Colorimetry - ``colour.colorimetry``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -332,7 +332,7 @@ Spectral Computations
 
 .. code-block:: text
 
-    [ 36.94726204  32.62076174  13.0143849 ]
+    [36.94726204  32.62076174  13.0143849 ]
 
 .. code-block:: python
 
@@ -466,18 +466,18 @@ Multi-Spectral Computations
 
 .. code-block:: text
 
-    [[[  7.68544647   4.09414317   8.49324254]
-      [ 17.12567298  27.77681821  25.52573685]
-      [ 19.10280411  34.45851476  29.76319628]]
-     [[ 18.03375827   8.62340812   9.71702574]
-      [ 15.03110867   6.54001068  24.53208465]
-      [ 37.68269495  26.4411103   10.66361816]]
-     [[  8.09532373  12.75333339  25.79613956]
-      [  7.09620297   2.79257389  11.15039854]
-      [  8.933163    19.39985815  17.14915636]]
-     [[ 80.00969553  80.39810464  76.08184429]
-      [ 33.27611427  24.38947838  39.34919287]
-      [  8.89425686  11.05185138  10.86767594]]]
+    [[[7.68544647   4.09414317   8.49324254]
+      [17.12567298  27.77681821  25.52573685]
+      [19.10280411  34.45851476  29.76319628]]
+     [[18.03375827   8.62340812   9.71702574]
+      [15.03110867   6.54001068  24.53208465]
+      [37.68269495  26.4411103   10.66361816]]
+     [[8.09532373  12.75333339  25.79613956]
+      [7.09620297   2.79257389  11.15039854]
+      [8.933163    19.39985815  17.14915636]]
+     [[80.00969553  80.39810464  76.08184429]
+      [33.27611427  24.38947838  39.34919287]
+      [8.89425686  11.05185138  10.86767594]]]
 
 .. code-block:: python
 
@@ -500,11 +500,11 @@ Blackbody Spectral Radiance Computation
 
 .. code-block:: text
 
-    [[   360.           6654.27827064]
-     [   361.           6709.60527925]
-     [   362.           6764.82512152]
+    [[360.           6654.27827064]
+     [361.           6709.60527925]
+     [362.           6764.82512152]
      ...
-     [   780.          10573.85196369]]
+     [780.          10573.85196369]]
 
 Dominant, Complementary Wavelength & Colour Purity Computation
 **************************************************************
@@ -519,7 +519,7 @@ Dominant, Complementary Wavelength & Colour Purity Computation
 
 .. code-block:: text
 
-    (array(616.0), array([ 0.68354746,  0.31628409]), array([ 0.68354746,  0.31628409]))
+    (np.float64(616.0), array([0.68354746,  0.31628409]), array([0.68354746,  0.31628409]))
 
 Lightness Computation
 *********************
@@ -532,7 +532,7 @@ Lightness Computation
 
 .. code-block:: text
 
-    41.5278758447
+    np.float64(41.5278758447)
 
 .. code-block:: python
 
@@ -555,7 +555,7 @@ Luminance Computation
 
 .. code-block:: text
 
-    12.1972253534
+    np.float64(12.1972253534)
 
 .. code-block:: python
 
@@ -580,7 +580,7 @@ Whiteness Computation
 
 .. code-block:: text
 
-    [ 93.756       -1.33000001]
+    [93.756       -1.33000001]
 
 .. code-block:: python
 
@@ -604,7 +604,7 @@ Yellowness Computation
 
 .. code-block:: text
 
-    4.34
+    np.float64(4.34)
 
 .. code-block:: python
 
@@ -628,7 +628,7 @@ Luminous Flux, Efficiency & Efficacy Computation
 
 .. code-block:: text
 
-    23807.6555274
+    np.float64(23807.6555274)
 
 .. code-block:: python
 
@@ -639,7 +639,7 @@ Luminous Flux, Efficiency & Efficacy Computation
 
 .. code-block:: text
 
-    0.199439356245
+    np.float64(0.199439356245)
 
 .. code-block:: python
 
@@ -650,7 +650,7 @@ Luminous Flux, Efficiency & Efficacy Computation
 
 .. code-block:: text
 
-    136.217080315
+    np.float64(136.217080315)
 
 Contrast Sensitivity Function - ``colour.contrast``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -663,7 +663,7 @@ Contrast Sensitivity Function - ``colour.contrast``
 
 .. code-block:: text
 
-    358.511807899
+    np.float64(358.511807899)
 
 .. code-block:: python
 
@@ -688,7 +688,7 @@ Colour Difference - ``colour.difference``
 
 .. code-block:: text
 
-    94.0356490267
+    np.float64(94.0356490267)
 
 .. code-block:: python
 
@@ -759,7 +759,7 @@ Look Up Table (LUT) Data
 
 .. code-block:: text
 
-    [ 0.00575674,  0.00181493,  0.00121419]
+    [0.00575674,  0.00181493,  0.00121419]
 
 Colour Models - ``colour.models``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -775,7 +775,7 @@ CIE xyY Colourspace
 
 .. code-block:: text
 
-    [ 0.54369557  0.32107944  0.12197225]
+    [0.54369557  0.32107944  0.12197225]
 
 CIE L*a*b* Colourspace
 **********************
@@ -788,7 +788,7 @@ CIE L*a*b* Colourspace
 
 .. code-block:: text
 
-    [ 41.52787529  52.63858304  26.92317922]
+    [41.52787529  52.63858304  26.92317922]
 
 CIE L*u*v* Colourspace
 **********************
@@ -801,7 +801,7 @@ CIE L*u*v* Colourspace
 
 .. code-block:: text
 
-    [ 41.52787529  96.83626054  17.75210149]
+    [41.52787529  96.83626054  17.75210149]
 
 CIE 1960 UCS Colourspace
 ************************
@@ -814,7 +814,7 @@ CIE 1960 UCS Colourspace
 
 .. code-block:: text
 
-    [ 0.13769339  0.12197225  0.1053731 ]
+    [0.13769339  0.12197225  0.1053731 ]
 
 CIE 1964 U*V*W* Colourspace
 ***************************
@@ -828,7 +828,7 @@ CIE 1964 U*V*W* Colourspace
 
 .. code-block:: text
 
-    [ 94.55035725  11.55536523  40.54757405]
+    [94.55035725  11.55536523  40.54757405]
 
 CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
 *************************************************************************
@@ -848,7 +848,7 @@ CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
 
 .. code-block:: text
 
-    [ 47.16899898  38.72623785  15.8663383 ]
+    [47.16899898  38.72623785  15.8663383 ]
 
 .. code-block:: python
 
@@ -862,7 +862,7 @@ CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
 
 .. code-block:: text
 
-    [ 47.16899898  38.72623785  15.8663383 ]
+    [47.16899898  38.72623785  15.8663383 ]
 
 CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
 *******************************************************************
@@ -882,7 +882,7 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
 
 .. code-block:: text
 
-    [ 46.55542238  40.22460974  14.25288392]
+    [46.55542238  40.22460974  14.25288392]
 
 .. code-block:: python
 
@@ -896,7 +896,7 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
 
 .. code-block:: text
 
-    [ 46.55542238  40.22460974  14.25288392]
+    [46.55542238  40.22460974  14.25288392]
 
 DIN99 Colourspace and DIN99b, DIN99c, DIN99d Refined Formulas
 *************************************************************
@@ -910,7 +910,7 @@ DIN99 Colourspace and DIN99b, DIN99c, DIN99d Refined Formulas
 
 .. code-block:: text
 
-    [ 53.22821988  28.41634656   3.89839552]
+    [53.22821988  28.41634656   3.89839552]
 
 ICaCb Colourspace
 ******************
@@ -923,7 +923,7 @@ ICaCb Colourspace
 
 .. code-block:: text
 
-    [ 0.06875297  0.05753352  0.02081548]
+    [0.06875297  0.05753352  0.02081548]
 
 IgPgTg Colourspace
 ******************
@@ -936,7 +936,7 @@ IgPgTg Colourspace
 
 .. code-block:: text
 
-    [ 0.42421258  0.18632491  0.10689223]
+    [0.42421258  0.18632491  0.10689223]
 
 IPT Colourspace
 ***************
@@ -949,7 +949,7 @@ IPT Colourspace
 
 .. code-block:: text
 
-    [ 0.38426191  0.38487306  0.18886838]
+    [0.38426191  0.38487306  0.18886838]
 
 Jzazbz Colourspace
 ******************
@@ -962,7 +962,7 @@ Jzazbz Colourspace
 
 .. code-block:: text
 
-    [ 0.00535048  0.00924302  0.00526007]
+    [0.00535048  0.00924302  0.00526007]
 
 Hunter L,a,b Colour Scale
 *************************
@@ -976,7 +976,7 @@ Hunter L,a,b Colour Scale
 
 .. code-block:: text
 
-    [ 34.92452577  47.06189858  14.38615107]
+    [34.92452577  47.06189858  14.38615107]
 
 Hunter Rd,a,b Colour Scale
 **************************
@@ -990,7 +990,7 @@ Hunter Rd,a,b Colour Scale
 
 .. code-block:: text
 
-    [ 12.197225    57.12537874  17.46241341]
+    [12.197225    57.12537874  17.46241341]
 
 Oklab Colourspace
 *****************
@@ -1003,7 +1003,7 @@ Oklab Colourspace
 
 .. code-block:: text
 
-    [ 0.51634019  0.154695    0.06289579]
+    [0.51634019  0.154695    0.06289579]
 
 OSA UCS Colourspace
 *******************
@@ -1017,7 +1017,7 @@ OSA UCS Colourspace
 
 .. code-block:: text
 
-    [-3.0049979   2.99713697 -9.66784231]
+    [-3.0049979   2.99713697  -9.66784231]
 
 ProLab Colourspace
 ******************
@@ -1030,7 +1030,7 @@ ProLab Colourspace
 
 .. code-block:: text
 
-    [  59.8466286   115.0396354    20.12510352]
+    [59.8466286   115.0396354    20.12510352]
 
 Ragoo and Farup (2021) Optimised IPT Colourspace
 ************************************************
@@ -1043,7 +1043,7 @@ Ragoo and Farup (2021) Optimised IPT Colourspace
 
 .. code-block:: text
 
-    [ 0.42248243  0.2910514   0.20410663]
+    [0.42248243  0.2910514   0.20410663]
 
 Yrg Colourspace - Kirk (2019)
 *****************************
@@ -1056,7 +1056,7 @@ Yrg Colourspace - Kirk (2019)
 
 .. code-block:: text
 
-    [ 0.13137801  0.49037645  0.37777388]
+    [0.13137801  0.49037645  0.37777388]
 
 hdr-CIELAB Colourspace
 **********************
@@ -1069,7 +1069,7 @@ hdr-CIELAB Colourspace
 
 .. code-block:: text
 
-    [ 51.87002062  60.4763385  32.14551912]
+    [51.87002062  60.4763385   32.14551912]
 
 hdr-IPT Colourspace
 *******************
@@ -1082,7 +1082,7 @@ hdr-IPT Colourspace
 
 .. code-block:: text
 
-    [ 25.18261761 -22.62111297  3.18511729]
+    [25.18261761  -22.62111297   3.18511729]
 
 Y'CbCr Colour Encoding
 **********************
@@ -1095,7 +1095,7 @@ Y'CbCr Colour Encoding
 
 .. code-block:: text
 
-    [ 0.92156863  0.50196078  0.50196078]
+    [0.92156863  0.50196078  0.50196078]
 
 YCoCg Colour Encoding
 *********************
@@ -1108,7 +1108,7 @@ YCoCg Colour Encoding
 
 .. code-block:: text
 
-    [ 0.5625  0.375   0.1875]
+    [0.5625  0.375   0.1875]
 
 ICtCp Colour Encoding
 *********************
@@ -1121,7 +1121,7 @@ ICtCp Colour Encoding
 
 .. code-block:: text
 
-    [ 0.07351364  0.00475253  0.09351596]
+    [0.07351364  0.00475253  0.09351596]
 
 HSV Colourspace
 ***************
@@ -1134,7 +1134,7 @@ HSV Colourspace
 
 .. code-block:: text
 
-    [ 0.99603944  0.93246304  0.45620519]
+    [0.99603944  0.93246304  0.45620519]
 
 IHLS Colourspace
 ****************
@@ -1147,7 +1147,7 @@ IHLS Colourspace
 
 .. code-block:: text
 
-    [ 6.26236117  0.12197943  0.42539448]
+    [6.26236117  0.12197943  0.42539448]
 
 Prismatic Colourspace
 *********************
@@ -1160,7 +1160,7 @@ Prismatic Colourspace
 
 .. code-block:: text
 
-    [ 0.75        0.16666667  0.33333333  0.5       ]
+    [0.75        0.16666667  0.33333333  0.5       ]
 
 RGB Colourspace and Transformations
 ***********************************
@@ -1188,7 +1188,7 @@ RGB Colourspace and Transformations
 
 .. code-block:: text
 
-    [ 0.45595571  0.03039702  0.04087245]
+    [0.45595571  0.03039702  0.04087245]
 
 RGB Colourspace Derivation
 **************************
@@ -1203,9 +1203,9 @@ RGB Colourspace Derivation
 
 .. code-block:: text
 
-    [[  9.52552396e-01   0.00000000e+00   9.36786317e-05]
-     [  3.43966450e-01   7.28166097e-01  -7.21325464e-02]
-     [  0.00000000e+00   0.00000000e+00   1.00882518e+00]]
+    [[9.52552396e-01   0.00000000e+00   9.36786317e-05]
+     [3.43966450e-01   7.28166097e-01  -7.21325464e-02]
+     [0.00000000e+00   0.00000000e+00   1.00882518e+00]]
 
 RGB Colourspaces
 ****************
@@ -1396,7 +1396,7 @@ Munsell Value
 
 .. code-block:: text
 
-    4.08244370765
+    np.float64(4.08244370765)
 
 .. code-block:: python
 
@@ -1429,7 +1429,7 @@ Munsell Colour
 
 .. code-block:: text
 
-    [ 0.38736945  0.35751656  0.59362   ]
+    [0.38736945  0.35751656  0.59362   ]
 
 Optical Phenomena - ``colour.phenomena``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1445,11 +1445,11 @@ Rayleigh Scattering
 
 .. code-block:: text
 
-    [[  3.60000000e+02   5.60246579e-01]
-     [  3.61000000e+02   5.53748137e-01]
-     [  3.62000000e+02   5.47344692e-01]
+    [[3.60000000e+02   5.60246579e-01]
+     [3.61000000e+02   5.53748137e-01]
+     [3.62000000e+02   5.47344692e-01]
      ...
-     [  7.80000000e+02   2.35336632e-02]]
+     [7.80000000e+02   2.35336632e-02]]
 
 Thin Film Interference
 **********************
@@ -1495,7 +1495,7 @@ Colour Fidelity Index
 
 .. code-block:: text
 
-    70.1208244014
+    np.float64(70.1208244014)
 
 .. code-block:: python
 
@@ -1518,7 +1518,7 @@ Colour Quality Scale
 
 .. code-block:: text
 
-    64.1118220157
+    np.float64(64.1118220157)
 
 .. code-block:: python
 
@@ -1541,7 +1541,7 @@ Colour Rendering Index
 
 .. code-block:: text
 
-    64.2337241217
+    np.float64(64.2337241217)
 
 .. code-block:: python
 
@@ -1566,7 +1566,7 @@ Academy Spectral Similarity Index (SSI)
 
 .. code-block:: text
 
-    94.0
+    np.float64(94.0)
 
 Spectral Up-Sampling & Recovery - ``colour.recovery``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1582,11 +1582,11 @@ Reflectance Recovery
 
 .. code-block:: text
 
-    [[  3.60000000e+02   8.42398617e-02]
-     [  3.65000000e+02   8.42355431e-02]
-     [  3.70000000e+02   8.42689564e-02]
+    [[3.60000000e+02   8.42398617e-02]
+     [3.65000000e+02   8.42355431e-02]
+     [3.70000000e+02   8.42689564e-02]
      ...
-     [  7.80000000e+02   4.46952477e-01]]
+     [7.80000000e+02   4.46952477e-01]]
 
 .. code-block:: python
 
@@ -1656,19 +1656,19 @@ Camera RGB Sensitivities Recovery
 
 .. code-block:: text
 
-    RGB_CameraSensitivities([[  4.00000000e+02,   7.04378461e-03,   9.21260449e-03,
-                               -7.64080878e-03],
-                             [  4.10000000e+02,  -8.76715607e-03,   1.12726694e-02,
-                                6.37434190e-03],
-                             [  4.20000000e+02,   4.58126856e-02,   7.18000418e-02,
-                                4.00001696e-01],
+    RGB_CameraSensitivities([[4.00000000e+02,   7.04378461e-03,   9.21260449e-03,
+                              -7.64080878e-03],
+                             [4.10000000e+02,  -8.76715607e-03,   1.12726694e-02,
+                               6.37434190e-03],
+                             [4.20000000e+02,   4.58126856e-02,   7.18000418e-02,
+                               4.00001696e-01],
                              ...
-                             [  6.80000000e+02,   4.00195568e-02,   5.55512389e-03,
-                                1.36794925e-03],
-                             [  6.90000000e+02,  -4.32240535e-03,   2.49731193e-03,
-                                3.80303275e-04],
-                             [  7.00000000e+02,  -6.00395414e-03,   1.54678227e-03,
-                                5.40394352e-04]],
+                             [6.80000000e+02,   4.00195568e-02,   5.55512389e-03,
+                               1.36794925e-03],
+                             [6.90000000e+02,  -4.32240535e-03,   2.49731193e-03,
+                               3.80303275e-04],
+                             [7.00000000e+02,  -6.00395414e-03,   1.54678227e-03,
+                               5.40394352e-04]],
                             ['red', 'green', 'blue'],
                             SpragueInterpolator,
                             {},
@@ -1686,7 +1686,7 @@ Correlated Colour Temperature Computation Methods - ``colour.temperature``
 
 .. code-block:: text
 
-    [  6.50747479e+03   3.22334634e-03]
+    [6.50747479e+03   3.22334634e-03]
 
 .. code-block:: python
 
@@ -1719,7 +1719,7 @@ Colour Volume - ``colour.volume``
 
 .. code-block:: text
 
-    821958.30000000005
+    np.float64(821958.30000000005)
 
 Geometry Primitives Generation - ``colour.geometry``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1732,10 +1732,10 @@ Geometry Primitives Generation - ``colour.geometry``
 
 .. code-block:: text
 
-    (array([ ([-0.5,  0.5,  0. ], [ 0.,  1.], [ 0.,  0.,  1.], [ 0.,  1.,  0.,  1.]),
-           ([ 0.5,  0.5,  0. ], [ 1.,  1.], [ 0.,  0.,  1.], [ 1.,  1.,  0.,  1.]),
-           ([-0.5, -0.5,  0. ], [ 0.,  0.], [ 0.,  0.,  1.], [ 0.,  0.,  0.,  1.]),
-           ([ 0.5, -0.5,  0. ], [ 1.,  0.], [ 0.,  0.,  1.], [ 1.,  0.,  0.,  1.])],
+    (array([([-0.5,  0.5,  0. ], [0.,  1.], [0.,  0.,  1.], [0.,  1.,  0.,  1.]),
+           ([0.5,  0.5,  0. ], [1.,  1.], [0.,  0.,  1.], [1.,  1.,  0.,  1.]),
+           ([-0.5, -0.5,  0. ], [0.,  0.], [0.,  0.,  1.], [0.,  0.,  0.,  1.]),
+           ([0.5, -0.5,  0. ], [1.,  0.], [0.,  0.,  1.], [1.,  0.,  0.,  1.])],
           dtype=[('position', '<f8', (3,)), ('uv', '<f8', (2,)), ('normal', '<f8', (3,)), ('colour', '<f8', (4,))]), array([[0, 2, 1],
            [2, 3, 1]]), array([[0, 2],
            [2, 3],
@@ -1760,10 +1760,10 @@ Geometry Primitives Generation - ``colour.geometry``
 
 .. code-block:: text
 
-    [[ 0.  0.  0.]
-     [ 1.  0.  0.]
-     [ 1.  1.  0.]
-     [ 0.  1.  0.]]
+    [[0.  0.  0.]
+     [1.  0.  0.]
+     [1.  1.  0.]
+     [0.  1.  0.]]
 
 Plotting - ``colour.plotting``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

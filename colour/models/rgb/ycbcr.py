@@ -143,7 +143,7 @@ def round_BT2100(a: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> round_BT2100(np.array([0.4, 0.5, 0.6]))
-    array([ 0.,  1.,  1.])
+    array([0., 1., 1.])
     """
 
     return cast("NDArrayFloat", np.sign(a) * np.floor(np.abs(a) + 0.5))
@@ -172,14 +172,13 @@ def ranges_YCbCr(bits: int, is_legal: bool, is_int: bool) -> NDArrayFloat:
     Examples
     --------
     >>> ranges_YCbCr(8, True, True)
-    array([  16.,  235.,   16.,  240.])
+    array([ 16., 235.,  16., 240.])
     >>> ranges_YCbCr(8, True, False)  # doctest: +ELLIPSIS
-    array([ 0.0627451...,  0.9215686...,  0.0627451...,  0.9411764...])
+    array([0.0627451..., 0.9215686..., 0.0627451..., 0.9411764...])
     >>> ranges_YCbCr(10, False, False)
     array([ 0. ,  1. , -0.5,  0.5])
-    >>> ranges_YCbCr(10, False, True)
-    array([  0.0000000...e+00,   1.0230000...e+03,   5.0000000...e-01,
-             1.0235000...e+03])
+    >>> ranges_YCbCr(10, False, True)  # doctest: +ELLIPSIS
+    array([0.0000...e+00, 1.0230...e+03, 5.0000...e-01, 1.0235...e+03])
     """
 
     if is_legal:
@@ -234,17 +233,17 @@ def matrix_YCbCr(
     Examples
     --------
     >>> matrix_YCbCr()  # doctest: +ELLIPSIS
-    array([[  1.0000000...e+00,  ...,   1.5748000...e+00],
-           [  1.0000000...e+00,  -1.8732427...e-01,  -4.6812427...e-01],
-           [  1.0000000...e+00,   1.8556000...e+00,  ...]])
+    array([[ 1.0000000...e+00, ...,  1.5748000...e+00],
+           [ 1.0000000...e+00, -1.8732427...e-01, -4.6812427...e-01],
+           [ 1.0000000...e+00,  1.8556000...e+00, ...]])
     >>> matrix_YCbCr(K=WEIGHTS_YCBCR["ITU-R BT.601"])  # doctest: +ELLIPSIS
-    array([[  1.0000000...e+00,  ...,   1.4020000...e+00],
-           [  1.0000000...e+00,  -3.4413628...e-01,  -7.1413628...e-01],
-           [  1.0000000...e+00,   1.7720000...e+00,  ...]])
+    array([[ 1.0000000...e+00, ...,  1.4020000...e+00],
+           [ 1.0000000...e+00, -3.4413628...e-01, -7.1413628...e-01],
+           [ 1.0000000...e+00,  1.7720000...e+00, ...]])
     >>> matrix_YCbCr(is_legal=True)  # doctest: +ELLIPSIS
-    array([[  1.1643835...e+00,  ...,   1.7927410...e+00],
-           [  1.1643835...e+00,  -2.1324861...e-01,  -5.3290932...e-01],
-           [  1.1643835...e+00,   2.1124017...e+00,  ...]])
+    array([[ 1.1643835...e+00, ...,  1.7927410...e+00],
+           [ 1.1643835...e+00, -2.1324861...e-01, -5.3290932...e-01],
+           [ 1.1643835...e+00,  2.1124017...e+00, ...]])
 
     Matching the default output of the :func:`colour.RGB_to_YCbCr` is done as
     follows:
@@ -253,11 +252,11 @@ def matrix_YCbCr(
     >>> from colour.utilities import as_int_array
     >>> RGB = np.array([1.0, 1.0, 1.0])
     >>> RGB_to_YCbCr(RGB)  # doctest: +ELLIPSIS
-    array([ 0.9215686...,  0.5019607...,  0.5019607...])
+    array([0.9215686..., 0.5019607..., 0.5019607...])
     >>> YCbCr = vecmul(np.linalg.inv(matrix_YCbCr(is_legal=True)), RGB)
     >>> YCbCr += offset_YCbCr(is_legal=True)
     >>> YCbCr  # doctest: +ELLIPSIS
-    array([ 0.9215686...,  0.5019607...,  0.5019607...])
+    array([0.9215686..., 0.5019607..., 0.5019607...])
 
     Matching the int output of the :func:`colour.RGB_to_YCbCr` is done as
     follows:
@@ -314,9 +313,9 @@ def offset_YCbCr(
     Examples
     --------
     >>> offset_YCbCr()
-    array([ 0.,  0.,  0.])
+    array([0., 0., 0.])
     >>> offset_YCbCr(is_legal=True)  # doctest: +ELLIPSIS
-    array([ 0.0627451...,  0.5019607...,  0.5019607...])
+    array([0.0627451..., 0.5019607..., 0.5019607...])
     """
 
     Y_min, _Y_max, C_min, C_max = ranges_YCbCr(bits, is_legal, is_int)
@@ -440,21 +439,21 @@ def RGB_to_YCbCr(
     --------
     >>> RGB = np.array([1.0, 1.0, 1.0])
     >>> RGB_to_YCbCr(RGB)  # doctest: +ELLIPSIS
-    array([ 0.9215686...,  0.5019607...,  0.5019607...])
+    array([0.9215686..., 0.5019607..., 0.5019607...])
 
     Matching the float output of *The Foundry Nuke*'s *Colorspace* node
     set to *YCbCr*:
 
     >>> RGB_to_YCbCr(RGB, out_range=(16 / 255, 235 / 255, 15.5 / 255, 239.5 / 255))
     ... # doctest: +ELLIPSIS
-    array([ 0.9215686...,  0.5       ,  0.5       ])
+    array([0.9215686..., 0.5       , 0.5       ])
 
     Matching the float output of *The Foundry Nuke*'s *Colorspace* node
     set to *YPbPr*:
 
     >>> RGB_to_YCbCr(RGB, out_legal=False, out_int=False)
     ... # doctest: +ELLIPSIS
-    array([ 1.,  0.,  0.])
+    array([1., 0., 0.])
 
     Creating int code values as per standard *10-bit SDI*:
 
@@ -637,7 +636,7 @@ def YCbCr_to_RGB(
     --------
     >>> YCbCr = np.array([502, 512, 512])
     >>> YCbCr_to_RGB(YCbCr, in_bits=10, in_legal=True, in_int=True)
-    array([ 0.5,  0.5,  0.5])
+    array([0.5, 0.5, 0.5])
     """
 
     YCbCr = as_float_array(YCbCr) if in_int else to_domain_1(YCbCr)
@@ -864,7 +863,7 @@ def YcCbcCrc_to_RGB(
     ...     is_12_bits_system=True,
     ... )
     ... # doctest: +ELLIPSIS
-    array([ 0.1800903...,  0.1800903...,  0.1800903...])
+    array([0.1800903..., 0.1800903..., 0.1800903...])
     """
 
     YcCbcCrc = as_float_array(YcCbcCrc) if in_int else to_domain_1(YcCbcCrc)

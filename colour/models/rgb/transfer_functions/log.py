@@ -113,23 +113,23 @@ def logarithmic_function_basic(
     The basic logarithmic function *styles* operate as follows:
 
     >>> logarithmic_function_basic(0.18)  # doctest: +ELLIPSIS
-    -2.4739311...
+    np.float64(-2.4739311...)
     >>> logarithmic_function_basic(0.18, "log10")  # doctest: +ELLIPSIS
-    -0.7447274...
+    np.float64(-0.7447274...)
     >>> logarithmic_function_basic(0.18, "logB", 3)  # doctest: +ELLIPSIS
-    -1.5608767...
+    np.float64(-1.5608767...)
     >>> logarithmic_function_basic(  # doctest: +ELLIPSIS
     ...     -2.473931188332412, "antiLog2"
     ... )
-    0.18000000...
+    np.float64(0.18000000...)
     >>> logarithmic_function_basic(  # doctest: +ELLIPSIS
     ...     -0.7447274948966939, "antiLog10"
     ... )
-    0.18000000...
+    np.float64(0.18000000...)
     >>> logarithmic_function_basic(  # doctest: +ELLIPSIS
     ...     -1.5608767950073117, "antiLogB", 3
     ... )
-    0.18000000...
+    np.float64(0.18000000...)
     """
 
     x = as_float_array(x)
@@ -207,11 +207,11 @@ def logarithmic_function_quasilog(
     Examples
     --------
     >>> logarithmic_function_quasilog(0.18, "linToLog")  # doctest: +ELLIPSIS
-    -2.4739311...
+    np.float64(-2.4739311...)
     >>> logarithmic_function_quasilog(  # doctest: +ELLIPSIS
     ...     -2.473931188332412, "logToLin"
     ... )
-    0.18000000...
+    np.float64(0.18000000...)
     """
 
     x = as_float_array(x)
@@ -302,11 +302,11 @@ def logarithmic_function_camera(
     >>> logarithmic_function_camera(  # doctest: +ELLIPSIS
     ...     0.18, "cameraLinToLog"
     ... )
-    -2.4739311...
+    np.float64(-2.4739311...)
     >>> logarithmic_function_camera(  # doctest: +ELLIPSIS
     ...     -2.4739311883324122, "cameraLogToLin"
     ... )
-    0.1800000...
+    np.float64(0.1800000...)
     """
 
     x = as_float_array(x)
@@ -434,7 +434,7 @@ def log_encoding_Log2(
     Examples
     --------
     >>> log_encoding_Log2(0.18)
-    0.5
+    np.float64(0.5)
     """
 
     lin = as_float_array(lin)
@@ -503,7 +503,7 @@ def log_decoding_Log2(
     Examples
     --------
     >>> log_decoding_Log2(0.5)  # doctest: +ELLIPSIS
-    0.1799999...
+    np.float64(0.18)
     """
 
     log_norm = as_float_array(log_norm)

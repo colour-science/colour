@@ -86,7 +86,7 @@ def eotf_inverse_BT1886(L: Domain1, L_B: float = 0, L_W: float = 1) -> Range1:
     Examples
     --------
     >>> eotf_inverse_BT1886(0.11699185725296059)  # doctest: +ELLIPSIS
-    0.4090077...
+    np.float64(0.4090077...)
     """
 
     L = to_domain_1(L)
@@ -147,7 +147,7 @@ def eotf_BT1886(V: Domain1, L_B: float = 0, L_W: float = 1) -> Range1:
     Examples
     --------
     >>> eotf_BT1886(0.409007728864150)  # doctest: +ELLIPSIS
-    0.1169918...
+    np.float64(0.1169918...)
     """
 
     V = to_domain_1(V)

@@ -92,7 +92,7 @@ def XYZ_to_UCS(XYZ: Domain1) -> Range1:
     >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_UCS(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.1376933...,  0.1219722...,  0.1053731...])
+    array([0.1376933..., 0.1219722..., 0.1053731...])
     """
 
     X, Y, Z = tsplit(to_domain_1(XYZ))
@@ -140,7 +140,7 @@ def UCS_to_XYZ(UVW: Domain1) -> Range1:
     >>> import numpy as np
     >>> UVW = np.array([0.13769339, 0.12197225, 0.10537310])
     >>> UCS_to_XYZ(UVW)  # doctest: +ELLIPSIS
-    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
     U, V, W = tsplit(to_domain_1(UVW))
@@ -182,7 +182,7 @@ def UCS_to_uv(UVW: Domain1) -> NDArrayFloat:
     >>> import numpy as np
     >>> UVW = np.array([0.13769339, 0.12197225, 0.10537310])
     >>> UCS_to_uv(UVW)  # doctest: +ELLIPSIS
-    array([ 0.3772021...,  0.3341350...])
+    array([0.3772021..., 0.3341350...])
     """
 
     U, V, W = tsplit(to_domain_1(UVW))
@@ -235,7 +235,7 @@ def uv_to_UCS(uv: ArrayLike, V: Domain1 = 1) -> Range1:
     >>> import numpy as np
     >>> uv = np.array([0.37720213, 0.33413508])
     >>> uv_to_UCS(uv)  # doctest: +ELLIPSIS
-    array([ 1.1288911...,  1.        ,  0.8639104...])
+    array([1.1288911..., 1.        , 0.8639104...])
     """
 
     u, v = tsplit(uv)
@@ -271,7 +271,7 @@ def UCS_uv_to_xy(uv: ArrayLike) -> NDArrayFloat:
     >>> import numpy as np
     >>> uv = np.array([0.37720213, 0.33413508])
     >>> UCS_uv_to_xy(uv)  # doctest: +ELLIPSIS
-    array([ 0.5436955...,  0.3210794...])
+    array([0.5436955..., 0.3210794...])
     """
 
     u, v = tsplit(uv)
@@ -306,7 +306,7 @@ def xy_to_UCS_uv(xy: ArrayLike) -> NDArrayFloat:
     >>> import numpy as np
     >>> xy = np.array([0.54369555, 0.32107941])
     >>> xy_to_UCS_uv(xy)  # doctest: +ELLIPSIS
-    array([ 0.3772021...,  0.3341350...])
+    array([0.3772021..., 0.3341350...])
     """
 
     x, y = tsplit(xy)
@@ -360,7 +360,7 @@ def XYZ_to_CIE1960UCS(
     >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_CIE1960UCS(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.3772021...,  0.3341350...,  0.12197225])
+    array([0.3772021..., 0.3341350..., 0.12197225])
     """
 
     UVW = XYZ_to_UCS(XYZ)
@@ -415,7 +415,7 @@ def CIE1960UCS_to_XYZ(
     >>> import numpy as np
     >>> uvV = np.array([0.37720213, 0.33413509, 0.12197225])
     >>> CIE1960UCS_to_XYZ(uvV)  # doctest: +ELLIPSIS
-    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
     u, v, V = tsplit(uvV)
