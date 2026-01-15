@@ -1407,11 +1407,10 @@ def colour_correction_Vandermonde(
     )
 
 
-
-
 # =============================================================================
 # TPS-3D (Thin-Plate Spline in RGB)
 # =============================================================================
+
 
 def _tps3d_kernel_bookstein(r: np.ndarray, eps: float = 1e-12) -> np.ndarray:
     """
@@ -1491,13 +1490,17 @@ def tps3d_parameters(
     dest = as_float_array(destination_points)
 
     if ctrl.ndim != 2 or ctrl.shape[1] != 3:
-        raise ValueError('"source_points" must be an (N, 3) array!')
+        message = '"source_points" must be an (N, 3) array!'
+        raise ValueError(message)
+
     if dest.shape != ctrl.shape:
-        raise ValueError('"destination_points" must have the same shape as "source_points"!')
+        message = '"destination_points" must have the same shape as "source_points"!'
+        raise ValueError(message)
 
     N = ctrl.shape[0]
     if N < 4:
-        raise ValueError("TPS-3D requires at least 4 control points!")
+        message = "TPS-3D requires at least 4 control points!"
+        raise ValueError(message)
 
     kernel = validate_method(kernel, ("Bookstein", "Polyharmonic 3D"))
 
@@ -1514,12 +1517,14 @@ def tps3d_parameters(
         np.fill_diagonal(K, 0.0)
 
     if smoothing < 0:
-        raise ValueError('"smoothing" must be >= 0!')
+        message = '"smoothing" must be >= 0!'
+        raise ValueError(message)
+
     if smoothing > 0:
         K = K + np.eye(N) * smoothing
 
-    O = np.zeros((4, 4))
-    L = np.block([[K, P], [P.T, O]])
+    Z = np.zeros((4, 4))
+    L = np.block([[K, P], [P.T, Z]])
 
     V = np.vstack([dest, np.zeros((4, 3))])
 
@@ -1573,7 +1578,8 @@ def apply_tps3d(
     shape = RGB.shape
 
     if shape[-1] != 3:
-        raise ValueError('"RGB" last dimension must be 3!')
+        message = '"RGB" last dimension must be 3!'
+        raise ValueError(message)
 
     pixels = RGB.reshape((-1, 3))
     M = pixels.shape[0]
@@ -1587,7 +1593,7 @@ def apply_tps3d(
         X = pixels[start:end]
 
         P_all = np.hstack([np.ones((X.shape[0], 1)), X])  # (m,4)
-        r = _pairwise_distances_euclidean(X, ctrl)        # (m,N)
+        r = _pairwise_distances_euclidean(X, ctrl)  # (m,N)
 
         if kernel == "Bookstein":
             U = _tps3d_kernel_bookstein(r)
@@ -1639,15 +1645,11 @@ def colour_correction_TPS3D(
 
     References
     ----------
-    The TPS-3D warping approach for RGB calibration is described by Menesatti et al. (2012),
-    based on a TPS formulation originally popularized by Bookstein (1989).
+    The TPS-3D warping approach for RGB calibration is described by Menesatti et al.
+    (2012), based on a TPS formulation originally popularized by Bookstein (1989).
     """
     W, A, ctrl = tps3d_parameters(M_T, M_R, smoothing=smoothing, kernel=kernel)
-    return apply_tps3d(
-        RGB, W, A, ctrl, kernel=kernel, clip=clip, chunk_size=chunk_size
-    )
-
-
+    return apply_tps3d(RGB, W, A, ctrl, kernel=kernel, clip=clip, chunk_size=chunk_size)
 
 
 COLOUR_CORRECTION_METHODS = CanonicalMapping(

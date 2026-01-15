@@ -23,6 +23,8 @@ if typing.TYPE_CHECKING:
     from matplotlib.figure import Figure
     from matplotlib.axes import Axes
 
+from contextlib import suppress
+
 import numpy as np
 
 from colour.colorimetry import (
@@ -188,12 +190,9 @@ def plot_colour_quality_bars(
 
         for j, bar in enumerate(bars.patches):
             hatch = hatches[j]
-            try:
+            with suppress(AttributeError):
                 hatch = hatch.item()  # numpy scalar -> python scalar
-            except Exception:
-                pass
             bar.set_hatch(str(hatch))
-
 
         if labels:
             label_rectangles(

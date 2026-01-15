@@ -178,7 +178,7 @@ class ProtocolInterpolator(Protocol):  # noqa: D101  # pragma: no cover
     @property
     def y(self) -> Any: ...  # noqa: D102
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None: ...  # noqa: D102
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
 
     def __call__(self, x: Any, /, *args: Any, **kwargs: Any) -> Any: ...  # noqa: D102
 
