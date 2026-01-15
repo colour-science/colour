@@ -149,7 +149,7 @@ def close_chord(vertices: ArrayLike) -> NDArrayFloat:
 
 def unique_vertices(
     vertices: ArrayLike,
-    decimals: int = np.finfo(DTYPE_FLOAT_DEFAULT).precision - 1,  # pyright: ignore
+    decimals: int = np.finfo(DTYPE_FLOAT_DEFAULT).precision - 1,
 ) -> NDArrayFloat:
     """
     Return the unique vertices from the specified vertices after rounding.

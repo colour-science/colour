@@ -173,23 +173,14 @@ Range100_100_360: TypeAlias = Annotated[NDArrayFloat, (100, 100, 360)]
 
 class ProtocolInterpolator(Protocol):  # noqa: D101  # pragma: no cover
     @property
-    def x(self) -> NDArray:  # noqa: D102
-        ...
-
-    @x.setter
-    def x(self, value: ArrayLike, /) -> None: ...
+    def x(self) -> Any: ...  # noqa: D102
 
     @property
-    def y(self) -> NDArray:  # noqa: D102
-        ...
+    def y(self) -> Any: ...  # noqa: D102
 
-    @y.setter
-    def y(self, value: ArrayLike, /) -> None: ...
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...  # noqa: D102
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None: ...  # pragma: no cover
-
-    def __call__(self, x: NDArrayFloat) -> NDArray:  # noqa: D102
-        ...  # pragma: no cover
+    def __call__(self, x: Any, /, *args: Any, **kwargs: Any) -> Any: ...  # noqa: D102
 
 
 class ProtocolExtrapolator(Protocol):  # noqa: D101  # pragma: no cover

@@ -183,11 +183,17 @@ def plot_colour_quality_bars(
         hatches = (
             [next(patterns) * hatching_repeat] * (count_Q_as + 1)
             if hatching
-            else list(np.where(y < 0, next(patterns), None))  # pyright: ignore
+            else list(np.where(y < 0, next(patterns), None))
         )
 
         for j, bar in enumerate(bars.patches):
-            bar.set_hatch(hatches[j])
+            hatch = hatches[j]
+            try:
+                hatch = hatch.item()  # numpy scalar -> python scalar
+            except Exception:
+                pass
+            bar.set_hatch(str(hatch))
+
 
         if labels:
             label_rectangles(

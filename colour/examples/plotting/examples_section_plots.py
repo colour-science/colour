@@ -125,7 +125,7 @@ for i, RGB in zip(np.arange(0.5, 0.9, 0.1), section_colours, strict=True):
     plot_RGB_colourspace_section(
         colourspace="sRGB",
         model="DIN99",
-        origin=i,  # pyright: ignore
+        origin=i,
         section_colours=RGB,
         section_opacity=0.15,
         contour_colours=RGB,
