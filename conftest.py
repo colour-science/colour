@@ -14,4 +14,3 @@ def pytest_configure(config) -> None:
             config.option.numprocesses = 0
         if getattr(config.option, "dist", None):
             config.option.dist = "no"
-
