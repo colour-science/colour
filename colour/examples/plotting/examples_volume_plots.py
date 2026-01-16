@@ -17,7 +17,7 @@ colour_style()
 message_box(
     'Plotting "ITU-R BT.709" RGB colourspace volume in the "CIE xyY" colourspace.'
 )
-plot_RGB_colourspaces_gamuts(("ITU-R BT.709",), reference_colourspace="CIE xyY")
+plot_RGB_colourspaces_gamuts(("ITU-R BT.709",), model="CIE xyY")
 
 print("\n")
 
@@ -27,7 +27,7 @@ message_box(
 )
 plot_RGB_colourspaces_gamuts(
     ("ITU-R BT.709", "ACEScg"),
-    reference_colourspace="CIE Lab",
+    model="CIE Lab",
     face_colours=(None, (0.25, 0.25, 0.25)),
     edge_colours=(None, (0.25, 0.25, 0.25)),
     edge_alpha=(1.0, 0.1),
@@ -43,7 +43,7 @@ RGB = np.random.random((32, 32, 3))
 plot_RGB_scatter(
     RGB,
     "ACEScg",
-    reference_colourspace="CIE Lab",
+    model="CIE Lab",
     colourspaces=("ACEScg", "ITU-R BT.709"),
     face_colours=((0.25, 0.25, 0.25), None),
     edge_colours=((0.25, 0.25, 0.25), None),

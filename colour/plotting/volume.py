@@ -48,10 +48,8 @@ from colour.utilities import (
     Structure,
     as_float_array,
     as_int_array,
-    as_int_scalar,
     first_item,
     full,
-    is_integer,
     ones,
     optional,
     zeros,
@@ -264,16 +262,13 @@ def nadir_grid(
                 x = limits[1, 1 if x_s == 1 else 0] + (x_s * extent / 25) if i else tick
                 y = tick if i else limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 25)
 
-                tick = (  # noqa: PLW2901
-                    as_int_scalar(tick) if is_integer(tick) else tick
-                )
                 c = settings[f"{axis}_ticks_colour"]
 
                 axes.text(
                     x,
                     y,
                     0,
-                    tick,
+                    np.around(tick, 2),
                     "x",
                     horizontalalignment=h_a,
                     verticalalignment=v_a,
