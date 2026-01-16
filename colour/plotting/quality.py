@@ -182,10 +182,12 @@ def plot_colour_quality_bars(
             zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
         )
 
+        pattern = next(patterns)
+
         hatches = (
-            [next(patterns) * hatching_repeat] * (count_Q_as + 1)
+            [pattern * hatching_repeat] * (count_Q_as + 1)
             if hatching
-            else list(np.where(y < 0, next(patterns), None))
+            else list(np.where(y < 0, pattern, ""))
         )
 
         for j, bar in enumerate(bars.patches):
