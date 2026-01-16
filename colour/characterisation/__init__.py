@@ -17,9 +17,11 @@ from .correction import (
     apply_matrix_colour_correction_Cheung2004,
     apply_matrix_colour_correction_Finlayson2015,
     apply_matrix_colour_correction_Vandermonde,
+    apply_tps3d,
     colour_correction,
     colour_correction_Cheung2004,
     colour_correction_Finlayson2015,
+    colour_correction_TPS3D,
     colour_correction_Vandermonde,
     matrix_augmented_Cheung2004,
     matrix_colour_correction,
@@ -29,9 +31,7 @@ from .correction import (
     polynomial_expansion,
     polynomial_expansion_Finlayson2015,
     polynomial_expansion_Vandermonde,
-    apply_tps3d, 
-    colour_correction_TPS3D, 
-    tps3d_parameters
+    tps3d_parameters,
 )
 
 # isort: split
