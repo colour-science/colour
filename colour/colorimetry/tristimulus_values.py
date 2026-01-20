@@ -98,7 +98,7 @@ __all__ = [
     "lagrange_coefficients_ASTME2022",
     "tristimulus_weighting_factors_ASTME2022",
     "adjust_tristimulus_weighting_factors_ASTME308",
-    "get_tristimulus_weighting_factors_integration",
+    "tristimulus_weighting_factors_integration",
     "sd_to_XYZ_integration",
     "sd_to_XYZ_tristimulus_weighting_factors_ASTME308",
     "sd_to_XYZ_ASTME308",
@@ -574,15 +574,14 @@ def adjust_tristimulus_weighting_factors_ASTME308(
     return W_slice + adjustment
 
 
-def get_tristimulus_weighting_factors_integration(
+def tristimulus_weighting_factors_integration(
     cmfs: MultiSpectralDistributions,
     illuminant: SpectralDistribution,
     shape: SpectralShape,
     k: Real | None = None,
 ) -> NDArrayFloat:
     """
-    Return the tristimulus weighting factors computation method for the
-    integration method.
+    Compute the tristimulus weighting factors using the integration method.
 
     Parameters
     ----------
@@ -622,27 +621,29 @@ def get_tristimulus_weighting_factors_integration(
     Examples
     --------
     >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
+    >>> from colour.utilities import numpy_print_options
     >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> illuminant = SDS_ILLUMINANTS["D65"]
     >>> shape = SpectralShape(400, 700, 20)
-    >>> get_tristimulus_weighting_factors_integration(cmfs, illuminant, shape)
+    >>> with numpy_print_options(suppress=True):
+    ...     tristimulus_weighting_factors_integration(cmfs, illuminant, shape)
     ... # doctest: +ELLIPSIS
-    array([[  2.23634421e-01,   6.18862548e-03,   1.06034924e+00],
-           [  2.37101690e+00,   7.05764816e-02,   1.13910441e+01],
-           [  6.89706619e+00,   4.55474108e-01,   3.45974172e+01],
-           [  6.46977575e+00,   1.33489183e+00,   3.71366908e+01],
-           [  2.09370011e+00,   3.04335204e+00,   1.77966720e+01],
-           [  1.01189640e-01,   6.67025585e+00,   5.61705756e+00],
-           [  1.25205375e+00,   1.40502317e+01,   1.54849365e+00],
-           [  5.72562903e+00,   1.88094012e+01,   4.00241975e-01],
-           [  1.12268302e+01,   1.87900691e+01,   7.36495171e-02],
-           [  1.65750211e+01,   1.57374968e+01,   2.98469948e-02],
-           [  1.80544399e+01,   1.07252416e+01,   1.35977706e-02],
-           [  1.41509324e+01,   6.30991383e+00,   3.14667619e-03],
-           [  7.07958281e+00,   2.76607946e+00,   3.16123367e-04],
-           [  2.49792489e+00,   9.24035282e-01,   0.00000000e+00],
-           [  6.91427716e-01,   2.51320744e-01,   0.00000000e+00],
-           [  1.53610085e-01,   5.54714053e-02,   0.00000000e+00]])
+    array([[ 0.2236344...,  0.0061886...,  1.0603492...],
+           [ 2.3710169...,  0.0705764..., 11.3910441...],
+           [ 6.8970661...,  0.4554741..., 34.5974171...],
+           [ 6.4697757...,  1.3348918..., 37.1366907...],
+           [ 2.0937001...,  3.0433520..., 17.7966720...],
+           [ 0.1011896...,  6.6702558...,  5.6170575...],
+           [ 1.2520537..., 14.0502316...,  1.5484936...],
+           [ 5.7256290..., 18.8094011...,  0.4002419...],
+           [11.2268302..., 18.7900691...,  0.0736495...],
+           [16.5750210..., 15.7374968...,  0.0298469...],
+           [18.0544399..., 10.7252415...,  0.0135977...],
+           [14.1509323...,  6.3099138...,  0.0031466...],
+           [ 7.0795828...,  2.7660794...,  0.0003161...],
+           [ 2.4979248...,  0.9240352...,  0.       ...],
+           [ 0.6914277...,  0.2513207...,  0.       ...],
+           [ 0.1536100...,  0.0554714...,  0.       ...]])
     """
 
     if cmfs.shape != shape:
@@ -849,7 +850,7 @@ def sd_to_XYZ_integration(
 
     R = np.reshape(R, (-1, wl_c_r))
 
-    A = get_tristimulus_weighting_factors_integration(cmfs, illuminant, shape, k)
+    A = tristimulus_weighting_factors_integration(cmfs, illuminant, shape, k)
 
     XYZ = np.dot(R, A)
 

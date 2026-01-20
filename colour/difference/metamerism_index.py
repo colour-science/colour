@@ -17,13 +17,13 @@ References
 
 from __future__ import annotations
 
-from numpy import allclose, identity, linalg
+import numpy as np
 
 import colour
 from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralDistribution,
-    get_tristimulus_weighting_factors_integration,
+    tristimulus_weighting_factors_integration,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import (  # noqa: TC001
@@ -38,8 +38,8 @@ from colour.models import XYZ_to_Lab
 from colour.utilities import (
     as_array,
     attest,
+    domain_range_scale,
     filter_kwargs,
-    from_range_1,
     validate_method,
 )
 
@@ -329,37 +329,41 @@ def sd_to_metamerism_index(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Compute the *metamerism index* :math:`M_{t}` from the specified
-    spectral distributions.
+    Compute the *metamerism index* :math:`M_t` of a sample pair for change of
+    illuminant using the spectral correction method as defined in
+    *ISO 18314-4:2024*.
 
-    Before computing the *metamerism index*, we apply a spectral correction.
-    The correction aligns the sample spectral distribution to the standard
-    spectral distribution so that under reference illumination there exists
-    no colour different between the two.
-    Afterwards, we compute the corresponding *CIE XYZ* colourspace coordinates
-    under both reference and test illuminants and convert them to
-    *CIE L\\*a\\*b\\** colourspace to compute the *metamerism index*.
+    The spectral correction method (*Cohen-Kappauf* matrix decomposition)
+    computes a corrected spectral distribution :math:`\\bar{N}_{spl,corr}` such
+    that the sample and standard have identical tristimulus values under the
+    reference illuminant. The *metamerism index* is then calculated as the
+    colour difference between the standard and corrected sample under the test
+    illuminant.
+
+    The projection matrix :math:`R` is computed from the weighting matrix
+    :math:`A` as:
+
+    :math:`R = A \\cdot (A^T \\cdot A)^{-1} \\cdot A^T`
+
+    The corrected spectral distribution is:
+
+    :math:`\\bar{N}_{spl,corr} = R \\cdot \\bar{N}_{std} + (I - R) \\cdot \
+\\bar{N}_{spl}`
 
     Parameters
     ----------
     sd_spl
-        Spectral distribution of the colour sample.
-        If an `ArrayLike` the wavelengths are expected to be in the last axis,
-        e.g., for a spectral array with 77 bins, ``sd`` shape could be (77, )
-        or (1, 77).
+        Spectral distribution of the sample :math:`\\bar{N}_{spl}`.
     sd_std
-        Spectral distribution of the colour standard.
-        If an `ArrayLike` the wavelengths are expected to be in the last axis,
-        e.g., for a spectral array with 77 bins, ``sd`` shape could be (77, )
-        or (1, 77).
+        Spectral distribution of the standard :math:`\\bar{N}_{std}`.
     cmfs
         Standard observer colour matching functions.
     illuminant_r
-        Illuminant spectral distribution of the reference illuminant.
+        Spectral distribution of the reference illuminant.
     illuminant_t
-        Illuminant spectral distribution of the test illuminant.
+        Spectral distribution of the test illuminant.
     method
-        Colour-difference method.
+        Colour difference formula.
 
     Other Parameters
     ----------------
@@ -385,21 +389,15 @@ def sd_to_metamerism_index(
     Returns
     -------
     :class:`numpy.ndarray`
-        *Metamerism index* :math:`M_{t}`.
+        *Metamerism index* :math:`M_t`.
 
     Notes
     -----
-    +----------------+-----------------------+-------------------+
-    | **Domain**     | **Scale - Reference** | **Scale - 1**     |
-    +================+=======================+===================+
-    | ``XYZ_spl_t``  | 1                     | 1                 |
-    +----------------+-----------------------+-------------------+
-    | ``XYZ_std_t``  | 1                     | 1                 |
-    +----------------+-----------------------+-------------------+
-    | ``XYZ_spl_r``  | 1                     | 1                 |
-    +----------------+-----------------------+-------------------+
-    | ``XYZ_std_r``  | 1                     | 1                 |
-    +----------------+-----------------------+-------------------+
+    -   This method implements *ISO 18314-4:2024*, Section 8.3.3,
+        *Spectral correction (Cohen-Kappauf matrix R)*.
+    -   The spectral correction ensures that
+        :math:`\\bar{W}_{std} = \\bar{W}_{spl,corr}` under the reference
+        illuminant, i.e., the colour difference is zero.
 
     References
     ----------
@@ -497,7 +495,7 @@ def sd_to_metamerism_index(
     ...         "A"
     ...     ],
     ... )  # doctest: +ELLIPSIS
-    3.4766679...
+    np.float64(3.4766679...)
     """
 
     attest(
@@ -507,33 +505,38 @@ def sd_to_metamerism_index(
 
     shape = sd_spl.shape
 
-    A = get_tristimulus_weighting_factors_integration(cmfs, illuminant_r, shape=shape)
-    A_t = get_tristimulus_weighting_factors_integration(cmfs, illuminant_t, shape=shape)
+    A_r = tristimulus_weighting_factors_integration(cmfs, illuminant_r, shape=shape)
+    A_t = tristimulus_weighting_factors_integration(cmfs, illuminant_t, shape=shape)
 
-    R = A @ linalg.inv(A.T @ A) @ A.T
+    R = np.dot(
+        np.dot(A_r, np.linalg.inv(np.dot(np.transpose(A_r), A_r))), np.transpose(A_r)
+    )
 
-    sd_corr = R @ sd_std.values + (identity(R.shape[0]) - R) @ sd_spl.values
-    sd_corr = SpectralDistribution(sd_corr, shape)
+    sd_spl_corr = np.dot(R, sd_std.values) + np.dot(
+        np.identity(R.shape[0]) - R, sd_spl.values
+    )
+    sd_spl_corr = SpectralDistribution(sd_spl_corr, shape)
 
-    XYZ_corr_t = from_range_1((sd_corr.values @ A_t) / 100)
-    XYZ_std_t = from_range_1((sd_std.values @ A_t) / 100)
-    XYZ_corr_r = from_range_1((sd_corr.values @ A) / 100)
-    XYZ_std_r = from_range_1((sd_std.values @ A) / 100)
+    XYZ_spl_corr_t = np.dot(sd_spl_corr.values, A_t) / 100
+    XYZ_std_t = np.dot(sd_std.values, A_t) / 100
+    XYZ_spl_corr = np.dot(sd_spl_corr.values, A_r) / 100
+    XYZ_std = np.dot(sd_std.values, A_r) / 100
 
-    # must be equal ! otherwise correction failed !
     attest(
-        allclose(XYZ_std_r, XYZ_corr_r, atol=TOLERANCE_ABSOLUTE_TESTS),
+        np.allclose(XYZ_std, XYZ_spl_corr, atol=TOLERANCE_ABSOLUTE_TESTS),
         "The corrected sample under reference illuminant must be equal "
-        "to the standard under reference illuminant! Otherwise the correction"
-        "has failed.",
+        "to the standard under reference illuminant!",
     )
 
-    Lab_std_t = XYZ_to_Lab(XYZ_std_t, **filter_kwargs(XYZ_to_Lab, **kwargs))
-    Lab_corr_t = XYZ_to_Lab(XYZ_corr_t, **filter_kwargs(XYZ_to_Lab, **kwargs))
+    with domain_range_scale("ignore"):
+        Lab_std_t = XYZ_to_Lab(XYZ_std_t, **filter_kwargs(XYZ_to_Lab, **kwargs))
+        Lab_spl_corr_t = XYZ_to_Lab(
+            XYZ_spl_corr_t, **filter_kwargs(XYZ_to_Lab, **kwargs)
+        )
 
-    return colour.difference.delta_E(
-        Lab_std_t,
-        Lab_corr_t,
-        method=method,
-        **kwargs,
-    )
+        return colour.difference.delta_E(
+            Lab_std_t,
+            Lab_spl_corr_t,
+            method=method,
+            **kwargs,
+        )
