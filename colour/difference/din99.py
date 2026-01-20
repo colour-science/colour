@@ -24,7 +24,7 @@ if typing.TYPE_CHECKING:
 from dataclasses import dataclass, field
 
 from colour.algebra import euclidean_distance
-from colour.hints import Domain100, Literal, NDArrayFloat  # noqa: TC001
+from colour.hints import Domain100, NDArrayFloat  # noqa: TC001
 from colour.models import Lab_to_DIN99
 from colour.models.din99 import DIN99_METHODS
 from colour.utilities import (
@@ -122,6 +122,7 @@ def delta_E_DIN99(
     method
         Computation method to convert from *CIE L\\*a\\*b\\** colourspace to
         *DIN99* colourspace.
+        See `colour.models.din99.DIN99_METHODS` for supported values.
 
     Returns
     -------
