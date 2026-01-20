@@ -23,7 +23,8 @@ import typing
 import numpy as np
 
 if typing.TYPE_CHECKING:
-    from colour.hints import NDArrayFloat
+    from colour.difference.typing import DeltaEJabData
+    from colour.hints import NDArrayFloat, Literal
 
 from colour.hints import Domain100  # noqa: TC001
 from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006, Coefficients_UCS_Luo2006
@@ -44,11 +45,32 @@ __all__ = [
 ]
 
 
+@typing.overload
 def delta_E_Luo2006(
     Jpapbp_1: Domain100,
     Jpapbp_2: Domain100,
     coefficients: Coefficients_UCS_Luo2006,
-) -> NDArrayFloat:
+    *,
+    additional_data: Literal[False] = False,
+) -> NDArrayFloat: ...
+
+
+@typing.overload
+def delta_E_Luo2006(
+    Jpapbp_1: Domain100,
+    Jpapbp_2: Domain100,
+    coefficients: Coefficients_UCS_Luo2006,
+    *,
+    additional_data: Literal[True],
+) -> DeltaEJabData: ...
+
+
+def delta_E_Luo2006(
+    Jpapbp_1: Domain100,
+    Jpapbp_2: Domain100,
+    coefficients: Coefficients_UCS_Luo2006,
+    additional_data: bool = False,
+) -> NDArrayFloat | DeltaEJabData:
     """
     Compute the colour difference :math:`\\Delta E'` between two specified
     *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
@@ -65,10 +87,12 @@ def delta_E_Luo2006(
     coefficients
         Coefficients of one of the *Luo et al. (2006)* *CAM02-LCD*,
         *CAM02-SCD*, or *CAM02-UCS* colourspaces.
+    additional_data
+        Whether to output additional data.
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.ndarray` or :class:`dict`
         Colour difference :math:`\\Delta E'`.
 
     Warnings
@@ -100,14 +124,46 @@ def delta_E_Luo2006(
     J_p_2, a_p_2, b_p_2 = tsplit(Jpapbp_2)
     K_L, _c_1, _c_2 = coefficients.values
 
-    d_E = np.sqrt(
-        ((J_p_1 - J_p_2) / K_L) ** 2 + (a_p_1 - a_p_2) ** 2 + (b_p_1 - b_p_2) ** 2
-    )
+    J = (J_p_1 - J_p_2) / K_L
+    a = a_p_1 - a_p_2
+    b = b_p_1 - b_p_2
 
-    return as_float(d_E)
+    d_E = as_float(np.sqrt(J**2 + a**2 + b**2))
+
+    if not additional_data:
+        return d_E
+
+    return {
+        "dE": d_E,
+        "dJ": J,
+        "da": a,
+        "db": b,
+    }
 
 
-def delta_E_CAM02LCD(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
+@typing.overload
+def delta_E_CAM02LCD(
+    Jpapbp_1: Domain100,
+    Jpapbp_2: Domain100,
+    *,
+    additional_data: Literal[False] = False,
+) -> NDArrayFloat: ...
+
+
+@typing.overload
+def delta_E_CAM02LCD(
+    Jpapbp_1: Domain100,
+    Jpapbp_2: Domain100,
+    *,
+    additional_data: Literal[True],
+) -> DeltaEJabData: ...
+
+
+def delta_E_CAM02LCD(
+    Jpapbp_1: Domain100,
+    Jpapbp_2: Domain100,
+    additional_data: bool = False,
+) -> NDArrayFloat | DeltaEJabData:
     """
     Compute the colour difference :math:`\\Delta E'` between two specified
     *CAM02-LCD* colourspace :math:`J'a'b'` arrays using the
@@ -121,10 +177,12 @@ def delta_E_CAM02LCD(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
     Jpapbp_2
         Sample / test *CAM02-LCD* colourspace :math:`J'a'b'` array as computed
         by the *Luo et al. (2006)* uniform colour space model.
+    additional_data
+        Whether to output additional data.
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.ndarray` or :class:`dict`
         Colour difference :math:`\\Delta E'`.
 
     Warnings
@@ -155,10 +213,37 @@ def delta_E_CAM02LCD(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
     np.float64(14.0555464...)
     """
 
-    return delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+    return delta_E_Luo2006(
+        Jpapbp_1,
+        Jpapbp_2,
+        COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
+        additional_data=additional_data,
+    )
 
 
-def delta_E_CAM02SCD(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
+@typing.overload
+def delta_E_CAM02SCD(
+    Jpapbp_1: Domain100,
+    Jpapbp_2: Domain100,
+    *,
+    additional_data: Literal[False] = False,
+) -> NDArrayFloat: ...
+
+
+@typing.overload
+def delta_E_CAM02SCD(
+    Jpapbp_1: Domain100,
+    Jpapbp_2: Domain100,
+    *,
+    additional_data: Literal[True],
+) -> DeltaEJabData: ...
+
+
+def delta_E_CAM02SCD(
+    Jpapbp_1: Domain100,
+    Jpapbp_2: Domain100,
+    additional_data: bool = False,
+) -> NDArrayFloat | DeltaEJabData:
     """
     Compute the colour difference :math:`\\Delta E'` between two specified
     *CAM02-SCD* colourspace :math:`J'a'b'` arrays using the
@@ -172,10 +257,12 @@ def delta_E_CAM02SCD(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
     Jpapbp_2
         Sample / test *CAM02-SCD* colourspace :math:`J'a'b'` array as computed
         by the *Luo et al. (2006)* uniform colour space model.
+    additional_data
+        Whether to output additional data.
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.ndarray` or :class:`dict`
         Colour difference :math:`\\Delta E'`.
 
     Warnings
@@ -206,10 +293,37 @@ def delta_E_CAM02SCD(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
     np.float64(14.0551718...)
     """
 
-    return delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-SCD"])
+    return delta_E_Luo2006(
+        Jpapbp_1,
+        Jpapbp_2,
+        COEFFICIENTS_UCS_LUO2006["CAM02-SCD"],
+        additional_data=additional_data,
+    )
 
 
-def delta_E_CAM02UCS(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
+@typing.overload
+def delta_E_CAM02UCS(
+    Jpapbp_1: Domain100,
+    Jpapbp_2: Domain100,
+    *,
+    additional_data: Literal[False] = False,
+) -> NDArrayFloat: ...
+
+
+@typing.overload
+def delta_E_CAM02UCS(
+    Jpapbp_1: Domain100,
+    Jpapbp_2: Domain100,
+    *,
+    additional_data: Literal[True],
+) -> DeltaEJabData: ...
+
+
+def delta_E_CAM02UCS(
+    Jpapbp_1: Domain100,
+    Jpapbp_2: Domain100,
+    additional_data: bool = False,
+) -> NDArrayFloat | DeltaEJabData:
     """
     Compute the colour difference :math:`\\Delta E'` between two specified
     *CAM02-UCS* colourspace :math:`J'a'b'` arrays using the
@@ -223,10 +337,12 @@ def delta_E_CAM02UCS(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
     Jpapbp_2
         Sample / test *CAM02-UCS* colourspace :math:`J'a'b'` array as computed
         by the *Luo et al. (2006)* uniform colour space model.
+    additional_data
+        Whether to output additional data.
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.ndarray` or :class:`dict`
         Colour difference :math:`\\Delta E'`.
 
     Warnings
@@ -257,4 +373,9 @@ def delta_E_CAM02UCS(Jpapbp_1: Domain100, Jpapbp_2: Domain100) -> NDArrayFloat:
     np.float64(14.0552982...)
     """
 
-    return delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-UCS"])
+    return delta_E_Luo2006(
+        Jpapbp_1,
+        Jpapbp_2,
+        COEFFICIENTS_UCS_LUO2006["CAM02-UCS"],
+        additional_data=additional_data,
+    )
