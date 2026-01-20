@@ -24,12 +24,15 @@ if typing.TYPE_CHECKING:
 from dataclasses import dataclass, field
 
 from colour.algebra import euclidean_distance
+from colour.hints import Domain100, Literal, NDArrayFloat  # noqa: TC001
 from colour.models import Lab_to_DIN99
+from colour.models.din99 import DIN99_METHODS
 from colour.utilities import (
     MixinDataclassArithmetic,
     as_float,
     as_float_array,
     get_domain_range_scale,
+    validate_method,
 )
 
 __author__ = "Colour Developers"
@@ -96,6 +99,9 @@ def delta_E_DIN99(
     Lab_2: Domain100,
     textiles: bool = False,
     additional_data: bool = False,
+    method: (
+        Literal["ASTMD2244-07", "DIN99", "DIN99b", "DIN99c", "DIN99d"] | str
+    ) = "DIN99",
 ) -> NDArrayFloat | DeltaE_Specification_DIN99:
     """
     Compute the colour difference :math:`\\Delta E_{DIN99}` between two
@@ -113,6 +119,9 @@ def delta_E_DIN99(
         :math:`k_E=1,\\ k_{CH}=1`.
     additional_data
         Whether to output additional data.
+    method
+        Computation method to convert from *CIE L\\*a\\*b\\** colourspace to
+        *DIN99* colourspace.
 
     Returns
     -------
@@ -148,15 +157,19 @@ def delta_E_DIN99(
     DeltaE_Specification_DIN99(dE=np.float64(1.1772166...), \
 dL=np.float64(-0.1750930...), da=np.float64(-0.5804045...), \
 db=np.float64(-1.0091144...))
+    >>> delta_E_DIN99(Lab_1, Lab_2, method="DIN99b")  # doctest: +ELLIPSIS
+    np.float64(1.7113129...)
     """
+
+    method = validate_method(method, tuple(DIN99_METHODS))
 
     k_E = 2 if textiles else 1
     k_CH = 0.5 if textiles else 1
 
     factor = 100 if get_domain_range_scale() == "1" else 1
 
-    Lab_99_1 = Lab_to_DIN99(Lab_1, k_E, k_CH) * factor
-    Lab_99_2 = Lab_to_DIN99(Lab_2, k_E, k_CH) * factor
+    Lab_99_1 = Lab_to_DIN99(Lab_1, k_E, k_CH, method) * factor
+    Lab_99_2 = Lab_to_DIN99(Lab_2, k_E, k_CH, method) * factor
 
     dE = euclidean_distance(Lab_99_1, Lab_99_2)
 
