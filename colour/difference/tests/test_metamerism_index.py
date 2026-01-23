@@ -4,10 +4,20 @@ from __future__ import annotations
 
 import numpy as np
 
+from colour import (
+    CCS_ILLUMINANTS,
+    MSDS_CMFS,
+    SDS_ILLUMINANTS,
+)
+from colour.colorimetry import (
+    SpectralDistribution,
+    SpectralShape,
+)
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.difference.metamerism_index import (
     Lab_to_metamerism_index,
     XYZ_to_metamerism_index,
+    sd_to_metamerism_index,
 )
 from colour.utilities import domain_range_scale
 
@@ -122,6 +132,138 @@ class TestXYZ_to_Metamerism_Index:
                             XYZ_1 * factor,
                             correction=correction,
                             method=method,
+                        ),
+                        value,
+                        atol=TOLERANCE_ABSOLUTE_TESTS,
+                    )
+
+
+class TestSD_to_Metamerism_Index:
+    """
+    Define :func:`colour.difference.metamerism_index.sd_to_metamerism_index`
+    definition unit tests methods.
+    """
+
+    def test_domain_range_scale_sd_to_metamerism_index(self) -> None:
+        """
+        Test :func:`colour.difference.metamerism_index.sd_to_metamerism_index`
+        definition domain and range scale support.
+        """
+        shape = SpectralShape(400, 700, 10)
+
+        N_spl = np.array(
+            [
+                0.0379,
+                0.0403,
+                0.0415,
+                0.0427,
+                0.045,
+                0.0483,
+                0.0521,
+                0.0572,
+                0.0624,
+                0.0673,
+                0.0777,
+                0.1026,
+                0.1307,
+                0.145,
+                0.1484,
+                0.1455,
+                0.1375,
+                0.1254,
+                0.1099,
+                0.0908,
+                0.0698,
+                0.0526,
+                0.0423,
+                0.0368,
+                0.0331,
+                0.0306,
+                0.0297,
+                0.0311,
+                0.034,
+                0.038,
+                0.0421,
+            ]
+        )
+        N_std = np.array(
+            [
+                0.099,
+                0.1244,
+                0.0933,
+                0.0596,
+                0.0405,
+                0.0322,
+                0.0299,
+                0.0316,
+                0.0377,
+                0.0507,
+                0.0681,
+                0.0968,
+                0.1522,
+                0.2014,
+                0.1991,
+                0.159,
+                0.1162,
+                0.0843,
+                0.0655,
+                0.057,
+                0.0553,
+                0.0582,
+                0.0638,
+                0.0716,
+                0.0818,
+                0.0959,
+                0.1131,
+                0.1317,
+                0.149,
+                0.1656,
+                0.1832,
+            ]
+        )
+
+        N_spl = SpectralDistribution(N_spl, shape)
+        N_std = SpectralDistribution(N_std, shape)
+
+        o = (
+            "CIE 1931 2 Degree Standard Observer",
+            "CIE 1964 10 Degree Standard Observer",
+        )
+        i = ("A", "FL2")
+        m = ("CIE 1976", "CIE 1994", "CIE 2000", "CMC", "DIN99")
+        it = [
+            (
+                observer,
+                illuminant,
+                method,
+                sd_to_metamerism_index(
+                    N_spl,
+                    N_std,
+                    MSDS_CMFS[observer],
+                    SDS_ILLUMINANTS["D65"],
+                    SDS_ILLUMINANTS[illuminant],
+                    method=method,
+                    illuminant=CCS_ILLUMINANTS[observer][illuminant],
+                ),
+            )
+            for observer in o
+            for illuminant in i
+            for method in m
+        ]
+
+        d_r = (("reference", 1), ("1", 1), ("100", 100))
+        for observer, illuminant, method, value in it:
+            for scale, _ in d_r:
+                with domain_range_scale(scale):
+                    np.testing.assert_allclose(
+                        sd_to_metamerism_index(
+                            N_spl,
+                            N_std,
+                            MSDS_CMFS[observer],
+                            SDS_ILLUMINANTS["D65"],
+                            SDS_ILLUMINANTS[illuminant],
+                            method=method,
+                            illuminant=CCS_ILLUMINANTS[observer][illuminant],
                         ),
                         value,
                         atol=TOLERANCE_ABSOLUTE_TESTS,
