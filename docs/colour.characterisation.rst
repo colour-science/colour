@@ -93,6 +93,9 @@ Colour Fitting
     colour_correction_Cheung2004
     colour_correction_Finlayson2015
     colour_correction_Vandermonde
+    colour_correction_TPS3D
+    apply_tps3d
+    tps3d_parameters
     matrix_augmented_Cheung2004
     matrix_colour_correction_Cheung2004
     matrix_colour_correction_Finlayson2015
