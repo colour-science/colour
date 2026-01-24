@@ -31,7 +31,6 @@ from .correction import (
     polynomial_expansion,
     polynomial_expansion_Finlayson2015,
     polynomial_expansion_Vandermonde,
-    tps3d_parameters,
 )
 
 # isort: split
@@ -84,7 +83,6 @@ __all__ += [
     "polynomial_expansion_Vandermonde",
     "apply_tps3d",
     "colour_correction_TPS3D",
-    "tps3d_parameters",
 ]
 __all__ += [
     "best_illuminant",
