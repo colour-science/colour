@@ -919,6 +919,11 @@ for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSIONS:
     name = f"{_Jab}_to_{_JCh}"
     _callable = copy_definition(Jab_to_JCh, name)
     _callable.__doc__ = _DOCSTRING_JAB_TO_JCH.format(Jab=_Jab, JCh=_JCh)
+    # Update the parameter annotation with the derived scale
+    _parameter = next(iter(_callable.__annotations__.keys()))
+    _callable.__annotations__[_parameter] = Annotated[
+        NDArrayFloat, (_scale, _scale, _scale)
+    ]
     # Update the return annotation with the derived scale
     _callable.__annotations__["return"] = Annotated[NDArrayFloat, (_scale, _scale, 360)]
     setattr(_module, name, _callable)
@@ -932,6 +937,10 @@ for _Jab, _JCh in COLOURSPACE_MODELS_POLAR_CONVERSIONS:
     _parameter = next(iter(_callable.__annotations__.keys()))
     _callable.__annotations__[_parameter] = Annotated[
         NDArrayFloat, (_scale, _scale, 360)
+    ]
+    # Update the return annotation with the derived scale
+    _callable.__annotations__["return"] = Annotated[
+        NDArrayFloat, (_scale, _scale, _scale)
     ]
     setattr(_module, name, _callable)
     __all__.append(name)
