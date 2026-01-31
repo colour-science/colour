@@ -8,6 +8,7 @@ import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.ycbcr import (
+    SCALES_YCBCR,
     WEIGHTS_YCBCR,
     RGB_to_YCbCr,
     RGB_to_YcCbcCrc,
@@ -181,6 +182,18 @@ class TestMatrixYCbCr:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        np.testing.assert_allclose(
+            matrix_YCbCr(S=SCALES_YCBCR["Y'UV"]),
+            np.array(
+                [
+                    [1.00000000, 0.00000000, 1.28032520],
+                    [1.00000000, -0.21482141, -0.38058884],
+                    [1.00000000, 2.12798165, 0.00000000],
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
 
 class TestOffsetYCbCr:
     """
@@ -261,6 +274,17 @@ class TestRGB_to_YCbCr:
                 out_range=(16 / 255, 235 / 255, 15.5 / 255, 239.5 / 255),
             ),
             np.array([0.24618980, 0.75392897, 0.79920662]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            RGB_to_YCbCr(
+                np.array([0.75, 0.5, 0.25]),
+                S=SCALES_YCBCR["Y'UV"],
+                out_legal=False,
+                out_int=False,
+            ),
+            np.array([0.53510000, -0.13397672, 0.16784798]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -358,6 +382,30 @@ class TestYCbCr_to_RGB:
                 out_int=True,
             ),
             np.array([208, 131, 99]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            YCbCr_to_RGB(
+                np.array([0.53510000, -0.13397672, 0.16784798]),
+                S=SCALES_YCBCR["Y'UV"],
+                in_legal=False,
+                in_int=False,
+            ),
+            np.array([0.75, 0.5, 0.25]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_roundtrip_YCbCr_YUV(self) -> None:
+        """Test *Y'UV* roundtrip with :func:`colour.models.rgb.ycbcr.RGB_to_YCbCr`
+        and :func:`colour.models.rgb.ycbcr.YCbCr_to_RGB` definitions.
+        """
+
+        RGB = np.array([0.75, 0.5, 0.25])
+        YUV = RGB_to_YCbCr(RGB, S=SCALES_YCBCR["Y'UV"], out_legal=False, out_int=False)
+        np.testing.assert_allclose(
+            YCbCr_to_RGB(YUV, S=SCALES_YCBCR["Y'UV"], in_legal=False, in_int=False),
+            RGB,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
