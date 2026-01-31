@@ -5,6 +5,7 @@ Y'CbCr Colour Encoding
 Define the *Y'CbCr* colour encoding related attributes and objects.
 
 -   :attr:`colour.WEIGHTS_YCBCR`
+-   :attr:`colour.SCALES_YCBCR`
 -   :func:`colour.matrix_YCbCr`
 -   :func:`colour.offset_YCbCr`
 -   :func:`colour.RGB_to_YCbCr`
@@ -86,6 +87,7 @@ __status__ = "Development"
 
 __all__ = [
     "WEIGHTS_YCBCR",
+    "SCALES_YCBCR",
     "round_BT2100",
     "ranges_YCbCr",
     "matrix_YCbCr",
@@ -113,6 +115,20 @@ References
 :cite:`InternationalTelecommunicationUnion2015i`,
 :cite:`InternationalTelecommunicationUnion2015h`,
 :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`,
+:cite:`Wikipedia2004d`
+"""
+
+SCALES_YCBCR: CanonicalMapping = CanonicalMapping(
+    {
+        "Y'CbCr": np.array([0.5, 0.5]),
+        "Y'UV": np.array([0.436, 0.615]),
+    }
+)
+"""
+Chroma scaling presets.
+
+References
+----------
 :cite:`Wikipedia2004d`
 """
 
@@ -200,6 +216,7 @@ def ranges_YCbCr(bits: int, is_legal: bool, is_int: bool) -> NDArrayFloat:
 
 def matrix_YCbCr(
     K: NDArrayFloat = WEIGHTS_YCBCR["ITU-R BT.709"],
+    S: NDArrayFloat = SCALES_YCBCR["Y'CbCr"],
     bits: int = 8,
     is_legal: bool = False,
     is_int: bool = False,
@@ -217,6 +234,10 @@ def matrix_YCbCr(
         Luma weighting coefficients of red and blue. See
         :attr:`colour.WEIGHTS_YCBCR` for presets. Default is
         *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
+    S
+        Chroma scaling coefficients of *Cb* and *Cr*. See
+        :attr:`colour.SCALES_YCBCR` for presets. Default is
+        *(0.5, 0.5)*, the scaling for *Y'CbCr*.
     bits
         Bit-depth of the *Y'CbCr* colour encoding ranges array.
     is_legal
@@ -244,6 +265,21 @@ def matrix_YCbCr(
     array([[ 1.1643835...e+00, ...,  1.7927410...e+00],
            [ 1.1643835...e+00, -2.1324861...e-01, -5.3290932...e-01],
            [ 1.1643835...e+00,  2.1124017...e+00, ...]])
+
+    Computing the *Y'UV* to *R'G'B'* matrix:
+
+    >>> matrix_YCbCr(S=SCALES_YCBCR["Y'UV"])  # doctest: +ELLIPSIS
+    array([[ 1.0000000...e+00, ...,  1.2803252...e+00],
+           [ 1.0000000...e+00, -2.1482141...e-01, -3.8058884...e-01],
+           [ 1.0000000...e+00,  2.1279816...e+00, ...]])
+
+    Computing the *R'G'B'* to *Y'UV* matrix:
+
+    >>> np.linalg.inv(matrix_YCbCr(S=SCALES_YCBCR["Y'UV"]))
+    ... # doctest: +ELLIPSIS
+    array([[ 0.2126...    ,  0.7152...    ,  0.0722...    ],
+           [-0.0999068..., -0.3360931...,  0.436...     ],
+           [ 0.615...    , -0.5586080..., -0.0563919...]])
 
     Matching the default output of the :func:`colour.RGB_to_YCbCr` is done as
     follows:
@@ -273,11 +309,12 @@ def matrix_YCbCr(
     """
 
     Kr, Kb = K
+    Cb_scale, Cr_scale = S
     Y_min, Y_max, C_min, C_max = ranges_YCbCr(bits, is_legal, is_int)
 
     Y = np.array([Kr, (1 - Kr - Kb), Kb])
-    Cb = 0.5 * (np.array([0, 0, 1]) - Y) / (1 - Kb)
-    Cr = 0.5 * (np.array([1, 0, 0]) - Y) / (1 - Kr)
+    Cb = Cb_scale * (np.array([0, 0, 1]) - Y) / (1 - Kb)
+    Cr = Cr_scale * (np.array([1, 0, 0]) - Y) / (1 - Kr)
     Y = Y * (Y_max - Y_min)
     Cb = Cb * (C_max - C_min)
     Cr = Cr * (C_max - C_min)
@@ -329,6 +366,7 @@ def offset_YCbCr(
 def RGB_to_YCbCr(
     RGB: Domain1,
     K: NDArrayFloat = WEIGHTS_YCBCR["ITU-R BT.709"],
+    S: NDArrayFloat = SCALES_YCBCR["Y'CbCr"],
     in_bits: int = 10,
     in_legal: bool = False,
     in_int: bool = False,
@@ -350,6 +388,10 @@ def RGB_to_YCbCr(
         Luma weighting coefficients of red and blue. See
         :attr:`colour.WEIGHTS_YCBCR` for presets. Default is
         *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
+    S
+        Chroma scaling coefficients of *Cb* and *Cr*. See
+        :attr:`colour.SCALES_YCBCR` for presets. Default is
+        *(0.5, 0.5)*, the scaling for *Y'CbCr*.
     in_bits
         Bit-depth for int input, or used in the calculation of the
         denominator for legal range float values, i.e., 8-bit means the
@@ -455,8 +497,16 @@ def RGB_to_YCbCr(
     ... # doctest: +ELLIPSIS
     array([1., 0., 0.])
 
+    Computing *R'G'B'* to *Y'UV* values:
+
+    >>> RGB = np.array([0.75, 0.5, 0.25])
+    >>> RGB_to_YCbCr(RGB, S=SCALES_YCBCR["Y'UV"], out_legal=False, out_int=False)
+    ... # doctest: +ELLIPSIS
+    array([ 0.5351..., -0.1339767...,  0.1678479...])
+
     Creating int code values as per standard *10-bit SDI*:
 
+    >>> RGB = np.array([1.0, 1.0, 1.0])
     >>> RGB_to_YCbCr(RGB, out_legal=True, out_bits=10, out_int=True)
     ... # doctest: +ELLIPSIS
     array([940, 512, 512]...)
@@ -500,6 +550,7 @@ def RGB_to_YCbCr(
     RGB = as_float_array(RGB) if in_int else to_domain_1(RGB)
 
     Kr, Kb = K
+    Cb_scale, Cr_scale = S
     RGB_min, RGB_max = kwargs.get("in_range", CV_range(in_bits, in_legal, in_int))
     Y_min, Y_max, C_min, C_max = kwargs.get(
         "out_range", ranges_YCbCr(out_bits, out_legal, out_int)
@@ -510,8 +561,8 @@ def RGB_to_YCbCr(
     R, G, B = tsplit(RGB_float)
 
     Y = Kr * R + (1 - Kr - Kb) * G + Kb * B
-    Cb = 0.5 * (B - Y) / (1 - Kb)
-    Cr = 0.5 * (R - Y) / (1 - Kr)
+    Cb = Cb_scale * (B - Y) / (1 - Kb)
+    Cr = Cr_scale * (R - Y) / (1 - Kr)
     Y *= Y_max - Y_min
     Y += Y_min
     Cb *= C_max - C_min
@@ -532,6 +583,7 @@ def RGB_to_YCbCr(
 def YCbCr_to_RGB(
     YCbCr: Domain1,
     K: NDArrayFloat = WEIGHTS_YCBCR["ITU-R BT.709"],
+    S: NDArrayFloat = SCALES_YCBCR["Y'CbCr"],
     in_bits: int = 8,
     in_legal: bool = True,
     in_int: bool = False,
@@ -553,6 +605,10 @@ def YCbCr_to_RGB(
         Luma weighting coefficients of red and blue. See
         :attr:`colour.WEIGHTS_YCBCR` for presets. Default is
         *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
+    S
+        Chroma scaling coefficients of *Cb* and *Cr*. See
+        :attr:`colour.SCALES_YCBCR` for presets. Default is
+        *(0.5, 0.5)*, the scaling for *Y'CbCr*.
     in_bits
         Bit-depth for int input, or used in the calculation of the
         denominator for legal range float values, i.e., 8-bit means
@@ -637,12 +693,20 @@ def YCbCr_to_RGB(
     >>> YCbCr = np.array([502, 512, 512])
     >>> YCbCr_to_RGB(YCbCr, in_bits=10, in_legal=True, in_int=True)
     array([0.5, 0.5, 0.5])
+
+    Converting *Y'UV* values to *R'G'B'*:
+
+    >>> YUV = np.array([0.5351, -0.13397672, 0.16784798])
+    >>> YCbCr_to_RGB(YUV, S=SCALES_YCBCR["Y'UV"], in_legal=False, in_int=False)
+    ... # doctest: +ELLIPSIS
+    array([0.75..., 0.5..., 0.25...])
     """
 
     YCbCr = as_float_array(YCbCr) if in_int else to_domain_1(YCbCr)
 
     Y, Cb, Cr = tsplit(YCbCr)
     Kr, Kb = K
+    Cb_scale, Cr_scale = S
     Y_min, Y_max, C_min, C_max = kwargs.get(
         "in_range", ranges_YCbCr(in_bits, in_legal, in_int)
     )
@@ -654,8 +718,8 @@ def YCbCr_to_RGB(
     Y = Y * (1 / (Y_max - Y_min))
     Cb = Cb * (1 / (C_max - C_min))
     Cr = Cr * (1 / (C_max - C_min))
-    R = Y + (2 - 2 * Kr) * Cr
-    B = Y + (2 - 2 * Kb) * Cb
+    R = Y + (1 - Kr) / Cr_scale * Cr
+    B = Y + (1 - Kb) / Cb_scale * Cb
     G = (Y - Kr * R - Kb * B) / (1 - Kr - Kb)
 
     RGB = tstack([R, G, B])
