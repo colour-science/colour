@@ -23,9 +23,9 @@ import typing
 import numpy as np
 
 if typing.TYPE_CHECKING:
-    from colour.difference.typing import DeltaEJabData
     from colour.hints import NDArrayFloat, Literal
 
+from colour.difference.typing import DeltaEJabData
 from colour.hints import Domain100  # noqa: TC001
 from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006, Coefficients_UCS_Luo2006
 from colour.utilities import as_float, tsplit
@@ -118,6 +118,15 @@ def delta_E_Luo2006(
     >>> delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
     ... # doctest: +ELLIPSIS
     np.float64(14.0555464...)
+    >>> delta_E_Luo2006(
+    ...     Jpapbp_1,
+    ...     Jpapbp_2,
+    ...     COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
+    ...     additional_data=True,
+    ... )  # doctest: +ELLIPSIS
+    DeltaEJabData(dE=np.float64(14.0555464...), \
+dJ=np.float64(0.1309140...), da=np.float64(3.8848968...), \
+db=np.float64(13.5073618...))
     """
 
     J_p_1, a_p_1, b_p_1 = tsplit(Jpapbp_1)
@@ -133,12 +142,12 @@ def delta_E_Luo2006(
     if not additional_data:
         return d_E
 
-    return {
-        "dE": d_E,
-        "dJ": J,
-        "da": a,
-        "db": b,
-    }
+    return DeltaEJabData(
+        d_E,
+        J,
+        a,
+        b,
+    )
 
 
 @typing.overload
@@ -211,6 +220,14 @@ def delta_E_CAM02LCD(
     >>> Jpapbp_2 = np.array([54.80352754, -3.96940084, -13.57591013])
     >>> delta_E_CAM02LCD(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
     np.float64(14.0555464...)
+    >>> delta_E_CAM02LCD(
+    ...     Jpapbp_1,
+    ...     Jpapbp_2,
+    ...     additional_data=True,
+    ... )  # doctest: +ELLIPSIS
+    DeltaEJabData(dE=np.float64(14.0555464...), \
+dJ=np.float64(0.1309140...), da=np.float64(3.8848968...), \
+db=np.float64(13.5073618...))
     """
 
     return delta_E_Luo2006(
@@ -291,6 +308,14 @@ def delta_E_CAM02SCD(
     >>> Jpapbp_2 = np.array([54.80352754, -3.96940084, -13.57591013])
     >>> delta_E_CAM02SCD(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
     np.float64(14.0551718...)
+    >>> delta_E_CAM02SCD(
+    ...     Jpapbp_1,
+    ...     Jpapbp_2,
+    ...     additional_data=True,
+    ... )  # doctest: +ELLIPSIS
+    DeltaEJabData(dE=np.float64(14.0551718...), \
+dJ=np.float64(0.0812933...), da=np.float64(3.8848968...), \
+db=np.float64(13.5073618...))
     """
 
     return delta_E_Luo2006(
@@ -371,6 +396,14 @@ def delta_E_CAM02UCS(
     >>> Jpapbp_2 = np.array([54.80352754, -3.96940084, -13.57591013])
     >>> delta_E_CAM02UCS(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
     np.float64(14.0552982...)
+    >>> delta_E_CAM02UCS(
+    ...     Jpapbp_1,
+    ...     Jpapbp_2,
+    ...     additional_data=True,
+    ... )  # doctest: +ELLIPSIS
+    DeltaEJabData(dE=np.float64(14.0552982...), \
+dJ=np.float64(0.1008038...), da=np.float64(3.8848968...), \
+db=np.float64(13.5073618...))
     """
 
     return delta_E_Luo2006(

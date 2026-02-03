@@ -50,7 +50,6 @@ from dataclasses import astuple, dataclass, field
 import numpy as np
 
 if typing.TYPE_CHECKING:
-    from colour.difference.typing import DeltaEITPData, DeltaELabData, DeltaELCHData
     from colour.hints import (
         Domain1,
         Domain100,
@@ -59,6 +58,7 @@ if typing.TYPE_CHECKING:
     )
 
 from colour.algebra import euclidean_distance
+from colour.difference.typing import DeltaEITPData, DeltaELabData, DeltaELCHData
 from colour.utilities import (
     MixinDataclassArithmetic,
     as_float,
@@ -174,6 +174,14 @@ def delta_E_CIE1976(
     >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E_CIE1976(Lab_1, Lab_2)  # doctest: +ELLIPSIS
     np.float64(2.7335037...)
+    >>> delta_E_CIE1976(
+    ...     Lab_1,
+    ...     Lab_2,
+    ...     additional_data=True,
+    ... )  # doctest: +ELLIPSIS
+    DeltaELabData(dE=np.float64(2.7335037...), \
+dL=array(-1.6672370...), da=array(0.0111024...), \
+db=array(-2.1661579...))
     """
 
     Lab_1 = to_domain_100(Lab_1)
@@ -186,12 +194,12 @@ def delta_E_CIE1976(
 
     dLab = as_float_array(Lab_1) - as_float_array(Lab_2)
 
-    return {
-        "dE": dE,
-        "dL": dLab[..., 0],
-        "da": dLab[..., 1],
-        "db": dLab[..., 2],
-    }
+    return DeltaELabData(
+        dE,
+        dLab[..., 0],
+        dLab[..., 1],
+        dLab[..., 2],
+    )
 
 
 @typing.overload
@@ -267,8 +275,25 @@ def delta_E_CIE1994(
     >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E_CIE1994(Lab_1, Lab_2)  # doctest: +ELLIPSIS
     np.float64(1.6711191...)
+    >>> delta_E_CIE1994(
+    ...     Lab_1,
+    ...     Lab_2,
+    ...     additional_data=True,
+    ... )  # doctest: +ELLIPSIS
+    DeltaELCHData(dE=np.float64(1.6711191...), \
+dL=np.float64(-1.6672370...), dC=np.float64(-0.1138315...), \
+dH=np.float64(0.0014983...))
     >>> delta_E_CIE1994(Lab_1, Lab_2, textiles=True)  # doctest: +ELLIPSIS
     np.float64(0.8404677...)
+    >>> delta_E_CIE1994(
+    ...     Lab_1,
+    ...     Lab_2,
+    ...     textiles=True,
+    ...     additional_data=True,
+    ... )  # doctest: +ELLIPSIS
+    DeltaELCHData(dE=np.float64(0.8404677...), \
+dL=np.float64(-0.8336185...), dC=np.float64(-0.1070687...), \
+dH=np.float64(0.0015891...))
     """
 
     L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
@@ -304,12 +329,12 @@ def delta_E_CIE1994(
     if not additional_data:
         return d_E
 
-    return {
-        "dE": d_E,
-        "dL": L,
-        "dC": C,
-        "dH": H,
-    }
+    return DeltaELCHData(
+        d_E,
+        L,
+        C,
+        H,
+    )
 
 
 @dataclass
@@ -582,8 +607,25 @@ def delta_E_CIE2000(
     >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E_CIE2000(Lab_1, Lab_2)  # doctest: +ELLIPSIS
     np.float64(1.6709303...)
+    >>> delta_E_CIE2000(
+    ...     Lab_1,
+    ...     Lab_2,
+    ...     additional_data=True,
+    ... )  # doctest: +ELLIPSIS
+    DeltaELCHData(dE=np.float64(1.6709303...), \
+dL=np.float64(1.6670667...), dC=np.float64(0.1135407...), \
+dH=np.float64(0.0022239...))
     >>> delta_E_CIE2000(Lab_1, Lab_2, textiles=True)  # doctest: +ELLIPSIS
     np.float64(0.8412338...)
+    >>> delta_E_CIE2000(
+    ...     Lab_1,
+    ...     Lab_2,
+    ...     textiles=True,
+    ...     additional_data=True,
+    ... )  # doctest: +ELLIPSIS
+    DeltaELCHData(dE=np.float64(0.8412338...), \
+dL=np.float64(0.8335333...), dC=np.float64(0.1135407...), \
+dH=np.float64(0.0022239...))
     """
 
     S_L, S_C, S_H, delta_L_p, delta_C_p, delta_H_p, R_T = astuple(
@@ -603,12 +645,12 @@ def delta_E_CIE2000(
     if not additional_data:
         return d_E
 
-    return {
-        "dE": d_E,
-        "dL": L,
-        "dC": C,
-        "dH": H,
-    }
+    return DeltaELCHData(
+        d_E,
+        L,
+        C,
+        H,
+    )
 
 
 @typing.overload
@@ -688,6 +730,14 @@ def delta_E_CMC(
     >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E_CMC(Lab_1, Lab_2)  # doctest: +ELLIPSIS
     np.float64(0.8996999...)
+    >>> delta_E_CMC(
+    ...     Lab_1,
+    ...     Lab_2,
+    ...     additional_data=True,
+    ... )  # doctest: +ELLIPSIS
+    DeltaELCHData(dE=np.float64(0.8996999...), \
+dL=np.float64(-0.7743459...), dC=np.float64(-0.4580766...), \
+dH=np.float64(0.0037676...))
     """
 
     L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
@@ -724,12 +774,12 @@ def delta_E_CMC(
     if not additional_data:
         return d_E
 
-    return {
-        "dE": d_E,
-        "dL": L,
-        "dC": C,
-        "dH": H,
-    }
+    return DeltaELCHData(
+        d_E,
+        L,
+        C,
+        H,
+    )
 
 
 @typing.overload
@@ -796,7 +846,15 @@ def delta_E_ITP(
     >>> ICtCp_1 = np.array([0.4885468072, -0.04739350675, 0.07475401302])
     >>> ICtCp_2 = np.array([0.4899203231, -0.04567508203, 0.07361341775])
     >>> delta_E_ITP(ICtCp_1, ICtCp_2)  # doctest: +ELLIPSIS
-    np.float64(1.42657228...)
+    np.float64(1.4265722...)
+    >>> delta_E_ITP(
+    ...     ICtCp_1,
+    ...     ICtCp_2,
+    ...     additional_data=True,
+    ... )  # doctest: +ELLIPSIS
+    DeltaEITPData(dE=np.float64(1.4265722...), \
+dI=np.float64(0.0013735...), dT=np.float64(0.0008592...), \
+dP=np.float64(-0.0011405...))
     """
 
     I_1, T_1, P_1 = tsplit(ICtCp_1)
@@ -814,12 +872,12 @@ def delta_E_ITP(
     if not additional_data:
         return d_E_ITP
 
-    return {
-        "dE": d_E_ITP,
-        "dI": I,
-        "dT": T,
-        "dP": P,
-    }
+    return DeltaEITPData(
+        d_E_ITP,
+        I,
+        T,
+        P,
+    )
 
 
 @typing.overload
@@ -887,6 +945,14 @@ def delta_E_HyAB(
     >>> Lab_2 = np.array([53.12207516, -39.92365056, 249.54831278])
     >>> delta_E_HyAB(Lab_1, Lab_2)  # doctest: +ELLIPSIS
     np.float64(151.0215481...)
+    >>> delta_E_HyAB(
+    ...     Lab_1,
+    ...     Lab_2,
+    ...     additional_data=True,
+    ... )  # doctest: +ELLIPSIS
+    DeltaELabData(dE=np.float64(151.0215481...), \
+dL=np.float64(-13.2067617...), da=np.float64(91.0902353...), \
+db=np.float64(-103.4189749...))
     """
 
     dLab = to_domain_100(Lab_1) - to_domain_100(Lab_2)
@@ -896,12 +962,12 @@ def delta_E_HyAB(
     if not additional_data:
         return HyAB
 
-    return {
-        "dE": HyAB,
-        "dL": dL,
-        "da": da,
-        "db": db,
-    }
+    return DeltaELabData(
+        HyAB,
+        dL,
+        da,
+        db,
+    )
 
 
 @typing.overload
@@ -975,6 +1041,14 @@ def delta_E_HyCH(
     >>> Lab_2 = np.array([53.12207516, -39.92365056, 249.54831278])
     >>> delta_E_HyCH(Lab_1, Lab_2)  # doctest: +ELLIPSIS
     np.float64(48.6642794...)
+    >>> delta_E_HyCH(
+    ...     Lab_1,
+    ...     Lab_2,
+    ...     additional_data=True,
+    ... )  # doctest: +ELLIPSIS
+    DeltaELCHData(dE=np.float64(48.6642794...), \
+dL=np.float64(12.7962972...), dC=np.float64(9.6258211...), \
+dH=np.float64(34.5522171...))
     """
 
     S_L, S_C, S_H, delta_L_p, delta_C_p, delta_H_p, R_T = astuple(
@@ -992,11 +1066,11 @@ def delta_E_HyCH(
     HyCH = as_float(np.abs(L) + np.sqrt(C**2 + H**2))
 
     if not additional_data:
-        return as_float(HyCH)
+        return HyCH
 
-    return {
-        "dE": HyCH,
-        "dL": L,
-        "dC": C,
-        "dH": H,
-    }
+    return DeltaELCHData(
+        HyCH,
+        L,
+        C,
+        H,
+    )

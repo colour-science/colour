@@ -19,10 +19,10 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
-    from colour.difference.typing import DeltaELabData
     from colour.hints import Domain100, Literal, NDArrayFloat
 
 from colour.algebra import euclidean_distance
+from colour.difference.typing import DeltaELabData
 from colour.models import Lab_to_DIN99
 from colour.utilities import as_float_array, get_domain_range_scale
 
@@ -107,6 +107,14 @@ def delta_E_DIN99(
     >>> Lab_2 = np.array([60.4626, -34.1751, 39.4387])
     >>> delta_E_DIN99(Lab_1, Lab_2)  # doctest: +ELLIPSIS
     np.float64(1.1772166...)
+    >>> delta_E_DIN99(
+    ...     Lab_1,
+    ...     Lab_2,
+    ...     additional_data=True,
+    ... )  # doctest: +ELLIPSIS
+    DeltaELabData(dE=np.float64(1.1772166...), \
+dL=array(-0.1750930...), da=array(-0.5804045...), \
+db=array(-1.0091144...))
     """
 
     k_E = 2 if textiles else 1
@@ -124,9 +132,9 @@ def delta_E_DIN99(
 
     dLab = as_float_array(Lab_99_1) - as_float_array(Lab_99_2)
 
-    return {
-        "dE": dE,
-        "dL": dLab[..., 0],
-        "da": dLab[..., 1],
-        "db": dLab[..., 2],
-    }
+    return DeltaELabData(
+        dE,
+        dLab[..., 0],
+        dLab[..., 1],
+        dLab[..., 2],
+    )

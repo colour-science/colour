@@ -44,6 +44,26 @@ class TestDelta_E_Luo2006:
         )
 
         np.testing.assert_allclose(
+            np.array(
+                delta_E_Luo2006(
+                    np.array([54.90433134, -0.08450395, -0.06854831]),
+                    np.array([54.80352754, -3.96940084, -13.57591013]),
+                    COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
+                    additional_data=True,
+                ).values
+            ),
+            np.array(
+                [
+                    14.055546437777583,
+                    0.1309140259740277,
+                    3.8848968900000003,
+                    13.50736182,
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
             delta_E_Luo2006(
                 np.array([54.90433134, -0.08450395, -0.06854831]),
                 np.array([54.80352754, -3.96940084, -13.57591013]),
@@ -93,6 +113,12 @@ class TestDelta_E_Luo2006:
         delta_E_p = delta_E_Luo2006(
             Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
         )
+        additional_data = delta_E_Luo2006(
+            Jpapbp_1,
+            Jpapbp_2,
+            COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
+            additional_data=True,
+        )
 
         Jpapbp_1 = np.tile(Jpapbp_1, (6, 1))
         Jpapbp_2 = np.tile(Jpapbp_2, (6, 1))
@@ -102,6 +128,18 @@ class TestDelta_E_Luo2006:
             delta_E_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+        np.testing.assert_allclose(
+            np.array(
+                delta_E_Luo2006(
+                    Jpapbp_1,
+                    Jpapbp_2,
+                    COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
+                    additional_data=True,
+                ).values
+            ),
+            np.array([np.tile(val, 6) for val in additional_data.values]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
 
         Jpapbp_1 = np.reshape(Jpapbp_1, (2, 3, 3))
         Jpapbp_2 = np.reshape(Jpapbp_2, (2, 3, 3))
@@ -109,6 +147,18 @@ class TestDelta_E_Luo2006:
         np.testing.assert_allclose(
             delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             delta_E_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        np.testing.assert_allclose(
+            np.array(
+                delta_E_Luo2006(
+                    Jpapbp_1,
+                    Jpapbp_2,
+                    COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
+                    additional_data=True,
+                ).values
+            ),
+            np.array([np.full((2, 3), val) for val in additional_data.values]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -122,3 +172,9 @@ class TestDelta_E_Luo2006:
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         delta_E_Luo2006(cases, cases, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+        delta_E_Luo2006(
+            cases,
+            cases,
+            COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
+            additional_data=True,
+        )
