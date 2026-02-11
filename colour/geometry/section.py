@@ -22,7 +22,6 @@ import typing
 import numpy as np
 
 from colour.algebra import linear_conversion
-from colour.constants import DTYPE_FLOAT_DEFAULT
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
@@ -149,7 +148,7 @@ def close_chord(vertices: ArrayLike) -> NDArrayFloat:
 
 def unique_vertices(
     vertices: ArrayLike,
-    decimals: int = np.finfo(DTYPE_FLOAT_DEFAULT).precision - 1,  # pyright: ignore
+    decimals: int = int(np.finfo(np.float64).precision - 1),
 ) -> NDArrayFloat:
     """
     Return the unique vertices from the specified vertices after rounding.

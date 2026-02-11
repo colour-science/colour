@@ -866,6 +866,7 @@ Y'CbCr Colour Encoding
     offset_YCbCr
     RGB_to_YCbCr
     RGB_to_YcCbcCrc
+    SCALES_YCBCR
     WEIGHTS_YCBCR
     YCbCr_to_RGB
     YcCbcCrc_to_RGB

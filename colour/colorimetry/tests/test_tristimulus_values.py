@@ -41,6 +41,7 @@ from colour.colorimetry import (
     sd_zeros,
     sds_and_msds_to_msds,
     tristimulus_weighting_factors_ASTME2022,
+    tristimulus_weighting_factors_integration,
     wavelength_to_XYZ,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -66,6 +67,9 @@ __all__ = [
     "TWF_D65_CIE_1931_2_20",
     "TWF_D65_CIE_1931_2_20_K1",
     "TWF_D65_CIE_1931_2_20_A",
+    "TWF_INTEGRATION_A_CIE_1964_10_20",
+    "TWF_INTEGRATION_D65_CIE_1931_2_20",
+    "TWF_INTEGRATION_D65_CIE_1931_2_20_K1",
     "DATA_TWO",
     "MSDS_TWO",
     "TVS_D65_INTEGRATION_MSDS",
@@ -76,6 +80,7 @@ __all__ = [
     "TestHandleSpectralArguments",
     "TestLagrangeCoefficientsASTME2022",
     "TestTristimulusWeightingFactorsASTME2022",
+    "TestTristimulusWeightingFactorsIntegration",
     "TestAdjustTristimulusWeightingFactorsASTME308",
     "TestSd_to_XYZ_integration",
     "TestSd_to_XYZ_ASTME308",
@@ -376,6 +381,93 @@ TWF_D65_CIE_1931_2_20_A: NDArrayFloat = np.array(
         [2.527, 0.927, -0.000],
         [0.670, 0.242, -0.000],
         [0.185, 0.067, 0.000],
+    ]
+)
+
+TWF_INTEGRATION_A_CIE_1964_10_20: NDArrayFloat = np.array(
+    [
+        [0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.001],
+        [0.060, 0.006, 0.269],
+        [0.853, 0.090, 4.074],
+        [2.047, 0.352, 10.571],
+        [1.966, 0.971, 11.619],
+        [0.524, 2.461, 5.894],
+        [0.104, 5.569, 2.007],
+        [2.079, 10.813, 0.638],
+        [6.921, 15.572, 0.142],
+        [14.469, 18.218, 0.000],
+        [22.672, 17.504, 0.000],
+        [25.905, 14.085, 0.000],
+        [19.641, 8.802, 0.000],
+        [9.499, 3.859, 0.000],
+        [3.223, 1.265, 0.000],
+        [0.847, 0.329, 0.000],
+        [0.201, 0.078, 0.000],
+        [0.047, 0.018, 0.000],
+        [0.011, 0.005, 0.000],
+        [0.003, 0.001, 0.000],
+        [0.001, 0.000, 0.000],
+        [0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000],
+    ]
+)
+
+TWF_INTEGRATION_D65_CIE_1931_2_20: NDArrayFloat = np.array(
+    [
+        [0.001, 0.000, 0.005],
+        [0.014, 0.000, 0.065],
+        [0.251, 0.007, 1.190],
+        [2.761, 0.085, 13.289],
+        [7.248, 0.523, 36.595],
+        [6.246, 1.491, 36.714],
+        [1.648, 3.402, 15.569],
+        [0.051, 7.849, 4.937],
+        [1.932, 15.760, 1.284],
+        [6.947, 19.689, 0.296],
+        [12.712, 18.691, 0.055],
+        [17.456, 14.642, 0.025],
+        [18.149, 9.802, 0.010],
+        [12.158, 5.168, 0.001],
+        [5.409, 2.064, 0.000],
+        [1.734, 0.637, 0.000],
+        [0.399, 0.144, 0.000],
+        [0.098, 0.036, 0.000],
+        [0.022, 0.008, 0.000],
+        [0.005, 0.002, 0.000],
+        [0.001, 0.000, 0.000],
+        [0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000],
+        [0.000, 0.000, 0.000],
+    ]
+)
+
+TWF_INTEGRATION_D65_CIE_1931_2_20_K1: NDArrayFloat = np.array(
+    [
+        [0.12380035, 0.00373307, 0.57763968],
+        [1.46252214, 0.04168250, 6.89626406],
+        [26.49031566, 0.73174486, 125.63821123],
+        [291.53411577, 8.93841623, 1402.98931003],
+        [765.27756273, 55.22902593, 3863.67494994],
+        [659.42268954, 157.43198993, 3876.22968243],
+        [173.97441901, 359.17383833, 1643.75510200],
+        [5.36136576, 828.69663040, 521.25143104],
+        [203.94419441, 1663.90567895, 135.60877172],
+        [733.47396467, 2078.68685012, 31.30307707],
+        [1342.12424869, 1973.37443610, 5.76753868],
+        [1843.01297302, 1545.83679983, 2.66796245],
+        [1916.15378858, 1034.90849723, 1.08114794],
+        [1283.58422984, 545.63995271, 0.15784373],
+        [571.08018324, 217.95573306, 0.01253699],
+        [183.07893131, 67.24165407, 0.00000000],
+        [42.08202982, 15.23338570, 0.00000000],
+        [10.38919187, 3.75172744, 0.00000000],
+        [2.33829308, 0.84440031, 0.00000000],
+        [0.50385031, 0.18194958, 0.00000000],
+        [0.11917445, 0.04303608, 0.00000000],
+        [0.02846400, 0.01027887, 0.00000000],
+        [0.00679112, 0.00245240, 0.00000000],
+        [0.00162050, 0.00058519, 0.00000000],
     ]
 )
 
@@ -760,6 +852,51 @@ tristimulus_weighting_factors_ASTME2022` definition raised exception.
             cmfs_2,
             A_1,
             shape,
+        )
+
+
+class TestTristimulusWeightingFactorsIntegration:
+    """
+    Define :func:`colour.colorimetry.tristimulus_values.\
+tristimulus_weighting_factors_integration` definition unit tests methods.
+    """
+
+    def test_tristimulus_weighting_factors_integration(self) -> None:
+        """
+        Test :func:`colour.colorimetry.tristimulus_values.\
+tristimulus_weighting_factors_integration` definition.
+        """
+
+        cmfs = MSDS_CMFS["CIE 1964 10 Degree Standard Observer"]
+        A = sd_CIE_standard_illuminant_A(cmfs.shape)
+
+        twf = tristimulus_weighting_factors_integration(
+            cmfs, A, SpectralShape(360, 830, 20)
+        )
+        np.testing.assert_allclose(
+            np.round(twf, 3),
+            TWF_INTEGRATION_A_CIE_1964_10_20,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+        D65 = reshape_sd(
+            SDS_ILLUMINANTS["D65"], cmfs.shape, interpolator=LinearInterpolator
+        )
+        twf = tristimulus_weighting_factors_integration(
+            cmfs, D65, SpectralShape(360, 830, 20)
+        )
+        np.testing.assert_allclose(
+            np.round(twf, 3),
+            TWF_INTEGRATION_D65_CIE_1931_2_20,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        twf = tristimulus_weighting_factors_integration(
+            cmfs, D65, SpectralShape(360, 830, 20), k=1
+        )
+        np.testing.assert_allclose(
+            twf, TWF_INTEGRATION_D65_CIE_1931_2_20_K1, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
 

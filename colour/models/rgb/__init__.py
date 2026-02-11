@@ -271,6 +271,7 @@ from .cylindrical import (
 from .hanbury2003 import IHLS_to_RGB, RGB_to_IHLS
 from .prismatic import Prismatic_to_RGB, RGB_to_Prismatic
 from .ycbcr import (
+    SCALES_YCBCR,
     WEIGHTS_YCBCR,
     RGB_to_YCbCr,
     RGB_to_YcCbcCrc,
@@ -572,6 +573,7 @@ __all__ += [
 ]
 __all__ += [
     "WEIGHTS_YCBCR",
+    "SCALES_YCBCR",
     "RGB_to_YCbCr",
     "RGB_to_YcCbcCrc",
     "YCbCr_to_RGB",
