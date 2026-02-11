@@ -20,7 +20,6 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
-    from colour.difference.typing import DeltaEData
     from colour.hints import (
         Any,
         Domain1,
@@ -29,6 +28,7 @@ if typing.TYPE_CHECKING:
         LiteralDeltaEMethod,
         NDArrayFloat,
     )
+    from colour.difference import DeltaEData
 
 import colour
 from colour.models import XYZ_to_Lab

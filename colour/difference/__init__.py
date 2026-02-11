@@ -42,11 +42,13 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
 from __future__ import annotations
 
 import typing
+from dataclasses import dataclass, field
 from typing import overload
+
+from colour.utilities import MixinDataclassArithmetic
 
 if typing.TYPE_CHECKING:
     from colour.hints import Any, ArrayLike, NDArrayFloat, Literal, LiteralDeltaEMethod
-    from .typing import DeltaEData
 
 from colour.utilities import (
     CanonicalMapping,
@@ -143,6 +145,18 @@ Aliases:
 DELTA_E_METHODS["cie1976"] = DELTA_E_METHODS["CIE 1976"]
 DELTA_E_METHODS["cie1994"] = DELTA_E_METHODS["CIE 1994"]
 DELTA_E_METHODS["cie2000"] = DELTA_E_METHODS["CIE 2000"]
+
+
+@dataclass
+class DeltaEData(MixinDataclassArithmetic):
+    """
+    Colour difference data containing the colour difference :math:`\\Delta E`.
+
+    This class is the base container for colour difference computation results
+    returned when ``additional_data=True`` in :mod:`colour.difference` functions.
+    """
+
+    dE: NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 @overload

@@ -21,10 +21,15 @@ import typing
 if typing.TYPE_CHECKING:
     from colour.hints import Domain100, Literal, NDArrayFloat
 
+from dataclasses import dataclass, field
+
 from colour.algebra import euclidean_distance
-from colour.difference.typing import DeltaELabData
 from colour.models import Lab_to_DIN99
-from colour.utilities import as_float_array, get_domain_range_scale
+from colour.utilities import (
+    MixinDataclassArithmetic,
+    as_float_array,
+    get_domain_range_scale,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -36,6 +41,47 @@ __status__ = "Production"
 __all__ = [
     "delta_E_DIN99",
 ]
+
+
+@dataclass
+class DeltaEData(MixinDataclassArithmetic):
+    """
+    Colour difference data containing the colour difference :math:`\\Delta E`.
+
+    This class is the base container for colour difference computation results
+    returned when ``additional_data=True`` in :mod:`colour.difference` functions.
+    """
+
+    dE: NDArrayFloat | None = field(default_factory=lambda: None)
+
+
+@dataclass
+class DeltaELabData(DeltaEData):
+    """
+    Colour difference data expressed in a Lab-like colourspace.
+
+    This data structure is returned by the following functions when
+    ``additional_data=True``:
+
+    - :func:`colour.difference.delta_E_CIE1976`
+    - :func:`colour.difference.delta_E_HyAB`
+    - :func:`colour.difference.delta_E_DIN99`
+
+    Notes
+    -----
+    The meaning of the components depends on the originating function:
+
+    - *CIE 1976* (:func:`colour.difference.delta_E_CIE1976`):
+      raw differences in *CIE L\\*a\\*b\\** coordinates.
+    - *HyAB* (:func:`colour.difference.delta_E_HyAB`):
+      raw differences in *CIE L\\*a\\*b\\** coordinates.
+    - *DIN99* (:func:`colour.difference.delta_E_DIN99`):
+      raw differences in *DIN99* colourspace.
+    """
+
+    dL: NDArrayFloat | None = field(default_factory=lambda: None)
+    da: NDArrayFloat | None = field(default_factory=lambda: None)
+    db: NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 @typing.overload
