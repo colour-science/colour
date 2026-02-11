@@ -87,7 +87,7 @@ if typing.TYPE_CHECKING:
         additional_data: Literal[True],
     ) -> DeltaEJabData: ...
 
-    def delta_E_Li2017(
+    def delta_E_Li2017(  # noqa: D103
         Jpapbp_1: Domain100,
         Jpapbp_2: Domain100,
         coefficients: Coefficients_UCS_Luo2006,
@@ -115,7 +115,7 @@ if typing.TYPE_CHECKING:
         additional_data: Literal[True],
     ) -> DeltaEJabData: ...
 
-    def delta_E_CAM16LCD(
+    def delta_E_CAM16LCD(  # noqa: D103
         Jpapbp_1: Domain100,
         Jpapbp_2: Domain100,
         *,
@@ -142,7 +142,7 @@ if typing.TYPE_CHECKING:
         additional_data: Literal[True],
     ) -> DeltaEJabData: ...
 
-    def delta_E_CAM16SCD(
+    def delta_E_CAM16SCD(  # noqa: D103
         Jpapbp_1: Domain100,
         Jpapbp_2: Domain100,
         *,
@@ -169,7 +169,7 @@ if typing.TYPE_CHECKING:
         additional_data: Literal[True],
     ) -> DeltaEJabData: ...
 
-    def delta_E_CAM16UCS(
+    def delta_E_CAM16UCS(  # noqa: D103
         Jpapbp_1: Domain100,
         Jpapbp_2: Domain100,
         *,
