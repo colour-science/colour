@@ -202,7 +202,6 @@ convention = "numpy"
 "test_*" = ["S101"]
 "utilities/*" = ["EXE001", "INP"]
 "utilities/unicode_to_ascii.py" = ["RUF001"]
-"colour/difference/cam16_ucs.py" = ["D103"]
 
 [tool.ruff.format]
 docstring-code-format = true
