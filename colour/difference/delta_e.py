@@ -418,26 +418,24 @@ dH=np.float64(0.0015891...))
 @dataclass
 class Attributes_Specification_CIE2000(MixinDataclassArithmetic):
     """
-    Define the *CIE 2000* colour-difference formula attribute specification.
+    Define the *CIE 2000* colour-difference formula intermediate attributes.
 
     Parameters
     ----------
-    J
-        Correlate of *lightness* :math:`J`.
-    C
-        Correlate of *chroma* :math:`C`.
-    h
-        *Hue* angle :math:`h` in degrees.
-    s
-        Correlate of *saturation* :math:`s`.
-    Q
-        Correlate of *brightness* :math:`Q`.
-    M
-        Correlate of *colourfulness* :math:`M`.
-    H
-        *Hue* :math:`h` quadrature :math:`H`.
-    HC
-        *Hue* :math:`h` composition :math:`H^C`.
+    S_L
+        *Lightness* weighting function :math:`S_L`.
+    S_C
+        *Chroma* weighting function :math:`S_C`.
+    S_H
+        *Hue* weighting function :math:`S_H`.
+    delta_L_p
+        Adjusted *lightness* difference :math:`\\Delta L'`.
+    delta_C_p
+        Adjusted *chroma* difference :math:`\\Delta C'`.
+    delta_H_p
+        Adjusted *hue* difference :math:`\\Delta H'`.
+    R_T
+        Rotation term :math:`R_T`.
     """
 
     S_L: float | NDArrayFloat | None = field(default_factory=lambda: None)

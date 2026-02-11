@@ -32,6 +32,10 @@ References
 -   :cite:`ASTMInternational2015b` : ASTM International. (2015). ASTM E308-15 -
     Standard Practice for Computing the Colors of Objects by Using the CIE
     System (pp. 1-47). doi:10.1520/E0308-15
+-   :cite:`InternationalOrganizationforStandardization2024` : International
+    Organization for Standardization. (2024). INTERNATIONAL STANDARD ISO
+    18314-4 - Analytical colorimetry Part 4: Metamerism index for pairs of
+    samples for change of illuminant. https://www.iso.org/standard/85116.html
 -   :cite:`Wyszecki2000bf` : Wyszecki, Günther, & Stiles, W. S. (2000).
     Integration Replaced by Summation. In Color Science: Concepts and Methods,
     Quantitative Data and Formulae (pp. 158-163). Wiley. ISBN:978-0-471-39918-6
@@ -94,6 +98,7 @@ __all__ = [
     "lagrange_coefficients_ASTME2022",
     "tristimulus_weighting_factors_ASTME2022",
     "adjust_tristimulus_weighting_factors_ASTME308",
+    "tristimulus_weighting_factors_integration",
     "sd_to_XYZ_integration",
     "sd_to_XYZ_tristimulus_weighting_factors_ASTME308",
     "sd_to_XYZ_ASTME308",
@@ -569,6 +574,100 @@ def adjust_tristimulus_weighting_factors_ASTME308(
     return W_slice + adjustment
 
 
+def tristimulus_weighting_factors_integration(
+    cmfs: MultiSpectralDistributions,
+    illuminant: SpectralDistribution,
+    shape: SpectralShape,
+    k: Real | None = None,
+) -> NDArrayFloat:
+    """
+    Compute the tristimulus weighting factors using the integration method.
+
+    Parameters
+    ----------
+    cmfs
+        Standard observer colour matching functions.
+    illuminant
+        Illuminant spectral distribution.
+    shape
+        Shape used to build the table, only the interval is needed.
+    k
+        Normalisation constant :math:`k`. For reflecting or transmitting
+        object colours, :math:`k` is chosen so that :math:`Y = 100` for
+        objects for which the spectral reflectance factor
+        :math:`R(\\lambda)` of the object colour or the spectral
+        transmittance factor :math:`\\tau(\\lambda)` of the object is equal
+        to unity for all wavelengths. For self-luminous objects and
+        illuminants, the constants :math:`k` is usually chosen on the
+        grounds of convenience. If, however, in the CIE 1931 standard
+        colorimetric system, the :math:`Y` value is required to be
+        numerically equal to the absolute value of a photometric quantity,
+        the constant, :math:`k`, must be put equal to the numerical value
+        of :math:`K_m`, the maximum spectral luminous efficacy (which is
+        equal to 683 :math:`lm\\cdot W^{-1}`) and
+        :math:`\\Phi_\\lambda(\\lambda)` must be the spectral concentration
+        of the radiometric quantity corresponding to the photometric
+        quantity required.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Tristimulus weighting factors table.
+
+    References
+    ----------
+    :cite:`InternationalOrganizationforStandardization2024`
+
+    Examples
+    --------
+    >>> from colour import MSDS_CMFS, SDS_ILLUMINANTS
+    >>> from colour.utilities import numpy_print_options
+    >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    >>> illuminant = SDS_ILLUMINANTS["D65"]
+    >>> shape = SpectralShape(400, 700, 20)
+    >>> with numpy_print_options(suppress=True):
+    ...     tristimulus_weighting_factors_integration(cmfs, illuminant, shape)
+    ... # doctest: +ELLIPSIS
+    array([[ 0.2236344...,  0.0061886...,  1.0603492...],
+           [ 2.3710169...,  0.0705764..., 11.3910441...],
+           [ 6.8970661...,  0.4554741..., 34.5974171...],
+           [ 6.4697757...,  1.3348918..., 37.1366907...],
+           [ 2.0937001...,  3.0433520..., 17.7966720...],
+           [ 0.1011896...,  6.6702558...,  5.6170575...],
+           [ 1.2520537..., 14.0502316...,  1.5484936...],
+           [ 5.7256290..., 18.8094011...,  0.4002419...],
+           [11.2268302..., 18.7900691...,  0.0736495...],
+           [16.5750210..., 15.7374968...,  0.0298469...],
+           [18.0544399..., 10.7252415...,  0.0135977...],
+           [14.1509323...,  6.3099138...,  0.0031466...],
+           [ 7.0795828...,  2.7660794...,  0.0003161...],
+           [ 2.4979248...,  0.9240352...,  0.       ...],
+           [ 0.6914277...,  0.2513207...,  0.       ...],
+           [ 0.1536100...,  0.0554714...,  0.       ...]])
+    """
+
+    if cmfs.shape != shape:
+        runtime_warning(f'Aligning "{cmfs.name}" cmfs shape to "{shape}".')
+        cmfs = reshape_msds(cmfs, shape, copy=False)
+
+    if illuminant.shape != shape:
+        runtime_warning(f'Aligning "{illuminant.name}" illuminant shape to "{shape}".')
+        illuminant = reshape_sd(illuminant, shape, copy=False)
+
+    XYZ_b = cmfs.values
+    S = illuminant.values
+
+    d_w = cmfs.shape.interval
+
+    # normalisation constant k from Y = 100 of perfect diffuser
+    with sdiv_mode():
+        k = cast("Real", optional(k, sdiv(100, (np.sum(XYZ_b[..., 1] * S) * d_w))))
+
+    # --- weights matrix A (DIN EN ISO 18314-4, eq. 7-8) ---
+    # A[i, :] = k * S(λ_i) * [x̄(λ_i), ȳ(λ_i), z̄(λ_i)] * Δλ
+    return k * S[..., np.newaxis] * XYZ_b * d_w  # shape: (n, 3)
+
+
 def sd_to_XYZ_integration(
     sd: ArrayLike | SpectralDistribution | MultiSpectralDistributions,
     cmfs: MultiSpectralDistributions | None = None,
@@ -749,16 +848,11 @@ def sd_to_XYZ_integration(
         runtime_warning(f'Aligning "{illuminant.name}" illuminant shape to "{shape}".')
         illuminant = reshape_sd(illuminant, shape, copy=False)
 
-    XYZ_b = cmfs.values
-    S = illuminant.values
     R = np.reshape(R, (-1, wl_c_r))
 
-    d_w = cmfs.shape.interval
+    A = tristimulus_weighting_factors_integration(cmfs, illuminant, shape, k)
 
-    with sdiv_mode():
-        k = cast("Real", optional(k, sdiv(100, (np.sum(XYZ_b[..., 1] * S) * d_w))))
-
-    XYZ = k * np.dot(R * S, XYZ_b) * d_w
+    XYZ = np.dot(R, A)
 
     XYZ = from_range_100(np.reshape(XYZ, [*list(shape_R[:-1]), 3]))
 

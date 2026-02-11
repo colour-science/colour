@@ -247,6 +247,33 @@ class TestConvert:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # Test CIE Lab <-> CIE LCHab roundtrip conversion
+        Lab_roundtrip = convert(
+            LCHab,
+            "CIE LCHab",
+            "CIE Lab",
+            from_reference_scale=True,
+            to_reference_scale=True,
+        )
+        np.testing.assert_allclose(
+            Lab_roundtrip,
+            Lab,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LCHab_roundtrip = convert(
+            Lab,
+            "CIE Lab",
+            "CIE LCHab",
+            from_reference_scale=True,
+            to_reference_scale=True,
+        )
+        np.testing.assert_allclose(
+            LCHab_roundtrip,
+            LCHab,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
         # Test CIE Luv and CIE LCHuv consistency
         Luv = convert(XYZ, "CIE XYZ", "CIE Luv", to_reference_scale=True)
         LCHuv = convert(XYZ, "CIE XYZ", "CIE LCHuv", to_reference_scale=True)
@@ -263,5 +290,32 @@ class TestConvert:
         np.testing.assert_allclose(
             LCHuv[1],
             expected_C,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # Test CIE Luv <-> CIE LCHuv roundtrip conversion
+        Luv_roundtrip = convert(
+            LCHuv,
+            "CIE LCHuv",
+            "CIE Luv",
+            from_reference_scale=True,
+            to_reference_scale=True,
+        )
+        np.testing.assert_allclose(
+            Luv_roundtrip,
+            Luv,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        LCHuv_roundtrip = convert(
+            Luv,
+            "CIE Luv",
+            "CIE LCHuv",
+            from_reference_scale=True,
+            to_reference_scale=True,
+        )
+        np.testing.assert_allclose(
+            LCHuv_roundtrip,
+            LCHuv,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

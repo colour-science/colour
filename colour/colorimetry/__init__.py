@@ -73,6 +73,7 @@ from .tristimulus_values import (
     sd_to_XYZ_integration,
     sd_to_XYZ_tristimulus_weighting_factors_ASTME308,
     tristimulus_weighting_factors_ASTME2022,
+    tristimulus_weighting_factors_integration,
     wavelength_to_XYZ,
 )
 from .uniformity import spectral_uniformity
@@ -225,6 +226,7 @@ __all__ += [
     "sd_to_XYZ_ASTME308",
     "sd_to_XYZ_integration",
     "sd_to_XYZ_tristimulus_weighting_factors_ASTME308",
+    "tristimulus_weighting_factors_integration",
     "tristimulus_weighting_factors_ASTME2022",
     "wavelength_to_XYZ",
 ]

@@ -23,6 +23,8 @@ if typing.TYPE_CHECKING:
     from matplotlib.figure import Figure
     from matplotlib.axes import Axes
 
+from contextlib import suppress
+
 import numpy as np
 
 from colour.colorimetry import (
@@ -180,14 +182,19 @@ def plot_colour_quality_bars(
             zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
         )
 
+        pattern = next(patterns)
+
         hatches = (
-            [next(patterns) * hatching_repeat] * (count_Q_as + 1)
+            [pattern * hatching_repeat] * (count_Q_as + 1)
             if hatching
-            else list(np.where(y < 0, next(patterns), None))  # pyright: ignore
+            else list(np.where(y < 0, pattern, ""))
         )
 
         for j, bar in enumerate(bars.patches):
-            bar.set_hatch(hatches[j])
+            hatch = hatches[j]
+            with suppress(AttributeError):
+                hatch = hatch.item()  # numpy scalar -> python scalar
+            bar.set_hatch(str(hatch))
 
         if labels:
             label_rectangles(
