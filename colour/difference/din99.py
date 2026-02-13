@@ -27,6 +27,7 @@ from colour.algebra import euclidean_distance
 from colour.models import Lab_to_DIN99
 from colour.utilities import (
     MixinDataclassArithmetic,
+    as_float,
     as_float_array,
     get_domain_range_scale,
 )
@@ -39,46 +40,32 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "DeltaE_Specification_DIN99",
     "delta_E_DIN99",
 ]
 
 
 @dataclass
-class DeltaEData(MixinDataclassArithmetic):
+class DeltaE_Specification_DIN99(MixinDataclassArithmetic):
     """
-    Colour difference data containing the colour difference :math:`\\Delta E`.
+    Define the *DIN99* colour difference specification.
 
-    This class is the base container for colour difference computation results
-    returned when ``additional_data=True`` in :mod:`colour.difference` functions.
+    This data structure is returned by
+    :func:`colour.difference.delta_E_DIN99` when ``additional_data=True``.
+
+    Parameters
+    ----------
+    dE
+        Colour difference :math:`\\Delta E_{DIN99}`.
+    dL
+        Raw *lightness* difference in *DIN99* colourspace.
+    da
+        Raw :math:`\\Delta a` difference in *DIN99* colourspace.
+    db
+        Raw :math:`\\Delta b` difference in *DIN99* colourspace.
     """
 
     dE: NDArrayFloat | None = field(default_factory=lambda: None)
-
-
-@dataclass
-class DeltaELabData(DeltaEData):
-    """
-    Colour difference data expressed in a Lab-like colourspace.
-
-    This data structure is returned by the following functions when
-    ``additional_data=True``:
-
-    - :func:`colour.difference.delta_E_CIE1976`
-    - :func:`colour.difference.delta_E_HyAB`
-    - :func:`colour.difference.delta_E_DIN99`
-
-    Notes
-    -----
-    The meaning of the components depends on the originating function:
-
-    - *CIE 1976* (:func:`colour.difference.delta_E_CIE1976`):
-      raw differences in *CIE L\\*a\\*b\\** coordinates.
-    - *HyAB* (:func:`colour.difference.delta_E_HyAB`):
-      raw differences in *CIE L\\*a\\*b\\** coordinates.
-    - *DIN99* (:func:`colour.difference.delta_E_DIN99`):
-      raw differences in *DIN99* colourspace.
-    """
-
     dL: NDArrayFloat | None = field(default_factory=lambda: None)
     da: NDArrayFloat | None = field(default_factory=lambda: None)
     db: NDArrayFloat | None = field(default_factory=lambda: None)
@@ -101,7 +88,7 @@ def delta_E_DIN99(
     textiles: bool = ...,
     *,
     additional_data: Literal[True],
-) -> DeltaELabData: ...
+) -> DeltaE_Specification_DIN99: ...
 
 
 def delta_E_DIN99(
@@ -109,7 +96,7 @@ def delta_E_DIN99(
     Lab_2: Domain100,
     textiles: bool = False,
     additional_data: bool = False,
-) -> NDArrayFloat | DeltaELabData:
+) -> NDArrayFloat | DeltaE_Specification_DIN99:
     """
     Compute the colour difference :math:`\\Delta E_{DIN99}` between two
     specified *CIE L\\*a\\*b\\** colourspace arrays using the *DIN99* formula.
@@ -129,7 +116,7 @@ def delta_E_DIN99(
 
     Returns
     -------
-    :class:`numpy.ndarray` or :class:`dict`
+    :class:`numpy.ndarray` or :class:`DeltaE_Specification_DIN99`
         Colour difference :math:`\\Delta E_{DIN99}`.
 
     Notes
@@ -158,9 +145,9 @@ def delta_E_DIN99(
     ...     Lab_2,
     ...     additional_data=True,
     ... )  # doctest: +ELLIPSIS
-    DeltaELabData(dE=np.float64(1.1772166...), \
-dL=array(-0.1750930...), da=array(-0.5804045...), \
-db=array(-1.0091144...))
+    DeltaE_Specification_DIN99(dE=np.float64(1.1772166...), \
+dL=np.float64(-0.1750930...), da=np.float64(-0.5804045...), \
+db=np.float64(-1.0091144...))
     """
 
     k_E = 2 if textiles else 1
@@ -178,9 +165,9 @@ db=array(-1.0091144...))
 
     dLab = as_float_array(Lab_99_1) - as_float_array(Lab_99_2)
 
-    return DeltaELabData(
+    return DeltaE_Specification_DIN99(
         dE,
-        dLab[..., 0],
-        dLab[..., 1],
-        dLab[..., 2],
+        as_float(dLab[..., 0]),
+        as_float(dLab[..., 1]),
+        as_float(dLab[..., 2]),
     )

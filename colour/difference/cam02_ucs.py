@@ -39,6 +39,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "DeltaE_Specification_Luo2006",
     "delta_E_Luo2006",
     "delta_E_CAM02LCD",
     "delta_E_CAM02SCD",
@@ -47,40 +48,30 @@ __all__ = [
 
 
 @dataclass
-class DeltaEData(MixinDataclassArithmetic):
+class DeltaE_Specification_Luo2006(MixinDataclassArithmetic):
     """
-    Colour difference data containing the colour difference :math:`\\Delta E`.
+    Define the *Luo et al. (2006)* colour difference specification.
 
-    This class is the base container for colour difference computation results
-    returned when ``additional_data=True`` in :mod:`colour.difference` functions.
+    This data structure is returned by
+    :func:`colour.difference.delta_E_Luo2006` (and by extension
+    :func:`colour.difference.delta_E_CAM02LCD`,
+    :func:`colour.difference.delta_E_CAM02SCD`, and
+    :func:`colour.difference.delta_E_CAM02UCS`) when
+    ``additional_data=True``.
+
+    Parameters
+    ----------
+    dE
+        Colour difference :math:`\\Delta E'`.
+    dJ
+        Weighted *lightness* difference :math:`\\Delta J' / K_L`.
+    da
+        Raw :math:`\\Delta a'` difference.
+    db
+        Raw :math:`\\Delta b'` difference.
     """
 
     dE: NDArrayFloat | None = field(default_factory=lambda: None)
-
-
-@dataclass
-class DeltaEJabData(DeltaEData):
-    """
-    Colour difference data expressed in a :math:`J'a'b'` colourspace.
-
-    This data structure is returned by the following functions when
-    ``additional_data=True``:
-
-    - :func:`colour.difference.delta_E_Luo2006`
-    - :func:`colour.difference.delta_E_CAM02LCD`
-    - :func:`colour.difference.delta_E_CAM02SCD`
-    - :func:`colour.difference.delta_E_CAM02UCS`
-
-    Notes
-    -----
-    The interpretation of the components is as follows:
-
-    - ``dJ`` is weighted by the lightness coefficient :math:`K_L`
-      defined by the selected *Luo et al. (2006)* uniform colourspace.
-    - ``da`` and ``db`` are raw differences in the corresponding
-      *CAM02-LCD*, *CAM02-SCD* or *CAM02-UCS* colourspace.
-    """
-
     dJ: NDArrayFloat | None = field(default_factory=lambda: None)
     da: NDArrayFloat | None = field(default_factory=lambda: None)
     db: NDArrayFloat | None = field(default_factory=lambda: None)
@@ -103,7 +94,7 @@ def delta_E_Luo2006(
     coefficients: Coefficients_UCS_Luo2006,
     *,
     additional_data: Literal[True],
-) -> DeltaEJabData: ...
+) -> DeltaE_Specification_Luo2006: ...
 
 
 def delta_E_Luo2006(
@@ -111,7 +102,7 @@ def delta_E_Luo2006(
     Jpapbp_2: Domain100,
     coefficients: Coefficients_UCS_Luo2006,
     additional_data: bool = False,
-) -> NDArrayFloat | DeltaEJabData:
+) -> NDArrayFloat | DeltaE_Specification_Luo2006:
     """
     Compute the colour difference :math:`\\Delta E'` between two specified
     *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
@@ -133,7 +124,7 @@ def delta_E_Luo2006(
 
     Returns
     -------
-    :class:`numpy.ndarray` or :class:`dict`
+    :class:`numpy.ndarray` or :class:`DeltaE_Specification_Luo2006`
         Colour difference :math:`\\Delta E'`.
 
     Warnings
@@ -165,7 +156,7 @@ def delta_E_Luo2006(
     ...     COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
     ...     additional_data=True,
     ... )  # doctest: +ELLIPSIS
-    DeltaEJabData(dE=np.float64(14.0555464...), \
+    DeltaE_Specification_Luo2006(dE=np.float64(14.0555464...), \
 dJ=np.float64(0.1309140...), da=np.float64(3.8848968...), \
 db=np.float64(13.5073618...))
     """
@@ -183,7 +174,7 @@ db=np.float64(13.5073618...))
     if not additional_data:
         return d_E
 
-    return DeltaEJabData(
+    return DeltaE_Specification_Luo2006(
         d_E,
         J,
         a,
@@ -206,14 +197,14 @@ def delta_E_CAM02LCD(
     Jpapbp_2: Domain100,
     *,
     additional_data: Literal[True],
-) -> DeltaEJabData: ...
+) -> DeltaE_Specification_Luo2006: ...
 
 
 def delta_E_CAM02LCD(
     Jpapbp_1: Domain100,
     Jpapbp_2: Domain100,
     additional_data: bool = False,
-) -> NDArrayFloat | DeltaEJabData:
+) -> NDArrayFloat | DeltaE_Specification_Luo2006:
     """
     Compute the colour difference :math:`\\Delta E'` between two specified
     *CAM02-LCD* colourspace :math:`J'a'b'` arrays using the
@@ -232,7 +223,7 @@ def delta_E_CAM02LCD(
 
     Returns
     -------
-    :class:`numpy.ndarray` or :class:`dict`
+    :class:`numpy.ndarray` or :class:`DeltaE_Specification_Luo2006`
         Colour difference :math:`\\Delta E'`.
 
     Warnings
@@ -266,7 +257,7 @@ def delta_E_CAM02LCD(
     ...     Jpapbp_2,
     ...     additional_data=True,
     ... )  # doctest: +ELLIPSIS
-    DeltaEJabData(dE=np.float64(14.0555464...), \
+    DeltaE_Specification_Luo2006(dE=np.float64(14.0555464...), \
 dJ=np.float64(0.1309140...), da=np.float64(3.8848968...), \
 db=np.float64(13.5073618...))
     """
@@ -294,14 +285,14 @@ def delta_E_CAM02SCD(
     Jpapbp_2: Domain100,
     *,
     additional_data: Literal[True],
-) -> DeltaEJabData: ...
+) -> DeltaE_Specification_Luo2006: ...
 
 
 def delta_E_CAM02SCD(
     Jpapbp_1: Domain100,
     Jpapbp_2: Domain100,
     additional_data: bool = False,
-) -> NDArrayFloat | DeltaEJabData:
+) -> NDArrayFloat | DeltaE_Specification_Luo2006:
     """
     Compute the colour difference :math:`\\Delta E'` between two specified
     *CAM02-SCD* colourspace :math:`J'a'b'` arrays using the
@@ -320,7 +311,7 @@ def delta_E_CAM02SCD(
 
     Returns
     -------
-    :class:`numpy.ndarray` or :class:`dict`
+    :class:`numpy.ndarray` or :class:`DeltaE_Specification_Luo2006`
         Colour difference :math:`\\Delta E'`.
 
     Warnings
@@ -354,7 +345,7 @@ def delta_E_CAM02SCD(
     ...     Jpapbp_2,
     ...     additional_data=True,
     ... )  # doctest: +ELLIPSIS
-    DeltaEJabData(dE=np.float64(14.0551718...), \
+    DeltaE_Specification_Luo2006(dE=np.float64(14.0551718...), \
 dJ=np.float64(0.0812933...), da=np.float64(3.8848968...), \
 db=np.float64(13.5073618...))
     """
@@ -382,14 +373,14 @@ def delta_E_CAM02UCS(
     Jpapbp_2: Domain100,
     *,
     additional_data: Literal[True],
-) -> DeltaEJabData: ...
+) -> DeltaE_Specification_Luo2006: ...
 
 
 def delta_E_CAM02UCS(
     Jpapbp_1: Domain100,
     Jpapbp_2: Domain100,
     additional_data: bool = False,
-) -> NDArrayFloat | DeltaEJabData:
+) -> NDArrayFloat | DeltaE_Specification_Luo2006:
     """
     Compute the colour difference :math:`\\Delta E'` between two specified
     *CAM02-UCS* colourspace :math:`J'a'b'` arrays using the
@@ -408,7 +399,7 @@ def delta_E_CAM02UCS(
 
     Returns
     -------
-    :class:`numpy.ndarray` or :class:`dict`
+    :class:`numpy.ndarray` or :class:`DeltaE_Specification_Luo2006`
         Colour difference :math:`\\Delta E'`.
 
     Warnings
@@ -442,7 +433,7 @@ def delta_E_CAM02UCS(
     ...     Jpapbp_2,
     ...     additional_data=True,
     ... )  # doctest: +ELLIPSIS
-    DeltaEJabData(dE=np.float64(14.0552982...), \
+    DeltaE_Specification_Luo2006(dE=np.float64(14.0552982...), \
 dJ=np.float64(0.1008038...), da=np.float64(3.8848968...), \
 db=np.float64(13.5073618...))
     """

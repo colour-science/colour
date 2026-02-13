@@ -30,7 +30,7 @@ if typing.TYPE_CHECKING:
         LiteralDeltaEMethod,
         NDArrayFloat,
     )
-    from colour.difference import DeltaEData
+    from colour.difference import DeltaE_Specification
 
 import colour
 from colour.colorimetry import (
@@ -87,7 +87,7 @@ def Lab_to_metamerism_index(
     *,
     additional_data: Literal[True],
     **kwargs: Any,
-) -> DeltaEData: ...
+) -> DeltaE_Specification: ...
 
 
 def Lab_to_metamerism_index(
@@ -99,7 +99,7 @@ def Lab_to_metamerism_index(
     method: LiteralDeltaEMethod | str = "CIE 2000",
     additional_data: bool = False,
     **kwargs: Any,
-) -> NDArrayFloat | DeltaEData:
+) -> NDArrayFloat | DeltaE_Specification:
     """
     Compute the *metamerism index* :math:`M_{t}` between four specified
     *CIE L\\*a\\*b\\** colourspace arrays.
@@ -155,7 +155,7 @@ def Lab_to_metamerism_index(
 
     Returns
     -------
-    :class:`numpy.ndarray` or :class:`dict`
+    :class:`numpy.ndarray` or :class:`DeltaE_Specification`
         *Metamerism index* :math:`M_{t}`.
 
     Notes
@@ -245,7 +245,7 @@ def XYZ_to_metamerism_index(
     *,
     additional_data: Literal[True],
     **kwargs: Any,
-) -> DeltaEData: ...
+) -> DeltaE_Specification: ...
 
 
 def XYZ_to_metamerism_index(
@@ -257,7 +257,7 @@ def XYZ_to_metamerism_index(
     method: LiteralDeltaEMethod | str = "CIE 2000",
     additional_data: bool = False,
     **kwargs: Any,
-) -> NDArrayFloat | DeltaEData:
+) -> NDArrayFloat | DeltaE_Specification:
     """
     Compute the *metamerism index* :math:`M_{t}` from four specified
     *CIE XYZ* colourspace arrays.
@@ -317,7 +317,7 @@ def XYZ_to_metamerism_index(
 
     Returns
     -------
-    :class:`numpy.ndarray` or :class:`dict`
+    :class:`numpy.ndarray` or :class:`DeltaE_Specification`
         *Metamerism index* :math:`M_{t}`.
 
     Notes

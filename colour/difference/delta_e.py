@@ -76,13 +76,20 @@ __status__ = "Production"
 
 __all__ = [
     "JND_CIE1976",
+    "DeltaE_Specification_CIE1976",
     "delta_E_CIE1976",
+    "DeltaE_Specification_CIE1994",
     "delta_E_CIE1994",
     "intermediate_attributes_CIE2000",
+    "DeltaE_Specification_CIE2000",
     "delta_E_CIE2000",
+    "DeltaE_Specification_CMC",
     "delta_E_CMC",
+    "DeltaE_Specification_ITP",
     "delta_E_ITP",
+    "DeltaE_Specification_HyAB",
     "delta_E_HyAB",
+    "DeltaE_Specification_HyCH",
     "delta_E_HyCH",
 ]
 
@@ -112,41 +119,26 @@ References
 
 
 @dataclass
-class DeltaEData(MixinDataclassArithmetic):
+class DeltaE_Specification_CIE1976(MixinDataclassArithmetic):
     """
-    Colour difference data containing the colour difference :math:`\\Delta E`.
+    Define the *CIE 1976* colour difference specification.
 
-    This class is the base container for colour difference computation results
-    returned when ``additional_data=True`` in :mod:`colour.difference` functions.
+    This data structure is returned by
+    :func:`colour.difference.delta_E_CIE1976` when ``additional_data=True``.
+
+    Parameters
+    ----------
+    dE
+        Colour difference :math:`\\Delta E_{76}`.
+    dL
+        Raw *lightness* difference :math:`\\Delta L^*`.
+    da
+        Raw :math:`\\Delta a^*` difference.
+    db
+        Raw :math:`\\Delta b^*` difference.
     """
 
     dE: NDArrayFloat | None = field(default_factory=lambda: None)
-
-
-@dataclass
-class DeltaELabData(DeltaEData):
-    """
-    Colour difference data expressed in a Lab-like colourspace.
-
-    This data structure is returned by the following functions when
-    ``additional_data=True``:
-
-    - :func:`colour.difference.delta_E_CIE1976`
-    - :func:`colour.difference.delta_E_HyAB`
-    - :func:`colour.difference.delta_E_DIN99`
-
-    Notes
-    -----
-    The meaning of the components depends on the originating function:
-
-    - *CIE 1976* (:func:`colour.difference.delta_E_CIE1976`):
-      raw differences in *CIE L\\*a\\*b\\** coordinates.
-    - *HyAB* (:func:`colour.difference.delta_E_HyAB`):
-      raw differences in *CIE L\\*a\\*b\\** coordinates.
-    - *DIN99* (:func:`colour.difference.delta_E_DIN99`):
-      raw differences in *DIN99* colourspace.
-    """
-
     dL: NDArrayFloat | None = field(default_factory=lambda: None)
     da: NDArrayFloat | None = field(default_factory=lambda: None)
     db: NDArrayFloat | None = field(default_factory=lambda: None)
@@ -167,14 +159,14 @@ def delta_E_CIE1976(
     Lab_2: Domain100,
     *,
     additional_data: Literal[True],
-) -> DeltaELabData: ...
+) -> DeltaE_Specification_CIE1976: ...
 
 
 def delta_E_CIE1976(
     Lab_1: Domain100,
     Lab_2: Domain100,
     additional_data: bool = False,
-) -> NDArrayFloat | DeltaELabData:
+) -> NDArrayFloat | DeltaE_Specification_CIE1976:
     """
     Compute the colour difference :math:`\\Delta E_{76}` between two
     specified *CIE L\\*a\\*b\\** colourspace arrays using the *CIE 1976*
@@ -191,7 +183,7 @@ def delta_E_CIE1976(
 
     Returns
     -------
-    :class:`numpy.ndarray` or :class:`dict`
+    :class:`numpy.ndarray` or :class:`DeltaE_Specification_CIE1976`
         Colour difference :math:`\\Delta E_{76}`.
 
     Notes
@@ -219,9 +211,9 @@ def delta_E_CIE1976(
     ...     Lab_2,
     ...     additional_data=True,
     ... )  # doctest: +ELLIPSIS
-    DeltaELabData(dE=np.float64(2.7335037...), \
-dL=array(-1.6672370...), da=array(0.0111024...), \
-db=array(-2.1661579...))
+    DeltaE_Specification_CIE1976(dE=np.float64(2.7335037...), \
+dL=np.float64(-1.6672370...), da=np.float64(0.0111024...), \
+db=np.float64(-2.1661579...))
     """
 
     Lab_1 = to_domain_100(Lab_1)
@@ -234,47 +226,40 @@ db=array(-2.1661579...))
 
     dLab = as_float_array(Lab_1) - as_float_array(Lab_2)
 
-    return DeltaELabData(
+    return DeltaE_Specification_CIE1976(
         dE,
-        dLab[..., 0],
-        dLab[..., 1],
-        dLab[..., 2],
+        as_float(dLab[..., 0]),
+        as_float(dLab[..., 1]),
+        as_float(dLab[..., 2]),
     )
 
 
 @dataclass
-class DeltaELCHData(DeltaEData):
+class DeltaE_Specification_CIE1994(MixinDataclassArithmetic):
     """
-    Colour difference data expressed in an LCH-like colourspace.
+    Define the *CIE 1994* colour difference specification.
 
-    This data structure is returned by the following functions when
-    ``additional_data=True``:
+    This data structure is returned by
+    :func:`colour.difference.delta_E_CIE1994` when ``additional_data=True``.
 
-    - :func:`colour.difference.delta_E_CIE1994`
-    - :func:`colour.difference.delta_E_CIE2000`
-    - :func:`colour.difference.delta_E_CMC`
-    - :func:`colour.difference.delta_E_HyCH`
+    Parameters
+    ----------
+    dE
+        Colour difference :math:`\\Delta E_{94}`.
+    dL
+        Weighted *lightness* difference :math:`\\Delta L^* / (k_L S_L)`.
+    dC
+        Weighted *chroma* difference :math:`\\Delta C^*_{ab} / (k_C S_C)`.
+    dH
+        Weighted *hue* difference :math:`\\Delta H^*_{ab} / (k_H S_H)`.
 
     Notes
     -----
-    The components ``dL``, ``dC`` and ``dH`` are generally *weighted*
-    differences and **not raw coordinate differences**:
-
-    - *CIE 1994* (:func:`colour.difference.delta_E_CIE1994`):
-      differences divided by :math:`k_L S_L`, :math:`k_C S_C`, :math:`k_H S_H`.
-    - *CIE 2000* (:func:`colour.difference.delta_E_CIE2000`):
-      differences divided by parametric weighting functions
-      :math:`k_L S_L`, :math:`k_C S_C`, :math:`k_H S_H`.
-    - *CMC* (:func:`colour.difference.delta_E_CMC`):
-      differences divided by :math:`l S_L`, :math:`c S_C` and hue weighting.
-    - *HyCH* (:func:`colour.difference.delta_E_HyCH`):
-      weighted differences based on *CIE 2000* intermediate attributes.
-
-    For *CIE 1994*, *CIE 2000* and *HyCH*, enabling the ``textiles`` parameter
-    modifies the parametric weighting factors and therefore directly affects
-    the returned component values ``dL``, ``dC`` and ``dH``.
+    -   Enabling the ``textiles`` parameter modifies the parametric weighting
+        factors and therefore directly affects the returned component values.
     """
 
+    dE: NDArrayFloat | None = field(default_factory=lambda: None)
     dL: NDArrayFloat | None = field(default_factory=lambda: None)
     dC: NDArrayFloat | None = field(default_factory=lambda: None)
     dH: NDArrayFloat | None = field(default_factory=lambda: None)
@@ -297,7 +282,7 @@ def delta_E_CIE1994(
     textiles: bool = ...,
     *,
     additional_data: Literal[True],
-) -> DeltaELCHData: ...
+) -> DeltaE_Specification_CIE1994: ...
 
 
 def delta_E_CIE1994(
@@ -305,7 +290,7 @@ def delta_E_CIE1994(
     Lab_2: Domain100,
     textiles: bool = False,
     additional_data: bool = False,
-) -> NDArrayFloat | DeltaELCHData:
+) -> NDArrayFloat | DeltaE_Specification_CIE1994:
     """
     Compute the colour difference :math:`\\Delta E_{94}` between two specified
     *CIE L\\*a\\*b\\** colourspace arrays using the *CIE 1994* recommendation.
@@ -325,7 +310,7 @@ def delta_E_CIE1994(
 
     Returns
     -------
-    :class:`numpy.ndarray` or :class:`dict`
+    :class:`numpy.ndarray` or :class:`DeltaE_Specification_CIE1994`
         Colour difference :math:`\\Delta E_{94}`.
 
     Notes
@@ -358,7 +343,7 @@ def delta_E_CIE1994(
     ...     Lab_2,
     ...     additional_data=True,
     ... )  # doctest: +ELLIPSIS
-    DeltaELCHData(dE=np.float64(1.6711191...), \
+    DeltaE_Specification_CIE1994(dE=np.float64(1.6711191...), \
 dL=np.float64(-1.6672370...), dC=np.float64(-0.1138315...), \
 dH=np.float64(0.0014983...))
     >>> delta_E_CIE1994(Lab_1, Lab_2, textiles=True)  # doctest: +ELLIPSIS
@@ -369,7 +354,7 @@ dH=np.float64(0.0014983...))
     ...     textiles=True,
     ...     additional_data=True,
     ... )  # doctest: +ELLIPSIS
-    DeltaELCHData(dE=np.float64(0.8404677...), \
+    DeltaE_Specification_CIE1994(dE=np.float64(0.8404677...), \
 dL=np.float64(-0.8336185...), dC=np.float64(-0.1070687...), \
 dH=np.float64(0.0015891...))
     """
@@ -407,7 +392,7 @@ dH=np.float64(0.0015891...))
     if not additional_data:
         return d_E
 
-    return DeltaELCHData(
+    return DeltaE_Specification_CIE1994(
         d_E,
         L,
         C,
@@ -601,6 +586,37 @@ delta_H_p=np.float64(0.0105030...), R_T=np.float64(-3...))
     )
 
 
+@dataclass
+class DeltaE_Specification_CIE2000(MixinDataclassArithmetic):
+    """
+    Define the *CIE 2000* colour difference specification.
+
+    This data structure is returned by
+    :func:`colour.difference.delta_E_CIE2000` when ``additional_data=True``.
+
+    Parameters
+    ----------
+    dE
+        Colour difference :math:`\\Delta E_{00}`.
+    dL
+        Weighted *lightness* difference :math:`\\Delta L' / (k_L S_L)`.
+    dC
+        Weighted *chroma* difference :math:`\\Delta C' / (k_C S_C)`.
+    dH
+        Weighted *hue* difference :math:`\\Delta H' / (k_H S_H)`.
+
+    Notes
+    -----
+    -   Enabling the ``textiles`` parameter modifies the parametric weighting
+        factors and therefore directly affects the returned component values.
+    """
+
+    dE: NDArrayFloat | None = field(default_factory=lambda: None)
+    dL: NDArrayFloat | None = field(default_factory=lambda: None)
+    dC: NDArrayFloat | None = field(default_factory=lambda: None)
+    dH: NDArrayFloat | None = field(default_factory=lambda: None)
+
+
 @typing.overload
 def delta_E_CIE2000(
     Lab_1: Domain100,
@@ -618,7 +634,7 @@ def delta_E_CIE2000(
     textiles: bool = ...,
     *,
     additional_data: Literal[True],
-) -> DeltaELCHData: ...
+) -> DeltaE_Specification_CIE2000: ...
 
 
 def delta_E_CIE2000(
@@ -626,7 +642,7 @@ def delta_E_CIE2000(
     Lab_2: Domain100,
     textiles: bool = False,
     additional_data: bool = False,
-) -> NDArrayFloat | DeltaELCHData:
+) -> NDArrayFloat | DeltaE_Specification_CIE2000:
     """
     Compute the colour difference :math:`\\Delta E_{00}` between two specified
     *CIE L\\*a\\*b\\** colourspace arrays using the *CIE 2000* recommendation.
@@ -646,7 +662,7 @@ def delta_E_CIE2000(
 
     Returns
     -------
-    :class:`numpy.ndarray` or :class:`dict`
+    :class:`numpy.ndarray` or :class:`DeltaE_Specification_CIE2000`
         Colour difference :math:`\\Delta E_{00}`.
 
     Notes
@@ -688,7 +704,7 @@ def delta_E_CIE2000(
     ...     Lab_2,
     ...     additional_data=True,
     ... )  # doctest: +ELLIPSIS
-    DeltaELCHData(dE=np.float64(1.6709303...), \
+    DeltaE_Specification_CIE2000(dE=np.float64(1.6709303...), \
 dL=np.float64(1.6670667...), dC=np.float64(0.1135407...), \
 dH=np.float64(0.0022239...))
     >>> delta_E_CIE2000(Lab_1, Lab_2, textiles=True)  # doctest: +ELLIPSIS
@@ -699,7 +715,7 @@ dH=np.float64(0.0022239...))
     ...     textiles=True,
     ...     additional_data=True,
     ... )  # doctest: +ELLIPSIS
-    DeltaELCHData(dE=np.float64(0.8412338...), \
+    DeltaE_Specification_CIE2000(dE=np.float64(0.8412338...), \
 dL=np.float64(0.8335333...), dC=np.float64(0.1135407...), \
 dH=np.float64(0.0022239...))
     """
@@ -721,12 +737,38 @@ dH=np.float64(0.0022239...))
     if not additional_data:
         return d_E
 
-    return DeltaELCHData(
+    return DeltaE_Specification_CIE2000(
         d_E,
         L,
         C,
         H,
     )
+
+
+@dataclass
+class DeltaE_Specification_CMC(MixinDataclassArithmetic):
+    """
+    Define the *CMC* colour difference specification.
+
+    This data structure is returned by
+    :func:`colour.difference.delta_E_CMC` when ``additional_data=True``.
+
+    Parameters
+    ----------
+    dE
+        Colour difference :math:`\\Delta E_{CMC}`.
+    dL
+        Weighted *lightness* difference :math:`\\Delta L^* / (l S_L)`.
+    dC
+        Weighted *chroma* difference :math:`\\Delta C^*_{ab} / (c S_C)`.
+    dH
+        Weighted *hue* difference :math:`\\Delta H^*_{ab} / S_H`.
+    """
+
+    dE: NDArrayFloat | None = field(default_factory=lambda: None)
+    dL: NDArrayFloat | None = field(default_factory=lambda: None)
+    dC: NDArrayFloat | None = field(default_factory=lambda: None)
+    dH: NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 @typing.overload
@@ -748,7 +790,7 @@ def delta_E_CMC(
     c: float = ...,
     *,
     additional_data: Literal[True],
-) -> DeltaELCHData: ...
+) -> DeltaE_Specification_CMC: ...
 
 
 def delta_E_CMC(
@@ -757,7 +799,7 @@ def delta_E_CMC(
     l: float = 2,  # noqa: E741
     c: float = 1,
     additional_data: bool = False,
-) -> NDArrayFloat | DeltaELCHData:
+) -> NDArrayFloat | DeltaE_Specification_CMC:
     """
     Compute the colour difference :math:`\\Delta E_{CMC}` between two
     specified *CIE L\\*a\\*b\\** colourspace arrays using the *Colour
@@ -783,7 +825,7 @@ def delta_E_CMC(
 
     Returns
     -------
-    :class:`numpy.ndarray` or :class:`dict`
+    :class:`numpy.ndarray` or :class:`DeltaE_Specification_CMC`
         Colour difference :math:`\\Delta E_{CMC}`.
 
     Notes
@@ -811,7 +853,7 @@ def delta_E_CMC(
     ...     Lab_2,
     ...     additional_data=True,
     ... )  # doctest: +ELLIPSIS
-    DeltaELCHData(dE=np.float64(0.8996999...), \
+    DeltaE_Specification_CMC(dE=np.float64(0.8996999...), \
 dL=np.float64(-0.7743459...), dC=np.float64(-0.4580766...), \
 dH=np.float64(0.0037676...))
     """
@@ -839,18 +881,19 @@ dH=np.float64(0.0037676...))
     delta_C = C_1 - C_2
     delta_A = a_1 - a_2
     delta_B = b_1 - b_2
-    delta_H2 = np.sqrt(delta_A**2 + delta_B**2 - delta_C**2)
+    radical = delta_A**2 + delta_B**2 - delta_C**2
+    delta_H = np.where(radical > 0, np.sqrt(np.maximum(radical, 0)), 0)
 
     L = delta_L / (l * s_L)
     C = delta_C / (c * s_C)
-    H = delta_H2 / s_h
+    H = delta_H / s_h
 
     d_E = as_float(np.sqrt(L**2 + C**2 + H**2))
 
     if not additional_data:
         return d_E
 
-    return DeltaELCHData(
+    return DeltaE_Specification_CMC(
         d_E,
         L,
         C,
@@ -859,20 +902,32 @@ dH=np.float64(0.0037676...))
 
 
 @dataclass
-class DeltaEITPData(DeltaEData):
+class DeltaE_Specification_ITP(MixinDataclassArithmetic):
     """
-    Colour difference data expressed in the :math:`I_C T_C P_C` colourspace.
+    Define the *ITP* colour difference specification.
 
     This data structure is returned by
     :func:`colour.difference.delta_E_ITP` when ``additional_data=True``.
 
+    Parameters
+    ----------
+    dE
+        Colour difference :math:`\\Delta E_{ITP}`.
+    dI
+        *Intensity* difference :math:`\\Delta I`.
+    dT
+        Half-scaled *Tritan* difference :math:`\\Delta T / 2`.
+    dP
+        *Protan* difference :math:`\\Delta P`.
+
     Notes
     -----
-    - ``dT`` is **half-scaled prior to differencing** as specified by
-      *Recommendation ITU-R BT.2124*.
-    - The returned ``dT`` value is **not** a raw :math:`T` difference.
+    -   :math:`\\Delta E_{ITP} = 720 \\sqrt{dI^2 + dT^2 + dP^2}`.
+    -   ``dT`` is **half-scaled prior to differencing** as specified by
+        *Recommendation ITU-R BT.2124*.
     """
 
+    dE: NDArrayFloat | None = field(default_factory=lambda: None)
     dI: NDArrayFloat | None = field(default_factory=lambda: None)
     dT: NDArrayFloat | None = field(default_factory=lambda: None)
     dP: NDArrayFloat | None = field(default_factory=lambda: None)
@@ -893,14 +948,14 @@ def delta_E_ITP(
     ICtCp_2: Domain1,
     *,
     additional_data: Literal[True],
-) -> DeltaEITPData: ...
+) -> DeltaE_Specification_ITP: ...
 
 
 def delta_E_ITP(
     ICtCp_1: Domain1,
     ICtCp_2: Domain1,
     additional_data: bool = False,
-) -> NDArrayFloat | DeltaEITPData:
+) -> NDArrayFloat | DeltaE_Specification_ITP:
     """
     Compute the colour difference :math:`\\Delta E_{ITP}` between two specified
     :math:`IC_TC_P` colour encoding arrays using the
@@ -917,7 +972,7 @@ def delta_E_ITP(
 
     Returns
     -------
-    :class:`numpy.ndarray` or :class:`dict`
+    :class:`numpy.ndarray` or :class:`DeltaE_Specification_ITP`
         Colour difference :math:`\\Delta E_{ITP}`.
 
     Notes
@@ -948,7 +1003,7 @@ def delta_E_ITP(
     ...     ICtCp_2,
     ...     additional_data=True,
     ... )  # doctest: +ELLIPSIS
-    DeltaEITPData(dE=np.float64(1.4265722...), \
+    DeltaE_Specification_ITP(dE=np.float64(1.4265722...), \
 dI=np.float64(0.0013735...), dT=np.float64(0.0008592...), \
 dP=np.float64(-0.0011405...))
     """
@@ -968,12 +1023,38 @@ dP=np.float64(-0.0011405...))
     if not additional_data:
         return d_E_ITP
 
-    return DeltaEITPData(
+    return DeltaE_Specification_ITP(
         d_E_ITP,
         I,
         T,
         P,
     )
+
+
+@dataclass
+class DeltaE_Specification_HyAB(MixinDataclassArithmetic):
+    """
+    Define the *HyAB* colour difference specification.
+
+    This data structure is returned by
+    :func:`colour.difference.delta_E_HyAB` when ``additional_data=True``.
+
+    Parameters
+    ----------
+    dE
+        Colour difference :math:`\\Delta E_{HyAB}`.
+    dL
+        Raw *lightness* difference :math:`\\Delta L^*`.
+    da
+        Raw :math:`\\Delta a^*` difference.
+    db
+        Raw :math:`\\Delta b^*` difference.
+    """
+
+    dE: NDArrayFloat | None = field(default_factory=lambda: None)
+    dL: NDArrayFloat | None = field(default_factory=lambda: None)
+    da: NDArrayFloat | None = field(default_factory=lambda: None)
+    db: NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 @typing.overload
@@ -991,14 +1072,14 @@ def delta_E_HyAB(
     Lab_2: Domain100,
     *,
     additional_data: Literal[True],
-) -> DeltaELabData: ...
+) -> DeltaE_Specification_HyAB: ...
 
 
 def delta_E_HyAB(
     Lab_1: Domain100,
     Lab_2: Domain100,
     additional_data: bool = False,
-) -> NDArrayFloat | DeltaELabData:
+) -> NDArrayFloat | DeltaE_Specification_HyAB:
     """
     Compute the colour difference between two *CIE L\\*a\\*b\\** colourspace arrays
     using a combination of a Euclidean metric in hue and chroma with a
@@ -1018,7 +1099,7 @@ def delta_E_HyAB(
 
     Returns
     -------
-    :class:`numpy.ndarray` or :class:`dict`
+    :class:`numpy.ndarray` or :class:`DeltaE_Specification_HyAB`
         Colour difference :math:`\\Delta E_{HyAB}`.
 
     Notes
@@ -1046,7 +1127,7 @@ def delta_E_HyAB(
     ...     Lab_2,
     ...     additional_data=True,
     ... )  # doctest: +ELLIPSIS
-    DeltaELabData(dE=np.float64(151.0215481...), \
+    DeltaE_Specification_HyAB(dE=np.float64(151.0215481...), \
 dL=np.float64(-13.2067617...), da=np.float64(91.0902353...), \
 db=np.float64(-103.4189749...))
     """
@@ -1058,12 +1139,44 @@ db=np.float64(-103.4189749...))
     if not additional_data:
         return HyAB
 
-    return DeltaELabData(
+    return DeltaE_Specification_HyAB(
         HyAB,
         dL,
         da,
         db,
     )
+
+
+@dataclass
+class DeltaE_Specification_HyCH(MixinDataclassArithmetic):
+    """
+    Define the *HyCH* colour difference specification.
+
+    This data structure is returned by
+    :func:`colour.difference.delta_E_HyCH` when ``additional_data=True``.
+
+    Parameters
+    ----------
+    dE
+        Colour difference :math:`\\Delta E_{HyCH}`.
+    dL
+        Weighted *lightness* difference :math:`\\Delta L' / (k_L S_L)`.
+    dC
+        Weighted *chroma* difference :math:`\\Delta C' / (k_C S_C)`.
+    dH
+        Weighted *hue* difference :math:`\\Delta H' / (k_H S_H)`.
+
+    Notes
+    -----
+    -   Components are weighted based on *CIE 2000* intermediate attributes.
+    -   Enabling the ``textiles`` parameter modifies the parametric weighting
+        factors and therefore directly affects the returned component values.
+    """
+
+    dE: NDArrayFloat | None = field(default_factory=lambda: None)
+    dL: NDArrayFloat | None = field(default_factory=lambda: None)
+    dC: NDArrayFloat | None = field(default_factory=lambda: None)
+    dH: NDArrayFloat | None = field(default_factory=lambda: None)
 
 
 @typing.overload
@@ -1083,7 +1196,7 @@ def delta_E_HyCH(
     textiles: bool = ...,
     *,
     additional_data: Literal[True],
-) -> DeltaELCHData: ...
+) -> DeltaE_Specification_HyCH: ...
 
 
 def delta_E_HyCH(
@@ -1091,7 +1204,7 @@ def delta_E_HyCH(
     Lab_2: Domain100,
     textiles: bool = False,
     additional_data: bool = False,
-) -> NDArrayFloat | DeltaELCHData:
+) -> NDArrayFloat | DeltaE_Specification_HyCH:
     """
     Compute the colour difference between two *CIE L\\*a\\*b\\** colourspace
     arrays using a combination of Euclidean metric in hue and chroma with a
@@ -1114,7 +1227,7 @@ def delta_E_HyCH(
 
     Returns
     -------
-    :class:`numpy.ndarray` or :class:`dict`
+    :class:`numpy.ndarray` or :class:`DeltaE_Specification_HyCH`
         Colour difference :math:`\\Delta E_{HyCH}`.
 
     Notes
@@ -1142,7 +1255,7 @@ def delta_E_HyCH(
     ...     Lab_2,
     ...     additional_data=True,
     ... )  # doctest: +ELLIPSIS
-    DeltaELCHData(dE=np.float64(48.6642794...), \
+    DeltaE_Specification_HyCH(dE=np.float64(48.6642794...), \
 dL=np.float64(12.7962972...), dC=np.float64(9.6258211...), \
 dH=np.float64(34.5522171...))
     """
@@ -1164,7 +1277,7 @@ dH=np.float64(34.5522171...))
     if not additional_data:
         return HyCH
 
-    return DeltaELCHData(
+    return DeltaE_Specification_HyCH(
         HyCH,
         L,
         C,
