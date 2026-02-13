@@ -64,12 +64,22 @@ class TestDelta_E_CIE1976:
 
         Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
         Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
+
+        additional_data = delta_E_CIE1976(Lab_1, Lab_2, additional_data=True)
+
         Lab_1 = np.reshape(np.tile(Lab_1, (6, 1)), (2, 3, 3))
         Lab_2 = np.reshape(np.tile(Lab_2, (6, 1)), (2, 3, 3))
 
         np.testing.assert_allclose(
             delta_E_CIE1976(Lab_1, Lab_2),
             euclidean_distance(Lab_1, Lab_2),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        tmp = delta_E_CIE1976(Lab_1, Lab_2, additional_data=True)
+        np.testing.assert_allclose(
+            np.array([*tmp.values]),
+            np.array([np.full((2, 3), val) for val in additional_data.values]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -141,6 +151,7 @@ class TestDelta_E_CIE1994:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # testing textiles boolean
         np.testing.assert_allclose(
             delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
@@ -171,6 +182,26 @@ class TestDelta_E_CIE1994:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # testing additional data boolean
+        np.testing.assert_allclose(
+            np.array(
+                delta_E_CIE1994(
+                    np.array([48.99183622, -0.10561667, 400.65619925]),
+                    np.array([50.65907324, -0.11671910, 402.82235718]),
+                    additional_data=True,
+                ).values
+            ),
+            np.array(
+                [
+                    1.6711191305411999,
+                    -1.6672370199999946,
+                    -0.11383155366801864,
+                    0.0014983296827213444,
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_delta_E_CIE1994(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_CIE1994` definition
@@ -180,6 +211,7 @@ class TestDelta_E_CIE1994:
         Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
         Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
         delta_E = delta_E_CIE1994(Lab_1, Lab_2)
+        additional_data = delta_E_CIE1994(Lab_1, Lab_2, additional_data=True)
 
         Lab_1 = np.tile(Lab_1, (6, 1))
         Lab_2 = np.tile(Lab_2, (6, 1))
@@ -189,6 +221,11 @@ class TestDelta_E_CIE1994:
             delta_E,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+        np.testing.assert_allclose(
+            np.array(delta_E_CIE1994(Lab_1, Lab_2, additional_data=True).values),
+            np.array([np.tile(val, 6) for val in additional_data.values]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
 
         Lab_1 = np.reshape(Lab_1, (2, 3, 3))
         Lab_2 = np.reshape(Lab_2, (2, 3, 3))
@@ -196,6 +233,11 @@ class TestDelta_E_CIE1994:
         np.testing.assert_allclose(
             delta_E_CIE1994(Lab_1, Lab_2),
             delta_E,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        np.testing.assert_allclose(
+            np.array(delta_E_CIE1994(Lab_1, Lab_2, additional_data=True).values),
+            np.array([np.full((2, 3), val) for val in additional_data.values]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -208,6 +250,7 @@ class TestDelta_E_CIE1994:
         Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
         Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
         delta_E = delta_E_CIE1994(Lab_1, Lab_2)
+        additional_data = delta_E_CIE1994(Lab_1, Lab_2, additional_data=True)
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
@@ -215,6 +258,15 @@ class TestDelta_E_CIE1994:
                 np.testing.assert_allclose(
                     delta_E_CIE1994(Lab_1 * factor, Lab_2 * factor),
                     delta_E,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+                np.testing.assert_allclose(
+                    np.array(
+                        delta_E_CIE1994(
+                            Lab_1 * factor, Lab_2 * factor, additional_data=True
+                        ).values
+                    ),
+                    np.array(additional_data.values),
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
@@ -228,6 +280,7 @@ class TestDelta_E_CIE1994:
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         delta_E_CIE1994(cases, cases)
+        delta_E_CIE1994(cases, cases, additional_data=True)
 
 
 class TestIntermediateAttributes_CIE2000:
@@ -298,6 +351,7 @@ class TestDelta_E_CIE2000:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # testing textiles boolean
         np.testing.assert_allclose(
             delta_E_CIE2000(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
@@ -328,6 +382,26 @@ class TestDelta_E_CIE2000:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # testing additional data boolean
+        np.testing.assert_allclose(
+            np.array(
+                delta_E_CIE2000(
+                    np.array([48.99183622, -0.10561667, 400.65619925]),
+                    np.array([50.65907324, -0.11671910, 402.82235718]),
+                    additional_data=True,
+                ).values
+            ),
+            np.array(
+                [
+                    1.6709303272135918,
+                    1.6670667983081124,
+                    0.11354075196350125,
+                    0.0022239659222892624,
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_delta_E_CIE2000(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_CIE2000` definition
@@ -337,6 +411,7 @@ class TestDelta_E_CIE2000:
         Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
         Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
         delta_E = delta_E_CIE2000(Lab_1, Lab_2)
+        additional_data = delta_E_CIE2000(Lab_1, Lab_2, additional_data=True)
 
         Lab_1 = np.tile(Lab_1, (6, 1))
         Lab_2 = np.tile(Lab_2, (6, 1))
@@ -346,6 +421,11 @@ class TestDelta_E_CIE2000:
             delta_E,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+        np.testing.assert_allclose(
+            np.array(delta_E_CIE2000(Lab_1, Lab_2, additional_data=True).values),
+            np.array([np.tile(val, 6) for val in additional_data.values]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
 
         Lab_1 = np.reshape(Lab_1, (2, 3, 3))
         Lab_2 = np.reshape(Lab_2, (2, 3, 3))
@@ -353,6 +433,11 @@ class TestDelta_E_CIE2000:
         np.testing.assert_allclose(
             delta_E_CIE2000(Lab_1, Lab_2),
             delta_E,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        np.testing.assert_allclose(
+            np.array(delta_E_CIE2000(Lab_1, Lab_2, additional_data=True).values),
+            np.array([np.full((2, 3), val) for val in additional_data.values]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -365,6 +450,7 @@ class TestDelta_E_CIE2000:
         Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
         Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
         delta_E = delta_E_CIE2000(Lab_1, Lab_2)
+        additional_data = delta_E_CIE2000(Lab_1, Lab_2, additional_data=True)
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
@@ -372,6 +458,15 @@ class TestDelta_E_CIE2000:
                 np.testing.assert_allclose(
                     delta_E_CIE2000(Lab_1 * factor, Lab_2 * factor),
                     delta_E,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+                np.testing.assert_allclose(
+                    np.array(
+                        delta_E_CIE2000(
+                            Lab_1 * factor, Lab_2 * factor, additional_data=True
+                        ).values
+                    ),
+                    np.array(additional_data.values),
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
@@ -385,6 +480,7 @@ class TestDelta_E_CIE2000:
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         delta_E_CIE2000(cases, cases)
+        delta_E_CIE2000(cases, cases, additional_data=True)
 
     def test_delta_E_CIE2000_Sharma2004(self) -> None:
         """
@@ -590,6 +686,7 @@ class TestDelta_E_CMC:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # testing l float
         np.testing.assert_allclose(
             delta_E_CMC(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
@@ -620,6 +717,26 @@ class TestDelta_E_CMC:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # testing additional data boolean
+        np.testing.assert_allclose(
+            np.array(
+                delta_E_CMC(
+                    np.array([48.99183622, -0.10561667, 400.65619925]),
+                    np.array([50.65907324, -0.11671910, 402.82235718]),
+                    additional_data=True,
+                ).values
+            ),
+            np.array(
+                [
+                    0.8996999756834185,
+                    -0.7743459246308059,
+                    -0.4580766751407644,
+                    0.003767617866617381,
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_delta_E_CMC(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_CMC` definition
@@ -629,6 +746,7 @@ class TestDelta_E_CMC:
         Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
         Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
         delta_E = delta_E_CMC(Lab_1, Lab_2)
+        additional_data = delta_E_CMC(Lab_1, Lab_2, additional_data=True)
 
         Lab_1 = np.tile(Lab_1, (6, 1))
         Lab_2 = np.tile(Lab_2, (6, 1))
@@ -636,12 +754,22 @@ class TestDelta_E_CMC:
         np.testing.assert_allclose(
             delta_E_CMC(Lab_1, Lab_2), delta_E, atol=TOLERANCE_ABSOLUTE_TESTS
         )
+        np.testing.assert_allclose(
+            np.array(delta_E_CMC(Lab_1, Lab_2, additional_data=True).values),
+            np.array([np.tile(val, 6) for val in additional_data.values]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
 
         Lab_1 = np.reshape(Lab_1, (2, 3, 3))
         Lab_2 = np.reshape(Lab_2, (2, 3, 3))
         delta_E = np.reshape(delta_E, (2, 3))
         np.testing.assert_allclose(
             delta_E_CMC(Lab_1, Lab_2), delta_E, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+        np.testing.assert_allclose(
+            np.array(delta_E_CMC(Lab_1, Lab_2, additional_data=True).values),
+            np.array([np.full((2, 3), val) for val in additional_data.values]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_delta_E_CMC(self) -> None:
@@ -653,6 +781,7 @@ class TestDelta_E_CMC:
         Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
         Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
         delta_E = delta_E_CMC(Lab_1, Lab_2)
+        additional_data = delta_E_CMC(Lab_1, Lab_2, additional_data=True)
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
@@ -660,6 +789,15 @@ class TestDelta_E_CMC:
                 np.testing.assert_allclose(
                     delta_E_CMC(Lab_1 * factor, Lab_2 * factor),
                     delta_E,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+                np.testing.assert_allclose(
+                    np.array(
+                        delta_E_CMC(
+                            Lab_1 * factor, Lab_2 * factor, additional_data=True
+                        ).values
+                    ),
+                    np.array(additional_data.values),
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
@@ -673,6 +811,7 @@ class TestDelta_E_CMC:
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         delta_E_CMC(cases, cases)
+        delta_E_CMC(cases, cases, additional_data=True)
 
 
 class TestDelta_E_ITP:
@@ -774,6 +913,26 @@ class TestDelta_E_ITP:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        np.testing.assert_allclose(
+            np.array(
+                delta_E_ITP(
+                    # RGB: (255, 255, 0), 100% Yellow
+                    np.array([0.7413041405, -0.3638807621, 0.04959414794]),
+                    np.array([0.7412815181, -0.3299076141, 0.04545287368]),
+                    additional_data=True,
+                ).values
+            ),
+            np.array(
+                [
+                    12.58856451296948,
+                    -2.262240000006077e-05,
+                    0.016986573999999977,
+                    -0.004141274260000001,
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_delta_E_ITP(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_ITP` definition
@@ -783,6 +942,7 @@ class TestDelta_E_ITP:
         ICtCp_1 = np.array([0.4885468072, -0.04739350675, 0.07475401302])
         ICtCp_2 = np.array([0.4899203231, -0.04567508203, 0.07361341775])
         delta_E = delta_E_ITP(ICtCp_1, ICtCp_2)
+        additional_data = delta_E_ITP(ICtCp_1, ICtCp_2, additional_data=True)
 
         ICtCp_1 = np.tile(ICtCp_1, (6, 1))
         ICtCp_2 = np.tile(ICtCp_2, (6, 1))
@@ -790,12 +950,22 @@ class TestDelta_E_ITP:
         np.testing.assert_allclose(
             delta_E_ITP(ICtCp_1, ICtCp_2), delta_E, atol=TOLERANCE_ABSOLUTE_TESTS
         )
+        np.testing.assert_allclose(
+            np.array(delta_E_ITP(ICtCp_1, ICtCp_2, additional_data=True).values),
+            np.array([np.tile(val, 6) for val in additional_data.values]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
 
         ICtCp_1 = np.reshape(ICtCp_1, (2, 3, 3))
         ICtCp_2 = np.reshape(ICtCp_2, (2, 3, 3))
         delta_E = np.reshape(delta_E, (2, 3))
         np.testing.assert_allclose(
             delta_E_ITP(ICtCp_1, ICtCp_2), delta_E, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+        np.testing.assert_allclose(
+            np.array(delta_E_ITP(ICtCp_1, ICtCp_2, additional_data=True).values),
+            np.array([np.full((2, 3), val) for val in additional_data.values]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_domain_range_scale_delta_E_ITP(self) -> None:
@@ -807,6 +977,7 @@ class TestDelta_E_ITP:
         ICtCp_1 = np.array([0.4885468072, -0.04739350675, 0.07475401302])
         ICtCp_2 = np.array([0.4899203231, -0.04567508203, 0.07361341775])
         delta_E = delta_E_ITP(ICtCp_1, ICtCp_2)
+        additional_data = delta_E_ITP(ICtCp_1, ICtCp_2, additional_data=True)
 
         d_r = (("reference", 1), ("1", 1), ("100", 1))
         for scale, factor in d_r:
@@ -814,6 +985,15 @@ class TestDelta_E_ITP:
                 np.testing.assert_allclose(
                     delta_E_ITP(ICtCp_1 * factor, ICtCp_2 * factor),
                     delta_E,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+                np.testing.assert_allclose(
+                    np.array(
+                        delta_E_ITP(
+                            ICtCp_1 * factor, ICtCp_2 * factor, additional_data=True
+                        ).values
+                    ),
+                    np.array(additional_data.values),
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
@@ -827,6 +1007,7 @@ class TestDelta_E_ITP:
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         delta_E_ITP(cases, cases)
+        delta_E_ITP(cases, cases, additional_data=True)
 
 
 class TestDelta_E_HyAB:
@@ -865,6 +1046,21 @@ class TestDelta_E_HyAB:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # testing additional data boolean
+        np.testing.assert_allclose(
+            np.array(
+                delta_E_HyAB(
+                    np.array([39.91531343, 51.16658481, 146.12933781]),
+                    np.array([53.12207516, -39.92365056, 249.54831278]),
+                    additional_data=True,
+                ).values
+            ),
+            np.array(
+                [151.0215481776359, -13.206761730000004, 91.09023537, -103.41897497]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_delta_E_HyAB(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_HyAB` definition
@@ -874,6 +1070,7 @@ class TestDelta_E_HyAB:
         Lab_1 = (np.array([39.91531343, 51.16658481, 146.12933781]),)
         Lab_2 = (np.array([53.12207516, -39.92365056, 249.54831278]),)
         delta_E = delta_E_HyAB(Lab_1, Lab_2)
+        additional_data = delta_E_HyAB(Lab_1, Lab_2, additional_data=True)
 
         Lab_1 = np.tile(Lab_1, (6, 1))
         Lab_2 = np.tile(Lab_2, (6, 1))
@@ -883,6 +1080,11 @@ class TestDelta_E_HyAB:
             delta_E,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+        np.testing.assert_allclose(
+            np.array(delta_E_HyAB(Lab_1, Lab_2, additional_data=True).values),
+            np.array([np.tile(val, 6) for val in additional_data.values]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
 
         Lab_1 = np.reshape(Lab_1, (2, 3, 3))
         Lab_2 = np.reshape(Lab_2, (2, 3, 3))
@@ -890,6 +1092,11 @@ class TestDelta_E_HyAB:
         np.testing.assert_allclose(
             delta_E_HyAB(Lab_1, Lab_2),
             delta_E,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        np.testing.assert_allclose(
+            np.array(delta_E_HyAB(Lab_1, Lab_2, additional_data=True).values),
+            np.array([np.full((2, 3), val) for val in additional_data.values]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -902,6 +1109,7 @@ class TestDelta_E_HyAB:
         Lab_1 = np.array([39.91531343, 51.16658481, 146.12933781])
         Lab_2 = np.array([53.12207516, -39.92365056, 249.54831278])
         delta_E = delta_E_HyAB(Lab_1, Lab_2)
+        additional_data = delta_E_HyAB(Lab_1, Lab_2, additional_data=True)
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
@@ -909,6 +1117,15 @@ class TestDelta_E_HyAB:
                 np.testing.assert_allclose(
                     delta_E_HyAB(Lab_1 * factor, Lab_2 * factor),
                     delta_E,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+                np.testing.assert_allclose(
+                    np.array(
+                        delta_E_HyAB(
+                            Lab_1 * factor, Lab_2 * factor, additional_data=True
+                        ).values
+                    ),
+                    np.array(additional_data.values),
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
@@ -922,6 +1139,7 @@ class TestDelta_E_HyAB:
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         delta_E_HyAB(cases, cases)
+        delta_E_HyAB(cases, cases, additional_data=True)
 
 
 class TestDelta_E_HyCH:
@@ -960,6 +1178,26 @@ class TestDelta_E_HyCH:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # testing additional data boolean
+        np.testing.assert_allclose(
+            np.array(
+                delta_E_HyCH(
+                    np.array([39.91531343, 51.16658481, 146.12933781]),
+                    np.array([53.12207516, -39.92365056, 249.54831278]),
+                    additional_data=True,
+                ).values
+            ),
+            np.array(
+                [
+                    48.66427941976037,
+                    12.796297245237563,
+                    9.62582118396321,
+                    34.5522171764165,
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_delta_E_HyCH(self) -> None:
         """
         Test :func:`colour.difference.delta_e.delta_E_HyCH` definition
@@ -969,6 +1207,7 @@ class TestDelta_E_HyCH:
         Lab_1 = (np.array([39.91531343, 51.16658481, 146.12933781]),)
         Lab_2 = (np.array([53.12207516, -39.92365056, 249.54831278]),)
         delta_E = delta_E_HyCH(Lab_1, Lab_2)
+        additional_data = delta_E_HyCH(Lab_1, Lab_2, additional_data=True)
 
         Lab_1 = np.tile(Lab_1, (6, 1))
         Lab_2 = np.tile(Lab_2, (6, 1))
@@ -978,6 +1217,11 @@ class TestDelta_E_HyCH:
             delta_E,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+        np.testing.assert_allclose(
+            np.array(delta_E_HyCH(Lab_1, Lab_2, additional_data=True).values),
+            np.array([np.tile(val, 6) for val in additional_data.values]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
 
         Lab_1 = np.reshape(Lab_1, (2, 3, 3))
         Lab_2 = np.reshape(Lab_2, (2, 3, 3))
@@ -985,6 +1229,11 @@ class TestDelta_E_HyCH:
         np.testing.assert_allclose(
             delta_E_HyCH(Lab_1, Lab_2),
             delta_E,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        np.testing.assert_allclose(
+            np.array(delta_E_HyCH(Lab_1, Lab_2, additional_data=True).values),
+            np.array([np.full((2, 3), val) for val in additional_data.values]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -997,6 +1246,7 @@ class TestDelta_E_HyCH:
         Lab_1 = np.array([39.91531343, 51.16658481, 146.12933781])
         Lab_2 = np.array([53.12207516, -39.92365056, 249.54831278])
         delta_E = delta_E_HyCH(Lab_1, Lab_2)
+        additional_data = delta_E_HyCH(Lab_1, Lab_2, additional_data=True)
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
@@ -1004,6 +1254,15 @@ class TestDelta_E_HyCH:
                 np.testing.assert_allclose(
                     delta_E_HyCH(Lab_1 * factor, Lab_2 * factor),
                     delta_E,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+                np.testing.assert_allclose(
+                    np.array(
+                        delta_E_HyCH(
+                            Lab_1 * factor, Lab_2 * factor, additional_data=True
+                        ).values
+                    ),
+                    np.array(additional_data.values),
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
@@ -1017,3 +1276,4 @@ class TestDelta_E_HyCH:
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         delta_E_HyCH(cases, cases)
+        delta_E_HyCH(cases, cases, additional_data=True)

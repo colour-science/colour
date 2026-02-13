@@ -18,6 +18,165 @@ References
     42(6), 703-718. doi:10.1002/col.22131
 """
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from dataclasses import dataclass, field
+
+    from colour.hints import Domain100, Literal, NDArrayFloat
+    from colour.models.cam02_ucs import Coefficients_UCS_Luo2006
+    from colour.utilities import MixinDataclassArithmetic
+
+    @dataclass
+    class DeltaEData(MixinDataclassArithmetic):
+        """
+        Colour difference data containing the colour difference :math:`\\Delta E`.
+
+        This class is the base container for colour difference computation results
+        returned when ``additional_data=True`` in :mod:`colour.difference` functions.
+        """
+
+        dE: NDArrayFloat | None = field(default_factory=lambda: None)
+
+    @dataclass
+    class DeltaEJabData(DeltaEData):
+        """
+        Colour difference data expressed in a :math:`J'a'b'` colourspace.
+
+        This data structure is returned by the following functions when
+        ``additional_data=True``:
+
+        - :func:`colour.difference.delta_E_Luo2006`
+        - :func:`colour.difference.delta_E_CAM02LCD`
+        - :func:`colour.difference.delta_E_CAM02SCD`
+        - :func:`colour.difference.delta_E_CAM02UCS`
+
+        Notes
+        -----
+        The interpretation of the components is as follows:
+
+        - ``dJ`` is weighted by the lightness coefficient :math:`K_L`
+        defined by the selected *Luo et al. (2006)* uniform colourspace.
+        - ``da`` and ``db`` are raw differences in the corresponding
+        *CAM02-LCD*, *CAM02-SCD* or *CAM02-UCS* colourspace.
+        """
+
+        dJ: NDArrayFloat | None = field(default_factory=lambda: None)
+        da: NDArrayFloat | None = field(default_factory=lambda: None)
+        db: NDArrayFloat | None = field(default_factory=lambda: None)
+
+    # ------------------------------------------------------------------
+    # Li et al. (2017) generic entry point
+    # ------------------------------------------------------------------
+
+    @typing.overload
+    def delta_E_Li2017(
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        coefficients: Coefficients_UCS_Luo2006,
+        *,
+        additional_data: Literal[False] = False,
+    ) -> NDArrayFloat: ...
+
+    @typing.overload
+    def delta_E_Li2017(
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        coefficients: Coefficients_UCS_Luo2006,
+        *,
+        additional_data: Literal[True],
+    ) -> DeltaEJabData: ...
+
+    def delta_E_Li2017(  # noqa: D103
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        coefficients: Coefficients_UCS_Luo2006,
+        *,
+        additional_data: bool = False,
+    ) -> NDArrayFloat | DeltaEJabData: ...
+
+    # ------------------------------------------------------------------
+    # CAM16-LCD
+    # ------------------------------------------------------------------
+
+    @typing.overload
+    def delta_E_CAM16LCD(
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: Literal[False] = False,
+    ) -> NDArrayFloat: ...
+
+    @typing.overload
+    def delta_E_CAM16LCD(
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: Literal[True],
+    ) -> DeltaEJabData: ...
+
+    def delta_E_CAM16LCD(  # noqa: D103
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: bool = False,
+    ) -> NDArrayFloat | DeltaEJabData: ...
+
+    # ------------------------------------------------------------------
+    # CAM16-SCD
+    # ------------------------------------------------------------------
+
+    @typing.overload
+    def delta_E_CAM16SCD(
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: Literal[False] = False,
+    ) -> NDArrayFloat: ...
+
+    @typing.overload
+    def delta_E_CAM16SCD(
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: Literal[True],
+    ) -> DeltaEJabData: ...
+
+    def delta_E_CAM16SCD(  # noqa: D103
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: bool = False,
+    ) -> NDArrayFloat | DeltaEJabData: ...
+
+    # ------------------------------------------------------------------
+    # CAM16-UCS
+    # ------------------------------------------------------------------
+
+    @typing.overload
+    def delta_E_CAM16UCS(
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: Literal[False] = False,
+    ) -> NDArrayFloat: ...
+
+    @typing.overload
+    def delta_E_CAM16UCS(
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: Literal[True],
+    ) -> DeltaEJabData: ...
+
+    def delta_E_CAM16UCS(  # noqa: D103
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: bool = False,
+    ) -> NDArrayFloat | DeltaEJabData: ...
+
+
 from colour.difference.cam02_ucs import (
     delta_E_CAM02LCD,
     delta_E_CAM02SCD,

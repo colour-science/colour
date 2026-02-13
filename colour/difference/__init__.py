@@ -42,9 +42,13 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
 from __future__ import annotations
 
 import typing
+from dataclasses import dataclass, field
+from typing import overload
+
+from colour.utilities import MixinDataclassArithmetic
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Any, ArrayLike, NDArrayFloat, LiteralDeltaEMethod
+    from colour.hints import Any, ArrayLike, NDArrayFloat, Literal, LiteralDeltaEMethod
 
 from colour.utilities import (
     CanonicalMapping,
@@ -148,12 +152,58 @@ DELTA_E_METHODS["cie1994"] = DELTA_E_METHODS["CIE 1994"]
 DELTA_E_METHODS["cie2000"] = DELTA_E_METHODS["CIE 2000"]
 
 
+@dataclass
+class DeltaEData(MixinDataclassArithmetic):
+    """
+    Colour difference data containing the colour difference :math:`\\Delta E`.
+
+    This class is the base container for colour difference computation results
+    returned when ``additional_data=True`` in :mod:`colour.difference` functions.
+    """
+
+    dE: NDArrayFloat | None = field(default_factory=lambda: None)
+
+
+@overload
+def delta_E(
+    a: ArrayLike,
+    b: ArrayLike,
+    method: LiteralDeltaEMethod | str = ...,
+    *,
+    additional_data: Literal[False] = False,
+    **kwargs: Any,
+) -> NDArrayFloat: ...
+
+
+@overload
+def delta_E(
+    a: ArrayLike,
+    b: ArrayLike,
+    method: LiteralDeltaEMethod | str = ...,
+    *,
+    additional_data: Literal[True],
+    **kwargs: Any,
+) -> DeltaEData: ...
+
+
+@overload
+def delta_E(
+    a: ArrayLike,
+    b: ArrayLike,
+    method: LiteralDeltaEMethod | str = ...,
+    *,
+    additional_data: bool,
+    **kwargs: Any,
+) -> NDArrayFloat | DeltaEData: ...
+
+
 def delta_E(
     a: ArrayLike,
     b: ArrayLike,
     method: LiteralDeltaEMethod | str = "CIE 2000",
+    additional_data: bool = False,
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> NDArrayFloat | DeltaEData:
     """
     Compute the colour difference :math:`\\Delta E_{ab}` between two
     specified *CIE L\\*a\\*b\\**, :math:`IC_TC_P`, or :math:`J'a'b'`
@@ -169,6 +219,8 @@ def delta_E(
         array :math:`b`.
     method
         Computation method.
+    additional_data
+        Whether to output additional data.
 
     Other Parameters
     ----------------
@@ -189,8 +241,11 @@ def delta_E(
 
     Returns
     -------
-    :class:`numpy.ndarray`
-        Colour difference :math:`\\Delta E_{ab}`.
+    :class:`numpy.ndarray` or :class:`dict`
+        Colour difference :math:`\\Delta E_{ab}`. When ``additional_data=True``,
+        a dictionary is returned containing the colour difference ``dE`` and
+        additional component-wise colour difference terms depending on the
+        selected method.
 
     References
     ----------
@@ -241,7 +296,9 @@ def delta_E(
 
     function = DELTA_E_METHODS[method]
 
-    return function(a, b, **filter_kwargs(function, **kwargs))
+    return function(
+        a, b, additional_data=additional_data, **filter_kwargs(function, **kwargs)
+    )
 
 
 __all__ += [
