@@ -18,6 +18,127 @@ References
     42(6), 703-718. doi:10.1002/col.22131
 """
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.difference.cam02_ucs import DeltaE_Specification_Luo2006
+    from colour.hints import Domain100, Literal, NDArrayFloat
+    from colour.models.cam02_ucs import Coefficients_UCS_Luo2006
+
+    # Type stubs are needed because type checkers cannot see through
+    # ``copy_definition`` assignments below.
+    # ------------------------------------------------------------------
+    # Li et al. (2017) generic entry point
+    # ------------------------------------------------------------------
+
+    @typing.overload
+    def delta_E_Li2017(
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        coefficients: Coefficients_UCS_Luo2006,
+        *,
+        additional_data: Literal[False] = False,
+    ) -> NDArrayFloat: ...
+
+    @typing.overload
+    def delta_E_Li2017(
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        coefficients: Coefficients_UCS_Luo2006,
+        *,
+        additional_data: Literal[True],
+    ) -> DeltaE_Specification_Luo2006: ...
+
+    def delta_E_Li2017(  # noqa: D103
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        coefficients: Coefficients_UCS_Luo2006,
+        *,
+        additional_data: bool = False,
+    ) -> NDArrayFloat | DeltaE_Specification_Luo2006: ...
+
+    # ------------------------------------------------------------------
+    # CAM16-LCD
+    # ------------------------------------------------------------------
+
+    @typing.overload
+    def delta_E_CAM16LCD(
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: Literal[False] = False,
+    ) -> NDArrayFloat: ...
+
+    @typing.overload
+    def delta_E_CAM16LCD(
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: Literal[True],
+    ) -> DeltaE_Specification_Luo2006: ...
+
+    def delta_E_CAM16LCD(  # noqa: D103
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: bool = False,
+    ) -> NDArrayFloat | DeltaE_Specification_Luo2006: ...
+
+    # ------------------------------------------------------------------
+    # CAM16-SCD
+    # ------------------------------------------------------------------
+
+    @typing.overload
+    def delta_E_CAM16SCD(
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: Literal[False] = False,
+    ) -> NDArrayFloat: ...
+
+    @typing.overload
+    def delta_E_CAM16SCD(
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: Literal[True],
+    ) -> DeltaE_Specification_Luo2006: ...
+
+    def delta_E_CAM16SCD(  # noqa: D103
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: bool = False,
+    ) -> NDArrayFloat | DeltaE_Specification_Luo2006: ...
+
+    # ------------------------------------------------------------------
+    # CAM16-UCS
+    # ------------------------------------------------------------------
+
+    @typing.overload
+    def delta_E_CAM16UCS(
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: Literal[False] = False,
+    ) -> NDArrayFloat: ...
+
+    @typing.overload
+    def delta_E_CAM16UCS(
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: Literal[True],
+    ) -> DeltaE_Specification_Luo2006: ...
+
+    def delta_E_CAM16UCS(  # noqa: D103
+        Jpapbp_1: Domain100,
+        Jpapbp_2: Domain100,
+        *,
+        additional_data: bool = False,
+    ) -> NDArrayFloat | DeltaE_Specification_Luo2006: ...
+
+
 from colour.difference.cam02_ucs import (
     delta_E_CAM02LCD,
     delta_E_CAM02SCD,

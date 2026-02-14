@@ -42,9 +42,10 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
 from __future__ import annotations
 
 import typing
+from typing import overload
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Any, ArrayLike, NDArrayFloat, LiteralDeltaEMethod
+    from colour.hints import Any, ArrayLike, NDArrayFloat, Literal, LiteralDeltaEMethod
 
 from colour.utilities import (
     CanonicalMapping,
@@ -52,10 +53,22 @@ from colour.utilities import (
     validate_method,
 )
 
-from .cam02_ucs import delta_E_CAM02LCD, delta_E_CAM02SCD, delta_E_CAM02UCS
+from .cam02_ucs import (
+    DeltaE_Specification_Luo2006,
+    delta_E_CAM02LCD,
+    delta_E_CAM02SCD,
+    delta_E_CAM02UCS,
+)
 from .cam16_ucs import delta_E_CAM16LCD, delta_E_CAM16SCD, delta_E_CAM16UCS
 from .delta_e import (
     JND_CIE1976,
+    DeltaE_Specification_CIE1976,
+    DeltaE_Specification_CIE1994,
+    DeltaE_Specification_CIE2000,
+    DeltaE_Specification_CMC,
+    DeltaE_Specification_HyAB,
+    DeltaE_Specification_HyCH,
+    DeltaE_Specification_ITP,
     delta_E_CIE1976,
     delta_E_CIE1994,
     delta_E_CIE2000,
@@ -64,7 +77,7 @@ from .delta_e import (
     delta_E_HyCH,
     delta_E_ITP,
 )
-from .din99 import delta_E_DIN99
+from .din99 import DeltaE_Specification_DIN99, delta_E_DIN99
 from .huang2015 import power_function_Huang2015
 from .metamerism_index import (
     Lab_to_metamerism_index,
@@ -74,6 +87,7 @@ from .metamerism_index import (
 from .stress import INDEX_STRESS_METHODS, index_stress, index_stress_Garcia2007
 
 __all__ = [
+    "DeltaE_Specification_Luo2006",
     "delta_E_CAM02LCD",
     "delta_E_CAM02SCD",
     "delta_E_CAM02UCS",
@@ -85,15 +99,23 @@ __all__ += [
 ]
 __all__ += [
     "JND_CIE1976",
+    "DeltaE_Specification_CIE1976",
     "delta_E_CIE1976",
+    "DeltaE_Specification_CIE1994",
     "delta_E_CIE1994",
+    "DeltaE_Specification_CIE2000",
     "delta_E_CIE2000",
+    "DeltaE_Specification_CMC",
     "delta_E_CMC",
+    "DeltaE_Specification_HyAB",
     "delta_E_HyAB",
+    "DeltaE_Specification_HyCH",
     "delta_E_HyCH",
+    "DeltaE_Specification_ITP",
     "delta_E_ITP",
 ]
 __all__ += [
+    "DeltaE_Specification_DIN99",
     "delta_E_DIN99",
 ]
 __all__ += [
@@ -148,12 +170,59 @@ DELTA_E_METHODS["cie1994"] = DELTA_E_METHODS["CIE 1994"]
 DELTA_E_METHODS["cie2000"] = DELTA_E_METHODS["CIE 2000"]
 
 
+DeltaE_Specification = (
+    DeltaE_Specification_CIE1976
+    | DeltaE_Specification_CIE1994
+    | DeltaE_Specification_CIE2000
+    | DeltaE_Specification_CMC
+    | DeltaE_Specification_ITP
+    | DeltaE_Specification_HyAB
+    | DeltaE_Specification_HyCH
+    | DeltaE_Specification_DIN99
+    | DeltaE_Specification_Luo2006
+)
+
+
+@overload
+def delta_E(
+    a: ArrayLike,
+    b: ArrayLike,
+    method: LiteralDeltaEMethod | str = ...,
+    *,
+    additional_data: Literal[False] = False,
+    **kwargs: Any,
+) -> NDArrayFloat: ...
+
+
+@overload
+def delta_E(
+    a: ArrayLike,
+    b: ArrayLike,
+    method: LiteralDeltaEMethod | str = ...,
+    *,
+    additional_data: Literal[True],
+    **kwargs: Any,
+) -> DeltaE_Specification: ...
+
+
+@overload
+def delta_E(
+    a: ArrayLike,
+    b: ArrayLike,
+    method: LiteralDeltaEMethod | str = ...,
+    *,
+    additional_data: bool,
+    **kwargs: Any,
+) -> NDArrayFloat | DeltaE_Specification: ...
+
+
 def delta_E(
     a: ArrayLike,
     b: ArrayLike,
     method: LiteralDeltaEMethod | str = "CIE 2000",
+    additional_data: bool = False,
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> NDArrayFloat | DeltaE_Specification:
     """
     Compute the colour difference :math:`\\Delta E_{ab}` between two
     specified *CIE L\\*a\\*b\\**, :math:`IC_TC_P`, or :math:`J'a'b'`
@@ -169,6 +238,8 @@ def delta_E(
         array :math:`b`.
     method
         Computation method.
+    additional_data
+        Whether to output additional data.
 
     Other Parameters
     ----------------
@@ -189,8 +260,11 @@ def delta_E(
 
     Returns
     -------
-    :class:`numpy.ndarray`
-        Colour difference :math:`\\Delta E_{ab}`.
+    :class:`numpy.ndarray` or :class:`DeltaE_Specification`
+        Colour difference :math:`\\Delta E_{ab}`. When ``additional_data=True``,
+        a specification dataclass is returned containing the colour difference
+        ``dE`` and additional component-wise colour difference terms depending
+        on the selected method.
 
     References
     ----------
@@ -241,10 +315,13 @@ def delta_E(
 
     function = DELTA_E_METHODS[method]
 
-    return function(a, b, **filter_kwargs(function, **kwargs))
+    return function(
+        a, b, additional_data=additional_data, **filter_kwargs(function, **kwargs)
+    )
 
 
 __all__ += [
+    "DeltaE_Specification",
     "DELTA_E_METHODS",
     "delta_E",
 ]

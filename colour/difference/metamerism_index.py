@@ -17,7 +17,20 @@ References
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Any,
+        Domain1,
+        Domain100,
+        Literal,
+        LiteralDeltaEMethod,
+        NDArrayFloat,
+    )
+    from colour.difference import DeltaE_Specification
 
 import colour
 from colour.colorimetry import (
@@ -26,14 +39,6 @@ from colour.colorimetry import (
     tristimulus_weighting_factors_integration,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import (  # noqa: TC001
-    Any,
-    Domain1,
-    Domain100,
-    Literal,
-    LiteralDeltaEMethod,
-    NDArrayFloat,
-)
 from colour.models import XYZ_to_Lab
 from colour.utilities import (
     as_array,
@@ -57,6 +62,34 @@ __all__ = [
 ]
 
 
+@typing.overload
+def Lab_to_metamerism_index(
+    Lab_spl_t: Domain100,
+    Lab_std_t: Domain100,
+    Lab_spl_r: Domain100,
+    Lab_std_r: Domain100,
+    correction: str = ...,
+    method: LiteralDeltaEMethod | str = ...,
+    *,
+    additional_data: Literal[False] = False,
+    **kwargs: Any,
+) -> NDArrayFloat: ...
+
+
+@typing.overload
+def Lab_to_metamerism_index(
+    Lab_spl_t: Domain100,
+    Lab_std_t: Domain100,
+    Lab_spl_r: Domain100,
+    Lab_std_r: Domain100,
+    correction: str = ...,
+    method: LiteralDeltaEMethod | str = ...,
+    *,
+    additional_data: Literal[True],
+    **kwargs: Any,
+) -> DeltaE_Specification: ...
+
+
 def Lab_to_metamerism_index(
     Lab_spl_t: Domain100,
     Lab_std_t: Domain100,
@@ -64,8 +97,9 @@ def Lab_to_metamerism_index(
     Lab_std_r: Domain100,
     correction: Literal["Additive", "Multiplicative"] | str = "Additive",
     method: LiteralDeltaEMethod | str = "CIE 2000",
+    additional_data: bool = False,
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> NDArrayFloat | DeltaE_Specification:
     """
     Compute the *metamerism index* :math:`M_{t}` between four specified
     *CIE L\\*a\\*b\\** colourspace arrays.
@@ -99,6 +133,8 @@ def Lab_to_metamerism_index(
         ``'Multiplicative'``.
     method
         Colour-difference method.
+    additional_data
+        Whether to output additional data.
 
     Other Parameters
     ----------------
@@ -119,7 +155,7 @@ def Lab_to_metamerism_index(
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.ndarray` or :class:`DeltaE_Specification`
         *Metamerism index* :math:`M_{t}`.
 
     Notes
@@ -179,8 +215,37 @@ def Lab_to_metamerism_index(
         Lab_std_t,
         Lab_corr_t,
         method=method,
+        additional_data=additional_data,
         **kwargs,
     )
+
+
+@typing.overload
+def XYZ_to_metamerism_index(
+    XYZ_spl_t: Domain1,
+    XYZ_std_t: Domain1,
+    XYZ_spl_r: Domain1,
+    XYZ_std_r: Domain1,
+    correction: str = ...,
+    method: LiteralDeltaEMethod | str = ...,
+    *,
+    additional_data: Literal[False] = False,
+    **kwargs: Any,
+) -> NDArrayFloat: ...
+
+
+@typing.overload
+def XYZ_to_metamerism_index(
+    XYZ_spl_t: Domain1,
+    XYZ_std_t: Domain1,
+    XYZ_spl_r: Domain1,
+    XYZ_std_r: Domain1,
+    correction: str = ...,
+    method: LiteralDeltaEMethod | str = ...,
+    *,
+    additional_data: Literal[True],
+    **kwargs: Any,
+) -> DeltaE_Specification: ...
 
 
 def XYZ_to_metamerism_index(
@@ -190,8 +255,9 @@ def XYZ_to_metamerism_index(
     XYZ_std_r: Domain1,
     correction: Literal["Additive", "Multiplicative"] | str = "Multiplicative",
     method: LiteralDeltaEMethod | str = "CIE 2000",
+    additional_data: bool = False,
     **kwargs: Any,
-) -> NDArrayFloat:
+) -> NDArrayFloat | DeltaE_Specification:
     """
     Compute the *metamerism index* :math:`M_{t}` from four specified
     *CIE XYZ* colourspace arrays.
@@ -225,6 +291,8 @@ def XYZ_to_metamerism_index(
         ``'Multiplicative'``.
     method
         Colour-difference method.
+    additional_data
+        Whether to output additional data.
 
     Other Parameters
     ----------------
@@ -249,7 +317,7 @@ def XYZ_to_metamerism_index(
 
     Returns
     -------
-    :class:`numpy.ndarray`
+    :class:`numpy.ndarray` or :class:`DeltaE_Specification`
         *Metamerism index* :math:`M_{t}`.
 
     Notes
@@ -315,6 +383,7 @@ def XYZ_to_metamerism_index(
         Lab_std_t,
         Lab_corr_t,
         method=method,
+        additional_data=additional_data,
         **kwargs,
     )
 
