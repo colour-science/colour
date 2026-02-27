@@ -81,6 +81,7 @@ def delta_E_DIN99(
     textiles: bool = ...,
     *,
     additional_data: Literal[False] = False,
+    method: str = ...,
 ) -> NDArrayFloat: ...
 
 
@@ -91,6 +92,7 @@ def delta_E_DIN99(
     textiles: bool = ...,
     *,
     additional_data: Literal[True],
+    method: str = ...,
 ) -> DeltaE_Specification_DIN99: ...
 
 

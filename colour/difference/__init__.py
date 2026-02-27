@@ -257,6 +257,39 @@ def delta_E(
         :math:`k_L=2,\\ k_C=k_H=1,\\ k_1=0.048,\\ k_2=0.014,\\ k_E=2,\\ k_{CH}=0.5`
         weights are used instead of
         :math:`k_L=k_C=k_H=1,\\ k_1=0.045,\\ k_2=0.015,\\ k_E=k_{CH}=1.0`.
+    kwargs
+        See the documentation of the available delta E definitions.
+
+        Arguments for the conversion definitions are passed as keyword
+        arguments whose names are those of the delta E definitions and
+        values set as dictionaries. For example, when computing delta E
+        DIN99, passing arguments to the :func:`colour.delta_E_DIN99`
+        definition is done as follows::
+
+            delta_E(
+                a,
+                b,
+                "DIN99",
+                False,
+                delta_E_DIN99={"method": "DIN99b"},
+            )
+
+        It is also possible to pass keyword arguments directly to the
+        various delta E definitions irrespective of their name. This is
+        ``dangerous`` and could cause unexpected behaviour, consider the
+        following conversion::
+
+            delta_E(
+                a,
+                b,
+                "DIN99",
+                "method"="DIN99b",
+            )
+
+        Because both the :func:`colour.delta_E` and
+        :func:`colour.delta_E_DIN99` definitions have an *method*
+        argument, this will raise a an exception in the
+        :func:`colour.delta_E` definition.
 
     Returns
     -------
@@ -315,9 +348,13 @@ def delta_E(
 
     function = DELTA_E_METHODS[method]
 
-    return function(
-        a, b, additional_data=additional_data, **filter_kwargs(function, **kwargs)
-    )
+    # Layer 1: filter direct kwargs by target function signature
+    filtered_kwargs = filter_kwargs(function, **kwargs)
+
+    # Layer 2: merge in function-name-keyed dict (overrides)
+    filtered_kwargs.update(kwargs.get(function.__name__, {}))
+
+    return function(a, b, additional_data=additional_data, **filtered_kwargs)
 
 
 __all__ += [
