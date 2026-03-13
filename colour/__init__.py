@@ -48,10 +48,12 @@ import json
 import os
 import sys
 
+ROOT_COLOUR_SCIENCE: str = os.path.join(os.path.expanduser("~"), ".colour-science")
+"""Root directory for *Colour* data."""
+
 # Loading the "colour-science" JEnv file.
 _JENV_FILE_PATH = os.path.join(
-    os.path.expanduser("~"),
-    ".colour-science",
+    ROOT_COLOUR_SCIENCE,
     "colour-science.jenv",
 )
 
@@ -432,11 +434,17 @@ from .models import (
     xyY_to_XYZ,
 )
 from .notation import (
+    MUNSELL_COLOUR_TO_XYY_METHODS,
     MUNSELL_COLOURS,
+    MUNSELL_SPECIFICATION_TO_XYY_METHODS,
     MUNSELL_VALUE_METHODS,
+    XYY_TO_MUNSELL_COLOUR_METHODS,
+    XYY_TO_MUNSELL_SPECIFICATION_METHODS,
     munsell_colour_to_xyY,
+    munsell_specification_to_xyY,
     munsell_value,
     xyY_to_munsell_colour,
+    xyY_to_munsell_specification,
 )
 from .phenomena import (
     rayleigh_scattering,
@@ -856,11 +864,17 @@ __all__ += [
     "xyY_to_XYZ",
 ]
 __all__ += [
+    "MUNSELL_COLOUR_TO_XYY_METHODS",
     "MUNSELL_COLOURS",
+    "MUNSELL_SPECIFICATION_TO_XYY_METHODS",
     "MUNSELL_VALUE_METHODS",
+    "XYY_TO_MUNSELL_COLOUR_METHODS",
+    "XYY_TO_MUNSELL_SPECIFICATION_METHODS",
     "munsell_colour_to_xyY",
+    "munsell_specification_to_xyY",
     "munsell_value",
     "xyY_to_munsell_colour",
+    "xyY_to_munsell_specification",
 ]
 __all__ += [
     "rayleigh_scattering",

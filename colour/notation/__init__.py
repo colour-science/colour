@@ -13,8 +13,13 @@ from .hexadecimal import HEX_to_RGB, RGB_to_HEX
 
 from .css_color_3 import keyword_to_RGB_CSSColor3
 from .munsell import (
+    MUNSELL_COLOUR_TO_XYY_METHODS,
+    MUNSELL_SPECIFICATION_TO_XYY_METHODS,
     MUNSELL_VALUE_METHODS,
+    XYY_TO_MUNSELL_COLOUR_METHODS,
+    XYY_TO_MUNSELL_SPECIFICATION_METHODS,
     munsell_colour_to_xyY,
+    munsell_specification_to_xyY,
     munsell_value,
     munsell_value_ASTMD1535,
     munsell_value_Ladd1955,
@@ -24,6 +29,7 @@ from .munsell import (
     munsell_value_Priest1920,
     munsell_value_Saunderson1944,
     xyY_to_munsell_colour,
+    xyY_to_munsell_specification,
 )
 
 __all__ = [
@@ -43,8 +49,13 @@ __all__ += [
     "keyword_to_RGB_CSSColor3",
 ]
 __all__ += [
+    "MUNSELL_COLOUR_TO_XYY_METHODS",
+    "MUNSELL_SPECIFICATION_TO_XYY_METHODS",
     "MUNSELL_VALUE_METHODS",
+    "XYY_TO_MUNSELL_COLOUR_METHODS",
+    "XYY_TO_MUNSELL_SPECIFICATION_METHODS",
     "munsell_colour_to_xyY",
+    "munsell_specification_to_xyY",
     "munsell_value",
     "munsell_value_ASTMD1535",
     "munsell_value_Ladd1955",
@@ -54,4 +65,5 @@ __all__ += [
     "munsell_value_Priest1920",
     "munsell_value_Saunderson1944",
     "xyY_to_munsell_colour",
+    "xyY_to_munsell_specification",
 ]

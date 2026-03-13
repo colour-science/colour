@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import os
+import shutil
+import tempfile
 import typing
 import unicodedata
 import warnings
@@ -19,9 +22,11 @@ from colour.utilities import (
     attest,
     batch,
     caching_enable,
+    download_url,
     filter_kwargs,
     filter_mapping,
     first_item,
+    hash_sha256,
     ignore_python_warnings,
     int_digest,
     is_caching_enabled,
@@ -621,3 +626,91 @@ class TestIntDigest:
         assert int_digest(np.array([1, 2, 3]).tobytes()) == 8964613590703056768
 
         assert int_digest(repr((1, 2, 3))) == 5069958125469218295
+
+
+class TestHashSha256:
+    """
+    Define :func:`colour.utilities.common.hash_sha256` definition unit
+    tests methods.
+    """
+
+    def test_hash_sha256(self) -> None:
+        """Test :func:`colour.utilities.common.hash_sha256` definition."""
+
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as f:
+            f.write(b"colour-science")
+            temp_path = f.name
+
+        try:
+            digest = hash_sha256(temp_path)
+            assert len(digest) == 64
+            assert digest == hash_sha256(temp_path, chunk_size=4)
+        finally:
+            os.remove(temp_path)
+
+
+class TestDownloadUrl:
+    """
+    Define :func:`colour.utilities.common.download_url` definition unit
+    tests methods.
+    """
+
+    def test_download_url(self) -> None:
+        """Test :func:`colour.utilities.common.download_url` definition."""
+
+        cache_dir = tempfile.mkdtemp()
+
+        try:
+            path = download_url(
+                "https://huggingface.co/colour-science/"
+                "learning-munsell/resolve/main/"
+                "models/to_xyY/"
+                "multi_mlp_normalization_parameters.npz",
+                cache_dir=cache_dir,
+            )
+
+            assert os.path.isfile(path)
+            assert "learning-munsell" in path
+            assert "/resolve/main/" not in path
+            assert "colour-science/" not in path
+
+            # Cached second call returns same path.
+            assert (
+                download_url(
+                    "https://huggingface.co/colour-science/"
+                    "learning-munsell/resolve/main/"
+                    "models/to_xyY/"
+                    "multi_mlp_normalization_parameters.npz",
+                    cache_dir=cache_dir,
+                )
+                == path
+            )
+
+            # SHA-256 verification.
+            sha = hash_sha256(path)
+            assert (
+                download_url(
+                    "https://huggingface.co/colour-science/"
+                    "learning-munsell/resolve/main/"
+                    "models/to_xyY/"
+                    "multi_mlp_normalization_parameters.npz",
+                    cache_dir=cache_dir,
+                    sha256=sha,
+                )
+                == path
+            )
+
+            # Wrong SHA-256 triggers re-download and raises.
+            pytest.raises(
+                ValueError,
+                download_url,
+                "https://huggingface.co/colour-science/"
+                "learning-munsell/resolve/main/"
+                "models/to_xyY/"
+                "multi_mlp_normalization_parameters.npz",
+                cache_dir,
+                "0" * 64,
+                1,
+            )
+        finally:
+            shutil.rmtree(cache_dir)

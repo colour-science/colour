@@ -19,16 +19,20 @@ numpyerrors.html
 from __future__ import annotations
 
 import functools
+import hashlib
 import inspect
 import os
 import re
 import types
 import typing
 import unicodedata
+import urllib.error
+import urllib.request
 import warnings
 from contextlib import contextmanager
 from copy import copy
 from pprint import pformat
+from urllib.parse import urlparse
 
 import numpy as np
 
@@ -86,6 +90,8 @@ __all__ = [
     "optional",
     "slugify",
     "int_digest",
+    "hash_sha256",
+    "download_url",
 ]
 
 _CACHING_ENABLED: bool = not as_bool(
@@ -1128,3 +1134,129 @@ if is_xxhash_installed():
     int_digest = xxhash.xxh3_64_intdigest
 else:
     int_digest = hash  # pragma: no cover
+
+
+def hash_sha256(filename: str, chunk_size: int = 2**16) -> str:
+    """
+    Compute the *SHA-256* hash of given file.
+
+    Parameters
+    ----------
+    filename
+        File to compute the hash of.
+    chunk_size
+        Chunk size to read from the file.
+
+    Returns
+    -------
+    :class:`str`
+        *SHA-256* hash of the file.
+    """
+
+    sha256 = hashlib.sha256()
+
+    with open(filename, "rb") as file_object:
+        while True:
+            chunk = file_object.read(chunk_size)
+            if not chunk:
+                break
+
+            sha256.update(chunk)
+
+    return sha256.hexdigest()
+
+
+def download_url(
+    url: str,
+    cache_dir: str | None = None,
+    sha256: str | None = None,
+    retries: int = 6,
+) -> str:
+    """
+    Download a file from *url* and cache it locally.
+
+    Parameters
+    ----------
+    url
+        URL to download.
+    cache_dir
+        Override directory for caching. Defaults to
+        :attr:`colour.ROOT_COLOUR_SCIENCE`.
+    sha256
+        Expected *SHA-256* hash of the file. If provided, the downloaded
+        file will be verified and re-downloaded on mismatch.
+    retries
+        Number of retries in case of network errors or hash mismatches.
+
+    Returns
+    -------
+    :class:`str`
+        Absolute path to the cached file.
+    """
+
+    import colour  # noqa: PLC0415
+
+    root = cache_dir if cache_dir is not None else colour.ROOT_COLOUR_SCIENCE
+
+    parsed = urlparse(url)
+    relative = parsed.path.lstrip("/")
+
+    # Strip the HuggingFace URL prefix to get a clean local path,
+    # e.g., ``colour-science/learning-munsell/resolve/main/models/...``
+    # becomes ``learning-munsell/models/...``.
+    prefix = "colour-science/"
+    relative = relative.removeprefix(prefix)
+
+    resolve_main = "/resolve/main/"
+    if resolve_main in relative:
+        parts = relative.split(resolve_main, 1)
+        relative = f"{parts[0]}/{parts[1]}"
+
+    local_path = os.path.join(root, relative)
+
+    if os.path.isfile(local_path):
+        if sha256 is not None and hash_sha256(local_path) != sha256.lower():
+            os.remove(local_path)
+        else:
+            return local_path
+
+    os.makedirs(os.path.dirname(local_path), exist_ok=True)
+
+    attempt = 0
+    while attempt < retries:
+        try:
+            with (
+                urllib.request.urlopen(url) as response,  # noqa: S310
+                open(local_path, "wb") as out_file,
+            ):
+                while True:
+                    chunk = response.read(2**16)
+                    if not chunk:
+                        break
+                    out_file.write(chunk)
+
+            if sha256 is not None:
+                actual_hash = hash_sha256(local_path)
+                if actual_hash != sha256.lower():
+                    file_size = os.path.getsize(local_path)
+                    os.remove(local_path)
+
+                    message = (
+                        f'"SHA-256" hash of "{local_path}" file '
+                        f"({file_size} bytes) does not match the "
+                        f"expected hash: "
+                        f"{actual_hash} != {sha256.lower()}"
+                    )
+                    raise ValueError(message)  # noqa: TRY301
+        except (urllib.error.URLError, OSError, ValueError):
+            attempt += 1
+            if attempt == retries:
+                raise
+
+            import time  # noqa: PLC0415
+
+            time.sleep(min(2**attempt, 2**8))
+        else:
+            return local_path
+
+    return local_path

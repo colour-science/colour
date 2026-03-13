@@ -1431,6 +1431,16 @@ Munsell Colour
 
     [0.38736945  0.35751656  0.59362   ]
 
+.. code-block:: python
+
+    import colour
+
+    sorted(colour.XYY_TO_MUNSELL_COLOUR_METHODS)
+
+.. code-block:: text
+
+    ['Centore 2014', 'ONNX']
+
 Optical Phenomena - ``colour.phenomena``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
