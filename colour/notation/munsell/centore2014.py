@@ -1,36 +1,13 @@
 """
-Munsell Renotation System
-=========================
+Munsell Renotation System - Centore (2014)
+==========================================
 
-Define objects for *Munsell Renotation System* computations.
+Define *Centore (2014)* objects for *Munsell Renotation System* computations:
 
--   :func:`colour.notation.munsell_value_Priest1920`: Compute *Munsell* value
-    :math:`V` from the specified *luminance* :math:`Y` using
-    *Priest, Gibson and MacNicholas (1920)* method.
--   :func:`colour.notation.munsell_value_Munsell1933`: Compute *Munsell* value
-    :math:`V` from the specified *luminance* :math:`Y` using
-    *Munsell, Sloan and Godlove (1933)* method.
--   :func:`colour.notation.munsell_value_Moon1943`: Compute *Munsell* value
-    :math:`V` from the specified *luminance* :math:`Y` using
-    *Moon and Spencer (1943)* method.
--   :func:`colour.notation.munsell_value_Saunderson1944`: Compute *Munsell*
-    value :math:`V` from the specified *luminance* :math:`Y` using
-    *Saunderson and Milner (1944)* method.
--   :func:`colour.notation.munsell_value_Ladd1955`: Compute *Munsell* value
-    :math:`V` from the specified *luminance* :math:`Y` using
-    *Ladd and Pinney (1955)* method.
--   :func:`colour.notation.munsell_value_McCamy1987`: Compute *Munsell* value
-    :math:`V` from the specified *luminance* :math:`Y` using *McCamy (1987)*
-    method.
--   :func:`colour.notation.munsell_value_ASTMD1535`: Compute *Munsell* value
-    :math:`V` from the specified *luminance* :math:`Y` using *ASTM D1535-08e1*
-    method.
--   :attr:`colour.MUNSELL_VALUE_METHODS`: Supported *Munsell* value
-    computation methods.
--   :func:`colour.munsell_value`: Compute *Munsell* value :math:`V` from
-    specified *luminance* :math:`Y` using the specified method.
--   :func:`colour.munsell_colour_to_xyY`
--   :func:`colour.xyY_to_munsell_colour`
+-   :func:`colour.notation.munsell.centore2014.munsell_specification_to_xyY`
+-   :func:`colour.notation.munsell.centore2014.munsell_colour_to_xyY`
+-   :func:`colour.notation.munsell.centore2014.xyY_to_munsell_specification`
+-   :func:`colour.notation.munsell.centore2014.xyY_to_munsell_colour`
 
 Notes
 -----
@@ -127,9 +104,7 @@ from colour.algebra import (
     cartesian_to_cylindrical,
     euclidean_distance,
     polar_to_cartesian,
-    sdiv,
     sdiv_mode,
-    spow,
 )
 from colour.colorimetry import CCS_ILLUMINANTS, luminance_ASTMD1535
 from colour.constants import (
@@ -143,12 +118,10 @@ if typing.TYPE_CHECKING:
     from colour.hints import (
         Dict,
         Domain1,
-        Domain100,
         Literal,
         NDArrayFloat,
         NDArrayStr,
         Range1,
-        Range10,
         Tuple,
     )
 
@@ -156,9 +129,9 @@ from colour.hints import ArrayLike, NDArrayFloat, cast
 from colour.models import Lab_to_LCHab  # pyright: ignore
 from colour.models import XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.notation import MUNSELL_COLOURS_ALL
+from colour.notation.munsell.value import munsell_value_ASTMD1535
 from colour.utilities import (
     CACHE_REGISTRY,
-    CanonicalMapping,
     Lookup,
     as_float,
     as_float_array,
@@ -174,11 +147,9 @@ from colour.utilities import (
     is_numeric,
     to_domain_1,
     to_domain_10,
-    to_domain_100,
     tsplit,
     tstack,
     usage_warning,
-    validate_method,
 )
 from colour.volume import is_within_macadam_limits
 
@@ -204,19 +175,10 @@ __all__ = [
     "MUNSELL_HUE_LETTER_CODES",
     "ILLUMINANT_NAME_MUNSELL",
     "CCS_ILLUMINANT_MUNSELL",
-    "munsell_value_Priest1920",
-    "munsell_value_Munsell1933",
-    "munsell_value_Moon1943",
-    "munsell_value_Saunderson1944",
-    "munsell_value_Ladd1955",
-    "munsell_value_McCamy1987",
-    "munsell_value_ASTMD1535",
-    "MUNSELL_VALUE_METHODS",
-    "munsell_value",
-    "munsell_specification_to_xyY",
-    "munsell_colour_to_xyY",
-    "xyY_to_munsell_specification",
-    "xyY_to_munsell_colour",
+    "munsell_specification_to_xyY_Centore2014",
+    "munsell_colour_to_xyY_Centore2014",
+    "xyY_to_munsell_specification_Centore2014",
+    "xyY_to_munsell_colour_Centore2014",
     "parse_munsell_colour",
     "is_grey_munsell_colour",
     "normalise_munsell_specification",
@@ -271,9 +233,6 @@ CCS_ILLUMINANT_MUNSELL: NDArrayFloat = CCS_ILLUMINANTS[
 _CACHE_MUNSELL_SPECIFICATIONS: dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_MUNSELL_SPECIFICATIONS"
 )
-_CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR: dict = CACHE_REGISTRY.register_cache(
-    f"{__name__}._CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR"
-)
 _CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION: dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION"
 )
@@ -326,39 +285,6 @@ def _munsell_specifications() -> NDArrayFloat:
     return munsell_specifications
 
 
-def _munsell_value_ASTMD1535_interpolator() -> Extrapolator:
-    """
-    Return the *Munsell* value interpolator for the *ASTM D1535-08e1*
-    method, caching it if not existing.
-
-    Returns
-    -------
-    :class:`colour.Extrapolator`
-        *Munsell* value interpolator for the *ASTM D1535-08e1* method.
-    """
-
-    global _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR  # noqa: PLW0602
-
-    if "ASTM D1535-08 Interpolator" in (
-        _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR
-    ):
-        return _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR[
-            "ASTM D1535-08 Interpolator"
-        ]
-
-    munsell_values = np.arange(0, 10, 0.001)
-    interpolator = LinearInterpolator(
-        luminance_ASTMD1535(munsell_values), munsell_values
-    )
-    extrapolator = Extrapolator(interpolator)
-
-    _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR["ASTM D1535-08 Interpolator"] = (
-        extrapolator
-    )
-
-    return extrapolator
-
-
 def _munsell_maximum_chromas_from_renotation() -> Tuple[
     Tuple[Tuple[float, float], float], ...
 ]:
@@ -401,450 +327,6 @@ def _munsell_maximum_chromas_from_renotation() -> Tuple[
     ] = maximum_chromas_from_renotation
 
     return maximum_chromas_from_renotation
-
-
-def munsell_value_Priest1920(
-    Y: Domain100,
-) -> Range10:
-    """
-    Compute the *Munsell* value :math:`V` from the specified *luminance*
-    :math:`Y` using *Priest et al. (1920)* method.
-
-    Parameters
-    ----------
-    Y
-        *Luminance* :math:`Y`.
-
-    Returns
-    -------
-    :class:`np.float` or :class:`numpy.NDArrayFloat`
-        *Munsell* value :math:`V`.
-
-    Notes
-    -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``Y``      | 100                   | 1             |
-    +------------+-----------------------+---------------+
-
-    +------------+-----------------------+---------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``V``      | 10                    | 1             |
-    +------------+-----------------------+---------------+
-
-    References
-    ----------
-    :cite:`Wikipedia2007c`
-
-    Examples
-    --------
-    >>> munsell_value_Priest1920(12.23634268)  # doctest: +ELLIPSIS
-    np.float64(3.4980484...)
-    """
-
-    Y = to_domain_100(Y)
-
-    V = 10 * np.sqrt(Y / 100)
-
-    return as_float(from_range_10(V))
-
-
-def munsell_value_Munsell1933(
-    Y: Domain100,
-) -> Range10:
-    """
-    Compute *Munsell* value :math:`V` from the specified *luminance* :math:`Y`
-    using *Munsell et al. (1933)* method.
-
-    Parameters
-    ----------
-    Y
-        *Luminance* :math:`Y`.
-
-    Returns
-    -------
-    :class:`np.float` or :class:`numpy.NDArrayFloat`
-        *Munsell* value :math:`V`.
-
-    Notes
-    -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``Y``      | 100                   | 1             |
-    +------------+-----------------------+---------------+
-
-    +------------+-----------------------+---------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``V``      | 10                    | 1             |
-    +------------+-----------------------+---------------+
-
-    References
-    ----------
-    :cite:`Wikipedia2007c`
-
-    Examples
-    --------
-    >>> munsell_value_Munsell1933(12.23634268)  # doctest: +ELLIPSIS
-    np.float64(4.1627702...)
-    """
-
-    Y = to_domain_100(Y)
-
-    V = np.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
-
-    return as_float(from_range_10(V))
-
-
-def munsell_value_Moon1943(Y: Domain100) -> Range10:
-    """
-    Compute *Munsell* value :math:`V` from the specified *luminance* :math:`Y`
-    using *Moon and Spencer (1943)* method.
-
-    Parameters
-    ----------
-    Y
-        *Luminance* :math:`Y`.
-
-    Returns
-    -------
-    :class:`np.float` or :class:`numpy.NDArrayFloat`
-        *Munsell* value :math:`V`.
-
-    Notes
-    -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``Y``      | 100                   | 1             |
-    +------------+-----------------------+---------------+
-
-    +------------+-----------------------+---------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``V``      | 10                    | 1             |
-    +------------+-----------------------+---------------+
-
-    References
-    ----------
-    :cite:`Wikipedia2007c`
-
-    Examples
-    --------
-    >>> munsell_value_Moon1943(12.23634268)  # doctest: +ELLIPSIS
-    np.float64(4.0688120...)
-    """
-
-    Y = to_domain_100(Y)
-
-    V = 1.4 * spow(Y, 0.426)
-
-    return as_float(from_range_10(V))
-
-
-def munsell_value_Saunderson1944(
-    Y: Domain100,
-) -> Range10:
-    """
-    Compute the *Munsell* value :math:`V` from the specified *luminance* :math:`Y`
-    using *Saunderson and Milner (1944)* method.
-
-    Parameters
-    ----------
-    Y
-        *Luminance* :math:`Y`.
-
-    Returns
-    -------
-    :class:`np.float` or :class:`numpy.NDArrayFloat`
-        *Munsell* value :math:`V`.
-
-    Notes
-    -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``Y``      | 100                   | 1             |
-    +------------+-----------------------+---------------+
-
-    +------------+-----------------------+---------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``V``      | 10                    | 1             |
-    +------------+-----------------------+---------------+
-
-    References
-    ----------
-    :cite:`Wikipedia2007c`
-
-    Examples
-    --------
-    >>> munsell_value_Saunderson1944(12.23634268)  # doctest: +ELLIPSIS
-    np.float64(4.0444736...)
-    """
-
-    Y = to_domain_100(Y)
-
-    V = 2.357 * spow(Y, 0.343) - 1.52
-
-    return as_float(from_range_10(V))
-
-
-def munsell_value_Ladd1955(Y: Domain100) -> Range10:
-    """
-    Compute *Munsell* value :math:`V` from the specified *luminance* :math:`Y`
-    using *Ladd and Pinney (1955)* method.
-
-    Parameters
-    ----------
-    Y
-        *Luminance* :math:`Y`.
-
-    Returns
-    -------
-    :class:`np.float` or :class:`numpy.NDArrayFloat`
-        *Munsell* value :math:`V`.
-
-    Notes
-    -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``Y``      | 100                   | 1             |
-    +------------+-----------------------+---------------+
-
-    +------------+-----------------------+---------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``V``      | 10                    | 1             |
-    +------------+-----------------------+---------------+
-
-    References
-    ----------
-    :cite:`Wikipedia2007c`
-
-    Examples
-    --------
-    >>> munsell_value_Ladd1955(12.23634268)  # doctest: +ELLIPSIS
-    np.float64(4.0511633...)
-    """
-
-    Y = to_domain_100(Y)
-
-    V = 2.468 * spow(Y, 1 / 3) - 1.636
-
-    return as_float(from_range_10(V))
-
-
-def munsell_value_McCamy1987(
-    Y: Domain100,
-) -> Range10:
-    """
-    Compute *Munsell* value :math:`V` from the specified *luminance* :math:`Y`
-    using *McCamy (1987)* method.
-
-    Parameters
-    ----------
-    Y
-        *Luminance* :math:`Y`.
-
-    Returns
-    -------
-    :class:`np.float` or :class:`numpy.NDArrayFloat`
-        *Munsell* value :math:`V`.
-
-    Notes
-    -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``Y``      | 100                   | 1             |
-    +------------+-----------------------+---------------+
-
-    +------------+-----------------------+---------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``V``      | 10                    | 1             |
-    +------------+-----------------------+---------------+
-
-    References
-    ----------
-    :cite:`ASTMInternational1989a`
-
-    Examples
-    --------
-    >>> munsell_value_McCamy1987(12.23634268)  # doctest: +ELLIPSIS
-    np.float64(4.0814348...)
-    """
-
-    Y = to_domain_100(Y)
-
-    with sdiv_mode():
-        V = np.where(
-            Y <= 0.9,
-            0.87445 * spow(Y, 0.9967),
-            2.49268 * spow(Y, 1 / 3)
-            - 1.5614
-            - (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54))
-            + sdiv(0.0133, spow(Y, 2.3))
-            + 0.0084 * np.sin(4.1 * spow(Y, 1 / 3) + 1)
-            + sdiv(0.0221, Y) * np.sin(0.39 * (Y - 2))
-            - (sdiv(0.0037, 0.44 * Y)) * np.sin(1.28 * (Y - 0.53)),
-        )
-
-    return as_float(from_range_10(V))
-
-
-def munsell_value_ASTMD1535(
-    Y: Domain100,
-) -> Range10:
-    """
-    Compute the *Munsell* value :math:`V` from the specified *luminance*
-    :math:`Y` using an inverse lookup table from *ASTM D1535-08e1* method.
-
-    Parameters
-    ----------
-    Y
-        *Luminance* :math:`Y`.
-
-    Returns
-    -------
-    :class:`np.float` or :class:`numpy.NDArrayFloat`
-        *Munsell* value :math:`V`.
-
-    Notes
-    -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``Y``      | 100                   | 1             |
-    +------------+-----------------------+---------------+
-
-    +------------+-----------------------+---------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``V``      | 10                    | 1             |
-    +------------+-----------------------+---------------+
-
-    -   The *Munsell* value computation with *ASTM D1535-08e1* method is
-        only defined for domain [0, 100].
-
-    References
-    ----------
-    :cite:`ASTMInternational1989a`
-
-    Examples
-    --------
-    >>> munsell_value_ASTMD1535(12.23634268)  # doctest: +ELLIPSIS
-    np.float64(4.0824437...)
-    """
-
-    Y = to_domain_100(Y)
-
-    V = _munsell_value_ASTMD1535_interpolator()(Y)
-
-    return as_float(from_range_10(V))
-
-
-MUNSELL_VALUE_METHODS: CanonicalMapping = CanonicalMapping(
-    {
-        "Priest 1920": munsell_value_Priest1920,
-        "Munsell 1933": munsell_value_Munsell1933,
-        "Moon 1943": munsell_value_Moon1943,
-        "Saunderson 1944": munsell_value_Saunderson1944,
-        "Ladd 1955": munsell_value_Ladd1955,
-        "McCamy 1987": munsell_value_McCamy1987,
-        "ASTM D1535": munsell_value_ASTMD1535,
-    }
-)
-MUNSELL_VALUE_METHODS.__doc__ = """
-Supported *Munsell* value computation methods.
-
-References
-----------
-:cite:`ASTMInternational1989a`, :cite:`Wikipedia2007c`
-
-Aliases:
-
--   'astm2008': 'ASTM D1535'
-"""
-MUNSELL_VALUE_METHODS["astm2008"] = MUNSELL_VALUE_METHODS["ASTM D1535"]
-
-
-def munsell_value(
-    Y: Domain100,
-    method: (
-        Literal[
-            "ASTM D1535",
-            "Ladd 1955",
-            "McCamy 1987",
-            "Moon 1943",
-            "Munsell 1933",
-            "Priest 1920",
-            "Saunderson 1944",
-        ]
-        | str
-    ) = "ASTM D1535",
-) -> Range10:
-    """
-    Compute the *Munsell* value :math:`V` from the specified *luminance*
-    :math:`Y` using the specified computational method.
-
-    Parameters
-    ----------
-    Y
-        *Luminance* :math:`Y`.
-    method
-        Computation method.
-
-    Returns
-    -------
-    :class:`np.float` or :class:`numpy.NDArrayFloat`
-        *Munsell* value :math:`V`.
-
-    Notes
-    -----
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``Y``      | 100                   | 1             |
-    +------------+-----------------------+---------------+
-
-    +------------+-----------------------+---------------+
-    | **Range**  | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``V``      | 10                    | 1             |
-    +------------+-----------------------+---------------+
-
-    References
-    ----------
-    :cite:`ASTMInternational1989a`, :cite:`Wikipedia2007c`
-
-    Examples
-    --------
-    >>> munsell_value(12.23634268)  # doctest: +ELLIPSIS
-    np.float64(4.0824437...)
-    >>> munsell_value(12.23634268, method="Priest 1920")  # doctest: +ELLIPSIS
-    np.float64(3.4980484...)
-    >>> munsell_value(12.23634268, method="Munsell 1933")  # doctest: +ELLIPSIS
-    np.float64(4.1627702...)
-    >>> munsell_value(12.23634268, method="Moon 1943")  # doctest: +ELLIPSIS
-    np.float64(4.0688120...)
-    >>> munsell_value(12.23634268, method="Saunderson 1944")
-    ... # doctest: +ELLIPSIS
-    np.float64(4.0444736...)
-    >>> munsell_value(12.23634268, method="Ladd 1955")  # doctest: +ELLIPSIS
-    np.float64(4.0511633...)
-    >>> munsell_value(12.23634268, method="McCamy 1987")  # doctest: +ELLIPSIS
-    np.float64(4.0814348...)
-    """
-
-    method = validate_method(method, tuple(MUNSELL_VALUE_METHODS))
-
-    return MUNSELL_VALUE_METHODS[method](Y)
 
 
 def _munsell_scale_factor() -> NDArrayFloat:
@@ -940,7 +422,7 @@ def _munsell_specification_to_xyY(specification: ArrayLike) -> NDArrayFloat:
     return tstack([x, y, Y])
 
 
-def munsell_specification_to_xyY(specification: ArrayLike) -> NDArrayFloat:
+def munsell_specification_to_xyY_Centore2014(specification: ArrayLike) -> NDArrayFloat:
     """
     Convert specified *Munsell* *Colorlab* specification to *CIE xyY*
     colourspace.
@@ -981,25 +463,25 @@ def munsell_specification_to_xyY(specification: ArrayLike) -> NDArrayFloat:
 
     Examples
     --------
-    >>> munsell_specification_to_xyY(np.array([2.1, 8.0, 17.9, 4]))
+    >>> munsell_specification_to_xyY_Centore2014(np.array([2.1, 8.0, 17.9, 4]))
     ... # doctest: +ELLIPSIS
     array([0.4400632..., 0.5522428..., 0.5761962...])
-    >>> munsell_specification_to_xyY(np.array([np.nan, 8.9, np.nan, np.nan]))
+    >>> munsell_specification_to_xyY_Centore2014(
+    ...     np.array([np.nan, 8.9, np.nan, np.nan])
+    ... )
     ... # doctest: +ELLIPSIS
     array([0.31006  , 0.31616  , 0.7461345...])
     """
 
     specification = as_float_array(specification)
-    shape = list(specification.shape)
+    shape = specification.shape
 
     xyY = [_munsell_specification_to_xyY(a) for a in np.reshape(specification, (-1, 4))]
 
-    shape[-1] = 3
-
-    return np.reshape(as_float_array(xyY), shape)
+    return np.reshape(as_float_array(xyY), (*shape[:-1], 3))
 
 
-def munsell_colour_to_xyY(munsell_colour: ArrayLike) -> Range1:
+def munsell_colour_to_xyY_Centore2014(munsell_colour: ArrayLike) -> Range1:
     """
     Convert the specified *Munsell* colour to *CIE xyY* colourspace.
 
@@ -1028,20 +510,20 @@ def munsell_colour_to_xyY(munsell_colour: ArrayLike) -> Range1:
 
     Examples
     --------
-    >>> munsell_colour_to_xyY("4.2YR 8.1/5.3")  # doctest: +ELLIPSIS
+    >>> munsell_colour_to_xyY_Centore2014("4.2YR 8.1/5.3")  # doctest: +ELLIPSIS
     array([0.3873694..., 0.3575165..., 0.59362   ])
-    >>> munsell_colour_to_xyY("N8.9")  # doctest: +ELLIPSIS
+    >>> munsell_colour_to_xyY_Centore2014("N8.9")  # doctest: +ELLIPSIS
     array([0.31006  , 0.31616  , 0.7461345...])
     """
 
     munsell_colour = np.array(munsell_colour)
-    shape = list(munsell_colour.shape)
+    shape = munsell_colour.shape
 
     specification = np.array(
         [munsell_colour_to_munsell_specification(a) for a in np.ravel(munsell_colour)]
     )
 
-    return munsell_specification_to_xyY(
+    return munsell_specification_to_xyY_Centore2014(
         from_range_10(np.reshape(specification, (*shape, 4)), _munsell_scale_factor())
     )
 
@@ -1360,7 +842,7 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
     )
 
 
-def xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
+def xyY_to_munsell_specification_Centore2014(xyY: ArrayLike) -> NDArrayFloat:
     """
     Convert from *CIE xyY* colourspace to *Munsell* *Colorlab*
     specification.
@@ -1411,21 +893,19 @@ def xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
     Examples
     --------
     >>> xyY = np.array([0.38736945, 0.35751656, 0.59362000])
-    >>> xyY_to_munsell_specification(xyY)  # doctest: +ELLIPSIS
+    >>> xyY_to_munsell_specification_Centore2014(xyY)  # doctest: +ELLIPSIS
     array([4.2000019..., 8.0999999..., 5.2999996..., 6.        ])
     """
 
     xyY = as_float_array(xyY)
-    shape = list(xyY.shape)
+    shape = xyY.shape
 
     specification = [_xyY_to_munsell_specification(a) for a in np.reshape(xyY, (-1, 3))]
 
-    shape[-1] = 4
-
-    return np.reshape(as_float_array(specification), shape)
+    return np.reshape(as_float_array(specification), (*shape[:-1], 4))
 
 
-def xyY_to_munsell_colour(
+def xyY_to_munsell_colour_Centore2014(
     xyY: Domain1,
     hue_decimals: int = 1,
     value_decimals: int = 1,
@@ -1467,14 +947,14 @@ def xyY_to_munsell_colour(
     Examples
     --------
     >>> xyY = np.array([0.38736945, 0.35751656, 0.59362000])
-    >>> xyY_to_munsell_colour(xyY)
+    >>> xyY_to_munsell_colour_Centore2014(xyY)
     '4.2YR 8.1/5.3'
     """
 
     specification = to_domain_10(
-        xyY_to_munsell_specification(xyY), _munsell_scale_factor()
+        xyY_to_munsell_specification_Centore2014(xyY), _munsell_scale_factor()
     )
-    shape = list(specification.shape)
+    shape = specification.shape
     decimals = (hue_decimals, value_decimals, chroma_decimals)
 
     munsell_colour = np.reshape(
@@ -1487,7 +967,7 @@ def xyY_to_munsell_colour(
         shape[:-1],
     )
 
-    return str(munsell_colour) if shape == [4] else munsell_colour
+    return str(munsell_colour) if shape == (4,) else munsell_colour
 
 
 def parse_munsell_colour(munsell_colour: str) -> NDArrayFloat:

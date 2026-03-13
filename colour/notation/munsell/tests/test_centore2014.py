@@ -1,4 +1,7 @@
-"""Define the unit tests for the :mod:`colour.notation.munsell` module."""
+"""
+Define the unit tests for the
+:mod:`colour.notation.munsell.centore2014` module.
+"""
 
 from __future__ import annotations
 
@@ -14,15 +17,6 @@ from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 if typing.TYPE_CHECKING:
     from colour.hints import NDArrayFloat
 
-from colour.notation import (
-    munsell_value_ASTMD1535,
-    munsell_value_Ladd1955,
-    munsell_value_McCamy1987,
-    munsell_value_Moon1943,
-    munsell_value_Munsell1933,
-    munsell_value_Priest1920,
-    munsell_value_Saunderson1944,
-)
 from colour.notation.munsell import (
     CCS_ILLUMINANT_MUNSELL,
     LCHab_to_munsell_specification,
@@ -35,16 +29,18 @@ from colour.notation.munsell import (
     is_specification_in_renotation,
     maximum_chroma_from_renotation,
     munsell_colour_to_munsell_specification,
-    munsell_colour_to_xyY,
+    munsell_colour_to_xyY_Centore2014,
     munsell_specification_to_munsell_colour,
     munsell_specification_to_xy,
     munsell_specification_to_xyY,
+    munsell_specification_to_xyY_Centore2014,
     normalise_munsell_specification,
     parse_munsell_colour,
     xy_from_renotation_ovoid,
     xyY_from_renotation,
     xyY_to_munsell_colour,
-    xyY_to_munsell_specification,
+    xyY_to_munsell_colour_Centore2014,
+    xyY_to_munsell_specification_Centore2014,
 )
 from colour.utilities import (
     as_array,
@@ -71,17 +67,10 @@ __all__ = [
     "MUNSELL_HUE_TO_ASTM_HUE",
     "MUNSELL_INTERPOLATION_METHODS",
     "MUNSELL_XY_FROM_RENOTATION_OVOID",
-    "TestMunsellValuePriest1920",
-    "TestMunsellValueMunsell1933",
-    "TestMunsellValueMoon1943",
-    "TestMunsellValueSaunderson1944",
-    "TestMunsellValueLadd1955",
-    "TestMunsellValueMcCamy1992",
-    "TestMunsellValueASTMD1535",
-    "TestMunsellSpecification_to_xyY",
-    "TestMunsellColour_to_xyY",
-    "TestxyY_to_munsell_specification",
-    "TestxyY_to_munsell_colour",
+    "TestMunsellSpecification_to_xyY_Centore2014",
+    "TestMunsellColour_to_xyY_Centore2014",
+    "TestxyY_to_munsell_specification_Centore2014",
+    "TestxyY_to_munsell_colour_Centore2014",
     "TestParseMunsellColour",
     "TestIsGreyMunsellColour",
     "TestNormaliseMunsellSpecification",
@@ -1106,612 +1095,17 @@ MUNSELL_XY_FROM_RENOTATION_OVOID: list = [
 ]
 
 
-class TestMunsellValuePriest1920:
+class TestMunsellSpecification_to_xyY_Centore2014:
     """
-    Define :func:`colour.notation.munsell.munsell_value_Priest1920` definition
-    unit tests methods.
-    """
-
-    def test_munsell_value_Priest1920(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Priest1920`
-        definition.
-        """
-
-        np.testing.assert_allclose(
-            munsell_value_Priest1920(12.23634268),
-            3.498048410185314,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            munsell_value_Priest1920(22.89399987),
-            4.7847674833788947,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            munsell_value_Priest1920(6.29022535),
-            2.5080321668591092,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-    def test_n_dimensional_munsell_value_Priest1920(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Priest1920`
-        definition n-dimensional arrays support.
-        """
-
-        Y = 12.23634268
-        V = munsell_value_Priest1920(Y)
-
-        V = np.tile(V, 6)
-        Y = np.tile(Y, 6)
-        np.testing.assert_allclose(
-            munsell_value_Priest1920(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        V = np.reshape(V, (2, 3))
-        Y = np.reshape(Y, (2, 3))
-        np.testing.assert_allclose(
-            munsell_value_Priest1920(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        V = np.reshape(V, (2, 3, 1))
-        Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_allclose(
-            munsell_value_Priest1920(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-    def test_domain_range_scale_munsell_value_Priest1920(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Priest1920`
-        definition domain and range scale support.
-        """
-
-        Y = 12.23634268
-        V = munsell_value_Priest1920(Y)
-
-        d_r = (("reference", 1, 1), ("1", 0.01, 0.1), ("100", 1, 10))
-        for scale, factor_a, factor_b in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    munsell_value_Priest1920(Y * factor_a),
-                    V * factor_b,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
-
-    @ignore_numpy_errors
-    def test_nan_munsell_value_Priest1920(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Priest1920`
-        definition nan support.
-        """
-
-        munsell_value_Priest1920(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-class TestMunsellValueMunsell1933:
-    """
-    Define :func:`colour.notation.munsell.munsell_value_Munsell1933`
+    Define
+    :func:`colour.notation.munsell.munsell_specification_to_xyY_Centore2014`
     definition unit tests methods.
     """
 
-    def test_munsell_value_Munsell1933(self) -> None:
+    def test_munsell_specification_to_xyY_Centore2014(self) -> None:
         """
-        Test :func:`colour.notation.munsell.munsell_value_Munsell1933`
-        definition.
-        """
-
-        np.testing.assert_allclose(
-            munsell_value_Munsell1933(12.23634268),
-            4.1627702416858083,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            munsell_value_Munsell1933(22.89399987),
-            5.5914543020790592,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            munsell_value_Munsell1933(6.29022535),
-            3.0141971134091761,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-    def test_n_dimensional_munsell_value_Munsell1933(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Munsell1933`
-        definition n-dimensional arrays support.
-        """
-
-        Y = 12.23634268
-        V = munsell_value_Munsell1933(Y)
-
-        V = np.tile(V, 6)
-        Y = np.tile(Y, 6)
-        np.testing.assert_allclose(
-            munsell_value_Munsell1933(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        V = np.reshape(V, (2, 3))
-        Y = np.reshape(Y, (2, 3))
-        np.testing.assert_allclose(
-            munsell_value_Munsell1933(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        V = np.reshape(V, (2, 3, 1))
-        Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_allclose(
-            munsell_value_Munsell1933(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-    def test_domain_range_scale_munsell_value_Munsell1933(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Munsell1933`
-        definition domain and range scale support.
-        """
-
-        Y = 12.23634268
-        V = munsell_value_Munsell1933(Y)
-
-        d_r = (("reference", 1, 1), ("1", 0.01, 0.1), ("100", 1, 10))
-        for scale, factor_a, factor_b in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    munsell_value_Munsell1933(Y * factor_a),
-                    V * factor_b,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
-
-    @ignore_numpy_errors
-    def test_nan_munsell_value_Munsell1933(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Munsell1933`
-        definition nan support.
-        """
-
-        munsell_value_Munsell1933(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-class TestMunsellValueMoon1943:
-    """
-    Define :func:`colour.notation.munsell.munsell_value_Moon1943` definition
-    unit tests methods.
-    """
-
-    def test_munsell_value_Moon1943(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Moon1943`
-        definition.
-        """
-
-        np.testing.assert_allclose(
-            munsell_value_Moon1943(12.23634268),
-            4.0688120634976421,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            munsell_value_Moon1943(22.89399987),
-            5.3133627855494412,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            munsell_value_Moon1943(6.29022535),
-            3.0645015037679695,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-    def test_n_dimensional_munsell_value_Moon1943(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Moon1943`
-        definition n-dimensional arrays support.
-        """
-
-        Y = 12.23634268
-        V = munsell_value_Moon1943(Y)
-
-        V = np.tile(V, 6)
-        Y = np.tile(Y, 6)
-        np.testing.assert_allclose(
-            munsell_value_Moon1943(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        V = np.reshape(V, (2, 3))
-        Y = np.reshape(Y, (2, 3))
-        np.testing.assert_allclose(
-            munsell_value_Moon1943(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        V = np.reshape(V, (2, 3, 1))
-        Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_allclose(
-            munsell_value_Moon1943(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-    def test_domain_range_scale_munsell_value_Moon1943(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Moon1943`
-        definition domain and range scale support.
-        """
-
-        Y = 12.23634268
-        V = munsell_value_Moon1943(Y)
-
-        d_r = (("reference", 1, 1), ("1", 0.01, 0.1), ("100", 1, 10))
-        for scale, factor_a, factor_b in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    munsell_value_Moon1943(Y * factor_a),
-                    V * factor_b,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
-
-    @ignore_numpy_errors
-    def test_nan_munsell_value_Moon1943(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Moon1943`
-        definition nan support.
-        """
-
-        munsell_value_Moon1943(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-class TestMunsellValueSaunderson1944:
-    """
-    Define :func:`colour.notation.munsell.munsell_value_Saunderson1944`
-    definition unit tests methods.
-    """
-
-    def test_munsell_value_Saunderson1944(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Saunderson1944`
-        definition.
-        """
-
-        np.testing.assert_allclose(
-            munsell_value_Saunderson1944(12.23634268),
-            4.0444736723175119,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            munsell_value_Saunderson1944(22.89399987),
-            5.3783324022305923,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            munsell_value_Saunderson1944(6.29022535),
-            2.9089633927316823,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-    def test_n_dimensional_munsell_value_Saunderson1944(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Saunderson1944`
-        definition n-dimensional arrays support.
-        """
-
-        Y = 12.23634268
-        V = munsell_value_Saunderson1944(Y)
-
-        V = np.tile(V, 6)
-        Y = np.tile(Y, 6)
-        np.testing.assert_allclose(
-            munsell_value_Saunderson1944(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        V = np.reshape(V, (2, 3))
-        Y = np.reshape(Y, (2, 3))
-        np.testing.assert_allclose(
-            munsell_value_Saunderson1944(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        V = np.reshape(V, (2, 3, 1))
-        Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_allclose(
-            munsell_value_Saunderson1944(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-    def test_domain_range_scale_munsell_value_Saunderson1944(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Saunderson1944`
-        definition domain and range scale support.
-        """
-
-        Y = 12.23634268
-        V = munsell_value_Saunderson1944(Y)
-
-        d_r = (("reference", 1, 1), ("1", 0.01, 0.1), ("100", 1, 10))
-        for scale, factor_a, factor_b in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    munsell_value_Saunderson1944(Y * factor_a),
-                    V * factor_b,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
-
-    @ignore_numpy_errors
-    def test_nan_munsell_value_Saunderson1944(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Saunderson1944`
-        definition nan support.
-        """
-
-        munsell_value_Saunderson1944(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        )
-
-
-class TestMunsellValueLadd1955:
-    """
-    Define :func:`colour.notation.munsell.munsell_value_Ladd1955` definition
-    unit tests methods.
-    """
-
-    def test_munsell_value_Ladd1955(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Ladd1955`
-        definition.
-        """
-
-        np.testing.assert_allclose(
-            munsell_value_Ladd1955(12.23634268),
-            4.0511633044287088,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            munsell_value_Ladd1955(22.89399987),
-            5.3718647913936772,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            munsell_value_Ladd1955(6.29022535),
-            2.9198269939751613,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-    def test_n_dimensional_munsell_value_Ladd1955(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Ladd1955`
-        definition n-dimensional arrays support.
-        """
-
-        Y = 12.23634268
-        V = munsell_value_Ladd1955(Y)
-
-        V = np.tile(V, 6)
-        Y = np.tile(Y, 6)
-        np.testing.assert_allclose(
-            munsell_value_Ladd1955(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        V = np.reshape(V, (2, 3))
-        Y = np.reshape(Y, (2, 3))
-        np.testing.assert_allclose(
-            munsell_value_Ladd1955(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        V = np.reshape(V, (2, 3, 1))
-        Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_allclose(
-            munsell_value_Ladd1955(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-    def test_domain_range_scale_munsell_value_Ladd1955(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Ladd1955`
-        definition domain and range scale support.
-        """
-
-        Y = 12.23634268
-        V = munsell_value_Ladd1955(Y)
-
-        d_r = (("reference", 1, 1), ("1", 0.01, 0.1), ("100", 1, 10))
-        for scale, factor_a, factor_b in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    munsell_value_Ladd1955(Y * factor_a),
-                    V * factor_b,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
-
-    @ignore_numpy_errors
-    def test_nan_munsell_value_Ladd1955(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_Ladd1955`
-        definition nan support.
-        """
-
-        munsell_value_Ladd1955(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-class TestMunsellValueMcCamy1992:
-    """
-    Define :func:`colour.notation.munsell.munsell_value_McCamy1987` definition
-    unit tests methods.
-    """
-
-    def test_munsell_value_McCamy1987(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_McCamy1987`
-        definition.
-        """
-
-        np.testing.assert_allclose(
-            munsell_value_McCamy1987(12.23634268),
-            4.081434853194113,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            munsell_value_McCamy1987(22.89399987),
-            5.394083970919982,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            munsell_value_McCamy1987(6.29022535),
-            2.9750160800320096,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-    def test_n_dimensional_munsell_value_McCamy1987(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_McCamy1987`
-        definition n-dimensional arrays support.
-        """
-
-        Y = 12.23634268
-        V = munsell_value_McCamy1987(Y)
-
-        V = np.tile(V, 6)
-        Y = np.tile(Y, 6)
-        np.testing.assert_allclose(
-            munsell_value_McCamy1987(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        V = np.reshape(V, (2, 3))
-        Y = np.reshape(Y, (2, 3))
-        np.testing.assert_allclose(
-            munsell_value_McCamy1987(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        V = np.reshape(V, (2, 3, 1))
-        Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_allclose(
-            munsell_value_McCamy1987(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-    def test_domain_range_scale_munsell_value_McCamy1987(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_McCamy1987`
-        definition domain and range scale support.
-        """
-
-        Y = 12.23634268
-        V = munsell_value_McCamy1987(Y)
-
-        d_r = (("reference", 1, 1), ("1", 0.01, 0.1), ("100", 1, 10))
-        for scale, factor_a, factor_b in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    munsell_value_McCamy1987(Y * factor_a),
-                    V * factor_b,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
-
-    @ignore_numpy_errors
-    def test_nan_munsell_value_McCamy1987(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_McCamy1987`
-        definition nan support.
-        """
-
-        munsell_value_McCamy1987(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-class TestMunsellValueASTMD1535:
-    """
-    Define :func:`colour.notation.munsell.munsell_value_ASTMD1535`
-    definition unit tests methods.
-    """
-
-    def test_munsell_value_ASTMD1535(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_ASTMD1535`
-        definition.
-        """
-
-        np.testing.assert_allclose(
-            munsell_value_ASTMD1535(12.23634268),
-            4.0824437076525664,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            munsell_value_ASTMD1535(22.89399987),
-            5.3913268228155395,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            munsell_value_ASTMD1535(6.29022535),
-            2.9761930839606454,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-    def test_n_dimensional_munsell_value_ASTMD1535(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_ASTMD1535`
-        definition n-dimensional arrays support.
-        """
-
-        Y = 12.23634268
-        V = munsell_value_ASTMD1535(Y)
-
-        V = np.tile(V, 6)
-        Y = np.tile(Y, 6)
-        np.testing.assert_allclose(
-            munsell_value_ASTMD1535(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        V = np.reshape(V, (2, 3))
-        Y = np.reshape(Y, (2, 3))
-        np.testing.assert_allclose(
-            munsell_value_ASTMD1535(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        V = np.reshape(V, (2, 3, 1))
-        Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_allclose(
-            munsell_value_ASTMD1535(Y), V, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-    def test_domain_range_scale_munsell_value_ASTMD1535(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_ASTMD1535`
-        definition domain and range scale support.
-        """
-
-        Y = 12.23634268
-        V = munsell_value_ASTMD1535(Y)
-
-        d_r = (("reference", 1, 1), ("1", 0.01, 0.1), ("100", 1, 10))
-        for scale, factor_a, factor_b in d_r:
-            with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    munsell_value_ASTMD1535(Y * factor_a),
-                    V * factor_b,
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                )
-
-    @ignore_numpy_errors
-    def test_nan_munsell_value_ASTMD1535(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_value_ASTMD1535`
-        definition nan support.
-        """
-
-        munsell_value_ASTMD1535(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
-
-
-class TestMunsellSpecification_to_xyY:
-    """
-    Define :func:`colour.notation.munsell.munsell_specification_to_xyY`
-    definition unit tests methods.
-    """
-
-    def test_munsell_specification_to_xyY(self) -> None:
-        """
-        Test :func:`colour.notation.munsell.munsell_specification_to_xyY`
+        Test
+        :func:`colour.notation.munsell.munsell_specification_to_xyY_Centore2014`
         definition.
         """
 
@@ -1720,7 +1114,7 @@ class TestMunsellSpecification_to_xyY:
             as_float_array(list(MUNSELL_SPECIFICATIONS[..., 1])),
         )
         np.testing.assert_allclose(
-            munsell_specification_to_xyY(specification),
+            munsell_specification_to_xyY_Centore2014(specification),
             xyY,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -1734,24 +1128,27 @@ class TestMunsellSpecification_to_xyY:
         specification = tstack([nan_array, specification, nan_array, nan_array])
 
         np.testing.assert_allclose(
-            munsell_specification_to_xyY(specification),
+            munsell_specification_to_xyY_Centore2014(specification),
             xyY,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_munsell_specification_to_xyY(self) -> None:
+    def test_n_dimensional_munsell_specification_to_xyY_Centore2014(
+        self,
+    ) -> None:
         """
-        Test :func:`colour.notation.munsell.munsell_specification_to_xyY`
+        Test
+        :func:`colour.notation.munsell.munsell_specification_to_xyY_Centore2014`
         definition n-dimensional arrays support.
         """
 
         specification = np.array([7.18927191, 5.34025196, 16.05861170, 3.00000000])
-        xyY = munsell_specification_to_xyY(specification)
+        xyY = munsell_specification_to_xyY_Centore2014(specification)
 
         specification = np.tile(specification, (6, 1))
         xyY = np.tile(xyY, (6, 1))
         np.testing.assert_allclose(
-            munsell_specification_to_xyY(specification),
+            munsell_specification_to_xyY_Centore2014(specification),
             xyY,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -1759,18 +1156,18 @@ class TestMunsellSpecification_to_xyY:
         specification = np.reshape(specification, (2, 3, 4))
         xyY = np.reshape(xyY, (2, 3, 3))
         np.testing.assert_allclose(
-            munsell_specification_to_xyY(specification),
+            munsell_specification_to_xyY_Centore2014(specification),
             xyY,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         specification = np.array([np.nan, 8.9, np.nan, np.nan])
-        xyY = munsell_specification_to_xyY(specification)
+        xyY = munsell_specification_to_xyY_Centore2014(specification)
 
         specification = np.tile(specification, (6, 1))
         xyY = np.tile(xyY, (6, 1))
         np.testing.assert_allclose(
-            munsell_specification_to_xyY(specification),
+            munsell_specification_to_xyY_Centore2014(specification),
             xyY,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -1778,19 +1175,22 @@ class TestMunsellSpecification_to_xyY:
         specification = np.reshape(specification, (2, 3, 4))
         xyY = np.reshape(xyY, (2, 3, 3))
         np.testing.assert_allclose(
-            munsell_specification_to_xyY(specification),
+            munsell_specification_to_xyY_Centore2014(specification),
             xyY,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_munsell_specification_to_xyY(self) -> None:
+    def test_domain_range_scale_munsell_specification_to_xyY_Centore2014(
+        self,
+    ) -> None:
         """
-        Test :func:`colour.notation.munsell.munsell_specification_to_xyY`
+        Test
+        :func:`colour.notation.munsell.munsell_specification_to_xyY_Centore2014`
         definition domain and range scale support.
         """
 
         specification = np.array([7.18927191, 5.34025196, 16.05861170, 3.00000000])
-        xyY = munsell_specification_to_xyY(specification)
+        xyY = munsell_specification_to_xyY_Centore2014(specification)
 
         d_r = (
             ("reference", 1, 1),
@@ -1800,15 +1200,16 @@ class TestMunsellSpecification_to_xyY:
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    munsell_specification_to_xyY(specification * factor_a),
+                    munsell_specification_to_xyY_Centore2014(specification * factor_a),
                     xyY * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
-    def test_nan_munsell_specification_to_xyY(self) -> None:
+    def test_nan_munsell_specification_to_xyY_Centore2014(self) -> None:
         """
-        Test :func:`colour.notation.munsell.munsell_specification_to_xyY`
+        Test
+        :func:`colour.notation.munsell.munsell_specification_to_xyY_Centore2014`
         definition nan support.
         """
 
@@ -1816,23 +1217,27 @@ class TestMunsellSpecification_to_xyY:
         cases = np.array(list(set(product(cases, repeat=4))))
         for case in cases:
             with contextlib.suppress(AssertionError, TypeError, ValueError):
-                munsell_specification_to_xyY(case)
+                munsell_specification_to_xyY_Centore2014(case)
 
 
-class TestMunsellColour_to_xyY:
+class TestMunsellColour_to_xyY_Centore2014:
     """
-    Define :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
-    unit tests methods.
+    Define
+    :func:`colour.notation.munsell.munsell_colour_to_xyY_Centore2014`
+    definition unit tests methods.
     """
 
-    def test_domain_range_scale_munsell_colour_to_xyY(self) -> None:
+    def test_domain_range_scale_munsell_colour_to_xyY_Centore2014(
+        self,
+    ) -> None:
         """
-        Test :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
-        domain and range scale support.
+        Test
+        :func:`colour.notation.munsell.munsell_colour_to_xyY_Centore2014`
+        definition domain and range scale support.
         """
 
         munsell_colour = "4.2YR 8.1/5.3"
-        xyY = munsell_colour_to_xyY(munsell_colour)
+        xyY = munsell_colour_to_xyY_Centore2014(munsell_colour)
 
         d_r = (
             ("reference", 1),
@@ -1842,24 +1247,27 @@ class TestMunsellColour_to_xyY:
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    munsell_colour_to_xyY(munsell_colour),
+                    munsell_colour_to_xyY_Centore2014(munsell_colour),
                     xyY * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
-    def test_n_dimensional_munsell_colour_to_xyY(self) -> None:
+    def test_n_dimensional_munsell_colour_to_xyY_Centore2014(
+        self,
+    ) -> None:
         """
-        Test :func:`colour.notation.munsell.munsell_colour_to_xyY` definition
-        n-dimensional arrays support.
+        Test
+        :func:`colour.notation.munsell.munsell_colour_to_xyY_Centore2014`
+        definition n-dimensional arrays support.
         """
 
         munsell_colour = "4.2YR 8.1/5.3"
-        xyY = munsell_colour_to_xyY(munsell_colour)
+        xyY = munsell_colour_to_xyY_Centore2014(munsell_colour)
 
         munsell_colour = np.tile(munsell_colour, 6)
         xyY = np.tile(xyY, (6, 1))
         np.testing.assert_allclose(
-            munsell_colour_to_xyY(munsell_colour),
+            munsell_colour_to_xyY_Centore2014(munsell_colour),
             xyY,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -1867,18 +1275,18 @@ class TestMunsellColour_to_xyY:
         munsell_colour = np.reshape(munsell_colour, (2, 3))
         xyY = np.reshape(xyY, (2, 3, 3))
         np.testing.assert_allclose(
-            munsell_colour_to_xyY(munsell_colour),
+            munsell_colour_to_xyY_Centore2014(munsell_colour),
             xyY,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         munsell_colour = "N8.9"
-        xyY = munsell_colour_to_xyY(munsell_colour)
+        xyY = munsell_colour_to_xyY_Centore2014(munsell_colour)
 
         munsell_colour = np.tile(munsell_colour, 6)
         xyY = np.tile(xyY, (6, 1))
         np.testing.assert_allclose(
-            munsell_colour_to_xyY(munsell_colour),
+            munsell_colour_to_xyY_Centore2014(munsell_colour),
             xyY,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -1886,21 +1294,23 @@ class TestMunsellColour_to_xyY:
         munsell_colour = np.reshape(munsell_colour, (2, 3))
         xyY = np.reshape(xyY, (2, 3, 3))
         np.testing.assert_allclose(
-            munsell_colour_to_xyY(munsell_colour),
+            munsell_colour_to_xyY_Centore2014(munsell_colour),
             xyY,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
 
-class TestxyY_to_munsell_specification:
+class TestxyY_to_munsell_specification_Centore2014:
     """
-    Define :func:`colour.notation.munsell.xyY_to_munsell_specification`
+    Define
+    :func:`colour.notation.munsell.xyY_to_munsell_specification_Centore2014`
     definition unit tests methods.
     """
 
-    def test_xyY_to_munsell_specification(self) -> None:
+    def test_xyY_to_munsell_specification_Centore2014(self) -> None:
         """
-        Test :func:`colour.notation.munsell.xyY_to_munsell_specification`
+        Test
+        :func:`colour.notation.munsell.xyY_to_munsell_specification_Centore2014`
         definition.
         """
 
@@ -1913,7 +1323,7 @@ class TestxyY_to_munsell_specification:
         )
 
         np.testing.assert_allclose(
-            xyY_to_munsell_specification(xyY),
+            xyY_to_munsell_specification_Centore2014(xyY),
             specification,
             atol=5e-5,
         )
@@ -1927,14 +1337,17 @@ class TestxyY_to_munsell_specification:
         specification = tstack([nan_array, specification, nan_array, nan_array])
 
         np.testing.assert_allclose(
-            xyY_to_munsell_specification(xyY),
+            xyY_to_munsell_specification_Centore2014(xyY),
             specification,
             atol=0.00001,
         )
 
-    def test_n_dimensional_xyY_to_munsell_specification(self) -> None:
+    def test_n_dimensional_xyY_to_munsell_specification_Centore2014(
+        self,
+    ) -> None:
         """
-        Test :func:`colour.notation.munsell.xyY_to_munsell_specification`
+        Test
+        :func:`colour.notation.munsell.xyY_to_munsell_specification_Centore2014`
         definition n-dimensional arrays support.
         """
 
@@ -1942,12 +1355,12 @@ class TestxyY_to_munsell_specification:
             return
 
         xyY = [0.16623068, 0.45684550, 0.22399519]
-        specification = xyY_to_munsell_specification(xyY)
+        specification = xyY_to_munsell_specification_Centore2014(xyY)
 
         xyY = np.tile(xyY, (6, 1))
         specification = np.tile(specification, (6, 1))
         np.testing.assert_allclose(
-            xyY_to_munsell_specification(xyY),
+            xyY_to_munsell_specification_Centore2014(xyY),
             specification,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -1955,14 +1368,17 @@ class TestxyY_to_munsell_specification:
         xyY = np.reshape(xyY, (2, 3, 3))
         specification = np.reshape(specification, (2, 3, 4))
         np.testing.assert_allclose(
-            xyY_to_munsell_specification(xyY),
+            xyY_to_munsell_specification_Centore2014(xyY),
             specification,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_raise_exception_xyY_to_munsell_specification(self) -> None:
+    def test_raise_exception_xyY_to_munsell_specification_Centore2014(
+        self,
+    ) -> None:
         """
-        Test :func:`colour.notation.munsell.xyY_to_munsell_specification`
+        Test
+        :func:`colour.notation.munsell.xyY_to_munsell_specification_Centore2014`
         definition raised exception.
         """
 
@@ -1971,13 +1387,16 @@ class TestxyY_to_munsell_specification:
 
         pytest.raises(
             RuntimeError,
-            xyY_to_munsell_specification,
+            xyY_to_munsell_specification_Centore2014,
             np.array([0.90615118, 0.57945103, 0.91984064]),
         )
 
-    def test_domain_range_scale_xyY_to_munsell_specification(self) -> None:
+    def test_domain_range_scale_xyY_to_munsell_specification_Centore2014(
+        self,
+    ) -> None:
         """
-        Test :func:`colour.notation.munsell.xyY_to_munsell_specification`
+        Test
+        :func:`colour.notation.munsell.xyY_to_munsell_specification_Centore2014`
         definition domain and range scale support.
         """
 
@@ -1985,7 +1404,7 @@ class TestxyY_to_munsell_specification:
             return
 
         xyY = [0.16623068, 0.45684550, 0.22399519]
-        specification = xyY_to_munsell_specification(xyY)
+        specification = xyY_to_munsell_specification_Centore2014(xyY)
 
         d_r = (
             ("reference", 1, 1),
@@ -1995,15 +1414,16 @@ class TestxyY_to_munsell_specification:
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_allclose(
-                    xyY_to_munsell_specification(xyY * factor_a),
+                    xyY_to_munsell_specification_Centore2014(xyY * factor_a),
                     specification * factor_b,
                     atol=2e-5,
                 )
 
     @ignore_numpy_errors
-    def test_nan_xyY_to_munsell_specification(self) -> None:
+    def test_nan_xyY_to_munsell_specification_Centore2014(self) -> None:
         """
-        Test :func:`colour.notation.munsell.xyY_to_munsell_specification`
+        Test
+        :func:`colour.notation.munsell.xyY_to_munsell_specification_Centore2014`
         definition nan support.
         """
 
@@ -2014,26 +1434,30 @@ class TestxyY_to_munsell_specification:
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
             with contextlib.suppress(AssertionError, TypeError, ValueError):
-                xyY_to_munsell_specification(case)
+                xyY_to_munsell_specification_Centore2014(case)
 
 
-class TestxyY_to_munsell_colour:
+class TestxyY_to_munsell_colour_Centore2014:
     """
-    Define :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
-    unit tests methods.
+    Define
+    :func:`colour.notation.munsell.xyY_to_munsell_colour_Centore2014`
+    definition unit tests methods.
     """
 
-    def test_domain_range_scale_xyY_to_munsell_colour(self) -> None:
+    def test_domain_range_scale_xyY_to_munsell_colour_Centore2014(
+        self,
+    ) -> None:
         """
-        Test :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
-        domain and range scale support.
+        Test
+        :func:`colour.notation.munsell.xyY_to_munsell_colour_Centore2014`
+        definition domain and range scale support.
         """
 
         if not is_scipy_installed():  # pragma: no cover
             return
 
         xyY = np.array([0.38736945, 0.35751656, 0.59362000])
-        munsell_colour = xyY_to_munsell_colour(xyY)
+        munsell_colour = xyY_to_munsell_colour_Centore2014(xyY)
 
         d_r = (
             ("reference", 1),
@@ -2042,38 +1466,41 @@ class TestxyY_to_munsell_colour:
         )
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                assert xyY_to_munsell_colour(xyY * factor) == munsell_colour
+                assert xyY_to_munsell_colour_Centore2014(xyY * factor) == munsell_colour
 
-    def test_n_dimensional_xyY_to_munsell_colour(self) -> None:
+    def test_n_dimensional_xyY_to_munsell_colour_Centore2014(
+        self,
+    ) -> None:
         """
-        Test :func:`colour.notation.munsell.xyY_to_munsell_colour` definition
-        n-dimensional arrays support.
+        Test
+        :func:`colour.notation.munsell.xyY_to_munsell_colour_Centore2014`
+        definition n-dimensional arrays support.
         """
 
         if not is_scipy_installed():  # pragma: no cover
             return
 
         xyY = [0.16623068, 0.45684550, 0.22399519]
-        munsell_colour = xyY_to_munsell_colour(xyY)
+        munsell_colour = xyY_to_munsell_colour_Centore2014(xyY)
 
         xyY = np.tile(xyY, (6, 1))
         munsell_colour = np.tile(munsell_colour, 6)
-        np.testing.assert_equal(xyY_to_munsell_colour(xyY), munsell_colour)
+        np.testing.assert_equal(xyY_to_munsell_colour_Centore2014(xyY), munsell_colour)
 
         xyY = np.reshape(xyY, (2, 3, 3))
         munsell_colour = np.reshape(munsell_colour, (2, 3))
-        np.testing.assert_equal(xyY_to_munsell_colour(xyY), munsell_colour)
+        np.testing.assert_equal(xyY_to_munsell_colour_Centore2014(xyY), munsell_colour)
 
         xyY = [*list(CCS_ILLUMINANT_MUNSELL), 1.0]
-        munsell_colour = xyY_to_munsell_colour(xyY)
+        munsell_colour = xyY_to_munsell_colour_Centore2014(xyY)
 
         xyY = np.tile(xyY, (6, 1))
         munsell_colour = np.tile(munsell_colour, 6)
-        np.testing.assert_equal(xyY_to_munsell_colour(xyY), munsell_colour)
+        np.testing.assert_equal(xyY_to_munsell_colour_Centore2014(xyY), munsell_colour)
 
         xyY = np.reshape(xyY, (2, 3, 3))
         munsell_colour = np.reshape(munsell_colour, (2, 3))
-        np.testing.assert_equal(xyY_to_munsell_colour(xyY), munsell_colour)
+        np.testing.assert_equal(xyY_to_munsell_colour_Centore2014(xyY), munsell_colour)
 
 
 class TestParseMunsellColour:

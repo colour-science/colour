@@ -53,12 +53,14 @@ optional = [
     "imageio>=2,<3",
     "matplotlib>=3.9",
     "networkx>=3.3,<4",
+    "onnxruntime>=1,<2",
     "opencolorio>=2,<3; python_version < '3.14'",
     "openimageio>=3,<4",
     "pandas>=2.2,<3",
     "pydot>=3,<4",
     "scipy>=1.13.0,<2",
     "tqdm>=4,<5",
+    "trimesh>=4,<5",
     "xxhash>=3,<4",
 ]
 docs = [
@@ -67,9 +69,6 @@ docs = [
     "restructuredtext-lint",
     "sphinx",
     "sphinxcontrib-bibtex",
-]
-meshing = [
-    "trimesh>=4,<5",
 ]
 
 [project.urls]

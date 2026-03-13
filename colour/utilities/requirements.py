@@ -40,6 +40,7 @@ __all__ = [
     "is_scipy_installed",
     "is_tqdm_installed",
     "is_trimesh_installed",
+    "is_onnxruntime_installed",
     "is_xxhash_installed",
     "REQUIREMENTS_TO_CALLABLE",
     "required",
@@ -475,6 +476,43 @@ def is_trimesh_installed(raise_exception: bool = False) -> bool:
         return True
 
 
+def is_onnxruntime_installed(raise_exception: bool = False) -> bool:
+    """
+    Determine whether *ONNX Runtime* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception
+        Whether to raise an exception if *ONNX Runtime* is unavailable.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether *ONNX Runtime* is installed.
+
+    Raises
+    ------
+    :class:`ImportError`
+        If *ONNX Runtime* is not installed.
+    """
+
+    try:  # pragma: no cover
+        import onnxruntime  # noqa: F401, PLC0415
+    except ImportError as exception:  # pragma: no cover
+        if raise_exception:
+            error = (
+                '"ONNX Runtime" related API features are not available: '
+                f'"{exception}".\nSee the installation guide for more information: '
+                "https://www.colour-science.org/installation-guide/"
+            )
+
+            raise ImportError(error) from exception
+
+        return False
+    else:
+        return True
+
+
 def is_xxhash_installed(raise_exception: bool = False) -> bool:
     """
     Determine whether *xxhash* is installed and available.
@@ -522,6 +560,7 @@ REQUIREMENTS_TO_CALLABLE: CanonicalMapping = CanonicalMapping(
         "OpenColorIO": is_opencolorio_installed,
         "Pandas": is_pandas_installed,
         "Pydot": is_pydot_installed,
+        "onnxruntime": is_onnxruntime_installed,
         "SciPy": is_scipy_installed,
         "tqdm": is_tqdm_installed,
         "trimesh": is_trimesh_installed,
@@ -540,6 +579,7 @@ def required(
         "OpenImageIO",
         "Matplotlib",
         "NetworkX",
+        "onnxruntime",
         "OpenColorIO",
         "Pandas",
         "Pydot",
