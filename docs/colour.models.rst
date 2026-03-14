@@ -810,6 +810,7 @@ Log Encoding and Decoding
     log_decoding_Log3G12
     log_decoding_MiLog
     log_decoding_NLog
+    log_decoding_OPPOOLog
     log_decoding_Panalog
     log_decoding_PivotedLog
     log_decoding_Protune
@@ -838,6 +839,7 @@ Log Encoding and Decoding
     log_encoding_Log3G12
     log_encoding_MiLog
     log_encoding_NLog
+    log_encoding_OPPOOLog
     log_encoding_Panalog
     log_encoding_PivotedLog
     log_encoding_Protune
