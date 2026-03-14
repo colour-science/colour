@@ -258,37 +258,37 @@ def delta_E(
         weights are used instead of
         :math:`k_L=k_C=k_H=1,\\ k_1=0.045,\\ k_2=0.015,\\ k_E=k_{CH}=1.0`.
     kwargs
-        See the documentation of the available delta E definitions.
+        See the documentation of the available :math:`\\Delta E_{ab}`
+        definitions.
 
-        Arguments for the conversion definitions are passed as keyword
-        arguments whose names are those of the delta E definitions and
-        values set as dictionaries. For example, when computing delta E
-        DIN99, passing arguments to the :func:`colour.delta_E_DIN99`
+        Arguments for the :math:`\\Delta E_{ab}` definitions are passed
+        as keyword arguments whose names are those of the
+        :math:`\\Delta E_{ab}` definitions and values set as
+        dictionaries. For example, when computing
+        :math:`\\Delta E_{DIN99}`, passing arguments to the
+        :func:`colour.delta_E_DIN99`
         definition is done as follows::
 
             delta_E(
                 a,
                 b,
                 "DIN99",
-                False,
                 delta_E_DIN99={"method": "DIN99b"},
             )
 
-        It is also possible to pass keyword arguments directly to the
-        various delta E definitions irrespective of their name. This is
-        ``dangerous`` and could cause unexpected behaviour, consider the
-        following conversion::
+        It is also possible to pass keyword arguments directly, but this
+        is dangerous and could cause unexpected behaviour. For example::
 
             delta_E(
                 a,
                 b,
                 "DIN99",
-                "method"="DIN99b",
+                method="DIN99b",
             )
 
         Because both the :func:`colour.delta_E` and
-        :func:`colour.delta_E_DIN99` definitions have an *method*
-        argument, this will raise a an exception in the
+        :func:`colour.delta_E_DIN99` definitions have a *method*
+        argument, this will raise an exception in the
         :func:`colour.delta_E` definition.
 
     Returns

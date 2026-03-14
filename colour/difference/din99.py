@@ -19,7 +19,7 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Domain100, Literal, NDArrayFloat
+    from colour.hints import Literal
 
 from dataclasses import dataclass, field
 

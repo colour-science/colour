@@ -102,6 +102,39 @@ class TestDelta_E_DIN99:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+    def test_delta_E_DIN99_method(self) -> None:
+        """
+        Test :func:`colour.difference.din99.delta_E_DIN99` definition
+        *method* parameter support.
+        """
+
+        Lab_1 = np.array([60.25740000, -34.00990000, 36.26770000])
+        Lab_2 = np.array([60.46260000, -34.17510000, 39.43870000])
+
+        np.testing.assert_allclose(
+            delta_E_DIN99(Lab_1, Lab_2, method="DIN99"),
+            1.177216620111552,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            delta_E_DIN99(Lab_1, Lab_2, method="DIN99b"),
+            1.711312965743716,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            delta_E_DIN99(Lab_1, Lab_2, method="DIN99c"),
+            1.554667171681764,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        np.testing.assert_allclose(
+            delta_E_DIN99(Lab_1, Lab_2, method="DIN99d"),
+            1.441930871002728,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_delta_E_DIN99(self) -> None:
         """
         Test :func:`colour.difference.din99.delta_E_DIN99` definition
