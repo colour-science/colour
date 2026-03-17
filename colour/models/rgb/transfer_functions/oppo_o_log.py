@@ -1,6 +1,6 @@
 """
 OPPO O-Log Profile Log Encoding
-================================
+===============================
 
 Define the *OPPO O-Log Profile* log encoding.
 
@@ -9,7 +9,9 @@ Define the *OPPO O-Log Profile* log encoding.
 
 References
 ----------
--   :cite:`OPPO2025` : OPPO. (2025). OPPO O-Log Profile White Paper. May 2025.
+-   :cite:`Lai2025` : Lai, Z., Qu, T., Yan, C., & Chow, Z. (2025). OPPO O-Log \
+    - Whitepaper. Retrieved March 17, 2026, from https://www.oppo.com/content/\
+dam/oppo_com/en/mkt/footer/OPPO_O-Log_Profile_WhitePaper_V1.pdf
 """
 
 from __future__ import annotations
@@ -65,7 +67,7 @@ def log_encoding_OPPOOLog(
 
     References
     ----------
-    :cite:`OPPO2025`
+    :cite:`Lai2025`
 
     Notes
     -----
@@ -126,7 +128,7 @@ def log_decoding_OPPOOLog(
 
     References
     ----------
-    :cite:`OPPO2025`
+    :cite:`Lai2025`
 
     Notes
     -----
