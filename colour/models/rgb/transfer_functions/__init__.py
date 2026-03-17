@@ -133,6 +133,7 @@ from .log import (
     logarithmic_function_quasilog,
 )
 from .nikon_n_log import log_decoding_NLog, log_encoding_NLog
+from .oppo_o_log import log_decoding_OPPOOLog, log_encoding_OPPOOLog
 from .panalog import log_decoding_Panalog, log_encoding_Panalog
 from .panasonic_v_log import log_decoding_VLog, log_encoding_VLog
 from .pivoted_log import log_decoding_PivotedLog, log_encoding_PivotedLog
@@ -335,6 +336,10 @@ __all__ += [
     "log_encoding_NLog",
 ]
 __all__ += [
+    "log_decoding_OPPOOLog",
+    "log_encoding_OPPOOLog",
+]
+__all__ += [
     "log_decoding_Panalog",
     "log_encoding_Panalog",
 ]
@@ -426,6 +431,7 @@ LOG_ENCODINGS: CanonicalMapping = CanonicalMapping(
         "Log3G12": log_encoding_Log3G12,
         "Mi-Log": log_encoding_MiLog,
         "N-Log": log_encoding_NLog,
+        "O-Log": log_encoding_OPPOOLog,
         "PLog": log_encoding_PivotedLog,
         "Panalog": log_encoding_Panalog,
         "Protune": log_encoding_Protune,
@@ -481,6 +487,7 @@ def log_encoding(
         :func:`colour.models.log_encoding_Log3G12`,
         :func:`colour.models.log_encoding_MiLog`,
         :func:`colour.models.log_encoding_NLog`,
+        :func:`colour.models.log_encoding_OPPOOLog`,
         :func:`colour.models.log_encoding_PivotedLog`,
         :func:`colour.models.log_encoding_Panalog`,
         :func:`colour.models.log_encoding_Protune`,
@@ -546,6 +553,7 @@ LOG_DECODINGS: CanonicalMapping = CanonicalMapping(
         "Log3G12": log_decoding_Log3G12,
         "Mi-Log": log_decoding_MiLog,
         "N-Log": log_decoding_NLog,
+        "O-Log": log_decoding_OPPOOLog,
         "PLog": log_decoding_PivotedLog,
         "Panalog": log_decoding_Panalog,
         "Protune": log_decoding_Protune,
@@ -603,6 +611,7 @@ def log_decoding(
         :func:`colour.models.log_decoding_Log3G12`,
         :func:`colour.models.log_decoding_MiLog`,
         :func:`colour.models.log_decoding_NLog`,
+        :func:`colour.models.log_decoding_OPPOOLog`,
         :func:`colour.models.log_decoding_PivotedLog`,
         :func:`colour.models.log_decoding_Panalog`,
         :func:`colour.models.log_decoding_Protune`,
