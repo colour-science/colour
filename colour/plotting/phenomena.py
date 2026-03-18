@@ -6,6 +6,7 @@ Define the optical phenomena plotting objects.
 
 -   :func:`colour.plotting.plot_single_sd_rayleigh_scattering`
 -   :func:`colour.plotting.plot_the_blue_sky`
+-   :func:`colour.plotting.plot_sky_luminance_distribution_CIE2003`
 """
 
 from __future__ import annotations
@@ -44,6 +45,12 @@ from colour.phenomena.rayleigh import (
     CONSTANT_DEFAULT_LATITUDE,
     CONSTANT_STANDARD_AIR_TEMPERATURE,
     CONSTANT_STANDARD_CO2_CONCENTRATION,
+)
+from colour.phenomena.sky import (
+    CIE_STANDARD_SKY_PARAMETERS,
+)
+from colour.phenomena.sky import (
+    sky_luminance_distribution_CIE2003 as sky_distribution_CIE2003,
 )
 from colour.phenomena.tmm import matrix_transfer_tmm
 from colour.plotting import (
@@ -87,6 +94,7 @@ __all__ = [
     "plot_thin_film_iridescence",
     "plot_thin_film_reflectance_map",
     "plot_multi_layer_stack",
+    "plot_sky_luminance_distribution_CIE2003",
 ]
 
 
@@ -1224,6 +1232,144 @@ def plot_multi_layer_stack(
         "x_label": "",
         "y_label": "Thickness [nm]",
         "x_ticker": theta is not None,
+    }
+    settings.update(kwargs)
+
+    return render(**settings)
+
+
+@override_style()
+def plot_sky_luminance_distribution_CIE2003(
+    sky_type: int = 1,
+    Z_s: float = np.radians(45),
+    alpha_s: float = 0.0,
+    method: Literal["Polar", "Latlong"] | str = "Polar",
+    **kwargs: Any,
+) -> Tuple[Figure, Axes]:
+    """
+    Plot the *CIE Standard General Sky* luminance distribution for the
+    given sky type.
+
+    Parameters
+    ----------
+    sky_type
+        *CIE Standard General Sky* type (1-15).
+    Z_s
+        Zenith angle :math:`Z_s` of the sun in radians.
+    alpha_s
+        Azimuth angle :math:`\\alpha_s` of the sun in radians
+        (clockwise from north).
+    method
+        Plotting method:
+
+        -   ``"Polar"``: Fisheye polar projection (square figure).
+        -   ``"Latlong"``: Latitude-longitude projection (2:1 figure).
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.render`},
+        See the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    :class:`tuple`
+        Current figure and axes.
+
+    References
+    ----------
+    :cite:`CIE2003`
+
+    Examples
+    --------
+    >>> plot_sky_luminance_distribution_CIE2003(12)
+    ... # doctest: +ELLIPSIS
+    (<Figure ...>, <...>)
+
+    .. image:: ../_static/Plotting_Plot_Sky_Luminance_Distribution_CIE2003.png
+        :align: center
+        :alt: plot_sky_luminance_distribution_CIE2003
+    """
+
+    method = validate_method(method, ("Polar", "Latlong"))
+
+    description = CIE_STANDARD_SKY_PARAMETERS[sky_type].description
+
+    n = 361
+
+    if method == "polar":
+        azimuth = np.linspace(0, 2 * np.pi, n)
+        zenith = np.linspace(0, np.pi / 2, n // 2)
+        A, Z = np.meshgrid(azimuth, zenith)
+
+        L = sky_distribution_CIE2003(sky_type, Z, A, Z_s, alpha_s)
+
+        figure = plt.figure(figsize=(8, 8))
+        axes = figure.add_subplot(111, projection="polar")
+
+        axes.pcolormesh(A, np.degrees(Z), L, cmap="inferno", vmin=0, shading="auto")
+        axes.plot(
+            alpha_s,
+            np.degrees(Z_s),
+            "o",
+            color="yellow",
+            markersize=5,
+            markeredgecolor="0.3",
+            markeredgewidth=0.5,
+        )
+
+        axes.set_theta_zero_location("N")  # pyright: ignore
+        axes.set_theta_direction(-1)  # pyright: ignore
+        axes.set_ylim(0, 90)
+        axes.set_yticks([30, 60, 90])
+        axes.set_yticklabels(
+            ["30\u00b0", "60\u00b0", "90\u00b0"],
+            fontsize=6,
+            color="0.5",
+        )
+
+        settings: Dict[str, Any] = {
+            "axes": axes,
+            "title": (f"CIE Standard General Sky - Type {sky_type}\n{description}"),
+        }
+        settings.update(kwargs)
+
+        return render(**settings)
+
+    azimuth = np.linspace(-np.pi, np.pi, n)
+    elevation = np.linspace(0, np.pi / 2, n // 2)
+    A, E = np.meshgrid(azimuth, elevation)
+    Z = np.pi / 2 - E
+
+    L = sky_distribution_CIE2003(sky_type, Z, A, Z_s, alpha_s)
+
+    figure = plt.figure(figsize=(12, 6))
+    axes = figure.add_subplot(111)
+
+    axes.imshow(
+        L,
+        extent=(-180, 180, 0, 90),
+        origin="lower",
+        aspect="auto",
+        cmap="inferno",
+        vmin=0,
+    )
+    axes.plot(
+        np.degrees(alpha_s),
+        90 - np.degrees(Z_s),
+        "o",
+        color="yellow",
+        markersize=5,
+        markeredgecolor="0.3",
+        markeredgewidth=0.5,
+    )
+
+    settings = {
+        "axes": axes,
+        "title": (f"CIE Standard General Sky - Type {sky_type}\n{description}"),
+        "x_label": "Azimuth [\u00b0]",
+        "y_label": "Elevation [\u00b0]",
     }
     settings.update(kwargs)
 

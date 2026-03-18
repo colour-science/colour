@@ -14,6 +14,7 @@ from colour.plotting import (
     plot_ray,
     plot_single_layer_thin_film,
     plot_single_sd_rayleigh_scattering,
+    plot_sky_luminance_distribution_CIE2003,
     plot_the_blue_sky,
     plot_thin_film_comparison,
     plot_thin_film_iridescence,
@@ -38,6 +39,7 @@ __all__ = [
     "TestPlotThinFilmIridescence",
     "TestPlotThinFilmReflectanceMap",
     "TestPlotMultiLayerStack",
+    "TestPlotSkyLuminanceDistributionCIE2003",
     "TestPlotRay",
 ]
 
@@ -380,6 +382,29 @@ class TestPlotMultiLayerStack:
 
         # Test without theta
         figure, axes = plot_multi_layer_stack(configurations)
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+
+class TestPlotSkyLuminanceDistributionCIE2003:
+    """
+    Define :func:`colour.plotting.phenomena.\
+plot_sky_luminance_distribution_CIE2003` definition unit tests methods.
+    """
+
+    def test_plot_sky_luminance_distribution_CIE2003(self) -> None:
+        """
+        Test :func:`colour.plotting.phenomena.\
+plot_sky_luminance_distribution_CIE2003` definition.
+        """
+
+        figure, axes = plot_sky_luminance_distribution_CIE2003(1)
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        figure, axes = plot_sky_luminance_distribution_CIE2003(12, method="Latlong")
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)

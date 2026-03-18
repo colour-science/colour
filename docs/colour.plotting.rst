@@ -212,6 +212,7 @@ Optical Phenomena
 
     plot_single_sd_rayleigh_scattering
     plot_the_blue_sky
+    plot_sky_luminance_distribution_CIE2003
     plot_single_layer_thin_film
     plot_multi_layer_thin_film
     plot_thin_film_comparison
