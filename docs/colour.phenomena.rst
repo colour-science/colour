@@ -1,6 +1,23 @@
 Optical Phenomena
 =================
 
+CIE Standard General Sky
+-------------------------
+
+``colour.phenomena``
+
+.. currentmodule:: colour.phenomena
+
+.. autosummary::
+    :toctree: generated/
+
+    SkyType_CIE2003
+    CIE_STANDARD_SKY_PARAMETERS
+    sky_luminance_gradation_CIE2003
+    sky_scattering_indicatrix_CIE2003
+    sky_luminance_distribution_CIE2003
+    sky_luminance_distribution_overcast_CIE2003
+
 Rayleigh Scattering
 -------------------
 

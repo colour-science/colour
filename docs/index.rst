@@ -1434,6 +1434,23 @@ Munsell Colour
 Optical Phenomena - ``colour.phenomena``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+CIE Standard General Sky
+************************
+
+.. code-block:: python
+
+    import colour
+    import numpy as np
+
+    # Relative luminance for CIE Standard General Sky Type 12 (Clear Sky)
+    colour.phenomena.sky_luminance_distribution_CIE2003(
+        12, np.radians(45), np.radians(180), np.radians(30), np.radians(0)
+    )
+
+.. code-block:: text
+
+    0.4544524...
+
 Rayleigh Scattering
 *******************
 
