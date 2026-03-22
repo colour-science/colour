@@ -30,6 +30,7 @@ from colour.algebra import (
     kernel_nearest_neighbour,
     kernel_sinc,
     lagrange_coefficients,
+    linear_interpolation_index_and_factor,
     random_triplet_generator,
     table_interpolation,
     table_interpolation_tetrahedral,
@@ -1762,4 +1763,68 @@ class TestTableInterpolation:
             table_interpolation(V_xyz, LUT_TABLE, method="Tetrahedral"),
             table_interpolation_tetrahedral(V_xyz, LUT_TABLE),
             atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+
+class TestLinearInterpolationIndexAndFactor:
+    """
+    Define :func:`colour.algebra.interpolation.\
+linear_interpolation_index_and_factor` definition unit tests methods.
+    """
+
+    def test_linear_interpolation_index_and_factor(self) -> None:
+        """
+        Test :func:`colour.algebra.interpolation.\
+linear_interpolation_index_and_factor` definition.
+        """
+
+        break_points = np.array([0.0, 1.0, 2.0, 3.0])
+
+        # Exact match at start.
+        index, factor = linear_interpolation_index_and_factor(0.0, break_points)
+        assert index == 0
+        np.testing.assert_allclose(factor, 0.0, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        # Exact match at end (index = last, factor = 0).
+        index, factor = linear_interpolation_index_and_factor(3.0, break_points)
+        assert index == 3
+        np.testing.assert_allclose(factor, 0.0, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        # Midpoint.
+        index, factor = linear_interpolation_index_and_factor(1.5, break_points)
+        assert index == 1
+        np.testing.assert_allclose(factor, 0.5, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        # Clamped below.
+        index, factor = linear_interpolation_index_and_factor(-1.0, break_points)
+        assert index == 0
+        np.testing.assert_allclose(factor, 0.0, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        # Clamped above (same as end: index = last, factor = 0).
+        index, factor = linear_interpolation_index_and_factor(5.0, break_points)
+        assert index == 3
+        np.testing.assert_allclose(factor, 0.0, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        # Degenerate (identical break points).
+        index, factor = linear_interpolation_index_and_factor(1.0, np.array([1.0, 1.0]))
+        np.testing.assert_allclose(factor, 0.0, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+    def test_linear_interpolation_index_and_factor_n_dimensional(
+        self,
+    ) -> None:
+        """
+        Test :func:`colour.algebra.interpolation.\
+linear_interpolation_index_and_factor` definition n-dimensional support.
+        """
+
+        break_points = np.array([0.0, 1.0, 2.0, 3.0])
+        values = np.array([0.0, 0.5, 1.5, 2.5, 3.0])
+
+        index, factor = linear_interpolation_index_and_factor(values, break_points)
+        assert index.shape == (5,)
+        assert factor.shape == (5,)
+
+        np.testing.assert_array_equal(index, [0, 0, 1, 2, 3])
+        np.testing.assert_allclose(
+            factor, [0.0, 0.5, 0.5, 0.5, 0.0], atol=TOLERANCE_ABSOLUTE_TESTS
         )

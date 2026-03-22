@@ -10,6 +10,7 @@ from .intersection import (
     LineSegmentsIntersections_Specification,
     extend_line_segment,
     intersect_line_segments,
+    intersect_ray_circle_2d,
 )
 from .primitives import (
     MAPPING_PLANE_TO_AXIS,
@@ -40,7 +41,9 @@ __all__ += [
     "LineSegmentsIntersections_Specification",
     "extend_line_segment",
     "intersect_line_segments",
+    "intersect_ray_circle_2d",
 ]
+
 __all__ += [
     "MAPPING_PLANE_TO_AXIS",
     "PRIMITIVE_METHODS",

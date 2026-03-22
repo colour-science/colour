@@ -18,6 +18,24 @@ CIE Standard General Sky
     sky_luminance_distribution_CIE2003
     sky_luminance_distribution_overcast_CIE2003
 
+Prague Sky Model - Wilkie et al. (2021)
+---------------------------------------
+
+``colour.phenomena``
+
+.. currentmodule:: colour.phenomena
+
+.. autosummary::
+    :toctree: generated/
+
+    SkyDataset_Wilkie2021
+    SkyParameters_Wilkie2021
+    compute_sky_parameters_Wilkie2021
+    sky_radiance_Wilkie2021
+    sun_radiance_Wilkie2021
+    sky_polarisation_Wilkie2021
+    sky_transmittance_Wilkie2021
+
 Rayleigh Scattering
 -------------------
 

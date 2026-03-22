@@ -130,7 +130,9 @@ from .phenomena import (
     plot_multi_layer_thin_film,
     plot_single_layer_thin_film,
     plot_single_sd_rayleigh_scattering,
+    plot_sky_colour_Wilkie2021,
     plot_sky_luminance_distribution_CIE2003,
+    plot_sky_radiance_Wilkie2021,
     plot_the_blue_sky,
     plot_thin_film_comparison,
     plot_thin_film_iridescence,
@@ -260,6 +262,8 @@ __all__ += [
     "plot_thin_film_reflectance_map",
     "plot_multi_layer_stack",
     "plot_sky_luminance_distribution_CIE2003",
+    "plot_sky_radiance_Wilkie2021",
+    "plot_sky_colour_Wilkie2021",
 ]
 __all__ += [
     "plot_multi_sds_colour_quality_scales_bars",

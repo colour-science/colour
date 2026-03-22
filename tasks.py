@@ -263,6 +263,7 @@ def examples(ctx: Context, plots: bool = False) -> None:
                 or "examples_hke" in filename
                 or "examples_interpolation" in filename
                 or "examples_sky" in filename
+                or "examples_wilkie2021" in filename
             ):
                 continue
 
