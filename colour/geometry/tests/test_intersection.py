@@ -5,7 +5,11 @@ from __future__ import annotations
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.geometry import extend_line_segment, intersect_line_segments
+from colour.geometry import (
+    extend_line_segment,
+    intersect_line_segments,
+    intersect_ray_circle_2d,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -17,6 +21,7 @@ __status__ = "Production"
 __all__ = [
     "TestExtendLineSegment",
     "TestIntersectLineSegments",
+    "TestIntersectRayCircle2D",
 ]
 
 
@@ -123,3 +128,44 @@ class TestIntersectLineSegments:
             s.coincident,
             np.array([[False, False, False, False], [False, False, False, True]]),
         )
+
+
+class TestIntersectRayCircle2D:
+    """
+    Define :func:`colour.geometry.intersection.intersect_ray_circle_2d`
+    definition unit tests methods.
+    """
+
+    def test_intersect_ray_circle_2d(self) -> None:
+        """
+        Test :func:`colour.geometry.intersection.\
+intersect_ray_circle_2d` definition.
+        """
+
+        # Ray pointing up from inside a circle.
+        d = intersect_ray_circle_2d([0, 5], [0, 1], 10.0)
+        assert d > 0.0
+        np.testing.assert_allclose(d, 5.0, atol=1e-10)
+
+        # Ray pointing down from inside, should hit far side.
+        d = intersect_ray_circle_2d([0, 5], [0, -1], 10.0)
+        assert d > 0.0
+        np.testing.assert_allclose(d, 15.0, atol=1e-10)
+
+        # No intersection (outside, pointing away).
+        d = intersect_ray_circle_2d([0, 15], [0, 1], 10.0)
+        assert d < 0.0
+
+        # Horizontal ray from offset origin (3,0) -> hits circle r=5 at x=5.
+        d = intersect_ray_circle_2d([3, 0], [1, 0], 5.0)
+        assert d > 0.0
+        np.testing.assert_allclose(d, 2.0, atol=1e-10)
+
+        # Tangent (touch only) returns negative.
+        d = intersect_ray_circle_2d([0, 10], [1, 0], 10.0)
+        assert d <= 0.0
+
+        # Ray from origin pointing outward.
+        d = intersect_ray_circle_2d([0, 0], [1, 0], 5.0)
+        assert d > 0.0
+        np.testing.assert_allclose(d, 5.0, atol=1e-10)

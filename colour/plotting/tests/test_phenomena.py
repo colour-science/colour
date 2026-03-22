@@ -2,19 +2,27 @@
 
 from __future__ import annotations
 
+import os
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pytest
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
+from colour.phenomena.sky.wilkie2021 import (
+    PATH_PRAGUE_SKY_MODEL_DATASET_GROUND,
+    SkyDataset_Wilkie2021,
+)
 from colour.plotting import (
     plot_multi_layer_stack,
     plot_multi_layer_thin_film,
     plot_ray,
     plot_single_layer_thin_film,
     plot_single_sd_rayleigh_scattering,
+    plot_sky_colour_Wilkie2021,
     plot_sky_luminance_distribution_CIE2003,
+    plot_sky_radiance_Wilkie2021,
     plot_the_blue_sky,
     plot_thin_film_comparison,
     plot_thin_film_iridescence,
@@ -405,6 +413,63 @@ plot_sky_luminance_distribution_CIE2003` definition.
         assert isinstance(axes, Axes)
 
         figure, axes = plot_sky_luminance_distribution_CIE2003(12, method="Latlong")
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+
+DATASET_PATH = PATH_PRAGUE_SKY_MODEL_DATASET_GROUND
+DATASET_AVAILABLE = os.path.isfile(DATASET_PATH)
+
+
+@pytest.mark.skipif(
+    not DATASET_AVAILABLE,
+    reason=f"Prague Sky Model dataset not found at {DATASET_PATH}",
+)
+class TestPlotSkyRadianceWilkie2021:
+    """
+    Define :func:`colour.plotting.phenomena.\
+plot_sky_radiance_Wilkie2021` definition unit tests methods.
+    """
+
+    def test_plot_sky_radiance_Wilkie2021(self) -> None:
+        """
+        Test :func:`colour.plotting.phenomena.\
+plot_sky_radiance_Wilkie2021` definition.
+        """
+
+        ds = SkyDataset_Wilkie2021(DATASET_PATH)
+
+        figure, axes = plot_sky_radiance_Wilkie2021(ds)
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        figure, axes = plot_sky_radiance_Wilkie2021(ds, method="Latlong")
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+
+@pytest.mark.skipif(
+    not DATASET_AVAILABLE,
+    reason=f"Prague Sky Model dataset not found at {DATASET_PATH}",
+)
+class TestPlotSkyColourWilkie2021:
+    """
+    Define :func:`colour.plotting.phenomena.\
+plot_sky_colour_Wilkie2021` definition unit tests methods.
+    """
+
+    def test_plot_sky_colour_Wilkie2021(self) -> None:
+        """
+        Test :func:`colour.plotting.phenomena.\
+plot_sky_colour_Wilkie2021` definition.
+        """
+
+        ds = SkyDataset_Wilkie2021(DATASET_PATH)
+
+        figure, axes = plot_sky_colour_Wilkie2021(ds)
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)

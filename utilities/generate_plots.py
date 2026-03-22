@@ -40,6 +40,7 @@ from colour.models import (
     XYZ_to_xy,
     sRGB_to_XYZ,
 )
+from colour.phenomena.sky.wilkie2021 import SkyDataset_Wilkie2021
 from colour.plotting import (
     ColourSwatch,
     colour_style,
@@ -98,7 +99,9 @@ from colour.plotting import (
     plot_single_sd_colour_rendering_index_bars,
     plot_single_sd_colour_rendition_report,
     plot_single_sd_rayleigh_scattering,
+    plot_sky_colour_Wilkie2021,
     plot_sky_luminance_distribution_CIE2003,
+    plot_sky_radiance_Wilkie2021,
     plot_the_blue_sky,
     plot_visible_spectrum,
     plot_visible_spectrum_section,
@@ -816,6 +819,20 @@ def generate_documentation_plots(output_directory: str) -> None:
     plt.close(
         plot_sky_luminance_distribution_CIE2003(12, method="Polar", **arguments)[0]
     )
+
+    dataset = SkyDataset_Wilkie2021()
+
+    arguments["filename"] = os.path.join(
+        output_directory,
+        "Plotting_Plot_Sky_Radiance_Wilkie2021.png",
+    )
+    plt.close(plot_sky_radiance_Wilkie2021(dataset, method="Polar", **arguments)[0])
+
+    arguments["filename"] = os.path.join(
+        output_directory,
+        "Plotting_Plot_Sky_Colour_Wilkie2021.png",
+    )
+    plt.close(plot_sky_colour_Wilkie2021(dataset, **arguments)[0])
 
     arguments["filename"] = os.path.join(
         output_directory, "Plotting_Plot_Single_Layer_Thin_Film.png"

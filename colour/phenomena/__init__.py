@@ -12,11 +12,18 @@ from .rayleigh import (
 )
 from .sky import (
     CIE_STANDARD_SKY_PARAMETERS,
+    SkyDataset_Wilkie2021,
+    SkyParameters_Wilkie2021,
     SkyType_CIE2003,
+    compute_sky_parameters_Wilkie2021,
     sky_luminance_distribution_CIE2003,
     sky_luminance_distribution_overcast_CIE2003,
     sky_luminance_gradation_CIE2003,
+    sky_polarisation_Wilkie2021,
+    sky_radiance_Wilkie2021,
     sky_scattering_indicatrix_CIE2003,
+    sky_transmittance_Wilkie2021,
+    sun_radiance_Wilkie2021,
 )
 from .tmm import (
     TransferMatrixResult,
@@ -36,6 +43,15 @@ __all__ = [
     "sky_scattering_indicatrix_CIE2003",
     "sky_luminance_distribution_CIE2003",
     "sky_luminance_distribution_overcast_CIE2003",
+]
+__all__ += [
+    "SkyDataset_Wilkie2021",
+    "SkyParameters_Wilkie2021",
+    "compute_sky_parameters_Wilkie2021",
+    "sky_radiance_Wilkie2021",
+    "sun_radiance_Wilkie2021",
+    "sky_polarisation_Wilkie2021",
+    "sky_transmittance_Wilkie2021",
 ]
 __all__ += [
     "light_water_molar_refraction_Schiebener1990",

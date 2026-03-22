@@ -22,7 +22,6 @@ from colour.utilities import (
     attest,
     batch,
     caching_enable,
-    download_url,
     filter_kwargs,
     filter_mapping,
     first_item,
@@ -38,6 +37,7 @@ from colour.utilities import (
     optional,
     set_caching_enable,
     slugify,
+    url_download,
     validate_method,
 )
 
@@ -651,37 +651,37 @@ class TestHashSha256:
 
 class TestDownloadUrl:
     """
-    Define :func:`colour.utilities.common.download_url` definition unit
+    Define :func:`colour.utilities.common.url_download` definition unit
     tests methods.
     """
 
-    def test_download_url(self) -> None:
-        """Test :func:`colour.utilities.common.download_url` definition."""
+    def test_url_download(self) -> None:
+        """Test :func:`colour.utilities.common.url_download` definition."""
 
-        cache_dir = tempfile.mkdtemp()
+        target = os.path.join(
+            tempfile.mkdtemp(), "multi_mlp_normalization_parameters.npz"
+        )
 
         try:
-            path = download_url(
+            path = url_download(
                 "https://huggingface.co/colour-science/"
                 "learning-munsell/resolve/main/"
                 "models/to_xyY/"
                 "multi_mlp_normalization_parameters.npz",
-                cache_dir=cache_dir,
+                filename=target,
             )
 
             assert os.path.isfile(path)
-            assert "learning-munsell" in path
-            assert "/resolve/main/" not in path
-            assert "colour-science/" not in path
+            assert path == target
 
             # Cached second call returns same path.
             assert (
-                download_url(
+                url_download(
                     "https://huggingface.co/colour-science/"
                     "learning-munsell/resolve/main/"
                     "models/to_xyY/"
                     "multi_mlp_normalization_parameters.npz",
-                    cache_dir=cache_dir,
+                    filename=target,
                 )
                 == path
             )
@@ -689,12 +689,12 @@ class TestDownloadUrl:
             # SHA-256 verification.
             sha = hash_sha256(path)
             assert (
-                download_url(
+                url_download(
                     "https://huggingface.co/colour-science/"
                     "learning-munsell/resolve/main/"
                     "models/to_xyY/"
                     "multi_mlp_normalization_parameters.npz",
-                    cache_dir=cache_dir,
+                    filename=target,
                     sha256=sha,
                 )
                 == path
@@ -703,14 +703,14 @@ class TestDownloadUrl:
             # Wrong SHA-256 triggers re-download and raises.
             pytest.raises(
                 ValueError,
-                download_url,
+                url_download,
                 "https://huggingface.co/colour-science/"
                 "learning-munsell/resolve/main/"
                 "models/to_xyY/"
                 "multi_mlp_normalization_parameters.npz",
-                cache_dir,
+                target,
                 "0" * 64,
                 1,
             )
         finally:
-            shutil.rmtree(cache_dir)
+            shutil.rmtree(os.path.dirname(target))

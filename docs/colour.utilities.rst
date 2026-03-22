@@ -73,6 +73,8 @@ Common
     raise_numpy_errors
     set_caching_enable
     slugify
+    url_download
+    hash_sha256
     validate_method
     warn_numpy_errors
 

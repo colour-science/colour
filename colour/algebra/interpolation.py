@@ -109,7 +109,7 @@ if typing.TYPE_CHECKING:
         Type,
     )
 
-from colour.hints import NDArrayFloat, cast
+from colour.hints import NDArrayFloat, NDArrayReal, cast
 from colour.utilities import (
     CanonicalMapping,
     as_array,
@@ -151,6 +151,7 @@ __all__ = [
     "table_interpolation_tetrahedral",
     "TABLE_INTERPOLATION_METHODS",
     "table_interpolation",
+    "linear_interpolation_index_and_factor",
 ]
 
 
@@ -2121,3 +2122,70 @@ def table_interpolation(
     method = validate_method(method, tuple(TABLE_INTERPOLATION_METHODS))
 
     return TABLE_INTERPOLATION_METHODS[method](V_xyz, table)
+
+
+def linear_interpolation_index_and_factor(
+    value: ArrayLike, break_points: ArrayLike
+) -> tuple[NDArrayReal, NDArrayFloat]:
+    """
+    Compute the bin index and fractional position for piecewise linear
+    interpolation of *value* within sorted *break_points*.
+
+    For each element in *value*, the returned ``index`` identifies the
+    interval ``[break_points[index], break_points[index + 1])`` that
+    contains the value, and ``factor`` gives the normalised position
+    within that interval (0 at the left edge, 1 at the right).
+
+    Values outside the range of *break_points* are clamped.
+
+    Parameters
+    ----------
+    value
+        Query value(s), scalar or array.
+    break_points
+        Sorted array of break points defining the piecewise linear
+        intervals.
+
+    Returns
+    -------
+    :class:`tuple`
+        Tuple of ``(index, factor)`` arrays with the same shape as
+        *value*.
+
+    Examples
+    --------
+    >>> break_points = np.array([0.0, 1.0, 2.0, 3.0])
+    >>> linear_interpolation_index_and_factor(1.5, break_points)
+    ... # doctest: +ELLIPSIS
+    (array(1...), array(0.5))
+    >>> linear_interpolation_index_and_factor(  # doctest: +ELLIPSIS
+    ...     np.array([0.0, 0.5, 2.5, 3.0]), break_points
+    ... )
+    (array([0, 0, 2, 3]...), array([0. , 0.5, 0.5, 0. ]))
+    """
+
+    value = as_float_array(value)
+    break_points = as_float_array(break_points)
+
+    clamped = np.clip(value, break_points[0], break_points[-1])
+
+    # Upper bound search starting from break_points[1].
+    next_idx = (
+        np.searchsorted(break_points[1:], clamped.ravel(), side="right").reshape(
+            clamped.shape
+        )
+        + 1
+    )
+
+    at_end = next_idx >= len(break_points)
+    index = np.where(at_end, len(break_points) - 1, next_idx - 1)
+
+    safe_next = np.minimum(next_idx, len(break_points) - 1)
+    denominator = break_points[safe_next] - break_points[index]
+    factor = np.where(
+        at_end | (denominator == 0),
+        0.0,
+        (clamped - break_points[index]) / np.where(denominator == 0, 1.0, denominator),
+    )
+
+    return index.astype(np.intp), factor

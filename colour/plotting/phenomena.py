@@ -52,6 +52,12 @@ from colour.phenomena.sky import (
 from colour.phenomena.sky import (
     sky_luminance_distribution_CIE2003 as sky_distribution_CIE2003,
 )
+from colour.phenomena.sky.wilkie2021 import (
+    SkyDataset_Wilkie2021,
+    compute_sky_parameters_Wilkie2021,
+    sky_radiance_Wilkie2021,
+    sun_radiance_Wilkie2021,
+)
 from colour.phenomena.tmm import matrix_transfer_tmm
 from colour.plotting import (
     CONSTANTS_COLOUR_STYLE,
@@ -95,6 +101,8 @@ __all__ = [
     "plot_thin_film_reflectance_map",
     "plot_multi_layer_stack",
     "plot_sky_luminance_distribution_CIE2003",
+    "plot_sky_radiance_Wilkie2021",
+    "plot_sky_colour_Wilkie2021",
 ]
 
 
@@ -1244,6 +1252,7 @@ def plot_sky_luminance_distribution_CIE2003(
     Z_s: float = np.radians(45),
     alpha_s: float = 0.0,
     method: Literal["Polar", "Latlong"] | str = "Polar",
+    imshow_kwargs: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
@@ -1308,7 +1317,10 @@ def plot_sky_luminance_distribution_CIE2003(
         figure = plt.figure(figsize=(8, 8))
         axes = figure.add_subplot(111, projection="polar")
 
-        axes.pcolormesh(A, np.degrees(Z), L, cmap="inferno", vmin=0, shading="auto")
+        pcolormesh_settings = {"cmap": "inferno", "vmin": 0, "shading": "auto"}
+        if imshow_kwargs is not None:
+            pcolormesh_settings.update(imshow_kwargs)
+        axes.pcolormesh(A, np.degrees(Z), L, **pcolormesh_settings)
         axes.plot(
             alpha_s,
             np.degrees(Z_s),
@@ -1344,17 +1356,18 @@ def plot_sky_luminance_distribution_CIE2003(
 
     L = sky_distribution_CIE2003(sky_type, Z, A, Z_s, alpha_s)
 
-    figure = plt.figure(figsize=(12, 6))
-    axes = figure.add_subplot(111)
+    _figure, axes = artist(**kwargs)
 
-    axes.imshow(
-        L,
-        extent=(-180, 180, 0, 90),
-        origin="lower",
-        aspect="auto",
-        cmap="inferno",
-        vmin=0,
-    )
+    imshow_settings = {
+        "extent": (-180, 180, 0, 90),
+        "origin": "lower",
+        "aspect": "auto",
+        "cmap": "inferno",
+        "vmin": 0,
+    }
+    if imshow_kwargs is not None:
+        imshow_settings.update(imshow_kwargs)
+    axes.imshow(L, **imshow_settings)
     axes.plot(
         np.degrees(alpha_s),
         90 - np.degrees(Z_s),
@@ -1368,6 +1381,317 @@ def plot_sky_luminance_distribution_CIE2003(
     settings = {
         "axes": axes,
         "title": (f"CIE Standard General Sky - Type {sky_type}\n{description}"),
+        "x_label": "Azimuth [\u00b0]",
+        "y_label": "Elevation [\u00b0]",
+    }
+    settings.update(kwargs)
+
+    return render(**settings)
+
+
+@override_style()
+def plot_sky_radiance_Wilkie2021(
+    dataset: SkyDataset_Wilkie2021,
+    sun_elevation: float = np.radians(30),
+    sun_azimuth: float = 0.0,
+    visibility: float = 50.0,
+    albedo: float = 0.5,
+    wavelength: float = 540.0,
+    method: Literal["Polar", "Latlong"] | str = "Polar",
+    imshow_kwargs: dict | None = None,
+    **kwargs: Any,
+) -> Tuple[Figure, Axes]:
+    """
+    Plot the *Prague Sky Model* sky radiance distribution for the given
+    atmospheric configuration and wavelength.
+
+    Parameters
+    ----------
+    dataset
+        Loaded :class:`SkyDataset_Wilkie2021` dataset.
+    sun_elevation
+        Sun elevation at ground level in radians.
+    sun_azimuth
+        Sun azimuth at ground level in radians.
+    visibility
+        Meteorological range at ground level in kilometers.
+    albedo
+        Ground albedo [0, 1].
+    wavelength
+        Wavelength in nanometers for radiance evaluation.
+    method
+        Plotting method:
+
+        -   ``"Polar"``: Fisheye polar projection (square figure).
+        -   ``"Latlong"``: Latitude-longitude projection (2:1 figure).
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.render`},
+        See the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    :class:`tuple`
+        Current figure and axes.
+
+    References
+    ----------
+    :cite:`Wilkie2021`
+
+    Examples
+    --------
+    >>> import os
+    >>> from colour.phenomena.sky.wilkie2021 import (
+    ...     PATH_PRAGUE_SKY_MODEL_DATASET_GROUND,
+    ... )  # doctest: +SKIP
+    >>> if os.path.isfile(  # doctest: +SKIP
+    ...     PATH_PRAGUE_SKY_MODEL_DATASET_GROUND
+    ... ):
+    ...     ds = SkyDataset_Wilkie2021(PATH_PRAGUE_SKY_MODEL_DATASET_GROUND)
+    ...     plot_sky_radiance_Wilkie2021(ds)
+    """
+
+    method = validate_method(method, ("Polar", "Latlong"))
+
+    n = 181
+
+    if method == "polar":
+        azimuth = np.linspace(0, 2 * np.pi, n * 2)
+        zenith = np.linspace(0.001, np.pi / 2, n)
+        A, Z = np.meshgrid(azimuth, zenith)
+
+        vd = np.stack(
+            [np.sin(Z) * np.cos(A), np.sin(Z) * np.sin(A), np.cos(Z)], axis=-1
+        )
+        parameters = compute_sky_parameters_Wilkie2021(
+            np.array([0, 0, 0.0]), vd, sun_elevation, sun_azimuth, visibility, albedo
+        )
+        radiance = sky_radiance_Wilkie2021(dataset, parameters, np.array([wavelength]))[
+            ..., 0
+        ]
+
+        figure = plt.figure(figsize=(8, 8))
+        axes = figure.add_subplot(111, projection="polar")
+
+        pcolormesh_settings = {"cmap": "inferno", "shading": "auto"}
+        if imshow_kwargs is not None:
+            pcolormesh_settings.update(imshow_kwargs)
+        axes.pcolormesh(A, np.degrees(Z), radiance, **pcolormesh_settings)  # pyright: ignore
+        axes.set_theta_zero_location("N")  # pyright: ignore
+        axes.set_theta_direction(-1)  # pyright: ignore
+        axes.set_ylim(0, 90)
+        axes.set_yticks([30, 60, 90])
+        axes.set_yticklabels(
+            ["30\u00b0", "60\u00b0", "90\u00b0"],
+            fontsize=6,
+            color="0.5",
+        )
+        axes.plot(
+            sun_azimuth,
+            np.degrees(np.pi / 2 - sun_elevation),
+            "o",
+            color="yellow",
+            markersize=5,
+            markeredgecolor="0.3",
+            markeredgewidth=0.5,
+        )
+
+        settings: Dict[str, Any] = {
+            "axes": axes,
+            "title": (
+                f"Prague Sky Model - {wavelength:.0f} nm\n"
+                f"Elevation: {np.degrees(sun_elevation):.1f}\u00b0, "
+                f"Visibility: {visibility:.0f} km, "
+                f"Albedo: {albedo:.2f}"
+            ),
+        }
+        settings.update(kwargs)
+
+        return render(**settings)
+
+    azimuth = np.linspace(-np.pi, np.pi, n * 2)
+    elev = np.linspace(0.001, np.pi / 2, n)
+    A, E = np.meshgrid(azimuth, elev)
+    Z = np.pi / 2 - E
+
+    vd = np.stack([np.sin(Z) * np.cos(A), np.sin(Z) * np.sin(A), np.cos(Z)], axis=-1)
+    parameters = compute_sky_parameters_Wilkie2021(
+        np.array([0, 0, 0.0]), vd, sun_elevation, sun_azimuth, visibility, albedo
+    )
+    radiance = sky_radiance_Wilkie2021(dataset, parameters, np.array([wavelength]))[
+        ..., 0
+    ]
+
+    _figure, axes = artist(**kwargs)
+
+    imshow_settings = {
+        "extent": (-180, 180, 0, 90),
+        "origin": "lower",
+        "aspect": "auto",
+        "cmap": "inferno",
+    }
+    if imshow_kwargs is not None:
+        imshow_settings.update(imshow_kwargs)
+    axes.imshow(radiance, **imshow_settings)
+    axes.plot(
+        np.degrees(sun_azimuth),
+        np.degrees(sun_elevation),
+        "o",
+        color="yellow",
+        markersize=5,
+        markeredgecolor="0.3",
+        markeredgewidth=0.5,
+    )
+
+    settings = {
+        "axes": axes,
+        "title": (
+            f"Prague Sky Model - {wavelength:.0f} nm\n"
+            f"Elevation: {np.degrees(sun_elevation):.1f}\u00b0, "
+            f"Visibility: {visibility:.0f} km, "
+            f"Albedo: {albedo:.2f}"
+        ),
+        "x_label": "Azimuth [\u00b0]",
+        "y_label": "Elevation [\u00b0]",
+    }
+    settings.update(kwargs)
+
+    return render(**settings)
+
+
+@override_style()
+def plot_sky_colour_Wilkie2021(
+    dataset: SkyDataset_Wilkie2021,
+    sun_elevation: float = np.radians(30),
+    sun_azimuth: float = 0.0,
+    visibility: float = 50.0,
+    albedo: float = 0.3,
+    include_sun: bool = True,
+    imshow_kwargs: dict | None = None,
+    **kwargs: Any,
+) -> Tuple[Figure, Axes]:
+    """
+    Plot a true colour rendering of the sky using the *Prague Sky Model*.
+
+    Computes spectral sky radiance at visible wavelengths, optionally adds
+    direct sun contribution, converts to *CIE XYZ* tristimulus values via
+    the *CIE 1931 2 Degree Standard Observer* colour matching functions,
+    and displays the result as an *sRGB* image.
+
+    Parameters
+    ----------
+    dataset
+        Loaded :class:`SkyDataset_Wilkie2021` dataset.
+    sun_elevation
+        Sun elevation at ground level in radians.
+    sun_azimuth
+        Sun azimuth at ground level in radians.
+    visibility
+        Meteorological range at ground level in kilometers.
+    albedo
+        Ground albedo [0, 1].
+    include_sun
+        Whether to include direct sun radiance contribution.
+    imshow_kwargs
+        Keyword arguments for :func:`matplotlib.axes.Axes.imshow`.
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.render`},
+        See the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    :class:`tuple`
+        Current figure and axes.
+
+    References
+    ----------
+    :cite:`Wilkie2021`
+
+    Examples
+    --------
+    >>> import os
+    >>> from colour.phenomena.sky.wilkie2021 import (
+    ...     PATH_PRAGUE_SKY_MODEL_DATASET_GROUND,
+    ... )  # doctest: +SKIP
+    >>> if os.path.isfile(  # doctest: +SKIP
+    ...     PATH_PRAGUE_SKY_MODEL_DATASET_GROUND
+    ... ):
+    ...     ds = SkyDataset_Wilkie2021(PATH_PRAGUE_SKY_MODEL_DATASET_GROUND)
+    ...     plot_sky_colour_Wilkie2021(ds)
+
+    .. image:: ../_static/Plotting_Plot_Sky_Colour_Wilkie2021.png
+        :align: center
+        :alt: plot_sky_colour_Wilkie2021
+    """
+
+    from colour.colorimetry import MSDS_CMFS  # noqa: PLC0415
+    from colour.models import XYZ_to_sRGB  # noqa: PLC0415
+
+    n = 181
+    azimuth = np.linspace(-np.pi, np.pi, n * 2)
+    elevation = np.linspace(0.001, np.pi / 2, n)
+    A, E = np.meshgrid(azimuth, elevation)
+    Z = np.pi / 2 - E
+
+    vd = np.stack([np.sin(Z) * np.cos(A), np.sin(Z) * np.sin(A), np.cos(Z)], axis=-1)
+
+    parameters = compute_sky_parameters_Wilkie2021(
+        np.array([0, 0, 0.0]),
+        vd,
+        sun_elevation,
+        sun_azimuth,
+        visibility,
+        albedo,
+    )
+
+    wavelength = np.arange(
+        max(dataset.channel_start, 400),
+        min(
+            dataset.channel_start + dataset.channels * dataset.channel_width,
+            720,
+        ),
+        dataset.channel_width,
+    )
+
+    total = sky_radiance_Wilkie2021(dataset, parameters, wavelength)
+
+    if include_sun:
+        total = total + sun_radiance_Wilkie2021(dataset, parameters, wavelength)
+
+    cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+    cmf_values = cmfs[wavelength]
+
+    XYZ = np.einsum("...w,wc->...c", total, cmf_values) * dataset.channel_width
+    XYZ = XYZ / (np.max(XYZ) + 1e-10)
+
+    sRGB = np.clip(XYZ_to_sRGB(XYZ), 0, 1)
+
+    _figure, axes = artist(**kwargs)
+
+    imshow_settings: Dict[str, Any] = {
+        "extent": (-180, 180, 0, 90),
+        "origin": "lower",
+        "aspect": "auto",
+    }
+    if imshow_kwargs is not None:
+        imshow_settings.update(imshow_kwargs)
+    axes.imshow(sRGB, **imshow_settings)
+
+    settings: Dict[str, Any] = {
+        "axes": axes,
+        "title": (
+            f"Prague Sky Model - True Colour\n"
+            f"Elevation: {np.degrees(sun_elevation):.1f}\u00b0, "
+            f"Visibility: {visibility:.0f} km, "
+            f"Albedo: {albedo:.2f}"
+        ),
         "x_label": "Azimuth [\u00b0]",
         "y_label": "Elevation [\u00b0]",
     }

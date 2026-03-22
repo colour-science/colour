@@ -1755,6 +1755,32 @@ CIE Standard General Sky
 
     0.8047378...
 
+Prague Sky Model - Wilkie et al. (2021)
+***************************************
+
+.. code-block:: python
+
+    import colour
+    import numpy as np
+    from colour.phenomena.sky.wilkie2021 import (
+        SkyDataset_Wilkie2021,
+        compute_sky_parameters_Wilkie2021,
+        sky_radiance_Wilkie2021,
+    )
+
+    dataset = SkyDataset_Wilkie2021()
+    parameters = compute_sky_parameters_Wilkie2021(
+        view_point=[0, 0, 0],
+        view_direction=[0, 0, 1],
+        sun_elevation=np.radians(30),
+        sun_azimuth=0,
+        visibility=50,
+        albedo=0.5,
+    )
+    sky_radiance_Wilkie2021(dataset, parameters, np.array([460, 540, 620]))
+
+.. image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Plotting_Plot_Sky_Colour_Wilkie2021.png
+
 Thin Film Interference
 **********************
 

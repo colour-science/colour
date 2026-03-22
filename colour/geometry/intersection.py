@@ -45,6 +45,7 @@ __all__ = [
     "extend_line_segment",
     "LineSegmentsIntersections_Specification",
     "intersect_line_segments",
+    "intersect_ray_circle_2d",
 ]
 
 
@@ -232,3 +233,65 @@ def intersect_line_segments(
     coincident = np.logical_and.reduce((numerator_a == 0, numerator_b == 0, parallel))
 
     return LineSegmentsIntersections_Specification(xy, intersect, parallel, coincident)
+
+
+def intersect_ray_circle_2d(
+    ray_origin: ArrayLike,
+    ray_direction: ArrayLike,
+    circle_radius: float,
+) -> NDArrayFloat:
+    """
+    Compute the intersection distance of 2D ray(s) with a circle centred
+    at the origin.
+
+    Supports batched inputs: if *ray_origin* and *ray_direction* have
+    shape ``(..., 2)``, the result has shape ``(...)``.
+
+    Parameters
+    ----------
+    ray_origin
+        Ray origin(s) as 2D point(s) ``[..., 2]``.
+    ray_direction
+        Ray direction(s) as 2D vector(s) ``[..., 2]`` (does not need to
+        be normalised).
+    circle_radius
+        Radius of the circle centred at the origin.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Distance(s) along the ray to the nearest positive intersection,
+        or a negative value where no forward intersection exists.
+
+    Examples
+    --------
+    >>> intersect_ray_circle_2d([0, 5], [0, 1], 10)
+    5.0
+    >>> intersect_ray_circle_2d([0, 15], [0, 1], 10)
+    -5.0
+    """
+
+    origin = as_float_array(ray_origin)
+    direction = as_float_array(ray_direction)
+
+    dx = direction[..., 0]
+    dy = direction[..., 1]
+    ox = origin[..., 0]
+    oy = origin[..., 1]
+
+    q_a = dx * dx + dy * dy
+    q_b = 2.0 * (ox * dx + oy * dy)
+    q_c = ox * ox + oy * oy - circle_radius * circle_radius
+    discrim = q_b * q_b - 4.0 * q_a * q_c
+
+    has_intersection = discrim > 0.0
+    safe_discrim = np.sqrt(np.maximum(discrim, 0.0))
+
+    d1 = (-q_b + safe_discrim) / (2.0 * q_a)
+    d2 = (-q_b - safe_discrim) / (2.0 * q_a)
+
+    both_positive = (d1 > 0) & (d2 > 0)
+    result = np.where(both_positive, np.minimum(d1, d2), np.maximum(d1, d2))
+    result = np.where(has_intersection, result, -1.0)
+
+    return float(result) if np.ndim(result) == 0 else result  # pyright: ignore

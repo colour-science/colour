@@ -91,7 +91,7 @@ __all__ = [
     "slugify",
     "int_digest",
     "hash_sha256",
-    "download_url",
+    "url_download",
 ]
 
 _CACHING_ENABLED: bool = not as_bool(
@@ -1166,9 +1166,9 @@ def hash_sha256(filename: str, chunk_size: int = 2**16) -> str:
     return sha256.hexdigest()
 
 
-def download_url(
+def url_download(
     url: str,
-    cache_dir: str | None = None,
+    filename: str | None = None,
     sha256: str | None = None,
     retries: int = 6,
 ) -> str:
@@ -1179,9 +1179,9 @@ def download_url(
     ----------
     url
         URL to download.
-    cache_dir
-        Override directory for caching. Defaults to
-        :attr:`colour.ROOT_COLOUR_SCIENCE`.
+    filename
+        Explicit file path to save to. If provided, the URL-derived
+        cache path is ignored.
     sha256
         Expected *SHA-256* hash of the file. If provided, the downloaded
         file will be verified and re-downloaded on mismatch.
@@ -1194,25 +1194,28 @@ def download_url(
         Absolute path to the cached file.
     """
 
-    import colour  # noqa: PLC0415
+    if filename is not None:
+        local_path = filename
+    else:
+        import colour  # noqa: PLC0415
 
-    root = cache_dir if cache_dir is not None else colour.ROOT_COLOUR_SCIENCE
+        root = colour.ROOT_COLOUR_SCIENCE
 
-    parsed = urlparse(url)
-    relative = parsed.path.lstrip("/")
+        parsed = urlparse(url)
+        relative = parsed.path.lstrip("/")
 
-    # Strip the HuggingFace URL prefix to get a clean local path,
-    # e.g., ``colour-science/learning-munsell/resolve/main/models/...``
-    # becomes ``learning-munsell/models/...``.
-    prefix = "colour-science/"
-    relative = relative.removeprefix(prefix)
+        # Strip the HuggingFace URL prefix to get a clean local path,
+        # e.g., ``colour-science/learning-munsell/resolve/main/models/...``
+        # becomes ``learning-munsell/models/...``.
+        prefix = "colour-science/"
+        relative = relative.removeprefix(prefix)
 
-    resolve_main = "/resolve/main/"
-    if resolve_main in relative:
-        parts = relative.split(resolve_main, 1)
-        relative = f"{parts[0]}/{parts[1]}"
+        resolve_main = "/resolve/main/"
+        if resolve_main in relative:
+            parts = relative.split(resolve_main, 1)
+            relative = f"{parts[0]}/{parts[1]}"
 
-    local_path = os.path.join(root, relative)
+        local_path = os.path.join(root, relative)
 
     if os.path.isfile(local_path):
         if sha256 is not None and hash_sha256(local_path) != sha256.lower():

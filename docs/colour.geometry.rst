@@ -38,6 +38,7 @@ Intersection
 
     extend_line_segment
     intersect_line_segments
+    intersect_ray_circle_2d
 
 **Ancillary Objects**
 
