@@ -20,8 +20,6 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.colorimetry import (
     MultiSpectralDistributions,
     handle_spectral_arguments,
@@ -30,10 +28,22 @@ from colour.colorimetry import (
 )
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
+    from colour.hints import ArrayLike, NDArrayFloat
 
 from colour.models import UCS_to_uv, XYZ_to_UCS
-from colour.utilities import as_float, as_float_array, required
+from colour.temperature.common import (
+    CCT_INVERSION_GRID_SAMPLES,
+    solve_CCT_Newton,
+    x0_CCT_grid,
+)
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    as_float_array,
+    optional,
+    xp_matrix_transpose,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -48,7 +58,6 @@ __all__ = [
 ]
 
 
-@required("SciPy")
 def uv_to_CCT_Planck1900(
     uv: ArrayLike,
     cmfs: MultiSpectralDistributions | None = None,
@@ -67,7 +76,13 @@ def uv_to_CCT_Planck1900(
         Standard observer colour matching functions, default to the
         *CIE 1931 2 Degree Standard Observer*.
     optimisation_kwargs
-        Parameters for :func:`scipy.optimize.minimize` definition.
+        Inversion parameters forwarded to
+        :func:`colour.temperature.x0_CCT_grid` and
+        :func:`colour.temperature.solve_CCT_Newton`. Accepted keys are
+        ``samples`` (grid density for the initial guess, default
+        :attr:`colour.temperature.CCT_INVERSION_GRID_SAMPLES`),
+        ``newton_iterations``, ``backtrack_iterations`` and ``tolerance``
+        (forwarded to :func:`solve_CCT_Newton`).
 
     Returns
     -------
@@ -76,9 +91,9 @@ def uv_to_CCT_Planck1900(
 
     Warnings
     --------
-    The current implementation relies on optimisation using
-    :func:`scipy.optimize.minimize` definition and thus has reduced
-    precision and poor performance.
+    The current implementation seeds a damped *Gauss-Newton* iteration with
+    a nearest-neighbour lookup against a coarse grid sampled from the
+    analytical forward, vectorised across all input samples.
 
     References
     ----------
@@ -86,48 +101,26 @@ def uv_to_CCT_Planck1900(
 
     Examples
     --------
-    >>> uv_to_CCT_Planck1900(np.array([0.20042808, 0.31033343]))
-    ... # doctest: +ELLIPSIS
-    np.float64(6504.0000617...)
+    >>> uv_to_CCT_Planck1900([0.20042808, 0.31033343])  # doctest: +ELLIPSIS
+    np.float64(6504.000071...)
     """
 
-    from scipy.optimize import minimize  # noqa: PLC0415
+    optimisation_kwargs = dict(optional(optimisation_kwargs, {}))
 
-    uv = as_float_array(uv)
     cmfs, _illuminant = handle_spectral_arguments(cmfs)
+    uv = as_float_array(uv)
 
-    shape = uv.shape
-    uv = np.atleast_1d(np.reshape(uv, (-1, 2)))
+    def forward(CCT: NDArrayFloat) -> NDArrayFloat:
+        return CCT_to_uv_Planck1900(CCT, cmfs)
 
-    def objective_function(CCT: NDArrayFloat, uv: NDArrayFloat) -> DTypeFloat:
-        """Objective function."""
-
-        objective = np.linalg.norm(CCT_to_uv_Planck1900(CCT, cmfs) - uv)
-
-        return as_float(objective)
-
-    optimisation_settings = {
-        "method": "Nelder-Mead",
-        "options": {
-            "fatol": 1e-10,
-        },
-    }
-    if optimisation_kwargs is not None:
-        optimisation_settings.update(optimisation_kwargs)
-
-    CCT = as_float_array(
-        [
-            minimize(
-                objective_function,
-                x0=[6500],
-                args=(uv_i,),
-                **optimisation_settings,
-            ).x
-            for uv_i in uv
-        ]
+    x0 = x0_CCT_grid(
+        forward,
+        uv,
+        (1000.0, 25000.0),
+        samples=optimisation_kwargs.pop("samples", CCT_INVERSION_GRID_SAMPLES),
     )
 
-    return as_float(np.reshape(CCT, shape[:-1]))
+    return as_float(solve_CCT_Newton(forward, uv, x0=x0, **optimisation_kwargs))
 
 
 def CCT_to_uv_Planck1900(
@@ -163,10 +156,23 @@ def CCT_to_uv_Planck1900(
     """
 
     CCT = as_float_array(CCT)
+
+    xp = array_namespace(CCT)
+
     cmfs, _illuminant = handle_spectral_arguments(cmfs)
 
+    radiance = (
+        planck_law(
+            cmfs.wavelengths * 1e-9,
+            xp_reshape(CCT, (-1,), xp=xp),
+        )
+        * 1e-9
+    )
+    if radiance.ndim >= 2:
+        radiance = xp_matrix_transpose(radiance, xp=xp)
+
     XYZ = msds_to_XYZ_integration(
-        np.transpose(planck_law(cmfs.wavelengths * 1e-9, np.ravel(CCT)) * 1e-9),
+        radiance,
         cmfs,
         shape=cmfs.shape,
     )
@@ -174,4 +180,4 @@ def CCT_to_uv_Planck1900(
     UVW = XYZ_to_UCS(XYZ)
     uv = UCS_to_uv(UVW)
 
-    return np.reshape(uv, [*list(CCT.shape), 2])
+    return xp_reshape(uv, [*list(CCT.shape), 2], xp=xp)

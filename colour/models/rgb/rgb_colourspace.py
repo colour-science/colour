@@ -49,6 +49,7 @@ from colour.hints import cast
 from colour.models import xy_to_xyY, xy_to_XYZ, xyY_to_XYZ
 from colour.models.rgb import chromatically_adapted_primaries, normalised_primary_matrix
 from colour.utilities import (
+    array_namespace,
     as_float_array,
     attest,
     domain_range_scale,
@@ -60,6 +61,7 @@ from colour.utilities import (
     to_domain_1,
     usage_warning,
     validate_method,
+    xp_reshape,
 )
 
 __author__ = "Colour Developers"
@@ -205,8 +207,8 @@ class RGB_Colourspace:
     --------
     >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = np.array([0.32168, 0.33767])
-    >>> matrix_RGB_to_XYZ = np.identity(3)
-    >>> matrix_XYZ_to_RGB = np.identity(3)
+    >>> matrix_RGB_to_XYZ = np.eye(3)
+    >>> matrix_XYZ_to_RGB = np.eye(3)
     >>> colourspace = RGB_Colourspace(
     ...     "RGB Colourspace",
     ...     p,
@@ -340,7 +342,9 @@ class RGB_Colourspace:
 
         value = as_float_array(value)
 
-        value = np.reshape(value, (3, 2))
+        xp = array_namespace(value)
+
+        value = xp_reshape(value, (3, 2), xp=xp)
 
         self._primaries = value
 
@@ -657,8 +661,8 @@ class RGB_Colourspace:
         --------
         >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
         >>> whitepoint = np.array([0.32168, 0.33767])
-        >>> matrix_RGB_to_XYZ = np.identity(3)
-        >>> matrix_XYZ_to_RGB = np.identity(3)
+        >>> matrix_RGB_to_XYZ = np.eye(3)
+        >>> matrix_XYZ_to_RGB = np.eye(3)
         >>> cctf_encoding = lambda x: x
         >>> cctf_decoding = lambda x: x
         >>> print(  # doctest: +ELLIPSIS
@@ -749,8 +753,8 @@ class RGB_Colourspace:
         >>> from colour.models import linear_function
         >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
         >>> whitepoint = np.array([0.32168, 0.33767])
-        >>> matrix_RGB_to_XYZ = np.identity(3)
-        >>> matrix_XYZ_to_RGB = np.identity(3)
+        >>> matrix_RGB_to_XYZ = np.eye(3)
+        >>> matrix_XYZ_to_RGB = np.eye(3)
         >>> RGB_Colourspace(  # doctest: +ELLIPSIS
         ...     "RGB Colourspace",
         ...     p,
@@ -829,8 +833,10 @@ class RGB_Colourspace:
         if self._primaries is not None and self._whitepoint is not None:
             npm = normalised_primary_matrix(self._primaries, self._whitepoint)
 
+            xp = array_namespace(npm)
+
             self._derived_matrix_RGB_to_XYZ = npm
-            self._derived_matrix_XYZ_to_RGB = np.linalg.inv(npm)
+            self._derived_matrix_XYZ_to_RGB = xp.linalg.inv(npm)
 
     def use_derived_transformation_matrices(self, usage: bool = True) -> None:
         """
@@ -1022,7 +1028,6 @@ def XYZ_to_RGB(
     from colour.models import RGB_COLOURSPACES  # noqa: PLC0415
 
     XYZ = to_domain_1(XYZ)
-
     if not isinstance(colourspace, (RGB_Colourspace, str)):
         usage_warning(
             'The "colour.XYZ_to_RGB" definition signature has changed with '
@@ -1156,7 +1161,6 @@ def RGB_to_XYZ(
     from colour.models import RGB_COLOURSPACES  # noqa: PLC0415
 
     RGB = to_domain_1(RGB)
-
     if not isinstance(colourspace, (RGB_Colourspace, str)):
         usage_warning(
             'The "colour.RGB_to_XYZ" definition signature has changed with '
@@ -1281,6 +1285,8 @@ def matrix_RGB_to_RGB(
 
     M = input_colourspace.matrix_RGB_to_XYZ
 
+    xp = array_namespace(M)
+
     if chromatic_adaptation_transform is not None:
         M_CAT = matrix_chromatic_adaptation_VonKries(
             xy_to_XYZ(input_colourspace.whitepoint),
@@ -1288,9 +1294,9 @@ def matrix_RGB_to_RGB(
             chromatic_adaptation_transform,
         )
 
-        M = np.matmul(M_CAT, input_colourspace.matrix_RGB_to_XYZ)
+        M = xp.matmul(M_CAT, input_colourspace.matrix_RGB_to_XYZ)
 
-    return np.matmul(output_colourspace.matrix_XYZ_to_RGB, M)
+    return xp.matmul(output_colourspace.matrix_XYZ_to_RGB, M)
 
 
 def RGB_to_RGB(
@@ -1387,7 +1393,6 @@ def RGB_to_RGB(
         )
 
     RGB = to_domain_1(RGB)
-
     if apply_cctf_decoding and input_colourspace.cctf_decoding is not None:
         with domain_range_scale("ignore"):
             RGB = input_colourspace.cctf_decoding(

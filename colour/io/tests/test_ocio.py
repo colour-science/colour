@@ -8,7 +8,7 @@ import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import process_image_OpenColorIO
-from colour.utilities import full, is_opencolorio_installed
+from colour.utilities import full, is_opencolorio_installed, xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -45,34 +45,32 @@ class TestProcessImageOpenColorIO:
 
         a = full([4, 2, 3], 0.18)
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             process_image_OpenColorIO(
                 a, "ACES - ACES2065-1", "ACES - ACEScct", config=config
             ),
-            np.array(
+            [
                 [
-                    [
-                        [0.41358781, 0.41358781, 0.41358781],
-                        [0.41358781, 0.41358781, 0.41358781],
-                    ],
-                    [
-                        [0.41358781, 0.41358781, 0.41358781],
-                        [0.41358781, 0.41358781, 0.41358781],
-                    ],
-                    [
-                        [0.41358781, 0.41358781, 0.41358781],
-                        [0.41358781, 0.41358781, 0.41358781],
-                    ],
-                    [
-                        [0.41358781, 0.41358781, 0.41358781],
-                        [0.41358781, 0.41358781, 0.41358781],
-                    ],
-                ]
-            ),
+                    [0.41358781, 0.41358781, 0.41358781],
+                    [0.41358781, 0.41358781, 0.41358781],
+                ],
+                [
+                    [0.41358781, 0.41358781, 0.41358781],
+                    [0.41358781, 0.41358781, 0.41358781],
+                ],
+                [
+                    [0.41358781, 0.41358781, 0.41358781],
+                    [0.41358781, 0.41358781, 0.41358781],
+                ],
+                [
+                    [0.41358781, 0.41358781, 0.41358781],
+                    [0.41358781, 0.41358781, 0.41358781],
+                ],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             process_image_OpenColorIO(
                 a,
                 "ACES - ACES2065-1",
@@ -81,26 +79,24 @@ class TestProcessImageOpenColorIO:
                 ocio.TRANSFORM_DIR_FORWARD,  # pyright: ignore
                 config=config,
             ),
-            np.array(
+            [
                 [
-                    [
-                        [0.35595229, 0.35595256, 0.35595250],
-                        [0.35595229, 0.35595256, 0.35595250],
-                    ],
-                    [
-                        [0.35595229, 0.35595256, 0.35595250],
-                        [0.35595229, 0.35595256, 0.35595250],
-                    ],
-                    [
-                        [0.35595229, 0.35595256, 0.35595250],
-                        [0.35595229, 0.35595256, 0.35595250],
-                    ],
-                    [
-                        [0.35595229, 0.35595256, 0.35595250],
-                        [0.35595229, 0.35595256, 0.35595250],
-                    ],
-                ]
-            ),
+                    [0.35595229, 0.35595256, 0.35595250],
+                    [0.35595229, 0.35595256, 0.35595250],
+                ],
+                [
+                    [0.35595229, 0.35595256, 0.35595250],
+                    [0.35595229, 0.35595256, 0.35595250],
+                ],
+                [
+                    [0.35595229, 0.35595256, 0.35595250],
+                    [0.35595229, 0.35595256, 0.35595250],
+                ],
+                [
+                    [0.35595229, 0.35595256, 0.35595250],
+                    [0.35595229, 0.35595256, 0.35595250],
+                ],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -110,9 +106,7 @@ class TestProcessImageOpenColorIO:
             a_scalar, "ACES - ACES2065-1", "ACES - ACEScct", config=config
         )
         assert isinstance(result_scalar, (float, np.floating))
-        np.testing.assert_allclose(
-            result_scalar, 0.41358781, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(result_scalar, 0.41358781, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         # Test single-channel input
         a_single = np.array([0.18])
@@ -120,6 +114,4 @@ class TestProcessImageOpenColorIO:
             a_single, "ACES - ACES2065-1", "ACES - ACEScct", config=config
         )
         assert result_single.shape == (1,)
-        np.testing.assert_allclose(
-            result_single, np.array([0.41358781]), atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(result_single, [0.41358781], atol=TOLERANCE_ABSOLUTE_TESTS)

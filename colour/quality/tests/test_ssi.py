@@ -2,7 +2,11 @@
 
 from __future__ import annotations
 
-import numpy as np
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
@@ -12,7 +16,7 @@ from colour.colorimetry import (
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.quality import spectral_similarity_index
-from colour.utilities import is_scipy_installed
+from colour.utilities import is_scipy_installed, xp_assert_close, xp_assert_equal
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -566,37 +570,37 @@ class TestSpectralSimilarityIndex:
     definition unit tests methods.
     """
 
-    def test_spectral_similarity_index(self) -> None:
+    def test_spectral_similarity_index(self, xp: ModuleType) -> None:
         """Test :func:`colour.quality.ssi.spectral_similarity_index` definition."""
 
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        assert (
-            spectral_similarity_index(SDS_ILLUMINANTS["C"], SDS_ILLUMINANTS["D65"])
-            == 94.0
-        )
-        assert (
-            spectral_similarity_index(
-                SpectralDistribution(DATA_HMI), SDS_ILLUMINANTS["D50"]
-            )
-            == 72.0
-        )
+        sd_c_xp = SDS_ILLUMINANTS["C"].copy(xp=xp)
+        sd_d65_xp = SDS_ILLUMINANTS["D65"].copy(xp=xp)
 
-        np.testing.assert_allclose(
+        assert spectral_similarity_index(sd_c_xp, sd_d65_xp) == 94.0
+
+        sd_hmi = SpectralDistribution(DATA_HMI)
+        sd_hmi_xp = sd_hmi.copy(xp=xp)
+        sd_d50_xp = SDS_ILLUMINANTS["D50"].copy(xp=xp)
+
+        assert spectral_similarity_index(sd_hmi_xp, sd_d50_xp) == 72.0
+
+        xp_assert_close(
             spectral_similarity_index(
-                SDS_ILLUMINANTS["C"],
-                SDS_ILLUMINANTS["D65"],
+                sd_c_xp,
+                sd_d65_xp,
                 round_result=False,
             ),
             94.182971057336000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             spectral_similarity_index(
-                SpectralDistribution(DATA_HMI),
-                SDS_ILLUMINANTS["D50"],
+                sd_hmi_xp,
+                sd_d50_xp,
                 round_result=False,
             ),
             71.775054824255550,
@@ -610,23 +614,21 @@ class TestSpectralSimilarityIndex:
         msds = sds_and_msds_to_msds([sd_led_1, sd_led_2, sd_led_3])
         sd_reference = sd_single_led(535, half_spectral_width=48)
 
-        np.testing.assert_array_equal(
-            spectral_similarity_index(msds, msds), [100.0, 100.0, 100.0]
-        )
+        xp_assert_equal(spectral_similarity_index(msds, msds), [100.0, 100.0, 100.0])
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             spectral_similarity_index(msds, msds, round_result=False),
             [100.0, 100.0, 100.0],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             spectral_similarity_index(msds, sd_reference),
             [52.0, 82.0, 18.0],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             spectral_similarity_index(sd_reference, msds),
             [50.0, 84.0, 20.0],
             atol=TOLERANCE_ABSOLUTE_TESTS,

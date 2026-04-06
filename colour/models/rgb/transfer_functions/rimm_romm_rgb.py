@@ -25,9 +25,8 @@ References
 
 from __future__ import annotations
 
+import math
 import typing
-
-import numpy as np
 
 from colour.algebra import spow
 
@@ -40,13 +39,16 @@ from colour.hints import (  # noqa: TC001
     Range1,
 )
 from colour.utilities import (
+    array_namespace,
     as_float,
+    as_float_array,
     as_float_scalar,
     as_int,
     copy_definition,
     domain_range_scale,
     from_range_1,
     to_domain_1,
+    xp_select,
 )
 
 __author__ = "Colour Developers"
@@ -121,14 +123,16 @@ def cctf_encoding_ROMMRGB(
 
     X = to_domain_1(X)
 
+    xp = array_namespace(X)
+
     I_max = 2**bit_depth - 1
 
     E_t = 16 ** (1.8 / (1 - 1.8))
 
-    X_p = np.where(E_t > X, X * 16 * I_max, spow(X, 1 / 1.8) * I_max)
+    X_p = xp.where(E_t > X, X * 16 * I_max, spow(X, 1 / 1.8) * I_max)
 
     if out_int:
-        return as_int(np.round(X_p))
+        return as_int(xp.round(X_p))
 
     return as_float(from_range_1(X_p / I_max))
 
@@ -188,6 +192,8 @@ def cctf_decoding_ROMMRGB(
 
     X_p = to_domain_1(X_p)
 
+    xp = array_namespace(X_p)
+
     I_max = 2**bit_depth - 1
 
     if not in_int:
@@ -195,7 +201,7 @@ def cctf_decoding_ROMMRGB(
 
     E_t = 16 ** (1.8 / (1 - 1.8))
 
-    X = np.where(
+    X = xp.where(
         X_p < 16 * E_t * I_max,
         X_p / (16 * I_max),
         spow(X_p / I_max, 1.8),
@@ -280,18 +286,21 @@ def cctf_encoding_RIMMRGB(
 
     X = to_domain_1(X)
 
+    xp = array_namespace(X)
+
     I_max = 2**bit_depth - 1
 
     V_clip = 1.099 * spow(E_clip, 0.45) - 0.099
     q = I_max / V_clip
 
-    X_p = q * np.select(
+    X_p = q * xp_select(
         [X < 0.0, X < 0.018, X >= 0.018, E_clip < X],
         [0, 4.5 * X, 1.099 * spow(X, 0.45) - 0.099, I_max],
+        xp=xp,
     )
 
     if out_int:
-        return as_int(np.round(X_p))
+        return as_int(xp.round(X_p))
 
     return as_float(from_range_1(X_p / I_max))
 
@@ -354,6 +363,8 @@ def cctf_decoding_RIMMRGB(
 
     X_p = to_domain_1(X_p)
 
+    xp = array_namespace(X_p)
+
     I_max = as_float_scalar(2**bit_depth - 1)
 
     if not in_int:
@@ -364,7 +375,7 @@ def cctf_decoding_RIMMRGB(
     m = V_clip * X_p / I_max
 
     with domain_range_scale("ignore"):
-        X = np.where(
+        X = xp.where(
             X_p / I_max < cctf_encoding_RIMMRGB(0.018, bit_depth, E_clip=E_clip),
             m / 4.5,
             spow((m + 0.099) / 1.099, 1 / 0.45),
@@ -433,14 +444,17 @@ def log_encoding_ERIMMRGB(
 
     X = to_domain_1(X)
 
+    xp = array_namespace(X)
+
     I_max = 2**bit_depth - 1
 
-    E_t = np.exp(1) * E_min
+    E_t = math.e * E_min
 
-    l_E_t = np.log(E_t)
-    l_E_min = np.log(E_min)
-    l_E_clip = np.log(E_clip)
-    X_p = np.select(
+    l_E_t = math.log(E_t)
+    l_E_min = math.log(float(E_min))
+    l_E_clip = math.log(float(E_clip))
+
+    X_p = xp_select(
         [
             X < 0.0,
             E_t >= X,
@@ -450,13 +464,14 @@ def log_encoding_ERIMMRGB(
         [
             0,
             I_max * ((l_E_t - l_E_min) / (l_E_clip - l_E_min)) * X / E_t,
-            I_max * ((np.log(X) - l_E_min) / (l_E_clip - l_E_min)),
+            I_max * ((xp.log(X) - l_E_min) / (l_E_clip - l_E_min)),
             I_max,
         ],
+        xp=xp,
     )
 
     if out_int:
-        return as_int(np.round(X_p))
+        return as_int(xp.round(X_p))
 
     return as_float(from_range_1(X_p / I_max))
 
@@ -521,20 +536,24 @@ def log_decoding_ERIMMRGB(
 
     X_p = to_domain_1(X_p)
 
+    xp = array_namespace(X_p)
+
     I_max = 2**bit_depth - 1
 
     if not in_int:
         X_p = X_p * I_max
 
-    E_t = np.exp(1) * E_min
+    X_p = as_float_array(X_p)
 
-    l_E_t = np.log(E_t)
-    l_E_min = np.log(E_min)
-    l_E_clip = np.log(E_clip)
-    X = np.where(
+    E_t = math.e * E_min
+
+    l_E_t = math.log(E_t)
+    l_E_min = math.log(float(E_min))
+    l_E_clip = math.log(float(E_clip))
+    X = xp.where(
         X_p <= I_max * ((l_E_t - l_E_min) / (l_E_clip - l_E_min)),
         ((l_E_clip - l_E_min) / (l_E_t - l_E_min)) * ((X_p * E_t) / I_max),
-        np.exp((X_p / I_max) * (l_E_clip - l_E_min) + l_E_min),
+        xp.exp((X_p / I_max) * (l_E_clip - l_E_min) + l_E_min),
     )
 
     return as_float(from_range_1(X))

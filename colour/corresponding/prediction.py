@@ -42,8 +42,6 @@ from __future__ import annotations
 import typing
 from dataclasses import dataclass
 
-import numpy as np
-
 from colour.adaptation import (
     chromatic_adaptation_CIE1994,
     chromatic_adaptation_CMCCAT2000,
@@ -77,12 +75,14 @@ from colour.models import (
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassIterable,
+    array_namespace,
     as_float_array,
     as_float_scalar,
     attest,
     domain_range_scale,
     filter_kwargs,
     full,
+    xp_as_float_array,
 )
 
 __author__ = "Colour Developers"
@@ -286,13 +286,18 @@ def convert_experiment_results_Breneman1987(
     )
     B_r = B_t = 0.3
 
+    illuminant_xy = Luv_uv_to_xy(illuminant_chromaticities.values[1:3])
+
+    xp = array_namespace(illuminant_xy)
+
     XYZ_t, XYZ_r = (
         xy_to_XYZ(
-            np.hstack(
+            xp.concat(
                 [
-                    Luv_uv_to_xy(illuminant_chromaticities.values[1:3]),
+                    illuminant_xy,
                     full((2, 1), Y_r),
-                ]
+                ],
+                axis=1,
             )
         )
         / Y_r
@@ -301,19 +306,21 @@ def convert_experiment_results_Breneman1987(
     xyY_cr, xyY_ct = [], []
     for i, experiment_result in enumerate(experiment_results):
         xyY_cr.append(
-            np.hstack(
+            xp.concat(
                 [
                     Luv_uv_to_xy(experiment_result.values[2]),
-                    samples_luminance[i] * Y_r,
-                ]
+                    xp_as_float_array([samples_luminance[i] * Y_r], xp=xp),
+                ],
+                axis=0,
             )
         )
         xyY_ct.append(
-            np.hstack(
+            xp.concat(
                 [
                     Luv_uv_to_xy(experiment_result.values[1]),
-                    samples_luminance[i] * Y_t,
-                ]
+                    xp_as_float_array([samples_luminance[i] * Y_t], xp=xp),
+                ],
+                axis=0,
             )
         )
 

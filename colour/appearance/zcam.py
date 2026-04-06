@@ -27,6 +27,7 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
@@ -35,25 +36,26 @@ from colour.adaptation import chromatic_adaptation_Zhai2018
 from colour.algebra import sdiv, sdiv_mode, spow
 from colour.appearance.ciecam02 import (
     VIEWING_CONDITIONS_CIECAM02,
-    degree_of_adaptation,
-    hue_angle,
 )
 from colour.colorimetry import CCS_ILLUMINANTS
-from colour.hints import (  # noqa: TC001
-    Annotated,
-    ArrayLike,
-    Domain1,
-    NDArrayFloat,
-    Range1,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Annotated,
+        ArrayLike,
+        Domain1,
+        NDArrayFloat,
+        Range1,
+    )
+
 from colour.models import Izazbz_to_XYZ, XYZ_to_Izazbz, xy_to_XYZ
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
     MixinDataclassIterable,
+    array_namespace,
     as_float,
     as_float_array,
-    as_int_array,
     domain_range_scale,
     from_range_1,
     from_range_degrees,
@@ -63,6 +65,10 @@ from colour.utilities import (
     to_domain_degrees,
     tsplit,
     tstack,
+    xp_as_float_array,
+    xp_degrees,
+    xp_radians,
+    xp_select,
 )
 
 __author__ = "Colour Developers"
@@ -337,7 +343,7 @@ def XYZ_to_ZCAM(
     Y_b: ArrayLike,
     surround: InductionFactors_ZCAM = VIEWING_CONDITIONS_ZCAM["Average"],
     discount_illuminant: bool = False,
-    compute_H: bool = True,
+    compute_H: bool = False,
 ) -> Annotated[CAM_Specification_ZCAM, (1, 1, 360, 1, 1, 1, 400, 1, 1, 1)]:
     """
     Compute the *ZCAM* colour appearance model correlates from the specified
@@ -366,8 +372,10 @@ def XYZ_to_ZCAM(
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
     compute_H
-        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H`
-        is rarely used, and expensive to compute.
+        When *True*, compute the *Hue Quadrature* :math:`H` correlate
+        via :func:`colour.appearance.hue_quadrature`. Defaults to
+        *False* because :math:`H` is rarely consumed downstream and
+        skipping the bin search is a measurable cost saving.
 
     Returns
     -------
@@ -444,7 +452,10 @@ def XYZ_to_ZCAM(
     >>> L_A = 264
     >>> Y_b = 100
     >>> surround = VIEWING_CONDITIONS_ZCAM["Average"]
-    >>> XYZ_to_ZCAM(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
+    >>> XYZ_to_ZCAM(
+    ...     XYZ, XYZ_w, L_A, Y_b, surround,
+    ...     compute_H=True,
+    ... )  # doctest: +ELLIPSIS
     CAM_Specification_ZCAM(J=np.float64(92.2504437...), \
 C=np.float64(3.0216926...), h=np.float64(196.3245737...), \
 s=np.float64(19.1319556...), Q=np.float64(321.3408463...), \
@@ -455,16 +466,24 @@ W=np.float64(91.6821728...))
 
     XYZ = to_domain_1(XYZ)
     XYZ_w = to_domain_1(XYZ_w)
+
+    xp = array_namespace(XYZ, XYZ_w, L_A, Y_b)
+
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
-    L_A = as_float_array(L_A)
-    Y_b = as_float_array(Y_b)
+    L_A = xp_as_float_array(L_A, xp=xp, like=XYZ)
+    Y_b = xp_as_float_array(Y_b, xp=xp, like=XYZ)
 
     F_s, F, _c, _N_c = surround.values
 
     # Step 0 (Forward) - Chromatic adaptation from reference illuminant to
     # "CIE Standard Illuminant D65" illuminant using "CAT02".
-    # Computing degree of adaptation :math:`D`.
-    D = degree_of_adaptation(F, L_A) if not discount_illuminant else ones(L_A.shape)
+    # Computing degree of adaptation :math:`D`, same formulation as in
+    # *CIECAM02*; bypassed entirely when ``discount_illuminant`` is set.
+    if discount_illuminant:
+        D = xp_as_float_array(ones(L_A.shape), xp=xp, like=XYZ)
+    else:
+        F = xp_as_float_array(F, xp=xp, like=XYZ)
+        D = F * (1 - (1 / 3.6) * xp.exp((-L_A - 42) / 92))
 
     XYZ_D65 = chromatic_adaptation_Zhai2018(
         XYZ, XYZ_w, TVS_D65, D, D, transform="CAT02"
@@ -473,9 +492,9 @@ W=np.float64(91.6821728...))
     # Step 1 (Forward) - Computing factors related with viewing conditions and
     # independent of the test stimulus.
     # Background factor :math:`F_b`
-    F_b = np.sqrt(Y_b / Y_w)
+    F_b = xp.sqrt(Y_b / Y_w)
     # Luminance level adaptation factor :math:`F_L`
-    F_L = 0.171 * spow(L_A, 1 / 3) * (1 - np.exp(-48 / 9 * L_A))
+    F_L = 0.171 * spow(L_A, 1 / 3) * (1 - xp.exp(-48 / 9 * L_A))
 
     # Step 2 (Forward) - Computing achromatic response (:math:`I_z` and
     # :math:`I_{z,w}`), redness-greenness (:math:`a_z` and :math:`a_{z,w}`),
@@ -484,14 +503,15 @@ W=np.float64(91.6821728...))
         I_z, a_z, b_z = tsplit(XYZ_to_Izazbz(XYZ_D65, method="Safdar 2021"))
         I_z_w, _a_z_w, _b_z_w = tsplit(XYZ_to_Izazbz(XYZ_w, method="Safdar 2021"))
 
-    # Step 3 (Forward) - Computing hue angle :math:`h_z`
-    h_z = hue_angle(a_z, b_z)
+    # Step 3 (Forward) - Computing hue angle :math:`h_z` in degrees in
+    # :math:`[0, 360)`, same formulation as in *CIECAM02*.
+    h_z = xp_degrees(xp.atan2(b_z, a_z)) % 360
 
     # Step 4 (Forward) - Computing hue quadrature :math:`H`.
-    H = hue_quadrature(h_z) if compute_H else np.full(h_z.shape, np.nan)
+    H = hue_quadrature(h_z) if compute_H else xp.full_like(h_z, float("nan"))
 
     # Computing eccentricity factor :math:`e_z`.
-    e_z = 1.015 + np.cos(np.radians(89.038 + h_z % 360))
+    e_z = 1.015 + xp.cos(xp_radians(89.038 + h_z % 360))
 
     # Step 5 (Forward) - Computing brightness :math:`Q_z`,
     # lightness :math:`J_z`, colourfulness :math`M_z`, and chroma :math:`C_z`
@@ -513,13 +533,13 @@ W=np.float64(91.6821728...))
     # Step 6 (Forward) - Computing saturation :math:`S_z`,
     # vividness :math:`V_z`, blackness :math:`K_z`, and whiteness :math:`W_z`.
     with sdiv_mode():
-        S_z = 100 * spow(F_L, 0.6) * np.sqrt(sdiv(M_z, Q_z))
+        S_z = 100 * spow(F_L, 0.6) * xp.sqrt(sdiv(M_z, Q_z))
 
-    V_z = np.sqrt((J_z - 58) ** 2 + 3.4 * C_z**2)
+    V_z = xp.sqrt((J_z - 58) ** 2 + 3.4 * C_z**2)
 
-    K_z = 100 - 0.8 * np.sqrt(J_z**2 + 8 * C_z**2)
+    K_z = 100 - 0.8 * xp.sqrt(J_z**2 + 8 * C_z**2)
 
-    W_z = 100 - np.sqrt((100 - J_z) ** 2 + C_z**2)
+    W_z = 100 - xp.sqrt((100 - J_z) ** 2 + C_z**2)
 
     return CAM_Specification_ZCAM(
         J=as_float(from_range_1(J_z)),
@@ -676,23 +696,37 @@ def ZCAM_to_XYZ(
     M_z = to_domain_1(M_z)
 
     XYZ_w = to_domain_1(XYZ_w)
-    _X_w, Y_w, _Z_w = tsplit(XYZ_w)
-    L_A = as_float_array(L_A)
-    Y_b = as_float_array(Y_b)
 
-    F_s, F, c, N_c = surround.values
+    xp = array_namespace(J_z, C_z, h_z, M_z, XYZ_w, L_A, Y_b)
+
+    _X_w, Y_w, _Z_w = tsplit(XYZ_w)
+
+    J_z = xp_as_float_array(J_z, xp=xp)
+    C_z = xp_as_float_array(C_z, xp=xp, like=J_z)
+    h_z = xp_as_float_array(h_z, xp=xp, like=J_z)
+    M_z = xp_as_float_array(M_z, xp=xp, like=J_z)
+    Y_b = xp_as_float_array(Y_b, xp=xp, like=J_z)
+    XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=J_z)
+    L_A = xp_as_float_array(L_A, xp=xp, like=J_z)
+
+    F_s, F, _c, _N_c = surround.values
 
     # Step 0 (Forward) - Chromatic adaptation from reference illuminant to
     # "CIE Standard Illuminant D65" illuminant using "CAT02".
-    # Computing degree of adaptation :math:`D`.
-    D = degree_of_adaptation(F, L_A) if not discount_illuminant else ones(L_A.shape)
+    # Computing degree of adaptation :math:`D`, same formulation as in
+    # *CIECAM02*; bypassed entirely when ``discount_illuminant`` is set.
+    if discount_illuminant:
+        D = xp_as_float_array(ones(L_A.shape), xp=xp, like=J_z)
+    else:
+        F = xp_as_float_array(F, xp=xp, like=J_z)
+        D = F * (1 - (1 / 3.6) * xp.exp((-L_A - 42) / 92))
 
     # Step 1 (Forward) - Computing factors related with viewing conditions and
     # independent of the test stimulus.
     # Background factor :math:`F_b`
-    F_b = np.sqrt(Y_b / Y_w)
+    F_b = xp.sqrt(Y_b / Y_w)
     # Luminance level adaptation factor :math:`F_L`
-    F_L = 0.171 * spow(L_A, 1 / 3) * (1 - np.exp(-48 / 9 * L_A))
+    F_L = 0.171 * spow(L_A, 1 / 3) * (1 - xp.exp(-48 / 9 * L_A))
 
     # Step 2 (Forward) - Computing achromatic response (:math:`I_{z,w}`),
     # redness-greenness (:math:`a_{z,w}`), and yellowness-blueness
@@ -725,8 +759,8 @@ def ZCAM_to_XYZ(
     # :math:`h_z` is currently required as an input.
 
     # Computing eccentricity factor :math:`e_z`.
-    e_z = 1.015 + np.cos(np.radians(89.038 + h_z % 360))
-    h_z_r = np.radians(h_z)
+    e_z = 1.015 + xp.cos(xp_radians(89.038 + h_z % 360))
+    h_z_r = xp_radians(h_z)
 
     # Step 4 (Inverse) - Computing redness-greenness (:math:`a_z`), and
     # yellowness-blueness (:math:`b_z`).
@@ -737,8 +771,8 @@ def ZCAM_to_XYZ(
         / (100 * spow(e_z, 0.068) * spow(F_L, 0.2)),
         C_z_p_e,
     )
-    a_z = C_z_p * np.cos(h_z_r)
-    b_z = C_z_p * np.sin(h_z_r)
+    a_z = C_z_p * xp.cos(h_z_r)
+    b_z = C_z_p * xp.sin(h_z_r)
 
     # Step 5 (Inverse) - Computing tristimulus values :math:`XYZ_{D65}`.
     with domain_range_scale("ignore"):
@@ -774,24 +808,40 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
 
     h = as_float_array(h)
 
-    h_i = HUE_DATA_FOR_HUE_QUADRATURE["h_i"]
-    e_i = HUE_DATA_FOR_HUE_QUADRATURE["e_i"]
-    H_i = HUE_DATA_FOR_HUE_QUADRATURE["H_i"]
+    xp = array_namespace(h)
 
-    # :math:`h_p` = :math:`h_z` + 360 if :math:`h_z` < :math:`h_1, i.e., h_i[0]
-    h = np.where(h <= h_i[0], h + 360, h)
-    # *np.searchsorted* returns an erroneous index if a *nan* is used as input.
-    h = np.where(np.isnan(h), 0, h)
-    i = as_int_array(np.searchsorted(h_i, h, side="left") - 1)
+    h = as_float_array(xp.where(xp.isnan(h), 0, h))
 
-    h_ii = h_i[i]
-    e_ii = e_i[i]
-    H_ii = H_i[i]
-    h_ii1 = h_i[i + 1]
-    e_ii1 = e_i[i + 1]
+    # Wrap-around: h <= 33.44 is treated as h + 360.
+    h_w = as_float_array(xp.where(h <= 33.44, h + 360, h))
 
-    h_h_ii = h - h_ii
+    # Hue quadrature table (5 entries, 4 intervals).
+    #   h_i = [33.44, 89.29, 146.30, 238.36, 393.44]
+    #   e_i = [0.68,  0.64,  1.52,   0.77,   0.68  ]
+    #   H_i = [0.0,   100.0, 200.0,  300.0,  400.0 ]
+    def _H(
+        h_k: float, e_k: float, H_k: float, h_k1: float, e_k1: float
+    ) -> NDArrayFloat:
+        """Compute hue quadrature for a single bin."""
 
-    H = H_ii + (100 * h_h_ii / e_ii) / (h_h_ii / e_ii + (h_ii1 - h) / e_ii1)
+        t1 = (h_w - h_k) / e_k
+        t2 = (h_k1 - h_w) / e_k1
+        return H_k + 100 * t1 / (t1 + t2)
+
+    H = xp_select(
+        [
+            (h_w >= 33.44) & (h_w < 89.29),
+            (h_w >= 89.29) & (h_w < 146.30),
+            (h_w >= 146.30) & (h_w < 238.36),
+            (h_w >= 238.36) & (h_w < 393.44),
+        ],
+        [
+            _H(33.44, 0.68, 0.0, 89.29, 0.64),
+            _H(89.29, 0.64, 100.0, 146.30, 1.52),
+            _H(146.30, 1.52, 200.0, 238.36, 0.77),
+            _H(238.36, 0.77, 300.0, 393.44, 0.68),
+        ],
+        xp=xp,
+    )
 
     return as_float(H)

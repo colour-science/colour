@@ -28,3 +28,19 @@ def pytest_configure(config: Any) -> None:
             config.option.numprocesses = 0
         if getattr(config.option, "dist", None):
             config.option.dist = "no"
+
+    # NOTE: The *Colour* warning filters are registered here rather than via the
+    # ``filterwarnings`` ini option on purpose: an
+    # ``ignore::colour.utilities.ColourWarning`` *ini* entry is resolved during
+    # pytest's initial-conftest phase, forcing ``import colour`` *before*
+    # *pytest-cov* starts recording in each xdist worker, which leaves all
+    # import-time code measured untraced (reported as ``0%`` coverage).
+    # ``addinivalue_line`` appends the same filters post-configure, deferring
+    # their category resolution (and the ``import colour`` it triggers) to test
+    # time, under coverage, while preserving the per-test filtering behaviour.
+    for warning in (
+        "ignore::colour.utilities.ColourWarning",
+        "ignore::colour.utilities.ColourRuntimeWarning",
+        "ignore::colour.utilities.ColourUsageWarning",
+    ):
+        config.addinivalue_line("filterwarnings", warning)

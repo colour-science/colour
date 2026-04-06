@@ -17,15 +17,20 @@ N-Log_Specification_(En)01.pdf
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.algebra import spow
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
-from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
+from colour.utilities import (
+    Structure,
+    array_namespace,
+    as_float,
+    from_range_1,
+    optional,
+    to_domain_1,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -106,6 +111,9 @@ def log_encoding_NLog(
     """
 
     y = to_domain_1(y)
+
+    xp = array_namespace(y)
+
     constants = optional(constants, CONSTANTS_NLOG)
 
     if not in_reflection:
@@ -117,10 +125,10 @@ def log_encoding_NLog(
     c = constants.c
     d = constants.d
 
-    x = np.where(
+    x = xp.where(
         y < cut1,
         a * spow(y + b, 1 / 3),
-        c * np.log(y) + d,
+        c * xp.log(y) + d,
     )
 
     x_cv = x if out_normalised_code_value else legal_to_full(x, bit_depth)
@@ -184,6 +192,9 @@ def log_decoding_NLog(
     """
 
     x = to_domain_1(x)
+
+    xp = array_namespace(x)
+
     constants = optional(constants, CONSTANTS_NLOG)
 
     x = x if in_normalised_code_value else full_to_legal(x, bit_depth)
@@ -194,10 +205,10 @@ def log_decoding_NLog(
     c = constants.c
     d = constants.d
 
-    y = np.where(
+    y = xp.where(
         x < cut2,
         spow(x / a, 3) - b,
-        np.exp((x - d) / c),
+        xp.exp((x - d) / c),
     )
 
     if not out_reflection:

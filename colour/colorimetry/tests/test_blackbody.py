@@ -9,7 +9,11 @@ import numpy as np
 import pytest
 
 from colour.colorimetry import (
+    MultiSpectralDistributions,
+    SpectralDistribution,
     SpectralShape,
+    msds_blackbody,
+    msds_rayleigh_jeans,
     planck_law,
     rayleigh_jeans_law,
     sd_blackbody,
@@ -18,9 +22,15 @@ from colour.colorimetry import (
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 
 if typing.TYPE_CHECKING:
-    from colour.hints import NDArrayFloat
+    from colour.hints import NDArrayFloat, ModuleType
 
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -36,6 +46,7 @@ __all__ = [
     "DATA_RAYLEIGH_JEANS",
     "TestPlanckLaw",
     "TestSdBlackbody",
+    "TestMsdsBlackbody",
     "TestRayleighJeansLaw",
     "TestSdRayleighJeans",
 ]
@@ -1206,49 +1217,48 @@ class TestPlanckLaw:
     tests methods.
     """
 
-    def test_planck_law(self) -> None:
+    @pytest.mark.mps_xfail("MPS float32 epsilon on large-magnitude radiance")
+    def test_planck_law(self, xp: ModuleType) -> None:
         """Test :func:`colour.colorimetry.blackbody.planck_law` definition."""
 
-        wavelengths = 2 ** np.arange(0, 16, 1) * 1e-9
+        wavelengths = xp_as_array(2 ** np.arange(0, 16, 1) * 1e-9, xp=xp)
         for temperature, radiance in sorted(DATA_PLANCK_LAW.items()):
-            np.testing.assert_allclose(
+            xp_assert_close(
                 planck_law(wavelengths, temperature),
                 radiance,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-    def test_n_dimensional_planck_law(self) -> None:
+    def test_n_dimensional_planck_law(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.blackbody.planck_law` definition
         n-dimensional arrays support.
         """
 
         wl = 500 * 1e-9
-        p = planck_law(wl, 5500)
+        p = as_ndarray(planck_law(wl, 5500))
 
-        wl = np.tile(wl, 6)
-        p = np.tile(p, 6)
-        np.testing.assert_allclose(
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        p = xp.tile(xp_as_array(p, xp=xp), (6,))
+        xp_assert_close(
             planck_law(wl, 5500),
             p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3))
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
         # The "colour.colorimetry.planck_law" definition behaviour with
         # n-dimensional arrays is unusual.
-        # p = np.np.reshape(p, (2, 3))
-        np.testing.assert_allclose(
+        xp_assert_close(
             planck_law(wl, 5500),
             p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3, 1))
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
         # The "colour.colorimetry.planck_law" definition behaviour with
         # n-dimensional arrays is unusual.
-        # p = np.reshape(p, (2, 3, 1))
-        np.testing.assert_allclose(
+        xp_assert_close(
             planck_law(wl, 5500),
             p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -1256,9 +1266,9 @@ class TestPlanckLaw:
 
         # The "colour.colorimetry.planck_law" definition behaviour with
         # n-dimensional arrays is unusual.
-        p = planck_law(500 * 1e-9, [5000, 5500, 6000])
-        p = np.tile(p, (6, 1))
-        np.testing.assert_allclose(
+        p = as_ndarray(planck_law(500 * 1e-9, [5000, 5500, 6000]))
+        p = xp.tile(xp_as_array(p, xp=xp), (6, 1))
+        xp_assert_close(
             planck_law(wl, [5000, 5500, 6000]),
             p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -1271,7 +1281,8 @@ class TestPlanckLaw:
         """
 
         for wavelength in [-1.0, 0.0, -np.inf, np.nan]:
-            pytest.raises(AssertionError, planck_law, wavelength, 5500)
+            with pytest.raises(AssertionError):
+                planck_law(wavelength, 5500)
 
     @ignore_numpy_errors
     def test_nan_planck_law(self) -> None:
@@ -1295,11 +1306,36 @@ class TestSdBlackbody:
     def test_sd_blackbody(self) -> None:
         """Test :func:`colour.colorimetry.blackbody.sd_blackbody` definition."""
 
-        np.testing.assert_allclose(
-            sd_blackbody(5000, SpectralShape(360, 830, 1)).values,
+        sd = sd_blackbody(5000, SpectralShape(360, 830, 1))
+        assert isinstance(sd, SpectralDistribution)
+        xp_assert_close(
+            sd.values,
             DATA_BLACKBODY,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+
+class TestMsdsBlackbody:
+    """
+    Define :func:`colour.colorimetry.blackbody.msds_blackbody` definition
+    unit tests methods.
+    """
+
+    def test_msds_blackbody(self) -> None:
+        """
+        Test :func:`colour.colorimetry.blackbody.msds_blackbody` definition.
+        """
+
+        temperatures = np.array([3000.0, 5000.0, 7000.0])
+        msds = msds_blackbody(temperatures, SpectralShape(360, 830, 1))
+        assert isinstance(msds, MultiSpectralDistributions)
+        assert msds.values.shape == (471, 3)
+        for i, T in enumerate(temperatures):
+            xp_assert_close(
+                msds.values[:, i],
+                sd_blackbody(T, SpectralShape(360, 830, 1)).values,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
 
 
 class TestRayleighJeansLaw:
@@ -1308,52 +1344,51 @@ class TestRayleighJeansLaw:
     tests methods.
     """
 
-    def test_rayleigh_jeans_law(self) -> None:
+    @pytest.mark.mps_xfail("MPS float32 epsilon on large-magnitude radiance")
+    def test_rayleigh_jeans_law(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.blackbody.rayleigh_jeans_law`
         definition.
         """
 
-        wavelengths = 2 ** np.arange(0, 16, 1) * 1e-9
+        wavelengths = xp_as_array(2 ** np.arange(0, 16, 1) * 1e-9, xp=xp)
         for temperature, radiance in sorted(DATA_RAYLEIGH_JEANS_LAW.items()):
-            np.testing.assert_allclose(
+            xp_assert_close(
                 rayleigh_jeans_law(wavelengths, temperature),
                 radiance,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-    def test_n_dimensional_rayleigh_jeans_law(self) -> None:
+    def test_n_dimensional_rayleigh_jeans_law(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.blackbody.rayleigh_jeans_law` definition
         n-dimensional arrays support.
         """
 
         wl = 500 * 1e-9
-        p = rayleigh_jeans_law(wl, 5500)
+        p = as_ndarray(rayleigh_jeans_law(wl, 5500))
 
-        wl = np.tile(wl, 6)
-        p = np.tile(p, 6)
-        np.testing.assert_allclose(
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        p = xp.tile(xp_as_array(p, xp=xp), (6,))
+        xp_assert_close(
             rayleigh_jeans_law(wl, 5500),
             p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3))
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
         # The "colour.colorimetry.rayleigh_jeans_law" definition behaviour with
         # n-dimensional arrays is unusual.
-        # p = np.np.reshape(p, (2, 3))
-        np.testing.assert_allclose(
+        xp_assert_close(
             rayleigh_jeans_law(wl, 5500),
             p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3, 1))
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
         # The "colour.colorimetry.rayleigh_jeans_law" definition behaviour with
         # n-dimensional arrays is unusual.
-        # p = np.reshape(p, (2, 3, 1))
-        np.testing.assert_allclose(
+        xp_assert_close(
             rayleigh_jeans_law(wl, 5500),
             p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -1361,9 +1396,9 @@ class TestRayleighJeansLaw:
 
         # The "colour.colorimetry.rayleigh_jeans_law" definition behaviour with
         # n-dimensional arrays is unusual.
-        p = rayleigh_jeans_law(500 * 1e-9, [5000, 5500, 6000])
-        p = np.tile(p, (6, 1))
-        np.testing.assert_allclose(
+        p = as_ndarray(rayleigh_jeans_law(500 * 1e-9, [5000, 5500, 6000]))
+        p = xp.tile(xp_as_array(p, xp=xp), (6, 1))
+        xp_assert_close(
             rayleigh_jeans_law(wl, [5000, 5500, 6000]),
             p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -1393,8 +1428,32 @@ class TestSdRayleighJeans:
         definition.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_rayleigh_jeans(5000, SpectralShape(360, 830, 1)).values,
             DATA_RAYLEIGH_JEANS,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+
+class TestMsdsRayleighJeans:
+    """
+    Define :func:`colour.colorimetry.blackbody.msds_rayleigh_jeans`
+    definition unit tests methods.
+    """
+
+    def test_msds_rayleigh_jeans(self) -> None:
+        """
+        Test :func:`colour.colorimetry.blackbody.msds_rayleigh_jeans`
+        definition.
+        """
+
+        temperatures = np.array([3000.0, 5000.0, 7000.0])
+        msds = msds_rayleigh_jeans(temperatures, SpectralShape(360, 830, 1))
+        assert isinstance(msds, MultiSpectralDistributions)
+        assert msds.values.shape == (471, 3)
+        for i, T in enumerate(temperatures):
+            xp_assert_close(
+                msds.values[:, i],
+                sd_rayleigh_jeans(T, SpectralShape(360, 830, 1)).values,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )

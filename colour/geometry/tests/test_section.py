@@ -2,13 +2,17 @@
 
 from __future__ import annotations
 
-import numpy as np
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.geometry import hull_section, primitive_cube
 from colour.geometry.section import close_chord, edges_to_chord, unique_vertices
-from colour.utilities import is_trimesh_installed
+from colour.utilities import is_trimesh_installed, xp_as_array, xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -31,10 +35,10 @@ class TestEdgesToChord:
     tests methods.
     """
 
-    def test_edges_to_chord(self) -> None:
+    def test_edges_to_chord(self, xp: ModuleType) -> None:
         """Test :func:`colour.geometry.section.edges_to_chord` definition."""
 
-        edges = np.array(
+        edges = xp_as_array(
             [
                 [[0.0, -0.5, 0.0], [0.5, -0.5, 0.0]],
                 [[-0.5, -0.5, 0.0], [0.0, -0.5, 0.0]],
@@ -44,56 +48,53 @@ class TestEdgesToChord:
                 [[-0.5, 0.5, 0.0], [-0.5, 0.0, 0.0]],
                 [[0.5, -0.5, 0.0], [0.5, 0.0, 0.0]],
                 [[0.5, 0.0, 0.0], [0.5, 0.5, 0.0]],
-            ]
+            ],
+            xp=xp,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             edges_to_chord(edges),
-            np.array(
-                [
-                    [0.0, -0.5, 0.0],
-                    [0.5, -0.5, 0.0],
-                    [0.5, -0.5, -0.0],
-                    [0.5, 0.0, -0.0],
-                    [0.5, 0.0, -0.0],
-                    [0.5, 0.5, -0.0],
-                    [0.5, 0.5, 0.0],
-                    [0.0, 0.5, 0.0],
-                    [0.0, 0.5, 0.0],
-                    [-0.5, 0.5, 0.0],
-                    [-0.5, 0.5, -0.0],
-                    [-0.5, 0.0, -0.0],
-                    [-0.5, 0.0, -0.0],
-                    [-0.5, -0.5, -0.0],
-                    [-0.5, -0.5, 0.0],
-                    [0.0, -0.5, 0.0],
-                ]
-            ),
+            [
+                [0.0, -0.5, 0.0],
+                [0.5, -0.5, 0.0],
+                [0.5, -0.5, -0.0],
+                [0.5, 0.0, -0.0],
+                [0.5, 0.0, -0.0],
+                [0.5, 0.5, -0.0],
+                [0.5, 0.5, 0.0],
+                [0.0, 0.5, 0.0],
+                [0.0, 0.5, 0.0],
+                [-0.5, 0.5, 0.0],
+                [-0.5, 0.5, -0.0],
+                [-0.5, 0.0, -0.0],
+                [-0.5, 0.0, -0.0],
+                [-0.5, -0.5, -0.0],
+                [-0.5, -0.5, 0.0],
+                [0.0, -0.5, 0.0],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             edges_to_chord(edges, 5),
-            np.array(
-                [
-                    [-0.5, 0.5, 0.0],
-                    [-0.5, 0.0, 0.0],
-                    [-0.5, 0.0, 0.0],
-                    [-0.5, -0.5, 0.0],
-                    [-0.5, -0.5, 0.0],
-                    [0.0, -0.5, 0.0],
-                    [0.0, -0.5, 0.0],
-                    [0.5, -0.5, 0.0],
-                    [0.5, -0.5, 0.0],
-                    [0.5, 0.0, 0.0],
-                    [0.5, 0.0, 0.0],
-                    [0.5, 0.5, 0.0],
-                    [0.5, 0.5, 0.0],
-                    [0.0, 0.5, 0.0],
-                    [0.0, 0.5, 0.0],
-                    [-0.5, 0.5, 0.0],
-                ]
-            ),
+            [
+                [-0.5, 0.5, 0.0],
+                [-0.5, 0.0, 0.0],
+                [-0.5, 0.0, 0.0],
+                [-0.5, -0.5, 0.0],
+                [-0.5, -0.5, 0.0],
+                [0.0, -0.5, 0.0],
+                [0.0, -0.5, 0.0],
+                [0.5, -0.5, 0.0],
+                [0.5, -0.5, 0.0],
+                [0.5, 0.0, 0.0],
+                [0.5, 0.0, 0.0],
+                [0.5, 0.5, 0.0],
+                [0.5, 0.5, 0.0],
+                [0.0, 0.5, 0.0],
+                [0.0, 0.5, 0.0],
+                [-0.5, 0.5, 0.0],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -104,12 +105,12 @@ class TestCloseChord:
     methods.
     """
 
-    def test_close_chord(self) -> None:
+    def test_close_chord(self, xp: ModuleType) -> None:
         """Test :func:`colour.geometry.section.close_chord` definition."""
 
-        np.testing.assert_allclose(
-            close_chord(np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]])),
-            np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5], [0.0, 0.5, 0.0]]),
+        xp_assert_close(
+            close_chord(xp_as_array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]], xp=xp)),
+            [[0.0, 0.5, 0.0], [0.0, 0.0, 0.5], [0.0, 0.5, 0.0]],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -120,23 +121,25 @@ class TestUniqueVertices:
     tests methods.
     """
 
-    def test_unique_vertices(self) -> None:
+    def test_unique_vertices(self, xp: ModuleType) -> None:
         """Test :func:`colour.geometry.section.unique_vertices` definition."""
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             unique_vertices(
-                np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5], [0.0, 0.5, 0.0]])
+                xp_as_array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5], [0.0, 0.5, 0.0]], xp=xp)
             ),
-            np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]]),
+            [[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             unique_vertices(
-                np.array([[0.0, 0.51, 0.0], [0.0, 0.0, 0.51], [0.0, 0.52, 0.0]]),
+                xp_as_array(
+                    [[0.0, 0.51, 0.0], [0.0, 0.0, 0.51], [0.0, 0.52, 0.0]], xp=xp
+                ),
                 1,
             ),
-            np.array([[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]]),
+            [[0.0, 0.5, 0.0], [0.0, 0.0, 0.5]],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -158,77 +161,70 @@ class TestHullSection:
         vertices, faces, _outline = primitive_cube(1, 1, 1, 2, 2, 2)
         hull = trimesh.Trimesh(vertices["position"], faces, process=False)
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             hull_section(hull, origin=0),
-            np.array(
-                [
-                    [0.0, -0.5, 0.0],
-                    [0.5, -0.5, 0.0],
-                    [0.5, 0.0, 0.0],
-                    [0.5, 0.5, 0.0],
-                    [0.0, 0.5, 0.0],
-                    [-0.5, 0.5, 0.0],
-                    [-0.5, 0.0, 0.0],
-                    [-0.5, -0.5, 0.0],
-                    [0.0, -0.5, 0.0],
-                ]
-            ),
+            [
+                [0.0, -0.5, 0.0],
+                [0.5, -0.5, 0.0],
+                [0.5, 0.0, 0.0],
+                [0.5, 0.5, 0.0],
+                [0.0, 0.5, 0.0],
+                [-0.5, 0.5, 0.0],
+                [-0.5, 0.0, 0.0],
+                [-0.5, -0.5, 0.0],
+                [0.0, -0.5, 0.0],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             hull_section(hull, axis="+x", origin=0),
-            np.array(
-                [
-                    [0.0, 0.0, -0.5],
-                    [0.0, 0.5, -0.5],
-                    [0.0, 0.5, 0.0],
-                    [0.0, 0.5, 0.5],
-                    [0.0, 0.0, 0.5],
-                    [0.0, -0.5, 0.5],
-                    [0.0, -0.5, 0.0],
-                    [0.0, -0.5, -0.5],
-                    [0.0, 0.0, -0.5],
-                ]
-            ),
+            [
+                [0.0, 0.0, -0.5],
+                [0.0, 0.5, -0.5],
+                [0.0, 0.5, 0.0],
+                [0.0, 0.5, 0.5],
+                [0.0, 0.0, 0.5],
+                [0.0, -0.5, 0.5],
+                [0.0, -0.5, 0.0],
+                [0.0, -0.5, -0.5],
+                [0.0, 0.0, -0.5],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             hull_section(hull, axis="+y", origin=0),
-            np.array(
-                [
-                    [0.0, 0.0, -0.5],
-                    [-0.5, 0.0, -0.5],
-                    [-0.5, 0.0, 0.0],
-                    [-0.5, 0.0, 0.5],
-                    [0.0, 0.0, 0.5],
-                    [0.5, 0.0, 0.5],
-                    [0.5, 0.0, 0.0],
-                    [0.5, 0.0, -0.5],
-                    [0.0, 0.0, -0.5],
-                ]
-            ),
+            [
+                [0.0, 0.0, -0.5],
+                [-0.5, 0.0, -0.5],
+                [-0.5, 0.0, 0.0],
+                [-0.5, 0.0, 0.5],
+                [0.0, 0.0, 0.5],
+                [0.5, 0.0, 0.5],
+                [0.5, 0.0, 0.0],
+                [0.5, 0.0, -0.5],
+                [0.0, 0.0, -0.5],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         hull.vertices = (hull.vertices + 0.5) * 2
-        np.testing.assert_allclose(
+        xp_assert_close(
             hull_section(hull, origin=0.5, normalise=True),
-            np.array(
-                [
-                    [1.0, 0.0, 1.0],
-                    [2.0, 0.0, 1.0],
-                    [2.0, 1.0, 1.0],
-                    [2.0, 2.0, 1.0],
-                    [1.0, 2.0, 1.0],
-                    [0.0, 2.0, 1.0],
-                    [0.0, 1.0, 1.0],
-                    [0.0, 0.0, 1.0],
-                    [1.0, 0.0, 1.0],
-                ]
-            ),
+            [
+                [1.0, 0.0, 1.0],
+                [2.0, 0.0, 1.0],
+                [2.0, 1.0, 1.0],
+                [2.0, 2.0, 1.0],
+                [1.0, 2.0, 1.0],
+                [0.0, 2.0, 1.0],
+                [0.0, 1.0, 1.0],
+                [0.0, 0.0, 1.0],
+                [1.0, 0.0, 1.0],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        pytest.raises(ValueError, hull_section, hull, origin=-1)
+        with pytest.raises(ValueError):
+            hull_section(hull, origin=-1)

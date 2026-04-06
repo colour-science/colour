@@ -29,12 +29,12 @@ from colour.hints import (  # noqa: TC001
     Range100,
 )
 from colour.utilities import (
+    array_namespace,
     as_float_array,
     from_range_100,
     ones,
-    row_as_diagonal,
     to_domain_100,
-    tstack,
+    xp_as_float_array,
 )
 
 __author__ = "Colour Developers"
@@ -134,7 +134,10 @@ def chromatic_adaptation_Fairchild1990(
     XYZ_1 = to_domain_100(XYZ_1)
     XYZ_n = to_domain_100(XYZ_n)
     XYZ_r = to_domain_100(XYZ_r)
-    Y_n = as_float_array(Y_n)
+
+    xp = array_namespace(XYZ_1, XYZ_n, XYZ_r, Y_n)
+
+    Y_n = xp_as_float_array(Y_n, xp=xp, like=XYZ_1)
 
     LMS_1 = XYZ_to_RGB_Fairchild1990(XYZ_1)
     LMS_n = XYZ_to_RGB_Fairchild1990(XYZ_n)
@@ -145,18 +148,14 @@ def chromatic_adaptation_Fairchild1990(
     a_LMS_1 = p_LMS / LMS_n
     a_LMS_2 = p_LMS / LMS_r
 
-    A_1 = row_as_diagonal(a_LMS_1)
-    A_2 = row_as_diagonal(a_LMS_2)
+    # Diagonal matrix products collapse to elementwise scaling; their inverses
+    # are reciprocals. Avoids materialising ``(N, 3, 3)`` tensors at scale.
+    # The ``c`` matrix in *Fairchild (1990)* Eq. 21-22 cancels exactly between
+    # the forward ``LMS_a = c * LMSp_1`` and inverse ``LMSp_2 = LMS_a / c``
+    # steps, so the intermediate is elided.
+    LMSp_1 = a_LMS_1 * LMS_1
 
-    LMSp_1 = vecmul(A_1, LMS_1)
-
-    c = 0.219 - 0.0784 * np.log10(Y_n)
-    C = row_as_diagonal(tstack([c, c, c]))
-
-    LMS_a = vecmul(C, LMSp_1)
-    LMSp_2 = vecmul(np.linalg.inv(C), LMS_a)
-
-    LMS_c = vecmul(np.linalg.inv(A_2), LMSp_2)
+    LMS_c = LMSp_1 / a_LMS_2
     XYZ_c = RGB_to_XYZ_Fairchild1990(LMS_c)
 
     return from_range_100(XYZ_c)
@@ -249,21 +248,25 @@ def degrees_of_adaptation(
 
     LMS = as_float_array(LMS)
 
-    if discount_illuminant:
-        return ones(LMS.shape)
+    xp = array_namespace(LMS, Y_n, v)
 
-    Y_n = as_float_array(Y_n)
-    v = as_float_array(v)
+    if discount_illuminant:
+        return xp_as_float_array(ones(LMS.shape), xp=xp, like=LMS)
+
+    Y_n = xp_as_float_array(Y_n, xp=xp, like=LMS)
+    v = xp_as_float_array(v, xp=xp, like=LMS)
 
     # E illuminant.
     LMS_E = vecmul(CAT_VON_KRIES, ones(LMS.shape))
+
+    LMS_E = xp_as_float_array(LMS_E, xp=xp, like=LMS)
 
     Ye_n = spow(Y_n, v)
 
     def m_E(x: NDArrayFloat, y: NDArrayFloat) -> NDArrayFloat:
         """Compute the :math:`m_E` term."""
 
-        return (3 * x / y) / np.sum(x / y, axis=-1)[..., None]
+        return (3 * x / y) / xp.sum(x / y, axis=-1)[..., None]
 
     def P_c(x: NDArrayFloat) -> NDArrayFloat:
         """Compute the :math:`P_L`, :math:`P_M` or :math:`P_S` terms."""

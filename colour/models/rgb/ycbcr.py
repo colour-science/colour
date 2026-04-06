@@ -69,6 +69,7 @@ from colour.models.rgb.transfer_functions import (
 )
 from colour.utilities import (
     CanonicalMapping,
+    array_namespace,
     as_float_array,
     as_int_array,
     domain_range_scale,
@@ -76,6 +77,7 @@ from colour.utilities import (
     to_domain_1,
     tsplit,
     tstack,
+    xp_as_float_array,
 )
 
 __author__ = "Colour Developers"
@@ -162,7 +164,9 @@ def round_BT2100(a: ArrayLike) -> NDArrayFloat:
     array([0., 1., 1.])
     """
 
-    return cast("NDArrayFloat", np.sign(a) * np.floor(np.abs(a) + 0.5))
+    xp = array_namespace(a)
+
+    return cast("NDArrayFloat", xp.sign(a) * xp.floor(xp.abs(a) + 0.5))
 
 
 def ranges_YCbCr(bits: int, is_legal: bool, is_int: bool) -> NDArrayFloat:
@@ -308,18 +312,20 @@ def matrix_YCbCr(
     array([ 38, 140, 171])
     """
 
+    xp = array_namespace(K)
+
     Kr, Kb = K
     Cb_scale, Cr_scale = S
     Y_min, Y_max, C_min, C_max = ranges_YCbCr(bits, is_legal, is_int)
 
-    Y = np.array([Kr, (1 - Kr - Kb), Kb])
-    Cb = Cb_scale * (np.array([0, 0, 1]) - Y) / (1 - Kb)
-    Cr = Cr_scale * (np.array([1, 0, 0]) - Y) / (1 - Kr)
+    Y = xp_as_float_array([Kr, (1 - Kr - Kb), Kb], xp=xp, like=K)
+    Cb = Cb_scale * (xp_as_float_array([0, 0, 1], xp=xp, like=K) - Y) / (1 - Kb)
+    Cr = Cr_scale * (xp_as_float_array([1, 0, 0], xp=xp, like=K) - Y) / (1 - Kr)
     Y = Y * (Y_max - Y_min)
     Cb = Cb * (C_max - C_min)
     Cr = Cr * (C_max - C_min)
 
-    return np.linalg.inv(np.vstack([Y, Cb, Cr]))
+    return xp.linalg.inv(xp.stack([Y, Cb, Cr]))
 
 
 def offset_YCbCr(
@@ -549,6 +555,8 @@ def RGB_to_YCbCr(
 
     RGB = as_float_array(RGB) if in_int else to_domain_1(RGB)
 
+    xp = array_namespace(RGB)
+
     Kr, Kb = K
     Cb_scale, Cr_scale = S
     RGB_min, RGB_max = kwargs.get("in_range", CV_range(in_bits, in_legal, in_int))
@@ -574,7 +582,7 @@ def RGB_to_YCbCr(
 
     if out_int:
         return as_int_array(
-            round_BT2100(np.clip(YCbCr, 0, 2**out_bits - 1) if clamp_int else YCbCr)
+            round_BT2100(xp.clip(YCbCr, 0, 2**out_bits - 1) if clamp_int else YCbCr)
         )
 
     return from_range_1(YCbCr)
@@ -704,6 +712,8 @@ def YCbCr_to_RGB(
 
     YCbCr = as_float_array(YCbCr) if in_int else to_domain_1(YCbCr)
 
+    xp = array_namespace(YCbCr)
+
     Y, Cb, Cr = tsplit(YCbCr)
     Kr, Kb = K
     Cb_scale, Cr_scale = S
@@ -727,7 +737,7 @@ def YCbCr_to_RGB(
 
     return (
         as_int_array(
-            round_BT2100(np.clip(RGB, 0, 2**out_bits - 1) if clamp_int else RGB)
+            round_BT2100(xp.clip(RGB, 0, 2**out_bits - 1) if clamp_int else RGB)
         )
         if out_int
         else from_range_1(RGB)
@@ -818,7 +828,12 @@ def RGB_to_YcCbcCrc(
     array([422, 512, 512]...)
     """
 
-    R, G, B = tsplit(to_domain_1(RGB))
+    RGB = to_domain_1(RGB)
+
+    xp = array_namespace(RGB)
+
+    R, G, B = tsplit(RGB)
+
     Y_min, Y_max, C_min, C_max = kwargs.get(
         "out_range", ranges_YCbCr(out_bits, out_legal, out_int)
     )
@@ -830,8 +845,8 @@ def RGB_to_YcCbcCrc(
         R = oetf_BT2020(R, is_12_bits_system=is_12_bits_system)
         B = oetf_BT2020(B, is_12_bits_system=is_12_bits_system)
 
-    Cbc = np.where((B - Yc) <= 0, (B - Yc) / 1.9404, (B - Yc) / 1.5816)
-    Crc = np.where((R - Yc) <= 0, (R - Yc) / 1.7184, (R - Yc) / 0.9936)
+    Cbc = xp.where((B - Yc) <= 0, (B - Yc) / 1.9404, (B - Yc) / 1.5816)
+    Crc = xp.where((R - Yc) <= 0, (R - Yc) / 1.7184, (R - Yc) / 0.9936)
     Yc = Yc * (Y_max - Y_min) + Y_min
     Cbc = Cbc * (C_max - C_min) + (C_max + C_min) / 2
     Crc = Crc * (C_max - C_min) + (C_max + C_min) / 2
@@ -839,7 +854,7 @@ def RGB_to_YcCbcCrc(
     YcCbcCrc = tstack([Yc, Cbc, Crc])
 
     if out_int:
-        return as_int_array(np.round(YcCbcCrc))
+        return as_int_array(xp.round(YcCbcCrc))
 
     return from_range_1(YcCbcCrc)
 
@@ -932,6 +947,8 @@ def YcCbcCrc_to_RGB(
 
     YcCbcCrc = as_float_array(YcCbcCrc) if in_int else to_domain_1(YcCbcCrc)
 
+    xp = array_namespace(YcCbcCrc)
+
     Yc, Cbc, Crc = tsplit(YcCbcCrc)
     Y_min, Y_max, C_min, C_max = kwargs.get(
         "in_range", ranges_YCbCr(in_bits, in_legal, in_int)
@@ -940,8 +957,8 @@ def YcCbcCrc_to_RGB(
     Yc = (Yc - Y_min) * (1 / (Y_max - Y_min))
     Cbc = (Cbc - (C_max + C_min) / 2) * (1 / (C_max - C_min))
     Crc = (Crc - (C_max + C_min) / 2) * (1 / (C_max - C_min))
-    B = np.where(Cbc <= 0, Cbc * 1.9404 + Yc, Cbc * 1.5816 + Yc)
-    R = np.where(Crc <= 0, Crc * 1.7184 + Yc, Crc * 0.9936 + Yc)
+    B = xp.where(Cbc <= 0, Cbc * 1.9404 + Yc, Cbc * 1.5816 + Yc)
+    R = xp.where(Crc <= 0, Crc * 1.7184 + Yc, Crc * 0.9936 + Yc)
 
     with domain_range_scale("ignore"):
         Yc = oetf_inverse_BT2020(Yc, is_12_bits_system)

@@ -18,6 +18,7 @@ numpyerrors.html
 
 from __future__ import annotations
 
+import contextvars
 import functools
 import hashlib
 import inspect
@@ -30,7 +31,6 @@ import unicodedata
 import urllib.error
 import urllib.request
 import warnings
-from contextlib import contextmanager
 from copy import copy
 from pprint import pformat
 from urllib.parse import urlparse
@@ -65,7 +65,7 @@ __status__ = "Production"
 
 __all__ = [
     "is_caching_enabled",
-    "set_caching_enable",
+    "set_caching_enabled",
     "caching_enable",
     "CacheRegistry",
     "CACHE_REGISTRY",
@@ -77,8 +77,6 @@ __all__ = [
     "ignore_python_warnings",
     "attest",
     "batch",
-    "disable_multiprocessing",
-    "multiprocessing_pool",
     "is_iterable",
     "is_numeric",
     "is_integer",
@@ -95,11 +93,23 @@ __all__ = [
     "download_url",
 ]
 
-_CACHING_ENABLED: bool = not as_bool(
+_CACHING_ENABLED_DEFAULT: bool = not as_bool(
     os.environ.get("COLOUR_SCIENCE__DISABLE_CACHING", "False")
 )
+"""Environment-seeded default for :attr:`_CACHING_ENABLED`."""
+
+_CACHING_ENABLED: contextvars.ContextVar[bool] = contextvars.ContextVar(
+    "_CACHING_ENABLED", default=_CACHING_ENABLED_DEFAULT
+)
 """
-Global variable storing the current *Colour* caching enabled state.
+:class:`contextvars.ContextVar` storing the current *Colour* caching
+enabled state. The :class:`contextvars.ContextVar` keeps nested
+:class:`caching_enable` contexts independent across concurrent threads
+and async tasks. Read it via :func:`is_caching_enabled` and toggle it
+via :func:`set_caching_enabled` or :class:`caching_enable`. The
+environment value is seeded as the :class:`contextvars.ContextVar`
+``default`` so that fresh threads and async tasks observe it, rather than
+via a module-level ``set`` that only applies to the importing context.
 """
 
 
@@ -109,7 +119,7 @@ def is_caching_enabled() -> bool:
 
     The caching state is controlled by the global
     *COLOUR_SCIENCE__DISABLE_CACHING* environment variable and can be
-    temporarily modified using the :func:`set_caching_enable` function or the
+    temporarily modified using the :func:`set_caching_enabled` function or the
     :class:`caching_enable` context manager.
 
     Returns
@@ -127,10 +137,10 @@ def is_caching_enabled() -> bool:
     True
     """
 
-    return _CACHING_ENABLED
+    return _CACHING_ENABLED.get()
 
 
-def set_caching_enable(enable: bool) -> None:
+def set_caching_enabled(enable: bool) -> None:
     """
     Set the *Colour* caching enabled state.
 
@@ -143,15 +153,13 @@ def set_caching_enable(enable: bool) -> None:
     --------
     >>> with caching_enable(True):
     ...     print(is_caching_enabled())
-    ...     set_caching_enable(False)
+    ...     set_caching_enabled(False)
     ...     print(is_caching_enabled())
     True
     False
     """
 
-    global _CACHING_ENABLED  # noqa: PLW0603
-
-    _CACHING_ENABLED = enable
+    _CACHING_ENABLED.set(enable)
 
 
 class caching_enable:
@@ -167,14 +175,17 @@ class caching_enable:
 
     def __init__(self, enable: bool) -> None:
         self._enable = enable
-        self._previous_state = is_caching_enabled()
+        # Token stack: nested or recursive ``__enter__`` / ``__exit__``
+        # pairs against the same instance (e.g. via the decorator form on
+        # a recursive function) push and pop independent reset tokens.
+        self._tokens: list[contextvars.Token[bool]] = []
 
     def __enter__(self) -> Self:
         """
         Enter the caching context and set the *Colour* caching state.
         """
 
-        set_caching_enable(self._enable)
+        self._tokens.append(_CACHING_ENABLED.set(self._enable))
 
         return self
 
@@ -184,7 +195,7 @@ class caching_enable:
         caching state.
         """
 
-        set_caching_enable(self._previous_state)
+        _CACHING_ENABLED.reset(self._tokens.pop())
 
     def __call__(self, function: Callable) -> Callable:
         """
@@ -193,7 +204,10 @@ class caching_enable:
 
         @functools.wraps(function)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
-            with self:
+            # A fresh instance is entered per call so the token stack is never
+            # shared across threads or async tasks invoking the decorated
+            # definition concurrently.
+            with self.__class__(self._enable):
                 return function(*args, **kwargs)
 
         return wrapper
@@ -519,170 +533,6 @@ def batch(sequence: Sequence, k: int | Literal[3] = 3) -> Generator:
         yield sequence[i : i + k]
 
 
-_MULTIPROCESSING_ENABLED: bool = True
-"""*Colour* multiprocessing state."""
-
-
-class disable_multiprocessing:
-    """
-    Define a context manager and decorator to temporarily disable *Colour*
-    multiprocessing state.
-    """
-
-    def __enter__(self) -> Self:
-        """
-        Disable *Colour* multiprocessing state upon entering the context
-        manager.
-        """
-
-        global _MULTIPROCESSING_ENABLED  # noqa: PLW0603
-
-        _MULTIPROCESSING_ENABLED = False
-
-        return self
-
-    def __exit__(self, *args: Any) -> None:
-        """
-        Enable *Colour* multiprocessing state upon exiting the context
-        manager.
-        """
-
-        global _MULTIPROCESSING_ENABLED  # noqa: PLW0603
-
-        _MULTIPROCESSING_ENABLED = True
-
-    def __call__(self, function: Callable) -> Callable:
-        """
-        Execute the decorated function with optional multiprocessing support.
-        """
-
-        @functools.wraps(function)
-        def wrapper(*args: Any, **kwargs: Any) -> Any:
-            """Wrap specified function."""
-
-            with self:
-                return function(*args, **kwargs)
-
-        return wrapper
-
-
-def _initializer(kwargs: Any) -> None:
-    """
-    Initialize a multiprocessing pool worker process.
-
-    Ensure that worker processes on *Windows* correctly inherit the current
-    domain-range scale configuration from the parent process.
-
-    Parameters
-    ----------
-    kwargs
-        Initialization arguments for configuring the worker process state.
-    """
-
-    # NOTE: No coverage information is available as this code is executed in
-    # sub-processes.
-
-    import colour.utilities.array  # pragma: no cover  # noqa: PLC0415
-
-    colour.utilities.array._DOMAIN_RANGE_SCALE = kwargs.get(  # noqa: SLF001
-        "scale", "reference"
-    )  # pragma: no cover
-
-    import colour.algebra.common  # pragma: no cover  # noqa: PLC0415
-
-    colour.algebra.common._SDIV_MODE = kwargs.get(  # noqa: SLF001
-        "sdiv_mode", "Ignore Zero Conversion"
-    )  # pragma: no cover
-    colour.algebra.common._SPOW_ENABLED = kwargs.get(  # noqa: SLF001
-        "spow_enabled", True
-    )  # pragma: no cover
-
-
-@contextmanager
-def multiprocessing_pool(*args: Any, **kwargs: Any) -> Generator:
-    """
-    Provide a context manager for a multiprocessing pool.
-
-    Other Parameters
-    ----------------
-    args
-        Arguments passed to the multiprocessing pool constructor.
-    kwargs
-        Keyword arguments passed to the multiprocessing pool
-        constructor.
-
-    Yields
-    ------
-    Generator
-        Multiprocessing pool context manager.
-
-    Examples
-    --------
-    >>> from functools import partial
-    >>> def _add(a, b):
-    ...     return a + b
-    >>> with multiprocessing_pool() as pool:
-    ...     pool.map(partial(_add, b=2), range(10))
-    ... # doctest: +SKIP
-    [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-    """
-
-    from colour.algebra import get_sdiv_mode, is_spow_enabled  # noqa: PLC0415
-    from colour.utilities import get_domain_range_scale  # noqa: PLC0415
-
-    class _DummyPool:
-        """
-        A dummy multiprocessing pool that does not perform multiprocessing.
-
-        Other Parameters
-        ----------------
-        args
-            Arguments.
-        kwargs
-            Keywords arguments.
-        """
-
-        def __init__(self, *args: Any, **kwargs: Any) -> None:
-            pass
-
-        def map(
-            self,
-            func: Callable,
-            iterable: Sequence,
-            chunksize: int | None = None,  # noqa: ARG002
-        ) -> list[Any]:
-            """Apply specified function to each element of the specified iterable."""
-
-            return [func(a) for a in iterable]
-
-        def terminate(self) -> None:
-            """Terminate the process."""
-
-    kwargs["initializer"] = _initializer
-    kwargs["initargs"] = (
-        {
-            "scale": get_domain_range_scale(),
-            "sdiv_mode": get_sdiv_mode(),
-            "spow_enabled": is_spow_enabled(),
-        },
-    )
-
-    pool_factory: Callable
-    if _MULTIPROCESSING_ENABLED:
-        import multiprocessing  # noqa: PLC0415
-
-        pool_factory = multiprocessing.Pool
-    else:
-        pool_factory = _DummyPool
-
-    pool = pool_factory(*args, **kwargs)
-
-    try:
-        yield pool
-    finally:
-        pool.terminate()
-
-
 def is_iterable(a: Any) -> bool:
     """
     Determine whether the specified variable :math:`a` is iterable.
@@ -781,12 +631,16 @@ def is_integer(a: Any) -> bool:
     Examples
     --------
     >>> is_integer(1)
-    np.True_
+    True
     >>> is_integer(1.01)
-    np.False_
+    False
     """
 
-    return abs(a - np.around(a)) <= THRESHOLD_INTEGER
+    try:
+        a_float = float(a)
+        return abs(a_float - round(a_float)) <= THRESHOLD_INTEGER
+    except (OverflowError, ValueError, TypeError):
+        return False
 
 
 def is_sibling(element: Any, mapping: Mapping) -> bool:

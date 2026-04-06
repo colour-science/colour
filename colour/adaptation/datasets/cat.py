@@ -276,7 +276,7 @@ References
 :cite:`Nayatani1995a`
 """
 
-CAT_XYZ_SCALING: NDArrayFloat = np.reshape(np.array(np.identity(3)), (3, 3))
+CAT_XYZ_SCALING: NDArrayFloat = np.reshape(np.array(np.eye(3)), (3, 3))
 """
 *XYZ Scaling* chromatic adaptation transform.
 

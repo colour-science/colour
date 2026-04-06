@@ -22,8 +22,6 @@ References
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.algebra import sdiv, sdiv_mode
 from colour.hints import (  # noqa: TC001
     ArrayLike,
@@ -31,7 +29,16 @@ from colour.hints import (  # noqa: TC001
     NDArrayFloat,
     Range1,
 )
-from colour.utilities import as_float_array, from_range_1, to_domain_1, tsplit, tstack
+from colour.utilities import (
+    array_namespace,
+    as_float_array,
+    from_range_1,
+    to_domain_1,
+    tsplit,
+    tstack,
+    xp_as_float_array,
+    xp_resize,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -85,6 +92,7 @@ def XYZ_to_xyY(XYZ: Domain1) -> Range1:
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_xyY(XYZ)  # doctest: +ELLIPSIS
     array([0.5436955..., 0.3210794..., 0.1219722...])
@@ -138,6 +146,7 @@ def xyY_to_XYZ(xyY: Domain1) -> Range1:
 
     Examples
     --------
+    >>> import numpy as np
     >>> xyY = np.array([0.54369557, 0.32107944, 0.12197225])
     >>> xyY_to_XYZ(xyY)  # doctest: +ELLIPSIS
     array([0.2065400..., 0.1219722..., 0.0513695...])
@@ -190,6 +199,7 @@ def xyY_to_xy(xyY: Domain1) -> NDArrayFloat:
 
     Examples
     --------
+    >>> import numpy as np
     >>> xyY = np.array([0.54369557, 0.32107944, 0.12197225])
     >>> xyY_to_xy(xyY)  # doctest: +ELLIPSIS
     array([0.54369557..., 0.32107944...])
@@ -260,6 +270,7 @@ def xy_to_xyY(xy: ArrayLike, Y: Domain1 = 1) -> Range1:
 
     Examples
     --------
+    >>> import numpy as np
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_to_xyY(xy)  # doctest: +ELLIPSIS
     array([0.5436955..., 0.3210794..., 1.        ])
@@ -279,11 +290,14 @@ def xy_to_xyY(xy: ArrayLike, Y: Domain1 = 1) -> Range1:
     if xy.shape[-1] == 3:
         return xy
 
+    xp = array_namespace(xy, Y)
+
     x, y = tsplit(xy)
+    Y = xp_as_float_array(Y, xp=xp, like=x)
 
-    xyY = tstack([x, y, np.resize(Y, x.shape)])
+    xyY = tstack([x, y, xp_resize(Y, x.shape, xp=xp)])
 
-    return from_range_1(xyY, np.array([1, 1, 100]))
+    return from_range_1(xyY, [1, 1, 100])
 
 
 def XYZ_to_xy(XYZ: Domain1) -> NDArrayFloat:
@@ -315,6 +329,7 @@ def XYZ_to_xy(XYZ: Domain1) -> NDArrayFloat:
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_xy(XYZ)  # doctest: +ELLIPSIS
     array([0.5436955..., 0.3210794...])
@@ -357,6 +372,7 @@ def xy_to_XYZ(xy: ArrayLike) -> Range1:
 
     Examples
     --------
+    >>> import numpy as np
     >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_to_XYZ(xy)  # doctest: +ELLIPSIS
     array([1.6933366..., 1.        , 0.4211574...])

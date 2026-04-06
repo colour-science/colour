@@ -46,8 +46,6 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.algebra import (
     Extrapolator,
     LinearInterpolator,
@@ -67,8 +65,11 @@ if typing.TYPE_CHECKING:
 from colour.utilities import (
     CACHE_REGISTRY,
     CanonicalMapping,
+    array_namespace,
     as_float,
+    domain_range_scale,
     from_range_10,
+    is_caching_enabled,
     to_domain_100,
     validate_method,
 )
@@ -110,22 +111,26 @@ def _munsell_value_ASTMD1535_interpolator() -> Extrapolator:
 
     global _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR  # noqa: PLW0602
 
-    if "ASTM D1535-08 Interpolator" in (
-        _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR
-    ):
-        return _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR[
-            "ASTM D1535-08 Interpolator"
-        ]
+    key = "ASTM D1535-08 Interpolator"
 
-    munsell_values = np.arange(0, 10, 0.001)
-    interpolator = LinearInterpolator(
-        luminance_ASTMD1535(munsell_values), munsell_values
-    )
+    if is_caching_enabled() and key in _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR:
+        return _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR[key]
+
+    xp = array_namespace()
+
+    munsell_values = xp.arange(0, 10, 0.001)
+    # The interpolator maps reference-scale luminance to reference-scale
+    # *Munsell* values, the caller applying the domain-range scaling; it is
+    # therefore built with the scale ignored so that a single cached
+    # interpolator is valid under every scale.
+    with domain_range_scale("ignore"):
+        interpolator = LinearInterpolator(
+            luminance_ASTMD1535(munsell_values), munsell_values
+        )
     extrapolator = Extrapolator(interpolator)
 
-    _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR["ASTM D1535-08 Interpolator"] = (
-        extrapolator
-    )
+    if is_caching_enabled():
+        _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR[key] = extrapolator
 
     return extrapolator
 
@@ -173,7 +178,9 @@ def munsell_value_Priest1920(
 
     Y = to_domain_100(Y)
 
-    V = 10 * np.sqrt(Y / 100)
+    xp = array_namespace(Y)
+
+    V = 10 * xp.sqrt(Y / 100)
 
     return as_float(from_range_10(V))
 
@@ -221,7 +228,9 @@ def munsell_value_Munsell1933(
 
     Y = to_domain_100(Y)
 
-    V = np.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
+    xp = array_namespace(Y)
+
+    V = xp.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
 
     return as_float(from_range_10(V))
 
@@ -409,17 +418,19 @@ def munsell_value_McCamy1987(
 
     Y = to_domain_100(Y)
 
+    xp = array_namespace(Y)
+
     with sdiv_mode():
-        V = np.where(
+        V = xp.where(
             Y <= 0.9,
             0.87445 * spow(Y, 0.9967),
             2.49268 * spow(Y, 1 / 3)
             - 1.5614
             - (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54))
             + sdiv(0.0133, spow(Y, 2.3))
-            + 0.0084 * np.sin(4.1 * spow(Y, 1 / 3) + 1)
-            + sdiv(0.0221, Y) * np.sin(0.39 * (Y - 2))
-            - (sdiv(0.0037, 0.44 * Y)) * np.sin(1.28 * (Y - 0.53)),
+            + 0.0084 * xp.sin(4.1 * spow(Y, 1 / 3) + 1)
+            + sdiv(0.0221, Y) * xp.sin(0.39 * (Y - 2))
+            - (sdiv(0.0037, 0.44 * Y)) * xp.sin(1.28 * (Y - 0.53)),
         )
 
     return as_float(from_range_10(V))

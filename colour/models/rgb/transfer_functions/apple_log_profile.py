@@ -22,13 +22,19 @@ apple/IDT.Apple.AppleLog_BT2020.ctl
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
+from colour.utilities import (
+    Structure,
+    array_namespace,
+    as_float,
+    from_range_1,
+    optional,
+    to_domain_1,
+    xp_select,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -104,6 +110,9 @@ def log_encoding_AppleLogProfile(
     """
 
     R = to_domain_1(R)
+
+    xp = array_namespace(R)
+
     constants = optional(constants, CONSTANTS_APPLE_LOG_PROFILE)
 
     R_0 = constants.R_0
@@ -113,17 +122,18 @@ def log_encoding_AppleLogProfile(
     gamma = constants.gamma
     delta = constants.delta
 
-    P = np.select(
+    P = xp_select(
         [
             R >= R_t,  # noqa: SIM300
-            np.logical_and(R_0 <= R, R < R_t),  # noqa: SIM300
+            xp.logical_and(R_0 <= R, R < R_t),  # noqa: SIM300
             R < R_0,
         ],
         [
-            gamma * np.log2(R + beta) + delta,
+            gamma * xp.log2(R + beta) + delta,
             sigma * (R - R_0) ** 2,
             0,
         ],
+        xp=xp,
     )
 
     return as_float(from_range_1(P))
@@ -178,6 +188,9 @@ def log_decoding_AppleLogProfile(
     """
 
     P = to_domain_1(P)
+
+    xp = array_namespace(P)
+
     constants = optional(constants, CONSTANTS_APPLE_LOG_PROFILE)
 
     R_0 = constants.R_0
@@ -189,17 +202,18 @@ def log_decoding_AppleLogProfile(
 
     P_t = sigma * (R_t - R_0) ** 2
 
-    R = np.select(
+    R = xp_select(
         [
             P >= P_t,  # noqa: SIM300
-            np.logical_and(0 <= P, P < P_t),  # noqa: SIM300
+            xp.logical_and(0 <= P, P < P_t),  # noqa: SIM300
             P < 0,
         ],
         [
             2 ** ((P - delta) / gamma) - beta,
-            np.sqrt(P / sigma) + R_0,
+            xp.sqrt(P / sigma) + R_0,
             R_0,
         ],
+        xp=xp,
     )
 
     return as_float(from_range_1(R))

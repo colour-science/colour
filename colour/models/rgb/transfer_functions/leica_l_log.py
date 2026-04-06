@@ -16,15 +16,20 @@ pm-65976-210914__L-Log_Reference_Manual_EN.pdf
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.algebra import spow
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
-from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
+from colour.utilities import (
+    Structure,
+    array_namespace,
+    as_float,
+    from_range_1,
+    optional,
+    to_domain_1,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -106,6 +111,9 @@ def log_encoding_LLog(
     """
 
     LSR = to_domain_1(LSR)
+
+    xp = array_namespace(LSR)
+
     constants = optional(constants, CONSTANTS_LLOG)
 
     if not in_reflection:
@@ -119,10 +127,10 @@ def log_encoding_LLog(
     e = constants.e
     f = constants.f
 
-    LLog = np.where(
+    LLog = xp.where(
         cut1 >= LSR,
         a * LSR + b,
-        c * np.log10(d * LSR + e) + f,
+        c * xp.log10(d * LSR + e) + f,
     )
 
     LLog_cv = LLog if out_normalised_code_value else legal_to_full(LLog, bit_depth)
@@ -185,6 +193,9 @@ def log_decoding_LLog(
     """
 
     LLog = to_domain_1(LLog)
+
+    xp = array_namespace(LLog)
+
     constants = optional(constants, CONSTANTS_LLOG)
 
     LLog = LLog if in_normalised_code_value else full_to_legal(LLog, bit_depth)
@@ -197,7 +208,7 @@ def log_decoding_LLog(
     e = constants.e
     f = constants.f
 
-    LSR = np.where(
+    LSR = xp.where(
         LLog <= cut2,
         (LLog - b) / a,
         (spow(10, (LLog - f) / c) - e) / d,

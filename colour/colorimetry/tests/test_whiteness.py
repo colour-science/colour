@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 from itertools import product
 
 import numpy as np
@@ -16,7 +21,14 @@ from colour.colorimetry import (
 )
 from colour.colorimetry.whiteness import whiteness
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    domain_range_scale,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -42,77 +54,81 @@ class TestWhitenessBerger1959:
     definition unit tests methods.
     """
 
-    def test_whiteness_Berger1959(self) -> None:
+    def test_whiteness_Berger1959(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
         definition.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             whiteness_Berger1959(
-                np.array([95.00000000, 100.00000000, 105.00000000]),
-                np.array([94.80966767, 100.00000000, 107.30513595]),
+                xp_as_array([95.00000000, 100.00000000, 105.00000000], xp=xp),
+                xp_as_array([94.80966767, 100.00000000, 107.30513595], xp=xp),
             ),
             30.36380179,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             whiteness_Berger1959(
-                np.array([105.00000000, 100.00000000, 95.00000000]),
-                np.array([94.80966767, 100.00000000, 107.30513595]),
+                xp_as_array([105.00000000, 100.00000000, 95.00000000], xp=xp),
+                xp_as_array([94.80966767, 100.00000000, 107.30513595], xp=xp),
             ),
             5.530469280673941,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             whiteness_Berger1959(
-                np.array([100.00000000, 100.00000000, 100.00000000]),
-                np.array([100.00000000, 100.00000000, 100.00000000]),
+                xp_as_array([100.00000000, 100.00000000, 100.00000000], xp=xp),
+                xp_as_array([100.00000000, 100.00000000, 100.00000000], xp=xp),
             ),
             33.300000000000011,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_whiteness_Berger1959(self) -> None:
+    def test_n_dimensional_whiteness_Berger1959(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
         definition n_dimensional arrays support.
         """
 
-        XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
-        XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
-        W = whiteness_Berger1959(XYZ, XYZ_0)
+        XYZ = xp_as_array([95.00000000, 100.00000000, 105.00000000], xp=xp)
+        XYZ_0 = xp_as_array([94.80966767, 100.00000000, 107.30513595], xp=xp)
+        W = as_ndarray(whiteness_Berger1959(XYZ, XYZ_0))
 
-        XYZ = np.tile(XYZ, (6, 1))
-        XYZ_0 = np.tile(XYZ_0, (6, 1))
-        W = np.tile(W, 6)
-        np.testing.assert_allclose(
-            whiteness_Berger1959(XYZ, XYZ_0), W, atol=TOLERANCE_ABSOLUTE_TESTS
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        XYZ_0 = xp.tile(xp_as_array(XYZ_0, xp=xp), (6, 1))
+        W = xp.tile(xp_as_array(W, xp=xp), (6,))
+        xp_assert_close(
+            whiteness_Berger1959(XYZ, XYZ_0),
+            W,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        XYZ_0 = np.reshape(XYZ_0, (2, 3, 3))
-        W = np.reshape(W, (2, 3))
-        np.testing.assert_allclose(
-            whiteness_Berger1959(XYZ, XYZ_0), W, atol=TOLERANCE_ABSOLUTE_TESTS
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        XYZ_0 = xp_reshape(xp_as_array(XYZ_0, xp=xp), (2, 3, 3), xp=xp)
+        W = xp_reshape(xp_as_array(W, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
+            whiteness_Berger1959(XYZ, XYZ_0),
+            W,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_whiteness_Berger1959(self) -> None:
+    def test_domain_range_scale_whiteness_Berger1959(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
         definition domain and range scale support.
         """
 
-        XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
-        XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
-        W = whiteness_Berger1959(XYZ, XYZ_0)
+        XYZ = xp_as_array([95.00000000, 100.00000000, 105.00000000], xp=xp)
+        XYZ_0 = xp_as_array([94.80966767, 100.00000000, 107.30513595], xp=xp)
+        W = as_ndarray(whiteness_Berger1959(XYZ, XYZ_0))
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     whiteness_Berger1959(XYZ * factor, XYZ_0 * factor),
                     W * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -136,77 +152,81 @@ class TestWhitenessTaube1960:
     definition unit tests methods.
     """
 
-    def test_whiteness_Taube1960(self) -> None:
+    def test_whiteness_Taube1960(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_Taube1960`
         definition.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             whiteness_Taube1960(
-                np.array([95.00000000, 100.00000000, 105.00000000]),
-                np.array([94.80966767, 100.00000000, 107.30513595]),
+                xp_as_array([95.00000000, 100.00000000, 105.00000000], xp=xp),
+                xp_as_array([94.80966767, 100.00000000, 107.30513595], xp=xp),
             ),
             91.407173833416152,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             whiteness_Taube1960(
-                np.array([105.00000000, 100.00000000, 95.00000000]),
-                np.array([94.80966767, 100.00000000, 107.30513595]),
+                xp_as_array([105.00000000, 100.00000000, 95.00000000], xp=xp),
+                xp_as_array([94.80966767, 100.00000000, 107.30513595], xp=xp),
             ),
             54.130300134995593,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             whiteness_Taube1960(
-                np.array([100.00000000, 100.00000000, 100.00000000]),
-                np.array([100.00000000, 100.00000000, 100.00000000]),
+                xp_as_array([100.00000000, 100.00000000, 100.00000000], xp=xp),
+                xp_as_array([100.00000000, 100.00000000, 100.00000000], xp=xp),
             ),
             100.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_whiteness_Taube1960(self) -> None:
+    def test_n_dimensional_whiteness_Taube1960(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_Taube1960`
         definition n_dimensional arrays support.
         """
 
-        XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
-        XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
-        WI = whiteness_Taube1960(XYZ, XYZ_0)
+        XYZ = xp_as_array([95.00000000, 100.00000000, 105.00000000], xp=xp)
+        XYZ_0 = xp_as_array([94.80966767, 100.00000000, 107.30513595], xp=xp)
+        WI = as_ndarray(whiteness_Taube1960(XYZ, XYZ_0))
 
-        XYZ = np.tile(XYZ, (6, 1))
-        XYZ_0 = np.tile(XYZ_0, (6, 1))
-        WI = np.tile(WI, 6)
-        np.testing.assert_allclose(
-            whiteness_Taube1960(XYZ, XYZ_0), WI, atol=TOLERANCE_ABSOLUTE_TESTS
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        XYZ_0 = xp.tile(xp_as_array(XYZ_0, xp=xp), (6, 1))
+        WI = xp.tile(xp_as_array(WI, xp=xp), (6,))
+        xp_assert_close(
+            whiteness_Taube1960(XYZ, XYZ_0),
+            WI,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        XYZ_0 = np.reshape(XYZ_0, (2, 3, 3))
-        WI = np.reshape(WI, (2, 3))
-        np.testing.assert_allclose(
-            whiteness_Taube1960(XYZ, XYZ_0), WI, atol=TOLERANCE_ABSOLUTE_TESTS
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        XYZ_0 = xp_reshape(xp_as_array(XYZ_0, xp=xp), (2, 3, 3), xp=xp)
+        WI = xp_reshape(xp_as_array(WI, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
+            whiteness_Taube1960(XYZ, XYZ_0),
+            WI,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_whiteness_Taube1960(self) -> None:
+    def test_domain_range_scale_whiteness_Taube1960(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_Taube1960`
         definition domain and range scale support.
         """
 
-        XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
-        XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
-        WI = whiteness_Taube1960(XYZ, XYZ_0)
+        XYZ = xp_as_array([95.00000000, 100.00000000, 105.00000000], xp=xp)
+        XYZ_0 = xp_as_array([94.80966767, 100.00000000, 107.30513595], xp=xp)
+        WI = as_ndarray(whiteness_Taube1960(XYZ, XYZ_0))
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     whiteness_Taube1960(XYZ * factor, XYZ_0 * factor),
                     WI * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -230,64 +250,72 @@ class TestWhitenessStensby1968:
     definition unit tests methods.
     """
 
-    def test_whiteness_Stensby1968(self) -> None:
+    def test_whiteness_Stensby1968(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_Stensby1968`
         definition.
         """
 
-        np.testing.assert_allclose(
-            whiteness_Stensby1968(np.array([100.00000000, -2.46875131, -16.72486654])),
+        xp_assert_close(
+            whiteness_Stensby1968(
+                xp_as_array([100.00000000, -2.46875131, -16.72486654], xp=xp)
+            ),
             142.76834569,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            whiteness_Stensby1968(np.array([100.00000000, 14.40943727, -9.61394885])),
+        xp_assert_close(
+            whiteness_Stensby1968(
+                xp_as_array([100.00000000, 14.40943727, -9.61394885], xp=xp)
+            ),
             172.07015836,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            whiteness_Stensby1968(np.array([1, 1, 1])),
+        xp_assert_close(
+            whiteness_Stensby1968(xp_as_array([1, 1, 1], xp=xp)),
             1.00000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_whiteness_Stensby1968(self) -> None:
+    def test_n_dimensional_whiteness_Stensby1968(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_Stensby1968`
         definition n_dimensional arrays support.
         """
 
-        Lab = np.array([100.00000000, -2.46875131, -16.72486654])
-        WI = whiteness_Stensby1968(Lab)
+        Lab = xp_as_array([100.00000000, -2.46875131, -16.72486654], xp=xp)
+        WI = as_ndarray(whiteness_Stensby1968(Lab))
 
-        Lab = np.tile(Lab, (6, 1))
-        WI = np.tile(WI, 6)
-        np.testing.assert_allclose(
-            whiteness_Stensby1968(Lab), WI, atol=TOLERANCE_ABSOLUTE_TESTS
+        Lab = xp.tile(xp_as_array(Lab, xp=xp), (6, 1))
+        WI = xp.tile(xp_as_array(WI, xp=xp), (6,))
+        xp_assert_close(
+            whiteness_Stensby1968(Lab),
+            WI,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        Lab = np.reshape(Lab, (2, 3, 3))
-        WI = np.reshape(WI, (2, 3))
-        np.testing.assert_allclose(
-            whiteness_Stensby1968(Lab), WI, atol=TOLERANCE_ABSOLUTE_TESTS
+        Lab = xp_reshape(xp_as_array(Lab, xp=xp), (2, 3, 3), xp=xp)
+        WI = xp_reshape(xp_as_array(WI, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
+            whiteness_Stensby1968(Lab),
+            WI,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_whiteness_Stensby1968(self) -> None:
+    def test_domain_range_scale_whiteness_Stensby1968(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_Stensby1968`
         definition domain and range scale support.
         """
 
-        Lab = np.array([100.00000000, -2.46875131, -16.72486654])
-        WI = whiteness_Stensby1968(Lab)
+        Lab = xp_as_array([100.00000000, -2.46875131, -16.72486654], xp=xp)
+        WI = as_ndarray(whiteness_Stensby1968(Lab))
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     whiteness_Stensby1968(Lab * factor),
                     WI * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -311,64 +339,74 @@ class TestWhitenessASTM313:
     definition unit tests methods.
     """
 
-    def test_whiteness_ASTME313(self) -> None:
+    def test_whiteness_ASTME313(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
         definition.
         """
 
-        np.testing.assert_allclose(
-            whiteness_ASTME313(np.array([95.00000000, 100.00000000, 105.00000000])),
+        xp_assert_close(
+            whiteness_ASTME313(
+                xp_as_array([95.00000000, 100.00000000, 105.00000000], xp=xp)
+            ),
             55.740000000000009,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            whiteness_ASTME313(np.array([105.00000000, 100.00000000, 95.00000000])),
+        xp_assert_close(
+            whiteness_ASTME313(
+                xp_as_array([105.00000000, 100.00000000, 95.00000000], xp=xp)
+            ),
             21.860000000000014,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            whiteness_ASTME313(np.array([100.00000000, 100.00000000, 100.00000000])),
+        xp_assert_close(
+            whiteness_ASTME313(
+                xp_as_array([100.00000000, 100.00000000, 100.00000000], xp=xp)
+            ),
             38.800000000000011,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_whiteness_ASTME313(self) -> None:
+    def test_n_dimensional_whiteness_ASTME313(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
         definition n_dimensional arrays support.
         """
 
-        XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
-        WI = whiteness_ASTME313(XYZ)
+        XYZ = xp_as_array([95.00000000, 100.00000000, 105.00000000], xp=xp)
+        WI = as_ndarray(whiteness_ASTME313(XYZ))
 
-        XYZ = np.tile(XYZ, (6, 1))
-        WI = np.tile(WI, 6)
-        np.testing.assert_allclose(
-            whiteness_ASTME313(XYZ), WI, atol=TOLERANCE_ABSOLUTE_TESTS
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        WI = xp.tile(xp_as_array(WI, xp=xp), (6,))
+        xp_assert_close(
+            whiteness_ASTME313(XYZ),
+            WI,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        WI = np.reshape(WI, (2, 3))
-        np.testing.assert_allclose(
-            whiteness_ASTME313(XYZ), WI, atol=TOLERANCE_ABSOLUTE_TESTS
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        WI = xp_reshape(xp_as_array(WI, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
+            whiteness_ASTME313(XYZ),
+            WI,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_whiteness_ASTME313(self) -> None:
+    def test_domain_range_scale_whiteness_ASTME313(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
         definition domain and range scale support.
         """
 
-        XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
-        WI = whiteness_ASTME313(XYZ)
+        XYZ = xp_as_array([95.00000000, 100.00000000, 105.00000000], xp=xp)
+        WI = as_ndarray(whiteness_ASTME313(XYZ))
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     whiteness_ASTME313(XYZ * factor),
                     WI * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -392,72 +430,78 @@ class TestWhitenessGanz1979:
     definition unit tests methods.
     """
 
-    def test_whiteness_Ganz1979(self) -> None:
+    def test_whiteness_Ganz1979(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
         definition.
         """
 
-        np.testing.assert_allclose(
-            whiteness_Ganz1979(np.array([0.3139, 0.3311]), 100),
-            np.array([99.33176520, 1.76108290]),
+        xp_assert_close(
+            whiteness_Ganz1979(xp_as_array([0.3139, 0.3311], xp=xp), 100),
+            [99.33176520, 1.76108290],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            whiteness_Ganz1979(np.array([0.3500, 0.3334]), 100),
-            np.array([23.38525400, -32.66182560]),
+        xp_assert_close(
+            whiteness_Ganz1979(xp_as_array([0.3500, 0.3334], xp=xp), 100),
+            [23.38525400, -32.66182560],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            whiteness_Ganz1979(np.array([0.3334, 0.3334]), 100),
-            np.array([54.39939920, -16.04152380]),
+        xp_assert_close(
+            whiteness_Ganz1979(xp_as_array([0.3334, 0.3334], xp=xp), 100),
+            [54.39939920, -16.04152380],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_whiteness_Ganz1979(self) -> None:
+    def test_n_dimensional_whiteness_Ganz1979(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
         definition n_dimensional arrays support.
         """
 
-        xy = np.array([0.3167, 0.3334])
+        xy = xp_as_array([0.3167, 0.3334], xp=xp)
         Y = 100
-        WT = whiteness_Ganz1979(xy, Y)
+        WT = as_ndarray(whiteness_Ganz1979(xy, Y))
 
-        xy = np.tile(xy, (6, 1))
-        WT = np.tile(WT, (6, 1))
-        np.testing.assert_allclose(
-            whiteness_Ganz1979(xy, Y), WT, atol=TOLERANCE_ABSOLUTE_TESTS
+        xy = xp.tile(xp_as_array(xy, xp=xp), (6, 1))
+        WT = xp.tile(xp_as_array(WT, xp=xp), (6, 1))
+        xp_assert_close(
+            whiteness_Ganz1979(xy, Y),
+            WT,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        Y = np.tile(Y, 6)
-        np.testing.assert_allclose(
-            whiteness_Ganz1979(xy, Y), WT, atol=TOLERANCE_ABSOLUTE_TESTS
+        Y = xp.tile(xp_as_array(Y, xp=xp), (6,))
+        xp_assert_close(
+            whiteness_Ganz1979(xy, Y),
+            WT,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        xy = np.reshape(xy, (2, 3, 2))
-        Y = np.reshape(Y, (2, 3))
-        WT = np.reshape(WT, (2, 3, 2))
-        np.testing.assert_allclose(
-            whiteness_Ganz1979(xy, Y), WT, atol=TOLERANCE_ABSOLUTE_TESTS
+        xy = xp_reshape(xp_as_array(xy, xp=xp), (2, 3, 2), xp=xp)
+        Y = xp_reshape(xp_as_array(Y, xp=xp), (2, 3), xp=xp)
+        WT = xp_reshape(xp_as_array(WT, xp=xp), (2, 3, 2), xp=xp)
+        xp_assert_close(
+            whiteness_Ganz1979(xy, Y),
+            WT,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_whiteness_Ganz1979(self) -> None:
+    def test_domain_range_scale_whiteness_Ganz1979(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
         definition domain and range scale support.
         """
 
-        xy = np.array([0.3167, 0.3334])
+        xy = xp_as_array([0.3167, 0.3334], xp=xp)
         Y = 100
-        WT = whiteness_Ganz1979(xy, Y)
+        WT = as_ndarray(whiteness_Ganz1979(xy, Y))
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     whiteness_Ganz1979(xy, Y * factor),
                     WT * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -481,82 +525,94 @@ class TestWhitenessCIE2004:
     definition unit tests methods.
     """
 
-    def test_whiteness_CIE2004(self) -> None:
+    def test_whiteness_CIE2004(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_CIE2004`
         definition.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             whiteness_CIE2004(
-                np.array([0.3139, 0.3311]), 100, np.array([0.3139, 0.3311])
+                xp_as_array([0.3139, 0.3311], xp=xp),
+                100,
+                xp_as_array([0.3139, 0.3311], xp=xp),
             ),
-            np.array([100.00000000, 0.00000000]),
+            [100.00000000, 0.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             whiteness_CIE2004(
-                np.array([0.3500, 0.3334]), 100, np.array([0.3139, 0.3311])
+                xp_as_array([0.3500, 0.3334], xp=xp),
+                100,
+                xp_as_array([0.3139, 0.3311], xp=xp),
             ),
-            np.array([67.21000000, -34.60500000]),
+            [67.21000000, -34.60500000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             whiteness_CIE2004(
-                np.array([0.3334, 0.3334]), 100, np.array([0.3139, 0.3311])
+                xp_as_array([0.3334, 0.3334], xp=xp),
+                100,
+                xp_as_array([0.3139, 0.3311], xp=xp),
             ),
-            np.array([80.49000000, -18.00500000]),
+            [80.49000000, -18.00500000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_whiteness_CIE2004(self) -> None:
+    def test_n_dimensional_whiteness_CIE2004(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_CIE2004`
         definition n_dimensional arrays support.
         """
 
-        xy = np.array([0.3167, 0.3334])
+        xy = xp_as_array([0.3167, 0.3334], xp=xp)
         Y = 100
-        xy_n = np.array([0.3139, 0.3311])
-        WT = whiteness_CIE2004(xy, Y, xy_n)
+        xy_n = xp_as_array([0.3139, 0.3311], xp=xp)
+        WT = as_ndarray(whiteness_CIE2004(xy, Y, xy_n))
 
-        xy = np.tile(xy, (6, 1))
-        WT = np.tile(WT, (6, 1))
-        np.testing.assert_allclose(
-            whiteness_CIE2004(xy, Y, xy_n), WT, atol=TOLERANCE_ABSOLUTE_TESTS
+        xy = xp.tile(xp_as_array(xy, xp=xp), (6, 1))
+        WT = xp.tile(xp_as_array(WT, xp=xp), (6, 1))
+        xp_assert_close(
+            whiteness_CIE2004(xy, Y, xy_n),
+            WT,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        Y = np.tile(Y, 6)
-        xy_n = np.tile(xy_n, (6, 1))
-        np.testing.assert_allclose(
-            whiteness_CIE2004(xy, Y, xy_n), WT, atol=TOLERANCE_ABSOLUTE_TESTS
+        Y = xp.tile(xp_as_array(Y, xp=xp), (6,))
+        xy_n = xp.tile(xp_as_array(xy_n, xp=xp), (6, 1))
+        xp_assert_close(
+            whiteness_CIE2004(xy, Y, xy_n),
+            WT,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        xy = np.reshape(xy, (2, 3, 2))
-        Y = np.reshape(Y, (2, 3))
-        xy_n = np.reshape(xy_n, (2, 3, 2))
-        WT = np.reshape(WT, (2, 3, 2))
-        np.testing.assert_allclose(
-            whiteness_CIE2004(xy, Y, xy_n), WT, atol=TOLERANCE_ABSOLUTE_TESTS
+        xy = xp_reshape(xp_as_array(xy, xp=xp), (2, 3, 2), xp=xp)
+        Y = xp_reshape(xp_as_array(Y, xp=xp), (2, 3), xp=xp)
+        xy_n = xp_reshape(xp_as_array(xy_n, xp=xp), (2, 3, 2), xp=xp)
+        WT = xp_reshape(xp_as_array(WT, xp=xp), (2, 3, 2), xp=xp)
+        xp_assert_close(
+            whiteness_CIE2004(xy, Y, xy_n),
+            WT,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_whiteness_CIE2004(self) -> None:
+    def test_domain_range_scale_whiteness_CIE2004(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_CIE2004`
         definition domain and range scale support.
         """
 
-        xy = np.array([0.3167, 0.3334])
+        xy = xp_as_array([0.3167, 0.3334], xp=xp)
         Y = 100
-        xy_n = np.array([0.3139, 0.3311])
-        WT = whiteness_CIE2004(xy, Y, xy_n)
+        xy_n = xp_as_array([0.3139, 0.3311], xp=xp)
+        WT = as_ndarray(whiteness_CIE2004(xy, Y, xy_n))
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     whiteness_CIE2004(xy, Y * factor, xy_n),
                     WT * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -580,14 +636,14 @@ class TestWhiteness:
     tests methods.
     """
 
-    def test_whiteness(self) -> None:
+    def test_whiteness(self, xp: ModuleType) -> None:
         """Test :func:`colour.colorimetry.whiteness.whiteness` definition."""
 
         # NOTE: Sample ``Y`` is deliberately different from whitepoint ``Y`` to
         # ensure the dispatcher forwards the sample tristimulus ``Y`` to the
         # "Ganz 1979" and "CIE 2004" methods rather than the whitepoint one.
-        XYZ = np.array([95.00000000, 80.00000000, 105.00000000])
-        XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
+        XYZ = xp_as_array([95.00000000, 80.00000000, 105.00000000], xp=xp)
+        XYZ_0 = xp_as_array([94.80966767, 100.00000000, 107.30513595], xp=xp)
 
         expected = {
             "Berger 1959": 23.70380179,
@@ -599,20 +655,20 @@ class TestWhiteness:
         }
 
         for method, value in expected.items():
-            np.testing.assert_allclose(
+            xp_assert_close(
                 whiteness(XYZ, XYZ_0, method),
                 value,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-    def test_domain_range_scale_whiteness(self) -> None:
+    def test_domain_range_scale_whiteness(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness` definition domain
         and range scale support.
         """
 
-        XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
-        XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
+        XYZ = xp_as_array([95.00000000, 100.00000000, 105.00000000], xp=xp)
+        XYZ_0 = xp_as_array([94.80966767, 100.00000000, 107.30513595], xp=xp)
 
         m = (
             "Berger 1959",
@@ -622,13 +678,13 @@ class TestWhiteness:
             "Ganz 1979",
             "CIE 2004",
         )
-        v = [whiteness(XYZ, XYZ_0, method) for method in m]
+        v = [as_ndarray(whiteness(XYZ, XYZ_0, method)) for method in m]
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for method, value in zip(m, v, strict=True):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
-                    np.testing.assert_allclose(
+                    xp_assert_close(
                         whiteness(XYZ * factor, XYZ_0 * factor, method),
                         value * factor,
                         atol=TOLERANCE_ABSOLUTE_TESTS,

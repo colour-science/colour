@@ -3,6 +3,10 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.cineon` module.
 """
 
+from __future__ import annotations
+
+import typing
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -10,7 +14,17 @@ from colour.models.rgb.transfer_functions import (
     log_decoding_Cineon,
     log_encoding_Cineon,
 )
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    domain_range_scale,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -31,71 +45,65 @@ class TestLogEncoding_Cineon:
 log_encoding_Cineon` definition unit tests methods.
     """
 
-    def test_log_encoding_Cineon(self) -> None:
+    def test_log_encoding_Cineon(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.cineon.\
 log_encoding_Cineon` definition.
         """
 
-        np.testing.assert_allclose(
-            log_encoding_Cineon(0.0),
+        xp_assert_close(
+            log_encoding_Cineon(xp_as_array(0.0, xp=xp)),
             0.092864125122190,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_Cineon(0.18),
+        xp_assert_close(
+            log_encoding_Cineon(xp_as_array(0.18, xp=xp)),
             0.457319613085418,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_Cineon(1.0),
+        xp_assert_close(
+            log_encoding_Cineon(xp_as_array(1.0, xp=xp)),
             0.669599217986315,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_Cineon(self) -> None:
+    def test_n_dimensional_log_encoding_Cineon(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.cineon.\
 log_encoding_Cineon` definition n-dimensional arrays support.
         """
 
         x = 0.18
-        y = log_encoding_Cineon(x)
+        y = as_ndarray(log_encoding_Cineon(xp_as_array(x, xp=xp)))
 
-        x = np.tile(x, 6)
-        y = np.tile(y, 6)
-        np.testing.assert_allclose(
-            log_encoding_Cineon(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        x = xp.tile(xp_as_array(x, xp=xp), (6,))
+        y = xp.tile(xp_as_array(y, xp=xp), (6,))
+        xp_assert_close(log_encoding_Cineon(x), y, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        x = np.reshape(x, (2, 3))
-        y = np.reshape(y, (2, 3))
-        np.testing.assert_allclose(
-            log_encoding_Cineon(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        x = xp_reshape(xp_as_array(x, xp=xp), (2, 3), xp=xp)
+        y = xp_reshape(xp_as_array(y, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(log_encoding_Cineon(x), y, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        x = np.reshape(x, (2, 3, 1))
-        y = np.reshape(y, (2, 3, 1))
-        np.testing.assert_allclose(
-            log_encoding_Cineon(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        x = xp_reshape(xp_as_array(x, xp=xp), (2, 3, 1), xp=xp)
+        y = xp_reshape(xp_as_array(y, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(log_encoding_Cineon(x), y, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_log_encoding_Cineon(self) -> None:
+    def test_domain_range_scale_log_encoding_Cineon(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.cineon.\
 log_encoding_Cineon` definition domain and range scale support.
         """
 
         x = 0.18
-        y = log_encoding_Cineon(x)
+        y = as_ndarray(log_encoding_Cineon(xp_as_array(x, xp=xp)))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    log_encoding_Cineon(x * factor),
+                xp_assert_close(
+                    log_encoding_Cineon(xp_as_array(x * factor, xp=xp)),
                     y * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -116,71 +124,65 @@ class TestLogDecoding_Cineon:
 log_decoding_Cineon` definition unit tests methods.
     """
 
-    def test_log_decoding_Cineon(self) -> None:
+    def test_log_decoding_Cineon(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.cineon.\
 log_decoding_Cineon` definition.
         """
 
-        np.testing.assert_allclose(
-            log_decoding_Cineon(0.092864125122190),
+        xp_assert_close(
+            log_decoding_Cineon(xp_as_array(0.092864125122190, xp=xp)),
             0.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_Cineon(0.457319613085418),
+        xp_assert_close(
+            log_decoding_Cineon(xp_as_array(0.457319613085418, xp=xp)),
             0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_Cineon(0.669599217986315),
+        xp_assert_close(
+            log_decoding_Cineon(xp_as_array(0.669599217986315, xp=xp)),
             1.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_Cineon(self) -> None:
+    def test_n_dimensional_log_decoding_Cineon(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.cineon.\
 log_decoding_Cineon` definition n-dimensional arrays support.
         """
 
         y = 0.457319613085418
-        x = log_decoding_Cineon(y)
+        x = as_ndarray(log_decoding_Cineon(xp_as_array(y, xp=xp)))
 
-        y = np.tile(y, 6)
-        x = np.tile(x, 6)
-        np.testing.assert_allclose(
-            log_decoding_Cineon(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        y = xp.tile(xp_as_array(y, xp=xp), (6,))
+        x = xp.tile(xp_as_array(x, xp=xp), (6,))
+        xp_assert_close(log_decoding_Cineon(y), x, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        y = np.reshape(y, (2, 3))
-        x = np.reshape(x, (2, 3))
-        np.testing.assert_allclose(
-            log_decoding_Cineon(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        y = xp_reshape(xp_as_array(y, xp=xp), (2, 3), xp=xp)
+        x = xp_reshape(xp_as_array(x, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(log_decoding_Cineon(y), x, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        y = np.reshape(y, (2, 3, 1))
-        x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_allclose(
-            log_decoding_Cineon(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        y = xp_reshape(xp_as_array(y, xp=xp), (2, 3, 1), xp=xp)
+        x = xp_reshape(xp_as_array(x, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(log_decoding_Cineon(y), x, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_log_decoding_Cineon(self) -> None:
+    def test_domain_range_scale_log_decoding_Cineon(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.cineon.\
 log_decoding_Cineon` definition domain and range scale support.
         """
 
         y = 0.457319613085418
-        x = log_decoding_Cineon(y)
+        x = as_ndarray(log_decoding_Cineon(xp_as_array(y, xp=xp)))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    log_decoding_Cineon(y * factor),
+                xp_assert_close(
+                    log_decoding_Cineon(xp_as_array(y * factor, xp=xp)),
                     x * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
