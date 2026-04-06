@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 import numpy as np
 import pytest
 
@@ -15,7 +20,12 @@ from colour.colorimetry import (
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.recovery import XYZ_to_sd_Meng2015
-from colour.utilities import domain_range_scale, is_scipy_installed
+from colour.utilities import (
+    domain_range_scale,
+    is_scipy_installed,
+    xp_as_array,
+    xp_assert_close,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -45,14 +55,15 @@ class TestXYZ_to_sd_Meng2015:
         self._sd_D65 = reshape_sd(SDS_ILLUMINANTS["D65"], self._cmfs.shape)
         self._sd_E = reshape_sd(SDS_ILLUMINANTS["E"], self._cmfs.shape)
 
-    def test_XYZ_to_sd_Meng2015(self) -> None:
+    @pytest.mark.mps_xfail("MPS float32 singular matrix")
+    def test_XYZ_to_sd_Meng2015(self, xp: ModuleType) -> None:
         """Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition."""
 
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        np.testing.assert_allclose(
+        XYZ = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
+        xp_assert_close(
             sd_to_XYZ_integration(
                 XYZ_to_sd_Meng2015(XYZ, self._cmfs, self._sd_D65),
                 self._cmfs,
@@ -63,7 +74,7 @@ class TestXYZ_to_sd_Meng2015:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_integration(
                 XYZ_to_sd_Meng2015(XYZ, self._cmfs, self._sd_E),
                 self._cmfs,
@@ -74,7 +85,7 @@ class TestXYZ_to_sd_Meng2015:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_integration(
                 XYZ_to_sd_Meng2015(
                     XYZ,
@@ -96,7 +107,7 @@ class TestXYZ_to_sd_Meng2015:
 
         shape = SpectralShape(400, 700, 5)
         cmfs = reshape_msds(self._cmfs, shape)
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_integration(
                 XYZ_to_sd_Meng2015(XYZ, cmfs, self._sd_D65), cmfs, self._sd_D65
             )
@@ -114,16 +125,14 @@ class TestXYZ_to_sd_Meng2015:
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        pytest.raises(
-            RuntimeError,
-            XYZ_to_sd_Meng2015,
-            np.array([0.0, 0.0, 1.0]),
-            optimisation_kwargs={
-                "options": {"maxiter": 10},
-            },
-        )
+        with pytest.raises(RuntimeError):
+            XYZ_to_sd_Meng2015(
+                np.array([0.0, 0.0, 1.0]),
+                optimisation_kwargs={"options": {"maxiter": 10}},
+            )
 
-    def test_domain_range_scale_XYZ_to_sd_Meng2015(self) -> None:
+    @pytest.mark.mps_xfail("MPS float32 singular matrix")
+    def test_domain_range_scale_XYZ_to_sd_Meng2015(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition
         domain and range scale support.
@@ -132,7 +141,7 @@ class TestXYZ_to_sd_Meng2015:
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        XYZ_i = np.array([0.20654008, 0.12197225, 0.05136952])
+        XYZ_i = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
         XYZ_o = sd_to_XYZ_integration(
             XYZ_to_sd_Meng2015(XYZ_i, self._cmfs, self._sd_D65),
             self._cmfs,
@@ -142,9 +151,13 @@ class TestXYZ_to_sd_Meng2015:
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     sd_to_XYZ_integration(
-                        XYZ_to_sd_Meng2015(XYZ_i * factor_a, self._cmfs, self._sd_D65),
+                        XYZ_to_sd_Meng2015(
+                            XYZ_i * xp_as_array(factor_a, xp=xp),
+                            self._cmfs,
+                            self._sd_D65,
+                        ),
                         self._cmfs,
                         self._sd_D65,
                     ),

@@ -16,7 +16,7 @@ from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.difference import JND_CIE1976, delta_E_CIE1976
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Type
+    from colour.hints import Type, ModuleType
 
 from colour.models import RGB_COLOURSPACE_sRGB, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_xy
 from colour.recovery.jakob2019 import (
@@ -27,7 +27,16 @@ from colour.recovery.jakob2019 import (
     error_function,
     sd_Jakob2019,
 )
-from colour.utilities import domain_range_scale, full, is_scipy_installed, ones, zeros
+from colour.utilities import (
+    as_ndarray,
+    domain_range_scale,
+    full,
+    is_scipy_installed,
+    ones,
+    xp_as_array,
+    xp_assert_close,
+    zeros,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -97,11 +106,11 @@ class TestErrorFunction:
             )
 
             sd_XYZ = sd_to_XYZ(sd, self._cmfs, self._sd_D65) / 100
-            sd_Lab = XYZ_to_Lab(XYZ, self._xy_D65)
+            sd_Lab = as_ndarray(XYZ_to_Lab(XYZ, self._xy_D65))
             error_reference = delta_E_CIE1976(self._Lab_e, Lab)
 
-            np.testing.assert_allclose(sd.values, R, atol=TOLERANCE_ABSOLUTE_TESTS)
-            np.testing.assert_allclose(XYZ, sd_XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
+            xp_assert_close(sd.values, R, atol=TOLERANCE_ABSOLUTE_TESTS)
+            xp_assert_close(XYZ, sd_XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
             assert abs(error_reference - error) < JND_CIE1976 / 100
             assert delta_E_CIE1976(Lab, sd_Lab) < JND_CIE1976 / 100
@@ -136,8 +145,10 @@ class TestErrorFunction:
 
             # The approximated derivatives aren't too accurate, so tolerances
             # have to be rather loose.
-            np.testing.assert_allclose(
-                staggered_derrors, approximate_derrors, atol=5e-3
+            xp_assert_close(
+                staggered_derrors,
+                approximate_derrors,
+                atol=TOLERANCE_ABSOLUTE_TESTS * 50000,
             )
 
 
@@ -170,7 +181,8 @@ class TestXYZ_to_sd_Jakob2019:
             if error > JND_CIE1976 / 100:  # pragma: no cover
                 pytest.fail(f"Delta E for '{name}' is {error}!")
 
-    def test_domain_range_scale_XYZ_to_sd_Jakob2019(self) -> None:
+    @pytest.mark.mps_tolerance_absolute(1e-2)
+    def test_domain_range_scale_XYZ_to_sd_Jakob2019(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition
         domain and range scale support.
@@ -179,7 +191,7 @@ class TestXYZ_to_sd_Jakob2019:
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        XYZ_i = np.array([0.20654008, 0.12197225, 0.05136952])
+        XYZ_i = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
         XYZ_o = sd_to_XYZ(
             XYZ_to_sd_Jakob2019(XYZ_i, self._cmfs, self._sd_D65, additional_data=False),
             self._cmfs,
@@ -189,10 +201,10 @@ class TestXYZ_to_sd_Jakob2019:
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     sd_to_XYZ(
                         XYZ_to_sd_Jakob2019(
-                            XYZ_i * factor_a,
+                            XYZ_i * xp_as_array(factor_a, xp=xp),
                             self._cmfs,
                             self._sd_D65,
                             additional_data=False,
@@ -278,9 +290,9 @@ class TestLUT3D_Jakob2019:
         property.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             TestLUT3D_Jakob2019.generate_LUT().lightness_scale,
-            np.array([0.00000000, 0.06561279, 0.50000000, 0.93438721, 1.00000000]),
+            [0.00000000, 0.06561279, 0.50000000, 0.93438721, 1.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -324,15 +336,15 @@ class TestLUT3D_Jakob2019:
             LUT.write(path)
             LUT_t = LUT3D_Jakob2019().read(path)
 
-            np.testing.assert_allclose(
+            xp_assert_close(
                 LUT.lightness_scale,
                 LUT_t.lightness_scale,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
-            np.testing.assert_allclose(
+            xp_assert_close(
                 LUT.coefficients,
                 LUT_t.coefficients,
-                atol=1e-6,
+                atol=TOLERANCE_ABSOLUTE_TESTS * 10,
             )
         finally:
             shutil.rmtree(temporary_directory)
@@ -345,12 +357,12 @@ class TestLUT3D_Jakob2019:
             full(3, 0.5),
             ones(3),
         ]:
-            XYZ = RGB_to_XYZ(RGB, self._RGB_colourspace, self._xy_D65)
-            Lab = XYZ_to_Lab(XYZ, self._xy_D65)
+            XYZ = as_ndarray(RGB_to_XYZ(RGB, self._RGB_colourspace, self._xy_D65))
+            Lab = as_ndarray(XYZ_to_Lab(XYZ, self._xy_D65))
 
             recovered_sd = LUT.RGB_to_sd(RGB)
             recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
-            recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
+            recovered_Lab = as_ndarray(XYZ_to_Lab(recovered_XYZ, self._xy_D65))
 
             error = delta_E_CIE1976(Lab, recovered_Lab)
 
@@ -368,7 +380,37 @@ RGB_to_coefficients` method raised exception.
 
         LUT = LUT3D_Jakob2019()
 
-        pytest.raises(RuntimeError, LUT.RGB_to_coefficients, np.array([1, 2, 3, 4]))
+        with pytest.raises(RuntimeError):
+            LUT.RGB_to_coefficients(np.array([1, 2, 3, 4]))
+
+    def test_RGB_to_coefficients_out_of_range(self) -> None:
+        """
+        Test :func:`colour.recovery.jakob2019.LUT3D_Jakob2019.\
+RGB_to_coefficients` *NaN* fill for out-of-range *RGB* queries (negative
+        and wide-gamut values), matching
+        :class:`scipy.interpolate.RegularGridInterpolator` with
+        ``bounds_error=False`` and ``fill_value=np.nan``.
+        """
+
+        if not is_scipy_installed():  # pragma: no cover
+            return
+
+        LUT = TestLUT3D_Jakob2019.generate_LUT()
+
+        out_of_range_RGB = np.array(
+            [
+                [-0.1, 0.4, 0.5],  # negative dominant-channel candidate
+                [1.5, 0.2, 0.3],  # wide-gamut > 1 lightness
+                [0.4, -0.2, 0.6],  # negative non-dominant chroma
+            ]
+        )
+        coefficients = LUT.RGB_to_coefficients(out_of_range_RGB)
+
+        assert np.all(np.isnan(coefficients))
+
+        in_range_RGB = np.array([0.45623196, 0.03080455, 0.04093343])
+
+        assert not np.any(np.isnan(LUT.RGB_to_coefficients(in_range_RGB)))
 
     def test_raise_exception_read(self) -> None:
         """
@@ -377,4 +419,5 @@ RGB_to_coefficients` method raised exception.
         """
 
         LUT = LUT3D_Jakob2019()
-        pytest.raises(ValueError, LUT.read, __file__)
+        with pytest.raises(ValueError):
+            LUT.read(__file__)

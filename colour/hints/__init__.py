@@ -108,6 +108,9 @@ __all__ = [
     "ProtocolInterpolator",
     "ProtocolExtrapolator",
     "ProtocolLUTSequenceItem",
+    "ProtocolArrayNamespaceLinalg",
+    "ProtocolArrayNamespaceFft",
+    "ProtocolArrayNamespace",
     "LiteralWarning",
     "LiteralChromaticAdaptationTransform",
     "LiteralColourspaceModel",
@@ -201,6 +204,158 @@ class ProtocolExtrapolator(Protocol):  # noqa: D101  # pragma: no cover
 class ProtocolLUTSequenceItem(Protocol):  # noqa: D101  # pragma: no cover
     def apply(self, RGB: ArrayLike, **kwargs: Any) -> NDArray:  # noqa: D102
         ...  # pragma: no cover
+
+
+class ProtocolArrayNamespaceLinalg(Protocol):  # pragma: no cover
+    """Define the linear algebra extension of an *Array API* namespace."""
+
+    inv: Callable[..., NDArray]
+    lstsq: Callable[..., Any]
+    pinv: Callable[..., NDArray]
+    solve: Callable[..., NDArray]
+    vector_norm: Callable[..., Any]
+
+
+class ProtocolArrayNamespaceFft(Protocol):  # pragma: no cover
+    """Define the fast Fourier transform extension of an *Array API* namespace."""
+
+    fft: Callable[..., NDArray]
+    fft2: Callable[..., NDArray]
+    ifft2: Callable[..., NDArray]
+    irfft2: Callable[..., NDArray]
+    rfft2: Callable[..., NDArray]
+
+
+class ProtocolArrayNamespace(Protocol):  # pragma: no cover
+    """
+    Define the surface of an *Array API* namespace used by *Colour*.
+
+    Function members are typed as callables returning
+    :class:`numpy.ndarray` so that the array resulting from a namespace
+    call is typed as a concrete array rather than :class:`typing.Any`.
+    """
+
+    __name__: str
+
+    @property
+    def pi(self) -> float:
+        """Return the mathematical constant pi."""
+        ...
+
+    @property
+    def inf(self) -> float:
+        """Return the floating point representation of positive infinity."""
+        ...
+
+    @property
+    def linalg(self) -> ProtocolArrayNamespaceLinalg:
+        """Return the linear algebra extension."""
+        ...
+
+    @property
+    def fft(self) -> ProtocolArrayNamespaceFft:
+        """Return the fast Fourier transform extension."""
+        ...
+
+    float32: Any
+    float64: Any
+    int32: Any
+    int64: Any
+
+    abs: Callable[..., NDArray]
+    acos: Callable[..., NDArray]
+    all: Callable[..., Any]
+    any: Callable[..., Any]
+    arange: Callable[..., NDArray]
+    arctan: Callable[..., NDArray]
+    argmax: Callable[..., NDArray]
+    argmin: Callable[..., NDArray]
+    argsort: Callable[..., NDArray]
+    asarray: Callable[..., NDArray]
+    asin: Callable[..., NDArray]
+    astype: Callable[..., NDArray]
+    atan: Callable[..., NDArray]
+    atan2: Callable[..., NDArray]
+    bitwise_and: Callable[..., NDArray]
+    bitwise_right_shift: Callable[..., NDArray]
+    bitwise_xor: Callable[..., NDArray]
+    broadcast_arrays: Callable[..., Any]
+    broadcast_shapes: Callable[..., Any]
+    broadcast_to: Callable[..., NDArray]
+    clip: Callable[..., NDArray]
+    concat: Callable[..., NDArray]
+    cos: Callable[..., NDArray]
+    cumsum: Callable[..., NDArray]
+    cumulative_sum: Callable[..., NDArray]
+    diff: Callable[..., NDArray]
+    exp: Callable[..., NDArray]
+    expand_dims: Callable[..., NDArray]
+    expm1: Callable[..., NDArray]
+    eye: Callable[..., NDArray]
+    finfo: Callable[..., Any]
+    flip: Callable[..., NDArray]
+    floor: Callable[..., Any]
+    full: Callable[..., NDArray]
+    full_like: Callable[..., NDArray]
+    gradient: Callable[..., Any]
+    hypot: Callable[..., NDArray]
+    interp: Callable[..., NDArray]
+    isfinite: Callable[..., NDArray]
+    isin: Callable[..., NDArray]
+    isinf: Callable[..., NDArray]
+    isnan: Callable[..., NDArray]
+    linspace: Callable[..., NDArray]
+    log: Callable[..., NDArray]
+    log10: Callable[..., NDArray]
+    log1p: Callable[..., NDArray]
+    log2: Callable[..., NDArray]
+    logical_and: Callable[..., NDArray]
+    logical_not: Callable[..., NDArray]
+    logical_or: Callable[..., NDArray]
+    matmul: Callable[..., NDArray]
+    matrix_transpose: Callable[..., NDArray]
+    max: Callable[..., Any]
+    maximum: Callable[..., NDArray]
+    mean: Callable[..., Any]
+    meshgrid: Callable[..., Any]
+    min: Callable[..., Any]
+    minimum: Callable[..., NDArray]
+    moveaxis: Callable[..., NDArray]
+    nonzero: Callable[..., Any]
+    ones: Callable[..., NDArray]
+    ones_like: Callable[..., NDArray]
+    pad: Callable[..., NDArray]
+    permute_dims: Callable[..., NDArray]
+    pow: Callable[..., NDArray]
+    prod: Callable[..., Any]
+    real: Callable[..., NDArray]
+    repeat: Callable[..., NDArray]
+    reshape: Callable[..., NDArray]
+    resize: Callable[..., NDArray]
+    roll: Callable[..., NDArray]
+    round: Callable[..., Any]
+    searchsorted: Callable[..., NDArray]
+    sign: Callable[..., NDArray]
+    sin: Callable[..., NDArray]
+    sort: Callable[..., NDArray]
+    sqrt: Callable[..., NDArray]
+    square: Callable[..., NDArray]
+    squeeze: Callable[..., NDArray]
+    stack: Callable[..., NDArray]
+    std: Callable[..., Any]
+    sum: Callable[..., Any]
+    take: Callable[..., NDArray]
+    take_along_axis: Callable[..., NDArray]
+    tan: Callable[..., NDArray]
+    tanh: Callable[..., NDArray]
+    tile: Callable[..., NDArray]
+    trapezoid: Callable[..., Any]
+    tril: Callable[..., NDArray]
+    unique: Callable[..., Any]
+    unique_values: Callable[..., NDArray]
+    where: Callable[..., NDArray]
+    zeros: Callable[..., NDArray]
+    zeros_like: Callable[..., NDArray]
 
 
 LiteralWarning = Literal["default", "error", "ignore", "always", "module", "once"]

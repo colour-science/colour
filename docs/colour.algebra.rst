@@ -130,7 +130,7 @@ Common
     sdiv
     sdiv_mode
     set_sdiv_mode
-    set_spow_enable
+    set_spow_enabled
     smooth
     smoothstep_function
     spow

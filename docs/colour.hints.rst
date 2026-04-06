@@ -63,6 +63,9 @@ Annotation Type Hints
     overload
     PathLike
     Protocol
+    ProtocolArrayNamespace
+    ProtocolArrayNamespaceFft
+    ProtocolArrayNamespaceLinalg
     ProtocolExtrapolator
     ProtocolInterpolator
     ProtocolLUTSequenceItem

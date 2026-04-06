@@ -20,8 +20,6 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.algebra import sdiv, sdiv_mode
 
 if typing.TYPE_CHECKING:
@@ -32,7 +30,7 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.utilities import as_float, as_float_array
+from colour.utilities import array_namespace, as_float, as_float_array
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -79,13 +77,18 @@ def metric_mse(
 
     Examples
     --------
+    >>> import numpy as np
     >>> a = np.array([0.48222001, 0.31654775, 0.22070353])
     >>> b = a * 0.9
     >>> metric_mse(a, b)  # doctest: +ELLIPSIS
     np.float64(0.0012714...)
     """
 
-    return as_float(np.mean((as_float_array(a) - as_float_array(b)) ** 2, axis=axis))
+    diff = as_float_array(a) - as_float_array(b)
+
+    xp = array_namespace(diff)
+
+    return as_float(xp.mean(diff**2, axis=axis))
 
 
 def metric_psnr(
@@ -123,6 +126,7 @@ def metric_psnr(
 
     Examples
     --------
+    >>> import numpy as np
     >>> a = np.array([0.48222001, 0.31654775, 0.22070353])
     >>> b = a * 0.9
     >>> metric_psnr(a, b)  # doctest: +ELLIPSIS
@@ -131,7 +135,9 @@ def metric_psnr(
 
     mse = as_float_array(metric_mse(a, b, axis))
 
+    xp = array_namespace(mse)
+
     with sdiv_mode():
-        psnr = np.where(mse != 0, 10 * np.log10(sdiv(max_a**2, mse)), 0)
+        psnr = xp.where(mse != 0, 10 * xp.log10(sdiv(max_a**2, mse)), 0)
 
     return as_float(psnr)

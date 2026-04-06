@@ -18,7 +18,11 @@ from colour.notation.munsell import (
     xyY_to_munsell_specification,
     xyY_to_munsell_specification_Centore2014,
 )
-from colour.utilities import is_onnxruntime_installed, is_scipy_installed
+from colour.utilities import (
+    is_onnxruntime_installed,
+    is_scipy_installed,
+    xp_assert_close,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -49,7 +53,7 @@ class TestMunsellSpecification_to_xyY:
 
         specification = np.array([7.18927191, 5.34025196, 16.05861170, 3.00000000])
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             munsell_specification_to_xyY(specification),
             munsell_specification_to_xyY_Centore2014(specification),
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -63,7 +67,7 @@ class TestMunsellSpecification_to_xyY:
 
         specification = np.array([7.18927191, 5.34025196, 16.05861170, 3.00000000])
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             munsell_specification_to_xyY(specification, method="Centore 2014"),
             munsell_specification_to_xyY_Centore2014(specification),
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -85,10 +89,10 @@ class TestMunsellSpecification_to_xyY:
 
         specification = np.array([7.18927191, 5.34025196, 16.05861170, 3.00000000])
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             munsell_specification_to_xyY(specification, method="ONNX"),
             munsell_specification_to_xyY_Onnx(specification),
-            atol=1e-6,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
         )
 
     def test_munsell_specification_to_xyY_raise_exception(self) -> None:
@@ -97,12 +101,10 @@ class TestMunsellSpecification_to_xyY:
         definition raised exception.
         """
 
-        pytest.raises(
-            ValueError,
-            munsell_specification_to_xyY,
-            np.array([7.18927191, 5.34025196, 16.05861170, 3.00000000]),
-            method="Invalid",
-        )
+        with pytest.raises(ValueError):
+            munsell_specification_to_xyY(
+                np.array([7.18927191, 5.34025196, 16.0586117, 3.0]), method="Invalid"
+            )
 
 
 class TestMunsellColour_to_xyY:
@@ -117,7 +119,7 @@ class TestMunsellColour_to_xyY:
         definition.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             munsell_colour_to_xyY("4.2YR 8.1/5.3"),
             munsell_colour_to_xyY_Centore2014("4.2YR 8.1/5.3"),
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -129,7 +131,7 @@ class TestMunsellColour_to_xyY:
         definition with the *Centore 2014* method.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             munsell_colour_to_xyY("4.2YR 8.1/5.3", method="Centore 2014"),
             munsell_colour_to_xyY_Centore2014("4.2YR 8.1/5.3"),
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -149,10 +151,10 @@ class TestMunsellColour_to_xyY:
             munsell_colour_to_xyY_Onnx,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             munsell_colour_to_xyY("4.2YR 8.1/5.3", method="ONNX"),
             munsell_colour_to_xyY_Onnx("4.2YR 8.1/5.3"),
-            atol=1e-6,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
         )
 
     def test_munsell_colour_to_xyY_raise_exception(self) -> None:
@@ -161,12 +163,8 @@ class TestMunsellColour_to_xyY:
         definition raised exception.
         """
 
-        pytest.raises(
-            ValueError,
-            munsell_colour_to_xyY,
-            "4.2YR 8.1/5.3",
-            method="Invalid",
-        )
+        with pytest.raises(ValueError):
+            munsell_colour_to_xyY("4.2YR 8.1/5.3", method="Invalid")
 
 
 class TestxyY_to_munsell_specification:
@@ -186,7 +184,7 @@ class TestxyY_to_munsell_specification:
 
         xyY = np.array([0.16623068, 0.45684550, 0.22399519])
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             xyY_to_munsell_specification(xyY),
             xyY_to_munsell_specification_Centore2014(xyY),
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -203,7 +201,7 @@ class TestxyY_to_munsell_specification:
 
         xyY = np.array([0.16623068, 0.45684550, 0.22399519])
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             xyY_to_munsell_specification(xyY, method="Centore 2014"),
             xyY_to_munsell_specification_Centore2014(xyY),
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -225,10 +223,10 @@ class TestxyY_to_munsell_specification:
 
         xyY = np.array([0.16623068, 0.45684550, 0.22399519])
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             xyY_to_munsell_specification(xyY, method="ONNX"),
             xyY_to_munsell_specification_Onnx(xyY),
-            atol=1e-6,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
         )
 
     def test_xyY_to_munsell_specification_raise_exception(self) -> None:
@@ -237,12 +235,10 @@ class TestxyY_to_munsell_specification:
         definition raised exception.
         """
 
-        pytest.raises(
-            ValueError,
-            xyY_to_munsell_specification,
-            np.array([0.16623068, 0.45684550, 0.22399519]),
-            method="Invalid",
-        )
+        with pytest.raises(ValueError):
+            xyY_to_munsell_specification(
+                np.array([0.16623068, 0.4568455, 0.22399519]), method="Invalid"
+            )
 
 
 class TestxyY_to_munsell_colour:
@@ -305,9 +301,7 @@ class TestxyY_to_munsell_colour:
         definition raised exception.
         """
 
-        pytest.raises(
-            ValueError,
-            xyY_to_munsell_colour,
-            np.array([0.38736945, 0.35751656, 0.59362000]),
-            method="Invalid",
-        )
+        with pytest.raises(ValueError):
+            xyY_to_munsell_colour(
+                np.array([0.38736945, 0.35751656, 0.59362]), method="Invalid"
+            )

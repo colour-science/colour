@@ -19,6 +19,7 @@ References
 
 from __future__ import annotations
 
+import itertools
 import struct
 import typing
 
@@ -46,11 +47,13 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.hints import ArrayLike, Domain1, NDArrayFloat  # noqa: TC001
+from colour.hints import ArrayLike, Domain1, NDArrayFloat, cast
 from colour.models import RGB_Colourspace, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_xy
 from colour.utilities import (
+    array_namespace,
     as_float_array,
     as_float_scalar,
+    as_ndarray,
     domain_range_scale,
     full,
     index_along_last_axis,
@@ -60,6 +63,11 @@ from colour.utilities import (
     required,
     to_domain_1,
     tsplit,
+    xp_as_float_array,
+    xp_astype,
+    xp_linspace,
+    xp_matrix_transpose,
+    xp_reshape,
     zeros,
 )
 
@@ -192,10 +200,14 @@ def sd_Jakob2019(
                          {'method': 'Constant', 'left': None, 'right': None})
     """
 
-    c_0, c_1, c_2 = as_float_array(coefficients)
+    coefficients = as_float_array(coefficients)
+    c_0, c_1, c_2 = coefficients
+
+    xp = array_namespace(coefficients)
+
     wl = shape.wavelengths
     U = c_0 * wl**2 + c_1 * wl + c_2
-    R = 1 / 2 + U / (2 * np.sqrt(1 + U**2))
+    R = 1 / 2 + U / (2 * xp.sqrt(1 + U**2))
 
     name = f"{coefficients!r} (COEFF) - Jakob (2019)"
 
@@ -283,26 +295,39 @@ def error_function(
     target = as_float_array(target)
 
     c_0, c_1, c_2 = as_float_array(coefficients)
-    wv = np.linspace(0, 1, len(cmfs.shape))
+
+    xp = array_namespace(target)
+
+    # ``xp_linspace`` anchors the dtype to the *Colour* default rather than
+    # the backend default, which would otherwise be float32 for stock
+    # *PyTorch* and degrade the optimisation.
+    wv = cast(
+        "NDArrayFloat", xp_linspace(0, 1, num=len(cmfs.shape), xp=xp, like=target)
+    )
 
     U = c_0 * wv**2 + c_1 * wv + c_2
-    t1 = np.sqrt(1 + U**2)
+    t1 = xp.sqrt(1 + U**2)
     R = 1 / 2 + U / (2 * t1)
 
     t2 = 1 / (2 * t1) - U**2 / (2 * t1**3)
-    dR = np.array([wv**2 * t2, wv * t2, t2])
+    # ``xp.stack`` is used rather than ``xp_as_float_array`` because the
+    # elements are already backend arrays and a backend such as *PyTorch*
+    # rejects a list of tensors passed to ``asarray``.
+    dR = xp.stack([wv**2 * t2, wv * t2, t2])
 
     XYZ = sd_to_XYZ_integration(R, cmfs, illuminant, shape=cmfs.shape) / 100
-    dXYZ = np.transpose(
-        sd_to_XYZ_integration(dR, cmfs, illuminant, shape=cmfs.shape) / 100
+    dXYZ = xp_matrix_transpose(
+        sd_to_XYZ_integration(dR, cmfs, illuminant, shape=cmfs.shape) / 100,
+        xp=xp,
     )
 
     XYZ_n = sd_to_XYZ_integration(illuminant, cmfs)
     XYZ_n = XYZ_n / XYZ_n[1]
+    XYZ_n = xp_as_float_array(XYZ_n, xp=xp, like=XYZ)
     XYZ_XYZ_n = XYZ / XYZ_n
 
     XYZ_f = intermediate_lightness_function_CIE1976(XYZ, XYZ_n)
-    dXYZ_f = np.where(
+    dXYZ_f = xp.where(
         XYZ_XYZ_n[..., None] > (24 / 116) ** 3,
         1 / (3 * spow(XYZ_n[..., None], 1 / 3) * spow(XYZ[..., None], 2 / 3)) * dXYZ,
         (841 / 108) * dXYZ / XYZ_n[..., None],
@@ -316,7 +341,7 @@ def error_function(
         conversion.
         """
 
-        return np.array(
+        return xp.stack(
             [
                 116 * XYZ_i[1] - offset,
                 500 * (XYZ_i[0] - XYZ_i[1]),
@@ -327,11 +352,11 @@ def error_function(
     Lab_i = intermediate_XYZ_to_Lab(XYZ_f)
     dLab_i = intermediate_XYZ_to_Lab(dXYZ_f, 0)
 
-    error = np.sqrt(np.sum((Lab_i - target) ** 2))
+    error = as_float_scalar(xp.sqrt(xp.sum((Lab_i - target) ** 2)))
     if max_error is not None and error <= max_error:
         raise StopMinimizationEarlyError(coefficients, error)
 
-    derror = np.sum(dLab_i * (Lab_i[..., None] - target[..., None]), axis=0) / error
+    derror = xp.sum(dLab_i * (Lab_i[..., None] - target[..., None]), axis=0) / error
 
     if additional_data:
         return error, derror, R, XYZ, Lab_i
@@ -367,14 +392,17 @@ def dimensionalise_coefficients(
         and 1, respectively.
     """
 
+    xp = array_namespace(coefficients)
+
     cp_0, cp_1, cp_2 = tsplit(coefficients)
+
     span = shape.end - shape.start
 
     c_0 = cp_0 / span**2
     c_1 = cp_1 / span - 2 * cp_0 * shape.start / span**2
     c_2 = cp_0 * shape.start**2 / span**2 - cp_1 * shape.start / span + cp_2
 
-    return np.array([c_0, c_1, c_2])
+    return xp_as_float_array([c_0, c_1, c_2], xp=xp)
 
 
 def lightness_scale(steps: int) -> NDArrayFloat:
@@ -402,7 +430,9 @@ def lightness_scale(steps: int) -> NDArrayFloat:
     array([0.        , 0.0656127..., 0.5       , 0.9343872..., 1.        ])
     """
 
-    linear = np.linspace(0, 1, steps)
+    xp = array_namespace()
+
+    linear = xp.linspace(0, 1, steps)
 
     return smoothstep_function(smoothstep_function(linear))
 
@@ -677,6 +707,8 @@ def XYZ_to_sd_Jakob2019(
 
     XYZ = to_domain_1(XYZ)
 
+    XYZ = as_ndarray(XYZ)
+
     cmfs, illuminant = handle_spectral_arguments(
         cmfs, illuminant, shape_default=SPECTRAL_SHAPE_JAKOB2019
     )
@@ -880,7 +912,9 @@ class LUT3D_Jakob2019:
 
         from scipy.interpolate import RegularGridInterpolator  # noqa: PLC0415
 
-        samples = np.linspace(0, 1, self._size)
+        xp = array_namespace()
+
+        samples = xp.linspace(0, 1, self._size)
         axes = ([0, 1, 2], self._lightness_scale, samples, samples)
 
         self._interpolator = RegularGridInterpolator(
@@ -961,26 +995,33 @@ class LUT3D_Jakob2019:
         lightness_steps = size
         chroma_steps = size
 
+        xp = array_namespace()
+
         self._lightness_scale = lightness_scale(lightness_steps)
-        self._coefficients = np.empty(
-            [3, chroma_steps, chroma_steps, lightness_steps, 3]
+        self._coefficients = xp.zeros(
+            (3, chroma_steps, chroma_steps, lightness_steps, 3)
         )
 
-        cube_indexes = np.ndindex(3, chroma_steps, chroma_steps)
+        cube_indexes = itertools.product(
+            range(3), range(chroma_steps), range(chroma_steps)
+        )
         total_coefficients = chroma_steps**2 * 3
 
         # First, create a list of all the fully bright colours with the order
         # matching cube_indexes.
-        samples = np.linspace(0, 1, chroma_steps)
-        ij = np.reshape(
-            np.transpose(np.meshgrid([1], samples, samples, indexing="ij")),
-            (-1, 3),
+        samples = xp.linspace(0, 1, chroma_steps)
+        mg = xp.meshgrid(
+            xp_as_float_array([1.0], xp=xp), samples, samples, indexing="ij"
         )
-        chromas = np.concatenate(
+        # ``mg`` stacks three rank-3 axes; reversing all four axes mirrors
+        # the original ``np.transpose`` over a meshgrid stack.
+        mg_t = xp.permute_dims(xp.stack(mg), (3, 2, 1, 0))
+        ij = xp_reshape(mg_t, (-1, 3), xp=xp)
+        chromas = xp.concat(
             [
                 ij,
-                np.roll(ij, 1, axis=1),
-                np.roll(ij, 2, axis=1),
+                xp.roll(ij, 1, axis=1),
+                xp.roll(ij, 2, axis=1),
             ]
         )
 
@@ -1024,21 +1065,27 @@ class LUT3D_Jakob2019:
                 # find_coefficients_Jakob2019" definition.
                 L_middle = lightness_steps // 3
                 coefficients_middle = optimize(
-                    np.hstack([ijk, L_middle]), zeros(3), chroma
+                    xp.concat([ijk, xp_as_float_array([L_middle], xp=xp)], axis=0),
+                    zeros(3),
+                    chroma,
                 )
 
                 # Down the lightness scale.
                 coefficients_0 = coefficients_middle
                 for L in reversed(range(L_middle)):
                     coefficients_0 = optimize(
-                        np.hstack([ijk, L]), coefficients_0, chroma
+                        xp.concat([ijk, xp_as_float_array([L], xp=xp)], axis=0),
+                        coefficients_0,
+                        chroma,
                     )
 
                 # Up the lightness scale.
                 coefficients_0 = coefficients_middle
                 for L in range(L_middle + 1, lightness_steps):
                     coefficients_0 = optimize(
-                        np.hstack([ijk, L]), coefficients_0, chroma
+                        xp.concat([ijk, xp_as_float_array([L], xp=xp)], axis=0),
+                        coefficients_0,
+                        chroma,
                     )
 
         self._size = size
@@ -1085,24 +1132,90 @@ class LUT3D_Jakob2019:
         array([ 1.5013448...e-04, -1.4679754...e-01,  3.4020219...e+01])
         """
 
-        if len(self._interpolator.grid) != 0:
-            RGB = as_float_array(RGB)
+        if len(self._interpolator.grid) == 0:
+            error = "The pre-computed lookup table has not been read or generated!"
 
-            value_max = np.max(RGB, axis=-1)
-            chroma = RGB / (value_max[..., None] + 1e-10)
+            raise RuntimeError(error)
 
-            i_m = np.argmax(RGB, axis=-1)
-            i_1 = index_along_last_axis(RGB, i_m)
-            i_2 = index_along_last_axis(chroma, (i_m + 2) % 3)
-            i_3 = index_along_last_axis(chroma, (i_m + 1) % 3)
+        RGB = as_float_array(RGB)
 
-            indexes = np.stack([i_m, i_1, i_2, i_3], axis=-1)
+        xp = array_namespace(RGB)
 
-            return self._interpolator(indexes).squeeze()
+        value_max = xp.max(RGB, axis=-1)
+        chroma = RGB / (value_max[..., None] + 1e-10)
 
-        error = "The pre-computed lookup table has not been read or generated!"
+        i_m = xp.argmax(RGB, axis=-1)
+        i_1 = index_along_last_axis(RGB, i_m)
+        i_2 = index_along_last_axis(chroma, (i_m + 2) % 3)
+        i_3 = index_along_last_axis(chroma, (i_m + 1) % 3)
 
-        raise RuntimeError(error)
+        # Trilinear gather over the LUT grid, replacing
+        # ``scipy.interpolate.RegularGridInterpolator(bounds_error=False)``
+        # to keep the path backend-agnostic. The dominant-channel axis
+        # is integer-indexed (``i_m``); the lightness axis uses the
+        # non-uniform ``_lightness_scale``; the two chroma axes are
+        # uniform on ``[0, 1]`` with ``size`` samples. Out-of-range
+        # queries are *NaN*-filled to match the *scipy* default.
+        coefficients = xp_as_float_array(self._coefficients, xp=xp, like=RGB)
+        lightness_scale = xp_as_float_array(self._lightness_scale, xp=xp, like=RGB)
+
+        size = self._size
+        lightness_steps = lightness_scale.shape[0]
+
+        outside_lookup_domain = (
+            (i_1 < lightness_scale[0])
+            | (i_1 > lightness_scale[-1])
+            | (i_2 < 0)
+            | (i_2 > 1)
+            | (i_3 < 0)
+            | (i_3 > 1)
+        )
+
+        j = xp.searchsorted(lightness_scale, i_1) - 1
+        j = xp.clip(j, 0, lightness_steps - 2)
+        v_lo = xp.take(lightness_scale, j, axis=0)
+        v_hi = xp.take(lightness_scale, j + 1, axis=0)
+        f_v = (i_1 - v_lo) / (v_hi - v_lo)
+
+        last = size - 1
+        f_2 = i_2 * last
+        k_2 = xp.clip(xp_astype(xp.floor(f_2), DTYPE_INT_DEFAULT, xp=xp), 0, last - 1)
+        f_2 = f_2 - xp_astype(k_2, f_2.dtype, xp=xp)
+
+        f_3 = i_3 * last
+        k_3 = xp.clip(xp_astype(xp.floor(f_3), DTYPE_INT_DEFAULT, xp=xp), 0, last - 1)
+        f_3 = f_3 - xp_astype(k_3, f_3.dtype, xp=xp)
+
+        # 8 corners of the unit cube: ``coefficients[i_m, j+a, k_2+b,
+        # k_3+c, :]`` for ``a, b, c`` in ``{0, 1}``. Advanced indexing
+        # broadcasts the per-pixel index arrays into the leading
+        # ``(N,)`` shape of the result.
+        c000 = coefficients[i_m, j, k_2, k_3, :]
+        c100 = coefficients[i_m, j + 1, k_2, k_3, :]
+        c010 = coefficients[i_m, j, k_2 + 1, k_3, :]
+        c110 = coefficients[i_m, j + 1, k_2 + 1, k_3, :]
+        c001 = coefficients[i_m, j, k_2, k_3 + 1, :]
+        c101 = coefficients[i_m, j + 1, k_2, k_3 + 1, :]
+        c011 = coefficients[i_m, j, k_2 + 1, k_3 + 1, :]
+        c111 = coefficients[i_m, j + 1, k_2 + 1, k_3 + 1, :]
+
+        f_v = f_v[..., None]
+        f_2 = f_2[..., None]
+        f_3 = f_3[..., None]
+
+        c00 = c000 * (1 - f_v) + c100 * f_v
+        c01 = c001 * (1 - f_v) + c101 * f_v
+        c10 = c010 * (1 - f_v) + c110 * f_v
+        c11 = c011 * (1 - f_v) + c111 * f_v
+
+        c0 = c00 * (1 - f_2) + c10 * f_2
+        c1 = c01 * (1 - f_2) + c11 * f_2
+
+        return xp.where(
+            outside_lookup_domain[..., None],
+            float("nan"),
+            c0 * (1 - f_3) + c1 * f_3,
+        )
 
     def RGB_to_sd(
         self, RGB: ArrayLike, shape: SpectralShape = SPECTRAL_SHAPE_JAKOB2019
@@ -1249,7 +1362,10 @@ class LUT3D_Jakob2019:
             self._coefficients = np.fromfile(
                 coeff_file, count=3 * (self._size**3) * 3, dtype=np.float32
             )
-            self._coefficients = np.reshape(
+
+            xp = array_namespace(self._coefficients)
+
+            self._coefficients = xp.reshape(
                 self._coefficients, (3, self._size, self._size, self._size, 3)
             )
 

@@ -38,10 +38,14 @@ from colour.hints import (  # noqa: TC001
 )
 from colour.models import XYZ_to_xyY
 from colour.utilities import (
+    array_namespace,
     from_range_100,
     to_domain_100,
     tsplit,
     tstack,
+    xp_as_float_array,
+    xp_matrix_transpose,
+    xp_reshape,
 )
 
 __author__ = "Colour Developers"
@@ -72,6 +76,18 @@ MATRIX_RGB_TO_XYZ_OSA_UCS: NDArrayFloat = np.linalg.inv(MATRIX_XYZ_TO_RGB_OSA_UC
 """
 *OSA UCS* matrix converting from *RGB* colourspace to *CIE XYZ* tristimulus
 values (inverse of MATRIX_XYZ_TO_RGB_OSA_UCS).
+"""
+
+VECTOR_J_OSA_UCS: NDArrayFloat = np.array([1.7, 8.0, -9.7])
+"""*OSA UCS* :math:`j` weight vector from *Schloemer (2019)* Eq. (4)."""
+
+VECTOR_G_OSA_UCS: NDArrayFloat = np.array([-13.7, 17.7, -4.0])
+"""*OSA UCS* :math:`g` weight vector from *Schloemer (2019)* Eq. (4)."""
+
+VECTOR_AUGMENT_OSA_UCS: NDArrayFloat = np.array([1.0, 0.0, 0.0])
+"""
+Augmenting row used to make the *Schloemer (2019)* Eq. (4) ``(g, j)`` matrix
+non-singular by setting ``w = cbrt(R)``.
 """
 
 
@@ -125,6 +141,9 @@ def XYZ_to_OSA_UCS(XYZ: Domain100) -> Range100:
     """
 
     XYZ = to_domain_100(XYZ)
+
+    xp = array_namespace(XYZ)
+
     x, y, Y = tsplit(XYZ_to_xyY(XYZ))
 
     Y_0 = Y * (
@@ -144,8 +163,8 @@ def XYZ_to_OSA_UCS(XYZ: Domain100) -> Range100:
         C = sdiv(Lambda, 5.9 * Y_0_es)
 
     L = (Lambda - 14.4) / spow(2, 1 / 2)
-    j = C * np.dot(RGB_3, np.array([1.7, 8, -9.7]))
-    g = C * np.dot(RGB_3, np.array([-13.7, 17.7, -4]))
+    j = C * xp.matmul(RGB_3, xp_as_float_array(VECTOR_J_OSA_UCS, xp=xp, like=RGB_3))
+    g = C * xp.matmul(RGB_3, xp_as_float_array(VECTOR_G_OSA_UCS, xp=xp, like=RGB_3))
 
     Ljg = tstack([L, j, g])
 
@@ -211,14 +230,23 @@ def OSA_UCS_to_XYZ(Ljg: Domain100, optimisation_kwargs: dict | None = None) -> R
     """
 
     Ljg = to_domain_100(Ljg)
-    shape = Ljg.shape
-    Ljg = np.atleast_1d(np.reshape(Ljg, (-1, 3)))
 
-    # Default optimization settings
+    xp = array_namespace(Ljg)
+
+    shape = Ljg.shape
+    Ljg = xp_reshape(Ljg, (-1, 3), xp=xp)
+
+    # Default optimisation settings. The finite-difference step and the
+    # convergence tolerance are derived from the working precision: a fixed
+    # ``1e-8`` step is smaller than the float32 machine epsilon, so ``w +
+    # epsilon`` would round back to ``w``, the derivative would be zero and the
+    # iteration would diverge. ``sqrt(eps)`` is the standard forward-difference
+    # step, i.e. circa 1.5e-8 for float64, preserving the previous behaviour.
+    epsilon_machine = float(xp.finfo(Ljg.dtype).eps)
     settings: dict[str, typing.Any] = {
         "iterations_maximum": 20,
-        "tolerance": 1e-10,
-        "epsilon": 1e-8,
+        "tolerance": epsilon_machine**0.75 * 100,
+        "epsilon": epsilon_machine**0.5,
     }
     if optimisation_kwargs is not None:
         settings.update(optimisation_kwargs)
@@ -229,7 +257,7 @@ def OSA_UCS_to_XYZ(Ljg: Domain100, optimisation_kwargs: dict | None = None) -> R
     # Forward: L = (Lambda - 14.4) / sqrt(2)
     # Backward: Lambda = L * sqrt(2) + 14.4
     # But L' = Lambda in the intermediate calculation
-    sqrt_2 = np.sqrt(2)
+    sqrt_2 = 2.0**0.5
     L_prime = L * sqrt_2 + 14.4
 
     # Step 2: Solve for Y0 using Cardano's formula
@@ -254,11 +282,11 @@ def OSA_UCS_to_XYZ(Ljg: Domain100, optimisation_kwargs: dict | None = None) -> R
     with sdiv_mode():
         t = (
             -b / (3 * a)
-            + spow(-q / 2 + np.sqrt(discriminant), 1.0 / 3.0)
-            + spow(-q / 2 - np.sqrt(discriminant), 1.0 / 3.0)
+            + spow(-q / 2 + xp.sqrt(discriminant), 1.0 / 3.0)
+            + spow(-q / 2 - xp.sqrt(discriminant), 1.0 / 3.0)
         )
 
-    Y0 = t**3
+    Y0 = spow(t, 3)
 
     # Step 3: Compute C, a, b
     with sdiv_mode():
@@ -266,25 +294,27 @@ def OSA_UCS_to_XYZ(Ljg: Domain100, optimisation_kwargs: dict | None = None) -> R
         a_coef = sdiv(g, C)
         b_coef = sdiv(j, C)
 
-    # Step 4: Solve for RGB using Newton iteration
-    # Matrix A from equation (4)
-    A = np.array([[-13.7, 17.7, -4.0], [1.7, 8.0, -9.7]])
-
-    # Augment A with [1, 0, 0] to make it non-singular (set w = cbrt(R))
-    A_augmented = np.vstack([A, [1.0, 0.0, 0.0]])
-    A_inv = np.linalg.inv(A_augmented)
+    # Step 4: Solve for RGB using Newton iteration. Matrix A from
+    # *Schloemer (2019)* Eq. (4) ``(g, j)`` rows, augmented with
+    # ``[1, 0, 0]`` to make it non-singular (set ``w = cbrt(R)``).
+    A_augmented = xp_as_float_array(
+        [VECTOR_G_OSA_UCS, VECTOR_J_OSA_UCS, VECTOR_AUGMENT_OSA_UCS],
+        xp=xp,
+        like=L,
+    )
+    A_inv = xp.linalg.inv(A_augmented)
 
     # Initial guess for w (corresponds to cbrt(R))
     # w0 = cbrt(79.9 + 41.94) from paper
-    w = np.full_like(L, (79.9 + 41.94) ** (1.0 / 3.0))
+    w = xp.full_like(L, (79.9 + 41.94) ** (1.0 / 3.0))
 
     # Newton iteration
     for _iteration in range(settings["iterations_maximum"]):
         # Solve for [cbrt(R), cbrt(G), cbrt(B)] given current w
-        ab_w = np.array([a_coef, b_coef, w]).T
-        RGB_cbrt = np.dot(ab_w, A_inv.T)
+        ab_w = xp.stack([a_coef, b_coef, w], axis=-1)
+        RGB_cbrt = xp.matmul(ab_w, xp_matrix_transpose(A_inv, xp=xp))
 
-        RGB = RGB_cbrt**3
+        RGB = spow(RGB_cbrt, 3)
 
         XYZ = vecmul(MATRIX_RGB_TO_XYZ_OSA_UCS, RGB)
         X, Y, Z = tsplit(XYZ)
@@ -305,7 +335,7 @@ def OSA_UCS_to_XYZ(Ljg: Domain100, optimisation_kwargs: dict | None = None) -> R
         Y0_computed = Y * K
 
         error = Y0_computed - Y0
-        if np.all(np.abs(error) < settings["tolerance"]):
+        if xp.all(xp.abs(error) < settings["tolerance"]):
             break
 
         # Newton step: compute derivative and update w
@@ -313,9 +343,9 @@ def OSA_UCS_to_XYZ(Ljg: Domain100, optimisation_kwargs: dict | None = None) -> R
         epsilon = settings["epsilon"]
         w_plus = w + epsilon
 
-        ab_w_plus = np.array([a_coef, b_coef, w_plus]).T
-        RGB_cbrt_plus = np.dot(ab_w_plus, A_inv.T)
-        RGB_plus = RGB_cbrt_plus**3
+        ab_w_plus = xp.stack([a_coef, b_coef, w_plus], axis=-1)
+        RGB_cbrt_plus = xp.matmul(ab_w_plus, xp_matrix_transpose(A_inv, xp=xp))
+        RGB_plus = spow(RGB_cbrt_plus, 3)
         XYZ_plus = vecmul(MATRIX_RGB_TO_XYZ_OSA_UCS, RGB_plus)
         X_plus, Y_plus, Z_plus = tsplit(XYZ_plus)
 
@@ -338,4 +368,4 @@ def OSA_UCS_to_XYZ(Ljg: Domain100, optimisation_kwargs: dict | None = None) -> R
             derivative = sdiv(Y0_computed_plus - Y0_computed, epsilon)
             w = w - sdiv(error, derivative)
 
-    return from_range_100(np.reshape(XYZ, shape))
+    return from_range_100(xp_reshape(XYZ, shape, xp=xp))

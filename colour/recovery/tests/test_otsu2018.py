@@ -6,6 +6,10 @@ import os
 import platform
 import shutil
 import tempfile
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
 
 import numpy as np
 import pytest
@@ -33,7 +37,12 @@ from colour.recovery.otsu2018 import (
     Node_Otsu2018,
     PartitionAxis,
 )
-from colour.utilities import domain_range_scale, metric_mse
+from colour.utilities import (
+    as_ndarray,
+    domain_range_scale,
+    metric_mse,
+    xp_assert_close,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -151,7 +160,8 @@ class TestDataset_Otsu2018:
         raised exception.
         """
 
-        pytest.raises(ValueError, Dataset_Otsu2018().select, np.array([0, 0]))
+        with pytest.raises(ValueError):
+            Dataset_Otsu2018().select(np.array([0, 0]))
 
     def test_cluster(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.cluster` method."""
@@ -166,7 +176,8 @@ class TestDataset_Otsu2018:
         raised exception.
         """
 
-        pytest.raises(ValueError, Dataset_Otsu2018().cluster, np.array([0, 0]))
+        with pytest.raises(ValueError):
+            Dataset_Otsu2018().cluster(np.array([0, 0]))
 
     def test_read(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Dataset_Otsu2018.read` method."""
@@ -204,7 +215,8 @@ class TestDataset_Otsu2018:
         raised exception.
         """
 
-        pytest.raises(ValueError, Dataset_Otsu2018().write, "")
+        with pytest.raises(ValueError):
+            Dataset_Otsu2018().write("")
 
 
 class TestXYZ_to_sd_Otsu2018:
@@ -227,11 +239,11 @@ class TestXYZ_to_sd_Otsu2018:
         # Tests the round-trip with values of a colour checker.
         for sd in SDS_COLOURCHECKERS["ColorChecker N Ohta"].values():
             XYZ = sd_to_XYZ(sd, self._cmfs, self._sd_D65) / 100
-            Lab = XYZ_to_Lab(XYZ, self._xy_D65)
+            Lab = as_ndarray(XYZ_to_Lab(XYZ, self._xy_D65))
 
             recovered_sd = XYZ_to_sd_Otsu2018(XYZ, self._cmfs, self._sd_D65, clip=False)
             recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
-            recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
+            recovered_Lab = as_ndarray(XYZ_to_Lab(recovered_XYZ, self._xy_D65))
 
             error = metric_mse(
                 reshape_sd(sd, SPECTRAL_SHAPE_OTSU2018).values,
@@ -248,16 +260,15 @@ class TestXYZ_to_sd_Otsu2018:
         raised_exception.
         """
 
-        pytest.raises(
-            ValueError,
-            XYZ_to_sd_Otsu2018,
-            np.array([0, 0, 0]),
-            self._cmfs,
-            self._sd_D65,
-            Dataset_Otsu2018(),
-        )
+        with pytest.raises(ValueError):
+            XYZ_to_sd_Otsu2018(
+                np.array([0, 0, 0]), self._cmfs, self._sd_D65, Dataset_Otsu2018()
+            )
 
-    def test_domain_range_scale_XYZ_to_sd_Otsu2018(self) -> None:
+    def test_domain_range_scale_XYZ_to_sd_Otsu2018(
+        self,
+        xp: ModuleType,  # noqa: ARG002
+    ) -> None:
         """
         Test :func:`colour.recovery.otsu2018.XYZ_to_sd_Otsu2018` definition
         domain and range scale support.
@@ -273,7 +284,7 @@ class TestXYZ_to_sd_Otsu2018:
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     sd_to_XYZ(
                         XYZ_to_sd_Otsu2018(XYZ_i * factor_a, self._cmfs, self._sd_D65),
                         self._cmfs,
@@ -399,7 +410,7 @@ class TestData_Otsu2018:
     def test_origin(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.origin` method."""
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             self._data.origin(4, 1),
             0.255284008578559,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -411,12 +422,8 @@ class TestData_Otsu2018:
         raised exception.
         """
 
-        pytest.raises(
-            ValueError,
-            Data_Otsu2018(None, self._cmfs, self._sd_D65).origin,
-            4,
-            1,
-        )
+        with pytest.raises(ValueError):
+            Data_Otsu2018(None, self._cmfs, self._sd_D65).origin(4, 1)
 
     def test_partition(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.partition` method."""
@@ -431,11 +438,8 @@ class TestData_Otsu2018:
         raised exception.
         """
 
-        pytest.raises(
-            ValueError,
-            Data_Otsu2018(None, self._cmfs, self._sd_D65).partition,
-            PartitionAxis(4, 1),
-        )
+        with pytest.raises(ValueError):
+            Data_Otsu2018(None, self._cmfs, self._sd_D65).partition(PartitionAxis(4, 1))
 
     @pytest.mark.skipif(
         platform.system() in ("Windows", "Microsoft", "Linux"),
@@ -450,173 +454,169 @@ class TestData_Otsu2018:
 
         assert data.basis_functions is not None
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             np.abs(data.basis_functions),
-            np.array(
+            [
                 [
-                    [
-                        0.04391241,
-                        0.08560996,
-                        0.15556120,
-                        0.20826672,
-                        0.22981218,
-                        0.23117641,
-                        0.22718022,
-                        0.21742869,
-                        0.19854261,
-                        0.16868383,
-                        0.12020268,
-                        0.05958463,
-                        0.01015508,
-                        0.08775193,
-                        0.16957532,
-                        0.23186776,
-                        0.26516404,
-                        0.27409402,
-                        0.27856619,
-                        0.27685075,
-                        0.25597708,
-                        0.21331000,
-                        0.15372029,
-                        0.08746878,
-                        0.02744494,
-                        0.01725581,
-                        0.04756055,
-                        0.07184639,
-                        0.09090063,
-                        0.10317253,
-                        0.10830387,
-                        0.10872694,
-                        0.10645999,
-                        0.10766424,
-                        0.11170078,
-                        0.11620896,
-                    ],
-                    [
-                        0.03137588,
-                        0.06204234,
-                        0.11364884,
-                        0.17579436,
-                        0.20914074,
-                        0.22152351,
-                        0.23120105,
-                        0.24039823,
-                        0.24730359,
-                        0.25195045,
-                        0.25237533,
-                        0.24672212,
-                        0.23538236,
-                        0.22094141,
-                        0.20389065,
-                        0.18356599,
-                        0.15952882,
-                        0.13567812,
-                        0.11401807,
-                        0.09178015,
-                        0.06539517,
-                        0.03173809,
-                        0.00658524,
-                        0.04710763,
-                        0.08379987,
-                        0.11074555,
-                        0.12606191,
-                        0.13630094,
-                        0.13988107,
-                        0.14193361,
-                        0.14671866,
-                        0.15164795,
-                        0.15772737,
-                        0.16328073,
-                        0.16588768,
-                        0.16947164,
-                    ],
-                    [
-                        0.01360289,
-                        0.02375832,
-                        0.04262545,
-                        0.07345243,
-                        0.09081235,
-                        0.09227928,
-                        0.08922710,
-                        0.08626299,
-                        0.08584571,
-                        0.08843734,
-                        0.09475094,
-                        0.10376740,
-                        0.11331399,
-                        0.12109706,
-                        0.12678070,
-                        0.13401030,
-                        0.14417036,
-                        0.15408359,
-                        0.16265529,
-                        0.17079814,
-                        0.17972656,
-                        0.19005983,
-                        0.20053986,
-                        0.21017531,
-                        0.21808806,
-                        0.22347400,
-                        0.22650876,
-                        0.22895376,
-                        0.22982598,
-                        0.23001787,
-                        0.23036398,
-                        0.22917409,
-                        0.22684271,
-                        0.22387883,
-                        0.22065773,
-                        0.21821049,
-                    ],
-                ]
-            ),
+                    0.04391241,
+                    0.08560996,
+                    0.15556120,
+                    0.20826672,
+                    0.22981218,
+                    0.23117641,
+                    0.22718022,
+                    0.21742869,
+                    0.19854261,
+                    0.16868383,
+                    0.12020268,
+                    0.05958463,
+                    0.01015508,
+                    0.08775193,
+                    0.16957532,
+                    0.23186776,
+                    0.26516404,
+                    0.27409402,
+                    0.27856619,
+                    0.27685075,
+                    0.25597708,
+                    0.21331000,
+                    0.15372029,
+                    0.08746878,
+                    0.02744494,
+                    0.01725581,
+                    0.04756055,
+                    0.07184639,
+                    0.09090063,
+                    0.10317253,
+                    0.10830387,
+                    0.10872694,
+                    0.10645999,
+                    0.10766424,
+                    0.11170078,
+                    0.11620896,
+                ],
+                [
+                    0.03137588,
+                    0.06204234,
+                    0.11364884,
+                    0.17579436,
+                    0.20914074,
+                    0.22152351,
+                    0.23120105,
+                    0.24039823,
+                    0.24730359,
+                    0.25195045,
+                    0.25237533,
+                    0.24672212,
+                    0.23538236,
+                    0.22094141,
+                    0.20389065,
+                    0.18356599,
+                    0.15952882,
+                    0.13567812,
+                    0.11401807,
+                    0.09178015,
+                    0.06539517,
+                    0.03173809,
+                    0.00658524,
+                    0.04710763,
+                    0.08379987,
+                    0.11074555,
+                    0.12606191,
+                    0.13630094,
+                    0.13988107,
+                    0.14193361,
+                    0.14671866,
+                    0.15164795,
+                    0.15772737,
+                    0.16328073,
+                    0.16588768,
+                    0.16947164,
+                ],
+                [
+                    0.01360289,
+                    0.02375832,
+                    0.04262545,
+                    0.07345243,
+                    0.09081235,
+                    0.09227928,
+                    0.08922710,
+                    0.08626299,
+                    0.08584571,
+                    0.08843734,
+                    0.09475094,
+                    0.10376740,
+                    0.11331399,
+                    0.12109706,
+                    0.12678070,
+                    0.13401030,
+                    0.14417036,
+                    0.15408359,
+                    0.16265529,
+                    0.17079814,
+                    0.17972656,
+                    0.19005983,
+                    0.20053986,
+                    0.21017531,
+                    0.21808806,
+                    0.22347400,
+                    0.22650876,
+                    0.22895376,
+                    0.22982598,
+                    0.23001787,
+                    0.23036398,
+                    0.22917409,
+                    0.22684271,
+                    0.22387883,
+                    0.22065773,
+                    0.21821049,
+                ],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         assert data.mean is not None
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             data.mean,
-            np.array(
-                [
-                    0.08795833,
-                    0.12050000,
-                    0.16787500,
-                    0.20675000,
-                    0.22329167,
-                    0.22837500,
-                    0.23229167,
-                    0.23579167,
-                    0.23658333,
-                    0.23779167,
-                    0.23866667,
-                    0.23975000,
-                    0.24345833,
-                    0.25054167,
-                    0.25791667,
-                    0.26150000,
-                    0.26437500,
-                    0.26566667,
-                    0.26475000,
-                    0.26554167,
-                    0.27137500,
-                    0.28279167,
-                    0.29529167,
-                    0.31070833,
-                    0.32575000,
-                    0.33829167,
-                    0.34675000,
-                    0.35554167,
-                    0.36295833,
-                    0.37004167,
-                    0.37854167,
-                    0.38675000,
-                    0.39587500,
-                    0.40266667,
-                    0.40683333,
-                    0.41287500,
-                ]
-            ),
+            [
+                0.08795833,
+                0.12050000,
+                0.16787500,
+                0.20675000,
+                0.22329167,
+                0.22837500,
+                0.23229167,
+                0.23579167,
+                0.23658333,
+                0.23779167,
+                0.23866667,
+                0.23975000,
+                0.24345833,
+                0.25054167,
+                0.25791667,
+                0.26150000,
+                0.26437500,
+                0.26566667,
+                0.26475000,
+                0.26554167,
+                0.27137500,
+                0.28279167,
+                0.29529167,
+                0.31070833,
+                0.32575000,
+                0.33829167,
+                0.34675000,
+                0.35554167,
+                0.36295833,
+                0.37004167,
+                0.37854167,
+                0.38675000,
+                0.39587500,
+                0.40266667,
+                0.40683333,
+                0.41287500,
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -630,56 +630,52 @@ class TestData_Otsu2018:
 
         data.PCA()
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             data.reconstruct(
-                np.array(
-                    [
-                        0.20654008,
-                        0.12197225,
-                        0.05136952,
-                    ]
-                )
-            ).values,
-            np.array(
                 [
-                    0.06899964,
-                    0.08241919,
-                    0.09768650,
-                    0.08938555,
-                    0.07872582,
-                    0.07140930,
-                    0.06385099,
-                    0.05471747,
-                    0.04281364,
-                    0.03073280,
-                    0.01761134,
-                    0.00772535,
-                    0.00379120,
-                    0.00405617,
-                    0.00595014,
-                    0.01323536,
-                    0.03229711,
-                    0.05661531,
-                    0.07763041,
-                    0.10271461,
-                    0.14276781,
-                    0.20239859,
-                    0.27288559,
-                    0.35044541,
-                    0.42170481,
-                    0.47567859,
-                    0.50910276,
-                    0.53578140,
-                    0.55251101,
-                    0.56530032,
-                    0.58029915,
-                    0.59367723,
-                    0.60830542,
-                    0.62100871,
-                    0.62881635,
-                    0.63971254,
+                    0.20654008,
+                    0.12197225,
+                    0.05136952,
                 ]
-            ),
+            ).values,
+            [
+                0.06899964,
+                0.08241919,
+                0.09768650,
+                0.08938555,
+                0.07872582,
+                0.07140930,
+                0.06385099,
+                0.05471747,
+                0.04281364,
+                0.03073280,
+                0.01761134,
+                0.00772535,
+                0.00379120,
+                0.00405617,
+                0.00595014,
+                0.01323536,
+                0.03229711,
+                0.05661531,
+                0.07763041,
+                0.10271461,
+                0.14276781,
+                0.20239859,
+                0.27288559,
+                0.35044541,
+                0.42170481,
+                0.47567859,
+                0.50910276,
+                0.53578140,
+                0.55251101,
+                0.56530032,
+                0.58029915,
+                0.59367723,
+                0.60830542,
+                0.62100871,
+                0.62881635,
+                0.63971254,
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -689,11 +685,10 @@ class TestData_Otsu2018:
         raised exception.
         """
 
-        pytest.raises(
-            ValueError,
-            Data_Otsu2018(None, self._cmfs, self._sd_D65).reconstruct,
-            np.array([0, 0, 0]),
-        )
+        with pytest.raises(ValueError):
+            Data_Otsu2018(None, self._cmfs, self._sd_D65).reconstruct(
+                np.array([0, 0, 0])
+            )
 
     def test_reconstruction_error(self) -> None:
         """
@@ -703,7 +698,7 @@ reconstruction_error` method.
 
         data = Data_Otsu2018(self._reflectances, self._cmfs, self._sd_D65)
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             data.reconstruction_error(),
             2.753352549148681,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -715,10 +710,8 @@ reconstruction_error` method.
 reconstruction_error` method raised exception.
         """
 
-        pytest.raises(
-            ValueError,
-            Data_Otsu2018(None, self._cmfs, self._sd_D65).reconstruction_error,
-        )
+        with pytest.raises(ValueError):
+            Data_Otsu2018(None, self._cmfs, self._sd_D65).reconstruction_error()
 
 
 class TestNode_Otsu2018:
@@ -800,7 +793,8 @@ class TestNode_Otsu2018:
         raised exception.
         """
 
-        pytest.raises(ValueError, lambda: Node_Otsu2018().row)
+        with pytest.raises(ValueError):
+            _ = Node_Otsu2018().row
 
     def test_split(self) -> None:
         """Test :meth:`colour.recovery.otsu2018.Node_Otsu2018.split` method."""
@@ -820,12 +814,8 @@ class TestNode_Otsu2018:
 
         assert (len(partition[0].data), len(partition[1].data)) == (10, 14)
 
-        np.testing.assert_allclose(
-            axis.origin, 0.324111380117147, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-        np.testing.assert_allclose(
-            partition_error, 2.0402980027, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(axis.origin, 0.324111380117147, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(partition_error, 2.0402980027, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_leaf_reconstruction_error(self) -> None:
         """
@@ -833,7 +823,7 @@ class TestNode_Otsu2018:
 leaf_reconstruction_error` method.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             self._node_b.leaf_reconstruction_error(),
             1.145340908277367e-29,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -845,7 +835,7 @@ leaf_reconstruction_error` method.
 branch_reconstruction_error` method.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             self._node_a.branch_reconstruction_error(),
             3.900015991807948e-25,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -905,7 +895,7 @@ class TestTree_Otsu2018:
         property.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             self._tree.reflectances,
             np.transpose(
                 reshape_msds(
@@ -942,13 +932,13 @@ class TestTree_Otsu2018:
 
         for sd in SDS_COLOURCHECKERS["ColorChecker N Ohta"].values():
             XYZ = sd_to_XYZ(sd, self._cmfs, self._sd_D65) / 100
-            Lab = XYZ_to_Lab(XYZ, self._xy_D65)
+            Lab = as_ndarray(XYZ_to_Lab(XYZ, self._xy_D65))
 
             recovered_sd = XYZ_to_sd_Otsu2018(
                 XYZ, self._cmfs, self._sd_D65, dataset, False
             )
             recovered_XYZ = sd_to_XYZ(recovered_sd, self._cmfs, self._sd_D65) / 100
-            recovered_Lab = XYZ_to_Lab(recovered_XYZ, self._xy_D65)
+            recovered_Lab = as_ndarray(XYZ_to_Lab(recovered_XYZ, self._xy_D65))
 
             error = metric_mse(
                 reshape_sd(sd, SPECTRAL_SHAPE_OTSU2018).values,

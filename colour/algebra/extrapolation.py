@@ -25,7 +25,7 @@ import typing
 import numpy as np
 
 from colour.algebra import NullInterpolator, sdiv, sdiv_mode
-from colour.constants import DTYPE_FLOAT_DEFAULT
+from colour.constants import DTYPE_FLOAT_DEFAULT, DTYPE_INT_DEFAULT
 
 if typing.TYPE_CHECKING:
     from colour.hints import (
@@ -40,12 +40,17 @@ if typing.TYPE_CHECKING:
     )
 
 from colour.utilities import (
+    array_namespace,
     as_float,
     as_float_array,
     attest,
     is_numeric,
     optional,
     validate_method,
+    xp_as_array,
+    xp_astype,
+    xp_atleast_1d,
+    xp_reshape,
 )
 
 __author__ = "Colour Developers"
@@ -353,47 +358,95 @@ class Extrapolator:
         xi = self._interpolator.x
         yi = self._interpolator.y
 
+        xp = array_namespace(x, xi, yi)
+
+        # Source the device from whichever of ``x`` / ``xi`` / ``yi`` is
+        # already on the target backend so the *NumPy*-backed members are
+        # promoted onto the live device rather than the backend default
+        # (which on *Torch-MPS* is *CPU* unless explicitly switched).
+        # *NumPy* 2.0 added a string ``device = "cpu"`` attribute to its
+        # arrays, so ``device is not None`` alone would falsely match
+        # *NumPy* inputs; the backend *Torch* / *JAX* device objects
+        # expose ``.type``, so use that as the discriminator.
+        device_source = next(
+            (a for a in (x, xi, yi) if hasattr(getattr(a, "device", None), "type")),
+            None,
+        )
+
+        x = xp_as_array(x, xp=xp, like=device_source)
+        xi = xp_as_array(xi, xp=xp, like=device_source)
+        yi = xp_as_array(yi, xp=xp, like=device_source)
+
+        # Promote rank-1 ``yi`` to rank-2 internally so the boundary and
+        # scatter logic operates on a single code path; the trailing axis
+        # is squeezed back on return when the input was rank-1.
+        input_rank = yi.ndim
+        if input_rank == 1:
+            yi = yi[..., None]
+
         below = x < xi[0]
         above = x > xi[-1]
-        in_range = np.logical_and(x >= xi[0], x <= xi[-1])
+        in_range = xp.logical_and(x >= xi[0], x <= xi[-1])
 
-        y = np.zeros_like(x)
+        # ``y`` of shape ``x.shape + (yi.shape[1],)``; ``zeros_like`` on a
+        # broadcast intermediate inherits ``x``'s device, which matters on
+        # backends like Torch-MPS where ``zeros(shape)`` defaults to CPU.
+        y = xp.zeros_like(x[..., None] + yi[0])
+        below_b = below[..., None]
+        above_b = above[..., None]
+        x_offset_low = (x - xi[0])[..., None]
+        x_offset_high = (x - xi[-1])[..., None]
 
         if self._method == "linear":
             with sdiv_mode():
-                y = np.where(
-                    below,
-                    yi[0] + (x - xi[0]) * sdiv(yi[1] - yi[0], xi[1] - xi[0]),
+                y = xp.where(
+                    below_b,
+                    yi[0] + x_offset_low * sdiv(yi[1] - yi[0], xi[1] - xi[0]),
                     y,
                 )
-                y = np.where(
-                    above,
-                    yi[-1] + (x - xi[-1]) * sdiv(yi[-1] - yi[-2], xi[-1] - xi[-2]),
+                y = xp.where(
+                    above_b,
+                    yi[-1] + x_offset_high * sdiv(yi[-1] - yi[-2], xi[-1] - xi[-2]),
                     y,
                 )
         elif self._method == "constant":
-            y = np.where(below, yi[0], y)
-            y = np.where(above, yi[-1], y)
+            y = xp.where(below_b, yi[0], y)
+            y = xp.where(above_b, yi[-1], y)
 
         if self._left is not None:
-            y = np.where(below, self._left, y)
+            y = xp.where(below_b, self._left, y)
         if self._right is not None:
-            y = np.where(above, self._right, y)
+            y = xp.where(above_b, self._right, y)
 
-        if np.any(in_range):
-            # Flatten for multi-dimensional array support
-            shape = x.shape
-            x_ravel = np.ravel(x)
-            in_range_ravel = np.ravel(in_range)
-            y_ravel = np.ravel(y)
+        if xp.any(in_range):
+            # Flatten the query axes; ``y`` keeps its trailing signal axis
+            # so the scatter preserves it.
+            x_ravel = xp_reshape(x, (-1,), xp=xp)
+            in_range_ravel = xp_reshape(in_range, (-1,), xp=xp)
+            y_ravel = xp_reshape(y, (-1, yi.shape[1]), xp=xp)
 
-            interpolated_values = np.atleast_1d(
-                self._interpolator(x_ravel[in_range_ravel])
+            interpolated_values = xp_atleast_1d(
+                self._interpolator(x_ravel[in_range_ravel]), xp=xp
             )
-            # Scatter interpolated values back to full array positions
-            dense_idx = np.cumsum(in_range_ravel.astype(np.int64)) - 1
-            safe_idx = np.clip(dense_idx, 0, len(interpolated_values) - 1)
-            y_ravel = np.where(in_range_ravel, interpolated_values[safe_idx], y_ravel)
-            y = np.reshape(y_ravel, shape)
+            # The underlying interpolator's ``y`` may be rank-1 (matching
+            # ``input_rank``); promote its output here so the scatter is
+            # uniform with the rank-2 ``y_ravel``.
+            if interpolated_values.ndim == 1:
+                interpolated_values = interpolated_values[..., None]
+
+            dense_idx = (
+                xp.cumulative_sum(xp_astype(in_range_ravel, DTYPE_INT_DEFAULT, xp=xp))
+                - 1
+            )
+            safe_idx = xp.clip(dense_idx, 0, interpolated_values.shape[0] - 1)
+            y_ravel = xp.where(
+                in_range_ravel[..., None],
+                interpolated_values[safe_idx],
+                y_ravel,
+            )
+            y = xp_reshape(y_ravel, (*x.shape, yi.shape[1]), xp=xp)
+
+        if input_rank == 1:
+            y = y[..., 0]
 
         return y

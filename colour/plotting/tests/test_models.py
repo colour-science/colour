@@ -31,7 +31,7 @@ from colour.plotting.models import (
     plot_RGB_chromaticities_in_chromaticity_diagram,
     plot_RGB_colourspaces_in_chromaticity_diagram,
 )
-from colour.utilities import is_scipy_installed
+from colour.utilities import is_scipy_installed, xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -76,31 +76,31 @@ class TestCommonColourspaceModelAxisReorder:
 
         a = np.array([0, 1, 2])
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             colourspace_model_axis_reorder(a, "CIE Lab"),
-            np.array([1, 2, 0]),
+            [1, 2, 0],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             colourspace_model_axis_reorder(a, "IPT"),
-            np.array([1, 2, 0]),
+            [1, 2, 0],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             colourspace_model_axis_reorder(a, "OSA UCS"),
-            np.array([1, 2, 0]),
+            [1, 2, 0],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             colourspace_model_axis_reorder(
                 colourspace_model_axis_reorder(a, "OSA UCS"),
                 "OSA UCS",
                 "Inverse",
             ),
-            np.array([0, 1, 2]),
+            [0, 1, 2],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -143,7 +143,8 @@ class TestPlotPointerGamut:
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
 
-        pytest.raises(ValueError, lambda: plot_pointer_gamut(method="Undefined"))
+        with pytest.raises(ValueError):
+            plot_pointer_gamut(method="Undefined")
 
 
 class TestPlotRGBColourspacesInChromaticityDiagram:
@@ -176,14 +177,12 @@ plot_RGB_colourspaces_in_chromaticity_diagram` definition.
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
 
-        pytest.raises(
-            ValueError,
-            lambda: plot_RGB_colourspaces_in_chromaticity_diagram(
+        with pytest.raises(ValueError):
+            plot_RGB_colourspaces_in_chromaticity_diagram(
                 ["ITU-R BT.709", "ACEScg", "S-Gamut"],
                 chromaticity_diagram_callable=lambda **x: x,
                 method="Undefined",
-            ),
-        )
+            )
 
 
 class TestPlotRGBColourspacesInChromaticityDiagramCIE1931:
@@ -355,7 +354,8 @@ class TestEllipsesMacAdam1942:
 
         assert len(ellipses_MacAdam1942()) == 25
 
-        pytest.raises(ValueError, lambda: ellipses_MacAdam1942(method="Undefined"))
+        with pytest.raises(ValueError):
+            ellipses_MacAdam1942(method="Undefined")
 
 
 class TestPlotEllipsesMacAdam1942InChromaticityDiagram:

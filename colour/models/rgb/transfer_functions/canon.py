@@ -43,8 +43,6 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 if typing.TYPE_CHECKING:
     from colour.hints import Literal
 
@@ -55,11 +53,13 @@ from colour.hints import (  # noqa: TC001
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import (
     CanonicalMapping,
+    array_namespace,
     as_float,
     domain_range_scale,
     from_range_1,
     to_domain_1,
     validate_method,
+    xp_select,
 )
 
 __author__ = "Colour Developers"
@@ -143,6 +143,7 @@ def log_encoding_CanonLog_v1(
 
     Examples
     --------
+    >>> import numpy as np
     >>> log_encoding_CanonLog_v1(0.18) * 100  # doctest: +ELLIPSIS
     np.float64(34.3389651...)
 
@@ -158,14 +159,16 @@ def log_encoding_CanonLog_v1(
 
     x = to_domain_1(x)
 
+    xp = array_namespace(x)
+
     if in_reflection:
         x = x / 0.9
 
     with domain_range_scale("ignore"):
-        clog = np.where(
+        clog = xp.where(
             x < log_decoding_CanonLog_v1(0.0730597, bit_depth, False),
-            -(0.529136 * (np.log10(-x * 10.1596 + 1)) - 0.0730597),
-            0.529136 * np.log10(10.1596 * x + 1) + 0.0730597,
+            -(0.529136 * (xp.log10(-x * 10.1596 + 1)) - 0.0730597),
+            0.529136 * xp.log10(10.1596 * x + 1) + 0.0730597,
         )
 
     clog_cv = full_to_legal(clog, bit_depth) if out_normalised_code_value else clog
@@ -226,9 +229,11 @@ def log_decoding_CanonLog_v1(
 
     clog = to_domain_1(clog)
 
+    xp = array_namespace(clog)
+
     clog = legal_to_full(clog, bit_depth) if in_normalised_code_value else clog
 
-    x = np.where(
+    x = xp.where(
         clog < 0.0730597,
         -(10 ** ((0.0730597 - clog) / 0.529136) - 1) / 10.1596,
         (10 ** ((clog - 0.0730597) / 0.529136) - 1) / 10.1596,
@@ -292,14 +297,16 @@ def log_encoding_CanonLog_v1_2(
 
     x = to_domain_1(x)
 
+    xp = array_namespace(x)
+
     if in_reflection:
         x = x / 0.9
 
     with domain_range_scale("ignore"):
-        clog = np.where(
+        clog = xp.where(
             x < (log_decoding_CanonLog_v1_2(0.12512248, bit_depth, True)),
-            -(0.45310179 * (np.log10(-x * 10.1596 + 1)) - 0.12512248),
-            0.45310179 * np.log10(10.1596 * x + 1) + 0.12512248,
+            -(0.45310179 * (xp.log10(-x * 10.1596 + 1)) - 0.12512248),
+            0.45310179 * xp.log10(10.1596 * x + 1) + 0.12512248,
         )
 
     # NOTE: *Canon Log* v1.2 constants are expressed in legal range
@@ -364,11 +371,13 @@ def log_decoding_CanonLog_v1_2(
 
     clog = to_domain_1(clog)
 
+    xp = array_namespace(clog)
+
     # NOTE: *Canon Log* v1.2 constants are expressed in legal range
     # (studio swing).
     clog = clog if in_normalised_code_value else full_to_legal(clog, bit_depth)
 
-    x = np.where(
+    x = xp.where(
         clog < 0.12512248,
         -(10 ** ((0.12512248 - clog) / 0.45310179) - 1) / 10.1596,
         (10 ** ((clog - 0.12512248) / 0.45310179) - 1) / 10.1596,
@@ -445,6 +454,7 @@ def log_encoding_CanonLog(
 
     Examples
     --------
+    >>> import numpy as np
     >>> log_encoding_CanonLog(0.18) * 100  # doctest: +ELLIPSIS
     np.float64(34.3389649...)
     >>> log_encoding_CanonLog(0.18, method="v1") * 100  # doctest: +ELLIPSIS
@@ -598,14 +608,16 @@ def log_encoding_CanonLog2_v1(
 
     x = to_domain_1(x)
 
+    xp = array_namespace(x)
+
     if in_reflection:
         x = x / 0.9
 
     with domain_range_scale("ignore"):
-        clog2 = np.where(
+        clog2 = xp.where(
             x < log_decoding_CanonLog2_v1(0.035388128, bit_depth, False),
-            -(0.281863093 * (np.log10(-x * 87.09937546 + 1)) - 0.035388128),
-            0.281863093 * np.log10(x * 87.09937546 + 1) + 0.035388128,
+            -(0.281863093 * (xp.log10(-x * 87.09937546 + 1)) - 0.035388128),
+            0.281863093 * xp.log10(x * 87.09937546 + 1) + 0.035388128,
         )
 
     clog2_cv = full_to_legal(clog2, bit_depth) if out_normalised_code_value else clog2
@@ -666,9 +678,11 @@ def log_decoding_CanonLog2_v1(
 
     clog2 = to_domain_1(clog2)
 
+    xp = array_namespace(clog2)
+
     clog2 = legal_to_full(clog2, bit_depth) if in_normalised_code_value else clog2
 
-    x = np.where(
+    x = xp.where(
         clog2 < 0.035388128,
         -(10 ** ((0.035388128 - clog2) / 0.281863093) - 1) / 87.09937546,
         (10 ** ((clog2 - 0.035388128) / 0.281863093) - 1) / 87.09937546,
@@ -733,14 +747,16 @@ def log_encoding_CanonLog2_v1_2(
 
     x = to_domain_1(x)
 
+    xp = array_namespace(x)
+
     if in_reflection:
         x = x / 0.9
 
     with domain_range_scale("ignore"):
-        clog2 = np.where(
+        clog2 = xp.where(
             x < (log_decoding_CanonLog2_v1_2(0.092864125, bit_depth, True)),
-            -(0.24136077 * (np.log10(-x * 87.09937546 + 1)) - 0.092864125),
-            0.24136077 * np.log10(x * 87.09937546 + 1) + 0.092864125,
+            -(0.24136077 * (xp.log10(-x * 87.09937546 + 1)) - 0.092864125),
+            0.24136077 * xp.log10(x * 87.09937546 + 1) + 0.092864125,
         )
 
     # NOTE: *Canon Log 2* v1.2 constants are expressed in legal range
@@ -804,11 +820,13 @@ def log_decoding_CanonLog2_v1_2(
 
     clog2 = to_domain_1(clog2)
 
+    xp = array_namespace(clog2)
+
     # NOTE: *Canon Log 2* v1.2 constants are expressed in legal range
     # (studio swing).
     clog2 = clog2 if in_normalised_code_value else full_to_legal(clog2, bit_depth)
 
-    x = np.where(
+    x = xp.where(
         clog2 < 0.092864125,
         -(10 ** ((0.092864125 - clog2) / 0.24136077) - 1) / 87.09937546,
         (10 ** ((clog2 - 0.092864125) / 0.24136077) - 1) / 87.09937546,
@@ -1037,21 +1055,24 @@ def log_encoding_CanonLog3_v1(
 
     x = to_domain_1(x)
 
+    xp = array_namespace(x)
+
     if in_reflection:
         x = x / 0.9
 
     with domain_range_scale("ignore"):
-        clog3 = np.select(
+        clog3 = xp_select(
             (
                 x < log_decoding_CanonLog3_v1(0.04076162, bit_depth, False, False),
                 x <= log_decoding_CanonLog3_v1(0.105357102, bit_depth, False, False),
                 x > log_decoding_CanonLog3_v1(0.105357102, bit_depth, False, False),
             ),
             (
-                -0.42889912 * np.log10(-x * 14.98325 + 1) + 0.07623209,
+                -0.42889912 * xp.log10(-x * 14.98325 + 1) + 0.07623209,
                 2.3069815 * x + 0.073059361,
-                0.42889912 * np.log10(x * 14.98325 + 1) + 0.069886632,
+                0.42889912 * xp.log10(x * 14.98325 + 1) + 0.069886632,
             ),
+            xp=xp,
         )
 
     clog3_cv = full_to_legal(clog3, bit_depth) if out_normalised_code_value else clog3
@@ -1112,15 +1133,18 @@ def log_decoding_CanonLog3_v1(
 
     clog3 = to_domain_1(clog3)
 
+    xp = array_namespace(clog3)
+
     clog3 = legal_to_full(clog3, bit_depth) if in_normalised_code_value else clog3
 
-    x = np.select(
+    x = xp_select(
         (clog3 < 0.04076162, clog3 <= 0.105357102, clog3 > 0.105357102),
         (
             -(10 ** ((0.07623209 - clog3) / 0.42889912) - 1) / 14.98325,
             (clog3 - 0.073059361) / 2.3069815,
             (10 ** ((clog3 - 0.069886632) / 0.42889912) - 1) / 14.98325,
         ),
+        xp=xp,
     )
 
     if out_reflection:
@@ -1182,21 +1206,24 @@ def log_encoding_CanonLog3_v1_2(
 
     x = to_domain_1(x)
 
+    xp = array_namespace(x)
+
     if in_reflection:
         x = x / 0.9
 
     with domain_range_scale("ignore"):
-        clog3 = np.select(
+        clog3 = xp_select(
             (
                 x < log_decoding_CanonLog3_v1_2(0.097465473, bit_depth, True, False),
                 x <= log_decoding_CanonLog3_v1_2(0.15277891, bit_depth, True, False),
                 x > log_decoding_CanonLog3_v1_2(0.15277891, bit_depth, True, False),
             ),
             (
-                -0.36726845 * np.log10(-x * 14.98325 + 1) + 0.12783901,
+                -0.36726845 * xp.log10(-x * 14.98325 + 1) + 0.12783901,
                 1.9754798 * x + 0.12512219,
-                0.36726845 * np.log10(x * 14.98325 + 1) + 0.12240537,
+                0.36726845 * xp.log10(x * 14.98325 + 1) + 0.12240537,
             ),
+            xp=xp,
         )
 
     # NOTE: *Canon Log 3* v1.2 constants are expressed in legal range
@@ -1260,17 +1287,20 @@ def log_decoding_CanonLog3_v1_2(
 
     clog3 = to_domain_1(clog3)
 
+    xp = array_namespace(clog3)
+
     # NOTE: *Canon Log 3* v1.2 constants are expressed in legal range
     # (studio swing).
     clog3 = clog3 if in_normalised_code_value else full_to_legal(clog3, bit_depth)
 
-    x = np.select(
+    x = xp_select(
         (clog3 < 0.097465473, clog3 <= 0.15277891, clog3 > 0.15277891),
         (
             -(10 ** ((0.12783901 - clog3) / 0.36726845) - 1) / 14.98325,
             (clog3 - 0.12512219) / 1.9754798,
             (10 ** ((clog3 - 0.12240537) / 0.36726845) - 1) / 14.98325,
         ),
+        xp=xp,
     )
 
     if out_reflection:

@@ -24,12 +24,23 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
+    from colour.hints import ArrayLike, NDArrayFloat
 
-from colour.utilities import as_float, as_float_array, required, tstack, usage_warning
+from colour.temperature.common import (
+    CCT_INVERSION_GRID_SAMPLES,
+    solve_CCT_Newton,
+    x0_CCT_grid,
+)
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    as_float_array,
+    optional,
+    tstack,
+    usage_warning,
+    xp_select,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -44,7 +55,6 @@ __all__ = [
 ]
 
 
-@required("SciPy")
 def xy_to_CCT_Kang2002(
     xy: ArrayLike, optimisation_kwargs: dict | None = None
 ) -> NDArrayFloat:
@@ -58,7 +68,13 @@ def xy_to_CCT_Kang2002(
     xy
         *CIE xy* chromaticity coordinates.
     optimisation_kwargs
-        Parameters for :func:`scipy.optimize.minimize` definition.
+        Inversion parameters forwarded to
+        :func:`colour.temperature.x0_CCT_grid` and
+        :func:`colour.temperature.solve_CCT_Newton`. Accepted keys are
+        ``samples`` (grid density for the initial guess, default
+        :attr:`colour.temperature.CCT_INVERSION_GRID_SAMPLES`),
+        ``newton_iterations``, ``backtrack_iterations`` and ``tolerance``
+        (forwarded to :func:`solve_CCT_Newton`).
 
     Returns
     -------
@@ -70,9 +86,11 @@ def xy_to_CCT_Kang2002(
     The *Kang et al. (2002)* method does not provide an analytical inverse
     transformation to compute the correlated colour temperature
     :math:`T_{cp}` from the specified *CIE xy* chromaticity coordinates.
-    The current implementation relies on optimisation using
-    :func:`scipy.optimize.minimize` definition and thus has reduced
-    precision and poor performance.
+    The current implementation relies on a damped *Gauss-Newton* iteration
+    seeded by nearest-neighbour lookup against a coarse grid sampled from
+    the analytical forward over the [1667, 25000] domain. The lookup keeps
+    the iteration in the correct basin near the domain edges where the
+    polynomial is non-monotonic if extrapolated.
 
     References
     ----------
@@ -80,46 +98,24 @@ def xy_to_CCT_Kang2002(
 
     Examples
     --------
-    >>> xy_to_CCT_Kang2002(np.array([0.31342600, 0.32359597]))
-    ... # doctest: +ELLIPSIS
-    np.float64(6504.3893128...)
+    >>> xy_to_CCT_Kang2002([0.31342600, 0.32359597])  # doctest: +ELLIPSIS
+    np.float64(6504.389303...)
     """
 
-    from scipy.optimize import minimize  # noqa: PLC0415
+    optimisation_kwargs = dict(optional(optimisation_kwargs, {}))
 
     xy = as_float_array(xy)
-    shape = xy.shape
-    xy = np.atleast_1d(np.reshape(xy, (-1, 2)))
 
-    def objective_function(CCT: NDArrayFloat, xy: NDArrayFloat) -> DTypeFloat:
-        """Objective function."""
-
-        objective = np.linalg.norm(CCT_to_xy_Kang2002(CCT) - xy)
-
-        return as_float(objective)
-
-    optimisation_settings = {
-        "method": "Nelder-Mead",
-        "options": {
-            "fatol": 1e-10,
-        },
-    }
-    if optimisation_kwargs is not None:
-        optimisation_settings.update(optimisation_kwargs)
-
-    CCT = as_float_array(
-        [
-            minimize(
-                objective_function,
-                x0=[6500],
-                args=(xy_i,),
-                **optimisation_settings,
-            ).x
-            for xy_i in xy
-        ]
+    x0 = x0_CCT_grid(
+        CCT_to_xy_Kang2002,
+        xy,
+        (1667.0, 25000.0),
+        samples=optimisation_kwargs.pop("samples", CCT_INVERSION_GRID_SAMPLES),
     )
 
-    return as_float(np.reshape(CCT, shape[:-1]))
+    return as_float(
+        solve_CCT_Newton(CCT_to_xy_Kang2002, xy, x0=x0, **optimisation_kwargs)
+    )
 
 
 def CCT_to_xy_Kang2002(CCT: ArrayLike) -> NDArrayFloat:
@@ -155,7 +151,9 @@ def CCT_to_xy_Kang2002(CCT: ArrayLike) -> NDArrayFloat:
 
     CCT = as_float_array(CCT)
 
-    if np.any(CCT[np.asarray(np.logical_or(CCT < 1667, CCT > 25000))]):
+    xp = array_namespace(CCT)
+
+    if xp.any(xp.logical_or(CCT < 1667, CCT > 25000)):
         usage_warning(
             "Correlated colour temperature must be in domain "
             "[1667, 25000], unpredictable results may occur!"
@@ -164,7 +162,7 @@ def CCT_to_xy_Kang2002(CCT: ArrayLike) -> NDArrayFloat:
     CCT_3 = CCT**3
     CCT_2 = CCT**2
 
-    x = np.where(
+    x = xp.where(
         CCT <= 4000,
         -0.2661239 * 10**9 / CCT_3
         - 0.2343589 * 10**6 / CCT_2
@@ -179,10 +177,10 @@ def CCT_to_xy_Kang2002(CCT: ArrayLike) -> NDArrayFloat:
     x_3 = x**3
     x_2 = x**2
 
-    cnd_l = [CCT <= 2222, np.logical_and(CCT > 2222, CCT <= 4000), CCT > 4000]
+    cnd_l = [CCT <= 2222, xp.logical_and(CCT > 2222, CCT <= 4000), CCT > 4000]
     i = -1.1063814 * x_3 - 1.34811020 * x_2 + 2.18555832 * x - 0.20219683
     j = -0.9549476 * x_3 - 1.37418593 * x_2 + 2.09137015 * x - 0.16748867
     k = 3.0817580 * x_3 - 5.8733867 * x_2 + 3.75112997 * x - 0.37001483
-    y = np.select(cnd_l, [i, j, k])
+    y = xp_select(cnd_l, [i, j, k], xp=xp)
 
     return tstack([x, y])

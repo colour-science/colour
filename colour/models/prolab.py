@@ -26,7 +26,14 @@ from colour.hints import (  # noqa: TC001
     Range1,
 )
 from colour.models import xy_to_xyY, xyY_to_XYZ
-from colour.utilities import as_float_array, from_range_1, ones, to_domain_1
+from colour.utilities import (
+    array_namespace,
+    as_float_array,
+    from_range_1,
+    to_domain_1,
+    xp_as_float_array,
+    xp_matrix_transpose,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -75,12 +82,15 @@ def projective_transformation(a: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     """
 
     a = as_float_array(a)
-    Q = as_float_array(Q)
 
-    # Concatenate array with ones along last axis for homogeneous coordinates
-    M = np.concatenate([a, ones((*a.shape[:-1], 1))], axis=-1)
+    xp = array_namespace(a, Q)
 
-    homography = np.dot(M, np.transpose(Q))
+    Q = xp_as_float_array(Q, xp=xp, like=a)
+
+    # Concatenate array with ones along last axis for homogeneous coordinates.
+    M = xp.concat([a, xp.ones_like(a[..., :1])], axis=-1)
+
+    homography = xp.matmul(M, xp_matrix_transpose(Q, xp=xp))
 
     return homography[..., 0:-1] / homography[..., -1][..., None]
 
@@ -133,7 +143,10 @@ def XYZ_to_ProLab(
     """
 
     XYZ = to_domain_1(XYZ)
-    XYZ_n = xyY_to_XYZ(xy_to_xyY(illuminant))
+
+    xp = array_namespace(XYZ)
+
+    XYZ_n = xp_as_float_array(xyY_to_XYZ(xy_to_xyY(illuminant)), xp=xp, like=XYZ)
 
     ProLab = projective_transformation(XYZ / XYZ_n, MATRIX_Q)
 
@@ -188,7 +201,10 @@ def ProLab_to_XYZ(
     """
 
     ProLab = to_domain_1(ProLab)
-    XYZ_n = xyY_to_XYZ(xy_to_xyY(illuminant))
+
+    xp = array_namespace(ProLab)
+
+    XYZ_n = xp_as_float_array(xyY_to_XYZ(xy_to_xyY(illuminant)), xp=xp, like=ProLab)
 
     XYZ = projective_transformation(ProLab, MATRIX_INVERSE_Q)
 

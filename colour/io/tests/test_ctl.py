@@ -7,8 +7,6 @@ import shutil
 import tempfile
 import textwrap
 
-import numpy as np
-
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import (
     ctl_render,
@@ -17,7 +15,7 @@ from colour.io import (
     template_ctl_transform_float,
     template_ctl_transform_float3,
 )
-from colour.utilities import full, is_ctlrender_installed
+from colour.utilities import full, is_ctlrender_installed, xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -91,7 +89,7 @@ class TestCtlRender:
             "-force",
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             read_image(path_output)[..., 0:3],
             read_image(path_input) * [1, 2, 4],
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -110,7 +108,7 @@ class TestCtlRender:
             env=dict(os.environ, CTL_MODULE_PATH=ROOT_RESOURCES),
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             read_image(path_output)[..., 0:3],
             read_image(path_input) * 2,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -137,7 +135,7 @@ class TestProcessImageCtl:
             parameters=["input float gain[3] = {1.0, 1.0, 1.0}"],
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             process_image_ctl(
                 0.18,
                 {
@@ -147,43 +145,43 @@ class TestProcessImageCtl:
                 "-force",
             ),
             0.18 / 2,
-            atol=0.0001,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             process_image_ctl(
-                np.array([0.18, 0.18, 0.18]),
+                [0.18, 0.18, 0.18],
                 {
                     ctl_adjust_gain_float: ["-param3 gain 0.5 1.0 2.0"],
                 },
             ),
-            np.array([0.18 / 2, 0.18, 0.18 * 2]),
-            atol=0.0001,
+            [0.18 / 2, 0.18, 0.18 * 2],
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             process_image_ctl(
-                np.array([[0.18, 0.18, 0.18]]),
+                [[0.18, 0.18, 0.18]],
                 {
                     ctl_adjust_gain_float: ["-param3 gain 0.5 1.0 2.0"],
                 },
             ),
-            np.array([[0.18 / 2, 0.18, 0.18 * 2]]),
-            atol=0.0001,
+            [[0.18 / 2, 0.18, 0.18 * 2]],
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             process_image_ctl(
-                np.array([[[0.18, 0.18, 0.18]]]),
+                [[[0.18, 0.18, 0.18]]],
                 {
                     ctl_adjust_gain_float: ["-param3 gain 0.5 1.0 2.0"],
                 },
             ),
-            np.array([[[0.18 / 2, 0.18, 0.18 * 2]]]),
-            atol=0.0001,
+            [[[0.18 / 2, 0.18, 0.18 * 2]]],
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             process_image_ctl(
                 full([4, 2, 3], 0.18),
                 {
@@ -191,7 +189,7 @@ class TestProcessImageCtl:
                 },
             ),
             full([4, 2, 3], 0.18) * [0.5, 1.0, 2.0],
-            atol=0.0001,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
         )
 
 

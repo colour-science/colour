@@ -48,6 +48,15 @@ from colour.utilities import (
     validate_method,
 )
 
+from .common import (
+    CCT_INVERSION_GRID_SAMPLES,
+    solve_CCT_Newton,
+    solve_xy_Newton,
+    x0_CCT_grid,
+)
+
+# isort: split
+
 from .cie_d import CCT_to_xy_CIE_D, xy_to_CCT_CIE_D
 from .hernandez1999 import CCT_to_xy_Hernandez1999, xy_to_CCT_Hernandez1999
 from .kang2002 import CCT_to_xy_Kang2002, xy_to_CCT_Kang2002
@@ -71,6 +80,12 @@ from .robertson1968 import (
 )
 
 __all__ = [
+    "CCT_INVERSION_GRID_SAMPLES",
+    "solve_CCT_Newton",
+    "solve_xy_Newton",
+    "x0_CCT_grid",
+]
+__all__ += [
     "CCT_to_xy_CIE_D",
     "xy_to_CCT_CIE_D",
 ]
@@ -169,8 +184,11 @@ def uv_to_CCT(
         {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
         Number of planckian tables to generate.
     optimisation_kwargs
-        {:func:`colour.temperature.uv_to_CCT_Krystek1985`},
-        Parameters for :func:`scipy.optimize.minimize` definition.
+        {:func:`colour.temperature.uv_to_CCT_Krystek1985`,
+        :func:`colour.temperature.uv_to_CCT_Planck1900`},
+        Inversion parameters forwarded to
+        :func:`colour.temperature.x0_CCT_grid` and
+        :func:`colour.temperature.solve_CCT_Newton`.
     start
         {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
         Temperature range start in kelvins.
@@ -330,6 +348,7 @@ def xy_to_CCT(
         ]
         | str
     ) = "CIE Illuminant D Series",
+    **kwargs: Any,
 ) -> NDArrayFloat:
     """
     Compute the correlated colour temperature :math:`T_{cp}` from the
@@ -347,7 +366,9 @@ def xy_to_CCT(
     optimisation_kwargs
         {:func:`colour.temperature.xy_to_CCT_CIE_D`,
         :func:`colour.temperature.xy_to_CCT_Kang2002`},
-        Parameters for :func:`scipy.optimize.minimize` definition.
+        Inversion parameters forwarded to
+        :func:`colour.temperature.x0_CCT_grid` and
+        :func:`colour.temperature.solve_CCT_Newton`.
 
     Returns
     -------
@@ -363,7 +384,7 @@ def xy_to_CCT(
     --------
     >>> import numpy as np
     >>> xy_to_CCT(np.array([0.31270, 0.32900]))  # doctest: +ELLIPSIS
-    np.float64(6508.1175148...)
+    np.float64(6508.117542...)
     >>> xy_to_CCT(np.array([0.31270, 0.32900]), "Hernandez 1999")
     ... # doctest: +ELLIPSIS
     np.float64(6500.7420431...)
@@ -371,7 +392,9 @@ def xy_to_CCT(
 
     method = validate_method(method, tuple(XY_TO_CCT_METHODS))
 
-    return XY_TO_CCT_METHODS[method](xy)
+    function = XY_TO_CCT_METHODS[method]
+
+    return function(xy, **filter_kwargs(function, **kwargs))
 
 
 CCT_TO_XY_METHODS: CanonicalMapping = CanonicalMapping(
@@ -415,6 +438,7 @@ def CCT_to_xy(
         ]
         | str
     ) = "CIE Illuminant D Series",
+    **kwargs: Any,
 ) -> NDArrayFloat:
     """
     Compute the *CIE xy* chromaticity coordinates from the specified
@@ -432,7 +456,9 @@ def CCT_to_xy(
     optimisation_kwargs
         {:func:`colour.temperature.CCT_to_xy_Hernandez1999`,
         :func:`colour.temperature.CCT_to_xy_McCamy1992`},
-        Parameters for :func:`scipy.optimize.minimize` definition.
+        Inversion parameters forwarded to
+        :func:`colour.temperature.x0_CCT_grid` and
+        :func:`colour.temperature.solve_xy_Newton`.
 
     Returns
     -------
@@ -455,7 +481,9 @@ def CCT_to_xy(
 
     method = validate_method(method, tuple(CCT_TO_XY_METHODS))
 
-    return CCT_TO_XY_METHODS[method](CCT)
+    function = CCT_TO_XY_METHODS[method]
+
+    return function(CCT, **filter_kwargs(function, **kwargs))
 
 
 __all__ += [

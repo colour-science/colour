@@ -31,10 +31,13 @@ Spectral Data Structure
 .. autosummary::
     :toctree: generated/
 
+    extrapolate_signal
+    interpolate_signal
     reshape_msds
     reshape_sd
     sds_and_msds_to_msds
     sds_and_msds_to_sds
+    trim_signal
 
 Spectral Data Generation
 ------------------------
@@ -46,8 +49,11 @@ Spectral Data Generation
 .. autosummary::
     :toctree: generated/
 
+    msds_blackbody
+    msds_CIE_illuminant_D_series
     msds_constant
     msds_ones
+    msds_rayleigh_jeans
     msds_zeros
     sd_blackbody
     sd_CIE_illuminant_D_series
@@ -71,6 +77,7 @@ Spectral Data Generation
     :toctree: generated/
 
     blackbody_spectral_radiance
+    CIE_illuminant_D_series
     daylight_locus_function
     planck_law
     rayleigh_jeans_law
@@ -143,6 +150,7 @@ ASTM E308-15
 
     adjust_tristimulus_weighting_factors_ASTME308
     lagrange_coefficients_ASTME2022
+    msds_to_XYZ_tristimulus_weighting_factors_ASTME308
     sd_to_XYZ_tristimulus_weighting_factors_ASTME308
     tristimulus_weighting_factors_ASTME2022
 

@@ -16,13 +16,18 @@ dam/oppo_com/en/mkt/footer/OPPO_O-Log_Profile_WhitePaper_V1.pdf
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
+from colour.utilities import (
+    Structure,
+    array_namespace,
+    as_float,
+    from_range_1,
+    optional,
+    to_domain_1,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -95,13 +100,16 @@ def log_encoding_OPPOOLog(
     """
 
     R = to_domain_1(R)
+
+    xp = array_namespace(R)
+
     constants = optional(constants, CONSTANTS_OPPO_O_LOG)
 
     gamma = constants.gamma
     beta = constants.beta
     delta = constants.delta
 
-    P = gamma * np.log(R + beta) + delta
+    P = gamma * xp.log(R + beta) + delta
 
     return as_float(from_range_1(P))
 
@@ -154,12 +162,15 @@ def log_decoding_OPPOOLog(
     """
 
     P = to_domain_1(P)
+
+    xp = array_namespace(P)
+
     constants = optional(constants, CONSTANTS_OPPO_O_LOG)
 
     gamma = constants.gamma
     beta = constants.beta
     delta = constants.delta
 
-    R = np.exp((P - delta) / gamma) - beta
+    R = xp.exp((P - delta) / gamma) - beta
 
     return as_float(from_range_1(R))

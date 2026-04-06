@@ -2,13 +2,25 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 from itertools import product
 
 import numpy as np
 
 from colour.appearance import XYZ_to_Nayatani95
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.utilities import as_float_array, domain_range_scale, ignore_numpy_errors
+from colour.utilities import (
+    as_float_array,
+    domain_range_scale,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -28,7 +40,7 @@ class TestXYZ_to_Nayatani95:
     unit tests methods.
     """
 
-    def test_XYZ_to_Nayatani95(self) -> None:
+    def test_XYZ_to_Nayatani95(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95`
         definition.
@@ -40,105 +52,112 @@ class TestXYZ_to_Nayatani95:
             http://rit-mcsl.org/fairchild//files/AppModEx.xls
         """
 
-        XYZ = np.array([19.01, 20.00, 21.78])
-        XYZ_n = np.array([95.05, 100.00, 108.88])
+        XYZ = xp_as_array([19.01, 20.00, 21.78], xp=xp)
+        XYZ_n = xp_as_array([95.05, 100.00, 108.88], xp=xp)
         Y_o = 20
         E_o = 5000
         E_or = 1000
-        np.testing.assert_allclose(
-            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
-            np.array([50, 0.01, 257.5, 0.01, 62.6, 0.02, np.nan, np.nan, 50]),
-            atol=0.05,
+        xp_assert_close(
+            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, compute_H=True),
+            [50, 0.01, 257.5, 0.01, 62.6, 0.02, 317.8, np.nan, 50],
+            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
         )
 
-        XYZ = np.array([57.06, 43.06, 31.96])
+        XYZ = xp_as_array([57.06, 43.06, 31.96], xp=xp)
         E_o = 500
-        np.testing.assert_allclose(
-            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
-            np.array([73, 48.3, 21.6, 37.1, 67.3, 42.9, np.nan, np.nan, 75.9]),
-            atol=0.05,
+        xp_assert_close(
+            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, compute_H=True),
+            [73, 48.3, 21.6, 37.1, 67.3, 42.9, 2.1, np.nan, 75.9],
+            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
         )
 
-        XYZ = np.array([3.53, 6.56, 2.14])
-        XYZ_n = np.array([109.85, 100.00, 35.58])
+        XYZ = xp_as_array([3.53, 6.56, 2.14], xp=xp)
+        XYZ_n = xp_as_array([109.85, 100.00, 35.58], xp=xp)
         E_o = 5000
-        np.testing.assert_allclose(
-            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
-            np.array([24.5, 49.3, 190.6, 81.3, 37.5, 62.1, np.nan, np.nan, 29.7]),
-            atol=0.05,
+        xp_assert_close(
+            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, compute_H=True),
+            [24.5, 49.3, 190.6, 81.3, 37.5, 62.1, 239.4, np.nan, 29.7],
+            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
         )
 
-        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ = xp_as_array([19.01, 20.00, 21.78], xp=xp)
         E_o = 500
-        np.testing.assert_allclose(
-            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
-            np.array([49.4, 39.9, 236.3, 40.2, 44.2, 35.8, np.nan, np.nan, 49.4]),
-            atol=0.05,
+        xp_assert_close(
+            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, compute_H=True),
+            [49.4, 39.9, 236.3, 40.2, 44.2, 35.8, 303.6, np.nan, 49.4],
+            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
         )
 
-    def test_n_dimensional_XYZ_to_Nayatani95(self) -> None:
+    def test_n_dimensional_XYZ_to_Nayatani95(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
         n-dimensional support.
         """
 
-        XYZ = np.array([19.01, 20.00, 21.78])
-        XYZ_n = np.array([95.05, 100.00, 108.88])
+        XYZ = xp_as_array([19.01, 20.00, 21.78], xp=xp)
+        XYZ_n = xp_as_array([95.05, 100.00, 108.88], xp=xp)
         Y_o = 20
         E_o = 5000
         E_or = 1000
-        specification = XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)
+        specification = XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, compute_H=True)
 
-        XYZ = np.tile(XYZ, (6, 1))
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
         specification = np.tile(specification, (6, 1))
-        np.testing.assert_allclose(
-            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
+        xp_assert_close(
+            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, compute_H=True),
             specification,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        XYZ_n = np.tile(XYZ_n, (6, 1))
-        np.testing.assert_allclose(
-            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
+        XYZ_n = xp.tile(xp_as_array(XYZ_n, xp=xp), (6, 1))
+        xp_assert_close(
+            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, compute_H=True),
             specification,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
-        specification = np.reshape(specification, (2, 3, 9))
-        np.testing.assert_allclose(
-            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or),
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        XYZ_n = xp_reshape(xp_as_array(XYZ_n, xp=xp), (2, 3, 3), xp=xp)
+        specification = xp_reshape(xp_as_array(specification, xp=xp), (2, 3, 9), xp=xp)
+        xp_assert_close(
+            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, compute_H=True),
             specification,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_XYZ_to_Nayatani95(self) -> None:
+    def test_domain_range_scale_XYZ_to_Nayatani95(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
         domain and range scale support.
         """
 
-        XYZ = np.array([19.01, 20.00, 21.78])
-        XYZ_n = np.array([95.05, 100.00, 108.88])
+        XYZ = xp_as_array([19.01, 20.00, 21.78], xp=xp)
+        XYZ_n = xp_as_array([95.05, 100.00, 108.88], xp=xp)
         Y_o = 20.0
         E_o = 5000.0
         E_or = 1000.0
-        specification = XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)
+        specification = XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, compute_H=True)
 
         d_r = (
             ("reference", 1, 1),
-            ("1", 0.01, np.array([1, 1, 1 / 360, 1, 1, 1, np.nan, np.nan, 1])),
+            ("1", 0.01, np.array([1, 1, 1 / 360, 1, 1, 1, 1 / 400, np.nan, 1])),
             (
                 "100",
                 1,
-                np.array([1, 1, 100 / 360, 1, 1, 1, np.nan, np.nan, 1]),
+                np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 400, np.nan, 1]),
             ),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    XYZ_to_Nayatani95(XYZ * factor_a, XYZ_n * factor_a, Y_o, E_o, E_or),
+                xp_assert_close(
+                    XYZ_to_Nayatani95(
+                        XYZ * xp_as_array(factor_a, xp=xp),
+                        XYZ_n * xp_as_array(factor_a, xp=xp),
+                        Y_o,
+                        E_o,
+                        E_or,
+                        compute_H=True,
+                    ),
                     as_float_array(specification) * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )

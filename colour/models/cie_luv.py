@@ -30,8 +30,6 @@ References
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import CCS_ILLUMINANTS, lightness_CIE1976, luminance_CIE1976
 from colour.hints import (  # noqa: TC001
@@ -45,6 +43,8 @@ from colour.hints import (  # noqa: TC001
 )
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (
+    array_namespace,
+    as_float_array,
     domain_range_scale,
     from_range_1,
     from_range_100,
@@ -54,6 +54,8 @@ from colour.utilities import (
     to_domain_100,
     tsplit,
     tstack,
+    xp_as_float_array,
+    xp_resize,
 )
 
 __author__ = "Colour Developers"
@@ -329,12 +331,17 @@ def uv_to_Luv(
     array([41.5278752..., 96.8362609..., 17.7521029...])
     """
 
-    u, v = tsplit(uv)
+    uv = as_float_array(uv)
     L = to_domain_100(
         optional(L, 100 if get_domain_range_scale() == "reference" else 1)
     )
 
+    xp = array_namespace(uv)
+
+    u, v = tsplit(uv)
+    L = xp_as_float_array(L, xp=xp, like=uv)
     _X_r, Y_r, _Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
+    Y_r = xp_as_float_array(Y_r, xp=xp, like=uv)
 
     with domain_range_scale("ignore"):
         Y = luminance_CIE1976(L, Y_r)
@@ -343,7 +350,7 @@ def uv_to_Luv(
         X = sdiv(9 * Y * u, 4 * v)
         Z = sdiv(Y * (-3 * u - 20 * v + 12), 4 * v)
 
-    XYZ = tstack([X, np.resize(Y, u.shape), Z])
+    XYZ = tstack([X, xp_resize(Y, u.shape, xp=xp), Z])
 
     return XYZ_to_Luv(from_range_1(XYZ), illuminant)
 

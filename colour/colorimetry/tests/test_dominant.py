@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 from itertools import product
 
 import numpy as np
@@ -17,7 +22,15 @@ from colour.colorimetry import (
 from colour.colorimetry.dominant import closest_spectral_locus_wavelength
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import XYZ_to_xy
-from colour.utilities import ignore_numpy_errors, is_scipy_installed
+from colour.utilities import (
+    as_ndarray,
+    ignore_numpy_errors,
+    is_scipy_installed,
+    xp_as_array,
+    xp_assert_close,
+    xp_assert_equal,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -48,7 +61,7 @@ closest_spectral_locus_wavelength` definition unit tests methods.
 
         self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
 
-    def test_closest_spectral_locus_wavelength(self) -> None:
+    def test_closest_spectral_locus_wavelength(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.dominant.\
 closest_spectral_locus_wavelength` definition.
@@ -57,28 +70,30 @@ closest_spectral_locus_wavelength` definition.
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        xy = np.array([0.54369557, 0.32107944])
+        xy = xp_as_array([0.54369557, 0.32107944], xp=xp)
         xy_n = self._xy_D65
         i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self._xy_s)
 
-        assert i_wl == np.array(256)
-        np.testing.assert_allclose(
+        xp_assert_equal(i_wl, np.array(256))
+        xp_assert_close(
             xy_wl,
-            np.array([0.68354746, 0.31628409]),
+            [0.68354746, 0.31628409],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        xy = np.array([0.37605506, 0.24452225])
+        xy = xp_as_array([0.37605506, 0.24452225], xp=xp)
         i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self._xy_s)
 
-        assert i_wl == np.array(248)
-        np.testing.assert_allclose(
+        xp_assert_equal(i_wl, np.array(248))
+        xp_assert_close(
             xy_wl,
-            np.array([0.45723147, 0.13628148]),
+            [0.45723147, 0.13628148],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_closest_spectral_locus_wavelength(self) -> None:
+    def test_n_dimensional_closest_spectral_locus_wavelength(
+        self, xp: ModuleType
+    ) -> None:
         """
         Test :func:`colour.colorimetry.dominant.\
 closest_spectral_locus_wavelength` definition n-dimensional arrays support.
@@ -87,28 +102,31 @@ closest_spectral_locus_wavelength` definition n-dimensional arrays support.
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        xy = np.array([0.54369557, 0.32107944])
+        xy = xp_as_array([0.54369557, 0.32107944], xp=xp)
         xy_n = self._xy_D65
         i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self._xy_s)
-        i_wl_r, xy_wl_r = np.array(256), np.array([0.68354746, 0.31628409])
-        np.testing.assert_allclose(i_wl, i_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        i_wl_r, xy_wl_r = (
+            xp_as_array(256, xp=xp),
+            xp_as_array([0.68354746, 0.31628409], xp=xp),
+        )
+        xp_assert_close(i_wl, i_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        xy = np.tile(xy, (6, 1))
-        xy_n = np.tile(xy_n, (6, 1))
+        xy = xp.tile(xp_as_array(xy, xp=xp), (6, 1))
+        xy_n = xp.tile(xp_as_array(xy_n, xp=xp), (6, 1))
         i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self._xy_s)
-        i_wl_r = np.tile(i_wl_r, 6)
-        xy_wl_r = np.tile(xy_wl_r, (6, 1))
-        np.testing.assert_allclose(i_wl, i_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        i_wl_r = xp.tile(xp_as_array(i_wl_r, xp=xp), (6,))
+        xy_wl_r = xp.tile(xp_as_array(xy_wl_r, xp=xp), (6, 1))
+        xp_assert_close(i_wl, i_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        xy = np.reshape(xy, (2, 3, 2))
-        xy_n = np.reshape(xy_n, (2, 3, 2))
+        xy = xp_reshape(xp_as_array(xy, xp=xp), (2, 3, 2), xp=xp)
+        xy_n = xp_reshape(xp_as_array(xy_n, xp=xp), (2, 3, 2), xp=xp)
         i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self._xy_s)
-        i_wl_r = np.reshape(i_wl_r, (2, 3))
-        xy_wl_r = np.reshape(xy_wl_r, (2, 3, 2))
-        np.testing.assert_allclose(i_wl, i_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        i_wl_r = xp_reshape(xp_as_array(i_wl_r, xp=xp), (2, 3), xp=xp)
+        xy_wl_r = xp_reshape(xp_as_array(xy_wl_r, xp=xp), (2, 3, 2), xp=xp)
+        xp_assert_close(i_wl, i_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_closest_spectral_locus_wavelength(self) -> None:
@@ -137,7 +155,7 @@ class TestDominantWavelength:
 
         self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
 
-    def test_dominant_wavelength(self) -> None:
+    def test_dominant_wavelength(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.dominant.dominant_wavelength`
         definition.
@@ -146,38 +164,38 @@ class TestDominantWavelength:
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        xy = np.array([0.54369557, 0.32107944])
+        xy = xp_as_array([0.54369557, 0.32107944], xp=xp)
         xy_n = self._xy_D65
         wl, xy_wl, xy_cwl = dominant_wavelength(xy, xy_n)
 
-        assert wl == np.array(616.0)
-        np.testing.assert_allclose(
+        xp_assert_equal(wl, np.array(616.0))
+        xp_assert_close(
             xy_wl,
-            np.array([0.68354746, 0.31628409]),
+            [0.68354746, 0.31628409],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             xy_cwl,
-            np.array([0.68354746, 0.31628409]),
+            [0.68354746, 0.31628409],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        xy = np.array([0.37605506, 0.24452225])
+        xy = xp_as_array([0.37605506, 0.24452225], xp=xp)
         i_wl, xy_wl, xy_cwl = dominant_wavelength(xy, xy_n)
 
-        assert i_wl == np.array(-509.0)
-        np.testing.assert_allclose(
+        xp_assert_equal(i_wl, np.array(-509.0))
+        xp_assert_close(
             xy_wl,
-            np.array([0.45723147, 0.13628148]),
+            [0.45723147, 0.13628148],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             xy_cwl,
-            np.array([0.01040962, 0.73207453]),
+            [0.01040962, 0.73207453],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_dominant_wavelength(self) -> None:
+    def test_n_dimensional_dominant_wavelength(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.dominant.dominant_wavelength`
         definition n-dimensional arrays support.
@@ -186,7 +204,7 @@ class TestDominantWavelength:
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        xy = np.array([0.54369557, 0.32107944])
+        xy = xp_as_array([0.54369557, 0.32107944], xp=xp)
         xy_n = self._xy_D65
         wl, xy_wl, xy_cwl = dominant_wavelength(xy, xy_n)
         wl_r, xy_wl_r, xy_cwl_r = (
@@ -194,29 +212,29 @@ class TestDominantWavelength:
             np.array([0.68354746, 0.31628409]),
             np.array([0.68354746, 0.31628409]),
         )
-        np.testing.assert_allclose(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        xy = np.tile(xy, (6, 1))
-        xy_n = np.tile(xy_n, (6, 1))
+        xy = xp.tile(xp_as_array(xy, xp=xp), (6, 1))
+        xy_n = xp.tile(xp_as_array(xy_n, xp=xp), (6, 1))
         wl, xy_wl, xy_cwl = dominant_wavelength(xy, xy_n)
-        wl_r = np.tile(wl_r, 6)
-        xy_wl_r = np.tile(xy_wl_r, (6, 1))
-        xy_cwl_r = np.tile(xy_cwl_r, (6, 1))
-        np.testing.assert_allclose(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        wl_r = xp.tile(xp_as_array(wl_r, xp=xp), (6,))
+        xy_wl_r = xp.tile(xp_as_array(xy_wl_r, xp=xp), (6, 1))
+        xy_cwl_r = xp.tile(xp_as_array(xy_cwl_r, xp=xp), (6, 1))
+        xp_assert_close(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        xy = np.reshape(xy, (2, 3, 2))
-        xy_n = np.reshape(xy_n, (2, 3, 2))
+        xy = xp_reshape(xp_as_array(xy, xp=xp), (2, 3, 2), xp=xp)
+        xy_n = xp_reshape(xp_as_array(xy_n, xp=xp), (2, 3, 2), xp=xp)
         wl, xy_wl, xy_cwl = dominant_wavelength(xy, xy_n)
-        wl_r = np.reshape(wl_r, (2, 3))
-        xy_wl_r = np.reshape(xy_wl_r, (2, 3, 2))
-        xy_cwl_r = np.reshape(xy_cwl_r, (2, 3, 2))
-        np.testing.assert_allclose(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        wl_r = xp_reshape(xp_as_array(wl_r, xp=xp), (2, 3), xp=xp)
+        xy_wl_r = xp_reshape(xp_as_array(xy_wl_r, xp=xp), (2, 3, 2), xp=xp)
+        xy_cwl_r = xp_reshape(xp_as_array(xy_cwl_r, xp=xp), (2, 3, 2), xp=xp)
+        xp_assert_close(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_dominant_wavelength(self) -> None:
@@ -245,7 +263,7 @@ class TestComplementaryWavelength:
 
         self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
 
-    def test_complementary_wavelength(self) -> None:
+    def test_complementary_wavelength(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.dominant.complementary_wavelength`
         definition.
@@ -254,38 +272,38 @@ class TestComplementaryWavelength:
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        xy = np.array([0.54369557, 0.32107944])
+        xy = xp_as_array([0.54369557, 0.32107944], xp=xp)
         xy_n = self._xy_D65
         wl, xy_wl, xy_cwl = complementary_wavelength(xy, xy_n)
 
-        assert wl == np.array(492.0)
-        np.testing.assert_allclose(
+        xp_assert_equal(wl, np.array(492.0))
+        xp_assert_close(
             xy_wl,
-            np.array([0.03647950, 0.33847127]),
+            [0.03647950, 0.33847127],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             xy_cwl,
-            np.array([0.03647950, 0.33847127]),
+            [0.03647950, 0.33847127],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        xy = np.array([0.37605506, 0.24452225])
+        xy = xp_as_array([0.37605506, 0.24452225], xp=xp)
         i_wl, xy_wl, xy_cwl = complementary_wavelength(xy, xy_n)
 
-        assert i_wl == np.array(509.0)
-        np.testing.assert_allclose(
+        xp_assert_equal(i_wl, np.array(509.0))
+        xp_assert_close(
             xy_wl,
-            np.array([0.01040962, 0.73207453]),
+            [0.01040962, 0.73207453],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             xy_cwl,
-            np.array([0.01040962, 0.73207453]),
+            [0.01040962, 0.73207453],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_complementary_wavelength(self) -> None:
+    def test_n_dimensional_complementary_wavelength(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.dominant.complementary_wavelength`
         definition n-dimensional arrays support.
@@ -294,7 +312,7 @@ class TestComplementaryWavelength:
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        xy = np.array([0.54369557, 0.32107944])
+        xy = xp_as_array([0.54369557, 0.32107944], xp=xp)
         xy_n = self._xy_D65
         wl, xy_wl, xy_cwl = complementary_wavelength(xy, xy_n)
         wl_r, xy_wl_r, xy_cwl_r = (
@@ -302,29 +320,29 @@ class TestComplementaryWavelength:
             np.array([0.03647950, 0.33847127]),
             np.array([0.03647950, 0.33847127]),
         )
-        np.testing.assert_allclose(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        xy = np.tile(xy, (6, 1))
-        xy_n = np.tile(xy_n, (6, 1))
+        xy = xp.tile(xp_as_array(xy, xp=xp), (6, 1))
+        xy_n = xp.tile(xp_as_array(xy_n, xp=xp), (6, 1))
         wl, xy_wl, xy_cwl = complementary_wavelength(xy, xy_n)
-        wl_r = np.tile(wl_r, 6)
-        xy_wl_r = np.tile(xy_wl_r, (6, 1))
-        xy_cwl_r = np.tile(xy_cwl_r, (6, 1))
-        np.testing.assert_allclose(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        wl_r = xp.tile(xp_as_array(wl_r, xp=xp), (6,))
+        xy_wl_r = xp.tile(xp_as_array(xy_wl_r, xp=xp), (6, 1))
+        xy_cwl_r = xp.tile(xp_as_array(xy_cwl_r, xp=xp), (6, 1))
+        xp_assert_close(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        xy = np.reshape(xy, (2, 3, 2))
-        xy_n = np.reshape(xy_n, (2, 3, 2))
+        xy = xp_reshape(xp_as_array(xy, xp=xp), (2, 3, 2), xp=xp)
+        xy_n = xp_reshape(xp_as_array(xy_n, xp=xp), (2, 3, 2), xp=xp)
         wl, xy_wl, xy_cwl = complementary_wavelength(xy, xy_n)
-        wl_r = np.reshape(wl_r, (2, 3))
-        xy_wl_r = np.reshape(xy_wl_r, (2, 3, 2))
-        xy_cwl_r = np.reshape(xy_cwl_r, (2, 3, 2))
-        np.testing.assert_allclose(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        wl_r = xp_reshape(xp_as_array(wl_r, xp=xp), (2, 3), xp=xp)
+        xy_wl_r = xp_reshape(xp_as_array(xy_wl_r, xp=xp), (2, 3, 2), xp=xp)
+        xy_cwl_r = xp_reshape(xp_as_array(xy_cwl_r, xp=xp), (2, 3, 2), xp=xp)
+        xp_assert_close(wl, wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(xy_wl, xy_wl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(xy_cwl, xy_cwl_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_complementary_wavelength(self) -> None:
@@ -353,29 +371,29 @@ class TestExcitationPurity:
 
         self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
 
-    def test_excitation_purity(self) -> None:
+    def test_excitation_purity(self, xp: ModuleType) -> None:
         """Test :func:`colour.colorimetry.dominant.excitation_purity` definition."""
 
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        xy = np.array([0.54369557, 0.32107944])
+        xy = xp_as_array([0.54369557, 0.32107944], xp=xp)
         xy_n = self._xy_D65
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             excitation_purity(xy, xy_n),
             0.622885671878446,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        xy = np.array([0.37605506, 0.24452225])
-        np.testing.assert_allclose(
+        xy = xp_as_array([0.37605506, 0.24452225], xp=xp)
+        xp_assert_close(
             excitation_purity(xy, xy_n),
             0.438347859215887,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_excitation_purity(self) -> None:
+    def test_n_dimensional_excitation_purity(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.dominant.excitation_purity` definition
         n-dimensional arrays support.
@@ -384,23 +402,19 @@ class TestExcitationPurity:
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        xy = np.array([0.54369557, 0.32107944])
+        xy = xp_as_array([0.54369557, 0.32107944], xp=xp)
         xy_n = self._xy_D65
-        P_e = excitation_purity(xy, xy_n)
+        P_e = as_ndarray(excitation_purity(xy, xy_n))
 
-        xy = np.tile(xy, (6, 1))
-        xy_n = np.tile(xy_n, (6, 1))
-        P_e = np.tile(P_e, 6)
-        np.testing.assert_allclose(
-            excitation_purity(xy, xy_n), P_e, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xy = xp.tile(xp_as_array(xy, xp=xp), (6, 1))
+        xy_n = xp.tile(xp_as_array(xy_n, xp=xp), (6, 1))
+        P_e = xp.tile(xp_as_array(P_e, xp=xp), (6,))
+        xp_assert_close(excitation_purity(xy, xy_n), P_e, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        xy = np.reshape(xy, (2, 3, 2))
-        xy_n = np.reshape(xy_n, (2, 3, 2))
-        P_e = np.reshape(P_e, (2, 3))
-        np.testing.assert_allclose(
-            excitation_purity(xy, xy_n), P_e, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xy = xp_reshape(xp_as_array(xy, xp=xp), (2, 3, 2), xp=xp)
+        xy_n = xp_reshape(xp_as_array(xy_n, xp=xp), (2, 3, 2), xp=xp)
+        P_e = xp_reshape(xp_as_array(P_e, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(excitation_purity(xy, xy_n), P_e, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_excitation_purity(self) -> None:
@@ -429,7 +443,7 @@ class TestColorimetricPurity:
 
         self._xy_D65 = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
 
-    def test_colorimetric_purity(self) -> None:
+    def test_colorimetric_purity(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.dominant.colorimetric_purity`
         definition.
@@ -438,23 +452,23 @@ class TestColorimetricPurity:
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        xy = np.array([0.54369557, 0.32107944])
+        xy = xp_as_array([0.54369557, 0.32107944], xp=xp)
         xy_n = self._xy_D65
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             colorimetric_purity(xy, xy_n),
             0.613582813175483,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        xy = np.array([0.37605506, 0.24452225])
-        np.testing.assert_allclose(
+        xy = xp_as_array([0.37605506, 0.24452225], xp=xp)
+        xp_assert_close(
             colorimetric_purity(xy, xy_n),
             0.244307811178847,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_colorimetric_purity(self) -> None:
+    def test_n_dimensional_colorimetric_purity(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.dominant.colorimetric_purity`
         definition n-dimensional arrays support.
@@ -463,22 +477,26 @@ class TestColorimetricPurity:
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        xy = np.array([0.54369557, 0.32107944])
+        xy = xp_as_array([0.54369557, 0.32107944], xp=xp)
         xy_n = self._xy_D65
-        P_e = colorimetric_purity(xy, xy_n)
+        P_e = as_ndarray(colorimetric_purity(xy, xy_n))
 
-        xy = np.tile(xy, (6, 1))
-        xy_n = np.tile(xy_n, (6, 1))
-        P_e = np.tile(P_e, 6)
-        np.testing.assert_allclose(
-            colorimetric_purity(xy, xy_n), P_e, atol=TOLERANCE_ABSOLUTE_TESTS
+        xy = xp.tile(xp_as_array(xy, xp=xp), (6, 1))
+        xy_n = xp.tile(xp_as_array(xy_n, xp=xp), (6, 1))
+        P_e = xp.tile(xp_as_array(P_e, xp=xp), (6,))
+        xp_assert_close(
+            colorimetric_purity(xy, xy_n),
+            P_e,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        xy = np.reshape(xy, (2, 3, 2))
-        xy_n = np.reshape(xy_n, (2, 3, 2))
-        P_e = np.reshape(P_e, (2, 3))
-        np.testing.assert_allclose(
-            colorimetric_purity(xy, xy_n), P_e, atol=TOLERANCE_ABSOLUTE_TESTS
+        xy = xp_reshape(xp_as_array(xy, xp=xp), (2, 3, 2), xp=xp)
+        xy_n = xp_reshape(xp_as_array(xy_n, xp=xp), (2, 3, 2), xp=xp)
+        P_e = xp_reshape(xp_as_array(P_e, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
+            colorimetric_purity(xy, xy_n),
+            P_e,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors

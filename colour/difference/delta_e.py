@@ -47,8 +47,6 @@ from __future__ import annotations
 import typing
 from dataclasses import astuple, dataclass, field
 
-import numpy as np
-
 if typing.TYPE_CHECKING:
     from colour.hints import (
         Domain1,
@@ -60,10 +58,14 @@ if typing.TYPE_CHECKING:
 from colour.algebra import euclidean_distance
 from colour.utilities import (
     MixinDataclassArithmetic,
+    array_namespace,
     as_float,
-    as_float_array,
     to_domain_100,
     tsplit,
+    xp_as_float_array,
+    xp_degrees,
+    xp_radians,
+    xp_select,
 )
 from colour.utilities.documentation import DocstringFloat, is_documentation_building
 
@@ -202,6 +204,7 @@ def delta_E_CIE1976(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
     >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E_CIE1976(Lab_1, Lab_2)  # doctest: +ELLIPSIS
@@ -224,7 +227,10 @@ db=np.float64(-2.1661579...))
     if not additional_data:
         return dE
 
-    dLab = as_float_array(Lab_1) - as_float_array(Lab_2)
+    xp = array_namespace(Lab_1, Lab_2)
+    dLab = xp_as_float_array(Lab_1, xp=xp, like=Lab_2) - xp_as_float_array(
+        Lab_2, xp=xp, like=Lab_1
+    )
 
     return DeltaE_Specification_CIE1976(
         dE,
@@ -334,6 +340,7 @@ def delta_E_CIE1994(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
     >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E_CIE1994(Lab_1, Lab_2)  # doctest: +ELLIPSIS
@@ -359,8 +366,18 @@ dL=np.float64(-0.8336185...), dC=np.float64(-0.1070687...), \
 dH=np.float64(0.0015891...))
     """
 
-    L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
-    L_2, a_2, b_2 = tsplit(to_domain_100(Lab_2))
+    Lab_1 = to_domain_100(Lab_1)
+    Lab_2 = to_domain_100(Lab_2)
+
+    xp = array_namespace(Lab_1, Lab_2)
+    # Each operand is promoted with the other as the device reference so that
+    # a backend operand on a non-default device, e.g. *MPS*, pulls the host
+    # operand onto that same device.
+    Lab_1 = xp_as_float_array(Lab_1, xp=xp, like=Lab_2)
+    Lab_2 = xp_as_float_array(Lab_2, xp=xp, like=Lab_1)
+
+    L_1, a_1, b_1 = tsplit(Lab_1)
+    L_2, a_2, b_2 = tsplit(Lab_2)
 
     k_1 = 0.048 if textiles else 0.045
     k_2 = 0.014 if textiles else 0.015
@@ -368,8 +385,8 @@ dH=np.float64(0.0015891...))
     k_C = 1
     k_H = 1
 
-    C_1 = np.hypot(a_1, b_1)
-    C_2 = np.hypot(a_2, b_2)
+    C_1 = xp.hypot(a_1, b_1)
+    C_2 = xp.hypot(a_2, b_2)
 
     s_L = 1
     s_C = 1 + k_1 * C_1
@@ -381,13 +398,13 @@ dH=np.float64(0.0015891...))
     delta_B = b_1 - b_2
 
     radical = delta_A**2 + delta_B**2 - delta_C**2
-    delta_H = np.where(radical > 0, np.sqrt(np.maximum(radical, 0)), 0)
+    delta_H = xp.sqrt(xp.where(radical > 0, radical, 0.0))
 
     L = delta_L / (k_L * s_L)
     C = delta_C / (k_C * s_C)
     H = delta_H / (k_H * s_H)
 
-    d_E = as_float(np.sqrt(L**2 + C**2 + H**2))
+    d_E = as_float(xp.sqrt(L**2 + C**2 + H**2))
 
     if not additional_data:
         return d_E
@@ -472,6 +489,7 @@ def intermediate_attributes_CIE2000(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
     >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> intermediate_attributes_CIE2000(Lab_1, Lab_2)  # doctest: +ELLIPSIS
@@ -481,32 +499,42 @@ delta_L_p=np.float64(1.6672370...), delta_C_p=np.float64(2.1661609...), \
 delta_H_p=np.float64(0.0105030...), R_T=np.float64(-3...))
     """
 
-    L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
-    L_2, a_2, b_2 = tsplit(to_domain_100(Lab_2))
+    Lab_1 = to_domain_100(Lab_1)
+    Lab_2 = to_domain_100(Lab_2)
 
-    C_1_ab = np.hypot(a_1, b_1)
-    C_2_ab = np.hypot(a_2, b_2)
+    xp = array_namespace(Lab_1, Lab_2)
+    # Each operand is promoted with the other as the device reference so that
+    # a backend operand on a non-default device, e.g. *MPS*, pulls the host
+    # operand onto that same device.
+    Lab_1 = xp_as_float_array(Lab_1, xp=xp, like=Lab_2)
+    Lab_2 = xp_as_float_array(Lab_2, xp=xp, like=Lab_1)
+
+    L_1, a_1, b_1 = tsplit(Lab_1)
+    L_2, a_2, b_2 = tsplit(Lab_2)
+
+    C_1_ab = xp.hypot(a_1, b_1)
+    C_2_ab = xp.hypot(a_2, b_2)
 
     C_bar_ab = (C_1_ab + C_2_ab) / 2
     C_bar_ab_7 = C_bar_ab**7
 
-    G = 0.5 * (1 - np.sqrt(C_bar_ab_7 / (C_bar_ab_7 + 25**7)))
+    G = 0.5 * (1 - xp.sqrt(C_bar_ab_7 / (C_bar_ab_7 + 25.0**7)))
 
     a_p_1 = (1 + G) * a_1
     a_p_2 = (1 + G) * a_2
 
-    C_p_1 = np.hypot(a_p_1, b_1)
-    C_p_2 = np.hypot(a_p_2, b_2)
+    C_p_1 = xp.hypot(a_p_1, b_1)
+    C_p_2 = xp.hypot(a_p_2, b_2)
 
-    h_p_1 = np.where(
-        np.logical_and(b_1 == 0, a_p_1 == 0),
+    h_p_1 = xp.where(
+        xp.logical_and(b_1 == 0, a_p_1 == 0),
         0,
-        np.degrees(np.arctan2(b_1, a_p_1)) % 360,
+        xp_degrees(xp.atan2(b_1, a_p_1)) % 360,
     )
-    h_p_2 = np.where(
-        np.logical_and(b_2 == 0, a_p_2 == 0),
+    h_p_2 = xp.where(
+        xp.logical_and(b_2 == 0, a_p_2 == 0),
         0,
-        np.degrees(np.arctan2(b_2, a_p_2)) % 360,
+        xp_degrees(xp.atan2(b_2, a_p_2)) % 360,
     )
 
     delta_L_p = L_2 - L_1
@@ -515,10 +543,10 @@ delta_H_p=np.float64(0.0105030...), R_T=np.float64(-3...))
 
     h_p_2_s_1 = h_p_2 - h_p_1
     C_p_1_m_2 = C_p_1 * C_p_2
-    delta_h_p = np.select(
+    delta_h_p = xp_select(
         [
             C_p_1_m_2 == 0,
-            np.fabs(h_p_2_s_1) <= 180,
+            xp.abs(h_p_2_s_1) <= 180,
             h_p_2_s_1 > 180,
             h_p_2_s_1 < -180,
         ],
@@ -528,22 +556,23 @@ delta_H_p=np.float64(0.0105030...), R_T=np.float64(-3...))
             h_p_2_s_1 - 360,
             h_p_2_s_1 + 360,
         ],
+        xp=xp,
     )
 
-    delta_H_p = 2 * np.sqrt(C_p_1_m_2) * np.sin(np.deg2rad(delta_h_p / 2))
+    delta_H_p = 2 * xp.sqrt(C_p_1_m_2) * xp.sin(xp_radians(delta_h_p / 2))
 
     L_bar_p = (L_1 + L_2) / 2
 
     C_bar_p = (C_p_1 + C_p_2) / 2
 
-    a_h_p_1_s_2 = np.fabs(h_p_1 - h_p_2)
+    a_h_p_1_s_2 = xp.abs(h_p_1 - h_p_2)
     h_p_1_a_2 = h_p_1 + h_p_2
-    h_bar_p = np.select(
+    h_bar_p = xp_select(
         [
             C_p_1_m_2 == 0,
             a_h_p_1_s_2 <= 180,
-            np.logical_and(a_h_p_1_s_2 > 180, h_p_1_a_2 < 360),
-            np.logical_and(a_h_p_1_s_2 > 180, h_p_1_a_2 >= 360),
+            xp.logical_and(a_h_p_1_s_2 > 180, h_p_1_a_2 < 360),
+            xp.logical_and(a_h_p_1_s_2 > 180, h_p_1_a_2 >= 360),
         ],
         [
             h_p_1_a_2,
@@ -551,29 +580,30 @@ delta_H_p=np.float64(0.0105030...), R_T=np.float64(-3...))
             (h_p_1_a_2 + 360) / 2,
             (h_p_1_a_2 - 360) / 2,
         ],
+        xp=xp,
     )
 
     T = (
         1
-        - 0.17 * np.cos(np.deg2rad(h_bar_p - 30))
-        + 0.24 * np.cos(np.deg2rad(2 * h_bar_p))
-        + 0.32 * np.cos(np.deg2rad(3 * h_bar_p + 6))
-        - 0.20 * np.cos(np.deg2rad(4 * h_bar_p - 63))
+        - 0.17 * xp.cos(xp_radians(h_bar_p - 30))
+        + 0.24 * xp.cos(xp_radians(2 * h_bar_p))
+        + 0.32 * xp.cos(xp_radians(3 * h_bar_p + 6))
+        - 0.20 * xp.cos(xp_radians(4 * h_bar_p - 63))
     )
 
-    delta_theta = 30 * np.exp(-(((h_bar_p - 275) / 25) ** 2))
+    delta_theta = 30 * xp.exp(-(((h_bar_p - 275) / 25) ** 2))
 
     C_bar_p_7 = C_bar_p**7
-    R_C = 2 * np.sqrt(C_bar_p_7 / (C_bar_p_7 + 25**7))
+    R_C = 2 * xp.sqrt(C_bar_p_7 / (C_bar_p_7 + 25.0**7))
 
     L_bar_p_2 = (L_bar_p - 50) ** 2
-    S_L = 1 + ((0.015 * L_bar_p_2) / np.sqrt(20 + L_bar_p_2))
+    S_L = 1 + ((0.015 * L_bar_p_2) / xp.sqrt(20 + L_bar_p_2))
 
     S_C = 1 + 0.045 * C_bar_p
 
     S_H = 1 + 0.015 * C_bar_p * T
 
-    R_T = -np.sin(np.deg2rad(2 * delta_theta)) * R_C
+    R_T = -xp.sin(xp_radians(2 * delta_theta)) * R_C
 
     return Attributes_Specification_CIE2000(
         S_L,
@@ -695,6 +725,7 @@ def delta_E_CIE2000(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
     >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E_CIE2000(Lab_1, Lab_2)  # doctest: +ELLIPSIS
@@ -732,7 +763,9 @@ dH=np.float64(0.0022239...))
     C = delta_C_p / (k_C * S_C)
     H = delta_H_p / (k_H * S_H)
 
-    d_E = as_float(np.sqrt(L**2 + C**2 + H**2 + R_T * C * H))
+    xp = array_namespace(L)
+
+    d_E = as_float(xp.sqrt(L**2 + C**2 + H**2 + R_T * C * H))
 
     if not additional_data:
         return d_E
@@ -844,6 +877,7 @@ def delta_E_CMC(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
     >>> Lab_2 = np.array([50.65907324, -0.11671910, 402.82235718])
     >>> delta_E_CMC(Lab_1, Lab_2)  # doctest: +ELLIPSIS
@@ -858,23 +892,33 @@ dL=np.float64(-0.7743459...), dC=np.float64(-0.4580766...), \
 dH=np.float64(0.0037676...))
     """
 
-    L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
-    L_2, a_2, b_2 = tsplit(to_domain_100(Lab_2))
+    Lab_1 = to_domain_100(Lab_1)
+    Lab_2 = to_domain_100(Lab_2)
 
-    C_1 = np.hypot(a_1, b_1)
-    C_2 = np.hypot(a_2, b_2)
-    s_L = np.where(L_1 < 16, 0.511, (0.040975 * L_1) / (1 + 0.01765 * L_1))
+    xp = array_namespace(Lab_1, Lab_2)
+    # Each operand is promoted with the other as the device reference so that
+    # a backend operand on a non-default device, e.g. *MPS*, pulls the host
+    # operand onto that same device.
+    Lab_1 = xp_as_float_array(Lab_1, xp=xp, like=Lab_2)
+    Lab_2 = xp_as_float_array(Lab_2, xp=xp, like=Lab_1)
+
+    L_1, a_1, b_1 = tsplit(Lab_1)
+    L_2, a_2, b_2 = tsplit(Lab_2)
+
+    C_1 = xp.hypot(a_1, b_1)
+    C_2 = xp.hypot(a_2, b_2)
+    s_L = xp.where(L_1 < 16, 0.511, (0.040975 * L_1) / (1 + 0.01765 * L_1))
     s_C = 0.0638 * C_1 / (1 + 0.0131 * C_1) + 0.638
-    h_1 = np.degrees(np.arctan2(b_1, a_1)) % 360
+    h_1 = xp_degrees(xp.atan2(b_1, a_1)) % 360
 
-    t = np.where(
-        np.logical_and(h_1 >= 164, h_1 <= 345),
-        0.56 + np.fabs(0.2 * np.cos(np.deg2rad(h_1 + 168))),
-        0.36 + np.fabs(0.4 * np.cos(np.deg2rad(h_1 + 35))),
+    t = xp.where(
+        xp.logical_and(h_1 >= 164, h_1 <= 345),
+        0.56 + xp.abs(0.2 * xp.cos(xp_radians(h_1 + 168))),
+        0.36 + xp.abs(0.4 * xp.cos(xp_radians(h_1 + 35))),
     )
 
     C_4 = C_1 * C_1 * C_1 * C_1
-    f = np.sqrt(C_4 / (C_4 + 1900))
+    f = xp.sqrt(C_4 / (C_4 + 1900))
     s_h = s_C * (f * t + 1 - f)
 
     delta_L = L_1 - L_2
@@ -882,13 +926,13 @@ dH=np.float64(0.0037676...))
     delta_A = a_1 - a_2
     delta_B = b_1 - b_2
     radical = delta_A**2 + delta_B**2 - delta_C**2
-    delta_H = np.where(radical > 0, np.sqrt(np.maximum(radical, 0)), 0)
+    delta_H = xp.sqrt(xp.where(radical > 0, radical, 0.0))
 
     L = delta_L / (l * s_L)
     C = delta_C / (c * s_C)
     H = delta_H / s_h
 
-    d_E = as_float(np.sqrt(L**2 + C**2 + H**2))
+    d_E = as_float(xp.sqrt(L**2 + C**2 + H**2))
 
     if not additional_data:
         return d_E
@@ -994,6 +1038,7 @@ def delta_E_ITP(
 
     Examples
     --------
+    >>> import numpy as np
     >>> ICtCp_1 = np.array([0.4885468072, -0.04739350675, 0.07475401302])
     >>> ICtCp_2 = np.array([0.4899203231, -0.04567508203, 0.07361341775])
     >>> delta_E_ITP(ICtCp_1, ICtCp_2)  # doctest: +ELLIPSIS
@@ -1008,17 +1053,21 @@ dI=np.float64(0.0013735...), dT=np.float64(0.0008592...), \
 dP=np.float64(-0.0011405...))
     """
 
+    xp = array_namespace(ICtCp_1, ICtCp_2)
+    ICtCp_1 = xp_as_float_array(ICtCp_1, xp=xp, like=ICtCp_2)
+    ICtCp_2 = xp_as_float_array(ICtCp_2, xp=xp, like=ICtCp_1)
+
     I_1, T_1, P_1 = tsplit(ICtCp_1)
-    T_1 *= 0.5
+    T_1 = T_1 * 0.5
 
     I_2, T_2, P_2 = tsplit(ICtCp_2)
-    T_2 *= 0.5
+    T_2 = T_2 * 0.5
 
     I = I_2 - I_1  # noqa: E741
     T = T_2 - T_1
     P = P_2 - P_1
 
-    d_E_ITP = as_float(720 * np.sqrt(I**2 + T**2 + P**2))
+    d_E_ITP = as_float(720 * xp.sqrt(I**2 + T**2 + P**2))
 
     if not additional_data:
         return d_E_ITP
@@ -1118,6 +1167,7 @@ def delta_E_HyAB(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Lab_1 = np.array([39.91531343, 51.16658481, 146.12933781])
     >>> Lab_2 = np.array([53.12207516, -39.92365056, 249.54831278])
     >>> delta_E_HyAB(Lab_1, Lab_2)  # doctest: +ELLIPSIS
@@ -1132,9 +1182,17 @@ dL=np.float64(-13.2067617...), da=np.float64(91.0902353...), \
 db=np.float64(-103.4189749...))
     """
 
-    dLab = to_domain_100(Lab_1) - to_domain_100(Lab_2)
+    Lab_1 = to_domain_100(Lab_1)
+    Lab_2 = to_domain_100(Lab_2)
+
+    xp = array_namespace(Lab_1, Lab_2)
+    dLab = xp_as_float_array(Lab_1, xp=xp, like=Lab_2) - xp_as_float_array(
+        Lab_2, xp=xp, like=Lab_1
+    )
+
     dL, da, db = tsplit(dLab)
-    HyAB = as_float(np.abs(dL) + np.hypot(da, db))
+
+    HyAB = as_float(xp.abs(dL) + xp.hypot(da, db))
 
     if not additional_data:
         return HyAB
@@ -1246,6 +1304,7 @@ def delta_E_HyCH(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Lab_1 = np.array([39.91531343, 51.16658481, 146.12933781])
     >>> Lab_2 = np.array([53.12207516, -39.92365056, 249.54831278])
     >>> delta_E_HyCH(Lab_1, Lab_2)  # doctest: +ELLIPSIS
@@ -1260,7 +1319,7 @@ dL=np.float64(12.7962972...), dC=np.float64(9.6258211...), \
 dH=np.float64(34.5522171...))
     """
 
-    S_L, S_C, S_H, delta_L_p, delta_C_p, delta_H_p, R_T = astuple(
+    S_L, S_C, S_H, delta_L_p, delta_C_p, delta_H_p, _R_T = astuple(
         intermediate_attributes_CIE2000(Lab_1, Lab_2)
     )
 
@@ -1272,7 +1331,9 @@ dH=np.float64(34.5522171...))
     C = delta_C_p / (k_C * S_C)
     H = delta_H_p / (k_H * S_H)
 
-    HyCH = as_float(np.abs(L) + np.sqrt(C**2 + H**2))
+    xp = array_namespace(L)
+
+    HyCH = as_float(xp.abs(L) + xp.sqrt(C**2 + H**2))
 
     if not additional_data:
         return HyCH

@@ -24,7 +24,14 @@ from colour.hints import (  # noqa: TC001
     Range100,
 )
 from colour.models import UCS_uv_to_xy, XYZ_to_xy, xy_to_UCS_uv, xyY_to_xy, xyY_to_XYZ
-from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
+from colour.utilities import (
+    array_namespace,
+    from_range_100,
+    to_domain_100,
+    tsplit,
+    tstack,
+    xp_as_float_array,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -92,12 +99,14 @@ def XYZ_to_UVW(
 
     XYZ = to_domain_100(XYZ)
 
+    xp = array_namespace(XYZ)
+
     xy = XYZ_to_xy(XYZ / 100)
     xy_n = xyY_to_xy(illuminant)
     Y = XYZ[..., 1]
 
     uv = xy_to_UCS_uv(xy)
-    uv_0 = xy_to_UCS_uv(xy_n)
+    uv_0 = xp_as_float_array(xy_to_UCS_uv(xy_n), xp=xp, like=XYZ)
 
     W = 25 * spow(Y, 1 / 3) - 17
     U, V = tsplit(13 * W[..., None] * (uv - uv_0))
@@ -162,7 +171,7 @@ def UVW_to_XYZ(
 
     u_0, v_0 = tsplit(xy_to_UCS_uv(xyY_to_xy(illuminant)))
 
-    Y = ((W + 17) / 25) ** 3
+    Y = spow((W + 17) / 25, 3)
 
     with sdiv_mode():
         u = sdiv(U, 13 * W) + u_0

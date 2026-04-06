@@ -16,14 +16,12 @@ References
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.algebra import sdiv, sdiv_mode
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
+from colour.utilities import array_namespace, from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -73,6 +71,7 @@ def RGB_to_Prismatic(RGB: Domain1) -> Range1:
 
     Examples
     --------
+    >>> import numpy as np
     >>> RGB = np.array([0.25, 0.50, 0.75])
     >>> RGB_to_Prismatic(RGB)  # doctest: +ELLIPSIS
     array([0.75...   , 0.1666666..., 0.3333333..., 0.5...   ])
@@ -87,8 +86,10 @@ def RGB_to_Prismatic(RGB: Domain1) -> Range1:
 
     RGB = to_domain_1(RGB)
 
-    L = np.max(RGB, axis=-1)
-    s = np.sum(RGB, axis=-1)
+    xp = array_namespace(RGB)
+
+    L = xp.max(RGB, axis=-1)
+    s = xp.sum(RGB, axis=-1)
 
     with sdiv_mode():
         one_s = sdiv(1, s[..., None])
@@ -135,6 +136,7 @@ def Prismatic_to_RGB(Lrgb: Domain1) -> Range1:
 
     Examples
     --------
+    >>> import numpy as np
     >>> Lrgb = np.array([0.75000000, 0.16666667, 0.33333333, 0.50000000])
     >>> Prismatic_to_RGB(Lrgb)  # doctest: +ELLIPSIS
     array([0.25...   , 0.4999999..., 0.75...  ])
@@ -142,8 +144,10 @@ def Prismatic_to_RGB(Lrgb: Domain1) -> Range1:
 
     Lrgb = to_domain_1(Lrgb)
 
+    xp = array_namespace(Lrgb)
+
     rgb = Lrgb[..., 1:]
-    m = np.max(rgb, axis=-1)
+    m = xp.max(rgb, axis=-1)
 
     with sdiv_mode():
         RGB = sdiv(Lrgb[..., 0][..., None], m[..., None])

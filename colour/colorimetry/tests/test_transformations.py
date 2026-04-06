@@ -5,7 +5,12 @@ module.
 
 from __future__ import annotations
 
+import typing
+
 import numpy as np
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
 
 from colour.colorimetry import (
     MSDS_CMFS,
@@ -16,7 +21,13 @@ from colour.colorimetry import (
     RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -47,19 +58,27 @@ RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition.
         """
 
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
-        np.testing.assert_allclose(
-            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(435), cmfs[435], atol=0.0025
+        xp_assert_close(
+            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
+            cmfs[435],
+            atol=TOLERANCE_ABSOLUTE_TESTS * 25000,
         )
 
-        np.testing.assert_allclose(
-            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(545), cmfs[545], atol=0.0025
+        xp_assert_close(
+            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(545),
+            cmfs[545],
+            atol=TOLERANCE_ABSOLUTE_TESTS * 25000,
         )
 
-        np.testing.assert_allclose(
-            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700), cmfs[700], atol=0.0025
+        xp_assert_close(
+            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700),
+            cmfs[700],
+            atol=TOLERANCE_ABSOLUTE_TESTS * 25000,
         )
 
-    def test_n_dimensional_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(self) -> None:
+    def test_n_dimensional_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
+        self, xp: ModuleType
+    ) -> None:
         """
         Test :func:`colour.colorimetry.transformations.\
 RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
@@ -67,27 +86,27 @@ RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
         """
 
         wl = 700
-        XYZ = RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl)
+        XYZ = as_ndarray(RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl))
 
-        wl = np.tile(wl, 6)
-        XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        xp_assert_close(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3))
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3, 1))
-        XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_allclose(
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 1, 3), xp=xp)
+        xp_assert_close(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -118,25 +137,27 @@ RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition.
         """
 
         cmfs = MSDS_CMFS["CIE 1964 10 Degree Standard Observer"]
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),
             cmfs[435],
-            atol=0.025,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 250000,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(545),
             cmfs[545],
-            atol=0.025,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 250000,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700),
             cmfs[700],
-            atol=0.025,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 250000,
         )
 
-    def test_n_dimensional_RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(self) -> None:
+    def test_n_dimensional_RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
+        self, xp: ModuleType
+    ) -> None:
         """
         Test :func:`colour.colorimetry.transformations.\
 RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition n-dimensional arrays
@@ -144,27 +165,27 @@ RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition n-dimensional arrays
         """
 
         wl = 700
-        XYZ = RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl)
+        XYZ = as_ndarray(RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl))
 
-        wl = np.tile(wl, 6)
-        XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        xp_assert_close(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3))
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3, 1))
-        XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_allclose(
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 1, 3), xp=xp)
+        xp_assert_close(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -195,25 +216,27 @@ RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition.
         """
 
         cmfs = MSDS_CMFS["Stockman & Sharpe 10 Degree Cone Fundamentals"]
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(435),
             cmfs[435],
-            atol=0.0025,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 25000,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(545),
             cmfs[545],
-            atol=0.0025,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 25000,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700),
             cmfs[700],
-            atol=0.0025,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 25000,
         )
 
-    def test_n_dimensional_RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(self) -> None:
+    def test_n_dimensional_RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
+        self, xp: ModuleType
+    ) -> None:
         """
         Test :func:`colour.colorimetry.transformations.\
 RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition n-dimensional arrays
@@ -221,27 +244,27 @@ RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition n-dimensional arrays
         """
 
         wl = 700
-        LMS = RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl)
+        LMS = as_ndarray(RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl))
 
-        wl = np.tile(wl, 6)
-        LMS = np.tile(LMS, (6, 1))
-        np.testing.assert_allclose(
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        LMS = xp.tile(xp_as_array(LMS, xp=xp), (6, 1))
+        xp_assert_close(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl),
             LMS,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3))
-        LMS = np.reshape(LMS, (2, 3, 3))
-        np.testing.assert_allclose(
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
+        LMS = xp_reshape(xp_as_array(LMS, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl),
             LMS,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3, 1))
-        LMS = np.reshape(LMS, (2, 3, 1, 3))
-        np.testing.assert_allclose(
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
+        LMS = xp_reshape(xp_as_array(LMS, xp=xp), (2, 3, 1, 3), xp=xp)
+        xp_assert_close(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl),
             LMS,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -272,25 +295,27 @@ LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition.
         """
 
         cmfs = MSDS_CMFS["CIE 2015 2 Degree Standard Observer"]
-        np.testing.assert_allclose(
+        xp_assert_close(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
             cmfs[435],
-            atol=0.00015,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1500,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(545),
             cmfs[545],
-            atol=0.00015,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1500,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700),
             cmfs[700],
-            atol=0.00015,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1500,
         )
 
-    def test_n_dimensional_LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(self) -> None:
+    def test_n_dimensional_LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
+        self, xp: ModuleType
+    ) -> None:
         """
         Test :func:`colour.colorimetry.transformations.\
 LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
@@ -298,27 +323,27 @@ LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
         """
 
         wl = 700
-        XYZ = LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl)
+        XYZ = as_ndarray(LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl))
 
-        wl = np.tile(wl, 6)
-        XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        xp_assert_close(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3))
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3, 1))
-        XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_allclose(
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 1, 3), xp=xp)
+        xp_assert_close(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -349,25 +374,27 @@ LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition.
         """
 
         cmfs = MSDS_CMFS["CIE 2015 10 Degree Standard Observer"]
-        np.testing.assert_allclose(
+        xp_assert_close(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),
             cmfs[435],
-            atol=0.00015,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1500,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(545),
             cmfs[545],
-            atol=0.00015,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1500,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700),
             cmfs[700],
-            atol=0.00015,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1500,
         )
 
-    def test_n_dimensional_LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(self) -> None:
+    def test_n_dimensional_LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
+        self, xp: ModuleType
+    ) -> None:
         """
         Test :func:`colour.colorimetry.transformations.\
 LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition n-dimensional arrays
@@ -375,27 +402,27 @@ LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition n-dimensional arrays
         """
 
         wl = 700
-        XYZ = LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl)
+        XYZ = as_ndarray(LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl))
 
-        wl = np.tile(wl, 6)
-        XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        xp_assert_close(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3))
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3, 1))
-        XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_allclose(
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 1, 3), xp=xp)
+        xp_assert_close(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,

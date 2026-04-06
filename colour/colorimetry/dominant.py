@@ -25,8 +25,6 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.algebra import euclidean_distance, sdiv, sdiv_mode
 from colour.colorimetry import MultiSpectralDistributions, handle_spectral_arguments
 from colour.geometry import extend_line_segment, intersect_line_segments
@@ -35,7 +33,16 @@ if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat, NDArrayInt, Tuple
 
 from colour.models import XYZ_to_xy
-from colour.utilities import as_float_array, required
+from colour.utilities import (
+    array_namespace,
+    as_float_array,
+    as_ndarray,
+    required,
+    xp_as_float_array,
+    xp_reshape,
+    xp_resize,
+    xp_squeeze,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -88,6 +95,7 @@ def closest_spectral_locus_wavelength(
 
     Examples
     --------
+    >>> import numpy as np
     >>> from colour.colorimetry import MSDS_CMFS
     >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> xy = np.array([0.54369557, 0.32107944])
@@ -103,25 +111,35 @@ def closest_spectral_locus_wavelength(
     import scipy.spatial.distance  # noqa: PLC0415
 
     xy = as_float_array(xy)
-    xy_n = np.resize(xy_n, xy.shape)
-    xy_s = as_float_array(xy_s)
 
+    xp = array_namespace(xy, xy_s)
+
+    xy_n = xp_resize(xp_as_float_array(xy_n, xp=xp, like=xy), xy.shape, xp=xp)
     xy_e = extend_line_segment(xy, xy_n) if inverse else extend_line_segment(xy_n, xy)
 
     # Closing horse-shoe shape to handle line of purples intersections.
-    xy_s = np.vstack([xy_s, xy_s[0, :]])
+    xy_s = xp_as_float_array(xy_s, xp=xp, like=xy)
+    xy_s = xp.concat([xy_s, xy_s[0:1, :]], axis=0)
 
     xy_wl = intersect_line_segments(
-        np.concatenate((xy_n, xy_e), -1),
-        np.hstack([xy_s, np.roll(xy_s, 1, axis=0)]),
+        xp.concat((xy_n, xy_e), axis=-1),
+        xp.concat([xy_s, xp.roll(xy_s, 1, axis=0)], axis=-1),
     ).xy
     # Extracting the first intersection per-wavelength.
-    xy_wl = np.sort(xy_wl, 1)[:, 0, :]
+    xy_wl = xp.sort(xy_wl, axis=1)[:, 0, :]
 
-    i_wl = np.argmin(scipy.spatial.distance.cdist(xy_wl, xy_s), axis=-1)
+    # scipy requires numpy arrays.
+    i_wl = xp.argmin(
+        xp_as_float_array(
+            scipy.spatial.distance.cdist(as_ndarray(xy_wl), as_ndarray(xy_s)),
+            xp=xp,
+            like=xy_wl,
+        ),
+        axis=-1,
+    )
 
-    i_wl = np.reshape(i_wl, xy.shape[0:-1])
-    xy_wl = np.reshape(xy_wl, xy.shape)
+    i_wl = xp_reshape(i_wl, xy.shape[0:-1], xp=xp)
+    xy_wl = xp_reshape(xy_wl, xy.shape, xp=xp)
 
     return i_wl, xy_wl
 
@@ -175,6 +193,7 @@ def dominant_wavelength(
     --------
     *Dominant wavelength* computation:
 
+    >>> import numpy as np
     >>> from colour.colorimetry import MSDS_CMFS
     >>> from pprint import pprint
     >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
@@ -198,27 +217,35 @@ def dominant_wavelength(
     cmfs, _illuminant = handle_spectral_arguments(cmfs)
 
     xy = as_float_array(xy)
-    xy_n = np.resize(xy_n, xy.shape)
+
+    xp = array_namespace(xy)
+
+    xy_n = xp_resize(xp_as_float_array(xy_n, xp=xp, like=xy), xy.shape, xp=xp)
 
     xy_s = XYZ_to_xy(cmfs.values)
+    wavelengths = xp_as_float_array(cmfs.wavelengths, xp=xp, like=xy)
 
     i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, xy_s, inverse)
     xy_cwl = xy_wl
-    wl = cmfs.wavelengths[i_wl]
+    wl = wavelengths[i_wl]
 
+    xy_s = xp_as_float_array(xy_s, xp=xp, like=xy)
     xy_e = extend_line_segment(xy, xy_n) if inverse else extend_line_segment(xy_n, xy)
     intersect = intersect_line_segments(
-        np.concatenate((xy_n, xy_e), -1), np.hstack([xy_s[0], xy_s[-1]])
+        xp.concat((xy_n, xy_e), axis=-1), xp.concat([xy_s[0], xy_s[-1]], axis=0)
     ).intersect
-    intersect = np.reshape(intersect, wl.shape)
+    intersect = xp_reshape(intersect, wl.shape, xp=xp)
 
     i_wl_r, xy_cwl_r = closest_spectral_locus_wavelength(xy, xy_n, xy_s, not inverse)
-    wl_r = -cmfs.wavelengths[i_wl_r]
+    wl_r = -wavelengths[i_wl_r]
 
-    wl = np.where(intersect, wl_r, wl)
-    xy_cwl = np.where(intersect[..., None], xy_cwl_r, xy_cwl)
+    wl = xp.where(intersect, wl_r, wl)
+    xy_cwl = xp.where(intersect[..., None], xy_cwl_r, xy_cwl)
 
-    return wl, np.squeeze(xy_wl), np.squeeze(xy_cwl)
+    xy_wl = xp_squeeze(xy_wl, xp=xp)
+    xy_cwl = xp_squeeze(xy_cwl, xp=xp)
+
+    return wl, xy_wl, xy_cwl
 
 
 def complementary_wavelength(
@@ -267,6 +294,7 @@ def complementary_wavelength(
     --------
     *Complementary wavelength* computation:
 
+    >>> import numpy as np
     >>> from colour.colorimetry import MSDS_CMFS
     >>> from pprint import pprint
     >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
@@ -318,6 +346,7 @@ def excitation_purity(
 
     Examples
     --------
+    >>> import numpy as np
     >>> from colour.colorimetry import MSDS_CMFS
     >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> xy = np.array([0.54369557, 0.32107944])
@@ -365,6 +394,7 @@ def colorimetric_purity(
 
     Examples
     --------
+    >>> import numpy as np
     >>> from colour.colorimetry import MSDS_CMFS
     >>> cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
     >>> xy = np.array([0.54369557, 0.32107944])

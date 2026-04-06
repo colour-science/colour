@@ -17,13 +17,13 @@ aces_ocio/colorspaces/gopro.py
 
 from __future__ import annotations
 
-import numpy as np
+import math
 
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import as_float, from_range_1, to_domain_1
+from colour.utilities import array_namespace, as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -78,7 +78,9 @@ def log_encoding_Protune(x: Domain1) -> Range1:
 
     x = to_domain_1(x)
 
-    y = np.log1p(x * 112) / np.log(113)
+    xp = array_namespace(x)
+
+    y = xp.log1p(x * 112) / math.log(113)
 
     return as_float(from_range_1(y))
 

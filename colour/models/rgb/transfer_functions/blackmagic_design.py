@@ -16,13 +16,18 @@ References
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
+from colour.utilities import (
+    Structure,
+    array_namespace,
+    as_float,
+    from_range_1,
+    optional,
+    to_domain_1,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -93,6 +98,9 @@ def oetf_BlackmagicFilmGeneration5(
     """
 
     x = to_domain_1(x)
+
+    xp = array_namespace(x)
+
     constants = optional(constants, CONSTANTS_BLACKMAGIC_FILM_GENERATION_5)
 
     A = constants.A
@@ -102,10 +110,10 @@ def oetf_BlackmagicFilmGeneration5(
     E = constants.E
     LIN_CUT = constants.LIN_CUT
 
-    V_out = np.where(
+    V_out = xp.where(
         x < LIN_CUT,
         D * x + E,
-        A * np.log(x + B) + C,
+        A * xp.log(x + B) + C,
     )
 
     return as_float(from_range_1(V_out))
@@ -157,6 +165,9 @@ def oetf_inverse_BlackmagicFilmGeneration5(
     """
 
     y = to_domain_1(y)
+
+    xp = array_namespace(y)
+
     constants = optional(constants, CONSTANTS_BLACKMAGIC_FILM_GENERATION_5)
 
     A = constants.A
@@ -168,9 +179,9 @@ def oetf_inverse_BlackmagicFilmGeneration5(
 
     LOG_CUT = D * LIN_CUT + E
 
-    x = np.where(
+    x = xp.where(
         y < LOG_CUT,
         (y - E) / D,
-        np.exp((y - C) / A) - B,
+        xp.exp((y - C) / A) - B,
     )
     return as_float(from_range_1(x))

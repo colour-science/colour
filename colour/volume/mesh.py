@@ -11,10 +11,16 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.constants import EPSILON
-from colour.utilities import as_float_array, required
+from colour.utilities import (
+    CACHE_REGISTRY,
+    array_namespace,
+    as_ndarray,
+    int_digest,
+    is_caching_enabled,
+    required,
+    xp_as_array,
+)
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
@@ -29,6 +35,8 @@ __status__ = "Production"
 __all__ = [
     "is_within_mesh_volume",
 ]
+
+_CACHE_DELAUNAY: dict = CACHE_REGISTRY.register_cache(f"{__name__}._CACHE_DELAUNAY")
 
 
 @required("SciPy")
@@ -56,6 +64,7 @@ def is_within_mesh_volume(
 
     Examples
     --------
+    >>> import numpy as np
     >>> mesh = np.array(
     ...     [
     ...         [-1.0, -1.0, 1.0],
@@ -74,8 +83,22 @@ def is_within_mesh_volume(
 
     from scipy.spatial import Delaunay  # noqa: PLC0415
 
-    triangulation = Delaunay(as_float_array(mesh))
+    xp = array_namespace(points)
 
-    simplex = triangulation.find_simplex(as_float_array(points), tol=tolerance)
+    mesh_np = as_ndarray(mesh)
+    # ``Delaunay`` triangulation is a *scipy* host-only operation so the
+    # mesh is materialised to *NumPy* and content-hashed for the cache;
+    # ``id(mesh)`` would thrash across array copies that share content
+    # and could be reused after garbage collection.
+    cache_key = (int_digest(mesh_np.tobytes()), mesh_np.shape, mesh_np.dtype.str)
+    triangulation = _CACHE_DELAUNAY.get(cache_key) if is_caching_enabled() else None
 
-    return np.where(simplex >= 0, True, False)
+    if triangulation is None:
+        triangulation = Delaunay(mesh_np)
+
+        if is_caching_enabled():
+            _CACHE_DELAUNAY[cache_key] = triangulation
+
+    simplex = triangulation.find_simplex(as_ndarray(points), tol=tolerance)
+
+    return xp_as_array(simplex >= 0, xp=xp, like=points)

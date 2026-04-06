@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 from itertools import product
 
 import numpy as np
@@ -15,7 +20,14 @@ from colour.models.rgb.cylindrical import (
     RGB_to_HSL,
     RGB_to_HSV,
 )
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    domain_range_scale,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -40,63 +52,63 @@ class TestRGB_to_HSV:
     tests methods.
     """
 
-    def test_RGB_to_HSV(self) -> None:
+    def test_RGB_to_HSV(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition."""
 
-        np.testing.assert_allclose(
-            RGB_to_HSV(np.array([0.45620519, 0.03081071, 0.04091952])),
-            np.array([0.99603944, 0.93246304, 0.45620519]),
+        xp_assert_close(
+            RGB_to_HSV(xp_as_array([0.45620519, 0.03081071, 0.04091952], xp=xp)),
+            [0.99603944, 0.93246304, 0.45620519],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            RGB_to_HSV(np.array([0.00000000, 0.00000000, 0.00000000])),
-            np.array([0.00000000, 0.00000000, 0.00000000]),
+        xp_assert_close(
+            RGB_to_HSV(xp_as_array([0.00000000, 0.00000000, 0.00000000], xp=xp)),
+            [0.00000000, 0.00000000, 0.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            RGB_to_HSV(np.array([1.00000000, 1.00000000, 1.00000000])),
-            np.array([0.00000000, 0.00000000, 1.00000000]),
+        xp_assert_close(
+            RGB_to_HSV(xp_as_array([1.00000000, 1.00000000, 1.00000000], xp=xp)),
+            [0.00000000, 0.00000000, 1.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            RGB_to_HSV(np.array([0.00000000, 1.00000000, 1.00000000])),
-            np.array([0.50000000, 1.00000000, 1.00000000]),
+        xp_assert_close(
+            RGB_to_HSV(xp_as_array([0.00000000, 1.00000000, 1.00000000], xp=xp)),
+            [0.50000000, 1.00000000, 1.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_RGB_to_HSV(self) -> None:
+    def test_n_dimensional_RGB_to_HSV(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition
         n-dimensional arrays support.
         """
 
-        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        HSV = RGB_to_HSV(RGB)
+        RGB = xp_as_array([0.45620519, 0.03081071, 0.04091952], xp=xp)
+        HSV = as_ndarray(RGB_to_HSV(RGB))
 
-        RGB = np.tile(RGB, (6, 1))
-        HSV = np.tile(HSV, (6, 1))
-        np.testing.assert_allclose(RGB_to_HSV(RGB), HSV, atol=TOLERANCE_ABSOLUTE_TESTS)
+        RGB = xp.tile(xp_as_array(RGB, xp=xp), (6, 1))
+        HSV = xp.tile(xp_as_array(HSV, xp=xp), (6, 1))
+        xp_assert_close(RGB_to_HSV(RGB), HSV, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        RGB = np.reshape(RGB, (2, 3, 3))
-        HSV = np.reshape(HSV, (2, 3, 3))
-        np.testing.assert_allclose(RGB_to_HSV(RGB), HSV, atol=TOLERANCE_ABSOLUTE_TESTS)
+        RGB = xp_reshape(xp_as_array(RGB, xp=xp), (2, 3, 3), xp=xp)
+        HSV = xp_reshape(xp_as_array(HSV, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(RGB_to_HSV(RGB), HSV, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_RGB_to_HSV(self) -> None:
+    def test_domain_range_scale_RGB_to_HSV(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.RGB_to_HSV` definition
         domain and range scale support.
         """
 
-        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        HSV = RGB_to_HSV(RGB)
+        RGB = xp_as_array([0.45620519, 0.03081071, 0.04091952], xp=xp)
+        HSV = as_ndarray(RGB_to_HSV(RGB))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     RGB_to_HSV(RGB * factor),
                     HSV * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -120,63 +132,63 @@ class TestHSV_to_RGB:
     tests methods.
     """
 
-    def test_HSV_to_RGB(self) -> None:
+    def test_HSV_to_RGB(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition."""
 
-        np.testing.assert_allclose(
-            HSV_to_RGB(np.array([0.99603944, 0.93246304, 0.45620519])),
-            np.array([0.45620519, 0.03081071, 0.04091952]),
+        xp_assert_close(
+            HSV_to_RGB(xp_as_array([0.99603944, 0.93246304, 0.45620519], xp=xp)),
+            [0.45620519, 0.03081071, 0.04091952],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            HSV_to_RGB(np.array([0.00000000, 0.00000000, 0.00000000])),
-            np.array([0.00000000, 0.00000000, 0.00000000]),
+        xp_assert_close(
+            HSV_to_RGB(xp_as_array([0.00000000, 0.00000000, 0.00000000], xp=xp)),
+            [0.00000000, 0.00000000, 0.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            HSV_to_RGB(np.array([0.00000000, 0.00000000, 1.00000000])),
-            np.array([1.00000000, 1.00000000, 1.00000000]),
+        xp_assert_close(
+            HSV_to_RGB(xp_as_array([0.00000000, 0.00000000, 1.00000000], xp=xp)),
+            [1.00000000, 1.00000000, 1.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            HSV_to_RGB(np.array([0.50000000, 1.00000000, 1.00000000])),
-            np.array([0.00000000, 1.00000000, 1.00000000]),
+        xp_assert_close(
+            HSV_to_RGB(xp_as_array([0.50000000, 1.00000000, 1.00000000], xp=xp)),
+            [0.00000000, 1.00000000, 1.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_HSV_to_RGB(self) -> None:
+    def test_n_dimensional_HSV_to_RGB(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition
         n-dimensional arrays support.
         """
 
-        HSV = np.array([0.99603944, 0.93246304, 0.45620519])
-        RGB = HSV_to_RGB(HSV)
+        HSV = xp_as_array([0.99603944, 0.93246304, 0.45620519], xp=xp)
+        RGB = as_ndarray(HSV_to_RGB(HSV))
 
-        HSV = np.tile(HSV, (6, 1))
-        RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_allclose(HSV_to_RGB(HSV), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
+        HSV = xp.tile(xp_as_array(HSV, xp=xp), (6, 1))
+        RGB = xp.tile(xp_as_array(RGB, xp=xp), (6, 1))
+        xp_assert_close(HSV_to_RGB(HSV), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        HSV = np.reshape(HSV, (2, 3, 3))
-        RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_allclose(HSV_to_RGB(HSV), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
+        HSV = xp_reshape(xp_as_array(HSV, xp=xp), (2, 3, 3), xp=xp)
+        RGB = xp_reshape(xp_as_array(RGB, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(HSV_to_RGB(HSV), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_HSV_to_RGB(self) -> None:
+    def test_domain_range_scale_HSV_to_RGB(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.HSV_to_RGB` definition
         domain and range scale support.
         """
 
-        HSV = np.array([0.99603944, 0.93246304, 0.45620519])
-        RGB = HSV_to_RGB(HSV)
+        HSV = xp_as_array([0.99603944, 0.93246304, 0.45620519], xp=xp)
+        RGB = as_ndarray(HSV_to_RGB(HSV))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     HSV_to_RGB(HSV * factor),
                     RGB * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -200,63 +212,63 @@ class TestRGB_to_HSL:
     tests methods.
     """
 
-    def test_RGB_to_HSL(self) -> None:
+    def test_RGB_to_HSL(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition."""
 
-        np.testing.assert_allclose(
-            RGB_to_HSL(np.array([0.45620519, 0.03081071, 0.04091952])),
-            np.array([0.99603944, 0.87347144, 0.24350795]),
+        xp_assert_close(
+            RGB_to_HSL(xp_as_array([0.45620519, 0.03081071, 0.04091952], xp=xp)),
+            [0.99603944, 0.87347144, 0.24350795],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            RGB_to_HSL(np.array([0.00000000, 0.00000000, 0.00000000])),
-            np.array([0.00000000, 0.00000000, 0.00000000]),
+        xp_assert_close(
+            RGB_to_HSL(xp_as_array([0.00000000, 0.00000000, 0.00000000], xp=xp)),
+            [0.00000000, 0.00000000, 0.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            RGB_to_HSL(np.array([1.00000000, 1.00000000, 1.00000000])),
-            np.array([0.00000000, 0.00000000, 1.00000000]),
+        xp_assert_close(
+            RGB_to_HSL(xp_as_array([1.00000000, 1.00000000, 1.00000000], xp=xp)),
+            [0.00000000, 0.00000000, 1.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            RGB_to_HSL(np.array([1.00000000, 0.00000000, 0.00000000])),
-            np.array([0.00000000, 1.00000000, 0.50000000]),
+        xp_assert_close(
+            RGB_to_HSL(xp_as_array([1.00000000, 0.00000000, 0.00000000], xp=xp)),
+            [0.00000000, 1.00000000, 0.50000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_RGB_to_HSL(self) -> None:
+    def test_n_dimensional_RGB_to_HSL(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition
         n-dimensional arrays support.
         """
 
-        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        HSL = RGB_to_HSL(RGB)
+        RGB = xp_as_array([0.45620519, 0.03081071, 0.04091952], xp=xp)
+        HSL = as_ndarray(RGB_to_HSL(RGB))
 
-        RGB = np.tile(RGB, (6, 1))
-        HSL = np.tile(HSL, (6, 1))
-        np.testing.assert_allclose(RGB_to_HSL(RGB), HSL, atol=TOLERANCE_ABSOLUTE_TESTS)
+        RGB = xp.tile(xp_as_array(RGB, xp=xp), (6, 1))
+        HSL = xp.tile(xp_as_array(HSL, xp=xp), (6, 1))
+        xp_assert_close(RGB_to_HSL(RGB), HSL, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        RGB = np.reshape(RGB, (2, 3, 3))
-        HSL = np.reshape(HSL, (2, 3, 3))
-        np.testing.assert_allclose(RGB_to_HSL(RGB), HSL, atol=TOLERANCE_ABSOLUTE_TESTS)
+        RGB = xp_reshape(xp_as_array(RGB, xp=xp), (2, 3, 3), xp=xp)
+        HSL = xp_reshape(xp_as_array(HSL, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(RGB_to_HSL(RGB), HSL, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_RGB_to_HSL(self) -> None:
+    def test_domain_range_scale_RGB_to_HSL(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.RGB_to_HSL` definition
         domain and range scale support.
         """
 
-        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        HSL = RGB_to_HSL(RGB)
+        RGB = xp_as_array([0.45620519, 0.03081071, 0.04091952], xp=xp)
+        HSL = as_ndarray(RGB_to_HSL(RGB))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     RGB_to_HSL(RGB * factor),
                     HSL * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -280,63 +292,63 @@ class TestHSL_to_RGB:
     tests methods.
     """
 
-    def test_HSL_to_RGB(self) -> None:
+    def test_HSL_to_RGB(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition."""
 
-        np.testing.assert_allclose(
-            HSL_to_RGB(np.array([0.99603944, 0.87347144, 0.24350795])),
-            np.array([0.45620519, 0.03081071, 0.04091952]),
+        xp_assert_close(
+            HSL_to_RGB(xp_as_array([0.99603944, 0.87347144, 0.24350795], xp=xp)),
+            [0.45620519, 0.03081071, 0.04091952],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            HSL_to_RGB(np.array([0.00000000, 0.00000000, 0.00000000])),
-            np.array([0.00000000, 0.00000000, 0.00000000]),
+        xp_assert_close(
+            HSL_to_RGB(xp_as_array([0.00000000, 0.00000000, 0.00000000], xp=xp)),
+            [0.00000000, 0.00000000, 0.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            HSL_to_RGB(np.array([0.00000000, 0.00000000, 1.00000000])),
-            np.array([1.00000000, 1.00000000, 1.00000000]),
+        xp_assert_close(
+            HSL_to_RGB(xp_as_array([0.00000000, 0.00000000, 1.00000000], xp=xp)),
+            [1.00000000, 1.00000000, 1.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            HSL_to_RGB(np.array([0.00000000, 1.00000000, 0.50000000])),
-            np.array([1.00000000, 0.00000000, 0.00000000]),
+        xp_assert_close(
+            HSL_to_RGB(xp_as_array([0.00000000, 1.00000000, 0.50000000], xp=xp)),
+            [1.00000000, 0.00000000, 0.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_HSL_to_RGB(self) -> None:
+    def test_n_dimensional_HSL_to_RGB(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition
         n-dimensional arrays support.
         """
 
-        HSL = np.array([0.99603944, 0.87347144, 0.24350795])
-        RGB = HSL_to_RGB(HSL)
+        HSL = xp_as_array([0.99603944, 0.87347144, 0.24350795], xp=xp)
+        RGB = as_ndarray(HSL_to_RGB(HSL))
 
-        HSL = np.tile(HSL, (6, 1))
-        RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_allclose(HSL_to_RGB(HSL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
+        HSL = xp.tile(xp_as_array(HSL, xp=xp), (6, 1))
+        RGB = xp.tile(xp_as_array(RGB, xp=xp), (6, 1))
+        xp_assert_close(HSL_to_RGB(HSL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        HSL = np.reshape(HSL, (2, 3, 3))
-        RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_allclose(HSL_to_RGB(HSL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
+        HSL = xp_reshape(xp_as_array(HSL, xp=xp), (2, 3, 3), xp=xp)
+        RGB = xp_reshape(xp_as_array(RGB, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(HSL_to_RGB(HSL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_HSL_to_RGB(self) -> None:
+    def test_domain_range_scale_HSL_to_RGB(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.HSL_to_RGB` definition
         domain and range scale support.
         """
 
-        HSL = np.array([0.99603944, 0.87347144, 0.24350795])
-        RGB = HSL_to_RGB(HSL)
+        HSL = xp_as_array([0.99603944, 0.87347144, 0.24350795], xp=xp)
+        RGB = as_ndarray(HSL_to_RGB(HSL))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     HSL_to_RGB(HSL * factor),
                     RGB * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -360,63 +372,63 @@ class TestRGB_to_HCL:
     tests methods.
     """
 
-    def test_RGB_to_HCL(self) -> None:
+    def test_RGB_to_HCL(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition."""
 
-        np.testing.assert_allclose(
-            RGB_to_HCL(np.array([0.45620519, 0.03081071, 0.04091952])),
-            np.array([-0.03167854, 0.2841715, 0.22859647]),
+        xp_assert_close(
+            RGB_to_HCL(xp_as_array([0.45620519, 0.03081071, 0.04091952], xp=xp)),
+            [-0.03167854, 0.2841715, 0.22859647],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            RGB_to_HCL(np.array([1.00000000, 2.00000000, 0.50000000])),
-            np.array([1.83120102, 1.0075282, 1.00941024]),
+        xp_assert_close(
+            RGB_to_HCL(xp_as_array([1.00000000, 2.00000000, 0.50000000], xp=xp)),
+            [1.83120102, 1.0075282, 1.00941024],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            RGB_to_HCL(np.array([2.00000000, 1.00000000, 0.50000000])),
-            np.array([0.30909841, 1.0075282, 1.00941024]),
+        xp_assert_close(
+            RGB_to_HCL(xp_as_array([2.00000000, 1.00000000, 0.50000000], xp=xp)),
+            [0.30909841, 1.0075282, 1.00941024],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            RGB_to_HCL(np.array([0.50000000, 1.00000000, 2.00000000])),
-            np.array([-2.40349351, 1.0075282, 1.00941024]),
+        xp_assert_close(
+            RGB_to_HCL(xp_as_array([0.50000000, 1.00000000, 2.00000000], xp=xp)),
+            [-2.40349351, 1.0075282, 1.00941024],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_RGB_to_HCL(self) -> None:
+    def test_n_dimensional_RGB_to_HCL(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition
         n-dimensional arrays support.
         """
 
-        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        HCL = RGB_to_HCL(RGB)
+        RGB = xp_as_array([0.45620519, 0.03081071, 0.04091952], xp=xp)
+        HCL = as_ndarray(RGB_to_HCL(RGB))
 
-        RGB = np.tile(RGB, (6, 1))
-        HCL = np.tile(HCL, (6, 1))
-        np.testing.assert_allclose(RGB_to_HCL(RGB), HCL, atol=TOLERANCE_ABSOLUTE_TESTS)
+        RGB = xp.tile(xp_as_array(RGB, xp=xp), (6, 1))
+        HCL = xp.tile(xp_as_array(HCL, xp=xp), (6, 1))
+        xp_assert_close(RGB_to_HCL(RGB), HCL, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        RGB = np.reshape(RGB, (2, 3, 3))
-        HCL = np.reshape(HCL, (2, 3, 3))
-        np.testing.assert_allclose(RGB_to_HCL(RGB), HCL, atol=TOLERANCE_ABSOLUTE_TESTS)
+        RGB = xp_reshape(xp_as_array(RGB, xp=xp), (2, 3, 3), xp=xp)
+        HCL = xp_reshape(xp_as_array(HCL, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(RGB_to_HCL(RGB), HCL, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_RGB_to_HCL(self) -> None:
+    def test_domain_range_scale_RGB_to_HCL(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.RGB_to_HCL` definition
         domain and range scale support.
         """
 
-        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        HCL = RGB_to_HCL(RGB)
+        RGB = xp_as_array([0.45620519, 0.03081071, 0.04091952], xp=xp)
+        HCL = as_ndarray(RGB_to_HCL(RGB))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     RGB_to_HCL(RGB * factor),
                     HCL * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -440,63 +452,63 @@ class TestHCL_to_RGB:
     tests methods.
     """
 
-    def test_HCL_to_RGB(self) -> None:
+    def test_HCL_to_RGB(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition."""
 
-        np.testing.assert_allclose(
-            HCL_to_RGB(np.array([-0.03167854, 0.28417150, 0.22859647])),
-            np.array([0.45620333, 0.03081048, 0.04091925]),
+        xp_assert_close(
+            HCL_to_RGB(xp_as_array([-0.03167854, 0.28417150, 0.22859647], xp=xp)),
+            [0.45620333, 0.03081048, 0.04091925],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            HCL_to_RGB(np.array([1.00000000, 2.00000000, 0.50000000])),
-            np.array([0.92186029, 0.71091922, -2.26364935]),
+        xp_assert_close(
+            HCL_to_RGB(xp_as_array([1.00000000, 2.00000000, 0.50000000], xp=xp)),
+            [0.92186029, 0.71091922, -2.26364935],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            HCL_to_RGB(np.array([2.00000000, 1.00000000, 0.50000000])),
-            np.array([-0.31368585, 1.00732462, -0.51534497]),
+        xp_assert_close(
+            HCL_to_RGB(xp_as_array([2.00000000, 1.00000000, 0.50000000], xp=xp)),
+            [-0.31368585, 1.00732462, -0.51534497],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            HCL_to_RGB(np.array([0.50000000, 1.00000000, 2.00000000])),
-            np.array([3.88095422, 3.11881934, 2.40881719]),
+        xp_assert_close(
+            HCL_to_RGB(xp_as_array([0.50000000, 1.00000000, 2.00000000], xp=xp)),
+            [3.88095422, 3.11881934, 2.40881719],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_HCL_to_RGB(self) -> None:
+    def test_n_dimensional_HCL_to_RGB(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition
         n-dimensional arrays support.
         """
 
-        HCL = np.array([0.99603944, 0.87347144, 0.24350795])
-        RGB = HCL_to_RGB(HCL)
+        HCL = xp_as_array([0.99603944, 0.87347144, 0.24350795], xp=xp)
+        RGB = as_ndarray(HCL_to_RGB(HCL))
 
-        HCL = np.tile(HCL, (6, 1))
-        RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_allclose(HCL_to_RGB(HCL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
+        HCL = xp.tile(xp_as_array(HCL, xp=xp), (6, 1))
+        RGB = xp.tile(xp_as_array(RGB, xp=xp), (6, 1))
+        xp_assert_close(HCL_to_RGB(HCL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        HCL = np.reshape(HCL, (2, 3, 3))
-        RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_allclose(HCL_to_RGB(HCL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
+        HCL = xp_reshape(xp_as_array(HCL, xp=xp), (2, 3, 3), xp=xp)
+        RGB = xp_reshape(xp_as_array(RGB, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(HCL_to_RGB(HCL), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_HCL_to_RGB(self) -> None:
+    def test_domain_range_scale_HCL_to_RGB(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.cylindrical.HCL_to_RGB` definition
         domain and range scale support.
         """
 
-        HCL = np.array([0.99603944, 0.87347144, 0.24350795])
-        RGB = HCL_to_RGB(HCL)
+        HCL = xp_as_array([0.99603944, 0.87347144, 0.24350795], xp=xp)
+        RGB = as_ndarray(HCL_to_RGB(HCL))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     HCL_to_RGB(HCL * factor),
                     RGB * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,

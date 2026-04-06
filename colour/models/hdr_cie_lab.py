@@ -22,9 +22,8 @@ References
 
 from __future__ import annotations
 
+import math
 import typing
-
-import numpy as np
 
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
@@ -47,7 +46,7 @@ from colour.hints import (  # noqa: TC001
 )
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (
-    as_float_array,
+    array_namespace,
     domain_range_scale,
     from_range_1,
     from_range_100,
@@ -56,6 +55,7 @@ from colour.utilities import (
     tsplit,
     tstack,
     validate_method,
+    xp_as_float_array,
 )
 from colour.utilities.documentation import DocstringTuple, is_documentation_building
 
@@ -128,13 +128,16 @@ def exponent_hdr_CIELab(
     """
 
     Y_s = to_domain_1(Y_s)
-    Y_abs = as_float_array(Y_abs)
+
+    xp = array_namespace(Y_s)
+
+    Y_abs = xp_as_float_array(Y_abs, xp=xp, like=Y_s)
     method = validate_method(method, HDR_CIELAB_METHODS)
 
     epsilon = 1.5 if method == "fairchild 2010" else 0.58
 
     sf = 1.25 - 0.25 * (Y_s / 0.184)
-    lf = np.log(318) / np.log(Y_abs)
+    lf = math.log(318) / xp.log(Y_abs)
     if method == "fairchild 2010":
         epsilon *= sf * lf
     else:
@@ -207,6 +210,7 @@ def XYZ_to_hdr_CIELab(
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_hdr_CIELab(XYZ)  # doctest: +ELLIPSIS
     array([51.8700206..., 60.4763385..., 32.1455191...])
@@ -293,6 +297,7 @@ def hdr_CIELab_to_XYZ(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Lab_hdr = np.array([51.87002062, 60.4763385, 32.14551912])
     >>> hdr_CIELab_to_XYZ(Lab_hdr)  # doctest: +ELLIPSIS
     array([0.2065400..., 0.1219722..., 0.0513695...])

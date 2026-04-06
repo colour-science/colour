@@ -15,20 +15,22 @@ from __future__ import annotations
 
 import typing
 from collections.abc import Iterator, KeysView, Mapping, ValuesView
+from operator import pow  # noqa: A004
+from operator import add, iadd, imul, ipow, isub, itruediv, mul, sub, truediv
 
 import numpy as np
 
+from colour.algebra import Extrapolator, LinearInterpolator
 from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.continuous import AbstractContinuousFunction, Signal
 
 if typing.TYPE_CHECKING:
     from colour.hints import (
         Any,
-        Dict,
-        DTypeFloat,
         List,
         Literal,
         NDArrayFloat,
+        ProtocolArrayNamespace,
         ProtocolExtrapolator,
         ProtocolInterpolator,
         Real,
@@ -37,20 +39,36 @@ if typing.TYPE_CHECKING:
         Type,
     )
 
-from colour.hints import ArrayLike, Callable, Sequence, cast
+from colour.hints import ArrayLike, Callable, DTypeFloat, Sequence, cast
 from colour.utilities import (
+    array_namespace,
     as_float_array,
+    as_ndarray,
     attest,
-    first_item,
+    fill_nan,
+    full,
     int_digest,
     is_iterable,
+    is_non_ndarray,
     is_pandas_installed,
     multiline_repr,
+    ndarray_copy,
+    ndarray_copy_enable,
     optional,
     required,
-    tsplit,
+    runtime_warning,
     tstack,
     validate_method,
+    xp_as_array,
+    xp_as_float_array,
+    xp_astype,
+    xp_atleast_1d,
+    xp_broadcast_to,
+    xp_insert,
+    xp_isin,
+    xp_reshape,
+    xp_resize,
+    xp_setxor1d,
 )
 from colour.utilities.documentation import is_documentation_building
 
@@ -278,12 +296,12 @@ class MultiSignals(AbstractContinuousFunction):
     >>> range_ = tstack([np.sin(np.linspace(0, 1, 10))] * 3)
     >>> range_ += np.array([0.0, 0.25, 0.5])
     >>> MultiSignals(range_, domain)[x]  # doctest: +ELLIPSIS
-    array([0.0359701..., 0.2845447..., 0.5331193...])
+    array([0.0554413..., 0.3054413..., 0.5554413...])
     >>> x = np.linspace(100, 1000, 3)
     >>> MultiSignals(range_, domain)[x]  # doctest: +ELLIPSIS
-    array([[4.4085384...e-20, 2.5000000...e-01, 5.0000000...e-01],
-           [4.7669395...e-01, 7.2526859...e-01, 9.7384323...e-01],
-           [8.4147098...e-01, 1.0914709...e+00, 1.3414709...e+00]])
+    array([[0.        , 0.25      , 0.5       ],
+           [0.4786858..., 0.7286858..., 0.9786858...],
+           [0.8414709..., 1.0914709..., 1.3414709...]])
 
     Using an alternative interpolating function:
 
@@ -322,10 +340,52 @@ class MultiSignals(AbstractContinuousFunction):
         super().__init__(kwargs.get("name"))
 
         self._signal_type: Type[Signal] = kwargs.get("signal_type", Signal)
+        self._dtype: Type[DTypeFloat] = kwargs.get("dtype", DTYPE_FLOAT_DEFAULT)
 
-        self._signals: Dict[str, Signal] = self.multi_signals_unpack_data(
-            data, domain, labels, **kwargs
+        # Canonical storage owned at the parent level.
+        self._domain: NDArrayFloat = as_float_array([], self._dtype)
+        self._range: NDArrayFloat = np.zeros((0, 0), dtype=self._dtype)
+        self._labels: List[str] = []
+
+        # Interpolator / extrapolator parameters mirror :class:`Signal`'s
+        # defaults; sub-classes (e.g. :class:`MultiSpectralDistributions`)
+        # override via ``kwargs``.
+        self._interpolator: Type[ProtocolInterpolator] = kwargs.get(
+            "interpolator", LinearInterpolator
         )
+        self._interpolator_kwargs: dict = kwargs.get("interpolator_kwargs", {})
+        self._extrapolator: Type[ProtocolExtrapolator] = kwargs.get(
+            "extrapolator", Extrapolator
+        )
+        self._extrapolator_kwargs: dict = kwargs.get(
+            "extrapolator_kwargs",
+            {"method": "Constant", "left": float("nan"), "right": float("nan")},
+        )
+
+        # ``multi_signals_unpack_data`` normalises every supported input
+        # format to the canonical ``(domain, range, labels)`` triple; one
+        # ``isfinite`` check on the full 2-D ``range`` replaces the prior
+        # per-child fan-out validation.
+        self._domain, self._range, self._labels = self.multi_signals_unpack_data(
+            data, domain, labels, dtype=self._dtype, **kwargs
+        )
+
+        if len(self._range) > 0 and self._range.shape[-1] > 0:
+            xp = array_namespace(self._range)
+            # Promote ``_domain`` onto ``_range``'s backend so they live on
+            # the same device for downstream evaluation; mirrors the per-
+            # signal promotion in :class:`Signal.function`.
+            self._domain = xp_as_float_array(self._domain, xp=xp, like=self._range)
+            if not bool(xp.all(xp.isfinite(self._range))):
+                runtime_warning(
+                    f'"{self.name}" new "range" variable is not finite: '
+                    f"{self._range}, unpredictable results may occur!"
+                )
+
+        # Per-column :class:`Signal` copies are materialised on demand by
+        # the :attr:`signals` property; the canonical state lives at the
+        # parent level.
+        self._function: Callable | None = None
 
     @property
     def dtype(self) -> Type[DTypeFloat]:
@@ -343,14 +403,24 @@ class MultiSignals(AbstractContinuousFunction):
             Multi-signals dtype.
         """
 
-        return first_item(self._signals.values()).dtype
+        return self._dtype
 
     @dtype.setter
     def dtype(self, value: Type[DTypeFloat]) -> None:
         """Setter for the **self.dtype** property."""
 
-        for signal in self._signals.values():
-            signal.dtype = value
+        attest(
+            value in DTypeFloat.__args__,
+            f'"dtype" must be one of the following types: {DTypeFloat.__args__}',
+        )
+
+        self._dtype = value
+
+        # The following self-assignments are written as intended and
+        # triggers the rebuild of the underlying function.
+        if self.domain.dtype != value or self.range.dtype != value:
+            self.domain = self.domain
+            self.range = self.range
 
     @property
     def domain(self) -> NDArrayFloat:
@@ -371,14 +441,36 @@ class MultiSignals(AbstractContinuousFunction):
             :math:`x`.
         """
 
-        return first_item(self._signals.values()).domain
+        return ndarray_copy(self._domain)
 
     @domain.setter
     def domain(self, value: ArrayLike) -> None:
         """Setter for the **self.domain** property."""
 
-        for signal in self._signals.values():
-            signal.domain = as_float_array(value, self.dtype)
+        value = as_float_array(value, self.dtype)
+
+        xp = array_namespace(value)
+
+        if not xp.all(xp.isfinite(value)):
+            runtime_warning(
+                f'"{self.name}" new "domain" variable is not finite: {value}, '
+                f"unpredictable results may occur!"
+            )
+        else:
+            attest(
+                xp.all(value[:-1] <= value[1:]),
+                "The new domain value is not monotonic! ",
+            )
+
+        if len(value) != self._range.shape[0]:
+            xp = array_namespace(self._range)
+
+            self._range = xp_resize(
+                self._range, (len(value), self._range.shape[1]), xp=xp
+            )
+
+        self._domain = value
+        self._function = None  # Invalidate the underlying continuous function.
 
     @property
     def range(self) -> NDArrayFloat:
@@ -398,26 +490,38 @@ class MultiSignals(AbstractContinuousFunction):
             Multi-signals' range variable :math:`y`.
         """
 
-        return tstack([signal.range for signal in self._signals.values()])
+        return ndarray_copy(self._range)
 
     @range.setter
     def range(self, value: ArrayLike) -> None:
         """Setter for the **self.range** property."""
 
-        value = as_float_array(value)
+        value = as_float_array(value, self.dtype)
+
+        xp = array_namespace(value)
+
+        if not xp.all(xp.isfinite(value)):
+            runtime_warning(
+                f'"{self.name}" new "range" variable is not finite: {value}, '
+                f"unpredictable results may occur!"
+            )
 
         if value.ndim in (0, 1):
-            for signal in self._signals.values():
-                signal.range = value
+            value = xp_broadcast_to(
+                value[..., None] if value.ndim == 1 else value,
+                self._range.shape,
+                xp=xp,
+            )
+            value = as_float_array(value, self.dtype)
         else:
             attest(
-                value.shape[-1] == len(self._signals),
+                value.shape[-1] == self._range.shape[1],
                 'Corresponding "y" variable columns must have '
                 'same count than underlying "Signal" components!',
             )
 
-            for signal, y in zip(self._signals.values(), tsplit(value), strict=True):
-                signal.range = y
+        self._range = value
+        self._function = None  # Invalidate the underlying continuous function.
 
     @property
     def interpolator(self) -> Type[ProtocolInterpolator]:
@@ -437,15 +541,15 @@ class MultiSignals(AbstractContinuousFunction):
             Multi-signals interpolator type.
         """
 
-        return first_item(self._signals.values()).interpolator
+        return self._interpolator
 
     @interpolator.setter
     def interpolator(self, value: Type[ProtocolInterpolator]) -> None:
         """Setter for the **self.interpolator** property."""
 
-        if value is not None:
-            for signal in self._signals.values():
-                signal.interpolator = value
+        if value is not None and value is not self._interpolator:
+            self._interpolator = value
+            self._function = None  # Invalidate the underlying continuous function.
 
     @property
     def interpolator_kwargs(self) -> dict:
@@ -465,14 +569,14 @@ class MultiSignals(AbstractContinuousFunction):
             arguments.
         """
 
-        return first_item(self._signals.values()).interpolator_kwargs
+        return self._interpolator_kwargs
 
     @interpolator_kwargs.setter
     def interpolator_kwargs(self, value: dict) -> None:
         """Setter for the **self.interpolator_kwargs** property."""
 
-        for signal in self._signals.values():
-            signal.interpolator_kwargs = value
+        self._interpolator_kwargs = value
+        self._function = None  # Invalidate the underlying continuous function.
 
     @property
     def extrapolator(self) -> Type[ProtocolExtrapolator]:
@@ -492,14 +596,15 @@ class MultiSignals(AbstractContinuousFunction):
             Multi-signals extrapolator type.
         """
 
-        return first_item(self._signals.values()).extrapolator
+        return self._extrapolator
 
     @extrapolator.setter
     def extrapolator(self, value: Type[ProtocolExtrapolator]) -> None:
         """Setter for the **self.extrapolator** property."""
 
-        for signal in self._signals.values():
-            signal.extrapolator = value
+        if value is not None and value is not self._extrapolator:
+            self._extrapolator = value
+            self._function = None  # Invalidate the underlying continuous function.
 
     @property
     def extrapolator_kwargs(self) -> dict:
@@ -520,16 +625,17 @@ class MultiSignals(AbstractContinuousFunction):
             arguments.
         """
 
-        return first_item(self._signals.values()).extrapolator_kwargs
+        return self._extrapolator_kwargs
 
     @extrapolator_kwargs.setter
     def extrapolator_kwargs(self, value: dict) -> None:
         """Setter for the **self.extrapolator_kwargs** property."""
 
-        for signal in self._signals.values():
-            signal.extrapolator_kwargs = value
+        self._extrapolator_kwargs = value
+        self._function = None  # Invalidate the underlying continuous function.
 
     @property
+    @ndarray_copy_enable(False)
     def function(self) -> Callable:
         """
         Getter for the multi-signals callable.
@@ -540,13 +646,75 @@ class MultiSignals(AbstractContinuousFunction):
             Multi-signals callable.
         """
 
-        return first_item(self._signals.values()).function
+        if self._function is None:
+            # Create the underlying continuous function. Each interpolator
+            # owns its own input conversion, so backend tensors flow
+            # straight through array-aware ones (Sprague / Linear / Kernel
+            # / Null) and only get coerced to *NumPy* by the scipy-bound
+            # ones (CubicSpline / Pchip). ``self.domain`` is promoted to
+            # ``self.range``'s backend so the interpolator sees both
+            # variables on the same device, and downstream ``like=``
+            # references can canonically use the stored ``x`` axis.
+            if len(self.domain) != 0 and len(self.range) != 0:
+                xp = array_namespace(self.domain, self.range)
+                domain = xp_as_float_array(self.domain, xp=xp, like=self.range)
+                self._function = self.extrapolator(
+                    self.interpolator(
+                        domain,
+                        self.range,
+                        **self.interpolator_kwargs,
+                    ),
+                    **self.extrapolator_kwargs,
+                )
+            else:
+
+                def _undefined_function(
+                    *args: Any,  # noqa: ARG001
+                    **kwargs: Any,  # noqa: ARG001
+                ) -> None:
+                    """
+                    Raise a :class:`ValueError` exception.
+
+                    Other Parameters
+                    ----------------
+                    args
+                        Arguments.
+                    kwargs
+                        Keywords arguments.
+
+                    Raises
+                    ------
+                    ValueError
+                    """
+
+                    error = (
+                        "Underlying multi-signals interpolator function "
+                        'does not exists, please ensure that both "domain" '
+                        'and "range" variables are defined!'
+                    )
+
+                    raise ValueError(error)
+
+                self._function = cast("Callable", _undefined_function)
+
+        return cast("Callable", self._function)
 
     @property
-    def signals(self) -> Dict[str, Signal]:
+    def signals(self) -> Mapping[str, Signal]:
         """
         Getter and setter for the dictionary of
         :class:`colour.continuous.Signal` sub-class instances.
+
+        The canonical state lives at the parent level, in ``self._domain``
+        and ``self._range``: a new :class:`colour.continuous.Signal`
+        sub-class instance is materialised per label on each access,
+        wrapping a column of ``self._range``.
+
+        The returned instances are therefore copies, not views: mutating
+        one, e.g. ``multi_signals.signals["a"][560] = 1``, does not
+        propagate to the parent. Assign to the parent instead, e.g.
+        ``multi_signals[560] = 1``, or set the
+        :attr:`colour.continuous.MultiSignals.signals` property.
 
         Parameters
         ----------
@@ -561,7 +729,19 @@ class MultiSignals(AbstractContinuousFunction):
             :class:`colour.continuous.Signal` sub-class instances.
         """
 
-        return self._signals
+        return {
+            label: self._signal_type(
+                self._range[:, i],
+                self._domain,
+                name=label,
+                dtype=self._dtype,
+                interpolator=self._interpolator,
+                interpolator_kwargs=self._interpolator_kwargs,
+                extrapolator=self._extrapolator,
+                extrapolator_kwargs=self._extrapolator_kwargs,
+            )
+            for i, label in enumerate(self._labels)
+        }
 
     @signals.setter
     def signals(
@@ -570,9 +750,10 @@ class MultiSignals(AbstractContinuousFunction):
     ) -> None:
         """Setter for the **self.signals** property."""
 
-        self._signals = self.multi_signals_unpack_data(
-            value, signal_type=self._signal_type
+        self._domain, self._range, self._labels = self.multi_signals_unpack_data(
+            value, dtype=self._dtype
         )
+        self._function = None  # Invalidate the underlying continuous function.
 
     @property
     def labels(self) -> List[str]:
@@ -592,7 +773,7 @@ class MultiSignals(AbstractContinuousFunction):
             :class:`colour.continuous.Signal` sub-class instance names.
         """
 
-        return [str(key) for key in self._signals]
+        return list(self._labels)
 
     @labels.setter
     def labels(self, value: Sequence) -> None:
@@ -609,13 +790,12 @@ class MultiSignals(AbstractContinuousFunction):
         )
 
         attest(
-            len(value) == len(self.labels),
-            f'"labels" property: length must be "{len(self._signals)}"!',
+            len(value) == len(self._labels),
+            f'"labels" property: length must be "{len(self._labels)}"!',
         )
 
-        self._signals = {
-            str(value[i]): signal for i, signal in enumerate(self._signals.values())
-        }
+        self._labels = [str(label) for label in value]
+        self._function = None  # Invalidate the underlying continuous function.
 
     @property
     def signal_type(self) -> Type[Signal]:
@@ -659,7 +839,9 @@ class MultiSignals(AbstractContinuousFunction):
          [  9. 100. 110. 120.]]
         """
 
-        return str(np.hstack([self.domain[:, None], self.range]))
+        xp = array_namespace(self.domain, self.range)
+
+        return str(xp.concat([self.domain[:, None], self.range], axis=1))
 
     def __repr__(self) -> str:
         """
@@ -687,7 +869,7 @@ class MultiSignals(AbstractContinuousFunction):
                       [  8.,  90., 100., 110.],
                       [  9., 100., 110., 120.]],
                      ['0', '1', '2'],
-                     KernelInterpolator,
+                     LinearInterpolator,
                      {},
                      Extrapolator,
                      {'method': 'Constant', 'left': nan, 'right': nan})
@@ -701,7 +883,9 @@ class MultiSignals(AbstractContinuousFunction):
             [
                 {
                     "formatter": lambda x: repr(  # noqa: ARG005
-                        np.hstack([self.domain[:, None], self.range])
+                        array_namespace(self.domain, self.range).concat(
+                            [self.domain[:, None], self.range], axis=1
+                        )
                     ),
                 },
                 {"name": "labels"},
@@ -732,17 +916,20 @@ class MultiSignals(AbstractContinuousFunction):
             Object hash.
         """
 
+        # See :meth:`Signal.__hash__` for the host-bytes-plus-namespace rationale.
         return hash(
             (
-                int_digest(self.domain.tobytes()),
-                *[hash(signal) for signal in self._signals.values()],
-                self.interpolator.__name__,
-                repr(self.interpolator_kwargs),
-                self.extrapolator.__name__,
-                repr(self.extrapolator_kwargs),
+                int_digest(as_ndarray(self._domain).tobytes()),
+                int_digest(as_ndarray(self._range).tobytes()),
+                array_namespace(self._domain, self._range).__name__,
+                self._interpolator.__name__,
+                repr(self._interpolator_kwargs),
+                self._extrapolator.__name__,
+                repr(self._extrapolator_kwargs),
             )
         )
 
+    @ndarray_copy_enable(False)
     def __getitem__(self, x: ArrayLike | slice) -> NDArrayFloat:
         """
         Return the corresponding range variable :math:`y` for the specified
@@ -781,11 +968,11 @@ class MultiSignals(AbstractContinuousFunction):
                [20., 30., 40.],
                [30., 40., 50.]])
         >>> multi_signals[np.linspace(0, 5, 5)]  # doctest: +ELLIPSIS
-        array([[10.       ..., 20.       ..., 30.       ...],
-               [22.8348902..., 32.8046056..., 42.774321 ...],
-               [34.8004492..., 44.7434347..., 54.6864201...],
-               [47.5535392..., 57.5232546..., 67.4929700...],
-               [60.       ..., 70.       ..., 80.       ...]])
+        array([[10. , 20. , 30. ],
+               [22.5, 32.5, 42.5],
+               [35. , 45. , 55. ],
+               [47.5, 57.5, 67.5],
+               [60. , 70. , 80. ]])
         >>> multi_signals[0:3]
         array([[10., 20., 30.],
                [20., 30., 40.],
@@ -805,7 +992,11 @@ class MultiSignals(AbstractContinuousFunction):
 
         x_r, x_c = (x[0], x[1]) if isinstance(x, tuple) else (x, slice(None))
 
-        values = tstack([signal[x_r] for signal in self._signals.values()])
+        # The slice path serves directly from the cached 2-D ``_range``
+        # aggregate; the non-slice path routes through ``self.function`` so
+        # one shared interpolator / extrapolator chain over the 2-D
+        # aggregate replaces the prior per-child fan-out.
+        values = self.range[x_r] if isinstance(x_r, slice) else self.function(x_r)
 
         return values[..., x_c]  # pyright: ignore
 
@@ -914,7 +1105,9 @@ class MultiSignals(AbstractContinuousFunction):
          [  9.    50.    50.   120.  ]]
         """
 
-        y = as_float_array(y)
+        xp = array_namespace(self._range)
+
+        y = xp_as_float_array(y, xp=xp, like=self._range)
 
         x_r, x_c = (x[0], x[1]) if isinstance(x, tuple) else (x, slice(None))
 
@@ -924,21 +1117,59 @@ class MultiSignals(AbstractContinuousFunction):
             "or 2-dimensional array!",
         )
 
+        n_signals = self._range.shape[1]
         if y.ndim == 0:
-            y = np.tile(y, len(self._signals))
+            y = xp_broadcast_to(y, (1, n_signals), xp=xp)
         elif y.ndim == 1:
             y = y[None, :]
 
         attest(
-            y.shape[-1] == len(self._signals),
+            y.shape[-1] == n_signals,
             'Corresponding "y" variable columns must have same count than '
             'underlying "Signal" components!',
         )
 
-        values = list(zip(self._signals.values(), tsplit(y), strict=True))
+        def set_range(
+            index: ArrayLike | slice, values: ArrayLike, xp: ProtocolArrayNamespace
+        ) -> None:
+            """
+            Set ``self._range`` at ``[index, x_c]`` mutably, round-tripping
+            through numpy for immutable backends.
+            """
 
-        for signal, y in values[x_c]:  # pyright: ignore
-            signal[x_r] = y
+            sliced = values[..., x_c]  # pyright: ignore
+            if not is_non_ndarray(self._range):
+                self._range[index, x_c] = sliced  # pyright: ignore
+            else:
+                range_ = np.array(as_ndarray(self._range))
+                range_[  # pyright: ignore
+                    index if isinstance(index, slice) else as_ndarray(index), x_c
+                ] = as_ndarray(sliced)
+                self._range = xp_as_array(range_, xp=xp, like=self._range)
+
+        if isinstance(x_r, slice):
+            set_range(x_r, y, xp)
+        else:
+            x_r = xp_astype(
+                xp_atleast_1d(xp_as_float_array(x_r, xp=xp, like=self._range), xp=xp),
+                self.dtype,
+                xp=xp,
+            )
+            y = xp_resize(y, (x_r.shape[0], n_signals), xp=xp)
+            domain = xp_as_array(self._domain, xp=xp, like=self._range)
+
+            mask = xp_isin(x_r, domain, xp=xp)
+            x_m = x_r[mask]
+            if len(x_m) != 0:
+                set_range(xp.searchsorted(domain, x_m), y[mask], xp)
+
+            x_nm = x_r[~mask]
+            if len(x_nm) != 0:
+                indexes = xp.searchsorted(domain, x_nm)
+                self._domain = as_ndarray(xp_insert(domain, indexes, x_nm, xp=xp))
+                self._range = xp_insert(self._range, indexes, y[~mask], axis=0, xp=xp)
+
+        self._function = None  # Invalidate the underlying continuous function.
 
     def __contains__(self, x: ArrayLike | slice) -> bool:
         """
@@ -967,7 +1198,20 @@ class MultiSignals(AbstractContinuousFunction):
         False
         """
 
-        return x in first_item(self._signals.values())
+        xp = array_namespace(self._domain)
+
+        return bool(
+            xp.all(
+                xp.where(
+                    xp.logical_and(
+                        x >= xp.min(self._domain),
+                        x <= xp.max(self._domain),
+                    ),
+                    True,
+                    False,
+                )
+            )
+        )
 
     def __eq__(self, other: object) -> bool:
         """
@@ -1003,18 +1247,24 @@ class MultiSignals(AbstractContinuousFunction):
         False
         """
 
-        # NOTE: Comparing "interpolator_kwargs" and "extrapolator_kwargs" using
-        # their string representation because of presence of NaNs.
+        # ``interpolator_kwargs`` / ``extrapolator_kwargs`` compared as repr to
+        # handle NaNs. Different-backend operands are treated as unequal.
         if isinstance(other, MultiSignals):
+            xp = array_namespace(self._domain, self._range)
+            if xp is not array_namespace(other.domain, other.range):
+                return False
+
             return all(
                 [
-                    np.array_equal(self.domain, other.domain),
-                    np.array_equal(self.range, other.range),
-                    self.interpolator is other.interpolator,
-                    str(self.interpolator_kwargs) == str(other.interpolator_kwargs),
-                    self.extrapolator is other.extrapolator,
-                    str(self.extrapolator_kwargs) == str(other.extrapolator_kwargs),
-                    self.labels == other.labels,
+                    self._domain.shape == other.domain.shape
+                    and bool(xp.all(self._domain == other.domain)),
+                    self._range.shape == other.range.shape
+                    and bool(xp.all(self._range == other.range)),
+                    self._interpolator is other.interpolator,
+                    repr(self._interpolator_kwargs) == repr(other.interpolator_kwargs),
+                    self._extrapolator is other.extrapolator,
+                    repr(self._extrapolator_kwargs) == repr(other.extrapolator_kwargs),
+                    self._labels == other.labels,
                 ]
             )
 
@@ -1169,46 +1419,71 @@ class MultiSignals(AbstractContinuousFunction):
          [  9. 347. 378. 409.]]
         """
 
-        multi_signals = self if in_place else self.copy()
+        operator, ioperator = {
+            "+": (add, iadd),
+            "-": (sub, isub),
+            "*": (mul, imul),
+            "/": (truediv, itruediv),
+            "**": (pow, ipow),
+        }[operation]
 
-        if isinstance(a, MultiSignals):
-            attest(
-                len(self.signals) == len(a.signals),
-                '"MultiSignals" operands must have same count than '
-                'underlying "Signal" components!',
-            )
+        n_signals = self._range.shape[1]
 
-            for signal_a, signal_b in zip(
-                multi_signals.signals.values(), a.signals.values(), strict=True
-            ):
-                signal_a.arithmetical_operation(signal_b, operation, True)
-        else:
-            a = as_float_array(cast("ArrayLike", a))
-
-            attest(
-                a.ndim in range(3),
-                'Operand "a" variable must be a numeric or a 1-dimensional or '
-                "2-dimensional array!",
-            )
-
-            if a.ndim in (0, 1):
-                for signal in multi_signals.signals.values():
-                    signal.arithmetical_operation(a, operation, True)
-            else:
+        if in_place:
+            if isinstance(a, MultiSignals):
                 attest(
-                    a.shape[-1] == len(multi_signals.signals),
-                    'Operand "a" variable columns must have same count than '
+                    n_signals == a.range.shape[1],
+                    '"MultiSignals" operands must have same count than '
                     'underlying "Signal" components!',
                 )
 
-                for signal, y in zip(
-                    multi_signals.signals.values(), tsplit(a), strict=True
-                ):
-                    signal.arithmetical_operation(y, operation, True)
+                # The operation is on the ranges, so the namespace is resolved
+                # from both ranges (the domains are always *NumPy*) and both
+                # operands are promoted to it.
+                a_range = a[self._domain]
+                xp = array_namespace(self._range, a_range)
 
-        return multi_signals
+                self[self._domain] = operator(
+                    xp_as_float_array(self._range, xp=xp, like=a_range),
+                    xp_as_float_array(a_range, xp=xp, like=self._range),
+                )
+                exclusive_or = xp_setxor1d(self._domain, a.domain)
+                self[exclusive_or] = full(
+                    (exclusive_or.shape[0], n_signals), float("nan")
+                )
+            else:
+                operand = as_float_array(cast("ArrayLike", a))
+
+                attest(
+                    operand.ndim in range(3),
+                    'Operand "a" variable must be a numeric or a 1-dimensional '
+                    "or 2-dimensional array!",
+                )
+
+                if operand.ndim == 0 or (
+                    operand.ndim == 1 and operand.shape[0] == self._range.shape[0]
+                ):
+                    # Scalar or 1-D operand of length ``n_wavelengths`` broadcasts
+                    # over the signal axis.
+                    operand = operand[..., None] if operand.ndim == 1 else operand
+                else:
+                    attest(
+                        operand.shape[-1] == n_signals,
+                        'Operand "a" variable columns must have same count than '
+                        'underlying "Signal" components!',
+                    )
+
+                xp = array_namespace(self._range, operand)
+                self_range = xp_as_float_array(self._range, xp=xp, like=operand)
+                operand = xp_as_array(operand, xp=xp, like=self_range)
+                self.range = ioperator(self_range, operand)
+
+            return self
+
+        return ioperator(self.copy(), a)
 
     @staticmethod
+    @ndarray_copy_enable(True)
     def multi_signals_unpack_data(
         data: (
             ArrayLike
@@ -1224,9 +1499,8 @@ class MultiSignals(AbstractContinuousFunction):
         domain: ArrayLike | KeysView | None = None,
         labels: Sequence | None = None,
         dtype: Type[DTypeFloat] | None = None,
-        signal_type: Type[Signal] = Signal,
-        **kwargs: Any,
-    ) -> Dict[str, Signal]:
+        **kwargs: Any,  # noqa: ARG004
+    ) -> tuple[NDArrayFloat, NDArrayFloat, List[str]]:
         """
         Unpack specified data for multi-signals instantiation.
 
@@ -1267,19 +1541,24 @@ class MultiSignals(AbstractContinuousFunction):
 
         Returns
         -------
-        :class:`dict`
-            Mapping of labeled :class:`colour.continuous.Signal` sub-class
-            instances.
+        :class:`tuple`
+            Tuple of ``(domain, range, labels)`` where ``domain`` is the
+            unpacked independent variable as an ``(N,)`` array, ``range`` is
+            the unpacked dependent variable as an ``(N, M)`` array with one
+            column per signal, and ``labels`` is the list of signal labels
+            of length ``M``.
 
         Examples
         --------
         Unpacking using implicit *domain* and data for a single signal:
 
         >>> range_ = np.linspace(10, 100, 10)
-        >>> signals = MultiSignals.multi_signals_unpack_data(range_)
-        >>> list(signals.keys())
+        >>> domain, range_unpacked, labels = MultiSignals.multi_signals_unpack_data(
+        ...     range_
+        ... )
+        >>> labels
         ['0']
-        >>> print(signals["0"])
+        >>> print(np.column_stack([domain, range_unpacked]))
         [[  0.  10.]
          [  1.  20.]
          [  2.  30.]
@@ -1293,11 +1572,13 @@ class MultiSignals(AbstractContinuousFunction):
 
         Unpacking using explicit *domain* and data for a single signal:
 
-        >>> domain = np.arange(100, 1100, 100)
-        >>> signals = MultiSignals.multi_signals_unpack_data(range_, domain)
-        >>> list(signals.keys())
+        >>> domain_ = np.arange(100, 1100, 100)
+        >>> domain, range_unpacked, labels = MultiSignals.multi_signals_unpack_data(
+        ...     range_, domain_
+        ... )
+        >>> labels
         ['0']
-        >>> print(signals["0"])
+        >>> print(np.column_stack([domain, range_unpacked]))
         [[ 100.   10.]
          [ 200.   20.]
          [ 300.   30.]
@@ -1313,10 +1594,12 @@ class MultiSignals(AbstractContinuousFunction):
 
         >>> range_ = tstack([np.linspace(10, 100, 10)] * 3)
         >>> range_ += np.array([0, 10, 20])
-        >>> signals = MultiSignals.multi_signals_unpack_data(range_, domain)
-        >>> list(signals.keys())
+        >>> domain, range_unpacked, labels = MultiSignals.multi_signals_unpack_data(
+        ...     range_, domain_
+        ... )
+        >>> labels
         ['0', '1', '2']
-        >>> print(signals["2"])
+        >>> print(np.column_stack([domain, range_unpacked[:, 2]]))
         [[ 100.   30.]
          [ 200.   40.]
          [ 300.   50.]
@@ -1330,10 +1613,12 @@ class MultiSignals(AbstractContinuousFunction):
 
         Unpacking using a *dict*:
 
-        >>> signals = MultiSignals.multi_signals_unpack_data(dict(zip(domain, range_)))
-        >>> list(signals.keys())
+        >>> domain, range_unpacked, labels = MultiSignals.multi_signals_unpack_data(
+        ...     dict(zip(domain_, range_))
+        ... )
+        >>> labels
         ['0', '1', '2']
-        >>> print(signals["2"])
+        >>> print(np.column_stack([domain, range_unpacked[:, 2]]))
         [[ 100.   30.]
          [ 200.   40.]
          [ 300.   50.]
@@ -1345,16 +1630,16 @@ class MultiSignals(AbstractContinuousFunction):
          [ 900.  110.]
          [1000.  120.]]
 
-        Unpacking using a sequence of *Signal* instances, note how the keys
-        are :class:`str` instances because the *Signal* names are used:
+        Unpacking using a sequence of *Signal* instances:
 
-        >>> signals = MultiSignals.multi_signals_unpack_data(
-        ...     dict(zip(domain, range_))
-        ... ).values()
-        >>> signals = MultiSignals.multi_signals_unpack_data(signals)
-        >>> list(signals.keys())
+        >>> from colour.continuous import Signal
+        >>> signals_seq = [Signal(range_[:, i], domain_, name=str(i)) for i in range(3)]
+        >>> domain, range_unpacked, labels = MultiSignals.multi_signals_unpack_data(
+        ...     signals_seq
+        ... )
+        >>> labels
         ['0', '1', '2']
-        >>> print(signals["2"])
+        >>> print(np.column_stack([domain, range_unpacked[:, 2]]))
         [[ 100.   30.]
          [ 200.   40.]
          [ 300.   50.]
@@ -1366,13 +1651,15 @@ class MultiSignals(AbstractContinuousFunction):
          [ 900.  110.]
          [1000.  120.]]
 
-        Unpacking using *MultiSignals.multi_signals_unpack_data* method output:
+        Unpacking from an existing :class:`MultiSignals` instance:
 
-        >>> signals = MultiSignals.multi_signals_unpack_data(dict(zip(domain, range_)))
-        >>> signals = MultiSignals.multi_signals_unpack_data(signals)
-        >>> list(signals.keys())
+        >>> multi_signals = MultiSignals(range_, domain_)
+        >>> domain, range_unpacked, labels = MultiSignals.multi_signals_unpack_data(
+        ...     multi_signals
+        ... )
+        >>> labels
         ['0', '1', '2']
-        >>> print(signals["2"])
+        >>> print(np.column_stack([domain, range_unpacked[:, 2]]))
         [[ 100.   30.]
          [ 200.   40.]
          [ 300.   50.]
@@ -1389,10 +1676,10 @@ class MultiSignals(AbstractContinuousFunction):
         >>> if is_pandas_installed():
         ...     from pandas import Series
         ...
-        ...     signals = MultiSignals.multi_signals_unpack_data(
-        ...         Series(dict(zip(domain, np.linspace(10, 100, 10))))
+        ...     domain, range_unpacked, labels = MultiSignals.multi_signals_unpack_data(
+        ...         Series(dict(zip(domain_, np.linspace(10, 100, 10))))
         ...     )
-        ...     print(signals[0])  # doctest: +SKIP
+        ...     print(np.column_stack([domain, range_unpacked]))  # doctest: +SKIP
         [[ 100.   10.]
          [ 200.   20.]
          [ 300.   30.]
@@ -1410,10 +1697,10 @@ class MultiSignals(AbstractContinuousFunction):
         ...     from pandas import DataFrame
         ...
         ...     data = dict(zip(["a", "b", "c"], tsplit(range_)))
-        ...     signals = MultiSignals.multi_signals_unpack_data(
-        ...         DataFrame(data, domain)
+        ...     domain, range_unpacked, labels = MultiSignals.multi_signals_unpack_data(
+        ...         DataFrame(data, domain_)
         ...     )
-        ...     print(signals["c"])  # doctest: +SKIP
+        ...     print(np.column_stack([domain, range_unpacked[:, 2]]))  # doctest: +SKIP
         [[ 100.   30.]
          [ 200.   40.]
          [ 300.   50.]
@@ -1428,78 +1715,114 @@ class MultiSignals(AbstractContinuousFunction):
 
         dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
-        settings = {}
-        settings.update(kwargs)
-        settings.update({"dtype": dtype})
+        domain_unpacked: NDArrayFloat = as_float_array([], dtype)
+        range_unpacked: NDArrayFloat = np.zeros((0, 0), dtype=dtype)
+        labels_unpacked: List[str] = []
 
-        # domain_unpacked, range_unpacked, signals = (
-        #   np.array([]), np.array([]), {})
-
-        signals = {}
-
-        if isinstance(data, Signal):
-            signals[data.name] = data
+        if data is None:
+            pass
+        elif (
+            isinstance(data, tuple)
+            and len(data) == 3
+            and is_non_ndarray(data[0]) is False
+            and isinstance(data[2], (list, tuple))
+            and all(isinstance(label, str) for label in data[2])
+        ):
+            # The unpacked ``(domain, range, labels)`` triple is accepted back
+            # so that the definition is idempotent: assigning its own output to
+            # the :attr:`signals` property, as in
+            # ``msds.signals = MultiSignals.multi_signals_unpack_data(...)``,
+            # round-trips rather than being re-unpacked as a sequence.
+            domain_unpacked = as_float_array(data[0], dtype)
+            range_unpacked = as_float_array(data[1], dtype)
+            if range_unpacked.ndim == 1:
+                range_unpacked = xp_reshape(range_unpacked, (-1, 1))
+            labels_unpacked = [str(label) for label in data[2]]
+        elif isinstance(data, Signal):
+            domain_unpacked = as_float_array(data.domain, dtype)
+            range_unpacked = xp_reshape(as_float_array(data.range, dtype), (-1, 1))
+            labels_unpacked = [str(data.name)]
         elif isinstance(data, MultiSignals):
-            signals = data.signals
+            domain_unpacked = as_float_array(data.domain, dtype)
+            range_unpacked = as_float_array(data.range, dtype)
+            if range_unpacked.ndim == 1:
+                range_unpacked = xp_reshape(range_unpacked, (-1, 1))
+            labels_unpacked = list(data.labels)
+        elif is_non_ndarray(data):
+            range_unpacked = as_float_array(data, dtype)  # pyright: ignore
+
+            attest(
+                range_unpacked.ndim in (1, 2),
+                'User "data" must be 1-dimensional or 2-dimensional!',
+            )
+
+            if range_unpacked.ndim == 1:
+                range_unpacked = xp_reshape(range_unpacked, (-1, 1))
+            labels_unpacked = [str(i) for i in range(range_unpacked.shape[1])]
         elif issubclass(type(data), Sequence) or isinstance(
             data, (tuple, list, np.ndarray, Iterator, ValuesView)
         ):
             data_sequence = list(cast("Sequence", data))
 
-            is_signal = True
-            for i in data_sequence:
-                if not isinstance(i, Signal):
-                    is_signal = False
-                    break
+            is_signal = bool(data_sequence) and all(
+                isinstance(i, Signal) for i in data_sequence
+            )
 
             if is_signal:
-                for signal in data_sequence:
-                    signals[signal.name] = signal_type(
-                        signal.range, signal.domain, **settings
-                    )
+                domain_unpacked = as_float_array(data_sequence[0].domain, dtype)
+                range_unpacked = tstack(
+                    [as_float_array(signal.range, dtype) for signal in data_sequence]
+                )
+                if range_unpacked.ndim == 1:
+                    range_unpacked = xp_reshape(range_unpacked, (-1, 1))
+                labels_unpacked = [str(signal.name) for signal in data_sequence]
             else:
-                data_array = tsplit(data_sequence)
+                range_unpacked = as_float_array(np.asarray(data_sequence), dtype)
                 attest(
-                    data_array.ndim in (1, 2),
+                    range_unpacked.ndim in (1, 2),
                     'User "data" must be 1-dimensional or 2-dimensional!',
                 )
 
-                if data_array.ndim == 1:
-                    data_array = data_array[None, :]
-
-                for i, range_unpacked in enumerate(data_array):
-                    signals[str(i)] = signal_type(range_unpacked, domain, **settings)
+                if range_unpacked.ndim == 1:
+                    range_unpacked = xp_reshape(range_unpacked, (-1, 1))
+                labels_unpacked = [str(i) for i in range(range_unpacked.shape[1])]
         elif issubclass(type(data), Mapping) or isinstance(data, dict):
             data_mapping = dict(cast("Mapping", data))
 
-            is_signal = all(isinstance(i, Signal) for i in data_mapping.values())
+            is_signal = bool(data_mapping) and all(
+                isinstance(i, Signal) for i in data_mapping.values()
+            )
 
             if is_signal:
-                for label, signal in data_mapping.items():
-                    signals[label] = signal_type(
-                        signal.range, signal.domain, **settings
-                    )
-            else:
-                domain_unpacked, range_unpacked = zip(
-                    *sorted(data_mapping.items()), strict=True
+                first_signal = next(iter(data_mapping.values()))
+                domain_unpacked = as_float_array(first_signal.domain, dtype)
+                range_unpacked = tstack(
+                    [
+                        as_float_array(signal.range, dtype)
+                        for signal in data_mapping.values()
+                    ]
                 )
-                for i, values_unpacked in enumerate(tsplit(range_unpacked)):
-                    signals[str(i)] = signal_type(
-                        values_unpacked, domain_unpacked, **settings
-                    )
+                if range_unpacked.ndim == 1:
+                    range_unpacked = xp_reshape(range_unpacked, (-1, 1))
+                labels_unpacked = [str(label) for label in data_mapping]
+            else:
+                keys, values = zip(*sorted(data_mapping.items()), strict=True)
+                domain_unpacked = as_float_array(keys, dtype)
+                range_unpacked = as_float_array(np.asarray(values), dtype)
+                if range_unpacked.ndim == 1:
+                    range_unpacked = xp_reshape(range_unpacked, (-1, 1))
+                labels_unpacked = [str(i) for i in range(range_unpacked.shape[1])]
         elif is_pandas_installed():
             if isinstance(data, Series):
-                signals["0"] = signal_type(data, **settings)
+                domain_unpacked = as_float_array(data.index.values, dtype)  # pyright: ignore
+                range_unpacked = xp_reshape(as_float_array(data.values, dtype), (-1, 1))
+                labels_unpacked = ["0"]
             elif isinstance(data, DataFrame):
                 domain_unpacked = as_float_array(data.index.values, dtype)  # pyright: ignore
-                signals = {
-                    label: signal_type(
-                        data[label],
-                        domain_unpacked,
-                        **settings,
-                    )
-                    for label in data
-                }
+                range_unpacked = as_float_array(data.values, dtype)
+                if range_unpacked.ndim == 1:
+                    range_unpacked = xp_reshape(range_unpacked, (-1, 1))
+                labels_unpacked = [str(label) for label in data.columns]
 
         if domain is not None:
             if isinstance(domain, KeysView):
@@ -1507,36 +1830,38 @@ class MultiSignals(AbstractContinuousFunction):
 
             domain_array = as_float_array(domain, dtype)
 
-            for signal in signals.values():
+            if len(range_unpacked) > 0:
                 attest(
-                    len(domain_array) == len(signal.domain),
-                    'User "domain" length is not compatible with unpacked "signals"!',
+                    len(domain_array) == len(range_unpacked),
+                    'User "domain" length is not compatible with unpacked "range"!',
                 )
 
-                signal.domain = domain_array
+            domain_unpacked = domain_array
 
-        signals = {str(label): signal for label, signal in signals.items()}
+        if len(domain_unpacked) == 0 and len(range_unpacked) > 0:
+            domain_unpacked = np.arange(range_unpacked.shape[0], dtype=dtype)
 
         if labels is not None:
             attest(
-                len(labels) == len(signals),
-                'User "labels" length is not compatible with unpacked "signals"!',
+                len(labels) == len(labels_unpacked),
+                'User "labels" length is not compatible with unpacked "labels"!',
             )
 
             if len(labels) != len(set(labels)):
                 labels = [f"{label} - {i}" for i, label in enumerate(labels)]
 
-            signals = {
-                str(labels[i]): signal for i, signal in enumerate(signals.values())
-            }
+            labels_unpacked = [str(label) for label in labels]
 
-        for label in signals:
-            signals[label].name = label
+        if not labels_unpacked:
+            labels_unpacked = ["Undefined"]
+            if range_unpacked.size == 0:
+                range_unpacked = np.zeros((0, 1), dtype=dtype)
 
-        if not signals:
-            signals = {"Undefined": Signal(name="Undefined")}
-
-        return signals
+        return (
+            ndarray_copy(domain_unpacked),
+            ndarray_copy(range_unpacked),
+            labels_unpacked,
+        )
 
     def fill_nan(
         self,
@@ -1605,8 +1930,16 @@ class MultiSignals(AbstractContinuousFunction):
 
         method = validate_method(method, ("Interpolation", "Constant"))
 
-        for signal in self._signals.values():
-            signal.fill_nan(method, default)
+        if self._labels:
+            self.domain = fill_nan(self._domain, method, default)
+            # ``fill_nan`` is 1-D; iterate over the trailing signal axis so
+            # each column's NaN pattern resolves independently.
+            self.range = tstack(
+                [
+                    fill_nan(self._range[..., i], method, default)
+                    for i in range(self._range.shape[-1])
+                ]
+            )
 
         return self
 

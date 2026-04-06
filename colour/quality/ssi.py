@@ -30,10 +30,15 @@ from colour.colorimetry import (
 )
 
 if typing.TYPE_CHECKING:
-    from colour.hints import NDArrayFloat
+    from colour.hints import ModuleType, NDArrayFloat, ProtocolArrayNamespace
 
-
-from colour.utilities import required
+from colour.utilities import (
+    array_namespace,
+    as_ndarray,
+    required,
+    xp_as_float_array,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -44,6 +49,7 @@ __status__ = "Production"
 
 __all__ = [
     "SPECTRAL_SHAPE_SSI",
+    "matrix_integration_SSI",
     "spectral_similarity_index",
 ]
 
@@ -53,6 +59,46 @@ SPECTRAL_SHAPE_SSI: SpectralShape = SpectralShape(375, 675, 1)
 _SPECTRAL_SHAPE_SSI_LARGE: SpectralShape = SpectralShape(380, 670, 10)
 
 _MATRIX_INTEGRATION: NDArrayFloat | None = None
+
+
+def matrix_integration_SSI(
+    *, xp: ProtocolArrayNamespace | ModuleType = np
+) -> NDArrayFloat:
+    """
+    Build the *SSI* sparse integration matrix in the specified namespace.
+
+    The matrix maps the 1 nm *SSI* working shape to the 10 nm reference
+    bands by convolving each band with a unit-area triangular kernel. It
+    is cached at module level via :data:`_MATRIX_INTEGRATION`; callers
+    promote it to the per-input backend at use time via
+    :func:`xp_as_float_array`.
+    """
+
+    n_rows = len(_SPECTRAL_SHAPE_SSI_LARGE.wavelengths)
+    n_cols = len(SPECTRAL_SHAPE_SSI.wavelengths)
+    weights = xp_as_float_array([0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5], xp=xp)
+
+    return xp.concat(
+        [
+            xp_reshape(
+                xp.concat(
+                    [
+                        xp_as_float_array(xp.zeros(10 * i), xp=xp, like=weights),
+                        weights,
+                        xp_as_float_array(
+                            xp.zeros(max(0, n_cols - 10 * i - 11)),
+                            xp=xp,
+                            like=weights,
+                        ),
+                    ]
+                )[:n_cols],
+                (1, -1),
+                xp=xp,
+            )
+            for i in range(n_rows)
+        ],
+        axis=0,
+    )
 
 
 @required("SciPy")
@@ -113,22 +159,7 @@ def spectral_similarity_index(
     global _MATRIX_INTEGRATION  # noqa: PLW0603
 
     if _MATRIX_INTEGRATION is None:
-        n_rows = len(_SPECTRAL_SHAPE_SSI_LARGE.wavelengths)
-        n_cols = len(SPECTRAL_SHAPE_SSI.wavelengths)
-        weights = np.array([0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5])
-
-        _MATRIX_INTEGRATION = np.vstack(
-            [
-                np.concatenate(
-                    [
-                        np.zeros(10 * i),
-                        weights,
-                        np.zeros(max(0, n_cols - 10 * i - 11)),
-                    ]
-                )[:n_cols]
-                for i in range(n_rows)
-            ]
-        )
+        _MATRIX_INTEGRATION = matrix_integration_SSI()
 
     settings = {
         "interpolator": LinearInterpolator,
@@ -148,20 +179,28 @@ def spectral_similarity_index(
         )
     )
 
-    test_i = np.dot(_MATRIX_INTEGRATION, sd_test.values)
-    reference_i = np.dot(_MATRIX_INTEGRATION, sd_reference.values)
+    xp = array_namespace(sd_test.values, sd_reference.values)
+
+    sd_test_values = xp_as_float_array(sd_test.values, xp=xp)
+    sd_reference_values = xp_as_float_array(
+        sd_reference.values, xp=xp, like=sd_test_values
+    )
+    matrix = xp_as_float_array(_MATRIX_INTEGRATION, xp=xp, like=sd_test_values)
+
+    test_i = xp.matmul(matrix, sd_test_values)
+    reference_i = xp.matmul(matrix, sd_reference_values)
 
     if test_i.ndim == 1 and reference_i.ndim == 2:
-        test_i = np.tile(test_i[:, np.newaxis], (1, reference_i.shape[1]))
+        test_i = xp.tile(test_i[:, None], (1, reference_i.shape[1]))
     elif test_i.ndim == 2 and reference_i.ndim == 1:
-        reference_i = np.tile(reference_i[:, np.newaxis], (1, test_i.shape[1]))
+        reference_i = xp.tile(reference_i[:, None], (1, test_i.shape[1]))
 
     with sdiv_mode():
-        test_i = sdiv(test_i, np.sum(test_i, axis=0, keepdims=True))
-        reference_i = sdiv(reference_i, np.sum(reference_i, axis=0, keepdims=True))
+        test_i = sdiv(test_i, xp.sum(test_i, axis=0, keepdims=True))
+        reference_i = sdiv(reference_i, xp.sum(reference_i, axis=0, keepdims=True))
         dr_i = sdiv(test_i - reference_i, reference_i + 1 / 30)
 
-    weights = np.array(
+    weights = xp_as_float_array(
         [
             4 / 15,
             22 / 45,
@@ -193,16 +232,21 @@ def spectral_similarity_index(
             1,
             11 / 15,
             3 / 15,
-        ]
+        ],
+        xp=xp,
+        like=sd_test_values,
     )
 
     if dr_i.ndim == 2:
-        weights = weights[:, np.newaxis]
+        weights = weights[:, None]
 
     wdr_i = dr_i * weights
-    c_wdr_i = convolve1d(wdr_i, [0.22, 0.56, 0.22], axis=0, mode="constant", cval=0)
-    m_v = np.sum(np.square(c_wdr_i), axis=0)
+    c_wdr_i = convolve1d(
+        as_ndarray(wdr_i), [0.22, 0.56, 0.22], axis=0, mode="constant", cval=0
+    )
+    c_wdr_i = xp_as_float_array(c_wdr_i, xp=xp, like=sd_test_values)
+    m_v = xp.sum(xp.square(c_wdr_i), axis=0)
 
-    SSI = 100 - 32 * np.sqrt(m_v)
+    SSI = 100 - 32 * xp.sqrt(m_v)
 
-    return np.around(SSI) if round_result else SSI
+    return xp.round(SSI) if round_result else SSI

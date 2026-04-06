@@ -379,8 +379,8 @@ def XYZ_to_Jzazbz(
             Lightness, :math:`a_z` is redness-greenness and :math:`b_z` is
             yellowness-blueness.
 
-        Warnings
-        --------
+    Warnings
+    --------
         The underlying *SMPTE ST 2084:2014* transfer function is an absolute
         transfer function.
 

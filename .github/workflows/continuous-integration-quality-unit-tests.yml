@@ -47,6 +47,11 @@ jobs:
           uv sync --all-extras
           uv run python -c "import imageio;imageio.plugins.freeimage.download()"
         shell: bash
+      - name: Install Array API Backends
+        if: matrix.os == 'macOS-latest' && matrix.python-version == '3.13'
+        run: |
+          uv pip install jax jaxlib torch
+        shell: bash
       - name: Prek (All Files)
         if: matrix.os == 'macOS-latest'
         run: |

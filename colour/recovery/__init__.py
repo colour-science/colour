@@ -23,7 +23,7 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
-    from colour.colorimetry import SpectralDistribution
+    from colour.colorimetry import MultiSpectralDistributions, SpectralDistribution
     from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
 
 from colour.utilities import (
@@ -637,13 +637,33 @@ References
 """
 
 
+@typing.overload
+def XYZ_to_msds(
+    XYZ: ArrayLike,
+    method: (Literal["Gaussian", "Smits 1999"] | str) = ...,
+    *,
+    as_array: Literal[False] = False,
+) -> MultiSpectralDistributions: ...
+
+
+@typing.overload
+def XYZ_to_msds(
+    XYZ: ArrayLike,
+    method: (Literal["Gaussian", "Smits 1999"] | str) = ...,
+    *,
+    as_array: Literal[True],
+) -> NDArrayFloat: ...
+
+
 def XYZ_to_msds(
     XYZ: ArrayLike,
     method: (Literal["Gaussian", "Smits 1999"] | str) = "Gaussian",
-) -> NDArrayFloat:
+    *,
+    as_array: bool = False,
+) -> MultiSpectralDistributions | NDArrayFloat:
     """
-    Recover spectral values from the specified *CIE XYZ* tristimulus values
-    using the specified method.
+    Recover the multi-spectral distributions from the specified *CIE XYZ*
+    tristimulus values using the specified method.
 
     Parameters
     ----------
@@ -652,11 +672,17 @@ def XYZ_to_msds(
         The last dimension must be size 3.
     method
         Computation method.
+    as_array
+        Whether to return raw spectral values as a
+        :class:`numpy.ndarray` of shape
+        ``(*XYZ.shape[:-1], wavelengths)`` instead of a
+        :class:`MultiSpectralDistributions` instance. Defaults to *False*.
 
     Returns
     -------
-    :class:`numpy.ndarray`
-        Recovered spectral values with shape ``(*XYZ.shape[:-1], wavelengths)``.
+    :class:`MultiSpectralDistributions` or :class:`numpy.ndarray`
+        Recovered multi-spectral distributions, or the underlying
+        spectral values when ``as_array=True``.
 
     Notes
     -----
@@ -686,16 +712,18 @@ def XYZ_to_msds(
     ...         [0.07820260, 0.06157595, 0.28106183],
     ...     ]
     ... )
-    >>> XYZ_to_msds(XYZ, method="Gaussian").shape
+    >>> XYZ_to_msds(XYZ, method="Gaussian", as_array=True).shape
     (3, 421)
-    >>> float(XYZ_to_msds(XYZ, method="Gaussian")[0, 300])  # doctest: +ELLIPSIS
+    >>> float(XYZ_to_msds(XYZ, method="Gaussian", as_array=True)[0, 300])
+    ... # doctest: +ELLIPSIS
     0.3785...
 
     *Smits (1999)* reflectance recovery:
 
-    >>> XYZ_to_msds(XYZ, method="Smits 1999").shape
+    >>> XYZ_to_msds(XYZ, method="Smits 1999", as_array=True).shape
     (3, 10)
-    >>> float(XYZ_to_msds(XYZ, method="Smits 1999")[0, 6])  # doctest: +ELLIPSIS
+    >>> float(XYZ_to_msds(XYZ, method="Smits 1999", as_array=True)[0, 6])
+    ... # doctest: +ELLIPSIS
     0.3207...
     """
 
@@ -710,7 +738,7 @@ def XYZ_to_msds(
 
         a = XYZ_to_RGB_Smits1999(XYZ)
 
-    return function(a)
+    return function(a, as_array=as_array)
 
 
 __all__ += [

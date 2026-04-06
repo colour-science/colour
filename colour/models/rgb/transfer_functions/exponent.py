@@ -20,14 +20,18 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.algebra import sdiv, sdiv_mode
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
-from colour.utilities import as_float, as_float_array, validate_method
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    as_float_array,
+    validate_method,
+    xp_as_float_array,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -144,7 +148,11 @@ def exponent_function_basic(
     """
 
     x = as_float_array(x)
-    exponent = as_float_array(exponent)
+
+    xp = array_namespace(x)
+
+    exponent = xp_as_float_array(exponent, xp=xp, like=x)
+
     style = validate_method(
         style,
         (
@@ -166,21 +174,21 @@ def exponent_function_basic(
     def exponent_reverse(y: NDArrayFloat) -> NDArrayFloat:
         """Return the input raised to the inverse exponent value."""
 
-        return y ** (as_float_array(1) / exponent)
+        return y ** (1 / exponent)
 
     m_x = x >= 0
     if style == "basicfwd":
-        y = np.where(m_x, exponent_forward(x), 0)
+        y = xp.where(m_x, exponent_forward(x), 0)
     elif style == "basicrev":
-        y = np.where(m_x, exponent_reverse(x), 0)
+        y = xp.where(m_x, exponent_reverse(x), 0)
     elif style == "basicmirrorfwd":
-        y = np.where(m_x, exponent_forward(x), -exponent_forward(-x))
+        y = xp.where(m_x, exponent_forward(x), -exponent_forward(-x))
     elif style == "basicmirrorrev":
-        y = np.where(m_x, exponent_reverse(x), -exponent_reverse(-x))
+        y = xp.where(m_x, exponent_reverse(x), -exponent_reverse(-x))
     elif style == "basicpassthrufwd":
-        y = np.where(m_x, exponent_forward(x), x)
+        y = xp.where(m_x, exponent_forward(x), x)
     else:  # style == 'basicpassthrurev'
-        y = np.where(m_x, exponent_reverse(x), x)
+        y = xp.where(m_x, exponent_reverse(x), x)
 
     return as_float(y)
 
@@ -270,8 +278,12 @@ def exponent_function_monitor_curve(
     """
 
     x = as_float_array(x)
-    exponent = as_float_array(exponent)
-    offset = as_float_array(offset)
+
+    xp = array_namespace(x)
+
+    exponent = xp_as_float_array(exponent, xp=xp, like=x)
+    offset = xp_as_float_array(offset, xp=xp, like=x)
+
     style = validate_method(
         style,
         (
@@ -284,7 +296,7 @@ def exponent_function_monitor_curve(
     )
 
     with sdiv_mode():
-        s = as_float_array(
+        s = (
             sdiv(exponent - 1, offset)
             * sdiv(exponent * offset, (exponent - 1) * (offset + 1)) ** exponent
         )
@@ -297,9 +309,9 @@ def exponent_function_monitor_curve(
         with sdiv_mode():
             x_break = sdiv(offset, exponent - 1)
 
-        y = as_float_array(x * s)
+        y = x * s
 
-        return np.where(x >= x_break, ((x + offset) / (1 + offset)) ** exponent, y)
+        return xp.where(x >= x_break, ((x + offset) / (1 + offset)) ** exponent, y)
 
     def monitor_curve_reverse(
         y: NDArrayFloat, offset: NDArrayFloat, exponent: NDArrayFloat
@@ -311,9 +323,9 @@ def exponent_function_monitor_curve(
                 sdiv(exponent * offset, (exponent - 1) * (1 + offset))
             ) ** exponent
 
-            x = as_float_array(y / s)
+            x = y / s
 
-        return np.where(
+        return xp.where(
             y >= y_break, ((1 + offset) * (y ** (1 / exponent))) - offset, x
         )
 
@@ -323,13 +335,13 @@ def exponent_function_monitor_curve(
     elif style == "moncurverev":
         y = monitor_curve_reverse(x, offset, exponent)
     elif style == "moncurvemirrorfwd":
-        y = np.where(
+        y = xp.where(
             m_x,
             monitor_curve_forward(x, offset, exponent),
             -monitor_curve_forward(-x, offset, exponent),
         )
     else:  # style == 'moncurvemirrorrev'
-        y = np.where(
+        y = xp.where(
             m_x,
             monitor_curve_reverse(x, offset, exponent),
             -monitor_curve_reverse(-x, offset, exponent),

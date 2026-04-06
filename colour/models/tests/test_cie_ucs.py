@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 from itertools import product
 
 import numpy as np
@@ -17,7 +22,14 @@ from colour.models import (
     uv_to_UCS,
     xy_to_UCS_uv,
 )
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    domain_range_scale,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -44,57 +56,57 @@ class TestXYZ_to_UCS:
     methods.
     """
 
-    def test_XYZ_to_UCS(self) -> None:
+    def test_XYZ_to_UCS(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.cie_ucs.XYZ_to_UCS` definition."""
 
-        np.testing.assert_allclose(
-            XYZ_to_UCS(np.array([0.20654008, 0.12197225, 0.05136952])),
-            np.array([0.13769339, 0.12197225, 0.10537310]),
+        xp_assert_close(
+            XYZ_to_UCS(xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)),
+            [0.13769339, 0.12197225, 0.10537310],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            XYZ_to_UCS(np.array([0.14222010, 0.23042768, 0.10495772])),
-            np.array([0.09481340, 0.23042768, 0.32701033]),
+        xp_assert_close(
+            XYZ_to_UCS(xp_as_array([0.14222010, 0.23042768, 0.10495772], xp=xp)),
+            [0.09481340, 0.23042768, 0.32701033],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            XYZ_to_UCS(np.array([0.07818780, 0.06157201, 0.28099326])),
-            np.array([0.05212520, 0.06157201, 0.19376075]),
+        xp_assert_close(
+            XYZ_to_UCS(xp_as_array([0.07818780, 0.06157201, 0.28099326], xp=xp)),
+            [0.05212520, 0.06157201, 0.19376075],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_UCS(self) -> None:
+    def test_n_dimensional_XYZ_to_UCS(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_ucs.XYZ_to_UCS` definition n-dimensional
         support.
         """
 
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        UCS = XYZ_to_UCS(XYZ)
+        XYZ = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
+        UCS = as_ndarray(XYZ_to_UCS(XYZ))
 
-        UCS = np.tile(UCS, (6, 1))
-        XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(XYZ_to_UCS(XYZ), UCS, atol=TOLERANCE_ABSOLUTE_TESTS)
+        UCS = xp.tile(xp_as_array(UCS, xp=xp), (6, 1))
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        xp_assert_close(XYZ_to_UCS(XYZ), UCS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        UCS = np.reshape(UCS, (2, 3, 3))
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(XYZ_to_UCS(XYZ), UCS, atol=TOLERANCE_ABSOLUTE_TESTS)
+        UCS = xp_reshape(xp_as_array(UCS, xp=xp), (2, 3, 3), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(XYZ_to_UCS(XYZ), UCS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_XYZ_to_UCS(self) -> None:
+    def test_domain_range_scale_XYZ_to_UCS(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_ucs.XYZ_to_UCS` definition domain and
         range scale support.
         """
 
-        XYZ = np.array([0.0704953400, 0.1008000000, 0.0955831300])
-        UCS = XYZ_to_UCS(XYZ)
+        XYZ = xp_as_array([0.0704953400, 0.1008000000, 0.0955831300], xp=xp)
+        UCS = as_ndarray(XYZ_to_UCS(XYZ))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     XYZ_to_UCS(XYZ * factor),
                     UCS * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -115,57 +127,57 @@ class TestUCS_to_XYZ:
     methods.
     """
 
-    def test_UCS_to_XYZ(self) -> None:
+    def test_UCS_to_XYZ(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.cie_ucs.UCS_to_XYZ` definition."""
 
-        np.testing.assert_allclose(
-            UCS_to_XYZ(np.array([0.13769339, 0.12197225, 0.10537310])),
-            np.array([0.20654008, 0.12197225, 0.05136952]),
+        xp_assert_close(
+            UCS_to_XYZ(xp_as_array([0.13769339, 0.12197225, 0.10537310], xp=xp)),
+            [0.20654008, 0.12197225, 0.05136952],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            UCS_to_XYZ(np.array([0.09481340, 0.23042768, 0.32701033])),
-            np.array([0.14222010, 0.23042768, 0.10495772]),
+        xp_assert_close(
+            UCS_to_XYZ(xp_as_array([0.09481340, 0.23042768, 0.32701033], xp=xp)),
+            [0.14222010, 0.23042768, 0.10495772],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            UCS_to_XYZ(np.array([0.05212520, 0.06157201, 0.19376075])),
-            np.array([0.07818780, 0.06157201, 0.28099326]),
+        xp_assert_close(
+            UCS_to_XYZ(xp_as_array([0.05212520, 0.06157201, 0.19376075], xp=xp)),
+            [0.07818780, 0.06157201, 0.28099326],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_UCS_to_XYZ(self) -> None:
+    def test_n_dimensional_UCS_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_ucs.UCS_to_XYZ` definition n-dimensional
         support.
         """
 
-        UCS = np.array([0.13769339, 0.12197225, 0.10537310])
-        XYZ = UCS_to_XYZ(UCS)
+        UCS = xp_as_array([0.13769339, 0.12197225, 0.10537310], xp=xp)
+        XYZ = as_ndarray(UCS_to_XYZ(UCS))
 
-        UCS = np.tile(UCS, (6, 1))
-        XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(UCS_to_XYZ(UCS), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
+        UCS = xp.tile(xp_as_array(UCS, xp=xp), (6, 1))
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        xp_assert_close(UCS_to_XYZ(UCS), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        UCS = np.reshape(UCS, (2, 3, 3))
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(UCS_to_XYZ(UCS), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
+        UCS = xp_reshape(xp_as_array(UCS, xp=xp), (2, 3, 3), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(UCS_to_XYZ(UCS), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_UCS_to_XYZ(self) -> None:
+    def test_domain_range_scale_UCS_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_ucs.UCS_to_XYZ` definition domain and
         range scale support.
         """
 
-        UCS = np.array([0.0469968933, 0.1008000000, 0.1637438950])
-        XYZ = UCS_to_XYZ(UCS)
+        UCS = xp_as_array([0.0469968933, 0.1008000000, 0.1637438950], xp=xp)
+        XYZ = as_ndarray(UCS_to_XYZ(UCS))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     UCS_to_XYZ(UCS * factor),
                     XYZ * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -186,58 +198,60 @@ class TestUCS_to_uv:
     methods.
     """
 
-    def test_UCS_to_uv(self) -> None:
+    def test_UCS_to_uv(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.cie_ucs.UCS_to_uv` definition."""
 
-        np.testing.assert_allclose(
-            UCS_to_uv(np.array([0.13769339, 0.12197225, 0.10537310])),
-            np.array([0.37720213, 0.33413508]),
+        xp_assert_close(
+            UCS_to_uv(xp_as_array([0.13769339, 0.12197225, 0.10537310], xp=xp)),
+            [0.37720213, 0.33413508],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            UCS_to_uv(np.array([0.09481340, 0.23042768, 0.32701033])),
-            np.array([0.14536327, 0.35328046]),
+        xp_assert_close(
+            UCS_to_uv(xp_as_array([0.09481340, 0.23042768, 0.32701033], xp=xp)),
+            [0.14536327, 0.35328046],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            UCS_to_uv(np.array([0.05212520, 0.06157201, 0.19376075])),
-            np.array([0.16953602, 0.20026156]),
+        xp_assert_close(
+            UCS_to_uv(xp_as_array([0.05212520, 0.06157201, 0.19376075], xp=xp)),
+            [0.16953602, 0.20026156],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_UCS_to_uv(self) -> None:
+    def test_n_dimensional_UCS_to_uv(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_ucs.UCS_to_uv` definition n-dimensional
         support.
         """
 
-        UCS = np.array([0.13769339, 0.12197225, 0.10537310])
-        uv = UCS_to_uv(UCS)
+        UCS = xp_as_array([0.13769339, 0.12197225, 0.10537310], xp=xp)
+        uv = as_ndarray(UCS_to_uv(UCS))
 
-        UCS = np.tile(UCS, (6, 1))
-        uv = np.tile(uv, (6, 1))
-        np.testing.assert_allclose(UCS_to_uv(UCS), uv, atol=TOLERANCE_ABSOLUTE_TESTS)
+        UCS = xp.tile(xp_as_array(UCS, xp=xp), (6, 1))
+        uv = xp.tile(xp_as_array(uv, xp=xp), (6, 1))
+        xp_assert_close(UCS_to_uv(UCS), uv, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        UCS = np.reshape(UCS, (2, 3, 3))
-        uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_allclose(UCS_to_uv(UCS), uv, atol=TOLERANCE_ABSOLUTE_TESTS)
+        UCS = xp_reshape(xp_as_array(UCS, xp=xp), (2, 3, 3), xp=xp)
+        uv = xp_reshape(xp_as_array(uv, xp=xp), (2, 3, 2), xp=xp)
+        xp_assert_close(UCS_to_uv(UCS), uv, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_UCS_to_uv(self) -> None:
+    def test_domain_range_scale_UCS_to_uv(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_ucs.UCS_to_uv` definition domain and
         range scale support.
         """
 
-        UCS = np.array([0.0469968933, 0.1008000000, 0.1637438950])
-        uv = UCS_to_uv(UCS)
+        UCS = xp_as_array([0.0469968933, 0.1008000000, 0.1637438950], xp=xp)
+        uv = as_ndarray(UCS_to_uv(UCS))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    UCS_to_uv(UCS * factor), uv, atol=TOLERANCE_ABSOLUTE_TESTS
+                xp_assert_close(
+                    UCS_to_uv(UCS * factor),
+                    uv,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
     @ignore_numpy_errors
@@ -255,64 +269,64 @@ class Testuv_to_UCS:
     methods.
     """
 
-    def test_uv_to_UCS(self) -> None:
+    def test_uv_to_UCS(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.cie_ucs.uv_to_UCS` definition."""
 
-        np.testing.assert_allclose(
-            uv_to_UCS(np.array([0.37720213, 0.33413508])),
-            np.array([1.12889114, 1.00000000, 0.86391046]),
+        xp_assert_close(
+            uv_to_UCS(xp_as_array([0.37720213, 0.33413508], xp=xp)),
+            [1.12889114, 1.00000000, 0.86391046],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            uv_to_UCS(np.array([0.14536327, 0.35328046])),
-            np.array([0.41146705, 1.00000000, 1.41914520]),
+        xp_assert_close(
+            uv_to_UCS(xp_as_array([0.14536327, 0.35328046], xp=xp)),
+            [0.41146705, 1.00000000, 1.41914520],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            uv_to_UCS(np.array([0.16953602, 0.20026156])),
-            np.array([0.84657295, 1.00000000, 3.14689659]),
+        xp_assert_close(
+            uv_to_UCS(xp_as_array([0.16953602, 0.20026156], xp=xp)),
+            [0.84657295, 1.00000000, 3.14689659],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            uv_to_UCS(np.array([0.37720213, 0.33413508]), V=0.18),
-            np.array([0.20320040, 0.18000000, 0.15550388]),
+        xp_assert_close(
+            uv_to_UCS(xp_as_array([0.37720213, 0.33413508], xp=xp), V=0.18),
+            [0.20320040, 0.18000000, 0.15550388],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_uv_to_UCS(self) -> None:
+    def test_n_dimensional_uv_to_UCS(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_ucs.uv_to_UCS` definition n-dimensional
         support.
         """
 
-        uv = np.array([0.37720213, 0.33413508])
-        UCS = uv_to_UCS(uv)
+        uv = xp_as_array([0.37720213, 0.33413508], xp=xp)
+        UCS = as_ndarray(uv_to_UCS(uv))
 
-        uv = np.tile(uv, (6, 1))
-        UCS = np.tile(UCS, (6, 1))
-        np.testing.assert_allclose(uv_to_UCS(uv), UCS, atol=TOLERANCE_ABSOLUTE_TESTS)
+        uv = xp.tile(xp_as_array(uv, xp=xp), (6, 1))
+        UCS = xp.tile(xp_as_array(UCS, xp=xp), (6, 1))
+        xp_assert_close(uv_to_UCS(uv), UCS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        uv = np.reshape(uv, (2, 3, 2))
-        UCS = np.reshape(UCS, (2, 3, 3))
-        np.testing.assert_allclose(uv_to_UCS(uv), UCS, atol=TOLERANCE_ABSOLUTE_TESTS)
+        uv = xp_reshape(xp_as_array(uv, xp=xp), (2, 3, 2), xp=xp)
+        UCS = xp_reshape(xp_as_array(UCS, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(uv_to_UCS(uv), UCS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_uv_to_UCS(self) -> None:
+    def test_domain_range_scale_uv_to_UCS(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_ucs.uv_to_UCS` definition domain and
         range scale support.
         """
 
-        uv = np.array([0.37720213, 0.33413508])
+        uv = xp_as_array([0.37720213, 0.33413508], xp=xp)
         V = 1
-        UCS = uv_to_UCS(uv, V)
+        UCS = as_ndarray(uv_to_UCS(uv, V))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     uv_to_UCS(uv, V * factor),
                     UCS * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -333,43 +347,43 @@ class TestUCS_uv_to_xy:
     methods.
     """
 
-    def test_UCS_uv_to_xy(self) -> None:
+    def test_UCS_uv_to_xy(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition."""
 
-        np.testing.assert_allclose(
-            UCS_uv_to_xy(np.array([0.37720213, 0.33413508])),
-            np.array([0.54369555, 0.32107941]),
+        xp_assert_close(
+            UCS_uv_to_xy(xp_as_array([0.37720213, 0.33413508], xp=xp)),
+            [0.54369555, 0.32107941],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            UCS_uv_to_xy(np.array([0.14536327, 0.35328046])),
-            np.array([0.29777734, 0.48246445]),
+        xp_assert_close(
+            UCS_uv_to_xy(xp_as_array([0.14536327, 0.35328046], xp=xp)),
+            [0.29777734, 0.48246445],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            UCS_uv_to_xy(np.array([0.16953602, 0.20026156])),
-            np.array([0.18582823, 0.14633764]),
+        xp_assert_close(
+            UCS_uv_to_xy(xp_as_array([0.16953602, 0.20026156], xp=xp)),
+            [0.18582823, 0.14633764],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_UCS_uv_to_xy(self) -> None:
+    def test_n_dimensional_UCS_uv_to_xy(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_ucs.UCS_uv_to_xy` definition
         n-dimensional arrays support.
         """
 
-        uv = np.array([0.37720213, 0.33413508])
-        xy = UCS_uv_to_xy(uv)
+        uv = xp_as_array([0.37720213, 0.33413508], xp=xp)
+        xy = as_ndarray(UCS_uv_to_xy(uv))
 
-        uv = np.tile(uv, (6, 1))
-        xy = np.tile(xy, (6, 1))
-        np.testing.assert_allclose(UCS_uv_to_xy(uv), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
+        uv = xp.tile(xp_as_array(uv, xp=xp), (6, 1))
+        xy = xp.tile(xp_as_array(xy, xp=xp), (6, 1))
+        xp_assert_close(UCS_uv_to_xy(uv), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        uv = np.reshape(uv, (2, 3, 2))
-        xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_allclose(UCS_uv_to_xy(uv), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
+        uv = xp_reshape(xp_as_array(uv, xp=xp), (2, 3, 2), xp=xp)
+        xy = xp_reshape(xp_as_array(xy, xp=xp), (2, 3, 2), xp=xp)
+        xp_assert_close(UCS_uv_to_xy(uv), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_UCS_uv_to_xy(self) -> None:
@@ -389,43 +403,43 @@ class TestXy_to_UCS_uv:
     methods.
     """
 
-    def test_xy_to_UCS_uv(self) -> None:
+    def test_xy_to_UCS_uv(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.cie_ucs.xy_to_UCS_uv` definition."""
 
-        np.testing.assert_allclose(
-            xy_to_UCS_uv(np.array([0.54369555, 0.32107941])),
-            np.array([0.37720213, 0.33413508]),
+        xp_assert_close(
+            xy_to_UCS_uv(xp_as_array([0.54369555, 0.32107941], xp=xp)),
+            [0.37720213, 0.33413508],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            xy_to_UCS_uv(np.array([0.29777734, 0.48246445])),
-            np.array([0.14536327, 0.35328046]),
+        xp_assert_close(
+            xy_to_UCS_uv(xp_as_array([0.29777734, 0.48246445], xp=xp)),
+            [0.14536327, 0.35328046],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            xy_to_UCS_uv(np.array([0.18582823, 0.14633764])),
-            np.array([0.16953602, 0.20026156]),
+        xp_assert_close(
+            xy_to_UCS_uv(xp_as_array([0.18582823, 0.14633764], xp=xp)),
+            [0.16953602, 0.20026156],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_xy_to_UCS_uv(self) -> None:
+    def test_n_dimensional_xy_to_UCS_uv(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_ucs.xy_to_UCS_uv` definition
         n-dimensional arrays support.
         """
 
-        xy = np.array([0.54369555, 0.32107941])
-        uv = xy_to_UCS_uv(xy)
+        xy = xp_as_array([0.54369555, 0.32107941], xp=xp)
+        uv = as_ndarray(xy_to_UCS_uv(xy))
 
-        xy = np.tile(xy, (6, 1))
-        uv = np.tile(uv, (6, 1))
-        np.testing.assert_allclose(xy_to_UCS_uv(xy), uv, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xy = xp.tile(xp_as_array(xy, xp=xp), (6, 1))
+        uv = xp.tile(xp_as_array(uv, xp=xp), (6, 1))
+        xp_assert_close(xy_to_UCS_uv(xy), uv, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        xy = np.reshape(xy, (2, 3, 2))
-        uv = np.reshape(uv, (2, 3, 2))
-        np.testing.assert_allclose(xy_to_UCS_uv(xy), uv, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xy = xp_reshape(xp_as_array(xy, xp=xp), (2, 3, 2), xp=xp)
+        uv = xp_reshape(xp_as_array(uv, xp=xp), (2, 3, 2), xp=xp)
+        xp_assert_close(xy_to_UCS_uv(xy), uv, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_xy_to_UCS_uv(self) -> None:
@@ -445,62 +459,58 @@ class TestXYZ_to_CIE1960UCS:
     methods.
     """
 
-    def test_XYZ_to_CIE1960UCS(self) -> None:
+    def test_XYZ_to_CIE1960UCS(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.cie_ucs.XYZ_to_CIE1960UCS` definition."""
 
-        np.testing.assert_allclose(
-            XYZ_to_CIE1960UCS(np.array([0.20654008, 0.12197225, 0.05136952])),
-            np.array([0.37720213, 0.33413509, 0.12197225]),
+        xp_assert_close(
+            XYZ_to_CIE1960UCS(xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)),
+            [0.37720213, 0.33413509, 0.12197225],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            XYZ_to_CIE1960UCS(np.array([0.14222010, 0.23042768, 0.10495772])),
-            np.array([0.14536327, 0.35328046, 0.23042768]),
+        xp_assert_close(
+            XYZ_to_CIE1960UCS(xp_as_array([0.14222010, 0.23042768, 0.10495772], xp=xp)),
+            [0.14536327, 0.35328046, 0.23042768],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            XYZ_to_CIE1960UCS(np.array([0.07818780, 0.06157201, 0.28099326])),
-            np.array([0.16953603, 0.20026156, 0.06157201]),
+        xp_assert_close(
+            XYZ_to_CIE1960UCS(xp_as_array([0.07818780, 0.06157201, 0.28099326], xp=xp)),
+            [0.16953603, 0.20026156, 0.06157201],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_CIE1960UCS(self) -> None:
+    def test_n_dimensional_XYZ_to_CIE1960UCS(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_ucs.XYZ_to_CIE1960UCS` definition n-dimensional
         support.
         """
 
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        uvV = XYZ_to_CIE1960UCS(XYZ)
+        XYZ = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
+        uvV = as_ndarray(XYZ_to_CIE1960UCS(XYZ))
 
-        uvV = np.tile(uvV, (6, 1))
-        XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
-            XYZ_to_CIE1960UCS(XYZ), uvV, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        uvV = xp.tile(xp_as_array(uvV, xp=xp), (6, 1))
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        xp_assert_close(XYZ_to_CIE1960UCS(XYZ), uvV, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        uvV = np.reshape(uvV, (2, 3, 3))
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
-            XYZ_to_CIE1960UCS(XYZ), uvV, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        uvV = xp_reshape(xp_as_array(uvV, xp=xp), (2, 3, 3), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(XYZ_to_CIE1960UCS(XYZ), uvV, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_XYZ_to_CIE1960UCS(self) -> None:
+    def test_domain_range_scale_XYZ_to_CIE1960UCS(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_ucs.XYZ_to_CIE1960UCS` definition domain and
         range scale support.
         """
 
-        XYZ = np.array([0.0704953400, 0.1008000000, 0.0955831300])
-        uvV = XYZ_to_CIE1960UCS(XYZ)
+        XYZ = xp_as_array([0.0704953400, 0.1008000000, 0.0955831300], xp=xp)
+        uvV = as_ndarray(XYZ_to_CIE1960UCS(XYZ))
 
         d_r = (("reference", 1, 1), ("1", 1, 1), ("100", 100, np.array([1, 1, 100])))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    XYZ_to_CIE1960UCS(XYZ * factor_a),
+                xp_assert_close(
+                    XYZ_to_CIE1960UCS(XYZ * xp_as_array(factor_a, xp=xp)),
                     uvV * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -523,62 +533,58 @@ class TestCIE1960UCS_to_XYZ:
     methods.
     """
 
-    def test_CIE1960UCS_to_XYZ(self) -> None:
+    def test_CIE1960UCS_to_XYZ(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.cie_ucs.CIE1960UCS_to_XYZ` definition."""
 
-        np.testing.assert_allclose(
-            CIE1960UCS_to_XYZ(np.array([0.37720213, 0.33413509, 0.12197225])),
-            np.array([0.20654008, 0.12197225, 0.05136952]),
+        xp_assert_close(
+            CIE1960UCS_to_XYZ(xp_as_array([0.37720213, 0.33413509, 0.12197225], xp=xp)),
+            [0.20654008, 0.12197225, 0.05136952],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            CIE1960UCS_to_XYZ(np.array([0.14536327, 0.35328046, 0.23042768])),
-            np.array([0.14222010, 0.23042768, 0.10495772]),
+        xp_assert_close(
+            CIE1960UCS_to_XYZ(xp_as_array([0.14536327, 0.35328046, 0.23042768], xp=xp)),
+            [0.14222010, 0.23042768, 0.10495772],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            CIE1960UCS_to_XYZ(np.array([0.16953603, 0.20026156, 0.06157201])),
-            np.array([0.07818780, 0.06157201, 0.28099326]),
+        xp_assert_close(
+            CIE1960UCS_to_XYZ(xp_as_array([0.16953603, 0.20026156, 0.06157201], xp=xp)),
+            [0.07818780, 0.06157201, 0.28099326],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_CIE1960UCS_to_XYZ(self) -> None:
+    def test_n_dimensional_CIE1960UCS_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_ucs.CIE1960UCS_to_XYZ` definition n-dimensional
         support.
         """
 
-        uvV = np.array([0.37720213, 0.33413509, 0.12197225])
-        XYZ = CIE1960UCS_to_XYZ(uvV)
+        uvV = xp_as_array([0.37720213, 0.33413509, 0.12197225], xp=xp)
+        XYZ = as_ndarray(CIE1960UCS_to_XYZ(uvV))
 
-        uvV = np.tile(uvV, (6, 1))
-        XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
-            CIE1960UCS_to_XYZ(uvV), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        uvV = xp.tile(xp_as_array(uvV, xp=xp), (6, 1))
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        xp_assert_close(CIE1960UCS_to_XYZ(uvV), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        uvV = np.reshape(uvV, (2, 3, 3))
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
-            CIE1960UCS_to_XYZ(uvV), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        uvV = xp_reshape(xp_as_array(uvV, xp=xp), (2, 3, 3), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(CIE1960UCS_to_XYZ(uvV), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_CIE1960UCS_to_XYZ(self) -> None:
+    def test_domain_range_scale_CIE1960UCS_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_ucs.CIE1960UCS_to_XYZ` definition domain and
         range scale support.
         """
 
-        uvV = np.array([0.0469968933, 0.1008000000, 0.1637438950])
-        XYZ = CIE1960UCS_to_XYZ(uvV)
+        uvV = xp_as_array([0.0469968933, 0.1008000000, 0.1637438950], xp=xp)
+        XYZ = as_ndarray(CIE1960UCS_to_XYZ(uvV))
 
         d_r = (("reference", 1, 1), ("1", 1, 1), ("100", np.array([1, 1, 100]), 100))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    CIE1960UCS_to_XYZ(uvV * factor_a),
+                xp_assert_close(
+                    CIE1960UCS_to_XYZ(uvV * xp_as_array(factor_a, xp=xp)),
                     XYZ * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )

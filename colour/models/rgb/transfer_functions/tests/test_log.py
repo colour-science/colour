@@ -3,6 +3,10 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.log` module.
 """
 
+from __future__ import annotations
+
+import typing
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -13,7 +17,16 @@ from colour.models.rgb.transfer_functions import (
     logarithmic_function_camera,
     logarithmic_function_quasilog,
 )
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -37,49 +50,55 @@ class TestLogarithmFunction_Basic:
 logarithmic_function_basic` definition unit tests methods.
     """
 
-    def test_logarithmic_function_basic(self) -> None:
+    def test_logarithmic_function_basic(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_basic` definition.
         """
 
-        np.testing.assert_allclose(
-            logarithmic_function_basic(0.18),
+        xp_assert_close(
+            logarithmic_function_basic(xp_as_array(0.18, xp=xp)),
             -2.473931188332412,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_basic(-2.473931188332412, "antiLog2"),
+        xp_assert_close(
+            logarithmic_function_basic(
+                xp_as_array(-2.473931188332412, xp=xp), "antiLog2"
+            ),
             0.180000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_basic(0.18, "log10"),
+        xp_assert_close(
+            logarithmic_function_basic(xp_as_array(0.18, xp=xp), "log10"),
             -0.744727494896694,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_basic(-0.744727494896694, "antiLog10"),
+        xp_assert_close(
+            logarithmic_function_basic(
+                xp_as_array(-0.744727494896694, xp=xp), "antiLog10"
+            ),
             0.179999999999999,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_basic(0.18, "logB", 3),
+        xp_assert_close(
+            logarithmic_function_basic(xp_as_array(0.18, xp=xp), "logB", 3),
             -1.560876795007312,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_basic(-1.560876795007312, "antiLogB", 3),
+        xp_assert_close(
+            logarithmic_function_basic(
+                xp_as_array(-1.560876795007312, xp=xp), "antiLogB", 3
+            ),
             0.180000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_logarithmic_function_basic(self) -> None:
+    def test_n_dimensional_logarithmic_function_basic(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_basic` definition n-dimensional arrays support.
@@ -89,27 +108,27 @@ logarithmic_function_basic` definition n-dimensional arrays support.
 
         for style in styles:
             a = 0.18
-            a_p = logarithmic_function_basic(a, style)
+            a_p = as_ndarray(logarithmic_function_basic(xp_as_array(a, xp=xp), style))
 
-            a = np.tile(a, 6)
-            a_p = np.tile(a_p, 6)
-            np.testing.assert_allclose(
+            a = xp.tile(xp_as_array(a, xp=xp), (6,))
+            a_p = xp.tile(xp_as_array(a_p, xp=xp), (6,))
+            xp_assert_close(
                 logarithmic_function_basic(a, style),
                 a_p,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-            a = np.reshape(a, (2, 3))
-            a_p = np.reshape(a_p, (2, 3))
-            np.testing.assert_allclose(
+            a = xp_reshape(xp_as_array(a, xp=xp), (2, 3), xp=xp)
+            a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3), xp=xp)
+            xp_assert_close(
                 logarithmic_function_basic(a, style),
                 a_p,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-            a = np.reshape(a, (2, 3, 1))
-            a_p = np.reshape(a_p, (2, 3, 1))
-            np.testing.assert_allclose(
+            a = xp_reshape(xp_as_array(a, xp=xp), (2, 3, 1), xp=xp)
+            a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3, 1), xp=xp)
+            xp_assert_close(
                 logarithmic_function_basic(a, style),
                 a_p,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -134,55 +153,65 @@ class TestLogarithmFunction_Quasilog:
 logarithmic_function_quasilog` definition unit tests methods.
     """
 
-    def test_logarithmic_function_quasilog(self) -> None:
+    def test_logarithmic_function_quasilog(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_quasilog` definition.
         """
 
-        np.testing.assert_allclose(
-            logarithmic_function_quasilog(0.18),
+        xp_assert_close(
+            logarithmic_function_quasilog(xp_as_array(0.18, xp=xp)),
             -2.473931188332412,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_quasilog(-2.473931188332412, "logToLin"),
+        xp_assert_close(
+            logarithmic_function_quasilog(
+                xp_as_array(-2.473931188332412, xp=xp), "logToLin"
+            ),
             0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_quasilog(0.18, "linToLog", 10),
+        xp_assert_close(
+            logarithmic_function_quasilog(xp_as_array(0.18, xp=xp), "linToLog", 10),
             -0.744727494896694,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_quasilog(-0.744727494896694, "logToLin", 10),
+        xp_assert_close(
+            logarithmic_function_quasilog(
+                xp_as_array(-0.744727494896694, xp=xp), "logToLin", 10
+            ),
             0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_quasilog(0.18, "linToLog", 10, 0.75),
+        xp_assert_close(
+            logarithmic_function_quasilog(
+                xp_as_array(0.18, xp=xp), "linToLog", 10, 0.75
+            ),
             -0.558545621172520,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_quasilog(-0.558545621172520, "logToLin", 10, 0.75),
+        xp_assert_close(
+            logarithmic_function_quasilog(
+                xp_as_array(-0.558545621172520, xp=xp), "logToLin", 10, 0.75
+            ),
             0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_quasilog(0.18, "linToLog", 10, 0.75, 0.75),
+        xp_assert_close(
+            logarithmic_function_quasilog(
+                xp_as_array(0.18, xp=xp), "linToLog", 10, 0.75, 0.75
+            ),
             -0.652249673628745,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             logarithmic_function_quasilog(
                 -0.652249673628745, "logToLin", 10, 0.75, 0.75
             ),
@@ -190,13 +219,15 @@ logarithmic_function_quasilog` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_quasilog(0.18, "linToLog", 10, 0.75, 0.75, 0.001),
+        xp_assert_close(
+            logarithmic_function_quasilog(
+                xp_as_array(0.18, xp=xp), "linToLog", 10, 0.75, 0.75, 0.001
+            ),
             -0.651249673628745,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             logarithmic_function_quasilog(
                 -0.651249673628745, "logToLin", 10, 0.75, 0.75, 0.001
             ),
@@ -204,7 +235,7 @@ logarithmic_function_quasilog` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             logarithmic_function_quasilog(
                 0.18, "linToLog", 10, 0.75, 0.75, 0.001, 0.01
             ),
@@ -212,7 +243,7 @@ logarithmic_function_quasilog` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             logarithmic_function_quasilog(
                 -0.627973998323769, "logToLin", 10, 0.75, 0.75, 0.001, 0.01
             ),
@@ -220,7 +251,7 @@ logarithmic_function_quasilog` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_logarithmic_function_quasilog(self) -> None:
+    def test_n_dimensional_logarithmic_function_quasilog(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_quasilog` definition n-dimensional arrays support.
@@ -230,27 +261,29 @@ logarithmic_function_quasilog` definition n-dimensional arrays support.
 
         for style in styles:
             a = 0.18
-            a_p = logarithmic_function_quasilog(a, style)
+            a_p = as_ndarray(
+                logarithmic_function_quasilog(xp_as_array(a, xp=xp), style)
+            )
 
-            a = np.tile(a, 6)
-            a_p = np.tile(a_p, 6)
-            np.testing.assert_allclose(
+            a = xp.tile(xp_as_array(a, xp=xp), (6,))
+            a_p = xp.tile(xp_as_array(a_p, xp=xp), (6,))
+            xp_assert_close(
                 logarithmic_function_quasilog(a, style),
                 a_p,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-            a = np.reshape(a, (2, 3))
-            a_p = np.reshape(a_p, (2, 3))
-            np.testing.assert_allclose(
+            a = xp_reshape(xp_as_array(a, xp=xp), (2, 3), xp=xp)
+            a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3), xp=xp)
+            xp_assert_close(
                 logarithmic_function_quasilog(a, style),
                 a_p,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-            a = np.reshape(a, (2, 3, 1))
-            a_p = np.reshape(a_p, (2, 3, 1))
-            np.testing.assert_allclose(
+            a = xp_reshape(xp_as_array(a, xp=xp), (2, 3, 1), xp=xp)
+            a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3, 1), xp=xp)
+            xp_assert_close(
                 logarithmic_function_quasilog(a, style),
                 a_p,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -275,79 +308,91 @@ class TestLogarithmFunction_Camera:
 logarithmic_function_camera` definition unit tests methods.
     """
 
-    def test_logarithmic_function_camera(self) -> None:
+    def test_logarithmic_function_camera(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_camera` definition.
         """
 
-        np.testing.assert_allclose(
-            logarithmic_function_camera(0, "cameraLinToLog"),
+        xp_assert_close(
+            logarithmic_function_camera(xp_as_array(0, xp=xp), "cameraLinToLog"),
             -9.08655123066369,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_camera(-9.08655123066369, "cameraLogToLin"),
+        xp_assert_close(
+            logarithmic_function_camera(
+                xp_as_array(-9.08655123066369, xp=xp), "cameraLogToLin"
+            ),
             0.000000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_camera(0.18, "cameraLinToLog"),
+        xp_assert_close(
+            logarithmic_function_camera(xp_as_array(0.18, xp=xp), "cameraLinToLog"),
             -2.473931188332412,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_camera(-2.473931188332412, "cameraLogToLin"),
+        xp_assert_close(
+            logarithmic_function_camera(
+                xp_as_array(-2.473931188332412, xp=xp), "cameraLogToLin"
+            ),
             0.180000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_camera(1, "cameraLinToLog"),
+        xp_assert_close(
+            logarithmic_function_camera(xp_as_array(1, xp=xp), "cameraLinToLog"),
             0.000000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_camera(0, "cameraLogToLin"),
+        xp_assert_close(
+            logarithmic_function_camera(xp_as_array(0, xp=xp), "cameraLogToLin"),
             1.000000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_camera(0.18, "cameraLinToLog", 10),
+        xp_assert_close(
+            logarithmic_function_camera(xp_as_array(0.18, xp=xp), "cameraLinToLog", 10),
             -0.744727494896693,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_camera(-0.744727494896693, "cameraLogToLin", 10),
+        xp_assert_close(
+            logarithmic_function_camera(
+                xp_as_array(-0.744727494896693, xp=xp), "cameraLogToLin", 10
+            ),
             0.180000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_camera(0.18, "cameraLinToLog", 10, 0.25),
+        xp_assert_close(
+            logarithmic_function_camera(
+                xp_as_array(0.18, xp=xp), "cameraLinToLog", 10, 0.25
+            ),
             -0.186181873724173,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_camera(-0.186181873724173, "cameraLogToLin", 10, 0.25),
+        xp_assert_close(
+            logarithmic_function_camera(
+                xp_as_array(-0.186181873724173, xp=xp), "cameraLogToLin", 10, 0.25
+            ),
             0.180000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_camera(0.18, "cameraLinToLog", 10, 0.25, 0.95),
+        xp_assert_close(
+            logarithmic_function_camera(
+                xp_as_array(0.18, xp=xp), "cameraLinToLog", 10, 0.25, 0.95
+            ),
             -0.191750972401961,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             logarithmic_function_camera(
                 -0.191750972401961, "cameraLogToLin", 10, 0.25, 0.95
             ),
@@ -355,13 +400,15 @@ logarithmic_function_camera` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            logarithmic_function_camera(0.18, "cameraLinToLog", 10, 0.25, 0.95, 0.6),
+        xp_assert_close(
+            logarithmic_function_camera(
+                xp_as_array(0.18, xp=xp), "cameraLinToLog", 10, 0.25, 0.95, 0.6
+            ),
             0.408249027598038,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             logarithmic_function_camera(
                 0.408249027598038, "cameraLogToLin", 10, 0.25, 0.95, 0.6
             ),
@@ -369,7 +416,7 @@ logarithmic_function_camera` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             logarithmic_function_camera(
                 0.18, "cameraLinToLog", 10, 0.25, 0.95, 0.6, 0.01
             ),
@@ -377,7 +424,7 @@ logarithmic_function_camera` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             logarithmic_function_camera(
                 0.414419643717296, "cameraLogToLin", 10, 0.25, 0.95, 0.6, 0.01
             ),
@@ -385,7 +432,7 @@ logarithmic_function_camera` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             logarithmic_function_camera(
                 0.005, "cameraLinToLog", 10, 0.25, 0.95, 0.6, 0.01, 0.01
             ),
@@ -393,7 +440,7 @@ logarithmic_function_camera` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             logarithmic_function_camera(
                 0.146061232468316,
                 "cameraLogToLin",
@@ -408,7 +455,7 @@ logarithmic_function_camera` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             logarithmic_function_camera(
                 0.005, "cameraLinToLog", 10, 0.25, 0.95, 0.6, 0.01, 0.01, 6
             ),
@@ -416,7 +463,7 @@ logarithmic_function_camera` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             logarithmic_function_camera(
                 0.142508652840630,
                 "cameraLogToLin",
@@ -432,7 +479,7 @@ logarithmic_function_camera` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_logarithmic_function_camera(self) -> None:
+    def test_n_dimensional_logarithmic_function_camera(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 logarithmic_function_camera` definition n-dimensional arrays support.
@@ -442,27 +489,27 @@ logarithmic_function_camera` definition n-dimensional arrays support.
 
         for style in styles:
             a = 0.18
-            a_p = logarithmic_function_camera(a, style)
+            a_p = as_ndarray(logarithmic_function_camera(xp_as_array(a, xp=xp), style))
 
-            a = np.tile(a, 6)
-            a_p = np.tile(a_p, 6)
-            np.testing.assert_allclose(
+            a = xp.tile(xp_as_array(a, xp=xp), (6,))
+            a_p = xp.tile(xp_as_array(a_p, xp=xp), (6,))
+            xp_assert_close(
                 logarithmic_function_camera(a, style),
                 a_p,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-            a = np.reshape(a, (2, 3))
-            a_p = np.reshape(a_p, (2, 3))
-            np.testing.assert_allclose(
+            a = xp_reshape(xp_as_array(a, xp=xp), (2, 3), xp=xp)
+            a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3), xp=xp)
+            xp_assert_close(
                 logarithmic_function_camera(a, style),
                 a_p,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-            a = np.reshape(a, (2, 3, 1))
-            a_p = np.reshape(a_p, (2, 3, 1))
-            np.testing.assert_allclose(
+            a = xp_reshape(xp_as_array(a, xp=xp), (2, 3, 1), xp=xp)
+            a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3, 1), xp=xp)
+            xp_assert_close(
                 logarithmic_function_camera(a, style),
                 a_p,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -487,70 +534,68 @@ class TestLogEncoding_Log2:
 log_encoding_Log2` definition unit tests methods.
     """
 
-    def test_log_encoding_Log2(self) -> None:
+    def test_log_encoding_Log2(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 log_encoding_Log2` definition.
         """
 
-        np.testing.assert_allclose(
-            log_encoding_Log2(0.0), -np.inf, atol=TOLERANCE_ABSOLUTE_TESTS
+        xp_assert_close(
+            log_encoding_Log2(xp_as_array(0.0, xp=xp)),
+            -np.inf,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_Log2(0.18), 0.5, atol=TOLERANCE_ABSOLUTE_TESTS
+        xp_assert_close(
+            log_encoding_Log2(xp_as_array(0.18, xp=xp)),
+            0.5,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_Log2(1.0),
+        xp_assert_close(
+            log_encoding_Log2(xp_as_array(1.0, xp=xp)),
             0.690302399102493,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_Log2(0.18, 0.12),
+        xp_assert_close(
+            log_encoding_Log2(xp_as_array(0.18, xp=xp), 0.12),
             0.544997115440089,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_Log2(0.18, 0.12, 2**-10),
+        xp_assert_close(
+            log_encoding_Log2(xp_as_array(0.18, xp=xp), 0.12, 2**-10),
             0.089857490719529,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_Log2(0.18, 0.12, 2**-10, 2**10),
+        xp_assert_close(
+            log_encoding_Log2(xp_as_array(0.18, xp=xp), 0.12, 2**-10, 2**10),
             0.000570299311674,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_Log2(self) -> None:
+    def test_n_dimensional_log_encoding_Log2(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 log_encoding_Log2` definition n-dimensional arrays support.
         """
 
         x = 0.18
-        y = log_encoding_Log2(x)
+        y = as_ndarray(log_encoding_Log2(xp_as_array(x, xp=xp)))
 
-        x = np.tile(x, 6)
-        y = np.tile(y, 6)
-        np.testing.assert_allclose(
-            log_encoding_Log2(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        x = xp.tile(xp_as_array(x, xp=xp), (6,))
+        y = xp.tile(xp_as_array(y, xp=xp), (6,))
+        xp_assert_close(log_encoding_Log2(x), y, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        x = np.reshape(x, (2, 3))
-        y = np.reshape(y, (2, 3))
-        np.testing.assert_allclose(
-            log_encoding_Log2(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        x = xp_reshape(xp_as_array(x, xp=xp), (2, 3), xp=xp)
+        y = xp_reshape(xp_as_array(y, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(log_encoding_Log2(x), y, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        x = np.reshape(x, (2, 3, 1))
-        y = np.reshape(y, (2, 3, 1))
-        np.testing.assert_allclose(
-            log_encoding_Log2(x), y, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        x = xp_reshape(xp_as_array(x, xp=xp), (2, 3, 1), xp=xp)
+        y = xp_reshape(xp_as_array(y, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(log_encoding_Log2(x), y, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_log_encoding_Log2(self) -> None:
@@ -568,72 +613,70 @@ class TestLogDecoding_Log2:
 log_decoding_Log2` definition unit tests methods.
     """
 
-    def test_log_decoding_Log2(self) -> None:
+    def test_log_decoding_Log2(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 log_decoding_Log2` definition.
         """
 
-        np.testing.assert_allclose(
-            log_decoding_Log2(0.0),
+        xp_assert_close(
+            log_decoding_Log2(xp_as_array(0.0, xp=xp)),
             0.001988737822087,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_Log2(0.5), 0.18, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        np.testing.assert_allclose(
-            log_decoding_Log2(0.690302399102493),
-            1.0,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
-            log_decoding_Log2(0.544997115440089, 0.12),
+        xp_assert_close(
+            log_decoding_Log2(xp_as_array(0.5, xp=xp)),
             0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_Log2(0.089857490719529, 0.12, 2**-10),
+        xp_assert_close(
+            log_decoding_Log2(xp_as_array(0.690302399102493, xp=xp)),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        xp_assert_close(
+            log_decoding_Log2(xp_as_array(0.544997115440089, xp=xp), 0.12),
+            0.18,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        xp_assert_close(
+            log_decoding_Log2(xp_as_array(0.089857490719529, xp=xp), 0.12, 2**-10),
             0.180000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_Log2(0.000570299311674, 0.12, 2**-10, 2**10),
+        xp_assert_close(
+            log_decoding_Log2(
+                xp_as_array(0.000570299311674, xp=xp), 0.12, 2**-10, 2**10
+            ),
             0.180000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_Log2(self) -> None:
+    def test_n_dimensional_log_decoding_Log2(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.log.\
 log_decoding_Log2` definition n-dimensional arrays support.
         """
 
         y = 0.5
-        x = log_decoding_Log2(y)
+        x = as_ndarray(log_decoding_Log2(xp_as_array(y, xp=xp)))
 
-        y = np.tile(y, 6)
-        x = np.tile(x, 6)
-        np.testing.assert_allclose(
-            log_decoding_Log2(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        y = xp.tile(xp_as_array(y, xp=xp), (6,))
+        x = xp.tile(xp_as_array(x, xp=xp), (6,))
+        xp_assert_close(log_decoding_Log2(y), x, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        y = np.reshape(y, (2, 3))
-        x = np.reshape(x, (2, 3))
-        np.testing.assert_allclose(
-            log_decoding_Log2(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        y = xp_reshape(xp_as_array(y, xp=xp), (2, 3), xp=xp)
+        x = xp_reshape(xp_as_array(x, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(log_decoding_Log2(y), x, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        y = np.reshape(y, (2, 3, 1))
-        x = np.reshape(x, (2, 3, 1))
-        np.testing.assert_allclose(
-            log_decoding_Log2(y), x, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        y = xp_reshape(xp_as_array(y, xp=xp), (2, 3, 1), xp=xp)
+        x = xp_reshape(xp_as_array(x, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(log_decoding_Log2(y), x, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_Log2(self) -> None:

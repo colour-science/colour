@@ -3,6 +3,10 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.aces`
 module.
 """
 
+from __future__ import annotations
+
+import typing
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -14,7 +18,17 @@ from colour.models.rgb.transfer_functions import (
     log_encoding_ACEScct,
     log_encoding_ACESproxy,
 )
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    domain_range_scale,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -39,85 +53,88 @@ log_encoding_ACESproxy`
     definition unit tests methods.
     """
 
-    def test_log_encoding_ACESproxy(self) -> None:
+    def test_log_encoding_ACESproxy(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition.
         """
 
-        np.testing.assert_allclose(
-            log_encoding_ACESproxy(0.0),
+        xp_assert_close(
+            log_encoding_ACESproxy(xp_as_array(0.0, xp=xp)),
             0.062561094819159,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_ACESproxy(0.18),
+        xp_assert_close(
+            log_encoding_ACESproxy(xp_as_array(0.18, xp=xp)),
             0.416422287390029,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_ACESproxy(0.18, 12),
+        xp_assert_close(
+            log_encoding_ACESproxy(xp_as_array(0.18, xp=xp), 12),
             0.416361416361416,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_ACESproxy(1.0),
+        xp_assert_close(
+            log_encoding_ACESproxy(xp_as_array(1.0, xp=xp)),
             0.537634408602151,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        assert log_encoding_ACESproxy(0.18, out_int=True) == 426
+        assert (
+            as_ndarray(log_encoding_ACESproxy(xp_as_array(0.18, xp=xp), out_int=True))
+            == 426
+        )
 
-    def test_n_dimensional_log_encoding_ACESproxy(self) -> None:
+    def test_n_dimensional_log_encoding_ACESproxy(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition n-dimensional arrays support.
         """
 
         lin_AP1 = 0.18
-        ACESproxy = log_encoding_ACESproxy(lin_AP1)
+        ACESproxy = as_ndarray(log_encoding_ACESproxy(xp_as_array(lin_AP1, xp=xp)))
 
-        lin_AP1 = np.tile(lin_AP1, 6)
-        ACESproxy = np.tile(ACESproxy, 6)
-        np.testing.assert_allclose(
+        lin_AP1 = xp.tile(xp_as_array(lin_AP1, xp=xp), (6,))
+        ACESproxy = xp.tile(xp_as_array(ACESproxy, xp=xp), (6,))
+        xp_assert_close(
             log_encoding_ACESproxy(lin_AP1),
             ACESproxy,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        lin_AP1 = np.reshape(lin_AP1, (2, 3))
-        ACESproxy = np.reshape(ACESproxy, (2, 3))
-        np.testing.assert_allclose(
+        lin_AP1 = xp_reshape(xp_as_array(lin_AP1, xp=xp), (2, 3), xp=xp)
+        ACESproxy = xp_reshape(xp_as_array(ACESproxy, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
             log_encoding_ACESproxy(lin_AP1),
             ACESproxy,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        lin_AP1 = np.reshape(lin_AP1, (2, 3, 1))
-        ACESproxy = np.reshape(ACESproxy, (2, 3, 1))
-        np.testing.assert_allclose(
+        lin_AP1 = xp_reshape(xp_as_array(lin_AP1, xp=xp), (2, 3, 1), xp=xp)
+        ACESproxy = xp_reshape(xp_as_array(ACESproxy, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
             log_encoding_ACESproxy(lin_AP1),
             ACESproxy,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_log_encoding_ACESproxy(self) -> None:
+    def test_domain_range_scale_log_encoding_ACESproxy(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition domain and range scale support.
         """
 
         lin_AP1 = 0.18
-        ACESproxy = log_encoding_ACESproxy(lin_AP1)
+        ACESproxy = as_ndarray(log_encoding_ACESproxy(xp_as_array(lin_AP1, xp=xp)))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    log_encoding_ACESproxy(lin_AP1 * factor),
+                xp_assert_close(
+                    log_encoding_ACESproxy(xp_as_array(lin_AP1 * factor, xp=xp)),
                     ACESproxy * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -139,89 +156,89 @@ log_decoding_ACESproxy`
     definition unit tests methods.
     """
 
-    def test_log_decoding_ACESproxy(self) -> None:
+    def test_log_decoding_ACESproxy(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACESproxy` definition.
         """
 
-        np.testing.assert_allclose(
-            log_decoding_ACESproxy(0.062561094819159),
+        xp_assert_close(
+            log_decoding_ACESproxy(xp_as_array(0.062561094819159, xp=xp)),
             0.0,
-            atol=0.01,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_ACESproxy(0.416422287390029),
+        xp_assert_close(
+            log_decoding_ACESproxy(xp_as_array(0.416422287390029, xp=xp)),
             0.18,
-            atol=0.01,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_ACESproxy(0.416361416361416, 12),
+        xp_assert_close(
+            log_decoding_ACESproxy(xp_as_array(0.416361416361416, xp=xp), 12),
             0.18,
-            atol=0.01,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_ACESproxy(0.537634408602151),
+        xp_assert_close(
+            log_decoding_ACESproxy(xp_as_array(0.537634408602151, xp=xp)),
             1.0,
-            atol=0.01,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_ACESproxy(426, in_int=True),
+        xp_assert_close(
+            log_decoding_ACESproxy(xp_as_array(426, xp=xp), in_int=True),
             0.18,
-            atol=0.01,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
         )
 
-    def test_n_dimensional_log_decoding_ACESproxy(self) -> None:
+    def test_n_dimensional_log_decoding_ACESproxy(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACESproxy` definition n-dimensional arrays support.
         """
 
         ACESproxy = 0.416422287390029
-        lin_AP1 = log_decoding_ACESproxy(ACESproxy)
+        lin_AP1 = as_ndarray(log_decoding_ACESproxy(xp_as_array(ACESproxy, xp=xp)))
 
-        ACESproxy = np.tile(ACESproxy, 6)
-        lin_AP1 = np.tile(lin_AP1, 6)
-        np.testing.assert_allclose(
+        ACESproxy = xp.tile(xp_as_array(ACESproxy, xp=xp), (6,))
+        lin_AP1 = xp.tile(xp_as_array(lin_AP1, xp=xp), (6,))
+        xp_assert_close(
             log_decoding_ACESproxy(ACESproxy),
             lin_AP1,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        ACESproxy = np.reshape(ACESproxy, (2, 3))
-        lin_AP1 = np.reshape(lin_AP1, (2, 3))
-        np.testing.assert_allclose(
+        ACESproxy = xp_reshape(xp_as_array(ACESproxy, xp=xp), (2, 3), xp=xp)
+        lin_AP1 = xp_reshape(xp_as_array(lin_AP1, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
             log_decoding_ACESproxy(ACESproxy),
             lin_AP1,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        ACESproxy = np.reshape(ACESproxy, (2, 3, 1))
-        lin_AP1 = np.reshape(lin_AP1, (2, 3, 1))
-        np.testing.assert_allclose(
+        ACESproxy = xp_reshape(xp_as_array(ACESproxy, xp=xp), (2, 3, 1), xp=xp)
+        lin_AP1 = xp_reshape(xp_as_array(lin_AP1, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
             log_decoding_ACESproxy(ACESproxy),
             lin_AP1,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_log_decoding_ACESproxy(self) -> None:
+    def test_domain_range_scale_log_decoding_ACESproxy(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACESproxy` definition domain and range scale support.
         """
 
         ACESproxy = 426.0
-        lin_AP1 = log_decoding_ACESproxy(ACESproxy)
+        lin_AP1 = as_ndarray(log_decoding_ACESproxy(xp_as_array(ACESproxy, xp=xp)))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    log_decoding_ACESproxy(ACESproxy * factor),
+                xp_assert_close(
+                    log_decoding_ACESproxy(xp_as_array(ACESproxy * factor, xp=xp)),
                     lin_AP1 * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -242,71 +259,77 @@ class TestLogEncoding_ACEScc:
 log_encoding_ACEScc` definition unit tests methods.
     """
 
-    def test_log_encoding_ACEScc(self) -> None:
+    def test_log_encoding_ACEScc(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScc` definition.
         """
 
-        np.testing.assert_allclose(
-            log_encoding_ACEScc(0.0),
+        xp_assert_close(
+            log_encoding_ACEScc(xp_as_array(0.0, xp=xp)),
             -0.358447488584475,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_ACEScc(0.18),
+        xp_assert_close(
+            log_encoding_ACEScc(xp_as_array(0.18, xp=xp)),
             0.413588402492442,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_ACEScc(1.0),
+        xp_assert_close(
+            log_encoding_ACEScc(xp_as_array(1.0, xp=xp)),
             0.554794520547945,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_ACEScc(self) -> None:
+    def test_n_dimensional_log_encoding_ACEScc(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScc` definition n-dimensional arrays support.
         """
 
         lin_AP1 = 0.18
-        ACEScc = log_encoding_ACEScc(lin_AP1)
+        ACEScc = as_ndarray(log_encoding_ACEScc(xp_as_array(lin_AP1, xp=xp)))
 
-        lin_AP1 = np.tile(lin_AP1, 6)
-        ACEScc = np.tile(ACEScc, 6)
-        np.testing.assert_allclose(
-            log_encoding_ACEScc(lin_AP1), ACEScc, atol=TOLERANCE_ABSOLUTE_TESTS
+        lin_AP1 = xp.tile(xp_as_array(lin_AP1, xp=xp), (6,))
+        ACEScc = xp.tile(xp_as_array(ACEScc, xp=xp), (6,))
+        xp_assert_close(
+            log_encoding_ACEScc(lin_AP1),
+            ACEScc,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        lin_AP1 = np.reshape(lin_AP1, (2, 3))
-        ACEScc = np.reshape(ACEScc, (2, 3))
-        np.testing.assert_allclose(
-            log_encoding_ACEScc(lin_AP1), ACEScc, atol=TOLERANCE_ABSOLUTE_TESTS
+        lin_AP1 = xp_reshape(xp_as_array(lin_AP1, xp=xp), (2, 3), xp=xp)
+        ACEScc = xp_reshape(xp_as_array(ACEScc, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
+            log_encoding_ACEScc(lin_AP1),
+            ACEScc,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        lin_AP1 = np.reshape(lin_AP1, (2, 3, 1))
-        ACEScc = np.reshape(ACEScc, (2, 3, 1))
-        np.testing.assert_allclose(
-            log_encoding_ACEScc(lin_AP1), ACEScc, atol=TOLERANCE_ABSOLUTE_TESTS
+        lin_AP1 = xp_reshape(xp_as_array(lin_AP1, xp=xp), (2, 3, 1), xp=xp)
+        ACEScc = xp_reshape(xp_as_array(ACEScc, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
+            log_encoding_ACEScc(lin_AP1),
+            ACEScc,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_log_encoding_ACEScc(self) -> None:
+    def test_domain_range_scale_log_encoding_ACEScc(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScc` definition domain and range scale support.
         """
 
         lin_AP1 = 0.18
-        ACEScc = log_encoding_ACEScc(lin_AP1)
+        ACEScc = as_ndarray(log_encoding_ACEScc(xp_as_array(lin_AP1, xp=xp)))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    log_encoding_ACEScc(lin_AP1 * factor),
+                xp_assert_close(
+                    log_encoding_ACEScc(xp_as_array(lin_AP1 * factor, xp=xp)),
                     ACEScc * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -327,71 +350,77 @@ class TestLogDecoding_ACEScc:
 log_decoding_ACEScc` definition unit tests methods.
     """
 
-    def test_log_decoding_ACEScc(self) -> None:
+    def test_log_decoding_ACEScc(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScc` definition.
         """
 
-        np.testing.assert_allclose(
-            log_decoding_ACEScc(-0.358447488584475),
+        xp_assert_close(
+            log_decoding_ACEScc(xp_as_array(-0.358447488584475, xp=xp)),
             0.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_ACEScc(0.413588402492442),
+        xp_assert_close(
+            log_decoding_ACEScc(xp_as_array(0.413588402492442, xp=xp)),
             0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_ACEScc(0.554794520547945),
+        xp_assert_close(
+            log_decoding_ACEScc(xp_as_array(0.554794520547945, xp=xp)),
             1.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_ACEScc(self) -> None:
+    def test_n_dimensional_log_decoding_ACEScc(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScc` definition n-dimensional arrays support.
         """
 
         ACEScc = 0.413588402492442
-        lin_AP1 = log_decoding_ACEScc(ACEScc)
+        lin_AP1 = as_ndarray(log_decoding_ACEScc(xp_as_array(ACEScc, xp=xp)))
 
-        ACEScc = np.tile(ACEScc, 6)
-        lin_AP1 = np.tile(lin_AP1, 6)
-        np.testing.assert_allclose(
-            log_decoding_ACEScc(ACEScc), lin_AP1, atol=TOLERANCE_ABSOLUTE_TESTS
+        ACEScc = xp.tile(xp_as_array(ACEScc, xp=xp), (6,))
+        lin_AP1 = xp.tile(xp_as_array(lin_AP1, xp=xp), (6,))
+        xp_assert_close(
+            log_decoding_ACEScc(ACEScc),
+            lin_AP1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        ACEScc = np.reshape(ACEScc, (2, 3))
-        lin_AP1 = np.reshape(lin_AP1, (2, 3))
-        np.testing.assert_allclose(
-            log_decoding_ACEScc(ACEScc), lin_AP1, atol=TOLERANCE_ABSOLUTE_TESTS
+        ACEScc = xp_reshape(xp_as_array(ACEScc, xp=xp), (2, 3), xp=xp)
+        lin_AP1 = xp_reshape(xp_as_array(lin_AP1, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
+            log_decoding_ACEScc(ACEScc),
+            lin_AP1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        ACEScc = np.reshape(ACEScc, (2, 3, 1))
-        lin_AP1 = np.reshape(lin_AP1, (2, 3, 1))
-        np.testing.assert_allclose(
-            log_decoding_ACEScc(ACEScc), lin_AP1, atol=TOLERANCE_ABSOLUTE_TESTS
+        ACEScc = xp_reshape(xp_as_array(ACEScc, xp=xp), (2, 3, 1), xp=xp)
+        lin_AP1 = xp_reshape(xp_as_array(lin_AP1, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
+            log_decoding_ACEScc(ACEScc),
+            lin_AP1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_log_decoding_ACEScc(self) -> None:
+    def test_domain_range_scale_log_decoding_ACEScc(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScc` definition domain and range scale support.
         """
 
         ACEScc = 0.413588402492442
-        lin_AP1 = log_decoding_ACEScc(ACEScc)
+        lin_AP1 = as_ndarray(log_decoding_ACEScc(xp_as_array(ACEScc, xp=xp)))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    log_decoding_ACEScc(ACEScc * factor),
+                xp_assert_close(
+                    log_decoding_ACEScc(xp_as_array(ACEScc * factor, xp=xp)),
                     lin_AP1 * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -412,82 +441,82 @@ class TestLogEncoding_ACEScct:
 log_encoding_ACEScct` definition unit tests methods.
     """
 
-    def test_log_encoding_ACEScct(self) -> None:
+    def test_log_encoding_ACEScct(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScct` definition.
         """
 
-        np.testing.assert_allclose(
-            log_encoding_ACEScct(0.0),
+        xp_assert_close(
+            log_encoding_ACEScct(xp_as_array(0.0, xp=xp)),
             0.072905534195835495,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_ACEScct(0.18),
+        xp_assert_close(
+            log_encoding_ACEScct(xp_as_array(0.18, xp=xp)),
             0.413588402492442,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_ACEScct(1.0),
+        xp_assert_close(
+            log_encoding_ACEScct(xp_as_array(1.0, xp=xp)),
             0.554794520547945,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_ACEScct(self) -> None:
+    def test_n_dimensional_log_encoding_ACEScct(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScct` definition n-dimensional arrays support.
         """
 
         lin_AP1 = 0.18
-        ACEScct = log_encoding_ACEScct(lin_AP1)
+        ACEScct = as_ndarray(log_encoding_ACEScct(xp_as_array(lin_AP1, xp=xp)))
 
-        lin_AP1 = np.tile(lin_AP1, 6)
-        ACEScct = np.tile(ACEScct, 6)
-        np.testing.assert_allclose(
+        lin_AP1 = xp.tile(xp_as_array(lin_AP1, xp=xp), (6,))
+        ACEScct = xp.tile(xp_as_array(ACEScct, xp=xp), (6,))
+        xp_assert_close(
             log_encoding_ACEScct(lin_AP1),
             ACEScct,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        lin_AP1 = np.reshape(lin_AP1, (2, 3))
-        ACEScct = np.reshape(ACEScct, (2, 3))
-        np.testing.assert_allclose(
+        lin_AP1 = xp_reshape(xp_as_array(lin_AP1, xp=xp), (2, 3), xp=xp)
+        ACEScct = xp_reshape(xp_as_array(ACEScct, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
             log_encoding_ACEScct(lin_AP1),
             ACEScct,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        lin_AP1 = np.reshape(lin_AP1, (2, 3, 1))
-        ACEScct = np.reshape(ACEScct, (2, 3, 1))
-        np.testing.assert_allclose(
+        lin_AP1 = xp_reshape(xp_as_array(lin_AP1, xp=xp), (2, 3, 1), xp=xp)
+        ACEScct = xp_reshape(xp_as_array(ACEScct, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
             log_encoding_ACEScct(lin_AP1),
             ACEScct,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_log_encoding_ACEScct(self) -> None:
+    def test_domain_range_scale_log_encoding_ACEScct(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScct` definition domain and range scale support.
         """
 
         lin_AP1 = 0.18
-        ACEScct = log_encoding_ACEScct(lin_AP1)
+        ACEScct = as_ndarray(log_encoding_ACEScct(xp_as_array(lin_AP1, xp=xp)))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    log_encoding_ACEScct(lin_AP1 * factor),
+                xp_assert_close(
+                    log_encoding_ACEScct(xp_as_array(lin_AP1 * factor, xp=xp)),
                     ACEScct * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
-    def test_ACEScc_equivalency_log_encoding_ACEScct(self) -> None:
+    def test_ACEScc_equivalency_log_encoding_ACEScct(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScct` definition ACEScc equivalency, and explicit requirement
@@ -497,9 +526,9 @@ S-2016-001/introduction.tex#L14)
         """
 
         equiv = np.linspace(0.0078125, 222.86094420380761, 100)
-        np.testing.assert_allclose(
-            log_encoding_ACEScct(equiv),
-            log_encoding_ACEScc(equiv),
+        xp_assert_close(
+            log_encoding_ACEScct(xp_as_array(equiv, xp=xp)),
+            as_ndarray(log_encoding_ACEScc(xp_as_array(equiv, xp=xp))),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -519,82 +548,82 @@ class TestLogDecoding_ACEScct:
 log_decoding_ACEScct` definition unit tests methods.
     """
 
-    def test_log_decoding_ACEScct(self) -> None:
+    def test_log_decoding_ACEScct(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScct` definition.
         """
 
-        np.testing.assert_allclose(
-            log_decoding_ACEScct(0.072905534195835495),
+        xp_assert_close(
+            log_decoding_ACEScct(xp_as_array(0.072905534195835495, xp=xp)),
             0.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_ACEScct(0.41358840249244228),
+        xp_assert_close(
+            log_decoding_ACEScct(xp_as_array(0.41358840249244228, xp=xp)),
             0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_ACEScct(0.554794520547945),
+        xp_assert_close(
+            log_decoding_ACEScct(xp_as_array(0.554794520547945, xp=xp)),
             1.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_ACEScct(self) -> None:
+    def test_n_dimensional_log_decoding_ACEScct(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScct` definition n-dimensional arrays support.
         """
 
         ACEScct = 0.413588402492442
-        lin_AP1 = log_decoding_ACEScct(ACEScct)
+        lin_AP1 = as_ndarray(log_decoding_ACEScct(xp_as_array(ACEScct, xp=xp)))
 
-        ACEScct = np.tile(ACEScct, 6)
-        lin_AP1 = np.tile(lin_AP1, 6)
-        np.testing.assert_allclose(
+        ACEScct = xp.tile(xp_as_array(ACEScct, xp=xp), (6,))
+        lin_AP1 = xp.tile(xp_as_array(lin_AP1, xp=xp), (6,))
+        xp_assert_close(
             log_decoding_ACEScct(ACEScct),
             lin_AP1,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        ACEScct = np.reshape(ACEScct, (2, 3))
-        lin_AP1 = np.reshape(lin_AP1, (2, 3))
-        np.testing.assert_allclose(
+        ACEScct = xp_reshape(xp_as_array(ACEScct, xp=xp), (2, 3), xp=xp)
+        lin_AP1 = xp_reshape(xp_as_array(lin_AP1, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
             log_decoding_ACEScct(ACEScct),
             lin_AP1,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        ACEScct = np.reshape(ACEScct, (2, 3, 1))
-        lin_AP1 = np.reshape(lin_AP1, (2, 3, 1))
-        np.testing.assert_allclose(
+        ACEScct = xp_reshape(xp_as_array(ACEScct, xp=xp), (2, 3, 1), xp=xp)
+        lin_AP1 = xp_reshape(xp_as_array(lin_AP1, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
             log_decoding_ACEScct(ACEScct),
             lin_AP1,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_log_decoding_ACEScct(self) -> None:
+    def test_domain_range_scale_log_decoding_ACEScct(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScct` definition domain and range scale support.
         """
 
         ACEScc = 0.413588402492442
-        lin_AP1 = log_decoding_ACEScct(ACEScc)
+        lin_AP1 = as_ndarray(log_decoding_ACEScct(xp_as_array(ACEScc, xp=xp)))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    log_decoding_ACEScct(ACEScc * factor),
+                xp_assert_close(
+                    log_decoding_ACEScct(xp_as_array(ACEScc * factor, xp=xp)),
                     lin_AP1 * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
-    def test_ACEScc_equivalency_log_decoding_ACEScct(self) -> None:
+    def test_ACEScc_equivalency_log_decoding_ACEScct(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScct` definition ACEScc equivalency, and explicit requirement
@@ -604,9 +633,9 @@ S-2016-001/introduction.tex#L14)
         """
 
         equiv = np.linspace(0.15525114155251146, 1.0, 100)
-        np.testing.assert_allclose(
-            log_decoding_ACEScct(equiv),
-            log_decoding_ACEScc(equiv),
+        xp_assert_close(
+            log_decoding_ACEScct(xp_as_array(equiv, xp=xp)),
+            as_ndarray(log_decoding_ACEScc(xp_as_array(equiv, xp=xp))),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 

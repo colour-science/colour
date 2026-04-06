@@ -29,6 +29,8 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "is_array_api_compat_installed",
+    "is_array_api_extra_installed",
     "is_ctlrender_installed",
     "is_imageio_installed",
     "is_openimageio_installed",
@@ -45,6 +47,80 @@ __all__ = [
     "REQUIREMENTS_TO_CALLABLE",
     "required",
 ]
+
+
+def is_array_api_compat_installed(raise_exception: bool = False) -> bool:
+    """
+    Determine whether *array-api-compat* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception
+        Whether to raise an exception if *array-api-compat* is unavailable.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether *array-api-compat* is installed.
+
+    Raises
+    ------
+    :class:`ImportError`
+        If *array-api-compat* is not installed.
+    """
+
+    try:  # pragma: no cover
+        import array_api_compat  # noqa: F401, PLC0415
+    except ImportError as exception:  # pragma: no cover
+        if raise_exception:
+            error = (
+                '"array-api-compat" related API features are not available: '
+                f'"{exception}".\nSee the installation guide for more information: '
+                "https://www.colour-science.org/installation-guide/"
+            )
+
+            raise ImportError(error) from exception
+
+        return False
+    else:
+        return True
+
+
+def is_array_api_extra_installed(raise_exception: bool = False) -> bool:
+    """
+    Determine whether *array-api-extra* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception
+        Whether to raise an exception if *array-api-extra* is unavailable.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether *array-api-extra* is installed.
+
+    Raises
+    ------
+    :class:`ImportError`
+        If *array-api-extra* is not installed.
+    """
+
+    try:  # pragma: no cover
+        import array_api_extra  # noqa: F401, PLC0415
+    except ImportError as exception:  # pragma: no cover
+        if raise_exception:
+            error = (
+                '"array-api-extra" related API features are not available: '
+                f'"{exception}".\nSee the installation guide for more information: '
+                "https://www.colour-science.org/installation-guide/"
+            )
+
+            raise ImportError(error) from exception
+
+        return False
+    else:
+        return True
 
 
 def is_ctlrender_installed(raise_exception: bool = False) -> bool:
@@ -552,6 +628,8 @@ def is_xxhash_installed(raise_exception: bool = False) -> bool:
 
 REQUIREMENTS_TO_CALLABLE: CanonicalMapping = CanonicalMapping(
     {
+        "array_api_compat": is_array_api_compat_installed,
+        "array_api_extra": is_array_api_extra_installed,
         "ctlrender": is_ctlrender_installed,
         "Imageio": is_imageio_installed,
         "OpenImageIO": is_openimageio_installed,
@@ -574,6 +652,8 @@ Mapping of requirements to their respective callables.
 
 def required(
     *requirements: Literal[
+        "array_api_compat",
+        "array_api_extra",
         "ctlrender",
         "Imageio",
         "OpenImageIO",

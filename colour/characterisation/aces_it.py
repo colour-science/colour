@@ -59,8 +59,6 @@ from __future__ import annotations
 import os
 import typing
 
-import numpy as np
-
 from colour.adaptation import matrix_chromatic_adaptation_VonKries
 from colour.algebra import euclidean_distance, vecmul
 from colour.characterisation import (
@@ -108,6 +106,7 @@ from colour.models.rgb import (
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import (
     CanonicalMapping,
+    array_namespace,
     as_float,
     as_float_array,
     as_float_scalar,
@@ -116,6 +115,9 @@ from colour.utilities import (
     required,
     runtime_warning,
     tsplit,
+    xp_as_float_array,
+    xp_matrix_transpose,
+    xp_reshape,
     zeros,
 )
 from colour.utilities.deprecation import handle_arguments_deprecation
@@ -243,22 +245,24 @@ def sd_to_aces_relative_exposure_values(
     s_v = sd.values
     i_v = illuminant.values
 
+    xp = array_namespace(s_v)
+
     r_bar, g_bar, b_bar = tsplit(MSDS_ACES_RICD.values)
 
     def k(x: NDArrayFloat, y: NDArrayFloat) -> float:
         """Compute the :math:`K_r`, :math:`K_g` or :math:`K_b` scale factors."""
 
-        return as_float_scalar(1 / np.sum(x * y))
+        return as_float_scalar(1 / xp.sum(x * y))
 
     k_r = k(i_v, r_bar)
     k_g = k(i_v, g_bar)
     k_b = k(i_v, b_bar)
 
-    E_r = k_r * np.sum(i_v * s_v * r_bar)
-    E_g = k_g * np.sum(i_v * s_v * g_bar)
-    E_b = k_b * np.sum(i_v * s_v * b_bar)
+    E_r = k_r * xp.sum(i_v * s_v * r_bar)
+    E_g = k_g * xp.sum(i_v * s_v * g_bar)
+    E_b = k_b * xp.sum(i_v * s_v * b_bar)
 
-    E_rgb = np.array([E_r, E_g, E_b])
+    E_rgb = xp_as_float_array([E_r, E_g, E_b], xp=xp)
 
     # Accounting for flare.
     E_rgb += FLARE_PERCENTAGE
@@ -384,7 +388,7 @@ def generate_illuminants_rawtoaces_v1() -> CanonicalMapping:
         illuminants = CanonicalMapping()
 
         # CIE Illuminants D Series from 4000K to 25000K.
-        for i in np.arange(4000, 25000 + 500, 500):
+        for i in range(4000, 25000 + 500, 500):
             CCT = i * 1.4388 / 1.4380
             xy = CCT_to_xy_CIE_D(CCT)
             sd = sd_CIE_illuminant_D_series(xy)
@@ -392,7 +396,7 @@ def generate_illuminants_rawtoaces_v1() -> CanonicalMapping:
             illuminants[sd.name] = sd.align(SPECTRAL_SHAPE_RAWTOACES)
 
         # Blackbody from 1000K to 4000K.
-        for i in np.arange(1000, 4000, 500):
+        for i in range(1000, 4000, 500):
             sd = sd_blackbody(cast("float", i), SPECTRAL_SHAPE_RAWTOACES)
             illuminants[sd.name] = sd
 
@@ -448,8 +452,10 @@ def white_balance_multipliers(
         runtime_warning(f'Aligning "{illuminant.name}" illuminant shape to "{shape}".')
         illuminant = reshape_sd(illuminant, shape, copy=False)
 
-    RGB_w = 1 / np.sum(sensitivities.values * illuminant.values[..., None], axis=0)
-    RGB_w *= 1 / np.min(RGB_w)
+    xp = array_namespace(sensitivities.values)
+
+    RGB_w = 1 / xp.sum(sensitivities.values * illuminant.values[..., None], axis=0)
+    RGB_w *= 1 / xp.min(RGB_w)
 
     return RGB_w
 
@@ -497,11 +503,13 @@ def best_illuminant(
 
     RGB_w = as_float_array(RGB_w)
 
-    sse = np.inf
+    xp = array_namespace(RGB_w)
+
+    sse = float("inf")
     illuminant_b = None
     for illuminant in illuminants.values():
         RGB_wi = white_balance_multipliers(sensitivities, illuminant)
-        sse_c = np.sum((RGB_wi / RGB_w - 1) ** 2)
+        sse_c = xp.sum((RGB_wi / RGB_w - 1) ** 2)
         if sse_c < sse:
             sse = sse_c
             illuminant_b = illuminant
@@ -534,6 +542,7 @@ def normalise_illuminant(
 
     Examples
     --------
+    >>> import numpy as np
     >>> path = os.path.join(
     ...     ROOT_RESOURCES_RAWTOACES,
     ...     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
@@ -552,8 +561,10 @@ def normalise_illuminant(
         runtime_warning(f'Aligning "{illuminant.name}" illuminant shape to "{shape}".')
         illuminant = reshape_sd(illuminant, shape)
 
-    c_i = np.argmax(np.max(sensitivities.values, axis=0))
-    k = 1 / np.sum(illuminant.values * sensitivities.values[..., c_i])
+    xp = array_namespace(sensitivities.values)
+
+    c_i = xp.argmax(xp.max(sensitivities.values, axis=0))
+    k = 1 / xp.sum(illuminant.values * sensitivities.values[..., c_i])
 
     return illuminant * k
 
@@ -615,8 +626,10 @@ def training_data_sds_to_RGB(
 
     RGB_w = white_balance_multipliers(sensitivities, illuminant)
 
-    RGB = np.dot(
-        np.transpose(illuminant.values[..., None] * training_data.values),
+    xp = array_namespace(sensitivities.values)
+
+    RGB = xp.matmul(
+        xp_matrix_transpose(illuminant.values[..., None] * training_data.values, xp=xp),
         sensitivities.values,
     )
 
@@ -693,14 +706,16 @@ def training_data_sds_to_XYZ(
         )
         training_data = reshape_msds(training_data, shape, copy=False)
 
-    XYZ = np.dot(
-        np.transpose(illuminant.values[..., None] * training_data.values),
+    xp = array_namespace(cmfs.values)
+
+    XYZ = xp.matmul(
+        xp_matrix_transpose(illuminant.values[..., None] * training_data.values, xp=xp),
         cmfs.values,
     )
 
-    XYZ *= 1 / np.sum(cmfs.values[..., 1] * illuminant.values)
+    XYZ *= 1 / xp.sum(cmfs.values[..., 1] * illuminant.values)
 
-    XYZ_w = np.dot(np.transpose(cmfs.values), illuminant.values)
+    XYZ_w = xp.matmul(xp_matrix_transpose(cmfs.values, xp=xp), illuminant.values)
     XYZ_w *= 1 / XYZ_w[1]
 
     if chromatic_adaptation_transform is not None:
@@ -736,6 +751,7 @@ def whitepoint_preserving_matrix(
 
     Examples
     --------
+    >>> import numpy as np
     >>> M = np.reshape(np.arange(9), (3, 3))
     >>> whitepoint_preserving_matrix(M)
     array([[  0.,   1.,   0.],
@@ -744,11 +760,14 @@ def whitepoint_preserving_matrix(
     """
 
     M = as_float_array(M)
-    RGB_w = as_float_array(RGB_w)
 
-    tail = (RGB_w - np.sum(M[..., :-1], axis=-1))[..., None]
+    xp = array_namespace(M, RGB_w)
 
-    return np.concatenate([M[..., :-1], tail], axis=-1)
+    RGB_w = xp_as_float_array(RGB_w, xp=xp, like=M)
+
+    tail = (RGB_w - xp.sum(M[..., :-1], axis=-1))[..., None]
+
+    return xp.concat([M[..., :-1], tail], axis=-1)
 
 
 def optimisation_factory_rawtoaces_v1() -> Tuple[
@@ -794,7 +813,9 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[
         XYZ_t = vecmul(RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ, vecmul(M, RGB))
         Lab_t = XYZ_to_optimization_colour_model(XYZ_t)
 
-        return as_float(np.linalg.norm(Lab_t - Lab))
+        xp = array_namespace(Lab_t)
+
+        return as_float(xp.linalg.vector_norm(Lab_t - Lab))
 
     def XYZ_to_optimization_colour_model(XYZ: ArrayLike) -> NDArrayFloat:
         """*CIE XYZ* colourspace to *CIE L\\*a\\*b\\** colourspace function."""
@@ -804,8 +825,12 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[
     def finaliser_function(M: ArrayLike) -> NDArrayFloat:
         """Finaliser function."""
 
+        M = as_float_array(M)
+
+        xp = array_namespace(M)
+
         return whitepoint_preserving_matrix(
-            np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
+            xp.concat([xp_reshape(M, (3, 2), xp=xp), zeros((3, 1))], axis=1)
         )
 
     return (
@@ -856,7 +881,9 @@ finaliser_function at 0x...>)
         XYZ_t = vecmul(RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ, vecmul(M, RGB))
         Jab_t = XYZ_to_optimization_colour_model(XYZ_t)
 
-        return as_float(np.sum(euclidean_distance(Jab, Jab_t)))
+        xp = array_namespace(Jab_t)
+
+        return as_float(xp.sum(euclidean_distance(Jab, Jab_t)))
 
     def XYZ_to_optimization_colour_model(XYZ: ArrayLike) -> NDArrayFloat:
         """*CIE XYZ* colourspace to :math:`J_za_zb_z` colourspace function."""
@@ -866,8 +893,12 @@ finaliser_function at 0x...>)
     def finaliser_function(M: ArrayLike) -> NDArrayFloat:
         """Finaliser function."""
 
+        M = as_float_array(M)
+
+        xp = array_namespace(M)
+
         return whitepoint_preserving_matrix(
-            np.hstack([np.reshape(M, (3, 2)), zeros((3, 1))])
+            xp.concat([xp_reshape(M, (3, 2), xp=xp), zeros((3, 1))], axis=1)
         )
 
     return (
@@ -922,19 +953,25 @@ finaliser_function at 0x...>)
 
         M = finaliser_function(M)
 
-        XYZ_t = np.transpose(
-            np.dot(
+        xp = array_namespace(M)
+
+        XYZ_t = xp_matrix_transpose(
+            xp.matmul(
                 RGB_COLOURSPACE_ACES2065_1.matrix_RGB_to_XYZ,
-                np.dot(
+                xp.matmul(
                     M,
-                    np.transpose(polynomial_expansion_Finlayson2015(RGB, 2, True)),
+                    xp_matrix_transpose(
+                        polynomial_expansion_Finlayson2015(RGB, 2, True),
+                        xp=xp,
+                    ),
                 ),
-            )
+            ),
+            xp=xp,
         )
 
         Jab_t = XYZ_to_optimization_colour_model(XYZ_t)
 
-        return as_float(np.sum(euclidean_distance(Jab, Jab_t)))
+        return as_float(xp.sum(euclidean_distance(Jab, Jab_t)))
 
     def XYZ_to_optimization_colour_model(XYZ: ArrayLike) -> NDArrayFloat:
         """*CIE XYZ* colourspace to *Oklab* colourspace function."""
@@ -944,8 +981,12 @@ finaliser_function at 0x...>)
     def finaliser_function(M: ArrayLike) -> NDArrayFloat:
         """Finaliser function."""
 
+        M = as_float_array(M)
+
+        xp = array_namespace(M)
+
         return whitepoint_preserving_matrix(
-            np.hstack([np.reshape(M, (3, 5)), zeros((3, 1))])
+            xp.concat([xp_reshape(M, (3, 5), xp=xp), zeros((3, 1))], axis=1)
         )
 
     return (
@@ -1062,6 +1103,7 @@ def matrix_idt(
     Computing the IDT matrix for a *CANON EOS 5DMark II* and
     *CIE Illuminant D Series* *D55* using the method specified in *RAW to ACES* v1:
 
+    >>> import numpy as np
     >>> path = os.path.join(
     ...     ROOT_RESOURCES_RAWTOACES,
     ...     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
@@ -1206,6 +1248,7 @@ def camera_RGB_to_ACES2065_1(
 
     Examples
     --------
+    >>> import numpy as np
     >>> path = os.path.join(
     ...     ROOT_RESOURCES_RAWTOACES,
     ...     "CANON_EOS_5DMark_II_RGB_Sensitivities.csv",
@@ -1219,12 +1262,15 @@ def camera_RGB_to_ACES2065_1(
     """
 
     RGB = as_float_array(RGB)
-    B = as_float_array(B)
-    b = as_float_array(b)
-    k = as_float_array(k)
 
-    RGB_r = b * RGB / np.min(b)
+    xp = array_namespace(RGB, B, b, k)
 
-    RGB_r = np.clip(RGB_r, -np.inf, 1) if clip else RGB_r
+    B = xp_as_float_array(B, xp=xp, like=RGB)
+    b = xp_as_float_array(b, xp=xp, like=RGB)
+    k = xp_as_float_array(k, xp=xp, like=RGB)
+
+    RGB_r = b * RGB / xp.min(b)
+
+    RGB_r = xp.clip(RGB_r, -float("inf"), 1) if clip else RGB_r
 
     return k * vecmul(B, RGB_r)

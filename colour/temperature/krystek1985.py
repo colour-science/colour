@@ -23,12 +23,22 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
+    from colour.hints import ArrayLike, NDArrayFloat
 
-from colour.utilities import as_float, as_float_array, required, tstack
+from colour.temperature.common import (
+    CCT_INVERSION_GRID_SAMPLES,
+    solve_CCT_Newton,
+    x0_CCT_grid,
+)
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    as_float_array,
+    optional,
+    tstack,
+    usage_warning,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -43,7 +53,6 @@ __all__ = [
 ]
 
 
-@required("SciPy")
 def uv_to_CCT_Krystek1985(
     uv: ArrayLike, optimisation_kwargs: dict | None = None
 ) -> NDArrayFloat:
@@ -57,7 +66,13 @@ def uv_to_CCT_Krystek1985(
     uv
          *CIE UCS* colourspace *uv* chromaticity coordinates.
     optimisation_kwargs
-        Parameters for :func:`scipy.optimize.minimize` definition.
+        Inversion parameters forwarded to
+        :func:`colour.temperature.x0_CCT_grid` and
+        :func:`colour.temperature.solve_CCT_Newton`. Accepted keys are
+        ``samples`` (grid density for the initial guess, default
+        :attr:`colour.temperature.CCT_INVERSION_GRID_SAMPLES`),
+        ``newton_iterations``, ``backtrack_iterations`` and ``tolerance``
+        (forwarded to :func:`solve_CCT_Newton`).
 
     Returns
     -------
@@ -69,9 +84,9 @@ def uv_to_CCT_Krystek1985(
     *Krystek (1985)* does not provide an analytical inverse transformation
     to compute the correlated colour temperature :math:`T_{cp}` from the
     specified *CIE UCS* colourspace *uv* chromaticity coordinates. The
-    current implementation relies on optimisation using
-    :func:`scipy.optimize.minimize` definition and thus has reduced
-    precision and poor performance.
+    current implementation seeds a damped *Gauss-Newton* iteration with a
+    nearest-neighbour lookup against a coarse grid sampled from the
+    analytical forward, vectorised across all input samples.
 
     Notes
     -----
@@ -85,46 +100,24 @@ def uv_to_CCT_Krystek1985(
 
     Examples
     --------
-    >>> uv_to_CCT_Krystek1985(np.array([0.20047203, 0.31029290]))
-    ... # doctest: +ELLIPSIS
-    np.float64(6504.3894290...)
+    >>> uv_to_CCT_Krystek1985([0.20047203, 0.31029290])  # doctest: +ELLIPSIS
+    np.float64(6504.389416...)
     """
 
-    from scipy.optimize import minimize  # noqa: PLC0415
+    optimisation_kwargs = dict(optional(optimisation_kwargs, {}))
 
     uv = as_float_array(uv)
-    shape = uv.shape
-    uv = np.atleast_1d(np.reshape(uv, (-1, 2)))
 
-    def objective_function(CCT: NDArrayFloat, uv: NDArrayFloat) -> DTypeFloat:
-        """Objective function."""
-
-        objective = np.linalg.norm(CCT_to_uv_Krystek1985(CCT) - uv)
-
-        return as_float(objective)
-
-    optimisation_settings = {
-        "method": "Nelder-Mead",
-        "options": {
-            "fatol": 1e-10,
-        },
-    }
-    if optimisation_kwargs is not None:
-        optimisation_settings.update(optimisation_kwargs)
-
-    CCT = as_float_array(
-        [
-            minimize(
-                objective_function,
-                x0=[6500],
-                args=(uv_i,),
-                **optimisation_settings,
-            ).x
-            for uv_i in uv
-        ]
+    x0 = x0_CCT_grid(
+        CCT_to_uv_Krystek1985,
+        uv,
+        (1000.0, 15000.0),
+        samples=optimisation_kwargs.pop("samples", CCT_INVERSION_GRID_SAMPLES),
     )
 
-    return as_float(np.reshape(CCT, shape[:-1]))
+    return as_float(
+        solve_CCT_Newton(CCT_to_uv_Krystek1985, uv, x0=x0, **optimisation_kwargs)
+    )
 
 
 def CCT_to_uv_Krystek1985(CCT: ArrayLike) -> NDArrayFloat:
@@ -159,6 +152,14 @@ def CCT_to_uv_Krystek1985(CCT: ArrayLike) -> NDArrayFloat:
     """
 
     T = as_float_array(CCT)
+
+    xp = array_namespace(T)
+
+    if xp.any(xp.logical_or(T < 1000, T > 15000)):
+        usage_warning(
+            "Correlated colour temperature must be in domain "
+            "[1000, 15000], unpredictable results may occur!"
+        )
 
     T_2 = T**2
 

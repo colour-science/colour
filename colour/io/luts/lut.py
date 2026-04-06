@@ -1499,7 +1499,7 @@ class LUT3x1D(AbstractLUT):
          [1.       ... 1.       ... 1.       ...]]
         """
 
-        size = self.table.size // 3
+        size = self.table.shape[0]
         if self.is_domain_explicit():
             domain = [
                 axes[: (~np.isnan(axes)).cumsum().argmax() + 1]
@@ -1591,7 +1591,7 @@ class LUT3x1D(AbstractLUT):
 
         LUT = self.invert() if direction == "inverse" else self
 
-        size = LUT.table.size // 3
+        size = LUT.table.shape[0]
         if LUT.is_domain_explicit():
             samples = [
                 axes[: (~np.isnan(axes)).cumsum().argmax() + 1]
@@ -2130,7 +2130,7 @@ class LUT3D(AbstractLUT):
             weights = weights / np.sum(weights, axis=1, keepdims=True)
 
             # Weighted average: sum over neighbors dimension
-            weighted_table = np.sum(table[indices] * weights[..., np.newaxis], axis=1)
+            weighted_table = np.sum(table[indices] * weights[..., None], axis=1)
 
             LUT_q.table = np.reshape(
                 weighted_table,

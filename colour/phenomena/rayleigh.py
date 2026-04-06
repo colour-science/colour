@@ -23,8 +23,6 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.algebra import sdiv, sdiv_mode
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT,
@@ -36,7 +34,15 @@ from colour.constants import CONSTANT_AVOGADRO
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Callable, NDArrayFloat
 
-from colour.utilities import as_float, as_float_array, filter_kwargs
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    as_float_array,
+    filter_kwargs,
+    xp_as_float_array,
+    xp_radians,
+    xp_resize,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -110,13 +116,15 @@ def air_refraction_index_Penndorf1957(
     np.float64(1.0002777...)
     """
 
-    wl = as_float_array(wavelength)
+    wavelength = as_float_array(wavelength)
 
-    n = 6432.8 + 2949810 / (146 - wl ** (-2)) + 25540 / (41 - wl ** (-2))
-    n /= 1.0e8
-    n += +1
+    n = (
+        6432.8
+        + 2949810 / (146 - wavelength ** (-2))
+        + 25540 / (41 - wavelength ** (-2))
+    )
 
-    return n
+    return n / 1.0e8 + 1
 
 
 def air_refraction_index_Edlen1966(
@@ -143,13 +151,15 @@ def air_refraction_index_Edlen1966(
     np.float64(1.0002777...)
     """
 
-    wl = as_float_array(wavelength)
+    wavelength = as_float_array(wavelength)
 
-    n = 8342.13 + 2406030 / (130 - wl ** (-2)) + 15997 / (38.9 - wl ** (-2))
-    n /= 1.0e8
-    n += +1
+    n = (
+        8342.13
+        + 2406030 / (130 - wavelength ** (-2))
+        + 15997 / (38.9 - wavelength ** (-2))
+    )
 
-    return n
+    return n / 1.0e8 + 1
 
 
 def air_refraction_index_Peck1972(
@@ -176,13 +186,15 @@ def air_refraction_index_Peck1972(
     np.float64(1.0002777...)
     """
 
-    wl = as_float_array(wavelength)
+    wavelength = as_float_array(wavelength)
 
-    n = 8060.51 + 2480990 / (132.274 - wl ** (-2)) + 17455.7 / (39.32957 - wl ** (-2))
-    n /= 1.0e8
-    n += +1
+    n = (
+        8060.51
+        + 2480990 / (132.274 - wavelength ** (-2))
+        + 17455.7 / (39.32957 - wavelength ** (-2))
+    )
 
-    return n
+    return n / 1.0e8 + 1
 
 
 def air_refraction_index_Bodhaine1999(
@@ -212,15 +224,15 @@ def air_refraction_index_Bodhaine1999(
     np.float64(1.0002777...)
     """
 
-    wl = as_float_array(wavelength)
-    CO2_c = as_float_array(CO2_concentration)
+    wavelength = as_float_array(wavelength)
+    CO2_concentration = as_float_array(CO2_concentration)
 
     # Converting from parts per million (ppm) to parts per volume (ppv).
-    CO2_c = CO2_c * 1e-6
+    CO2_concentration = CO2_concentration * 1e-6
 
-    n = (1 + 0.54 * (CO2_c - 300e-6)) * (air_refraction_index_Peck1972(wl) - 1) + 1
-
-    return as_float(n)
+    return (1 + 0.54 * (CO2_concentration - 300e-6)) * (
+        air_refraction_index_Peck1972(wavelength) - 1
+    ) + 1
 
 
 def N2_depolarisation(wavelength: ArrayLike) -> NDArrayFloat:
@@ -244,9 +256,9 @@ def N2_depolarisation(wavelength: ArrayLike) -> NDArrayFloat:
     np.float64(1.0350291...)
     """
 
-    wl = as_float_array(wavelength)
+    wavelength = as_float_array(wavelength)
 
-    return 1.034 + 3.17 * 1.0e-4 * (1 / wl**2)
+    return 1.034 + 3.17 * 1.0e-4 * (1 / wavelength**2)
 
 
 def O2_depolarisation(wavelength: ArrayLike) -> NDArrayFloat:
@@ -270,9 +282,13 @@ def O2_depolarisation(wavelength: ArrayLike) -> NDArrayFloat:
     np.float64(1.1020225...)
     """
 
-    wl = as_float_array(wavelength)
+    wavelength = as_float_array(wavelength)
 
-    return 1.096 + 1.385 * 1.0e-3 * (1 / wl**2) + 1.448 * 1.0e-4 * (1 / wl**4)
+    return (
+        1.096
+        + 1.385 * 1.0e-3 * (1 / wavelength**2)
+        + 1.448 * 1.0e-4 * (1 / wavelength**4)
+    )
 
 
 def F_air_Penndorf1957(wavelength: ArrayLike) -> NDArrayFloat:
@@ -302,9 +318,13 @@ def F_air_Penndorf1957(wavelength: ArrayLike) -> NDArrayFloat:
     np.float64(1.0608)
     """
 
-    wl = as_float_array(wavelength)
+    wavelength = as_float_array(wavelength)
 
-    return as_float(np.resize(np.array([1.0608]), wl.shape))
+    xp = array_namespace(wavelength)
+
+    return as_float(
+        xp_resize(xp_as_float_array([1.0608], xp=xp), wavelength.shape, xp=xp)
+    )
 
 
 def F_air_Young1981(wavelength: ArrayLike) -> NDArrayFloat:
@@ -334,9 +354,13 @@ def F_air_Young1981(wavelength: ArrayLike) -> NDArrayFloat:
     np.float64(1.048)
     """
 
-    wl = as_float_array(wavelength)
+    wavelength = as_float_array(wavelength)
 
-    return as_float(np.resize(np.array([1.0480]), wl.shape))
+    xp = array_namespace(wavelength)
+
+    return as_float(
+        xp_resize(xp_as_float_array([1.0480], xp=xp), wavelength.shape, xp=xp)
+    )
 
 
 def F_air_Bates1984(wavelength: ArrayLike) -> NDArrayFloat:
@@ -399,13 +423,13 @@ def F_air_Bodhaine1999(
 
     O2 = O2_depolarisation(wavelength)
     N2 = N2_depolarisation(wavelength)
-    CO2_c = as_float_array(CO2_concentration)
+    CO2_concentration = as_float_array(CO2_concentration)
 
     # Converting from parts per million (ppm) to parts per volume per percent.
-    CO2_c = CO2_c * 1e-4
+    CO2_concentration = CO2_concentration * 1e-4
 
-    return (78.084 * N2 + 20.946 * O2 + 0.934 * 1 + CO2_c * 1.15) / (
-        78.084 + 20.946 + 0.934 + CO2_c
+    return (78.084 * N2 + 20.946 * O2 + 0.934 * 1 + CO2_concentration * 1.15) / (
+        78.084 + 20.946 + 0.934 + CO2_concentration
     )
 
 
@@ -445,11 +469,11 @@ def molecular_density(
     np.float64(2.5468999...e+19)
     """
 
-    T = as_float_array(temperature)
+    temperature = as_float_array(temperature)
     avogadro_constant = as_float_array(avogadro_constant)
 
     with sdiv_mode():
-        return (avogadro_constant / 22.4141) * sdiv(273.15, T) * (1 / 1000)
+        return (avogadro_constant / 22.4141) * sdiv(273.15, temperature) * (1 / 1000)
 
 
 def mean_molecular_weights(
@@ -477,9 +501,9 @@ def mean_molecular_weights(
 
     CO2_concentration = as_float_array(CO2_concentration)
 
-    CO2_c = CO2_concentration * 1.0e-6
+    CO2_concentration = CO2_concentration * 1.0e-6
 
-    return 15.0556 * CO2_c + 28.9595
+    return 15.0556 * CO2_concentration + 28.9595
 
 
 def gravity_List1968(
@@ -519,7 +543,9 @@ def gravity_List1968(
     latitude = as_float_array(latitude)
     altitude = as_float_array(altitude)
 
-    cos2phi = np.cos(2 * np.radians(latitude))
+    xp = array_namespace(latitude, altitude)
+
+    cos2phi = xp.cos(xp_radians(2 * latitude))
 
     # Sea level acceleration of gravity.
     g0 = 980.6160 * (1 - 0.0026373 * cos2phi + 0.0000059 * cos2phi**2)
@@ -584,26 +610,44 @@ def scattering_cross_section(
     np.float64(4.3466692...e-27)
     """
 
-    wl = as_float_array(wavelength)
-    CO2_c = as_float_array(CO2_concentration)
+    wavelength = as_float_array(wavelength)
+    CO2_concentration = as_float_array(CO2_concentration)
     temperature = as_float_array(temperature)
 
-    wl_micrometers = wl * 10e3
+    xp = array_namespace(wavelength, CO2_concentration, temperature)
+
+    wavelength_micrometers = wavelength * 10e3
 
     N_s = molecular_density(temperature, avogadro_constant)
-    n_s = n_s_function(wl_micrometers)
-    # n_s = n_s_function(**filter_kwargs(
-    #     n_s_function, wavelength=wl_micrometers, CO2_concentration=CO2_c))
+    n_s = n_s_function(wavelength_micrometers)
     F_air = F_air_function(
         **filter_kwargs(
-            F_air_function, wavelength=wl_micrometers, CO2_concentration=CO2_c
+            F_air_function,
+            wavelength=wavelength_micrometers,
+            CO2_concentration=CO2_concentration,
         )
     )
 
-    sigma = 24 * np.pi**3 * (n_s**2 - 1) ** 2 / (wl**4 * N_s**2 * (n_s**2 + 2) ** 2)
-    sigma *= F_air
-
-    return sigma
+    # *Bodhaine et al. (1999)* Eq. (2):
+    #
+    #     sigma = 24 * pi^3 * (n_s^2 - 1)^2
+    #             ----------------------------- * F(air)
+    #             wavelength^4 * N_s^2 * (n_s^2 + 2)^2
+    #
+    # ``N_s`` is Avogadro-scale (~2.5e19) so ``N_s ** 2 ~ 6.3e38`` overflows
+    # the ~3.4e38 float32 normal range; the algebraically equivalent
+    # ``/ N_s / N_s`` keeps every intermediate within float32 (largest
+    # ~3e12, smallest ~4e-27) and so dispatches cleanly across every
+    # *Array API* backend including *PyTorch MPS*.
+    return (
+        24
+        * xp.pi**3
+        * (n_s**2 - 1) ** 2
+        * F_air
+        / (wavelength**4 * (n_s**2 + 2) ** 2)
+        / N_s
+        / N_s
+    )
 
 
 def rayleigh_optical_depth(
@@ -665,27 +709,35 @@ def rayleigh_optical_depth(
     """
 
     wavelength = as_float_array(wavelength)
-    CO2_c = as_float_array(CO2_concentration)
-    pressure = as_float_array(pressure)
-    latitude = as_float_array(latitude)
-    altitude = as_float_array(altitude)
-    avogadro_constant = as_float_array(avogadro_constant)
-    # Conversion from pascal to dyne/cm2.
-    P = as_float_array(pressure * 10)
+
+    xp = array_namespace(wavelength)
+
+    # All scalar / array inputs are promoted to ``wavelength``'s namespace
+    # and device so that the final ``sigma * P * N_A / (m_a * g)``
+    # multiplication dispatches uniformly; mixing a backend tensor
+    # with a *NumPy* scalar default would fail on non-numpy devices
+    # (e.g. *PyTorch MPS* refusing implicit device round-trips).
+    CO2_concentration = xp_as_float_array(CO2_concentration, xp=xp, like=wavelength)
+    pressure = xp_as_float_array(pressure, xp=xp, like=wavelength)
+    latitude = xp_as_float_array(latitude, xp=xp, like=wavelength)
+    altitude = xp_as_float_array(altitude, xp=xp, like=wavelength)
+    avogadro_constant = xp_as_float_array(avogadro_constant, xp=xp, like=wavelength)
 
     sigma = scattering_cross_section(
         wavelength,
-        CO2_c,
+        CO2_concentration,
         temperature,
         avogadro_constant,
         n_s_function,
         F_air_function,
     )
 
-    m_a = mean_molecular_weights(CO2_c)
+    m_a = mean_molecular_weights(CO2_concentration)
     g = gravity_List1968(latitude, altitude)
 
-    T_R = sigma * (P * avogadro_constant) / (m_a * g)
+    # *Bodhaine et al. (1999)* Eq. (1): ``T_R = sigma * (P * N_A) / (m_a * g)``
+    # where ``P`` converts from pascal to dyne/cm^2 (factor 10).
+    T_R = sigma * (pressure * 10) * avogadro_constant / (m_a * g)
 
     return as_float(T_R)
 

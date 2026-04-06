@@ -20,14 +20,18 @@ R-REC-BT.601-7-201103-I!!PDF-E.pdf
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.algebra import spow
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import as_float, domain_range_scale, from_range_1, to_domain_1
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -83,7 +87,9 @@ def oetf_BT601(L: Domain1) -> Range1:
 
     L = to_domain_1(L)
 
-    E = np.where(L < 0.018, L * 4.5, 1.099 * spow(L, 0.45) - 0.099)
+    xp = array_namespace(L)
+
+    E = xp.where(L < 0.018, L * 4.5, 1.099 * spow(L, 0.45) - 0.099)
 
     return as_float(from_range_1(E))
 
@@ -129,8 +135,10 @@ def oetf_inverse_BT601(E: Domain1) -> Range1:
 
     E = to_domain_1(E)
 
+    xp = array_namespace(E)
+
     with domain_range_scale("ignore"):
-        L = np.where(
+        L = xp.where(
             oetf_BT601(0.018) > E,
             E / 4.5,
             spow((E + 0.099) / 1.099, 1 / 0.45),

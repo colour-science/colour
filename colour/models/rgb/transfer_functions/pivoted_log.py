@@ -17,13 +17,11 @@ nuke-default/make.py
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import as_float, from_range_1, to_domain_1
+from colour.utilities import array_namespace, as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -100,9 +98,11 @@ def log_encoding_PivotedLog(
 
     x = to_domain_1(x)
 
+    xp = array_namespace(x)
+
     y = (
         log_reference
-        + np.log10(x / linear_reference) / (density_per_code_value / negative_gamma)
+        + xp.log10(x / linear_reference) / (density_per_code_value / negative_gamma)
     ) / 1023
 
     return as_float(from_range_1(y))

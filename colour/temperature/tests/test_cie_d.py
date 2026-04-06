@@ -2,13 +2,25 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 from itertools import product
 
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.temperature import CCT_to_xy_CIE_D, xy_to_CCT_CIE_D
-from colour.utilities import ignore_numpy_errors, is_scipy_installed
+from colour.utilities import (
+    as_ndarray,
+    ignore_numpy_errors,
+    is_scipy_installed,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -29,37 +41,34 @@ class TestXy_to_CCT_CIE_D:
     tests methods.
     """
 
-    def test_xy_to_CCT_CIE_D(self) -> None:
+    def test_xy_to_CCT_CIE_D(self, xp: ModuleType) -> None:
         """Test :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition."""
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             xy_to_CCT_CIE_D(
-                np.array([0.382343625000000, 0.383766261015578]),
-                {"method": "Nelder-Mead"},
+                xp_as_array([0.382343625000000, 0.383766261015578], xp=xp),
             ),
             4000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             xy_to_CCT_CIE_D(
-                np.array([0.305357431486880, 0.321646345474552]),
-                {"method": "Nelder-Mead"},
+                xp_as_array([0.305357431486880, 0.321646345474552], xp=xp),
             ),
             7000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             xy_to_CCT_CIE_D(
-                np.array([0.24985367, 0.254799464210944]),
-                {"method": "Nelder-Mead"},
+                xp_as_array([0.24985367, 0.254799464210944], xp=xp),
             ),
             25000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_xy_to_CCT_CIE_D(self) -> None:
+    def test_n_dimensional_xy_to_CCT_CIE_D(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition
         n-dimensional arrays support.
@@ -68,20 +77,16 @@ class TestXy_to_CCT_CIE_D:
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        xy = np.array([0.382343625000000, 0.383766261015578])
-        CCT = xy_to_CCT_CIE_D(xy)
+        xy = xp_as_array([0.382343625000000, 0.383766261015578], xp=xp)
+        CCT = as_ndarray(xy_to_CCT_CIE_D(xy))
 
-        xy = np.tile(xy, (6, 1))
-        CCT = np.tile(CCT, 6)
-        np.testing.assert_allclose(
-            xy_to_CCT_CIE_D(xy), CCT, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xy = xp.tile(xp_as_array(xy, xp=xp), (6, 1))
+        CCT = xp.tile(xp_as_array(CCT, xp=xp), (6,))
+        xp_assert_close(xy_to_CCT_CIE_D(xy), CCT, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        xy = np.reshape(xy, (2, 3, 2))
-        CCT = np.reshape(CCT, (2, 3))
-        np.testing.assert_allclose(
-            xy_to_CCT_CIE_D(xy), CCT, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xy = xp_reshape(xp_as_array(xy, xp=xp), (2, 3, 2), xp=xp)
+        CCT = xp_reshape(xp_as_array(CCT, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(xy_to_CCT_CIE_D(xy), CCT, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_xy_to_CCT_CIE_D(self) -> None:
@@ -104,47 +109,43 @@ class TestCCT_to_xy_CIE_D:
     unit tests methods.
     """
 
-    def test_CCT_to_xy_CIE_D(self) -> None:
+    def test_CCT_to_xy_CIE_D(self, xp: ModuleType) -> None:
         """Test :func:`colour.temperature.cie_d.CCT_to_xy_CIE_D` definition."""
 
-        np.testing.assert_allclose(
-            CCT_to_xy_CIE_D(4000),
-            np.array([0.382343625000000, 0.383766261015578]),
+        xp_assert_close(
+            CCT_to_xy_CIE_D(xp_as_array([4000], xp=xp)),
+            [[0.382343625000000, 0.383766261015578]],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            CCT_to_xy_CIE_D(7000),
-            np.array([0.305357431486880, 0.321646345474552]),
+        xp_assert_close(
+            CCT_to_xy_CIE_D(xp_as_array([7000], xp=xp)),
+            [[0.305357431486880, 0.321646345474552]],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            CCT_to_xy_CIE_D(25000),
-            np.array([0.24985367, 0.254799464210944]),
+        xp_assert_close(
+            CCT_to_xy_CIE_D(xp_as_array([25000], xp=xp)),
+            [[0.24985367, 0.254799464210944]],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_CCT_to_xy_CIE_D(self) -> None:
+    def test_n_dimensional_CCT_to_xy_CIE_D(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.temperature.cie_d.CCT_to_xy_CIE_D` definition
         n-dimensional arrays support.
         """
 
         CCT = 4000
-        xy = CCT_to_xy_CIE_D(CCT)
+        xy = as_ndarray(CCT_to_xy_CIE_D(CCT))
 
-        CCT = np.tile(CCT, 6)
-        xy = np.tile(xy, (6, 1))
-        np.testing.assert_allclose(
-            CCT_to_xy_CIE_D(CCT), xy, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        CCT = xp.tile(xp_as_array(CCT, xp=xp), (6,))
+        xy = xp.tile(xp_as_array(xy, xp=xp), (6, 1))
+        xp_assert_close(CCT_to_xy_CIE_D(CCT), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        CCT = np.reshape(CCT, (2, 3))
-        xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_allclose(
-            CCT_to_xy_CIE_D(CCT), xy, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        CCT = xp_reshape(xp_as_array(CCT, xp=xp), (2, 3), xp=xp)
+        xy = xp_reshape(xp_as_array(xy, xp=xp), (2, 3, 2), xp=xp)
+        xp_assert_close(CCT_to_xy_CIE_D(CCT), xy, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_CCT_to_xy_CIE_D(self) -> None:

@@ -20,14 +20,12 @@ R-REC-BT.1886-0-201103-I!!PDF-E.pdf
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.algebra import spow
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import as_float, from_range_1, to_domain_1
+from colour.utilities import array_namespace, as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -152,12 +150,14 @@ def eotf_BT1886(V: Domain1, L_B: float = 0, L_W: float = 1) -> Range1:
 
     V = to_domain_1(V)
 
+    xp = array_namespace(V)
+
     gamma = 2.40
     gamma_d = 1 / gamma
 
     n = L_W**gamma_d - L_B**gamma_d
     a = n**gamma
     b = L_B**gamma_d / n
-    L = a * spow(np.maximum(V + b, 0), gamma)
+    L = a * spow(xp.clip(V + b, min=0), gamma)
 
     return as_float(from_range_1(L))

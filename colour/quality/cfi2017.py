@@ -21,7 +21,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from colour.algebra import Extrapolator, euclidean_distance, linstep_function
+from colour.algebra import Extrapolator, euclidean_distance
 from colour.appearance import (
     VIEWING_CONDITIONS_CIECAM02,
     CAM_Specification_CIECAM02,
@@ -29,14 +29,13 @@ from colour.appearance import (
 )
 from colour.colorimetry import (
     MSDS_CMFS,
+    CIE_illuminant_D_series,
     MultiSpectralDistributions,
     SpectralDistribution,
     SpectralShape,
     msds_to_XYZ,
+    planck_law,
     reshape_msds,
-    sd_blackbody,
-    sd_CIE_illuminant_D_series,
-    sd_to_XYZ,
 )
 
 if typing.TYPE_CHECKING:
@@ -47,15 +46,20 @@ from colour.models import JMh_CIECAM02_to_CAM02UCS, UCS_to_uv, XYZ_to_UCS
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.utilities import (
     CACHE_REGISTRY,
+    array_namespace,
     as_float,
     as_float_array,
     as_float_scalar,
     as_int_scalar,
+    as_ndarray,
     attest,
     is_caching_enabled,
-    tsplit,
+    suppress_warnings,
     tstack,
     usage_warning,
+    xp_as_float_array,
+    xp_average,
+    xp_matrix_transpose,
 )
 
 __author__ = "Colour Developers"
@@ -72,8 +76,6 @@ __all__ = [
     "ColourRendering_Specification_CIE2017",
     "colour_fidelity_index_CIE2017",
     "load_TCS_CIE2017",
-    "CCT_reference_illuminant",
-    "sd_reference_illuminant",
     "tcs_colorimetry_data",
     "delta_E_to_R_f",
 ]
@@ -165,25 +167,27 @@ class ColourRendering_Specification_CIE2017:
 
 @typing.overload
 def colour_fidelity_index_CIE2017(
-    sd_test: SpectralDistribution, additional_data: Literal[True] = True
+    sd_test: SpectralDistribution, additional_data: Literal[False] = False
+) -> float: ...
+
+
+@typing.overload
+def colour_fidelity_index_CIE2017(
+    sd_test: SpectralDistribution, additional_data: Literal[True]
 ) -> ColourRendering_Specification_CIE2017: ...
 
 
 @typing.overload
 def colour_fidelity_index_CIE2017(
-    sd_test: SpectralDistribution, *, additional_data: Literal[False]
-) -> float: ...
-
-
-@typing.overload
-def colour_fidelity_index_CIE2017(
-    sd_test: SpectralDistribution, additional_data: Literal[False]
-) -> float: ...
+    sd_test: MultiSpectralDistributions,
+    additional_data: Literal[False] = False,
+) -> NDArrayFloat: ...
 
 
 def colour_fidelity_index_CIE2017(
-    sd_test: SpectralDistribution, additional_data: bool = False
-) -> float | ColourRendering_Specification_CIE2017:
+    sd_test: SpectralDistribution | MultiSpectralDistributions,
+    additional_data: bool = False,
+) -> float | NDArrayFloat | ColourRendering_Specification_CIE2017:
     """
     Compute the *CIE 2017 Colour Fidelity Index* (CFI) :math:`R_f` of the
     specified spectral distribution.
@@ -191,13 +195,17 @@ def colour_fidelity_index_CIE2017(
     Parameters
     ----------
     sd_test
-        Test spectral distribution.
+        Test spectral distribution. A
+        :class:`colour.MultiSpectralDistributions` of ``N`` test
+        illuminants is also accepted, in which case ``additional_data``
+        must be ``False`` and the return value is a :class:`numpy.ndarray`
+        of ``N`` :math:`R_f` values.
     additional_data
         Whether to output additional data.
 
     Returns
     -------
-    :class:`float` or \
+    :class:`float`, :class:`numpy.ndarray` or \
 :class:`colour.quality.ColourRendering_Specification_CIE2017`
         *CIE 2017 Colour Fidelity Index* (CFI) :math:`R_f`.
 
@@ -212,6 +220,15 @@ def colour_fidelity_index_CIE2017(
     >>> colour_fidelity_index_CIE2017(sd)  # doctest: +ELLIPSIS
     np.float64(70.1208244...)
     """
+
+    is_msds = isinstance(sd_test, MultiSpectralDistributions)
+
+    if is_msds and additional_data:
+        error = (
+            '"additional_data=True" is not supported when "sd_test" is a '
+            '"MultiSpectralDistributions" instance.'
+        )
+        raise NotImplementedError(error)
 
     if sd_test.shape.interval > 5:
         error = (
@@ -249,9 +266,6 @@ def colour_fidelity_index_CIE2017(
     if sd_test.shape.boundaries != shape.boundaries:
         sd_test.trim(shape)
 
-    CCT, D_uv = tsplit(CCT_reference_illuminant(sd_test))
-    sd_reference = sd_reference_illuminant(CCT, shape)
-
     # NOTE: All computations except CCT calculation use the
     # "CIE 1964 10 Degree Standard Observer".
     cmfs_10 = reshape_msds(
@@ -260,32 +274,127 @@ def colour_fidelity_index_CIE2017(
 
     sds_tcs = load_TCS_CIE2017(shape)
 
-    (
-        test_tcs_colorimetry_data,
-        reference_tcs_colorimetry_data,
-    ) = tcs_colorimetry_data([sd_test, sd_reference], sds_tcs, cmfs_10)
+    sd_test_values = sd_test.values
+    xp = array_namespace(sds_tcs.values, sd_test_values)
 
-    delta_E_s = euclidean_distance(
-        test_tcs_colorimetry_data.Jpapbp,
-        reference_tcs_colorimetry_data.Jpapbp,
+    if is_msds:
+        test_values = xp_matrix_transpose(
+            xp_as_float_array(sd_test_values, xp=xp), xp=xp
+        )
+    else:
+        test_values = xp_as_float_array(sd_test_values, xp=xp)[None, :]
+
+    XYZ_test_2deg = msds_to_XYZ(test_values, method="Integration", shape=shape)
+    CCT_Duv = uv_to_CCT_Ohno2013(
+        UCS_to_uv(XYZ_to_UCS(XYZ_test_2deg)), start=1000, end=25000
+    )
+    CCT = CCT_Duv[..., 0]
+    D_uv = CCT_Duv[..., 1]
+
+    # ``CIE 2017 CFI`` 3-way reference: Y-normalised Planckian / daylight
+    # mixture clipped over the ``[4000, 5000]`` K transition window
+    # (:cite:`CIETC1-902017`, Section 4.2). ``planck_law`` squeezes its
+    # output, so a single-CCT batch collapses to 1-D; the sample axis is
+    # reinstated below. This vectorised mixture is the single source of the
+    # reference illuminant; the ``additional_data`` branch wraps the
+    # corresponding ``ref_values`` row in a spectral distribution.
+    planckian = planck_law(shape.wavelengths * 1e-9, CCT) * 1e-9
+    planckian_values = (
+        planckian[None, :]
+        if planckian.ndim == 1
+        else xp_matrix_transpose(planckian, xp=xp)
+    )
+    # ``CCT_to_xy_CIE_D`` warns for any sample outside ``[4000, 25000]`` K
+    # (matching the suppression in :mod:`colour.quality.cri` /
+    # :mod:`colour.quality.cqs`); ``m = 0`` nulls the extrapolated daylight
+    # so the leaked warning is spurious here.
+    with suppress_warnings(colour_usage_warnings=True):
+        daylight = CIE_illuminant_D_series(CCT_to_xy_CIE_D(CCT), shape=shape)
+    daylight_values = (
+        daylight[None, :]
+        if daylight.ndim == 1
+        else xp_matrix_transpose(daylight, xp=xp)
+    )
+    Y_planckian = msds_to_XYZ(planckian_values, method="Integration", shape=shape)[
+        ..., 1:2
+    ]
+    Y_daylight = msds_to_XYZ(daylight_values, method="Integration", shape=shape)[
+        ..., 1:2
+    ]
+    m = xp.clip((CCT - 4000) / 1000, 0, 1)[..., None]
+    ref_values = (1 - m) * (planckian_values / Y_planckian) + m * (
+        daylight_values / Y_daylight
     )
 
+    irradiance_values = xp.stack([test_values, ref_values])
+    XYZ_t = msds_to_XYZ(irradiance_values, cmfs_10, method="Integration", shape=shape)
+    k = 100 / XYZ_t[..., 1:2]
+    XYZ_w = k * XYZ_t
+    irradiance_values = irradiance_values * k
+
+    XYZ, specification, JMh, Jpapbp = _tcs_colorimetry_data(
+        irradiance_values, XYZ_w, sds_tcs, cmfs_10
+    )
+
+    delta_E_s = euclidean_distance(Jpapbp[0], Jpapbp[1])
+
     R_s = delta_E_to_R_f(delta_E_s)
-    R_f = cast("float", delta_E_to_R_f(np.average(delta_E_s)))
+    R_f = delta_E_to_R_f(xp_average(delta_E_s, axis=-1, xp=xp))
 
-    if additional_data:
-        return ColourRendering_Specification_CIE2017(
-            sd_test.name,
-            sd_reference,
-            R_f,
-            R_s,
-            CCT,
-            D_uv,
-            (test_tcs_colorimetry_data, reference_tcs_colorimetry_data),
-            delta_E_s,
-        )
+    if is_msds:
+        return R_f
 
-    return R_f
+    R_f_scalar = as_float_scalar(R_f[0])
+
+    if not additional_data:
+        return R_f_scalar
+
+    sd_reference = SpectralDistribution(
+        as_ndarray(ref_values[0]),
+        shape.wavelengths,
+        name=f"{int(CCT[0])}K CIE 2017 Reference Illuminant",
+    )
+
+    # Drop the size-1 batch axis from the rank-3 outputs to recover the
+    # original (n_irradiances, n_TCS, *) layout.
+    XYZ = XYZ[:, 0]
+    JMh = JMh[:, 0]
+    Jpapbp = Jpapbp[:, 0]
+    specification = CAM_Specification_CIECAM02(
+        **{
+            name: (value[:, 0] if value is not None else None)
+            for name, value in specification
+        }
+    )
+
+    # ``as_float_array`` materialises the dataclass to *NumPy* via
+    # ``__array__``, so the transpose stays on *NumPy* regardless of ``xp``.
+    specification = np.transpose(as_float_array(specification), (0, 2, 1))
+    specifications = [CAM_Specification_CIECAM02(*t) for t in specification]
+    test_tcs_colorimetry_data = DataColorimetry_TCS_CIE2017(
+        sds_tcs.display_labels,
+        XYZ[0],
+        specifications[0],
+        JMh[0],
+        Jpapbp[0],
+    )
+    reference_tcs_colorimetry_data = DataColorimetry_TCS_CIE2017(
+        sds_tcs.display_labels,
+        XYZ[1],
+        specifications[1],
+        JMh[1],
+        Jpapbp[1],
+    )
+    return ColourRendering_Specification_CIE2017(
+        sd_test.name,
+        sd_reference,
+        R_f_scalar,
+        R_s[0],
+        as_float_scalar(CCT[0]),
+        as_float_scalar(D_uv[0]),
+        (test_tcs_colorimetry_data, reference_tcs_colorimetry_data),
+        delta_E_s[0],
+    )
 
 
 def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
@@ -339,124 +448,72 @@ def load_TCS_CIE2017(shape: SpectralShape) -> MultiSpectralDistributions:
     return tcs
 
 
-def CCT_reference_illuminant(sd: SpectralDistribution) -> NDArrayFloat:
+def _tcs_colorimetry_data(
+    irradiance_values: NDArrayFloat,
+    XYZ_w: NDArrayFloat,
+    sds_tcs: MultiSpectralDistributions,
+    cmfs: MultiSpectralDistributions,
+) -> Tuple[NDArrayFloat, CAM_Specification_CIECAM02, NDArrayFloat, NDArrayFloat]:
     """
-    Compute the reference illuminant correlated colour temperature
-    :math:`T_{cp}` and :math:`\\Delta_{uv}` for the specified test spectral
-    distribution using the *Ohno (2013)* method.
+    Compute the *test colour samples* colorimetry arrays under the specified
+    irradiance(s) and reference white point(s) for the *CIE 2017 Colour
+    Fidelity Index* (CFI) computations.
 
     Parameters
     ----------
-    sd
-        Test spectral distribution.
+    irradiance_values
+        Per-illuminant normalised irradiance spectral values of shape
+        ``(..., n_wavelengths)``.
+    XYZ_w
+        Per-illuminant *CIE XYZ* tristimulus values of shape ``(..., 3)``.
+    sds_tcs
+        *Test colour samples* spectral reflectance distributions.
+    cmfs
+        Standard observer colour matching functions.
 
     Returns
     -------
-    :class:`numpy.ndarray`
-        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
-
-    Examples
-    --------
-    >>> from colour import SDS_ILLUMINANTS
-    >>> sd = SDS_ILLUMINANTS["FL2"]
-    >>> CCT_reference_illuminant(sd)  # doctest: +ELLIPSIS
-    array([4.2244776...e+03, 1.7885608...e-03])
+    :class:`tuple`
+        ``(XYZ, specification, JMh, Jpapbp)`` arrays, each with leading
+        shape ``(..., n_test_colour_samples)``.
     """
 
-    XYZ = sd_to_XYZ(sd.values, shape=sd.shape, method="Integration")
+    sds_tcs_values_raw = sds_tcs.values
+    xp = array_namespace(irradiance_values, sds_tcs_values_raw)
 
-    # NOTE: Use "CFI2017" and "TM30" recommended temperature range of 1,000K to
-    # 25,000K for performance.
-    return uv_to_CCT_Ohno2013(UCS_to_uv(XYZ_to_UCS(XYZ)), start=1000, end=25000)
+    sds_tcs_values = xp_as_float_array(
+        sds_tcs_values_raw, xp=xp, like=irradiance_values
+    )
+    sds_tcs_t = (
+        xp_matrix_transpose(sds_tcs_values, xp=xp) * irradiance_values[..., None, :]
+    )
 
+    XYZ = msds_to_XYZ(
+        sds_tcs_t,
+        cmfs,
+        method="Integration",
+        shape=sds_tcs.shape,
+    )
+    specification = XYZ_to_CIECAM02(
+        XYZ,
+        XYZ_w[..., None, :],
+        100,  # L_A
+        20,  # Y_b
+        VIEWING_CONDITIONS_CIECAM02["Average"],
+        discount_illuminant=True,
+        compute_H=False,
+    )
 
-def sd_reference_illuminant(CCT: float, shape: SpectralShape) -> SpectralDistribution:
-    """
-    Compute the reference illuminant for the specified correlated colour
-    temperature :math:`T_{cp}` for use in *CIE 2017 Colour Fidelity Index*
-    (CFI) computation.
+    JMh = tstack(
+        [
+            cast("NDArrayFloat", specification.J),
+            cast("NDArrayFloat", specification.M),
+            cast("NDArrayFloat", specification.h),
+        ]
+    )
+    Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)
 
-    Parameters
-    ----------
-    CCT
-        Correlated colour temperature :math:`T_{cp}`.
-    shape
-        Desired shape of the returned spectral distribution.
-
-    Returns
-    -------
-    :class:`colour.SpectralDistribution`
-        Reference illuminant for *CIE 2017 Colour Fidelity Index* (CFI)
-        computation.
-
-    Examples
-    --------
-    >>> from colour.utilities import numpy_print_options
-    >>> with numpy_print_options(suppress=True):
-    ...     sd_reference_illuminant(  # doctest: +ELLIPSIS
-    ...         4224.469705295263300, SpectralShape(380, 780, 20)
-    ...     )
-    SpectralDistribution([[380.        ,   0.0034089...],
-                          [400.        ,   0.0044208...],
-                          [420.        ,   0.0053260...],
-                          [440.        ,   0.0062857...],
-                          [460.        ,   0.0072767...],
-                          [480.        ,   0.0080207...],
-                          [500.        ,   0.0086590...],
-                          [520.        ,   0.0092242...],
-                          [540.        ,   0.0097686...],
-                          [560.        ,   0.0101444...],
-                          [580.        ,   0.0104475...],
-                          [600.        ,   0.0107642...],
-                          [620.        ,   0.0110439...],
-                          [640.        ,   0.0112535...],
-                          [660.        ,   0.0113922...],
-                          [680.        ,   0.0115185...],
-                          [700.        ,   0.0113155...],
-                          [720.        ,   0.0108192...],
-                          [740.        ,   0.0111582...],
-                          [760.        ,   0.0101299...],
-                          [780.        ,   0.0105638...]],
-                         SpragueInterpolator,
-                         {},
-                         Extrapolator,
-                         {'method': 'Constant', 'left': None, 'right': None})
-    """
-
-    if CCT <= 5000:
-        sd_planckian = sd_blackbody(CCT, shape)
-
-    if CCT >= 4000:
-        xy = CCT_to_xy_CIE_D(CCT)
-        sd_daylight = sd_CIE_illuminant_D_series(xy, shape=shape)
-
-    if CCT < 4000:
-        sd_reference = sd_planckian
-    elif 4000 <= CCT <= 5000:
-        # Planckian and daylight illuminant must be normalised so that the
-        # mixture isn't biased.
-        sd_planckian = (
-            sd_planckian
-            / sd_to_XYZ(sd_planckian.values, shape=shape, method="Integration")[1]
-        )
-        sd_daylight = (
-            sd_daylight
-            / sd_to_XYZ(sd_daylight.values, shape=shape, method="Integration")[1]
-        )
-
-        # Mixture: 4200K should be 80% Planckian, 20% CIE Illuminant D Series.
-        m = (CCT - 4000) / 1000
-        values = linstep_function(m, sd_planckian.values, sd_daylight.values)
-        name = (
-            f"{as_int_scalar(CCT)}K "
-            f"Blackbody & CIE Illuminant D Series Mixture - "
-            f"{as_float_scalar(100 * m):.1f}%"
-        )
-        sd_reference = SpectralDistribution(values, shape.wavelengths, name=name)
-    elif CCT > 5000:
-        sd_reference = sd_daylight
-
-    return sd_reference
+    return XYZ, specification, JMh, Jpapbp
 
 
 def tcs_colorimetry_data(
@@ -501,58 +558,36 @@ def tcs_colorimetry_data(
     if isinstance(sd_irradiance, SpectralDistribution):
         sd_irradiance = [sd_irradiance]
 
-    XYZ_t_s = [
-        sd_to_XYZ(sd.values, cmfs, shape=sd.shape, method="Integration")
-        for sd in sd_irradiance
-    ]
-    k_s = [100 / XYZ_t[1] for XYZ_t in XYZ_t_s]
-    XYZ_w = as_float_array([k * XYZ_t for k, XYZ_t in zip(k_s, XYZ_t_s, strict=False)])
-    sd_irradiance = [sd.copy() * k for sd, k in zip(sd_irradiance, k_s, strict=False)]
+    xp = array_namespace(sds_tcs.values, sd_irradiance[0].values)
 
-    Y_b = 20
-    L_A = 100
-    surround = VIEWING_CONDITIONS_CIECAM02["Average"]
-
-    sds_tcs_t = np.tile(np.transpose(sds_tcs.values), (len(sd_irradiance), 1, 1))
-    sds_tcs_t = sds_tcs_t * np.reshape(
-        as_float_array([sd.values for sd in sd_irradiance]),
-        (len(sd_irradiance), 1, len(sd_irradiance[0])),
+    irradiance_values = xp.stack(
+        [xp_as_float_array(sd.values, xp=xp) for sd in sd_irradiance]
     )
-
-    XYZ = msds_to_XYZ(
-        sds_tcs_t,
+    XYZ_t = msds_to_XYZ(
+        irradiance_values,
         cmfs,
         method="Integration",
-        shape=sds_tcs.shape,
+        shape=sd_irradiance[0].shape,
     )
-    specification = XYZ_to_CIECAM02(
-        XYZ,
-        np.reshape(XYZ_w, (len(sd_irradiance), 1, 3)),
-        L_A,
-        Y_b,
-        surround,
-        discount_illuminant=True,
-        compute_H=False,
+    k = 100 / XYZ_t[..., 1:2]
+    XYZ_w = k * XYZ_t
+    irradiance_values = irradiance_values * k
+
+    XYZ, specification, JMh, Jpapbp = _tcs_colorimetry_data(
+        irradiance_values, XYZ_w, sds_tcs, cmfs
     )
 
-    JMh = tstack(
-        [
-            cast("NDArrayFloat", specification.J),
-            cast("NDArrayFloat", specification.M),
-            cast("NDArrayFloat", specification.h),
-        ]
-    )
-    Jpapbp = JMh_CIECAM02_to_CAM02UCS(JMh)
-
-    specification = as_float_array(specification).transpose((0, 2, 1))
-    specification = [CAM_Specification_CIECAM02(*t) for t in specification]
+    # ``as_float_array`` materialises the dataclass to *NumPy* via
+    # ``__array__``, so the transpose stays on *NumPy* regardless of ``xp``.
+    specification = np.transpose(as_float_array(specification), (0, 2, 1))
+    specifications = [CAM_Specification_CIECAM02(*t) for t in specification]
 
     return tuple(
         [
             DataColorimetry_TCS_CIE2017(
                 sds_tcs.display_labels,
                 XYZ[sd_idx],
-                specification[sd_idx],
+                specifications[sd_idx],
                 JMh[sd_idx],
                 Jpapbp[sd_idx],
             )
@@ -580,6 +615,8 @@ def delta_E_to_R_f(delta_E: ArrayLike) -> NDArrayFloat:
 
     delta_E = as_float_array(delta_E)
 
+    xp = array_namespace(delta_E)
+
     c_f = 6.73
 
-    return as_float(10 * np.log1p(np.exp((100 - c_f * delta_E) / 10)))
+    return as_float(10 * xp.log1p(xp.exp((100 - c_f * delta_E) / 10)))
