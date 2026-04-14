@@ -270,7 +270,7 @@ def XYZ_to_metamerism_index(
     to *CIE L\\*a\\*b\\** colourspace to compute the *metamerism index*.
 
     :cite:`InternationalOrganizationforStandardization2024` recommends using
-    multiplicative correction in *CIE L\\*a\\*b\\**.
+    multiplicative correction in *CIE XYZ*.
 
     Parameters
     ----------
