@@ -172,3 +172,17 @@ Huang et al. (2015) Power-Functions
     :toctree: generated/
 
     power_function_Huang2015
+
+Metamerism
+----------
+
+``colour.difference.metamerism_index``
+
+.. currentmodule:: colour.difference
+
+.. autosummary::
+    :toctree: generated/
+
+    Lab_to_metamerism_index
+    XYZ_to_metamerism_index
+    sd_to_metamerism_index
