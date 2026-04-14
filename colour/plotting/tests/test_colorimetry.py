@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+from matplotlib.patches import Rectangle
 
 from colour.colorimetry import SpectralDistribution
 from colour.plotting import (
@@ -46,6 +48,27 @@ __all__ = [
 ]
 
 
+def _wavelengths_strip_patches(
+    axes: Axes, hatched: bool | None = None
+) -> list[Rectangle]:
+    strip_patches = [
+        patch
+        for patch in axes.patches
+        if isinstance(patch, Rectangle)
+        and patch.get_y() < 0
+        and patch.get_y() + patch.get_height() < 0
+    ]
+
+    if hatched is None:
+        return strip_patches
+
+    return [
+        patch
+        for patch in strip_patches
+        if (patch.get_hatch() not in (None, "")) is hatched
+    ]
+
+
 class TestPlotSingleSd:
     """
     Define :func:`colour.plotting.colorimetry.plot_single_sd` definition unit
@@ -73,6 +96,7 @@ class TestPlotSingleSd:
             out_of_gamut_clipping=False,
             modulate_colours_with_sd_amplitude=True,
             equalize_sd_amplitude=True,
+            wavelengths_strip=True,
         )
 
         assert isinstance(figure, Figure)
@@ -115,7 +139,11 @@ class TestPlotMultiSds:
 
         figure, axes = plot_multi_sds(
             [sd_1, sd_2],
-            plot_kwargs={"use_sd_colours": True, "normalise_sd_colours": True},
+            plot_kwargs={
+                "use_sd_colours": True,
+                "normalise_sd_colours": True,
+                "wavelengths_strip": True,
+            },
         )
 
         assert isinstance(figure, Figure)
@@ -128,6 +156,54 @@ class TestPlotMultiSds:
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
+
+    def test_plot_multi_sds_extended_domain_wavelengths_strip(self) -> None:
+        """
+        Test :func:`colour.plotting.colorimetry.plot_multi_sds` definition
+        with spectra extending outside the visible domain and wavelength
+        colours enabled.
+        """
+
+        sd_1 = SpectralDistribution(
+            {wavelength: 0.5 for wavelength in range(300, 1001, 10)},
+            name="Extended",
+        )
+        sd_2 = SpectralDistribution(
+            {wavelength: 0.25 for wavelength in range(400, 701, 10)},
+            name="Visible",
+        )
+
+        figure, axes = plot_multi_sds(
+            [sd_1, sd_2],
+            plot_kwargs={"wavelengths_strip": True},
+        )
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        visible_strip_patches = _wavelengths_strip_patches(axes, hatched=False)
+        non_visible_strip_patches = _wavelengths_strip_patches(axes, hatched=True)
+
+        np.testing.assert_allclose(
+            (
+                min(patch.get_x() for patch in visible_strip_patches),
+                max(
+                    patch.get_x() + patch.get_width() for patch in visible_strip_patches
+                ),
+            ),
+            (360, 830),
+        )
+        assert len(non_visible_strip_patches) == 2
+        np.testing.assert_allclose(
+            [
+                (
+                    patch.get_x(),
+                    patch.get_x() + patch.get_width(),
+                )
+                for patch in non_visible_strip_patches
+            ],
+            [(300, 360), (830, 1000)],
+        )
 
 
 class TestPlotSingleCmfs:
@@ -158,7 +234,8 @@ class TestPlotMultiCmfs:
             [
                 "CIE 1931 2 Degree Standard Observer",
                 "CIE 1964 10 Degree Standard Observer",
-            ]
+            ],
+            wavelengths_strip=True,
         )
 
         assert isinstance(figure, Figure)
@@ -203,6 +280,14 @@ class TestPlotMultiIlluminantSds:
         figure, axes = plot_multi_illuminant_sds(
             ["A", "B", "C"],
             plot_kwargs=[{"use_sd_colours": True, "normalise_sd_colours": True}] * 3,
+        )
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        figure, axes = plot_multi_illuminant_sds(
+            ["A", "B", "C"],
+            wavelengths_strip=True,
         )
 
         assert isinstance(figure, Figure)
