@@ -579,7 +579,7 @@ def whiteness(
     elif function in (whiteness_Ganz1979, whiteness_CIE2004):
         from colour.models import XYZ_to_xy  # noqa: PLC0415
 
-        _X_0, Y_0, _Z_0 = tsplit(XYZ_0)
-        kwargs.update({"xy": XYZ_to_xy(XYZ), "Y": Y_0, "xy_n": XYZ_to_xy(XYZ_0)})
+        _X, Y, _Z = tsplit(XYZ)
+        kwargs.update({"xy": XYZ_to_xy(XYZ), "Y": Y, "xy_n": XYZ_to_xy(XYZ_0)})
 
     return function(**filter_kwargs(function, **kwargs))
