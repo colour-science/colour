@@ -580,6 +580,31 @@ class TestWhiteness:
     tests methods.
     """
 
+    def test_whiteness(self) -> None:
+        """Test :func:`colour.colorimetry.whiteness.whiteness` definition."""
+
+        # NOTE: Sample ``Y`` is deliberately different from whitepoint ``Y`` to
+        # ensure the dispatcher forwards the sample tristimulus ``Y`` to the
+        # "Ganz 1979" and "CIE 2004" methods rather than the whitepoint one.
+        XYZ = np.array([95.00000000, 80.00000000, 105.00000000])
+        XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
+
+        expected = {
+            "Berger 1959": 23.70380179,
+            "Taube 1960": 151.40717383,
+            "Stensby 1968": 238.89308915,
+            "ASTM E313": 115.74,
+            "Ganz 1979": np.array([199.63460714, -57.62080357]),
+            "CIE 2004": np.array([136.61314286, -54.90142858]),
+        }
+
+        for method, value in expected.items():
+            np.testing.assert_allclose(
+                whiteness(XYZ, XYZ_0, method),
+                value,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
     def test_domain_range_scale_whiteness(self) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness` definition domain
