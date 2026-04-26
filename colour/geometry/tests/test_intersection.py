@@ -143,29 +143,25 @@ intersect_ray_circle_2d` definition.
         """
 
         # Ray pointing up from inside a circle.
-        d = intersect_ray_circle_2d([0, 5], [0, 1], 10.0)
-        assert d > 0.0
-        np.testing.assert_allclose(d, 5.0, atol=1e-10)
+        distance = intersect_ray_circle_2d([0, 5], [0, 1], 10.0)
+        np.testing.assert_allclose(distance, 5.0, atol=1e-10)
 
         # Ray pointing down from inside, should hit far side.
-        d = intersect_ray_circle_2d([0, 5], [0, -1], 10.0)
-        assert d > 0.0
-        np.testing.assert_allclose(d, 15.0, atol=1e-10)
+        distance = intersect_ray_circle_2d([0, 5], [0, -1], 10.0)
+        np.testing.assert_allclose(distance, 15.0, atol=1e-10)
 
-        # No intersection (outside, pointing away).
-        d = intersect_ray_circle_2d([0, 15], [0, 1], 10.0)
-        assert d < 0.0
+        # No forward intersection (outside, pointing away).
+        distance = intersect_ray_circle_2d([0, 15], [0, 1], 10.0)
+        assert np.isnan(distance)
 
         # Horizontal ray from offset origin (3,0) -> hits circle r=5 at x=5.
-        d = intersect_ray_circle_2d([3, 0], [1, 0], 5.0)
-        assert d > 0.0
-        np.testing.assert_allclose(d, 2.0, atol=1e-10)
+        distance = intersect_ray_circle_2d([3, 0], [1, 0], 5.0)
+        np.testing.assert_allclose(distance, 2.0, atol=1e-10)
 
-        # Tangent (touch only) returns negative.
-        d = intersect_ray_circle_2d([0, 10], [1, 0], 10.0)
-        assert d <= 0.0
+        # Tangent (touch only): no forward intersection.
+        distance = intersect_ray_circle_2d([0, 10], [1, 0], 10.0)
+        assert np.isnan(distance)
 
         # Ray from origin pointing outward.
-        d = intersect_ray_circle_2d([0, 0], [1, 0], 5.0)
-        assert d > 0.0
-        np.testing.assert_allclose(d, 5.0, atol=1e-10)
+        distance = intersect_ray_circle_2d([0, 0], [1, 0], 5.0)
+        np.testing.assert_allclose(distance, 5.0, atol=1e-10)

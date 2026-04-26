@@ -260,38 +260,45 @@ def intersect_ray_circle_2d(
     Returns
     -------
     :class:`numpy.ndarray`
-        Distance(s) along the ray to the nearest positive intersection,
-        or a negative value where no forward intersection exists.
+        Distance(s) along the ray to the nearest forward intersection,
+        or ``np.nan`` where no forward intersection exists.
 
     Examples
     --------
     >>> intersect_ray_circle_2d([0, 5], [0, 1], 10)
     5.0
     >>> intersect_ray_circle_2d([0, 15], [0, 1], 10)
-    -5.0
+    nan
     """
 
     origin = as_float_array(ray_origin)
     direction = as_float_array(ray_direction)
 
-    dx = direction[..., 0]
-    dy = direction[..., 1]
-    ox = origin[..., 0]
-    oy = origin[..., 1]
+    direction_x = direction[..., 0]
+    direction_y = direction[..., 1]
+    origin_x = origin[..., 0]
+    origin_y = origin[..., 1]
 
-    q_a = dx * dx + dy * dy
-    q_b = 2.0 * (ox * dx + oy * dy)
-    q_c = ox * ox + oy * oy - circle_radius * circle_radius
-    discrim = q_b * q_b - 4.0 * q_a * q_c
+    quadratic_a = direction_x * direction_x + direction_y * direction_y
+    quadratic_b = 2.0 * (origin_x * direction_x + origin_y * direction_y)
+    quadratic_c = (
+        origin_x * origin_x + origin_y * origin_y - circle_radius * circle_radius
+    )
+    discriminant = quadratic_b * quadratic_b - 4.0 * quadratic_a * quadratic_c
 
-    has_intersection = discrim > 0.0
-    safe_discrim = np.sqrt(np.maximum(discrim, 0.0))
+    has_intersection = discriminant > 0.0
+    safe_discriminant = np.sqrt(np.maximum(discriminant, 0.0))
 
-    d1 = (-q_b + safe_discrim) / (2.0 * q_a)
-    d2 = (-q_b - safe_discrim) / (2.0 * q_a)
+    distance_1 = (-quadratic_b + safe_discriminant) / (2.0 * quadratic_a)
+    distance_2 = (-quadratic_b - safe_discriminant) / (2.0 * quadratic_a)
 
-    both_positive = (d1 > 0) & (d2 > 0)
-    result = np.where(both_positive, np.minimum(d1, d2), np.maximum(d1, d2))
-    result = np.where(has_intersection, result, -1.0)
+    both_positive = (distance_1 > 0) & (distance_2 > 0)
+    result = np.where(
+        both_positive,
+        np.minimum(distance_1, distance_2),
+        np.maximum(distance_1, distance_2),
+    )
+    forward = result > 0
+    result = np.where(has_intersection & forward, result, np.nan)
 
     return float(result) if np.ndim(result) == 0 else result  # pyright: ignore

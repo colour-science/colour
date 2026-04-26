@@ -91,7 +91,7 @@ __all__ = [
     "slugify",
     "int_digest",
     "hash_sha256",
-    "url_download",
+    "download_url",
 ]
 
 _CACHING_ENABLED: bool = not as_bool(
@@ -1166,7 +1166,7 @@ def hash_sha256(filename: str, chunk_size: int = 2**16) -> str:
     return sha256.hexdigest()
 
 
-def url_download(
+def download_url(
     url: str,
     filename: str | None = None,
     sha256: str | None = None,

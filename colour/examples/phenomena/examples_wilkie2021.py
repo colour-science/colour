@@ -44,7 +44,7 @@ else:
         "Computing sky radiance for an observer at ground level,\n"
         "looking at zenith, with the sun at 30 degrees elevation."
     )
-    params = compute_sky_parameters_Wilkie2021(
+    parameters = compute_sky_parameters_Wilkie2021(
         view_point=np.array([0, 0, 0.0]),
         view_direction=np.array([0, 0, 1.0]),
         sun_elevation=np.radians(30),
@@ -53,33 +53,35 @@ else:
         albedo=0.5,
     )
     wavelength = np.array([380.0, 460.0, 540.0, 620.0, 700.0])
-    radiance = sky_radiance_Wilkie2021(dataset, params, wavelength)
+    radiance = sky_radiance_Wilkie2021(dataset, parameters, wavelength)
     print(f"Wavelengths: {wavelength}")
     print(f"Sky radiance: {radiance}")
 
     print("\n")
 
     message_box("Computing transmittance to infinity at the same configuration.")
-    transmittance = sky_transmittance_Wilkie2021(dataset, params, wavelength, np.inf)
+    transmittance = sky_transmittance_Wilkie2021(
+        dataset, parameters, wavelength, np.inf
+    )
     print(f"Transmittance: {transmittance}")
 
     print("\n")
 
     message_box("Computing sun radiance (looking directly at the sun).")
-    sun_dir = np.array(
+    sun_direction = np.array(
         [
             np.cos(0.0) * np.cos(np.radians(30)),
             np.sin(0.0) * np.cos(np.radians(30)),
             np.sin(np.radians(30)),
         ]
     )
-    params_sun = compute_sky_parameters_Wilkie2021(
+    parameters_sun = compute_sky_parameters_Wilkie2021(
         view_point=np.array([0, 0, 0.0]),
-        view_direction=sun_dir,
+        view_direction=sun_direction,
         sun_elevation=np.radians(30),
         sun_azimuth=0.0,
         visibility=50.0,
         albedo=0.5,
     )
-    sun_radiance = sun_radiance_Wilkie2021(dataset, params_sun, wavelength)
+    sun_radiance = sun_radiance_Wilkie2021(dataset, parameters_sun, wavelength)
     print(f"Sun radiance: {sun_radiance}")
