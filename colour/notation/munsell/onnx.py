@@ -32,13 +32,13 @@ from colour.notation.munsell.centore2014 import (
 from colour.utilities import (
     CACHE_REGISTRY,
     as_float_array,
+    download_url,
     from_range_1,
     from_range_10,
     optional,
     required,
     to_domain_1,
     to_domain_10,
-    url_download,
 )
 
 __author__ = "Colour Developers"
@@ -174,7 +174,7 @@ def normalization_parameters(
 
     url = f"https://huggingface.co/{HF_REPOSITORY_MUNSELL}/resolve/main/{filename}"
     file_hash = optional(sha256, {}).get(filename)
-    path = url_download(url, sha256=file_hash)
+    path = download_url(url, sha256=file_hash)
     data = np.load(path, allow_pickle=True)
     parameters = {
         k: data[k].item() if data[k].ndim == 0 else data[k] for k in data.files
@@ -215,12 +215,12 @@ def onnx_inference_session(
 
     url = f"https://huggingface.co/{HF_REPOSITORY_MUNSELL}/resolve/main/{filename}"
     model_hash = optional(sha256, {}).get(filename)
-    model_path = url_download(url, sha256=model_hash)
+    model_path = download_url(url, sha256=model_hash)
 
     # *ONNX* models store weights in a companion ``.onnx.data`` file.
     data_filename = f"{filename}.data"
     data_hash = optional(sha256, {}).get(data_filename)
-    url_download(f"{url}.data", sha256=data_hash)
+    download_url(f"{url}.data", sha256=data_hash)
 
     session = onnxruntime.InferenceSession(model_path)
 

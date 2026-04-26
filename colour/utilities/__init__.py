@@ -148,7 +148,7 @@ from .array import (
     tstack,
     zeros,
 )
-from .common import hash_sha256, url_download
+from .common import download_url, hash_sha256
 from .metrics import metric_mse, metric_psnr
 from .network import (
     ControlFlowNode,
@@ -304,7 +304,7 @@ __all__ += [
 ]
 __all__ += [
     "hash_sha256",
-    "url_download",
+    "download_url",
 ]
 __all__ += [
     "ControlFlowNode",

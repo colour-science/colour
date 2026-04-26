@@ -1398,6 +1398,8 @@ def plot_sky_radiance_Wilkie2021(
     albedo: float = 0.5,
     wavelength: float = 540.0,
     method: Literal["Polar", "Latlong"] | str = "Polar",
+    samples: int = 181,
+    epsilon_zenith: float = 1e-3,
     imshow_kwargs: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
@@ -1456,18 +1458,21 @@ def plot_sky_radiance_Wilkie2021(
 
     method = validate_method(method, ("Polar", "Latlong"))
 
-    n = 181
-
     if method == "polar":
-        azimuth = np.linspace(0, 2 * np.pi, n * 2)
-        zenith = np.linspace(0.001, np.pi / 2, n)
+        azimuth = np.linspace(0, 2 * np.pi, samples * 2)
+        zenith = np.linspace(epsilon_zenith, np.pi / 2, samples)
         A, Z = np.meshgrid(azimuth, zenith)
 
-        vd = np.stack(
+        view_direction = np.stack(
             [np.sin(Z) * np.cos(A), np.sin(Z) * np.sin(A), np.cos(Z)], axis=-1
         )
         parameters = compute_sky_parameters_Wilkie2021(
-            np.array([0, 0, 0.0]), vd, sun_elevation, sun_azimuth, visibility, albedo
+            np.array([0, 0, 0.0]),
+            view_direction,
+            sun_elevation,
+            sun_azimuth,
+            visibility,
+            albedo,
         )
         radiance = sky_radiance_Wilkie2021(dataset, parameters, np.array([wavelength]))[
             ..., 0
@@ -1512,14 +1517,21 @@ def plot_sky_radiance_Wilkie2021(
 
         return render(**settings)
 
-    azimuth = np.linspace(-np.pi, np.pi, n * 2)
-    elev = np.linspace(0.001, np.pi / 2, n)
-    A, E = np.meshgrid(azimuth, elev)
+    azimuth = np.linspace(-np.pi, np.pi, samples * 2)
+    elevation = np.linspace(epsilon_zenith, np.pi / 2, samples)
+    A, E = np.meshgrid(azimuth, elevation)
     Z = np.pi / 2 - E
 
-    vd = np.stack([np.sin(Z) * np.cos(A), np.sin(Z) * np.sin(A), np.cos(Z)], axis=-1)
+    view_direction = np.stack(
+        [np.sin(Z) * np.cos(A), np.sin(Z) * np.sin(A), np.cos(Z)], axis=-1
+    )
     parameters = compute_sky_parameters_Wilkie2021(
-        np.array([0, 0, 0.0]), vd, sun_elevation, sun_azimuth, visibility, albedo
+        np.array([0, 0, 0.0]),
+        view_direction,
+        sun_elevation,
+        sun_azimuth,
+        visibility,
+        albedo,
     )
     radiance = sky_radiance_Wilkie2021(dataset, parameters, np.array([wavelength]))[
         ..., 0
@@ -1570,6 +1582,8 @@ def plot_sky_colour_Wilkie2021(
     visibility: float = 50.0,
     albedo: float = 0.3,
     include_sun: bool = True,
+    samples: int = 181,
+    epsilon_zenith: float = 1e-3,
     imshow_kwargs: dict | None = None,
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
@@ -1595,6 +1609,11 @@ def plot_sky_colour_Wilkie2021(
         Ground albedo [0, 1].
     include_sun
         Whether to include direct sun radiance contribution.
+    samples
+        Zenith resolution; the azimuth grid uses ``samples * 2``.
+    epsilon_zenith
+        Small positive offset on the zenith axis to avoid the singularity
+        at the zenith pole.
     imshow_kwargs
         Keyword arguments for :func:`matplotlib.axes.Axes.imshow`.
 
@@ -1634,17 +1653,18 @@ def plot_sky_colour_Wilkie2021(
     from colour.colorimetry import MSDS_CMFS  # noqa: PLC0415
     from colour.models import XYZ_to_sRGB  # noqa: PLC0415
 
-    n = 181
-    azimuth = np.linspace(-np.pi, np.pi, n * 2)
-    elevation = np.linspace(0.001, np.pi / 2, n)
+    azimuth = np.linspace(-np.pi, np.pi, samples * 2)
+    elevation = np.linspace(epsilon_zenith, np.pi / 2, samples)
     A, E = np.meshgrid(azimuth, elevation)
     Z = np.pi / 2 - E
 
-    vd = np.stack([np.sin(Z) * np.cos(A), np.sin(Z) * np.sin(A), np.cos(Z)], axis=-1)
+    view_direction = np.stack(
+        [np.sin(Z) * np.cos(A), np.sin(Z) * np.sin(A), np.cos(Z)], axis=-1
+    )
 
     parameters = compute_sky_parameters_Wilkie2021(
         np.array([0, 0, 0.0]),
-        vd,
+        view_direction,
         sun_elevation,
         sun_azimuth,
         visibility,

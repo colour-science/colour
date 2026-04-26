@@ -22,6 +22,7 @@ from colour.utilities import (
     attest,
     batch,
     caching_enable,
+    download_url,
     filter_kwargs,
     filter_mapping,
     first_item,
@@ -37,7 +38,6 @@ from colour.utilities import (
     optional,
     set_caching_enable,
     slugify,
-    url_download,
     validate_method,
 )
 
@@ -651,19 +651,19 @@ class TestHashSha256:
 
 class TestDownloadUrl:
     """
-    Define :func:`colour.utilities.common.url_download` definition unit
+    Define :func:`colour.utilities.common.download_url` definition unit
     tests methods.
     """
 
-    def test_url_download(self) -> None:
-        """Test :func:`colour.utilities.common.url_download` definition."""
+    def test_download_url(self) -> None:
+        """Test :func:`colour.utilities.common.download_url` definition."""
 
         target = os.path.join(
             tempfile.mkdtemp(), "multi_mlp_normalization_parameters.npz"
         )
 
         try:
-            path = url_download(
+            path = download_url(
                 "https://huggingface.co/colour-science/"
                 "learning-munsell/resolve/main/"
                 "models/to_xyY/"
@@ -676,7 +676,7 @@ class TestDownloadUrl:
 
             # Cached second call returns same path.
             assert (
-                url_download(
+                download_url(
                     "https://huggingface.co/colour-science/"
                     "learning-munsell/resolve/main/"
                     "models/to_xyY/"
@@ -689,7 +689,7 @@ class TestDownloadUrl:
             # SHA-256 verification.
             sha = hash_sha256(path)
             assert (
-                url_download(
+                download_url(
                     "https://huggingface.co/colour-science/"
                     "learning-munsell/resolve/main/"
                     "models/to_xyY/"
@@ -703,7 +703,7 @@ class TestDownloadUrl:
             # Wrong SHA-256 triggers re-download and raises.
             pytest.raises(
                 ValueError,
-                url_download,
+                download_url,
                 "https://huggingface.co/colour-science/"
                 "learning-munsell/resolve/main/"
                 "models/to_xyY/"

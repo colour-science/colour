@@ -43,7 +43,8 @@ from colour.utilities import (
     Structure,
     as_float_array,
     as_int_array,
-    url_download,
+    download_url,
+    zeros,
 )
 
 __author__ = "Colour Developers"
@@ -66,14 +67,9 @@ __all__ = [
     "SkyDataset_Wilkie2021",
     "SkyParameters_Wilkie2021",
     "compute_sky_parameters_Wilkie2021",
-    "_reconstruct_sky_model",
-    "_evaluate_sky_model",
     "sky_radiance_Wilkie2021",
     "sun_radiance_Wilkie2021",
     "sky_polarisation_Wilkie2021",
-    "_compute_transmittance_interpolation",
-    "_compute_transmittance_parameters",
-    "_reconstruct_transmittance",
     "sky_transmittance_Wilkie2021",
 ]
 
@@ -397,6 +393,7 @@ CONSTANTS_WILKIE2021: Structure = Structure(
     sun_radiance_step=1.0,
     sun_radiance_end=280.0 + 1.0 * len(SUN_RAD_TABLE),
     low_altitude_threshold=0.3,
+    distance_epsilon=1e-10,
 )
 """
 Constants for the *Prague Sky Model*.
@@ -416,6 +413,8 @@ Constants for the *Prague Sky Model*.
 -   ``low_altitude_threshold``: Altitude threshold in meters below which
     the transmittance model uses a simplified ray-atmosphere intersection
     to avoid numerical issues.
+-   ``distance_epsilon``: Minimum distance used to guard against division
+    by zero when computing the transmittance distance parameter.
 """
 
 
@@ -457,12 +456,12 @@ class Metadata_SkyDataset:
     rank: int = 0
     sun_offset: int = 0
     sun_stride: int = 0
-    sun_break_points: NDArrayFloat = field(default_factory=lambda: np.array([]))
+    sun_break_points: NDArrayFloat = field(default_factory=lambda: zeros(0))
     zenith_offset: int = 0
     zenith_stride: int = 0
-    zenith_break_points: NDArrayFloat = field(default_factory=lambda: np.array([]))
+    zenith_break_points: NDArrayFloat = field(default_factory=lambda: zeros(0))
     emphasis_offset: int = 0
-    emphasis_break_points: NDArrayFloat = field(default_factory=lambda: np.array([]))
+    emphasis_break_points: NDArrayFloat = field(default_factory=lambda: zeros(0))
     total_coefficients_single_configuration: int = 0
     total_coefficients_all_configurations: int = 0
 
@@ -505,43 +504,39 @@ class SkyDataset_Wilkie2021(MixinDataclassIterable):
     channel_start: float = field(default=0.0, init=False)
     channel_width: float = field(default=0.0, init=False)
     visibilities_radiance: NDArrayFloat = field(
-        default_factory=lambda: np.array([]), init=False
+        default_factory=lambda: zeros(0), init=False
     )
-    albedos_radiance: NDArrayFloat = field(
-        default_factory=lambda: np.array([]), init=False
-    )
+    albedos_radiance: NDArrayFloat = field(default_factory=lambda: zeros(0), init=False)
     altitudes_radiance: NDArrayFloat = field(
-        default_factory=lambda: np.array([]), init=False
+        default_factory=lambda: zeros(0), init=False
     )
     elevations_radiance: NDArrayFloat = field(
-        default_factory=lambda: np.array([]), init=False
+        default_factory=lambda: zeros(0), init=False
     )
     metadata_radiance: Metadata_SkyDataset = field(
         default_factory=Metadata_SkyDataset, init=False
     )
-    data_radiance: NDArrayFloat = field(
-        default_factory=lambda: np.array([]), init=False
-    )
+    data_radiance: NDArrayFloat = field(default_factory=lambda: zeros(0), init=False)
     metadata_polarisation: Metadata_SkyDataset = field(
         default_factory=Metadata_SkyDataset, init=False
     )
     data_polarisation: NDArrayFloat = field(
-        default_factory=lambda: np.array([]), init=False
+        default_factory=lambda: zeros(0), init=False
     )
     altitude_dimension: int = field(default=0, init=False)
     distance_dimension: int = field(default=0, init=False)
     rank_transmittance: int = field(default=0, init=False)
     altitudes_transmittance: NDArrayFloat = field(
-        default_factory=lambda: np.array([]), init=False
+        default_factory=lambda: zeros(0), init=False
     )
     visibilities_transmittance: NDArrayFloat = field(
-        default_factory=lambda: np.array([]), init=False
+        default_factory=lambda: zeros(0), init=False
     )
     data_transmittance_u: NDArrayFloat = field(
-        default_factory=lambda: np.array([]), init=False
+        default_factory=lambda: zeros(0), init=False
     )
     data_transmittance_v: NDArrayFloat = field(
-        default_factory=lambda: np.array([]), init=False
+        default_factory=lambda: zeros(0), init=False
     )
 
     def __post_init__(self) -> None:
@@ -555,7 +550,7 @@ class SkyDataset_Wilkie2021(MixinDataclassIterable):
 
         if self.path:
             if not os.path.isfile(self.path) and self.path.startswith(ROOT_DATASET):
-                url_download(
+                download_url(
                     f"{URL_ZENODO}/{os.path.basename(self.path)}?download=1",
                     filename=self.path,
                 )
@@ -730,7 +725,7 @@ class SkyDataset_Wilkie2021(MixinDataclassIterable):
                     f.read(struct.unpack("<i", f.read(4))[0] * 8), dtype="<f8"
                 ).copy()
 
-                metadata_polarisation.emphasis_break_points = np.array([])
+                metadata_polarisation.emphasis_break_points = zeros(0)
                 metadata_polarisation.sun_offset = 0
                 metadata_polarisation.sun_stride = len(
                     metadata_polarisation.sun_break_points
@@ -800,12 +795,12 @@ class SkyParameters_Wilkie2021(MixinDataclassIterable):
     :cite:`Wilkie2021`, :cite:`Vevoda2022`
     """
 
-    theta: float = 0.0
-    gamma: float = 0.0
-    shadow: float = 0.0
-    zero: float = 0.0
-    elevation: float = 0.0
-    altitude: float = 0.0
+    theta: float | NDArrayFloat = 0.0
+    gamma: float | NDArrayFloat = 0.0
+    shadow: float | NDArrayFloat = 0.0
+    zero: float | NDArrayFloat = 0.0
+    elevation: float | NDArrayFloat = 0.0
+    altitude: float | NDArrayFloat = 0.0
     visibility: float = 0.0
     albedo: float = 0.0
 
@@ -1005,6 +1000,8 @@ def _reconstruct_sky_model(
             as_float_array(data[emphasis_index + 1]),
         )
         result *= emphasis_value
+        # The emphasis term is non-negative by construction in the
+        # *Prague Sky Model* reference; clipping floors out fitting noise.
         np.maximum(result, 0.0, out=result)
 
     return result
@@ -1107,7 +1104,7 @@ def _evaluate_sky_model(
     albedo_count = len(dataset.albedos_radiance)
     total_coefficients_single = metadata.total_coefficients_single_configuration
 
-    # Build 16-point interpolation grid — shape (16, *S, n_valid).
+    # 4D hypercube corners over (visibility, albedo, altitude, elevation).
     grid_shape = (16, *shape, n_valid)
     grid = np.zeros(grid_shape, dtype=np.float64)
 
@@ -1121,7 +1118,6 @@ def _evaluate_sky_model(
         )
         elevation_grid_index = np.minimum(elevation_index + i % 2, elevation_count - 1)
 
-        # Offsets — shape (*S, n_valid) via broadcasting.
         offsets = total_coefficients_single * (
             channel_indices
             + dataset.channels * elevation_grid_index[..., None]
@@ -1157,7 +1153,6 @@ def _evaluate_sky_model(
         high = grid[1::2]
         grid = low + level_factor[..., None] * (high - low)
 
-    # grid now has shape (1, *S, n_valid) — squeeze grid dimension.
     result_valid = grid[0]
 
     # Place valid wavelength into full result.
@@ -1391,7 +1386,9 @@ def _compute_transmittance_parameters(
     distance_atmosphere = intersect_ray_circle_2d(
         ray_origin, ray_direction, atmosphere_edge
     )
-    distance_high = np.where(distance_planet < 0, distance_atmosphere, distance_planet)
+    distance_high = np.where(
+        np.isnan(distance_planet), distance_atmosphere, distance_planet
+    )
 
     distance_to_intersection = np.where(is_low_altitude, distance_low, distance_high)
     distance_to_intersection = np.minimum(distance_to_intersection, distance)
@@ -1414,7 +1411,14 @@ def _compute_transmittance_parameters(
 
     distance_parameter = (
         np.arccos(
-            np.clip(intersection_y / np.maximum(intersection_distance, 1e-10), -1, 1)
+            np.clip(
+                intersection_y
+                / np.maximum(
+                    intersection_distance, CONSTANTS_WILKIE2021.distance_epsilon
+                ),
+                -1,
+                1,
+            )
         )
         * CONSTANTS_WILKIE2021.planet_radius
     )
