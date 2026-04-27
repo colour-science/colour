@@ -17,7 +17,7 @@ import re
 import sys
 import textwrap
 import typing
-from copy import copy
+from copy import deepcopy
 from dataclasses import dataclass
 from functools import partial
 from pprint import pformat
@@ -2230,7 +2230,7 @@ SDS_ILLUMINANTS["FL2"], XYZ_to_sRGB={"illuminant": illuminant})
 
     conversion_path_list = conversion_path(source, target)
 
-    verbose_kwargs = copy(kwargs)
+    verbose_kwargs = deepcopy(kwargs)
     for i, conversion_function in enumerate(conversion_path_list):
         conversion_function_name = _lower_order_function(conversion_function).__name__
 
