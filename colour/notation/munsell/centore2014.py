@@ -682,12 +682,14 @@ def _xyY_to_munsell_specification(xyY: ArrayLike) -> NDArrayFloat:
 
             with domain_range_scale("ignore"):
                 x_inner, y_inner, _Y_inner = _munsell_specification_to_xyY(
-                    [
-                        hue_inner,
-                        value,
-                        chroma_current,
-                        code_inner,
-                    ]
+                    np.array(
+                        [
+                            hue_inner,
+                            value,
+                            chroma_current,
+                            code_inner,
+                        ]
+                    )
                 )
 
             if len(phi_differences_data) >= 2:

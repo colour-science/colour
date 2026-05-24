@@ -371,7 +371,8 @@ def build(ctx: Context) -> None:
     """
 
     message_box("Building...")
-    if "modified:   README.rst" in ctx.run("git status").stdout:  # pyright: ignore
+    status = ctx.run("git status")
+    if status is not None and "modified:   README.rst" in (status.stdout or ""):
         error = 'Please commit your changes to the "README.rst" file!'
 
         raise RuntimeError(error)
@@ -450,7 +451,7 @@ def tag(ctx: Context) -> None:
     message_box("Tagging...")
     result = ctx.run("git rev-parse --abbrev-ref HEAD", hide="both")
 
-    if result.stdout.strip() != "develop":  # pyright: ignore
+    if result is None or result.stdout.strip() != "develop":
         error = "Are you still on a feature or master branch?"
 
         raise RuntimeError(error)
@@ -476,7 +477,12 @@ def tag(ctx: Context) -> None:
         version = f"{major_version}.{minor_version}.{change_version}"
 
         result = ctx.run("git ls-remote --tags upstream", hide="both")
-        remote_tags = result.stdout.strip().split("\n")  # pyright: ignore
+        if result is None:
+            error = "Failed to list remote tags."
+
+            raise RuntimeError(error)
+
+        remote_tags = result.stdout.strip().split("\n")
         tags = set()
         for remote_tag in remote_tags:
             tags.add(remote_tag.split("refs/tags/")[1].replace("refs/tags/", "^{}"))

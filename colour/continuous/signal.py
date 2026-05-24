@@ -1204,7 +1204,7 @@ class Signal(AbstractContinuousFunction):
             )
         elif is_pandas_installed() and isinstance(data, Series):
             domain_unpacked = as_float_array(data.index.values, dtype)  # pyright: ignore
-            range_unpacked = as_float_array(data.values, dtype)  # pyright: ignore
+            range_unpacked = as_float_array(data.values, dtype)
 
         if domain is not None:
             if isinstance(domain, KeysView):
