@@ -30,7 +30,7 @@ from .tm3018 import (
     colour_fidelity_index_ANSIIESTM3018,
 )
 
-__all__ = datasets.__all__
+__all__ = list(datasets.__all__)
 __all__ += [
     "ColourRendering_Specification_CIE2017",
     "colour_fidelity_index_CIE2017",
