@@ -81,3 +81,45 @@ Academy Spectral Similarity Index (SSI)
     :toctree: generated/
 
     spectral_similarity_index
+
+Television Lighting Consistency Index (TLCI-2012)
+-------------------------------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    television_lighting_consistency_index
+
+``colour.quality``
+
+.. currentmodule:: colour.quality
+
+.. autosummary::
+    :toctree: generated/
+
+    ColourQuality_Specification_TLCI2012
+
+Television Luminaire Matching Factor (TLMF-2013)
+-------------------------------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    television_luminaire_matching_factor
+
+``colour.quality``
+
+.. currentmodule:: colour.quality
+
+.. autosummary::
+    :toctree: generated/
+
+    ColourQuality_Specification_TLMF2013
