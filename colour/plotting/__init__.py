@@ -163,7 +163,7 @@ from .volume import (  # noqa: RUF100
     plot_RGB_scatter,
 )
 
-__all__ = datasets.__all__
+__all__ = list(datasets.__all__)
 __all__ += [
     "CONSTANTS_ARROW_STYLE",
     "CONSTANTS_COLOUR_STYLE",

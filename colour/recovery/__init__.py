@@ -76,7 +76,7 @@ from .smits1999 import (
     RGB_to_sd_Smits1999,
 )
 
-__all__ = datasets.__all__
+__all__ = list(datasets.__all__)
 __all__ += [
     "LUT3D_Jakob2019",
     "XYZ_to_sd_Jakob2019",

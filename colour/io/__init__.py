@@ -51,7 +51,7 @@ from .uprtek_sekonic import (
 )
 from .xrite import read_sds_from_xrite_file
 
-__all__ = luts.__all__
+__all__ = list(luts.__all__)
 __all__ += [
     "MAPPING_BIT_DEPTH",
     "READ_IMAGE_METHODS",
