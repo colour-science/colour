@@ -25,6 +25,12 @@ from .cri import (
 )
 from .datasets import *  # noqa: F403
 from .ssi import spectral_similarity_index
+from .tlci import (
+    ColourQuality_Specification_TLCI2012,
+    ColourQuality_Specification_TLMF2013,
+    television_lighting_consistency_index,
+    television_luminaire_matching_factor,
+)
 from .tm3018 import (
     ColourQuality_Specification_ANSIIESTM3018,
     colour_fidelity_index_ANSIIESTM3018,
@@ -51,6 +57,14 @@ __all__ += [
 __all__ += [
     "ColourQuality_Specification_ANSIIESTM3018",
     "colour_fidelity_index_ANSIIESTM3018",
+]
+__all__ += [
+    "ColourQuality_Specification_TLCI2012",
+    "television_lighting_consistency_index",
+]
+__all__ += [
+    "ColourQuality_Specification_TLMF2013",
+    "television_luminaire_matching_factor",
 ]
 
 COLOUR_FIDELITY_INDEX_METHODS = CanonicalMapping(

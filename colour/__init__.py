@@ -455,10 +455,14 @@ from .quality import (
     COLOUR_FIDELITY_INDEX_METHODS,
     COLOUR_QUALITY_SCALE_METHODS,
     COLOUR_RENDERING_INDEX_METHODS,
+    ColourQuality_Specification_TLCI2012,
+    ColourQuality_Specification_TLMF2013,
     colour_fidelity_index,
     colour_quality_scale,
     colour_rendering_index,
     spectral_similarity_index,
+    television_lighting_consistency_index,
+    television_luminaire_matching_factor,
 )
 from .recovery import XYZ_TO_MSDS_METHODS, XYZ_TO_SD_METHODS, XYZ_to_msds, XYZ_to_sd
 from .temperature import (
@@ -885,10 +889,14 @@ __all__ += [
     "COLOUR_FIDELITY_INDEX_METHODS",
     "COLOUR_QUALITY_SCALE_METHODS",
     "COLOUR_RENDERING_INDEX_METHODS",
+    "ColourQuality_Specification_TLCI2012",
+    "ColourQuality_Specification_TLMF2013",
     "colour_fidelity_index",
     "colour_quality_scale",
     "colour_rendering_index",
     "spectral_similarity_index",
+    "television_lighting_consistency_index",
+    "television_luminaire_matching_factor",
 ]
 __all__ += [
     "XYZ_TO_MSDS_METHODS",
