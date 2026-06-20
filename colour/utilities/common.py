@@ -23,6 +23,7 @@ import hashlib
 import inspect
 import os
 import re
+import tempfile
 import types
 import typing
 import unicodedata
@@ -1227,10 +1228,17 @@ def download_url(
 
     attempt = 0
     while attempt < retries:
+        # Download to a unique temporary file in the destination directory,
+        # then atomically rename it into place. Concurrent downloaders (e.g.
+        # parallel test workers sharing the cache) thus never observe a
+        # partially-written file.
+        descriptor, temporary_path = tempfile.mkstemp(
+            dir=os.path.dirname(local_path), suffix=".tmp"
+        )
         try:
             with (
+                os.fdopen(descriptor, "wb") as out_file,
                 urllib.request.urlopen(url) as response,  # noqa: S310
-                open(local_path, "wb") as out_file,
             ):
                 while True:
                     chunk = response.read(2**16)
@@ -1239,10 +1247,9 @@ def download_url(
                     out_file.write(chunk)
 
             if sha256 is not None:
-                actual_hash = hash_sha256(local_path)
+                actual_hash = hash_sha256(temporary_path)
                 if actual_hash != sha256.lower():
-                    file_size = os.path.getsize(local_path)
-                    os.remove(local_path)
+                    file_size = os.path.getsize(temporary_path)
 
                     message = (
                         f'"SHA-256" hash of "{local_path}" file '
@@ -1251,6 +1258,8 @@ def download_url(
                         f"{actual_hash} != {sha256.lower()}"
                     )
                     raise ValueError(message)  # noqa: TRY301
+
+            os.replace(temporary_path, local_path)
         except (urllib.error.URLError, OSError, ValueError):
             attempt += 1
             if attempt == retries:
@@ -1261,5 +1270,8 @@ def download_url(
             time.sleep(min(2**attempt, 2**8))
         else:
             return local_path
+        finally:
+            if os.path.exists(temporary_path):
+                os.remove(temporary_path)
 
     return local_path

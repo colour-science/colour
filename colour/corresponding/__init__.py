@@ -12,7 +12,7 @@ from .prediction import (
     corresponding_chromaticities_prediction_Zhai2018,
 )
 
-__all__ = datasets.__all__
+__all__ = list(datasets.__all__)
 __all__ += [
     "CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS",
     "CorrespondingChromaticitiesPrediction",
