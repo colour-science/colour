@@ -1938,8 +1938,10 @@ class PortGraph(PortNode):
 
             graph.add_node(node.name, node=node)
 
-            if len(node.children) != 0:
-                continue
+            # A sub-graph's edges are dropped only where they order its own
+            # children rather than this graph's: the ones reaching its
+            # siblings are exactly what places it in the walk.
+            nested = len(node.children) != 0
 
             for edge in input_edges:
                 # PortGraph is used a container, it is common to connect its
@@ -1947,6 +1949,11 @@ class PortGraph(PortNode):
                 # ports to its output ports. The graph generated is thus not
                 # acyclic.
                 if self in (edge[0].node, edge[1].node):
+                    continue
+
+                if nested and (
+                    edge[0].node.parent is not self or edge[1].node.parent is not self
+                ):
                     continue
 
                 # Node -> Port -> Port -> Node
@@ -1967,6 +1974,11 @@ class PortGraph(PortNode):
 
             for edge in output_edges:
                 if self in (edge[0].node, edge[1].node):
+                    continue
+
+                if nested and (
+                    edge[0].node.parent is not self or edge[1].node.parent is not self
+                ):
                     continue
 
                 # Node -> Port -> Port -> Node
