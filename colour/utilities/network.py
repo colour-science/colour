@@ -24,20 +24,28 @@ Node-graph and network infrastructure for computational workflows.
     in parallel in the node-graph using threads.
 -   :class:`colour.utilities.ParallelForMultiprocess`: Node performing for
     loops in parallel in the node-graph using multiprocessing.
+-   :class:`colour.utilities.NodePassthrough`: A node passing the input data
+    through.
+-   :class:`colour.utilities.NodeLog`: A node logging the input data.
+-   :class:`colour.utilities.NodeSleep`: A node sleeping for given duration in
+    seconds.
 """
 
 from __future__ import annotations
 
 import atexit
 import concurrent.futures
+import functools
 import multiprocessing
 import os
 import threading
+import time
 import typing
 
 if typing.TYPE_CHECKING:
     from colour.hints import (
         Any,
+        Callable,
         Dict,
         Generator,
         List,
@@ -47,7 +55,7 @@ if typing.TYPE_CHECKING:
         Type,
     )
 
-from colour.utilities import MixinLogging, attest, optional, required
+from colour.utilities import Delegate, MixinLogging, attest, optional, required
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -59,8 +67,8 @@ __status__ = "Production"
 __all__ = [
     "TreeNode",
     "Port",
+    "notify_process_state",
     "PortNode",
-    "ControlFlowNode",
     "PortGraph",
     "ExecutionPort",
     "ExecutionNode",
@@ -70,6 +78,10 @@ __all__ = [
     "ParallelForThread",
     "ProcessPoolExecutorManager",
     "ParallelForMultiprocess",
+    "NodePassthrough",
+    "NodeLog",
+    "NodeSleep",
+    "NodeSetGraphOutputPort",
 ]
 
 
@@ -883,7 +895,10 @@ class Port(MixinLogging):
 
         attest(isinstance(port, Port), f'"{port}" is not a "Port" instance!')
 
-        self.log(f'Connecting "{self.name}" to "{port.name}".', "debug")
+        self.log(
+            f'Connecting "{self.node}.{self.name}" to "{port.node}.{port.name}".',
+            "debug",
+        )
 
         self.connections[port] = None
         port.connections[self] = None
@@ -940,6 +955,41 @@ class Port(MixinLogging):
         return f"<{self._name}> {self.name}"
 
 
+def notify_process_state(function: Callable) -> Any:
+    """
+    Define a decorator to notify about the process state.
+
+    Parameters
+    ----------
+    function
+        Function to decorate.
+    """
+
+    @functools.wraps(function)
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
+        self = next(iter(args)) if args else None
+
+        if self is not None and hasattr(self, "on_process_started"):
+            self.on_process_started.notify(self)
+
+        try:
+            result = function(*args, **kwargs)
+        except:
+            if self is not None and hasattr(self, "on_process_exception"):
+                self.on_process_exception.notify(self)
+
+            raise
+
+        if self is not None and hasattr(self, "on_process_ended"):
+            self.on_process_ended.notify(self)
+
+        return result
+
+    wrapper.notifies_process_state = True  # pyright: ignore
+
+    return wrapper
+
+
 class PortNode(TreeNode, MixinLogging):
     """
     Define a node with support for input and output ports.
@@ -956,6 +1006,7 @@ class PortNode(TreeNode, MixinLogging):
     -   :attr:`~colour.utilities.PortNode.dirty`
     -   :attr:`~colour.utilities.PortNode.edges`
     -   :attr:`~colour.utilities.PortNode.description`
+    -   :attr:`~colour.utilities.PortNode.category`
 
     Methods
     -------
@@ -972,6 +1023,14 @@ class PortNode(TreeNode, MixinLogging):
     -   :meth:`~colour.utilities.PortNode.disconnect`
     -   :meth:`~colour.utilities.PortNode.process`
     -   :meth:`~colour.utilities.PortNode.to_graphviz`
+
+    Delegates
+    ---------
+    -   :attr:`~colour.utilities.PortNode.on_connected`
+    -   :attr:`~colour.utilities.PortNode.on_disconnected`
+    -   :attr:`~colour.utilities.PortNode.on_process_started`
+    -   :attr:`~colour.utilities.PortNode.on_process_ended`
+    -   :attr:`~colour.utilities.PortNode.on_process_failed`
 
     Examples
     --------
@@ -1003,13 +1062,43 @@ class PortNode(TreeNode, MixinLogging):
     2
     """
 
-    def __init__(self, name: str | None = None, description: str = "") -> None:
+    def __init_subclass__(cls, **kwargs: Any) -> None:
+        """
+        Notify the process delegates of a sub-class overriding the process.
+
+        Notes
+        -----
+        -   Overriding :meth:`colour.utilities.PortNode.process` is the reason
+            the class exists, so requiring each sub-class to also decorate it
+            with :func:`colour.utilities.notify_process_state` would make the
+            delegates fire for the built-in nodes alone, and fail silently
+            everywhere else.
+        """
+
+        super().__init_subclass__(**kwargs)
+
+        process = cls.__dict__.get("process")
+        if process is not None and not getattr(
+            process, "notifies_process_state", False
+        ):
+            cls.process = notify_process_state(process)  # pyright: ignore
+
+    def __init__(
+        self, name: str | None = None, description: str = "", category: str = "Default"
+    ) -> None:
         super().__init__(name)
         self.description = description
+        self.category = category
 
-        self._input_ports = {}
-        self._output_ports = {}
-        self._dirty = True
+        self._input_ports: Dict = {}
+        self._output_ports: Dict = {}
+        self._dirty: bool = True
+
+        self.on_connected: Delegate = Delegate()
+        self.on_disconnected: Delegate = Delegate()
+        self.on_process_started: Delegate = Delegate()
+        self.on_process_ended: Delegate = Delegate()
+        self.on_process_exception: Delegate = Delegate()
 
     @property
     def input_ports(self) -> Dict[str, Port]:
@@ -1129,6 +1218,35 @@ class PortNode(TreeNode, MixinLogging):
         )
 
         self._description = value
+
+    @property
+    def category(self) -> str:
+        """
+        Getter and setter property for the node category.
+
+        Parameters
+        ----------
+        value
+            Value to set the node category with.
+
+        Returns
+        -------
+        :class:`str` or None
+            Node category.
+        """
+
+        return self._category
+
+    @category.setter
+    def category(self, value: str) -> None:
+        """Setter for the **self.category** property."""
+
+        attest(
+            value is None or isinstance(value, str),
+            f'"category" property: "{value}" is not "None" or its type is not "str"!',
+        )
+
+        self._category = value
 
     def add_input_port(
         self,
@@ -1409,7 +1527,7 @@ class PortNode(TreeNode, MixinLogging):
 
         attest(
             name in self._output_ports,
-            f'"{name}" is not a member of "{self._name}" input ports!',
+            f'"{name}" is not a member of "{self._name}" output ports!',
         )
 
         self._output_ports[name].value = value
@@ -1457,6 +1575,8 @@ class PortNode(TreeNode, MixinLogging):
         )
 
         port_source.connect(port_target)
+
+        self.on_connected.notify((self, source_port, target_node, target_port))
 
     def disconnect(
         self,
@@ -1506,6 +1626,9 @@ class PortNode(TreeNode, MixinLogging):
 
         port_source.disconnect(port_target)
 
+        self.on_disconnected.notify((self, source_port, target_node, target_port))
+
+    @notify_process_state
     def process(self) -> None:
         """
         Process the node, must be reimplemented by sub-classes.
@@ -1647,9 +1770,9 @@ class PortGraph(PortNode):
 
         self._name: str = self.__class__.__name__
         self.name = optional(name, self._name)
-        self.description = description
+        self.description: str = description
 
-        self._nodes = {}
+        self._nodes: dict = {}
 
     @property
     def nodes(self) -> Dict[str, PortNode]:
@@ -2018,7 +2141,9 @@ class PortGraph(PortNode):
                     shape="record",
                 )
             )
-            input_edges, output_edges = node.edges
+            # Every connection is the input edge of exactly one node, so the
+            # output edges would draw each of them a second time.
+            input_edges, _output_edges = node.edges
 
             for edge in input_edges:
                 # Not drawing node edges that involve a node member of graph.
@@ -2093,7 +2218,7 @@ class ControlFlowNode(ExecutionNode):
     """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **{"category": "ControlFlow", **kwargs})
 
 
 class For(ControlFlowNode):
@@ -2526,5 +2651,119 @@ class ParallelForMultiprocess(ControlFlowNode):
             return
 
         execution_output_node.process()
+
+        self.dirty = False
+
+
+class NodePassthrough(PortNode):
+    """
+    Pass the input data through.
+
+    Methods
+    -------
+    -   :meth:`~colour.utilities.NodePassthrough.__init__`
+    -   :meth:`~colour.utilities.NodePassthrough.process`
+    """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **{"category": "Utilities", **kwargs})
+
+        self.description = "Pass the input data through"
+
+        self.add_input_port("input")
+        self.add_output_port("output")
+
+    def process(self, **kwargs: Any) -> None:  # noqa: ARG002
+        """
+        Process the node.
+        """
+
+        self.set_output("output", self.get_input("input"))
+
+        self.dirty = False
+
+
+class NodeLog(ExecutionNode):
+    """
+    Log the input data.
+
+    Methods
+    -------
+    -   :meth:`~colour.utilities.NodeLog.__init__`
+    -   :meth:`~colour.utilities.NodeLog.process`
+    """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **{"category": "Verbose", **kwargs})
+
+        self.description = "Log the input data"
+
+        self.add_input_port("input")
+        self.add_input_port("verbosity", "info")
+
+    def process(self, **kwargs: Any) -> None:  # noqa: ARG002
+        """
+        Process the node.
+        """
+
+        self.log(self.get_input("input"), self.get_input("verbosity"))
+
+        self.dirty = False
+
+
+class NodeSleep(ExecutionNode):
+    """
+    Sleep for given duration in seconds.
+
+    Methods
+    -------
+    -   :meth:`~colour.utilities.NodeLog.__init__`
+    -   :meth:`~colour.utilities.NodeLog.process`
+    """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **{"category": "Time", **kwargs})
+
+        self.description = "Sleep for given duration in seconds"
+
+        self.add_input_port("duration", 0)
+
+    def process(self, **kwargs: Any) -> None:  # noqa: ARG002
+        """
+        Process the node.
+        """
+
+        time.sleep(self.get_input("duration"))
+
+        self.dirty = False
+
+
+class NodeSetGraphOutputPort(ExecutionNode):
+    """
+    Set the parent graph output port with given name with given value.
+
+    Methods
+    -------
+    -   :meth:`~colour.utilities.NodeSetGraphOutputPort.__init__`
+    -   :meth:`~colour.utilities.NodeSetGraphOutputPort.process`
+    """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **{"category": "Utilities", **kwargs})
+
+        self.description = (
+            "Set the parent graph output port with given name with given value"
+        )
+
+        self.add_input_port("name")
+        self.add_input_port("value")
+
+    def process(self, **kwargs: Any) -> None:  # noqa: ARG002
+        """
+        Process the node.
+        """
+
+        if self.parent is not None:
+            self.parent.set_output(self.get_input("name"), self.get_input("value"))
 
         self.dirty = False

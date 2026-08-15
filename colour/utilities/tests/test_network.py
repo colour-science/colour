@@ -13,6 +13,7 @@ if sys.version_info >= (3, 14, 1):
     )
 
 import re
+import time
 import typing
 
 import networkx as nx
@@ -24,6 +25,10 @@ if typing.TYPE_CHECKING:
 from colour.utilities import (
     ExecutionNode,
     For,
+    NodeLog,
+    NodePassthrough,
+    NodeSetGraphOutputPort,
+    NodeSleep,
     ParallelForMultiprocess,
     ParallelForThread,
     Port,
@@ -31,6 +36,7 @@ from colour.utilities import (
     PortNode,
     TreeNode,
     is_pydot_installed,
+    notify_process_state,
 )
 from colour.utilities.network import (
     ExecutionPort,
@@ -55,6 +61,10 @@ __all__ = [
     "TestParallelForThread",
     "TestProcessPoolExecutorManager",
     "TestParallelForMultiProcess",
+    "TestNodePassthrough",
+    "TestNodeLog",
+    "TestNodeSleep",
+    "TestNodeSetGraphOutputPort",
 ]
 
 
@@ -469,6 +479,7 @@ class _NodeAdd(ExecutionNode):
         self.add_input_port("b")
         self.add_output_port("output")
 
+    @notify_process_state
     def process(self) -> None:
         a = self.get_input("a")
         b = self.get_input("b")
@@ -491,6 +502,7 @@ class _NodeMultiply(ExecutionNode):
         self.add_input_port("b")
         self.add_output_port("output")
 
+    @notify_process_state
     def process(self) -> None:
         a = self.get_input("a")
         b = self.get_input("b")
@@ -501,6 +513,85 @@ class _NodeMultiply(ExecutionNode):
         self.set_output("output", a * b)
 
         self.dirty = False
+
+
+class TestNotifyProcessState:
+    """
+    Define :func:`colour.utilities.network.notify_process_state` definition
+    unit tests methods.
+    """
+
+    def test_notify_process_state(self) -> None:
+        """
+        Test :func:`colour.utilities.network.notify_process_state` definition.
+        """
+
+        data = []
+
+        def _listener_on_process_start_(self: _NodeAdd) -> None:  # noqa: ARG001
+            """Define a unit tests listener."""
+
+            data.append("Foo")
+
+        def _listener_on_process_end(self: _NodeAdd) -> None:  # noqa: ARG001
+            """Define a unit tests listener."""
+
+            data.append("Bar")
+
+        add = _NodeAdd()
+        add.on_process_started.add_listener(_listener_on_process_start_)
+        add.on_process_ended.add_listener(_listener_on_process_end)
+
+        add.set_input("a", 1)
+        add.set_input("b", 1)
+
+        add.process()
+
+        assert add.get_output("output") == 2
+        # The node decorates its process explicitly and the sub-class hook
+        # decorates it again: the notifications must still occur once.
+        assert data == ["Foo", "Bar"]
+
+        # Overriding the process is the reason the class exists, so a
+        # sub-class that does not decorate it must notify all the same.
+        state = []
+
+        class _NodeUndecorated(PortNode):
+            """Define a node overriding the process without decorating it."""
+
+            def process(self) -> None:
+                """Process the node."""
+
+                self.dirty = False
+
+        undecorated = _NodeUndecorated()
+        undecorated.on_process_started.add_listener(
+            lambda _node: state.append("Started")
+        )
+        undecorated.on_process_ended.add_listener(lambda _node: state.append("Ended"))
+        undecorated.process()
+
+        assert state == ["Started", "Ended"]
+
+        # A raising process notifies and re-raises.
+        class _NodeRaising(PortNode):
+            """Define a node whose process raises."""
+
+            def process(self) -> None:
+                """Process the node."""
+
+                message = "Process failed!"
+                raise RuntimeError(message)
+
+        raising = _NodeRaising()
+        raising.on_process_exception.add_listener(
+            lambda _node: state.append("Exception")
+        )
+
+        with pytest.raises(RuntimeError):
+            raising.process()
+
+        assert state == ["Started", "Ended", "Exception"]
 
 
 class TestPortNode:
@@ -526,6 +617,7 @@ class TestPortNode:
             "dirty",
             "edges",
             "description",
+            "category",
         )
 
         for attribute in required_attributes:
@@ -1113,6 +1205,7 @@ class _AddItem(ExecutionNode):
         self.add_input_port("value")
         self.add_input_port("mapping", {})
 
+    @notify_process_state
     def process(self) -> None:
         """
         Process the node.
@@ -1138,6 +1231,7 @@ class _NodeSumMappingValues(ExecutionNode):
         self.add_input_port("mapping", {})
         self.add_output_port("summation")
 
+    @notify_process_state
     def process(self) -> None:
         mapping = self.get_input("mapping")
         if len(mapping) == 0:  # pragma: no cover
@@ -1200,6 +1294,7 @@ class _SubGraph1(ExecutionNode, PortGraph):
         self.connect("input", self.nodes["Add Item"], "key")
         self.nodes["Add Item"].connect("mapping", self, "output")
 
+    @notify_process_state
     def process(self, **kwargs: Any) -> None:
         # Coverage can't track execution in subprocesses  # pragma: no cover
         self.nodes["Add 1"].set_input("a", 1)  # pragma: no cover
@@ -1268,6 +1363,7 @@ class _NodeSumArray(ExecutionNode):
         self.add_input_port("array", [])
         self.add_output_port("summation")
 
+    @notify_process_state
     def process(self) -> None:
         array = self.get_input("array")
         if len(array) == 0:  # pragma: no cover
@@ -1320,9 +1416,9 @@ class _SubGraph2(ExecutionNode, PortGraph):
         self.connect("input", self.nodes["Add 1"], "b")
         self.nodes["Add 2"].connect("output", self, "output")
 
+    @notify_process_state
     def process(self, **kwargs: Any) -> None:  # pragma: no cover
         # Coverage can't track execution in subprocesses
-
         self.nodes["Add 1"].set_input("a", 1)
         self.nodes["Multiply 1"].set_input("b", 2)
         self.nodes["Add 2"].set_input("b", 3)
@@ -1476,3 +1572,70 @@ class TestParallelForMultiProcess:
         loop_exec_none.output_ports["execution_output"].connect(orphan_exec_port)
         loop_exec_none.set_input("array", [1, 2, 3])
         loop_exec_none.process()
+
+
+class TestNodePassthrough:
+    """
+    Define :class:`colour.utilities.network.NodePassthrough` class unit tests
+    methods.
+    """
+
+    def test_NodePassthrough(self) -> None:
+        """Test the :class:`colour.utilities.network.NodePassthrough` class."""
+
+        node = NodePassthrough()
+        node.set_input("input", 1)
+        node.process()
+
+        assert node.get_output("output") == 1
+
+
+class TestNodeLog:
+    """
+    Define :class:`colour.utilities.network.NodeLog` class unit tests
+    methods.
+    """
+
+    def test_NodeLog(self) -> None:
+        """Test the :class:`colour.utilities.network.NodeLog` class."""
+
+        node = NodeLog()
+        node.set_input("input", "Foo")
+        node.process()
+
+
+class TestNodeSleep:
+    """
+    Define :class:`colour.utilities.network.NodeSleep` class unit tests
+    methods.
+    """
+
+    def test_NodeSleep(self) -> None:
+        """Test the :class:`colour.utilities.network.NodeSleep` class."""
+
+        node = NodeSleep()
+        node.set_input("duration", 1)
+        then = time.time()
+        node.process()
+
+        assert 1.25 > time.time() - then > 0.75
+
+
+class TestNodeSetGraphOutputPort:
+    """
+    Define :class:`colour.utilities.network.NodeSetGraphOutputPort` class unit tests
+    methods.
+    """
+
+    def test_NodeSetGraphOutputPort(self) -> None:
+        """Test the :class:`colour.utilities.network.NodeSetGraphOutputPort` class."""
+
+        graph = PortGraph()
+        graph.add_output_port("result")
+        node = NodeSetGraphOutputPort()
+        node.set_input("name", "result")
+        node.set_input("value", 1)
+        graph.add_node(node)
+        graph.process()
+
+        assert graph.get_output("result") == 1
