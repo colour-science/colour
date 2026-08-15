@@ -69,7 +69,6 @@ __all__ = [
     "Port",
     "notify_process_state",
     "PortNode",
-    "ControlFlowNode",
     "PortGraph",
     "ExecutionPort",
     "ExecutionNode",
@@ -986,6 +985,8 @@ def notify_process_state(function: Callable) -> Any:
 
         return result
 
+    wrapper.notifies_process_state = True  # pyright: ignore
+
     return wrapper
 
 
@@ -1043,7 +1044,6 @@ class PortNode(TreeNode, MixinLogging):
     ...         self.add_input_port("b")
     ...         self.add_output_port("output")
     ...
-    ...     @notify_process_state
     ...     def process(self):
     ...         a = self.get_input("a")
     ...         b = self.get_input("b")
@@ -1061,6 +1061,27 @@ class PortNode(TreeNode, MixinLogging):
     >>> node.get_output("output")
     2
     """
+
+    def __init_subclass__(cls, **kwargs: Any) -> None:
+        """
+        Notify the process delegates of a sub-class overriding the process.
+
+        Notes
+        -----
+        -   Overriding :meth:`colour.utilities.PortNode.process` is the reason
+            the class exists, so requiring each sub-class to also decorate it
+            with :func:`colour.utilities.notify_process_state` would make the
+            delegates fire for the built-in nodes alone, and fail silently
+            everywhere else.
+        """
+
+        super().__init_subclass__(**kwargs)
+
+        process = cls.__dict__.get("process")
+        if process is not None and not getattr(
+            process, "notifies_process_state", False
+        ):
+            cls.process = notify_process_state(process)  # pyright: ignore
 
     def __init__(
         self, name: str | None = None, description: str = "", category: str = "Default"
@@ -1222,8 +1243,7 @@ class PortNode(TreeNode, MixinLogging):
 
         attest(
             value is None or isinstance(value, str),
-            f'"category" property: "{value}" is not "None" or '
-            f'its type is not "str"!',
+            f'"category" property: "{value}" is not "None" or its type is not "str"!',
         )
 
         self._category = value
@@ -1630,7 +1650,6 @@ class PortNode(TreeNode, MixinLogging):
         ...         self.add_input_port("b")
         ...         self.add_output_port("output")
         ...
-        ...     @notify_process_state
         ...     def process(self):
         ...         a = self.get_input("a")
         ...         b = self.get_input("b")
@@ -1719,7 +1738,6 @@ class PortGraph(PortNode):
     ...         self.add_input_port("b")
     ...         self.add_output_port("output")
     ...
-    ...     @notify_process_state
     ...     def process(self):
     ...         a = self.get_input("a")
     ...         b = self.get_input("b")
@@ -1999,7 +2017,6 @@ class PortGraph(PortNode):
 
             raise error  # noqa: TRY201
 
-    @notify_process_state
     def process(self, **kwargs: Any) -> None:
         """
         Process the node-graph by traversing it and executing the
@@ -2124,7 +2141,9 @@ class PortGraph(PortNode):
                     shape="record",
                 )
             )
-            input_edges, output_edges = node.edges
+            # Every connection is the input edge of exactly one node, so the
+            # output edges would draw each of them a second time.
+            input_edges, _output_edges = node.edges
 
             for edge in input_edges:
                 # Not drawing node edges that involve a node member of graph.
@@ -2234,7 +2253,6 @@ class For(ControlFlowNode):
         self.add_output_port("element", None, "Current element of the array")
         self.add_output_port("loop_output", None, "Port for loop Output", ExecutionPort)
 
-    @notify_process_state
     def process(self) -> None:
         """Process the *for* loop node execution."""
 
@@ -2408,7 +2426,6 @@ class ParallelForThread(ControlFlowNode):
         self.add_output_port("results", [], "Results from the parallel loop")
         self.add_output_port("loop_output", None, "Port for loop output", ExecutionPort)
 
-    @notify_process_state
     def process(self) -> None:
         """
         Process the parallel loop node execution.
@@ -2587,7 +2604,6 @@ class ParallelForMultiprocess(ControlFlowNode):
         self.add_output_port("results", [], "Results from the parallel loop")
         self.add_output_port("loop_output", None, "Port for loop output", ExecutionPort)
 
-    @notify_process_state
     def process(self) -> None:
         """
         Process the ``for`` loop node execution.
@@ -2657,7 +2673,6 @@ class NodePassthrough(PortNode):
         self.add_input_port("input")
         self.add_output_port("output")
 
-    @notify_process_state
     def process(self, **kwargs: Any) -> None:  # noqa: ARG002
         """
         Process the node.
@@ -2686,7 +2701,6 @@ class NodeLog(ExecutionNode):
         self.add_input_port("input")
         self.add_input_port("verbosity", "info")
 
-    @notify_process_state
     def process(self, **kwargs: Any) -> None:  # noqa: ARG002
         """
         Process the node.
@@ -2714,7 +2728,6 @@ class NodeSleep(ExecutionNode):
 
         self.add_input_port("duration", 0)
 
-    @notify_process_state
     def process(self, **kwargs: Any) -> None:  # noqa: ARG002
         """
         Process the node.
@@ -2745,7 +2758,6 @@ class NodeSetGraphOutputPort(ExecutionNode):
         self.add_input_port("name")
         self.add_input_port("value")
 
-    @notify_process_state
     def process(self, **kwargs: Any) -> None:  # noqa: ARG002
         """
         Process the node.

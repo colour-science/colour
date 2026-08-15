@@ -548,7 +548,50 @@ class TestNotifyProcessState:
         add.process()
 
         assert add.get_output("output") == 2
+        # The node decorates its process explicitly and the sub-class hook
+        # decorates it again: the notifications must still occur once.
         assert data == ["Foo", "Bar"]
+
+        # Overriding the process is the reason the class exists, so a
+        # sub-class that does not decorate it must notify all the same.
+        state = []
+
+        class _NodeUndecorated(PortNode):
+            """Define a node overriding the process without decorating it."""
+
+            def process(self) -> None:
+                """Process the node."""
+
+                self.dirty = False
+
+        undecorated = _NodeUndecorated()
+        undecorated.on_process_started.add_listener(
+            lambda _node: state.append("Started")
+        )
+        undecorated.on_process_ended.add_listener(lambda _node: state.append("Ended"))
+        undecorated.process()
+
+        assert state == ["Started", "Ended"]
+
+        # A raising process notifies and re-raises.
+        class _NodeRaising(PortNode):
+            """Define a node whose process raises."""
+
+            def process(self) -> None:
+                """Process the node."""
+
+                message = "Process failed!"
+                raise RuntimeError(message)
+
+        raising = _NodeRaising()
+        raising.on_process_exception.add_listener(
+            lambda _node: state.append("Exception")
+        )
+
+        with pytest.raises(RuntimeError):
+            raising.process()
+
+        assert state == ["Started", "Ended", "Exception"]
 
 
 class TestPortNode:
