@@ -154,6 +154,7 @@ Data Structures
     CanonicalMapping
     LazyCanonicalMapping
     Lookup
+    OrderedSet
     Structure
 
 

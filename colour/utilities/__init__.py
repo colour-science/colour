@@ -36,6 +36,7 @@ from .structures import (
     CanonicalMapping,
     LazyCanonicalMapping,
     Lookup,
+    OrderedSet,
     Structure,
 )
 
@@ -160,13 +161,13 @@ from .network import (
     NodePassthrough,
     NodeSetGraphOutputPort,
     NodeSleep,
-    notify_process_state,
     ParallelForMultiprocess,
     ParallelForThread,
     Port,
     PortGraph,
     PortNode,
     TreeNode,
+    notify_process_state,
 )
 
 # isort: split
@@ -201,6 +202,7 @@ __all__ += [
     "CanonicalMapping",
     "LazyCanonicalMapping",
     "Lookup",
+    "OrderedSet",
     "Structure",
 ]
 __all__ += [

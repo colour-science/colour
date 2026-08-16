@@ -13,6 +13,7 @@ from colour.utilities import (
     ColourUsageWarning,
     LazyCanonicalMapping,
     Lookup,
+    OrderedSet,
     Structure,
 )
 
@@ -28,6 +29,7 @@ __all__ = [
     "TestLookup",
     "TestCanonicalMapping",
     "TestLazyCanonicalMapping",
+    "TestOrderedSet",
 ]
 
 
@@ -508,3 +510,98 @@ __getitem__` method.
         assert mapping["john"] == "Doe"
         assert mapping["Jane"] == "Doe"
         assert mapping["jane"] == "Doe"
+
+
+class TestOrderedSet:
+    """
+    Define :class:`colour.utilities.structures.OrderedSet` class unit
+    tests methods.
+    """
+
+    def test_required_attributes(self) -> None:
+        """Test the presence of required attributes."""
+
+        required_attributes = ()
+
+        for attribute in required_attributes:  # pragma: no cover
+            assert attribute in dir(OrderedSet)
+
+    def test_required_methods(self) -> None:
+        """Test the presence of required methods."""
+
+        required_methods = (
+            "__init__",
+            "__contains__",
+            "__iter__",
+            "__len__",
+            "__repr__",
+            "__reversed__",
+            "add",
+            "discard",
+            "copy",
+        )
+
+        for method in required_methods:
+            assert method in dir(OrderedSet)
+
+    def test_OrderedSet(self) -> None:
+        """Test :class:`colour.utilities.structures.OrderedSet` class."""
+
+        assert len(OrderedSet()) == 0
+        assert list(OrderedSet(["c", "a", "b"])) == ["c", "a", "b"]
+
+        # The insertion order is preserved where a :class:`set` would order
+        # the elements by hash.
+        ordered_set = OrderedSet(["Delta", "Alpha", "Charlie", "Bravo"])
+
+        assert list(ordered_set) == ["Delta", "Alpha", "Charlie", "Bravo"]
+        assert list(reversed(ordered_set)) == [
+            "Bravo",
+            "Charlie",
+            "Alpha",
+            "Delta",
+        ]
+
+        # A duplicate is not appended and does not move the element it
+        # duplicates.
+        ordered_set.add("Alpha")
+
+        assert list(ordered_set) == ["Delta", "Alpha", "Charlie", "Bravo"]
+
+        ordered_set.add("Echo")
+
+        assert list(ordered_set) == ["Delta", "Alpha", "Charlie", "Bravo", "Echo"]
+
+        assert "Alpha" in ordered_set
+        assert "Foxtrot" not in ordered_set
+        assert len(ordered_set) == 5
+
+        ordered_set.discard("Charlie")
+
+        assert list(ordered_set) == ["Delta", "Alpha", "Bravo", "Echo"]
+
+        # Discarding an absent element is not an error, as it is for a
+        # :class:`set`.
+        ordered_set.discard("Foxtrot")
+
+        assert len(ordered_set) == 4
+
+        assert repr(OrderedSet(["c", "a"])) == "OrderedSet(['c', 'a'])"
+
+        # The equality inherited from :class:`collections.abc.Set` compares
+        # the elements and disregards their order.
+        assert OrderedSet(["a", "b"]) == OrderedSet(["b", "a"])
+        assert OrderedSet(["a", "b"]) == {"a", "b"}
+        assert OrderedSet(["a"]) != OrderedSet(["b"])
+
+    def test_copy(self) -> None:
+        """Test :meth:`colour.utilities.structures.OrderedSet.copy` method."""
+
+        ordered_set = OrderedSet(["c", "a", "b"])
+        copied_set = ordered_set.copy()
+
+        assert list(copied_set) == ["c", "a", "b"]
+
+        copied_set.add("d")
+
+        assert "d" not in ordered_set
