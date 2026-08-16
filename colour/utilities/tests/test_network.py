@@ -29,6 +29,7 @@ from colour.utilities import (
     NodePassthrough,
     NodeSetGraphOutputPort,
     NodeSleep,
+    OrderedSet,
     ParallelForMultiprocess,
     ParallelForThread,
     Port,
@@ -278,6 +279,8 @@ class TestPort:
             "description",
             "node",
             "connections",
+            "connections_incoming",
+            "connections_outgoing",
         )
 
         for attribute in required_attributes:
@@ -334,9 +337,12 @@ class TestPort:
         assert self._port_a_node_b.node is not None
         assert self._port_a_node_b.node.dirty is True
         assert self._port_output_node_a.node is not None
-        assert self._port_output_node_a.node.dirty is True
-        assert self._port_output_node_a.value == 3
-        assert self._port_b_node_b.value == 3
+        assert self._port_a_node_b.value == 3
+        # A value travels along a connection in one direction only, so
+        # writing a fed port leaves the port feeding it untouched, and with
+        # it the other ports that port feeds.
+        assert self._port_output_node_a.value == 2
+        assert self._port_b_node_b.value == 2
 
         self._port_output_node_a.disconnect(self._port_a_node_b)
 
@@ -389,6 +395,55 @@ class TestPort:
         for port in self._ports:
             assert len(port.connections) == 0
 
+    def test_connections_incoming(self) -> None:
+        """
+        Test :attr:`colour.utilities.network.Port.connections_incoming`
+        property.
+        """
+
+        self._port_output_node_a.connect(self._port_a_node_b)
+
+        # An output port feeds an input port whichever end the connection is
+        # made from, so the direction is a property of the roles and not of
+        # the call.
+        assert len(self._port_output_node_a.connections_incoming) == 0
+        assert list(self._port_a_node_b.connections_incoming) == [
+            self._port_output_node_a
+        ]
+
+        self._port_b_node_b.connect(self._port_output_node_b)
+
+        assert list(self._port_b_node_b.connections_incoming) == [
+            self._port_output_node_b
+        ]
+
+        self._port_output_node_a.disconnect(self._port_a_node_b)
+        self._port_b_node_b.disconnect(self._port_output_node_b)
+
+        for port in self._ports:
+            assert len(port.connections_incoming) == 0
+
+    def test_connections_outgoing(self) -> None:
+        """
+        Test :attr:`colour.utilities.network.Port.connections_outgoing`
+        property.
+        """
+
+        self._port_output_node_a.connect(self._port_a_node_b)
+        self._port_output_node_a.connect(self._port_b_node_b)
+
+        assert list(self._port_output_node_a.connections_outgoing) == [
+            self._port_a_node_b,
+            self._port_b_node_b,
+        ]
+        assert len(self._port_a_node_b.connections_outgoing) == 0
+
+        self._port_output_node_a.disconnect(self._port_a_node_b)
+        self._port_output_node_a.disconnect(self._port_b_node_b)
+
+        for port in self._ports:
+            assert len(port.connections_outgoing) == 0
+
     def test___str__(self) -> None:
         """Test :meth:`colour.utilities.network.Port.__str__` method."""
 
@@ -428,6 +483,13 @@ class TestPort:
         assert self._port_b_node_b.is_input_port() is True
         assert self._port_output_node_b.is_input_port() is False
 
+        # A node naming an input port and an output port alike is answered
+        # for the port itself and not for its name.
+        node = PortNode("Node C")
+
+        assert node.add_input_port("enabled").is_input_port() is True
+        assert node.add_output_port("enabled").is_input_port() is False
+
         # Test port without node
         port_without_node = Port("test_port")
         assert port_without_node.is_input_port() is False
@@ -443,6 +505,13 @@ class TestPort:
         assert self._port_b_node_b.is_output_port() is False
         assert self._port_output_node_b.is_output_port() is True
 
+        # A node naming an input port and an output port alike is answered
+        # for the port itself and not for its name.
+        node = PortNode("Node C")
+
+        assert node.add_output_port("enabled").is_output_port() is True
+        assert node.add_input_port("enabled").is_output_port() is False
+
         # Test port without node
         port_without_node = Port("test_port")
         assert port_without_node.is_output_port() is False
@@ -451,6 +520,46 @@ class TestPort:
         """Test :meth:`colour.utilities.network.Port.connect` method."""
 
         self.test_connections()
+
+        # A node is free to name an input port and an output port alike. A
+        # graph passing one of its own inputs down to such a node connects
+        # two input ports, and resolving the roles by name alone would
+        # report the fed port as an output and reverse the connection.
+        node = PortNode("Node C")
+        port_input = node.add_input_port("enabled", True)
+        port_output = node.add_output_port("enabled", True)
+
+        self._port_b_node_a.connect(port_input)
+
+        assert list(port_input.connections_incoming) == [self._port_b_node_a]
+        assert list(self._port_b_node_a.connections_outgoing) == [port_input]
+        assert len(self._port_b_node_a.connections_incoming) == 0
+        assert len(port_output.connections_incoming) == 0
+
+        self._port_b_node_a.value = False
+
+        assert port_input.value is False
+
+        # Connecting the same pair again is not a second feeder.
+        self._port_b_node_a.connect(port_input)
+
+        assert len(port_input.connections_incoming) == 1
+
+        # A port declared without a value has no opinion to impose, so the
+        # default of the port it feeds stands.
+        self._port_output_node_b.connect(self._port_a_node_b)
+
+        assert self._port_a_node_b.value == 1
+
+    def test_raise_exception_connect(self) -> None:
+        """
+        Test :meth:`colour.utilities.network.Port.connect` method raised
+        exception.
+        """
+
+        self._port_output_node_a.connect(self._port_a_node_b)
+
+        pytest.raises(ValueError, self._port_output_node_b.connect, self._port_a_node_b)
 
     def test_disconnect(self) -> None:
         """Test :meth:`colour.utilities.network.Port.disconnect` method."""
@@ -705,52 +814,60 @@ class TestPortNode:
     def test_edges(self) -> None:
         """Test :attr:`colour.utilities.network.PortNode.edges` property."""
 
-        assert self._add_node_1.edges == ({}, {})
-        assert self._multiply_node_1.edges == ({}, {})
-        assert self._add_node_2.edges == ({}, {})
+        assert self._add_node_1.edges == (OrderedSet(), OrderedSet())
+        assert self._multiply_node_1.edges == (OrderedSet(), OrderedSet())
+        assert self._add_node_2.edges == (OrderedSet(), OrderedSet())
 
         self._add_node_1.connect("output", self._multiply_node_1, "a")
         self._multiply_node_1.connect("output", self._add_node_2, "a")
 
         assert self._add_node_1.edges == (
-            {},
-            {
-                (
-                    self._add_node_1.output_ports["output"],
-                    self._multiply_node_1.input_ports["a"],
-                ): None,
-            },
+            OrderedSet(),
+            OrderedSet(
+                [
+                    (
+                        self._add_node_1.output_ports["output"],
+                        self._multiply_node_1.input_ports["a"],
+                    )
+                ]
+            ),
         )
         assert self._multiply_node_1.edges == (
-            {
-                (
-                    self._multiply_node_1.input_ports["a"],
-                    self._add_node_1.output_ports["output"],
-                ): None,
-            },
-            {
-                (
-                    self._multiply_node_1.output_ports["output"],
-                    self._add_node_2.input_ports["a"],
-                ): None,
-            },
+            OrderedSet(
+                [
+                    (
+                        self._multiply_node_1.input_ports["a"],
+                        self._add_node_1.output_ports["output"],
+                    )
+                ]
+            ),
+            OrderedSet(
+                [
+                    (
+                        self._multiply_node_1.output_ports["output"],
+                        self._add_node_2.input_ports["a"],
+                    )
+                ]
+            ),
         )
         assert self._add_node_2.edges == (
-            {
-                (
-                    self._add_node_2.input_ports["a"],
-                    self._multiply_node_1.output_ports["output"],
-                ): None,
-            },
-            {},
+            OrderedSet(
+                [
+                    (
+                        self._add_node_2.input_ports["a"],
+                        self._multiply_node_1.output_ports["output"],
+                    )
+                ]
+            ),
+            OrderedSet(),
         )
 
         self._add_node_1.disconnect("output", self._multiply_node_1, "a")
         self._multiply_node_1.disconnect("output", self._add_node_2, "a")
 
-        assert self._add_node_1.edges == ({}, {})
-        assert self._multiply_node_1.edges == ({}, {})
-        assert self._add_node_2.edges == ({}, {})
+        assert self._add_node_1.edges == (OrderedSet(), OrderedSet())
+        assert self._multiply_node_1.edges == (OrderedSet(), OrderedSet())
+        assert self._add_node_2.edges == (OrderedSet(), OrderedSet())
 
     def test_description(self) -> None:
         """Test :attr:`colour.utilities.network.PortNode.description` property."""
@@ -1096,6 +1213,53 @@ class TestPortGraph:
             "Second",
             "Third",
         ]
+
+        # A value reaches the leaf reading it however deeply the graph nests
+        # it, the connections being followed rather than a fixed count of
+        # them being written.
+        class NodeLeaf(PortNode):
+            """Define a node carrying its input across to its output."""
+
+            def __init__(self, *args: Any, **kwargs: Any) -> None:
+                super().__init__(*args, **kwargs)
+
+                self.add_input_port("a")
+                self.add_output_port("b")
+
+            def process(self) -> None:
+                """Process the node."""
+
+                self._output_ports["b"].value = self.get_input("a")
+
+                self.dirty = False
+
+        def _nested(depth: int) -> PortGraph:
+            """Define a graph nesting the specified count of sub-graphs."""
+
+            graph = PortGraph(f"Level {depth}")
+            graph.add_input_port("a")
+            graph.add_node(NodeLeaf("Leaf") if depth == 0 else _nested(depth - 1))
+            graph.connect("a", next(iter(graph.children)), "a")
+
+            return graph
+
+        for depth in range(5):
+            producer = NodeLeaf("Producer")
+            nested = _nested(depth)
+            container = PortGraph("Container")
+            container.add_node(producer)
+            container.add_node(nested)
+            producer.connect("b", nested, "a")
+
+            producer.set_input("a", "Payload")
+            producer.process()
+
+            node = nested
+            while not isinstance(node, NodeLeaf):
+                assert node.get_input("a") == "Payload"
+                node = next(iter(node.children))
+
+            assert node.get_input("a") == "Payload"
 
         # Test with a PortGraph that has ports connected to other nodes
         # This triggers the check where self is in the edge nodes

@@ -55,7 +55,14 @@ if typing.TYPE_CHECKING:
         Type,
     )
 
-from colour.utilities import Delegate, MixinLogging, attest, optional, required
+from colour.utilities import (
+    Delegate,
+    MixinLogging,
+    OrderedSet,
+    attest,
+    optional,
+    required,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -581,6 +588,8 @@ class Port(MixinLogging):
     -   :attr:`~colour.utilities.Port.description`
     -   :attr:`~colour.utilities.Port.node`
     -   :attr:`~colour.utilities.Port.connections`
+    -   :attr:`~colour.utilities.Port.connections_incoming`
+    -   :attr:`~colour.utilities.Port.connections_outgoing`
 
     Methods
     -------
@@ -612,8 +621,10 @@ class Port(MixinLogging):
     ) -> None:
         super().__init__()
 
-        # TODO: Consider using an ordered set instead of a dict.
-        self._connections: Dict[Port, None] = {}
+        # Storing the two sides apart is what spares every reader from
+        # guessing the direction back from the roles and the graph nesting.
+        self._connections_incoming: OrderedSet[Port] = OrderedSet()
+        self._connections_outgoing: OrderedSet[Port] = OrderedSet()
 
         self._node: PortNode | None = None
         self.node = optional(node, self._node)
@@ -668,13 +679,6 @@ class Port(MixinLogging):
             Port value.
         """
 
-        # NOTE: Assumption is that if the public API is used to set values, the
-        # actual port value is coming from the connected port. Any connected
-        # port is valid as they should all carry the same value, thus the first
-        # connected port is returned.
-        for connection in self._connections:
-            return connection._value  # noqa: SLF001
-
         return self._value
 
     @value.setter
@@ -687,30 +691,40 @@ class Port(MixinLogging):
             self.log(f'Dirtying "{self._node}".', "debug")
             self._node.dirty = True
 
-        # NOTE: Setting the port value implies that all the connected ports
-        # should be also set to the same specified value.
-        for direct_connection in self._connections:
-            self.log(f'Setting "{direct_connection.node}" value to {value}.', "debug")
-            direct_connection._value = value  # noqa: SLF001
+        # NOTE: A graph nesting sub-graphs is arbitrarily deep, so the whole
+        # downstream is written rather than a fixed count of connections.
+        for connection in self._walk_outgoing():
+            self.log(f'Setting "{connection.node}" value to {value}.', "debug")
+            connection._value = value  # noqa: SLF001
 
-            if direct_connection.node is not None:
-                self.log(f'Dirtying "{direct_connection.node}".', "debug")
-                direct_connection.node.dirty = True
+            if connection.node is not None:
+                self.log(f'Dirtying "{connection.node}".', "debug")
+                connection.node.dirty = True
 
-            for indirect_connection in direct_connection.connections:
-                if indirect_connection == self:
-                    continue
+    def _walk_outgoing(self) -> Generator[Port, None, None]:
+        """
+        Yield every port fed by this port, directly or not, exactly once.
 
-                self.log(
-                    f'Setting "{indirect_connection.node}" value to {value}.', "debug"
-                )
-                indirect_connection._value = value  # noqa: SLF001
+        Yields
+        ------
+        Generator
+            Ports downstream of this port.
+        """
 
-                if indirect_connection.node is not None:
-                    self.log(f'Dirtying "{indirect_connection.node}".', "debug")
-                    indirect_connection.node.dirty = True
+        visited: set[Port] = {self}
+        ports = list(self._connections_outgoing)
 
-        self._value = value
+        while ports:
+            port = ports.pop(0)
+
+            if port in visited:
+                continue
+
+            visited.add(port)
+
+            yield port
+
+            ports.extend(port.connections_outgoing)
 
     @property
     def description(self) -> str:
@@ -772,18 +786,55 @@ class Port(MixinLogging):
         self._node = value
 
     @property
-    def connections(self) -> Dict[Port, None]:
+    def connections(self) -> OrderedSet[Port]:
         """
-        Getter for the port connections.
+        Getter for the port connections, in both directions.
 
         Returns
         -------
-        :class:`dict`
-            Port connections mapping each :class:`Port` instance to
-            ``None``.
+        :class:`colour.utilities.OrderedSet`
+            Port connections.
+
+        Notes
+        -----
+        -   The returned ordered set is a copy, the incoming connections
+            followed by the outgoing ones. Connecting and disconnecting is
+            performed with :meth:`colour.utilities.Port.connect` and
+            :meth:`colour.utilities.Port.disconnect`.
         """
 
-        return self._connections
+        return OrderedSet([*self._connections_incoming, *self._connections_outgoing])
+
+    @property
+    def connections_incoming(self) -> OrderedSet[Port]:
+        """
+        Getter for the connections feeding the port.
+
+        Returns
+        -------
+        :class:`colour.utilities.OrderedSet`
+            Port connections.
+
+        Notes
+        -----
+        -   An input port has at most one of them, that being the port
+            producing its value.
+        """
+
+        return self._connections_incoming
+
+    @property
+    def connections_outgoing(self) -> OrderedSet[Port]:
+        """
+        Getter for the connections the port feeds.
+
+        Returns
+        -------
+        :class:`colour.utilities.OrderedSet`
+            Port connections.
+        """
+
+        return self._connections_outgoing
 
     def __str__(self) -> str:
         """
@@ -802,16 +853,21 @@ class Port(MixinLogging):
         Port Node.a (-> [])
         """
 
+        # An input port is described by what feeds it and an output port by
+        # what it feeds, those being the connections carrying its value.
+        if self.is_input_port():
+            direction, ports = "<-", self._connections_incoming
+        else:
+            direction, ports = "->", self._connections_outgoing
+
         connections = [
             (
                 f"{connection.node.name}.{connection.name}"
                 if connection.node is not None
                 else "None.{connection.name}"
             )
-            for connection in self._connections
+            for connection in ports
         ]
-
-        direction = "<-" if self.is_input_port() else "->"
 
         node_name = self._node.name if self._node is not None else "None"
 
@@ -833,10 +889,16 @@ class Port(MixinLogging):
         >>> node = PortNode()
         >>> node.add_input_port("a").is_input_port()
         True
+
+        Notes
+        -----
+        -   The port is compared by identity: a node is free to name an
+            input port and an output port alike, and a lookup by name alone
+            would report such a port as being both.
         """
 
         if self._node is not None:
-            return self._name in self._node.input_ports
+            return self._node.input_ports.get(self._name) is self
 
         return False
 
@@ -856,10 +918,15 @@ class Port(MixinLogging):
         >>> node = PortNode()
         >>> node.add_output_port("output").is_output_port()
         True
+
+        Notes
+        -----
+        -   The port is compared by identity, as it is in
+            :meth:`colour.utilities.Port.is_input_port`.
         """
 
         if self._node is not None:
-            return self._name in self._node.output_ports
+            return self._node.output_ports.get(self._name) is self
 
         return False
 
@@ -883,14 +950,27 @@ class Port(MixinLogging):
         >>> port_a = Port()
         >>> port_b = Port()
         >>> port_a.connections
-        {}
+        OrderedSet([])
         >>> port_b.connections
-        {}
+        OrderedSet([])
         >>> port_a.connect(port_b)
         >>> port_a.connections  # doctest: +ELLIPSIS
-        {<...Port object at 0x...>: None}
+        OrderedSet([<...Port object at 0x...>])
         >>> port_b.connections  # doctest: +ELLIPSIS
-        {<...Port object at 0x...>: None}
+        OrderedSet([<...Port object at 0x...>])
+
+        Notes
+        -----
+        -   The connection is directed. An output port feeds an input port,
+            whichever of the two the connection is made from. Two ports
+            sharing a role are a graph passing a value to or from one of its
+            own children, and there the port the connection is made from is
+            the one feeding.
+        -   Connected ports carry the same value, so the connection
+            reconciles them at once rather than leaving each holding its own
+            default until something is set.
+        -   Connecting a pair already connected is not a second feeder and
+            does not raise.
         """
 
         attest(isinstance(port, Port), f'"{port}" is not a "Port" instance!')
@@ -900,8 +980,30 @@ class Port(MixinLogging):
             "debug",
         )
 
-        self.connections[port] = None
-        port.connections[self] = None
+        if self.is_input_port() and port.is_output_port():
+            source, target = port, self
+        else:
+            source, target = self, port
+
+        if (
+            target.is_input_port()
+            and len(target.connections_incoming) != 0
+            and source not in target.connections_incoming
+        ):
+            error = (
+                f'"{target.node}.{target.name}" input port is already fed by '
+                f'"{next(iter(target.connections_incoming))}"!'
+            )
+
+            raise ValueError(error)
+
+        source.connections_outgoing.add(target)
+        target.connections_incoming.add(source)
+
+        # A port declared without a value has no opinion to impose, so the
+        # default of the port it feeds stands until it produces one.
+        if source.value is not None:
+            target.value = source.value
 
     def disconnect(self, port: Port) -> None:
         """
@@ -918,22 +1020,26 @@ class Port(MixinLogging):
         >>> port_b = Port()
         >>> port_a.connect(port_b)
         >>> port_a.connections  # doctest: +ELLIPSIS
-        {<...Port object at 0x...>: None}
+        OrderedSet([<...Port object at 0x...>])
         >>> port_b.connections  # doctest: +ELLIPSIS
-        {<...Port object at 0x...>: None}
+        OrderedSet([<...Port object at 0x...>])
         >>> port_a.disconnect(port_b)
         >>> port_a.connections
-        {}
+        OrderedSet([])
         >>> port_b.connections
-        {}
+        OrderedSet([])
         """
 
         attest(isinstance(port, Port), f'"{port}" is not a "Port" instance!')
 
         self.log(f'Disconnecting "{self.name}" from "{port.name}".', "debug")
 
-        self.connections.pop(port)
-        port.connections.pop(self)
+        if port in self._connections_outgoing:
+            self._connections_outgoing.remove(port)
+            port.connections_incoming.remove(self)
+        else:
+            self._connections_incoming.remove(port)
+            port.connections_outgoing.remove(self)
 
     def to_graphviz(self) -> str:
         """
@@ -1081,7 +1187,7 @@ class PortNode(TreeNode, MixinLogging):
         if process is not None and not getattr(
             process, "notifies_process_state", False
         ):
-            cls.process = notify_process_state(process)  # pyright: ignore
+            cls.process = notify_process_state(process)
 
     def __init__(
         self, name: str | None = None, description: str = "", category: str = "Default"
@@ -1160,7 +1266,7 @@ class PortNode(TreeNode, MixinLogging):
     @property
     def edges(
         self,
-    ) -> Tuple[Dict[Tuple[Port, Port], None], Dict[Tuple[Port, Port], None]]:
+    ) -> Tuple[OrderedSet[Tuple[Port, Port]], OrderedSet[Tuple[Port, Port]]]:
         """
         Getter for the edges of the node.
 
@@ -1171,21 +1277,28 @@ class PortNode(TreeNode, MixinLogging):
         Returns
         -------
         :class:`tuple`
-            Edges of the node as a tuple of input and output edge
-            dictionaries.
+            Edges of the node as a tuple of input and output edge ordered
+            sets.
+
+        Notes
+        -----
+        -   An input edge is a pair whose second port feeds its first, and
+            an output edge a pair whose first port feeds its second. Only
+            the connections carrying a value into or out of the node are
+            reported: a graph passing one of its own inputs down to a child
+            is that child's input edge and not the graph's, the graph being
+            the one feeding.
         """
 
-        # TODO: Consider using ordered set.
-        input_edges = {}
+        input_edges: OrderedSet[Tuple[Port, Port]] = OrderedSet()
         for port in self.input_ports.values():
-            for connection in port.connections:
-                input_edges[(port, connection)] = None
+            for connection in port.connections_incoming:
+                input_edges.add((port, connection))
 
-        # TODO: Consider using ordered set.
-        output_edges = {}
+        output_edges: OrderedSet[Tuple[Port, Port]] = OrderedSet()
         for port in self.output_ports.values():
-            for connection in port.connections:
-                output_edges[(port, connection)] = None
+            for connection in port.connections_outgoing:
+                output_edges.add((port, connection))
 
         return input_edges, output_edges
 
@@ -1564,7 +1677,7 @@ class PortNode(TreeNode, MixinLogging):
         >>> port = node_2.add_input_port("a")
         >>> node_1.connect("output", node_2, "a")
         >>> node_1.edges  # doctest: +ELLIPSIS
-        ({}, {(<...Port object at 0x...>, <...Port object at 0x...>): None})
+        (OrderedSet([]), OrderedSet([...]))
         """
 
         port_source = self._output_ports.get(
@@ -1611,10 +1724,10 @@ class PortNode(TreeNode, MixinLogging):
         >>> port = node_2.add_input_port("a")
         >>> node_1.connect("output", node_2, "a")
         >>> node_1.edges  # doctest: +ELLIPSIS
-        ({}, {(<...Port object at 0x...>, <...Port object at 0x...>): None})
+        (OrderedSet([]), OrderedSet([...]))
         >>> node_1.disconnect("output", node_2, "a")
         >>> node_1.edges
-        ({}, {})
+        (OrderedSet([]), OrderedSet([]))
         """
 
         port_source = self._output_ports.get(
@@ -1938,22 +2051,12 @@ class PortGraph(PortNode):
 
             graph.add_node(node.name, node=node)
 
-            # A sub-graph's edges are dropped only where they order its own
-            # children rather than this graph's: the ones reaching its
-            # siblings are exactly what places it in the walk.
-            nested = len(node.children) != 0
-
             for edge in input_edges:
                 # PortGraph is used a container, it is common to connect its
                 # input ports to other node input ports and other node output
                 # ports to its output ports. The graph generated is thus not
                 # acyclic.
                 if self in (edge[0].node, edge[1].node):
-                    continue
-
-                if nested and (
-                    edge[0].node.parent is not self or edge[1].node.parent is not self
-                ):
                     continue
 
                 # Node -> Port -> Port -> Node
@@ -1974,11 +2077,6 @@ class PortGraph(PortNode):
 
             for edge in output_edges:
                 if self in (edge[0].node, edge[1].node):
-                    continue
-
-                if nested and (
-                    edge[0].node.parent is not self or edge[1].node.parent is not self
-                ):
                     continue
 
                 # Node -> Port -> Port -> Node
