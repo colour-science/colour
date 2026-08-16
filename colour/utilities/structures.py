@@ -14,6 +14,8 @@ Provide various data structure classes for flexible data manipulation.
 -   :class:`colour.utilities.LazyCanonicalMapping`: Another delimiter and
     case-insensitive mapping allowing lazy values retrieval from keys while
     ignoring the key case.
+-   :class:`colour.utilities.OrderedSet`: A :class:`set`-like object
+    preserving the insertion order of its elements.
 
 References
 ----------
@@ -30,7 +32,7 @@ from __future__ import annotations
 import re
 import typing
 from collections import Counter
-from collections.abc import MutableMapping
+from collections.abc import MutableMapping, MutableSet
 
 if typing.TYPE_CHECKING:
     from colour.hints import (
@@ -38,7 +40,7 @@ if typing.TYPE_CHECKING:
         Generator,
         Iterable,
     )
-from colour.hints import Mapping
+from colour.hints import Mapping, TypeVar
 from colour.utilities.documentation import is_documentation_building
 
 __author__ = "Colour Developers"
@@ -53,7 +55,11 @@ __all__ = [
     "Lookup",
     "CanonicalMapping",
     "LazyCanonicalMapping",
+    "OrderedSet",
 ]
+
+T = TypeVar("T")
+"""Ordered set element type."""
 
 
 class Structure(dict):
@@ -772,3 +778,162 @@ class LazyCanonicalMapping(CanonicalMapping):
             super().__setitem__(item, value)
 
         return value
+
+
+class OrderedSet(MutableSet[T]):
+    """
+    Represent a :class:`set`-like object preserving the insertion order of
+    its elements.
+
+    Parameters
+    ----------
+    iterable
+        Elements to initialise the ordered set with.
+
+    Methods
+    -------
+    -   :meth:`~colour.utilities.OrderedSet.__init__`
+    -   :meth:`~colour.utilities.OrderedSet.__contains__`
+    -   :meth:`~colour.utilities.OrderedSet.__iter__`
+    -   :meth:`~colour.utilities.OrderedSet.__len__`
+    -   :meth:`~colour.utilities.OrderedSet.__repr__`
+    -   :meth:`~colour.utilities.OrderedSet.__reversed__`
+    -   :meth:`~colour.utilities.OrderedSet.add`
+    -   :meth:`~colour.utilities.OrderedSet.discard`
+    -   :meth:`~colour.utilities.OrderedSet.copy`
+
+    Notes
+    -----
+    -   The elements are stored as the keys of a :class:`dict`, which
+        preserves the insertion order and retains the constant-time
+        membership test of a :class:`set`.
+
+    Examples
+    --------
+    >>> ordered_set = OrderedSet(["c", "a", "b"])
+    >>> ordered_set
+    OrderedSet(['c', 'a', 'b'])
+    >>> ordered_set.add("a")
+    >>> list(ordered_set)
+    ['c', 'a', 'b']
+    >>> ordered_set.discard("c")
+    >>> list(ordered_set)
+    ['a', 'b']
+    """
+
+    def __init__(self, iterable: Iterable[T] | None = None) -> None:
+        super().__init__()
+
+        self._elements: dict[T, None] = dict.fromkeys(
+            iterable if iterable is not None else []
+        )
+
+    def __contains__(self, element: object) -> bool:
+        """
+        Return whether the ordered set contains the specified element.
+
+        Parameters
+        ----------
+        element
+            Element to check the presence of.
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the ordered set contains the element.
+        """
+
+        return element in self._elements
+
+    def __iter__(self) -> Generator[T, None, None]:
+        """
+        Return a generator over the ordered set elements, in insertion
+        order.
+
+        Yields
+        ------
+        Generator
+            Ordered set elements.
+        """
+
+        yield from self._elements
+
+    def __len__(self) -> int:
+        """
+        Return the ordered set element count.
+
+        Returns
+        -------
+        :class:`int`
+            Ordered set element count.
+        """
+
+        return len(self._elements)
+
+    def __repr__(self) -> str:
+        """
+        Return an evaluable string representation of the ordered set.
+
+        Returns
+        -------
+        :class:`str`
+            Evaluable string representation.
+        """
+
+        return f"{self.__class__.__name__}({list(self._elements)!r})"
+
+    def __reversed__(self) -> Generator[T, None, None]:
+        """
+        Return a generator over the ordered set elements, in reversed
+        insertion order.
+
+        Yields
+        ------
+        Generator
+            Ordered set elements.
+        """
+
+        yield from reversed(self._elements)
+
+    def add(self, value: T) -> None:
+        """
+        Add the specified element to the ordered set, keeping the position
+        of an element already present.
+
+        Parameters
+        ----------
+        value
+            Element to add.
+        """
+
+        self._elements[value] = None
+
+    def discard(self, value: T) -> None:
+        """
+        Remove the specified element from the ordered set if present.
+
+        Parameters
+        ----------
+        value
+            Element to remove.
+        """
+
+        self._elements.pop(value, None)
+
+    def copy(self) -> OrderedSet[T]:
+        """
+        Return a shallow copy of the ordered set.
+
+        Returns
+        -------
+        :class:`colour.utilities.OrderedSet`
+            Shallow copy of the ordered set.
+
+        Examples
+        --------
+        >>> ordered_set = OrderedSet(["c", "a", "b"])
+        >>> ordered_set.copy()
+        OrderedSet(['c', 'a', 'b'])
+        """
+
+        return OrderedSet(self._elements)
