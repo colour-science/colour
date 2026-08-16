@@ -62,6 +62,7 @@ from colour.utilities import (
     attest,
     optional,
     required,
+    runtime_warning,
 )
 
 __author__ = "Colour Developers"
@@ -1685,6 +1686,14 @@ class PortNode(TreeNode, MixinLogging):
         target_port
             Target port from the target node to connect the source port to.
 
+        Notes
+        -----
+        -   A node carrying an input and an output port of the same name
+            resolves by side: a graph feeding its own child is the source
+            from its input port, an edge to a separate node from its
+            output port. Resolving both outward reaches the child one
+            process late.
+
         Examples
         --------
         >>> node_1 = PortNode()
@@ -1696,12 +1705,38 @@ class PortNode(TreeNode, MixinLogging):
         (OrderedSet([]), OrderedSet([...]))
         """
 
-        port_source = self._output_ports.get(
-            source_port, self.input_ports.get(source_port)
-        )
-        port_target = target_node.input_ports.get(
-            target_port, target_node.output_ports.get(target_port)
-        )
+        nodes = getattr(self, "nodes", {})
+
+        # A leaf only ever connects outward, so only a graph is ambiguous.
+        if (
+            nodes
+            and source_port in self._output_ports
+            and source_port in self.input_ports
+        ):
+            runtime_warning(
+                f'"{self.name}.{source_port}" names both an input and an '
+                f"output port, so which one feeds "
+                f'"{target_node.name}.{target_port}" is decided by side '
+                f"rather than by the name!"
+            )
+
+        if any(node is target_node for node in nodes.values()):
+            port_source = self.input_ports.get(
+                source_port, self._output_ports.get(source_port)
+            )
+        else:
+            port_source = self._output_ports.get(
+                source_port, self.input_ports.get(source_port)
+            )
+
+        if any(node is self for node in getattr(target_node, "nodes", {}).values()):
+            port_target = target_node.output_ports.get(
+                target_port, target_node.input_ports.get(target_port)
+            )
+        else:
+            port_target = target_node.input_ports.get(
+                target_port, target_node.output_ports.get(target_port)
+            )
 
         port_source.connect(port_target)
 
