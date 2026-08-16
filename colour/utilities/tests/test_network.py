@@ -1064,6 +1064,39 @@ class TestPortGraph:
         # Call walk_ports to trigger the check for nodes with children
         list(outer_graph.walk_ports())
 
+        # A sub-graph is ordered by the connections reaching its siblings and
+        # not only by the leaves around it, so sub-graphs wired to each other
+        # are walked in the order they are connected rather than declared.
+        def _sub_graph(name: str) -> PortGraph:
+            """Define a sub-graph exposing a single input and output port."""
+
+            sub_graph = PortGraph(name)
+            sub_graph.add_input_port("input")
+            sub_graph.add_output_port("output")
+            node = PortNode()
+            node.add_input_port("input")
+            sub_graph.add_node(node)
+            sub_graph.connect("input", node, "input")
+
+            return sub_graph
+
+        third, first, second = (
+            _sub_graph("Third"),
+            _sub_graph("First"),
+            _sub_graph("Second"),
+        )
+        sequential_graph = PortGraph()
+        for sub_graph in (third, first, second):
+            sequential_graph.add_node(sub_graph)
+        first.connect("output", second, "input")
+        second.connect("output", third, "input")
+
+        assert [node.name for node in sequential_graph.walk_ports()] == [
+            "First",
+            "Second",
+            "Third",
+        ]
+
         # Test with a PortGraph that has ports connected to other nodes
         # This triggers the check where self is in the edge nodes
         graph_with_ports = PortGraph()
