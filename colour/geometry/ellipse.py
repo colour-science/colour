@@ -283,6 +283,10 @@ def ellipse_fitting_Halir1998(a: ArrayLike) -> NDArrayFloat:
 
     _w, v = np.linalg.eig(M)
 
+    # The reduced scatter matrix is not symmetric, so some LAPACK builds
+    # return complex eigenvectors with vanishing imaginary parts.
+    v = np.real(v)
+
     A1 = v[:, np.nonzero(4 * v[0, :] * v[2, :] - v[1, :] ** 2 > 0)[0]]
     A2 = np.dot(T, A1)
 
