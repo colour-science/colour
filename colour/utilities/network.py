@@ -1069,27 +1069,43 @@ def notify_process_state(function: Callable) -> Any:
     ----------
     function
         Function to decorate.
+
+    Notes
+    -----
+    -   Every override of :meth:`colour.utilities.PortNode.process` along a
+        class hierarchy is decorated, and each one calling its super-class
+        would notify again for the same call. Only the outermost invocation
+        on a given node notifies, so a listener counts processes rather than
+        override levels.
     """
 
     @functools.wraps(function)
     def wrapper(*args: Any, **kwargs: Any) -> Any:
         self = next(iter(args)) if args else None
 
-        if self is not None and hasattr(self, "on_process_started"):
-            self.on_process_started.notify(self)
+        if self is None or getattr(self, "_notifying_process_state", False):
+            return function(*args, **kwargs)
+
+        self._notifying_process_state = True
 
         try:
-            result = function(*args, **kwargs)
-        except:
-            if self is not None and hasattr(self, "on_process_exception"):
-                self.on_process_exception.notify(self)
+            if hasattr(self, "on_process_started"):
+                self.on_process_started.notify(self)
 
-            raise
+            try:
+                result = function(*args, **kwargs)
+            except:
+                if hasattr(self, "on_process_exception"):
+                    self.on_process_exception.notify(self)
 
-        if self is not None and hasattr(self, "on_process_ended"):
-            self.on_process_ended.notify(self)
+                raise
 
-        return result
+            if hasattr(self, "on_process_ended"):
+                self.on_process_ended.notify(self)
+
+            return result
+        finally:
+            self._notifying_process_state = False
 
     wrapper.notifies_process_state = True  # pyright: ignore
 

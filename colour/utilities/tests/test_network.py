@@ -702,6 +702,74 @@ class TestNotifyProcessState:
 
         assert state == ["Started", "Ended", "Exception"]
 
+        # Each override along a hierarchy is decorated, so a chain calling
+        # its super-class notifies once for the process rather than once
+        # per override level.
+        chain = []
+
+        class _NodeLevel1(PortNode):
+            """Define a node overriding the process."""
+
+            def process(self) -> None:
+                """Process the node."""
+
+                self.dirty = False
+
+        class _NodeLevel2(_NodeLevel1):
+            """Define a node overriding the process of its super-class."""
+
+            def process(self) -> None:
+                """Process the node."""
+
+                super().process()
+
+        class _NodeLevel3(_NodeLevel2):
+            """Define a node overriding the process of its super-class."""
+
+            def process(self) -> None:
+                """Process the node."""
+
+                super().process()
+
+        nested = _NodeLevel3()
+        nested.on_process_started.add_listener(lambda _node: chain.append("Started"))
+        nested.on_process_ended.add_listener(lambda _node: chain.append("Ended"))
+        nested.process()
+
+        assert chain == ["Started", "Ended"]
+
+        # The guard is released whichever way the process leaves, so a
+        # second process notifies again rather than falling silent.
+        nested.process()
+
+        assert chain == ["Started", "Ended", "Started", "Ended"]
+
+        class _NodeRaisingLevel2(_NodeLevel1):
+            """Define a nested node whose process raises."""
+
+            def process(self) -> None:
+                """Process the node."""
+
+                super().process()
+
+                message = "Process failed!"
+                raise RuntimeError(message)
+
+        nested_raising = _NodeRaisingLevel2()
+        nested_raising.on_process_exception.add_listener(
+            lambda _node: chain.append("Exception")
+        )
+
+        # A raising nested process releases the guard on the way out, so the
+        # node still notifies the next time it is processed.
+        with pytest.raises(RuntimeError):
+            nested_raising.process()
+
+        with pytest.raises(RuntimeError):
+            nested_raising.process()
+
+        assert chain[-2:] == ["Exception", "Exception"]
+
 
 class TestPortNode:
     """
