@@ -15,6 +15,7 @@ if sys.version_info >= (3, 14, 1):
 import re
 import time
 import typing
+import warnings
 
 import networkx as nx
 import numpy as np
@@ -23,6 +24,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import Any
 
 from colour.utilities import (
+    ColourRuntimeWarning,
     ExecutionNode,
     For,
     NodeLog,
@@ -1061,6 +1063,42 @@ class TestPortNode:
         """Test :meth:`colour.utilities.network.PortNode.connect` method."""
 
         self.test_edges()
+
+        # A graph feeds its own child from its input port, and warns that
+        # the name alone did not decide it.
+        graph = PortGraph("Graph")
+        graph.add_input_port("value", 1)
+        graph.add_output_port("value")
+        node = _NodeAdd("Node Add")
+        graph.add_node(node)
+        with pytest.warns(ColourRuntimeWarning):
+            graph.connect("value", node, "a")
+
+        assert list(graph.input_ports["value"].connections_outgoing) == [
+            node.input_ports["a"]
+        ]
+        assert len(graph.output_ports["value"].connections_outgoing) == 0
+
+        # Resolving outward instead would reach the child one process late.
+        graph.set_input("value", 5)
+
+        assert node.get_input("a") == 5
+
+        # An edge to a separate node is drawn from the output port.
+        other = _NodeAdd("Node Add Other")
+        with pytest.warns(ColourRuntimeWarning):
+            graph.connect("value", other, "a")
+
+        assert list(graph.output_ports["value"].connections_outgoing) == [
+            other.input_ports["a"]
+        ]
+
+        # A leaf only connects outward, so its shared name is not ambiguous.
+        with warnings.catch_warnings():
+            warnings.simplefilter("error", ColourRuntimeWarning)
+            self._add_node_1.connect("output", self._multiply_node_1, "a")
+
+        self._add_node_1.disconnect("output", self._multiply_node_1, "a")
 
     def test_disconnect(self) -> None:
         """Test :meth:`colour.utilities.network.PortNode.disconnect` method."""
