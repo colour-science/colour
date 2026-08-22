@@ -13,8 +13,10 @@ from colour.colorimetry import (
     SpectralDistribution,
     SpectralShape,
     reshape_sd,
+    sd_CIE_illuminant_D_series,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.models import xy_to_UCS_uv
 from colour.quality.datasets import (
     DATA_DAYLIGHT_BASIS_TLCI2012,
     DATA_DAYLIGHT_LOCUS_TLCI2012,
@@ -26,8 +28,8 @@ from colour.quality.datasets import (
 from colour.quality.tlci import (
     ColourQuality_Specification_TLCI2012,
     ColourQuality_Specification_TLMF2013,
-    _nearest_locus_sample_TLCI2012,
-    _Q_from_delta_E,
+    colour_differences_TLCI2012,
+    quality_index_TLCI2012,
     sd_daylight_TLCI2012,
     sd_planckian_TLCI2012,
     sd_reference_illuminant_TLCI2012,
@@ -35,6 +37,7 @@ from colour.quality.tlci import (
     television_luminaire_matching_factor,
     uv_to_CCT_TLCI2012,
 )
+from colour.temperature import CCT_to_xy_CIE_D
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -58,6 +61,8 @@ __all__ = [
     "TestSdDaylightTLCI2012",
     "TestUvToCCTTLCI2012",
     "TestSdReferenceIlluminantTLCI2012",
+    "TestColourDifferencesTLCI2012",
+    "TestQualityIndexTLCI2012",
     "TestTelevisionLightingConsistencyIndex",
     "TestTelevisionLuminaireMatchingFactor",
 ]
@@ -86,15 +91,20 @@ def sd_normalised(values: np.ndarray, name: str) -> SpectralDistribution:
 def sd_planckian(CCT: float) -> SpectralDistribution:
     """Return a generated Planckian spectrum."""
 
-    sd = sd_planckian_TLCI2012(CCT, SPECTRAL_SHAPE_TLCI_TLMF_TESTS)
+    wavelengths = SPECTRAL_SHAPE_TLCI_TLMF_TESTS.wavelengths
+    values = (560 / wavelengths) ** 5 * (
+        np.expm1(1.435e7 / (560 * CCT)) / np.expm1(1.435e7 / (wavelengths * CCT))
+    )
 
-    return sd_normalised(sd.values, f"planckian-{CCT:.0f}k")
+    return sd_normalised(values, f"planckian-{CCT:.0f}k")
 
 
 def sd_daylight(CCT: float) -> SpectralDistribution:
     """Return a generated daylight spectrum."""
 
-    sd = sd_daylight_TLCI2012(CCT, SPECTRAL_SHAPE_TLCI_TLMF_TESTS)
+    sd = sd_CIE_illuminant_D_series(
+        CCT_to_xy_CIE_D(CCT), shape=SPECTRAL_SHAPE_TLCI_TLMF_TESTS
+    )
 
     return sd_normalised(sd.values, f"daylight-{CCT:.0f}k")
 
@@ -102,8 +112,8 @@ def sd_daylight(CCT: float) -> SpectralDistribution:
 def sd_mixed_reference(CCT: float) -> SpectralDistribution:
     """Return a generated mixed-reference spectrum."""
 
-    planckian_3400 = sd_planckian_TLCI2012(3400, SPECTRAL_SHAPE_TLCI_TLMF_TESTS)
-    daylight_5000 = sd_daylight_TLCI2012(5000, SPECTRAL_SHAPE_TLCI_TLMF_TESTS)
+    planckian_3400 = sd_planckian(3400)
+    daylight_5000 = sd_daylight(5000)
     planckian_3400_values = planckian_3400.values / planckian_3400[560]
     daylight_5000_values = daylight_5000.values / daylight_5000[560]
     weight = (CCT - 3400) / (5000 - 3400)
@@ -241,14 +251,17 @@ class TestSdPlanckianTLCI2012:
 
         sd = sd_planckian_TLCI2012(3400, SPECTRAL_SHAPE_TLCI_TLMF_TESTS)
 
-        assert sd[560] == pytest.approx(1)
+        assert sd[560] == pytest.approx(100)
 
         for wavelength in (380, 560, 760):
-            # EBU Tech 3355 section 1.1.2.1, equation [9], normalised to unity
-            # at 560 nm instead of the published value of 100.
-            value = (560 / wavelength) ** 5 * (
-                np.expm1(1.435e7 / (560 * 3400))
-                / np.expm1(1.435e7 / (wavelength * 3400))
+            # EBU Tech 3355 section 1.1.2.1, equation [9].
+            value = (
+                100
+                * (560 / wavelength) ** 5
+                * (
+                    np.expm1(1.435e7 / (560 * 3400))
+                    / np.expm1(1.435e7 / (wavelength * 3400))
+                )
             )
             assert sd[wavelength] == pytest.approx(value)
 
@@ -303,12 +316,24 @@ class TestUvToCCTTLCI2012:
         np.testing.assert_allclose(CCT, 25000, atol=TOLERANCE_ABSOLUTE_TESTS)
         assert is_daylight
 
-        CCT_nearest, uv_locus_nearest, is_daylight_nearest = (
-            _nearest_locus_sample_TLCI2012(uv)
+        np.testing.assert_allclose(
+            uv_locus,
+            xy_to_UCS_uv(DATA_DAYLIGHT_LOCUS_TLCI2012[-1, 1:]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_array_equal(CCT, CCT_nearest)
-        assert is_daylight == is_daylight_nearest
-        np.testing.assert_array_equal(uv_locus, uv_locus_nearest)
+
+    def test_uv_to_CCT_TLCI2012_daylight_endpoint(self) -> None:
+        """
+        Test :func:`colour.quality.tlci.uv_to_CCT_TLCI2012` definition at the
+        first daylight-locus sample.
+        """
+
+        uv = xy_to_UCS_uv(DATA_DAYLIGHT_LOCUS_TLCI2012[0, 1:])
+        CCT, uv_locus, is_daylight = uv_to_CCT_TLCI2012(uv)
+
+        assert pytest.approx(5000) == CCT
+        np.testing.assert_allclose(uv_locus, uv, atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert is_daylight
 
 
 class TestSdReferenceIlluminantTLCI2012:
@@ -325,15 +350,15 @@ class TestSdReferenceIlluminantTLCI2012:
 
         # EBU Tech 3355 section 1.1.2 uses a Planckian reference below 3400 K
         # and a daylight reference above 5000 K.
-        _sd_reference, CCT, D_uv = sd_reference_illuminant_TLCI2012(
-            SDS_ILLUMINANTS["A"]
-        )
+        sd_reference, CCT, D_uv = sd_reference_illuminant_TLCI2012(SDS_ILLUMINANTS["A"])
+        assert sd_reference[560] == pytest.approx(100)
         np.testing.assert_allclose(CCT, 2848.132209, atol=TOLERANCE_ABSOLUTE_TESTS)
         assert D_uv == pytest.approx(0, abs=1.5e-2)
 
-        _sd_reference, CCT, D_uv = sd_reference_illuminant_TLCI2012(
+        sd_reference, CCT, D_uv = sd_reference_illuminant_TLCI2012(
             SDS_ILLUMINANTS["D65"]
         )
+        assert sd_reference[560] == pytest.approx(100)
         np.testing.assert_allclose(CCT, 6505.096585, atol=TOLERANCE_ABSOLUTE_TESTS)
         assert D_uv == pytest.approx(0, abs=1.5e-2)
 
@@ -366,6 +391,58 @@ class TestSdReferenceIlluminantTLCI2012:
         assert sd_reference_illuminant_TLCI2012(sd_magenta)[2] > 0.5
 
 
+class TestColourDifferencesTLCI2012:
+    """
+    Define :func:`colour.quality.tlci.colour_differences_TLCI2012` definition
+    unit tests methods.
+    """
+
+    def test_colour_differences_TLCI2012(self) -> None:
+        """Test :func:`colour.quality.tlci.colour_differences_TLCI2012`."""
+
+        msds_camera = MSDS_CAMERA_SENSITIVITIES_TLCI2012["EBU Standard Camera"]
+        delta_E_s, invalid = colour_differences_TLCI2012(
+            SDS_ILLUMINANTS["D65"], SDS_ILLUMINANTS["D65"], msds_camera
+        )
+        np.testing.assert_allclose(delta_E_s, 0, atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert invalid.shape == (24,)
+
+        # EBU Tech 3355 section 1.3.1 applies the reference balance to both
+        # TLMF sources before normalising the test-source camera luma.
+        delta_E_s, invalid = colour_differences_TLCI2012(
+            SDS_ILLUMINANTS["FL2"],
+            SDS_ILLUMINANTS["D65"],
+            msds_camera,
+            normalise_test_luma_only=True,
+        )
+        Q_a, _delta_E_a = quality_index_TLCI2012(delta_E_s[~invalid])
+        assert Q_a == pytest.approx(5.376079603398939)
+
+
+class TestQualityIndexTLCI2012:
+    """
+    Define :func:`colour.quality.tlci.quality_index_TLCI2012` definition unit
+    tests methods.
+    """
+
+    def test_quality_index_TLCI2012(self) -> None:
+        """Test :func:`colour.quality.tlci.quality_index_TLCI2012`."""
+
+        # EBU Tech 3355 section 1.5.1 defines 3.16 as the watershed aggregate
+        # colour difference that must produce a quality index of 50.
+        # Public numerical definitions accept array-like inputs.
+        delta_E_s = [3.16]
+        Q_a, delta_E_a = quality_index_TLCI2012(delta_E_s)
+        assert delta_E_a == pytest.approx(3.16)
+        assert Q_a == pytest.approx(50)
+
+    def test_raise_exception_quality_index_TLCI2012(self) -> None:
+        """Test :func:`colour.quality.tlci.quality_index_TLCI2012` exception."""
+
+        with pytest.raises(ValueError, match="All TLCI/TLMF samples were excluded"):
+            quality_index_TLCI2012(np.array([]))
+
+
 class TestTelevisionLightingConsistencyIndex:
     """
     Define :func:`colour.quality.tlci.\
@@ -384,8 +461,8 @@ television_lighting_consistency_index` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        # A non-default camera name selects the same *EBU Standard Camera*
-        # sensitivities and therefore yields the same score.
+        # An explicit camera name selects the same *EBU Standard Camera*
+        # sensitivities as the default and therefore yields the same score.
         assert television_lighting_consistency_index(
             SDS_ILLUMINANTS["FL2"], camera="EBU Standard Camera"
         ) == television_lighting_consistency_index(SDS_ILLUMINANTS["FL2"])
@@ -431,14 +508,14 @@ television_lighting_consistency_index` definition mixed-reference region.
         assert 4000 < specification.CCT < 5000
         assert specification.Q_a == pytest.approx(100, abs=0.5)
 
-    def test_television_lighting_consistency_index_validation_vectors(self) -> None:
+    def test_television_lighting_consistency_index_regression_spectra(self) -> None:
         """
         Test :func:`colour.quality.tlci.\
 television_lighting_consistency_index` definition against generated and
-        in-tree validation spectra.
+        in-tree regression spectra.
         """
 
-        # Generated, redistributable validation spectra covering the main
+        # Generated, redistributable regression spectra covering the main
         # specified algorithm paths.
         for sd, reference in (
             (sd_planckian(3000), 100),
@@ -465,16 +542,6 @@ television_lighting_consistency_index` definition against generated and
                 reference, abs=0.5
             )
 
-    def test_raise_exception_television_lighting_consistency_index(self) -> None:
-        """
-        Test :func:`colour.quality.tlci.\
-television_lighting_consistency_index` definition raised exception when all
-        samples are excluded.
-        """
-
-        with pytest.raises(ValueError, match="All TLCI/TLMF samples were excluded"):
-            _Q_from_delta_E(np.array([]))
-
 
 class TestTelevisionLuminaireMatchingFactor:
     """
@@ -497,7 +564,7 @@ television_luminaire_matching_factor` definition.
             television_luminaire_matching_factor(
                 SDS_ILLUMINANTS["FL2"], SDS_ILLUMINANTS["D65"]
             ),
-            5.393109771266282,
+            5.376079603398939,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -515,17 +582,17 @@ television_luminaire_matching_factor` definition with additional data.
         assert specification.delta_E_a >= 0.0
         assert specification.delta_E_s.shape == (24,)
 
-    def test_television_luminaire_matching_factor_validation_vectors(self) -> None:
+    def test_television_luminaire_matching_factor_regression_spectra(self) -> None:
         """
         Test :func:`colour.quality.tlci.\
-television_luminaire_matching_factor` definition against generated
-        validation spectra.
+television_luminaire_matching_factor` definition against generated regression
+        spectra.
         """
 
         for sd_test, sd_reference, reference in (
             (sd_planckian(3000), sd_planckian(3000), 100),
             (sd_daylight(5600), sd_daylight(5600), 100),
-            (sd_phosphor_led_warm(), sd_planckian(3000), 3),
+            (sd_phosphor_led_warm(), sd_planckian(3000), 3.5),
             (sd_phosphor_led_cool(), sd_daylight(5600), 61),
             (sd_rgb_led_balanced(), sd_daylight(5600), 4),
             (sd_mixed_reference(4000), sd_planckian(3400), 18),

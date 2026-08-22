@@ -1898,6 +1898,34 @@ Academy Spectral Similarity Index (SSI)
 
     94.0
 
+Television Lighting Consistency Index (TLCI-2012)
+*************************************************
+
+.. code-block:: python
+
+    import colour
+
+    colour.television_lighting_consistency_index(colour.SDS_ILLUMINANTS["FL2"])
+
+.. code-block:: text
+
+    29.4925417531
+
+Television Luminaire Matching Factor (TLMF-2013)
+************************************************
+
+.. code-block:: python
+
+    import colour
+
+    colour.television_luminaire_matching_factor(
+        colour.SDS_ILLUMINANTS["FL2"], colour.SDS_ILLUMINANTS["D65"]
+    )
+
+.. code-block:: text
+
+    5.3760796034
+
 Spectral Up-Sampling & Recovery - ``colour.recovery``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

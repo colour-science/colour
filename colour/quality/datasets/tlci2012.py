@@ -22,11 +22,10 @@ computations.
 
 References
 ----------
--   :cite:`EuropeanBroadcastingUnion2017` : Prokopczuk, J., & Roe, T. (2017).
-    Method for the Assessment of the Colorimetric Properties of Luminaires:
-    The Television Lighting Consistency Index (TLCI-2012) and the Television
-    Luminaire Matching Factor (TLMF-2013). EBU Technical Document Tech 3355.
-    https://tech.ebu.ch/publications/tech3355
+-   :cite:`EuropeanBroadcastingUnion2013` : European Broadcasting Union.
+    (2013). EBU Tech 3355 - Method for the Assessment of the Colorimetric
+    Properties of Luminaires.
+    https://tech.ebu.ch/docs/tech/tech3355.pdf
 """
 
 from __future__ import annotations
@@ -61,10 +60,10 @@ __all__ = [
     "MATRIX_TLCI2012_DISPLAY",
     "DATA_CAMERA_SENSITIVITIES_TLCI2012",
     "MSDS_CAMERA_SENSITIVITIES_TLCI2012",
-    "DATA_DAYLIGHT_BASIS_TLCI2012",
-    "MSDS_DAYLIGHT_BASIS_TLCI2012",
     "DATA_PLANCKIAN_LOCUS_TLCI2012",
     "DATA_DAYLIGHT_LOCUS_TLCI2012",
+    "DATA_DAYLIGHT_BASIS_TLCI2012",
+    "MSDS_DAYLIGHT_BASIS_TLCI2012",
     "DATA_TCS_TLCI2012",
     "NAMES_TCS_TLCI2012",
     "SDS_TCS_TLCI2012",
@@ -79,7 +78,7 @@ range and interval for all *TLCI-2012* and *TLMF-2013* mathematics.
 
 References
 ----------
-:cite:`EuropeanBroadcastingUnion2017`
+:cite:`EuropeanBroadcastingUnion2013`
 """
 
 MATRIX_TLCI2012_CAMERA: NDArrayFloat = np.array(
@@ -101,7 +100,7 @@ the non-linear OETF and display pipeline.
 
 References
 ----------
-:cite:`EuropeanBroadcastingUnion2017`
+:cite:`EuropeanBroadcastingUnion2013`
 """
 
 MATRIX_TLCI2012_SATURATION: NDArrayFloat = np.array(
@@ -120,7 +119,7 @@ matrix. Using the specification's percentage notation, :math:`S = 90` and
 
 References
 ----------
-:cite:`EuropeanBroadcastingUnion2017`
+:cite:`EuropeanBroadcastingUnion2013`
 """
 
 MATRIX_TLCI2012_DISPLAY: NDArrayFloat = np.array(
@@ -138,7 +137,7 @@ Table 1 and defines this matrix in equation [29].
 
 References
 ----------
-:cite:`EuropeanBroadcastingUnion2017`
+:cite:`EuropeanBroadcastingUnion2013`
 """
 
 # fmt: off
@@ -234,7 +233,24 @@ Columns are :math:`\\bar{r}`, :math:`\\bar{g}`, :math:`\\bar{b}` from
 
 References
 ----------
-:cite:`EuropeanBroadcastingUnion2017`
+:cite:`EuropeanBroadcastingUnion2013`
+"""
+
+MSDS_CAMERA_SENSITIVITIES_TLCI2012: CanonicalMapping = CanonicalMapping(
+    {
+        "EBU Standard Camera": RGB_CameraSensitivities(
+            DATA_CAMERA_SENSITIVITIES_TLCI2012,
+            SPECTRAL_SHAPE_TLCI2012.wavelengths,
+            name="EBU Standard Camera",
+        )
+    }
+)
+"""
+Mapping of *TLCI-2012* *EBU* standard camera spectral sensitivities.
+
+References
+----------
+:cite:`EuropeanBroadcastingUnion2013`
 """
 
 # fmt: off
@@ -402,7 +418,7 @@ Columns are CCT, :math:`x`, and :math:`y`.
 
 References
 ----------
-:cite:`EuropeanBroadcastingUnion2017`
+:cite:`EuropeanBroadcastingUnion2013`
 """
 
 # fmt: off
@@ -522,7 +538,7 @@ Columns are CCT, :math:`x`, and :math:`y`.
 
 References
 ----------
-:cite:`EuropeanBroadcastingUnion2017`
+:cite:`EuropeanBroadcastingUnion2013`
 """
 # fmt: off
 DATA_DAYLIGHT_BASIS_TLCI2012: NDArrayFloat = np.array(
@@ -629,7 +645,7 @@ Notes
 
 References
 ----------
-:cite:`EuropeanBroadcastingUnion2017`
+:cite:`EuropeanBroadcastingUnion2013`
 """
 
 MSDS_DAYLIGHT_BASIS_TLCI2012: MultiSpectralDistributions = MultiSpectralDistributions(
@@ -644,7 +660,7 @@ distributions.
 
 References
 ----------
-:cite:`EuropeanBroadcastingUnion2017`
+:cite:`EuropeanBroadcastingUnion2013`
 """
 
 DATA_TCS_TLCI2012: dict[str, dict[int, float]] = {
@@ -2555,7 +2571,7 @@ spectral range. Greyscale patches 19-24 use unpublished *BBC R&D* data.
 
 References
 ----------
-:cite:`EuropeanBroadcastingUnion2017`, :cite:`BBCResearchDepartment1988`
+:cite:`EuropeanBroadcastingUnion2013`, :cite:`BBCResearchDepartment1988`
 """
 
 NAMES_TCS_TLCI2012: tuple[str, ...] = (
@@ -2590,7 +2606,7 @@ NAMES_TCS_TLCI2012: tuple[str, ...] = (
 
 References
 ----------
-:cite:`EuropeanBroadcastingUnion2017`
+:cite:`EuropeanBroadcastingUnion2013`
 """
 
 
@@ -2603,22 +2619,5 @@ SDS_TCS_TLCI2012: LazyCanonicalMapping = LazyCanonicalMapping(
 
 References
 ----------
-:cite:`EuropeanBroadcastingUnion2017`, :cite:`BBCResearchDepartment1988`
-"""
-
-MSDS_CAMERA_SENSITIVITIES_TLCI2012: CanonicalMapping = CanonicalMapping(
-    {
-        "EBU Standard Camera": RGB_CameraSensitivities(
-            DATA_CAMERA_SENSITIVITIES_TLCI2012,
-            np.arange(380, 761, 5),
-            name="EBU Standard Camera",
-        )
-    }
-)
-"""
-Mapping of *TLCI-2012* *EBU* standard camera spectral sensitivities.
-
-References
-----------
-:cite:`EuropeanBroadcastingUnion2017`
+:cite:`EuropeanBroadcastingUnion2013`, :cite:`BBCResearchDepartment1988`
 """

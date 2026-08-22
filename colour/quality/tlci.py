@@ -1,14 +1,22 @@
 """
-Television Lighting Consistency Index (TLCI-2012) and Television Luminaire
-Matching Factor (TLMF-2013)
-==========================================================================
+TLCI-2012 and TLMF-2013
+=======================
 
 Define the *EBU Tech 3355* TLCI-2012 and TLMF-2013 computation objects.
 
 -   :class:`colour.quality.ColourQuality_Specification_TLCI2012`
 -   :class:`colour.quality.ColourQuality_Specification_TLMF2013`
+-   :func:`colour.quality.tlci.colour_differences_TLCI2012`
+-   :func:`colour.quality.tlci.quality_index_TLCI2012`
 -   :func:`colour.television_lighting_consistency_index`
 -   :func:`colour.television_luminaire_matching_factor`
+
+References
+----------
+-   :cite:`EuropeanBroadcastingUnion2013` : European Broadcasting Union.
+    (2013). EBU Tech 3355 - Method for the Assessment of the Colorimetric
+    Properties of Luminaires.
+    https://tech.ebu.ch/docs/tech/tech3355.pdf
 """
 
 from __future__ import annotations
@@ -46,13 +54,17 @@ from colour.quality.datasets import (
 )
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import (
+    CACHE_REGISTRY,
+    Structure,
+    as_float_array,
     as_float_scalar,
     domain_range_scale,
+    is_caching_enabled,
     optional,
 )
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Literal, NDArrayBoolean, NDArrayFloat
+    from colour.hints import ArrayLike, Literal, NDArrayBoolean, NDArrayFloat
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -62,18 +74,21 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "CONSTANTS_TLCI2012",
     "ColourQuality_Specification_TLCI2012",
     "ColourQuality_Specification_TLMF2013",
     "sd_planckian_TLCI2012",
     "sd_daylight_TLCI2012",
     "uv_to_CCT_TLCI2012",
     "sd_reference_illuminant_TLCI2012",
+    "colour_differences_TLCI2012",
+    "quality_index_TLCI2012",
     "television_lighting_consistency_index",
     "television_luminaire_matching_factor",
 ]
 
 
-@dataclass()
+@dataclass
 class ColourQuality_Specification_TLCI2012:
     """
     Define the *Television Lighting Consistency Index* (TLCI-2012)
@@ -116,7 +131,7 @@ class ColourQuality_Specification_TLCI2012:
     D_uv: float
 
 
-@dataclass()
+@dataclass
 class ColourQuality_Specification_TLMF2013:
     """
     Define the *Television Luminaire Matching Factor* (TLMF-2013)
@@ -125,7 +140,7 @@ class ColourQuality_Specification_TLMF2013:
     Parameters
     ----------
     name
-        Name of the test signal.
+        Names of the test and reference spectral distributions.
     Q_a
         *TLMF-2013* score.
     delta_E_a
@@ -140,162 +155,149 @@ class ColourQuality_Specification_TLMF2013:
     delta_E_s: NDArrayFloat
 
 
-# EBU Tech 3355 section 1.4.2, Table 1.
-_D65_XY = np.array([0.3127, 0.3290])
-# EBU Tech 3355 section 1.5.1, equations [58]-[59].
-_TLCI_K = 3.16
-_TLCI_P = 2.4
-# EBU Tech 3355 section 1.4.1, equation [28].
-_DISPLAY_GAMMA = 2.4
-# EBU Tech 3355 section 2, equation [61], maps the notional camera signal
-# R_C' to television coding as 16 + 219 R_C'. The text states that signals
-# need not be clipped at nominal peak level 235; the corresponding full-scale
-# signal at code value 255 is therefore:
-_STUDIO_SWING_WHITE = (255 - 16) / (235 - 16)
+CONSTANTS_TLCI2012: Structure = Structure(
+    # Section 1.4.2, Table 1.
+    xy_D65=np.array([0.3127, 0.3290]),
+    # Section 1.5.1, equations [58]-[59].
+    k=3.16,
+    p=2.4,
+    # Section 1.4.1, equation [28].
+    display_gamma=2.4,
+    # Section 2, equation [61], maps the notional camera signal R_C' to
+    # television coding as 16 + 219 R_C'. Signals need not be clipped at
+    # nominal peak level 235, so this is the full-scale signal at code 255.
+    studio_swing_white=(255 - 16) / (235 - 16),
+)
+"""*EBU Tech 3355* TLCI-2012 and TLMF-2013 constants."""
 
 
-def _reference_loci_TLCI2012() -> tuple[tuple[NDArrayFloat, NDArrayFloat, bool], ...]:
-    """
-    Return the *EBU Tech 3355* reference-locus data used for CCT selection.
-
-    *EBU Tech 3355* section 1.1.1 defines the CCT search against Appendix 2
-    Planckian and daylight locus values instead of the existing CCT/D_uv
-    methods such as Ohno (2013) and Robertson (1968).
-    """
-
-    planckian_temperatures = DATA_PLANCKIAN_LOCUS_TLCI2012[:, 0]
-    planckian_uv = xy_to_UCS_uv(DATA_PLANCKIAN_LOCUS_TLCI2012[:, 1:])
-
-    daylight_temperatures = DATA_DAYLIGHT_LOCUS_TLCI2012[:, 0]
-    daylight_uv = xy_to_UCS_uv(DATA_DAYLIGHT_LOCUS_TLCI2012[:, 1:])
-
-    return (
-        (planckian_temperatures, planckian_uv, False),
-        (daylight_temperatures, daylight_uv, True),
-    )
-
-
-# EBU Tech 3355 section 1.1.1 Appendix 2 Planckian and daylight reference loci.
-_REFERENCE_LOCI_TLCI2012 = _reference_loci_TLCI2012()
-
-# EBU Tech 3355 Appendix 4 test-colour samples assembled as a single
-# multi-spectral distribution so the camera integration can be vectorised.
-# The first 18 samples are the coloured ColorChecker patches used by TLCI;
-# the remaining 6 grey scale patches are used only by TLMF. Built from the
-# ``DATA_TCS_TLCI2012`` mapping rather than the lazily-evaluated
-# ``SDS_TCS_TLCI2012`` so it can be assembled at module import time.
-_MSDS_TCS_TLCI2012 = MultiSpectralDistributions(
-    np.transpose(
-        [list(DATA_TCS_TLCI2012[name].values()) for name in NAMES_TCS_TLCI2012]
-    ),
-    SPECTRAL_SHAPE_TLCI2012.wavelengths,
-    labels=NAMES_TCS_TLCI2012,
+_CACHE_REFERENCE_LOCI_TLCI2012: dict = CACHE_REGISTRY.register_cache(
+    f"{__name__}._CACHE_REFERENCE_LOCI_TLCI2012"
+)
+_CACHE_MSDS_TCS_TLCI2012: dict = CACHE_REGISTRY.register_cache(
+    f"{__name__}._CACHE_MSDS_TCS_TLCI2012"
 )
 
 
-def _sd_uv_TLCI2012(sd: SpectralDistribution) -> NDArrayFloat:
-    """Compute CIE 1960 UCS *uv* chromaticity coordinates for ``sd``."""
-
-    cmfs = reshape_msds(
-        MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
-        SPECTRAL_SHAPE_TLCI2012,
-        copy=False,
-    )
-    with domain_range_scale("1"):
-        XYZ = sd_to_XYZ(sd, cmfs, method="Integration")
-
-    return UCS_to_uv(XYZ_to_UCS(XYZ))
-
-
-def _closest_locus_intersection_TLCI2012(
-    uv: NDArrayFloat,
-    temperatures: NDArrayFloat,
-    uv_loci: NDArrayFloat,
-    is_daylight: bool,
-) -> tuple[float, float, NDArrayFloat, bool] | None:
+def sd_planckian_TLCI2012(
+    CCT: float, shape: SpectralShape = SPECTRAL_SHAPE_TLCI2012
+) -> SpectralDistribution:
     """
-    Return the closest normal intersection on one *EBU Tech 3355* locus.
-    """
+    Return the *EBU Tech 3355* Planckian reference spectral distribution for
+    the given correlated colour temperature.
 
-    uv_loci_start = uv_loci[:-1]
-    uv_loci_end = uv_loci[1:]
-    uv_loci_delta = uv_loci_end - uv_loci_start
-    segment_lengths = np.linalg.norm(uv_loci_delta, axis=1)
+    Parameters
+    ----------
+    CCT
+        Correlated colour temperature :math:`K`.
+    shape
+        Spectral shape of the returned spectral distribution.
 
-    # EBU Tech 3355 section 1.1.1, equations [4]-[7]: slope of the locus,
-    # distance from the test colour to the locus point, angle to the
-    # horizontal, and internal angle to the CCT line.
-    slopes = np.arctan2(uv_loci_delta[:, 1], uv_loci_delta[:, 0])
-    uv_test_delta = uv - uv_loci_start
-    radii = np.linalg.norm(uv_test_delta, axis=1)
-    angles = np.arctan2(uv_test_delta[:, 1], uv_test_delta[:, 0])
-    internal_angles = (angles - slopes + np.pi) % (2 * np.pi) - np.pi
+    Returns
+    -------
+    :class:`colour.SpectralDistribution`
+        *EBU Tech 3355* Planckian reference spectral distribution, normalised
+        to 100 at 560 nm.
 
-    distances_along_locus = radii * np.cos(internal_angles)
-    factors = distances_along_locus / segment_lengths
-    distances = (radii * np.sin(internal_angles)) ** 2
+    Notes
+    -----
+    -   *EBU Tech 3355* section 1.1.2.1, equation [9], uses a simplified
+        Planckian expression with wavelength in nanometres, a
+        :math:`1.435 \\times 10^7` nm K radiation constant, and normalisation
+        at 560 nm.
 
-    # EBU Tech 3355 section 1.1.1 defines a match as adjacent locus points
-    # whose internal angles are both less than 90 degrees in magnitude. This
-    # is equivalent to accepting normal projections on the locus segment.
-    valid = (np.abs(internal_angles) <= np.pi / 2) & (factors >= 0) & (factors <= 1)
-    if not np.any(valid):
-        return None
+    References
+    ----------
+    :cite:`EuropeanBroadcastingUnion2013`
 
-    indices = np.nonzero(valid)[0]
-    uv_intersections = (
-        uv_loci_start[indices] + factors[indices, None] * uv_loci_delta[indices]
-    )
-    distances = distances[indices]
-    index = np.argmin(distances)
-    segment_index = indices[index]
-    CCT = temperatures[segment_index] + factors[segment_index] * (
-        temperatures[segment_index + 1] - temperatures[segment_index]
-    )
-
-    return (
-        as_float_scalar(distances[index]),
-        as_float_scalar(CCT),
-        uv_intersections[index],
-        is_daylight,
-    )
-
-
-def _nearest_locus_sample_TLCI2012(
-    uv: NDArrayFloat,
-) -> tuple[float, NDArrayFloat, bool]:
-    """
-    Return the nearest *EBU Tech 3355* locus sample for ``uv``.
+    Examples
+    --------
+    >>> sd = sd_planckian_TLCI2012(3200)
+    >>> np.round(sd[560], 7)
+    np.float64(100.0)
+    >>> sd[600]  # doctest: +ELLIPSIS
+    np.float64(120.81916...)
     """
 
-    # EBU Tech 3355 section 1.1.1 defines the CCT as the locus colour that
-    # most closely matches the test colour; use the nearest Appendix 2 sample
-    # when no normal intersection is found inside the tabulated locus range.
-    candidates = [
-        (
-            np.sum((uv_locus - uv) ** 2, axis=1),
-            temperatures,
-            uv_locus,
-            is_daylight,
-        )
-        for temperatures, uv_locus, is_daylight in _REFERENCE_LOCI_TLCI2012
-    ]
-    distances, temperatures, uv_loci, is_daylight = min(
-        candidates, key=lambda candidate: np.min(candidate[0])
+    # EBU Tech 3355 section 1.1.2.1, equation [9].
+    wavelengths = shape.wavelengths
+    c_2 = 1.435e7
+    values = (
+        100
+        * (560 / wavelengths) ** 5
+        * (np.expm1(c_2 / (560 * CCT)) / np.expm1(c_2 / (wavelengths * CCT)))
     )
-    index = np.argmin(distances)
 
-    return (
-        as_float_scalar(temperatures[index]),
-        uv_loci[index],
-        is_daylight,
+    return SpectralDistribution(
+        values,
+        shape,
+        name=f"TLCI-2012 Planckian {CCT:.0f}K",
+    )
+
+
+def sd_daylight_TLCI2012(
+    CCT: float, shape: SpectralShape = SPECTRAL_SHAPE_TLCI2012
+) -> SpectralDistribution:
+    """
+    Return the *EBU Tech 3355* daylight reference spectral distribution for
+    the given correlated colour temperature.
+
+    Parameters
+    ----------
+    CCT
+        Correlated colour temperature :math:`K`.
+    shape
+        Spectral shape of the returned spectral distribution.
+
+    Returns
+    -------
+    :class:`colour.SpectralDistribution`
+        *EBU Tech 3355* daylight reference spectral distribution.
+
+    Notes
+    -----
+    -   *EBU Tech 3355* section 1.1.2.2, equations [10]-[14], uses the
+        Appendix 3 daylight radiation vectors and *EBU Tech 3355* coefficients
+        for :math:`M`, :math:`M_1`, and :math:`M_2`. This differs from
+        Colour's general :func:`colour.sd_CIE_illuminant_D_series` helper,
+        which uses the library CIE D-series basis data and its standard
+        coefficient path.
+
+    References
+    ----------
+    :cite:`EuropeanBroadcastingUnion2013`
+
+    Examples
+    --------
+    >>> sd = sd_daylight_TLCI2012(5600)
+    >>> np.round(sd[560], 7)
+    np.float64(100.0)
+    """
+
+    # EBU Tech 3355 section 1.1.2.2, equations [10]-[14], uses the Appendix 3
+    # daylight radiation vectors and coefficients.
+    x, y = CCT_to_xy_CIE_D(CCT)
+    M = 0.02387 + 0.25539 * x - 0.73217 * y
+    M1 = (-1.34674 - 1.77861 * x + 5.90757 * y) / M
+    M2 = (0.03638 - 31.44464 * x + 30.06400 * y) / M
+
+    daylight_basis = reshape_msds(
+        MSDS_DAYLIGHT_BASIS_TLCI2012, shape, "Align", copy=False
+    ).values
+
+    return SpectralDistribution(
+        daylight_basis[..., 0]
+        + M1 * daylight_basis[..., 1]
+        + M2 * daylight_basis[..., 2],
+        shape,
+        name=f"TLCI-2012 Daylight {CCT:.0f}K",
     )
 
 
 def uv_to_CCT_TLCI2012(uv: NDArrayFloat) -> tuple[float, NDArrayFloat, bool]:
     """
     Compute the *EBU Tech 3355* correlated colour temperature and
-    reference-locus point for given CIE 1960 UCS *uv* chromaticity
+    reference-locus point for the given CIE 1960 UCS *uv* chromaticity
     coordinates.
 
     Parameters
@@ -322,7 +324,7 @@ def uv_to_CCT_TLCI2012(uv: NDArrayFloat) -> tuple[float, NDArrayFloat, bool]:
 
     References
     ----------
-    :cite:`EuropeanBroadcastingUnion2017`
+    :cite:`EuropeanBroadcastingUnion2013`
 
     Examples
     --------
@@ -333,20 +335,98 @@ def uv_to_CCT_TLCI2012(uv: NDArrayFloat) -> tuple[float, NDArrayFloat, bool]:
     True
     """
 
+    cache_key = "Reference Loci"
+    if is_caching_enabled() and cache_key in _CACHE_REFERENCE_LOCI_TLCI2012:
+        reference_loci = _CACHE_REFERENCE_LOCI_TLCI2012[cache_key]
+    else:
+        # EBU Tech 3355 section 1.1.1 Appendix 2 Planckian and daylight
+        # reference loci.
+        reference_loci = (
+            (
+                DATA_PLANCKIAN_LOCUS_TLCI2012[:, 0],
+                xy_to_UCS_uv(DATA_PLANCKIAN_LOCUS_TLCI2012[:, 1:]),
+                False,
+            ),
+            (
+                DATA_DAYLIGHT_LOCUS_TLCI2012[:, 0],
+                xy_to_UCS_uv(DATA_DAYLIGHT_LOCUS_TLCI2012[:, 1:]),
+                True,
+            ),
+        )
+        _CACHE_REFERENCE_LOCI_TLCI2012[cache_key] = reference_loci
+
     candidates: list[tuple[float, float, NDArrayFloat, bool]] = []
-    for temperatures, uv_loci, is_daylight in _REFERENCE_LOCI_TLCI2012:
+    for temperatures, uv_loci, is_daylight in reference_loci:
         # EBU Tech 3355 section 1.1.1, equations [4]-[8], finds the normal
         # intersection with adjacent locus points. Treat the Planckian and
         # daylight loci separately because section 1.1.2.3 states that they
         # do not join in the 3400 K to 5000 K mixed-reference region.
-        candidate = _closest_locus_intersection_TLCI2012(
-            uv, temperatures, uv_loci, is_daylight
-        )
-        if candidate is not None:
-            candidates.append(candidate)
+        uv_loci_start = uv_loci[:-1]
+        uv_loci_delta = uv_loci[1:] - uv_loci_start
+        segment_lengths = np.linalg.norm(uv_loci_delta, axis=1)
 
-    if len(candidates) == 0:
-        return _nearest_locus_sample_TLCI2012(uv)
+        # Equations [4]-[7]: slope of the locus, distance from the test colour
+        # to the locus point, angle to the horizontal, and internal angle to
+        # the CCT line.
+        slopes = np.arctan2(uv_loci_delta[:, 1], uv_loci_delta[:, 0])
+        uv_test_delta = uv - uv_loci_start
+        radii = np.linalg.norm(uv_test_delta, axis=1)
+        angles = np.arctan2(uv_test_delta[:, 1], uv_test_delta[:, 0])
+        internal_angles = (angles - slopes + np.pi) % (2 * np.pi) - np.pi
+
+        factors = radii * np.cos(internal_angles) / segment_lengths
+        # The angle is undefined when the test colour coincides with a locus
+        # sample. Accept that zero-radius endpoint explicitly; otherwise the
+        # first daylight sample, D5000, can be rejected in favour of a nearby
+        # Planckian projection.
+        at_locus_sample = np.isclose(radii, 0, atol=np.finfo(float).eps, rtol=0)
+        valid = at_locus_sample | (
+            (np.abs(internal_angles) <= np.pi / 2) & (factors >= 0) & (factors <= 1)
+        )
+        if not np.any(valid):
+            continue
+
+        indices = np.nonzero(valid)[0]
+        uv_intersections = (
+            uv_loci_start[indices] + factors[indices, None] * uv_loci_delta[indices]
+        )
+        distances = (radii[indices] * np.sin(internal_angles[indices])) ** 2
+        index = np.argmin(distances)
+        segment_index = indices[index]
+        CCT = temperatures[segment_index] + factors[segment_index] * (
+            temperatures[segment_index + 1] - temperatures[segment_index]
+        )
+        candidates.append(
+            (
+                as_float_scalar(distances[index]),
+                as_float_scalar(CCT),
+                uv_intersections[index],
+                is_daylight,
+            )
+        )
+
+    if not candidates:
+        # Use the nearest Appendix 2 sample when no normal intersection lies
+        # inside the tabulated locus range.
+        nearest_candidates = [
+            (
+                np.sum((uv_locus - uv) ** 2, axis=1),
+                temperatures,
+                uv_locus,
+                is_daylight,
+            )
+            for temperatures, uv_locus, is_daylight in reference_loci
+        ]
+        distances, temperatures, uv_loci, is_daylight = min(
+            nearest_candidates, key=lambda candidate: np.min(candidate[0])
+        )
+        index = np.argmin(distances)
+
+        return (
+            as_float_scalar(temperatures[index]),
+            uv_loci[index],
+            is_daylight,
+        )
 
     _, CCT, uv_locus, is_daylight = min(candidates, key=lambda candidate: candidate[0])
 
@@ -357,145 +437,11 @@ def uv_to_CCT_TLCI2012(uv: NDArrayFloat) -> tuple[float, NDArrayFloat, bool]:
     )
 
 
-def _sd_normalise_560_TLCI2012(sd: SpectralDistribution) -> SpectralDistribution:
-    """
-    Normalise ``sd`` to unity at 560 nm.
-
-    *EBU Tech 3355* sections 1.1.2.1 and 1.1.2.2 specify a value of 100 at
-    560 nm. The implementation uses unity because the global scale is absorbed
-    by the camera white-balance step and does not affect the computed
-    *TLCI-2012* or *TLMF-2013* scores.
-    """
-
-    sd = reshape_sd(sd, SPECTRAL_SHAPE_TLCI2012, "Align", copy=False)
-
-    return SpectralDistribution(
-        sd.values / sd[560],
-        SPECTRAL_SHAPE_TLCI2012,
-        name=sd.name,
-    )
-
-
-def sd_planckian_TLCI2012(
-    CCT: float, shape: SpectralShape = SPECTRAL_SHAPE_TLCI2012
-) -> SpectralDistribution:
-    """
-    Return the *EBU Tech 3355* Planckian reference spectral distribution for
-    given correlated colour temperature.
-
-    Parameters
-    ----------
-    CCT
-        Correlated colour temperature :math:`K`.
-    shape
-        Spectral shape of the returned spectral distribution.
-
-    Returns
-    -------
-    :class:`colour.SpectralDistribution`
-        *EBU Tech 3355* Planckian reference spectral distribution, normalised
-        to unity at 560 nm.
-
-    Notes
-    -----
-    -   *EBU Tech 3355* section 1.1.2.1, equation [9], uses a simplified
-        Planckian expression with wavelength in nanometres, a
-        :math:`1.435 \\times 10^7` nm K radiation constant, and normalisation
-        at 560 nm. This implementation returns unity at 560 nm instead of the
-        published value of 100; the global scale is absorbed by the camera
-        white-balance step and does not affect the computed scores.
-
-    References
-    ----------
-    :cite:`EuropeanBroadcastingUnion2017`
-
-    Examples
-    --------
-    >>> sd = sd_planckian_TLCI2012(3200)
-    >>> sd[560]  # doctest: +ELLIPSIS
-    np.float64(1.0...)
-    >>> sd[600]  # doctest: +ELLIPSIS
-    np.float64(1.2081916...)
-    """
-
-    # EBU Tech 3355 section 1.1.2.1, equation [9].
-    wavelengths = shape.wavelengths
-    c_2 = 1.435e7
-    values = (560 / wavelengths) ** 5 * (
-        np.expm1(c_2 / (560 * CCT)) / np.expm1(c_2 / (wavelengths * CCT))
-    )
-
-    return SpectralDistribution(
-        values,
-        shape,
-        name=f"TLCI-2012 Planckian {CCT:.0f}K",
-    )
-
-
-def sd_daylight_TLCI2012(
-    CCT: float, shape: SpectralShape = SPECTRAL_SHAPE_TLCI2012
-) -> SpectralDistribution:
-    """
-    Return the *EBU Tech 3355* daylight reference spectral distribution for
-    given correlated colour temperature.
-
-    Parameters
-    ----------
-    CCT
-        Correlated colour temperature :math:`K`.
-    shape
-        Spectral shape of the returned spectral distribution.
-
-    Returns
-    -------
-    :class:`colour.SpectralDistribution`
-        *EBU Tech 3355* daylight reference spectral distribution.
-
-    Notes
-    -----
-    -   *EBU Tech 3355* section 1.1.2.2, equations [10]-[14], uses the
-        Appendix 3 daylight radiation vectors and *EBU Tech 3355* coefficients
-        for :math:`M`, :math:`M_1`, and :math:`M_2`. This differs from
-        Colour's general :func:`colour.sd_CIE_illuminant_D_series` helper,
-        which uses the library CIE D-series basis data and its standard
-        coefficient path.
-
-    References
-    ----------
-    :cite:`EuropeanBroadcastingUnion2017`
-
-    Examples
-    --------
-    >>> sd = sd_daylight_TLCI2012(5600)
-    >>> sd[560]  # doctest: +ELLIPSIS
-    np.float64(99.9999...)
-    """
-
-    # EBU Tech 3355 section 1.1.2.2, equations [10]-[14], uses the Appendix 3
-    # daylight radiation vectors and coefficients.
-    x, y = CCT_to_xy_CIE_D(CCT)
-    M = 0.02387 + 0.25539 * x - 0.73217 * y
-    M1 = (-1.34674 - 1.77861 * x + 5.90757 * y) / M
-    M2 = (0.03638 - 31.44464 * x + 30.06400 * y) / M
-
-    daylight_basis = reshape_msds(
-        MSDS_DAYLIGHT_BASIS_TLCI2012, shape, "Align", copy=False
-    ).values
-
-    return SpectralDistribution(
-        daylight_basis[..., 0]
-        + M1 * daylight_basis[..., 1]
-        + M2 * daylight_basis[..., 2],
-        shape,
-        name=f"TLCI-2012 Daylight {CCT:.0f}K",
-    )
-
-
 def sd_reference_illuminant_TLCI2012(
     sd_test: SpectralDistribution,
 ) -> tuple[SpectralDistribution, float, float]:
     """
-    Compute the *TLCI-2012* reference illuminant for given test spectral
+    Compute the *TLCI-2012* reference illuminant for the given test spectral
     distribution.
 
     Parameters
@@ -522,7 +468,7 @@ def sd_reference_illuminant_TLCI2012(
 
     References
     ----------
-    :cite:`EuropeanBroadcastingUnion2017`
+    :cite:`EuropeanBroadcastingUnion2013`
 
     Examples
     --------
@@ -538,7 +484,12 @@ def sd_reference_illuminant_TLCI2012(
     sd_test = reshape_sd(sd_test, shape, "Align", copy=False)
 
     # EBU Tech 3355 section 1.1.1, equations [1]-[3].
-    uv = _sd_uv_TLCI2012(sd_test)
+    cmfs = reshape_msds(
+        MSDS_CMFS["CIE 1931 2 Degree Standard Observer"], shape, copy=False
+    )
+    with domain_range_scale("1"):
+        XYZ = sd_to_XYZ(sd_test, cmfs, method="Integration")
+    uv = UCS_to_uv(XYZ_to_UCS(XYZ))
     CCT, uv_locus, is_daylight = uv_to_CCT_TLCI2012(uv)
 
     # EBU Tech 3355 section 1.1.2 uses Planckian below 3400 K, daylight
@@ -551,7 +502,7 @@ def sd_reference_illuminant_TLCI2012(
         # Sections 1.1.2.1 and 1.1.2.2 normalise P3400 and D5000 at
         # 560 nm before the section 1.1.2.3 interpolation, equation [15].
         sd_planckian_3400 = sd_planckian_TLCI2012(3400, shape)
-        sd_daylight_5000 = _sd_normalise_560_TLCI2012(sd_daylight_TLCI2012(5000, shape))
+        sd_daylight_5000 = sd_daylight_TLCI2012(5000, shape)
         weight = (CCT - 3400) / (5000 - 3400)
         sd_reference = SpectralDistribution(
             linstep_function(weight, sd_planckian_3400.values, sd_daylight_5000.values),
@@ -580,107 +531,7 @@ def sd_reference_illuminant_TLCI2012(
     return sd_reference, CCT, D_uv
 
 
-def _camera_RGB_illuminated(
-    sd_illuminant: SpectralDistribution,
-    msds_tcs: MultiSpectralDistributions,
-    msds_camera: MultiSpectralDistributions,
-    shape: SpectralShape,
-) -> NDArrayFloat:
-    """
-    Compute raw camera RGB signals for ``msds_tcs`` under ``sd_illuminant``.
-
-    ``msds_tcs`` and ``msds_camera`` are expected to be already aligned to
-    ``shape``.
-    """
-
-    with domain_range_scale("1"):
-        # EBU Tech 3355 sections 1.2 and 1.3.1, equations [18]-[19], with the
-        # camera spectral sensitivities standing in for the colour matching
-        # functions.
-        return msds_to_XYZ(
-            msds_tcs,
-            msds_camera,
-            reshape_sd(sd_illuminant, shape, "Align", copy=False),
-            method="Integration",
-        )
-
-
-def _camera_RGB_flat_reflector(
-    sd_illuminant: SpectralDistribution,
-    msds_camera: MultiSpectralDistributions,
-    shape: SpectralShape,
-    reflectance: float = 0.9,
-) -> NDArrayFloat:
-    """
-    Compute camera RGB signals for a flat neutral reflector.
-
-    ``msds_camera`` is expected to be already aligned to ``shape``.
-    """
-
-    # EBU Tech 3355 section 1.3.1 sets the neutral reflector level to 0.9
-    # so the ColorChecker white patch generates peak white.
-    sd_reflector = SpectralDistribution(
-        np.full(len(shape.wavelengths), reflectance),
-        shape,
-        name=f"{reflectance:.0%} Flat Reflector",
-    )
-
-    with domain_range_scale("1"):
-        # EBU Tech 3355 sections 1.2 and 1.3.1, equations [18]-[19].
-        return sd_to_XYZ(
-            sd_reflector,
-            msds_camera,
-            reshape_sd(sd_illuminant, shape, "Align", copy=False),
-        )
-
-
-def _camera_to_Lab(RGB: NDArrayFloat) -> tuple[NDArrayFloat, NDArrayBoolean]:
-    """
-    Process white-balanced camera RGB values through the TLCI display pipeline.
-    """
-
-    # EBU Tech 3355 section 1.3.2, equations [20]-[22].
-    RGB_matrix = np.matmul(RGB, MATRIX_TLCI2012_CAMERA.T)
-    # EBU Tech 3355 section 1.3.2, equations [23]-[25].
-    RGB_saturation = np.matmul(RGB_matrix, MATRIX_TLCI2012_SATURATION.T)
-    # Section 1.5.1 excludes colours clipped in the mathematics. Negative
-    # camera RGB values are excluded here; display RGB values cannot become
-    # negative after the clipped OETF input below.
-    clipped = np.any(RGB_matrix < 0, axis=-1) | np.any(RGB_saturation < 0, axis=-1)
-
-    # EBU Tech 3355 section 1.3.3, equation [26], produces the R_C' G_C' B_C'
-    # signals that drive the display. Keep the section 2 equation [61]
-    # headroom above nominal white, but cap at the full-scale display-drive
-    # signal implied by code value 255.
-    RGB_prime = np.clip(
-        oetf_BT709(np.clip(RGB_saturation, 0, None)), None, _STUDIO_SWING_WHITE
-    )
-    # EBU Tech 3355 section 1.4.1, equation [28].
-    RGB_display = spow(RGB_prime, _DISPLAY_GAMMA)
-    # EBU Tech 3355 section 1.4.2, equation [29].
-    XYZ = np.matmul(RGB_display, MATRIX_TLCI2012_DISPLAY.T)
-
-    # EBU Tech 3355 section 1.5, equations [30]-[33].
-    return XYZ_to_Lab(XYZ, _D65_XY), clipped
-
-
-def _Q_from_delta_E(delta_Es: NDArrayFloat) -> tuple[float, float]:
-    """
-    Compute the *TLCI-2012* quality index and aggregate colour difference.
-    """
-
-    if len(delta_Es) == 0:
-        error = "All TLCI/TLMF samples were excluded by negative RGB clipping."
-        raise ValueError(error)
-
-    # EBU Tech 3355 section 1.5.1, equations [58]-[59].
-    delta_E_a = as_float_scalar(np.mean(delta_Es**4) ** 0.25)
-    Q_a = as_float_scalar(100.0 / (1.0 + (delta_E_a / _TLCI_K) ** _TLCI_P))
-
-    return Q_a, delta_E_a
-
-
-def _tlci_pipeline(
+def colour_differences_TLCI2012(
     sd_test: SpectralDistribution,
     sd_reference: SpectralDistribution,
     msds_camera: MultiSpectralDistributions,
@@ -689,50 +540,168 @@ def _tlci_pipeline(
     """
     Compute the per-sample colour differences and clipping flags for all 24
     *EBU Tech 3355* Appendix 4 test-colour samples.
+
+    Parameters
+    ----------
+    sd_test
+        Test spectral distribution.
+    sd_reference
+        Reference spectral distribution.
+    msds_camera
+        Camera spectral sensitivities.
+    normalise_test_luma_only
+        Whether to apply the *TLMF-2013* test-source luma-only normalisation
+        instead of independently balancing both sources for *TLCI-2012*.
+
+    Returns
+    -------
+    :class:`tuple`
+        Per-sample CIEDE2000 colour differences and flags indicating samples
+        excluded by negative camera RGB clipping.
+
+    References
+    ----------
+    :cite:`EuropeanBroadcastingUnion2013`
     """
 
     shape = SPECTRAL_SHAPE_TLCI2012
     msds_camera = reshape_msds(msds_camera, shape, "Align", copy=False)
-    msds_tcs = reshape_msds(_MSDS_TCS_TLCI2012, shape, "Align", copy=False)
+    cache_key = "Test Colour Samples"
+    if is_caching_enabled() and cache_key in _CACHE_MSDS_TCS_TLCI2012:
+        msds_tcs = _CACHE_MSDS_TCS_TLCI2012[cache_key]
+    else:
+        # EBU Tech 3355 Appendix 4 test-colour samples assembled as a single
+        # multi-spectral distribution so the camera integration can be
+        # vectorised. The first 18 samples are the coloured ColorChecker
+        # patches used by TLCI; the remaining 6 grey scale patches are used
+        # only by TLMF.
+        msds_tcs = MultiSpectralDistributions(
+            [
+                [DATA_TCS_TLCI2012[name][wavelength] for name in NAMES_TCS_TLCI2012]
+                for wavelength in shape.wavelengths
+            ],
+            shape.wavelengths,
+            labels=NAMES_TCS_TLCI2012,
+        )
+        _CACHE_MSDS_TCS_TLCI2012[cache_key] = msds_tcs
 
-    RGB_test = _camera_RGB_illuminated(sd_test, msds_tcs, msds_camera, shape)
-    RGB_reference = _camera_RGB_illuminated(sd_reference, msds_tcs, msds_camera, shape)
+    msds_tcs = reshape_msds(msds_tcs, shape, "Align", copy=False)
 
-    RGB_neutral_test = _camera_RGB_flat_reflector(sd_test, msds_camera, shape)
-    RGB_neutral_reference = _camera_RGB_flat_reflector(sd_reference, msds_camera, shape)
+    # EBU Tech 3355 section 1.3.1 sets the neutral reflector level to 0.9 so
+    # the ColorChecker white patch generates peak white.
+    sd_reflector = SpectralDistribution(
+        np.full(len(shape.wavelengths), 0.9),
+        shape,
+        name="90% Flat Reflector",
+    )
 
-    # EBU Tech 3355 section 1.3.1 colour-balances TLCI test and reference
-    # luminaires independently. For TLMF, the test luminaire keeps the
-    # reference-luminaire colour balance and is normalised only so the
-    # camera luma signal is unity. Tech 3355 does not give a separate luma
-    # equation; derive it from the matrixed neutral camera signal using the
-    # display luminance row defined in section 1.4.2, equation [29].
+    with domain_range_scale("1"):
+        # EBU Tech 3355 sections 1.2 and 1.3.1, equations [18]-[19], with the
+        # camera sensitivities standing in for the colour matching functions.
+        RGB_test, RGB_reference = (
+            msds_to_XYZ(
+                msds_tcs,
+                msds_camera,
+                reshape_sd(sd_illuminant, shape, "Align", copy=False),
+                method="Integration",
+            )
+            for sd_illuminant in (sd_test, sd_reference)
+        )
+        RGB_neutral_test, RGB_neutral_reference = (
+            sd_to_XYZ(
+                sd_reflector,
+                msds_camera,
+                reshape_sd(sd_illuminant, shape, "Align", copy=False),
+                method="Integration",
+            )
+            for sd_illuminant in (sd_test, sd_reference)
+        )
+
     if normalise_test_luma_only:
-        RGB_neutral_test_matrix = np.matmul(RGB_neutral_test, MATRIX_TLCI2012_CAMERA.T)
-        RGB_neutral_reference_matrix = np.matmul(
-            RGB_neutral_reference, MATRIX_TLCI2012_CAMERA.T
-        )
-        luma_test = np.dot(RGB_neutral_test_matrix, MATRIX_TLCI2012_DISPLAY[1])
-        luma_reference = np.dot(
-            RGB_neutral_reference_matrix, MATRIX_TLCI2012_DISPLAY[1]
-        )
+        # Section 1.3.1 applies the reference-source balance coefficients to
+        # both TLMF sources, then normalises test-source camera luma to unity.
         RGB_test = RGB_test / RGB_neutral_reference
-        RGB_test *= luma_reference / luma_test
+        RGB_neutral_test = RGB_neutral_test / RGB_neutral_reference
+        RGB_neutral_test_matrix = np.matmul(RGB_neutral_test, MATRIX_TLCI2012_CAMERA.T)
+        luma_test = np.dot(RGB_neutral_test_matrix, MATRIX_TLCI2012_DISPLAY[1])
+        RGB_test = RGB_test / luma_test
     else:
         RGB_test = RGB_test / RGB_neutral_test
 
     RGB_reference = RGB_reference / RGB_neutral_reference
 
-    Lab_test, clipped_test = _camera_to_Lab(RGB_test)
-    Lab_reference, clipped_reference = _camera_to_Lab(RGB_reference)
+    Lab_values = []
+    clipped_values = []
+    for RGB in (RGB_test, RGB_reference):
+        # Section 1.3.2, equations [20]-[25].
+        RGB_matrix = np.matmul(RGB, MATRIX_TLCI2012_CAMERA.T)
+        RGB_saturation = np.matmul(RGB_matrix, MATRIX_TLCI2012_SATURATION.T)
+        # Section 1.5.1 excludes colours clipped in the mathematics. Display
+        # RGB cannot become negative after the clipped OETF input below.
+        clipped_values.append(
+            np.any(RGB_matrix < 0, axis=-1) | np.any(RGB_saturation < 0, axis=-1)
+        )
+
+        # Section 1.3.3, equation [26], followed by sections 1.4.1 and 1.4.2,
+        # equations [28]-[29]. Preserve the section 2 equation [61] headroom
+        # above nominal white, capped at the code-value-255 display drive.
+        RGB_prime = np.clip(
+            oetf_BT709(np.clip(RGB_saturation, 0, None)),
+            None,
+            CONSTANTS_TLCI2012.studio_swing_white,
+        )
+        RGB_display = spow(RGB_prime, CONSTANTS_TLCI2012.display_gamma)
+        XYZ = np.matmul(RGB_display, MATRIX_TLCI2012_DISPLAY.T)
+        # Section 1.5, equations [30]-[33].
+        Lab_values.append(XYZ_to_Lab(XYZ, CONSTANTS_TLCI2012.xy_D65))
 
     # EBU Tech 3355 section 1.5, equations [34]-[54], defines the
     # CIEDE2000 colour-difference path with unity k factors; use Colour's
     # existing CIE 2000 implementation for that standard calculation.
     return (
-        delta_E(Lab_test, Lab_reference, method="CIE 2000"),
-        clipped_test | clipped_reference,
+        delta_E(Lab_values[0], Lab_values[1], method="CIE 2000"),
+        clipped_values[0] | clipped_values[1],
     )
+
+
+def quality_index_TLCI2012(delta_E_s: ArrayLike) -> tuple[float, float]:
+    """
+    Compute the *TLCI-2012* or *TLMF-2013* quality index and aggregate colour
+    difference.
+
+    Parameters
+    ----------
+    delta_E_s
+        Per-sample CIEDE2000 colour differences.
+
+    Returns
+    -------
+    :class:`tuple`
+        Quality index and aggregate colour difference.
+
+    Raises
+    ------
+    ValueError
+        If every sample was excluded by negative RGB clipping.
+
+    References
+    ----------
+    :cite:`EuropeanBroadcastingUnion2013`
+    """
+
+    delta_E_s = as_float_array(delta_E_s)
+
+    if delta_E_s.size == 0:
+        error = "All TLCI/TLMF samples were excluded by negative RGB clipping."
+        raise ValueError(error)
+
+    # EBU Tech 3355 section 1.5.1, equations [58]-[59].
+    delta_E_a = as_float_scalar(np.mean(delta_E_s**4) ** 0.25)
+    Q_a = as_float_scalar(
+        100.0 / (1.0 + (delta_E_a / CONSTANTS_TLCI2012.k) ** CONSTANTS_TLCI2012.p)
+    )
+
+    return Q_a, delta_E_a
 
 
 @typing.overload
@@ -798,7 +767,7 @@ def television_lighting_consistency_index(
 
     References
     ----------
-    :cite:`EuropeanBroadcastingUnion2017`
+    :cite:`EuropeanBroadcastingUnion2013`
 
     Examples
     --------
@@ -813,20 +782,20 @@ def television_lighting_consistency_index(
     msds_camera = MSDS_CAMERA_SENSITIVITIES_TLCI2012[camera]
 
     sd_reference, CCT, D_uv = sd_reference_illuminant_TLCI2012(sd_test)
-    delta_Es, invalid = _tlci_pipeline(sd_test, sd_reference, msds_camera)
+    delta_E_s, invalid = colour_differences_TLCI2012(sd_test, sd_reference, msds_camera)
     # EBU Tech 3355 section 1.5.1 uses only the first 18 coloured ColorChecker
     # patches for TLCI, excluding the grey scale patches.
-    delta_Es, invalid = delta_Es[:18], invalid[:18]
-    delta_Es = delta_Es[~invalid]
+    delta_E_s, invalid = delta_E_s[:18], invalid[:18]
+    delta_E_s = delta_E_s[~invalid]
 
-    Q_a, delta_E_a = _Q_from_delta_E(delta_Es)
+    Q_a, delta_E_a = quality_index_TLCI2012(delta_E_s)
 
     if additional_data:
         return ColourQuality_Specification_TLCI2012(
             name=sd_test.name or "Test",
             Q_a=Q_a,
             delta_E_a=delta_E_a,
-            delta_E_s=delta_Es,
+            delta_E_s=delta_E_s,
             CCT=CCT,
             D_uv=D_uv,
         )
@@ -886,7 +855,7 @@ def television_luminaire_matching_factor(
 
     References
     ----------
-    :cite:`EuropeanBroadcastingUnion2017`
+    :cite:`EuropeanBroadcastingUnion2013`
 
     Examples
     --------
@@ -894,12 +863,12 @@ def television_luminaire_matching_factor(
     >>> television_luminaire_matching_factor(  # doctest: +ELLIPSIS
     ...     SDS_ILLUMINANTS["FL2"], SDS_ILLUMINANTS["D65"]
     ... )
-    np.float64(5.39310977...)
+    np.float64(5.37607960...)
     """
 
     # EBU Tech 3355 section 1.5.1 uses all 24 ColorChecker patches for
     # TLMF-2013 and section 1.3.1 normalises the test source by luma only.
-    delta_E_s, invalid = _tlci_pipeline(
+    delta_E_s, invalid = colour_differences_TLCI2012(
         sd_test,
         sd_reference,
         MSDS_CAMERA_SENSITIVITIES_TLCI2012["EBU Standard Camera"],
@@ -907,7 +876,7 @@ def television_luminaire_matching_factor(
     )
     delta_E_s = delta_E_s[~invalid]
 
-    Q_a, delta_E_a = _Q_from_delta_E(delta_E_s)
+    Q_a, delta_E_a = quality_index_TLCI2012(delta_E_s)
 
     if additional_data:
         return ColourQuality_Specification_TLMF2013(
