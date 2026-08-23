@@ -1622,8 +1622,8 @@ Academy Spectral Similarity Index (SSI)
 
     np.float64(94.0)
 
-Television Lighting Consistency Index (TLCI)
-********************************************
+Television Lighting Consistency Index (TLCI-2012)
+*************************************************
 
 .. code-block:: python
 
@@ -1633,10 +1633,10 @@ Television Lighting Consistency Index (TLCI)
 
 .. code-block:: text
 
-    np.float64(29.4691102039)
+    np.float64(29.4925417531)
 
-Television Luminaire Matching Factor (TLMF)
-*******************************************
+Television Luminaire Matching Factor (TLMF-2013)
+************************************************
 
 .. code-block:: python
 
@@ -1648,7 +1648,7 @@ Television Luminaire Matching Factor (TLMF)
 
 .. code-block:: text
 
-    np.float64(5.3931097713)
+    np.float64(5.3760796034)
 
 Spectral Up-Sampling & Recovery - ``colour.recovery``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

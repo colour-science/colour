@@ -1738,6 +1738,18 @@ class PortNode(TreeNode, MixinLogging):
                 target_port, target_node.output_ports.get(target_port)
             )
 
+        attest(
+            port_source is not None,
+            f'"{source_port}" is not a member of "{self._name}" ports!',
+        )
+        attest(
+            port_target is not None,
+            f'"{target_port}" is not a member of "{target_node.name}" ports!',
+        )
+
+        port_source = typing.cast("Port", port_source)
+        port_target = typing.cast("Port", port_target)
+
         port_source.connect(port_target)
 
         self.on_connected.notify((self, source_port, target_node, target_port))
@@ -1787,6 +1799,18 @@ class PortNode(TreeNode, MixinLogging):
         port_target = target_node.input_ports.get(
             target_port, target_node.output_ports.get(target_port)
         )
+
+        attest(
+            port_source is not None,
+            f'"{source_port}" is not a member of "{self._name}" ports!',
+        )
+        attest(
+            port_target is not None,
+            f'"{target_port}" is not a member of "{target_node.name}" ports!',
+        )
+
+        port_source = typing.cast("Port", port_source)
+        port_target = typing.cast("Port", port_target)
 
         port_source.disconnect(port_target)
 

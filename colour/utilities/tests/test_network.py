@@ -1100,10 +1100,40 @@ class TestPortNode:
 
         self._add_node_1.disconnect("output", self._multiply_node_1, "a")
 
+        pytest.raises(
+            AssertionError,
+            self._add_node_1.connect,
+            "undefined",
+            self._multiply_node_1,
+            "a",
+        )
+        pytest.raises(
+            AssertionError,
+            self._add_node_1.connect,
+            "output",
+            self._multiply_node_1,
+            "undefined",
+        )
+
     def test_disconnect(self) -> None:
         """Test :meth:`colour.utilities.network.PortNode.disconnect` method."""
 
         self.test_edges()
+
+        pytest.raises(
+            AssertionError,
+            self._add_node_1.disconnect,
+            "undefined",
+            self._multiply_node_1,
+            "a",
+        )
+        pytest.raises(
+            AssertionError,
+            self._add_node_1.disconnect,
+            "output",
+            self._multiply_node_1,
+            "undefined",
+        )
 
     def test_process(self) -> None:
         """Test :meth:`colour.utilities.network.PortNode.process` method."""
