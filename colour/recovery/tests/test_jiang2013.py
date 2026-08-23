@@ -68,8 +68,10 @@ class TestPCA_Jiang2013:
             additional_data=True,
         )
 
+        # Only two camera sensitivity datasets are bundled, thus the third
+        # eigenvector spans a numerically unstable null space.
         np.testing.assert_allclose(
-            np.abs(np.array(w)),
+            np.abs(np.array(w)[..., :2]),
             np.array(
                 [
                     [
@@ -172,7 +174,7 @@ class TestPCA_Jiang2013:
                         [0.00097116, 0.00124835, 0.00014463],
                     ],
                 ]
-            ),
+            )[..., :2],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         np.testing.assert_allclose(
