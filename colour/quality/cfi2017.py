@@ -42,7 +42,8 @@ from colour.colorimetry import (
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, List, Literal, Tuple
 
-from colour.hints import NDArrayFloat, cast
+from colour.colorimetry.spectrum import SPECTRAL_SHAPE_DEFAULT
+from colour.hints import ArrayLike, List, NDArrayFloat, Tuple, cast
 from colour.models import JMh_CIECAM02_to_CAM02UCS, UCS_to_uv, XYZ_to_UCS
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.utilities import (
@@ -66,16 +67,16 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
-    "SPECTRAL_SHAPE_CIE2017",
     "ROOT_RESOURCES_CIE2017",
-    "DataColorimetry_TCS_CIE2017",
-    "ColourRendering_Specification_CIE2017",
-    "colour_fidelity_index_CIE2017",
-    "load_TCS_CIE2017",
+    "SPECTRAL_SHAPE_CIE2017",
     "CCT_reference_illuminant",
+    "ColourRendering_Specification_CIE2017",
+    "DataColorimetry_TCS_CIE2017",
+    "colour_fidelity_index_CIE2017",
+    "delta_E_to_R_f",
+    "load_TCS_CIE2017",
     "sd_reference_illuminant",
     "tcs_colorimetry_data",
-    "delta_E_to_R_f",
 ]
 
 SPECTRAL_SHAPE_CIE2017: SpectralShape = SpectralShape(380, 780, 1)
@@ -370,7 +371,9 @@ def CCT_reference_illuminant(sd: SpectralDistribution) -> NDArrayFloat:
     return uv_to_CCT_Ohno2013(UCS_to_uv(XYZ_to_UCS(XYZ)), start=1000, end=25000)
 
 
-def sd_reference_illuminant(CCT: float, shape: SpectralShape) -> SpectralDistribution:
+def sd_reference_illuminant(
+    CCT: float, shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT
+) -> SpectralDistribution:
     """
     Compute the reference illuminant for the specified correlated colour
     temperature :math:`T_{cp}` for use in *CIE 2017 Colour Fidelity Index*
@@ -381,7 +384,8 @@ def sd_reference_illuminant(CCT: float, shape: SpectralShape) -> SpectralDistrib
     CCT
         Correlated colour temperature :math:`T_{cp}`.
     shape
-        Desired shape of the returned spectral distribution.
+        Desired shape of the returned spectral distribution. Defaults to
+        SPECTRAL_SHAPE_DEFAULT
 
     Returns
     -------
