@@ -20,6 +20,7 @@ from colour.colorimetry import (
     reshape_sd,
     sd_blackbody,
 )
+from colour.colorimetry.spectrum import SPECTRAL_SHAPE_DEFAULT
 from colour.quality.cfi2017 import (
     CCT_reference_illuminant,
     colour_fidelity_index_CIE2017,
@@ -927,6 +928,14 @@ class TestSdReferenceIlluminant:
     Define :func:`colour.quality.CIE2017.sd_reference_illuminant`
     definition unit tests methods.
     """
+
+    def test_default_args(self) -> None:
+        """Test :func:`color.quality.CIE2017.sd_reference_illuminant` for
+        default shape argument.
+        """
+
+        sd = sd_reference_illuminant(5421)
+        assert sd.shape == SPECTRAL_SHAPE_DEFAULT
 
     def test_sd_reference_illuminant(self) -> None:
         """

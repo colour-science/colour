@@ -163,6 +163,29 @@ class SpectralShape:
         self.end = end
         self.interval = interval
 
+    @classmethod
+    def from_array(cls, data: ArrayLike) -> SpectralShape:
+        """Alternate constructor, create a SpectralShape from an ArrayLike list
+        of values. Values must be evenly spaced.
+
+        Parameters
+        ----------
+        data : ArrayLike
+            The wavelength list
+
+        Returns
+        -------
+        SpectralShape
+        """
+        data = np.asarray(data)
+
+        spacing = (diff_intermediate := np.diff(data))[0]
+        if ~np.all(diff_intermediate == spacing):
+            error = "data values must have equal spacing"
+            raise RuntimeError(error)
+
+        return SpectralShape(data[0], data[-1], spacing)
+
     @property
     def start(self) -> Real:
         """
