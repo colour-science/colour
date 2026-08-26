@@ -21,8 +21,6 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.algebra import eigen_decomposition
 from colour.characterisation import RGB_CameraSensitivities
 from colour.colorimetry import (
@@ -43,9 +41,19 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.hints import cast
 from colour.recovery import BASIS_FUNCTIONS_DYER2017
-from colour.utilities import as_float_array, optional, runtime_warning, tsplit
+from colour.utilities import (
+    array_namespace,
+    as_float_array,
+    optional,
+    runtime_warning,
+    tsplit,
+    xp_as_float_array,
+    xp_create_diagonal,
+    xp_lstsq,
+    xp_matrix_transpose,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -123,6 +131,7 @@ def PCA_Jiang2013(
 
     Examples
     --------
+    >>> import numpy as np
     >>> from colour.colorimetry import SpectralShape
     >>> from colour.characterisation import MSDS_CAMERA_SENSITIVITIES
     >>> shape = SpectralShape(400, 700, 10)
@@ -141,7 +150,7 @@ def PCA_Jiang2013(
     ) -> NDArrayFloat:
         """Generate a normalised camera *RGB* sensitivity."""
 
-        sensitivity = cast("SpectralDistribution", msds.signals[channel].copy())
+        sensitivity = msds.signals[channel].copy()
 
         return sensitivity.normalise().values
 
@@ -150,14 +159,22 @@ def PCA_Jiang2013(
         G_sensitivities.append(normalised_sensitivity(msds, msds.labels[1]))
         B_sensitivities.append(normalised_sensitivity(msds, msds.labels[2]))
 
+    xp = array_namespace(R_sensitivities[0])
+
     R_w_v = eigen_decomposition(
-        np.vstack(R_sensitivities), eigen_w_v_count, covariance_matrix=True
+        xp.concat([xp_reshape(s, (1, -1), xp=xp) for s in R_sensitivities], axis=0),
+        eigen_w_v_count,
+        covariance_matrix=True,
     )
     G_w_v = eigen_decomposition(
-        np.vstack(G_sensitivities), eigen_w_v_count, covariance_matrix=True
+        xp.concat([xp_reshape(s, (1, -1), xp=xp) for s in G_sensitivities], axis=0),
+        eigen_w_v_count,
+        covariance_matrix=True,
     )
     B_w_v = eigen_decomposition(
-        np.vstack(B_sensitivities), eigen_w_v_count, covariance_matrix=True
+        xp.concat([xp_reshape(s, (1, -1), xp=xp) for s in B_sensitivities], axis=0),
+        eigen_w_v_count,
+        covariance_matrix=True,
     )
 
     if additional_data:
@@ -213,6 +230,7 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
 
     Examples
     --------
+    >>> import numpy as np
     >>> from colour.colorimetry import (
     ...     SDS_ILLUMINANTS,
     ...     msds_to_XYZ,
@@ -289,6 +307,9 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
     """
 
     RGB = as_float_array(RGB)
+
+    xp = array_namespace(RGB)
+
     shape = optional(shape, illuminant.shape)
 
     if illuminant.shape != shape:
@@ -301,15 +322,41 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
         )
         reflectances = reshape_msds(reflectances, shape, copy=False)
 
-    S = np.diag(illuminant.values)
-    R = np.transpose(reflectances.values)
+    S = xp_create_diagonal(xp_as_float_array(illuminant.values, xp=xp, like=RGB), xp=xp)
+    R = xp_matrix_transpose(
+        xp_as_float_array(reflectances.values, xp=xp, like=RGB), xp=xp
+    )
 
-    A = np.dot(np.dot(R, S), eigen_w)
+    A = xp.matmul(xp.matmul(R, S), eigen_w)
 
-    X = np.linalg.lstsq(A, RGB, rcond=None)[0]
-    X = np.dot(eigen_w, X)
+    X = xp_lstsq(A, RGB, xp=xp)
+    X = xp.matmul(eigen_w, X)
 
     return SpectralDistribution(X, shape.wavelengths)
+
+
+@typing.overload
+def RGB_to_msds_camera_sensitivities_Jiang2013(
+    RGB: Domain1,
+    illuminant: SpectralDistribution,
+    reflectances: MultiSpectralDistributions,
+    basis_functions: ArrayLike = ...,
+    shape: SpectralShape | None = ...,
+    *,
+    as_array: Literal[False] = False,
+) -> MultiSpectralDistributions: ...
+
+
+@typing.overload
+def RGB_to_msds_camera_sensitivities_Jiang2013(
+    RGB: Domain1,
+    illuminant: SpectralDistribution,
+    reflectances: MultiSpectralDistributions,
+    basis_functions: ArrayLike = ...,
+    shape: SpectralShape | None = ...,
+    *,
+    as_array: Literal[True],
+) -> NDArrayFloat: ...
 
 
 def RGB_to_msds_camera_sensitivities_Jiang2013(
@@ -318,7 +365,9 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
     reflectances: MultiSpectralDistributions,
     basis_functions: ArrayLike = BASIS_FUNCTIONS_DYER2017,
     shape: SpectralShape | None = None,
-) -> MultiSpectralDistributions:
+    *,
+    as_array: bool = False,
+) -> MultiSpectralDistributions | NDArrayFloat:
     """
     Recover the camera *RGB* sensitivities for the specified camera *RGB*
     values using *Jiang et al. (2013)* method.
@@ -341,11 +390,16 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
         Spectral shape of the recovered camera *RGB* sensitivities.
         The ``illuminant`` and ``reflectances`` will be aligned to it if
         passed, otherwise, the ``illuminant`` shape is used.
+    as_array
+        Whether to return raw spectral values as a
+        :class:`numpy.ndarray` of shape ``(n_wavelengths, 3)`` instead of
+        a :class:`RGB_CameraSensitivities` instance. Defaults to *False*.
 
     Returns
     -------
-    :class:`colour.RGB_CameraSensitivities`
-        Recovered camera *RGB* sensitivities.
+    :class:`colour.RGB_CameraSensitivities` or :class:`numpy.ndarray`
+        Recovered camera *RGB* sensitivities, or the underlying spectral
+        values when ``as_array=True``.
 
     Notes
     -----
@@ -425,11 +479,15 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
            [-6.00395414e-03,  1.54678227e-03,  5.40394352e-04]])
     """
 
-    R, G, B = tsplit(np.reshape(RGB, [-1, 3]))
-    basis_functions = as_float_array(basis_functions)
+    RGB = as_float_array(RGB)
+
+    xp = array_namespace(RGB)
+
+    R, G, B = tsplit(xp_reshape(RGB, [-1, 3], xp=xp))
+    basis_functions = xp_as_float_array(basis_functions, xp=xp, like=RGB)
     shape = optional(shape, illuminant.shape)
 
-    R_w, G_w, B_w = tsplit(np.moveaxis(basis_functions, 0, 1))
+    R_w, G_w, B_w = tsplit(xp.moveaxis(basis_functions, 0, 1))
 
     if illuminant.shape != shape:
         runtime_warning(f'Aligning "{illuminant.name}" illuminant shape to "{shape}".')
@@ -453,6 +511,9 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
 
     msds_camera_sensitivities = RGB_CameraSensitivities([S_R, S_G, S_B])
 
-    msds_camera_sensitivities /= np.max(msds_camera_sensitivities.values)
+    msds_camera_sensitivities /= xp.max(msds_camera_sensitivities.values)
+
+    if as_array:
+        return msds_camera_sensitivities.values
 
     return msds_camera_sensitivities
