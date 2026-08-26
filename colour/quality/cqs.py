@@ -26,20 +26,19 @@ from __future__ import annotations
 import typing
 from dataclasses import dataclass
 
-import numpy as np
-
 from colour.adaptation import chromatic_adaptation_VonKries
 from colour.algebra import euclidean_distance, sdiv, sdiv_mode
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
     MSDS_CMFS,
     SPECTRAL_SHAPE_DEFAULT,
+    CIE_illuminant_D_series,
     MultiSpectralDistributions,
     SpectralDistribution,
+    msds_to_XYZ,
+    planck_law,
     reshape_msds,
     reshape_sd,
-    sd_blackbody,
-    sd_CIE_illuminant_D_series,
     sd_to_XYZ,
 )
 
@@ -52,12 +51,22 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.hints import cast
 from colour.models import Lab_to_LCHab  # pyright: ignore
 from colour.models import UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ
 from colour.quality.datasets.vs import INDEXES_TO_NAMES_VS, SDS_VS
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
-from colour.utilities import as_float_array, domain_range_scale, tsplit, validate_method
+from colour.utilities import (
+    array_namespace,
+    as_float_array,
+    as_float_scalar,
+    domain_range_scale,
+    suppress_warnings,
+    tsplit,
+    validate_method,
+    xp_as_float_array,
+    xp_average,
+    xp_matrix_transpose,
+)
 from colour.utilities.documentation import DocstringTuple, is_documentation_building
 
 __author__ = "Colour Developers"
@@ -209,8 +218,7 @@ References
 @typing.overload
 def colour_quality_scale(
     sd_test: SpectralDistribution,
-    *,
-    additional_data: Literal[False],
+    additional_data: Literal[False] = False,
     method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = ...,
 ) -> float: ...
 
@@ -218,24 +226,24 @@ def colour_quality_scale(
 @typing.overload
 def colour_quality_scale(
     sd_test: SpectralDistribution,
-    additional_data: Literal[True] = True,
+    additional_data: Literal[True],
     method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = ...,
 ) -> ColourRendering_Specification_CQS: ...
 
 
 @typing.overload
 def colour_quality_scale(
-    sd_test: SpectralDistribution,
-    additional_data: Literal[False],
+    sd_test: MultiSpectralDistributions,
+    additional_data: Literal[False] = False,
     method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = ...,
-) -> float: ...
+) -> NDArrayFloat: ...
 
 
 def colour_quality_scale(
-    sd_test: SpectralDistribution,
+    sd_test: SpectralDistribution | MultiSpectralDistributions,
     additional_data: bool = False,
     method: Literal["NIST CQS 7.4", "NIST CQS 9.0"] | str = "NIST CQS 9.0",
-) -> float | ColourRendering_Specification_CQS:
+) -> float | NDArrayFloat | ColourRendering_Specification_CQS:
     """
     Compute the *Colour Quality Scale* (CQS) of the specified spectral
     distribution using the specified method.
@@ -243,7 +251,11 @@ def colour_quality_scale(
     Parameters
     ----------
     sd_test
-        Test spectral distribution.
+        Test spectral distribution. A
+        :class:`colour.MultiSpectralDistributions` of ``N`` test
+        illuminants is also accepted, in which case ``additional_data``
+        must be ``False`` and the return value is a :class:`numpy.ndarray`
+        of ``N`` :math:`Q_a` values.
     additional_data
         Whether to output additional data.
     method
@@ -251,7 +263,8 @@ def colour_quality_scale(
 
     Returns
     -------
-    :class:`float` or :class:`colour.quality.ColourRendering_Specification_CQS`
+    :class:`float`, :class:`numpy.ndarray` or \
+:class:`colour.quality.ColourRendering_Specification_CQS`
         *Colour Quality Scale* (CQS).
 
     References
@@ -275,89 +288,161 @@ def colour_quality_scale(
     )
 
     shape = cmfs.shape
-    sd_test = reshape_sd(sd_test, shape, copy=False)
     vs_sds = {
         sd.name: reshape_sd(sd, shape, copy=False) for sd in SDS_VS[method].values()
     }
 
+    is_msds = isinstance(sd_test, MultiSpectralDistributions)
+    if is_msds and additional_data:
+        error = (
+            '"additional_data=True" is not supported when "sd_test" is a '
+            '"MultiSpectralDistributions" instance.'
+        )
+        raise NotImplementedError(error)
+
+    if is_msds:
+        sd_test = reshape_msds(sd_test, shape, copy=False)
+        sd_test_values = sd_test.values
+        xp = array_namespace(sd_test_values)
+        test_values = xp_matrix_transpose(
+            xp_as_float_array(sd_test_values, xp=xp), xp=xp
+        )
+    else:
+        sd_test = reshape_sd(sd_test, shape, copy=False)
+        sd_test_values = sd_test.values
+        xp = array_namespace(sd_test_values)
+        test_values = xp_as_float_array(sd_test_values, xp=xp)[None, :]
+
     with domain_range_scale("1"):
-        XYZ = sd_to_XYZ(sd_test, cmfs)
+        XYZ = (
+            msds_to_XYZ(test_values, cmfs, method="Integration", shape=shape)
+            if is_msds
+            else sd_to_XYZ(sd_test, cmfs)[None, :]
+        )
 
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
-    CCT, _D_uv = uv_to_CCT_Ohno2013(uv)
+    CCT = uv_to_CCT_Ohno2013(uv)[..., 0]
 
-    if CCT < 5000:
-        sd_reference = sd_blackbody(CCT, shape)
-    else:
-        xy = CCT_to_xy_CIE_D(CCT)
-        sd_reference = sd_CIE_illuminant_D_series(xy)
-        sd_reference.align(shape)
+    # ``planck_law`` squeezes its output, so a single-CCT batch collapses
+    # to 1-D; the sample axis is reinstated below.
+    planckian = planck_law(shape.wavelengths * 1e-9, CCT) * 1e-9
+    planckian_values = (
+        planckian[None, :]
+        if planckian.ndim == 1
+        else xp_matrix_transpose(planckian, xp=xp)
+    )
+    # See :mod:`colour.quality.cri` for the warning-suppression rationale.
+    with suppress_warnings(colour_usage_warnings=True):
+        daylight = CIE_illuminant_D_series(CCT_to_xy_CIE_D(CCT), shape=shape)
+    daylight_values = (
+        daylight[None, :]
+        if daylight.ndim == 1
+        else xp_matrix_transpose(daylight, xp=xp)
+    )
+    ref_values = xp.where(CCT[..., None] < 5000, planckian_values, daylight_values)
 
-    test_vs_colorimetry_data = vs_colorimetry_data(
-        sd_test, sd_reference, vs_sds, cmfs, chromatic_adaptation=True
+    test_names, test_XYZ, test_Lab, test_C = _vs_colorimetry_data(
+        test_values, ref_values, vs_sds, cmfs, chromatic_adaptation=True
+    )
+    ref_names, ref_XYZ, ref_Lab, ref_C = _vs_colorimetry_data(
+        ref_values, ref_values, vs_sds, cmfs
     )
 
-    reference_vs_colorimetry_data = vs_colorimetry_data(
-        sd_reference, sd_reference, vs_sds, cmfs
+    D_C_ab = test_C - ref_C
+    D_E_ab = euclidean_distance(test_Lab, ref_Lab)
+    # ``D_E_ab ** 2 >= D_C_ab ** 2`` by Pythagoras; the inner ``xp.where``
+    # guards ``xp.sqrt`` against floating-point cancellation, not a colour
+    # data clamp.
+    D_Ep_squared = D_E_ab**2 - D_C_ab**2
+    D_Ep_ab = xp.where(
+        D_C_ab > 0,
+        xp.sqrt(xp.where(D_Ep_squared > 0, D_Ep_squared, xp.zeros_like(D_Ep_squared))),
+        D_E_ab,
     )
 
-    CCT_f: float
     if method == "nist cqs 9.0":
-        CCT_f = 1
+        CCT_f = xp.ones_like(D_C_ab[..., 0])
         scaling_f = 3.2
     else:
-        XYZ_r = sd_to_XYZ(sd_reference, cmfs)
-        XYZ_r = XYZ_r / XYZ_r[1]
-        CCT_f = CCT_factor(reference_vs_colorimetry_data, XYZ_r)
+        ref_XYZ_white = msds_to_XYZ(
+            ref_values, cmfs, method="Integration", shape=cmfs.shape
+        )
+        with sdiv_mode():
+            ref_XYZ_white_n = sdiv(ref_XYZ_white, ref_XYZ_white[..., 1:2])
+        CCT_f = _CCT_factor(ref_XYZ, ref_XYZ_white_n)
         scaling_f = 3.104
 
-    Q_as = colour_quality_scales(
-        test_vs_colorimetry_data,
-        reference_vs_colorimetry_data,
-        scaling_f,
-        CCT_f,
-    )
-
-    D_E_RMS = delta_E_RMS(Q_as, "D_E_ab")
-    D_Ep_RMS = delta_E_RMS(Q_as, "D_Ep_ab")
+    D_E_RMS = xp.sqrt(xp_average(D_E_ab**2, axis=-1, xp=xp))
+    D_Ep_RMS = xp.sqrt(xp_average(D_Ep_ab**2, axis=-1, xp=xp))
 
     Q_a = scale_conversion(D_Ep_RMS, CCT_f, scaling_f)
 
-    scaling_f = 2.93 * 1.0343 if method == "nist cqs 9.0" else 2.928
+    scaling_f_Q_f = 2.93 * 1.0343 if method == "nist cqs 9.0" else 2.928
+    Q_f = scale_conversion(D_E_RMS, CCT_f, scaling_f_Q_f)
 
-    Q_f = scale_conversion(D_E_RMS, CCT_f, scaling_f)
-
-    G_t = gamut_area([vs_CQS_data.Lab for vs_CQS_data in test_vs_colorimetry_data])
-    G_r = gamut_area([vs_CQS_data.Lab for vs_CQS_data in reference_vs_colorimetry_data])
-
+    G_t = gamut_area(test_Lab)
+    G_r = gamut_area(ref_Lab)
     Q_g = G_t / GAMUT_AREA_D65 * 100
 
+    Q_p: NDArrayFloat | None
+    Q_d: NDArrayFloat | None
     if method == "nist cqs 9.0":
-        Q_p = Q_d = None
+        Q_p = None
+        Q_d = None
     else:
-        p_delta_C = cast(
-            "float",
-            np.average([max(0, sample_data.D_C_ab) for sample_data in Q_as.values()]),
+        p_delta_C = xp_average(
+            xp.where(D_C_ab > 0, D_C_ab, xp.zeros_like(D_C_ab)),
+            axis=-1,
+            xp=xp,
         )
         Q_p = 100 - 3.6 * (D_Ep_RMS - p_delta_C)
         Q_d = G_t / G_r * CCT_f * 100
 
+    if is_msds:
+        return Q_a
+
+    Q_a_scalar = as_float_scalar(Q_a[0])
+
     if additional_data:
-        return ColourRendering_Specification_CQS(
-            sd_test.name,
-            Q_a,
-            Q_f,
-            Q_p,
-            Q_g,
-            Q_d,
-            Q_as,
-            (test_vs_colorimetry_data, reference_vs_colorimetry_data),
+        Q_f_scalar = as_float_scalar(Q_f[0])
+        Q_p_scalar = as_float_scalar(Q_p[0]) if Q_p is not None else None
+        Q_g_scalar = as_float_scalar(Q_g[0])
+        Q_d_scalar = as_float_scalar(Q_d[0]) if Q_d is not None else None
+
+        CCT_f_scalar = as_float_scalar(CCT_f[0])
+
+        Q_as: Dict[int, DataColourQualityScale_VS] = {}
+        for i, name in enumerate(test_names):
+            D_C_i = as_float_scalar(D_C_ab[0, i])
+            D_E_i = as_float_scalar(D_E_ab[0, i])
+            D_Ep_i = as_float_scalar(D_Ep_ab[0, i])
+            Q_a_i = float(scale_conversion(D_Ep_i, CCT_f_scalar, scaling_f))
+            Q_as[i + 1] = DataColourQualityScale_VS(name, Q_a_i, D_C_i, D_E_i, D_Ep_i)
+
+        test_data = tuple(
+            DataColorimetry_VS(name, test_XYZ[0, i], test_Lab[0, i], test_C[0, i])
+            for i, name in enumerate(test_names)
+        )
+        ref_data = tuple(
+            DataColorimetry_VS(name, ref_XYZ[0, i], ref_Lab[0, i], ref_C[0, i])
+            for i, name in enumerate(ref_names)
         )
 
-    return Q_a
+        return ColourRendering_Specification_CQS(
+            sd_test.name,
+            Q_a_scalar,
+            Q_f_scalar,
+            Q_p_scalar,
+            Q_g_scalar,
+            Q_d_scalar,
+            Q_as,
+            (test_data, ref_data),
+        )
+
+    return Q_a_scalar
 
 
-def gamut_area(Lab: ArrayLike) -> float:
+def gamut_area(Lab: ArrayLike) -> NDArrayFloat:
     """
     Compute the gamut area :math:`G` covered by the specified
     *CIE L\\*a\\*b\\** colourspace matrices.
@@ -374,6 +459,7 @@ def gamut_area(Lab: ArrayLike) -> float:
 
     Examples
     --------
+    >>> import numpy as np
     >>> Lab = [
     ...     np.array([39.94996006, 34.59018231, -19.86046321]),
     ...     np.array([38.88395498, 21.44348519, -34.87805301]),
@@ -396,18 +482,96 @@ def gamut_area(Lab: ArrayLike) -> float:
     """
 
     Lab = as_float_array(Lab)
-    Lab_s = np.roll(np.copy(Lab), -3)
 
-    _L, a, b = tsplit(Lab)
-    _L_s, a_s, b_s = tsplit(Lab_s)
+    xp = array_namespace(Lab)
 
-    A = np.linalg.norm(Lab[..., 1:3], axis=-1)
-    B = np.linalg.norm(Lab_s[..., 1:3], axis=-1)
-    C = np.linalg.norm(np.dstack([a_s - a, b_s - b]), axis=-1)
+    Lab_s = xp.roll(Lab, shift=-1, axis=-2)
+
+    A = xp.linalg.vector_norm(Lab[..., 1:3], axis=-1)
+    B = xp.linalg.vector_norm(Lab_s[..., 1:3], axis=-1)
+    C = xp.linalg.vector_norm(Lab_s[..., 1:3] - Lab[..., 1:3], axis=-1)
     t = (A + B + C) / 2
-    S = np.sqrt(t * (t - A) * (t - B) * (t - C))
+    S = xp.sqrt(t * (t - A) * (t - B) * (t - C))
 
-    return np.sum(S)
+    return xp.sum(S, axis=-1)
+
+
+def _vs_colorimetry_data(
+    t_values: NDArrayFloat,
+    r_values: NDArrayFloat,
+    sds_vs: Dict[str, SpectralDistribution],
+    cmfs: MultiSpectralDistributions,
+    chromatic_adaptation: bool = False,
+) -> Tuple[list[str], NDArrayFloat, NDArrayFloat, NDArrayFloat]:
+    """
+    Compute the *VS test colour samples* colorimetry arrays in a single
+    vectorised pass over an arbitrary leading shape of test/reference
+    irradiance pairs.
+
+    Parameters
+    ----------
+    t_values, r_values
+        Test and reference irradiance values of shape
+        ``(..., n_wavelengths)``.
+
+    Returns
+    -------
+    :class:`tuple`
+        ``(names, XYZ_vs, Lab_vs, C_vs)`` with leading shape
+        ``(..., n_test_colour_samples)``.
+    """
+
+    XYZ_t = msds_to_XYZ(t_values, cmfs, method="Integration", shape=cmfs.shape)
+
+    with sdiv_mode():
+        XYZ_t_n = sdiv(XYZ_t, XYZ_t[..., 1:2])
+
+    XYZ_r = msds_to_XYZ(r_values, cmfs, method="Integration", shape=cmfs.shape)
+
+    with sdiv_mode():
+        XYZ_r_n = sdiv(XYZ_r, XYZ_r[..., 1:2])
+
+    xy_r = XYZ_to_xy(XYZ_r_n)
+
+    names: list[str] = []
+    vs_values_list = []
+    for _key, value in sorted(INDEXES_TO_NAMES_VS.items()):
+        if value not in sds_vs:
+            continue
+        names.append(sds_vs[value].name)
+        vs_values_list.append(sds_vs[value].values)
+
+    xp = array_namespace(XYZ_t, t_values)
+    vs_values = xp.stack(
+        [xp_as_float_array(values, xp=xp, like=XYZ_t) for values in vs_values_list]
+    )
+
+    # Vectorised :math:`XYZ_{vs}` across the VS test colour samples; the
+    # ``1 / Y_t`` factor recovers the ``domain_range_scale("1")``
+    # reflectance-under-illuminant scale.
+    sds_vs_t = vs_values * t_values[..., None, :]
+    XYZ_vs = (
+        msds_to_XYZ(
+            sds_vs_t,
+            cmfs,
+            method="Integration",
+            shape=cmfs.shape,
+        )
+        / XYZ_t[..., 1:2, None]
+    )
+
+    if chromatic_adaptation:
+        XYZ_vs = chromatic_adaptation_VonKries(
+            XYZ_vs,
+            XYZ_t_n[..., None, :],
+            XYZ_r_n[..., None, :],
+            transform="CMCCAT2000",
+        )
+
+    Lab_vs = XYZ_to_Lab(XYZ_vs, illuminant=xy_r[..., None, :])
+    _L_vs, C_vs, _Hab = tsplit(Lab_to_LCHab(Lab_vs))
+
+    return names, XYZ_vs, Lab_vs, C_vs
 
 
 def vs_colorimetry_data(
@@ -439,36 +603,19 @@ def vs_colorimetry_data(
         *VS test colour samples* colorimetry data.
     """
 
-    XYZ_t = sd_to_XYZ(sd_test, cmfs)
+    xp = array_namespace(sd_test.values)
+    names, XYZ_vs, Lab_vs, C_vs = _vs_colorimetry_data(
+        xp_as_float_array(sd_test.values, xp=xp),
+        xp_as_float_array(sd_reference.values, xp=xp),
+        sds_vs,
+        cmfs,
+        chromatic_adaptation,
+    )
 
-    with sdiv_mode():
-        XYZ_t = sdiv(XYZ_t, XYZ_t[1])
-
-    XYZ_r = sd_to_XYZ(sd_reference, cmfs)
-
-    with sdiv_mode():
-        XYZ_r = sdiv(XYZ_r, XYZ_r[1])
-
-    xy_r = XYZ_to_xy(XYZ_r)
-
-    vs_data = []
-    for _key, value in sorted(INDEXES_TO_NAMES_VS.items()):
-        sd_vs = sds_vs[value]
-
-        with domain_range_scale("1"):
-            XYZ_vs = sd_to_XYZ(sd_vs, cmfs, sd_test)
-
-        if chromatic_adaptation:
-            XYZ_vs = chromatic_adaptation_VonKries(
-                XYZ_vs, XYZ_t, XYZ_r, transform="CMCCAT2000"
-            )
-
-        Lab_vs = XYZ_to_Lab(XYZ_vs, illuminant=xy_r)
-        _L_vs, C_vs, _Hab = Lab_to_LCHab(Lab_vs)
-
-        vs_data.append(DataColorimetry_VS(sd_vs.name, XYZ_vs, Lab_vs, C_vs))
-
-    return tuple(vs_data)
+    return tuple(
+        DataColorimetry_VS(name, XYZ_vs[i], Lab_vs[i], C_vs[i])
+        for i, name in enumerate(names)
+    )
 
 
 def CCT_factor(
@@ -491,13 +638,34 @@ def CCT_factor(
         Correlated colour temperature factor.
     """
 
+    XYZ_vs = as_float_array(
+        [colorimetry_data.XYZ for colorimetry_data in reference_data]
+    )
+
+    return as_float_scalar(_CCT_factor(XYZ_vs, as_float_array(XYZ_r)))
+
+
+def _CCT_factor(XYZ_vs: NDArrayFloat, XYZ_r: NDArrayFloat) -> NDArrayFloat:
+    """
+    Compute the correlated colour temperature factor for arbitrary leading
+    batch shape.
+
+    Parameters
+    ----------
+    XYZ_vs
+        Reference VS sample tristimulus values of shape
+        ``(..., n_test_colour_samples, 3)``.
+    XYZ_r
+        Reference white tristimulus values of shape ``(..., 3)``.
+    """
+
     xy_w = CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"]
     XYZ_w = xy_to_XYZ(xy_w)
 
     Lab = XYZ_to_Lab(
         chromatic_adaptation_VonKries(
-            [colorimetry_data.XYZ for colorimetry_data in reference_data],
-            XYZ_r,
+            XYZ_vs,
+            XYZ_r[..., None, :],
             XYZ_w,
             transform="CMCCAT2000",
         ),
@@ -506,10 +674,14 @@ def CCT_factor(
 
     G_r = gamut_area(Lab) / GAMUT_AREA_D65
 
-    return min(G_r, 1)
+    xp = array_namespace(G_r)
+
+    return xp.minimum(G_r, xp.ones_like(G_r))
 
 
-def scale_conversion(D_E_ab: float, CCT_f: float, scaling_f: float) -> float:
+def scale_conversion(
+    D_E_ab: ArrayLike, CCT_f: ArrayLike, scaling_f: float
+) -> NDArrayFloat:
     """
     Compute the *Colour Quality Scale* (CQS) for the specified
     :math:`\\Delta E_{ab}` value and correlated colour temperature
@@ -526,11 +698,17 @@ def scale_conversion(D_E_ab: float, CCT_f: float, scaling_f: float) -> float:
 
     Returns
     -------
-    :class:`float`
+    :class:`numpy.ndarray`
         *Colour Quality Scale* (CQS).
     """
 
-    return 10 * np.log1p(np.exp((100 - scaling_f * D_E_ab) / 10)) * CCT_f
+    D_E_ab = as_float_array(D_E_ab)
+
+    xp = array_namespace(D_E_ab)
+
+    return as_float_array(
+        10 * xp.log1p(xp.exp((100 - scaling_f * D_E_ab) / 10)) * CCT_f
+    )
 
 
 def delta_E_RMS(
@@ -554,13 +732,13 @@ def delta_E_RMS(
         Root-mean-square average.
     """
 
-    return np.sqrt(
-        1
-        / len(CQS_data)
-        * np.sum(
-            [getattr(sample_data, attribute) ** 2 for sample_data in CQS_data.values()]
-        )
+    values = as_float_array(
+        [getattr(sample_data, attribute) ** 2 for sample_data in CQS_data.values()]
     )
+
+    xp = array_namespace(values)
+
+    return as_float_scalar(xp.sqrt(1 / len(CQS_data) * xp.sum(values)))
 
 
 def colour_quality_scales(
@@ -592,16 +770,19 @@ def colour_quality_scales(
     """
 
     Q_as = {}
-    for i in range(len(test_data)):
-        D_C_ab = cast("float", test_data[i].C - reference_data[i].C)
-        D_E_ab = cast(
-            "float", euclidean_distance(test_data[i].Lab, reference_data[i].Lab)
-        )
-        D_Ep_ab = cast(
-            "float", np.sqrt(D_E_ab**2 - D_C_ab**2) if D_C_ab > 0 else D_E_ab
-        )
 
-        Q_a = scale_conversion(D_Ep_ab, CCT_f, scaling_f)
+    xp = array_namespace(test_data[0].Lab)
+
+    for i in range(len(test_data)):
+        D_C_ab = as_float_scalar(test_data[i].C - reference_data[i].C)
+        D_E_ab = as_float_scalar(
+            euclidean_distance(test_data[i].Lab, reference_data[i].Lab)
+        )
+        D_Ep_ab_arr = as_float_array(D_E_ab**2 - D_C_ab**2)
+
+        D_Ep_ab = as_float_scalar(xp.sqrt(D_Ep_ab_arr) if D_C_ab > 0 else D_E_ab)
+
+        Q_a = float(scale_conversion(D_Ep_ab, CCT_f, scaling_f))
         Q_as[i + 1] = DataColourQualityScale_VS(
             test_data[i].name, Q_a, D_C_ab, D_E_ab, D_Ep_ab
         )
