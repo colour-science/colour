@@ -3,11 +3,25 @@ Define the unit tests for the :mod:`colour.models.rgb.transfer_functions.\
 panasonic_v_log` module.
 """
 
+from __future__ import annotations
+
+import typing
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import log_decoding_VLog, log_encoding_VLog
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    domain_range_scale,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -28,87 +42,83 @@ class TestLogEncoding_VLog:
 log_encoding_VLog` definition unit tests methods.
     """
 
-    def test_log_encoding_VLog(self) -> None:
+    def test_log_encoding_VLog(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition.
         """
 
-        np.testing.assert_allclose(
-            log_encoding_VLog(0.0), 0.125, atol=TOLERANCE_ABSOLUTE_TESTS
+        xp_assert_close(
+            log_encoding_VLog(xp_as_array(0.0, xp=xp)),
+            0.125,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_VLog(0.18),
+        xp_assert_close(
+            log_encoding_VLog(xp_as_array(0.18, xp=xp)),
             0.423311448760136,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_VLog(0.18, 12),
+        xp_assert_close(
+            log_encoding_VLog(xp_as_array(0.18, xp=xp), 12),
             0.423311448760136,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_VLog(0.18, 10, False),
+        xp_assert_close(
+            log_encoding_VLog(xp_as_array(0.18, xp=xp), 10, False),
             0.421287228403675,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_VLog(0.18, 10, False, False),
+        xp_assert_close(
+            log_encoding_VLog(xp_as_array(0.18, xp=xp), 10, False, False),
             0.409009628526078,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_encoding_VLog(1.0),
+        xp_assert_close(
+            log_encoding_VLog(xp_as_array(1.0, xp=xp)),
             0.599117700158146,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_encoding_VLog(self) -> None:
+    def test_n_dimensional_log_encoding_VLog(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition n-dimensional arrays support.
         """
 
         L_in = 0.18
-        V_out = log_encoding_VLog(L_in)
+        V_out = as_ndarray(log_encoding_VLog(xp_as_array(L_in, xp=xp)))
 
-        L_in = np.tile(L_in, 6)
-        V_out = np.tile(V_out, 6)
-        np.testing.assert_allclose(
-            log_encoding_VLog(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        L_in = xp.tile(xp_as_array(L_in, xp=xp), (6,))
+        V_out = xp.tile(xp_as_array(V_out, xp=xp), (6,))
+        xp_assert_close(log_encoding_VLog(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        L_in = np.reshape(L_in, (2, 3))
-        V_out = np.reshape(V_out, (2, 3))
-        np.testing.assert_allclose(
-            log_encoding_VLog(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        L_in = xp_reshape(xp_as_array(L_in, xp=xp), (2, 3), xp=xp)
+        V_out = xp_reshape(xp_as_array(V_out, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(log_encoding_VLog(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        L_in = np.reshape(L_in, (2, 3, 1))
-        V_out = np.reshape(V_out, (2, 3, 1))
-        np.testing.assert_allclose(
-            log_encoding_VLog(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        L_in = xp_reshape(xp_as_array(L_in, xp=xp), (2, 3, 1), xp=xp)
+        V_out = xp_reshape(xp_as_array(V_out, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(log_encoding_VLog(L_in), V_out, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_log_encoding_VLog(self) -> None:
+    def test_domain_range_scale_log_encoding_VLog(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_encoding_VLog` definition domain and range scale support.
         """
 
         L_in = 0.18
-        V_out = log_encoding_VLog(L_in)
+        V_out = as_ndarray(log_encoding_VLog(xp_as_array(L_in, xp=xp)))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    log_encoding_VLog(L_in * factor),
+                xp_assert_close(
+                    log_encoding_VLog(xp_as_array(L_in * factor, xp=xp)),
                     V_out * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -129,87 +139,83 @@ class TestLogDecoding_VLog:
 log_decoding_VLog` definition unit tests methods.
     """
 
-    def test_log_decoding_VLog(self) -> None:
+    def test_log_decoding_VLog(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition.
         """
 
-        np.testing.assert_allclose(
-            log_decoding_VLog(0.125), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        xp_assert_close(
+            log_decoding_VLog(xp_as_array(0.125, xp=xp)),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_VLog(0.423311448760136),
+        xp_assert_close(
+            log_decoding_VLog(xp_as_array(0.423311448760136, xp=xp)),
             0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_VLog(0.423311448760136, 12),
+        xp_assert_close(
+            log_decoding_VLog(xp_as_array(0.423311448760136, xp=xp), 12),
             0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_VLog(0.421287228403675, 10, False),
+        xp_assert_close(
+            log_decoding_VLog(xp_as_array(0.421287228403675, xp=xp), 10, False),
             0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_VLog(0.409009628526078, 10, False, False),
+        xp_assert_close(
+            log_decoding_VLog(xp_as_array(0.409009628526078, xp=xp), 10, False, False),
             0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            log_decoding_VLog(0.599117700158146),
+        xp_assert_close(
+            log_decoding_VLog(xp_as_array(0.599117700158146, xp=xp)),
             1.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_log_decoding_VLog(self) -> None:
+    def test_n_dimensional_log_decoding_VLog(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition n-dimensional arrays support.
         """
 
         V_out = 0.423311448760136
-        L_in = log_decoding_VLog(V_out)
+        L_in = as_ndarray(log_decoding_VLog(xp_as_array(V_out, xp=xp)))
 
-        V_out = np.tile(V_out, 6)
-        L_in = np.tile(L_in, 6)
-        np.testing.assert_allclose(
-            log_decoding_VLog(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        V_out = xp.tile(xp_as_array(V_out, xp=xp), (6,))
+        L_in = xp.tile(xp_as_array(L_in, xp=xp), (6,))
+        xp_assert_close(log_decoding_VLog(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        V_out = np.reshape(V_out, (2, 3))
-        L_in = np.reshape(L_in, (2, 3))
-        np.testing.assert_allclose(
-            log_decoding_VLog(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        V_out = xp_reshape(xp_as_array(V_out, xp=xp), (2, 3), xp=xp)
+        L_in = xp_reshape(xp_as_array(L_in, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(log_decoding_VLog(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        V_out = np.reshape(V_out, (2, 3, 1))
-        L_in = np.reshape(L_in, (2, 3, 1))
-        np.testing.assert_allclose(
-            log_decoding_VLog(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        V_out = xp_reshape(xp_as_array(V_out, xp=xp), (2, 3, 1), xp=xp)
+        L_in = xp_reshape(xp_as_array(L_in, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(log_decoding_VLog(V_out), L_in, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_log_decoding_VLog(self) -> None:
+    def test_domain_range_scale_log_decoding_VLog(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.panasonic_v_log.\
 log_decoding_VLog` definition domain and range scale support.
         """
 
         V_out = 0.423311448760136
-        L_in = log_decoding_VLog(V_out)
+        L_in = as_ndarray(log_decoding_VLog(xp_as_array(V_out, xp=xp)))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    log_decoding_VLog(V_out * factor),
+                xp_assert_close(
+                    log_decoding_VLog(xp_as_array(V_out * factor, xp=xp)),
                     L_in * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )

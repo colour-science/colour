@@ -20,8 +20,6 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 if typing.TYPE_CHECKING:
     from colour.hints import NDArrayFloat, Literal
 
@@ -29,7 +27,13 @@ from dataclasses import dataclass, field
 
 from colour.hints import Domain100  # noqa: TC001
 from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006, Coefficients_UCS_Luo2006
-from colour.utilities import MixinDataclassArithmetic, as_float, tsplit
+from colour.utilities import (
+    MixinDataclassArithmetic,
+    array_namespace,
+    as_float,
+    as_float_array,
+    tsplit,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -145,6 +149,7 @@ def delta_E_Luo2006(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Jpapbp_1 = np.array([54.90433134, -0.08450395, -0.06854831])
     >>> Jpapbp_2 = np.array([54.80352754, -3.96940084, -13.57591013])
     >>> delta_E_Luo2006(Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
@@ -161,6 +166,8 @@ dJ=np.float64(0.1309140...), da=np.float64(3.8848968...), \
 db=np.float64(13.5073618...))
     """
 
+    xp = array_namespace(Jpapbp_1, Jpapbp_2)
+
     J_p_1, a_p_1, b_p_1 = tsplit(Jpapbp_1)
     J_p_2, a_p_2, b_p_2 = tsplit(Jpapbp_2)
     K_L, _c_1, _c_2 = coefficients.values
@@ -169,7 +176,9 @@ db=np.float64(13.5073618...))
     a = a_p_1 - a_p_2
     b = b_p_1 - b_p_2
 
-    d_E = as_float(np.sqrt(J**2 + a**2 + b**2))
+    d_E_sq = as_float_array(J**2 + a**2 + b**2)
+
+    d_E = as_float(xp.sqrt(d_E_sq))
 
     if not additional_data:
         return d_E
@@ -248,6 +257,7 @@ def delta_E_CAM02LCD(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Jpapbp_1 = np.array([54.90433134, -0.08450395, -0.06854831])
     >>> Jpapbp_2 = np.array([54.80352754, -3.96940084, -13.57591013])
     >>> delta_E_CAM02LCD(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
@@ -336,6 +346,7 @@ def delta_E_CAM02SCD(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Jpapbp_1 = np.array([54.90433134, -0.08450395, -0.06854831])
     >>> Jpapbp_2 = np.array([54.80352754, -3.96940084, -13.57591013])
     >>> delta_E_CAM02SCD(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
@@ -424,6 +435,7 @@ def delta_E_CAM02UCS(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Jpapbp_1 = np.array([54.90433134, -0.08450395, -0.06854831])
     >>> Jpapbp_2 = np.array([54.80352754, -3.96940084, -13.57591013])
     >>> delta_E_CAM02UCS(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS

@@ -2,12 +2,24 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 from itertools import product
 
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.utilities import ignore_numpy_errors, is_scipy_installed
+from colour.utilities import (
+    as_ndarray,
+    ignore_numpy_errors,
+    is_scipy_installed,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
 from colour.volume import is_within_mesh_volume
 
 __author__ = "Colour Developers"
@@ -41,21 +53,29 @@ class TestIsWithinMeshVolume:
             ]
         )
 
-    def test_is_within_mesh_volume(self) -> None:
+    def test_is_within_mesh_volume(self, xp: ModuleType) -> None:
         """Test :func:`colour.volume.mesh.is_within_mesh_volume` definition."""
 
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        assert is_within_mesh_volume(np.array([0.0005, 0.0031, 0.0010]), self._mesh)
+        assert is_within_mesh_volume(
+            xp_as_array([0.0005, 0.0031, 0.0010], xp=xp), self._mesh
+        )
 
-        assert not is_within_mesh_volume(np.array([0.3205, 0.4131, 0.5100]), self._mesh)
+        assert not is_within_mesh_volume(
+            xp_as_array([0.3205, 0.4131, 0.5100], xp=xp), self._mesh
+        )
 
-        assert is_within_mesh_volume(np.array([0.0025, 0.0088, 0.0340]), self._mesh)
+        assert is_within_mesh_volume(
+            xp_as_array([0.0025, 0.0088, 0.0340], xp=xp), self._mesh
+        )
 
-        assert not is_within_mesh_volume(np.array([0.4325, 0.3788, 0.1034]), self._mesh)
+        assert not is_within_mesh_volume(
+            xp_as_array([0.4325, 0.3788, 0.1034], xp=xp), self._mesh
+        )
 
-    def test_n_dimensional_is_within_mesh_volume(self) -> None:
+    def test_n_dimensional_is_within_mesh_volume(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.volume.mesh.is_within_mesh_volume` definition
         n-dimensional arrays support.
@@ -64,20 +84,20 @@ class TestIsWithinMeshVolume:
         if not is_scipy_installed():  # pragma: no cover
             return
 
-        a = np.array([0.0005, 0.0031, 0.0010])
-        b = is_within_mesh_volume(a, self._mesh)
+        a = xp_as_array([0.0005, 0.0031, 0.0010], xp=xp)
+        b = as_ndarray(is_within_mesh_volume(a, self._mesh))
 
-        a = np.tile(a, (6, 1))
-        b = np.tile(b, 6)
-        np.testing.assert_allclose(
+        a = xp.tile(xp_as_array(a, xp=xp), (6, 1))
+        b = xp.tile(xp_as_array(b, xp=xp), (6,))
+        xp_assert_close(
             is_within_mesh_volume(a, self._mesh),
             b,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.reshape(a, (2, 3, 3))
-        b = np.reshape(b, (2, 3))
-        np.testing.assert_allclose(
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3, 3), xp=xp)
+        b = xp_reshape(xp_as_array(b, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
             is_within_mesh_volume(a, self._mesh),
             b,
             atol=TOLERANCE_ABSOLUTE_TESTS,

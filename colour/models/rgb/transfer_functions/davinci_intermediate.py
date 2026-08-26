@@ -18,13 +18,18 @@ DaVinci_Resolve_17_Wide_Gamut_Intermediate.pdf?_v=1607414410000
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
+from colour.utilities import (
+    Structure,
+    array_namespace,
+    as_float,
+    from_range_1,
+    optional,
+    to_domain_1,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -94,6 +99,9 @@ def oetf_DaVinciIntermediate(
     """
 
     L = to_domain_1(L)
+
+    xp = array_namespace(L)
+
     constants = optional(constants, CONSTANTS_DAVINCI_INTERMEDIATE)
 
     DI_LIN_CUT = constants.DI_LIN_CUT
@@ -102,10 +110,10 @@ def oetf_DaVinciIntermediate(
     DI_C = constants.DI_C
     DI_M = constants.DI_M
 
-    V_out = np.where(
+    V_out = xp.where(
         L <= DI_LIN_CUT,
         L * DI_M,
-        DI_C * (np.log2(L + DI_A) + DI_B),
+        DI_C * (xp.log2(L + DI_A) + DI_B),
     )
 
     return as_float(from_range_1(V_out))
@@ -157,6 +165,9 @@ def oetf_inverse_DaVinciIntermediate(
     """
 
     V = to_domain_1(V)
+
+    xp = array_namespace(V)
+
     constants = optional(constants, CONSTANTS_DAVINCI_INTERMEDIATE)
 
     DI_LOG_CUT = constants.DI_LOG_CUT
@@ -165,7 +176,7 @@ def oetf_inverse_DaVinciIntermediate(
     DI_C = constants.DI_C
     DI_M = constants.DI_M
 
-    L_out = np.where(
+    L_out = xp.where(
         V <= DI_LOG_CUT,
         V / DI_M,
         2 ** ((V / DI_C) - DI_B) - DI_A,

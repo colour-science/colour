@@ -11,6 +11,7 @@ computational utilities used throughout the colour science library.
 
 from __future__ import annotations
 
+import contextvars
 import functools
 import typing
 
@@ -22,6 +23,7 @@ if typing.TYPE_CHECKING:
         ArrayLike,
         Callable,
         DTypeFloat,
+        Literal,
         NDArray,
         NDArrayFloat,
         Self,
@@ -29,14 +31,19 @@ if typing.TYPE_CHECKING:
     )
 
 from colour.constants import EPSILON
-from colour.hints import Literal, cast
 from colour.utilities import (
+    array_namespace,
     as_float,
     as_float_array,
+    is_numpy_namespace,
     optional,
     runtime_warning,
     tsplit,
     validate_method,
+    xp_as_float_array,
+    xp_eigh,
+    xp_matrix_transpose,
+    xp_nan_to_num,
 )
 
 __author__ = "Colour Developers"
@@ -52,7 +59,7 @@ __all__ = [
     "sdiv_mode",
     "sdiv",
     "is_spow_enabled",
-    "set_spow_enable",
+    "set_spow_enabled",
     "spow_enable",
     "spow",
     "normalise_vector",
@@ -69,35 +76,45 @@ __all__ = [
     "eigen_decomposition",
 ]
 
-_SDIV_MODE: Literal[
-    "Numpy",
-    "Ignore",
-    "Warning",
-    "Raise",
-    "Ignore Zero Conversion",
-    "Warning Zero Conversion",
-    "Ignore Limit Conversion",
-    "Warning Limit Conversion",
-    "Replace With Epsilon",
-    "Warning Replace With Epsilon",
-] = "Ignore Zero Conversion"
+_SDIV_MODE: contextvars.ContextVar[
+    Literal[
+        "Numpy",
+        "Ignore",
+        "Warning",
+        "Raise",
+        "Ignore Zero Conversion",
+        "Warning Zero Conversion",
+        "Ignore Limit Conversion",
+        "Warning Limit Conversion",
+        "Replace With Epsilon",
+        "Warning Replace With Epsilon",
+    ]
+    | str
+] = contextvars.ContextVar("_SDIV_MODE", default="Ignore Zero Conversion")
 """
-Global variable storing the current *Colour* safe division function mode.
+:class:`contextvars.ContextVar` storing the current *Colour* safe division
+function mode. The :class:`contextvars.ContextVar` keeps nested
+:class:`sdiv_mode` contexts independent across concurrent threads and async
+tasks. Read it via :func:`get_sdiv_mode` and toggle it via
+:func:`set_sdiv_mode` or :class:`sdiv_mode`.
 """
 
 
-def get_sdiv_mode() -> Literal[
-    "Numpy",
-    "Ignore",
-    "Warning",
-    "Raise",
-    "Ignore Zero Conversion",
-    "Warning Zero Conversion",
-    "Ignore Limit Conversion",
-    "Warning Limit Conversion",
-    "Replace With Epsilon",
-    "Warning Replace With Epsilon",
-]:
+def get_sdiv_mode() -> (
+    Literal[
+        "Numpy",
+        "Ignore",
+        "Warning",
+        "Raise",
+        "Ignore Zero Conversion",
+        "Warning Zero Conversion",
+        "Ignore Limit Conversion",
+        "Warning Limit Conversion",
+        "Replace With Epsilon",
+        "Warning Replace With Epsilon",
+    ]
+    | str
+):
     """
     Return the current *Colour* safe division mode.
 
@@ -118,7 +135,7 @@ def get_sdiv_mode() -> Literal[
     'ignore zero conversion'
     """
 
-    return _SDIV_MODE
+    return _SDIV_MODE.get()
 
 
 def set_sdiv_mode(
@@ -157,13 +174,7 @@ def set_sdiv_mode(
     raise
     """
 
-    global _SDIV_MODE  # noqa: PLW0603
-
-    _SDIV_MODE = cast(
-        "Literal['Numpy', 'Ignore', 'Warning', 'Raise', "  # pyright: ignore
-        "'Ignore Zero Conversion', 'Warning Zero Conversion', "
-        "'Ignore Limit Conversion', 'Warning Limit Conversion', "
-        "'Replace With Epsilon', 'Warning Replace With Epsilon']",
+    _SDIV_MODE.set(
         validate_method(
             mode,
             (
@@ -215,41 +226,64 @@ class sdiv_mode:
                 "Replace With Epsilon",
                 "Warning Replace With Epsilon",
             ]
+            | str
             | None
         ) = None,
     ) -> None:
         self._mode = optional(mode, get_sdiv_mode())
-        self._previous_mode = get_sdiv_mode()
+        # Token stack: nested or recursive ``__enter__`` / ``__exit__``
+        # pairs against the same instance (e.g. via the decorator form on
+        # a recursive function) push and pop independent reset tokens.
+        self._tokens: list[contextvars.Token] = []
 
     def __enter__(self) -> Self:
         """
-        Set the *Colour* safe/symmetrical power function state to the
-        specified value upon entering the context manager.
+        Set the *Colour* safe division function mode upon entering the
+        context manager.
         """
 
-        set_sdiv_mode(self._mode)
+        self._tokens.append(
+            _SDIV_MODE.set(
+                validate_method(
+                    self._mode,
+                    (
+                        "Numpy",
+                        "Ignore",
+                        "Warning",
+                        "Raise",
+                        "Ignore Zero Conversion",
+                        "Warning Zero Conversion",
+                        "Ignore Limit Conversion",
+                        "Warning Limit Conversion",
+                        "Replace With Epsilon",
+                        "Warning Replace With Epsilon",
+                    ),
+                )
+            )
+        )
 
         return self
 
     def __exit__(self, *args: Any) -> None:
         """
-        Restore the *Colour* safe / symmetrical power function enabled state
-        upon exiting the context manager.
+        Restore the previous *Colour* safe division function mode upon
+        exiting the context manager.
         """
 
-        set_sdiv_mode(self._previous_mode)
+        _SDIV_MODE.reset(self._tokens.pop())
 
     def __call__(self, function: Callable) -> Callable:
         """
-        Call the wrapped definition.
-
-        The decorator applies the specified spectral power distribution
-        state to the wrapped function during its execution.
+        Decorate and call the specified function with safe division mode
+        control.
         """
 
         @functools.wraps(function)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
-            with self:
+            # A fresh instance is entered per call so the token stack is never
+            # shared across threads or async tasks invoking the decorated
+            # definition concurrently.
+            with self.__class__(self._mode):
                 return function(*args, **kwargs)
 
         return wrapper
@@ -334,11 +368,13 @@ def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     array([0.00000000e+00, 1.00000000e+00, ...])
     """
 
-    a = as_float_array(a)
-    b = as_float_array(b)
+    xp = array_namespace(a, b)
+
+    a = xp_as_float_array(a, xp=xp, like=b)
+    b = xp_as_float_array(b, xp=xp, like=a)
 
     mode = validate_method(
-        _SDIV_MODE,
+        _SDIV_MODE.get(),
         (
             "Numpy",
             "Ignore",
@@ -356,42 +392,80 @@ def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     if mode == "numpy":
         c = a / b
     elif mode == "ignore":
-        with np.errstate(divide="ignore", invalid="ignore"):
+        if is_numpy_namespace(xp):
+            with np.errstate(divide="ignore", invalid="ignore"):
+                c = a / b
+        else:
             c = a / b
     elif mode == "warning":
-        with np.errstate(divide="warn", invalid="warn"):
+        if is_numpy_namespace(xp):
+            with np.errstate(divide="warn", invalid="warn"):
+                c = a / b
+        else:
+            # Backends have no ``errstate`` equivalent; the zero denominators
+            # are detected explicitly to preserve the warning behaviour.
+            if bool(xp.any(b == 0)):
+                runtime_warning('"sdiv" encountered a zero division.')
             c = a / b
     elif mode == "raise":
-        with np.errstate(divide="raise", invalid="raise"):
+        if is_numpy_namespace(xp):
+            with np.errstate(divide="raise", invalid="raise"):
+                c = a / b
+        else:
+            # Backends have no ``errstate`` equivalent; the zero denominators
+            # are detected explicitly to preserve the raising behaviour.
+            if bool(xp.any(b == 0)):
+                error = "Zero division encountered during safe division."
+                raise FloatingPointError(error)
             c = a / b
     elif mode == "ignore zero conversion":
-        with np.errstate(divide="ignore", invalid="ignore"):
-            c = np.nan_to_num(a / b, nan=0, posinf=0, neginf=0)
+        if is_numpy_namespace(xp):
+            with np.errstate(divide="ignore", invalid="ignore"):
+                c = np.nan_to_num(a / b, nan=0, posinf=0, neginf=0)
+        else:
+            d = a / b
+            c = xp.where(xp.isnan(d) | xp.isinf(d), 0.0, d)
     elif mode == "warning zero conversion":
-        with np.errstate(divide="warn", invalid="warn"):
-            c = np.nan_to_num(a / b, nan=0, posinf=0, neginf=0)
+        if is_numpy_namespace(xp):
+            with np.errstate(divide="warn", invalid="warn"):
+                c = np.nan_to_num(a / b, nan=0, posinf=0, neginf=0)
+        else:
+            d = a / b
+            c = xp.where(xp.isnan(d) | xp.isinf(d), 0.0, d)
     elif mode == "ignore limit conversion":
-        with np.errstate(divide="ignore", invalid="ignore"):
-            c = np.nan_to_num(a / b)
+        if is_numpy_namespace(xp):
+            with np.errstate(divide="ignore", invalid="ignore"):
+                c = np.nan_to_num(a / b)
+        else:
+            c = xp_nan_to_num(a / b, xp=xp)
     elif mode == "warning limit conversion":
-        with np.errstate(divide="warn", invalid="warn"):
-            c = np.nan_to_num(a / b)
+        if is_numpy_namespace(xp):
+            with np.errstate(divide="warn", invalid="warn"):
+                c = np.nan_to_num(a / b)
+        else:
+            c = xp_nan_to_num(a / b, xp=xp)
     elif mode == "replace with epsilon":
-        b = np.where(b == 0, EPSILON, b)
+        b = xp.where(b == 0, EPSILON, b)
         c = a / b
     elif mode == "warning replace with epsilon":
-        if np.any(b == 0):
+        if xp.any(b == 0):
             runtime_warning("Zero(s) detected in denominator, replacing with EPSILON.")
-        b = np.where(b == 0, EPSILON, b)
+        b = xp.where(b == 0, EPSILON, b)
         c = a / b
 
     return c
 
 
-_SPOW_ENABLED: bool = True
+_SPOW_ENABLED: contextvars.ContextVar[bool] = contextvars.ContextVar(
+    "_SPOW_ENABLED", default=True
+)
 """
-Global variable storing the current *Colour* safe / symmetrical power function
-enabled state.
+:class:`contextvars.ContextVar` storing the current *Colour* safe /
+symmetrical power function enabled state. The
+:class:`contextvars.ContextVar` keeps nested :class:`spow_enable` contexts
+independent across concurrent threads and async tasks. Read it via
+:func:`is_spow_enabled` and toggle it via :func:`set_spow_enabled` or
+:class:`spow_enable`.
 """
 
 
@@ -414,10 +488,10 @@ def is_spow_enabled() -> bool:
     True
     """
 
-    return _SPOW_ENABLED
+    return _SPOW_ENABLED.get()
 
 
-def set_spow_enable(enable: bool) -> None:
+def set_spow_enabled(enable: bool) -> None:
     """
     Set the *Colour* safe/symmetrical power function enabled state.
 
@@ -430,15 +504,13 @@ def set_spow_enable(enable: bool) -> None:
     --------
     >>> with spow_enable(is_spow_enabled()):
     ...     print(is_spow_enabled())
-    ...     set_spow_enable(False)
+    ...     set_spow_enabled(False)
     ...     print(is_spow_enabled())
     True
     False
     """
 
-    global _SPOW_ENABLED  # noqa: PLW0603
-
-    _SPOW_ENABLED = enable
+    _SPOW_ENABLED.set(enable)
 
 
 class spow_enable:
@@ -461,7 +533,10 @@ class spow_enable:
 
     def __init__(self, enable: bool) -> None:
         self._enable = enable
-        self._previous_state = is_spow_enabled()
+        # Token stack: nested or recursive ``__enter__`` / ``__exit__``
+        # pairs against the same instance (e.g. via the decorator form on
+        # a recursive function) push and pop independent reset tokens.
+        self._tokens: list[contextvars.Token[bool]] = []
 
     def __enter__(self) -> Self:
         """
@@ -469,24 +544,27 @@ class spow_enable:
         upon entering the context manager.
         """
 
-        set_spow_enable(self._enable)
+        self._tokens.append(_SPOW_ENABLED.set(self._enable))
 
         return self
 
     def __exit__(self, *args: Any) -> None:
         """
-        Set the *Colour* safe / symmetrical power function enabled state
-        upon exiting the context manager.
+        Restore the previous *Colour* safe / symmetrical power function
+        enabled state upon exiting the context manager.
         """
 
-        set_spow_enable(self._previous_state)
+        _SPOW_ENABLED.reset(self._tokens.pop())
 
     def __call__(self, function: Callable) -> Callable:
         """Call the wrapped definition."""
 
         @functools.wraps(function)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
-            with self:
+            # A fresh instance is entered per call so the token stack is never
+            # shared across threads or async tasks invoking the decorated
+            # definition concurrently.
+            with self.__class__(self._enable):
                 return function(*args, **kwargs)
 
         return wrapper
@@ -507,7 +585,7 @@ def spow(a: ArrayLike, p: ArrayLike) -> DTypeFloat | NDArrayFloat:
 
     This definition avoids NaN generation when array :math:`a` is negative
     and power :math:`p` is fractional. This behaviour can be enabled or
-    disabled with the :func:`colour.algebra.set_spow_enable` definition or
+    disabled with the :func:`colour.algebra.set_spow_enabled` definition or
     with the :func:`spow_enable` context manager.
 
     Parameters
@@ -532,15 +610,22 @@ def spow(a: ArrayLike, p: ArrayLike) -> DTypeFloat | NDArrayFloat:
     np.float64(0.0)
     """
 
-    if not _SPOW_ENABLED:
-        return np.power(a, p)
+    xp = array_namespace(a, p)
 
-    a = as_float_array(a)
-    p = as_float_array(p)
+    a = xp_as_float_array(a, xp=xp, like=p)
+    p = xp_as_float_array(p, xp=xp, like=a)
 
-    a_p = np.sign(a) * np.abs(a) ** p
+    if not _SPOW_ENABLED.get():
+        return a**p
 
-    return as_float(0 if a_p.ndim == 0 and np.isnan(a_p) else a_p)
+    # ``a == 0`` is replaced by ``1.0`` in the base before exponentiation
+    # to keep the unconditional ``base ** p`` clean of ``NaN`` / ``inf``
+    # warnings on every backend; the ``xp.sign(a)`` factor zeroes the
+    # zero-base contribution back out.
+    base = xp.where(a == 0, 1.0, xp.abs(a))
+    a_p = xp.sign(a) * base**p
+
+    return as_float(a_p)
 
 
 def normalise_vector(a: ArrayLike) -> NDArrayFloat:
@@ -569,8 +654,10 @@ def normalise_vector(a: ArrayLike) -> NDArrayFloat:
 
     a = as_float_array(a)
 
+    xp = array_namespace(a)
+
     with sdiv_mode():
-        return sdiv(a, np.linalg.norm(a))
+        return sdiv(a, xp.linalg.vector_norm(a))
 
 
 def normalise_maximum(
@@ -608,12 +695,14 @@ def normalise_maximum(
 
     a = as_float_array(a)
 
-    maximum = np.max(a, axis=axis)
+    xp = array_namespace(a)
+
+    maximum = xp.max(a, axis=axis)
 
     with sdiv_mode():
         a = a * sdiv(1, maximum[..., None]) * factor
 
-    return np.clip(a, 0, factor) if clip else a
+    return xp.clip(a, 0, factor) if clip else a
 
 
 def vecmul(m: ArrayLike, v: ArrayLike) -> NDArrayFloat:
@@ -639,6 +728,15 @@ def vecmul(m: ArrayLike, v: ArrayLike) -> NDArrayFloat:
     :class:`numpy.ndarray`
         Multiplied vector array :math:`v`.
 
+    Notes
+    -----
+    -   Both operands are converted to the active array namespace at
+        :attr:`colour.constants.DTYPE_FLOAT_DEFAULT` and placed on the
+        vector :math:`v` device before multiplication; the result is a
+        fully-converted backend array. Callers therefore pass operands
+        raw, including module-level *NumPy* matrix constants, and neither
+        pre-convert :math:`m` nor cast the product back.
+
     Examples
     --------
     >>> m = np.array(
@@ -660,7 +758,12 @@ def vecmul(m: ArrayLike, v: ArrayLike) -> NDArrayFloat:
            [0.1954094..., 0.0620396..., 0.0527952...]])
     """
 
-    return np.matmul(as_float_array(m), as_float_array(v)[..., None]).squeeze(-1)
+    xp = array_namespace(m, v)
+
+    m = xp_as_float_array(m, xp=xp, like=v)
+    v = xp_as_float_array(v, xp=xp, like=m)
+
+    return xp.squeeze(xp.matmul(m, v[..., None]), axis=-1)
 
 
 def euclidean_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
@@ -692,7 +795,12 @@ def euclidean_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     np.float64(451.7133019...)
     """
 
-    return as_float(np.linalg.norm(as_float_array(a) - as_float_array(b), axis=-1))
+    xp = array_namespace(a, b)
+
+    a = xp_as_float_array(a, xp=xp, like=b)
+    b = xp_as_float_array(b, xp=xp, like=a)
+
+    return as_float(xp.linalg.vector_norm(a - b, axis=-1))
 
 
 def manhattan_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
@@ -724,7 +832,12 @@ def manhattan_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     np.float64(604.9396351...)
     """
 
-    return as_float(np.sum(np.abs(as_float_array(a) - as_float_array(b)), axis=-1))
+    a = as_float_array(a)
+    b = as_float_array(b)
+
+    xp = array_namespace(a, b)
+
+    return as_float(xp.sum(xp.abs(a - b), axis=-1))
 
 
 def linear_conversion(
@@ -799,12 +912,15 @@ def linstep_function(
     """
 
     x = as_float_array(x)
-    a = as_float_array(a)
-    b = as_float_array(b)
+
+    xp = array_namespace(x, a, b)
+
+    a = xp_as_float_array(a, xp=xp, like=x)
+    b = xp_as_float_array(b, xp=xp, like=x)
 
     y = (1.0 - x) * a + x * b
 
-    return np.clip(y, a, b) if clip else y
+    return xp.clip(y, a, b) if clip else y
 
 
 lerp = linstep_function
@@ -850,10 +966,13 @@ def smoothstep_function(
     """
 
     x = as_float_array(x)
-    a = as_float_array(a)
-    b = as_float_array(b)
 
-    i = np.clip((x - a) / (b - a), 0, 1) if clip else x
+    xp = array_namespace(x, a, b)
+
+    a = xp_as_float_array(a, xp=xp, like=x)
+    b = xp_as_float_array(b, xp=xp, like=x)
+
+    i = xp.clip((x - a) / (b - a), 0, 1) if clip else x
 
     return (i**2) * (3.0 - 2.0 * i)
 
@@ -887,7 +1006,14 @@ def is_identity(a: ArrayLike) -> bool:
     False
     """
 
-    return np.array_equal(np.identity(len(np.diag(a))), a)
+    a = as_float_array(a)
+
+    xp = array_namespace(a)
+
+    if a.ndim != 2 or a.shape[0] != a.shape[1]:
+        return False
+
+    return bool(xp.all(a == xp_as_float_array(np.eye(a.shape[0]), xp=xp, like=a)))
 
 
 def eigen_decomposition(
@@ -958,17 +1084,19 @@ def eigen_decomposition(
 
     A = as_float_array(a)
 
-    if covariance_matrix:
-        A = np.dot(np.transpose(A), A)
+    xp = array_namespace(A)
 
-    w, v = np.linalg.eigh(A)
+    if covariance_matrix:
+        A = xp.matmul(xp_matrix_transpose(A, xp=xp), A)
+
+    w, v = xp_eigh(A, xp=xp)
 
     if eigen_w_v_count is not None:
         w = w[-eigen_w_v_count:]
         v = v[..., -eigen_w_v_count:]
 
     if descending_order:
-        w = np.flipud(w)
-        v = np.fliplr(v)
+        w = xp.flip(w, axis=0)
+        v = xp.flip(v, axis=1)
 
     return w, v

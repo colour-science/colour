@@ -23,14 +23,12 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.algebra import spow
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat, NDArrayReal
 
-from colour.utilities import as_float, as_float_array, as_int
+from colour.utilities import array_namespace, as_float, as_float_array, as_int
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -101,10 +99,12 @@ def eotf_inverse_DCDM(XYZ: ArrayLike, out_int: bool = False) -> NDArrayReal:
 
     XYZ = as_float_array(XYZ)
 
+    xp = array_namespace(XYZ)
+
     XYZ_p = spow(XYZ / 52.37, 1 / 2.6)
 
     if out_int:
-        return as_int(np.round(4095 * XYZ_p))
+        return as_int(xp.round(4095 * XYZ_p))
 
     return as_float(XYZ_p)
 

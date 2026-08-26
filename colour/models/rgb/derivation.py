@@ -27,8 +27,6 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.adaptation import chromatic_adaptation_VonKries
 
 if typing.TYPE_CHECKING:
@@ -36,7 +34,17 @@ if typing.TYPE_CHECKING:
 
 from colour.hints import ArrayLike, NDArrayFloat, Range1  # noqa: TC001
 from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
-from colour.utilities import as_float, as_float_array, ones, tsplit
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    as_float_array,
+    ones,
+    tsplit,
+    xp_as_float_array,
+    xp_create_diagonal,
+    xp_matrix_transpose,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -72,12 +80,12 @@ def xy_to_z(xy: ArrayLike) -> float:
 
     Examples
     --------
+    >>> import numpy as np
     >>> xy_to_z(np.array([0.25, 0.25]))
     np.float64(0.5)
     """
 
     x, y = tsplit(xy)
-
     return 1 - x - y
 
 
@@ -107,6 +115,7 @@ def normalised_primary_matrix(
 
     Examples
     --------
+    >>> import numpy as np
     >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> w = np.array([0.32168, 0.33767])
     >>> normalised_primary_matrix(p, w)  # doctest: +ELLIPSIS
@@ -115,17 +124,21 @@ def normalised_primary_matrix(
            [ 0.0000000...e+00,  0.0000000...e+00,  1.0088251...e+00]])
     """
 
-    primaries = np.reshape(primaries, (3, 2))
+    primaries = as_float_array(primaries)
+
+    xp = array_namespace(primaries)
+
+    primaries = xp_reshape(primaries, (3, 2), xp=xp)
 
     z = as_float_array(xy_to_z(primaries))[..., None]
-    primaries = np.transpose(np.hstack([primaries, z]))
+    primaries = xp_matrix_transpose(xp.concat([primaries, z], axis=1), xp=xp)
 
-    whitepoint = xy_to_XYZ(whitepoint)
+    whitepoint = xp_as_float_array(xy_to_XYZ(whitepoint), xp=xp, like=primaries)
 
-    coefficients = np.dot(np.linalg.inv(primaries), whitepoint)
-    coefficients = np.diagflat(coefficients)
+    coefficients = xp.matmul(xp.linalg.inv(primaries), whitepoint)
+    coefficients = xp_create_diagonal(coefficients, xp=xp)
 
-    return np.dot(primaries, coefficients)
+    return xp.matmul(primaries, coefficients)
 
 
 def chromatically_adapted_primaries(
@@ -160,6 +173,7 @@ def chromatically_adapted_primaries(
 
     Examples
     --------
+    >>> import numpy as np
     >>> p = np.array([0.64, 0.33, 0.30, 0.60, 0.15, 0.06])
     >>> w_t = np.array([0.31270, 0.32900])
     >>> w_r = np.array([0.34570, 0.35850])
@@ -171,7 +185,11 @@ def chromatically_adapted_primaries(
            [0.1558932..., 0.0660492...]])
     """
 
-    primaries = np.reshape(primaries, (3, 2))
+    primaries = as_float_array(primaries)
+
+    xp = array_namespace(primaries)
+
+    primaries = xp_reshape(primaries, (3, 2), xp=xp)
 
     XYZ_a = chromatic_adaptation_VonKries(
         xy_to_XYZ(primaries),
@@ -204,6 +222,7 @@ def primaries_whitepoint(npm: ArrayLike) -> Tuple[NDArrayFloat, NDArrayFloat]:
 
     Examples
     --------
+    >>> import numpy as np
     >>> npm = np.array(
     ...     [
     ...         [9.52552396e-01, 0.00000000e00, 9.36786317e-05],
@@ -220,10 +239,23 @@ def primaries_whitepoint(npm: ArrayLike) -> Tuple[NDArrayFloat, NDArrayFloat]:
     array([0.32168, 0.33767])
     """
 
-    npm = np.reshape(npm, (3, 3))
+    npm = as_float_array(npm)
 
-    primaries = XYZ_to_xy(np.transpose(np.dot(npm, np.identity(3))))
-    whitepoint = np.squeeze(XYZ_to_xy(np.transpose(np.dot(npm, ones((3, 1))))))
+    xp = array_namespace(npm)
+
+    npm = xp_reshape(npm, (3, 3), xp=xp)
+
+    primaries = XYZ_to_xy(xp_matrix_transpose(npm, xp=xp))
+    whitepoint = xp_reshape(
+        XYZ_to_xy(
+            xp_matrix_transpose(
+                xp.matmul(npm, xp_as_float_array(ones((3, 1)), xp=xp, like=npm)),
+                xp=xp,
+            )
+        ),
+        (-1,),
+        xp=xp,
+    )
 
     # TODO: Investigate if we return an ndarray here with primaries and
     # whitepoint stacked together.
@@ -249,14 +281,19 @@ def RGB_luminance_equation(primaries: ArrayLike, whitepoint: ArrayLike) -> str:
 
     Examples
     --------
+    >>> import numpy as np
     >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = np.array([0.32168, 0.33767])
     >>> RGB_luminance_equation(p, whitepoint)  # doctest: +ELLIPSIS
     'Y = 0.3439664...(R) + 0.7281660...(G) + -0.0721325...(B)'
     """
 
+    primaries = as_float_array(primaries)
+
+    xp = array_namespace(primaries)
+
     return "Y = {}(R) + {}(G) + {}(B)".format(
-        *np.ravel(normalised_primary_matrix(primaries, whitepoint))[3:6]
+        *xp_reshape(normalised_primary_matrix(primaries, whitepoint), (-1,), xp=xp)[3:6]
     )
 
 
@@ -291,6 +328,7 @@ def RGB_luminance(
 
     Examples
     --------
+    >>> import numpy as np
     >>> RGB = np.array([0.21959402, 0.06986677, 0.04703877])
     >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = np.array([0.32168, 0.33767])
@@ -298,6 +336,16 @@ def RGB_luminance(
     np.float64(0.1230145...)
     """
 
-    Y = np.sum(normalised_primary_matrix(primaries, whitepoint)[1] * RGB, axis=-1)
+    RGB = as_float_array(RGB)
+
+    xp = array_namespace(RGB)
+
+    Y = xp.sum(
+        xp_as_float_array(
+            normalised_primary_matrix(primaries, whitepoint)[1], xp=xp, like=RGB
+        )
+        * RGB,
+        axis=-1,
+    )
 
     return as_float(Y)

@@ -15,11 +15,15 @@ References
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.colorimetry import SDS_LEFS_PHOTOPIC, SpectralDistribution, reshape_sd
 from colour.constants import CONSTANT_K_M
-from colour.utilities import as_float_scalar, optional
+from colour.utilities import (
+    array_namespace,
+    as_float_scalar,
+    optional,
+    xp_as_float_array,
+    xp_trapezoid,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -80,7 +84,12 @@ def luminous_flux(
         extrapolator_kwargs={"method": "Constant", "left": 0, "right": 0},
     )
 
-    flux = K_m * np.trapezoid(lef.values * sd.values, sd.wavelengths)
+    xp = array_namespace(sd.values)
+
+    sd_values = xp_as_float_array(sd.values, xp=xp)
+    lef_values = xp_as_float_array(lef.values, xp=xp, like=sd_values)
+
+    flux = K_m * xp_trapezoid(lef_values * sd_values, x=sd.wavelengths, xp=xp)
 
     return as_float_scalar(flux)
 
@@ -131,9 +140,14 @@ def luminous_efficiency(
         extrapolator_kwargs={"method": "Constant", "left": 0, "right": 0},
     )
 
-    efficiency = np.trapezoid(lef.values * sd.values, sd.wavelengths) / np.trapezoid(
-        sd.values, sd.wavelengths
-    )
+    xp = array_namespace(sd.values)
+
+    sd_values = xp_as_float_array(sd.values, xp=xp)
+    lef_values = xp_as_float_array(lef.values, xp=xp, like=sd_values)
+
+    efficiency = xp_trapezoid(
+        lef_values * sd_values, x=sd.wavelengths, xp=xp
+    ) / xp_trapezoid(sd_values, x=sd.wavelengths, xp=xp)
 
     return as_float_scalar(efficiency)
 

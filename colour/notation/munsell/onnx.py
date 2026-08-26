@@ -39,6 +39,7 @@ from colour.utilities import (
     required,
     to_domain_1,
     to_domain_10,
+    xp_round,
 )
 
 __author__ = "Colour Developers"
@@ -528,7 +529,7 @@ def xyY_to_munsell_colour_Onnx(
     decimals = (hue_decimals, value_decimals, chroma_decimals)
 
     specification_flat = np.reshape(specification, (-1, 4)).copy()
-    specification_flat[..., 3] = np.round(specification_flat[..., 3])
+    specification_flat[..., 3] = xp_round(specification_flat[..., 3], xp=np)
 
     munsell_colour = np.reshape(
         np.array(

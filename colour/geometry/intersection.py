@@ -25,14 +25,19 @@ from __future__ import annotations
 import typing
 from dataclasses import dataclass
 
-import numpy as np
-
 from colour.algebra import euclidean_distance, sdiv, sdiv_mode
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
+    from colour.hints import ArrayLike, NDArrayBoolean, NDArrayFloat
 
-from colour.utilities import as_float_array, tsplit, tstack
+from colour.utilities import (
+    array_namespace,
+    as_float_array,
+    tsplit,
+    tstack,
+    xp_as_float_array,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -80,6 +85,7 @@ def extend_line_segment(
 
     Examples
     --------
+    >>> import numpy as np
     >>> a = np.array([0.95694934, 0.13720932])
     >>> b = np.array([0.28382835, 0.60608318])
     >>> extend_line_segment(a, b)  # doctest: +ELLIPSIS
@@ -123,9 +129,9 @@ class LineSegmentsIntersections_Specification:
     """
 
     xy: NDArrayFloat
-    intersect: NDArrayFloat
-    parallel: NDArrayFloat
-    coincident: NDArrayFloat
+    intersect: NDArrayBoolean
+    parallel: NDArrayBoolean
+    coincident: NDArrayBoolean
 
 
 def intersect_line_segments(
@@ -163,6 +169,7 @@ def intersect_line_segments(
 
     Examples
     --------
+    >>> import numpy as np
     >>> l_1 = np.array(
     ...     [
     ...         [[0.15416284, 0.7400497], [0.26331502, 0.53373939]],
@@ -199,17 +206,23 @@ def intersect_line_segments(
     l_1 = as_float_array(l_1)
     l_2 = as_float_array(l_2)
 
-    l_1 = np.reshape(l_1, (-1, 4))
-    l_2 = np.reshape(l_2, (-1, 4))
+    xp = array_namespace(l_1, l_2)
 
-    r_1, c_1 = l_1.shape[0], l_1.shape[1]
-    r_2, c_2 = l_2.shape[0], l_2.shape[1]
+    l_2 = xp_as_float_array(l_2, xp=xp, like=l_1)
 
-    x_1, y_1, x_2, y_2 = (np.tile(l_1[:, i, None], (1, r_2)) for i in range(c_1))
+    l_1 = xp_reshape(l_1, (-1, 4), xp=xp)
+    l_2 = xp_reshape(l_2, (-1, 4), xp=xp)
 
-    l_2 = np.transpose(l_2)
-
-    x_3, y_3, x_4, y_4 = (np.tile(l_2[i, :], (r_1, 1)) for i in range(c_2))
+    # ``l_1`` segments held as ``(r_1, 1)`` columns and ``l_2`` segments as
+    # ``(1, r_2)`` rows; pairwise arithmetic broadcasts to ``(r_1, r_2)``
+    # without materialising tiled copies of each component.
+    x_1, y_1, x_2, y_2 = l_1[:, 0:1], l_1[:, 1:2], l_1[:, 2:3], l_1[:, 3:4]
+    x_3, y_3, x_4, y_4 = (
+        l_2[None, :, 0],
+        l_2[None, :, 1],
+        l_2[None, :, 2],
+        l_2[None, :, 3],
+    )
 
     x_4_x_3 = x_4 - x_3
     y_1_y_3 = y_1 - y_3
@@ -226,11 +239,11 @@ def intersect_line_segments(
         u_a = sdiv(numerator_a, denominator)
         u_b = sdiv(numerator_b, denominator)
 
-    intersect = np.logical_and.reduce((u_a >= 0, u_a <= 1, u_b >= 0, u_b <= 1))
+    intersect = (u_a >= 0) & (u_a <= 1) & (u_b >= 0) & (u_b <= 1)
     xy = tstack([x_1 + x_2_x_1 * u_a, y_1 + y_2_y_1 * u_a])
-    xy = np.where(intersect[..., None], xy, np.nan)
+    xy = xp.where(intersect[..., None], xy, float("nan"))
     parallel = denominator == 0
-    coincident = np.logical_and.reduce((numerator_a == 0, numerator_b == 0, parallel))
+    coincident = (numerator_a == 0) & (numerator_b == 0) & parallel
 
     return LineSegmentsIntersections_Specification(xy, intersect, parallel, coincident)
 
@@ -266,12 +279,15 @@ def intersect_ray_circle_2d(
     Examples
     --------
     >>> intersect_ray_circle_2d([0, 5], [0, 1], 10)
-    5.0
+    array(5.)
     >>> intersect_ray_circle_2d([0, 15], [0, 1], 10)
-    nan
+    array(nan)
     """
 
     origin = as_float_array(ray_origin)
+
+    xp = array_namespace(origin)
+
     direction = as_float_array(ray_direction)
 
     direction_x = direction[..., 0]
@@ -287,18 +303,16 @@ def intersect_ray_circle_2d(
     discriminant = quadratic_b * quadratic_b - 4.0 * quadratic_a * quadratic_c
 
     has_intersection = discriminant > 0.0
-    safe_discriminant = np.sqrt(np.maximum(discriminant, 0.0))
+    safe_discriminant = xp.sqrt(xp.clip(discriminant, min=0.0))
 
     distance_1 = (-quadratic_b + safe_discriminant) / (2.0 * quadratic_a)
     distance_2 = (-quadratic_b - safe_discriminant) / (2.0 * quadratic_a)
 
     both_positive = (distance_1 > 0) & (distance_2 > 0)
-    result = np.where(
+    result = xp.where(
         both_positive,
-        np.minimum(distance_1, distance_2),
-        np.maximum(distance_1, distance_2),
+        xp.minimum(distance_1, distance_2),
+        xp.maximum(distance_1, distance_2),
     )
     forward = result > 0
-    result = np.where(has_intersection & forward, result, np.nan)
-
-    return float(result) if np.ndim(result) == 0 else result  # pyright: ignore
+    return xp.where(has_intersection & forward, result, float("nan"))

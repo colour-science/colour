@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 import numpy as np
 
 from colour.blindness import (
@@ -13,7 +18,7 @@ from colour.blindness import (
 from colour.characterisation import MSDS_DISPLAY_PRIMARIES
 from colour.colorimetry import MSDS_CMFS_LMS
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import ignore_numpy_errors, xp_as_array, xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -35,87 +40,73 @@ class TestMsdsCmfsAnomalousTrichromacyMachado2009:
 msds_cmfs_anomalous_trichromacy_Machado2009` definition unit tests methods.
     """
 
-    def test_msds_cmfs_anomalous_trichromacy_Machado2009(self) -> None:
+    def test_msds_cmfs_anomalous_trichromacy_Machado2009(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.blindness.machado2009.\
 msds_cmfs_anomalous_trichromacy_Machado2009` definition.
         """
 
         cmfs = MSDS_CMFS_LMS["Smith & Pokorny 1975 Normal Trichromats"]
-        np.testing.assert_allclose(
+        xp_assert_close(
             msds_cmfs_anomalous_trichromacy_Machado2009(
                 cmfs,
-                np.array(
-                    [0, 0, 0],
-                ),
+                xp_as_array([0, 0, 0], xp=xp),
             )[450],
             cmfs[450],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             msds_cmfs_anomalous_trichromacy_Machado2009(
                 cmfs,
-                np.array(
-                    [1, 0, 0],
-                ),
+                xp_as_array([1, 0, 0], xp=xp),
             )[450],
-            np.array([0.03631700, 0.06350000, 0.91000000]),
+            [0.03631700, 0.06350000, 0.91000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             msds_cmfs_anomalous_trichromacy_Machado2009(
                 cmfs,
-                np.array(
-                    [0, 1, 0],
-                ),
+                xp_as_array([0, 1, 0], xp=xp),
             )[450],
-            np.array([0.03430000, 0.06178404, 0.91000000]),
+            [0.03430000, 0.06178404, 0.91000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             msds_cmfs_anomalous_trichromacy_Machado2009(
                 cmfs,
-                np.array(
-                    [0, 0, 1],
-                ),
+                xp_as_array([0, 0, 1], xp=xp),
             )[450],
-            np.array([0.03430000, 0.06350000, 0.92270240]),
+            [0.03430000, 0.06350000, 0.92270240],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             msds_cmfs_anomalous_trichromacy_Machado2009(
                 cmfs,
-                np.array(
-                    [10, 0, 0],
-                ),
+                xp_as_array([10, 0, 0], xp=xp),
             )[450],
-            np.array([0.05447001, 0.06350000, 0.91000000]),
+            [0.05447001, 0.06350000, 0.91000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             msds_cmfs_anomalous_trichromacy_Machado2009(
                 cmfs,
-                np.array(
-                    [0, 10, 0],
-                ),
+                xp_as_array([0, 10, 0], xp=xp),
             )[450],
-            np.array([0.03430000, 0.04634036, 0.91000000]),
+            [0.03430000, 0.04634036, 0.91000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             msds_cmfs_anomalous_trichromacy_Machado2009(
                 cmfs,
-                np.array(
-                    [0, 0, 10],
-                ),
+                xp_as_array([0, 0, 10], xp=xp),
             )[450],
-            np.array([0.03430000, 0.06350000, 1.00000000]),
+            [0.03430000, 0.06350000, 1.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -126,7 +117,7 @@ class TestMatrixAnomalousTrichromacyMachado2009:
 matrix_anomalous_trichromacy_Machado2009` definition unit tests methods.
     """
 
-    def test_matrix_anomalous_trichromacy_Machado2009(self) -> None:
+    def test_matrix_anomalous_trichromacy_Machado2009(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.blindness.machado2009.\
 matrix_anomalous_trichromacy_Machado2009` definition.
@@ -134,84 +125,84 @@ matrix_anomalous_trichromacy_Machado2009` definition.
 
         cmfs = MSDS_CMFS_LMS["Smith & Pokorny 1975 Normal Trichromats"]
         primaries = MSDS_DISPLAY_PRIMARIES["Typical CRT Brainard 1997"]
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_anomalous_trichromacy_Machado2009(
-                cmfs, primaries, np.array([0, 0, 0])
+                cmfs, primaries, xp_as_array([0, 0, 0], xp=xp)
             ),
             np.identity(3),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_anomalous_trichromacy_Machado2009(
-                cmfs, primaries, np.array([2, 0, 0])
+                cmfs, primaries, xp_as_array([2, 0, 0], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Protanomaly"][0.1],
-            atol=0.0001,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_anomalous_trichromacy_Machado2009(
-                cmfs, primaries, np.array([10, 0, 0])
+                cmfs, primaries, xp_as_array([10, 0, 0], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Protanomaly"][0.5],
-            atol=0.0001,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_anomalous_trichromacy_Machado2009(
-                cmfs, primaries, np.array([20, 0, 0])
+                cmfs, primaries, xp_as_array([20, 0, 0], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Protanomaly"][1.0],
-            atol=0.0001,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_anomalous_trichromacy_Machado2009(
-                cmfs, primaries, np.array([0, 2, 0])
+                cmfs, primaries, xp_as_array([0, 2, 0], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Deuteranomaly"][0.1],
-            atol=0.0001,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_anomalous_trichromacy_Machado2009(
-                cmfs, primaries, np.array([0, 10, 0])
+                cmfs, primaries, xp_as_array([0, 10, 0], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Deuteranomaly"][0.5],
-            atol=0.0001,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_anomalous_trichromacy_Machado2009(
-                cmfs, primaries, np.array([0, 20, 0])
+                cmfs, primaries, xp_as_array([0, 20, 0], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Deuteranomaly"][1.0],
-            atol=0.0001,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_anomalous_trichromacy_Machado2009(
-                cmfs, primaries, np.array([0, 0, 5.00056688094503])
+                cmfs, primaries, xp_as_array([0, 0, 5.00056688094503], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Tritanomaly"][0.1],
-            atol=0.0001,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_anomalous_trichromacy_Machado2009(
-                cmfs, primaries, np.array([0, 0, 29.002939088780934])
+                cmfs, primaries, xp_as_array([0, 0, 29.002939088780934], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Tritanomaly"][0.5],
-            atol=0.0001,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_anomalous_trichromacy_Machado2009(
-                cmfs, primaries, np.array([0, 0, 59.00590434857581])
+                cmfs, primaries, xp_as_array([0, 0, 59.00590434857581], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Tritanomaly"][1.0],
-            atol=0.001,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 10000,
         )
 
 
@@ -221,57 +212,49 @@ class TestMatrixCvdMachado2009:
     definition unit tests methods.
     """
 
-    def test_matrix_cvd_Machado2009(self) -> None:
+    def test_matrix_cvd_Machado2009(self, xp: ModuleType) -> None:  # noqa: ARG002
         """
         Test :func:`colour.blindness.machado2009.matrix_cvd_Machado2009`
         definition.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_cvd_Machado2009("Protanomaly", 0.0),
-            np.array(
-                [
-                    [1, 0, 0],
-                    [0, 1, 0],
-                    [0, 0, 1],
-                ]
-            ),
+            [
+                [1, 0, 0],
+                [0, 1, 0],
+                [0, 0, 1],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_cvd_Machado2009("Deuteranomaly", 0.1),
-            np.array(
-                [
-                    [0.86643500, 0.17770400, -0.04413900],
-                    [0.04956700, 0.93906300, 0.01137000],
-                    [-0.00345300, 0.00723300, 0.99622000],
-                ]
-            ),
+            [
+                [0.86643500, 0.17770400, -0.04413900],
+                [0.04956700, 0.93906300, 0.01137000],
+                [-0.00345300, 0.00723300, 0.99622000],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_cvd_Machado2009("Tritanomaly", 1.0),
-            np.array(
-                [
-                    [1.25552800, -0.07674900, -0.17877900],
-                    [-0.07841100, 0.93080900, 0.14760200],
-                    [0.00473300, 0.69136700, 0.30390000],
-                ]
-            ),
+            [
+                [1.25552800, -0.07674900, -0.17877900],
+                [-0.07841100, 0.93080900, 0.14760200],
+                [0.00473300, 0.69136700, 0.30390000],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_cvd_Machado2009("Tritanomaly", 0.55),
-            np.array(
-                [
-                    [1.06088700, -0.01504350, -0.04584350],
-                    [-0.01895750, 0.96774750, 0.05121150],
-                    [0.00317700, 0.27513700, 0.72168600],
-                ]
-            ),
+            [
+                [1.06088700, -0.01504350, -0.04584350],
+                [-0.01895750, 0.96774750, 0.05121150],
+                [0.00317700, 0.27513700, 0.72168600],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 

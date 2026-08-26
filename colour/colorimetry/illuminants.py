@@ -7,6 +7,8 @@ calculations:
 
 -   :func:`colour.sd_CIE_standard_illuminant_A`
 -   :func:`colour.sd_CIE_illuminant_D_series`
+-   :func:`colour.msds_CIE_illuminant_D_series`
+-   :func:`colour.CIE_illuminant_D_series`
 -   :func:`colour.daylight_locus_function`
 
 References
@@ -29,21 +31,26 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
     SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES,
     SPECTRAL_SHAPE_DEFAULT,
+    MultiSpectralDistributions,
     SpectralDistribution,
     SpectralShape,
-    reshape_sd,
 )
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
-from colour.utilities import as_float, as_float_array, tsplit
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    as_float_array,
+    as_ndarray,
+    xp_as_float_array,
+    xp_round,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -54,7 +61,9 @@ __status__ = "Production"
 
 __all__ = [
     "sd_CIE_standard_illuminant_A",
+    "CIE_illuminant_D_series",
     "sd_CIE_illuminant_D_series",
+    "msds_CIE_illuminant_D_series",
     "daylight_locus_function",
 ]
 
@@ -129,18 +138,115 @@ def sd_CIE_standard_illuminant_A(
                          {'method': 'Constant', 'left': None, 'right': None})
     """
 
+    wavelengths = as_float_array(shape.wavelengths)
+
+    xp = array_namespace(wavelengths)
+
     values = (
         100
-        * (560 / shape.wavelengths) ** 5
+        * (560 / wavelengths) ** 5
         * (
-            np.expm1((1.435 * 10**7) / (2848 * 560))
-            / np.expm1((1.435 * 10**7) / (2848 * shape.wavelengths))
+            xp.expm1((1.435 * 10**7) / (2848 * 560))
+            / xp.expm1((1.435 * 10**7) / (2848 * wavelengths))
         )
     )
 
     return SpectralDistribution(
         values, shape.wavelengths, name="CIE Standard Illuminant A"
     )
+
+
+def CIE_illuminant_D_series(
+    xy: ArrayLike,
+    M1_M2_rounding: bool = True,
+    shape: SpectralShape | None = None,
+) -> NDArrayFloat:
+    """
+    Return the spectral values of the *CIE Illuminant D Series* for the
+    specified *CIE xy* chromaticity coordinates of shape ``(N, 2)``.
+
+    Array kernel underlying :func:`colour.sd_CIE_illuminant_D_series` and
+    :func:`colour.msds_CIE_illuminant_D_series`; computation dispatches
+    through the *Array API* and follows the input backend.
+
+    Parameters
+    ----------
+    xy
+        *CIE xy* chromaticity coordinates of shape ``(N, 2)``.
+    M1_M2_rounding
+        Whether to round :math:`M1` and :math:`M2` variables to 3 decimal
+        places in order to yield the internationally agreed values.
+    shape
+        Optional target spectral shape. When provided the natural
+        ``(300, 830, 10)`` basis is linearly interpolated to
+        ``shape.wavelengths`` along the wavelength axis.
+
+    Returns
+    -------
+    :class:`numpy.ndarray` or backend tensor
+        Spectral values of shape ``(n_wavelengths, N)``; the output stays
+        in the namespace and device of the input :math:`xy` array.
+
+    Notes
+    -----
+    -   See :func:`colour.sd_CIE_illuminant_D_series` for the *CIE
+        015:2004* :math:`xy` recommendation.
+
+    References
+    ----------
+    :cite:`CIETC1-482004`, :cite:`Wyszecki2000z`
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from colour.utilities import numpy_print_options
+    >>> from colour.temperature import CCT_to_xy_CIE_D
+    >>> CCTs = np.array([5000.0, 6500.0]) * 1.4388 / 1.4380
+    >>> xy = CCT_to_xy_CIE_D(CCTs)
+    >>> with numpy_print_options(suppress=True):
+    ...     CIE_illuminant_D_series(  # doctest: +ELLIPSIS
+    ...         xy, shape=SpectralShape(400, 700, 100)
+    ...     )
+    array([[ 49.3081...,  82.7549...],
+           [ 95.7237..., 109.3545...],
+           [ 97.6878...,  90.0062...],
+           [ 91.6035...,  71.6091...]])
+    """
+
+    xy = as_float_array(xy)
+
+    xp = array_namespace(xy)
+
+    x, y = xy[..., 0], xy[..., 1]
+    M = 0.0241 + 0.2562 * x - 0.7341 * y
+    M1 = (-1.3515 - 1.7703 * x + 5.9114 * y) / M
+    M2 = (0.0300 - 31.4424 * x + 30.0717 * y) / M
+
+    if M1_M2_rounding:
+        M1 = xp_round(M1, decimals=3, xp=xp)
+        M2 = xp_round(M2, decimals=3, xp=xp)
+
+    S0 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S0"]
+    S1 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S1"]
+    S2 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S2"]
+
+    S0_values = xp_as_float_array(S0.values, xp=xp, like=xy)
+    S1_values = xp_as_float_array(S1.values, xp=xp, like=xy)
+    S2_values = xp_as_float_array(S2.values, xp=xp, like=xy)
+
+    distribution = (
+        S0_values[:, None]
+        + M1[None, :] * S1_values[:, None]
+        + M2[None, :] * S2_values[:, None]
+    )
+
+    if shape is None:
+        return distribution
+
+    basis_wavelengths = xp_as_float_array(S0.wavelengths, xp=xp, like=M1)
+    target_wavelengths = xp_as_float_array(shape.wavelengths, xp=xp, like=M1)
+
+    return LinearInterpolator(basis_wavelengths, distribution)(target_wavelengths)
 
 
 def sd_CIE_illuminant_D_series(
@@ -155,7 +261,7 @@ def sd_CIE_illuminant_D_series(
     Parameters
     ----------
     xy
-        *CIE xy* chromaticity coordinates.
+        *CIE xy* chromaticity coordinates of shape ``(2,)``.
     M1_M2_rounding
         Whether to round :math:`M1` and :math:`M2` variables to 3 decimal
         places in order to yield the internationally agreed values.
@@ -304,33 +410,108 @@ def sd_CIE_illuminant_D_series(
 
     xy = as_float_array(xy)
 
-    x, y = tsplit(xy)
+    xp = array_namespace(xy)
 
-    M = 0.0241 + 0.2562 * x - 0.7341 * y
-    M1 = (-1.3515 - 1.7703 * x + 5.9114 * y) / M
-    M2 = (0.0300 - 31.4424 * x + 30.0717 * y) / M
+    # The single chromaticity is expanded to the kernel's batched ``(1, 2)``
+    # form and squeezed back; ``shape`` is applied below via ``align`` rather
+    # than the kernel's interpolation-only path.
+    distribution = xp.squeeze(
+        CIE_illuminant_D_series(xy[None, :], M1_M2_rounding), axis=-1
+    )
 
-    if M1_M2_rounding:
-        M1 = np.around(M1, 3)
-        M2 = np.around(M2, 3)
-
-    S0 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S0"]
-    S1 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S1"]
-    S2 = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S2"]
-
-    if shape is not None:
-        S0 = reshape_sd(S0, shape=shape, copy=False)
-        S1 = reshape_sd(S1, shape=shape, copy=False)
-        S2 = reshape_sd(S2, shape=shape, copy=False)
-
-    distribution = S0.values + M1 * S1.values + M2 * S2.values
-
-    return SpectralDistribution(
+    sd = SpectralDistribution(
         distribution,
-        S0.wavelengths,
+        SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S0"].wavelengths,
         name=f"CIE xy ({xy[0]}, {xy[1]}) - CIE Illuminant D Series",
         interpolator=LinearInterpolator,
     )
+
+    if shape is not None:
+        sd.align(shape)
+
+    return sd
+
+
+def msds_CIE_illuminant_D_series(
+    xy: ArrayLike,
+    M1_M2_rounding: bool = True,
+    shape: SpectralShape | None = None,
+) -> MultiSpectralDistributions:
+    """
+    Return the multi-spectral distributions of the specified ``N`` *CIE
+    Illuminant D Series* using the specified *CIE xy* chromaticity
+    coordinates.
+
+    Parameters
+    ----------
+    xy
+        *CIE xy* chromaticity coordinates of shape ``(N, 2)``.
+    M1_M2_rounding
+        Whether to round :math:`M1` and :math:`M2` variables to 3 decimal
+        places in order to yield the internationally agreed values.
+    shape
+        Specifies the shape of the returned MultiSpectralDistributions.
+        Optional, default None.
+
+    Returns
+    -------
+    :class:`colour.MultiSpectralDistributions`
+        *CIE Illuminant D Series* multi-spectral distributions of shape
+        ``(n_wavelengths, N)``.
+
+    Notes
+    -----
+    -   See :func:`colour.sd_CIE_illuminant_D_series` for the *CIE
+        015:2004* :math:`xy` recommendation.
+
+    References
+    ----------
+    :cite:`CIETC1-482004`, :cite:`Wyszecki2000z`
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from colour.utilities import numpy_print_options
+    >>> from colour.temperature import CCT_to_xy_CIE_D
+    >>> CCTs = np.array([5000.0, 6500.0]) * 1.4388 / 1.4380
+    >>> xy = CCT_to_xy_CIE_D(CCTs)
+    >>> with numpy_print_options(suppress=True):
+    ...     msds_CIE_illuminant_D_series(  # doctest: +ELLIPSIS
+    ...         xy, shape=SpectralShape(400, 700, 100)
+    ...     )
+    MultiSpectralDistributions([[400.    ,  49.3081,  82.7549],
+                                [500.    ,  95.7237, 109.3545],
+                                [600.    ,  97.6878,  90.0062],
+                                [700.    ,  91.6035,  71.6091]],
+                               [...],
+                               LinearInterpolator,
+                               {},
+                               Extrapolator,
+                               {'method': 'Constant', 'left': None, 'right': None})
+    """
+
+    xy = as_float_array(xy)
+
+    xy_labels = as_ndarray(xy)
+
+    # The multi-spectral distributions are built at the basis resolution and
+    # ``shape`` is applied below via ``align`` rather than the kernel's
+    # interpolation-only path, mirroring :func:`sd_CIE_illuminant_D_series`
+    # and thus extrapolating consistently beyond the basis range.
+    msds = MultiSpectralDistributions(
+        CIE_illuminant_D_series(xy, M1_M2_rounding),
+        SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S0"].wavelengths,
+        labels=[
+            f"CIE xy ({xy_labels[i, 0]}, {xy_labels[i, 1]}) - CIE Illuminant D Series"
+            for i in range(xy_labels.shape[0])
+        ],
+        interpolator=LinearInterpolator,
+    )
+
+    if shape is not None:
+        msds.align(shape)
+
+    return msds
 
 
 def daylight_locus_function(x_D: ArrayLike) -> NDArrayFloat:

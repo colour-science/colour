@@ -18,19 +18,29 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT,
+    MultiSpectralDistributions,
     SpectralDistribution,
     SpectralShape,
 )
-from colour.constants import CONSTANT_BOLTZMANN, CONSTANT_LIGHT_SPEED
+from colour.constants import (
+    CONSTANT_BOLTZMANN,
+    CONSTANT_LIGHT_SPEED,
+)
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
-from colour.utilities import as_float, as_float_array
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    as_float_array,
+    as_ndarray,
+    xp_as_float_array,
+    xp_reshape,
+    xp_squeeze,
+)
 from colour.utilities.common import attest
 
 __author__ = "Colour Developers"
@@ -47,8 +57,10 @@ __all__ = [
     "planck_law",
     "blackbody_spectral_radiance",
     "sd_blackbody",
+    "msds_blackbody",
     "rayleigh_jeans_law",
     "sd_rayleigh_jeans",
+    "msds_rayleigh_jeans",
 ]
 
 # 2 * math.pi * CONSTANT_PLANCK * CONSTANT_LIGHT_SPEED ** 2
@@ -131,15 +143,20 @@ def planck_law(
     l = as_float_array(wavelength)  # noqa: E741
     t = as_float_array(temperature)
 
-    attest(np.all(l > 0), "Wavelengths must be positive real numbers!")
+    xp = array_namespace(l, t)
 
-    l = np.ravel(l)[..., None]  # noqa: E741
-    t = np.ravel(t)[None, ...]
+    l = xp_as_float_array(l, xp=xp, like=t)  # noqa: E741
+    t = xp_as_float_array(t, xp=xp, like=l)
 
-    d = 1 / np.expm1(c2 / (n * l * t))
-    p = ((c1 * n**-2 * l**-5) / np.pi) * d
+    attest(xp.all(l > 0), "Wavelengths must be positive real numbers!")
 
-    return as_float(np.squeeze(p))
+    l = xp_reshape(l, (-1,), xp=xp)[..., None]  # noqa: E741
+    t = xp_reshape(t, (-1,), xp=xp)[None, ...]
+
+    d = 1 / xp.expm1(c2 / (n * l * t))
+    p = ((c1 * n**-2 * l**-5) / xp.pi) * d
+
+    return as_float(xp_squeeze(p, xp=xp))
 
 
 blackbody_spectral_radiance = planck_law
@@ -222,6 +239,64 @@ def sd_blackbody(
     )
 
 
+def msds_blackbody(
+    temperatures: ArrayLike,
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+    c1: float = CONSTANT_C1,
+    c2: float = CONSTANT_C2,
+    n: float = CONSTANT_N,
+) -> MultiSpectralDistributions:
+    """
+    Generate the multi-spectral distributions of the planckian radiator
+    for the specified ``N`` temperatures :math:`T[K]` with values in
+    *watts per steradian per square metre per nanometre*
+    (:math:`W/sr/m^2/nm`).
+
+    Parameters
+    ----------
+    temperatures
+        Temperatures :math:`T[K]` in kelvins.
+    shape
+        Spectral shape used to create the spectral distributions of the
+        planckian radiators.
+    c1, c2, n
+        See :func:`colour.sd_blackbody`.
+
+    Returns
+    -------
+    :class:`colour.MultiSpectralDistributions`
+        Blackbody multi-spectral distributions of shape
+        ``(n_wavelengths, N)`` with values in *watts per steradian per
+        square metre per nanometre* (:math:`W/sr/m^2/nm`).
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from colour.utilities import numpy_print_options
+    >>> with numpy_print_options(suppress=True):
+    ...     msds_blackbody(  # doctest: +ELLIPSIS
+    ...         np.array([3000.0, 5000.0]), shape=SpectralShape(400, 700, 100)
+    ...     )
+    MultiSpectralDistributions([[  400.        ,    72.1837...,  8742.5713...],
+                                [  500.        ,   260.2281..., 12106.0645...],
+                                [  600.        ,   517.4366..., 12761.3938...],
+                                [  700.        ,   750.5147..., 11811.1793...]],
+                               [...],
+                               SpragueInterpolator,
+                               {},
+                               Extrapolator,
+                               {'method': 'Constant', 'left': None, 'right': None})
+    """
+
+    temperatures = as_float_array(temperatures)
+
+    return MultiSpectralDistributions(
+        planck_law(shape.wavelengths * 1e-9, temperatures, c1, c2, n) * 1e-9,
+        shape.wavelengths,
+        labels=[f"{T}K Blackbody" for T in as_ndarray(temperatures)],
+    )
+
+
 def rayleigh_jeans_law(wavelength: ArrayLike, temperature: ArrayLike) -> NDArrayFloat:
     """
     Approximate the spectral radiance of a blackbody as a function of
@@ -277,15 +352,20 @@ def rayleigh_jeans_law(wavelength: ArrayLike, temperature: ArrayLike) -> NDArray
     l = as_float_array(wavelength)  # noqa: E741
     t = as_float_array(temperature)
 
-    l = np.ravel(l)[..., None]  # noqa: E741
-    t = np.ravel(t)[None, ...]
+    xp = array_namespace(l, t)
+
+    l = xp_as_float_array(l, xp=xp, like=t)  # noqa: E741
+    t = xp_as_float_array(t, xp=xp, like=l)
+
+    l = xp_reshape(l, (-1,), xp=xp)[..., None]  # noqa: E741
+    t = xp_reshape(t, (-1,), xp=xp)[None, ...]
 
     c = CONSTANT_LIGHT_SPEED
     k_B = CONSTANT_BOLTZMANN
 
     B = (2 * c * k_B * t) / (l**4)
 
-    return as_float(np.squeeze(B))
+    return as_float(xp_squeeze(B, xp=xp))
 
 
 def sd_rayleigh_jeans(
@@ -352,4 +432,65 @@ def sd_rayleigh_jeans(
         rayleigh_jeans_law(shape.wavelengths * 1e-9, temperature) * 1e-9,
         shape.wavelengths,
         name=f"{temperature}K Rayleigh-Jeans",
+    )
+
+
+def msds_rayleigh_jeans(
+    temperatures: ArrayLike,
+    shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
+) -> MultiSpectralDistributions:
+    """
+    Generate the multi-spectral distributions of the planckian radiator
+    for the specified ``N`` temperatures :math:`T[K]` with values in
+    *watts per steradian per square metre per nanometre*
+    (:math:`W/sr/m^2/nm`) according to the *Rayleigh-Jeans* law.
+
+    Parameters
+    ----------
+    temperatures
+        Temperatures :math:`T[K]` in kelvins.
+    shape
+        Spectral shape used to create the spectral distributions of the
+        planckian radiators.
+
+    Returns
+    -------
+    :class:`colour.MultiSpectralDistributions`
+        Rayleigh-Jeans multi-spectral distributions of shape
+        ``(n_wavelengths, N)`` with values in *watts per steradian per
+        square metre per nanometre* (:math:`W/sr/m^2/nm`).
+
+    Notes
+    -----
+    -   The *Rayleigh-Jeans* law agrees with experimental results at large
+        wavelengths (low frequencies) but strongly disagrees at short
+        wavelengths (high frequencies). This inconsistency between
+        observations and the predictions of classical physics is commonly
+        known as the *ultraviolet catastrophe*.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from colour.utilities import numpy_print_options
+    >>> with numpy_print_options(suppress=True):
+    ...     msds_rayleigh_jeans(  # doctest: +ELLIPSIS
+    ...         np.array([3000.0, 5000.0]), shape=SpectralShape(400, 700, 100)
+    ...     )
+    MultiSpectralDistributions([[    400.        ,  970097.946..., 1616829.910...],
+                                [    500.        ,  397352.118...,  662253.531...],
+                                [    600.        ,  191624.285...,  319373.809...],
+                                [    700.        ,  103434.016...,  172390.027...]],
+                               [...],
+                               SpragueInterpolator,
+                               {},
+                               Extrapolator,
+                               {'method': 'Constant', 'left': None, 'right': None})
+    """
+
+    temperatures = as_float_array(temperatures)
+
+    return MultiSpectralDistributions(
+        rayleigh_jeans_law(shape.wavelengths * 1e-9, temperatures) * 1e-9,
+        shape.wavelengths,
+        labels=[f"{T}K Rayleigh-Jeans" for T in as_ndarray(temperatures)],
     )

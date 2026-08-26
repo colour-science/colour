@@ -105,7 +105,8 @@ class TestPlotSpectralLocus:
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
 
-        pytest.raises(ValueError, lambda: plot_spectral_locus(method="Undefined"))
+        with pytest.raises(ValueError):
+            plot_spectral_locus(method="Undefined")
 
 
 class TestPlotChromaticityDiagramColours:
@@ -125,10 +126,8 @@ class TestPlotChromaticityDiagramColours:
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
 
-        pytest.raises(
-            ValueError,
-            lambda: plot_chromaticity_diagram_colours(method="Undefined"),
-        )
+        with pytest.raises(ValueError):
+            plot_chromaticity_diagram_colours(method="Undefined")
 
         figure, axes = plot_chromaticity_diagram_colours(diagram_colours="RGB")
 
@@ -163,14 +162,12 @@ class TestPlotChromaticityDiagram:
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
 
-        pytest.raises(
-            ValueError,
-            lambda: plot_chromaticity_diagram(
+        with pytest.raises(ValueError):
+            plot_chromaticity_diagram(
                 method="Undefined",
                 show_diagram_colours=False,
                 show_spectral_locus=False,
-            ),
-        )
+            )
 
 
 class TestPlotChromaticityDiagramCIE1931:
@@ -257,14 +254,12 @@ plot_sds_in_chromaticity_diagram` definition unit tests methods.
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
 
-        pytest.raises(
-            ValueError,
-            lambda: plot_sds_in_chromaticity_diagram(
+        with pytest.raises(ValueError):
+            plot_sds_in_chromaticity_diagram(
                 [SDS_ILLUMINANTS["A"], SDS_ILLUMINANTS["D65"]],
                 chromaticity_diagram_callable=lambda **x: x,
                 method="Undefined",
-            ),
-        )
+            )
 
 
 class TestPlotSdsInChromaticityDiagramCIE1931:

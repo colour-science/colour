@@ -2,13 +2,25 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 from itertools import product
 
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb import IHLS_to_RGB, RGB_to_IHLS
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    domain_range_scale,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -29,57 +41,57 @@ class TestRGB_to_IHLS:
     tests methods.
     """
 
-    def test_RGB_to_IHLS(self) -> None:
+    def test_RGB_to_IHLS(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition."""
 
-        np.testing.assert_allclose(
-            RGB_to_IHLS(np.array([0.45620519, 0.03081071, 0.04091952])),
-            np.array([6.26236117, 0.12197943, 0.42539448]),
+        xp_assert_close(
+            RGB_to_IHLS(xp_as_array([0.45620519, 0.03081071, 0.04091952], xp=xp)),
+            [6.26236117, 0.12197943, 0.42539448],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            RGB_to_IHLS(np.array([0.00000000, 0.00000000, 0.00000000])),
-            np.array([0.00000000, 0.00000000, 0.00000000]),
+        xp_assert_close(
+            RGB_to_IHLS(xp_as_array([0.00000000, 0.00000000, 0.00000000], xp=xp)),
+            [0.00000000, 0.00000000, 0.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            RGB_to_IHLS(np.array([1.00000000, 1.00000000, 1.00000000])),
-            np.array([0.00000000, 1.00000000, 0.00000000]),
+        xp_assert_close(
+            RGB_to_IHLS(xp_as_array([1.00000000, 1.00000000, 1.00000000], xp=xp)),
+            [0.00000000, 1.00000000, 0.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_RGB_to_IHLS(self) -> None:
+    def test_n_dimensional_RGB_to_IHLS(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition
         n-dimensional arrays support.
         """
 
-        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        HYS = RGB_to_IHLS(RGB)
+        RGB = xp_as_array([0.45620519, 0.03081071, 0.04091952], xp=xp)
+        HYS = as_ndarray(RGB_to_IHLS(RGB))
 
-        RGB = np.tile(RGB, (6, 1))
-        HYS = np.tile(HYS, (6, 1))
-        np.testing.assert_allclose(RGB_to_IHLS(RGB), HYS, atol=TOLERANCE_ABSOLUTE_TESTS)
+        RGB = xp.tile(xp_as_array(RGB, xp=xp), (6, 1))
+        HYS = xp.tile(xp_as_array(HYS, xp=xp), (6, 1))
+        xp_assert_close(RGB_to_IHLS(RGB), HYS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        RGB = np.reshape(RGB, (2, 3, 3))
-        HYS = np.reshape(HYS, (2, 3, 3))
-        np.testing.assert_allclose(RGB_to_IHLS(RGB), HYS, atol=TOLERANCE_ABSOLUTE_TESTS)
+        RGB = xp_reshape(xp_as_array(RGB, xp=xp), (2, 3, 3), xp=xp)
+        HYS = xp_reshape(xp_as_array(HYS, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(RGB_to_IHLS(RGB), HYS, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_RGB_to_IHLS(self) -> None:
+    def test_domain_range_scale_RGB_to_IHLS(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition
         domain and range scale support.
         """
 
-        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
-        HYS = RGB_to_IHLS(RGB)
+        RGB = xp_as_array([0.45620519, 0.03081071, 0.04091952], xp=xp)
+        HYS = as_ndarray(RGB_to_IHLS(RGB))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     RGB_to_IHLS(RGB * factor),
                     HYS * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -103,57 +115,57 @@ class TestIHLS_to_RGB:
     tests methods.
     """
 
-    def test_IHLS_to_RGB(self) -> None:
+    def test_IHLS_to_RGB(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition."""
 
-        np.testing.assert_allclose(
-            IHLS_to_RGB(np.array([6.26236117, 0.12197943, 0.42539448])),
-            np.array([0.45620519, 0.03081071, 0.04091952]),
+        xp_assert_close(
+            IHLS_to_RGB(xp_as_array([6.26236117, 0.12197943, 0.42539448], xp=xp)),
+            [0.45620519, 0.03081071, 0.04091952],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            IHLS_to_RGB(np.array([0.00000000, 0.00000000, 0.00000000])),
-            np.array([0.00000000, 0.00000000, 0.00000000]),
+        xp_assert_close(
+            IHLS_to_RGB(xp_as_array([0.00000000, 0.00000000, 0.00000000], xp=xp)),
+            [0.00000000, 0.00000000, 0.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            IHLS_to_RGB(np.array([0.00000000, 1.00000000, 0.00000000])),
-            np.array([1.00000000, 1.00000000, 1.00000000]),
+        xp_assert_close(
+            IHLS_to_RGB(xp_as_array([0.00000000, 1.00000000, 0.00000000], xp=xp)),
+            [1.00000000, 1.00000000, 1.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_IHLS_to_RGB(self) -> None:
+    def test_n_dimensional_IHLS_to_RGB(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition
         n-dimensional arrays support.
         """
 
-        HYS = np.array([6.26236117, 0.12197943, 0.42539448])
-        RGB = IHLS_to_RGB(HYS)
+        HYS = xp_as_array([6.26236117, 0.12197943, 0.42539448], xp=xp)
+        RGB = as_ndarray(IHLS_to_RGB(HYS))
 
-        HYS = np.tile(HYS, (6, 1))
-        RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_allclose(IHLS_to_RGB(HYS), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
+        HYS = xp.tile(xp_as_array(HYS, xp=xp), (6, 1))
+        RGB = xp.tile(xp_as_array(RGB, xp=xp), (6, 1))
+        xp_assert_close(IHLS_to_RGB(HYS), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        HYS = np.reshape(HYS, (2, 3, 3))
-        RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_allclose(IHLS_to_RGB(HYS), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
+        HYS = xp_reshape(xp_as_array(HYS, xp=xp), (2, 3, 3), xp=xp)
+        RGB = xp_reshape(xp_as_array(RGB, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(IHLS_to_RGB(HYS), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_IHLS_to_RGB(self) -> None:
+    def test_domain_range_scale_IHLS_to_RGB(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.hanbury2003.IHLS_to_RGB` definition
         domain and range scale support.
         """
 
-        HYS = np.array([6.26236117, 0.12197943, 0.42539448])
-        RGB = IHLS_to_RGB(HYS)
+        HYS = xp_as_array([6.26236117, 0.12197943, 0.42539448], xp=xp)
+        RGB = as_ndarray(IHLS_to_RGB(HYS))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     IHLS_to_RGB(HYS * factor),
                     RGB * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,

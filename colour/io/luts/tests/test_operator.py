@@ -8,7 +8,7 @@ import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io.luts import AbstractLUTSequenceOperator, LUTOperatorMatrix
-from colour.utilities import tstack, zeros
+from colour.utilities import tstack, xp_assert_close, xp_assert_equal, zeros
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -87,7 +87,7 @@ class TestLUTOperatorMatrix:
         M = np.identity(3)
 
         lut_operator_matrix = LUTOperatorMatrix(M)
-        np.testing.assert_array_equal(lut_operator_matrix.matrix, np.identity(4))
+        xp_assert_equal(lut_operator_matrix.matrix, np.identity(4))
 
     def test_offset(self) -> None:
         """
@@ -98,7 +98,7 @@ class TestLUTOperatorMatrix:
         offset = zeros(3)
 
         lut_operator_matrix = LUTOperatorMatrix(np.identity(3), offset)
-        np.testing.assert_array_equal(lut_operator_matrix.offset, zeros(4))
+        xp_assert_equal(lut_operator_matrix.offset, zeros(4))
 
     def test__str__(self) -> None:
         """
@@ -171,64 +171,56 @@ LUTOperatorMatrix([[0.        , 0.06666667, 0.13333333, 0.2       ],
         samples = np.linspace(0, 1, 5)
         RGB = tstack([samples, samples, samples])
 
-        np.testing.assert_array_equal(LUTOperatorMatrix().apply(RGB), RGB)
+        xp_assert_equal(LUTOperatorMatrix().apply(RGB), RGB)
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             self._lut_operator_matrix.apply(RGB),
-            np.array(
-                [
-                    [0.25000000, 0.50000000, 0.75000000],
-                    [0.30000000, 0.75000000, 1.20000000],
-                    [0.35000000, 1.00000000, 1.65000000],
-                    [0.40000000, 1.25000000, 2.10000000],
-                    [0.45000000, 1.50000000, 2.55000000],
-                ]
-            ),
+            [
+                [0.25000000, 0.50000000, 0.75000000],
+                [0.30000000, 0.75000000, 1.20000000],
+                [0.35000000, 1.00000000, 1.65000000],
+                [0.40000000, 1.25000000, 2.10000000],
+                [0.45000000, 1.50000000, 2.55000000],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             self._lut_operator_matrix.apply(RGB, apply_offset_first=True),
-            np.array(
-                [
-                    [0.13333333, 0.53333333, 0.93333333],
-                    [0.18333333, 0.78333333, 1.38333333],
-                    [0.23333333, 1.03333333, 1.83333333],
-                    [0.28333333, 1.28333333, 2.28333333],
-                    [0.33333333, 1.53333333, 2.73333333],
-                ]
-            ),
+            [
+                [0.13333333, 0.53333333, 0.93333333],
+                [0.18333333, 0.78333333, 1.38333333],
+                [0.23333333, 1.03333333, 1.83333333],
+                [0.28333333, 1.28333333, 2.28333333],
+                [0.33333333, 1.53333333, 2.73333333],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         RGBA = tstack([samples, samples, samples, samples])
 
-        np.testing.assert_array_equal(LUTOperatorMatrix().apply(RGBA), RGBA)
+        xp_assert_equal(LUTOperatorMatrix().apply(RGBA), RGBA)
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             self._lut_operator_matrix.apply(RGBA),
-            np.array(
-                [
-                    [0.25000000, 0.50000000, 0.75000000, 1.00000000],
-                    [0.35000000, 0.86666667, 1.38333333, 1.90000000],
-                    [0.45000000, 1.23333333, 2.01666667, 2.80000000],
-                    [0.55000000, 1.60000000, 2.65000000, 3.70000000],
-                    [0.65000000, 1.96666667, 3.28333333, 4.60000000],
-                ]
-            ),
+            [
+                [0.25000000, 0.50000000, 0.75000000, 1.00000000],
+                [0.35000000, 0.86666667, 1.38333333, 1.90000000],
+                [0.45000000, 1.23333333, 2.01666667, 2.80000000],
+                [0.55000000, 1.60000000, 2.65000000, 3.70000000],
+                [0.65000000, 1.96666667, 3.28333333, 4.60000000],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             self._lut_operator_matrix.apply(RGBA, apply_offset_first=True),
-            np.array(
-                [
-                    [0.33333333, 1.00000000, 1.66666667, 2.33333333],
-                    [0.43333333, 1.36666667, 2.30000000, 3.23333333],
-                    [0.53333333, 1.73333333, 2.93333333, 4.13333333],
-                    [0.63333333, 2.10000000, 3.56666667, 5.03333333],
-                    [0.73333333, 2.46666667, 4.20000000, 5.93333333],
-                ],
-            ),
+            [
+                [0.33333333, 1.00000000, 1.66666667, 2.33333333],
+                [0.43333333, 1.36666667, 2.30000000, 3.23333333],
+                [0.53333333, 1.73333333, 2.93333333, 4.13333333],
+                [0.63333333, 2.10000000, 3.56666667, 5.03333333],
+                [0.73333333, 2.46666667, 4.20000000, 5.93333333],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

@@ -19,10 +19,15 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
+
+from colour.utilities import (
+    array_namespace,
+    as_float_array,
+    xp_atleast_2d,
+    xp_matrix_transpose,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -60,6 +65,7 @@ def least_square_mapping_MoorePenrose(y: ArrayLike, x: ArrayLike) -> NDArrayFloa
 
     Examples
     --------
+    >>> import numpy as np
     >>> prng = np.random.RandomState(2)
     >>> y = prng.random_sample((24, 3))
     >>> x = y + (prng.random_sample((24, 3)) - 0.5) * 0.5
@@ -69,7 +75,15 @@ def least_square_mapping_MoorePenrose(y: ArrayLike, x: ArrayLike) -> NDArrayFloa
            [ 0.0572550..., -0.2052633...,  1.1015194...]])
     """
 
-    y = np.atleast_2d(y)
-    x = np.atleast_2d(x)
+    y = as_float_array(y)
+    x = as_float_array(x)
 
-    return np.dot(np.transpose(x), np.linalg.pinv(np.transpose(y)))
+    xp = array_namespace(y, x)
+
+    y = xp_atleast_2d(y, xp=xp)
+    x = xp_atleast_2d(x, xp=xp)
+
+    return xp.matmul(
+        xp_matrix_transpose(x, xp=xp),
+        xp.linalg.pinv(xp_matrix_transpose(y, xp=xp)),
+    )

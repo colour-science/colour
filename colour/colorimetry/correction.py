@@ -32,7 +32,16 @@ if typing.TYPE_CHECKING:
     from colour.colorimetry import SpectralDistribution
     from colour.hints import Literal
 
-from colour.utilities import CanonicalMapping, validate_method
+import numpy as np
+
+from colour.utilities import (
+    CanonicalMapping,
+    array_namespace,
+    as_float_array,
+    as_ndarray,
+    validate_method,
+    xp_as_array,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -99,7 +108,15 @@ def bandpass_correction_Stearns1988(
     """
 
     A_S = CONSTANT_ALPHA_STEARNS
-    values = sd.values
+
+    # The recurrence is sequential and mutates in place, so it is computed on a
+    # *NumPy* copy and converted back to the original namespace afterwards,
+    # supporting immutable backends (e.g. *JAX*) as in
+    # :func:`colour.colorimetry.sd_to_XYZ_ASTME308`.
+    R = as_float_array(sd.values)
+    xp = array_namespace(R)
+
+    values = np.array(as_ndarray(R))
 
     values[0] = (1 + A_S) * values[0] - A_S * values[1]
     values[-1] = (1 + A_S) * values[-1] - A_S * values[-2]
@@ -108,7 +125,7 @@ def bandpass_correction_Stearns1988(
             -A_S * values[i - 1] + (1 + 2 * A_S) * values[i] - A_S * values[i + 1]
         )
 
-    sd.values = values
+    sd.values = xp_as_array(values, xp=xp, like=R)
 
     return sd
 

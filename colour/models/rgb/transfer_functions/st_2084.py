@@ -24,14 +24,18 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.algebra import spow
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
-from colour.utilities import Structure, as_float, as_float_array, optional
+from colour.utilities import (
+    Structure,
+    array_namespace,
+    as_float,
+    as_float_array,
+    optional,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -202,6 +206,9 @@ def eotf_ST2084(
     """
 
     N = as_float_array(N)
+
+    xp = array_namespace(N)
+
     constants = optional(constants, CONSTANTS_ST2084)
 
     c_1 = constants.c_1
@@ -214,7 +221,7 @@ def eotf_ST2084(
     m_2_d = 1 / m_2
 
     V_p = spow(N, m_2_d)
-    n = np.maximum(0, V_p - c_1)
+    n = xp.clip(V_p - c_1, min=0)
     L = spow((n / (c_2 - c_3 * V_p)), m_1_d)
     C = L_p * L
 

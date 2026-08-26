@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.colorimetry import SpectralDistribution, bandpass_correction_Stearns1988
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.utilities import xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -81,7 +80,7 @@ bandpass_correction_Stearns1988` definition.
             )
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             bandpass_correction_Stearns1988(sd).values,
             DATA_BANDPASS_CORRECTED,
             atol=TOLERANCE_ABSOLUTE_TESTS,

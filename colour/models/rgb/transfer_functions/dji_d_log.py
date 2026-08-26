@@ -17,13 +17,11 @@ D-Log_D-Gamut_Whitepaper.pdf
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import as_float, from_range_1, to_domain_1
+from colour.utilities import array_namespace, as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -78,10 +76,12 @@ def log_encoding_DJIDLog(x: Domain1) -> Range1:
 
     x = to_domain_1(x)
 
-    y = np.where(
+    xp = array_namespace(x)
+
+    y = xp.where(
         x <= 0.0078,
         6.025 * x + 0.0929,
-        (np.log10(x * 0.9892 + 0.0108)) * 0.256663 + 0.584555,
+        (xp.log10(x * 0.9892 + 0.0108)) * 0.256663 + 0.584555,
     )
 
     return as_float(from_range_1(y))
@@ -127,7 +127,9 @@ def log_decoding_DJIDLog(y: Domain1) -> Range1:
 
     y = to_domain_1(y)
 
-    x = np.where(
+    xp = array_namespace(y)
+
+    x = xp.where(
         y <= 0.14,
         (y - 0.0929) / 6.025,
         (10 ** (3.89616 * y - 2.27752) - 0.0108) / 0.9892,

@@ -242,9 +242,7 @@ def write_LUT_SonySPI1D(
 
         spi1d_file.write(f"From {format_array_as_row(domain, decimals)}\n")
 
-        spi1d_file.write(
-            f"Length {LUTxD.table.size if is_1D else LUTxD.table.shape[0]}\n"
-        )
+        spi1d_file.write(f"Length {LUTxD.table.shape[0]}\n")
 
         spi1d_file.write(f"Components {1 if is_1D else 3}\n")
 
