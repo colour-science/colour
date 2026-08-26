@@ -21,47 +21,33 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import astuple, dataclass, field
 
-import numpy as np
-
-from colour.algebra import spow, vecmul
+from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 from colour.appearance.cam16 import MATRIX_16, MATRIX_INVERSE_16
 from colour.appearance.ciecam02 import (
     VIEWING_CONDITIONS_CIECAM02,
     InductionFactors_CIECAM02,
-    P,
-    achromatic_response_forward,
-    achromatic_response_inverse,
-    brightness_correlate,
-    chroma_correlate,
-    colourfulness_correlate,
-    degree_of_adaptation,
-    eccentricity_factor,
-    hue_angle,
     hue_quadrature,
-    lightness_correlate,
-    matrix_post_adaptation_non_linear_response_compression,
-    opponent_colour_dimensions_forward,
-    opponent_colour_dimensions_inverse,
-    post_adaptation_non_linear_response_compression_forward,
-    saturation_correlate,
-    temporary_magnitude_quantity_inverse,
-    viewing_conditions_dependent_parameters,
 )
-from colour.hints import (  # noqa: TC001
-    Annotated,
-    ArrayLike,
-    Domain100,
-    NDArrayFloat,
-    Range100,
-)
+from colour.constants import EPSILON
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Annotated,
+        ArrayLike,
+        Domain100,
+        NDArrayFloat,
+        Range100,
+    )
+
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
     MixinDataclassIterable,
+    array_namespace,
     as_float,
-    as_float_array,
     from_range_100,
     from_range_degrees,
     has_only_nan,
@@ -69,6 +55,11 @@ from colour.utilities import (
     to_domain_100,
     to_domain_degrees,
     tsplit,
+    tstack,
+    xp_as_float_array,
+    xp_degrees,
+    xp_radians,
+    xp_select,
 )
 
 __author__ = "Colour Developers"
@@ -84,10 +75,6 @@ __all__ = [
     "CAM_Specification_CIECAM16",
     "XYZ_to_CIECAM16",
     "CIECAM16_to_XYZ",
-    "f_e_forward",
-    "f_e_inverse",
-    "f_q",
-    "d_f_q",
 ]
 
 
@@ -180,7 +167,7 @@ def XYZ_to_CIECAM16(
         InductionFactors_CIECAM02 | InductionFactors_CIECAM16
     ) = VIEWING_CONDITIONS_CIECAM16["Average"],
     discount_illuminant: bool = False,
-    compute_H: bool = True,
+    compute_H: bool = False,
 ) -> Annotated[CAM_Specification_CIECAM16, (100, 100, 360, 100, 100, 100, 400)]:
     """
     Compute the *CIECAM16* colour appearance model correlates from the
@@ -207,8 +194,10 @@ def XYZ_to_CIECAM16(
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
     compute_H
-        Whether to compute *Hue* :math:`h` quadrature :math:`H`.
-        :math:`H` is rarely used, and expensive to compute.
+        When *True*, compute the *Hue Quadrature* :math:`H` correlate
+        via :func:`colour.appearance.hue_quadrature`. Defaults to
+        *False* because :math:`H` is rarely consumed downstream and
+        skipping the bin search is a measurable cost saving.
 
     Returns
     -------
@@ -249,12 +238,16 @@ def XYZ_to_CIECAM16(
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
     >>> surround = VIEWING_CONDITIONS_CIECAM16["Average"]
-    >>> XYZ_to_CIECAM16(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
+    >>> XYZ_to_CIECAM16(
+    ...     XYZ, XYZ_w, L_A, Y_b, surround,
+    ...     compute_H=True,
+    ... )  # doctest: +ELLIPSIS
     CAM_Specification_CIECAM16(J=np.float64(41.7312079...), \
 C=np.float64(0.1033557...), h=np.float64(217.0679597...), \
 s=np.float64(2.3450150...), Q=np.float64(195.3717089...), \
@@ -263,79 +256,141 @@ M=np.float64(0.1074367...), H=np.float64(275.5949861...), HC=None)
 
     XYZ = to_domain_100(XYZ)
     XYZ_w = to_domain_100(XYZ_w)
-    _X_w, Y_w, _Z_w = tsplit(XYZ_w)
-    L_A = as_float_array(L_A)
-    Y_b = as_float_array(Y_b)
 
-    # Step 0
-    # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
+    xp = array_namespace(XYZ, XYZ_w, L_A, Y_b)
+
+    XYZ = xp_as_float_array(XYZ, xp=xp)
+    XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=XYZ)
+    L_A = xp_as_float_array(L_A, xp=xp, like=XYZ)
+    Y_b = xp_as_float_array(Y_b, xp=xp, like=XYZ)
+
+    _X_w, Y_w, _Z_w = tsplit(XYZ_w)
+
+    # Viewing condition dependent parameters: background induction
+    # factor :math:`n`, luminance level adaptation factor :math:`F_L`,
+    # chromatic induction factors :math:`N_{bb}` and :math:`N_{cb}`,
+    # base exponential non-linearity :math:`z`. Same formulation as
+    # in *CIECAM02*.
+    with sdiv_mode():
+        n = sdiv(Y_b, Y_w)
+    k = 1 / (5 * L_A + 1)
+    k4 = k**4
+    F_L = 0.2 * k4 * (5 * L_A) + 0.1 * (1 - k4) ** 2 * spow(5 * L_A, 1 / 3)
+    with sdiv_mode():
+        N_bb = 0.725 * spow(sdiv(1, n), 0.2)
+    N_cb = N_bb
+    z = 1.48 + xp.sqrt(n)
+
+    # Converting *CIE XYZ* tristimulus values to *CAT16* sharpened *RGB*
+    # values for the stimulus and the reference white, same matrix as
+    # *CAM16*.
+    RGB = vecmul(MATRIX_16, XYZ)
     RGB_w = vecmul(MATRIX_16, XYZ_w)
 
-    # Computing degree of adaptation :math:`D`.
-    D = (
-        np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
-        if not discount_illuminant
-        else ones(L_A.shape)
-    )
+    # Computing degree of adaptation :math:`D`, same formulation as in
+    # *CIECAM02*, clipped to :math:`[0, 1]` and bypassed entirely when
+    # ``discount_illuminant`` is set.
+    if discount_illuminant:
+        D = xp_as_float_array(ones(L_A.shape), xp=xp, like=XYZ)
+    else:
+        F = xp_as_float_array(surround.F, xp=xp, like=XYZ)
+        D = xp.clip(F * (1 - (1 / 3.6) * xp.exp((-L_A - 42) / 92)), 0, 1)
 
-    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(Y_b, Y_w, L_A)
-
+    # Computing full chromatic adaptation. *CIECAM16* uses :math:`100`
+    # in place of :math:`Y_w` in the adaptation factor, unlike
+    # *CIECAM02* / *CAM16*.
     D_RGB = D[..., None] * 100 / RGB_w + 1 - D[..., None]
+    RGB_c = D_RGB * RGB
     RGB_wc = D_RGB * RGB_w
 
-    # Applying forward post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_wc, F_L)
+    # Applying forward post-adaptation non-linear response compression
+    # via the *CIECAM16* 3-branch piecewise function with linear
+    # extensions outside the :math:`[0.26, 150]` range. The :math:`+0.1`
+    # offset is added back per the model definition. The whitepoint goes
+    # through *CIECAM02*'s original Michaelis-Menten compression
+    # :math:`(400 \\cdot |x|^{0.42}) / (27.13 + |x|^{0.42}) + 0.1` per
+    # the *CIECAM16* spec.
+    F_L_RGB_wc = spow(F_L[..., None] * xp.abs(RGB_wc) / 100, 0.42)
+    RGB_aw = (400 * xp.sign(RGB_wc) * F_L_RGB_wc) / (27.13 + F_L_RGB_wc) + 0.1
 
-    # Computing achromatic responses for the whitepoint.
-    A_w = achromatic_response_forward(RGB_aw, N_bb)
+    q_L, q_U = 0.26, 150
+    F_L_q_L_p = spow((F_L[..., None] * q_L) / 100, 0.42)
+    f_q_F_L_q_L = (400 * F_L_q_L_p) / (27.13 + F_L_q_L_p)
+    F_L_q_U_p = spow((F_L[..., None] * q_U) / 100, 0.42)
+    f_q_F_L_q_U = (400 * F_L_q_U_p) / (27.13 + F_L_q_U_p)
+    F_L_q_U_lin = (F_L[..., None] * q_U) / 100
+    d_f_q_F_L_q_U = (1.68 * 27.13 * F_L[..., None] * spow(F_L_q_U_lin, -0.58)) / (
+        27.13 + spow(F_L_q_U_lin, 0.42)
+    ) ** 2
+    F_L_RGB_c_lin = (F_L[..., None] * RGB_c) / 100
+    F_L_RGB_c_p = spow(F_L_RGB_c_lin, 0.42)
+    f_q_F_L_RGB_c = (400 * F_L_RGB_c_p) / (27.13 + F_L_RGB_c_p)
+    RGB_a = (
+        xp_select(
+            [
+                RGB_c > q_U,
+                xp.logical_and(q_L <= RGB_c, RGB_c <= q_U),
+                RGB_c < q_L,
+            ],
+            [
+                f_q_F_L_q_U + d_f_q_F_L_q_U * (RGB_c - q_U),
+                f_q_F_L_RGB_c,
+                f_q_F_L_q_L * RGB_c / q_L,
+            ],
+            xp=xp,
+        )
+        + 0.1
+    )
 
-    # Step 1
-    # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
-    RGB = vecmul(MATRIX_16, XYZ)
+    # Computing the opponent colour dimensions :math:`a` and :math:`b`,
+    # same as in *CIECAM02*.
+    Ra, Ga, Ba = tsplit(RGB_a)
+    a = Ra - 12 * Ga / 11 + Ba / 11
+    b = (Ra + Ga - 2 * Ba) / 9
 
-    # Step 2
-    RGB_c = D_RGB * RGB
+    # Computing the *hue* angle :math:`h` in degrees in
+    # :math:`[0, 360)`, same as in *CIECAM02*.
+    h = xp_degrees(xp.atan2(b, a)) % 360
 
-    # Step 3
-    # Applying forward post-adaptation non-linear response compression.
-    RGB_a = f_e_forward(RGB_c, F_L) + 0.1
+    # Computing eccentricity factor :math:`e_t`, same as in *CIECAM02*.
+    e_t = 1 / 4 * (xp.cos(2 + xp_radians(h)) + 3.8)
 
-    # Step 4
-    # Converting to preliminary cartesian coordinates.
-    a, b = tsplit(opponent_colour_dimensions_forward(RGB_a))
+    # Computing achromatic responses :math:`A` for the stimulus and
+    # :math:`A_w` for the whitepoint, same as in *CIECAM02*.
+    A = (2 * Ra + Ga + (1 / 20) * Ba - 0.305) * N_bb
+    Raw, Gaw, Baw = tsplit(RGB_aw)
+    A_w = (2 * Raw + Gaw + (1 / 20) * Baw - 0.305) * N_bb
 
-    # Computing the *hue* angle :math:`h`.
-    h = hue_angle(a, b)
+    # Computing the correlate of *Lightness* :math:`J`, same form as
+    # in *CIECAM02*.
+    c = surround.c
+    with sdiv_mode():
+        J = 100 * spow(sdiv(A, A_w), c * z)
 
-    # Step 5
-    # Computing eccentricity factor *e_t*.
-    e_t = eccentricity_factor(h)
+    # Computing the correlate of *brightness* :math:`Q`, same form as
+    # in *CIECAM02*.
+    Q = (4 / c) * xp.sqrt(J / 100) * (A_w + 4) * spow(F_L, 0.25)
 
-    # Computing hue :math:`h` quadrature :math:`H`.
-    H = hue_quadrature(h) if compute_H else np.full(h.shape, np.nan)
+    # Computing the temporary magnitude quantity :math:`t` and the
+    # correlate of *chroma* :math:`C`, same forms as in *CIECAM02*.
+    N_c = surround.N_c
+    with sdiv_mode():
+        t = ((50000 / 13) * N_c * N_cb) * sdiv(
+            e_t * spow(a**2 + b**2, 0.5), Ra + Ga + 21 * Ba / 20
+        )
+    C = spow(t, 0.9) * spow(J / 100, 0.5) * spow(1.64 - 0.29**n, 0.73)
+
+    # Computing the correlate of *colourfulness* :math:`M` and the
+    # correlate of *saturation* :math:`s`, same forms as in *CIECAM02*.
+    M = C * spow(F_L, 0.25)
+    with sdiv_mode():
+        s = 100 * spow(sdiv(M, Q), 0.5)
+
+    # Computing hue :math:`h` quadrature :math:`H` only when requested
+    # via ``compute_H``; the bin search is shared with *CIECAM02* and
+    # delegates to :func:`hue_quadrature`.
     # TODO: Compute hue composition.
-
-    # Step 6
-    # Computing achromatic responses for the stimulus.
-    A = achromatic_response_forward(RGB_a, N_bb)
-
-    # Step 7
-    # Computing the correlate of *Lightness* :math:`J`.
-    J = lightness_correlate(A, A_w, surround.c, z)
-
-    # Step 8
-    # Computing the correlate of *brightness* :math:`Q`.
-    Q = brightness_correlate(surround.c, J, A_w, F_L)
-
-    # Step 9
-    # Computing the correlate of *chroma* :math:`C`.
-    C = chroma_correlate(J, n, surround.N_c, N_cb, e_t, a, b, RGB_a)
-
-    # Computing the correlate of *colourfulness* :math:`M`.
-    M = colourfulness_correlate(C, F_L)
-
-    # Computing the correlate of *saturation* :math:`s`.
-    s = saturation_correlate(M, Q)
+    H = hue_quadrature(h) if compute_H else xp.full_like(h, float("nan"))
 
     return CAM_Specification_CIECAM16(
         J=as_float(from_range_100(J)),
@@ -434,6 +489,7 @@ def CIECAM16_to_XYZ(
 
     Examples
     --------
+    >>> import numpy as np
     >>> specification = CAM_Specification_CIECAM16(
     ...     J=41.731207905126638, C=0.103355738709070, h=217.067959767393010
     ... )
@@ -450,33 +506,67 @@ def CIECAM16_to_XYZ(
     C = to_domain_100(C)
     h = to_domain_degrees(h)
     M = to_domain_100(M)
-    L_A = as_float_array(L_A)
     XYZ_w = to_domain_100(XYZ_w)
+
+    xp = array_namespace(J, C, h, M, XYZ_w, L_A)
+
+    J = xp_as_float_array(J, xp=xp)
+    C = xp_as_float_array(C, xp=xp, like=J)
+    h = xp_as_float_array(h, xp=xp, like=J)
+    M = xp_as_float_array(M, xp=xp, like=J)
+    XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=J)
+    L_A = xp_as_float_array(L_A, xp=xp, like=J)
+
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
-    # Step 0
-    # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
+    # Viewing condition dependent parameters: background induction
+    # factor :math:`n`, luminance level adaptation factor :math:`F_L`,
+    # chromatic induction factors :math:`N_{bb}` and :math:`N_{cb}`,
+    # base exponential non-linearity :math:`z`. Same formulation as
+    # in *CIECAM02*.
+    with sdiv_mode():
+        n = sdiv(Y_b, Y_w)
+    k = 1 / (5 * L_A + 1)
+    k4 = k**4
+    F_L = 0.2 * k4 * (5 * L_A) + 0.1 * (1 - k4) ** 2 * spow(5 * L_A, 1 / 3)
+    with sdiv_mode():
+        N_bb = 0.725 * spow(sdiv(1, n), 0.2)
+    N_cb = N_bb
+    z = 1.48 + xp.sqrt(n)
+
+    # Converting *CIE XYZ* tristimulus values to *CAT16* sharpened *RGB*
+    # values for the reference white.
     RGB_w = vecmul(MATRIX_16, XYZ_w)
 
-    # Computing degree of adaptation :math:`D`.
-    D = (
-        np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
-        if not discount_illuminant
-        else ones(L_A.shape)
-    )
+    # Computing degree of adaptation :math:`D`, same formulation as in
+    # *CIECAM02*, clipped to :math:`[0, 1]` and bypassed entirely when
+    # ``discount_illuminant`` is set.
+    if discount_illuminant:
+        D = xp_as_float_array(ones(L_A.shape), xp=xp, like=J)
+    else:
+        F = xp_as_float_array(surround.F, xp=xp, like=J)
+        D = xp.clip(F * (1 - (1 / 3.6) * xp.exp((-L_A - 42) / 92)), 0, 1)
 
-    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(Y_b, Y_w, L_A)
-
+    # Computing full chromatic adaptation for the reference white.
+    # *CIECAM16* uses :math:`100` in place of :math:`Y_w` in the
+    # adaptation factor, unlike *CIECAM02* / *CAM16*.
     D_RGB = D[..., None] * 100 / RGB_w + 1 - D[..., None]
     RGB_wc = D_RGB * RGB_w
 
-    # Applying forward post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_wc, F_L)
+    # Applying forward post-adaptation non-linear response compression
+    # to the whitepoint, same form as in *CIECAM02* per the *CIECAM16*
+    # spec.
+    F_L_RGB_wc = spow(F_L[..., None] * xp.abs(RGB_wc) / 100, 0.42)
+    RGB_aw = (400 * xp.sign(RGB_wc) * F_L_RGB_wc) / (27.13 + F_L_RGB_wc) + 0.1
 
-    # Computing achromatic responses for the whitepoint.
-    A_w = achromatic_response_forward(RGB_aw, N_bb)
+    # Computing achromatic response :math:`A_w` for the whitepoint,
+    # same as in *CIECAM02*.
+    Raw, Gaw, Baw = tsplit(RGB_aw)
+    A_w = (2 * Raw + Gaw + (1 / 20) * Baw - 0.305) * N_bb
 
-    # Step 1
+    # Recovering the correlate of *chroma* :math:`C` from the correlate
+    # of *colourfulness* :math:`M` when only :math:`M` has been
+    # provided.
     if has_only_nan(C) and not has_only_nan(M):
         C = M / spow(F_L, 0.25)
     elif has_only_nan(C):
@@ -487,207 +577,120 @@ def CIECAM16_to_XYZ(
 
         raise ValueError(error)
 
-    # Step 2
-    # Computing temporary magnitude quantity :math:`t`.
-    t = temporary_magnitude_quantity_inverse(C, J, n)
+    # Computing temporary magnitude quantity :math:`t`, same form as
+    # in *CIECAM02*.
+    J_prime = xp.clip(J, min=EPSILON)
+    t = spow(C / (xp.sqrt(J_prime / 100) * spow(1.64 - 0.29**n, 0.73)), 1 / 0.9)
 
-    # Computing eccentricity factor *e_t*.
-    e_t = eccentricity_factor(h)
+    # Computing eccentricity factor :math:`e_t`, same as in *CIECAM02*.
+    e_t = 1 / 4 * (xp.cos(2 + xp_radians(h)) + 3.8)
 
-    # Computing achromatic response :math:`A` for the stimulus.
-    A = achromatic_response_inverse(A_w, J, surround.c, z)
+    # Computing achromatic response :math:`A` for the stimulus, same
+    # inverse form as in *CIECAM02*.
+    c = surround.c
+    A = A_w * spow(J / 100, 1 / (c * z))
 
-    # Computing *P_1* to *P_3*.
-    P_n = P(surround.N_c, N_cb, e_t, t, A, N_bb)
-    _P_1, P_2, _P_3 = tsplit(P_n)
+    # Computing points :math:`P_1`, :math:`P_2`, :math:`P_3`, same
+    # form as in *CIECAM02*.
+    N_c = surround.N_c
+    with sdiv_mode():
+        P_1 = sdiv((50000 / 13) * N_c * N_cb * e_t, t)
+    P_2 = A / N_bb + 0.305
+    P_3 = xp.full_like(P_1, 21 / 20)
 
-    # Step 3
-    # Computing opponent colour dimensions :math:`a` and :math:`b`.
-    ab = opponent_colour_dimensions_inverse(P_n, h)
-    a, b = tsplit(ab) * np.where(t == 0, 0, 1)
+    # Computing opponent colour dimensions :math:`a` and :math:`b`
+    # via the sin / cos branching protecting against the numerical
+    # singularity near the hue axis. Same as in *CIECAM02*.
+    hr = xp_radians(h)
+    sin_hr = xp.sin(hr)
+    cos_hr = xp.cos(hr)
+    with sdiv_mode():
+        cos_hr_sin_hr = sdiv(cos_hr, sin_hr)
+        sin_hr_cos_hr = sdiv(sin_hr, cos_hr)
+        P_4 = sdiv(P_1, sin_hr)
+        P_5 = sdiv(P_1, cos_hr)
+    n_ab = P_2 * (2 + P_3) * (460 / 1403)
 
-    # Step 4
-    # Applying post-adaptation non-linear response compression matrix.
-    RGB_a = matrix_post_adaptation_non_linear_response_compression(P_2, a, b)
+    abs_sin_ge_cos = xp.abs(sin_hr) >= xp.abs(cos_hr)
+    abs_sin_lt_cos = xp.abs(sin_hr) < xp.abs(cos_hr)
 
-    # Step 5
-    # Applying inverse post-adaptation non-linear response compression.
-    RGB_c = f_e_inverse(RGB_a - 0.1, F_L)
+    a = xp.zeros_like(hr)
+    b = xp.zeros_like(hr)
+    b = xp.where(
+        abs_sin_ge_cos,
+        n_ab
+        / (
+            P_4
+            + (2 + P_3) * (220 / 1403) * cos_hr_sin_hr
+            - (27 / 1403)
+            + P_3 * (6300 / 1403)
+        ),
+        b,
+    )
+    a = xp.where(abs_sin_ge_cos, b * cos_hr_sin_hr, a)
+    a = xp.where(
+        abs_sin_lt_cos,
+        n_ab
+        / (
+            P_5
+            + (2 + P_3) * (220 / 1403)
+            - ((27 / 1403) - P_3 * (6300 / 1403)) * sin_hr_cos_hr
+        ),
+        a,
+    )
+    b = xp.where(abs_sin_lt_cos, a * sin_hr_cos_hr, b)
+    t_mask = xp.where(t == 0, 0, 1)
+    a = a * t_mask
+    b = b * t_mask
 
-    # Step 6
+    # Applying post-adaptation non-linear response compression matrix
+    # to recover the compressed *RGB* array. Same as in *CIECAM02*.
+    RGB_a = (
+        vecmul(
+            [
+                [460, 451, 288],
+                [460, -891, -261],
+                [460, -220, -6300],
+            ],
+            tstack([P_2, a, b]),
+        )
+        / 1403
+    )
+
+    # Applying inverse post-adaptation non-linear response compression
+    # via the *CIECAM16* 3-branch piecewise function with linear
+    # extensions outside the :math:`[0.26, 150]` range. The :math:`-0.1`
+    # offset removes the *CIECAM16* general model offset before the
+    # inversion.
+    RGB_a_p = RGB_a - 0.1
+    q_L, q_U = 0.26, 150
+    F_L_q_L_p = spow((F_L[..., None] * q_L) / 100, 0.42)
+    f_q_F_L_q_L = (400 * F_L_q_L_p) / (27.13 + F_L_q_L_p)
+    F_L_q_U_p = spow((F_L[..., None] * q_U) / 100, 0.42)
+    f_q_F_L_q_U = (400 * F_L_q_U_p) / (27.13 + F_L_q_U_p)
+    F_L_q_U_lin = (F_L[..., None] * q_U) / 100
+    d_f_q_F_L_q_U = (1.68 * 27.13 * F_L[..., None] * spow(F_L_q_U_lin, -0.58)) / (
+        27.13 + spow(F_L_q_U_lin, 0.42)
+    ) ** 2
+    RGB_c = xp_select(
+        [
+            RGB_a_p > f_q_F_L_q_U,
+            xp.logical_and(f_q_F_L_q_L <= RGB_a_p, RGB_a_p <= f_q_F_L_q_U),
+            RGB_a_p < f_q_F_L_q_L,
+        ],
+        [
+            q_U + (RGB_a_p - f_q_F_L_q_U) / d_f_q_F_L_q_U,
+            100 / F_L[..., None] * spow((27.13 * RGB_a_p) / (400 - RGB_a_p), 1 / 0.42),
+            q_L * RGB_a_p / f_q_F_L_q_L,
+        ],
+        xp=xp,
+    )
+
+    # Applying inverse full chromatic adaptation.
     RGB = RGB_c / D_RGB
 
-    # Step 7
+    # Converting *CAT16* sharpened *RGB* values back to *CIE XYZ*
+    # tristimulus values.
     XYZ = vecmul(MATRIX_INVERSE_16, RGB)
 
     return from_range_100(XYZ)
-
-
-def f_e_forward(RGB_c: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the post-adaptation cone responses.
-
-    Parameters
-    ----------
-    RGB_c
-        *CMCCAT2000* transform sharpened :math:`RGB_c` array.
-    F_L
-        *Luminance* level adaptation factor :math:`F_L`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Compressed *CMCCAT2000* transform sharpened :math:`RGB_a` array.
-
-    Notes
-    -----
-    -   This definition is different from :cite:`Li2017` and provides linear
-        extensions under 0.26 and above 150. It also omits the 0.1 offset
-        that is now part of the general model.
-
-    Examples
-    --------
-    >>> RGB_c = np.array([19.99693975, 20.00186123, 20.01350530])
-    >>> F_L = 1.16754446415
-    >>> f_e_forward(RGB_c, F_L)
-    ... # doctest: +ELLIPSIS
-    array([7.8463202..., 7.8471152..., 7.8489959...])
-    """
-
-    RGB_c = as_float_array(RGB_c)
-    F_L = as_float_array(F_L)
-    q_L, q_U = 0.26, 150
-
-    f_q_F_L_q_U = f_q(F_L, q_U)[..., None]
-    f_q_F_L_q_L = f_q(F_L, q_L)[..., None]
-    f_q_F_L_RGB_c = f_q(F_L[..., None], RGB_c)
-    d_f_q_F_L_q_U = d_f_q(F_L, q_U)[..., None]
-
-    return np.select(
-        [
-            RGB_c > q_U,
-            np.logical_and(q_L <= RGB_c, RGB_c <= q_U),
-            RGB_c < q_L,
-        ],
-        [
-            f_q_F_L_q_U + d_f_q_F_L_q_U * (RGB_c - q_U),
-            f_q_F_L_RGB_c,
-            f_q_F_L_q_L * RGB_c / q_L,
-        ],
-    )
-
-
-def f_e_inverse(RGB_a: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the inverse of the forward eccentricity factor modified cone-like
-    responses.
-
-    Parameters
-    ----------
-    RGB_a
-        *CMCCAT2000* transform sharpened :math:`RGB_a` array.
-    F_L
-        *Luminance* level adaptation factor :math:`F_L`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Compressed *CMCCAT2000* transform sharpened :math:`RGB_c` array.
-
-    Notes
-    -----
-    -   This definition is different from :cite:`Li2017` and provides linear
-        extensions under 0.26 and above 150. It also omits the 0.1 offset
-        that is now part of the general model.
-
-    Examples
-    --------
-    >>> RGB_a = np.array([7.8463202, 7.84711528, 7.84899595])
-    >>> F_L = 1.16754446415
-    >>> f_e_inverse(RGB_a, F_L)
-    ... # doctest: +ELLIPSIS
-    array([19.9969397..., 20.0018612..., 20.0135052...])
-    """
-
-    RGB_a = as_float_array(RGB_a)
-    F_L = as_float_array(F_L)
-    q_L, q_U = 0.26, 150
-
-    f_q_F_L_q_U = f_q(F_L, q_U)[..., None]
-    f_q_F_L_q_L = f_q(F_L, q_L)[..., None]
-    d_f_q_F_L_q_U = d_f_q(F_L, q_U)[..., None]
-
-    return np.select(
-        [
-            RGB_a > f_q_F_L_q_U,
-            np.logical_and(f_q_F_L_q_L <= RGB_a, RGB_a <= f_q_F_L_q_U),
-            RGB_a < f_q_F_L_q_L,
-        ],
-        [
-            q_U + (RGB_a - f_q_F_L_q_U) / d_f_q_F_L_q_U,
-            100 / F_L[..., None] * spow((27.13 * RGB_a) / (400 - RGB_a), 1 / 0.42),
-            q_L * RGB_a / f_q_F_L_q_L,
-        ],
-    )
-
-
-def f_q(F_L: ArrayLike, q: ArrayLike) -> NDArrayFloat:
-    """
-    Evaluate the :math:`f(q)` function for chromatic adaptation.
-
-    Parameters
-    ----------
-    F_L
-        *Luminance* level adaptation factor :math:`F_L`.
-    q
-        :math:`q` parameter.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Evaluated :math:`f(q)` function result.
-
-    Examples
-    --------
-    >>> f_q(1.17, 0.26)  # doctest: +ELLIPSIS
-    np.float64(1.2886520...)
-    """
-
-    F_L = as_float_array(F_L)
-    q = as_float_array(q)
-
-    F_L_q_100 = spow((F_L * q) / 100, 0.42)
-
-    return (400 * F_L_q_100) / (27.13 + F_L_q_100)
-
-
-def d_f_q(F_L: ArrayLike, q: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the :math:`f'(q)` function derivative.
-
-    Parameters
-    ----------
-    F_L
-        *Luminance* level adaptation factor :math:`F_L`.
-    q
-        :math:`q` parameter.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Evaluated :math:`f'(q)` function derivative.
-
-    Examples
-    --------
-    >>> d_f_q(1.17, 0.26)  # doctest: +ELLIPSIS
-    np.float64(2.0749623...)
-    """
-
-    F_L = as_float_array(F_L)
-    q = as_float_array(q)
-
-    F_L_q_100 = (F_L * q) / 100
-
-    return (1.68 * 27.13 * F_L * spow(F_L_q_100, -0.58)) / (
-        27.13 + spow(F_L_q_100, 0.42)
-    ) ** 2
