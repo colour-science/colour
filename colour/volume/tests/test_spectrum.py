@@ -21,7 +21,6 @@ from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
     as_ndarray,
     ignore_numpy_errors,
-    is_scipy_installed,
     xp_as_array,
     xp_assert_close,
     xp_assert_equal,
@@ -208,9 +207,6 @@ class TestIsWithinVisibleSpectrum:
         definition.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         assert is_within_visible_spectrum(xp_as_array([0.3205, 0.4131, 0.5100], xp=xp))
 
         assert not is_within_visible_spectrum(
@@ -228,9 +224,6 @@ class TestIsWithinVisibleSpectrum:
         Test :func:`colour.volume.spectrum.is_within_visible_spectrum`
         definition n-dimensional arrays support.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         a = xp_as_array([0.3205, 0.4131, 0.5100], xp=xp)
         b = as_ndarray(is_within_visible_spectrum(a))
@@ -257,9 +250,6 @@ class TestIsWithinVisibleSpectrum:
         Test :func:`colour.volume.spectrum.is_within_visible_spectrum`
         definition nan support.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
