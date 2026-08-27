@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import platform
 import warnings
 
 import numpy as np
@@ -50,10 +49,6 @@ class TestPCA_Jiang2013:
     tests methods.
     """
 
-    @pytest.mark.skipif(
-        platform.system() in ("Windows", "Microsoft", "Linux"),
-        reason="PCA tests only run on macOS",
-    )
     def test_PCA_Jiang2013(self) -> None:
         """Test :func:`colour.recovery.jiang2013.PCA_Jiang2013` definition."""
 
