@@ -16,7 +16,6 @@ from colour.temperature import CCT_to_xy_CIE_D, xy_to_CCT_CIE_D
 from colour.utilities import (
     as_ndarray,
     ignore_numpy_errors,
-    is_scipy_installed,
     xp_as_array,
     xp_assert_close,
     xp_reshape,
@@ -74,9 +73,6 @@ class TestXy_to_CCT_CIE_D:
         n-dimensional arrays support.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         xy = xp_as_array([0.382343625000000, 0.383766261015578], xp=xp)
         CCT = as_ndarray(xy_to_CCT_CIE_D(xy))
 
@@ -94,9 +90,6 @@ class TestXy_to_CCT_CIE_D:
         Test :func:`colour.temperature.cie_d.xy_to_CCT_CIE_D` definition nan
         support.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))

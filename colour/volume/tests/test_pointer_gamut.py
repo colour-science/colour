@@ -15,7 +15,6 @@ from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
     as_ndarray,
     ignore_numpy_errors,
-    is_scipy_installed,
     xp_as_array,
     xp_assert_close,
     xp_reshape,
@@ -60,9 +59,6 @@ class TestIsWithinPointerGamut:
         definition n-dimensional arrays support.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         a = xp_as_array([0.3205, 0.4131, 0.5100], xp=xp)
         b = as_ndarray(is_within_pointer_gamut(a))
 
@@ -88,9 +84,6 @@ class TestIsWithinPointerGamut:
         Test :func:`colour.volume.pointer_gamut.is_within_pointer_gamut`
         definition nan support.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))

@@ -25,7 +25,6 @@ from colour.utilities import (
     as_ndarray,
     attest,
     is_pandas_installed,
-    is_scipy_installed,
     xp_as_array,
     xp_assert_close,
     xp_assert_equal,
@@ -178,9 +177,6 @@ class TestSignal:
 
     def test_interpolator(self, xp: ModuleType) -> None:
         """Test :func:`colour.continuous.signal.Signal.interpolator` property."""
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         # NOTE: A non-linear range is used as a linear one is reproduced
         # exactly by both interpolators.

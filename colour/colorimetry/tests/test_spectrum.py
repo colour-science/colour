@@ -27,7 +27,6 @@ from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
     as_ndarray,
     is_caching_enabled,
-    is_scipy_installed,
     tstack,
     xp_assert_close,
     xp_assert_equal,
@@ -1565,9 +1564,6 @@ SpectralDistribution` class can be pickled.
 SpectralDistribution.interpolate` method.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         shape = SpectralShape(self._sd.shape.start, self._sd.shape.end, 1)
         sd = reshape_sd(self._sd.copy(xp=xp), shape, "Interpolate")
         xp_assert_close(
@@ -1603,9 +1599,6 @@ SpectralDistribution.interpolate` method.
         Test :func:`colour.colorimetry.spectrum.\
 SpectralDistribution.extrapolate` method.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         data = dict(zip(range(25, 35), [0] * 5 + [1] * 5, strict=True))
         sd = SpectralDistribution(data).copy(xp=xp)
@@ -1855,9 +1848,6 @@ MultiSpectralDistributions.__init__` method.
 MultiSpectralDistributions.interpolate` method.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         shape = SpectralShape(
             self._sample_msds.shape.start, self._sample_msds.shape.end, 1
         )
@@ -1897,9 +1887,6 @@ MultiSpectralDistributions.interpolate` method.
         Test :func:`colour.colorimetry.spectrum.\
 MultiSpectralDistributions.extrapolate` method.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         data = dict(zip(range(25, 35), tstack([[0] * 5 + [1] * 5] * 3), strict=True))
         msds = MultiSpectralDistributions(data).copy(xp=xp)
@@ -1982,9 +1969,6 @@ MultiSpectralDistributions.trim` method.
 MultiSpectralDistributions.to_sds` method.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         sds = self._non_uniform_sample_msds.copy(xp=xp).to_sds()
         assert len(sds) == 3
 
@@ -2013,9 +1997,6 @@ class TestReshapeSd:
 
     def test_reshape_sd(self) -> None:
         """Test :func:`colour.colorimetry.spectrum.reshape_sd` definition."""
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         sd = SpectralDistribution(DATA_SAMPLE_ABRIDGED)
         sd_reshaped = reshape_sd(sd)

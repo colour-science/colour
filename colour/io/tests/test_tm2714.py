@@ -21,7 +21,6 @@ if typing.TYPE_CHECKING:
 from colour.hints import cast
 from colour.io.tm2714 import Header_IESTM2714, SpectralDistribution_IESTM2714
 from colour.utilities import (
-    is_scipy_installed,
     optional,
     xp_assert_close,
     xp_assert_equal,
@@ -235,9 +234,6 @@ class TestIES_TM2714_Header:
 
     def test__repr__(self) -> None:
         """Test :meth:`colour.io.tm2714.Header_IESTM2714.__repr__` method."""
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         assert repr(self._header) == (
             textwrap.dedent(
@@ -463,9 +459,6 @@ class TestIES_TM2714_Sd:
         Test :meth:`colour.io.tm2714.SpectralDistribution_IESTM2714.__repr__`
         method.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         assert re.sub(
             "SpectralDistribution_IESTM2714.*",

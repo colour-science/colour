@@ -21,7 +21,6 @@ from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
     as_ndarray,
     ignore_numpy_errors,
-    is_scipy_installed,
     xp_as_array,
     xp_assert_close,
     xp_assert_equal,
@@ -118,9 +117,6 @@ class TestExtrapolator:
         Test :meth:`colour.algebra.extrapolation.Extrapolator.__call__`
         method.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         extrapolator = Extrapolator(
             LinearInterpolator(np.array([5, 6, 7]), np.array([5, 6, 7]))
