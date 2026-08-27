@@ -34,7 +34,6 @@ from colour.models import (
     RGB_COLOURSPACE_BT2020,
 )
 from colour.utilities import (
-    is_scipy_installed,
     xp_assert_close,
 )
 from colour.volume import (
@@ -146,9 +145,6 @@ RGB_colourspace_volume_coverage_MonteCarlo` definition unit tests methods.
 RGB_colourspace_volume_coverage_MonteCarlo` definition.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         xp_assert_close(
             RGB_colourspace_volume_coverage_MonteCarlo(
                 RGB_COLOURSPACE_BT709,
@@ -181,9 +177,6 @@ RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition unit tests
 RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         xp_assert_close(
             RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
                 RGB_COLOURSPACE_BT709,
@@ -214,9 +207,6 @@ RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition unit tests
         Test :func:`colour.volume.rgb.\
 RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         xp_assert_close(
             RGB_colourspace_visible_spectrum_coverage_MonteCarlo(

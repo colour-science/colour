@@ -20,7 +20,6 @@ from colour.notation.munsell import (
 )
 from colour.utilities import (
     is_onnxruntime_installed,
-    is_scipy_installed,
     xp_assert_close,
 )
 
@@ -179,9 +178,6 @@ class TestxyY_to_munsell_specification:
         definition.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         xyY = np.array([0.16623068, 0.45684550, 0.22399519])
 
         xp_assert_close(
@@ -195,9 +191,6 @@ class TestxyY_to_munsell_specification:
         Test :func:`colour.notation.munsell.xyY_to_munsell_specification`
         definition with the *Centore 2014* method.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         xyY = np.array([0.16623068, 0.45684550, 0.22399519])
 
@@ -253,9 +246,6 @@ class TestxyY_to_munsell_colour:
         definition.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         xyY = np.array([0.38736945, 0.35751656, 0.59362000])
 
         assert xyY_to_munsell_colour(xyY) == xyY_to_munsell_colour_Centore2014(xyY)
@@ -265,9 +255,6 @@ class TestxyY_to_munsell_colour:
         Test :func:`colour.notation.munsell.xyY_to_munsell_colour`
         definition with the *Centore 2014* method.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         xyY = np.array([0.38736945, 0.35751656, 0.59362000])
 

@@ -31,7 +31,6 @@ from colour.utilities import (
     as_ndarray,
     domain_range_scale,
     full,
-    is_scipy_installed,
     ones,
     xp_as_array,
     xp_assert_close,
@@ -167,9 +166,6 @@ class TestXYZ_to_sd_Jakob2019:
     def test_XYZ_to_sd_Jakob2019(self) -> None:
         """Test :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition."""
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         # Tests the round-trip with values of a colour checker.
         for name, sd in SDS_COLOURCHECKERS["ColorChecker N Ohta"].items():
             XYZ = sd_to_XYZ(sd, self._cmfs, self._sd_D65) / 100
@@ -187,9 +183,6 @@ class TestXYZ_to_sd_Jakob2019:
         Test :func:`colour.recovery.jakob2019.XYZ_to_sd_Jakob2019` definition
         domain and range scale support.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         XYZ_i = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
         XYZ_o = sd_to_XYZ(
@@ -279,9 +272,6 @@ class TestLUT3D_Jakob2019:
     def test_size(self) -> None:
         """Test :attr:`colour.recovery.jakob2019.LUT3D_Jakob2019.size` property."""
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         assert TestLUT3D_Jakob2019.generate_LUT().size == 5
 
     def test_lightness_scale(self) -> None:
@@ -310,9 +300,6 @@ class TestLUT3D_Jakob2019:
         property.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         from scipy.interpolate import RegularGridInterpolator  # noqa: PLC0415
 
         interpolator = TestLUT3D_Jakob2019.generate_LUT().interpolator
@@ -323,9 +310,6 @@ class TestLUT3D_Jakob2019:
         Test the entirety of the
         :class:`colour.recovery.jakob2019.LUT3D_Jakob2019`class.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         LUT = TestLUT3D_Jakob2019.generate_LUT()
 
@@ -391,9 +375,6 @@ RGB_to_coefficients` *NaN* fill for out-of-range *RGB* queries (negative
         :class:`scipy.interpolate.RegularGridInterpolator` with
         ``bounds_error=False`` and ``fill_value=np.nan``.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         LUT = TestLUT3D_Jakob2019.generate_LUT()
 

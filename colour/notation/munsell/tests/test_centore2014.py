@@ -48,7 +48,6 @@ from colour.utilities import (
     as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
-    is_scipy_installed,
     tstack,
     xp_as_array,
     xp_assert_close,
@@ -1329,9 +1328,6 @@ class TestxyY_to_munsell_specification_Centore2014:
         definition.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         specification, xyY = (
             as_float_array(list(MUNSELL_SPECIFICATIONS[..., 0])),
             as_float_array(list(MUNSELL_SPECIFICATIONS[..., 1])),
@@ -1367,9 +1363,6 @@ class TestxyY_to_munsell_specification_Centore2014:
         definition n-dimensional arrays support.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         xyY = xp_as_array([0.16623068, 0.45684550, 0.22399519], xp=xp)
         specification = as_ndarray(xyY_to_munsell_specification_Centore2014(xyY))
 
@@ -1398,9 +1391,6 @@ class TestxyY_to_munsell_specification_Centore2014:
         definition raised exception.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         with pytest.raises(RuntimeError):
             xyY_to_munsell_specification_Centore2014(
                 xp_as_array([0.90615118, 0.57945103, 0.91984064], xp=xp)
@@ -1414,9 +1404,6 @@ class TestxyY_to_munsell_specification_Centore2014:
         :func:`colour.notation.munsell.xyY_to_munsell_specification_Centore2014`
         definition domain and range scale support.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         xyY = xp_as_array([0.16623068, 0.45684550, 0.22399519], xp=xp)
         specification = as_ndarray(xyY_to_munsell_specification_Centore2014(xyY))
@@ -1444,9 +1431,6 @@ class TestxyY_to_munsell_specification_Centore2014:
         definition nan support.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         for case in cases:
@@ -1471,9 +1455,6 @@ class TestxyY_to_munsell_colour_Centore2014:
         definition domain and range scale support.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         xyY = np.array([0.38736945, 0.35751656, 0.59362000])
         munsell_colour = xyY_to_munsell_colour_Centore2014(xyY)
 
@@ -1495,9 +1476,6 @@ class TestxyY_to_munsell_colour_Centore2014:
         :func:`colour.notation.munsell.xyY_to_munsell_colour_Centore2014`
         definition n-dimensional arrays support.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         xyY = [0.16623068, 0.45684550, 0.22399519]
         munsell_colour = xyY_to_munsell_colour_Centore2014(xyY)

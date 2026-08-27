@@ -25,7 +25,6 @@ from colour.recovery.gaussian import RGB_COLOURSPACE_GAUSSIAN
 from colour.recovery.smits1999 import RGB_to_msds_Smits1999
 from colour.utilities import (
     domain_range_scale,
-    is_scipy_installed,
     xp_as_array,
     xp_assert_close,
 )
@@ -68,9 +67,6 @@ class TestXYZ_to_sd:
         Test :func:`colour.recovery.XYZ_to_sd` definition domain
         and range scale support.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         m = (

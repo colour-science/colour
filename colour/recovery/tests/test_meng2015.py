@@ -22,7 +22,6 @@ from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.recovery import XYZ_to_sd_Meng2015
 from colour.utilities import (
     domain_range_scale,
-    is_scipy_installed,
     xp_as_array,
     xp_assert_close,
 )
@@ -58,9 +57,6 @@ class TestXYZ_to_sd_Meng2015:
     @pytest.mark.mps_xfail("MPS float32 singular matrix")
     def test_XYZ_to_sd_Meng2015(self, xp: ModuleType) -> None:
         """Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition."""
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         XYZ = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
         xp_assert_close(
@@ -122,9 +118,6 @@ class TestXYZ_to_sd_Meng2015:
         definition raised exception.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         with pytest.raises(RuntimeError):
             XYZ_to_sd_Meng2015(
                 np.array([0.0, 0.0, 1.0]),
@@ -137,9 +130,6 @@ class TestXYZ_to_sd_Meng2015:
         Test :func:`colour.recovery.meng2015.XYZ_to_sd_Meng2015` definition
         domain and range scale support.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         XYZ_i = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
         XYZ_o = sd_to_XYZ_integration(

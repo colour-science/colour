@@ -17,7 +17,6 @@ from colour.temperature import CCT_to_uv_Krystek1985, uv_to_CCT_Krystek1985
 from colour.utilities import (
     as_ndarray,
     ignore_numpy_errors,
-    is_scipy_installed,
     xp_as_array,
     xp_assert_close,
     xp_reshape,
@@ -78,9 +77,6 @@ class TestUv_to_CCT_Krystek1985:
         definition n-dimensional arrays support.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         uv = xp_as_array([0.198152565091092, 0.307023596915037], xp=xp)
         CCT = as_ndarray(uv_to_CCT_Krystek1985(uv))
 
@@ -98,9 +94,6 @@ class TestUv_to_CCT_Krystek1985:
         Test :func:`colour.temperature.krystek1985.uv_to_CCT_Krystek1985`
         definition nan support.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))

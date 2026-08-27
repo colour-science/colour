@@ -26,7 +26,6 @@ from colour.io.luts import LUT1D, LUT3D, LUT3x1D, LUT_to_LUT
 from colour.io.luts.lut import AbstractLUT
 from colour.utilities import (
     as_float_array,
-    is_scipy_installed,
     tsplit,
     tstack,
     xp_assert_close,
@@ -583,9 +582,6 @@ class TestLUT1D:
         Test :class:`colour.io.luts.lut.LUT1D.apply` method.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         LUT_1 = LUT1D(self._table_2)
 
         xp_assert_close(
@@ -1133,9 +1129,6 @@ class TestLUT3x1D:
         Test :class:`colour.io.luts.lut.LUT3x1D.apply` method.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         LUT_1 = LUT3x1D(self._table_2)
 
         xp_assert_close(
@@ -1670,9 +1663,6 @@ class TestLUT3D:
         Test :class:`colour.io.luts.lut.LUT3D.invert` method.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         LUT_i = LUT3D(self._table_2).invert(
             interpolator=self._interpolator_1, **self._invert_kwargs_1
         )
@@ -1712,9 +1702,6 @@ class TestLUT3D:
         """
         Test :class:`colour.io.luts.lut.LUT3D.apply` method.
         """
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         LUT_1 = LUT3D(self._table_2)
 
