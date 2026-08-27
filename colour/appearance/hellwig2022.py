@@ -225,7 +225,7 @@ def XYZ_to_Hellwig2022(
         Truth value indicating if the illuminant should be discounted.
     compute_H
         When *True*, compute the *Hue Quadrature* :math:`H` correlate
-        via :func:`colour.appearance.hue_quadrature`. Defaults to
+        via :func:`colour.appearance.ciecam02.hue_quadrature`. Defaults to
         *False* because :math:`H` is rarely consumed downstream and
         skipping the bin search is a measurable cost saving.
 

@@ -224,7 +224,7 @@ def XYZ_to_sCAM(
         Truth value indicating if the illuminant should be discounted.
     compute_H
         When *True*, compute the *Hue Quadrature* :math:`H` correlate
-        via :func:`colour.appearance.hue_quadrature`. Defaults to
+        via :func:`colour.appearance.scam.hue_quadrature`. Defaults to
         *False* because :math:`H` is rarely consumed downstream and
         skipping the bin search is a measurable cost saving.
 
@@ -526,13 +526,13 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     +---------------------+-----------------------+---------------+
     | **Domain**          | **Scale - Reference** | **Scale - 1** |
     +=====================+=======================+===============+
-    | ``h``      | 360                   | 1             |
+    | ``h``               | 360                   | 1             |
     +---------------------+-----------------------+---------------+
 
     +---------------------+-----------------------+---------------+
     | **Range**           | **Scale - Reference** | **Scale - 1** |
     +=====================+=======================+===============+
-    | ``H``      | 400                   | 1             |
+    | ``H``               | 400                   | 1             |
     +---------------------+-----------------------+---------------+
 
     References
