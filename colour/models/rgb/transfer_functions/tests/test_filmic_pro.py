@@ -9,7 +9,7 @@ import typing
 
 import numpy as np
 
-from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.constants import EPSILON, TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import (
     log_decoding_FilmicPro6,
     log_encoding_FilmicPro6,
@@ -144,6 +144,22 @@ log_decoding_FilmicPro6` definition.
             1.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+    def test_log_decoding_FilmicPro6_below_toe(self, xp: ModuleType) -> None:
+        """
+        Test :func:`colour.models.rgb.transfer_functions.filmic_pro.\
+log_decoding_FilmicPro6` clamps a finite input below the toe to ``0``.
+
+        ``left=0`` extrapolation returns ``0`` for encoded values below
+        ``log_encoding_FilmicPro6(EPSILON)`` rather than extrapolating the log
+        curve into negative linear values.
+        """
+
+        toe = float(log_encoding_FilmicPro6(np.array(EPSILON)))
+        t = log_decoding_FilmicPro6(xp_as_array(toe - 1.0, xp=xp))
+
+        xp_assert_equal(t, 0.0)
+        assert np.isfinite(np.asarray(t)).all()
 
     def test_n_dimensional_log_decoding_FilmicPro6(self, xp: ModuleType) -> None:
         """
