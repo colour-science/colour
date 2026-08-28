@@ -1915,13 +1915,13 @@ class BenchmarkSuite_QualityArray(BenchmarkSuite):
         yield (
             "colour_fidelity_index_CIE2017",
             {"function": "colour_fidelity_index_CIE2017"},
-            lambda: colour_fidelity_index(msds_test),  # pyright: ignore
+            lambda: colour_fidelity_index(msds_test),
         )
         yield (
             "colour_fidelity_index_ANSIIESTM3018",
             {"function": "colour_fidelity_index_ANSIIESTM3018"},
             lambda: colour_fidelity_index(
-                msds_test,  # pyright: ignore
+                msds_test,
                 method="ANSI/IES TM-30-18",
             ),
         )
