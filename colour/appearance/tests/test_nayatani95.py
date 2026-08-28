@@ -12,6 +12,7 @@ from itertools import product
 import numpy as np
 
 from colour.appearance import XYZ_to_Nayatani95
+from colour.appearance.nayatani95 import hue_quadrature
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
     as_float_array,
@@ -31,6 +32,7 @@ __status__ = "Production"
 
 __all__ = [
     "TestXYZ_to_Nayatani95",
+    "TestHue_quadrature",
 ]
 
 
@@ -172,3 +174,45 @@ class TestXYZ_to_Nayatani95:
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
         XYZ_to_Nayatani95(cases, cases, cases[..., 0], cases[..., 0], cases[..., 0])
+
+
+class TestHue_quadrature:
+    """
+    Define :func:`colour.appearance.nayatani95.hue_quadrature` definition unit
+    tests methods.
+    """
+
+    def test_hue_quadrature(self, xp: ModuleType) -> None:
+        """
+        Test :func:`colour.appearance.nayatani95.hue_quadrature` definition.
+        """
+
+        # Interior of the ``H_1`` bin (Y -> G, 90.00..164.25): the bin midpoint
+        # maps to exactly ``150``.
+        xp_assert_close(
+            hue_quadrature(xp_as_array(127.125, xp=xp)),
+            xp_as_array(150.0, xp=xp),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # ``h < 20.14`` wraps through ``360`` into the B -> R interval via the
+        # ``default`` arm of the selection.
+        xp_assert_close(
+            hue_quadrature(xp_as_array(10.0, xp=xp)),
+            xp_as_array(393.2010191766126, xp=xp),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_compute_H_False_XYZ_to_Nayatani95(self, xp: ModuleType) -> None:
+        """
+        Test :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` ``H`` output
+        defaults to ``NaN`` when ``compute_H`` is ``False``.
+        """
+
+        XYZ = xp_as_array([19.01, 20.00, 21.78], xp=xp)
+        XYZ_n = xp_as_array([95.05, 100.00, 108.88], xp=xp)
+        specification = XYZ_to_Nayatani95(XYZ, XYZ_n, 20, 5000, 1000)
+
+        H = specification.H
+        assert H is not None
+        assert xp.all(xp.isnan(xp_as_array(H, xp=xp)))

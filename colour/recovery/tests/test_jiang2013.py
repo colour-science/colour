@@ -10,6 +10,7 @@ import pytest
 from colour.characterisation import MSDS_CAMERA_SENSITIVITIES, SDS_COLOURCHECKERS
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
+    MultiSpectralDistributions,
     SpectralDistribution,
     SpectralShape,
     msds_to_XYZ,
@@ -463,5 +464,29 @@ RGB_to_msds_camera_sensitivities_Jiang2013` definition.
                 [-4.32240535e-03, 2.49731193e-03, 3.80303275e-04],
                 [-6.00395414e-03, 1.54678227e-03, 5.40394352e-04],
             ],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_RGB_to_msds_camera_sensitivities_Jiang2013_as_array(self) -> None:
+        """
+        Test :func:`colour.recovery.jiang2013.\
+RGB_to_msds_camera_sensitivities_Jiang2013` definition ``as_array=True`` branch.
+        """
+
+        arguments = (
+            self._RGB,
+            self._sd_D65,
+            self._reflectances,
+            BASIS_FUNCTIONS_DYER2017,
+            SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017,
+        )
+
+        values = RGB_to_msds_camera_sensitivities_Jiang2013(*arguments, as_array=True)
+
+        assert isinstance(values, np.ndarray)
+        assert not isinstance(values, MultiSpectralDistributions)
+        xp_assert_close(
+            values,
+            RGB_to_msds_camera_sensitivities_Jiang2013(*arguments).values,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

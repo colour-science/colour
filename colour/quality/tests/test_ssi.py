@@ -16,7 +16,12 @@ from colour.colorimetry import (
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.quality import spectral_similarity_index
-from colour.utilities import xp_assert_close, xp_assert_equal
+from colour.quality.ssi import matrix_integration_SSI
+from colour.utilities import (
+    xp_as_array,
+    xp_assert_close,
+    xp_assert_equal,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -26,6 +31,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "TestMatrixIntegrationSSI",
     "TestSpectralSimilarityIndex",
 ]
 
@@ -628,5 +634,36 @@ class TestSpectralSimilarityIndex:
         xp_assert_close(
             spectral_similarity_index(sd_reference, msds),
             [50.0, 84.0, 20.0],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+
+class TestMatrixIntegrationSSI:
+    """
+    Define :func:`colour.quality.ssi.matrix_integration_SSI` definition unit
+    tests methods.
+    """
+
+    def test_matrix_integration_SSI(self, xp: ModuleType) -> None:
+        """
+        Test :func:`colour.quality.ssi.matrix_integration_SSI` definition.
+        """
+
+        matrix = matrix_integration_SSI(xp=xp)
+
+        # 30 reference 10 nm bands mapped from the 301-sample 1 nm working
+        # shape.
+        assert matrix.shape == (30, 301)
+
+        # Each band is a unit-area triangular kernel: ``[0.5, 1 * 9, 0.5]``
+        # summing to 10.
+        xp_assert_close(
+            matrix[0, :11],
+            xp_as_array([0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5], xp=xp),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        xp_assert_close(
+            xp.sum(matrix, axis=1),
+            xp.full((30,), 10.0),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
