@@ -301,9 +301,9 @@ class TestMultilineRepr:
                         {"name": "_b"},
                         {
                             "name": "_c",
-                            "formatter": lambda x: repr(x)
-                            .replace("[", "(")
-                            .replace("]", ")"),
+                            "formatter": lambda x: (
+                                repr(x).replace("[", "(").replace("]", ")")
+                            ),
                         },
                         {
                             "name": "_d",
