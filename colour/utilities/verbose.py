@@ -1142,9 +1142,9 @@ def multiline_repr(
     ...                 {"name": "_b"},
     ...                 {
     ...                     "name": "_c",
-    ...                     "formatter": lambda x: repr(x)
-    ...                     .replace("[", "(")
-    ...                     .replace("]", ")"),
+    ...                     "formatter": lambda x: (
+    ...                         repr(x).replace("[", "(").replace("]", ")")
+    ...                     ),
     ...                 },
     ...             ],
     ...         )
