@@ -25,12 +25,14 @@ from colour.hints import (  # noqa: TC001
 )
 from colour.models import XYZ_to_K_ab_HunterLab1966
 from colour.utilities import (
+    array_namespace,
     from_range_100,
     get_domain_range_scale,
     optional,
     to_domain_100,
     tsplit,
     tstack,
+    xp_as_float_array,
 )
 
 __author__ = "Colour Developers"
@@ -101,7 +103,11 @@ def XYZ_to_Hunter_Rdab(
     array([12.197225..., 57.1253787..., 17.4624134...])
     """
 
-    X, Y, Z = tsplit(to_domain_100(XYZ))
+    XYZ = to_domain_100(XYZ)
+
+    xp = array_namespace(XYZ)
+
+    X, Y, Z = tsplit(XYZ)
     d65 = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"]["D65"]
     XYZ_n_default = XYZ_n is None
     XYZ_n = to_domain_100(
@@ -110,9 +116,14 @@ def XYZ_to_Hunter_Rdab(
             d65.XYZ_n if get_domain_range_scale() == "reference" else d65.XYZ_n / 100,
         )
     )
+    XYZ_n = xp_as_float_array(XYZ_n, xp=xp, like=XYZ)
     X_n, Y_n, Z_n = tsplit(XYZ_n)
+
     K_ab = d65.K_ab if K_ab is None and XYZ_n_default else K_ab
-    K_a, K_b = tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n) if K_ab is None else K_ab)
+    K_ab = xp_as_float_array(
+        optional(K_ab, XYZ_to_K_ab_HunterLab1966(XYZ_n)), xp=xp, like=XYZ
+    )
+    K_a, K_b = tsplit(K_ab)
 
     f = 0.51 * ((21 + 0.2 * Y) / (1 + 0.2 * Y))
     Y_Yn = Y / Y_n
@@ -180,7 +191,11 @@ def Hunter_Rdab_to_XYZ(
     array([20.654008, 12.197225,  5.136952])
     """
 
-    R_d, a_Rd, b_Rd = tsplit(to_domain_100(R_d_ab))
+    R_d_ab = to_domain_100(R_d_ab)
+
+    xp = array_namespace(R_d_ab)
+
+    R_d, a_Rd, b_Rd = tsplit(R_d_ab)
     TVS_D65 = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"]["D65"]
     XYZ_n_default = XYZ_n is None
     XYZ_n = to_domain_100(
@@ -191,9 +206,14 @@ def Hunter_Rdab_to_XYZ(
             else TVS_D65.XYZ_n / 100,
         )
     )
+    XYZ_n = xp_as_float_array(XYZ_n, xp=xp, like=R_d_ab)
     X_n, Y_n, Z_n = tsplit(XYZ_n)
+
     K_ab = TVS_D65.K_ab if K_ab is None and XYZ_n_default else K_ab
-    K_a, K_b = tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n) if K_ab is None else K_ab)
+    K_ab = xp_as_float_array(
+        optional(K_ab, XYZ_to_K_ab_HunterLab1966(XYZ_n)), xp=xp, like=R_d_ab
+    )
+    K_a, K_b = tsplit(K_ab)
 
     f = 0.51 * ((21 + 0.2 * R_d) / (1 + 0.2 * R_d))
     Rd_Yn = R_d / Y_n

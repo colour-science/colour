@@ -28,22 +28,30 @@ Colour_Appearance_and_Gamut_Mapping
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass, field
 
 import numpy as np
 
 from colour.algebra import polar_to_cartesian, sdiv, sdiv_mode, spow, vecmul
-from colour.hints import Annotated, ArrayLike, Domain100, NDArrayFloat  # noqa: TC001
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Annotated, ArrayLike, Domain100, NDArrayFloat
+
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
     MixinDataclassIterable,
+    array_namespace,
     as_float,
     as_float_array,
     from_range_degrees,
     to_domain_100,
     tsplit,
     tstack,
+    xp_as_float_array,
+    xp_degrees,
+    xp_radians,
 )
 
 __author__ = "Colour Developers"
@@ -61,15 +69,6 @@ __all__ = [
     "CAM_ReferenceSpecification_LLAB",
     "CAM_Specification_LLAB",
     "XYZ_to_LLAB",
-    "XYZ_to_RGB_LLAB",
-    "chromatic_adaptation",
-    "f",
-    "opponent_colour_dimensions",
-    "hue_angle",
-    "chroma_correlate",
-    "colourfulness_correlate",
-    "saturation_correlate",
-    "final_opponent_signals",
 ]
 
 
@@ -316,421 +315,99 @@ def XYZ_to_LLAB(
 
     Examples
     --------
+    *Fairchild (2013)* Table 14.3 Case 4 (chromatic stimulus under illuminant
+    A reference white, mesopic luminance):
+
     >>> XYZ = np.array([19.01, 20.00, 21.78])
-    >>> XYZ_0 = np.array([95.05, 100.00, 108.88])
+    >>> XYZ_0 = np.array([109.85, 100.00, 35.58])
     >>> Y_b = 20.0
-    >>> L = 318.31
+    >>> L = 31.83
     >>> surround = VIEWING_CONDITIONS_LLAB["ref_average_4_minus"]
     >>> XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)  # doctest: +ELLIPSIS
-    CAM_Specification_LLAB(J=np.float64(37.3668650...), C=np.float64(0.0089496...), \
-h=np.float64(270...), s=np.float64(0.0002395...), M=np.float64(0.0190185...), \
-HC=None, a=np.float64(...), b=np.float64(-0.0190185...))
+    CAM_Specification_LLAB(J=np.float64(39.81475...), C=np.float64(29.345046...), \
+h=np.float64(271.852666...), s=np.float64(0.737039...), M=np.float64(54.593098...), \
+HC=None, a=np.float64(1.764967...), b=np.float64(-54.564560...))
     """
 
-    _X, Y, _Z = tsplit(to_domain_100(XYZ))
-    RGB = XYZ_to_RGB_LLAB(to_domain_100(XYZ))
-    RGB_0 = XYZ_to_RGB_LLAB(to_domain_100(XYZ_0))
+    XYZ = to_domain_100(XYZ)
+    XYZ_0 = to_domain_100(XYZ_0)
 
-    # Reference illuminant *CIE Standard Illuminant D Series* *D65*.
-    XYZ_0r = np.array([95.05, 100.00, 108.88])
-    RGB_0r = XYZ_to_RGB_LLAB(XYZ_0r)
+    xp = array_namespace(XYZ, XYZ_0, Y_b, L)
 
-    # Computing chromatic adaptation.
-    XYZ_r = chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, surround.D)
+    _X, Y, _Z = tsplit(XYZ)
+    Y_b = xp_as_float_array(Y_b, xp=xp, like=XYZ)
+    L = xp_as_float_array(L, xp=xp, like=XYZ)
+    F_S = xp_as_float_array(surround.F_S, xp=xp, like=XYZ)
+    F_L = xp_as_float_array(surround.F_L, xp=xp, like=XYZ)
+    F_C = xp_as_float_array(surround.F_C, xp=xp, like=XYZ)
+    D = xp_as_float_array(surround.D, xp=xp, like=XYZ)
 
-    # -------------------------------------------------------------------------
-    # Computing the correlate of *Lightness* :math:`L_L`.
-    # -------------------------------------------------------------------------
-    # Computing opponent colour dimensions.
-    L_L, a, b = tsplit(
-        opponent_colour_dimensions(XYZ_r, Y_b, surround.F_S, surround.F_L)
-    )
-
-    # Computing perceptual correlates.
-    # -------------------------------------------------------------------------
-    # Computing the correlate of *chroma* :math:`Ch_L`.
-    # -------------------------------------------------------------------------
-    Ch_L = chroma_correlate(a, b)
-
-    # -------------------------------------------------------------------------
-    # Computing the correlate of *colourfulness* :math:`C_L`.
-    # -------------------------------------------------------------------------
-    C_L = colourfulness_correlate(L, L_L, Ch_L, surround.F_C)
-
-    # -------------------------------------------------------------------------
-    # Computing the correlate of *saturation* :math:`s_L`.
-    # -------------------------------------------------------------------------
-    s_L = saturation_correlate(Ch_L, L_L)
-
-    # -------------------------------------------------------------------------
-    # Computing the *hue* angle :math:`h_L`.
-    # -------------------------------------------------------------------------
-    h_L = hue_angle(a, b)
-    # TODO: Implement hue composition computation.
-
-    # -------------------------------------------------------------------------
-    # Computing final opponent signals.
-    # -------------------------------------------------------------------------
-    A_L, B_L = tsplit(final_opponent_signals(C_L, h_L))
-
-    return CAM_Specification_LLAB(
-        J=L_L,
-        C=Ch_L,
-        h=as_float(from_range_degrees(h_L)),
-        s=s_L,
-        M=C_L,
-        HC=None,
-        a=A_L,
-        b=B_L,
-    )
-
-
-def XYZ_to_RGB_LLAB(XYZ: ArrayLike) -> NDArrayFloat:
-    """
-    Convert from *CIE XYZ* tristimulus values to normalised cone responses.
-
-    Parameters
-    ----------
-    XYZ
-        *CIE XYZ* tristimulus values.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Normalised cone responses.
-
-    Examples
-    --------
-    >>> XYZ = np.array([19.01, 20.00, 21.78])
-    >>> XYZ_to_RGB_LLAB(XYZ)  # doctest: +ELLIPSIS
-    array([0.9414279..., 1.0404012..., 1.0897088...])
-    """
-
-    XYZ = as_float_array(XYZ)
-
+    # Computing normalised cone responses for the stimulus, the reference
+    # white and the *CIE Standard Illuminant D Series* *D65* reference.
     with sdiv_mode():
-        return vecmul(MATRIX_XYZ_TO_RGB_LLAB, sdiv(XYZ, XYZ[..., 1, None]))
+        RGB = vecmul(MATRIX_XYZ_TO_RGB_LLAB, sdiv(XYZ, XYZ[..., 1, None]))
+        RGB_0 = vecmul(MATRIX_XYZ_TO_RGB_LLAB, sdiv(XYZ_0, XYZ_0[..., 1, None]))
+    XYZ_0r = xp_as_float_array([95.05, 100.00, 108.88], xp=xp, like=XYZ)
+    RGB_0r = vecmul(MATRIX_XYZ_TO_RGB_LLAB, XYZ_0r / 100)
 
-
-def chromatic_adaptation(
-    RGB: ArrayLike,
-    RGB_0: ArrayLike,
-    RGB_0r: ArrayLike,
-    Y: ArrayLike,
-    D: ArrayLike = 1,
-) -> NDArrayFloat:
-    """
-    Apply chromatic adaptation to the specified *RGB* normalised cone
-    responses array.
-
-    Parameters
-    ----------
-    RGB
-        *RGB* normalised cone responses array of the test sample / stimulus.
-    RGB_0
-        *RGB* normalised cone responses array of the reference white.
-    RGB_0r
-        *RGB* normalised cone responses array of the reference illuminant
-        *CIE Standard Illuminant D Series* *D65*.
-    Y
-        Tristimulus value :math:`Y` of the stimulus.
-    D
-        *Discounting-the-Illuminant* factor normalised to domain [0, 1].
-        Default is 1.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Adapted *CIE XYZ* tristimulus values.
-
-    Examples
-    --------
-    >>> RGB = np.array([0.94142795, 1.04040120, 1.08970885])
-    >>> RGB_0 = np.array([0.94146023, 1.04039386, 1.08950293])
-    >>> RGB_0r = np.array([0.94146023, 1.04039386, 1.08950293])
-    >>> Y = 20.0
-    >>> chromatic_adaptation(RGB, RGB_0, RGB_0r, Y)  # doctest: +ELLIPSIS
-    array([19.01, 20.  , 21.78])
-    """
-
+    # Computing chromatic adaptation: cone responses are adapted to the D65
+    # reference; the blue channel uses a nonlinear power exponent.
     R, G, B = tsplit(RGB)
     R_0, G_0, B_0 = tsplit(RGB_0)
     R_0r, G_0r, B_0r = tsplit(RGB_0r)
-    Y = as_float_array(Y)
-    D = as_float_array(D)
-
     beta = spow(B_0 / B_0r, 0.0834)
+    R_a = (D * R_0r / R_0 + 1 - D) * R
+    G_a = (D * G_0r / G_0 + 1 - D) * G
+    B_a = (D * B_0r / spow(B_0, beta) + 1 - D) * spow(B, beta)
+    Y_stack = tstack([Y, Y, Y])
+    XYZ_r = vecmul(MATRIX_RGB_TO_XYZ_LLAB, tstack([R_a, G_a, B_a]) * Y_stack)
+    X_r, Y_r, Z_r = tsplit(XYZ_r)
 
-    R_r = (D * R_0r / R_0 + 1 - D) * R
-    G_r = (D * G_0r / G_0 + 1 - D) * G
-    B_r = (D * B_0r / spow(B_0, beta) + 1 - D) * spow(B, beta)
-
-    RGB_r = tstack([R_r, G_r, B_r])
-
-    Y = tstack([Y, Y, Y])
-
-    return vecmul(MATRIX_RGB_TO_XYZ_LLAB, RGB_r * Y)
-
-
-def f(x: ArrayLike, F_S: ArrayLike) -> NDArrayFloat:
-    """
-    Model the nonlinear response function of the *:math:`LLAB(l:c)`* colour
-    appearance model to simulate the nonlinear behaviour of various visual
-    responses.
-
-    Parameters
-    ----------
-    x
-        Visual response variable :math:`x`.
-    F_S
-        Surround induction factor :math:`F_S`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Modeled visual response variable :math:`x`.
-
-    Examples
-    --------
-    >>> x = np.array([0.23350512, 0.23351103, 0.23355179])
-    >>> f(0.200009186234000, 3)  # doctest: +ELLIPSIS
-    np.float64(0.5848125...)
-    """
-
-    x = as_float_array(x)
-    F_S = as_float_array(F_S)
-
+    # Computing the nonlinear visual response :math:`f` on the three normalised
+    # tristimulus components in a single call.
     one_F_s = 1 / F_S
-
-    x_m = np.where(
-        x > 0.008856,
-        spow(x, one_F_s),
-        ((spow(0.008856, one_F_s) - (16 / 116)) / 0.008856) * x + (16 / 116),
+    XYZ_n = tstack([X_r / 95.05, Y_r / 100, Z_r / 108.88])
+    f_XYZ = xp.where(
+        XYZ_n > 0.008856,
+        spow(XYZ_n, one_F_s),
+        ((spow(0.008856, one_F_s) - (16 / 116)) / 0.008856) * XYZ_n + (16 / 116),
     )
+    f_X, f_Y, f_Z = tsplit(f_XYZ)
 
-    return as_float(x_m)
-
-
-def opponent_colour_dimensions(
-    XYZ: ArrayLike,
-    Y_b: ArrayLike,
-    F_S: ArrayLike,
-    F_L: ArrayLike,
-) -> NDArrayFloat:
-    """
-    Compute opponent colour dimensions from the specified adapted *CIE XYZ*
-    tristimulus values.
-
-    The opponent colour dimensions are based on a modified *CIE L\\*a\\*b\\**
-    colourspace formulae.
-
-    Parameters
-    ----------
-    XYZ
-        Adapted *CIE XYZ* tristimulus values.
-    Y_b
-        Luminance factor of the background in :math:`cd/m^2`.
-    F_S
-        Surround induction factor :math:`F_S`.
-    F_L
-        Lightness induction factor :math:`F_L`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Opponent colour dimensions.
-
-    Examples
-    --------
-    >>> XYZ = np.array([19.00999572, 20.00091862, 21.77993863])
-    >>> Y_b = 20.0
-    >>> F_S = 3.0
-    >>> F_L = 1.0
-    >>> opponent_colour_dimensions(XYZ, Y_b, F_S, F_L)  # doctest: +ELLIPSIS
-    array([ 3.7368047...e+01, -4.4986443...e-03, -5.2604647...e-03])
-    """
-
-    X, Y, Z = tsplit(XYZ)
-    Y_b = as_float_array(Y_b)
-    F_S = as_float_array(F_S)
-    F_L = as_float_array(F_L)
-
-    # Account for background lightness contrast.
+    # Computing opponent colour dimensions: modified *CIE L\\*a\\*b\\** with
+    # background lightness contrast :math:`z`.
     z = 1 + F_L * spow(Y_b / 100, 0.5)
+    L_L = as_float_array(116 * spow(f_Y, z) - 16)
+    a = 500 * (f_X - f_Y)
+    b = 200 * (f_Y - f_Z)
 
-    # Computing modified *CIE L\\*a\\*b\\** colourspace array.
-    L = 116 * spow(f(Y / 100, F_S), z) - 16
-    a = 500 * (f(X / 95.05, F_S) - f(Y / 100, F_S))
-    b = 200 * (f(Y / 100, F_S) - f(Z / 108.88, F_S))
-
-    return tstack([L, a, b])
-
-
-def hue_angle(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the *hue* angle :math:`h_L` in degrees from the specified
-    opponent colour dimensions.
-
-    Parameters
-    ----------
-    a
-        Opponent colour dimension :math:`a`.
-    b
-        Opponent colour dimension :math:`b`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *Hue* angle :math:`h_L` in degrees.
-
-    Examples
-    --------
-    >>> hue_angle(-4.49864756e-03, -5.26046353e-03)  # doctest: +ELLIPSIS
-    np.float64(229.4635727...)
-    """
-
-    a = as_float_array(a)
-    b = as_float_array(b)
-
-    h_L = np.degrees(np.arctan2(b, a)) % 360
-
-    return as_float(h_L)
-
-
-def chroma_correlate(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the correlate of *chroma* :math:`Ch_L` from the specified
-    opponent colour dimensions.
-
-    Parameters
-    ----------
-    a
-        Opponent colour dimension :math:`a`.
-    b
-        Opponent colour dimension :math:`b`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Correlate of *chroma* :math:`Ch_L`.
-
-    Examples
-    --------
-    >>> a = -4.49864756e-03
-    >>> b = -5.26046353e-03
-    >>> chroma_correlate(a, b)  # doctest: +ELLIPSIS
-    np.float64(0.0086506...)
-    """
-
-    a = as_float_array(a)
-    b = as_float_array(b)
-
+    # Computing the correlate of *chroma* :math:`Ch_L`.
     c = spow(a**2 + b**2, 0.5)
-    Ch_L = 25 * np.log1p(0.05 * c)
+    Ch_L = 25 * xp.log1p(0.05 * c)
 
-    return as_float(Ch_L)
-
-
-def colourfulness_correlate(
-    L: ArrayLike,
-    L_L: ArrayLike,
-    Ch_L: ArrayLike,
-    F_C: ArrayLike,
-) -> NDArrayFloat:
-    """
-    Compute the correlate of *colourfulness* :math:`C_L`.
-
-    Parameters
-    ----------
-    L
-        Absolute luminance :math:`L` of the reference white in
-        :math:`cd/m^2`.
-    L_L
-        Correlate of *Lightness* :math:`L_L`.
-    Ch_L
-        Correlate of *chroma* :math:`Ch_L`.
-    F_C
-        Chroma induction factor :math:`F_C`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Correlate of *colourfulness* :math:`C_L`.
-
-    Examples
-    --------
-    >>> L = 318.31
-    >>> L_L = 37.368047493928195
-    >>> Ch_L = 0.008650662051714
-    >>> F_C = 1.0
-    >>> colourfulness_correlate(L, L_L, Ch_L, F_C)  # doctest: +ELLIPSIS
-    np.float64(0.0183832...)
-    """
-
-    L = as_float_array(L)
-    L_L = as_float_array(L_L)
-    Ch_L = as_float_array(Ch_L)
-    F_C = as_float_array(F_C)
-
-    S_C = 1 + 0.47 * np.log10(L) - 0.057 * np.log10(L) ** 2
+    # Computing the correlate of *colourfulness* :math:`C_L`.
+    S_C = 1 + 0.47 * xp.log10(L) - 0.057 * xp.log10(L) ** 2
     S_M = 0.7 + 0.02 * L_L - 0.0002 * L_L**2
     C_L = Ch_L * S_M * S_C * F_C
 
-    return as_float(C_L)
+    # Computing the correlate of *saturation* :math:`s_L`.
+    s_L = Ch_L / L_L
 
+    # Computing the *hue* angle :math:`h_L` in degrees.
+    h_L = xp_degrees(xp.atan2(b, a)) % 360
+    # TODO: Implement hue composition computation.
 
-def saturation_correlate(Ch_L: ArrayLike, L_L: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the correlate of *saturation* :math:`S_L`.
+    # Computing the final opponent signals :math:`A_L`, :math:`B_L` from
+    # polar coordinates :math:`(C_L, h_L)`.
+    A_L, B_L = tsplit(polar_to_cartesian(tstack([C_L, xp_radians(h_L)])))
 
-    Parameters
-    ----------
-    Ch_L
-        Correlate of *chroma* :math:`Ch_L`.
-    L_L
-        Correlate of *lightness* :math:`L_L`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Correlate of *saturation* :math:`S_L`.
-
-    Examples
-    --------
-    >>> Ch_L = 0.008650662051714
-    >>> L_L = 37.368047493928195
-    >>> saturation_correlate(Ch_L, L_L)  # doctest: +ELLIPSIS
-    np.float64(0.0002314...)
-    """
-
-    Ch_L = as_float_array(Ch_L)
-    L_L = as_float_array(L_L)
-
-    return Ch_L / L_L
-
-
-def final_opponent_signals(C_L: ArrayLike, h_L: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the final opponent signals :math:`A_L` and :math:`B_L`.
-
-    Parameters
-    ----------
-    C_L
-        Correlate of *colourfulness* :math:`C_L`.
-    h_L
-        Correlate of *hue* :math:`h_L` in degrees.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Final opponent signals :math:`A_L` and :math:`B_L`.
-
-    Examples
-    --------
-    >>> C_L = 0.0183832899143
-    >>> h_L = 229.46357270858391
-    >>> final_opponent_signals(C_L, h_L)  # doctest: +ELLIPSIS
-    array([-0.0119478..., -0.0139711...])
-    """
-
-    return polar_to_cartesian(tstack([as_float_array(C_L), np.radians(h_L)]))
+    return CAM_Specification_LLAB(
+        J=as_float(L_L),
+        C=as_float(Ch_L),
+        h=as_float(from_range_degrees(h_L)),
+        s=as_float(s_L),
+        M=as_float(C_L),
+        HC=None,
+        a=as_float(A_L),
+        b=as_float(B_L),
+    )

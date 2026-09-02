@@ -44,6 +44,8 @@ from colour.utilities import (
     to_domain_degrees,
     tsplit,
     tstack,
+    xp_degrees,
+    xp_radians,
 )
 from colour.utilities.documentation import DocstringTuple, is_documentation_building
 
@@ -254,7 +256,7 @@ def Jab_to_JCh(Jab: Domain1) -> Annotated[NDArrayFloat, (1, 1, 360)]:
 
     C, h = tsplit(cartesian_to_polar(tstack([a, b])))
 
-    return tstack([L, C, from_range_degrees(np.degrees(h) % 360)])
+    return tstack([L, C, from_range_degrees(xp_degrees(h) % 360)])
 
 
 def JCh_to_Jab(
@@ -310,7 +312,7 @@ def JCh_to_Jab(
 
     L, C, h = tsplit(JCh)
 
-    a, b = tsplit(polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(h))])))
+    a, b = tsplit(polar_to_cartesian(tstack([C, xp_radians(to_domain_degrees(h))])))
 
     return tstack([L, a, b])
 

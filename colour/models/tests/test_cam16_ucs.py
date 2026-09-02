@@ -2,7 +2,11 @@
 
 from __future__ import annotations
 
-import numpy as np
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006
@@ -16,6 +20,7 @@ from colour.models.tests.test_cam02_ucs import (
     TestUCS_Luo2006_to_XYZ,
     TestXYZ_to_UCS_Luo2006,
 )
+from colour.utilities import xp_as_array, xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -64,25 +69,25 @@ class TestXYZ_to_UCS_Li2017(TestXYZ_to_UCS_Luo2006):
     definition unit tests methods.
     """
 
-    def test_XYZ_to_UCS_Li2017(self) -> None:
+    def test_XYZ_to_UCS_Li2017(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.cam16_ucs.XYZ_to_UCS_Li2017` definition."""
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_UCS_Li2017(
-                np.array([0.20654008, 0.12197225, 0.05136952]),
+                xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
             ),
-            np.array([46.06586033, 41.07586491, 14.51025826]),
+            [46.06586033, 41.07586491, 14.51025826],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_UCS_Li2017(
-                np.array([0.20654008, 0.12197225, 0.05136952]),
+                xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
-                XYZ_w=np.array([0.95047, 1.0, 1.08883]),
+                XYZ_w=xp_as_array([0.95047, 1.0, 1.08883], xp=xp),
             ),
-            np.array([46.06573617, 41.07444159, 14.50807598]),
+            [46.06573617, 41.07444159, 14.50807598],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -93,24 +98,24 @@ class TestUCS_Li2017_to_XYZ(TestUCS_Luo2006_to_XYZ):
     definition unit tests methods.
     """
 
-    def test_UCS_Li2017_to_XYZ(self) -> None:
+    def test_UCS_Li2017_to_XYZ(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.cam16_ucs.UCS_Li2017_to_XYZ` definition."""
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             UCS_Li2017_to_XYZ(
-                np.array([46.06586033, 41.07586491, 14.51025826]),
+                xp_as_array([46.06586033, 41.07586491, 14.51025826], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
             ),
-            np.array([0.20654008, 0.12197225, 0.05136952]),
+            [0.20654008, 0.12197225, 0.05136952],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             UCS_Li2017_to_XYZ(
-                np.array([46.06586033, 41.07586491, 14.51025826]),
+                xp_as_array([46.06586033, 41.07586491, 14.51025826], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
-                XYZ_w=np.array([0.95047, 1.0, 1.08883]),
+                XYZ_w=xp_as_array([0.95047, 1.0, 1.08883], xp=xp),
             ),
-            np.array([0.2065444, 0.12197263, 0.05136016]),
+            [0.2065444, 0.12197263, 0.05136016],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

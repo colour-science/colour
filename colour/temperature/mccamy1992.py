@@ -22,15 +22,19 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.algebra import sdiv, sdiv_mode
-from colour.colorimetry import CCS_ILLUMINANTS
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
+    from colour.hints import ArrayLike, NDArrayFloat
 
-from colour.utilities import as_float, as_float_array, required, tsplit, usage_warning
+from colour.temperature.common import solve_xy_Newton
+from colour.utilities import (
+    as_float,
+    as_float_array,
+    optional,
+    tsplit,
+    usage_warning,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -45,7 +49,6 @@ __all__ = [
 ]
 
 
-@required("SciPy")
 def xy_to_CCT_McCamy1992(xy: ArrayLike) -> NDArrayFloat:
     """
     Compute the correlated colour temperature :math:`T_{cp}` from the
@@ -97,7 +100,10 @@ def CCT_to_xy_McCamy1992(
     CCT
         Correlated colour temperature :math:`T_{cp}`.
     optimisation_kwargs
-        Parameters for :func:`scipy.optimize.minimize` definition.
+        Inversion parameters forwarded to
+        :func:`colour.temperature.solve_xy_Newton`. Accepted keys are
+        ``x0``, ``reference_xy``, ``reference_weight``,
+        ``newton_iterations``, ``backtrack_iterations`` and ``tolerance``.
 
     Returns
     -------
@@ -106,14 +112,15 @@ def CCT_to_xy_McCamy1992(
 
     Warnings
     --------
-    The *McCamy (1992)* method for computing *CIE xy* chromaticity coordinates
-    from the specified correlated colour temperature is not a bijective
-    function and might produce unexpected results. It is provided for
-    consistency with other correlated colour temperature computation methods
-    but should be avoided for practical applications. The current
-    implementation relies on optimisation using
-    :func:`scipy.optimize.minimize` definition and thus has reduced precision
-    and poor performance.
+    The *McCamy (1992)* method for computing *CIE xy* chromaticity
+    coordinates from the specified correlated colour temperature is not
+    a bijective function and might produce unexpected results. It is
+    provided for consistency with other correlated colour temperature
+    computation methods but should be avoided for practical
+    applications. The current implementation seeds a *Tikhonov*-
+    regularised damped *Gauss-Newton* iteration anchored to the
+    *CIE Standard Illuminant D65* chromaticity coordinates, vectorised
+    across all input samples.
 
     References
     ----------
@@ -125,8 +132,6 @@ def CCT_to_xy_McCamy1992(
     array([0.3127..., 0.329...])
     """
 
-    from scipy.optimize import minimize  # noqa: PLC0415
-
     usage_warning(
         '"McCamy (1992)" method for computing "CIE xy" chromaticity '
         "coordinates from given correlated colour temperature is not a "
@@ -135,36 +140,10 @@ def CCT_to_xy_McCamy1992(
         "methods but should be avoided for practical applications."
     )
 
+    optimisation_kwargs = dict(optional(optimisation_kwargs, {}))
+
     CCT = as_float_array(CCT)
-    shape = list(CCT.shape)
-    CCT = np.atleast_1d(np.reshape(CCT, (-1, 1)))
 
-    def objective_function(xy: NDArrayFloat, CCT: NDArrayFloat) -> DTypeFloat:
-        """Objective function."""
-
-        objective = np.linalg.norm(xy_to_CCT_McCamy1992(xy) - CCT)
-
-        return as_float(objective)
-
-    optimisation_settings = {
-        "method": "Nelder-Mead",
-        "options": {
-            "fatol": 1e-10,
-        },
-    }
-    if optimisation_kwargs is not None:
-        optimisation_settings.update(optimisation_kwargs)
-
-    xy = as_float_array(
-        [
-            minimize(
-                objective_function,
-                x0=CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["D65"],
-                args=(CCT_i,),
-                **optimisation_settings,
-            ).x
-            for CCT_i in CCT
-        ]
+    return as_float_array(
+        solve_xy_Newton(xy_to_CCT_McCamy1992, CCT, **optimisation_kwargs)
     )
-
-    return np.reshape(xy, ([*shape, 2]))

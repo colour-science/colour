@@ -2,13 +2,25 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 from itertools import product
 
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb import Prismatic_to_RGB, RGB_to_Prismatic
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    domain_range_scale,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -29,55 +41,51 @@ class TestRGB_to_Prismatic:
     unit tests methods.
     """
 
-    def test_RGB_to_Prismatic(self) -> None:
+    def test_RGB_to_Prismatic(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition."""
 
-        np.testing.assert_allclose(
-            RGB_to_Prismatic(np.array([0.0, 0.0, 0.0])),
-            np.array([0.0, 0.0, 0.0, 0.0]),
+        xp_assert_close(
+            RGB_to_Prismatic(xp_as_array([0.0, 0.0, 0.0], xp=xp)),
+            [0.0, 0.0, 0.0, 0.0],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            RGB_to_Prismatic(np.array([0.25, 0.50, 0.75])),
-            np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000]),
+        xp_assert_close(
+            RGB_to_Prismatic(xp_as_array([0.25, 0.50, 0.75], xp=xp)),
+            [0.7500000, 0.1666667, 0.3333333, 0.5000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_RGB_to_Prismatic(self) -> None:
+    def test_n_dimensional_RGB_to_Prismatic(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition
         n-dimensional support.
         """
 
-        RGB = np.array([0.25, 0.50, 0.75])
-        Lrgb = RGB_to_Prismatic(RGB)
+        RGB = xp_as_array([0.25, 0.50, 0.75], xp=xp)
+        Lrgb = as_ndarray(RGB_to_Prismatic(RGB))
 
-        RGB = np.tile(RGB, (6, 1))
-        Lrgb = np.tile(Lrgb, (6, 1))
-        np.testing.assert_allclose(
-            RGB_to_Prismatic(RGB), Lrgb, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        RGB = xp.tile(xp_as_array(RGB, xp=xp), (6, 1))
+        Lrgb = xp.tile(xp_as_array(Lrgb, xp=xp), (6, 1))
+        xp_assert_close(RGB_to_Prismatic(RGB), Lrgb, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        RGB = np.reshape(RGB, (2, 3, 3))
-        Lrgb = np.reshape(Lrgb, (2, 3, 4))
-        np.testing.assert_allclose(
-            RGB_to_Prismatic(RGB), Lrgb, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        RGB = xp_reshape(xp_as_array(RGB, xp=xp), (2, 3, 3), xp=xp)
+        Lrgb = xp_reshape(xp_as_array(Lrgb, xp=xp), (2, 3, 4), xp=xp)
+        xp_assert_close(RGB_to_Prismatic(RGB), Lrgb, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_RGB_to_Prismatic(self) -> None:
+    def test_domain_range_scale_RGB_to_Prismatic(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition
         domain and range scale support.
         """
 
-        RGB = np.array([0.25, 0.50, 0.75])
-        Lrgb = RGB_to_Prismatic(RGB)
+        RGB = xp_as_array([0.25, 0.50, 0.75], xp=xp)
+        Lrgb = as_ndarray(RGB_to_Prismatic(RGB))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     RGB_to_Prismatic(RGB * factor),
                     Lrgb * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -101,55 +109,53 @@ class TestPrismatic_to_RGB:
     unit tests methods.
     """
 
-    def test_Prismatic_to_RGB(self) -> None:
+    def test_Prismatic_to_RGB(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition."""
 
-        np.testing.assert_allclose(
-            Prismatic_to_RGB(np.array([0.0, 0.0, 0.0, 0.0])),
-            np.array([0.0, 0.0, 0.0]),
+        xp_assert_close(
+            Prismatic_to_RGB(xp_as_array([0.0, 0.0, 0.0, 0.0], xp=xp)),
+            [0.0, 0.0, 0.0],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            Prismatic_to_RGB(np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])),
-            np.array([0.25, 0.50, 0.75]),
+        xp_assert_close(
+            Prismatic_to_RGB(
+                xp_as_array([0.7500000, 0.1666667, 0.3333333, 0.5000000], xp=xp)
+            ),
+            [0.25, 0.50, 0.75],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_Prismatic_to_RGB(self) -> None:
+    def test_n_dimensional_Prismatic_to_RGB(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition
         n-dimensional support.
         """
 
-        Lrgb = np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])
-        RGB = Prismatic_to_RGB(Lrgb)
+        Lrgb = xp_as_array([0.7500000, 0.1666667, 0.3333333, 0.5000000], xp=xp)
+        RGB = as_ndarray(Prismatic_to_RGB(Lrgb))
 
-        Lrgb = np.tile(Lrgb, (6, 1))
-        RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_allclose(
-            Prismatic_to_RGB(Lrgb), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        Lrgb = xp.tile(xp_as_array(Lrgb, xp=xp), (6, 1))
+        RGB = xp.tile(xp_as_array(RGB, xp=xp), (6, 1))
+        xp_assert_close(Prismatic_to_RGB(Lrgb), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        Lrgb = np.reshape(Lrgb, (2, 3, 4))
-        RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_allclose(
-            Prismatic_to_RGB(Lrgb), RGB, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        Lrgb = xp_reshape(xp_as_array(Lrgb, xp=xp), (2, 3, 4), xp=xp)
+        RGB = xp_reshape(xp_as_array(RGB, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(Prismatic_to_RGB(Lrgb), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_Prismatic_to_RGB(self) -> None:
+    def test_domain_range_scale_Prismatic_to_RGB(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition
         domain and range scale support.
         """
 
-        Lrgb = np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])
-        RGB = Prismatic_to_RGB(Lrgb)
+        Lrgb = xp_as_array([0.7500000, 0.1666667, 0.3333333, 0.5000000], xp=xp)
+        RGB = as_ndarray(Prismatic_to_RGB(Lrgb))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     Prismatic_to_RGB(Lrgb * factor),
                     RGB * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,

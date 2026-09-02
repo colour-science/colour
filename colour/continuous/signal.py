@@ -20,7 +20,7 @@ from operator import add, iadd, imul, ipow, isub, itruediv, mul, sub, truediv
 
 import numpy as np
 
-from colour.algebra import Extrapolator, KernelInterpolator
+from colour.algebra import Extrapolator, LinearInterpolator
 from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.continuous import AbstractContinuousFunction
 
@@ -30,6 +30,7 @@ if typing.TYPE_CHECKING:
         ArrayLike,
         Literal,
         NDArrayFloat,
+        ProtocolArrayNamespace,
         ProtocolExtrapolator,
         ProtocolInterpolator,
         Real,
@@ -39,10 +40,13 @@ if typing.TYPE_CHECKING:
 
 from colour.hints import Callable, DTypeFloat, cast
 from colour.utilities import (
+    array_namespace,
     as_float_array,
+    as_ndarray,
     attest,
     fill_nan,
     full,
+    is_non_ndarray,
     is_pandas_installed,
     multiline_repr,
     ndarray_copy,
@@ -53,6 +57,15 @@ from colour.utilities import (
     tsplit,
     tstack,
     validate_method,
+    xp_as_array,
+    xp_as_float_array,
+    xp_astype,
+    xp_atleast_1d,
+    xp_insert,
+    xp_isin,
+    xp_linspace,
+    xp_resize,
+    xp_setxor1d,
 )
 from colour.utilities.common import int_digest
 from colour.utilities.documentation import is_documentation_building
@@ -215,10 +228,10 @@ class Signal(AbstractContinuousFunction):
     >>> x = 150
     >>> range_ = np.sin(np.linspace(0, 1, 10))
     >>> Signal(range_, domain)[x]  # doctest: +ELLIPSIS
-    np.float64(0.0359701...)
+    np.float64(0.0554413...)
     >>> x = np.linspace(100, 1000, 3)
     >>> Signal(range_, domain)[x]  # doctest: +ELLIPSIS
-    array([...e-..., 4.7669395...e-01, 8.4147098...e-01])
+    array([0.        , 0.4786858..., 0.8414709...])
 
     Using an alternative interpolating function:
 
@@ -244,15 +257,15 @@ class Signal(AbstractContinuousFunction):
         super().__init__(kwargs.get("name"))
 
         self._dtype: Type[DTypeFloat] = DTYPE_FLOAT_DEFAULT
-        self._domain: NDArrayFloat = np.array([])
-        self._range: NDArrayFloat = np.array([])
-        self._interpolator: Type[ProtocolInterpolator] = KernelInterpolator
+        self._domain: NDArrayFloat = as_float_array([])
+        self._range: NDArrayFloat = as_float_array([])
+        self._interpolator: Type[ProtocolInterpolator] = LinearInterpolator
         self._interpolator_kwargs: dict = {}
         self._extrapolator: Type[ProtocolExtrapolator] = Extrapolator
         self._extrapolator_kwargs: dict = {
             "method": "Constant",
-            "left": np.nan,
-            "right": np.nan,
+            "left": float("nan"),
+            "right": float("nan"),
         }
 
         self.range, self.domain = self.signal_unpack_data(data, domain)[::-1]
@@ -332,19 +345,23 @@ class Signal(AbstractContinuousFunction):
 
         value = as_float_array(value, self.dtype)
 
-        if not np.all(np.isfinite(value)):
+        xp = array_namespace(value)
+
+        if not xp.all(xp.isfinite(value)):
             runtime_warning(
                 f'"{self.name}" new "domain" variable is not finite: {value}, '
                 f"unpredictable results may occur!"
             )
         else:
             attest(
-                np.all(value[:-1] <= value[1:]),
+                xp.all(value[:-1] <= value[1:]),
                 "The new domain value is not monotonic! ",
             )
 
-        if value.size != self._range.size:
-            self._range = np.resize(self._range, value.shape)
+        if len(value) != len(self._range):
+            xp = array_namespace(self._range)
+
+            self._range = xp_resize(self._range, value.shape, xp=xp)
 
         self._domain = value
         self._function = None  # Invalidate the underlying continuous function.
@@ -375,7 +392,9 @@ class Signal(AbstractContinuousFunction):
 
         value = as_float_array(value, self.dtype)
 
-        if not np.all(np.isfinite(value)):
+        xp = array_namespace(value)
+
+        if not xp.all(xp.isfinite(value)):
             runtime_warning(
                 f'"{self.name}" new "range" variable is not finite: {value}, '
                 f"unpredictable results may occur!"
@@ -522,12 +541,22 @@ class Signal(AbstractContinuousFunction):
         """
 
         if self._function is None:
-            # Create the underlying continuous function.
-
-            if self._domain.size != 0 and self._range.size != 0:
+            # Create the underlying continuous function. Each interpolator
+            # owns its own input conversion, so backend tensors flow
+            # straight through array-aware ones (Sprague / Linear / Kernel
+            # / Null) and only get coerced to *NumPy* by the scipy-bound
+            # ones (CubicSpline / Pchip). ``self._domain`` is promoted to
+            # ``self._range``'s backend so the interpolator sees both
+            # variables on the same device, and downstream ``like=``
+            # references can canonically use the stored ``x`` axis.
+            if len(self._domain) != 0 and len(self._range) != 0:
+                xp = array_namespace(self._domain, self._range)
+                domain = xp_as_float_array(self._domain, xp=xp, like=self._range)
                 self._function = self._extrapolator(
                     self._interpolator(
-                        self._domain, self._range, **self._interpolator_kwargs
+                        domain,
+                        self._range,
+                        **self._interpolator_kwargs,
                     ),
                     **self._extrapolator_kwargs,
                 )
@@ -616,7 +645,7 @@ class Signal(AbstractContinuousFunction):
                 [  7.,  80.],
                 [  8.,  90.],
                 [  9., 100.]],
-               KernelInterpolator,
+               LinearInterpolator,
                {},
                Extrapolator,
                {'method': 'Constant', 'left': nan, 'right': nan})
@@ -657,10 +686,13 @@ class Signal(AbstractContinuousFunction):
             Object hash.
         """
 
+        # Host-byte digest mixed with the array namespace so cross-backend
+        # operands hash distinctly, matching ``__eq__``.
         return hash(
             (
-                int_digest(self._domain.tobytes()),
-                int_digest(self._range.tobytes()),
+                int_digest(as_ndarray(self._domain).tobytes()),
+                int_digest(as_ndarray(self._range).tobytes()),
+                array_namespace(self._domain, self._range).__name__,
                 self.interpolator.__name__,
                 repr(self.interpolator_kwargs),
                 self.extrapolator.__name__,
@@ -705,8 +737,7 @@ class Signal(AbstractContinuousFunction):
         >>> signal[0:3]
         array([10., 20., 30.])
         >>> signal[np.linspace(0, 5, 5)]  # doctest: +ELLIPSIS
-        array([10.        , 22.8348902..., 34.8004492..., \
-47.5535392..., 60.        ])
+        array([10. , 22.5, 35. , 47.5, 60. ])
         """
 
         if isinstance(x, slice):
@@ -782,25 +813,48 @@ class Signal(AbstractContinuousFunction):
          [  9.   100.  ]]
         """
 
+        def set_range(
+            index: ArrayLike | slice, values: ArrayLike, xp: ProtocolArrayNamespace
+        ) -> None:
+            """
+            Set ``self._range`` mutably, round-tripping through numpy for
+            immutable backends.
+            """
+
+            if not is_non_ndarray(self._range):
+                self._range[index] = values  # pyright: ignore
+            else:
+                range_ = np.array(as_ndarray(self._range))
+                range_[index if isinstance(index, slice) else as_ndarray(index)] = (
+                    as_ndarray(values)
+                )
+                self._range = xp_as_array(range_, xp=xp, like=self._range)
+
+        xp = array_namespace(self._range)
+
+        y = xp_as_float_array(y, xp=xp, like=self._range)
+
         if isinstance(x, slice):
-            self._range[x] = y
+            set_range(x, y, xp)
         else:
-            x = np.atleast_1d(x).astype(self.dtype)
-            y = np.resize(y, x.shape)
+            x = xp_astype(
+                xp_atleast_1d(xp_as_float_array(x, xp=xp, like=self._range), xp=xp),
+                self.dtype,
+                xp=xp,
+            )
+            y = xp_resize(y, x.shape, xp=xp)
+            domain = xp_as_array(self._domain, xp=xp, like=self._range)
 
-            # Matching domain, updating existing `self._range` values.
-            mask = np.isin(x, self._domain)
+            mask = xp_isin(x, domain, xp=xp)
             x_m = x[mask]
-            indexes = np.searchsorted(self._domain, x_m)
-            self._range[indexes] = y[mask]
+            if len(x_m) != 0:
+                set_range(xp.searchsorted(domain, x_m), y[mask], xp)
 
-            # Non matching domain, inserting into existing `self.domain`
-            # and `self.range`.
             x_nm = x[~mask]
-            indexes = np.searchsorted(self._domain, x_nm)
-            if indexes.size != 0:
-                self._domain = np.insert(self._domain, indexes, x_nm)
-                self._range = np.insert(self._range, indexes, y[~mask])
+            if len(x_nm) != 0:
+                indexes = xp.searchsorted(domain, x_nm)
+                self._domain = as_ndarray(xp_insert(domain, indexes, x_nm, xp=xp))
+                self._range = xp_insert(self._range, indexes, y[~mask], xp=xp)
 
         self._function = None  # Invalidate the underlying continuous function.
 
@@ -831,12 +885,14 @@ class Signal(AbstractContinuousFunction):
         False
         """
 
+        xp = array_namespace(self._domain)
+
         return bool(
-            np.all(
-                np.where(
-                    np.logical_and(
-                        x >= np.min(self._domain),  # pyright: ignore
-                        x <= np.max(self._domain),  # pyright: ignore
+            xp.all(
+                xp.where(
+                    xp.logical_and(
+                        x >= xp.min(self._domain),
+                        x <= xp.max(self._domain),
                     ),
                     True,
                     False,
@@ -878,13 +934,19 @@ class Signal(AbstractContinuousFunction):
         False
         """
 
-        # NOTE: Comparing "interpolator_kwargs" and "extrapolator_kwargs" using
-        # their string representation because of presence of NaNs.
+        # ``interpolator_kwargs`` / ``extrapolator_kwargs`` compared as repr to
+        # handle NaNs. Different-backend operands are treated as unequal.
         if isinstance(other, Signal):
+            xp = array_namespace(self._domain, self._range)
+            if xp is not array_namespace(other.domain, other.range):
+                return False
+
             return all(
                 [
-                    np.array_equal(self._domain, other.domain),
-                    np.array_equal(self._range, other.range),
+                    self._domain.shape == other.domain.shape
+                    and bool(xp.all(self._domain == other.domain)),
+                    self._range.shape == other.range.shape
+                    and bool(xp.all(self._range == other.range)),
                     self._interpolator is other.interpolator,
                     repr(self._interpolator_kwargs) == repr(other.interpolator_kwargs),
                     self._extrapolator is other.extrapolator,
@@ -1086,11 +1148,24 @@ class Signal(AbstractContinuousFunction):
 
         if in_place:
             if isinstance(a, Signal):
-                self[self._domain] = operator(self._range, a[self._domain])
-                exclusive_or = np.setxor1d(self._domain, a.domain)
-                self[exclusive_or] = full(exclusive_or.shape, np.nan)
+                # The operation is on the ranges, so the namespace is resolved
+                # from both ranges (the domains are always *NumPy*) and both
+                # operands are promoted to it.
+                a_range = a[self._domain]
+                xp = array_namespace(self._range, a_range)
+
+                self_range = xp_as_float_array(self._range, xp=xp, like=a_range)
+                self[self._domain] = operator(
+                    self_range,
+                    xp_as_float_array(a_range, xp=xp, like=self_range),
+                )
+                exclusive_or = xp_setxor1d(self._domain, a.domain)
+                self[exclusive_or] = full(exclusive_or.shape, float("nan"))
             else:
-                self.range = ioperator(self._range, a)
+                xp = array_namespace(self._range, a)
+                self_range = xp_as_float_array(self._range, xp=xp, like=a)
+                a = xp_as_array(cast("ArrayLike", a), xp=xp, like=self_range)
+                self.range = ioperator(self_range, a)
 
             return self
 
@@ -1177,12 +1252,23 @@ class Signal(AbstractContinuousFunction):
 
         dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
-        domain_unpacked: NDArrayFloat = np.array([])
-        range_unpacked: NDArrayFloat = np.array([])
+        domain_unpacked: NDArrayFloat = as_float_array([])
+        range_unpacked: NDArrayFloat = as_float_array([])
 
         if isinstance(data, Signal):
             domain_unpacked = data.domain
             range_unpacked = data.range
+        elif is_non_ndarray(data):
+            data_array = as_float_array(data)  # pyright: ignore
+
+            attest(data_array.ndim == 1, 'User "data" must be 1-dimensional!')
+
+            xp = array_namespace(data_array)
+
+            domain_unpacked = xp_linspace(  # pyright: ignore
+                0, data_array.shape[0] - 1, num=data_array.shape[0], xp=xp
+            )
+            range_unpacked = data_array
         elif issubclass(type(data), Sequence) or isinstance(
             data, (tuple, list, np.ndarray, Iterator, ValuesView)
         ):

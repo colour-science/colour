@@ -34,14 +34,21 @@ from __future__ import annotations
 import typing
 from dataclasses import dataclass
 
-import numpy as np
-
 from colour.algebra import sdiv, sdiv_mode
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
-from colour.utilities import as_float_array, tsplit
+from colour.constants import DTYPE_INT_DEFAULT
+from colour.utilities import (
+    array_namespace,
+    as_float_array,
+    tsplit,
+    tstack,
+    xp_as_float_array,
+    xp_astype,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -220,28 +227,32 @@ def uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArrayFloat:
 
     Examples
     --------
+    >>> import numpy as np
     >>> uv = np.array([0.193741375998230, 0.315221043940594])
     >>> uv_to_CCT_Robertson1968(uv)  # doctest: +ELLIPSIS
     array([6.5000162...e+03, 8.3333289...e-03])
     """
 
     uv = as_float_array(uv)
+
+    xp = array_namespace(uv)
+
     shape = uv.shape
-    uv = uv.reshape(-1, 2)
+    uv = xp_reshape(uv, (-1, 2), xp=xp)
 
     r_itl, u_itl, v_itl, t_itl = tsplit(
-        np.array(DATA_ISOTEMPERATURE_LINES_ROBERTSON1968)
+        xp_as_float_array(DATA_ISOTEMPERATURE_LINES_ROBERTSON1968, xp=xp, like=uv)
     )
 
     # Normalized direction vectors
-    length = np.hypot(1.0, t_itl)
+    length = xp.hypot(xp_as_float_array(1.0, xp=xp, like=uv), t_itl)
     du_itl = 1.0 / length
     dv_itl = t_itl / length
 
     # Vectorized computation for all UV pairs at once
     u, v = tsplit(uv)
-    u = u[:, np.newaxis]  # Shape (N, 1)
-    v = v[:, np.newaxis]  # Shape (N, 1)
+    u = u[:, None]  # Shape (N, 1)
+    v = v[:, None]  # Shape (N, 1)
 
     # Compute distances for all UV pairs against all isotemperature lines
     # Broadcasting: (N, 1) - (30,) = (N, 30)
@@ -250,15 +261,15 @@ def uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArrayFloat:
     dt = -uu * dv_itl[1:] + vv * du_itl[1:]  # Shape (N, 30)
 
     # Find the first crossing point for each UV pair
-    mask = dt <= 0
-    i = np.where(np.any(mask, axis=1), np.argmax(mask, axis=1) + 1, 30)
+    mask = xp_astype(dt <= 0, DTYPE_INT_DEFAULT, xp=xp)
+    i = xp.where(xp.any(mask, axis=1), xp.argmax(mask, axis=1) + 1, 30)
 
     # Interpolation factor
-    idx = np.arange(len(i))
-    dt_current = -np.minimum(dt[idx, i - 1], 0.0)
+    idx = xp.arange(len(i))
+    dt_current = -xp.clip(dt[idx, i - 1], max=0.0)
     dt_previous = dt[idx, i - 2]
-    f = np.where(
-        i == 1, 0.0, np.where(i > 1, dt_current / (dt_previous + dt_current), 0.0)
+    f = xp.where(
+        i == 1, 0.0, xp.where(i > 1, dt_current / (dt_previous + dt_current), 0.0)
     )
 
     # Interpolate temperature
@@ -273,18 +284,18 @@ def uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArrayFloat:
     dv_i = dv_itl[i] * (1 - f) + dv_itl[i - 1] * f
 
     # Normalize interpolated direction
-    length_i = np.hypot(du_i, dv_i)
+    length_i = xp.hypot(du_i, dv_i)
     du_i /= length_i
     dv_i /= length_i
 
     # Calculate D_uv
-    uu = u.ravel() - u_i
-    vv = v.ravel() - v_i
+    uu = xp_reshape(u, (-1,), xp=xp) - u_i
+    vv = xp_reshape(v, (-1,), xp=xp) - v_i
     D_uv = uu * du_i + vv * dv_i
 
-    result = np.stack([T, -D_uv], axis=-1)
+    result = tstack([T, -D_uv])
 
-    return result.reshape(shape)
+    return xp_reshape(result, shape, xp=xp)
 
 
 def CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArrayFloat:
@@ -309,21 +320,25 @@ def CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArrayFloat:
 
     Examples
     --------
+    >>> import numpy as np
     >>> CCT_D_uv = np.array([6500.0081378199056, 0.008333331244225])
     >>> CCT_to_uv_Robertson1968(CCT_D_uv)  # doctest: +ELLIPSIS
     array([0.1937413..., 0.3152210...])
     """
 
     CCT_D_uv = as_float_array(CCT_D_uv)
+
+    xp = array_namespace(CCT_D_uv)
+
     shape = CCT_D_uv.shape
-    CCT_D_uv = CCT_D_uv.reshape(-1, 2)
+    CCT_D_uv = xp_reshape(CCT_D_uv, (-1, 2), xp=xp)
 
     r_itl, u_itl, v_itl, t_itl = tsplit(
-        np.array(DATA_ISOTEMPERATURE_LINES_ROBERTSON1968)
+        xp_as_float_array(DATA_ISOTEMPERATURE_LINES_ROBERTSON1968, xp=xp, like=CCT_D_uv)
     )
 
     # Precompute normalized direction vectors
-    length = np.hypot(1.0, t_itl)
+    length = xp.hypot(xp_as_float_array(1.0, xp=xp, like=CCT_D_uv), t_itl)
     du_itl = 1.0 / length
     dv_itl = t_itl / length
 
@@ -332,8 +347,8 @@ def CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArrayFloat:
     r = CCT_to_mired(CCT)
 
     # Find the isotemperature range containing r for all values
-    mask = r[:, np.newaxis] < r_itl[1:]
-    i = np.where(np.any(mask, axis=1), np.argmax(mask, axis=1), 29)
+    mask = xp_astype(r[:, None] < r_itl[1:], DTYPE_INT_DEFAULT, xp=xp)
+    i = xp.where(xp.any(mask, axis=1), xp.argmax(mask, axis=1), 29)
 
     # Interpolation factor
     f = (r_itl[i + 1] - r) / (r_itl[i + 1] - r_itl[i])
@@ -347,7 +362,7 @@ def CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArrayFloat:
     dv_i = dv_itl[i] * f + dv_itl[i + 1] * (1 - f)
 
     # Normalize interpolated direction
-    length_i = np.hypot(du_i, dv_i)
+    length_i = xp.hypot(du_i, dv_i)
     du_i /= length_i
     dv_i /= length_i
 
@@ -355,6 +370,6 @@ def CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArrayFloat:
     u += du_i * -D_uv
     v += dv_i * -D_uv
 
-    result = np.stack([u, v], axis=-1)
+    result = tstack([u, v])
 
-    return result.reshape(shape)
+    return xp_reshape(result, shape, xp=xp)

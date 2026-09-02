@@ -14,7 +14,7 @@ import numpy as np
 import pytest
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Any, Real, Tuple
+    from colour.hints import Any, Tuple
 
 from colour.utilities import (
     CacheRegistry,
@@ -34,9 +34,8 @@ from colour.utilities import (
     is_iterable,
     is_numeric,
     is_sibling,
-    multiprocessing_pool,
     optional,
-    set_caching_enable,
+    set_caching_enabled,
     slugify,
     validate_method,
 )
@@ -56,7 +55,6 @@ __all__ = [
     "TestIgnorePythonWarnings",
     "TestAttest",
     "TestBatch",
-    "TestMultiprocessingPool",
     "TestIsIterable",
     "TestIsNumeric",
     "TestIsInteger",
@@ -88,19 +86,19 @@ class TestIsCachingEnabled:
 
 class TestSetCachingEnabled:
     """
-    Define :func:`colour.utilities.common.set_caching_enable` definition unit
+    Define :func:`colour.utilities.common.set_caching_enabled` definition unit
     tests methods.
     """
 
-    def test_set_caching_enable(self) -> None:
-        """Test :func:`colour.utilities.common.set_caching_enable` definition."""
+    def test_set_caching_enabled(self) -> None:
+        """Test :func:`colour.utilities.common.set_caching_enabled` definition."""
 
         with caching_enable(is_caching_enabled()):
-            set_caching_enable(True)
+            set_caching_enabled(True)
             assert is_caching_enabled()
 
         with caching_enable(is_caching_enabled()):
-            set_caching_enable(False)
+            set_caching_enabled(False)
             assert not is_caching_enabled()
 
 
@@ -265,7 +263,8 @@ class TestAttest:
 
         assert attest(True, "") is None
 
-        pytest.raises(AssertionError, attest, False)
+        with pytest.raises(AssertionError):
+            attest(False)
 
 
 class TestBatch:
@@ -298,55 +297,6 @@ class TestBatch:
             (8,),
             (9,),
         ]
-
-
-def _add(a: Real, b: Real) -> Real:
-    """
-    Add two numbers.
-
-    This definition is intended to be used with a multiprocessing pool for unit
-    testing.
-
-    Parameters
-    ----------
-    a
-        Variable :math:`a`.
-    b
-        Variable :math:`b`.
-
-    Returns
-    -------
-    numeric
-        Addition result.
-    """
-
-    # NOTE: No coverage information is available as this code is executed in
-    # sub-processes.
-    return a + b  # pragma: no cover
-
-
-class TestMultiprocessingPool:
-    """
-    Define :func:`colour.utilities.common.multiprocessing_pool` definition
-    unit tests methods.
-    """
-
-    def test_multiprocessing_pool(self) -> None:
-        """Test :func:`colour.utilities.common.multiprocessing_pool` definition."""
-
-        with multiprocessing_pool() as pool:
-            assert pool.map(partial(_add, b=2), range(10)) == [
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8,
-                9,
-                10,
-                11,
-            ]
 
 
 class TestIsIterable:
@@ -560,7 +510,8 @@ class TestValidateMethod:
         exception.
         """
 
-        pytest.raises(ValueError, validate_method, "Invalid", ("Valid", "Yes", "Ok"))
+        with pytest.raises(ValueError):
+            validate_method("Invalid", ("Valid", "Yes", "Ok"))
 
 
 class TestOptional:
@@ -701,16 +652,15 @@ class TestDownloadUrl:
             )
 
             # Wrong SHA-256 triggers re-download and raises.
-            pytest.raises(
-                ValueError,
-                download_url,
-                "https://huggingface.co/colour-science/"
-                "learning-munsell/resolve/main/"
-                "models/to_xyY/"
-                "multi_mlp_normalization_parameters.npz",
-                target,
-                "0" * 64,
-                1,
-            )
+            with pytest.raises(ValueError):
+                download_url(
+                    "https://huggingface.co/colour-science/"
+                    "learning-munsell/resolve/main/"
+                    "models/to_xyY/"
+                    "multi_mlp_normalization_parameters.npz",
+                    target,
+                    "0" * 64,
+                    1,
+                )
         finally:
             shutil.rmtree(os.path.dirname(target))

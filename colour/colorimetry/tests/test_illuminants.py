@@ -8,18 +8,28 @@ import numpy as np
 
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
+    CIE_illuminant_D_series,
+    MultiSpectralDistributions,
+    SpectralDistribution,
     SpectralShape,
     daylight_locus_function,
+    msds_CIE_illuminant_D_series,
     sd_CIE_illuminant_D_series,
     sd_CIE_standard_illuminant_A,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 
 if typing.TYPE_CHECKING:
-    from colour.hints import NDArrayFloat
+    from colour.hints import NDArrayFloat, ModuleType
 
 from colour.temperature import CCT_to_xy_CIE_D
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -32,6 +42,7 @@ __all__ = [
     "DATA_A",
     "TestSdCIEStandardIlluminantA",
     "TestSdCIEIlluminantDSeries",
+    "TestMsdsCIEIlluminantDSeries",
     "TestDaylightLocusFunction",
 ]
 
@@ -148,9 +159,38 @@ sd_CIE_standard_illuminant_A` definition unit tests methods.
 sd_CIE_standard_illuminant_A` definition.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_CIE_standard_illuminant_A(SpectralShape(360, 830, 5)).values,
             DATA_A,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+
+class TestCIEIlluminantDSeries:
+    """
+    Define :func:`colour.colorimetry.illuminants.CIE_illuminant_D_series`
+    definition unit tests methods.
+    """
+
+    def test_CIE_illuminant_D_series(self) -> None:
+        """
+        Test :func:`colour.colorimetry.illuminants.CIE_illuminant_D_series`
+        definition.
+        """
+
+        CCTs = np.array([5000.0, 6500.0, 7500.0]) * 1.4388 / 1.4380
+        xy_batch = CCT_to_xy_CIE_D(CCTs)
+
+        xp_assert_close(
+            CIE_illuminant_D_series(xy_batch),
+            msds_CIE_illuminant_D_series(xy_batch).values,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        shape = SpectralShape(380, 780, 5)
+        xp_assert_close(
+            CIE_illuminant_D_series(xy_batch, shape=shape),
+            msds_CIE_illuminant_D_series(xy_batch, shape=shape).values,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -177,11 +217,37 @@ sd_CIE_illuminant_D_series` definition.
             xy = CCT_to_xy_CIE_D(CCT)
             sd_r = SDS_ILLUMINANTS[name]
             sd_t = sd_CIE_illuminant_D_series(xy)
+            assert isinstance(sd_t, SpectralDistribution)
 
-            np.testing.assert_allclose(
+            xp_assert_close(
                 sd_r.values,
                 sd_t[sd_r.wavelengths],
                 atol=tolerance,
+            )
+
+
+class TestMsdsCIEIlluminantDSeries:
+    """
+    Define :func:`colour.colorimetry.illuminants.\
+msds_CIE_illuminant_D_series` definition unit tests methods.
+    """
+
+    def test_msds_CIE_illuminant_D_series(self) -> None:
+        """
+        Test :func:`colour.colorimetry.illuminants.\
+msds_CIE_illuminant_D_series` definition.
+        """
+
+        CCTs = np.array([5000.0, 6500.0, 7500.0]) * 1.4388 / 1.4380
+        xy_batch = CCT_to_xy_CIE_D(CCTs)
+        msds = msds_CIE_illuminant_D_series(xy_batch)
+        assert isinstance(msds, MultiSpectralDistributions)
+        assert msds.values.shape[1] == xy_batch.shape[0]
+        for i in range(xy_batch.shape[0]):
+            xp_assert_close(
+                msds.values[:, i],
+                sd_CIE_illuminant_D_series(xy_batch[i]).values,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
 
@@ -191,48 +257,48 @@ class TestDaylightLocusFunction:
     definition unit tests methods.
     """
 
-    def test_daylight_locus_function(self) -> None:
+    def test_daylight_locus_function(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.illuminants.daylight_locus_function`
         definition.
         """
 
-        np.testing.assert_allclose(
-            daylight_locus_function(0.31270),
+        xp_assert_close(
+            daylight_locus_function(xp_as_array(0.31270, xp=xp)),
             0.329105129999999,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            daylight_locus_function(0.34570),
+        xp_assert_close(
+            daylight_locus_function(xp_as_array(0.34570, xp=xp)),
             0.358633529999999,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            daylight_locus_function(0.44758),
+        xp_assert_close(
+            daylight_locus_function(xp_as_array(0.44758, xp=xp)),
             0.408571030799999,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_daylight_locus_function(self) -> None:
+    def test_n_dimensional_daylight_locus_function(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.illuminants.daylight_locus_function`
         definition n-dimensional support.
         """
 
-        x_D = np.array([0.31270])
-        y_D = daylight_locus_function(x_D)
+        x_D = xp_as_array([0.31270], xp=xp)
+        y_D = as_ndarray(daylight_locus_function(x_D))
 
-        x_D = np.tile(x_D, (6, 1))
-        y_D = np.tile(y_D, (6, 1))
-        np.testing.assert_allclose(
+        x_D = xp.tile(xp_as_array(x_D, xp=xp), (6, 1))
+        y_D = xp.tile(xp_as_array(y_D, xp=xp), (6, 1))
+        xp_assert_close(
             daylight_locus_function(x_D), y_D, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        x_D = np.reshape(x_D, (2, 3, 1))
-        y_D = np.reshape(y_D, (2, 3, 1))
-        np.testing.assert_allclose(
+        x_D = xp_reshape(xp_as_array(x_D, xp=xp), (2, 3, 1), xp=xp)
+        y_D = xp_reshape(xp_as_array(y_D, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
             daylight_locus_function(x_D), y_D, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 

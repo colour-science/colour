@@ -22,18 +22,25 @@ from __future__ import annotations
 import typing
 from dataclasses import dataclass
 
-import numpy as np
-
 if typing.TYPE_CHECKING:
-    from colour.colorimetry import SpectralDistribution
     from colour.hints import ArrayLike, Literal, NDArrayFloat, NDArrayInt, Tuple
 
+from colour.colorimetry import MultiSpectralDistributions, SpectralDistribution
 from colour.quality import colour_fidelity_index_CIE2017
 from colour.quality.cfi2017 import (
     DataColorimetry_TCS_CIE2017,
     delta_E_to_R_f,
 )
-from colour.utilities import as_float_array, as_float_scalar, as_int_array
+from colour.utilities import (
+    array_namespace,
+    as_float_array,
+    as_float_scalar,
+    as_int_array,
+    xp_as_float_array,
+    xp_matrix_transpose,
+    xp_nanmean,
+    xp_reshape,
+)
 
 
 @dataclass
@@ -116,9 +123,17 @@ def colour_fidelity_index_ANSIIESTM3018(
 ) -> float: ...
 
 
+@typing.overload
 def colour_fidelity_index_ANSIIESTM3018(
-    sd_test: SpectralDistribution, additional_data: bool = False
-) -> float | ColourQuality_Specification_ANSIIESTM3018:
+    sd_test: MultiSpectralDistributions,
+    additional_data: Literal[False] = False,
+) -> NDArrayFloat: ...
+
+
+def colour_fidelity_index_ANSIIESTM3018(
+    sd_test: SpectralDistribution | MultiSpectralDistributions,
+    additional_data: bool = False,
+) -> float | NDArrayFloat | ColourQuality_Specification_ANSIIESTM3018:
     """
     Compute the *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI) :math:`R_f`
     for the specified test spectral distribution.
@@ -126,13 +141,17 @@ def colour_fidelity_index_ANSIIESTM3018(
     Parameters
     ----------
     sd_test
-        Test spectral distribution.
+        Test spectral distribution. A
+        :class:`colour.MultiSpectralDistributions` of ``N`` test
+        illuminants is also accepted, in which case ``additional_data``
+        must be ``False`` and the return value is a :class:`numpy.ndarray`
+        of ``N`` :math:`R_f` values.
     additional_data
         Whether to output additional data.
 
     Returns
     -------
-    :class:`float` or \
+    :class:`float`, :class:`numpy.ndarray` or \
     :class:`colour.quality.ColourQuality_Specification_ANSIIESTM3018`
         *ANSI/IES TM-30-18 Colour Fidelity Index* (CFI).
 
@@ -151,58 +170,82 @@ def colour_fidelity_index_ANSIIESTM3018(
     if not additional_data:
         return colour_fidelity_index_CIE2017(sd_test, False)
 
+    if not isinstance(sd_test, SpectralDistribution):
+        error = (
+            '"additional_data=True" is not supported when "sd_test" is a '
+            '"MultiSpectralDistributions" instance.'
+        )
+        raise NotImplementedError(error)
+
     specification = colour_fidelity_index_CIE2017(sd_test, True)
 
     # Setup bins based on where the reference a'b' points are located.
-    bins = as_int_array(np.floor(specification.colorimetry_data[1].JMh[:, 2] / 22.5))
+    JMh = specification.colorimetry_data[1].JMh
 
-    bin_mask = bins == np.reshape(np.arange(16), (-1, 1))
+    xp = array_namespace(JMh)
 
-    # "bin_mask" is used later with Numpy broadcasting and "np.nanmean"
-    # to skip a list comprehension and keep all the mean calculation vectorised
-    # as per :cite:`VincentJ2017`.
-    bin_mask = np.choose(bin_mask, [np.nan, 1])
+    bins = as_int_array(xp.floor(JMh[:, 2] / 22.5))
+
+    arange_16 = xp.arange(16)
+    bin_mask = bins == xp_reshape(arange_16, (-1, 1), xp=xp)
+
+    # "bin_mask" is used later with broadcasting and "nanmean" to skip a list
+    # comprehension and keep all the mean calculation vectorised as per
+    # :cite:`VincentJ2017`.
+    bin_mask = xp.where(bin_mask == 0, float("nan"), 1.0)
 
     # Per-bin a'b' averages.
-    test_apbp = as_float_array(specification.colorimetry_data[0].Jpapbp[:, 1:])
-    ref_apbp = as_float_array(specification.colorimetry_data[1].Jpapbp[:, 1:])
+    test_apbp = specification.colorimetry_data[0].Jpapbp[:, 1:]
+    ref_apbp = specification.colorimetry_data[1].Jpapbp[:, 1:]
 
     # Tile the "apbp" data in the third dimension and use broadcasting to place
     # each bin mask along the third dimension. By multiplying these matrices
-    # together, Numpy automatically expands the apbp data in the third
+    # together, the backend automatically expands the apbp data in the third
     # dimension and multiplies by the nan-filled bin mask. Finally,
-    # "np.nanmean" can compute the bin mean apbp positions with the appropriate
+    # "nanmean" can compute the bin mean apbp positions with the appropriate
     # axis argument.
-    averages_test = np.transpose(
-        np.nanmean(
-            np.reshape(np.transpose(bin_mask), (99, 1, 16))
-            * np.reshape(test_apbp, (*ref_apbp.shape, 1)),
+    averages_test = xp_matrix_transpose(
+        xp_nanmean(
+            xp_reshape(xp_matrix_transpose(bin_mask, xp=xp), (99, 1, 16), xp=xp)
+            * xp_reshape(test_apbp, (*ref_apbp.shape, 1), xp=xp),
             axis=0,
-        )
+            xp=xp,
+        ),
+        xp=xp,
     )
-    averages_reference = np.transpose(
-        np.nanmean(
-            np.reshape(np.transpose(bin_mask), (99, 1, 16))
-            * np.reshape(ref_apbp, (*ref_apbp.shape, 1)),
+    averages_reference = xp_matrix_transpose(
+        xp_nanmean(
+            xp_reshape(xp_matrix_transpose(bin_mask, xp=xp), (99, 1, 16), xp=xp)
+            * xp_reshape(ref_apbp, (*ref_apbp.shape, 1), xp=xp),
             axis=0,
-        )
+            xp=xp,
+        ),
+        xp=xp,
     )
 
     # Gamut Index.
     R_g = 100 * (averages_area(averages_test) / averages_area(averages_reference))
 
     # Local colour fidelity indexes, i.e., 16 CFIs for each bin.
-    bin_delta_E_s = np.nanmean(
-        np.reshape(specification.delta_E_s, (1, -1)) * bin_mask, axis=1
+    bin_delta_E_s = xp_nanmean(
+        xp_reshape(specification.delta_E_s, (1, -1), xp=xp) * bin_mask, axis=1, xp=xp
     )
-    R_fs = as_float_array(delta_E_to_R_f(bin_delta_E_s))
+    R_fs = delta_E_to_R_f(bin_delta_E_s)
 
-    # Angles bisecting the hue bins.
-    angles = (22.5 * np.arange(16) + 11.25) / 180 * np.pi
-    cosines = np.cos(angles)
-    sines = np.sin(angles)
+    # Angles bisecting the 16 hue bins of width ``360 / 16 = 22.5`` degrees,
+    # offset by half a bin (*ANSI/IES TM-30-18*, Section 4.5).
+    # ``xp.arange`` yields an integer array whose promotion would adopt the
+    # backend default float dtype, e.g. float32 for stock *PyTorch*; the
+    # samples are anchored to the *Colour* default float dtype instead.
+    angles = (
+        (22.5 * xp_as_float_array(xp.arange(16), xp=xp, like=averages_test) + 11.25)
+        / 180
+        * xp.pi
+    )
+    cosines = xp.cos(angles)
+    sines = xp.sin(angles)
 
-    average_norms = np.linalg.norm(averages_reference, axis=1)
+    average_norms = xp.linalg.vector_norm(averages_reference, axis=1)
     a_deltas = averages_test[:, 0] - averages_reference[:, 0]
     b_deltas = averages_test[:, 1] - averages_reference[:, 1]
 
@@ -249,9 +292,11 @@ def averages_area(averages: ArrayLike) -> float:
 
     averages = as_float_array(averages)
 
+    xp = array_namespace(averages)
+
     # Vectorized shoelace formula
     u = averages
-    v = np.roll(averages, -1, axis=0)
+    v = xp.roll(averages, -1, axis=0)
     triangle_areas = (u[:, 0] * v[:, 1] - u[:, 1] * v[:, 0]) / 2
 
-    return as_float_scalar(np.sum(triangle_areas))
+    return as_float_scalar(xp.sum(triangle_areas))

@@ -4,20 +4,33 @@ from __future__ import annotations
 
 import pickle
 import textwrap
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
 
 import numpy as np
 import pytest
 
-from colour.algebra import CubicSplineInterpolator, Extrapolator, KernelInterpolator
+from colour.algebra import (
+    CubicSplineInterpolator,
+    Extrapolator,
+    KernelInterpolator,
+    LinearInterpolator,
+)
 from colour.constants import DTYPE_FLOAT_DEFAULT, TOLERANCE_ABSOLUTE_TESTS
 from colour.continuous import MultiSignals, Signal
 from colour.utilities import (
     ColourRuntimeWarning,
+    as_ndarray,
     attest,
     is_pandas_installed,
-    is_scipy_installed,
     tsplit,
     tstack,
+    xp_as_array,
+    xp_assert_close,
+    xp_assert_equal,
+    xp_reshape,
 )
 
 __author__ = "Colour Developers"
@@ -102,39 +115,40 @@ class TestMultiSignals:
         data = pickle.loads(data)  # noqa: S301
         assert self._multi_signals == data
 
-    def test_dtype(self) -> None:
+    def test_dtype(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.dtype`
         property.
         """
 
-        assert self._multi_signals.dtype == DTYPE_FLOAT_DEFAULT
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
+        assert multi_signals.dtype == DTYPE_FLOAT_DEFAULT
 
-        multi_signals = self._multi_signals.copy()
+        multi_signals = multi_signals.copy()
         multi_signals.dtype = np.float32
         assert multi_signals.dtype == np.float32
 
-    def test_domain(self) -> None:
+    def test_domain(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.domain`
         property.
         """
 
-        multi_signals = self._multi_signals.copy()
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
 
-        np.testing.assert_allclose(
-            multi_signals[np.array([0, 1, 2])],
-            np.array([[10.0, 20.0, 30.0], [20.0, 30.0, 40.0], [30.0, 40.0, 50.0]]),
+        xp_assert_close(
+            multi_signals[[0, 1, 2]],
+            [[10.0, 20.0, 30.0], [20.0, 30.0, 40.0], [30.0, 40.0, 50.0]],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        multi_signals.domain = self._domain_1 * 10
+        multi_signals.domain = xp_as_array(self._domain_1 * 10, xp=xp)
 
-        np.testing.assert_array_equal(multi_signals.domain, self._domain_1 * 10)
+        xp_assert_equal(multi_signals.domain, self._domain_1 * 10)
 
-        np.testing.assert_allclose(
-            multi_signals[np.array([0, 1, 2]) * 10],
-            np.array([[10.0, 20.0, 30.0], [20.0, 30.0, 40.0], [30.0, 40.0, 50.0]]),
+        xp_assert_close(
+            multi_signals[xp_as_array([0, 1, 2], xp=xp) * 10],
+            [[10.0, 20.0, 30.0], [20.0, 30.0, 40.0], [30.0, 40.0, 50.0]],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -146,104 +160,109 @@ class TestMultiSignals:
 
             multi_signals.domain = domain
 
-        pytest.warns(ColourRuntimeWarning, assert_warns)
+        with pytest.warns(ColourRuntimeWarning):
+            assert_warns()
 
-    def test_range(self) -> None:
+    def test_range(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.range`
         property.
         """
 
-        multi_signals = self._multi_signals.copy()
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
 
-        np.testing.assert_allclose(
-            multi_signals[np.array([0, 1, 2])],
-            np.array([[10.0, 20.0, 30.0], [20.0, 30.0, 40.0], [30.0, 40.0, 50.0]]),
+        xp_assert_close(
+            multi_signals[[0, 1, 2]],
+            [[10.0, 20.0, 30.0], [20.0, 30.0, 40.0], [30.0, 40.0, 50.0]],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        multi_signals.range = self._range_1 * 10
+        multi_signals.range = xp_as_array(self._range_1 * 10, xp=xp)
 
-        np.testing.assert_array_equal(
-            multi_signals.range, tstack([self._range_1] * 3) * 10
-        )
+        xp_assert_equal(multi_signals.range, tstack([self._range_1] * 3) * 10)
 
-        np.testing.assert_allclose(
-            multi_signals[np.array([0, 1, 2])],
-            np.array([[10.0, 10.0, 10.0], [20.0, 20.0, 20.0], [30.0, 30.0, 30.0]]) * 10,
+        xp_assert_close(
+            multi_signals[[0, 1, 2]],
+            xp_as_array(
+                [[10.0, 10.0, 10.0], [20.0, 20.0, 20.0], [30.0, 30.0, 30.0]], xp=xp
+            )
+            * 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        multi_signals.range = self._range_2 * 10
+        multi_signals.range = xp_as_array(self._range_2 * 10, xp=xp)
 
-        np.testing.assert_array_equal(multi_signals.range, self._range_2 * 10)
+        xp_assert_equal(multi_signals.range, self._range_2 * 10)
 
-        np.testing.assert_allclose(
-            multi_signals[np.array([0, 1, 2])],
-            np.array([[10.0, 20.0, 30.0], [20.0, 30.0, 40.0], [30.0, 40.0, 50.0]]) * 10,
+        xp_assert_close(
+            multi_signals[[0, 1, 2]],
+            xp_as_array(
+                [[10.0, 20.0, 30.0], [20.0, 30.0, 40.0], [30.0, 40.0, 50.0]], xp=xp
+            )
+            * 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_interpolator(self) -> None:
+    def test_interpolator(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.interpolator`
         property.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
+        # NOTE: A non-linear range is used as a linear one is reproduced
+        # exactly by both interpolators.
+        multi_signals = MultiSignals(
+            xp_as_array(
+                tstack([np.sin(np.linspace(0, 1, 10)) * 100] * 3)
+                + np.array([0, 10, 20]),
+                xp=xp,
+            )
+        )
 
-        multi_signals = self._multi_signals.copy()
-
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals[np.linspace(0, 5, 5)],
-            np.array(
-                [
-                    [10.00000000, 20.00000000, 30.00000000],
-                    [22.83489024, 32.80460562, 42.77432100],
-                    [34.80044921, 44.74343470, 54.68642018],
-                    [47.55353925, 57.52325463, 67.49297001],
-                    [60.00000000, 70.00000000, 80.00000000],
-                ]
-            ),
+            [
+                [0.00000000, 10.00000000, 20.00000000],
+                [13.82614072, 23.82614072, 33.82614072],
+                [27.37962201, 37.37962201, 47.37962201],
+                [40.42659468, 50.42659468, 60.42659468],
+                [52.74153858, 62.74153858, 72.74153858],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals.interpolator = CubicSplineInterpolator
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals[np.linspace(0, 5, 5)],
-            np.array(
-                [
-                    [10.00000000, 20.00000000, 30.00000000],
-                    [22.50000000, 32.50000000, 42.50000000],
-                    [35.00000000, 45.00000000, 55.00000000],
-                    [47.50000000, 57.50000000, 67.50000000],
-                    [60.00000000, 70.00000000, 80.00000000],
-                ]
-            ),
+            [
+                [0.00000000, 10.00000000, 20.00000000],
+                [13.84426192, 23.84426192, 33.84426192],
+                [27.42192158, 37.42192158, 47.42192158],
+                [40.47144761, 50.47144761, 60.47144761],
+                [52.74153858, 62.74153858, 72.74153858],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_interpolator_kwargs(self) -> None:
+    def test_interpolator_kwargs(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.\
 interpolator_kwargs` property.
         """
 
-        multi_signals = self._multi_signals.copy()
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
+        multi_signals.interpolator = KernelInterpolator
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals[np.linspace(0, 5, 5)],
-            np.array(
-                [
-                    [10.00000000, 20.00000000, 30.00000000],
-                    [22.83489024, 32.80460562, 42.77432100],
-                    [34.80044921, 44.74343470, 54.68642018],
-                    [47.55353925, 57.52325463, 67.49297001],
-                    [60.00000000, 70.00000000, 80.00000000],
-                ]
-            ),
+            [
+                [10.00000000, 20.00000000, 30.00000000],
+                [22.83489024, 32.80460562, 42.77432100],
+                [34.80044921, 44.74343470, 54.68642018],
+                [47.55353925, 57.52325463, 67.49297001],
+                [60.00000000, 70.00000000, 80.00000000],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -252,55 +271,55 @@ interpolator_kwargs` property.
             "kernel_kwargs": {"a": 1},
         }
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals[np.linspace(0, 5, 5)],
-            np.array(
-                [
-                    [10.00000000, 20.00000000, 30.00000000],
-                    [18.91328761, 27.91961505, 36.92594248],
-                    [28.36993142, 36.47562611, 44.58132080],
-                    [44.13100443, 53.13733187, 62.14365930],
-                    [60.00000000, 70.00000000, 80.00000000],
-                ]
-            ),
+            [
+                [10.00000000, 20.00000000, 30.00000000],
+                [18.91328761, 27.91961505, 36.92594248],
+                [28.36993142, 36.47562611, 44.58132080],
+                [44.13100443, 53.13733187, 62.14365930],
+                [60.00000000, 70.00000000, 80.00000000],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_extrapolator(self) -> None:
+    def test_extrapolator(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.extrapolator`
         property.
         """
 
-        assert isinstance(self._multi_signals.extrapolator(), Extrapolator)
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
+        assert isinstance(multi_signals.extrapolator(), Extrapolator)
 
-    def test_extrapolator_kwargs(self) -> None:
+    def test_extrapolator_kwargs(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.\
 extrapolator_kwargs` property.
         """
 
-        multi_signals = self._multi_signals.copy()
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
 
-        attest(np.all(np.isnan(multi_signals[np.array([-1000, 1000])])))
+        attest(np.all(np.isnan(as_ndarray(multi_signals[np.array([-1000, 1000])]))))
 
         multi_signals.extrapolator_kwargs = {
             "method": "Linear",
         }
 
-        np.testing.assert_allclose(
-            multi_signals[np.array([-1000, 1000])],
-            np.array([[-9990.0, -9980.0, -9970.0], [10010.0, 10020.0, 10030.0]]),
+        xp_assert_close(
+            multi_signals[[-1000, 1000]],
+            [[-9990.0, -9980.0, -9970.0], [10010.0, 10020.0, 10030.0]],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_function(self) -> None:
+    def test_function(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.function`
         property.
         """
 
-        attest(callable(self._multi_signals.function))
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
+        attest(callable(multi_signals.function))
 
     def test_raise_exception_function(self) -> None:
         """
@@ -308,29 +327,31 @@ extrapolator_kwargs` property.
 function` property raised exception.
         """
 
-        pytest.raises((ValueError, TypeError), MultiSignals().function, 0)
+        with pytest.raises((ValueError, TypeError)):
+            MultiSignals().function(0)
 
-    def test_signals(self) -> None:
+    def test_signals(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.signals`
         property.
         """
 
-        multi_signals = self._multi_signals.copy()
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
 
-        multi_signals.signals = self._range_1
-        np.testing.assert_array_equal(multi_signals.domain, self._domain_1)
-        np.testing.assert_array_equal(multi_signals.range, self._range_1[:, None])
+        multi_signals.signals = xp_as_array(self._range_1, xp=xp)
+        xp_assert_equal(multi_signals.domain, self._domain_1)
+        xp_assert_equal(multi_signals.range, self._range_1[:, None])
 
-    def test_labels(self) -> None:
+    def test_labels(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.labels`
         property.
         """
 
-        assert self._multi_signals.labels == ["0", "1", "2"]
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
+        assert multi_signals.labels == ["0", "1", "2"]
 
-        multi_signals = self._multi_signals.copy()
+        multi_signals = multi_signals.copy()
 
         multi_signals.labels = ["a", "b", "c"]
 
@@ -346,41 +367,47 @@ function` property raised exception.
 
         assert multi_signals.signal_type == Signal
 
-    def test__init__(self) -> None:
+    def test__init__(self, xp: ModuleType) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__init__`
         method.
         """
 
-        multi_signals = MultiSignals(self._range_1)
-        np.testing.assert_array_equal(multi_signals.domain, self._domain_1)
-        np.testing.assert_array_equal(multi_signals.range, self._range_1[:, None])
+        multi_signals = MultiSignals(xp_as_array(self._range_1, xp=xp))
+        xp_assert_equal(multi_signals.domain, self._domain_1)
+        xp_assert_equal(multi_signals.range, self._range_1[:, None])
 
-        multi_signals = MultiSignals(self._range_1, self._domain_2)
-        np.testing.assert_array_equal(multi_signals.domain, self._domain_2)
-        np.testing.assert_array_equal(multi_signals.range, self._range_1[:, None])
+        multi_signals = MultiSignals(
+            xp_as_array(self._range_1, xp=xp), xp_as_array(self._domain_2, xp=xp)
+        )
+        xp_assert_equal(multi_signals.domain, self._domain_2)
+        xp_assert_equal(multi_signals.range, self._range_1[:, None])
 
-        multi_signals = MultiSignals(self._range_2, self._domain_2)
-        np.testing.assert_array_equal(multi_signals.domain, self._domain_2)
-        np.testing.assert_array_equal(multi_signals.range, self._range_2)
+        multi_signals = MultiSignals(
+            xp_as_array(self._range_2, xp=xp), xp_as_array(self._domain_2, xp=xp)
+        )
+        xp_assert_equal(multi_signals.domain, self._domain_2)
+        xp_assert_equal(multi_signals.range, self._range_2)
 
         multi_signals = MultiSignals(
             dict(zip(self._domain_2, self._range_2, strict=True))
         )
-        np.testing.assert_array_equal(multi_signals.domain, self._domain_2)
-        np.testing.assert_array_equal(multi_signals.range, self._range_2)
+        xp_assert_equal(multi_signals.domain, self._domain_2)
+        xp_assert_equal(multi_signals.range, self._range_2)
 
         multi_signals = MultiSignals(multi_signals)
-        np.testing.assert_array_equal(multi_signals.domain, self._domain_2)
-        np.testing.assert_array_equal(multi_signals.range, self._range_2)
+        xp_assert_equal(multi_signals.domain, self._domain_2)
+        xp_assert_equal(multi_signals.range, self._range_2)
 
         class NotSignal(Signal):
             """Not :class:`Signal` class."""
 
-        multi_signals = MultiSignals(self._range_1, signal_type=NotSignal)
+        multi_signals = MultiSignals(
+            xp_as_array(self._range_1, xp=xp), signal_type=NotSignal
+        )
         assert isinstance(multi_signals.signals["0"], NotSignal)
-        np.testing.assert_array_equal(multi_signals.domain, self._domain_1)
-        np.testing.assert_array_equal(multi_signals.range, self._range_1[:, None])
+        xp_assert_equal(multi_signals.domain, self._domain_1)
+        xp_assert_equal(multi_signals.range, self._range_1[:, None])
 
         if is_pandas_installed():
             from pandas import DataFrame, Series  # noqa: PLC0415
@@ -388,21 +415,22 @@ function` property raised exception.
             multi_signals = MultiSignals(
                 Series(dict(zip(self._domain_2, self._range_1, strict=True)))
             )
-            np.testing.assert_array_equal(multi_signals.domain, self._domain_2)
-            np.testing.assert_array_equal(multi_signals.range, self._range_1[:, None])
+            xp_assert_equal(multi_signals.domain, self._domain_2)
+            xp_assert_equal(multi_signals.range, self._range_1[:, None])
 
             data = dict(zip(["a", "b", "c"], tsplit(self._range_2), strict=True))
             multi_signals = MultiSignals(DataFrame(data, self._domain_2))
-            np.testing.assert_array_equal(multi_signals.domain, self._domain_2)
-            np.testing.assert_array_equal(multi_signals.range, self._range_2)
+            xp_assert_equal(multi_signals.domain, self._domain_2)
+            xp_assert_equal(multi_signals.range, self._range_2)
 
-    def test__hash__(self) -> None:
+    def test__hash__(self, xp: ModuleType) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__hash__`
         method.
         """
 
-        assert isinstance(hash(self._multi_signals), int)
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
+        assert isinstance(hash(multi_signals), int)
 
     def test__str__(self) -> None:
         """
@@ -451,7 +479,7 @@ function` property raised exception.
                               [  8.,  90., 100., 110.],
                               [  9., 100., 110., 120.]],
                              ['0', '1', '2'],
-                             KernelInterpolator,
+                             LinearInterpolator,
                              {},
                              Extrapolator,
                              {'method': 'Constant', 'left': nan, 'right': nan})
@@ -461,101 +489,93 @@ function` property raised exception.
 
         assert isinstance(repr(MultiSignals()), str)
 
-    def test__getitem__(self) -> None:
+    def test__getitem__(self, xp: ModuleType) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__getitem__`
         method.
         """
 
-        np.testing.assert_allclose(
-            self._multi_signals[0],
-            np.array([10.0, 20.0, 30.0]),
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
+
+        xp_assert_close(
+            multi_signals[0],
+            [10.0, 20.0, 30.0],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            self._multi_signals[np.array([0, 1, 2])],
-            np.array(
-                [
-                    [10.0, 20.0, 30.0],
-                    [20.0, 30.0, 40.0],
-                    [30.0, 40.0, 50.0],
-                ]
-            ),
+        xp_assert_close(
+            multi_signals[[0, 1, 2]],
+            [
+                [10.0, 20.0, 30.0],
+                [20.0, 30.0, 40.0],
+                [30.0, 40.0, 50.0],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            self._multi_signals[np.linspace(0, 5, 5)],
-            np.array(
-                [
-                    [10.00000000, 20.00000000, 30.00000000],
-                    [22.83489024, 32.80460562, 42.77432100],
-                    [34.80044921, 44.74343470, 54.68642018],
-                    [47.55353925, 57.52325463, 67.49297001],
-                    [60.00000000, 70.00000000, 80.00000000],
-                ]
-            ),
+        xp_assert_close(
+            multi_signals[np.linspace(0, 5, 5)],
+            [
+                [10.00000000, 20.00000000, 30.00000000],
+                [22.50000000, 32.50000000, 42.50000000],
+                [35.00000000, 45.00000000, 55.00000000],
+                [47.50000000, 57.50000000, 67.50000000],
+                [60.00000000, 70.00000000, 80.00000000],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        attest(np.all(np.isnan(self._multi_signals[np.array([-1000, 1000])])))
+        attest(np.all(np.isnan(as_ndarray(multi_signals[np.array([-1000, 1000])]))))
 
-        np.testing.assert_allclose(
-            self._multi_signals[:],
-            self._multi_signals.range,
+        xp_assert_close(
+            multi_signals[:],
+            multi_signals.range,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            self._multi_signals[:, :],  # pyright: ignore
-            self._multi_signals.range,
+        xp_assert_close(
+            multi_signals[:, :],
+            multi_signals.range,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            self._multi_signals[0:3],
-            np.array(
-                [
-                    [10.0, 20.0, 30.0],
-                    [20.0, 30.0, 40.0],
-                    [30.0, 40.0, 50.0],
-                ]
-            ),
+        xp_assert_close(
+            multi_signals[0:3],
+            [
+                [10.0, 20.0, 30.0],
+                [20.0, 30.0, 40.0],
+                [30.0, 40.0, 50.0],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            self._multi_signals[:, 0:2],  # pyright: ignore
-            np.array(
-                [
-                    [10.0, 20.0],
-                    [20.0, 30.0],
-                    [30.0, 40.0],
-                    [40.0, 50.0],
-                    [50.0, 60.0],
-                    [60.0, 70.0],
-                    [70.0, 80.0],
-                    [80.0, 90.0],
-                    [90.0, 100.0],
-                    [100.0, 110.0],
-                ]
-            ),
+        xp_assert_close(
+            multi_signals[:, 0:2],
+            [
+                [10.0, 20.0],
+                [20.0, 30.0],
+                [30.0, 40.0],
+                [40.0, 50.0],
+                [50.0, 60.0],
+                [60.0, 70.0],
+                [70.0, 80.0],
+                [80.0, 90.0],
+                [90.0, 100.0],
+                [100.0, 110.0],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        multi_signals = self._multi_signals.copy()
+        multi_signals = multi_signals.copy()
         multi_signals.extrapolator_kwargs = {
             "method": "Linear",
         }
-        np.testing.assert_array_equal(
-            multi_signals[np.array([-1000, 1000])],
-            np.array(
-                [
-                    [-9990.0, -9980.0, -9970.0],
-                    [10010.0, 10020.0, 10030.0],
-                ]
-            ),
+        xp_assert_equal(
+            multi_signals[[-1000, 1000]],
+            [
+                [-9990.0, -9980.0, -9970.0],
+                [10010.0, 10020.0, 10030.0],
+            ],
         )
 
         multi_signals.extrapolator_kwargs = {
@@ -563,220 +583,209 @@ function` property raised exception.
             "left": 0,
             "right": 1,
         }
-        np.testing.assert_array_equal(
-            multi_signals[np.array([-1000, 1000])],
-            np.array([[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]),
+        xp_assert_equal(
+            multi_signals[[-1000, 1000]],
+            [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]],
         )
 
-    def test__setitem__(self) -> None:
+    def test__setitem__(self, xp: ModuleType) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__setitem__`
         method.
         """
 
-        multi_signals = self._multi_signals.copy()
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
 
         multi_signals[0] = 20
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals[0],
-            np.array([20.0, 20.0, 20.0]),
+            [20.0, 20.0, 20.0],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals[np.array([0, 1, 2])] = 30
-        np.testing.assert_allclose(
-            multi_signals[np.array([0, 1, 2])],
-            np.array(
-                [
-                    [30.0, 30.0, 30.0],
-                    [30.0, 30.0, 30.0],
-                    [30.0, 30.0, 30.0],
-                ]
-            ),
+        xp_assert_close(
+            multi_signals[[0, 1, 2]],
+            [
+                [30.0, 30.0, 30.0],
+                [30.0, 30.0, 30.0],
+                [30.0, 30.0, 30.0],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals[np.linspace(0, 5, 5)] = 50
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals.domain,
-            np.array(
-                [
-                    0.00,
-                    1.00,
-                    1.25,
-                    2.00,
-                    2.50,
-                    3.00,
-                    3.75,
-                    4.00,
-                    5.00,
-                    6.00,
-                    7.00,
-                    8.00,
-                    9.00,
-                ]
-            ),
+            [
+                0.00,
+                1.00,
+                1.25,
+                2.00,
+                2.50,
+                3.00,
+                3.75,
+                4.00,
+                5.00,
+                6.00,
+                7.00,
+                8.00,
+                9.00,
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals.range,
-            np.array(
-                [
-                    [50.0, 50.0, 50.0],
-                    [30.0, 30.0, 30.0],
-                    [50.0, 50.0, 50.0],
-                    [30.0, 30.0, 30.0],
-                    [50.0, 50.0, 50.0],
-                    [40.0, 50.0, 60.0],
-                    [50.0, 50.0, 50.0],
-                    [50.0, 60.0, 70.0],
-                    [50.0, 50.0, 50.0],
-                    [70.0, 80.0, 90.0],
-                    [80.0, 90.0, 100.0],
-                    [90.0, 100.0, 110.0],
-                    [100.0, 110.0, 120.0],
-                ]
-            ),
+            [
+                [50.0, 50.0, 50.0],
+                [30.0, 30.0, 30.0],
+                [50.0, 50.0, 50.0],
+                [30.0, 30.0, 30.0],
+                [50.0, 50.0, 50.0],
+                [40.0, 50.0, 60.0],
+                [50.0, 50.0, 50.0],
+                [50.0, 60.0, 70.0],
+                [50.0, 50.0, 50.0],
+                [70.0, 80.0, 90.0],
+                [80.0, 90.0, 100.0],
+                [90.0, 100.0, 110.0],
+                [100.0, 110.0, 120.0],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals[np.array([0, 1, 2])] = np.array([10, 20, 30])
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals.range,
-            np.array(
-                [
-                    [10.0, 20.0, 30.0],
-                    [10.0, 20.0, 30.0],
-                    [50.0, 50.0, 50.0],
-                    [10.0, 20.0, 30.0],
-                    [50.0, 50.0, 50.0],
-                    [40.0, 50.0, 60.0],
-                    [50.0, 50.0, 50.0],
-                    [50.0, 60.0, 70.0],
-                    [50.0, 50.0, 50.0],
-                    [70.0, 80.0, 90.0],
-                    [80.0, 90.0, 100.0],
-                    [90.0, 100.0, 110.0],
-                    [100.0, 110.0, 120.0],
-                ]
-            ),
+            [
+                [10.0, 20.0, 30.0],
+                [10.0, 20.0, 30.0],
+                [50.0, 50.0, 50.0],
+                [10.0, 20.0, 30.0],
+                [50.0, 50.0, 50.0],
+                [40.0, 50.0, 60.0],
+                [50.0, 50.0, 50.0],
+                [50.0, 60.0, 70.0],
+                [50.0, 50.0, 50.0],
+                [70.0, 80.0, 90.0],
+                [80.0, 90.0, 100.0],
+                [90.0, 100.0, 110.0],
+                [100.0, 110.0, 120.0],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        multi_signals[np.array([0, 1, 2])] = np.reshape(np.arange(1, 10, 1), (3, 3))
-        np.testing.assert_allclose(
+        multi_signals[np.array([0, 1, 2])] = xp_reshape(
+            xp.arange(1, 10, 1),
+            (3, 3),
+            xp=xp,
+        )
+        xp_assert_close(
             multi_signals.range,
-            np.array(
-                [
-                    [1.0, 2.0, 3.0],
-                    [4.0, 5.0, 6.0],
-                    [50.0, 50.0, 50.0],
-                    [7.0, 8.0, 9.0],
-                    [50.0, 50.0, 50.0],
-                    [40.0, 50.0, 60.0],
-                    [50.0, 50.0, 50.0],
-                    [50.0, 60.0, 70.0],
-                    [50.0, 50.0, 50.0],
-                    [70.0, 80.0, 90.0],
-                    [80.0, 90.0, 100.0],
-                    [90.0, 100.0, 110.0],
-                    [100.0, 110.0, 120.0],
-                ]
-            ),
+            [
+                [1.0, 2.0, 3.0],
+                [4.0, 5.0, 6.0],
+                [50.0, 50.0, 50.0],
+                [7.0, 8.0, 9.0],
+                [50.0, 50.0, 50.0],
+                [40.0, 50.0, 60.0],
+                [50.0, 50.0, 50.0],
+                [50.0, 60.0, 70.0],
+                [50.0, 50.0, 50.0],
+                [70.0, 80.0, 90.0],
+                [80.0, 90.0, 100.0],
+                [90.0, 100.0, 110.0],
+                [100.0, 110.0, 120.0],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals[:] = 40
-        np.testing.assert_allclose(
-            multi_signals.range, 40, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(multi_signals.range, 40, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         multi_signals[:, :] = 50  # pyright: ignore
-        np.testing.assert_allclose(
-            multi_signals.range, 50, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(multi_signals.range, 50, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        multi_signals = self._multi_signals.copy()
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
         multi_signals[0:3] = 40
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals[0:3],
-            np.array(
-                [
-                    [40.0, 40.0, 40.0],
-                    [40.0, 40.0, 40.0],
-                    [40.0, 40.0, 40.0],
-                ]
-            ),
+            [
+                [40.0, 40.0, 40.0],
+                [40.0, 40.0, 40.0],
+                [40.0, 40.0, 40.0],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals[:, 0:2] = 50  # pyright: ignore
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals.range,
-            np.array(
-                [
-                    [50.0, 50.0, 40.0],
-                    [50.0, 50.0, 40.0],
-                    [50.0, 50.0, 40.0],
-                    [50.0, 50.0, 60.0],
-                    [50.0, 50.0, 70.0],
-                    [50.0, 50.0, 80.0],
-                    [50.0, 50.0, 90.0],
-                    [50.0, 50.0, 100.0],
-                    [50.0, 50.0, 110.0],
-                    [50.0, 50.0, 120.0],
-                ]
-            ),
+            [
+                [50.0, 50.0, 40.0],
+                [50.0, 50.0, 40.0],
+                [50.0, 50.0, 40.0],
+                [50.0, 50.0, 60.0],
+                [50.0, 50.0, 70.0],
+                [50.0, 50.0, 80.0],
+                [50.0, 50.0, 90.0],
+                [50.0, 50.0, 100.0],
+                [50.0, 50.0, 110.0],
+                [50.0, 50.0, 120.0],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test__contains__(self) -> None:
+    def test__contains__(self, xp: ModuleType) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__contains__`
         method.
         """
 
-        assert 0 in self._multi_signals
-        assert 0.5 in self._multi_signals
-        assert 1000 not in self._multi_signals
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
+        assert 0 in multi_signals
+        assert 0.5 in multi_signals
+        assert 1000 not in multi_signals
 
-    def test__iter__(self) -> None:
+    def test__iter__(self, xp: ModuleType) -> None:
         """Test :func:`colour.continuous.signal.Signal.__iter__` method."""
 
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
         domain = np.arange(0, 10)
-        for i, domain_range_value in enumerate(self._multi_signals):
-            np.testing.assert_array_equal(domain_range_value[0], domain[i])
-            np.testing.assert_array_equal(domain_range_value[1:], self._range_2[i])
+        for i, domain_range_value in enumerate(multi_signals):
+            xp_assert_equal(domain_range_value[0], domain[i])
+            xp_assert_equal(domain_range_value[1:], self._range_2[i])
 
-    def test__len__(self) -> None:
+    def test__len__(self, xp: ModuleType) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__len__`
         method.
         """
 
-        assert len(self._multi_signals) == 10
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
+        assert len(multi_signals) == 10
 
-    def test__eq__(self) -> None:
+    def test__eq__(self, xp: ModuleType) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__eq__`
         method.
         """
 
-        signal_1 = self._multi_signals.copy()
-        signal_2 = self._multi_signals.copy()
+        signal_1 = MultiSignals(xp_as_array(self._range_2, xp=xp))
+        signal_2 = MultiSignals(xp_as_array(self._range_2, xp=xp))
 
         assert signal_1 == signal_2
 
         assert signal_1 != ()
 
-    def test__ne__(self) -> None:
+    def test__ne__(self, xp: ModuleType) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__ne__`
         method.
         """
 
-        multi_signals_1 = self._multi_signals.copy()
-        multi_signals_2 = self._multi_signals.copy()
+        multi_signals_1 = MultiSignals(xp_as_array(self._range_2, xp=xp))
+        multi_signals_2 = MultiSignals(xp_as_array(self._range_2, xp=xp))
 
         multi_signals_2[0] = 20
         assert multi_signals_1 != multi_signals_2
@@ -787,7 +796,7 @@ function` property raised exception.
         multi_signals_2.interpolator = CubicSplineInterpolator
         assert multi_signals_1 != multi_signals_2
 
-        multi_signals_2.interpolator = KernelInterpolator
+        multi_signals_2.interpolator = LinearInterpolator
         assert multi_signals_1 == multi_signals_2
 
         multi_signals_2.interpolator_kwargs = {"window": 1}
@@ -815,290 +824,268 @@ function` property raised exception.
         }
         assert multi_signals_1 == multi_signals_2
 
-    def test_arithmetical_operation(self) -> None:
+    def test_arithmetical_operation(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.\
 arithmetical_operation` method.
         """
 
-        np.testing.assert_allclose(
-            self._multi_signals.arithmetical_operation(10, "+", False).range,
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
+
+        xp_assert_close(
+            multi_signals.arithmetical_operation(10, "+", False).range,
             self._range_2 + 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            self._multi_signals.arithmetical_operation(10, "-", False).range,
+        xp_assert_close(
+            multi_signals.arithmetical_operation(10, "-", False).range,
             self._range_2 - 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            self._multi_signals.arithmetical_operation(10, "*", False).range,
+        xp_assert_close(
+            multi_signals.arithmetical_operation(10, "*", False).range,
             self._range_2 * 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            self._multi_signals.arithmetical_operation(10, "/", False).range,
+        xp_assert_close(
+            multi_signals.arithmetical_operation(10, "/", False).range,
             self._range_2 / 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            self._multi_signals.arithmetical_operation(10, "**", False).range,
+        xp_assert_close(
+            multi_signals.arithmetical_operation(10, "**", False).range,
             self._range_2**10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            (self._multi_signals + 10).range,
+        xp_assert_close(
+            (multi_signals + 10).range,
             self._range_2 + 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            (self._multi_signals - 10).range,
+        xp_assert_close(
+            (multi_signals - 10).range,
             self._range_2 - 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            (self._multi_signals * 10).range,
+        xp_assert_close(
+            (multi_signals * 10).range,
             self._range_2 * 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            (self._multi_signals / 10).range,
+        xp_assert_close(
+            (multi_signals / 10).range,
             self._range_2 / 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            (self._multi_signals**10).range,
+        xp_assert_close(
+            (multi_signals**10).range,
             self._range_2**10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        multi_signals = self._multi_signals.copy()
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals.arithmetical_operation(10, "+", True).range,
             self._range_2 + 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals.arithmetical_operation(10, "-", True).range,
             self._range_2,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals.arithmetical_operation(10, "*", True).range,
             self._range_2 * 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals.arithmetical_operation(10, "/", True).range,
             self._range_2,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals.arithmetical_operation(10, "**", True).range,
             self._range_2**10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        multi_signals = self._multi_signals.copy()
-        np.testing.assert_allclose(
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
+        xp_assert_close(
             multi_signals.arithmetical_operation(self._range_2, "+", False).range,
             self._range_2 + self._range_2,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals.arithmetical_operation(multi_signals, "+", False).range,
             self._range_2 + self._range_2,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_is_uniform(self) -> None:
+    def test_is_uniform(self, xp: ModuleType) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.is_uniform`
         method.
         """
 
-        assert self._multi_signals.is_uniform()
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
+        assert multi_signals.is_uniform()
 
-        multi_signals = self._multi_signals.copy()
+        multi_signals = multi_signals.copy()
         multi_signals[0.5] = 1.0
         assert not multi_signals.is_uniform()
 
-    def test_copy(self) -> None:
+    def test_copy(self, xp: ModuleType) -> None:
         """Test :func:`colour.continuous.multi_signals.MultiSignals.copy` method."""
 
-        assert self._multi_signals is not self._multi_signals.copy()
-        assert self._multi_signals == self._multi_signals.copy()
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
+        assert multi_signals is not multi_signals.copy()
+        assert multi_signals == multi_signals.copy()
 
-    def test_multi_signals_unpack_data(self) -> None:
+    def test_multi_signals_unpack_data(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.\
 multi_signals_unpack_data` method.
         """
 
-        signals = MultiSignals.multi_signals_unpack_data(self._range_1)
-        assert list(signals.keys()) == ["0"]
-        np.testing.assert_array_equal(signals["0"].domain, self._domain_1)
-        np.testing.assert_array_equal(signals["0"].range, self._range_1)
+        domain, range_, labels = MultiSignals.multi_signals_unpack_data(
+            xp_as_array(self._range_1, xp=xp)
+        )
+        assert labels == ["0"]
+        xp_assert_equal(domain, self._domain_1)
+        xp_assert_equal(range_, self._range_1.reshape(-1, 1))
 
-        signals = MultiSignals.multi_signals_unpack_data(self._range_1, self._domain_2)
-        assert list(signals.keys()) == ["0"]
-        np.testing.assert_array_equal(signals["0"].domain, self._domain_2)
-        np.testing.assert_array_equal(signals["0"].range, self._range_1)
+        domain, range_, labels = MultiSignals.multi_signals_unpack_data(
+            xp_as_array(self._range_1, xp=xp), xp_as_array(self._domain_2, xp=xp)
+        )
+        assert labels == ["0"]
+        xp_assert_equal(domain, self._domain_2)
+        xp_assert_equal(range_, self._range_1.reshape(-1, 1))
 
-        signals = MultiSignals.multi_signals_unpack_data(
+        domain, range_, labels = MultiSignals.multi_signals_unpack_data(
             self._range_1, dict(zip(self._domain_2, self._range_1, strict=True)).keys()
         )
-        np.testing.assert_array_equal(signals["0"].domain, self._domain_2)
+        xp_assert_equal(domain, self._domain_2)
 
-        signals = MultiSignals.multi_signals_unpack_data(self._range_2, self._domain_2)
-        assert list(signals.keys()) == ["0", "1", "2"]
-        np.testing.assert_array_equal(signals["0"].range, self._range_1)
-        np.testing.assert_array_equal(signals["1"].range, self._range_1 + 10)
-        np.testing.assert_array_equal(signals["2"].range, self._range_1 + 20)
-
-        signals = MultiSignals.multi_signals_unpack_data(
-            next(
-                iter(
-                    MultiSignals.multi_signals_unpack_data(
-                        dict(zip(self._domain_2, self._range_2, strict=True))
-                    ).values()
-                )
-            )
+        domain, range_, labels = MultiSignals.multi_signals_unpack_data(
+            xp_as_array(self._range_2, xp=xp), xp_as_array(self._domain_2, xp=xp)
         )
-        np.testing.assert_array_equal(signals["0"].range, self._range_1)
+        assert labels == ["0", "1", "2"]
+        xp_assert_equal(range_[:, 0], self._range_1)
+        xp_assert_equal(range_[:, 1], self._range_1 + 10)
+        xp_assert_equal(range_[:, 2], self._range_1 + 20)
 
-        signals = MultiSignals.multi_signals_unpack_data(
-            MultiSignals.multi_signals_unpack_data(
-                dict(zip(self._domain_2, self._range_2, strict=True))
-            ).values()
-        )
-        np.testing.assert_array_equal(signals["0"].range, self._range_1)
-        np.testing.assert_array_equal(signals["1"].range, self._range_1 + 10)
-        np.testing.assert_array_equal(signals["2"].range, self._range_1 + 20)
-
-        signals = MultiSignals.multi_signals_unpack_data(
+        domain, range_, labels = MultiSignals.multi_signals_unpack_data(
             dict(zip(self._domain_2, self._range_2, strict=True))
         )
-        assert list(signals.keys()) == ["0", "1", "2"]
-        np.testing.assert_array_equal(signals["0"].range, self._range_1)
-        np.testing.assert_array_equal(signals["1"].range, self._range_1 + 10)
-        np.testing.assert_array_equal(signals["2"].range, self._range_1 + 20)
+        assert labels == ["0", "1", "2"]
+        xp_assert_equal(range_[:, 0], self._range_1)
+        xp_assert_equal(range_[:, 1], self._range_1 + 10)
+        xp_assert_equal(range_[:, 2], self._range_1 + 20)
 
-        signals = MultiSignals.multi_signals_unpack_data(
-            MultiSignals.multi_signals_unpack_data(
-                dict(zip(self._domain_2, self._range_2, strict=True))
-            )
-        )
-        assert list(signals.keys()) == ["0", "1", "2"]
-        np.testing.assert_array_equal(signals["0"].range, self._range_1)
-        np.testing.assert_array_equal(signals["1"].range, self._range_1 + 10)
-        np.testing.assert_array_equal(signals["2"].range, self._range_1 + 20)
-
-        signals = MultiSignals.multi_signals_unpack_data(
+        domain, range_, labels = MultiSignals.multi_signals_unpack_data(
             dict(zip(self._domain_2, self._range_2, strict=True)),
             labels=["0", "0", "0"],
         )
-        assert list(signals.keys()) == ["0 - 0", "0 - 1", "0 - 2"]
+        assert labels == ["0 - 0", "0 - 1", "0 - 2"]
 
         if is_pandas_installed():
             from pandas import DataFrame, Series  # noqa: PLC0415
 
-            signals = MultiSignals.multi_signals_unpack_data(
+            domain, range_, labels = MultiSignals.multi_signals_unpack_data(
                 Series(dict(zip(self._domain_1, self._range_1, strict=True)))
             )
-            assert list(signals.keys()) == ["0"]
-            np.testing.assert_array_equal(signals["0"].domain, self._domain_1)
-            np.testing.assert_array_equal(signals["0"].range, self._range_1)
+            assert labels == ["0"]
+            xp_assert_equal(domain, self._domain_1)
+            xp_assert_equal(range_, self._range_1.reshape(-1, 1))
 
             data = dict(zip(["a", "b", "c"], tsplit(self._range_2), strict=True))
-            signals = MultiSignals.multi_signals_unpack_data(
+            domain, range_, labels = MultiSignals.multi_signals_unpack_data(
                 DataFrame(data, self._domain_1)
             )
-            assert list(signals.keys()) == ["a", "b", "c"]
-            np.testing.assert_array_equal(signals["a"].range, self._range_1)
-            np.testing.assert_array_equal(signals["b"].range, self._range_1 + 10)
-            np.testing.assert_array_equal(signals["c"].range, self._range_1 + 20)
+            assert labels == ["a", "b", "c"]
+            xp_assert_equal(range_[:, 0], self._range_1)
+            xp_assert_equal(range_[:, 1], self._range_1 + 10)
+            xp_assert_equal(range_[:, 2], self._range_1 + 20)
 
-    def test_fill_nan(self) -> None:
+    def test_fill_nan(self, xp: ModuleType) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.fill_nan`
         method.
         """
 
-        multi_signals = self._multi_signals.copy()
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
 
         multi_signals[3:7] = np.nan
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals.fill_nan().range,
-            np.array(
-                [
-                    [10.0, 20.0, 30.0],
-                    [20.0, 30.0, 40.0],
-                    [30.0, 40.0, 50.0],
-                    [40.0, 50.0, 60.0],
-                    [50.0, 60.0, 70.0],
-                    [60.0, 70.0, 80.0],
-                    [70.0, 80.0, 90.0],
-                    [80.0, 90.0, 100.0],
-                    [90.0, 100.0, 110.0],
-                    [100.0, 110.0, 120.0],
-                ]
-            ),
+            [
+                [10.0, 20.0, 30.0],
+                [20.0, 30.0, 40.0],
+                [30.0, 40.0, 50.0],
+                [40.0, 50.0, 60.0],
+                [50.0, 60.0, 70.0],
+                [60.0, 70.0, 80.0],
+                [70.0, 80.0, 90.0],
+                [80.0, 90.0, 100.0],
+                [90.0, 100.0, 110.0],
+                [100.0, 110.0, 120.0],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         multi_signals[3:7] = np.nan
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             multi_signals.fill_nan(method="Constant").range,
-            np.array(
-                [
-                    [10.0, 20.0, 30.0],
-                    [20.0, 30.0, 40.0],
-                    [30.0, 40.0, 50.0],
-                    [0.0, 0.0, 0.0],
-                    [0.0, 0.0, 0.0],
-                    [0.0, 0.0, 0.0],
-                    [0.0, 0.0, 0.0],
-                    [80.0, 90.0, 100.0],
-                    [90.0, 100.0, 110.0],
-                    [100.0, 110.0, 120.0],
-                ]
-            ),
+            [
+                [10.0, 20.0, 30.0],
+                [20.0, 30.0, 40.0],
+                [30.0, 40.0, 50.0],
+                [0.0, 0.0, 0.0],
+                [0.0, 0.0, 0.0],
+                [0.0, 0.0, 0.0],
+                [0.0, 0.0, 0.0],
+                [80.0, 90.0, 100.0],
+                [90.0, 100.0, 110.0],
+                [100.0, 110.0, 120.0],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_distance(self) -> None:
+    def test_domain_distance(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.\
 domain_distance` method.
         """
 
-        np.testing.assert_allclose(
-            self._multi_signals.domain_distance(0.5),
+        multi_signals = MultiSignals(xp_as_array(self._range_2, xp=xp))
+
+        xp_assert_close(
+            multi_signals.domain_distance(0.5),
             0.5,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            self._multi_signals.domain_distance(np.linspace(0, 9, 10) + 0.5),
-            np.array([0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]),
+        xp_assert_close(
+            multi_signals.domain_distance(np.linspace(0, 9, 10) + 0.5),
+            [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 

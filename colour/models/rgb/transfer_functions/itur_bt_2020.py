@@ -20,8 +20,6 @@ R-REC-BT.2020-2-201510-I!!PDF-E.pdf
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.algebra import spow
 from colour.hints import (  # noqa: TC001
     Domain1,
@@ -29,6 +27,7 @@ from colour.hints import (  # noqa: TC001
 )
 from colour.utilities import (
     Structure,
+    array_namespace,
     as_float,
     domain_range_scale,
     from_range_1,
@@ -121,12 +120,15 @@ def oetf_BT2020(
     """
 
     E = to_domain_1(E)
+
+    xp = array_namespace(E)
+
     constants = optional(constants, CONSTANTS_BT2020)
 
     a = constants.alpha(is_12_bits_system)
     b = constants.beta(is_12_bits_system)
 
-    E_p = np.where(b > E, E * 4.5, a * spow(E, 0.45) - (a - 1))
+    E_p = xp.where(b > E, E * 4.5, a * spow(E, 0.45) - (a - 1))
 
     return as_float(from_range_1(E_p))
 
@@ -182,13 +184,16 @@ def oetf_inverse_BT2020(
     """
 
     E_p = to_domain_1(E_p)
+
+    xp = array_namespace(E_p)
+
     constants = optional(constants, CONSTANTS_BT2020)
 
     a = constants.alpha(is_12_bits_system)
     b = constants.beta(is_12_bits_system)
 
     with domain_range_scale("ignore"):
-        E = np.where(
+        E = xp.where(
             E_p < oetf_BT2020(b),
             E_p / 4.5,
             spow((E_p + (a - 1)) / a, 1 / 0.45),

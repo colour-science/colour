@@ -202,15 +202,19 @@ from colour.quality import colour_quality_scale, colour_rendering_index
 from colour.recovery import XYZ_to_sd
 from colour.temperature import CCT_to_mired, CCT_to_uv, mired_to_CCT, uv_to_CCT
 from colour.utilities import (
+    array_namespace,
     as_float_array,
     domain_range_scale,
     filter_kwargs,
     get_domain_range_scale_metadata,
+    is_array_api_enabled,
+    is_non_ndarray,
     message_box,
     required,
     tsplit,
     tstack,
     validate_method,
+    xp_as_float_array,
     zeros,
 )
 
@@ -1979,7 +1983,7 @@ def describe_conversion_path(
             if filtered_kwargs:
                 message += f"\n\n[ Filtered Arguments ]\n\n{pformat(filtered_kwargs)}"
 
-            if mode in ("extended",):
+            if mode == "extended":
                 docstring = textwrap.dedent(
                     str(_lower_order_function(conversion_function).__doc__)
                 ).strip()
@@ -2253,8 +2257,35 @@ SDS_ILLUMINANTS["FL2"], XYZ_to_sRGB={"illuminant": illuminant})
         # conversion function name.
         filtered_kwargs.update(kwargs.get(conversion_function_name, {}))
 
+        # Promote numpy array kwargs to match the input's backend,
+        # preventing device mismatches when partial() bakes numpy
+        # defaults (e.g. XYZ_w) that meet backend tensors at runtime.
+        promoted_function = conversion_function
+        if is_array_api_enabled() and is_non_ndarray(a):
+            xp = array_namespace(a)
+
+            if isinstance(conversion_function, partial):
+                promoted = {
+                    kwarg: xp_as_float_array(value, xp=xp, like=a)
+                    for kwarg, value in conversion_function.keywords.items()
+                    if isinstance(value, np.ndarray)
+                }
+                if promoted:
+                    promoted_function = partial(
+                        conversion_function.func,
+                        **{**conversion_function.keywords, **promoted},
+                    )
+                else:
+                    promoted_function = conversion_function
+            else:
+                promoted_function = conversion_function
+
+            for kwarg, value in list(filtered_kwargs.items()):
+                if isinstance(value, np.ndarray):
+                    filtered_kwargs[kwarg] = xp_as_float_array(value, xp=xp, like=a)
+
         with domain_range_scale("1"):
-            a = conversion_function(a, **filtered_kwargs)
+            a = promoted_function(a, **filtered_kwargs)
 
         # Scale output from scale-1 to reference on last iteration
         if i == len(conversion_path_list) - 1 and to_reference_scale:

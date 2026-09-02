@@ -3,11 +3,17 @@
 from __future__ import annotations
 
 import os
+import typing
 from dataclasses import fields
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
 
 import numpy as np
 import pytest
 
+from colour.algebra import linear_interpolation_index_and_factor
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.phenomena.sky.wilkie2021 import (
     PATH_PRAGUE_SKY_MODEL_DATASET_GROUND,
     SkyDataset_Wilkie2021,
@@ -17,6 +23,7 @@ from colour.phenomena.sky.wilkie2021 import (
     sky_transmittance_Wilkie2021,
     sun_radiance_Wilkie2021,
 )
+from colour.utilities import as_ndarray, xp_as_array, xp_assert_close, xp_assert_equal
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -267,8 +274,8 @@ SkyDataset_Wilkie2021.read` method.
 
         assert isinstance(dataset, SkyDataset_Wilkie2021)
         assert dataset.channels == 11
-        np.testing.assert_allclose(dataset.channel_start, 320.0)
-        np.testing.assert_allclose(dataset.channel_width, 40.0)
+        xp_assert_close(dataset.channel_start, 320.0)
+        xp_assert_close(dataset.channel_width, 40.0)
         assert len(dataset.visibilities_radiance) >= 1
         assert len(dataset.albedos_radiance) >= 1
         assert len(dataset.altitudes_radiance) >= 1
@@ -312,6 +319,104 @@ class TestSkyParametersWilkie2021:
             assert attribute in field_names
 
 
+class TestLinearInterpolationIndexAndFactor:
+    """
+    Define :func:`colour.algebra.linear_interpolation_index_and_factor`
+    definition unit tests methodataset.
+    """
+
+    def test_linear_interpolation_index_and_factor(self, xp: ModuleType) -> None:
+        """
+        Test :func:`colour.algebra.\
+linear_interpolation_index_and_factor` definition.
+        """
+
+        break_points = xp_as_array([0.0, 1.0, 2.0, 3.0], xp=xp)
+
+        # Exact match at start.
+        index, factor = linear_interpolation_index_and_factor(
+            xp_as_array(0.0, xp=xp), break_points
+        )
+        assert index == 0
+        xp_assert_close(factor, 0.0, atol=TOLERANCE_ABSOLUTE_TESTS * 0.001)
+
+        # Exact match at end (index = last, factor = 0).
+        index, factor = linear_interpolation_index_and_factor(
+            xp_as_array(3.0, xp=xp), break_points
+        )
+        assert index == 3
+        xp_assert_close(factor, 0.0, atol=TOLERANCE_ABSOLUTE_TESTS * 0.001)
+
+        # Midpoint.
+        index, factor = linear_interpolation_index_and_factor(
+            xp_as_array(1.5, xp=xp), break_points
+        )
+        assert index == 1
+        xp_assert_close(factor, 0.5, atol=TOLERANCE_ABSOLUTE_TESTS * 0.001)
+
+        # Clamped below.
+        index, factor = linear_interpolation_index_and_factor(
+            xp_as_array(-1.0, xp=xp), break_points
+        )
+        assert index == 0
+        xp_assert_close(factor, 0.0, atol=TOLERANCE_ABSOLUTE_TESTS * 0.001)
+
+        # Clamped above (same as end: index = last, factor = 0).
+        index, factor = linear_interpolation_index_and_factor(
+            xp_as_array(5.0, xp=xp), break_points
+        )
+        assert index == 3
+        xp_assert_close(factor, 0.0, atol=TOLERANCE_ABSOLUTE_TESTS * 0.001)
+
+        # Degenerate (identical break points).
+        index, factor = linear_interpolation_index_and_factor(
+            xp_as_array(1.0, xp=xp), xp_as_array([1.0, 1.0], xp=xp)
+        )
+        xp_assert_close(factor, 0.0, atol=TOLERANCE_ABSOLUTE_TESTS * 0.001)
+
+
+@pytest.mark.skipif(
+    not DATASET_AVAILABLE,
+    reason=f"Prague Sky Model dataset not found at {DATASET_PATH}",
+)
+class TestLoadDatasetWilkie2021:
+    """
+    Define :class:`colour.phenomena.sky.wilkie2021.SkyDataset_Wilkie2021`
+    class unit tests methodataset.
+    """
+
+    def test_SkyDataset_Wilkie2021(self) -> None:
+        """
+        Test :class:`colour.phenomena.sky.wilkie2021.\
+SkyDataset_Wilkie2021` class.
+        """
+
+        dataset = SkyDataset_Wilkie2021(DATASET_PATH)
+
+        assert isinstance(dataset, SkyDataset_Wilkie2021)
+        assert dataset.channels == 11
+        xp_assert_close(
+            dataset.channel_start,
+            320.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        xp_assert_close(
+            dataset.channel_width,
+            40.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        assert len(dataset.visibilities_radiance) >= 1
+        assert len(dataset.albedos_radiance) >= 1
+        assert len(dataset.altitudes_radiance) >= 1
+        assert len(dataset.elevations_radiance) >= 1
+        assert len(dataset.data_radiance) > 0
+        assert len(dataset.data_transmittance_u) > 0
+        assert len(dataset.data_transmittance_v) > 0
+
+        with pytest.raises(FileNotFoundError):
+            SkyDataset_Wilkie2021("/nonexistent/path.dat")
+
+
 @pytest.mark.skipif(
     not DATASET_AVAILABLE,
     reason=f"Prague Sky Model dataset not found at {DATASET_PATH}",
@@ -322,7 +427,7 @@ class TestComputeSkyParametersWilkie2021:
 compute_sky_parameters_Wilkie2021` definition unit tests methods.
     """
 
-    def test_compute_sky_parameters_Wilkie2021(self) -> None:
+    def test_compute_sky_parameters_Wilkie2021(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.sky.wilkie2021.\
 compute_sky_parameters_Wilkie2021` definition.
@@ -330,8 +435,8 @@ compute_sky_parameters_Wilkie2021` definition.
 
         for name, condition in TEST_SKY_CONDITIONS.items():
             parameters = compute_sky_parameters_Wilkie2021(
-                np.array(condition["view_point"], dtype=float),
-                np.array(condition["view_direction"], dtype=float),
+                xp_as_array(condition["view_point"], xp=xp),
+                xp_as_array(condition["view_direction"], xp=xp),
                 condition["sun_elevation"],
                 condition["sun_azimuth"],
                 condition["visibility"],
@@ -339,40 +444,40 @@ compute_sky_parameters_Wilkie2021` definition.
             )
 
             reference = condition["parameters"]
-            np.testing.assert_allclose(
+            xp_assert_close(
                 parameters.theta,
                 reference["theta"],
-                atol=1e-6,
+                atol=TOLERANCE_ABSOLUTE_TESTS * 10,
                 err_msg=f"{name}: theta",
             )
-            np.testing.assert_allclose(
+            xp_assert_close(
                 parameters.gamma,
                 reference["gamma"],
-                atol=1e-6,
+                atol=TOLERANCE_ABSOLUTE_TESTS * 10,
                 err_msg=f"{name}: gamma",
             )
-            np.testing.assert_allclose(
+            xp_assert_close(
                 parameters.shadow,
                 reference["shadow"],
-                atol=1e-6,
+                atol=TOLERANCE_ABSOLUTE_TESTS * 10,
                 err_msg=f"{name}: shadow",
             )
-            np.testing.assert_allclose(
+            xp_assert_close(
                 parameters.zero,
                 reference["zero"],
-                atol=1e-6,
+                atol=TOLERANCE_ABSOLUTE_TESTS * 10,
                 err_msg=f"{name}: zero",
             )
-            np.testing.assert_allclose(
+            xp_assert_close(
                 parameters.elevation,
                 reference["elevation"],
-                atol=1e-6,
+                atol=TOLERANCE_ABSOLUTE_TESTS * 10,
                 err_msg=f"{name}: elevation",
             )
-            np.testing.assert_allclose(
+            xp_assert_close(
                 parameters.altitude,
                 reference["altitude"],
-                atol=1e-3,
+                atol=TOLERANCE_ABSOLUTE_TESTS * 10000,
                 err_msg=f"{name}: altitude",
             )
 
@@ -387,7 +492,8 @@ class TestSkyRadianceWilkie2021:
     definition unit tests methods.
     """
 
-    def test_sky_radiance_Wilkie2021(self) -> None:
+    @pytest.mark.mps_tolerance_absolute(2e-1)
+    def test_sky_radiance_Wilkie2021(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.sky.wilkie2021.\
 sky_radiance_Wilkie2021` definition.
@@ -397,25 +503,28 @@ sky_radiance_Wilkie2021` definition.
 
         for name, condition in TEST_SKY_CONDITIONS.items():
             parameters = compute_sky_parameters_Wilkie2021(
-                np.array(condition["view_point"], dtype=float),
-                np.array(condition["view_direction"], dtype=float),
+                xp_as_array(condition["view_point"], xp=xp),
+                xp_as_array(condition["view_direction"], xp=xp),
                 condition["sun_elevation"],
                 condition["sun_azimuth"],
                 condition["visibility"],
                 condition["albedo"],
             )
 
-            result = sky_radiance_Wilkie2021(dataset, parameters, WAVELENGTHS)
+            result = sky_radiance_Wilkie2021(
+                dataset, parameters, xp_as_array(WAVELENGTHS, xp=xp)
+            )
             reference = np.array(condition["sky_radiance"])
 
-            np.testing.assert_allclose(
+            xp_assert_close(
                 result,
                 reference,
                 rtol=1e-5,
                 err_msg=f"{name}: sky_radiance",
+                atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-    def test_sky_radiance_Wilkie2021_out_of_range(self) -> None:
+    def test_sky_radiance_Wilkie2021_out_of_range(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.sky.wilkie2021.\
 sky_radiance_Wilkie2021` definition with out-of-range wavelengths.
@@ -424,17 +533,19 @@ sky_radiance_Wilkie2021` definition with out-of-range wavelengths.
         dataset = SkyDataset_Wilkie2021(DATASET_PATH)
 
         parameters = compute_sky_parameters_Wilkie2021(
-            np.array([0, 0, 0.0]),
-            np.array([0, 0, 1.0]),
+            xp_as_array([0, 0, 0.0], xp=xp),
+            xp_as_array([0, 0, 1.0], xp=xp),
             0.5236,
             0.0,
             50.0,
             0.5,
         )
-        result = sky_radiance_Wilkie2021(dataset, parameters, np.array([100.0, 5000.0]))
-        np.testing.assert_array_equal(result, 0.0)
+        result = sky_radiance_Wilkie2021(
+            dataset, parameters, xp_as_array([100.0, 5000.0], xp=xp)
+        )
+        xp_assert_equal(result, 0.0)
 
-    def test_n_dimensional_sky_radiance_Wilkie2021(self) -> None:
+    def test_n_dimensional_sky_radiance_Wilkie2021(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.sky.wilkie2021.\
 sky_radiance_Wilkie2021` definition n-dimensional support.
@@ -443,27 +554,32 @@ sky_radiance_Wilkie2021` definition n-dimensional support.
         dataset = SkyDataset_Wilkie2021(DATASET_PATH)
 
         parameters = compute_sky_parameters_Wilkie2021(
-            np.array([0, 0, 0.0]),
-            np.array([0, 0, 1.0]),
+            xp_as_array([0, 0, 0.0], xp=xp),
+            xp_as_array([0, 0, 1.0], xp=xp),
             0.5236,
             0.0,
             50.0,
             0.5,
         )
-        result = sky_radiance_Wilkie2021(dataset, parameters, WAVELENGTHS)
-        assert result.shape == (6,)
+        result = sky_radiance_Wilkie2021(
+            dataset, parameters, xp_as_array(WAVELENGTHS, xp=xp)
+        )
+        assert as_ndarray(result).shape == (6,)
 
-        directions = np.array([[0, 0, 1], [1, 0, 0], [0, 1, 0]], dtype=float)
+        # Batched directions.
+        directions = xp_as_array([[0, 0, 1], [1, 0, 0], [0, 1, 0]], xp=xp)
         parameters = compute_sky_parameters_Wilkie2021(
-            np.array([0, 0, 0.0]),
+            xp_as_array([0, 0, 0.0], xp=xp),
             directions,
             0.5236,
             0.0,
             50.0,
             0.5,
         )
-        result = sky_radiance_Wilkie2021(dataset, parameters, WAVELENGTHS)
-        assert result.shape == (3, 6)
+        result = sky_radiance_Wilkie2021(
+            dataset, parameters, xp_as_array(WAVELENGTHS, xp=xp)
+        )
+        assert as_ndarray(result).shape == (3, 6)
 
 
 @pytest.mark.skipif(
@@ -476,7 +592,7 @@ class TestSunRadianceWilkie2021:
     definition unit tests methods.
     """
 
-    def test_sun_radiance_Wilkie2021(self) -> None:
+    def test_sun_radiance_Wilkie2021(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.sky.wilkie2021.\
 sun_radiance_Wilkie2021` definition.
@@ -486,18 +602,20 @@ sun_radiance_Wilkie2021` definition.
 
         for name, condition in TEST_SKY_CONDITIONS.items():
             parameters = compute_sky_parameters_Wilkie2021(
-                np.array(condition["view_point"], dtype=float),
-                np.array(condition["view_direction"], dtype=float),
+                xp_as_array(condition["view_point"], xp=xp),
+                xp_as_array(condition["view_direction"], xp=xp),
                 condition["sun_elevation"],
                 condition["sun_azimuth"],
                 condition["visibility"],
                 condition["albedo"],
             )
 
-            result = sun_radiance_Wilkie2021(dataset, parameters, WAVELENGTHS)
-            np.testing.assert_array_equal(result, 0.0, err_msg=f"{name}: sun_radiance")
+            result = sun_radiance_Wilkie2021(
+                dataset, parameters, xp_as_array(WAVELENGTHS, xp=xp)
+            )
+            xp_assert_equal(result, 0.0, err_msg=f"{name}: sun_radiance")
 
-    def test_sun_radiance_Wilkie2021_toward_sun(self) -> None:
+    def test_sun_radiance_Wilkie2021_toward_sun(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.sky.wilkie2021.\
 sun_radiance_Wilkie2021` definition when looking at the sun.
@@ -505,25 +623,29 @@ sun_radiance_Wilkie2021` definition when looking at the sun.
 
         dataset = SkyDataset_Wilkie2021(DATASET_PATH)
 
-        sun_direction = np.array(
+        # Look directly at the sun (gamma ~ 0): should be positive.
+        sun_dir = xp_as_array(
             [
                 np.cos(0.0) * np.cos(0.5236),
                 np.sin(0.0) * np.cos(0.5236),
                 np.sin(0.5236),
-            ]
+            ],
+            xp=xp,
         )
         parameters = compute_sky_parameters_Wilkie2021(
-            np.array([0, 0, 0.0]),
-            sun_direction,
+            xp_as_array([0, 0, 0.0], xp=xp),
+            sun_dir,
             0.5236,
             0.0,
             50.0,
             0.5,
         )
-        result = sun_radiance_Wilkie2021(dataset, parameters, WAVELENGTHS)
-        assert np.all(result[:6] > 0)
+        result = sun_radiance_Wilkie2021(
+            dataset, parameters, xp_as_array(WAVELENGTHS, xp=xp)
+        )
+        assert np.all(as_ndarray(result)[:6] > 0)
 
-    def test_n_dimensional_sun_radiance_Wilkie2021(self) -> None:
+    def test_n_dimensional_sun_radiance_Wilkie2021(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.sky.wilkie2021.\
 sun_radiance_Wilkie2021` definition n-dimensional support.
@@ -531,18 +653,21 @@ sun_radiance_Wilkie2021` definition n-dimensional support.
 
         dataset = SkyDataset_Wilkie2021(DATASET_PATH)
 
-        directions = np.array([[0, 0, 1], [1, 0, 0], [0, 1, 0]], dtype=float)
+        # Batched directions (none hitting sun).
+        directions = xp_as_array([[0, 0, 1], [1, 0, 0], [0, 1, 0]], xp=xp)
         parameters = compute_sky_parameters_Wilkie2021(
-            np.array([0, 0, 0.0]),
+            xp_as_array([0, 0, 0.0], xp=xp),
             directions,
             0.5236,
             0.0,
             50.0,
             0.5,
         )
-        result = sun_radiance_Wilkie2021(dataset, parameters, WAVELENGTHS)
-        assert result.shape == (3, 6)
-        np.testing.assert_array_equal(result, 0.0)
+        result = sun_radiance_Wilkie2021(
+            dataset, parameters, xp_as_array(WAVELENGTHS, xp=xp)
+        )
+        assert as_ndarray(result).shape == (3, 6)
+        xp_assert_equal(result, 0.0)
 
 
 @pytest.mark.skipif(
@@ -555,7 +680,7 @@ class TestSkyTransmittanceWilkie2021:
 sky_transmittance_Wilkie2021` definition unit tests methods.
     """
 
-    def test_sky_transmittance_Wilkie2021(self) -> None:
+    def test_sky_transmittance_Wilkie2021(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.sky.wilkie2021.\
 sky_transmittance_Wilkie2021` definition.
@@ -565,8 +690,8 @@ sky_transmittance_Wilkie2021` definition.
 
         for name, condition in TEST_SKY_CONDITIONS.items():
             parameters = compute_sky_parameters_Wilkie2021(
-                np.array(condition["view_point"], dtype=float),
-                np.array(condition["view_direction"], dtype=float),
+                xp_as_array(condition["view_point"], xp=xp),
+                xp_as_array(condition["view_direction"], xp=xp),
                 condition["sun_elevation"],
                 condition["sun_azimuth"],
                 condition["visibility"],
@@ -574,18 +699,19 @@ sky_transmittance_Wilkie2021` definition.
             )
 
             result = sky_transmittance_Wilkie2021(
-                dataset, parameters, WAVELENGTHS, np.inf
+                dataset, parameters, xp_as_array(WAVELENGTHS, xp=xp), np.inf
             )
             reference = np.array(condition["transmittance"])
 
-            np.testing.assert_allclose(
+            xp_assert_close(
                 result,
                 reference,
                 rtol=1e-5,
                 err_msg=f"{name}: transmittance",
+                atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-    def test_sky_transmittance_Wilkie2021_bounded(self) -> None:
+    def test_sky_transmittance_Wilkie2021_bounded(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.sky.wilkie2021.\
 sky_transmittance_Wilkie2021` definition values are in [0, 1].
@@ -594,18 +720,20 @@ sky_transmittance_Wilkie2021` definition values are in [0, 1].
         dataset = SkyDataset_Wilkie2021(DATASET_PATH)
 
         parameters = compute_sky_parameters_Wilkie2021(
-            np.array([0, 0, 0.0]),
-            np.array([0, 0, 1.0]),
+            xp_as_array([0, 0, 0.0], xp=xp),
+            xp_as_array([0, 0, 1.0], xp=xp),
             0.5236,
             0.0,
             50.0,
             0.5,
         )
-        result = sky_transmittance_Wilkie2021(dataset, parameters, WAVELENGTHS, np.inf)
-        assert np.all(result >= 0.0)
-        assert np.all(result <= 1.0)
+        result = sky_transmittance_Wilkie2021(
+            dataset, parameters, xp_as_array(WAVELENGTHS, xp=xp), np.inf
+        )
+        assert np.all(as_ndarray(result) >= 0.0)
+        assert np.all(as_ndarray(result) <= 1.0)
 
-    def test_sky_transmittance_Wilkie2021_out_of_range(self) -> None:
+    def test_sky_transmittance_Wilkie2021_out_of_range(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.sky.wilkie2021.\
 sky_transmittance_Wilkie2021` definition with out-of-range wavelengths.
@@ -622,11 +750,11 @@ sky_transmittance_Wilkie2021` definition with out-of-range wavelengths.
             0.5,
         )
         result = sky_transmittance_Wilkie2021(
-            dataset, parameters, np.array([100.0, 5000.0]), np.inf
+            dataset, parameters, xp_as_array([100.0, 5000.0], xp=xp), np.inf
         )
-        np.testing.assert_array_equal(result, 0.0)
+        xp_assert_equal(result, 0.0)
 
-    def test_n_dimensional_sky_transmittance_Wilkie2021(self) -> None:
+    def test_n_dimensional_sky_transmittance_Wilkie2021(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.sky.wilkie2021.\
 sky_transmittance_Wilkie2021` definition n-dimensional support.
@@ -634,16 +762,19 @@ sky_transmittance_Wilkie2021` definition n-dimensional support.
 
         dataset = SkyDataset_Wilkie2021(DATASET_PATH)
 
-        directions = np.array([[0, 0, 1], [1, 0, 0], [0, 1, 0]], dtype=float)
+        # Batched directions.
+        directions = xp_as_array([[0, 0, 1], [1, 0, 0], [0, 1, 0]], xp=xp)
         parameters = compute_sky_parameters_Wilkie2021(
-            np.array([0, 0, 0.0]),
+            xp_as_array([0, 0, 0.0], xp=xp),
             directions,
             0.5236,
             0.0,
             50.0,
             0.5,
         )
-        result = sky_transmittance_Wilkie2021(dataset, parameters, WAVELENGTHS, np.inf)
-        assert result.shape == (3, 6)
-        assert np.all(result >= 0.0)
-        assert np.all(result <= 1.0)
+        result = sky_transmittance_Wilkie2021(
+            dataset, parameters, xp_as_array(WAVELENGTHS, xp=xp), np.inf
+        )
+        assert as_ndarray(result).shape == (3, 6)
+        assert np.all(as_ndarray(result) >= 0.0)
+        assert np.all(as_ndarray(result) <= 1.0)

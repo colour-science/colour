@@ -9,8 +9,6 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.constants import EPSILON
 
 if typing.TYPE_CHECKING:
@@ -19,6 +17,8 @@ if typing.TYPE_CHECKING:
 from colour.models import xyY_to_XYZ
 from colour.utilities import (
     CACHE_REGISTRY,
+    array_namespace,
+    as_ndarray,
     is_caching_enabled,
     required,
     validate_method,
@@ -118,6 +118,7 @@ def is_within_macadam_limits(
 
     Examples
     --------
+    >>> import numpy as np
     >>> is_within_macadam_limits(np.array([0.3205, 0.4131, 0.51]), "A")
     array(True)
     >>> a = np.array([[0.3205, 0.4131, 0.51], [0.0005, 0.0031, 0.001]])
@@ -131,10 +132,15 @@ def is_within_macadam_limits(
     triangulation = _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS.get(illuminant)
 
     if triangulation is None:
-        _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS[illuminant] = triangulation = (
-            Delaunay(optimal_colour_stimuli)
-        )
+        triangulation = Delaunay(optimal_colour_stimuli)
 
-    simplex = triangulation.find_simplex(xyY_to_XYZ(xyY), tol=tolerance)
+        if is_caching_enabled():
+            _CACHE_OPTIMAL_COLOUR_STIMULI_XYZ_TRIANGULATIONS[illuminant] = triangulation
 
-    return np.where(simplex >= 0, True, False)
+    XYZ = xyY_to_XYZ(xyY)
+
+    xp = array_namespace(XYZ)
+
+    simplex = triangulation.find_simplex(as_ndarray(XYZ), tol=tolerance)
+
+    return xp.asarray(simplex >= 0)

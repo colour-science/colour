@@ -139,7 +139,8 @@ Lookup.first_key_from_value` method.
 Lookup.first_key_from_value` method raised exception.
         """
 
-        pytest.raises(IndexError, Lookup().first_key_from_value, "John")
+        with pytest.raises(IndexError):
+            Lookup().first_key_from_value("John")
 
 
 class TestCanonicalMapping:
@@ -346,12 +347,10 @@ __contains__` method.
         method raised exception.
         """
 
-        pytest.raises(
-            TypeError,
-            operator.eq,
-            CanonicalMapping(John="Doe", Jane="Doe"),
-            ["John", "Doe", "Jane", "Doe"],
-        )
+        with pytest.raises(TypeError):
+            operator.eq(
+                CanonicalMapping(John="Doe", Jane="Doe"), ["John", "Doe", "Jane", "Doe"]
+            )
 
     def test__ne__(self) -> None:
         """
@@ -370,12 +369,10 @@ __contains__` method.
         method raised exception.
         """
 
-        pytest.raises(
-            TypeError,
-            operator.ne,
-            CanonicalMapping(John="Doe", Jane="Doe"),
-            ["John", "Doe", "Jane", "Doe"],
-        )
+        with pytest.raises(TypeError):
+            operator.ne(
+                CanonicalMapping(John="Doe", Jane="Doe"), ["John", "Doe", "Jane", "Doe"]
+            )
 
     def test_copy(self) -> None:
         """
@@ -402,7 +399,8 @@ lower_keys` method.
 
         mapping = CanonicalMapping(John="Doe", john="Doe")
 
-        pytest.warns(ColourUsageWarning, lambda: list(mapping.lower_keys()))
+        with pytest.warns(ColourUsageWarning):
+            list(mapping.lower_keys())
 
     def test_lower_items(self) -> None:
         """
@@ -432,7 +430,8 @@ slugified_keys` method.
 
         mapping = CanonicalMapping({"McCamy 1992": 1, "McCamy-1992": 2})
 
-        pytest.warns(ColourUsageWarning, lambda: list(mapping.slugified_keys()))
+        with pytest.warns(ColourUsageWarning):
+            list(mapping.slugified_keys())
 
     def test_slugified_items(self) -> None:
         """
@@ -461,7 +460,8 @@ canonical_keys` method.
 
         mapping = CanonicalMapping({"McCamy_1992": 1, "McCamy-1992": 2})
 
-        pytest.warns(ColourUsageWarning, lambda: list(mapping.canonical_keys()))
+        with pytest.warns(ColourUsageWarning):
+            list(mapping.canonical_keys())
 
     def test_canonical_items(self) -> None:
         """

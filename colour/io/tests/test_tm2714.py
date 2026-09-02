@@ -10,7 +10,6 @@ import textwrap
 import typing
 from copy import deepcopy
 
-import numpy as np
 import pytest
 
 from colour.colorimetry import SpectralDistribution
@@ -21,7 +20,11 @@ if typing.TYPE_CHECKING:
 
 from colour.hints import cast
 from colour.io.tm2714 import Header_IESTM2714, SpectralDistribution_IESTM2714
-from colour.utilities import is_scipy_installed, optional
+from colour.utilities import (
+    optional,
+    xp_assert_close,
+    xp_assert_equal,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -231,9 +234,6 @@ class TestIES_TM2714_Header:
 
     def test__repr__(self) -> None:
         """Test :meth:`colour.io.tm2714.Header_IESTM2714.__repr__` method."""
-
-        if not is_scipy_installed():  # pragma: no cover
-            return
 
         assert repr(self._header) == (
             textwrap.dedent(
@@ -460,9 +460,6 @@ class TestIES_TM2714_Sd:
         method.
         """
 
-        if not is_scipy_installed():  # pragma: no cover
-            return
-
         assert re.sub(
             "SpectralDistribution_IESTM2714.*",
             "SpectralDistribution_IESTM2714(...,",
@@ -603,10 +600,8 @@ SpectralDistribution_IESTM2714(...,
 
         sd_r = SpectralDistribution(FLUORESCENT_FILE_SPECTRAL_DATA)
 
-        np.testing.assert_array_equal(sd_r.domain, sd.domain)
-        np.testing.assert_allclose(
-            sd_r.values, sd.values, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_equal(sd_r.domain, sd.domain)
+        xp_assert_close(sd_r.values, sd.values, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         test_read: List[
             Tuple[dict, Header_IESTM2714 | SpectralDistribution_IESTM2714]
@@ -627,7 +622,8 @@ SpectralDistribution_IESTM2714(...,
         """
 
         sd = SpectralDistribution_IESTM2714()
-        pytest.raises(ValueError, sd.read)
+        with pytest.raises(ValueError):
+            sd.read()
 
         with pytest.raises(ValueError):
             sd = SpectralDistribution_IESTM2714(
@@ -680,4 +676,5 @@ SpectralDistribution_IESTM2714(...,
         """
 
         sd = SpectralDistribution_IESTM2714()
-        pytest.raises(ValueError, sd.write)
+        with pytest.raises(ValueError):
+            sd.write()

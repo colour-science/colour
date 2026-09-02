@@ -38,6 +38,7 @@ from colour.hints import (  # noqa: TC001
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassIterable,
+    array_namespace,
     as_float_array,
     from_range_1,
     get_domain_range_scale,
@@ -45,6 +46,7 @@ from colour.utilities import (
     row_as_diagonal,
     to_domain_1,
     validate_method,
+    xp_as_float_array,
 )
 
 __author__ = "Colour Developers"
@@ -214,13 +216,17 @@ def matrix_chromatic_adaptation_vk20(
     XYZ_r = as_float_array(XYZ_r)
     XYZ_p = as_float_array(XYZ_p)
 
+    xp = array_namespace(XYZ_n, XYZ_r, XYZ_p)
+
+    XYZ_r = xp_as_float_array(XYZ_r, xp=xp, like=XYZ_n)
+
     transform = validate_method(
         transform,
         tuple(CHROMATIC_ADAPTATION_TRANSFORMS),
         '"{0}" chromatic adaptation transform is invalid, it must be one of {1}!',
     )
 
-    M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]
+    M = xp_as_float_array(CHROMATIC_ADAPTATION_TRANSFORMS[transform], xp=xp, like=XYZ_n)
 
     D_n, D_r, D_p = coefficients.values
 
@@ -231,9 +237,9 @@ def matrix_chromatic_adaptation_vk20(
     with sdiv_mode():
         D = row_as_diagonal(sdiv(1, (D_n * LMS_n + D_r * LMS_r + D_p * LMS_p)))
 
-    M_CAT = np.matmul(np.linalg.inv(M), D)
+    M_CAT = xp.matmul(xp.linalg.inv(M), D)
 
-    return np.matmul(M_CAT, M)
+    return xp.matmul(M_CAT, M)
 
 
 def chromatic_adaptation_vK20(
@@ -343,6 +349,10 @@ def chromatic_adaptation_vK20(
             else TVS_XYZ_R_VK20 / 100,
         )
     )
+
+    xp = array_namespace(XYZ, XYZ_p, XYZ_n, XYZ_r)
+
+    XYZ_r = xp_as_float_array(XYZ_r, xp=xp, like=XYZ)
 
     M_CAT = matrix_chromatic_adaptation_vk20(
         XYZ_p, XYZ_n, XYZ_r, transform, coefficients

@@ -27,8 +27,10 @@ from colour.hints import (  # noqa: TC001
 )
 from colour.models import eotf_inverse_sRGB, eotf_sRGB
 from colour.utilities import (
+    array_namespace,
     as_float_array,
     as_int_array,
+    as_ndarray,
     from_range_1,
     to_domain_1,
     usage_warning,
@@ -78,15 +80,17 @@ def RGB_to_HEX(RGB: Domain1) -> NDArrayStr:
 
     RGB = to_domain_1(RGB)
 
-    if np.any(RGB < 0):
+    xp = array_namespace(RGB)
+
+    if xp.any(RGB < 0):
         usage_warning(
             '"RGB" array contains negative values, those will be clipped, '
             "unpredictable results may occur!"
         )
 
-        RGB = as_float_array(np.clip(RGB, 0, np.inf))
+        RGB = as_float_array(xp.clip(RGB, 0, float("inf")))
 
-    if np.any(RGB > 1):
+    if xp.any(RGB > 1):
         usage_warning(
             '"RGB" array contains values over 1 and will be normalised, '
             "unpredictable results may occur!"
@@ -96,7 +100,7 @@ def RGB_to_HEX(RGB: Domain1) -> NDArrayStr:
 
     to_HEX = np.vectorize("{:02x}".format)
 
-    HEX = to_HEX(as_int_array(RGB * 255, dtype=np.uint8)).astype(object)
+    HEX = to_HEX(as_int_array(as_ndarray(RGB) * 255, dtype=np.uint8)).astype(object)
 
     return np.asarray("#") + HEX[..., 0] + HEX[..., 1] + HEX[..., 2]
 

@@ -19,14 +19,18 @@ SMPTE%20normes%20et%20confs/s240m.pdf
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.algebra import spow
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import as_float, domain_range_scale, from_range_1, to_domain_1
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -83,7 +87,9 @@ def oetf_SMPTE240M(L_c: Domain1) -> Range1:
 
     L_c = to_domain_1(L_c)
 
-    V_c = np.where(L_c < 0.0228, 4 * L_c, 1.1115 * spow(L_c, 0.45) - 0.1115)
+    xp = array_namespace(L_c)
+
+    V_c = xp.where(L_c < 0.0228, 4 * L_c, 1.1115 * spow(L_c, 0.45) - 0.1115)
 
     return as_float(from_range_1(V_c))
 
@@ -130,8 +136,10 @@ def eotf_SMPTE240M(V_r: Domain1) -> Range1:
 
     V_r = to_domain_1(V_r)
 
+    xp = array_namespace(V_r)
+
     with domain_range_scale("ignore"):
-        L_r = np.where(
+        L_r = xp.where(
             V_r < oetf_SMPTE240M(0.0228),
             V_r / 4,
             spow((V_r + 0.1115) / 1.1115, 1 / 0.45),

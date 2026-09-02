@@ -24,8 +24,6 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralDistribution,
@@ -43,7 +41,14 @@ if typing.TYPE_CHECKING:
         NDArrayFloat,
     )
 
-from colour.utilities import CACHE_REGISTRY, is_caching_enabled, validate_method, zeros
+from colour.utilities import (
+    CACHE_REGISTRY,
+    array_namespace,
+    get_domain_range_scale,
+    is_caching_enabled,
+    validate_method,
+    zeros,
+)
 from colour.volume import is_within_mesh_volume
 
 __author__ = "Colour Developers"
@@ -221,28 +226,34 @@ def generate_pulse_waves(
     )
 
     square_waves = []
-    square_waves_basis = np.tril(np.ones((bins, bins), dtype=DTYPE_FLOAT_DEFAULT))[
+
+    xp = array_namespace()
+
+    square_waves_basis = xp.tril(xp.ones((bins, bins), dtype=DTYPE_FLOAT_DEFAULT))[
         0:-1, :
     ]
 
     if pulse_order.lower() == "bins":
         for square_wave_basis in square_waves_basis:
             for i in range(bins):
-                square_waves.append(np.roll(square_wave_basis, i))  # noqa: PERF401
+                square_waves.append(xp.roll(square_wave_basis, i))  # noqa: PERF401
     else:
         for i in range(bins):
             for j, square_wave_basis in enumerate(square_waves_basis):
-                square_waves.append(np.roll(square_wave_basis, i - j // 2))
+                square_waves.append(xp.roll(square_wave_basis, i - j // 2))
 
         if filter_jagged_pulses:
             square_waves = square_waves[::2]
 
-    return np.vstack(
+    square_waves_array = xp.stack(square_waves)
+
+    return xp.concat(
         [
-            zeros(bins),
-            np.vstack(square_waves),
-            np.ones(bins, dtype=DTYPE_FLOAT_DEFAULT),
-        ]
+            zeros((1, bins)),
+            square_waves_array,
+            xp.ones((1, bins), dtype=DTYPE_FLOAT_DEFAULT),
+        ],
+        axis=0,
     )
 
 
@@ -362,17 +373,22 @@ def XYZ_outer_surface(
     settings = dict(kwargs)
     settings.update({"shape": cmfs.shape})
 
+    # The tristimulus values are scale-dependent, so the domain-range scale is
+    # part of the cache key.
     key = (
         hash(cmfs),
         hash(illuminant),
         point_order,
         filter_jagged_points,
         str(settings),
+        get_domain_range_scale(),
     )
-    XYZ = _CACHE_OUTER_SURFACE_XYZ.get(key)
 
-    if is_caching_enabled() and XYZ is not None:  # pragma: no cover
-        return XYZ
+    if is_caching_enabled():
+        XYZ = _CACHE_OUTER_SURFACE_XYZ.get(key)
+
+        if XYZ is not None:  # pragma: no cover
+            return XYZ
 
     pulse_waves = generate_pulse_waves(
         len(cmfs.wavelengths), point_order, filter_jagged_points
@@ -382,7 +398,8 @@ def XYZ_outer_surface(
         / 100
     )
 
-    _CACHE_OUTER_SURFACE_XYZ[key] = XYZ
+    if is_caching_enabled():
+        _CACHE_OUTER_SURFACE_XYZ[key] = XYZ
 
     return XYZ
 
@@ -452,12 +469,16 @@ def is_within_visible_spectrum(
         SPECTRAL_SHAPE_OUTER_SURFACE_XYZ,
     )
 
-    key = (hash(cmfs), hash(illuminant), str(kwargs))
-    vertices = _CACHE_OUTER_SURFACE_XYZ_POINTS.get(key)
+    key = (hash(cmfs), hash(illuminant), str(kwargs), get_domain_range_scale())
+
+    vertices = (
+        _CACHE_OUTER_SURFACE_XYZ_POINTS.get(key) if is_caching_enabled() else None
+    )
 
     if vertices is None:
-        _CACHE_OUTER_SURFACE_XYZ_POINTS[key] = vertices = solid_RoschMacAdam(
-            cmfs, illuminant, **kwargs
-        )
+        vertices = solid_RoschMacAdam(cmfs, illuminant, **kwargs)
+
+        if is_caching_enabled():
+            _CACHE_OUTER_SURFACE_XYZ_POINTS[key] = vertices
 
     return is_within_mesh_volume(XYZ, vertices, tolerance)

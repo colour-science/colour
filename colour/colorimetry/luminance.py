@@ -63,8 +63,6 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.algebra import spow
 from colour.biochemistry import (
     substrate_concentration_MichaelisMenten_Abebe2017,
@@ -84,6 +82,7 @@ from colour.hints import (  # noqa: TC001
 )
 from colour.utilities import (
     CanonicalMapping,
+    array_namespace,
     as_float,
     as_float_array,
     filter_kwargs,
@@ -94,6 +93,7 @@ from colour.utilities import (
     to_domain_10,
     to_domain_100,
     validate_method,
+    xp_as_float_array,
 )
 
 __author__ = "Colour Developers"
@@ -269,9 +269,12 @@ def intermediate_luminance_function_CIE1976(
     """
 
     f_Y_Y_n = as_float_array(f_Y_Y_n)
-    Y_n = as_float_array(Y_n)
 
-    Y = np.where(
+    xp = array_namespace(f_Y_Y_n, Y_n)
+
+    Y_n = xp_as_float_array(Y_n, xp=xp, like=f_Y_Y_n)
+
+    Y = xp.where(
         f_Y_Y_n > 24 / 116,
         Y_n * f_Y_Y_n**3,
         Y_n * (f_Y_Y_n - 16 / 116) * (108 / 841),
@@ -380,8 +383,11 @@ def luminance_Fairchild2010(L_hdr: Domain100, epsilon: ArrayLike = 1.836) -> Ran
 
     L_hdr = to_domain_100(L_hdr)
 
-    Y = np.exp(
-        np.log(
+    xp = array_namespace(L_hdr, epsilon)
+
+    epsilon = xp_as_float_array(epsilon, xp=xp, like=L_hdr)
+    Y = xp.exp(
+        xp.log(
             substrate_concentration_MichaelisMenten_Michaelis1913(
                 L_hdr - 0.02, 100, spow(0.184, epsilon)
             )
@@ -444,12 +450,16 @@ def luminance_Fairchild2011(
     """
 
     L_hdr = to_domain_100(L_hdr)
+
+    xp = array_namespace(L_hdr, epsilon)
+
+    epsilon = xp_as_float_array(epsilon, xp=xp, like=L_hdr)
     method = validate_method(method, ("hdr-CIELAB", "hdr-IPT"))
 
     maximum_perception = 247 if method == "hdr-cielab" else 246
 
-    Y = np.exp(
-        np.log(
+    Y = xp.exp(
+        xp.log(
             substrate_concentration_MichaelisMenten_Michaelis1913(
                 L_hdr - 0.02, maximum_perception, spow(2, epsilon)
             )
@@ -520,17 +530,20 @@ def luminance_Abebe2017(
     """
 
     L = as_float_array(L)
-    Y_n = as_float_array(optional(Y_n, 100))
+
+    xp = array_namespace(L)
+
+    Y_n = xp_as_float_array(optional(Y_n, 100), xp=xp, like=L)
     method = validate_method(method, ("Michaelis-Menten", "Stevens"))
 
     if method == "stevens":
-        Y = np.where(
+        Y = xp.where(
             Y_n <= 100,
             spow((L + 0.226) / 1.226, 1 / 0.266),
             spow((L + 0.127) / 1.127, 1 / 0.230),
         )
     else:
-        Y = np.where(
+        Y = xp.where(
             Y_n <= 100,
             spow(
                 substrate_concentration_MichaelisMenten_Abebe2017(
@@ -679,7 +692,7 @@ def luminance(
         LV = LV / 10
 
     # Abebe expects L in [0, 1] and Y_n in cd/m².
-    if function in (luminance_Abebe2017,):
+    if function == luminance_Abebe2017:
         if domain_range_reference or domain_range_100:
             LV = LV / 100
         if domain_range_1 and "Y_n" in kwargs:
@@ -695,7 +708,7 @@ def luminance(
         Y_V = Y_V * 100
 
     # Abebe outputs absolute cd/m², scale to [0, 1] in scale 1.
-    if function in (luminance_Abebe2017,) and domain_range_1:
+    if function == luminance_Abebe2017 and domain_range_1:
         Y_V = Y_V / 100
 
     return Y_V

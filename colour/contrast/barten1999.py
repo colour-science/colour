@@ -36,7 +36,12 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
-from colour.utilities import as_float, as_float_array
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    as_float_array,
+    xp_as_float_array,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -90,7 +95,11 @@ def optical_MTF_Barten1999(u: ArrayLike, sigma: ArrayLike = 0.01) -> NDArrayFloa
     u = as_float_array(u)
     sigma = as_float_array(sigma)
 
-    return as_float(np.exp(-2 * np.pi**2 * sigma**2 * u**2))
+    xp = array_namespace(u, sigma)
+
+    sigma = xp_as_float_array(sigma, xp=xp, like=u)
+
+    return as_float(xp.exp(-2 * xp.pi**2 * sigma**2 * u**2))
 
 
 def pupil_diameter_Barten1999(
@@ -135,7 +144,12 @@ def pupil_diameter_Barten1999(
     X_0 = as_float_array(X_0)
     Y_0 = X_0 if Y_0 is None else as_float_array(Y_0)
 
-    return as_float(5 - 3 * np.tanh(0.4 * np.log10(L * X_0 * Y_0 / 40**2)))
+    xp = array_namespace(L, X_0, Y_0)
+
+    X_0 = xp_as_float_array(X_0, xp=xp, like=L)
+    Y_0 = xp_as_float_array(Y_0, xp=xp, like=L)
+
+    return as_float(5 - 3 * xp.tanh(0.4 * xp.log10(L * X_0 * Y_0 / 40**2)))
 
 
 def sigma_Barten1999(
@@ -194,7 +208,12 @@ def sigma_Barten1999(
     C_ab = as_float_array(C_ab)
     d = as_float_array(d)
 
-    return as_float(np.hypot(sigma_0, C_ab * d))
+    xp = array_namespace(sigma_0, C_ab, d)
+
+    C_ab = xp_as_float_array(C_ab, xp=xp, like=sigma_0)
+    d = xp_as_float_array(d, xp=xp, like=sigma_0)
+
+    return as_float(xp.hypot(sigma_0, C_ab * d))
 
 
 def retinal_illuminance_Barten1999(
@@ -493,18 +512,21 @@ def contrast_sensitivity_function_Barten1999(
     """
 
     u = as_float_array(u)
-    k = as_float_array(k)
-    T = as_float_array(T)
-    X_0 = as_float_array(X_0)
-    Y_0 = X_0 if Y_0 is None else as_float_array(Y_0)
-    X_max = as_float_array(X_max)
-    Y_max = X_max if Y_max is None else as_float_array(Y_max)
-    N_max = as_float_array(N_max)
-    n = as_float_array(n)
-    p = as_float_array(p)
-    E = as_float_array(E)
-    phi_0 = as_float_array(phi_0)
-    u_0 = as_float_array(u_0)
+
+    xp = array_namespace(u)
+
+    k = xp_as_float_array(k, xp=xp, like=u)
+    T = xp_as_float_array(T, xp=xp, like=u)
+    X_0 = xp_as_float_array(X_0, xp=xp, like=u)
+    Y_0 = X_0 if Y_0 is None else xp_as_float_array(Y_0, xp=xp, like=u)
+    X_max = xp_as_float_array(X_max, xp=xp, like=u)
+    Y_max = X_max if Y_max is None else xp_as_float_array(Y_max, xp=xp, like=u)
+    N_max = xp_as_float_array(N_max, xp=xp, like=u)
+    n = xp_as_float_array(n, xp=xp, like=u)
+    p = xp_as_float_array(p, xp=xp, like=u)
+    E = xp_as_float_array(E, xp=xp, like=u)
+    phi_0 = xp_as_float_array(phi_0, xp=xp, like=u)
+    u_0 = xp_as_float_array(u_0, xp=xp, like=u)
 
     M_opt = optical_MTF_Barten1999(u, sigma)
 
@@ -513,8 +535,8 @@ def contrast_sensitivity_function_Barten1999(
         * maximum_angular_size_Barten1999(u, Y_0, Y_max, N_max)
     )
 
-    S = (M_opt / k) / np.sqrt(
-        2 / T * M_as * (1 / (n * p * E) + phi_0 / (1 - np.exp(-((u / u_0) ** 2))))
+    S = (M_opt / k) / xp.sqrt(
+        2 / T * M_as * (1 / (n * p * E) + phi_0 / (1 - xp.exp(-((u / u_0) ** 2))))
     )
 
     return as_float(S)

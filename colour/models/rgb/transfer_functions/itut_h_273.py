@@ -27,7 +27,7 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import math
 
 from colour.algebra import spow
 from colour.hints import (  # noqa: TC001
@@ -40,7 +40,13 @@ from colour.models.rgb.transfer_functions import (
     eotf_inverse_sRGB,
     eotf_sRGB,
 )
-from colour.utilities import as_float, as_float_array, from_range_1, to_domain_1
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    as_float_array,
+    from_range_1,
+    to_domain_1,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -112,10 +118,12 @@ def oetf_H273_Log(L_c: Domain1) -> Range1:
 
     L_c = to_domain_1(L_c)
 
-    V = np.where(
+    xp = array_namespace(L_c)
+
+    V = xp.where(
         L_c >= 0.01,
         # L_c in [0.01, 1] range
-        1 + np.log10(L_c) / 2,
+        1 + xp.log10(L_c) / 2,
         # L_c in [0, 0.01] range
         0,
     )
@@ -173,7 +181,9 @@ def oetf_inverse_H273_Log(V: Domain1) -> Range1:
 
     V = to_domain_1(V)
 
-    L_c = np.where(
+    xp = array_namespace(V)
+
+    L_c = xp.where(
         oetf_H273_Log(0.01) <= V,
         # L_c in [0.01, 1] range
         spow(10, (V - 1) * 2),
@@ -237,10 +247,12 @@ def oetf_H273_LogSqrt(L_c: Domain1) -> Range1:
 
     L_c = to_domain_1(L_c)
 
-    V = np.where(
-        L_c >= np.sqrt(10) / 1000,
+    xp = array_namespace(L_c)
+
+    V = xp.where(
+        L_c >= math.sqrt(10) / 1000,
         # L_c in [sqrt(10)/1000, 1] range
-        1 + np.log10(L_c) / 2.5,
+        1 + xp.log10(L_c) / 2.5,
         # L_c in [0, sqrt(10)/1000] range
         0,
     )
@@ -297,8 +309,10 @@ def oetf_inverse_H273_LogSqrt(V: Domain1) -> Range1:
 
     V = to_domain_1(V)
 
-    L_c = np.where(
-        oetf_H273_LogSqrt(np.sqrt(10) / 1000) <= V,
+    xp = array_namespace(V)
+
+    L_c = xp.where(
+        oetf_H273_LogSqrt(math.sqrt(10) / 1000) <= V,
         # L_c in [sqrt(10)/1000, 1] range
         spow(10, (V - 1) * 2.5),
         # L_c in [0, sqrt(10)/1000] range
@@ -359,7 +373,9 @@ def oetf_H273_IEC61966_2(L_c: Domain1) -> Range1:
 
     L_c = as_float_array(L_c)
 
-    V = np.where(
+    xp = array_namespace(L_c)
+
+    V = xp.where(
         L_c >= 0,
         eotf_inverse_sRGB(L_c),
         -eotf_inverse_sRGB(-L_c),
@@ -423,7 +439,9 @@ def oetf_inverse_H273_IEC61966_2(
 
     V = as_float_array(V)
 
-    L_c = np.where(
+    xp = array_namespace(V)
+
+    L_c = xp.where(
         V >= 0,
         eotf_sRGB(V),
         -eotf_sRGB(-V),

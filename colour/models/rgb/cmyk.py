@@ -23,13 +23,11 @@ References
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
+from colour.utilities import array_namespace, from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -80,6 +78,7 @@ def RGB_to_CMY(RGB: Domain1) -> Range1:
 
     Examples
     --------
+    >>> import numpy as np
     >>> RGB = np.array([0.45620519, 0.03081071, 0.04091952])
     >>> RGB_to_CMY(RGB)  # doctest: +ELLIPSIS
     array([0.5437948..., 0.9691892..., 0.9590804...])
@@ -124,12 +123,15 @@ def CMY_to_RGB(CMY: Domain1) -> Range1:
 
     Examples
     --------
+    >>> import numpy as np
     >>> CMY = np.array([0.54379481, 0.96918929, 0.95908048])
     >>> CMY_to_RGB(CMY)  # doctest: +ELLIPSIS
     array([0.4562051..., 0.0308107..., 0.0409195...])
     """
 
-    RGB = 1 - to_domain_1(CMY)
+    CMY = to_domain_1(CMY)
+
+    RGB = 1 - CMY
 
     return from_range_1(RGB)
 
@@ -168,23 +170,28 @@ def CMY_to_CMYK(CMY: Domain1) -> Range1:
 
     Examples
     --------
+    >>> import numpy as np
     >>> CMY = np.array([0.54379481, 0.96918929, 0.95908048])
     >>> CMY_to_CMYK(CMY)  # doctest: +ELLIPSIS
     array([0.        , 0.9324630..., 0.9103045..., 0.5437948...])
     """
 
-    C, M, Y = tsplit(to_domain_1(CMY))
+    CMY = to_domain_1(CMY)
 
-    K = np.where(C < 1, C, 1)
-    K = np.where(M < K, M, K)
-    K = np.where(Y < K, Y, K)
+    xp = array_namespace(CMY)
+
+    C, M, Y = tsplit(CMY)
+
+    K = xp.where(C < 1, C, 1)
+    K = xp.where(M < K, M, K)
+    K = xp.where(Y < K, Y, K)
 
     K_1 = K == 1
-    N = np.where(K_1, 1, 1 - K)
+    N = xp.where(K_1, 1, 1 - K)
 
-    C = np.where(K_1, 0, (C - K) / N)
-    M = np.where(K_1, 0, (M - K) / N)
-    Y = np.where(K_1, 0, (Y - K) / N)
+    C = xp.where(K_1, 0, (C - K) / N)
+    M = xp.where(K_1, 0, (M - K) / N)
+    Y = xp.where(K_1, 0, (Y - K) / N)
 
     CMYK = tstack([C, M, Y, K])
 
@@ -225,6 +232,7 @@ def CMYK_to_CMY(CMYK: Domain1) -> Range1:
 
     Examples
     --------
+    >>> import numpy as np
     >>> CMYK = np.array([0.50000000, 0.00000000, 0.74400000, 0.01960784])
     >>> CMYK_to_CMY(CMYK)  # doctest: +ELLIPSIS
     array([0.5098039..., 0.0196078..., 0.7490196...])

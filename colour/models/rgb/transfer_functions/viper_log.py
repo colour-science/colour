@@ -17,13 +17,11 @@ nuke-default/make.py
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import as_float, from_range_1, to_domain_1
+from colour.utilities import array_namespace, as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -78,7 +76,9 @@ def log_encoding_ViperLog(x: Domain1) -> Range1:
 
     x = to_domain_1(x)
 
-    y = (1023 + 500 * np.log10(x)) / 1023
+    xp = array_namespace(x)
+
+    y = (1023 + 500 * xp.log10(x)) / 1023
 
     return as_float(from_range_1(y))
 

@@ -22,8 +22,6 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.constants import DTYPE_FLOAT_DEFAULT, DTYPE_INT_DEFAULT
 
 if typing.TYPE_CHECKING:
@@ -40,11 +38,15 @@ if typing.TYPE_CHECKING:
 from colour.hints import NDArrayFloat, cast
 from colour.utilities import (
     CanonicalMapping,
+    array_namespace,
+    as_float_scalar,
     as_int_array,
     filter_kwargs,
     ones,
     optional,
     validate_method,
+    xp_interp,
+    xp_reshape,
     zeros,
 )
 
@@ -159,21 +161,27 @@ def primitive_grid(
     x_grid1 = int(x_grid + 1)
     y_grid1 = int(y_grid + 1)
 
+    # Mesh geometry is host render data; a backend ``width`` / ``height`` is
+    # coerced to the host so the primitive is always built with *NumPy*.
+    width, height = as_float_scalar(width), as_float_scalar(height)
+
     # Positions, normals and uvs.
     positions = zeros(x_grid1 * y_grid1 * 3)
     normals = zeros(x_grid1 * y_grid1 * 3)
     uvs = zeros(x_grid1 * y_grid1 * 2)
 
-    y = np.arange(y_grid1) * height / y_grid - height / 2
-    x = np.arange(x_grid1) * width / x_grid - width / 2
+    xp = array_namespace(positions)
 
-    positions[::3] = np.tile(x, y_grid1)
-    positions[1::3] = -np.repeat(y, x_grid1)
+    y = xp.arange(y_grid1) * height / y_grid - height / 2
+    x = xp.arange(x_grid1) * width / x_grid - width / 2
+
+    positions[::3] = xp.tile(x, y_grid1)
+    positions[1::3] = -xp.repeat(y, x_grid1)
 
     normals[2::3] = 1
 
-    uvs[::2] = np.tile(np.arange(x_grid1) / x_grid, y_grid1)
-    uvs[1::2] = np.repeat(1 - np.arange(y_grid1) / y_grid, x_grid1)
+    uvs[::2] = xp.tile(xp.arange(x_grid1) / x_grid, y_grid1)
+    uvs[1::2] = xp.repeat(1 - xp.arange(y_grid1) / y_grid, x_grid1)
 
     # Faces and outline.
     faces_indexes = []
@@ -188,12 +196,12 @@ def primitive_grid(
             faces_indexes.extend([(a, b, d), (b, c, d)])
             outline_indexes.extend([(a, b), (b, c), (c, d), (d, a)])
 
-    faces = np.reshape(as_int_array(faces_indexes, dtype_indexes), (-1, 3))
-    outline = np.reshape(as_int_array(outline_indexes, dtype_indexes), (-1, 2))
+    faces = xp_reshape(as_int_array(faces_indexes, dtype_indexes), (-1, 3), xp=xp)
+    outline = xp_reshape(as_int_array(outline_indexes, dtype_indexes), (-1, 2), xp=xp)
 
-    positions = np.reshape(positions, (-1, 3))
-    uvs = np.reshape(uvs, (-1, 2))
-    normals = np.reshape(normals, (-1, 3))
+    positions = xp_reshape(positions, (-1, 3), xp=xp)
+    uvs = xp_reshape(uvs, (-1, 2), xp=xp)
+    normals = xp_reshape(normals, (-1, 3), xp=xp)
 
     if axis in ("-x", "+x"):
         shift, zero_axis = 1, 0
@@ -204,21 +212,25 @@ def primitive_grid(
 
     sign = -1 if "-" in axis else 1
 
-    positions = np.roll(positions, shift, -1)
-    normals = cast("NDArrayFloat", np.roll(normals, shift, -1)) * sign
-    vertex_colours = np.ravel(positions)
-    vertex_colours = np.hstack(
+    positions = xp.roll(positions, shift, axis=-1)
+    normals = cast("NDArrayFloat", xp.roll(normals, shift, axis=-1)) * sign
+
+    vertex_colours = xp_reshape(positions, (-1,), xp=xp)
+    vertex_colours = xp.concat(
         [
-            np.reshape(
-                np.interp(
-                    cast("NDArrayFloat", vertex_colours),
-                    (np.min(vertex_colours), np.max(vertex_colours)),
+            xp_reshape(
+                xp_interp(
+                    vertex_colours,
+                    (xp.min(vertex_colours), xp.max(vertex_colours)),
                     (0, 1),
+                    xp=xp,
                 ),
                 positions.shape,
+                xp=xp,
             ),
             ones((positions.shape[0], 1)),
-        ]
+        ],
+        axis=1,
     )
     vertex_colours[..., zero_axis] = 0
 
@@ -378,13 +390,25 @@ def primitive_cube(
     dtype_vertices = optional(dtype_vertices, DTYPE_FLOAT_DEFAULT)
     dtype_indexes = optional(dtype_indexes, DTYPE_INT_DEFAULT)
 
+    # Mesh geometry is host render data; backend dimensions are coerced to the
+    # host so the primitive is always built with *NumPy*.
+    width, height, depth = (
+        as_float_scalar(width),
+        as_float_scalar(height),
+        as_float_scalar(depth),
+    )
+
     w_s, h_s, d_s = width_segments, height_segments, depth_segments
+
+    positions = zeros((0, 3))
+
+    xp = array_namespace(positions)
 
     planes_p = []
     if "-z" in axis:
         planes_p.append(list(primitive_grid(width, depth, w_s, d_s, "-z")))
         planes_p[-1][0]["position"][..., 2] -= height / 2
-        planes_p[-1][1] = np.fliplr(planes_p[-1][1])
+        planes_p[-1][1] = xp.flip(planes_p[-1][1], axis=1)
     if "+z" in axis:
         planes_p.append(list(primitive_grid(width, depth, w_s, d_s, "+z")))
         planes_p[-1][0]["position"][..., 2] += height / 2
@@ -392,7 +416,7 @@ def primitive_cube(
     if "-y" in axis:
         planes_p.append(list(primitive_grid(height, width, h_s, w_s, "-y")))
         planes_p[-1][0]["position"][..., 1] -= depth / 2
-        planes_p[-1][1] = np.fliplr(planes_p[-1][1])
+        planes_p[-1][1] = xp.flip(planes_p[-1][1], axis=1)
     if "+y" in axis:
         planes_p.append(list(primitive_grid(height, width, h_s, w_s, "+y")))
         planes_p[-1][0]["position"][..., 1] += depth / 2
@@ -400,12 +424,10 @@ def primitive_cube(
     if "-x" in axis:
         planes_p.append(list(primitive_grid(depth, height, d_s, h_s, "-x")))
         planes_p[-1][0]["position"][..., 0] -= width / 2
-        planes_p[-1][1] = np.fliplr(planes_p[-1][1])
+        planes_p[-1][1] = xp.flip(planes_p[-1][1], axis=1)
     if "+x" in axis:
         planes_p.append(list(primitive_grid(depth, height, d_s, h_s, "+x")))
         planes_p[-1][0]["position"][..., 0] += width / 2
-
-    positions = zeros((0, 3))
     uvs = zeros((0, 2))
     normals = zeros((0, 3))
 
@@ -414,12 +436,12 @@ def primitive_cube(
 
     offset = 0
     for vertices_p, faces_p, outline_p in planes_p:
-        positions = np.vstack([positions, vertices_p["position"]])
-        uvs = np.vstack([uvs, vertices_p["uv"]])
-        normals = np.vstack([normals, vertices_p["normal"]])
+        positions = xp.concat([positions, vertices_p["position"]], axis=0)
+        uvs = xp.concat([uvs, vertices_p["uv"]], axis=0)
+        normals = xp.concat([normals, vertices_p["normal"]], axis=0)
 
-        faces = np.vstack([faces, faces_p + offset])
-        outline = np.vstack([outline, outline_p + offset])
+        faces = xp.concat([faces, faces_p + offset], axis=0)
+        outline = xp.concat([outline, outline_p + offset], axis=0)
         offset += vertices_p["position"].shape[0]
 
     vertices = zeros(
@@ -432,19 +454,22 @@ def primitive_cube(
         ],  # pyright: ignore
     )
 
-    vertex_colours = np.ravel(positions)
-    vertex_colours = np.hstack(
+    vertex_colours = xp_reshape(positions, (-1,), xp=xp)
+    vertex_colours = xp.concat(
         [
-            np.reshape(
-                np.interp(
-                    cast("NDArrayFloat", vertex_colours),
-                    (np.min(vertex_colours), np.max(vertex_colours)),
+            xp_reshape(
+                xp_interp(
+                    vertex_colours,
+                    (xp.min(vertex_colours), xp.max(vertex_colours)),
                     (0, 1),
+                    xp=xp,
                 ),
                 positions.shape,
+                xp=xp,
             ),
             ones((positions.shape[0], 1)),
-        ]
+        ],
+        axis=1,
     )
 
     vertices["position"] = positions

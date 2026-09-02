@@ -8,6 +8,7 @@ import numpy as np
 
 from colour.colorimetry import spectral_uniformity
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.utilities import xp_assert_close
 
 if typing.TYPE_CHECKING:
     from colour.hints import NDArrayFloat
@@ -239,13 +240,13 @@ class TestSpectralUniformity:
 
         from colour.quality.datasets import SDS_TCS  # noqa: PLC0415
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             spectral_uniformity(SDS_TCS["CIE 1995"].values()),
             DATA_UNIFORMITY_FIRST_ORDER_DERIVATIVES,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             spectral_uniformity(
                 SDS_TCS["CIE 1995"].values(), use_second_order_derivatives=True
             ),

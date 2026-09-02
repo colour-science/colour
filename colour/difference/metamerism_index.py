@@ -19,8 +19,6 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 if typing.TYPE_CHECKING:
     from colour.hints import (
         Any,
@@ -41,11 +39,14 @@ from colour.colorimetry import (
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import XYZ_to_Lab
 from colour.utilities import (
+    array_namespace,
     as_array,
     attest,
     domain_range_scale,
     filter_kwargs,
     validate_method,
+    xp_isclose,
+    xp_matrix_transpose,
 )
 
 __author__ = "Colour Developers"
@@ -577,22 +578,30 @@ def sd_to_metamerism_index(
     A_r = tristimulus_weighting_factors_integration(cmfs, illuminant_r, shape=shape)
     A_t = tristimulus_weighting_factors_integration(cmfs, illuminant_t, shape=shape)
 
-    R = np.dot(
-        np.dot(A_r, np.linalg.inv(np.dot(np.transpose(A_r), A_r))), np.transpose(A_r)
+    xp = array_namespace(A_r)
+
+    A_r_T = xp_matrix_transpose(A_r, xp=xp)
+    R = xp.matmul(
+        xp.matmul(A_r, xp.linalg.inv(xp.matmul(A_r_T, A_r))),
+        A_r_T,
     )
 
-    sd_spl_corr = np.dot(R, sd_std.values) + np.dot(
-        np.identity(R.shape[0]) - R, sd_spl.values
+    sd_spl_corr = xp.matmul(R, sd_std.values) + xp.matmul(
+        xp.eye(R.shape[0]) - R, sd_spl.values
     )
     sd_spl_corr = SpectralDistribution(sd_spl_corr, shape)
 
-    XYZ_spl_corr_t = np.dot(sd_spl_corr.values, A_t) / 100
-    XYZ_std_t = np.dot(sd_std.values, A_t) / 100
-    XYZ_spl_corr = np.dot(sd_spl_corr.values, A_r) / 100
-    XYZ_std = np.dot(sd_std.values, A_r) / 100
+    XYZ_spl_corr_t = xp.matmul(sd_spl_corr.values, A_t) / 100
+    XYZ_std_t = xp.matmul(sd_std.values, A_t) / 100
+    XYZ_spl_corr = xp.matmul(sd_spl_corr.values, A_r) / 100
+    XYZ_std = xp.matmul(sd_std.values, A_r) / 100
 
     attest(
-        np.allclose(XYZ_std, XYZ_spl_corr, atol=TOLERANCE_ABSOLUTE_TESTS),
+        bool(
+            xp.all(
+                xp_isclose(XYZ_std, XYZ_spl_corr, atol=TOLERANCE_ABSOLUTE_TESTS, xp=xp)
+            )
+        ),
         "The corrected sample under reference illuminant must be equal "
         "to the standard under reference illuminant!",
     )

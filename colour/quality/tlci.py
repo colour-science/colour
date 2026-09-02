@@ -56,11 +56,16 @@ from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import (
     CACHE_REGISTRY,
     Structure,
+    array_namespace,
     as_float_array,
     as_float_scalar,
+    as_int_scalar,
+    as_ndarray,
     domain_range_scale,
     is_caching_enabled,
     optional,
+    xp_as_float_array,
+    xp_isclose,
 )
 
 if typing.TYPE_CHECKING:
@@ -180,7 +185,7 @@ _CACHE_MSDS_TCS_TLCI2012: dict = CACHE_REGISTRY.register_cache(
 
 
 def sd_planckian_TLCI2012(
-    CCT: float, shape: SpectralShape = SPECTRAL_SHAPE_TLCI2012
+    CCT: ArrayLike, shape: SpectralShape = SPECTRAL_SHAPE_TLCI2012
 ) -> SpectralDistribution:
     """
     Return the *EBU Tech 3355* Planckian reference spectral distribution for
@@ -219,24 +224,28 @@ def sd_planckian_TLCI2012(
     np.float64(120.81916...)
     """
 
+    CCT = as_float_array(CCT)
+
+    xp = array_namespace(CCT)
+
     # EBU Tech 3355 section 1.1.2.1, equation [9].
-    wavelengths = shape.wavelengths
+    wavelengths = xp_as_float_array(shape.wavelengths, xp=xp, like=CCT)
     c_2 = 1.435e7
     values = (
         100
         * (560 / wavelengths) ** 5
-        * (np.expm1(c_2 / (560 * CCT)) / np.expm1(c_2 / (wavelengths * CCT)))
+        * (xp.expm1(c_2 / (560 * CCT)) / xp.expm1(c_2 / (wavelengths * CCT)))
     )
 
     return SpectralDistribution(
         values,
         shape,
-        name=f"TLCI-2012 Planckian {CCT:.0f}K",
+        name=f"TLCI-2012 Planckian {float(as_ndarray(CCT)):.0f}K",
     )
 
 
 def sd_daylight_TLCI2012(
-    CCT: float, shape: SpectralShape = SPECTRAL_SHAPE_TLCI2012
+    CCT: ArrayLike, shape: SpectralShape = SPECTRAL_SHAPE_TLCI2012
 ) -> SpectralDistribution:
     """
     Return the *EBU Tech 3355* daylight reference spectral distribution for
@@ -274,9 +283,13 @@ def sd_daylight_TLCI2012(
     np.float64(100.0)
     """
 
+    CCT = as_float_array(CCT)
+
     # EBU Tech 3355 section 1.1.2.2, equations [10]-[14], uses the Appendix 3
     # daylight radiation vectors and coefficients.
     x, y = CCT_to_xy_CIE_D(CCT)
+    xp = array_namespace(x, y)
+
     M = 0.02387 + 0.25539 * x - 0.73217 * y
     M1 = (-1.34674 - 1.77861 * x + 5.90757 * y) / M
     M2 = (0.03638 - 31.44464 * x + 30.06400 * y) / M
@@ -284,13 +297,14 @@ def sd_daylight_TLCI2012(
     daylight_basis = reshape_msds(
         MSDS_DAYLIGHT_BASIS_TLCI2012, shape, "Align", copy=False
     ).values
+    daylight_basis = xp_as_float_array(daylight_basis, xp=xp, like=x)
 
     return SpectralDistribution(
         daylight_basis[..., 0]
         + M1 * daylight_basis[..., 1]
         + M2 * daylight_basis[..., 2],
         shape,
-        name=f"TLCI-2012 Daylight {CCT:.0f}K",
+        name=f"TLCI-2012 Daylight {float(as_ndarray(CCT)):.0f}K",
     )
 
 
@@ -335,6 +349,10 @@ def uv_to_CCT_TLCI2012(uv: NDArrayFloat) -> tuple[float, NDArrayFloat, bool]:
     True
     """
 
+    uv = as_float_array(uv)
+
+    xp = array_namespace(uv)
+
     cache_key = "Reference Loci"
     if is_caching_enabled() and cache_key in _CACHE_REFERENCE_LOCI_TLCI2012:
         reference_loci = _CACHE_REFERENCE_LOCI_TLCI2012[cache_key]
@@ -356,42 +374,45 @@ def uv_to_CCT_TLCI2012(uv: NDArrayFloat) -> tuple[float, NDArrayFloat, bool]:
         _CACHE_REFERENCE_LOCI_TLCI2012[cache_key] = reference_loci
 
     candidates: list[tuple[float, float, NDArrayFloat, bool]] = []
-    for temperatures, uv_loci, is_daylight in reference_loci:
+    for temperatures_data, uv_loci_data, is_daylight in reference_loci:
+        temperatures = xp_as_float_array(temperatures_data, xp=xp, like=uv)
+        uv_loci = xp_as_float_array(uv_loci_data, xp=xp, like=uv)
+
         # EBU Tech 3355 section 1.1.1, equations [4]-[8], finds the normal
         # intersection with adjacent locus points. Treat the Planckian and
         # daylight loci separately because section 1.1.2.3 states that they
         # do not join in the 3400 K to 5000 K mixed-reference region.
         uv_loci_start = uv_loci[:-1]
         uv_loci_delta = uv_loci[1:] - uv_loci_start
-        segment_lengths = np.linalg.norm(uv_loci_delta, axis=1)
+        segment_lengths = xp.linalg.vector_norm(uv_loci_delta, axis=1)
 
         # Equations [4]-[7]: slope of the locus, distance from the test colour
         # to the locus point, angle to the horizontal, and internal angle to
         # the CCT line.
-        slopes = np.arctan2(uv_loci_delta[:, 1], uv_loci_delta[:, 0])
+        slopes = xp.atan2(uv_loci_delta[:, 1], uv_loci_delta[:, 0])
         uv_test_delta = uv - uv_loci_start
-        radii = np.linalg.norm(uv_test_delta, axis=1)
-        angles = np.arctan2(uv_test_delta[:, 1], uv_test_delta[:, 0])
-        internal_angles = (angles - slopes + np.pi) % (2 * np.pi) - np.pi
+        radii = xp.linalg.vector_norm(uv_test_delta, axis=1)
+        angles = xp.atan2(uv_test_delta[:, 1], uv_test_delta[:, 0])
+        internal_angles = (angles - slopes + xp.pi) % (2 * xp.pi) - xp.pi
 
-        factors = radii * np.cos(internal_angles) / segment_lengths
+        factors = radii * xp.cos(internal_angles) / segment_lengths
         # The angle is undefined when the test colour coincides with a locus
         # sample. Accept that zero-radius endpoint explicitly; otherwise the
         # first daylight sample, D5000, can be rejected in favour of a nearby
         # Planckian projection.
-        at_locus_sample = np.isclose(radii, 0, atol=np.finfo(float).eps, rtol=0)
+        at_locus_sample = xp_isclose(radii, 0, atol=np.finfo(float).eps, rtol=0, xp=xp)
         valid = at_locus_sample | (
-            (np.abs(internal_angles) <= np.pi / 2) & (factors >= 0) & (factors <= 1)
+            (xp.abs(internal_angles) <= xp.pi / 2) & (factors >= 0) & (factors <= 1)
         )
-        if not np.any(valid):
+        if not xp.any(valid):
             continue
 
-        indices = np.nonzero(valid)[0]
+        indices = xp.nonzero(valid)[0]
         uv_intersections = (
             uv_loci_start[indices] + factors[indices, None] * uv_loci_delta[indices]
         )
-        distances = (radii[indices] * np.sin(internal_angles[indices])) ** 2
-        index = np.argmin(distances)
+        distances = (radii[indices] * xp.sin(internal_angles[indices])) ** 2
+        index = as_int_scalar(xp.argmin(distances))
         segment_index = indices[index]
         CCT = temperatures[segment_index] + factors[segment_index] * (
             temperatures[segment_index + 1] - temperatures[segment_index]
@@ -410,17 +431,21 @@ def uv_to_CCT_TLCI2012(uv: NDArrayFloat) -> tuple[float, NDArrayFloat, bool]:
         # inside the tabulated locus range.
         nearest_candidates = [
             (
-                np.sum((uv_locus - uv) ** 2, axis=1),
-                temperatures,
-                uv_locus,
+                xp.sum(
+                    (xp_as_float_array(uv_locus, xp=xp, like=uv) - uv) ** 2,
+                    axis=1,
+                ),
+                xp_as_float_array(temperatures, xp=xp, like=uv),
+                xp_as_float_array(uv_locus, xp=xp, like=uv),
                 is_daylight,
             )
             for temperatures, uv_locus, is_daylight in reference_loci
         ]
         distances, temperatures, uv_loci, is_daylight = min(
-            nearest_candidates, key=lambda candidate: np.min(candidate[0])
+            nearest_candidates,
+            key=lambda candidate: as_float_scalar(xp.min(candidate[0])),
         )
-        index = np.argmin(distances)
+        index = as_int_scalar(xp.argmin(distances))
 
         return (
             as_float_scalar(temperatures[index]),
@@ -491,6 +516,7 @@ def sd_reference_illuminant_TLCI2012(
         XYZ = sd_to_XYZ(sd_test, cmfs, method="Integration")
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
     CCT, uv_locus, is_daylight = uv_to_CCT_TLCI2012(uv)
+    xp = array_namespace(CCT, uv)
 
     # EBU Tech 3355 section 1.1.2 uses Planckian below 3400 K, daylight
     # above 5000 K, and the section 1.1.2.3 mixed reference between them.
@@ -501,13 +527,17 @@ def sd_reference_illuminant_TLCI2012(
     else:
         # Sections 1.1.2.1 and 1.1.2.2 normalise P3400 and D5000 at
         # 560 nm before the section 1.1.2.3 interpolation, equation [15].
-        sd_planckian_3400 = sd_planckian_TLCI2012(3400, shape)
-        sd_daylight_5000 = sd_daylight_TLCI2012(5000, shape)
+        sd_planckian_3400 = sd_planckian_TLCI2012(
+            xp_as_float_array(3400, xp=xp, like=CCT), shape
+        )
+        sd_daylight_5000 = sd_daylight_TLCI2012(
+            xp_as_float_array(5000, xp=xp, like=CCT), shape
+        )
         weight = (CCT - 3400) / (5000 - 3400)
         sd_reference = SpectralDistribution(
             linstep_function(weight, sd_planckian_3400.values, sd_daylight_5000.values),
             shape,
-            name=f"TLCI-2012 Reference {CCT:.0f}K",
+            name=f"TLCI-2012 Reference {float(as_ndarray(CCT)):.0f}K",
         )
 
     # EBU Tech 3355 section 1.1.1, equation [8], normalised to 0.0054 per
@@ -515,7 +545,8 @@ def sd_reference_illuminant_TLCI2012(
     # Tech 3355 section 1.1.1 reverses the sign for green-side offsets,
     # where uT < uL. Section 1.1.2.3 equations [16]-[17] label d > 0 as
     # magenta and d <= 0 as green.
-    D_uv = as_float_scalar(np.linalg.norm(uv - uv_locus) / 0.0054)
+    uv_locus = xp_as_float_array(uv_locus, xp=xp, like=uv)
+    D_uv = as_float_scalar(xp.linalg.vector_norm(uv - uv_locus) / 0.0054)
 
     if uv[0] < uv_locus[0]:
         D_uv *= -1
@@ -587,10 +618,14 @@ def colour_differences_TLCI2012(
 
     msds_tcs = reshape_msds(msds_tcs, shape, "Align", copy=False)
 
+    xp = array_namespace(sd_test.values, sd_reference.values, msds_camera.values)
+    msds_tcs = msds_tcs.copy(xp=xp)
+    msds_camera = msds_camera.copy(xp=xp)
+
     # EBU Tech 3355 section 1.3.1 sets the neutral reflector level to 0.9 so
     # the ColorChecker white patch generates peak white.
     sd_reflector = SpectralDistribution(
-        np.full(len(shape.wavelengths), 0.9),
+        xp.full((len(shape.wavelengths),), 0.9),
         shape,
         name="90% Flat Reflector",
     )
@@ -622,8 +657,16 @@ def colour_differences_TLCI2012(
         # both TLMF sources, then normalises test-source camera luma to unity.
         RGB_test = RGB_test / RGB_neutral_reference
         RGB_neutral_test = RGB_neutral_test / RGB_neutral_reference
-        RGB_neutral_test_matrix = np.matmul(RGB_neutral_test, MATRIX_TLCI2012_CAMERA.T)
-        luma_test = np.dot(RGB_neutral_test_matrix, MATRIX_TLCI2012_DISPLAY[1])
+        matrix_camera = xp_as_float_array(
+            MATRIX_TLCI2012_CAMERA.T, xp=xp, like=RGB_neutral_test
+        )
+        RGB_neutral_test_matrix = xp.matmul(RGB_neutral_test, matrix_camera)
+        luma_test = xp.sum(
+            RGB_neutral_test_matrix
+            * xp_as_float_array(
+                MATRIX_TLCI2012_DISPLAY[1], xp=xp, like=RGB_neutral_test_matrix
+            )
+        )
         RGB_test = RGB_test / luma_test
     else:
         RGB_test = RGB_test / RGB_neutral_test
@@ -633,27 +676,43 @@ def colour_differences_TLCI2012(
     Lab_values = []
     clipped_values = []
     for RGB in (RGB_test, RGB_reference):
+        xp = array_namespace(RGB)
+
         # Section 1.3.2, equations [20]-[25].
-        RGB_matrix = np.matmul(RGB, MATRIX_TLCI2012_CAMERA.T)
-        RGB_saturation = np.matmul(RGB_matrix, MATRIX_TLCI2012_SATURATION.T)
+        RGB_matrix = xp.matmul(
+            RGB,
+            xp_as_float_array(MATRIX_TLCI2012_CAMERA.T, xp=xp, like=RGB),
+        )
+        RGB_saturation = xp.matmul(
+            RGB_matrix,
+            xp_as_float_array(MATRIX_TLCI2012_SATURATION.T, xp=xp, like=RGB_matrix),
+        )
         # Section 1.5.1 excludes colours clipped in the mathematics. Display
         # RGB cannot become negative after the clipped OETF input below.
         clipped_values.append(
-            np.any(RGB_matrix < 0, axis=-1) | np.any(RGB_saturation < 0, axis=-1)
+            xp.any(RGB_matrix < 0, axis=-1) | xp.any(RGB_saturation < 0, axis=-1)
         )
 
         # Section 1.3.3, equation [26], followed by sections 1.4.1 and 1.4.2,
         # equations [28]-[29]. Preserve the section 2 equation [61] headroom
         # above nominal white, capped at the code-value-255 display drive.
-        RGB_prime = np.clip(
-            oetf_BT709(np.clip(RGB_saturation, 0, None)),
+        RGB_prime = xp.clip(
+            oetf_BT709(xp.clip(RGB_saturation, 0, None)),
             None,
             CONSTANTS_TLCI2012.studio_swing_white,
         )
         RGB_display = spow(RGB_prime, CONSTANTS_TLCI2012.display_gamma)
-        XYZ = np.matmul(RGB_display, MATRIX_TLCI2012_DISPLAY.T)
+        XYZ = xp.matmul(
+            RGB_display,
+            xp_as_float_array(MATRIX_TLCI2012_DISPLAY.T, xp=xp, like=RGB_display),
+        )
         # Section 1.5, equations [30]-[33].
-        Lab_values.append(XYZ_to_Lab(XYZ, CONSTANTS_TLCI2012.xy_D65))
+        Lab_values.append(
+            XYZ_to_Lab(
+                XYZ,
+                xp_as_float_array(CONSTANTS_TLCI2012.xy_D65, xp=xp, like=XYZ),
+            )
+        )
 
     # EBU Tech 3355 section 1.5, equations [34]-[54], defines the
     # CIEDE2000 colour-difference path with unity k factors; use Colour's
@@ -691,12 +750,14 @@ def quality_index_TLCI2012(delta_E_s: ArrayLike) -> tuple[float, float]:
 
     delta_E_s = as_float_array(delta_E_s)
 
-    if delta_E_s.size == 0:
+    if 0 in delta_E_s.shape:
         error = "All TLCI/TLMF samples were excluded by negative RGB clipping."
         raise ValueError(error)
 
+    xp = array_namespace(delta_E_s)
+
     # EBU Tech 3355 section 1.5.1, equations [58]-[59].
-    delta_E_a = as_float_scalar(np.mean(delta_E_s**4) ** 0.25)
+    delta_E_a = as_float_scalar(xp.mean(delta_E_s**4) ** 0.25)
     Q_a = as_float_scalar(
         100.0 / (1.0 + (delta_E_a / CONSTANTS_TLCI2012.k) ** CONSTANTS_TLCI2012.p)
     )

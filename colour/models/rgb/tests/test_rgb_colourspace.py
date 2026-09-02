@@ -4,6 +4,11 @@ Define the unit tests for the :mod:`colour.models.rgb.rgb_colourspace` module.
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 import re
 import textwrap
 from itertools import product
@@ -26,7 +31,15 @@ from colour.models import (
     matrix_RGB_to_RGB,
     normalised_primary_matrix,
 )
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    domain_range_scale,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_assert_equal,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -174,46 +187,34 @@ __repr__` method.
 use_derived_transformation_matrices` method.
         """
 
-        np.testing.assert_array_equal(
-            self._colourspace.matrix_RGB_to_XYZ, np.identity(3)
-        )
-        np.testing.assert_array_equal(
-            self._colourspace.matrix_XYZ_to_RGB, np.identity(3)
-        )
+        xp_assert_equal(self._colourspace.matrix_RGB_to_XYZ, np.identity(3))
+        xp_assert_equal(self._colourspace.matrix_XYZ_to_RGB, np.identity(3))
 
         self._colourspace.use_derived_transformation_matrices()
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             self._colourspace.matrix_RGB_to_XYZ,
-            np.array(
-                [
-                    [0.95255240, 0.00000000, 0.00009368],
-                    [0.34396645, 0.72816610, -0.07213255],
-                    [0.00000000, 0.00000000, 1.00882518],
-                ]
-            ),
+            [
+                [0.95255240, 0.00000000, 0.00009368],
+                [0.34396645, 0.72816610, -0.07213255],
+                [0.00000000, 0.00000000, 1.00882518],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             self._colourspace.matrix_XYZ_to_RGB,
-            np.array(
-                [
-                    [1.04981102, 0.00000000, -0.00009748],
-                    [-0.49590302, 1.37331305, 0.09824004],
-                    [0.00000000, 0.00000000, 0.99125202],
-                ]
-            ),
+            [
+                [1.04981102, 0.00000000, -0.00009748],
+                [-0.49590302, 1.37331305, 0.09824004],
+                [0.00000000, 0.00000000, 0.99125202],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         self._colourspace.use_derived_matrix_RGB_to_XYZ = False
-        np.testing.assert_array_equal(
-            self._colourspace.matrix_RGB_to_XYZ, np.identity(3)
-        )
+        xp_assert_equal(self._colourspace.matrix_RGB_to_XYZ, np.identity(3))
         self._colourspace.use_derived_matrix_XYZ_to_RGB = False
-        np.testing.assert_array_equal(
-            self._colourspace.matrix_XYZ_to_RGB, np.identity(3)
-        )
+        xp_assert_equal(self._colourspace.matrix_XYZ_to_RGB, np.identity(3))
 
     def test_chromatically_adapt(self) -> None:
         """
@@ -226,24 +227,22 @@ chromatically_adapt` method.
             whitepoint_t, "D50", "Bradford"
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             colourspace.primaries,
-            np.array(
-                [
-                    [0.73485524, 0.26422533],
-                    [-0.00617091, 1.01131496],
-                    [0.01596756, -0.06423550],
-                ]
-            ),
+            [
+                [0.73485524, 0.26422533],
+                [-0.00617091, 1.01131496],
+                [0.01596756, -0.06423550],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             colourspace.whitepoint, whitepoint_t, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
         assert colourspace.whitepoint_name == "D50"
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             colourspace.primaries,
             chromatically_adapted_primaries(
                 self._colourspace.primaries,
@@ -254,13 +253,13 @@ chromatically_adapt` method.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             colourspace.matrix_RGB_to_XYZ,
             normalised_primary_matrix(colourspace.primaries, colourspace.whitepoint),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             colourspace.matrix_XYZ_to_RGB,
             np.linalg.inv(
                 normalised_primary_matrix(colourspace.primaries, colourspace.whitepoint)
@@ -283,183 +282,189 @@ class TestXYZ_to_RGB:
     unit tests methods.
     """
 
-    def test_XYZ_to_RGB(self) -> None:
+    def test_XYZ_to_RGB(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB`
         definition.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_RGB(
-                np.array([0.21638819, 0.12570000, 0.03847493]),
+                xp_as_array([0.21638819, 0.12570000, 0.03847493], xp=xp),
                 RGB_COLOURSPACE_sRGB,
-                np.array([0.34570, 0.35850]),
+                [0.34570, 0.35850],
                 "Bradford",
                 True,
             ),
-            np.array([0.70556403, 0.19112904, 0.22341005]),
+            [0.70556403, 0.19112904, 0.22341005],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_RGB(
-                np.array([0.21638819, 0.12570000, 0.03847493]),
+                xp_as_array([0.21638819, 0.12570000, 0.03847493], xp=xp),
                 RGB_COLOURSPACE_sRGB,
                 apply_cctf_encoding=True,
             ),
-            np.array([0.72794351, 0.18184112, 0.17951801]),
+            [0.72794351, 0.18184112, 0.17951801],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_RGB(
-                np.array([0.21638819, 0.12570000, 0.03847493]),
+                xp_as_array([0.21638819, 0.12570000, 0.03847493], xp=xp),
                 RGB_COLOURSPACE_ACES2065_1,
-                np.array([0.34570, 0.35850]),
+                [0.34570, 0.35850],
             ),
-            np.array([0.21959099, 0.06985815, 0.04703704]),
+            [0.21959099, 0.06985815, 0.04703704],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_RGB(
-                np.array([0.21638819, 0.12570000, 0.03847493]),
+                xp_as_array([0.21638819, 0.12570000, 0.03847493], xp=xp),
                 "sRGB",
-                np.array([0.34570, 0.35850]),
+                [0.34570, 0.35850],
                 "Bradford",
                 True,
             ),
-            XYZ_to_RGB(
-                np.array([0.21638819, 0.12570000, 0.03847493]),
-                RGB_COLOURSPACE_sRGB,
-                np.array([0.34570, 0.35850]),
-                "Bradford",
-                True,
+            as_ndarray(
+                XYZ_to_RGB(
+                    xp_as_array([0.21638819, 0.12570000, 0.03847493], xp=xp),
+                    RGB_COLOURSPACE_sRGB,
+                    [0.34570, 0.35850],
+                    "Bradford",
+                    True,
+                )
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         # TODO: Remove tests when dropping deprecated signature support.
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_RGB(
-                np.array([0.21638819, 0.12570000, 0.03847493]),
-                np.array([0.34570, 0.35850]),  # pyright: ignore
-                np.array([0.31270, 0.32900]),
-                np.array(  # pyright: ignore
+                xp_as_array([0.21638819, 0.12570000, 0.03847493], xp=xp),
+                [0.34570, 0.35850],  # pyright: ignore
+                [0.31270, 0.32900],
+                xp_as_array(  # pyright: ignore
                     [
                         [3.24062548, -1.53720797, -0.49862860],
                         [-0.96893071, 1.87575606, 0.04151752],
                         [0.05571012, -0.20402105, 1.05699594],
-                    ]
+                    ],
+                    xp=xp,
                 ),
                 "Bradford",  # pyright: ignore
                 eotf_inverse_sRGB,
             ),
-            np.array([0.70556599, 0.19109268, 0.22340812]),
+            [0.70556599, 0.19109268, 0.22340812],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_RGB(
-                np.array([0.21638819, 0.12570000, 0.03847493]),
-                np.array([0.34570, 0.35850]),  # pyright: ignore
-                np.array([0.31270, 0.32900]),
-                np.array(  # pyright: ignore
+                xp_as_array([0.21638819, 0.12570000, 0.03847493], xp=xp),
+                [0.34570, 0.35850],  # pyright: ignore
+                [0.31270, 0.32900],
+                xp_as_array(  # pyright: ignore
                     [
                         [3.24062548, -1.53720797, -0.49862860],
                         [-0.96893071, 1.87575606, 0.04151752],
                         [0.05571012, -0.20402105, 1.05699594],
-                    ]
+                    ],
+                    xp=xp,
                 ),
                 None,  # pyright: ignore
                 eotf_inverse_sRGB,
             ),
-            np.array([0.72794579, 0.18180021, 0.17951580]),
+            [0.72794579, 0.18180021, 0.17951580],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_RGB(
-                np.array([0.21638819, 0.12570000, 0.03847493]),
-                np.array([0.34570, 0.35850]),  # pyright: ignore
-                np.array([0.32168, 0.33767]),
-                np.array(  # pyright: ignore
+                xp_as_array([0.21638819, 0.12570000, 0.03847493], xp=xp),
+                [0.34570, 0.35850],  # pyright: ignore
+                [0.32168, 0.33767],
+                xp_as_array(  # pyright: ignore
                     [
                         [1.04981102, 0.00000000, -0.00009748],
                         [-0.49590302, 1.37331305, 0.09824004],
                         [0.00000000, 0.00000000, 0.99125202],
-                    ]
+                    ],
+                    xp=xp,
                 ),
             ),
-            np.array([0.21959099, 0.06985815, 0.04703704]),
+            [0.21959099, 0.06985815, 0.04703704],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_RGB(
-                np.array([0.21638819, 0.12570000, 0.03847493]),
-                np.array([0.34570, 0.35850]),  # pyright: ignore
-                np.array([0.31270, 0.32900, 1.00000]),
-                np.array(  # pyright: ignore
+                xp_as_array([0.21638819, 0.12570000, 0.03847493], xp=xp),
+                [0.34570, 0.35850],  # pyright: ignore
+                [0.31270, 0.32900, 1.00000],
+                xp_as_array(  # pyright: ignore
                     [
                         [3.24062548, -1.53720797, -0.49862860],
                         [-0.96893071, 1.87575606, 0.04151752],
                         [0.05571012, -0.20402105, 1.05699594],
-                    ]
+                    ],
+                    xp=xp,
                 ),
             ),
-            np.array([0.45620801, 0.03079991, 0.04091883]),
+            [0.45620801, 0.03079991, 0.04091883],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_RGB(self) -> None:
+    def test_n_dimensional_XYZ_to_RGB(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition
         n-dimensional support.
         """
 
-        XYZ = np.array([0.21638819, 0.12570000, 0.03847493])
-        W_R = np.array([0.34570, 0.35850])
-        RGB = XYZ_to_RGB(XYZ, "sRGB", W_R, "Bradford", True)
+        XYZ = xp_as_array([0.21638819, 0.12570000, 0.03847493], xp=xp)
+        W_R = xp_as_array([0.34570, 0.35850], xp=xp)
+        RGB = as_ndarray(XYZ_to_RGB(XYZ, "sRGB", W_R, "Bradford", True))
 
-        XYZ = np.tile(XYZ, (6, 1))
-        RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_allclose(
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        RGB = xp.tile(xp_as_array(RGB, xp=xp), (6, 1))
+        xp_assert_close(
             XYZ_to_RGB(XYZ, "sRGB", W_R, "Bradford", True),
             RGB,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        W_R = np.tile(W_R, (6, 1))
-        np.testing.assert_allclose(
+        W_R = xp.tile(xp_as_array(W_R, xp=xp), (6, 1))
+        xp_assert_close(
             XYZ_to_RGB(XYZ, "sRGB", W_R, "Bradford", True),
             RGB,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        W_R = np.reshape(W_R, (2, 3, 2))
-        RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_allclose(
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        W_R = xp_reshape(xp_as_array(W_R, xp=xp), (2, 3, 2), xp=xp)
+        RGB = xp_reshape(xp_as_array(RGB, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(
             XYZ_to_RGB(XYZ, "sRGB", W_R, "Bradford", True),
             RGB,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_XYZ_to_RGB(self) -> None:
+    def test_domain_range_scale_XYZ_to_RGB(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition
         domain and range scale support.
         """
 
-        XYZ = np.array([0.21638819, 0.12570000, 0.03847493])
-        W_R = np.array([0.34570, 0.35850])
-        RGB = XYZ_to_RGB(XYZ, "sRGB", W_R)
+        XYZ = xp_as_array([0.21638819, 0.12570000, 0.03847493], xp=xp)
+        W_R = xp_as_array([0.34570, 0.35850], xp=xp)
+        RGB = as_ndarray(XYZ_to_RGB(XYZ, "sRGB", W_R))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     XYZ_to_RGB(XYZ * factor, "sRGB", W_R),
                     RGB * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -483,183 +488,189 @@ class TestRGB_to_XYZ:
     unit tests methods.
     """
 
-    def test_RGB_to_XYZ(self) -> None:
+    def test_RGB_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ`
         definition.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_to_XYZ(
-                np.array([0.70556403, 0.19112904, 0.22341005]),
+                xp_as_array([0.70556403, 0.19112904, 0.22341005], xp=xp),
                 RGB_COLOURSPACE_sRGB,
-                np.array([0.34570, 0.35850]),
+                [0.34570, 0.35850],
                 "Bradford",
                 True,
             ),
-            np.array([0.21639121, 0.12570714, 0.03847642]),
+            [0.21639121, 0.12570714, 0.03847642],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_to_XYZ(
-                np.array([0.72794351, 0.18184112, 0.17951801]),
+                xp_as_array([0.72794351, 0.18184112, 0.17951801], xp=xp),
                 RGB_COLOURSPACE_sRGB,
                 apply_cctf_decoding=True,
             ),
-            np.array([0.21639100, 0.12570754, 0.03847682]),
+            [0.21639100, 0.12570754, 0.03847682],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_to_XYZ(
-                np.array([0.21959099, 0.06985815, 0.04703704]),
+                xp_as_array([0.21959099, 0.06985815, 0.04703704], xp=xp),
                 RGB_COLOURSPACE_ACES2065_1,
-                np.array([0.34570, 0.35850]),
+                [0.34570, 0.35850],
             ),
-            np.array([0.21638819, 0.12570000, 0.03847493]),
+            [0.21638819, 0.12570000, 0.03847493],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_to_XYZ(
-                np.array([0.21638819, 0.12570000, 0.03847493]),
+                xp_as_array([0.21638819, 0.12570000, 0.03847493], xp=xp),
                 "sRGB",
-                np.array([0.34570, 0.35850]),
+                [0.34570, 0.35850],
                 "Bradford",
                 True,
             ),
-            RGB_to_XYZ(
-                np.array([0.21638819, 0.12570000, 0.03847493]),
-                RGB_COLOURSPACE_sRGB,
-                np.array([0.34570, 0.35850]),
-                "Bradford",
-                True,
+            as_ndarray(
+                RGB_to_XYZ(
+                    xp_as_array([0.21638819, 0.12570000, 0.03847493], xp=xp),
+                    RGB_COLOURSPACE_sRGB,
+                    [0.34570, 0.35850],
+                    "Bradford",
+                    True,
+                )
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         # TODO: Remove tests when dropping deprecated signature support.
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_to_XYZ(
-                np.array([0.70556599, 0.19109268, 0.22340812]),
-                np.array([0.31270, 0.32900]),  # pyright: ignore
-                np.array([0.34570, 0.35850]),
-                np.array(  # pyright: ignore
+                xp_as_array([0.70556599, 0.19109268, 0.22340812], xp=xp),
+                [0.31270, 0.32900],  # pyright: ignore
+                [0.34570, 0.35850],
+                xp_as_array(  # pyright: ignore
                     [
                         [0.41240000, 0.35760000, 0.18050000],
                         [0.21260000, 0.71520000, 0.07220000],
                         [0.01930000, 0.11920000, 0.95050000],
-                    ]
+                    ],
+                    xp=xp,
                 ),
                 "Bradford",  # pyright: ignore
                 eotf_sRGB,
             ),
-            np.array([0.21638819, 0.12570000, 0.03847493]),
+            [0.21638819, 0.12570000, 0.03847493],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_to_XYZ(
-                np.array([0.72794579, 0.18180021, 0.17951580]),
-                np.array([0.31270, 0.32900]),  # pyright: ignore
-                np.array([0.34570, 0.35850]),
-                np.array(  # pyright: ignore
+                xp_as_array([0.72794579, 0.18180021, 0.17951580], xp=xp),
+                [0.31270, 0.32900],  # pyright: ignore
+                [0.34570, 0.35850],
+                xp_as_array(  # pyright: ignore
                     [
                         [0.41240000, 0.35760000, 0.18050000],
                         [0.21260000, 0.71520000, 0.07220000],
                         [0.01930000, 0.11920000, 0.95050000],
-                    ]
+                    ],
+                    xp=xp,
                 ),
                 None,  # pyright: ignore
                 eotf_sRGB,
             ),
-            np.array([0.21638819, 0.12570000, 0.03847493]),
+            [0.21638819, 0.12570000, 0.03847493],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_to_XYZ(
-                np.array([0.21959099, 0.06985815, 0.04703704]),
-                np.array([0.32168, 0.33767]),  # pyright: ignore
-                np.array([0.34570, 0.35850]),
-                np.array(  # pyright: ignore
+                xp_as_array([0.21959099, 0.06985815, 0.04703704], xp=xp),
+                [0.32168, 0.33767],  # pyright: ignore
+                [0.34570, 0.35850],
+                xp_as_array(  # pyright: ignore
                     [
                         [0.95255240, 0.00000000, 0.00009368],
                         [0.34396645, 0.72816610, -0.07213255],
                         [0.00000000, 0.00000000, 1.00882518],
-                    ]
+                    ],
+                    xp=xp,
                 ),
             ),
-            np.array([0.21638819, 0.12570000, 0.03847493]),
+            [0.21638819, 0.12570000, 0.03847493],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_to_XYZ(
-                np.array([0.45620801, 0.03079991, 0.04091883]),
-                np.array([0.31270, 0.32900, 1.00000]),  # pyright: ignore
-                np.array([0.34570, 0.35850]),
-                np.array(  # pyright: ignore
+                xp_as_array([0.45620801, 0.03079991, 0.04091883], xp=xp),
+                [0.31270, 0.32900, 1.00000],  # pyright: ignore
+                [0.34570, 0.35850],
+                xp_as_array(  # pyright: ignore
                     [
                         [0.41240000, 0.35760000, 0.18050000],
                         [0.21260000, 0.71520000, 0.07220000],
                         [0.01930000, 0.11920000, 0.95050000],
-                    ]
+                    ],
+                    xp=xp,
                 ),
             ),
-            np.array([0.21638819, 0.12570000, 0.03847493]),
+            [0.21638819, 0.12570000, 0.03847493],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_RGB_to_XYZ(self) -> None:
+    def test_n_dimensional_RGB_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition
         n-dimensional support.
         """
 
-        RGB = np.array([0.70556599, 0.19109268, 0.22340812])
-        W_R = np.array([0.31270, 0.32900])
-        XYZ = RGB_to_XYZ(RGB, "sRGB", W_R, "Bradford", True)
+        RGB = xp_as_array([0.70556599, 0.19109268, 0.22340812], xp=xp)
+        W_R = xp_as_array([0.31270, 0.32900], xp=xp)
+        XYZ = as_ndarray(RGB_to_XYZ(RGB, "sRGB", W_R, "Bradford", True))
 
-        RGB = np.tile(RGB, (6, 1))
-        XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
+        RGB = xp.tile(xp_as_array(RGB, xp=xp), (6, 1))
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        xp_assert_close(
             RGB_to_XYZ(RGB, "sRGB", W_R, "Bradford", True),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        W_R = np.tile(W_R, (6, 1))
-        np.testing.assert_allclose(
+        W_R = xp.tile(xp_as_array(W_R, xp=xp), (6, 1))
+        xp_assert_close(
             RGB_to_XYZ(RGB, "sRGB", W_R, "Bradford", True),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        RGB = np.reshape(RGB, (2, 3, 3))
-        W_R = np.reshape(W_R, (2, 3, 2))
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
+        RGB = xp_reshape(xp_as_array(RGB, xp=xp), (2, 3, 3), xp=xp)
+        W_R = xp_reshape(xp_as_array(W_R, xp=xp), (2, 3, 2), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(
             RGB_to_XYZ(RGB, "sRGB", W_R, "Bradford", True),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_XYZ_to_RGB(self) -> None:
+    def test_domain_range_scale_XYZ_to_RGB(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition
         domain and range scale support.
         """
 
-        RGB = np.array([0.45620801, 0.03079991, 0.04091883])
-        W_R = np.array([0.31270, 0.32900])
-        XYZ = RGB_to_XYZ(RGB, "sRGB", W_R)
+        RGB = xp_as_array([0.45620801, 0.03079991, 0.04091883], xp=xp)
+        W_R = xp_as_array([0.31270, 0.32900], xp=xp)
+        XYZ = as_ndarray(RGB_to_XYZ(RGB, "sRGB", W_R))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     RGB_to_XYZ(RGB * factor, "sRGB", W_R),
                     XYZ * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -693,67 +704,57 @@ class TestMatrix_RGB_to_RGB:
         aces_cg_colourspace = RGB_COLOURSPACES["ACEScg"]
         sRGB_colourspace = RGB_COLOURSPACES["sRGB"]
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_RGB_to_RGB(aces_2065_1_colourspace, sRGB_colourspace),
-            np.array(
-                [
-                    [2.52164943, -1.13688855, -0.38491759],
-                    [-0.27521355, 1.36970515, -0.09439245],
-                    [-0.01592501, -0.14780637, 1.16380582],
-                ]
-            ),
+            [
+                [2.52164943, -1.13688855, -0.38491759],
+                [-0.27521355, 1.36970515, -0.09439245],
+                [-0.01592501, -0.14780637, 1.16380582],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_RGB_to_RGB(sRGB_colourspace, aces_2065_1_colourspace),
-            np.array(
-                [
-                    [0.43958564, 0.38392940, 0.17653274],
-                    [0.08953957, 0.81474984, 0.09568361],
-                    [0.01738718, 0.10873911, 0.87382059],
-                ]
-            ),
+            [
+                [0.43958564, 0.38392940, 0.17653274],
+                [0.08953957, 0.81474984, 0.09568361],
+                [0.01738718, 0.10873911, 0.87382059],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_RGB_to_RGB(aces_2065_1_colourspace, aces_cg_colourspace, "Bradford"),
-            np.array(
-                [
-                    [1.45143932, -0.23651075, -0.21492857],
-                    [-0.07655377, 1.17622970, -0.09967593],
-                    [0.00831615, -0.00603245, 0.99771630],
-                ]
-            ),
+            [
+                [1.45143932, -0.23651075, -0.21492857],
+                [-0.07655377, 1.17622970, -0.09967593],
+                [0.00831615, -0.00603245, 0.99771630],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_RGB_to_RGB(aces_2065_1_colourspace, sRGB_colourspace, "Bradford"),
-            np.array(
-                [
-                    [2.52140089, -1.13399575, -0.38756186],
-                    [-0.27621406, 1.37259557, -0.09628236],
-                    [-0.01532020, -0.15299256, 1.16838720],
-                ]
-            ),
+            [
+                [2.52140089, -1.13399575, -0.38756186],
+                [-0.27621406, 1.37259557, -0.09628236],
+                [-0.01532020, -0.15299256, 1.16838720],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_RGB_to_RGB(aces_2065_1_colourspace, sRGB_colourspace, None),
-            np.array(
-                [
-                    [2.55809607, -1.11933692, -0.39181451],
-                    [-0.27771575, 1.36589396, -0.09353075],
-                    [-0.01711199, -0.14854588, 1.08104848],
-                ]
-            ),
+            [
+                [2.55809607, -1.11933692, -0.39181451],
+                [-0.27771575, 1.36589396, -0.09353075],
+                [-0.01711199, -0.14854588, 1.08104848],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             matrix_RGB_to_RGB(aces_2065_1_colourspace, sRGB_colourspace),
             matrix_RGB_to_RGB("ACES2065-1", "sRGB"),
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -766,107 +767,111 @@ class TestRGB_to_RGB:
     unit tests methods.
     """
 
-    def test_RGB_to_RGB(self) -> None:
+    def test_RGB_to_RGB(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition."""
 
         aces_2065_1_colourspace = RGB_COLOURSPACES["ACES2065-1"]
         sRGB_colourspace = RGB_COLOURSPACES["sRGB"]
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_to_RGB(
-                np.array([0.21931722, 0.06950287, 0.04694832]),
+                xp_as_array([0.21931722, 0.06950287, 0.04694832], xp=xp),
                 aces_2065_1_colourspace,
                 sRGB_colourspace,
             ),
-            np.array([0.45595289, 0.03040780, 0.04087313]),
+            [0.45595289, 0.03040780, 0.04087313],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_to_RGB(
-                np.array([0.45595571, 0.03039702, 0.04087245]),
+                xp_as_array([0.45595571, 0.03039702, 0.04087245], xp=xp),
                 sRGB_colourspace,
                 aces_2065_1_colourspace,
             ),
-            np.array([0.21931722, 0.06950287, 0.04694832]),
+            [0.21931722, 0.06950287, 0.04694832],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_to_RGB(
-                np.array([0.21931722, 0.06950287, 0.04694832]),
+                xp_as_array([0.21931722, 0.06950287, 0.04694832], xp=xp),
                 aces_2065_1_colourspace,
                 sRGB_colourspace,
                 "Bradford",
             ),
-            np.array([0.45597530, 0.03030054, 0.04086041]),
+            [0.45597530, 0.03030054, 0.04086041],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_to_RGB(
-                np.array([0.21931722, 0.06950287, 0.04694832]),
+                xp_as_array([0.21931722, 0.06950287, 0.04694832], xp=xp),
                 aces_2065_1_colourspace,
                 sRGB_colourspace,
                 None,
             ),
-            np.array([0.46484236, 0.02963459, 0.03667609]),
+            [0.46484236, 0.02963459, 0.03667609],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         aces_cg_colourspace = RGB_COLOURSPACES["ACEScg"]
         aces_cc_colourspace = RGB_COLOURSPACES["ACEScc"]
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_to_RGB(
-                np.array([0.21931722, 0.06950287, 0.04694832]),
+                xp_as_array([0.21931722, 0.06950287, 0.04694832], xp=xp),
                 aces_cg_colourspace,
                 aces_cc_colourspace,
                 apply_cctf_decoding=True,
                 apply_cctf_encoding=True,
             ),
-            np.array([0.42985679, 0.33522924, 0.30292336]),
+            [0.42985679, 0.33522924, 0.30292336],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_to_RGB(
-                np.array([0.46956438, 0.48137533, 0.43788601]),
+                xp_as_array([0.46956438, 0.48137533, 0.43788601], xp=xp),
                 aces_cc_colourspace,
                 sRGB_colourspace,
                 apply_cctf_decoding=True,
                 apply_cctf_encoding=True,
             ),
-            np.array([0.60983062, 0.67896356, 0.50435764]),
+            [0.60983062, 0.67896356, 0.50435764],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_equal(
-            RGB_to_RGB(
-                np.array([0.21931722, 0.06950287, 0.04694832]),
-                aces_2065_1_colourspace,
-                RGB_COLOURSPACES["ProPhoto RGB"],
-                apply_cctf_encoding=True,
-                out_int=True,
+        xp_assert_equal(
+            as_ndarray(
+                RGB_to_RGB(
+                    xp_as_array([0.21931722, 0.06950287, 0.04694832], xp=xp),
+                    aces_2065_1_colourspace,
+                    RGB_COLOURSPACES["ProPhoto RGB"],
+                    apply_cctf_encoding=True,
+                    out_int=True,
+                )
             ),
-            np.array([120, 59, 46]),
+            [120, 59, 46],
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_to_RGB(
-                np.array([0.21931722, 0.06950287, 0.04694832]),
+                xp_as_array([0.21931722, 0.06950287, 0.04694832], xp=xp),
                 aces_2065_1_colourspace,
                 sRGB_colourspace,
             ),
-            RGB_to_RGB(
-                np.array([0.21931722, 0.06950287, 0.04694832]),
-                "ACES2065-1",
-                "sRGB",
+            as_ndarray(
+                RGB_to_RGB(
+                    xp_as_array([0.21931722, 0.06950287, 0.04694832], xp=xp),
+                    "ACES2065-1",
+                    "sRGB",
+                )
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_RGB_to_RGB(self) -> None:
+    def test_n_dimensional_RGB_to_RGB(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition
         n-dimensional support.
@@ -874,26 +879,26 @@ class TestRGB_to_RGB:
 
         aces_2065_1_colourspace = RGB_COLOURSPACES["ACES2065-1"]
         sRGB_colourspace = RGB_COLOURSPACES["sRGB"]
-        RGB_i = np.array([0.21931722, 0.06950287, 0.04694832])
-        RGB_o = RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace)
+        RGB_i = xp_as_array([0.21931722, 0.06950287, 0.04694832], xp=xp)
+        RGB_o = as_ndarray(RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace))
 
-        RGB_i = np.tile(RGB_i, (6, 1))
-        RGB_o = np.tile(RGB_o, (6, 1))
-        np.testing.assert_allclose(
+        RGB_i = xp.tile(xp_as_array(RGB_i, xp=xp), (6, 1))
+        RGB_o = xp.tile(xp_as_array(RGB_o, xp=xp), (6, 1))
+        xp_assert_close(
             RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace),
             RGB_o,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        RGB_i = np.reshape(RGB_i, (2, 3, 3))
-        RGB_o = np.reshape(RGB_o, (2, 3, 3))
-        np.testing.assert_allclose(
+        RGB_i = xp_reshape(xp_as_array(RGB_i, xp=xp), (2, 3, 3), xp=xp)
+        RGB_o = xp_reshape(xp_as_array(RGB_o, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(
             RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace),
             RGB_o,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_XYZ_to_RGB(self) -> None:
+    def test_domain_range_scale_XYZ_to_RGB(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition
         domain and range scale support.
@@ -901,13 +906,13 @@ class TestRGB_to_RGB:
 
         aces_2065_1_colourspace = RGB_COLOURSPACES["ACES2065-1"]
         sRGB_colourspace = RGB_COLOURSPACES["sRGB"]
-        RGB_i = np.array([0.21931722, 0.06950287, 0.04694832])
-        RGB_o = RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace)
+        RGB_i = xp_as_array([0.21931722, 0.06950287, 0.04694832], xp=xp)
+        RGB_o = as_ndarray(RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     RGB_to_RGB(
                         RGB_i * factor,
                         aces_2065_1_colourspace,

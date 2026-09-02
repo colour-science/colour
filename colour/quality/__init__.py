@@ -3,8 +3,11 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
-    from colour.colorimetry import SpectralDistribution
-    from colour.hints import Literal
+    from colour.colorimetry import (
+        MultiSpectralDistributions,
+        SpectralDistribution,
+    )
+    from colour.hints import Literal, NDArrayFloat
 
 from colour.utilities import CanonicalMapping, validate_method
 
@@ -83,11 +86,12 @@ References
 
 
 def colour_fidelity_index(
-    sd_test: SpectralDistribution,
+    sd_test: SpectralDistribution | MultiSpectralDistributions,
     additional_data: bool = False,
     method: Literal["CIE 2017", "ANSI/IES TM-30-18"] | str = "CIE 2017",
 ) -> (
     float
+    | NDArrayFloat
     | ColourRendering_Specification_CIE2017
     | ColourQuality_Specification_ANSIIESTM3018
 ):
@@ -106,7 +110,7 @@ def colour_fidelity_index(
 
     Returns
     -------
-    :class:`float` or \
+    :class:`float`, :class:`numpy.ndarray`, \
 :class:`colour.quality.ColourRendering_Specification_CIE2017` or \
 :class:`colour.quality.ColourQuality_Specification_ANSIIESTM3018`
         *Colour Fidelity Index* (CFI) :math:`R_f`.

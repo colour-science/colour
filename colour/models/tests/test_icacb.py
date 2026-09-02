@@ -2,13 +2,26 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 from itertools import product
 
 import numpy as np
+import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import ICaCb_to_XYZ, XYZ_to_ICaCb
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    domain_range_scale,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -29,67 +42,63 @@ class TestXYZ_to_ICaCb:
     methods.
     """
 
-    def test_XYZ_to_ICaCb(self) -> None:
+    def test_XYZ_to_ICaCb(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.icacb.XYZ_to_ICaCb` definition."""
 
-        np.testing.assert_allclose(
-            XYZ_to_ICaCb(np.array([0.20654008, 0.12197225, 0.05136952])),
-            np.array([0.06875297, 0.05753352, 0.02081548]),
+        xp_assert_close(
+            XYZ_to_ICaCb(xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)),
+            [0.06875297, 0.05753352, 0.02081548],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            XYZ_to_ICaCb(np.array([0.14222010, 0.23042768, 0.10495772])),
-            np.array([0.08666353, -0.02479011, 0.03099396]),
+        xp_assert_close(
+            XYZ_to_ICaCb(xp_as_array([0.14222010, 0.23042768, 0.10495772], xp=xp)),
+            [0.08666353, -0.02479011, 0.03099396],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            XYZ_to_ICaCb(np.array([0.07818780, 0.06157201, 0.28099326])),
-            np.array([0.05102472, -0.00965461, -0.05150706]),
+        xp_assert_close(
+            XYZ_to_ICaCb(xp_as_array([0.07818780, 0.06157201, 0.28099326], xp=xp)),
+            [0.05102472, -0.00965461, -0.05150706],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            XYZ_to_ICaCb(np.array([0.00000000, 0.00000000, 1.00000000])),
-            np.array([1702.0656419, 14738.00583456, 1239.66837927]),
+        xp_assert_close(
+            XYZ_to_ICaCb(xp_as_array([0.00000000, 0.00000000, 1.00000000], xp=xp)),
+            [1702.0656419, 14738.00583456, 1239.66837927],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_ICaCb(self) -> None:
+    def test_n_dimensional_XYZ_to_ICaCb(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.icacb.XYZ_to_ICaCb` definition
         n-dimensional support.
         """
 
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        ICaCb = XYZ_to_ICaCb(XYZ)
+        XYZ = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
+        ICaCb = as_ndarray(XYZ_to_ICaCb(XYZ))
 
-        XYZ = np.tile(XYZ, (6, 1))
-        ICaCb = np.tile(ICaCb, (6, 1))
-        np.testing.assert_allclose(
-            XYZ_to_ICaCb(XYZ), ICaCb, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        ICaCb = xp.tile(xp_as_array(ICaCb, xp=xp), (6, 1))
+        xp_assert_close(XYZ_to_ICaCb(XYZ), ICaCb, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        ICaCb = np.reshape(ICaCb, (2, 3, 3))
-        np.testing.assert_allclose(
-            XYZ_to_ICaCb(XYZ), ICaCb, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        ICaCb = xp_reshape(xp_as_array(ICaCb, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(XYZ_to_ICaCb(XYZ), ICaCb, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_XYZ_to_ICaCb(self) -> None:
+    def test_domain_range_scale_XYZ_to_ICaCb(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.icacb.XYZ_to_ICaCb` definition domain and
         range scale support.
         """
 
-        XYZ = np.array([0.07818780, 0.06157201, 0.28099326])
-        ICaCb = XYZ_to_ICaCb(XYZ)
+        XYZ = xp_as_array([0.07818780, 0.06157201, 0.28099326], xp=xp)
+        ICaCb = as_ndarray(XYZ_to_ICaCb(XYZ))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     XYZ_to_ICaCb(XYZ * factor),
                     ICaCb * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -107,67 +116,66 @@ class TestXYZ_to_ICaCb:
 class TestICaCb_to_XYZ:
     """Test :func:`colour.models.icacb.ICaCb_to_XYZ` definition."""
 
-    def test_XYZ_to_ICaCb(self) -> None:
+    @pytest.mark.mps_tolerance_absolute(1e-2)
+    def test_XYZ_to_ICaCb(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.icacb.ICaCb_to_XYZ` definition."""
 
-        np.testing.assert_allclose(
-            ICaCb_to_XYZ(np.array([0.06875297, 0.05753352, 0.02081548])),
-            np.array([0.20654008, 0.12197225, 0.05136952]),
+        xp_assert_close(
+            ICaCb_to_XYZ(xp_as_array([0.06875297, 0.05753352, 0.02081548], xp=xp)),
+            [0.20654008, 0.12197225, 0.05136952],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            ICaCb_to_XYZ(np.array([0.08666353, -0.02479011, 0.03099396])),
-            np.array([0.14222010, 0.23042768, 0.10495772]),
+        xp_assert_close(
+            ICaCb_to_XYZ(xp_as_array([0.08666353, -0.02479011, 0.03099396], xp=xp)),
+            [0.14222010, 0.23042768, 0.10495772],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            ICaCb_to_XYZ(np.array([0.05102472, -0.00965461, -0.05150706])),
-            np.array([0.07818780, 0.06157201, 0.28099326]),
+        xp_assert_close(
+            ICaCb_to_XYZ(xp_as_array([0.05102472, -0.00965461, -0.05150706], xp=xp)),
+            [0.07818780, 0.06157201, 0.28099326],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            ICaCb_to_XYZ(np.array([1702.0656419, 14738.00583456, 1239.66837927])),
-            np.array([0.00000000, 0.00000000, 1.00000000]),
+        xp_assert_close(
+            ICaCb_to_XYZ(
+                xp_as_array([1702.0656419, 14738.00583456, 1239.66837927], xp=xp)
+            ),
+            [0.00000000, 0.00000000, 1.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_ICaCb_to_XYZ(self) -> None:
+    def test_n_dimensional_ICaCb_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.icacb.ICaCb_to_XYZ` definition
         n-dimensional support.
         """
 
-        ICaCb = np.array([0.06875297, 0.05753352, 0.02081548])
-        XYZ = ICaCb_to_XYZ(ICaCb)
+        ICaCb = xp_as_array([0.06875297, 0.05753352, 0.02081548], xp=xp)
+        XYZ = as_ndarray(ICaCb_to_XYZ(ICaCb))
 
-        ICaCb = np.tile(ICaCb, (6, 1))
-        XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
-            ICaCb_to_XYZ(ICaCb), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        ICaCb = xp.tile(xp_as_array(ICaCb, xp=xp), (6, 1))
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        xp_assert_close(ICaCb_to_XYZ(ICaCb), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        ICaCb = np.reshape(ICaCb, (2, 3, 3))
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
-            ICaCb_to_XYZ(ICaCb), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        ICaCb = xp_reshape(xp_as_array(ICaCb, xp=xp), (2, 3, 3), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(ICaCb_to_XYZ(ICaCb), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_ICaCb_to_XYZ(self) -> None:
+    def test_domain_range_scale_ICaCb_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.icacb.ICaCb_to_XYZ` definition domain and
         range scale support.
         """
 
-        ICaCb = np.array([0.06875297, 0.05753352, 0.02081548])
-        XYZ = ICaCb_to_XYZ(ICaCb)
+        ICaCb = xp_as_array([0.06875297, 0.05753352, 0.02081548], xp=xp)
+        XYZ = as_ndarray(ICaCb_to_XYZ(ICaCb))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     ICaCb_to_XYZ(ICaCb * factor),
                     XYZ * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,

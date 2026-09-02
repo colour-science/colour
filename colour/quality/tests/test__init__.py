@@ -2,8 +2,13 @@
 
 from __future__ import annotations
 
-from colour.colorimetry import SpectralDistribution
+import numpy as np
+
+from colour.colorimetry import MultiSpectralDistributions, SpectralDistribution
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.hints import NDArrayFloat, cast
 from colour.quality import colour_fidelity_index, colour_fidelity_index_CIE2017
+from colour.utilities import xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -121,3 +126,21 @@ class TestColourFidelityIndex:
         assert colour_fidelity_index(
             sd, method="CIE 2017"
         ) == colour_fidelity_index_CIE2017(sd)
+
+    def test_colour_fidelity_index_msds(self) -> None:
+        """
+        Test :func:`colour.quality.colour_fidelity_index` definition
+        :class:`colour.MultiSpectralDistributions` batch dispatch.
+        """
+
+        msds = MultiSpectralDistributions(
+            np.column_stack([SD_SAMPLE_5NM.values, SD_SAMPLE_5NM.values]),
+            SD_SAMPLE_5NM.wavelengths,
+            labels=["a", "b"],
+        )
+
+        xp_assert_close(
+            cast("NDArrayFloat", colour_fidelity_index(msds)),
+            colour_fidelity_index_CIE2017(msds),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )

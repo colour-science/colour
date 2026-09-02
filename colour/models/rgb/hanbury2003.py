@@ -28,7 +28,7 @@ from colour.hints import (  # noqa: TC001
     NDArrayFloat,
     Range1,
 )
-from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
+from colour.utilities import array_namespace, from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -95,20 +95,23 @@ def RGB_to_IHLS(RGB: Domain1) -> Range1:
     """
 
     RGB = to_domain_1(RGB)
+
+    xp = array_namespace(RGB)
+
     R, G, B = tsplit(RGB)
 
     Y, C_1, C_2 = tsplit(vecmul(MATRIX_RGB_TO_YC_1_C_2, RGB))
 
-    C = np.hypot(C_1, C_2)
+    C = xp.hypot(C_1, C_2)
 
     with sdiv_mode():
         C_1_C = sdiv(C_1, C)
 
-    arcos_C_1_C_2 = np.where(C_1_C != 0, np.arccos(np.clip(C_1_C, -1, 1)), 0)
+    arcos_C_1_C_2 = xp.where(C_1_C != 0, xp.acos(xp.clip(C_1_C, -1, 1)), 0)
 
-    H = np.where(C_2 <= 0, arcos_C_1_C_2, (np.pi * 2) - arcos_C_1_C_2)
+    H = xp.where(C_2 <= 0, arcos_C_1_C_2, (xp.pi * 2) - arcos_C_1_C_2)
 
-    S = np.maximum(np.maximum(R, G), B) - np.minimum(np.minimum(R, G), B)
+    S = xp.maximum(xp.maximum(R, G), B) - xp.minimum(xp.minimum(R, G), B)
 
     HYS = tstack([H, Y, S])
 
@@ -154,16 +157,20 @@ def IHLS_to_RGB(HYS: Domain1) -> Range1:
     array([0.4559557..., 0.0303970..., 0.0408724...])
     """
 
-    H, Y, S = tsplit(to_domain_1(HYS))
+    HYS = to_domain_1(HYS)
 
-    pi_3 = np.pi / 3
+    xp = array_namespace(HYS)
 
-    k = np.floor(H / pi_3)
+    H, Y, S = tsplit(HYS)
+
+    pi_3 = xp.pi / 3
+
+    k = xp.floor(H / pi_3)
     H_s = H - k * pi_3
-    C = (np.sqrt(3) * S) / (2 * np.sin(2 * pi_3 - H_s))
+    C = (3.0**0.5 * S) / (2 * xp.sin(2 * pi_3 - H_s))
 
-    C_1 = C * np.cos(H)
-    C_2 = -C * np.sin(H)
+    C_1 = C * xp.cos(H)
+    C_2 = -C * xp.sin(H)
 
     RGB = vecmul(MATRIX_YC_1_C_2_TO_RGB, tstack([Y, C_1, C_2]))
 

@@ -43,11 +43,14 @@ from colour.hints import (  # noqa: TC001
 from colour.models import Lab_to_XYZ, XYZ_to_Lab
 from colour.utilities import (
     CanonicalMapping,
+    array_namespace,
     from_range_100,
     to_domain_100,
     tsplit,
     tstack,
     validate_method,
+    xp_as_float_array,
+    xp_radians,
 )
 
 __author__ = "Colour Developers"
@@ -147,22 +150,26 @@ def Lab_to_DIN99(
         validate_method(method, tuple(DIN99_METHODS))
     ]
 
-    L, a, b = tsplit(to_domain_100(Lab))
+    Lab = to_domain_100(Lab)
 
-    cos_c = np.cos(np.radians(c_3))
-    sin_c = np.sin(np.radians(c_3))
+    xp = array_namespace(Lab)
+
+    L, a, b = tsplit(Lab)
+
+    cos_c = xp.cos(xp_as_float_array(xp_radians(c_3), xp=xp, like=L))
+    sin_c = xp.sin(xp_as_float_array(xp_radians(c_3), xp=xp, like=L))
 
     e = cos_c * a + sin_c * b
     f = c_4 * (-sin_c * a + cos_c * b)
     G = spow(e**2 + f**2, 0.5)
-    h_ef = np.arctan2(f, e) + np.radians(c_7)
+    h_ef = xp.atan2(f, e) + xp_radians(c_7)
 
-    C_99 = c_5 * (np.log1p(c_6 * G)) / (c_8 * k_CH * k_E)
+    C_99 = c_5 * (xp.log1p(c_6 * G)) / (c_8 * k_CH * k_E)
     # Hue angle is unused currently.
     # h_99 = np.degrees(h_ef)
-    a_99 = C_99 * np.cos(h_ef)
-    b_99 = C_99 * np.sin(h_ef)
-    L_99 = c_1 * (np.log1p(c_2 * L)) * k_E
+    a_99 = C_99 * xp.cos(h_ef)
+    b_99 = C_99 * xp.sin(h_ef)
+    L_99 = c_1 * (xp.log1p(c_2 * L)) * k_E
 
     Lab_99 = tstack([L_99, a_99, b_99])
 
@@ -230,22 +237,26 @@ def DIN99_to_Lab(
         validate_method(method, tuple(DIN99_METHODS))
     ]
 
-    L_99, a_99, b_99 = tsplit(to_domain_100(Lab_99))
+    Lab_99 = to_domain_100(Lab_99)
 
-    cos = np.cos(np.radians(c_3))
-    sin = np.sin(np.radians(c_3))
+    xp = array_namespace(Lab_99)
 
-    h_99 = np.arctan2(b_99, a_99) - np.radians(c_7)
+    L_99, a_99, b_99 = tsplit(Lab_99)
 
-    C_99 = np.hypot(a_99, b_99)
-    G = np.expm1((c_8 / c_5) * C_99 * k_CH * k_E) / c_6
+    cos = xp.cos(xp_as_float_array(xp_radians(c_3), xp=xp, like=L_99))
+    sin = xp.sin(xp_as_float_array(xp_radians(c_3), xp=xp, like=L_99))
 
-    e = G * np.cos(h_99)
-    f = G * np.sin(h_99)
+    h_99 = xp.atan2(b_99, a_99) - xp_radians(c_7)
+
+    C_99 = xp.hypot(a_99, b_99)
+    G = xp.expm1((c_8 / c_5) * C_99 * k_CH * k_E) / c_6
+
+    e = G * xp.cos(h_99)
+    f = G * xp.sin(h_99)
 
     a = e * cos - (f / c_4) * sin
     b = e * sin + (f / c_4) * cos
-    L = np.expm1(L_99 * k_E / c_1) / c_2
+    L = xp.expm1(L_99 * k_E / c_1) / c_2
 
     Lab = tstack([L, a, b])
 

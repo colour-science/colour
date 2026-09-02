@@ -14,10 +14,9 @@ import typing
 from abc import ABC, abstractmethod
 from copy import deepcopy
 
-import numpy as np
-
 if typing.TYPE_CHECKING:
     from colour.hints import (
+        Any,
         ArrayLike,
         Callable,
         DTypeFloat,
@@ -33,11 +32,14 @@ if typing.TYPE_CHECKING:
 
 from colour.utilities import (
     MixinCallback,
+    array_namespace,
     as_float,
+    as_float_array,
     attest,
     closest,
     is_uniform,
     optional,
+    xp_as_array,
 )
 
 __author__ = "Colour Developers"
@@ -515,7 +517,12 @@ arithmetical_operation`
             Abstract continuous function generator.
         """
 
-        yield from np.column_stack([self.domain, self.range])
+        domain = self.domain[:, None] if self.domain.ndim == 1 else self.domain
+        range_ = self.range[:, None] if self.range.ndim == 1 else self.range
+
+        xp = array_namespace(domain, range_)
+
+        yield from xp.concat([domain, range_], axis=1)
 
     def __len__(self) -> int:
         """
@@ -837,7 +844,11 @@ arithmetical_operation`
 
         n = closest(self.domain, a)
 
-        return as_float(np.abs(a - n))
+        xp = array_namespace(n)
+
+        a = xp_as_array(as_float_array(a), xp=xp, like=n)
+
+        return as_float(xp.abs(a - n))
 
     def is_uniform(self) -> bool:
         """
@@ -851,14 +862,28 @@ arithmetical_operation`
 
         return is_uniform(self.domain)
 
-    def copy(self) -> Self:
+    def copy(self, xp: Any = None) -> Self:
         """
-        Return a copy of the sub-class instance.
+        Return a copy of the sub-class instance, optionally converting
+        the range values to the specified array namespace.
+
+        Parameters
+        ----------
+        xp
+            Array namespace module to convert the range values to
+            (e.g., :mod:`torch`, :mod:`jax.numpy`). If *None*, the copy
+            retains the original backend.
 
         Returns
         -------
         :class:`colour.continuous.AbstractContinuousFunction`
             Copy of the abstract continuous function.
+
         """
 
-        return deepcopy(self)
+        copy = deepcopy(self)
+
+        if xp is not None:
+            copy.range = xp_as_array(as_float_array(copy.range), xp=xp)
+
+        return copy

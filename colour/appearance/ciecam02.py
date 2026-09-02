@@ -43,23 +43,27 @@ from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 from colour.appearance.hunt import (
     MATRIX_HPE_TO_XYZ,
     MATRIX_XYZ_TO_HPE,
-    luminance_level_adaptation_factor,
 )
 from colour.colorimetry import CCS_ILLUMINANTS
 from colour.constants import EPSILON
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, Domain100, Range100, Tuple
+    from colour.hints import (
+        Annotated,
+        ArrayLike,
+        Domain100,
+        NDArrayFloat,
+        Range100,
+    )
 
-from colour.hints import Annotated, NDArrayFloat, cast
 from colour.models import xy_to_XYZ
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
     MixinDataclassIterable,
+    array_namespace,
     as_float,
     as_float_array,
-    as_int_array,
     from_range_100,
     from_range_degrees,
     has_only_nan,
@@ -68,7 +72,10 @@ from colour.utilities import (
     to_domain_degrees,
     tsplit,
     tstack,
-    zeros,
+    xp_as_float_array,
+    xp_degrees,
+    xp_radians,
+    xp_select,
 )
 from colour.utilities.documentation import DocstringDict, is_documentation_building
 
@@ -88,32 +95,8 @@ __all__ = [
     "CAM_Specification_CIECAM02",
     "XYZ_to_CIECAM02",
     "CIECAM02_to_XYZ",
-    "chromatic_induction_factors",
     "base_exponential_non_linearity",
-    "viewing_conditions_dependent_parameters",
-    "degree_of_adaptation",
-    "full_chromatic_adaptation_forward",
-    "full_chromatic_adaptation_inverse",
-    "RGB_to_rgb",
-    "rgb_to_RGB",
-    "post_adaptation_non_linear_response_compression_forward",
-    "post_adaptation_non_linear_response_compression_inverse",
-    "opponent_colour_dimensions_forward",
-    "opponent_colour_dimensions_inverse",
-    "hue_angle",
     "hue_quadrature",
-    "eccentricity_factor",
-    "achromatic_response_forward",
-    "achromatic_response_inverse",
-    "lightness_correlate",
-    "brightness_correlate",
-    "temporary_magnitude_quantity_forward",
-    "temporary_magnitude_quantity_inverse",
-    "chroma_correlate",
-    "colourfulness_correlate",
-    "saturation_correlate",
-    "P",
-    "matrix_post_adaptation_non_linear_response_compression",
 ]
 
 CAT_INVERSE_CAT02: NDArrayFloat = np.linalg.inv(CAT_CAT02)
@@ -234,7 +217,7 @@ def XYZ_to_CIECAM02(
     Y_b: ArrayLike,
     surround: InductionFactors_CIECAM02 = VIEWING_CONDITIONS_CIECAM02["Average"],
     discount_illuminant: bool = False,
-    compute_H: bool = True,
+    compute_H: bool = False,
 ) -> Annotated[CAM_Specification_CIECAM02, (100, 100, 360, 100, 100, 100, 400)]:
     """
     Compute the *CIECAM02* colour appearance model correlates from the
@@ -261,8 +244,10 @@ def XYZ_to_CIECAM02(
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
     compute_H
-        Whether to compute *Hue* :math:`h` quadrature :math:`H`. :math:`H`
-        is rarely used, and expensive to compute.
+        When *True*, compute the *Hue Quadrature* :math:`H` correlate
+        via :func:`colour.appearance.ciecam02.hue_quadrature`. Defaults to
+        *False* because :math:`H` is rarely consumed downstream and
+        skipping the bin search is a measurable cost saving.
 
     Returns
     -------
@@ -309,7 +294,10 @@ def XYZ_to_CIECAM02(
     >>> L_A = 318.31
     >>> Y_b = 20.0
     >>> surround = VIEWING_CONDITIONS_CIECAM02["Average"]
-    >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
+    >>> XYZ_to_CIECAM02(
+    ...     XYZ, XYZ_w, L_A, Y_b, surround,
+    ...     compute_H=True,
+    ... )  # doctest: +ELLIPSIS
     CAM_Specification_CIECAM02(J=np.float64(41.7310911...), \
 C=np.float64(0.1047077...), h=np.float64(219.0484326...), \
 s=np.float64(2.3603053...), Q=np.float64(195.3713259...), \
@@ -318,67 +306,119 @@ M=np.float64(0.1088421...), H=np.float64(278.0607358...), HC=None)
 
     XYZ = to_domain_100(XYZ)
     XYZ_w = to_domain_100(XYZ_w)
-    _X_w, Y_w, _Z_w = tsplit(XYZ_w)
-    L_A = as_float_array(L_A)
-    Y_b = as_float_array(Y_b)
 
-    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(Y_b, Y_w, L_A)
+    xp = array_namespace(XYZ, XYZ_w, L_A, Y_b)
+
+    XYZ = xp_as_float_array(XYZ, xp=xp)
+    XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=XYZ)
+    L_A = xp_as_float_array(L_A, xp=xp, like=XYZ)
+    Y_b = xp_as_float_array(Y_b, xp=xp, like=XYZ)
+
+    _X_w, Y_w, _Z_w = tsplit(XYZ_w)
+
+    # Viewing condition dependent parameters: background induction
+    # factor :math:`n`, luminance level adaptation factor :math:`F_L`,
+    # chromatic induction factors :math:`N_{bb}` and :math:`N_{cb}`,
+    # base exponential non-linearity :math:`z`.
+    with sdiv_mode():
+        n = sdiv(Y_b, Y_w)
+    k = 1 / (5 * L_A + 1)
+    k4 = k**4
+    F_L = 0.2 * k4 * (5 * L_A) + 0.1 * (1 - k4) ** 2 * spow(5 * L_A, 1 / 3)
+    with sdiv_mode():
+        N_bb = 0.725 * spow(sdiv(1, n), 0.2)
+    N_cb = N_bb
+    z = 1.48 + xp.sqrt(n)
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
     RGB = vecmul(CAT_CAT02, XYZ)
     RGB_w = vecmul(CAT_CAT02, XYZ_w)
 
-    # Computing degree of adaptation :math:`D`.
-    D = (
-        degree_of_adaptation(surround.F, L_A)
-        if not discount_illuminant
-        else ones(L_A.shape)
+    # Computing degree of adaptation :math:`D`, bypassed entirely when
+    # ``discount_illuminant`` is set.
+    if discount_illuminant:
+        D = xp_as_float_array(ones(L_A.shape), xp=xp, like=XYZ)
+    else:
+        F = xp_as_float_array(surround.F, xp=xp, like=XYZ)
+        D = F * (1 - (1 / 3.6) * xp.exp((-L_A - 42) / 92))
+
+    # Computing full chromatic adaptation, applied to the stimulus and
+    # to the reference white, following *CIE (2004)* Equations 16.4a-16.6a
+    # (the technical-report variant retaining the :math:`Y_W` factor).
+    # *Fairchild (2013)* p.269 recommends the simpler Equations 16.4-16.6
+    # without :math:`Y_W`; the two are equivalent when :math:`Y_W = 100` and
+    # the project default scaling normalises to that.
+    with sdiv_mode():
+        RGB_c = (Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]) * RGB
+        RGB_wc = (Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]) * RGB_w
+
+    # Converting to *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
+    # colourspace, applied to both stimulus and white.
+    MATRIX_XYZ_HPE_x_CAT_INVERSE = xp.matmul(
+        xp_as_float_array(MATRIX_XYZ_TO_HPE, xp=xp, like=XYZ),
+        xp_as_float_array(CAT_INVERSE_CAT02, xp=xp, like=XYZ),
     )
+    RGB_p = vecmul(MATRIX_XYZ_HPE_x_CAT_INVERSE, RGB_c)
+    RGB_pw = vecmul(MATRIX_XYZ_HPE_x_CAT_INVERSE, RGB_wc)
 
-    # Computing full chromatic adaptation.
-    RGB_c = full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)
-    RGB_wc = full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
+    # Applying forward post-adaptation non-linear response compression,
+    # sign-preserving for negative values per *Luo (2013)*.
+    F_L_RGB_p = spow(F_L[..., None] * xp.abs(RGB_p) / 100, 0.42)
+    RGB_a = (400 * xp.sign(RGB_p) * F_L_RGB_p) / (27.13 + F_L_RGB_p) + 0.1
+    F_L_RGB_pw = spow(F_L[..., None] * xp.abs(RGB_pw) / 100, 0.42)
+    RGB_aw = (400 * xp.sign(RGB_pw) * F_L_RGB_pw) / (27.13 + F_L_RGB_pw) + 0.1
 
-    # Converting to *Hunt-Pointer-Estevez* colourspace.
-    RGB_p = RGB_to_rgb(RGB_c)
-    RGB_pw = RGB_to_rgb(RGB_wc)
+    # Converting to preliminary cartesian coordinates :math:`a`,
+    # :math:`b`.
+    Ra, Ga, Ba = tsplit(RGB_a)
+    a = Ra - 12 * Ga / 11 + Ba / 11
+    b = (Ra + Ga - 2 * Ba) / 9
 
-    # Applying forward post-adaptation non-linear response compression.
-    RGB_a = post_adaptation_non_linear_response_compression_forward(RGB_p, F_L)
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_pw, F_L)
+    # Computing the *hue* angle :math:`h` in degrees in
+    # :math:`[0, 360)`.
+    h = xp_degrees(xp.atan2(b, a)) % 360
 
-    # Converting to preliminary cartesian coordinates.
-    a, b = tsplit(opponent_colour_dimensions_forward(RGB_a))
+    # Computing eccentricity factor :math:`e_t`.
+    e_t = 1 / 4 * (xp.cos(2 + xp_radians(h)) + 3.8)
 
-    # Computing the *hue* angle :math:`h`.
-    h = hue_angle(a, b)
-
-    # Computing hue :math:`h` quadrature :math:`H`.
-    H = hue_quadrature(h) if compute_H else np.full(h.shape, np.nan)
-    # TODO: Compute hue composition.
-
-    # Computing eccentricity factor *e_t*.
-    e_t = eccentricity_factor(h)
-
-    # Computing achromatic responses for the stimulus and the whitepoint.
-    A = achromatic_response_forward(RGB_a, N_bb)
-    A_w = achromatic_response_forward(RGB_aw, N_bb)
+    # Computing achromatic responses :math:`A` for the stimulus and
+    # :math:`A_w` for the whitepoint.
+    A = (2 * Ra + Ga + (1 / 20) * Ba - 0.305) * N_bb
+    Raw, Gaw, Baw = tsplit(RGB_aw)
+    A_w = (2 * Raw + Gaw + (1 / 20) * Baw - 0.305) * N_bb
 
     # Computing the correlate of *Lightness* :math:`J`.
-    J = lightness_correlate(A, A_w, surround.c, z)
+    c = surround.c
+    with sdiv_mode():
+        J = 100 * spow(sdiv(A, A_w), c * z)
 
     # Computing the correlate of *brightness* :math:`Q`.
-    Q = brightness_correlate(surround.c, J, A_w, F_L)
+    Q = (4 / c) * xp.sqrt(J / 100) * (A_w + 4) * spow(F_L, 0.25)
 
-    # Computing the correlate of *chroma* :math:`C`.
-    C = chroma_correlate(J, n, surround.N_c, N_cb, e_t, a, b, RGB_a)
+    # Computing the temporary magnitude quantity :math:`t` and the
+    # correlate of *chroma* :math:`C`.
+    N_c = surround.N_c
+    with sdiv_mode():
+        t = ((50000 / 13) * N_c * N_cb) * sdiv(
+            e_t * spow(a**2 + b**2, 0.5), Ra + Ga + 21 * Ba / 20
+        )
+    C = spow(t, 0.9) * spow(J / 100, 0.5) * spow(1.64 - 0.29**n, 0.73)
 
     # Computing the correlate of *colourfulness* :math:`M`.
-    M = colourfulness_correlate(C, F_L)
+    M = C * spow(F_L, 0.25)
 
     # Computing the correlate of *saturation* :math:`s`.
-    s = saturation_correlate(M, Q)
+    with sdiv_mode():
+        s = 100 * spow(sdiv(M, Q), 0.5)
+
+    # Computing hue :math:`h` quadrature :math:`H` only when requested
+    # via ``compute_H``; the :math:`H` quadrature is rarely consumed
+    # and the bin-search delegates to :func:`hue_quadrature` which is
+    # kept as a public reference shared with the *ZCAM* and *sCAM*
+    # paths.
+    # TODO: Compute hue composition.
+    H = hue_quadrature(h) if compute_H else xp.full_like(h, float("nan"))
 
     return CAM_Specification_CIECAM02(
         J=as_float(from_range_100(J)),
@@ -492,11 +532,32 @@ def CIECAM02_to_XYZ(
     C = to_domain_100(C)
     h = to_domain_degrees(h)
     M = to_domain_100(M)
-    L_A = as_float_array(L_A)
     XYZ_w = to_domain_100(XYZ_w)
+
+    xp = array_namespace(J, C, h, M, XYZ_w, L_A)
+
+    J = xp_as_float_array(J, xp=xp)
+    C = xp_as_float_array(C, xp=xp, like=J)
+    h = xp_as_float_array(h, xp=xp, like=J)
+    M = xp_as_float_array(M, xp=xp, like=J)
+    XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=J)
+    L_A = xp_as_float_array(L_A, xp=xp, like=J)
+
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
-    n, F_L, N_bb, N_cb, z = viewing_conditions_dependent_parameters(Y_b, Y_w, L_A)
+    # Viewing condition dependent parameters: background induction
+    # factor :math:`n`, luminance level adaptation factor :math:`F_L`,
+    # chromatic induction factors :math:`N_{bb}` and :math:`N_{cb}`,
+    # base exponential non-linearity :math:`z`.
+    with sdiv_mode():
+        n = sdiv(Y_b, Y_w)
+    k = 1 / (5 * L_A + 1)
+    k4 = k**4
+    F_L = 0.2 * k4 * (5 * L_A) + 0.1 * (1 - k4) ** 2 * spow(5 * L_A, 1 / 3)
+    with sdiv_mode():
+        N_bb = 0.725 * spow(sdiv(1, n), 0.2)
+    N_cb = N_bb
+    z = 1.48 + xp.sqrt(n)
 
     if has_only_nan(C) and not has_only_nan(M):
         C = M / spow(F_L, 0.25)
@@ -509,91 +570,144 @@ def CIECAM02_to_XYZ(
         raise ValueError(error)
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
-    # sharpened *RGB* values.
+    # sharpened *RGB* values for the reference white.
     RGB_w = vecmul(CAT_CAT02, XYZ_w)
 
-    # Computing degree of adaptation :math:`D`.
-    D = (
-        degree_of_adaptation(surround.F, L_A)
-        if not discount_illuminant
-        else ones(L_A.shape)
+    # Computing degree of adaptation :math:`D`, bypassed entirely when
+    # ``discount_illuminant`` is set.
+    if discount_illuminant:
+        D = xp_as_float_array(ones(L_A.shape), xp=xp, like=J)
+    else:
+        F = xp_as_float_array(surround.F, xp=xp, like=J)
+        D = F * (1 - (1 / 3.6) * xp.exp((-L_A - 42) / 92))
+
+    # Computing full chromatic adaptation for the reference white.
+    with sdiv_mode():
+        RGB_wc = (Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]) * RGB_w
+
+    # Converting to *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
+    # colourspace.
+    MATRIX_XYZ_HPE_x_CAT_INVERSE = xp.matmul(
+        xp_as_float_array(MATRIX_XYZ_TO_HPE, xp=xp, like=J),
+        xp_as_float_array(CAT_INVERSE_CAT02, xp=xp, like=J),
     )
+    RGB_pw = vecmul(MATRIX_XYZ_HPE_x_CAT_INVERSE, RGB_wc)
 
-    # Computing full chromatic adaptation.
-    RGB_wc = full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
+    # Applying forward post-adaptation non-linear response compression
+    # to the whitepoint.
+    F_L_RGB_pw = spow(F_L[..., None] * xp.abs(RGB_pw) / 100, 0.42)
+    RGB_aw = (400 * xp.sign(RGB_pw) * F_L_RGB_pw) / (27.13 + F_L_RGB_pw) + 0.1
 
-    # Converting to *Hunt-Pointer-Estevez* colourspace.
-    RGB_pw = RGB_to_rgb(RGB_wc)
+    # Computing achromatic response :math:`A_w` for the whitepoint.
+    Raw, Gaw, Baw = tsplit(RGB_aw)
+    A_w = (2 * Raw + Gaw + (1 / 20) * Baw - 0.305) * N_bb
 
-    # Applying post-adaptation non-linear response compression.
-    RGB_aw = post_adaptation_non_linear_response_compression_forward(RGB_pw, F_L)
+    # Computing the temporary magnitude quantity :math:`t`.
+    J_prime = xp.clip(J, min=EPSILON)
+    t = spow(C / (xp.sqrt(J_prime / 100) * spow(1.64 - 0.29**n, 0.73)), 1 / 0.9)
 
-    # Computing achromatic response for the whitepoint.
-    A_w = achromatic_response_forward(RGB_aw, N_bb)
-
-    # Computing temporary magnitude quantity :math:`t`.
-    t = temporary_magnitude_quantity_inverse(C, J, n)
-
-    # Computing eccentricity factor *e_t*.
-    e_t = eccentricity_factor(h)
+    # Computing eccentricity factor :math:`e_t`.
+    e_t = 1 / 4 * (xp.cos(2 + xp_radians(h)) + 3.8)
 
     # Computing achromatic response :math:`A` for the stimulus.
-    A = achromatic_response_inverse(A_w, J, surround.c, z)
+    c = surround.c
+    A = A_w * spow(J / 100, 1 / (c * z))
 
-    # Computing *P_1* to *P_3*.
-    P_n = P(surround.N_c, N_cb, e_t, t, A, N_bb)
-    _P_1, P_2, _P_3 = tsplit(P_n)
+    # Computing points :math:`P_1`, :math:`P_2`, :math:`P_3`.
+    N_c = surround.N_c
+    with sdiv_mode():
+        P_1 = sdiv((50000 / 13) * N_c * N_cb * e_t, t)
+    P_2 = A / N_bb + 0.305
+    P_3 = xp.full_like(P_1, 21 / 20)
 
-    # Computing opponent colour dimensions :math:`a` and :math:`b`.
-    ab = opponent_colour_dimensions_inverse(P_n, h)
-    a, b = tsplit(ab) * np.where(t == 0, 0, 1)
+    # Computing opponent colour dimensions :math:`a` and :math:`b`
+    # from the points :math:`P_n` and hue :math:`h` via the sin / cos
+    # branching that protects against the numerical singularity near
+    # the hue axis.
+    hr = xp_radians(h)
+    sin_hr = xp.sin(hr)
+    cos_hr = xp.cos(hr)
+    with sdiv_mode():
+        cos_hr_sin_hr = sdiv(cos_hr, sin_hr)
+        sin_hr_cos_hr = sdiv(sin_hr, cos_hr)
+        P_4 = sdiv(P_1, sin_hr)
+        P_5 = sdiv(P_1, cos_hr)
+    n_ab = P_2 * (2 + P_3) * (460 / 1403)
 
-    # Applying post-adaptation non-linear response compression matrix.
-    RGB_a = matrix_post_adaptation_non_linear_response_compression(P_2, a, b)
+    abs_sin_ge_cos = xp.abs(sin_hr) >= xp.abs(cos_hr)
+    abs_sin_lt_cos = xp.abs(sin_hr) < xp.abs(cos_hr)
+
+    a = xp.zeros_like(hr)
+    b = xp.zeros_like(hr)
+    b = xp.where(
+        abs_sin_ge_cos,
+        n_ab
+        / (
+            P_4
+            + (2 + P_3) * (220 / 1403) * cos_hr_sin_hr
+            - (27 / 1403)
+            + P_3 * (6300 / 1403)
+        ),
+        b,
+    )
+    a = xp.where(abs_sin_ge_cos, b * cos_hr_sin_hr, a)
+    a = xp.where(
+        abs_sin_lt_cos,
+        n_ab
+        / (
+            P_5
+            + (2 + P_3) * (220 / 1403)
+            - ((27 / 1403) - P_3 * (6300 / 1403)) * sin_hr_cos_hr
+        ),
+        a,
+    )
+    b = xp.where(abs_sin_lt_cos, a * sin_hr_cos_hr, b)
+    t_mask = xp.where(t == 0, 0, 1)
+    a = a * t_mask
+    b = b * t_mask
+
+    # Applying post-adaptation non-linear response compression matrix
+    # to recover the compressed *RGB* array.
+    RGB_a = (
+        vecmul(
+            [
+                [460, 451, 288],
+                [460, -891, -261],
+                [460, -220, -6300],
+            ],
+            tstack([P_2, a, b]),
+        )
+        / 1403
+    )
 
     # Applying inverse post-adaptation non-linear response compression.
-    RGB_p = post_adaptation_non_linear_response_compression_inverse(RGB_a, F_L)
+    RGB_p = (
+        xp.sign(RGB_a - 0.1)
+        * 100
+        / F_L[..., None]
+        * spow(
+            (27.13 * xp.abs(RGB_a - 0.1)) / (400 - xp.abs(RGB_a - 0.1)),
+            1 / 0.42,
+        )
+    )
 
-    # Converting to *Hunt-Pointer-Estevez* colourspace.
-    RGB_c = rgb_to_RGB(RGB_p)
+    # Converting from *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
+    # colourspace back to adapted *RGB*.
+    CAT_x_MATRIX_HPE = xp.matmul(
+        xp_as_float_array(CAT_CAT02, xp=xp, like=J),
+        xp_as_float_array(MATRIX_HPE_TO_XYZ, xp=xp, like=J),
+    )
+    RGB_c = vecmul(CAT_x_MATRIX_HPE, RGB_p)
 
     # Applying inverse full chromatic adaptation.
-    RGB = full_chromatic_adaptation_inverse(RGB_c, RGB_w, Y_w, D)
+    with sdiv_mode():
+        RGB = RGB_c / (Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None])
 
-    # Converting *CMCCAT2000* transform sharpened *RGB* values to *CIE XYZ*
-    # tristimulus values.
+    # Converting *CMCCAT2000* transform sharpened *RGB* values to
+    # *CIE XYZ* tristimulus values.
     XYZ = vecmul(CAT_INVERSE_CAT02, RGB)
 
     return from_range_100(XYZ)
-
-
-def chromatic_induction_factors(n: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the chromatic induction factors :math:`N_{bb}` and
-    :math:`N_{cb}`.
-
-    Parameters
-    ----------
-    n
-        Function of the luminance factor of the background :math:`n`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Chromatic induction factors :math:`N_{bb}` and :math:`N_{cb}`.
-
-    Examples
-    --------
-    >>> chromatic_induction_factors(0.2)  # doctest: +ELLIPSIS
-    array([1.000304, 1.000304])
-    """
-
-    n = as_float_array(n)
-
-    with sdiv_mode():
-        N_bb = N_cb = 0.725 * spow(sdiv(1, n), 0.2)
-
-    return tstack([N_bb, N_cb])
 
 
 def base_exponential_non_linearity(
@@ -620,468 +734,9 @@ def base_exponential_non_linearity(
 
     n = as_float_array(n)
 
-    return 1.48 + np.sqrt(n)
+    xp = array_namespace(n)
 
-
-def viewing_conditions_dependent_parameters(
-    Y_b: ArrayLike,
-    Y_w: ArrayLike,
-    L_A: ArrayLike,
-) -> Tuple[
-    NDArrayFloat,
-    NDArrayFloat,
-    NDArrayFloat,
-    NDArrayFloat,
-    NDArrayFloat,
-]:
-    """
-    Compute the viewing condition dependent parameters.
-
-    Parameters
-    ----------
-    Y_b
-        Adapting field *Y* tristimulus value :math:`Y_b`.
-    Y_w
-        Whitepoint *Y* tristimulus value :math:`Y_w`.
-    L_A
-        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
-
-    Returns
-    -------
-    :class:`tuple`
-        Viewing condition dependent parameters :math:`(n, F_L, F_{Lb},
-        F_{Lw}, z)` where :math:`n` is the background induction factor,
-        :math:`F_L` is the luminance adaptation factor, :math:`F_{Lb}` and
-        :math:`F_{Lw}` are the background and whitepoint luminance
-        adaptation factors respectively, and :math:`z` is the base linear
-        exponent for the nonlinear response compression.
-
-    Examples
-    --------
-    >>> viewing_conditions_dependent_parameters(20.0, 100.0, 318.31)
-    ... # doctest: +ELLIPSIS
-    (np.float64(0.2...), np.float64(1.1675444...), np.float64(1.0003040...), \
-np.float64(1.0003040...), np.float64(1.9272135...))
-    """
-
-    Y_b = as_float_array(Y_b)
-    Y_w = as_float_array(Y_w)
-
-    with sdiv_mode():
-        n = sdiv(Y_b, Y_w)
-
-    F_L = luminance_level_adaptation_factor(L_A)
-    N_bb, N_cb = tsplit(chromatic_induction_factors(n))
-    z = base_exponential_non_linearity(n)
-
-    return n, F_L, N_bb, N_cb, z
-
-
-def degree_of_adaptation(F: ArrayLike, L_A: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the degree of adaptation :math:`D` from the specified surround
-    maximum degree of adaptation :math:`F` and adapting field *luminance*
-    :math:`L_A` in :math:`cd/m^2`.
-
-    Parameters
-    ----------
-    F
-        Surround maximum degree of adaptation :math:`F`.
-    L_A
-        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Degree of adaptation :math:`D`.
-
-    Examples
-    --------
-    >>> degree_of_adaptation(1.0, 318.31)  # doctest: +ELLIPSIS
-    np.float64(0.9944687...)
-    """
-
-    F = as_float_array(F)
-    L_A = as_float_array(L_A)
-
-    return F * (1 - (1 / 3.6) * np.exp((-L_A - 42) / 92))
-
-
-def full_chromatic_adaptation_forward(
-    RGB: ArrayLike,
-    RGB_w: ArrayLike,
-    Y_w: ArrayLike,
-    D: ArrayLike,
-) -> NDArrayFloat:
-    """
-    Apply full chromatic adaptation to the specified *CMCCAT2000* transform
-    sharpened *RGB* array using the specified *CMCCAT2000* transform sharpened
-    whitepoint *RGB_w* array.
-
-    Parameters
-    ----------
-    RGB
-        *CMCCAT2000* transform sharpened *RGB* array.
-    RGB_w
-        *CMCCAT2000* transform sharpened whitepoint *RGB_w* array.
-    Y_w
-        Whitepoint *Y* tristimulus value :math:`Y_w`.
-    D
-        Degree of adaptation :math:`D`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Adapted *RGB* array.
-
-    Examples
-    --------
-    >>> RGB = np.array([18.985456, 20.707422, 21.747482])
-    >>> RGB_w = np.array([94.930528, 103.536988, 108.717742])
-    >>> Y_w = 100.0
-    >>> D = 0.994468780088
-    >>> full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)
-    ... # doctest: +ELLIPSIS
-    array([19.9937078..., 20.0039363..., 20.0132638...])
-    """
-
-    RGB = as_float_array(RGB)
-    RGB_w = as_float_array(RGB_w)
-    Y_w = as_float_array(Y_w)
-    D = as_float_array(D)
-
-    with sdiv_mode():
-        RGB_c = (Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]) * RGB
-
-    return cast("NDArrayFloat", RGB_c)
-
-
-def full_chromatic_adaptation_inverse(
-    RGB: ArrayLike,
-    RGB_w: ArrayLike,
-    Y_w: ArrayLike,
-    D: ArrayLike,
-) -> NDArrayFloat:
-    """
-    Revert full chromatic adaptation of the specified *CMCCAT2000* transform
-    sharpened *RGB* array using the specified *CMCCAT2000* transform sharpened
-    whitepoint :math:`RGB_w` array.
-
-    Parameters
-    ----------
-    RGB
-        *CMCCAT2000* transform sharpened *RGB* array.
-    RGB_w
-        *CMCCAT2000* transform sharpened whitepoint :math:`RGB_w` array.
-    Y_w
-        Whitepoint *Y* tristimulus value :math:`Y_w`.
-    D
-        Degree of adaptation :math:`D`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Adapted *RGB* array.
-
-    Examples
-    --------
-    >>> RGB = np.array([19.99370783, 20.00393634, 20.01326387])
-    >>> RGB_w = np.array([94.930528, 103.536988, 108.717742])
-    >>> Y_w = 100.0
-    >>> D = 0.994468780088
-    >>> full_chromatic_adaptation_inverse(RGB, RGB_w, Y_w, D)
-    array([18.985456, 20.707422, 21.747482])
-    """
-
-    RGB = as_float_array(RGB)
-    RGB_w = as_float_array(RGB_w)
-    Y_w = as_float_array(Y_w)
-    D = as_float_array(D)
-
-    with sdiv_mode():
-        RGB_c = RGB / (Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None])
-
-    return cast("NDArrayFloat", RGB_c)
-
-
-def RGB_to_rgb(RGB: ArrayLike) -> NDArrayFloat:
-    """
-    Convert the specified *RGB* array to *Hunt-Pointer-Estevez*
-    :math:`\\rho\\gamma\\beta` colourspace.
-
-    Parameters
-    ----------
-    RGB
-        *RGB* array.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace array.
-
-    Examples
-    --------
-    >>> RGB = np.array([19.99370783, 20.00393634, 20.01326387])
-    >>> RGB_to_rgb(RGB)  # doctest: +ELLIPSIS
-    array([19.9969397..., 20.0018612..., 20.0135053...])
-    """
-
-    return vecmul(np.matmul(MATRIX_XYZ_TO_HPE, CAT_INVERSE_CAT02), RGB)
-
-
-def rgb_to_RGB(rgb: ArrayLike) -> NDArrayFloat:
-    """
-    Convert from *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
-    colourspace array to adapted *RGB* array.
-
-    Parameters
-    ----------
-    rgb
-        *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace array.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Adapted *RGB* array.
-
-    Examples
-    --------
-    >>> rgb = np.array([19.99693975, 20.00186123, 20.01350530])
-    >>> rgb_to_RGB(rgb)  # doctest: +ELLIPSIS
-    array([19.9937078..., 20.0039363..., 20.0132638...])
-    """
-
-    return vecmul(np.matmul(CAT_CAT02, MATRIX_HPE_TO_XYZ), rgb)
-
-
-def post_adaptation_non_linear_response_compression_forward(
-    RGB: ArrayLike, F_L: ArrayLike
-) -> NDArrayFloat:
-    """
-    Apply post-adaptation non-linear response compression to the specified
-    *CMCCAT2000* transform sharpened *RGB* array.
-
-    Parameters
-    ----------
-    RGB
-        *CMCCAT2000* transform sharpened *RGB* array.
-    F_L
-        *Luminance* level adaptation factor :math:`F_L`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Compressed *CMCCAT2000* transform sharpened *RGB* array.
-
-    Notes
-    -----
-    -   This definition implements negative values handling as per
-        :cite:`Luo2013`.
-
-    Examples
-    --------
-    >>> RGB = np.array([19.99693975, 20.00186123, 20.01350530])
-    >>> F_L = 1.16754446415
-    >>> post_adaptation_non_linear_response_compression_forward(RGB, F_L)
-    ... # doctest: +ELLIPSIS
-    array([7.9463202..., 7.9471152..., 7.9489959...])
-    """
-
-    RGB = as_float_array(RGB)
-    F_L = as_float_array(F_L)
-
-    F_L_RGB = spow(F_L[..., None] * np.absolute(RGB) / 100, 0.42)
-
-    return (400 * np.sign(RGB) * F_L_RGB) / (27.13 + F_L_RGB) + 0.1
-
-
-def post_adaptation_non_linear_response_compression_inverse(
-    RGB: ArrayLike, F_L: ArrayLike
-) -> NDArrayFloat:
-    """
-    Remove post-adaptation non-linear response compression from the specified
-    *CMCCAT2000* transform sharpened *RGB* array.
-
-    Parameters
-    ----------
-    RGB
-        *CMCCAT2000* transform sharpened *RGB* array.
-    F_L
-        *Luminance* level adaptation factor :math:`F_L`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Uncompressed *CMCCAT2000* transform sharpened *RGB* array.
-
-    Examples
-    --------
-    >>> RGB = np.array([7.94632020, 7.94711528, 7.94899595])
-    >>> F_L = 1.16754446415
-    >>> post_adaptation_non_linear_response_compression_inverse(RGB, F_L)
-    ... # doctest: +ELLIPSIS
-    array([19.9969397..., 20.0018612..., 20.0135052...])
-    """
-
-    RGB = as_float_array(RGB)
-    F_L = as_float_array(F_L)
-
-    return (
-        np.sign(RGB - 0.1)
-        * 100
-        / F_L[..., None]
-        * spow(
-            (27.13 * np.absolute(RGB - 0.1)) / (400 - np.absolute(RGB - 0.1)),
-            1 / 0.42,
-        )
-    )
-
-
-def opponent_colour_dimensions_forward(RGB: ArrayLike) -> NDArrayFloat:
-    """
-    Compute opponent colour dimensions from compressed *CMCCAT2000* transform
-    sharpened *RGB* array for forward *CIECAM02* implementation.
-
-    Parameters
-    ----------
-    RGB
-        Compressed *CMCCAT2000* transform sharpened *RGB* array.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Opponent colour dimensions.
-
-    Examples
-    --------
-    >>> RGB = np.array([7.94632020, 7.94711528, 7.94899595])
-    >>> opponent_colour_dimensions_forward(RGB)  # doctest: +ELLIPSIS
-    array([-0.0006241..., -0.0005062...])
-    """
-
-    R, G, B = tsplit(RGB)
-
-    a = R - 12 * G / 11 + B / 11
-    b = (R + G - 2 * B) / 9
-
-    return tstack([a, b])
-
-
-def opponent_colour_dimensions_inverse(P_n: ArrayLike, h: ArrayLike) -> NDArrayFloat:
-    """
-    Compute opponent colour dimensions from the specified points :math:`P_n`
-    and hue :math:`h` in degrees for the inverse *CIECAM02* implementation.
-
-    Parameters
-    ----------
-    P_n
-        Points :math:`P_n`.
-    h
-        Hue :math:`h` in degrees.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Opponent colour dimensions.
-
-    Examples
-    --------
-    >>> P_n = np.array([30162.89081534, 24.23720547, 1.05000000])
-    >>> h = -140.95156734
-    >>> opponent_colour_dimensions_inverse(P_n, h)  # doctest: +ELLIPSIS
-    array([-0.0006241..., -0.0005062...])
-    """
-
-    P_1, P_2, P_3 = tsplit(P_n)
-    hr = np.radians(h)
-
-    sin_hr = np.sin(hr)
-    cos_hr = np.cos(hr)
-
-    with sdiv_mode():
-        cos_hr_sin_hr = sdiv(cos_hr, sin_hr)
-        sin_hr_cos_hr = sdiv(sin_hr, cos_hr)
-
-        P_4 = sdiv(P_1, sin_hr)
-        P_5 = sdiv(P_1, cos_hr)
-
-    n = P_2 * (2 + P_3) * (460 / 1403)
-
-    a = zeros(hr.shape)
-    b = zeros(hr.shape)
-
-    abs_sin_hr_gt_cos_hr = np.abs(sin_hr) >= np.abs(cos_hr)
-    abs_sin_hr_lt_cos_hr = np.abs(sin_hr) < np.abs(cos_hr)
-
-    b = np.where(
-        abs_sin_hr_gt_cos_hr,
-        n
-        / (
-            P_4
-            + (2 + P_3) * (220 / 1403) * cos_hr_sin_hr
-            - (27 / 1403)
-            + P_3 * (6300 / 1403)
-        ),
-        b,
-    )
-
-    a = np.where(
-        abs_sin_hr_gt_cos_hr,
-        b * cos_hr_sin_hr,
-        a,
-    )
-
-    a = np.where(
-        abs_sin_hr_lt_cos_hr,
-        n
-        / (
-            P_5
-            + (2 + P_3) * (220 / 1403)
-            - ((27 / 1403) - P_3 * (6300 / 1403)) * sin_hr_cos_hr
-        ),
-        a,
-    )
-
-    b = np.where(
-        abs_sin_hr_lt_cos_hr,
-        a * sin_hr_cos_hr,
-        b,
-    )
-
-    return tstack([a, b])
-
-
-def hue_angle(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the *hue* angle :math:`h` in degrees from the specified opponent
-    colour dimensions.
-
-    Parameters
-    ----------
-    a
-        Opponent colour dimension :math:`a`.
-    b
-        Opponent colour dimension :math:`b`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *Hue* angle :math:`h` in degrees.
-
-    Examples
-    --------
-    >>> a = -0.000624112068243
-    >>> b = -0.000506270106773
-    >>> hue_angle(a, b)  # doctest: +ELLIPSIS
-    np.float64(219.0484326...)
-    """
-
-    a = as_float_array(a)
-    b = as_float_array(b)
-
-    h = np.degrees(np.arctan2(b, a)) % 360
-
-    return as_float(h)
+    return 1.48 + xp.sqrt(n)
 
 
 def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
@@ -1106,547 +761,46 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
 
     h = as_float_array(h)
 
+    xp = array_namespace(h)
+
+    h = as_float_array(xp.where(xp.isnan(h), 0, h))
+
+    # Hue quadrature bin boundaries from the *CIE 159:2004* table; the
+    # intervals are unrolled (rather than gathered via ``searchsorted``)
+    # so the computation stays portable across array backends.
     h_i = HUE_DATA_FOR_HUE_QUADRATURE["h_i"]
     e_i = HUE_DATA_FOR_HUE_QUADRATURE["e_i"]
     H_i = HUE_DATA_FOR_HUE_QUADRATURE["H_i"]
 
-    # *np.searchsorted* returns an erroneous index if a *nan* is used as input.
-    h = np.where(np.isnan(h), 0, h)
-    i = as_int_array(np.searchsorted(h_i, h, side="left") - 1)
+    def _H(
+        h_k: float, e_k: float, H_k: float, h_k1: float, e_k1: float
+    ) -> NDArrayFloat:
+        """Compute hue quadrature for a single bin."""
 
-    h_ii = h_i[i]
-    e_ii = e_i[i]
-    H_ii = H_i[i]
-    h_ii1 = h_i[i + 1]
-    e_ii1 = e_i[i + 1]
+        t1 = (h - h_k) / e_k
+        t2 = (h_k1 - h) / e_k1
+        return H_k + 100 * t1 / (t1 + t2)
 
-    H = H_ii + ((100 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii + (h_ii1 - h) / e_ii1))
+    H_0 = _H(h_i[0], e_i[0], H_i[0], h_i[1], e_i[1])
+    H_1 = _H(h_i[1], e_i[1], H_i[1], h_i[2], e_i[2])
+    H_2 = _H(h_i[2], e_i[2], H_i[2], h_i[3], e_i[3])
 
-    H = np.where(
-        h < 20.14,
-        385.9 + (14.1 * h / 0.856) / (h / 0.856 + (20.14 - h) / 0.8),
-        H,
-    )
-    H = np.where(
-        h >= 237.53,
-        H_ii + ((85.9 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii + (360 - h) / 0.856)),
-        H,
+    # Last interval and wrap-around use special formulas that account for
+    # the circular hue boundary at 360 degrees.
+    t1_3 = (h - h_i[3]) / e_i[3]
+    H_3 = H_i[3] + (85.9 * t1_3) / (t1_3 + (360 - h) / 0.856)
+    H_wrap = 385.9 + (14.1 * h / 0.856) / (h / 0.856 + (h_i[0] - h) / e_i[0])
+
+    H = xp_select(
+        [
+            (h >= h_i[0]) & (h < h_i[1]),
+            (h >= h_i[1]) & (h < h_i[2]),
+            (h >= h_i[2]) & (h < h_i[3]),
+            (h >= h_i[3]),
+        ],
+        [H_0, H_1, H_2, H_3],
+        default=H_wrap,
+        xp=xp,
     )
 
     return as_float(H)
-
-
-def eccentricity_factor(h: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the eccentricity factor :math:`e_t` from the specified hue
-    :math:`h` angle in degrees for forward *CIECAM02* implementation.
-
-    Parameters
-    ----------
-    h
-        Hue :math:`h` angle in degrees.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Eccentricity factor :math:`e_t`.
-
-    Examples
-    --------
-    >>> eccentricity_factor(-140.951567342)  # doctest: +ELLIPSIS
-    np.float64(1.1740054...)
-    """
-
-    h = as_float_array(h)
-
-    return 1 / 4 * (np.cos(2 + h * np.pi / 180) + 3.8)
-
-
-def achromatic_response_forward(RGB: ArrayLike, N_bb: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the achromatic response :math:`A` from the specified compressed
-    *CMCCAT2000* transform sharpened *RGB* array and :math:`N_{bb}` chromatic
-    induction factor for forward *CIECAM02* implementation.
-
-    Parameters
-    ----------
-    RGB
-        Compressed *CMCCAT2000* transform sharpened *RGB* array.
-    N_bb
-        Chromatic induction factor :math:`N_{bb}`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Achromatic response :math:`A`.
-
-    Examples
-    --------
-    >>> RGB = np.array([7.94632020, 7.94711528, 7.94899595])
-    >>> N_bb = 1.000304004559381
-    >>> achromatic_response_forward(RGB, N_bb)  # doctest: +ELLIPSIS
-    np.float64(23.9394809...)
-    """
-
-    R, G, B = tsplit(RGB)
-
-    return (2 * R + G + (1 / 20) * B - 0.305) * N_bb
-
-
-def achromatic_response_inverse(
-    A_w: ArrayLike,
-    J: ArrayLike,
-    c: ArrayLike,
-    z: ArrayLike,
-) -> NDArrayFloat:
-    """
-    Compute the achromatic response :math:`A` from the specified achromatic
-    response :math:`A_w` for the whitepoint, *Lightness* correlate
-    :math:`J`, surround exponential non-linearity :math:`c` and base
-    exponential non-linearity :math:`z` for inverse *CIECAM02*
-    implementation.
-
-    Parameters
-    ----------
-    A_w
-        Achromatic response :math:`A_w` for the whitepoint.
-    J
-        *Lightness* correlate :math:`J`.
-    c
-        Surround exponential non-linearity :math:`c`.
-    z
-        Base exponential non-linearity :math:`z`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Achromatic response :math:`A`.
-
-    Examples
-    --------
-    >>> A_w = 46.1882087914
-    >>> J = 41.73109113251392
-    >>> c = 0.69
-    >>> z = 1.927213595499958
-    >>> achromatic_response_inverse(A_w, J, c, z)  # doctest: +ELLIPSIS
-    np.float64(23.9394809...)
-    """
-
-    A_w = as_float_array(A_w)
-    J = as_float_array(J)
-    c = as_float_array(c)
-    z = as_float_array(z)
-
-    return A_w * spow(J / 100, 1 / (c * z))
-
-
-def lightness_correlate(
-    A: ArrayLike,
-    A_w: ArrayLike,
-    c: ArrayLike,
-    z: ArrayLike,
-) -> NDArrayFloat:
-    """
-    Compute the *Lightness* correlate :math:`J`.
-
-    Parameters
-    ----------
-    A
-        Achromatic response :math:`A` for the stimulus.
-    A_w
-        Achromatic response :math:`A_w` for the whitepoint.
-    c
-        Surround exponential non-linearity :math:`c`.
-    z
-        Base exponential non-linearity :math:`z`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *Lightness* correlate :math:`J`.
-
-    Examples
-    --------
-    >>> A = 23.9394809667
-    >>> A_w = 46.1882087914
-    >>> c = 0.69
-    >>> z = 1.9272135955
-    >>> lightness_correlate(A, A_w, c, z)  # doctest: +ELLIPSIS
-    np.float64(41.7310911...)
-    """
-
-    A = as_float_array(A)
-    A_w = as_float_array(A_w)
-    c = as_float_array(c)
-    z = as_float_array(z)
-
-    with sdiv_mode():
-        return 100 * spow(sdiv(A, A_w), c * z)
-
-
-def brightness_correlate(
-    c: ArrayLike,
-    J: ArrayLike,
-    A_w: ArrayLike,
-    F_L: ArrayLike,
-) -> NDArrayFloat:
-    """
-    Compute the *brightness* correlate :math:`Q`.
-
-    Parameters
-    ----------
-    c
-        Surround exponential non-linearity :math:`c`.
-    J
-        *Lightness* correlate :math:`J`.
-    A_w
-        Achromatic response :math:`A_w` for the whitepoint.
-    F_L
-        *Luminance* level adaptation factor :math:`F_L`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *Brightness* correlate :math:`Q`.
-
-    Examples
-    --------
-    >>> c = 0.69
-    >>> J = 41.7310911325
-    >>> A_w = 46.1882087914
-    >>> F_L = 1.16754446415
-    >>> brightness_correlate(c, J, A_w, F_L)  # doctest: +ELLIPSIS
-    np.float64(195.3713259...)
-    """
-
-    c = as_float_array(c)
-    J = as_float_array(J)
-    A_w = as_float_array(A_w)
-    F_L = as_float_array(F_L)
-
-    return (4 / c) * np.sqrt(J / 100) * (A_w + 4) * spow(F_L, 0.25)
-
-
-def temporary_magnitude_quantity_forward(
-    N_c: ArrayLike,
-    N_cb: ArrayLike,
-    e_t: ArrayLike,
-    a: ArrayLike,
-    b: ArrayLike,
-    RGB_a: ArrayLike,
-) -> NDArrayFloat:
-    """
-    Compute the temporary magnitude quantity :math:`t` for forward
-    *CIECAM02* implementation.
-
-    Parameters
-    ----------
-    N_c
-        Surround chromatic induction factor :math:`N_{c}`.
-    N_cb
-        Chromatic induction factor :math:`N_{cb}`.
-    e_t
-        Eccentricity factor :math:`e_t`.
-    a
-        Opponent colour dimension :math:`a`.
-    b
-        Opponent colour dimension :math:`b`.
-    RGB_a
-        Compressed stimulus *CMCCAT2000* transform sharpened *RGB* array.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Temporary magnitude quantity :math:`t`.
-
-    Examples
-    --------
-    >>> N_c = 1.0
-    >>> N_cb = 1.00030400456
-    >>> e_t = 1.174005472851914
-    >>> a = -0.000624112068243
-    >>> b = -0.000506270106773
-    >>> RGB_a = np.array([7.94632020, 7.94711528, 7.94899595])
-    >>> temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
-    ... # doctest: +ELLIPSIS
-    np.float64(0.1497462...)
-    """
-
-    N_c = as_float_array(N_c)
-    N_cb = as_float_array(N_cb)
-    e_t = as_float_array(e_t)
-    a = as_float_array(a)
-    b = as_float_array(b)
-    Ra, Ga, Ba = tsplit(RGB_a)
-
-    with sdiv_mode():
-        return ((50000 / 13) * N_c * N_cb) * sdiv(
-            e_t * spow(a**2 + b**2, 0.5), Ra + Ga + 21 * Ba / 20
-        )
-
-
-def temporary_magnitude_quantity_inverse(
-    C: ArrayLike, J: ArrayLike, n: ArrayLike
-) -> NDArrayFloat:
-    """
-    Compute the temporary magnitude quantity :math:`t` for inverse
-    *CIECAM02* implementation.
-
-    Parameters
-    ----------
-    C
-        *Chroma* correlate :math:`C`.
-    J
-        *Lightness* correlate :math:`J`.
-    n
-        Function of the luminance factor of the background :math:`n`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Temporary magnitude quantity :math:`t`.
-
-    Examples
-    --------
-    >>> C = 68.8364136888275
-    >>> J = 41.749268505999
-    >>> n = 0.2
-    >>> temporary_magnitude_quantity_inverse(C, J, n)  # doctest: +ELLIPSIS
-    np.float64(202.3873619...)
-    """
-
-    C = as_float_array(C)
-    J_prime = np.maximum(J, EPSILON)
-    n = as_float_array(n)
-
-    return spow(C / (np.sqrt(J_prime / 100) * spow(1.64 - 0.29**n, 0.73)), 1 / 0.9)
-
-
-def chroma_correlate(
-    J: ArrayLike,
-    n: ArrayLike,
-    N_c: ArrayLike,
-    N_cb: ArrayLike,
-    e_t: ArrayLike,
-    a: ArrayLike,
-    b: ArrayLike,
-    RGB_a: ArrayLike,
-) -> NDArrayFloat:
-    """
-    Compute the *chroma* correlate :math:`C`.
-
-    Parameters
-    ----------
-    J
-        *Lightness* correlate :math:`J`.
-    n
-        Function of the luminance factor of the background :math:`n`.
-    N_c
-        Surround chromatic induction factor :math:`N_{c}`.
-    N_cb
-        Chromatic induction factor :math:`N_{cb}`.
-    e_t
-        Eccentricity factor :math:`e_t`.
-    a
-        Opponent colour dimension :math:`a`.
-    b
-        Opponent colour dimension :math:`b`.
-    RGB_a
-        Compressed stimulus *CMCCAT2000* transform sharpened *RGB*
-        array.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *Chroma* correlate :math:`C`.
-
-    Examples
-    --------
-    >>> J = 41.7310911325
-    >>> n = 0.2
-    >>> N_c = 1.0
-    >>> N_cb = 1.00030400456
-    >>> e_t = 1.17400547285
-    >>> a = -0.000624112068243
-    >>> b = -0.000506270106773
-    >>> RGB_a = np.array([7.94632020, 7.94711528, 7.94899595])
-    >>> chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a)
-    ... # doctest: +ELLIPSIS
-    np.float64(0.1047077...)
-    """
-
-    J = as_float_array(J)
-    n = as_float_array(n)
-
-    t = temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
-
-    return spow(t, 0.9) * spow(J / 100, 0.5) * spow(1.64 - 0.29**n, 0.73)
-
-
-def colourfulness_correlate(C: ArrayLike, F_L: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the *colourfulness* correlate :math:`M`.
-
-    Parameters
-    ----------
-    C
-        *Chroma* correlate :math:`C`.
-    F_L
-        *Luminance* level adaptation factor :math:`F_L`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *Colourfulness* correlate :math:`M`.
-
-    Examples
-    --------
-    >>> C = 0.104707757171
-    >>> F_L = 1.16754446415
-    >>> colourfulness_correlate(C, F_L)  # doctest: +ELLIPSIS
-    np.float64(0.1088421...)
-    """
-
-    C = as_float_array(C)
-    F_L = as_float_array(F_L)
-
-    return C * spow(F_L, 0.25)
-
-
-def saturation_correlate(M: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the *saturation* correlate :math:`s`.
-
-    Parameters
-    ----------
-    M
-        *Colourfulness* correlate :math:`M`.
-    Q
-        *Brightness* correlate :math:`Q`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *Saturation* correlate :math:`s`.
-
-    Examples
-    --------
-    >>> M = 0.108842175669
-    >>> Q = 195.371325966
-    >>> saturation_correlate(M, Q)  # doctest: +ELLIPSIS
-    np.float64(2.3603053...)
-    """
-
-    M = as_float_array(M)
-    Q = as_float_array(Q)
-
-    with sdiv_mode():
-        return 100 * spow(sdiv(M, Q), 0.5)
-
-
-def P(
-    N_c: ArrayLike,
-    N_cb: ArrayLike,
-    e_t: ArrayLike,
-    t: ArrayLike,
-    A: ArrayLike,
-    N_bb: ArrayLike,
-) -> NDArrayFloat:
-    """
-    Compute the points :math:`P_1`, :math:`P_2` and :math:`P_3`.
-
-    Parameters
-    ----------
-    N_c
-        Surround chromatic induction factor :math:`N_{c}`.
-    N_cb
-        Chromatic induction factor :math:`N_{cb}`.
-    e_t
-        Eccentricity factor :math:`e_t`.
-    t
-        Temporary magnitude quantity :math:`t`.
-    A
-        Achromatic response :math:`A` for the stimulus.
-    N_bb
-        Chromatic induction factor :math:`N_{bb}`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Points :math:`P`.
-
-    Examples
-    --------
-    >>> N_c = 1.0
-    >>> N_cb = 1.00030400456
-    >>> e_t = 1.174005472851914
-    >>> t = 0.149746202921
-    >>> A = 23.9394809667
-    >>> N_bb = 1.00030400456
-    >>> P(N_c, N_cb, e_t, t, A, N_bb)  # doctest: +ELLIPSIS
-    array([3.0162890...e+04, 2.4237205...e+01, 1.0500000...e+00])
-    """
-
-    N_c = as_float_array(N_c)
-    N_cb = as_float_array(N_cb)
-    e_t = as_float_array(e_t)
-    t = as_float_array(t)
-    A = as_float_array(A)
-    N_bb = as_float_array(N_bb)
-
-    with sdiv_mode():
-        P_1 = sdiv((50000 / 13) * N_c * N_cb * e_t, t)
-
-    P_2 = A / N_bb + 0.305
-    P_3 = ones(P_1.shape) * (21 / 20)
-
-    return tstack([P_1, P_2, P_3])
-
-
-def matrix_post_adaptation_non_linear_response_compression(
-    P_2: ArrayLike, a: ArrayLike, b: ArrayLike
-) -> NDArrayFloat:
-    """
-    Apply post-adaptation non-linear response compression matrix to
-    specified opponent colour components.
-
-    Parameters
-    ----------
-    P_2
-        Point :math:`P_2` representing the post-adaptation response value.
-    a
-        Opponent colour dimension :math:`a` component.
-    b
-        Opponent colour dimension :math:`b` component.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Array of compressed points :math:`P` containing three values
-        after non-linear response compression.
-
-    Examples
-    --------
-    >>> P_2 = 24.2372054671
-    >>> a = -0.000624112068243
-    >>> b = -0.000506270106773
-    >>> matrix_post_adaptation_non_linear_response_compression(P_2, a, b)
-    ... # doctest: +ELLIPSIS
-    array([7.9463202..., 7.9471152..., 7.9489959...])
-    """
-
-    P_2 = as_float_array(P_2)
-    a = as_float_array(a)
-    b = as_float_array(b)
-
-    return (
-        vecmul(
-            [
-                [460, 451, 288],
-                [460, -891, -261],
-                [460, -220, -6300],
-            ],
-            tstack([P_2, a, b]),
-        )
-        / 1403
-    )

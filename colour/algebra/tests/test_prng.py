@@ -18,6 +18,7 @@ import numpy as np
 
 from colour.algebra import random_triplet_generator
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.utilities import xp_assert_close
 
 if typing.TYPE_CHECKING:
     from colour.hints import NDArrayFloat
@@ -70,7 +71,7 @@ class TestRandomTripletGenerator:
         """
 
         prng = np.random.RandomState(4)
-        np.testing.assert_allclose(
+        xp_assert_close(
             RANDOM_TRIPLETS,
             random_triplet_generator(10, random_state=prng),
             atol=TOLERANCE_ABSOLUTE_TESTS,

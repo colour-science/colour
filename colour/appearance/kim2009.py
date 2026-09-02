@@ -25,33 +25,33 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import astuple, dataclass, field
 
-import numpy as np
-
 from colour.adaptation import CAT_CAT02
-from colour.algebra import spow, vecmul
+from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 from colour.appearance.ciecam02 import (
     CAT_INVERSE_CAT02,
+    MATRIX_HPE_TO_XYZ,
+    MATRIX_XYZ_TO_HPE,
     VIEWING_CONDITIONS_CIECAM02,
-    RGB_to_rgb,
-    degree_of_adaptation,
-    full_chromatic_adaptation_forward,
-    full_chromatic_adaptation_inverse,
     hue_quadrature,
-    rgb_to_RGB,
 )
-from colour.hints import (  # noqa: TC001
-    Annotated,
-    ArrayLike,
-    Domain100,
-    NDArrayFloat,
-    Range100,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Annotated,
+        ArrayLike,
+        Domain100,
+        NDArrayFloat,
+        Range100,
+    )
+
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
     MixinDataclassIterable,
+    array_namespace,
     as_float,
     as_float_array,
     from_range_100,
@@ -62,6 +62,9 @@ from colour.utilities import (
     to_domain_degrees,
     tsplit,
     tstack,
+    xp_as_float_array,
+    xp_degrees,
+    xp_radians,
 )
 
 __author__ = "Colour Developers"
@@ -230,7 +233,7 @@ def XYZ_to_Kim2009(
     surround: InductionFactors_Kim2009 = VIEWING_CONDITIONS_KIM2009["Average"],
     n_c: float = 0.57,
     discount_illuminant: bool = False,
-    compute_H: bool = True,
+    compute_H: bool = False,
 ) -> Annotated[CAM_Specification_Kim2009, (100, 100, 360, 100, 100, 100, 400)]:
     """
     Compute the *Kim, Weyrich and Kautz (2009)* colour appearance model
@@ -249,13 +252,15 @@ def XYZ_to_Kim2009(
         Media parameters.
     surround
         Surround viewing conditions induction factors.
+    n_c
+        Cone response sigmoidal curve modulating factor :math:`n_c`.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
     compute_H
-        Whether to compute *Hue* :math:`h` quadrature :math:`H`.
-        :math:`H` is rarely used, and expensive to compute.
-    n_c
-        Cone response sigmoidal curve modulating factor :math:`n_c`.
+        When *True*, compute the *Hue Quadrature* :math:`H` correlate
+        via :func:`colour.appearance.ciecam02.hue_quadrature`. Defaults to
+        *False* because :math:`H` is rarely consumed downstream and
+        skipping the bin search is a measurable cost saving.
 
     Returns
     -------
@@ -297,12 +302,13 @@ def XYZ_to_Kim2009(
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> media = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
     >>> surround = VIEWING_CONDITIONS_KIM2009["Average"]
-    >>> XYZ_to_Kim2009(XYZ, XYZ_w, L_A, media, surround)
+    >>> XYZ_to_Kim2009(XYZ, XYZ_w, L_A, media, surround, compute_H=True)
     ... # doctest: +ELLIPSIS
     CAM_Specification_Kim2009(J=np.float64(28.8619089...), C=np.float64(0.5592455...), \
 h=np.float64(219.0480667...), s=np.float64(9.3837797...), Q=np.float64(52.7138883...), \
@@ -311,28 +317,44 @@ M=np.float64(0.4641738...), H=np.float64(278.0602824...), HC=None)
 
     XYZ = to_domain_100(XYZ)
     XYZ_w = to_domain_100(XYZ_w)
+
+    xp = array_namespace(XYZ, XYZ_w, L_A)
+
+    XYZ = xp_as_float_array(XYZ, xp=xp)
+    XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=XYZ)
+    L_A = xp_as_float_array(L_A, xp=xp, like=XYZ)
+
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
-    L_A = as_float_array(L_A)
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
     RGB = vecmul(CAT_CAT02, XYZ)
     RGB_w = vecmul(CAT_CAT02, XYZ_w)
 
-    # Computing degree of adaptation :math:`D`.
-    D = (
-        degree_of_adaptation(surround.F, L_A)
-        if not discount_illuminant
-        else ones(L_A.shape)
+    # Computing degree of adaptation :math:`D`, same formulation as in
+    # *CIECAM02*; bypassed entirely when ``discount_illuminant`` is set.
+    if discount_illuminant:
+        D = xp_as_float_array(ones(L_A.shape), xp=xp, like=XYZ)
+    else:
+        F = xp_as_float_array(surround.F, xp=xp, like=XYZ)
+        D = F * (1 - (1 / 3.6) * xp.exp((-L_A - 42) / 92))
+
+    # Computing full chromatic adaptation, same formulation as in
+    # *CIECAM02*, applied to the stimulus and reference white via a
+    # shared factor.
+    with sdiv_mode():
+        D_factor = Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]
+    XYZ_c = D_factor * RGB
+    XYZ_wc = D_factor * RGB_w
+
+    # Converting to *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
+    # colourspace, same transform as in *CIECAM02*.
+    MATRIX_XYZ_HPE_x_CAT_INVERSE = xp.matmul(
+        xp_as_float_array(MATRIX_XYZ_TO_HPE, xp=xp, like=XYZ),
+        xp_as_float_array(CAT_INVERSE_CAT02, xp=xp, like=XYZ),
     )
-
-    # Computing full chromatic adaptation.
-    XYZ_c = full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)
-    XYZ_wc = full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
-
-    # Converting to *Hunt-Pointer-Estevez* colourspace.
-    LMS = RGB_to_rgb(XYZ_c)
-    LMS_w = RGB_to_rgb(XYZ_wc)
+    LMS = vecmul(MATRIX_XYZ_HPE_x_CAT_INVERSE, XYZ_c)
+    LMS_w = vecmul(MATRIX_XYZ_HPE_x_CAT_INVERSE, XYZ_wc)
 
     # Cones absolute response.
     LMS_n_c = spow(LMS, n_c)
@@ -342,9 +364,9 @@ M=np.float64(0.4641738...), H=np.float64(278.0602824...), HC=None)
     LMS_wp = LMS_w_n_c / (LMS_w_n_c + L_A_n_c)
 
     # Achromatic signal :math:`A` and :math:`A_w`.
-    v_A = np.array([40, 20, 1])
-    A = np.sum(v_A * LMS_p, axis=-1) / 61
-    A_w = np.sum(v_A * LMS_wp, axis=-1) / 61
+    v_A = xp_as_float_array([40, 20, 1], xp=xp, like=LMS_wp)
+    A = xp.sum(v_A * LMS_p, axis=-1) / 61
+    A_w = xp.sum(v_A * LMS_wp, axis=-1) / 61
 
     # Perceived *Lightness* :math:`J_p`.
     a_j, b_j, o_j, n_j = 0.89, 0.24, 0.65, 3.65
@@ -359,25 +381,29 @@ M=np.float64(0.4641738...), H=np.float64(278.0602824...), HC=None)
     Q = J * spow(Y_w, n_q)
 
     # Opponent signals :math:`a` and :math:`b`.
-    a = (1 / 11) * np.sum(np.array([11, -12, 1]) * LMS_p, axis=-1)
-    b = (1 / 9) * np.sum(np.array([1, 1, -2]) * LMS_p, axis=-1)
+    a = (1 / 11) * xp.sum(
+        xp_as_float_array([11, -12, 1], xp=xp, like=LMS_p) * LMS_p, axis=-1
+    )
+    b = (1 / 9) * xp.sum(
+        xp_as_float_array([1, 1, -2], xp=xp, like=LMS_p) * LMS_p, axis=-1
+    )
 
     # Computing the correlate of *chroma* :math:`C`.
     a_k, n_k = 456.5, 0.62
-    C = a_k * spow(np.hypot(a, b), n_k)
+    C = a_k * spow(xp.hypot(a, b), n_k)
 
     # Computing the correlate of *colourfulness* :math:`M`.
     a_m, b_m = 0.11, 0.61
-    M = C * (a_m * np.log10(Y_w) + b_m)
+    M = C * (a_m * xp.log10(Y_w) + b_m)
 
     # Computing the correlate of *saturation* :math:`s`.
-    s = 100 * np.sqrt(M / Q)
+    s = 100 * xp.sqrt(M / Q)
 
     # Computing the *hue* angle :math:`h`.
-    h = np.degrees(np.arctan2(b, a)) % 360
+    h = xp_degrees(xp.atan2(b, a)) % 360
 
     # Computing hue :math:`h` quadrature :math:`H`.
-    H = hue_quadrature(h) if compute_H else np.full(h.shape, np.nan)
+    H = hue_quadrature(h) if compute_H else xp.full_like(h, float("nan"))
 
     return CAM_Specification_Kim2009(
         J=as_float(from_range_100(J)),
@@ -472,6 +498,7 @@ def Kim2009_to_XYZ(
 
     Examples
     --------
+    >>> import numpy as np
     >>> specification = CAM_Specification_Kim2009(
     ...     J=28.861908975839647, C=0.5592455924373706, h=219.04806677662953
     ... )
@@ -492,30 +519,48 @@ def Kim2009_to_XYZ(
     M = to_domain_100(M)
     L_A = as_float_array(L_A)
     XYZ_w = to_domain_100(XYZ_w)
+
+    xp = array_namespace(J, C, h, M, XYZ_w, L_A)
+
+    J = xp_as_float_array(J, xp=xp)
+    C = xp_as_float_array(C, xp=xp, like=J)
+    h = xp_as_float_array(h, xp=xp, like=J)
+    M = xp_as_float_array(M, xp=xp, like=J)
+    XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=J)
+    L_A = xp_as_float_array(L_A, xp=xp, like=J)
+
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
-    # sharpened *RGB* values.
+    # sharpened *RGB* values for the reference white.
     RGB_w = vecmul(CAT_CAT02, XYZ_w)
 
-    # Computing degree of adaptation :math:`D`.
-    D = (
-        degree_of_adaptation(surround.F, L_A)
-        if not discount_illuminant
-        else ones(L_A.shape)
+    # Computing degree of adaptation :math:`D`, same formulation as in
+    # *CIECAM02*; bypassed entirely when ``discount_illuminant`` is set.
+    if discount_illuminant:
+        D = xp_as_float_array(ones(L_A.shape), xp=xp, like=J)
+    else:
+        F = xp_as_float_array(surround.F, xp=xp, like=J)
+        D = F * (1 - (1 / 3.6) * xp.exp((-L_A - 42) / 92))
+
+    # Computing full chromatic adaptation for the reference white,
+    # same formulation as in *CIECAM02*. The :math:`D_{factor}` value
+    # is reused on the way out.
+    with sdiv_mode():
+        D_factor = Y_w[..., None] * sdiv(D[..., None], RGB_w) + 1 - D[..., None]
+    XYZ_wc = D_factor * RGB_w
+
+    # Converting to *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
+    # colourspace, same transform as in *CIECAM02*.
+    MATRIX_XYZ_HPE_x_CAT_INVERSE = xp.matmul(
+        xp_as_float_array(MATRIX_XYZ_TO_HPE, xp=xp, like=J),
+        xp_as_float_array(CAT_INVERSE_CAT02, xp=xp, like=J),
     )
+    LMS_w = vecmul(MATRIX_XYZ_HPE_x_CAT_INVERSE, XYZ_wc)
 
-    # Computing full chromatic adaptation.
-    XYZ_wc = full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
-
-    # Converting to *Hunt-Pointer-Estevez* colourspace.
-    LMS_w = RGB_to_rgb(XYZ_wc)
-
-    # n_q = 0.1308
-    # J = Q / spow(Y_w, n_q)
     if has_only_nan(C) and not has_only_nan(M):
         a_m, b_m = 0.11, 0.61
-        C = M / (a_m * np.log10(Y_w) + b_m)
+        C = M / (a_m * xp.log10(Y_w) + b_m)
     elif has_only_nan(C):
         error = (
             'Either "C" or "M" correlate must be defined in '
@@ -530,8 +575,8 @@ def Kim2009_to_XYZ(
     LMS_wp = LMS_w_n_c / (LMS_w_n_c + L_A_n_c)
 
     # Achromatic signal :math:`A_w`
-    v_A = np.array([40, 20, 1])
-    A_w = np.sum(v_A * LMS_wp, axis=-1) / 61
+    v_A = xp_as_float_array([40, 20, 1], xp=xp, like=LMS_wp)
+    A_w = xp.sum(v_A * LMS_wp, axis=-1) / 61
 
     # Perceived *Lightness* :math:`J_p`.
     J_p = (J / 100 - 1) / media.E + 1
@@ -544,25 +589,33 @@ def Kim2009_to_XYZ(
     # Opponent signals :math:`a` and :math:`b`.
     a_k, n_k = 456.5, 0.62
     C_a_k_n_k = spow(C / a_k, 1 / n_k)
-    hr = np.radians(h)
-    a, b = np.cos(hr) * C_a_k_n_k, np.sin(hr) * C_a_k_n_k
+    hr = xp_radians(h)
+    a, b = xp.cos(hr) * C_a_k_n_k, xp.sin(hr) * C_a_k_n_k
 
     # Cones absolute response.
-    M = np.array(
+    M = xp_as_float_array(
         [
             [1.0000, 0.3215, 0.2053],
             [1.0000, -0.6351, -0.1860],
             [1.0000, -0.1568, -4.4904],
-        ]
+        ],
+        xp=xp,
+        like=A,
     )
     LMS_p = vecmul(M, tstack([A, a, b]))
     LMS = spow((-spow(L_A, n_c) * LMS_p) / (LMS_p - 1), 1 / n_c)
 
-    # Converting to *Hunt-Pointer-Estevez* colourspace.
-    RGB_c = rgb_to_RGB(LMS)
+    # Converting from *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
+    # colourspace back to adapted *RGB*, same transform as in *CIECAM02*.
+    CAT_x_MATRIX_HPE = xp.matmul(
+        xp_as_float_array(CAT_CAT02, xp=xp, like=J),
+        xp_as_float_array(MATRIX_HPE_TO_XYZ, xp=xp, like=J),
+    )
+    RGB_c = vecmul(CAT_x_MATRIX_HPE, LMS)
 
-    # Applying inverse full chromatic adaptation.
-    RGB = full_chromatic_adaptation_inverse(RGB_c, RGB_w, Y_w, D)
+    # Applying inverse full chromatic adaptation, reusing the
+    # :math:`D_{factor}` value precomputed on the forward path.
+    RGB = RGB_c / D_factor
 
     XYZ = vecmul(CAT_INVERSE_CAT02, RGB)
 

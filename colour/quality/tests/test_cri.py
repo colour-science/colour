@@ -2,12 +2,20 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 import numpy as np
+import pytest
 
 from colour.colorimetry import (
     MSDS_CMFS,
     SDS_ILLUMINANTS,
+    SDS_LIGHT_SOURCES,
     SPECTRAL_SHAPE_DEFAULT,
+    MultiSpectralDistributions,
     SpectralDistribution,
     reshape_msds,
     reshape_sd,
@@ -20,6 +28,7 @@ from colour.quality.cri import (
     tcs_colorimetry_data,
 )
 from colour.quality.datasets.tcs import SDS_TCS
+from colour.utilities import xp_as_array, xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -123,31 +132,39 @@ class TestColourRenderingIndex:
     definition unit tests methods.
     """
 
-    def test_colour_rendering_index(self) -> None:
+    @pytest.mark.mps_tolerance_absolute(1e-2)
+    def test_colour_rendering_index(self, xp: ModuleType) -> None:
         """Test :func:`colour.quality.cri.colour_rendering_index` definition."""
 
-        np.testing.assert_allclose(
-            colour_rendering_index(SDS_ILLUMINANTS["FL1"], additional_data=False),
+        sd_fl1_xp = SDS_ILLUMINANTS["FL1"].copy(xp=xp)
+
+        xp_assert_close(
+            colour_rendering_index(sd_fl1_xp, additional_data=False),
             75.852827992149358,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            colour_rendering_index(SDS_ILLUMINANTS["FL2"], additional_data=False),
+        sd_fl2_xp = SDS_ILLUMINANTS["FL2"].copy(xp=xp)
+
+        xp_assert_close(
+            colour_rendering_index(sd_fl2_xp, additional_data=False),
             64.233724121664778,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            colour_rendering_index(SDS_ILLUMINANTS["A"], additional_data=False),
+        sd_a_xp = SDS_ILLUMINANTS["A"].copy(xp=xp)
+
+        xp_assert_close(
+            colour_rendering_index(sd_a_xp, additional_data=False),
             99.996230290506887,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            colour_rendering_index(
-                SpectralDistribution(DATA_SAMPLE), additional_data=False
-            ),
+        sd_sample = SpectralDistribution(DATA_SAMPLE)
+        sd_sample_xp = sd_sample.copy(xp=xp)
+
+        xp_assert_close(
+            colour_rendering_index(sd_sample_xp, additional_data=False),
             70.815265381660197,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -364,7 +381,11 @@ class TestColourRenderingIndex:
             SDS_ILLUMINANTS["FL1"], additional_data=True, method="CIE 2024"
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
+            specification_r.Q_a, specification_t.Q_a, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        xp_assert_close(
             [data.Q_a for _index, data in sorted(specification_r.Q_as.items())],
             [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -379,7 +400,11 @@ class TestColourRenderingIndex:
             SDS_ILLUMINANTS["FL1"], additional_data=True, method="CIE 1995"
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
+            specification_r.Q_a, specification_t.Q_a, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
+        xp_assert_close(
             [data.Q_a for _index, data in sorted(specification_r.Q_as.items())],
             [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -389,18 +414,18 @@ class TestColourRenderingIndex:
             SDS_ILLUMINANTS["FL1"], additional_data=True
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             specification_r.Q_a, specification_t.Q_a, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             [data.Q_a for _index, data in sorted(specification_r.Q_as.items())],
             [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         for data in ["XYZ", "uv", "UVW"]:
-            np.testing.assert_allclose(
+            xp_assert_close(
                 [
                     getattr(tcs, data)
                     for colorimetry_data in specification_r.colorimetry_data
@@ -434,3 +459,29 @@ class TestColourRenderingIndex:
             sd_test, sd_test, tcs_dict_partial, cmfs, method="CIE 1995"
         )
         assert len(result) == 13
+
+        sds = [
+            sd.copy().align(SPECTRAL_SHAPE_DEFAULT)
+            for sd in (
+                SDS_ILLUMINANTS["FL1"],
+                SDS_ILLUMINANTS["FL2"],
+                SDS_LIGHT_SOURCES["Neodimium Incandescent"],
+                SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"],
+            )
+        ]
+        msds = MultiSpectralDistributions(
+            xp_as_array(np.column_stack([sd.values for sd in sds]), xp=xp),
+            sds[0].wavelengths,
+            labels=[sd.name for sd in sds],
+        )
+        xp_assert_close(
+            colour_rendering_index(msds),
+            xp_as_array(
+                [colour_rendering_index(sd.copy(xp=xp)) for sd in sds],
+                xp=xp,
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        with pytest.raises(NotImplementedError):
+            colour_rendering_index(msds, additional_data=True)  # pyright: ignore[reportCallIssue, reportArgumentType]

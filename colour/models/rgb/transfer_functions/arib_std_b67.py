@@ -19,8 +19,6 @@ References
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.hints import (  # noqa: TC001
     ArrayLike,
     Domain1,
@@ -29,12 +27,13 @@ from colour.hints import (  # noqa: TC001
 from colour.models.rgb.transfer_functions import gamma_function
 from colour.utilities import (
     Structure,
+    array_namespace,
     as_float,
-    as_float_array,
     domain_range_scale,
     from_range_1,
     optional,
     to_domain_1,
+    xp_as_float_array,
 )
 
 __author__ = "Colour Developers"
@@ -108,14 +107,17 @@ def oetf_ARIBSTDB67(
     """
 
     E = to_domain_1(E)
-    r = as_float_array(r)
+
+    xp = array_namespace(E)
+
+    r = xp_as_float_array(r, xp=xp, like=E)
     constants = optional(constants, CONSTANTS_ARIBSTDB67)
 
     a = constants.a
     b = constants.b
     c = constants.c
 
-    E_p = np.where(E <= 1, r * gamma_function(E, 0.5, "mirror"), a * np.log(E - b) + c)
+    E_p = xp.where(E <= 1, r * gamma_function(E, 0.5, "mirror"), a * xp.log(E - b) + c)
 
     return as_float(from_range_1(E_p))
 
@@ -174,6 +176,11 @@ def oetf_inverse_ARIBSTDB67(
     """
 
     E_p = to_domain_1(E_p)
+
+    xp = array_namespace(E_p)
+
+    r = xp_as_float_array(r, xp=xp, like=E_p)
+
     constants = optional(constants, CONSTANTS_ARIBSTDB67)
 
     a = constants.a
@@ -181,10 +188,10 @@ def oetf_inverse_ARIBSTDB67(
     c = constants.c
 
     with domain_range_scale("ignore"):
-        E = np.where(
+        E = xp.where(
             E_p <= oetf_ARIBSTDB67(1),
             gamma_function((E_p / r), 2, "mirror"),
-            np.exp((E_p - c) / a) + b,
+            xp.exp((E_p - c) / a) + b,
         )
 
     return as_float(from_range_1(E))
