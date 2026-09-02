@@ -140,7 +140,7 @@ class TestColourFidelityIndex:
         )
 
         xp_assert_close(
-            cast(NDArrayFloat, colour_fidelity_index(msds)),
+            cast("NDArrayFloat", colour_fidelity_index(msds)),
             colour_fidelity_index_CIE2017(msds),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

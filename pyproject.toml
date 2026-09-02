@@ -84,6 +84,7 @@ Changelog = "https://github.com/colour-science/colour/releases"
 
 [tool.uv]
 package = true
+conflicts = [[{ group = "jax" }, { group = "torch" }]]
 
 [dependency-groups]
 dev = [
@@ -101,6 +102,8 @@ dev = [
     "toml",
     "twine",
 ]
+jax = ["jax>=0.4,<1"]
+torch = ["torch>=2,<3"]
 
 [build-system]
 requires = ["hatchling"]

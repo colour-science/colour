@@ -10,7 +10,6 @@ if typing.TYPE_CHECKING:
 from itertools import product
 
 import numpy as np
-import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import Izazbz_to_XYZ, Jzazbz_to_XYZ, XYZ_to_Izazbz, XYZ_to_Jzazbz
@@ -45,9 +44,6 @@ class TestXYZ_to_Izazbz:
     tests methods.
     """
 
-    @pytest.mark.mps_xfail(
-        "MPS float32: aliased methods diverge under exact-equality assert"
-    )
     def test_XYZ_to_Izazbz(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.jzazbz.XYZ_to_Izazbz` definition."""
 
@@ -83,7 +79,10 @@ class TestXYZ_to_Izazbz:
                 xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp),
                 method="Safdar 2021",
             ),
-            XYZ_to_Izazbz([0.20654008, 0.12197225, 0.05136952], method="ZCAM"),
+            XYZ_to_Izazbz(
+                xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp),
+                method="ZCAM",
+            ),
         )
 
     def test_n_dimensional_XYZ_to_Izazbz(self, xp: ModuleType) -> None:
@@ -139,9 +138,6 @@ class TestIzazbz_to_XYZ:
     methods.
     """
 
-    @pytest.mark.mps_xfail(
-        "MPS float32: aliased methods diverge under exact-equality assert"
-    )
     def test_Izazbz_to_XYZ(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.jzazbz.Izazbz_to_XYZ` definition."""
 
@@ -183,7 +179,10 @@ class TestIzazbz_to_XYZ:
                 xp_as_array([0.01049146, 0.00924302, 0.00526007], xp=xp),
                 method="Safdar 2021",
             ),
-            Izazbz_to_XYZ([0.01049146, 0.00924302, 0.00526007], method="ZCAM"),
+            Izazbz_to_XYZ(
+                xp_as_array([0.01049146, 0.00924302, 0.00526007], xp=xp),
+                method="ZCAM",
+            ),
         )
 
     def test_n_dimensional_Izazbz_to_XYZ(self, xp: ModuleType) -> None:

@@ -7,6 +7,7 @@ Configure *pytest* with array backend fixtures for *Array API* testing.
 
 from __future__ import annotations
 
+import os
 import sys
 import typing
 
@@ -50,6 +51,14 @@ except ImportError:
     torch = None
 
 
+_TEST_BACKENDS: str | None = os.environ.get("COLOUR_SCIENCE__TEST_BACKENDS")
+"""
+Optional comma-separated list of backend parameter ids (``numpy``, ``jax``,
+``torch``, ``torch-mps``) restricting the :func:`xp` fixture parametrisation.
+Unset yields every installed backend.
+"""
+
+
 def _make_backend_parameters() -> list:
     """Build the parametrised backend list."""
 
@@ -63,7 +72,21 @@ def _make_backend_parameters() -> list:
         if torch.backends.mps.is_available():
             params.append(pytest.param((torch, "torch-mps"), id="torch-mps"))
 
-    return params
+    if _TEST_BACKENDS is None:
+        return params
+
+    requested = [token.strip() for token in _TEST_BACKENDS.split(",") if token.strip()]
+    available = {str(parameter.id): parameter for parameter in params}
+
+    missing = [backend for backend in requested if backend not in available]
+    if missing:
+        pytest.exit(
+            f"COLOUR_SCIENCE__TEST_BACKENDS requests unavailable backend(s): "
+            f"{', '.join(missing)}; available: {', '.join(available)}.",
+            returncode=1,
+        )
+
+    return [available[backend] for backend in requested]
 
 
 @pytest.fixture(params=_make_backend_parameters())
