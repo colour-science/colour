@@ -582,6 +582,20 @@ class TestXpAsArray:
         no_copy = xp_as_array(original, xp=xp)
         assert no_copy is original
 
+    def test_xp_as_array_copy_autograd(self, xp: ModuleType) -> None:
+        """Test that a backend copy preserves its computational graph."""
+
+        if xp.__name__ != "torch":
+            pytest.skip("Autograd preservation is only defined for *PyTorch*.")
+
+        original = xp.tensor([1.0, 2.0, 3.0], requires_grad=True)
+        copied = xp_as_array(original, xp=xp, copy=True)
+        (gradient,) = xp.autograd.grad(xp.sum(copied), original)
+
+        assert copied is not original
+        assert copied.grad_fn is not None
+        xp_assert_equal(gradient, xp.ones_like(original))
+
 
 class TestXpAsFloatArray:
     """Define :func:`colour.utilities.xp_as_float_array` unit tests."""
@@ -1916,6 +1930,23 @@ class TestAsArray:
             [1, 2, 3],
         )
 
+    def test_as_array_autograd(self, xp: ModuleType) -> None:
+        """Test that conversion preserves the backend computational graph."""
+
+        if xp.__name__ != "torch":
+            pytest.skip("Autograd preservation is only defined for *PyTorch*.")
+
+        original = xp.tensor([1.0, 2.0, 3.0], requires_grad=True)
+        converted = as_array(original, DTYPE_FLOAT_DEFAULT)
+        (gradient,) = xp.autograd.grad(xp.sum(converted), original)
+
+        xp_assert_equal(gradient, xp.ones_like(original))
+
+        stacked = as_array([original, original * 2])
+        (gradient,) = xp.autograd.grad(xp.sum(stacked), original)
+
+        xp_assert_equal(gradient, xp.full_like(original, 3))
+
 
 class TestAsInt:
     """
@@ -2864,6 +2895,20 @@ class TestNdarrayCopy:
 
         with ndarray_copy_enable(False):
             assert id(ndarray_copy(a)) == id(a)  # pyright: ignore
+
+    def test_ndarray_copy_autograd(self, xp: ModuleType) -> None:
+        """Test that copying preserves the backend computational graph."""
+
+        if xp.__name__ != "torch":
+            pytest.skip("Autograd preservation is only defined for *PyTorch*.")
+
+        original = xp.tensor([1.0, 2.0, 3.0], requires_grad=True)
+        copied = ndarray_copy(original)
+        (gradient,) = xp.autograd.grad(xp.sum(copied), original)
+
+        assert copied is not original
+        assert copied.grad_fn is not None
+        xp_assert_equal(gradient, xp.ones_like(original))
 
 
 class TestClosestIndexes:
