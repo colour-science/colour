@@ -10,6 +10,7 @@ if typing.TYPE_CHECKING:
 from itertools import product
 
 import numpy as np
+import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.temperature import (
@@ -38,6 +39,7 @@ __all__ = [
     "TestCCT_to_mired",
     "TestUv_to_CCT_Robertson1968",
     "TestCCT_to_uv_Robertson1968",
+    "TestRobertson1968Autograd",
 ]
 
 TEMPERATURE_DUV_TO_UV: dict = {
@@ -372,3 +374,48 @@ class TestCCT_to_uv_Robertson1968:
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         CCT_to_uv_Robertson1968(cases)
+
+
+class TestRobertson1968Autograd:
+    """
+    Define autograd regression tests for the
+    :mod:`colour.temperature.robertson1968` module under the *PyTorch* backend.
+
+    The *Robertson (1968)* direction-vector normalisation previously used
+    in-place ``/=`` and ``+=`` updates, which modify tensors the autograd graph
+    still needs and raise at backward time.
+    """
+
+    def test_autograd_uv_to_CCT_Robertson1968(self, xp: ModuleType) -> None:
+        """
+        Test :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
+        autograd graph preservation.
+        """
+
+        if xp.__name__ != "torch":
+            pytest.skip("Autograd preservation is only defined for *PyTorch*.")
+
+        uv = xp.tensor([0.1978, 0.3122], requires_grad=True)
+
+        CCT_D_uv = uv_to_CCT_Robertson1968(uv)
+        (gradient,) = xp.autograd.grad(xp.sum(CCT_D_uv), uv)
+
+        assert CCT_D_uv.grad_fn is not None
+        assert xp.isfinite(gradient).all()
+
+    def test_autograd_CCT_to_uv_Robertson1968(self, xp: ModuleType) -> None:
+        """
+        Test :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
+        autograd graph preservation.
+        """
+
+        if xp.__name__ != "torch":
+            pytest.skip("Autograd preservation is only defined for *PyTorch*.")
+
+        CCT_D_uv = xp.tensor([6500.0, 0.003], requires_grad=True)
+
+        uv = CCT_to_uv_Robertson1968(CCT_D_uv)
+        (gradient,) = xp.autograd.grad(xp.sum(uv), CCT_D_uv)
+
+        assert uv.grad_fn is not None
+        assert xp.isfinite(gradient).all()
