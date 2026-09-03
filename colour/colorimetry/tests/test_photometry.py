@@ -149,9 +149,7 @@ class TestPhotometryAutograd:
         [luminous_flux, luminous_efficiency, luminous_efficacy],
         ids=lambda function: function.__name__,
     )
-    def test_autograd_photometry(
-        self, xp: ModuleType, function: Callable
-    ) -> None:
+    def test_autograd_photometry(self, xp: ModuleType, function: Callable) -> None:
         """Test that the definition preserves a finite gradient to spectral values."""
 
         if xp.__name__ != "torch":

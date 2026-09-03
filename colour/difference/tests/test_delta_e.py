@@ -1479,9 +1479,7 @@ class TestDelta_E_Autograd:
         # breaking a second backward pass.
         with caching_enable(False):
             delta_E = function(Lab_1, Lab_2)
-            gradient_1, gradient_2 = xp.autograd.grad(
-                xp.sum(delta_E), (Lab_1, Lab_2)
-            )
+            gradient_1, gradient_2 = xp.autograd.grad(xp.sum(delta_E), (Lab_1, Lab_2))
 
         assert delta_E.grad_fn is not None
         assert xp.isfinite(gradient_1).all()
