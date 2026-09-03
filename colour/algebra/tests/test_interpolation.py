@@ -45,6 +45,7 @@ from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import NDArrayFloat, cast
 from colour.io import LUT3D, read_LUT
 from colour.utilities import (
+    ColourRuntimeWarning,
     as_ndarray,
     ignore_numpy_errors,
     xp_as_array,
@@ -1470,6 +1471,21 @@ __call__` method.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+    def test__call__warning(self, xp: ModuleType) -> None:
+        """Test the non-*NumPy* automatic differentiation warning."""
+
+        if xp.__name__ == "numpy":
+            pytest.skip("The warning applies to non-NumPy backends.")
+
+        x = np.linspace(0, 1, len(DATA_POINTS_A))
+        x_e = xp_linspace(0, 1, num=len(DATA_POINTS_A) * 2, xp=xp)
+
+        with pytest.warns(
+            ColourRuntimeWarning,
+            match="automatic differentiation graphs are not preserved",
+        ):
+            CubicSplineInterpolator(x, DATA_POINTS_A)(x_e)
+
 
 class TestPchipInterpolator:
     """
@@ -1512,6 +1528,21 @@ class TestPchipInterpolator:
             np.transpose([reference, reference]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+    def test__call__warning(self, xp: ModuleType) -> None:
+        """Test the non-*NumPy* automatic differentiation warning."""
+
+        if xp.__name__ == "numpy":
+            pytest.skip("The warning applies to non-NumPy backends.")
+
+        x = np.linspace(0, 1, 10)
+        x_e = xp_linspace(0, 1, num=19, xp=xp)
+
+        with pytest.warns(
+            ColourRuntimeWarning,
+            match="automatic differentiation graphs are not preserved",
+        ):
+            PchipInterpolator(x, np.linspace(0, 1, 10))(x_e)
 
 
 class TestNullInterpolator:
