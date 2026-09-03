@@ -32,6 +32,7 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "autodiff",
     "xp",
 ]
 
@@ -41,6 +42,7 @@ try:
     jax.config.update("jax_enable_x64", True)
     import jax.numpy as jnp
 except ImportError:
+    jax = None
     jnp = None
 
 try:
@@ -54,9 +56,27 @@ except ImportError:
 _TEST_BACKENDS: str | None = os.environ.get("COLOUR_SCIENCE__TEST_BACKENDS")
 """
 Optional comma-separated list of backend parameter ids (``numpy``, ``jax``,
-``torch``, ``torch-mps``, ``torch-cuda``) restricting the :func:`xp` fixture
-parametrisation. Unset yields every installed backend.
+``jax-cuda``, ``torch``, ``torch-mps``, ``torch-cuda``) restricting the
+:func:`xp` fixture parametrisation. Unset yields every installed backend.
 """
+
+
+def _jax_device(platform: str) -> object | None:
+    """Return the first available *JAX* device for the specified platform."""
+
+    if jax is None:
+        return None
+
+    try:
+        devices = jax.devices(platform)
+    except RuntimeError:
+        return None
+
+    return devices[0] if devices else None
+
+
+_JAX_CPU_DEVICE = _jax_device("cpu")
+_JAX_CUDA_DEVICE = _jax_device("gpu")
 
 
 def _make_backend_parameters() -> list:
@@ -66,6 +86,8 @@ def _make_backend_parameters() -> list:
 
     if jnp is not None:
         params.append(pytest.param((jnp, "jax"), id="jax"))
+        if _JAX_CUDA_DEVICE is not None:
+            params.append(pytest.param((jnp, "jax-cuda"), id="jax-cuda"))
 
     if torch is not None:
         params.append(pytest.param((torch, "torch"), id="torch"))
@@ -98,15 +120,20 @@ def xp(request: pytest.FixtureRequest) -> Generator[ModuleType, None, None]:
 
     Yields :mod:`numpy` and, when available, :mod:`jax.numpy` and
     :mod:`torch`. Non-NumPy backends automatically enable Array API dispatch
-    for the duration of the test. The ``torch-mps`` and ``torch-cuda`` variants
-    additionally set the matching default device. The ``torch-mps`` variant
-    also sets the default dtype to ``float32``.
+    for the duration of the test. The ``jax-cuda``, ``torch-mps`` and
+    ``torch-cuda`` variants additionally set the matching default device. The
+    ``torch-mps`` variant also sets the default dtype to ``float32``.
     """
 
     backend, variant = request.param
 
     if variant == "numpy":
         yield backend
+    elif variant in ("jax", "jax-cuda"):
+        device = _JAX_CUDA_DEVICE if variant == "jax-cuda" else _JAX_CPU_DEVICE
+        default_device = jax.default_device(device)  # pyright: ignore
+        with array_api_enable(True), default_device:
+            yield backend
     elif variant == "torch-cuda":
         with array_api_enable(True):
             default_device = torch.get_default_device()  # pyright: ignore
@@ -177,3 +204,42 @@ def xp(request: pytest.FixtureRequest) -> Generator[ModuleType, None, None]:
     else:
         with array_api_enable(True):
             yield backend
+
+
+@pytest.fixture
+def autodiff(xp: ModuleType) -> typing.Callable:
+    """Return a backend-aware reverse-mode automatic differentiation helper."""
+
+    if xp.__name__ == "numpy":
+        pytest.skip("Automatic differentiation requires *JAX* or *PyTorch*.")
+
+    def evaluate(function: typing.Callable, *inputs: object) -> tuple:
+        """Evaluate a function and its summed-output gradients."""
+
+        variables = tuple(xp.asarray(value) for value in inputs)
+
+        if xp.__name__ == "torch":
+            variables = tuple(
+                variable.detach().clone().requires_grad_(True) for variable in variables
+            )
+            result = function(*variables)
+            gradients = tuple(xp.autograd.grad(xp.sum(result), variables))
+        else:
+            result = function(*variables)
+            gradients = jax.grad(  # pyright: ignore
+                lambda *arguments: xp.sum(function(*arguments)),
+                argnums=tuple(range(len(variables))),
+            )(*variables)
+
+        device = getattr(variables[0], "device", None)
+        if device is not None:
+            for value in (result, *gradients):
+                if getattr(value, "device", None) != device:
+                    pytest.fail(
+                        "Automatic differentiation moved an output or gradient "
+                        "away from the input device."
+                    )
+
+        return result, gradients, variables
+
+    return evaluate

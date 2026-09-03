@@ -58,7 +58,7 @@ __all__ = [
     "TestDelta_E_ITP",
     "TestDelta_E_HyAB",
     "TestDelta_E_HyCH",
-    "TestDelta_E_Autograd",
+    "TestDelta_E_Autodiff",
 ]
 
 
@@ -1433,14 +1433,14 @@ class TestDelta_E_HyCH:
         delta_E_HyCH(cases, cases, additional_data=True)
 
 
-class TestDelta_E_Autograd:
+class TestDelta_E_Autodiff:
     """
-    Define autograd unit tests for the :mod:`colour.difference.delta_e`
-    colour-difference definitions under the *PyTorch* backend.
+    Define automatic differentiation tests for the
+    :mod:`colour.difference.delta_e` colour-difference definitions.
 
-    Each definition must keep its output attached to the *PyTorch* autograd
-    graph and propagate a finite reverse-mode gradient to both colour inputs, a
-    prerequisite for differentiable and inverse-design pipelines.
+    Each definition must propagate a finite, non-zero reverse-mode gradient to
+    both colour inputs, a prerequisite for differentiable and inverse-design
+    pipelines.
 
     Notes
     -----
@@ -1463,24 +1463,24 @@ class TestDelta_E_Autograd:
         ],
         ids=lambda function: function.__name__,
     )
-    def test_autograd_delta_E(self, xp: ModuleType, function: Callable) -> None:
+    def test_autodiff_delta_E(
+        self, xp: ModuleType, autodiff: Callable, function: Callable
+    ) -> None:
         """
-        Test that the definition preserves the *PyTorch* autograd graph and a
-        finite gradient to both inputs.
+        Test that the definition preserves automatic differentiation to both
+        inputs.
         """
-
-        if xp.__name__ != "torch":
-            pytest.skip("Autograd preservation is only defined for *PyTorch*.")
-
-        Lab_1 = xp.tensor([48.0, -0.1, 12.0], requires_grad=True)
-        Lab_2 = xp.tensor([50.6, -0.11, 14.8], requires_grad=True)
 
         # Value caching returns a clone still attached to the first saved graph,
         # breaking a second backward pass.
         with caching_enable(False):
-            delta_E = function(Lab_1, Lab_2)
-            gradient_1, gradient_2 = xp.autograd.grad(xp.sum(delta_E), (Lab_1, Lab_2))
+            _delta_E, (gradient_1, gradient_2), _inputs = autodiff(
+                function,
+                [48.0, -0.1, 12.0],
+                [50.6, -0.11, 14.8],
+            )
 
-        assert delta_E.grad_fn is not None
         assert xp.isfinite(gradient_1).all()
         assert xp.isfinite(gradient_2).all()
+        assert xp.any(gradient_1 != 0)
+        assert xp.any(gradient_2 != 0)

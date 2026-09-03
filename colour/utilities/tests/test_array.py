@@ -582,18 +582,16 @@ class TestXpAsArray:
         no_copy = xp_as_array(original, xp=xp)
         assert no_copy is original
 
-    def test_xp_as_array_copy_autograd(self, xp: ModuleType) -> None:
-        """Test that a backend copy preserves its computational graph."""
+    def test_xp_as_array_copy_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test that a backend copy preserves automatic differentiation."""
 
-        if xp.__name__ != "torch":
-            pytest.skip("Autograd preservation is only defined for *PyTorch*.")
-
-        original = xp.tensor([1.0, 2.0, 3.0], requires_grad=True)
-        copied = xp_as_array(original, xp=xp, copy=True)
-        (gradient,) = xp.autograd.grad(xp.sum(copied), original)
+        copied, (gradient,), (original,) = autodiff(
+            lambda a: xp_as_array(a, xp=xp, copy=True), [1.0, 2.0, 3.0]
+        )
 
         assert copied is not original
-        assert copied.grad_fn is not None
         xp_assert_equal(gradient, xp.ones_like(original))
 
 
@@ -1930,20 +1928,18 @@ class TestAsArray:
             [1, 2, 3],
         )
 
-    def test_as_array_autograd(self, xp: ModuleType) -> None:
-        """Test that conversion preserves the backend computational graph."""
+    def test_as_array_autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
+        """Test that conversion preserves automatic differentiation."""
 
-        if xp.__name__ != "torch":
-            pytest.skip("Autograd preservation is only defined for *PyTorch*.")
-
-        original = xp.tensor([1.0, 2.0, 3.0], requires_grad=True)
-        converted = as_array(original, DTYPE_FLOAT_DEFAULT)
-        (gradient,) = xp.autograd.grad(xp.sum(converted), original)
+        converted, (gradient,), (original,) = autodiff(
+            lambda a: as_array(a, DTYPE_FLOAT_DEFAULT), [1.0, 2.0, 3.0]
+        )
 
         xp_assert_equal(gradient, xp.ones_like(original))
 
-        stacked = as_array([original, original * 2])
-        (gradient,) = xp.autograd.grad(xp.sum(stacked), original)
+        _stacked, (gradient,), (original,) = autodiff(
+            lambda a: as_array([a, a * 2]), [1.0, 2.0, 3.0]
+        )
 
         xp_assert_equal(gradient, xp.full_like(original, 3))
 
@@ -2896,18 +2892,14 @@ class TestNdarrayCopy:
         with ndarray_copy_enable(False):
             assert id(ndarray_copy(a)) == id(a)  # pyright: ignore
 
-    def test_ndarray_copy_autograd(self, xp: ModuleType) -> None:
-        """Test that copying preserves the backend computational graph."""
+    def test_ndarray_copy_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test that copying preserves automatic differentiation."""
 
-        if xp.__name__ != "torch":
-            pytest.skip("Autograd preservation is only defined for *PyTorch*.")
-
-        original = xp.tensor([1.0, 2.0, 3.0], requires_grad=True)
-        copied = ndarray_copy(original)
-        (gradient,) = xp.autograd.grad(xp.sum(copied), original)
+        copied, (gradient,), (original,) = autodiff(ndarray_copy, [1.0, 2.0, 3.0])
 
         assert copied is not original
-        assert copied.grad_fn is not None
         xp_assert_equal(gradient, xp.ones_like(original))
 
 
