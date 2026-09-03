@@ -1562,6 +1562,29 @@ class TestSd_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+    def test_autograd_sd_to_XYZ_cache(self, xp: ModuleType) -> None:
+        """
+        Test that a gradient-tracking input bypasses the result cache so a
+        cache hit does not share a freed autograd graph across backward passes.
+        """
+
+        if xp.__name__ != "torch":
+            pytest.skip("Autograd preservation is only defined for *PyTorch*.")
+
+        shape = SpectralShape(360, 830, 10)
+        values = xp.rand(len(list(shape.wavelengths)), requires_grad=True)
+
+        # Caching stays enabled: two identical calls must each keep an
+        # independent, backward-able graph.
+        XYZ_1 = sd_to_XYZ(values, method="Integration", shape=shape)
+        XYZ_2 = sd_to_XYZ(values, method="Integration", shape=shape)
+
+        (gradient_1,) = xp.autograd.grad(xp.sum(XYZ_1), values)
+        (gradient_2,) = xp.autograd.grad(xp.sum(XYZ_2), values)
+
+        assert xp.isfinite(gradient_1).all()
+        assert xp.isfinite(gradient_2).all()
+
 
 class TestMsds_to_XYZ_integration:
     """
