@@ -15,6 +15,7 @@ from colour.colorimetry import (
     SDS_LIGHT_SOURCES,
     SPECTRAL_SHAPE_DEFAULT,
     MultiSpectralDistributions,
+    SpectralDistribution,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.quality import ColourRendering_Specification_CQS, colour_quality_scale
@@ -764,3 +765,19 @@ class TestColourQualityScale:
 
         with pytest.raises(NotImplementedError):
             colour_quality_scale(msds, additional_data=True)  # pyright: ignore[reportCallIssue, reportArgumentType]
+
+    def test_colour_quality_scale_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test local numerical gradients through spectral alignment."""
+
+        sd = SDS_ILLUMINANTS["FL2"]
+        _Q_a, (gradient,), _inputs = autodiff(
+            lambda values: colour_quality_scale(
+                SpectralDistribution(values, sd.wavelengths)
+            ),
+            sd.values,
+        )
+
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
