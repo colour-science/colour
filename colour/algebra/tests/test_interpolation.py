@@ -45,7 +45,6 @@ from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import NDArrayFloat, cast
 from colour.io import LUT3D, read_LUT
 from colour.utilities import (
-    ColourRuntimeWarning,
     as_ndarray,
     ignore_numpy_errors,
     xp_as_array,
@@ -1471,20 +1470,57 @@ __call__` method.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test__call__warning(self, xp: ModuleType) -> None:
-        """Test the non-*NumPy* automatic differentiation warning."""
+    def test__call__autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
+        """Test numerical gradients through cubic spline interpolation."""
 
-        if xp.__name__ == "numpy":
-            pytest.skip("The warning applies to non-NumPy backends.")
-
-        x = np.linspace(0, 1, len(DATA_POINTS_A))
-        x_e = xp_linspace(0, 1, num=len(DATA_POINTS_A) * 2, xp=xp)
-
-        with pytest.warns(
-            ColourRuntimeWarning,
-            match="automatic differentiation graphs are not preserved",
+        x = np.array([0.0, 0.4, 1.1, 2.0, 3.5, 5.0])
+        x_e = np.linspace(x[0] + 0.05, x[-1] - 0.05, 17)
+        for y in (
+            np.array([0.2, 0.8, 0.3, 1.2, 0.9, 1.5]),
+            np.array(
+                [
+                    [0.2, 1.1],
+                    [0.8, 0.7],
+                    [0.3, 1.4],
+                    [1.2, 0.5],
+                    [0.9, 1.0],
+                    [1.5, 0.8],
+                ]
+            ),
         ):
-            CubicSplineInterpolator(x, DATA_POINTS_A)(x_e)
+            expected = CubicSplineInterpolator(x, y)(x_e)
+            result, gradients, _inputs = autodiff(
+                lambda values, query: CubicSplineInterpolator(x, values)(query),
+                y,
+                x_e,
+            )
+
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            for gradient in gradients:
+                assert xp.isfinite(gradient).all()
+                assert xp.any(gradient != 0)
+
+    def test__call__scipy_parity(self, xp: ModuleType) -> None:
+        """Test backend-native results against *SciPy* cubic splines."""
+
+        x = np.array([0.0, 0.4, 1.1, 2.0, 3.5, 5.0])
+        y = np.array(
+            [
+                [0.2, 0.8, 0.3, 1.2, 0.9, 1.5],
+                [1.1, 0.7, 1.4, 0.5, 1.0, 0.8],
+            ]
+        )
+        x_e = np.linspace(x[0] - 0.2, x[-1] + 0.2, 19)
+
+        for kwargs in (
+            {"axis": -1, "fill_value": "extrapolate"},
+            {"axis": -1, "bounds_error": False, "fill_value": (-1, 2)},
+        ):
+            interpolator = CubicSplineInterpolator(x, y, **kwargs)
+            expected = interpolator(x_e)
+            result = interpolator(xp_as_array(x_e, xp=xp))
+
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestPchipInterpolator:
@@ -1529,20 +1565,58 @@ class TestPchipInterpolator:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test__call__warning(self, xp: ModuleType) -> None:
-        """Test the non-*NumPy* automatic differentiation warning."""
+    def test__call__autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
+        """Test numerical gradients through PCHIP interpolation."""
 
-        if xp.__name__ == "numpy":
-            pytest.skip("The warning applies to non-NumPy backends.")
-
-        x = np.linspace(0, 1, 10)
-        x_e = xp_linspace(0, 1, num=19, xp=xp)
-
-        with pytest.warns(
-            ColourRuntimeWarning,
-            match="automatic differentiation graphs are not preserved",
+        x = np.array([0.0, 0.4, 1.1, 2.0, 3.5, 5.0])
+        x_e = np.linspace(x[0] + 0.05, x[-1] - 0.05, 17)
+        for y in (
+            np.array([0.2, 0.8, 0.3, 1.2, 0.9, 1.5]),
+            np.array(
+                [
+                    [0.2, 1.1],
+                    [0.8, 0.7],
+                    [0.3, 1.4],
+                    [1.2, 0.5],
+                    [0.9, 1.0],
+                    [1.5, 0.8],
+                ]
+            ),
         ):
-            PchipInterpolator(x, np.linspace(0, 1, 10))(x_e)
+            expected = PchipInterpolator(x, y)(x_e)
+            result, gradients, _inputs = autodiff(
+                lambda values, query: PchipInterpolator(x, values)(query),
+                y,
+                x_e,
+            )
+
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            for gradient in gradients:
+                assert xp.isfinite(gradient).all()
+                assert xp.any(gradient != 0)
+
+    def test__call__scipy_parity(self, xp: ModuleType) -> None:
+        """Test backend-native results against *SciPy* PCHIP interpolation."""
+
+        x = np.array([0.0, 0.4, 1.1, 2.0, 3.5, 5.0])
+        y = np.array(
+            [
+                [0.2, 0.8, 0.3, 1.2, 0.9, 1.5],
+                [1.1, 0.7, 1.4, 0.5, 1.0, 0.8],
+            ]
+        )
+        x_e = np.linspace(x[0] - 0.2, x[-1] + 0.2, 19)
+        interpolator = PchipInterpolator(x, y, axis=-1)
+
+        for derivative in range(5):
+            expected = interpolator(x_e, nu=derivative)
+            result = interpolator(xp_as_array(x_e, xp=xp), nu=derivative)
+
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        expected = interpolator(x_e, extrapolate=False)
+        result = interpolator(xp_as_array(x_e, xp=xp), extrapolate=False)
+        xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestNullInterpolator:

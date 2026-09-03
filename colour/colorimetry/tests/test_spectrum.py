@@ -1613,6 +1613,44 @@ SpectralDistribution.interpolate` method.
         assert xp.isfinite(gradient).all()
         assert xp.any(gradient != 0)
 
+    def test_interpolate_non_uniform_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test numerical gradients through non-uniform spectral interpolation."""
+
+        wavelengths = np.array([400, 421, 449, 482, 520, 563, 611, 660])
+        shape = SpectralShape(400, 660, 10)
+
+        interpolated, (gradient,), _inputs = autodiff(
+            lambda values: (
+                SpectralDistribution(values, wavelengths).interpolate(shape).values
+            ),
+            np.linspace(0.2, 1.0, len(wavelengths)),
+        )
+
+        assert interpolated.shape == shape.wavelengths.shape
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
+
+    def test_align_non_uniform_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test numerical gradients through non-uniform spectral alignment."""
+
+        wavelengths = np.array([400, 421, 449, 482, 520, 563, 611, 660])
+        shape = SpectralShape(380, 680, 10)
+
+        aligned, (gradient,), _inputs = autodiff(
+            lambda values: (
+                SpectralDistribution(values, wavelengths).align(shape).values
+            ),
+            np.linspace(0.2, 1.0, len(wavelengths)),
+        )
+
+        assert aligned.shape == shape.wavelengths.shape
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
+
     def test_extrapolate(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.spectrum.\
