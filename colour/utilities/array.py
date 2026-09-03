@@ -1310,8 +1310,11 @@ def xp_trapezoid(
     if is_numpy_namespace(xp):
         return np.trapezoid(y, x=x, dx=dx, axis=axis)  # pyright: ignore
 
+    y = xp_as_float_array(y, xp=xp)
+
     try:
         if x is not None:
+            x = xp_as_float_array(x, xp=xp, like=y)
             return xp.trapezoid(y, x=x, axis=axis)
 
         return xp.trapezoid(y, dx=dx, axis=axis)

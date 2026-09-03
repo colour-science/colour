@@ -2,9 +2,18 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Callable, ModuleType
+
+import numpy as np
+import pytest
+
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
     SDS_LIGHT_SOURCES,
+    SpectralDistribution,
     luminous_efficacy,
     luminous_efficiency,
     luminous_flux,
@@ -24,6 +33,7 @@ __all__ = [
     "TestLuminousFlux",
     "TestLuminousEfficiency",
     "TestLuminousEfficacy",
+    "TestPhotometryAutograd",
 ]
 
 
@@ -121,3 +131,38 @@ class TestLuminousEfficacy:
         xp_assert_close(
             float(luminous_efficacy(sd)), 683.00000000, atol=TOLERANCE_ABSOLUTE_TESTS
         )
+
+
+class TestPhotometryAutograd:
+    """
+    Define autograd regression tests for the
+    :mod:`colour.colorimetry.photometry` module under the *PyTorch* backend.
+
+    An ordinary :class:`colour.SpectralDistribution` carrying backend values but
+    a NumPy wavelength axis previously detached through
+    :func:`colour.utilities.xp_trapezoid`, whose NumPy fallback dropped the
+    autograd graph.
+    """
+
+    @pytest.mark.parametrize(
+        "function",
+        [luminous_flux, luminous_efficiency, luminous_efficacy],
+        ids=lambda function: function.__name__,
+    )
+    def test_autograd_photometry(self, xp: ModuleType, function: Callable) -> None:
+        """Test that the definition preserves a finite gradient to spectral values."""
+
+        if xp.__name__ != "torch":
+            pytest.skip("Autograd preservation is only defined for *PyTorch*.")
+
+        wavelengths = np.arange(360.0, 831.0, 1.0)
+        values = xp.rand(wavelengths.size, requires_grad=True)
+        sd = SpectralDistribution(values, wavelengths)
+
+        # ``sd.wavelengths`` remains a NumPy axis while ``sd.values`` is a
+        # backend tensor, the exact mixed-namespace case.
+        result = function(sd)
+        (gradient,) = xp.autograd.grad(xp.sum(result), values)
+
+        assert result.grad_fn is not None
+        assert xp.isfinite(gradient).all()
