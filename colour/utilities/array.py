@@ -1492,7 +1492,7 @@ def xp_resize(
     # ``numpy.resize`` accepts ``int``, ``tuple``, or ``list`` shapes;
     # normalise once at the boundary.
     shape_tuple = tuple(new_shape) if hasattr(new_shape, "__iter__") else (new_shape,)
-    a = xp.asarray(a)
+    a = xp_as_array(a, xp=xp)
     raveled = xp.reshape(a, (-1,))
     target_size = 1
     for shape in shape_tuple:

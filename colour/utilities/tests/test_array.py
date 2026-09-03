@@ -912,6 +912,18 @@ class TestXpResize:
         expected = np.resize(np.array([1.0, 2.0, 3.0]), (0,))
         xp_assert_equal(result, expected)
 
+    def test_xp_resize_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test that resizing preserves automatic differentiation."""
+
+        resized, (gradient,), _inputs = autodiff(
+            lambda a: xp_resize(a, (2, 3), xp=xp), [1.0, 2.0, 3.0]
+        )
+
+        xp_assert_equal(resized, [[1.0, 2.0, 3.0], [1.0, 2.0, 3.0]])
+        xp_assert_equal(gradient, [2.0, 2.0, 2.0])
+
 
 class TestXpNanmean:
     """Define :func:`colour.utilities.xp_nanmean` unit tests."""
