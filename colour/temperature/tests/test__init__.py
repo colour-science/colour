@@ -14,6 +14,7 @@ from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.temperature import CCT_to_uv, CCT_to_xy, uv_to_CCT, xy_to_CCT
 from colour.utilities import (
     ColourUsageWarning,
+    array_api_enable,
     xp_as_array,
     xp_assert_close,
 )
@@ -81,6 +82,21 @@ class TestCCT_to_uv:
 
             assert uv.shape == (2, 2)
             xp_assert_close(uv, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+    def test_CCT_to_uv_cuda_device(self) -> None:
+        """Test locus-only methods retain an explicitly selected CUDA device."""
+
+        torch = pytest.importorskip("torch")
+        if not torch.cuda.is_available():
+            pytest.skip("CUDA is unavailable.")
+
+        CCT = torch.tensor([4000.0, 7000.0], device="cuda")
+
+        with array_api_enable(True):
+            for method in ("Krystek 1985", "Planck 1900"):
+                uv = CCT_to_uv(CCT, method=method)
+
+                assert uv.device == CCT.device
 
     @pytest.mark.parametrize("method", ["Krystek 1985", "Planck 1900"])
     @pytest.mark.parametrize(
