@@ -8,6 +8,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
 
 import numpy as np
+import pytest
 
 from colour import (
     CCS_ILLUMINANTS,
@@ -36,6 +37,7 @@ __status__ = "Production"
 __all__ = [
     "TestLab_to_Metamerism_Index",
     "TestXYZ_to_Metamerism_Index",
+    "TestSD_to_Metamerism_IndexAutograd",
 ]
 
 
@@ -276,3 +278,42 @@ class TestSD_to_Metamerism_Index:
                         value,
                         atol=TOLERANCE_ABSOLUTE_TESTS,
                     )
+
+
+class TestSD_to_Metamerism_IndexAutograd:
+    """
+    Define autograd regression tests for
+    :func:`colour.difference.metamerism_index.sd_to_metamerism_index` under the
+    *PyTorch* backend.
+
+    The namespace was previously inferred from the NumPy weighting factors, so
+    backend spectral values were consumed by NumPy matrix products and detached.
+    """
+
+    def test_autograd_sd_to_metamerism_index(self, xp: ModuleType) -> None:
+        """Test that a finite gradient reaches both spectral inputs."""
+
+        if xp.__name__ != "torch":
+            pytest.skip("Autograd preservation is only defined for *PyTorch*.")
+
+        wavelengths = np.arange(400.0, 701.0, 10.0)
+        values_spl = xp.rand(wavelengths.size, requires_grad=True) + 0.05
+        values_std = xp.rand(wavelengths.size, requires_grad=True) + 0.05
+        N_spl = SpectralDistribution(values_spl, wavelengths)
+        N_std = SpectralDistribution(values_std, wavelengths)
+
+        M_t = sd_to_metamerism_index(
+            N_spl,
+            N_std,
+            MSDS_CMFS["CIE 1964 10 Degree Standard Observer"],
+            SDS_ILLUMINANTS["D65"],
+            SDS_ILLUMINANTS["A"],
+            method="CIE 1976",
+        )
+        gradient_spl, gradient_std = xp.autograd.grad(
+            xp.sum(M_t), (values_spl, values_std)
+        )
+
+        assert M_t.grad_fn is not None
+        assert xp.isfinite(gradient_spl).all()
+        assert xp.isfinite(gradient_std).all()
