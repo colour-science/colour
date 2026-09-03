@@ -14,11 +14,12 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ModuleType
+    from colour.hints import Callable, ModuleType
 
 from itertools import product
 
 import numpy as np
+import pytest
 
 from colour.algebra import euclidean_distance
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -34,6 +35,7 @@ from colour.difference import (
 from colour.difference.delta_e import intermediate_attributes_CIE2000
 from colour.utilities import (
     as_ndarray,
+    caching_enable,
     domain_range_scale,
     ignore_numpy_errors,
     xp_as_array,
@@ -56,6 +58,7 @@ __all__ = [
     "TestDelta_E_ITP",
     "TestDelta_E_HyAB",
     "TestDelta_E_HyCH",
+    "TestDelta_E_Autograd",
 ]
 
 
@@ -1428,3 +1431,58 @@ class TestDelta_E_HyCH:
         cases = np.array(list(set(product(cases, repeat=3))))
         delta_E_HyCH(cases, cases)
         delta_E_HyCH(cases, cases, additional_data=True)
+
+
+class TestDelta_E_Autograd:
+    """
+    Define autograd unit tests for the :mod:`colour.difference.delta_e`
+    colour-difference definitions under the *PyTorch* backend.
+
+    Each definition must keep its output attached to the *PyTorch* autograd
+    graph and propagate a finite reverse-mode gradient to both colour inputs, a
+    prerequisite for differentiable and inverse-design pipelines.
+
+    Notes
+    -----
+    -   :func:`colour.difference.delta_e.delta_E_CIE2000` and
+        :func:`colour.difference.delta_e.delta_E_HyCH` are regression guards:
+        both previously detached the graph through :func:`dataclasses.astuple`,
+        which deep-copies the intermediate non-leaf tensors.
+    """
+
+    @pytest.mark.parametrize(
+        "function",
+        [
+            delta_E_CIE1976,
+            delta_E_CIE1994,
+            delta_E_CIE2000,
+            delta_E_CMC,
+            delta_E_ITP,
+            delta_E_HyAB,
+            delta_E_HyCH,
+        ],
+        ids=lambda function: function.__name__,
+    )
+    def test_autograd_delta_E(self, xp: ModuleType, function: Callable) -> None:
+        """
+        Test that the definition preserves the *PyTorch* autograd graph and a
+        finite gradient to both inputs.
+        """
+
+        if xp.__name__ != "torch":
+            pytest.skip("Autograd preservation is only defined for *PyTorch*.")
+
+        Lab_1 = xp.tensor([48.0, -0.1, 12.0], requires_grad=True)
+        Lab_2 = xp.tensor([50.6, -0.11, 14.8], requires_grad=True)
+
+        # Value caching returns a clone still attached to the first saved graph,
+        # breaking a second backward pass.
+        with caching_enable(False):
+            delta_E = function(Lab_1, Lab_2)
+            gradient_1, gradient_2 = xp.autograd.grad(
+                xp.sum(delta_E), (Lab_1, Lab_2)
+            )
+
+        assert delta_E.grad_fn is not None
+        assert xp.isfinite(gradient_1).all()
+        assert xp.isfinite(gradient_2).all()
