@@ -1268,6 +1268,22 @@ class TestLinearInterpolator:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+    def test__call__autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
+        """Test gradients through vector-valued linear interpolation."""
+
+        x = np.arange(6)
+        x_i = np.arange(0, 5.1, 0.5)
+        for y in (
+            np.linspace(0, 1, 6),
+            np.transpose([np.linspace(0, 1, 6), np.linspace(1, 2, 6)]),
+        ):
+            _result, (gradient,), _inputs = autodiff(
+                lambda values: LinearInterpolator(x, values)(x_i), y
+            )
+
+            assert xp.isfinite(gradient).all()
+            assert xp.any(gradient != 0)
+
     def test_raise_exception___call__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.LinearInterpolator.__call__`
@@ -1369,6 +1385,20 @@ class TestSpragueInterpolator:
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+    def test__call__autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
+        """Test gradients through vector-valued Sprague interpolation."""
+
+        x = np.arange(6)
+        x_i = np.arange(0, 5.1, 0.5)
+        y = np.transpose([np.linspace(0, 1, 6), np.linspace(1, 2, 6)])
+
+        _result, (gradient,), _inputs = autodiff(
+            lambda values: SpragueInterpolator(x, values)(x_i), y
+        )
+
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
 
     def test_raise_exception___call__(self) -> None:
         """

@@ -1594,6 +1594,25 @@ SpectralDistribution.interpolate` method.
             1,
         )
 
+    def test_interpolate_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test numerical gradients through uniform spectral interpolation."""
+
+        wavelengths = np.arange(400, 501, 20)
+        shape = SpectralShape(400, 500, 10)
+
+        interpolated, (gradient,), _inputs = autodiff(
+            lambda values: (
+                SpectralDistribution(values, wavelengths).interpolate(shape).values
+            ),
+            np.linspace(0.2, 1.0, len(wavelengths)),
+        )
+
+        assert interpolated.shape == shape.wavelengths.shape
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
+
     def test_extrapolate(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.spectrum.\
