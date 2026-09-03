@@ -157,7 +157,7 @@ def uv_to_CCT(
     **kwargs: Any,
 ) -> NDArrayFloat:
     """
-    Compute the correlated colour temperature :math:`T_{cp}` and
+    Compute the correlated colour temperature :math:`T_{cp}` and optionally
     :math:`\\Delta_{uv}` from the specified *CIE UCS* colourspace *uv*
     chromaticity coordinates using the specified method.
 
@@ -196,7 +196,14 @@ def uv_to_CCT(
     Returns
     -------
     :class:`numpy.ndarray`
-        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+        Correlated colour temperature :math:`T_{cp}`. The *Ohno (2013)* and
+        *Robertson (1968)* methods also return :math:`\\Delta_{uv}` as the last
+        dimension of the result.
+
+    Notes
+    -----
+    -   The *Krystek (1985)* and *Planck (1900)* methods describe the
+        Planckian locus and do not compute :math:`\\Delta_{uv}`.
 
     References
     ----------
@@ -255,13 +262,17 @@ def CCT_to_uv(
 ) -> NDArrayFloat:
     """
     Compute the *CIE UCS* colourspace *uv* chromaticity coordinates from the
-    specified correlated colour temperature :math:`T_{cp}` and
+    specified correlated colour temperature :math:`T_{cp}` and optionally
     :math:`\\Delta_{uv}` using the specified method.
 
     Parameters
     ----------
     CCT_D_uv
-        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
+        Correlated colour temperature :math:`T_{cp}`, or correlated colour
+        temperature and :math:`\\Delta_{uv}`, depending on ``method``. The
+        *Krystek (1985)* and *Planck (1900)* methods expect only
+        :math:`T_{cp}`. The *Ohno (2013)* and *Robertson (1968)* methods expect
+        final-axis :math:`[T_{cp}, \\Delta_{uv}]` pairs.
     method
         Computation method.
 
@@ -276,6 +287,13 @@ def CCT_to_uv(
     -------
     :class:`numpy.ndarray`
         *CIE UCS* colourspace *uv* chromaticity coordinates.
+
+    Notes
+    -----
+    -   For the *Krystek (1985)* and *Planck (1900)* methods, every element
+        of ``CCT_D_uv`` is interpreted as an independent correlated colour
+        temperature. A final axis of length two is not interpreted as a
+        :math:`[T_{cp}, \\Delta_{uv}]` pair for those methods.
 
     References
     ----------

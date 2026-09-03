@@ -1483,7 +1483,15 @@ def sd_to_XYZ(
         )
     )
 
-    if is_caching_enabled() and hash_key in _CACHE_SD_TO_XYZ:
+    sd_values = (
+        sd.values
+        if isinstance(sd, (SpectralDistribution, MultiSpectralDistributions))
+        else sd
+    )
+    tracks_gradient = bool(getattr(sd_values, "requires_grad", False))
+    cacheable = is_caching_enabled() and not tracks_gradient
+
+    if cacheable and hash_key in _CACHE_SD_TO_XYZ:
         XYZ = _CACHE_SD_TO_XYZ[hash_key]
 
         xp = array_namespace(XYZ)
@@ -1500,7 +1508,7 @@ def sd_to_XYZ(
 
     XYZ = function(sd, cmfs, illuminant, k=k, **filter_kwargs(function, **kwargs))
 
-    if is_caching_enabled():
+    if cacheable:
         xp = array_namespace(XYZ)
 
         _CACHE_SD_TO_XYZ[hash_key] = xp_as_array(XYZ, xp=xp, copy=True)
