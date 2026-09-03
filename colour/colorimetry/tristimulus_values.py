@@ -141,6 +141,21 @@ _CACHE_TRISTIMULUS_WEIGHTING_FACTORS: dict = CACHE_REGISTRY.register_cache(
 _CACHE_SD_TO_XYZ: dict = CACHE_REGISTRY.register_cache(f"{__name__}._CACHE_SD_TO_XYZ")
 
 
+def _is_gradient_tracked(a: Any) -> bool:
+    """Return whether the specified backend array tracks differentiation."""
+
+    if bool(getattr(a, "requires_grad", False)):
+        return True
+
+    namespace = getattr(a, "__array_namespace__", None)
+    if namespace is None or namespace().__name__ != "jax.numpy":
+        return False
+
+    import jax  # noqa: PLC0415
+
+    return isinstance(a, jax.core.Tracer)
+
+
 def handle_spectral_arguments(
     cmfs: MultiSpectralDistributions | None = None,
     illuminant: SpectralDistribution | None = None,
@@ -1457,39 +1472,40 @@ def sd_to_XYZ(
 
     global _CACHE_SD_TO_XYZ  # noqa: PLW0602
 
-    hash_key = hash(
-        (
-            (
-                sd
-                if isinstance(sd, (SpectralDistribution, MultiSpectralDistributions))
-                # The shape and dtype are part of the key: distinct arrays can
-                # share ``tobytes`` output, e.g. a (N,) and a (1, N) array, or
-                # an integer and a float array of the same buffer.
-                else (
-                    int_digest(as_ndarray(sd).tobytes()),
-                    as_ndarray(sd).shape,
-                    str(as_ndarray(sd).dtype),
-                )
-            ),
-            cmfs,
-            illuminant,
-            k,
-            method,
-            tuple(kwargs.items()),
-            get_domain_range_scale(),
-            type(
-                sd.values if hasattr(sd, "values") else sd  # pyright: ignore
-            ).__module__,
-        )
-    )
-
     sd_values = (
         sd.values
         if isinstance(sd, (SpectralDistribution, MultiSpectralDistributions))
         else sd
     )
-    tracks_gradient = bool(getattr(sd_values, "requires_grad", False))
-    cacheable = is_caching_enabled() and not tracks_gradient
+    cacheable = is_caching_enabled() and not _is_gradient_tracked(sd_values)
+
+    hash_key = None
+    if cacheable:
+        hash_key = hash(
+            (
+                (
+                    sd
+                    if isinstance(
+                        sd, (SpectralDistribution, MultiSpectralDistributions)
+                    )
+                    # The shape and dtype are part of the key: distinct arrays can
+                    # share ``tobytes`` output, e.g. a (N,) and a (1, N) array, or
+                    # an integer and a float array of the same buffer.
+                    else (
+                        int_digest(as_ndarray(sd).tobytes()),
+                        as_ndarray(sd).shape,
+                        str(as_ndarray(sd).dtype),
+                    )
+                ),
+                cmfs,
+                illuminant,
+                k,
+                method,
+                tuple(kwargs.items()),
+                get_domain_range_scale(),
+                type(sd_values).__module__,
+            )
+        )
 
     if cacheable and hash_key in _CACHE_SD_TO_XYZ:
         XYZ = _CACHE_SD_TO_XYZ[hash_key]
