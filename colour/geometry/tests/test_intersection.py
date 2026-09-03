@@ -135,6 +135,30 @@ class TestIntersectLineSegments:
             [[False, False, False, False], [False, False, False, True]],
         )
 
+    def test_intersect_line_segments_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test inactive parallel segments do not contaminate gradients."""
+
+        l_2 = xp_as_array(
+            [
+                [[0.0, 1.0], [2.0, 1.0]],
+                [[1.0, -1.0], [1.0, 1.0]],
+            ],
+            xp=xp,
+        )
+
+        def function(l_1: typing.Any) -> typing.Any:
+            """Return the selected non-parallel intersection."""
+
+            return intersect_line_segments(l_1, l_2).xy[0, 1]
+
+        intersection, (gradient,), _inputs = autodiff(function, [[0.0, 0.0, 2.0, 0.0]])
+
+        xp_assert_close(intersection, [1.0, 0.0])
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
+
 
 class TestIntersectRayCircle2D:
     """
