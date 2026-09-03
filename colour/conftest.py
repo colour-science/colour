@@ -20,8 +20,10 @@ if typing.TYPE_CHECKING:
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
     array_api_enable,
+    as_ndarray,
     set_default_complex_dtype,
     set_default_float_dtype,
+    xp_assert_close,
 )
 
 __author__ = "Colour Developers"
@@ -60,6 +62,32 @@ Optional comma-separated list of backend parameter ids (``numpy``, ``jax``,
 :func:`xp` fixture parametrisation. Unset yields every installed backend.
 """
 
+_AUTODIFF_FULL_FINITE_DIFFERENCE_SIZE: int = 64
+"""Maximum input size for component-wise finite-difference checking."""
+
+_AUTODIFF_DIRECTIONAL_CHECKS: int = 2
+"""Directional finite-difference checks used for larger inputs."""
+
+_AUTODIFF_DIRECTION_SEED: int = 0
+"""Seed ensuring deterministic finite-difference directions."""
+
+_AUTODIFF_RELATIVE_TOLERANCE: float = 5e-4
+"""Minimum relative tolerance for finite-difference comparisons."""
+
+_AUTODIFF_ABSOLUTE_TOLERANCE: float = 1e-6
+"""Minimum absolute tolerance for finite-difference comparisons."""
+
+
+def _test_backend_requested(backend: str) -> bool:
+    """Return whether the specified test backend was requested."""
+
+    if _TEST_BACKENDS is None:
+        return True
+
+    return backend in {
+        token.strip() for token in _TEST_BACKENDS.split(",") if token.strip()
+    }
+
 
 def _jax_device(platform: str) -> object | None:
     """Return the first available *JAX* device for the specified platform."""
@@ -75,8 +103,8 @@ def _jax_device(platform: str) -> object | None:
     return devices[0] if devices else None
 
 
-_JAX_CPU_DEVICE = _jax_device("cpu")
-_JAX_CUDA_DEVICE = _jax_device("gpu")
+_JAX_CPU_DEVICE = _jax_device("cpu") if _test_backend_requested("jax") else None
+_JAX_CUDA_DEVICE = _jax_device("gpu") if _test_backend_requested("jax-cuda") else None
 
 
 def _make_backend_parameters() -> list:
@@ -208,13 +236,20 @@ def xp(request: pytest.FixtureRequest) -> Generator[ModuleType, None, None]:
 
 @pytest.fixture
 def autodiff(xp: ModuleType) -> typing.Callable:
-    """Return a backend-aware reverse-mode automatic differentiation helper."""
+    """
+    Return a backend-aware automatic differentiation verification helper.
+
+    Reverse-mode gradients are compared with central finite differences and
+    checked for device retention. Small inputs receive a component-wise
+    comparison; larger inputs use deterministic directional derivatives to
+    keep spectral regression tests tractable.
+    """
 
     if xp.__name__ == "numpy":
         pytest.skip("Automatic differentiation requires *JAX* or *PyTorch*.")
 
     def evaluate(function: typing.Callable, *inputs: object) -> tuple:
-        """Evaluate a function and its summed-output gradients."""
+        """Evaluate a function and verify its summed-output gradients."""
 
         variables = tuple(xp.asarray(value) for value in inputs)
 
@@ -225,11 +260,101 @@ def autodiff(xp: ModuleType) -> typing.Callable:
             result = function(*variables)
             gradients = tuple(xp.autograd.grad(xp.sum(result), variables))
         else:
-            result = function(*variables)
-            gradients = jax.grad(  # pyright: ignore
-                lambda *arguments: xp.sum(function(*arguments)),
+
+            def objective_with_result(*arguments: object) -> tuple:
+                """Return the summed objective and original result."""
+
+                value = function(*arguments)
+
+                return xp.sum(value), value
+
+            (_objective, result), gradients = jax.value_and_grad(  # pyright: ignore
+                objective_with_result,
                 argnums=tuple(range(len(variables))),
+                has_aux=True,
             )(*variables)
+
+        def objective(arguments: tuple[typing.Any, ...]) -> typing.Any:
+            """Evaluate the summed output without building a *PyTorch* graph."""
+
+            if xp.__name__ == "torch":
+                with xp.no_grad():
+                    return xp.sum(function(*arguments))
+
+            return xp.sum(function(*arguments))
+
+        def central_difference(
+            index: int, direction: typing.Any, step: float
+        ) -> typing.Any:
+            """Return a central directional finite difference."""
+
+            arguments_plus = list(variables)
+            arguments_minus = list(variables)
+            arguments_plus[index] = variables[index] + step * direction
+            arguments_minus[index] = variables[index] - step * direction
+
+            return (
+                objective(tuple(arguments_plus)) - objective(tuple(arguments_minus))
+            ) / (2 * step)
+
+        for index, (variable, gradient) in enumerate(
+            zip(variables, gradients, strict=False)
+        ):
+            values = as_ndarray(variable)
+            epsilon = float(xp.finfo(variable.dtype).eps)
+            step_base = epsilon ** (1 / 3)
+            rtol = max(
+                _AUTODIFF_RELATIVE_TOLERANCE,
+                10 * TOLERANCE_ABSOLUTE_TESTS,
+            )
+            atol = max(
+                _AUTODIFF_ABSOLUTE_TOLERANCE,
+                TOLERANCE_ABSOLUTE_TESTS,
+            )
+            device = getattr(variable, "device", None)
+
+            if values.size <= _AUTODIFF_FULL_FINITE_DIFFERENCE_SIZE:
+                numerical_values = []
+                for element, value in enumerate(values.flat):
+                    direction_values = np.zeros_like(values)
+                    direction_values.flat[element] = 1
+                    direction = xp.asarray(
+                        direction_values,
+                        dtype=variable.dtype,
+                        device=device,
+                    )
+                    step = step_base * max(1, abs(float(value)))
+                    numerical_values.append(central_difference(index, direction, step))
+
+                numerical_gradient = xp.reshape(
+                    xp.stack(numerical_values), variable.shape
+                )
+                xp_assert_close(
+                    gradient,
+                    numerical_gradient,
+                    rtol=rtol,
+                    atol=atol,
+                )
+                continue
+
+            rng = np.random.default_rng(_AUTODIFF_DIRECTION_SEED + index)
+            step = step_base * max(1, float(np.max(np.abs(values))))
+            for _check in range(_AUTODIFF_DIRECTIONAL_CHECKS):
+                direction_values = rng.uniform(-1, 1, variable.shape)
+                direction_values /= np.max(np.abs(direction_values))
+                direction = xp.asarray(
+                    direction_values,
+                    dtype=variable.dtype,
+                    device=device,
+                )
+                analytical_derivative = xp.sum(gradient * direction)
+                numerical_derivative = central_difference(index, direction, step)
+                xp_assert_close(
+                    analytical_derivative,
+                    numerical_derivative,
+                    rtol=rtol,
+                    atol=atol,
+                )
 
         device = getattr(variables[0], "device", None)
         if device is not None:
