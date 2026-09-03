@@ -33,7 +33,7 @@ __all__ = [
     "TestLuminousFlux",
     "TestLuminousEfficiency",
     "TestLuminousEfficacy",
-    "TestPhotometryAutograd",
+    "TestPhotometryAutodiff",
 ]
 
 
@@ -133,15 +133,15 @@ class TestLuminousEfficacy:
         )
 
 
-class TestPhotometryAutograd:
+class TestPhotometryAutodiff:
     """
-    Define autograd regression tests for the
-    :mod:`colour.colorimetry.photometry` module under the *PyTorch* backend.
+    Define automatic differentiation regression tests for the
+    :mod:`colour.colorimetry.photometry` module.
 
     An ordinary :class:`colour.SpectralDistribution` carrying backend values but
     a NumPy wavelength axis previously detached through
     :func:`colour.utilities.xp_trapezoid`, whose NumPy fallback dropped the
-    autograd graph.
+    automatic differentiation graph.
     """
 
     @pytest.mark.parametrize(
@@ -149,20 +149,19 @@ class TestPhotometryAutograd:
         [luminous_flux, luminous_efficiency, luminous_efficacy],
         ids=lambda function: function.__name__,
     )
-    def test_autograd_photometry(self, xp: ModuleType, function: Callable) -> None:
-        """Test that the definition preserves a finite gradient to spectral values."""
-
-        if xp.__name__ != "torch":
-            pytest.skip("Autograd preservation is only defined for *PyTorch*.")
+    def test_autodiff_photometry(
+        self, xp: ModuleType, autodiff: Callable, function: Callable
+    ) -> None:
+        """Test that a finite gradient reaches the spectral values."""
 
         wavelengths = np.arange(360.0, 831.0, 1.0)
-        values = xp.rand(wavelengths.size, requires_grad=True)
-        sd = SpectralDistribution(values, wavelengths)
 
         # ``sd.wavelengths`` remains a NumPy axis while ``sd.values`` is a
         # backend tensor, the exact mixed-namespace case.
-        result = function(sd)
-        (gradient,) = xp.autograd.grad(xp.sum(result), values)
+        _result, (gradient,), _inputs = autodiff(
+            lambda values: function(SpectralDistribution(values, wavelengths)),
+            np.linspace(0.1, 1.0, wavelengths.size),
+        )
 
-        assert result.grad_fn is not None
         assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)

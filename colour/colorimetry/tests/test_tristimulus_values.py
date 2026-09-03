@@ -1562,10 +1562,28 @@ class TestSd_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_autograd_sd_to_XYZ_cache(self, xp: ModuleType) -> None:
+    def test_autodiff_sd_to_XYZ(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test that a finite gradient reaches raw spectral values."""
+
+        shape = SpectralShape(360, 830, 10)
+        _XYZ, (gradient,), _inputs = autodiff(
+            lambda values: sd_to_XYZ(
+                values,
+                method="Integration",
+                shape=shape,
+            ),
+            np.linspace(0.1, 1.0, len(list(shape.wavelengths))),
+        )
+
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
+
+    def test_pytorch_autograd_sd_to_XYZ_cache(self, xp: ModuleType) -> None:
         """
-        Test that a gradient-tracking input bypasses the result cache so a
-        cache hit does not share a freed autograd graph across backward passes.
+        Test that a *PyTorch* gradient-tracking input bypasses the result cache
+        so a cache hit does not share a freed graph across backward passes.
         """
 
         if xp.__name__ != "torch":

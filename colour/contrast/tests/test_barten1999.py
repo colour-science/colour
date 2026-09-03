@@ -10,7 +10,6 @@ if typing.TYPE_CHECKING:
 from itertools import product
 
 import numpy as np
-import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.contrast import (
@@ -284,23 +283,19 @@ class TestSigmaBarten1999:
         cases = np.array(list(set(product(cases, repeat=3))))
         sigma_Barten1999(cases, cases, cases)
 
-    def test_autograd_sigma_Barten1999(self, xp: ModuleType) -> None:
+    def test_autodiff_sigma_Barten1999(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
         """
-        Test :func:`colour.contrast.barten1999.sigma_Barten1999` autograd graph
-        preservation when only one argument is a backend tensor and the others
+        Test :func:`colour.contrast.barten1999.sigma_Barten1999` automatic
+        differentiation when one argument is a backend array and the others
         keep their scalar defaults.
         """
 
-        if xp.__name__ != "torch":
-            pytest.skip("Autograd preservation is only defined for *PyTorch*.")
+        _sigma, (gradient,), _inputs = autodiff(lambda d: sigma_Barten1999(d=d), 2.1)
 
-        d = xp.tensor(2.1, requires_grad=True)
-
-        sigma = sigma_Barten1999(d=d)
-        (gradient,) = xp.autograd.grad(xp.sum(sigma), d)
-
-        assert sigma.grad_fn is not None
         assert xp.isfinite(gradient).all()
+        assert gradient != 0
 
 
 class TestRetinalIlluminanceBarten1999:
