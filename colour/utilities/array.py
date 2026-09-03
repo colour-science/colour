@@ -1137,10 +1137,61 @@ def xp_astype(
 def _runtime_warning_xp_fallback(name: str) -> None:
     """Emit the standard *falling back to NumPy* runtime warning."""
 
+    alternatives = {
+        "xp_eig": (
+            'Use a backend and device with native "linalg.eig" support when '
+            "gradients are required."
+        ),
+        "xp_eigh": (
+            'Use a backend and device with native "linalg.eigh" support when '
+            "gradients are required."
+        ),
+        "xp_gradient": (
+            'Use a backend and device with native "gradient" support when '
+            "gradients are required."
+        ),
+        "xp_interp": (
+            'Use "colour.LinearInterpolator" for gradient-preserving linear '
+            "interpolation."
+        ),
+        "xp_isin": (
+            "Membership testing is discrete and has no gradient-preserving equivalent."
+        ),
+        "xp_lstsq": (
+            'Use a backend and device with native "linalg.lstsq" support when '
+            "gradients are required."
+        ),
+        "xp_linspace": (
+            'Use the backend-native "linspace" without unsupported keyword '
+            "arguments when gradients with respect to its bounds are required."
+        ),
+        "xp_median": (
+            'Use a backend and device with native "median" support when '
+            "gradients are required."
+        ),
+        "xp_pad": (
+            'Use a backend and device with native "pad" support when gradients '
+            "are required."
+        ),
+        "xp_trapezoid": (
+            'Use a backend and device with native "trapezoid" support when '
+            "gradients are required."
+        ),
+        "xp_unique": (
+            "Selecting unique values is discrete and has no generally "
+            "gradient-preserving equivalent."
+        ),
+    }
+    alternative = alternatives.get(
+        name,
+        "Use a backend-native implementation when gradients are required.",
+    )
+
     runtime_warning(
         f'"{name}" is falling back to "NumPy" for non-"NumPy" '
         "arrays, this will incur a performance penalty due to array "
-        "conversion."
+        "conversion and will not preserve automatic differentiation graphs. "
+        f"{alternative}"
     )
 
 
