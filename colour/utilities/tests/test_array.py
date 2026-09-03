@@ -64,6 +64,7 @@ else:
     )
 
 from colour.utilities import (
+    ColourRuntimeWarning,
     MixinDataclassArithmetic,
     MixinDataclassArray,
     MixinDataclassFields,
@@ -186,6 +187,7 @@ __all__ = [
     "TestXpAstype",
     "TestXpMatrixTranspose",
     "TestXpSelect",
+    "TestRuntimeWarningXpFallback",
     "TestXpInterp",
     "TestXpTrapezoid",
     "TestXpAverage",
@@ -756,6 +758,29 @@ class TestXpSelect:
         result = xp_select([x > 100], [x * 10], default=-1.0, xp=xp)
         expected = np.select([as_ndarray(x > 100)], [as_ndarray(x * 10)], default=-1.0)
         xp_assert_equal(result, expected)
+
+
+class TestRuntimeWarningXpFallback:
+    """Define tests for the backend-to-*NumPy* fallback warning."""
+
+    @pytest.mark.parametrize(
+        ("name", "alternative"),
+        [
+            ("xp_interp", "LinearInterpolator"),
+            ("xp_unique", "no generally gradient-preserving equivalent"),
+            ("xp_lstsq", "linalg.lstsq"),
+        ],
+    )
+    def test_runtime_warning_xp_fallback(self, name: str, alternative: str) -> None:
+        """Test that fallback warnings explain graph-safe alternatives."""
+
+        with pytest.warns(
+            ColourRuntimeWarning,
+            match="will not preserve automatic differentiation graphs",
+        ) as warnings:
+            utilities_array._runtime_warning_xp_fallback(name)  # noqa: SLF001
+
+        assert alternative in str(warnings[0].message)
 
 
 class TestXpInterp:
