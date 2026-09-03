@@ -132,7 +132,6 @@ from colour.utilities import (
     xp_as_int_array,
     xp_astype,
     xp_atleast_1d,
-    xp_interp,
     xp_isclose,
     xp_pad,
     xp_reshape,
@@ -1104,33 +1103,28 @@ class LinearInterpolator:
         self._validate_dimensions()
         self._validate_interpolation_range(x)
 
-        if self._y.ndim == 1:
-            return xp_interp(
-                x,
-                xp_as_float_array(self._x, xp=xp, like=x),
-                self._y,
-                xp=xp,
-            )
-
-        # Manual linear interpolation for rank-2 ``y``: bracket each query
-        # point with ``searchsorted``, compute the normalised interpolation
-        # parameter ``t``, and lerp the bracketing ``y`` rows. Indexing is
-        # done CPU-side via numpy so backends without integer-tensor
-        # advanced indexing support (e.g. MPS) work correctly.
+        # Bracket each query point with ``searchsorted``, compute the
+        # normalised interpolation parameter ``t``, and lerp the bracketing
+        # ``y`` rows. Indexing is done CPU-side via numpy so backends without
+        # integer-tensor advanced indexing support (e.g. MPS) work correctly,
+        # while the gathered values remain in the backend computational graph.
         self_x = xp_as_float_array(self._x, xp=xp, like=x)
         i_np = np.clip(as_ndarray(xp.searchsorted(self_x, x) - 1), 0, len(self._x) - 2)
         self_x_np = as_ndarray(self_x)
-        self_y_np = as_ndarray(xp_as_float_array(self._y, xp=xp))
+        self_y = xp_as_float_array(self._y, xp=xp)
 
         x_low = xp_as_float_array(self_x_np[i_np], xp=xp, like=x)
         x_high = xp_as_float_array(self_x_np[i_np + 1], xp=xp, like=x)
-        y_low = xp_as_float_array(self_y_np[i_np], xp=xp, like=x)
-        y_high = xp_as_float_array(self_y_np[i_np + 1], xp=xp, like=x)
+        y_low = self_y[i_np]
+        y_high = self_y[i_np + 1]
 
         with sdiv_mode():
             t = sdiv(x - x_low, x_high - x_low)
 
-        return y_low + (y_high - y_low) * t[..., None]
+        if self._y.ndim == 2:
+            t = t[..., None]
+
+        return y_low + (y_high - y_low) * t
 
     def _validate_dimensions(self) -> None:
         """Validate that the variables dimensions are the same."""
@@ -1442,13 +1436,8 @@ class SpragueInterpolator:
                 xp_as_float_array(_x_p_np[i_np + 1] - _x_p_np[i_np], xp=xp, like=x),
             )
 
-        r_np = as_ndarray(xp_as_float_array(self._y_p, xp=xp))
-        r_s = xp.stack(
-            [
-                xp_as_float_array(r_np[i_np + k], xp=xp, like=x)
-                for k in (-2, -1, 0, 1, 2, 3)
-            ]
-        )
+        r = xp_as_float_array(self._y_p, xp=xp)
+        r_s = xp.stack([r[i_np + k] for k in (-2, -1, 0, 1, 2, 3)])
         w_s = xp_as_float_array(
             (
                 (2, -16, 0, 16, -2, 0),
@@ -1475,7 +1464,7 @@ class SpragueInterpolator:
         basis = t**powers
         if self._y.ndim == 2:
             basis = basis[..., None]
-        return xp_as_float_array(r_np[i_np], xp=xp, like=x) + (a * basis).sum(axis=0)
+        return r[i_np] + (a * basis).sum(axis=0)
 
     def _validate_dimensions(self) -> None:
         """Validate that the variables dimensions are the same."""

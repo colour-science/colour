@@ -1240,6 +1240,10 @@ class SpectralDistribution(Signal):
             required to extend the range of the spectral distribution use the
             :meth:`colour.SpectralDistribution.extrapolate` or
             :meth:`colour.SpectralDistribution.align` methods.
+        -   Backend-native interpolators such as *Sprague (1880)* and linear
+            interpolation preserve automatic differentiation. The *Cubic
+            Spline* and *PCHIP* interpolators use *SciPy* and therefore do not
+            preserve backend computational graphs.
 
         Warnings
         --------
