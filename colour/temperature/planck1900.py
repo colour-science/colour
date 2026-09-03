@@ -41,6 +41,7 @@ from colour.utilities import (
     as_float,
     as_float_array,
     optional,
+    usage_warning,
     xp_matrix_transpose,
     xp_reshape,
 )
@@ -56,6 +57,10 @@ __all__ = [
     "uv_to_CCT_Planck1900",
     "CCT_to_uv_Planck1900",
 ]
+
+
+_CCT_MINIMAL_PLANCK1900: float = 1000
+"""Minimum correlated colour temperature in kelvins used by the method."""
 
 
 def uv_to_CCT_Planck1900(
@@ -116,7 +121,7 @@ def uv_to_CCT_Planck1900(
     x0 = x0_CCT_grid(
         forward,
         uv,
-        (1000.0, 25000.0),
+        (_CCT_MINIMAL_PLANCK1900, 25000.0),
         samples=optimisation_kwargs.pop("samples", CCT_INVERSION_GRID_SAMPLES),
     )
 
@@ -145,6 +150,11 @@ def CCT_to_uv_Planck1900(
     :class:`numpy.ndarray`
         *CIE UCS* colourspace *uv* chromaticity coordinates.
 
+    Notes
+    -----
+    -   Non-finite correlated colour temperatures and temperatures below 1000 K
+        are outside the range used by this method and will produce a warning.
+
     References
     ----------
     :cite:`CIETC1-482004i`
@@ -158,6 +168,14 @@ def CCT_to_uv_Planck1900(
     CCT = as_float_array(CCT)
 
     xp = array_namespace(CCT)
+
+    if xp.any(
+        xp.logical_or(xp.logical_not(xp.isfinite(CCT)), CCT < _CCT_MINIMAL_PLANCK1900)
+    ):
+        usage_warning(
+            "Correlated colour temperature must be finite and greater than or "
+            "equal to 1000 K, unpredictable results may occur!"
+        )
 
     cmfs, _illuminant = handle_spectral_arguments(cmfs)
 
