@@ -1513,6 +1513,8 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
     Notes
     -----
     -   This class is a wrapper around *scipy.interpolate.interp1d* class.
+    -   Non-*NumPy* arrays are evaluated through *SciPy* on the CPU and do not
+        preserve automatic differentiation graphs.
     """
 
     def __init__(self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any) -> None:
@@ -1529,9 +1531,10 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
         y = super().__call__(as_ndarray(x))
         if not is_numpy_namespace(xp):
             runtime_warning(
-                '"CubicSplineInterpolator" is falling back to "SciPy" for '
-                "non-NumPy arrays; the result is converted back to the input "
-                "namespace at a performance cost."
+                '"CubicSplineInterpolator" falls back to "SciPy" for '
+                "non-NumPy arrays. Interpolation is evaluated on the CPU and "
+                "automatic differentiation graphs are not preserved; the "
+                "result is converted back to the input namespace."
             )
             y = xp_as_float_array(y, xp=xp, like=x)
         return y
@@ -1560,6 +1563,8 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
     -----
     -   This class is a wrapper around *scipy.interpolate.PchipInterpolator*
         class.
+    -   Non-*NumPy* arrays are evaluated through *SciPy* on the CPU and do not
+        preserve automatic differentiation graphs.
     """
 
     def __init__(self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any) -> None:
@@ -1576,9 +1581,10 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
         y = super().__call__(as_ndarray(x), *args, **kwargs)
         if not is_numpy_namespace(xp):
             runtime_warning(
-                '"PchipInterpolator" is falling back to "SciPy" for non-NumPy '
-                "arrays; the result is converted back to the input namespace at "
-                "a performance cost."
+                '"PchipInterpolator" falls back to "SciPy" for non-NumPy '
+                "arrays. Interpolation is evaluated on the CPU and automatic "
+                "differentiation graphs are not preserved; the result is "
+                "converted back to the input namespace."
             )
             y = xp_as_float_array(y, xp=xp, like=x)
         return y
