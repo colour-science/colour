@@ -54,8 +54,8 @@ except ImportError:
 _TEST_BACKENDS: str | None = os.environ.get("COLOUR_SCIENCE__TEST_BACKENDS")
 """
 Optional comma-separated list of backend parameter ids (``numpy``, ``jax``,
-``torch``, ``torch-mps``) restricting the :func:`xp` fixture parametrisation.
-Unset yields every installed backend.
+``torch``, ``torch-mps``, ``torch-cuda``) restricting the :func:`xp` fixture
+parametrisation. Unset yields every installed backend.
 """
 
 
@@ -71,6 +71,8 @@ def _make_backend_parameters() -> list:
         params.append(pytest.param((torch, "torch"), id="torch"))
         if torch.backends.mps.is_available():
             params.append(pytest.param((torch, "torch-mps"), id="torch-mps"))
+        if torch.cuda.is_available():
+            params.append(pytest.param((torch, "torch-cuda"), id="torch-cuda"))
 
     if _TEST_BACKENDS is None:
         return params
@@ -96,14 +98,24 @@ def xp(request: pytest.FixtureRequest) -> Generator[ModuleType, None, None]:
 
     Yields :mod:`numpy` and, when available, :mod:`jax.numpy` and
     :mod:`torch`. Non-NumPy backends automatically enable Array API dispatch
-    for the duration of the test. The ``torch-mps`` variant additionally sets
-    the default device to ``mps`` and the default dtype to ``float32``.
+    for the duration of the test. The ``torch-mps`` and ``torch-cuda`` variants
+    additionally set the matching default device. The ``torch-mps`` variant
+    also sets the default dtype to ``float32``.
     """
 
     backend, variant = request.param
 
     if variant == "numpy":
         yield backend
+    elif variant == "torch-cuda":
+        with array_api_enable(True):
+            default_device = torch.get_default_device()  # pyright: ignore
+            torch.set_default_device("cuda")  # pyright: ignore
+
+            try:
+                yield backend
+            finally:
+                torch.set_default_device(default_device)  # pyright: ignore
     elif variant == "torch-mps":
         with array_api_enable(True):
             default_dtype = torch.get_default_dtype()  # pyright: ignore
