@@ -151,9 +151,19 @@ def _is_gradient_tracked(a: Any) -> bool:
     if namespace is None or namespace().__name__ != "jax.numpy":
         return False
 
-    import jax  # noqa: PLC0415
+    from jax.core import Tracer  # noqa: PLC0415
 
-    return isinstance(a, jax.core.Tracer)
+    return isinstance(a, Tracer)
+
+
+def _is_cache_safe(a: Any) -> bool:
+    """Return whether the specified value can safely key a result cache."""
+
+    namespace = getattr(a, "__array_namespace__", None)
+    if namespace is not None and namespace().__name__ == "jax.numpy":
+        return False
+
+    return not _is_gradient_tracked(a)
 
 
 def handle_spectral_arguments(
@@ -433,27 +443,32 @@ def tristimulus_weighting_factors_ASTME2022(
 
     global _CACHE_TRISTIMULUS_WEIGHTING_FACTORS  # noqa: PLW0602
 
-    hash_key = hash(
-        (
-            cmfs,
-            illuminant,
-            shape,
-            k,
-            get_domain_range_scale(),
-            type(illuminant.values).__module__,
-        )
+    xp = array_namespace(cmfs.values, illuminant.values, k)
+    cacheable = is_caching_enabled() and all(
+        _is_cache_safe(a) for a in (cmfs.values, illuminant.values, k) if a is not None
     )
 
-    if is_caching_enabled() and hash_key in _CACHE_TRISTIMULUS_WEIGHTING_FACTORS:
+    hash_key = None
+    if cacheable:
+        hash_key = hash(
+            (
+                cmfs,
+                illuminant,
+                shape,
+                k,
+                get_domain_range_scale(),
+                xp.__name__,
+            )
+        )
+
+    if cacheable and hash_key in _CACHE_TRISTIMULUS_WEIGHTING_FACTORS:
         # Defensive copy in the cached array's own namespace so caller
         # mutations do not poison the cache and a backend entry is not
         # downgraded to *NumPy* on read.
         cached = _CACHE_TRISTIMULUS_WEIGHTING_FACTORS[hash_key]
-        return array_namespace(cached).asarray(cached, copy=True)
+        return xp_as_array(cached, xp=array_namespace(cached), copy=True)
 
     interval_i = int(shape.interval)
-
-    xp = array_namespace(cmfs.values, illuminant.values)
 
     # The colour matching functions and illuminant values are promoted to a
     # single namespace so that the products below dispatch for a backend
@@ -534,9 +549,9 @@ def tristimulus_weighting_factors_ASTME2022(
     with sdiv_mode():
         W = W * optional(k, sdiv(100, xp.sum(W, axis=0)[1]))
 
-    if is_caching_enabled():
-        _CACHE_TRISTIMULUS_WEIGHTING_FACTORS[hash_key] = (
-            W.copy() if hasattr(W, "copy") else np.asarray(W).copy()
+    if cacheable:
+        _CACHE_TRISTIMULUS_WEIGHTING_FACTORS[hash_key] = xp_as_array(
+            W, xp=xp, copy=True
         )
 
     return W
@@ -717,7 +732,7 @@ def tristimulus_weighting_factors_integration(
     XYZ_b = cmfs.values
     S = illuminant.values
 
-    xp = array_namespace(XYZ_b, S)
+    xp = array_namespace(XYZ_b, S, k)
 
     XYZ_b = xp_as_float_array(XYZ_b, xp=xp)
     S = xp_as_float_array(S, xp=xp)
@@ -797,6 +812,16 @@ def sd_to_XYZ_integration(
     -   When :math:`k` is set to a value other than *None*, the computed
         *CIE XYZ* tristimulus values are assumed to be absolute and are thus
         converted from percentages by a final division by 100.
+    -   When :math:`k` is *None*, it is computed as
+        :math:`100 / \\sum_\\lambda\\bar{y}(\\lambda)S(\\lambda)
+        \\Delta\\lambda`,
+        so that a perfect reflecting or transmitting diffuser has
+        :math:`Y = 100`.
+    -   Automatic differentiation is supported with respect to the spectral
+        values, colour matching function values, illuminant values and an
+        explicit :math:`k`. Wavelength grids and spectral shapes determine
+        discrete alignment and interpolation operations and are not
+        differentiable inputs.
     -   The code path using the `ArrayLike` spectral distribution produces
         results different to the code path using a
         :class:`colour.SpectralDistribution` class instance: the former
@@ -1079,6 +1104,32 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
     return from_range_100(XYZ)
 
 
+def _interpolate_sd_ASTME308_20nm(
+    sd: SpectralDistribution | MultiSpectralDistributions,
+) -> None:
+    """Interpolate the specified 20 nm spectral distributions in-place."""
+
+    R = as_float_array(sd.values)
+    xp = array_namespace(R)
+    values = [R[i] for i in range(len(R))]
+
+    for i in range(2):
+        values[i] = 3 * R[i + 2] - 3 * R[i + 4] + R[i + 6]
+        i_e = len(values) - 1 - i
+        values[i_e] = R[i_e - 6] - 3 * R[i_e - 4] + 3 * R[i_e - 2]
+
+    endpoint_values = xp.stack(values)
+    for i in range(3, len(values) - 3, 2):
+        values[i] = (
+            -0.0625 * endpoint_values[i - 3]
+            + 0.5625 * endpoint_values[i - 1]
+            + 0.5625 * endpoint_values[i + 1]
+            - 0.0625 * endpoint_values[i + 3]
+        )
+
+    sd.values = xp.stack(values)
+
+
 def sd_to_XYZ_ASTME308(
     sd: SpectralDistribution,
     cmfs: MultiSpectralDistributions | None = None,
@@ -1255,31 +1306,7 @@ def sd_to_XYZ_ASTME308(
             copy=False,
         )
 
-        # ASTM E308-15 prescribes Lagrange interpolants for the four padded
-        # endpoints and every odd-indexed wavelength; the interpolants are
-        # applied via in-place index assignment, which requires a mutable
-        # array. The spectral values are materialised to *NumPy* and
-        # converted back to the original namespace afterwards, supporting
-        # immutable backends (e.g. *JAX*) as in :class:`colour.continuous.Signal`.
-        R = as_float_array(sd.values)
-        xp = array_namespace(R)
-
-        values = np.array(as_ndarray(R))
-        for i in range(2):
-            values[i] = 3 * values[i + 2] - 3 * values[i + 4] + values[i + 6]
-            i_e = values.shape[0] - 1 - i
-            values[i_e] = values[i_e - 6] - 3 * values[i_e - 4] + 3 * values[i_e - 2]
-
-        # Interpolating every odd numbered values.
-        for i in range(3, values.shape[0] - 3, 2):
-            values[i] = (
-                -0.0625 * values[i - 3]
-                + 0.5625 * values[i - 1]
-                + 0.5625 * values[i + 1]
-                - 0.0625 * values[i + 3]
-            )
-
-        sd.values = xp_as_array(values, xp=xp, like=R)
+        _interpolate_sd_ASTME308_20nm(sd)
 
         # Discarding the additional 20nm padding intervals.
         sd = reshape_sd(
@@ -1402,6 +1429,16 @@ def sd_to_XYZ(
     -   When :math:`k` is set to a value other than *None*, the computed
         *CIE XYZ* tristimulus values are assumed to be absolute and are thus
         converted from percentages by a final division by 100.
+    -   When :math:`k` is *None*, it is computed as
+        :math:`100 / \\sum_\\lambda\\bar{y}(\\lambda)S(\\lambda)
+        \\Delta\\lambda`,
+        so that a perfect reflecting or transmitting diffuser has
+        :math:`Y = 100`.
+    -   The *Integration* and *ASTM E308* methods support automatic
+        differentiation with respect to the spectral values, colour matching
+        function values, illuminant values and an explicit :math:`k`.
+        Wavelength grids and spectral shapes determine discrete alignment and
+        interpolation operations and are not differentiable inputs.
     -   The code path using the `ArrayLike` spectral distribution produces
         results different to the code path using a
         :class:`colour.SpectralDistribution` class instance: the former
@@ -1477,8 +1514,8 @@ def sd_to_XYZ(
         if isinstance(sd, (SpectralDistribution, MultiSpectralDistributions))
         else sd
     )
-    cacheable = is_caching_enabled() and not any(
-        _is_gradient_tracked(a)
+    cacheable = is_caching_enabled() and all(
+        _is_cache_safe(a)
         for a in (sd_values, cmfs.values, illuminant.values, k)
         if a is not None
     )
@@ -2194,28 +2231,7 @@ def msds_to_XYZ_ASTME308(
             copy=False,
         )
 
-        # ASTM E308-15 prescribes Lagrange interpolants for the four padded
-        # endpoints and every odd-indexed wavelength; the operations are
-        # applied to the spectral values directly so the same coefficients
-        # broadcast across all signals along the wavelength axis. The
-        # recurrence is inherently sequential, so it runs on a *NumPy* copy
-        # and the result is written back through the MSDS setter.
-        R = as_ndarray(msds.values).copy()
-        for i in range(2):
-            R[i] = 3 * R[i + 2] - 3 * R[i + 4] + R[i + 6]
-            i_e = R.shape[0] - 1 - i
-            R[i_e] = R[i_e - 6] - 3 * R[i_e - 4] + 3 * R[i_e - 2]
-
-        # Interpolating every odd numbered values.
-        for i in range(3, R.shape[0] - 3, 2):
-            R[i] = (
-                -0.0625 * R[i - 3]
-                + 0.5625 * R[i - 1]
-                + 0.5625 * R[i + 1]
-                - 0.0625 * R[i + 3]
-            )
-
-        msds.values = R
+        _interpolate_sd_ASTME308_20nm(msds)
 
         # Discarding the additional 20nm padding intervals.
         msds = reshape_msds(
