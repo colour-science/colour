@@ -34,8 +34,7 @@ if typing.TYPE_CHECKING:
 
 from colour.utilities import (
     array_namespace,
-    as_ndarray,
-    required,
+    usage_warning,
     xp_as_float_array,
     xp_reshape,
 )
@@ -59,6 +58,53 @@ SPECTRAL_SHAPE_SSI: SpectralShape = SpectralShape(375, 675, 1)
 _SPECTRAL_SHAPE_SSI_LARGE: SpectralShape = SpectralShape(380, 670, 10)
 
 _MATRIX_INTEGRATION: NDArrayFloat | None = None
+
+_CONVOLUTION_KERNEL_SSI: tuple[float, float, float] = (0.22, 0.56, 0.22)
+"""*SSI* three-tap smoothing kernel."""
+
+
+def _convolve_wdr_i(wdr_i: NDArrayFloat) -> NDArrayFloat:
+    """Convolve weighted spectral differences along their spectral axis."""
+
+    xp = array_namespace(wdr_i)
+    padding = xp.zeros_like(wdr_i[:1])
+    left, centre, right = _CONVOLUTION_KERNEL_SSI
+
+    return (
+        left * xp.concat([padding, wdr_i[:-1]], axis=0)
+        + centre * wdr_i
+        + right * xp.concat([wdr_i[1:], padding], axis=0)
+    )
+
+
+def _is_gradient_tracked(a: object) -> bool:
+    """Return whether the specified backend array tracks differentiation."""
+
+    if bool(getattr(a, "requires_grad", False)):
+        return True
+
+    namespace = getattr(a, "__array_namespace__", None)
+    if namespace is None or namespace().__name__ != "jax.numpy":
+        return False
+
+    from jax.core import Tracer  # noqa: PLC0415
+
+    return isinstance(a, Tracer)
+
+
+def _round_SSI(SSI: NDArrayFloat, round_result: bool) -> NDArrayFloat:
+    """Round the *SSI* while warning about unusable gradients."""
+
+    if not round_result:
+        return SSI
+
+    if _is_gradient_tracked(SSI):
+        usage_warning(
+            '"round_result=True" produces zero gradients almost everywhere; '
+            "set it to False when using SSI with automatic differentiation."
+        )
+
+    return array_namespace(SSI).round(SSI)
 
 
 def matrix_integration_SSI(
@@ -101,7 +147,6 @@ def matrix_integration_SSI(
     )
 
 
-@required("SciPy")
 def spectral_similarity_index(
     sd_test: SpectralDistribution | MultiSpectralDistributions,
     sd_reference: SpectralDistribution | MultiSpectralDistributions,
@@ -119,8 +164,9 @@ def spectral_similarity_index(
     sd_reference
         Reference spectral distribution or multi-spectral distributions.
     round_result
-        Whether to round the result/output. This is particularly useful when
-        using SSI in an optimisation routine. Default is *True*.
+        Whether to round the result to the nearest integer. Disable rounding to
+        retain a continuous objective and useful gradients for optimisation.
+        Default is *True* for the standard reported *SSI* value.
 
     Returns
     -------
@@ -153,8 +199,6 @@ def spectral_similarity_index(
     >>> spectral_similarity_index(msds, sd_reference)
     array([52., 82., 18.])
     """
-
-    from scipy.ndimage import convolve1d  # noqa: PLC0415
 
     global _MATRIX_INTEGRATION  # noqa: PLW0603
 
@@ -241,12 +285,9 @@ def spectral_similarity_index(
         weights = weights[:, None]
 
     wdr_i = dr_i * weights
-    c_wdr_i = convolve1d(
-        as_ndarray(wdr_i), [0.22, 0.56, 0.22], axis=0, mode="constant", cval=0
-    )
-    c_wdr_i = xp_as_float_array(c_wdr_i, xp=xp, like=sd_test_values)
+    c_wdr_i = _convolve_wdr_i(wdr_i)
     m_v = xp.sum(xp.square(c_wdr_i), axis=0)
 
     SSI = 100 - 32 * xp.sqrt(m_v)
 
-    return xp.round(SSI) if round_result else SSI
+    return _round_SSI(SSI, round_result)
