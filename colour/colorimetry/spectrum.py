@@ -2961,6 +2961,21 @@ TypeSpectralDistribution = TypeVar(
 )
 
 
+def _is_gradient_tracked(a: Any) -> bool:
+    """Return whether the specified backend array tracks differentiation."""
+
+    if bool(getattr(a, "requires_grad", False)):
+        return True
+
+    namespace = getattr(a, "__array_namespace__", None)
+    if namespace is None or namespace().__name__ != "jax.numpy":
+        return False
+
+    from jax.core import Tracer  # noqa: PLC0415
+
+    return isinstance(a, Tracer)
+
+
 def reshape_sd(
     sd: TypeSpectralDistribution,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
@@ -3015,11 +3030,15 @@ def reshape_sd(
         if isinstance(value, Mapping):
             kwargs_items[i] = (keyword, tuple(value.items()))
 
-    hash_key = hash(
-        (sd, shape, method, tuple(kwargs_items), type(sd.values).__module__)
-    )
+    cacheable = is_caching_enabled() and not _is_gradient_tracked(sd.values)
 
-    if is_caching_enabled() and hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
+    hash_key = None
+    if cacheable:
+        hash_key = hash(
+            (sd, shape, method, tuple(kwargs_items), type(sd.values).__module__)
+        )
+
+    if cacheable and hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
         reshaped_sd = _CACHE_RESHAPED_SDS_AND_MSDS[hash_key]
 
         return reshaped_sd.copy() if copy else reshaped_sd
@@ -3039,7 +3058,7 @@ def reshape_sd(
     ):
         reshaped_sd.values = xp_as_float_array(reshaped_sd.values, xp=xp, like=R)
 
-    if is_caching_enabled():
+    if cacheable:
         _CACHE_RESHAPED_SDS_AND_MSDS[hash_key] = reshaped_sd
 
     return reshaped_sd

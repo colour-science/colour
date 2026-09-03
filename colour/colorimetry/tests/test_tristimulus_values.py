@@ -1562,6 +1562,48 @@ class TestSd_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+    def test_sd_to_XYZ_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test numerical gradients when spectral alignment is required."""
+
+        wavelengths = np.arange(400, 701, 50)
+        shape = SpectralShape(380, 780, 10)
+
+        _XYZ, (gradient,), _inputs = autodiff(
+            lambda values: sd_to_XYZ(
+                SpectralDistribution(values, wavelengths),
+                method="Integration",
+                shape=shape,
+            ),
+            np.linspace(0.2, 1.0, len(wavelengths)),
+        )
+
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
+
+    def test_sd_to_XYZ_illuminant_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test numerical gradients through a spectral illuminant."""
+
+        shape = SpectralShape(380, 780, 10)
+        sd = SpectralDistribution(np.linspace(0.2, 1.0, len(shape.wavelengths)), shape)
+        wavelengths = np.arange(400, 701, 50)
+
+        _XYZ, (gradient,), _inputs = autodiff(
+            lambda values: sd_to_XYZ(
+                sd,
+                illuminant=SpectralDistribution(values, wavelengths),
+                method="Integration",
+                shape=shape,
+            ),
+            np.linspace(1.0, 0.2, len(wavelengths)),
+        )
+
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
+
     def test_autodiff_sd_to_XYZ(
         self, xp: ModuleType, autodiff: typing.Callable
     ) -> None:
