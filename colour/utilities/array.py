@@ -4106,7 +4106,7 @@ def _scale_at(
 
     factor = xp_as_array(scale_factor, dtype=dtype, xp=xp, like=a)
 
-    return xp.asarray(a / factor if divide else a * factor)
+    return xp_as_array(a / factor if divide else a * factor, xp=xp)
 
 
 def to_domain_1(

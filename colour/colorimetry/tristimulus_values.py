@@ -1477,7 +1477,11 @@ def sd_to_XYZ(
         if isinstance(sd, (SpectralDistribution, MultiSpectralDistributions))
         else sd
     )
-    cacheable = is_caching_enabled() and not _is_gradient_tracked(sd_values)
+    cacheable = is_caching_enabled() and not any(
+        _is_gradient_tracked(a)
+        for a in (sd_values, cmfs.values, illuminant.values, k)
+        if a is not None
+    )
 
     hash_key = None
     if cacheable:

@@ -2061,6 +2061,25 @@ class TestReshapeSd:
         if is_caching_enabled():
             assert reshape_sd(sd, shape, method="Trim", copy=False) is sd_reshaped
 
+    def test_reshape_sd_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test numerical gradients through spectral copying and alignment."""
+
+        wavelengths = np.arange(400, 501, 20)
+        shape = SpectralShape(380, 520, 10)
+
+        reshaped, (gradient,), _inputs = autodiff(
+            lambda values: (
+                reshape_sd(SpectralDistribution(values, wavelengths), shape).values
+            ),
+            np.linspace(0.2, 1.0, len(wavelengths)),
+        )
+
+        assert reshaped.shape == shape.wavelengths.shape
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
+
 
 class TestSdsAndMdsToSds:
     """
