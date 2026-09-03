@@ -709,11 +709,21 @@ def as_ndarray(a: Any) -> np.ndarray:
     # disabled returns the *NumPy* fallback, which has no ``to_device``.
     namespace = getattr(a, "__array_namespace__", None)
     if namespace is not None:
-        return np.asarray(namespace().to_device(a, "cpu"))
+        return cast("NDArray", np.asarray(namespace().to_device(a, "cpu")))
 
     error = f'"{type(a)}" cannot be converted to a "numpy.ndarray"!'
 
     raise TypeError(error)
+
+
+def _copy_array(a: ArrayLike, xp: ProtocolArrayNamespace | ModuleType) -> NDArray:
+    """Return a backend array copy while preserving its computational graph."""
+
+    clone = getattr(xp, "clone", None)
+    if callable(clone):
+        return cast("NDArray", clone(a))
+
+    return cast("NDArray", xp.asarray(a, copy=True))
 
 
 def xp_as_array(
@@ -818,7 +828,7 @@ def xp_as_array(
                         )
 
         if copy and result is a:
-            result = xp.asarray(a, copy=True)
+            result = _copy_array(a, xp)
         return result  # pyright: ignore
 
     # Non-*NumPy* namespace: convert from *NumPy* / *Python* to the target
@@ -1491,7 +1501,7 @@ def xp_resize(
     if raveled.shape[0] == 0:
         return xp.zeros(
             shape_tuple,
-            dtype=a.dtype,  # pyright: ignore
+            dtype=a.dtype,
             device=getattr(a, "device", None),
         )
 
@@ -3181,26 +3191,35 @@ def as_array(
             if dtype is not None:
                 dtype = getattr(xp, np.dtype(dtype).name, dtype)
 
-            return xp.stack([xp.asarray(x) for x in a])
+            return xp.stack([xp_as_array(x, xp=xp, like=a[0]) for x in a])
 
         xp = array_namespace(a)
 
-        if dtype is not None and not is_numpy_namespace(xp):
-            dtype = getattr(xp, np.dtype(dtype).name, dtype)
+        result = (
+            (a if dtype is None else cast_non_ndarray(a, dtype))
+            if is_non_ndarray(a)
+            else None
+        )
 
-        try:
-            return xp.asarray(a, dtype=dtype)
-        except TypeError:
-            # The device does not support the requested dtype, e.g. *MPS* has
-            # no float64: the input dtype is kept and a warning is emitted
-            # rather than failing, mirroring :func:`xp_as_array`.
-            dtype_a = getattr(a, "dtype", None)
-            if dtype_a is None:
-                raise
+        if result is None:
+            if dtype is not None and not is_numpy_namespace(xp):
+                dtype = getattr(xp, np.dtype(dtype).name, dtype)
 
-            _runtime_warning_xp_downcast(xp, dtype, dtype_a)
+            try:
+                result = xp.asarray(a, dtype=dtype)
+            except TypeError:
+                # The device does not support the requested dtype, e.g. *MPS* has
+                # no float64: the input dtype is kept and a warning is emitted
+                # rather than failing, mirroring :func:`xp_as_array`.
+                dtype_a = getattr(a, "dtype", None)
+                if dtype_a is None:
+                    raise
 
-            return xp.asarray(a)
+                _runtime_warning_xp_downcast(xp, dtype, dtype_a)
+
+                result = xp.asarray(a)
+
+        return result  # pyright: ignore
 
     try:
         return np.asarray(a, dtype)
@@ -4916,7 +4935,7 @@ def ndarray_copy(a: NDArray) -> NDArray:
 
         if is_numpy_namespace(xp):
             return np.copy(a)
-        return xp.asarray(a, copy=True)
+        return _copy_array(a, xp)
     return a
 
 
