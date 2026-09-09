@@ -84,6 +84,7 @@ from colour.utilities import (
     get_domain_range_scale,
     int_digest,
     is_caching_enabled,
+    is_gradient_tracked,
     optional,
     runtime_warning,
     validate_method,
@@ -141,21 +142,6 @@ _CACHE_TRISTIMULUS_WEIGHTING_FACTORS: dict = CACHE_REGISTRY.register_cache(
 _CACHE_SD_TO_XYZ: dict = CACHE_REGISTRY.register_cache(f"{__name__}._CACHE_SD_TO_XYZ")
 
 
-def _is_gradient_tracked(a: Any) -> bool:
-    """Return whether the specified backend array tracks differentiation."""
-
-    if bool(getattr(a, "requires_grad", False)):
-        return True
-
-    namespace = getattr(a, "__array_namespace__", None)
-    if namespace is None or namespace().__name__ != "jax.numpy":
-        return False
-
-    from jax.core import Tracer  # noqa: PLC0415
-
-    return isinstance(a, Tracer)
-
-
 def _is_cache_safe(a: Any) -> bool:
     """Return whether the specified value can safely key a result cache."""
 
@@ -163,7 +149,7 @@ def _is_cache_safe(a: Any) -> bool:
     if namespace is not None and namespace().__name__ == "jax.numpy":
         return False
 
-    return not _is_gradient_tracked(a)
+    return not is_gradient_tracked(a)
 
 
 def handle_spectral_arguments(

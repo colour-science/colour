@@ -113,6 +113,7 @@ __all__ = [
     "trace_array_namespace",
     "array_namespace",
     "is_numpy_namespace",
+    "is_gradient_tracked",
     "is_non_ndarray",
     "as_ndarray",
     "cast_non_ndarray",
@@ -613,6 +614,40 @@ def is_numpy_namespace(xp: ProtocolArrayNamespace | ModuleType) -> bool:
         return xpc.is_numpy_namespace(xp)
 
     return False
+
+
+def is_gradient_tracked(a: Any) -> bool:
+    """
+    Determine whether the specified backend array tracks automatic
+    differentiation, i.e. it is a *PyTorch* tensor requiring gradients or a
+    traced *JAX* array.
+
+    Parameters
+    ----------
+    a
+        Array to test.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether the array tracks automatic differentiation.
+
+    Examples
+    --------
+    >>> is_gradient_tracked(np.array([0.5, 0.5]))
+    False
+    """
+
+    if bool(getattr(a, "requires_grad", False)):
+        return True
+
+    namespace = getattr(a, "__array_namespace__", None)
+    if namespace is None or namespace().__name__ != "jax.numpy":
+        return False
+
+    from jax.core import Tracer  # noqa: PLC0415
+
+    return isinstance(a, Tracer)
 
 
 def is_non_ndarray(a: Any) -> bool:
