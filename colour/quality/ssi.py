@@ -34,6 +34,7 @@ if typing.TYPE_CHECKING:
 
 from colour.utilities import (
     array_namespace,
+    is_gradient_tracked,
     usage_warning,
     xp_as_float_array,
     xp_reshape,
@@ -77,28 +78,13 @@ def _convolve_wdr_i(wdr_i: NDArrayFloat) -> NDArrayFloat:
     )
 
 
-def _is_gradient_tracked(a: object) -> bool:
-    """Return whether the specified backend array tracks differentiation."""
-
-    if bool(getattr(a, "requires_grad", False)):
-        return True
-
-    namespace = getattr(a, "__array_namespace__", None)
-    if namespace is None or namespace().__name__ != "jax.numpy":
-        return False
-
-    from jax.core import Tracer  # noqa: PLC0415
-
-    return isinstance(a, Tracer)
-
-
 def _round_SSI(SSI: NDArrayFloat, round_result: bool) -> NDArrayFloat:
     """Round the *SSI* while warning about unusable gradients."""
 
     if not round_result:
         return SSI
 
-    if _is_gradient_tracked(SSI):
+    if is_gradient_tracked(SSI):
         usage_warning(
             '"round_result=True" produces zero gradients almost everywhere; '
             "set it to False when using SSI with automatic differentiation."

@@ -70,6 +70,7 @@ from colour.utilities import (
     filter_kwargs,
     interval,
     is_caching_enabled,
+    is_gradient_tracked,
     is_iterable,
     is_numeric,
     is_numpy_namespace,
@@ -2961,21 +2962,6 @@ TypeSpectralDistribution = TypeVar(
 )
 
 
-def _is_gradient_tracked(a: Any) -> bool:
-    """Return whether the specified backend array tracks differentiation."""
-
-    if bool(getattr(a, "requires_grad", False)):
-        return True
-
-    namespace = getattr(a, "__array_namespace__", None)
-    if namespace is None or namespace().__name__ != "jax.numpy":
-        return False
-
-    from jax.core import Tracer  # noqa: PLC0415
-
-    return isinstance(a, Tracer)
-
-
 def reshape_sd(
     sd: TypeSpectralDistribution,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
@@ -3030,7 +3016,7 @@ def reshape_sd(
         if isinstance(value, Mapping):
             kwargs_items[i] = (keyword, tuple(value.items()))
 
-    cacheable = is_caching_enabled() and not _is_gradient_tracked(sd.values)
+    cacheable = is_caching_enabled() and not is_gradient_tracked(sd.values)
 
     hash_key = None
     if cacheable:
