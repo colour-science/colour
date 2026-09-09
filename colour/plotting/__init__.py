@@ -85,6 +85,7 @@ from .colorimetry import (
     plot_single_luminance_function,
     plot_single_sd,
     plot_visible_spectrum,
+    plot_visible_spectrum_colours,
 )
 from .diagrams import (
     LABELS_CHROMATICITY_DIAGRAM_DEFAULT,
@@ -212,6 +213,7 @@ __all__ += [
     "plot_single_luminance_function",
     "plot_single_sd",
     "plot_visible_spectrum",
+    "plot_visible_spectrum_colours",
 ]
 __all__ += [
     "LABELS_CHROMATICITY_DIAGRAM_DEFAULT",

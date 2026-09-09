@@ -10,6 +10,7 @@ Define the colorimetry plotting objects:
 -   :func:`colour.plotting.plot_multi_cmfs`
 -   :func:`colour.plotting.plot_single_illuminant_sd`
 -   :func:`colour.plotting.plot_multi_illuminant_sds`
+-   :func:`colour.plotting.plot_visible_spectrum_colours`
 -   :func:`colour.plotting.plot_visible_spectrum`
 -   :func:`colour.plotting.plot_single_lightness_function`
 -   :func:`colour.plotting.plot_multi_lightness_functions`
@@ -36,6 +37,7 @@ if typing.TYPE_CHECKING:
     from collections.abc import ValuesView
 
 from matplotlib.patches import Polygon
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 if typing.TYPE_CHECKING:
     from matplotlib.figure import Figure
@@ -62,6 +64,7 @@ if typing.TYPE_CHECKING:
         Any,
         Callable,
         Dict,
+        NDArrayFloat,
         Sequence,
         Tuple,
     )
@@ -103,6 +106,7 @@ __all__ = [
     "plot_multi_cmfs",
     "plot_single_illuminant_sd",
     "plot_multi_illuminant_sds",
+    "plot_visible_spectrum_colours",
     "plot_visible_spectrum",
     "plot_single_lightness_function",
     "plot_multi_lightness_functions",
@@ -111,6 +115,155 @@ __all__ = [
     "plot_blackbody_spectral_radiance",
     "plot_blackbody_colours",
 ]
+
+
+def _wavelengths_to_RGB(
+    wavelengths: NDArrayFloat,
+    cmfs: MultiSpectralDistributions,
+    out_of_gamut_clipping: bool = True,
+) -> NDArrayFloat:
+    """
+    Return the plotting *RGB* colours for the specified wavelengths.
+
+    Parameters
+    ----------
+    wavelengths
+        Wavelengths to convert to *RGB* plotting colours.
+    cmfs
+        Colour matching functions used to compute the wavelengths colours.
+    out_of_gamut_clipping
+        Whether to clip out of gamut colours.
+
+    Returns
+    -------
+    :class:`numpy.ndarray`
+        Wavelengths *RGB* plotting colours.
+    """
+
+    RGB = XYZ_to_plotting_colourspace(
+        wavelength_to_XYZ(wavelengths, cmfs),
+        CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["E"],
+        apply_cctf_encoding=False,
+    )
+
+    if not out_of_gamut_clipping:
+        RGB += np.abs(np.min(RGB))
+
+    return normalise_maximum(RGB)
+
+
+@override_style()
+def plot_visible_spectrum_colours(
+    cmfs: (
+        MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
+    ) = "CIE 1931 2 Degree Standard Observer",
+    out_of_gamut_clipping: bool = True,
+    **kwargs: Any,
+) -> Tuple[Figure, Axes]:
+    """
+    Plot the visible spectrum colours using the specified standard observer
+    *CIE XYZ* colour matching functions.
+
+    Parameters
+    ----------
+    cmfs
+        Standard observer colour matching functions used for computing the
+        spectrum domain and colours. ``cmfs`` can be of any type or form
+        supported by the :func:`colour.plotting.common.filter_cmfs` definition.
+    out_of_gamut_clipping
+        Whether to clip out of gamut colours. Otherwise, the colours will
+        be offset by the absolute minimal colour, resulting in rendering
+        on a gray background that is less saturated and smoother.
+
+    Other Parameters
+    ----------------
+    kwargs
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        See the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    :class:`tuple`
+        Current figure and axes.
+
+    Examples
+    --------
+    >>> plot_visible_spectrum_colours()  # doctest: +ELLIPSIS
+    (<Figure size ... with 1 Axes>, <...Axes...>)
+    """
+
+    _figure, axes = artist(**kwargs)
+
+    cmfs = cast("MultiSpectralDistributions", first_item(filter_cmfs(cmfs).values()))
+
+    x_min, x_max, y_min, y_max = kwargs.get(
+        "bounding_box",
+        (
+            float(np.min(cmfs.wavelengths)),
+            float(np.max(cmfs.wavelengths)),
+            0.0,
+            1.0,
+        ),
+    )
+
+    x_visible_min = max(x_min, float(np.min(cmfs.wavelengths)))
+    x_visible_max = min(x_max, float(np.max(cmfs.wavelengths)))
+
+    for x_start, x_end in (
+        (x_min, min(x_max, x_visible_min)),
+        (max(x_min, x_visible_max), x_max),
+    ):
+        if x_start >= x_end:
+            continue
+
+        axes.bar(
+            x_start,
+            y_max - y_min,
+            width=x_end - x_start,
+            bottom=y_min,
+            color=CONSTANTS_COLOUR_STYLE.colour.bright,
+            alpha=0.5,
+            align="edge",
+            hatch=CONSTANTS_COLOUR_STYLE.hatch.patterns[-1],
+            edgecolor=CONSTANTS_COLOUR_STYLE.colour.light,
+            linewidth=0,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
+        )
+
+    if x_visible_min < x_visible_max:
+        wavelengths_edges = np.linspace(
+            x_visible_min,
+            x_visible_max,
+            max(int(np.ceil(x_visible_max - x_visible_min)), 1) + 1,
+        )
+        wavelengths = 0.5 * (wavelengths_edges[:-1] + wavelengths_edges[1:])
+        RGB = CONSTANTS_COLOUR_STYLE.colour.colourspace.cctf_encoding(
+            _wavelengths_to_RGB(wavelengths, cmfs, out_of_gamut_clipping)
+        )
+
+        axes.bar(
+            wavelengths_edges[:-1],
+            np.full(wavelengths.shape, y_max - y_min),
+            width=np.diff(wavelengths_edges),
+            bottom=y_min,
+            color=RGB,
+            align="edge",
+            linewidth=0,
+            edgecolor="none",
+            antialiased=False,
+            zorder=CONSTANTS_COLOUR_STYLE.zorder.background_polygon,
+        )
+
+    axes.set_yticks([])
+
+    settings: Dict[str, Any] = {
+        "axes": axes,
+        "bounding_box": (x_min, x_max, y_min, y_max),
+        "y_label": None,
+    }
+    settings.update(kwargs)
+
+    return render(**settings)
 
 
 @override_style()
@@ -122,6 +275,7 @@ def plot_single_sd(
     out_of_gamut_clipping: bool = True,
     modulate_colours_with_sd_amplitude: bool = False,
     equalize_sd_amplitude: bool = False,
+    show_visible_spectrum: bool = False,
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
@@ -149,6 +303,8 @@ def plot_single_sd(
         wavelength colour is modulated by the spectral distribution
         amplitude. The usual 5% margin above the spectral distribution is
         also omitted.
+    show_visible_spectrum
+        Whether to display the visible spectrum colours below the *x* axis.
 
     Other Parameters
     ----------------
@@ -199,16 +355,7 @@ def plot_single_sd(
     ]
     values = sd[wavelengths]
 
-    RGB = XYZ_to_plotting_colourspace(
-        wavelength_to_XYZ(wavelengths, cmfs),
-        CCS_ILLUMINANTS["CIE 1931 2 Degree Standard Observer"]["E"],
-        apply_cctf_encoding=False,
-    )
-
-    if not out_of_gamut_clipping:
-        RGB += np.abs(np.min(RGB))
-
-    RGB = normalise_maximum(RGB)
+    RGB = _wavelengths_to_RGB(wavelengths, cmfs, out_of_gamut_clipping)
 
     if modulate_colours_with_sd_amplitude:
         with sdiv_mode():
@@ -264,6 +411,21 @@ def plot_single_sd(
     }
     settings.update(kwargs)
 
+    if show_visible_spectrum:
+        visible_spectrum_axes = make_axes_locatable(axes).append_axes(
+            "bottom", size="5%", pad=0.08, sharex=axes
+        )
+        plot_visible_spectrum_colours(
+            cmfs=cmfs,
+            out_of_gamut_clipping=out_of_gamut_clipping,
+            axes=visible_spectrum_axes,
+            bounding_box=(x_min, x_max, 0, 1),
+            x_label=settings.pop("x_label", None),
+            show=False,
+        )
+        axes.tick_params(axis="x", bottom=False, labelbottom=False, which="both")
+        axes.set_xlabel("")
+
     return render(**settings)
 
 
@@ -276,6 +438,7 @@ def plot_multi_sds(
         | ValuesView
     ),
     plot_kwargs: dict | List[dict] | None = None,
+    show_visible_spectrum: bool = False,
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
@@ -315,6 +478,8 @@ def plot_multi_sds(
             illuminant. Alternatively, it is possible to use the
             :func:`matplotlib.pyplot.plot` definition ``color`` argument
             with pre-computed values. The default is *True*.
+    show_visible_spectrum
+        Whether to display the visible spectrum colours below the *x* axis.
 
     Other Parameters
     ----------------
@@ -385,6 +550,10 @@ def plot_multi_sds(
             plot_settings_collection, plot_kwargs, len(sds_converted)
         )
 
+    visible_spectrum_cmfs = cast(
+        "MultiSpectralDistributions",
+        first_item(filter_cmfs("CIE 1931 2 Degree Standard Observer").values()),
+    )
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for i, sd in enumerate(sds_converted):
         plot_settings = plot_settings_collection[i]
@@ -399,6 +568,7 @@ def plot_multi_sds(
         )
         normalise_sd_colours = plot_settings.pop("normalise_sd_colours")
         use_sd_colours = plot_settings.pop("use_sd_colours")
+        visible_spectrum_cmfs = cmfs
 
         wavelengths, values = sd.wavelengths, sd.values
 
@@ -425,6 +595,7 @@ def plot_multi_sds(
         min(y_limit_min),
         max(y_limit_max) * 1.05,
     )
+
     settings: Dict[str, Any] = {
         "axes": axes,
         "bounding_box": bounding_box,
@@ -433,6 +604,20 @@ def plot_multi_sds(
         "y_label": "Spectral Distribution",
     }
     settings.update(kwargs)
+
+    if show_visible_spectrum:
+        visible_spectrum_axes = make_axes_locatable(axes).append_axes(
+            "bottom", size="5%", pad=0.08, sharex=axes
+        )
+        plot_visible_spectrum_colours(
+            cmfs=visible_spectrum_cmfs,
+            axes=visible_spectrum_axes,
+            bounding_box=(bounding_box[0], bounding_box[1], 0, 1),
+            x_label=settings.pop("x_label", None),
+            show=False,
+        )
+        axes.tick_params(axis="x", bottom=False, labelbottom=False, which="both")
+        axes.set_xlabel("")
 
     return render(**settings)
 
@@ -492,6 +677,7 @@ def plot_multi_cmfs(
     cmfs: (
         MultiSpectralDistributions | str | Sequence[MultiSpectralDistributions | str]
     ),
+    show_visible_spectrum: bool = False,
     **kwargs: Any,
 ) -> Tuple[Figure, Axes]:
     """
@@ -503,6 +689,8 @@ def plot_multi_cmfs(
         Colour matching functions to plot. ``cmfs`` elements can be of any
         type or form supported by the
         :func:`colour.plotting.common.filter_cmfs` definition.
+    show_visible_spectrum
+        Whether to display the visible spectrum colours below the *x* axis.
 
     Other Parameters
     ----------------
@@ -567,6 +755,7 @@ def plot_multi_cmfs(
         min(y_limit_min) - np.abs(np.min(y_limit_min)) * 0.05,
         max(y_limit_max) + np.abs(np.max(y_limit_max)) * 0.05,
     )
+
     cmfs_display_names = ", ".join([cmfs_i.display_name for cmfs_i in cmfs])
     title = f"{cmfs_display_names} - Colour Matching Functions"
 
@@ -579,6 +768,20 @@ def plot_multi_cmfs(
         "y_label": "Tristimulus Values",
     }
     settings.update(kwargs)
+
+    if show_visible_spectrum:
+        visible_spectrum_axes = make_axes_locatable(axes).append_axes(
+            "bottom", size="5%", pad=0.08, sharex=axes
+        )
+        plot_visible_spectrum_colours(
+            cmfs=cmfs[0],
+            axes=visible_spectrum_axes,
+            bounding_box=(bounding_box[0], bounding_box[1], 0, 1),
+            x_label=settings.pop("x_label", None),
+            show=False,
+        )
+        axes.tick_params(axis="x", bottom=False, labelbottom=False, which="both")
+        axes.set_xlabel("")
 
     return render(**settings)
 
@@ -773,6 +976,7 @@ def plot_visible_spectrum(
     settings: Dict[str, Any] = {"bounding_box": bounding_box, "y_label": None}
     settings.update(kwargs)
     settings["show"] = False
+    settings["show_visible_spectrum"] = False
 
     _figure, axes = plot_single_sd(
         sd_ones(cmfs.shape),
