@@ -66,6 +66,7 @@ from __future__ import annotations
 
 import sys
 import typing
+from abc import ABC, abstractmethod
 from functools import reduce
 from unittest.mock import MagicMock
 
@@ -1565,96 +1566,113 @@ def _interpolation_interval_indices(x: NDArrayFloat, x_i: NDArrayFloat) -> Any:
     return as_ndarray(indices)
 
 
-class CubicSplineInterpolator(scipy.interpolate.interp1d):
+class _ArrayInterpolator(ABC):
     """
-    Perform cubic spline interpolation on one-dimensional data.
+    Base class for native, automatic-differentiation-preserving interpolators
+    operating within any *Array API* namespace.
 
-    Provide smooth interpolation through specified data points using
-    piecewise cubic polynomials. The resulting interpolant maintains
-    continuity in the function and its first two derivatives at data
-    points, making it suitable for spectral data and colour science
-    applications requiring smooth transitions between measured values.
-
-    Methods
-    -------
-    -   :meth:`~colour.CubicSplineInterpolator.__init__`
-
-    Notes
-    -----
-    -   *NumPy* arrays are evaluated with :class:`scipy.interpolate.interp1d`.
-        Other array namespaces use an equivalent backend-native *not-a-knot*
-        cubic spline and preserve automatic differentiation graphs with
-        respect to dependent values and evaluation points. The known knot
-        locations are structural and are not differentiable inputs.
+    Subclasses implement :meth:`_evaluate` and set their own domain state during
+    initialisation. Instances expose the :attr:`x` and :attr:`y` attribute
+    contract of :class:`scipy.interpolate.interp1d` so they are drop-in
+    evaluators for :class:`_BackendAwareInterpolator`.
     """
 
-    def __init__(self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any) -> None:
-        kwargs["kind"] = "cubic"
+    def __init__(self, x: ArrayLike, y: ArrayLike, axis: int = 0) -> None:
+        self._x = as_ndarray(x)
+        self._y = xp_as_float_array(y, xp=array_namespace(y))
+        self.axis = int(axis % self._y.ndim)
+
+    @property
+    def x(self) -> NDArrayFloat:
+        """Getter for the independent and already known :math:`x` variable."""
+
+        return self._x
+
+    @property
+    def y(self) -> NDArrayFloat:
+        """Getter and setter for the dependent and already known :math:`y`
+        variable.
+        """
+
+        return self._y
+
+    @y.setter
+    def y(self, value: ArrayLike) -> None:
+        """Setter for the **self.y** property."""
+
+        self._y = as_float_array(value)
+
+    def __call__(self, x: Any, *args: Any, **kwargs: Any) -> Any:
+        """Evaluate the interpolant at the specified point(s)."""
+
+        return self._evaluate(x, *args, **kwargs)
+
+    @abstractmethod
+    def _evaluate(self, x: Any, *args: Any, **kwargs: Any) -> Any:
+        """Evaluate the native interpolant at the specified point(s)."""
+
+        ...  # pragma: no cover
+
+
+class _ArrayCubicSplineInterpolator(_ArrayInterpolator):
+    """
+    Native *not-a-knot* cubic spline mirroring the
+    :class:`scipy.interpolate.interp1d` ``kind="cubic"`` evaluation semantics
+    while preserving automatic differentiation graphs with respect to dependent
+    values and evaluation points. The known knot locations are structural and
+    are not differentiable inputs.
+    """
+
+    def __init__(
+        self,
+        x: ArrayLike,
+        y: ArrayLike,
+        *,
+        axis: int = 0,
+        bounds_error: bool | None = None,
+        fill_value: Any = np.nan,
+        assume_sorted: bool = False,
+    ) -> None:
+        super().__init__(x, y, axis)
+
         # Interpolate along the leading axis so rank-2 ``y`` evaluates
         # batched along its trailing axis; rank-1 ``y`` is unaffected.
-        kwargs.setdefault("axis", 0)
-        x_a = as_ndarray(x)
-        y_xp = array_namespace(y)
-        y_a = xp_as_float_array(y, xp=y_xp)
-        assume_sorted = kwargs.get("assume_sorted", False)
         if not assume_sorted:
-            indices = np.argsort(x_a)
-            axis = kwargs["axis"] % y_a.ndim
-            index = [slice(None)] * y_a.ndim
-            index[axis] = indices
-            y_a = y_a[tuple(index)]
-            x_a = x_a[indices]
+            indices = np.argsort(self._x)
+            index: list[Any] = [slice(None)] * self._y.ndim
+            index[self.axis] = indices
+            self._y = self._y[tuple(index)]
+            self._x = self._x[indices]
 
-        if not is_numpy_namespace(y_xp):
-            self.x = x_a
-            self.y = y_a
-            self.axis = kwargs["axis"] % y_a.ndim
-            if x_a.ndim != 1:
-                error = "the x array must have exactly one dimension"
-                raise ValueError(error)
-            if y_a.shape[self.axis] != len(x_a):
-                error = (
-                    "x and y arrays must be equal in length along interpolation axis"
-                )
-                raise ValueError(error)
-            if len(x_a) < 4:
-                error = "The number of derivatives at boundaries does not match."
-                raise ValueError(error)
-            if np.any(np.diff(x_a) <= 0):
-                error = "Expect x to not have duplicates"
-                raise ValueError(error)
+        if self._x.ndim != 1:
+            error = "the x array must have exactly one dimension"
+            raise ValueError(error)
+        if self._y.shape[self.axis] != len(self._x):
+            error = "x and y arrays must be equal in length along interpolation axis"
+            raise ValueError(error)
+        if len(self._x) < 4:
+            error = "The number of derivatives at boundaries does not match."
+            raise ValueError(error)
+        if np.any(np.diff(self._x) <= 0):
+            error = "Expect x to not have duplicates"
+            raise ValueError(error)
 
-            fill_value = kwargs.get("fill_value", np.nan)
-            self._extrapolate = (
-                isinstance(fill_value, str) and fill_value == "extrapolate"
-            )
-            bounds_error = kwargs.get("bounds_error")
-            if self._extrapolate and bounds_error:
-                error = "Cannot extrapolate and raise at the same time."
-                raise ValueError(error)
-            self.bounds_error = (
-                not self._extrapolate if bounds_error is None else bounds_error
-            )
-            if isinstance(fill_value, tuple) and len(fill_value) == 2:
-                self._fill_value_below, self._fill_value_above = fill_value
-            else:
-                self._fill_value_below = self._fill_value_above = fill_value
+        self._extrapolate = isinstance(fill_value, str) and fill_value == "extrapolate"
+        if self._extrapolate and bounds_error:
+            error = "Cannot extrapolate and raise at the same time."
+            raise ValueError(error)
+        self.bounds_error = (
+            not self._extrapolate if bounds_error is None else bounds_error
+        )
+        if isinstance(fill_value, tuple) and len(fill_value) == 2:
+            self._fill_value_below, self._fill_value_above = fill_value
+        else:
+            self._fill_value_below = self._fill_value_above = fill_value
 
-            return
-
-        super().__init__(x_a, as_ndarray(y_a), *args, **kwargs)
-
-        # ``scipy.interpolate.interp1d`` keeps a detached public ``y`` copy.
-        # Restore the sorted backend values for native evaluation and for
-        # consumers such as :class:`colour.Extrapolator`.
-        self.y = y_a
-
-    def __call__(self, x: Any) -> Any:
+    def _evaluate(self, x: Any) -> Any:
         """Evaluate the cubic spline at the specified point(s)."""
 
         xp = array_namespace(x, self.y)
-        if is_numpy_namespace(xp):
-            return super().__call__(as_ndarray(x))
 
         x, x_i, y_i = _interpolation_backend_arrays(
             x,
@@ -1739,80 +1757,47 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
         return values
 
 
-class PchipInterpolator(scipy.interpolate.PchipInterpolator):
+class _ArrayPchipInterpolator(_ArrayInterpolator):
     """
-    Interpolate a 1-D function using Piecewise Cubic Hermite Interpolating
-    Polynomial (PCHIP) interpolation.
-
-    PCHIP interpolation constructs a smooth curve through specified data
-    points while preserving monotonicity between consecutive points. This
-    method ensures that the interpolated values do not exhibit spurious
-    oscillations, making it particularly suitable for colour science
-    applications where physical constraints must be respected.
-
-    Attributes
-    ----------
-    -   :attr:`~colour.PchipInterpolator.x`
-    -   :attr:`~colour.PchipInterpolator.y`
-
-    Methods
-    -------
-    -   :meth:`~colour.PchipInterpolator.__init__`
-
-    Notes
-    -----
-    -   *NumPy* arrays are evaluated with
-        :class:`scipy.interpolate.PchipInterpolator`. Other array namespaces
-        use an equivalent backend-native implementation and preserve automatic
-        differentiation graphs with respect to dependent values and evaluation
-        points within a stable slope-selection branch. The known knot locations
-        are structural and are not differentiable inputs.
+    Native PCHIP interpolant mirroring the
+    :class:`scipy.interpolate.PchipInterpolator` evaluation semantics while
+    preserving automatic differentiation graphs with respect to dependent
+    values and evaluation points within a stable slope-selection branch. The
+    known knot locations are structural and are not differentiable inputs.
     """
 
-    def __init__(self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any) -> None:
-        x_a = as_ndarray(x)
-        y_xp = array_namespace(y)
-        y_a = xp_as_float_array(y, xp=y_xp)
-        if not is_numpy_namespace(y_xp):
-            axis = kwargs.get("axis", args[0] if args else 0) % y_a.ndim
-            extrapolate = kwargs.get("extrapolate", args[1] if len(args) > 1 else None)
-            if x_a.ndim != 1:
-                error = "`x` must be 1-dimensional."
-                raise ValueError(error)
-            if y_a.shape[axis] != len(x_a):
-                error = "The length of `y` along `axis` must be the same as `x`."
-                raise ValueError(error)
-            if len(x_a) < 2:
-                error = "`x` must contain at least 2 elements."
-                raise ValueError(error)
-            if np.any(np.diff(x_a) <= 0):
-                error = "`x` must be strictly increasing sequence."
-                raise ValueError(error)
+    def __init__(
+        self,
+        x: ArrayLike,
+        y: ArrayLike,
+        *,
+        axis: int = 0,
+        extrapolate: bool | None = None,
+    ) -> None:
+        super().__init__(x, y, axis)
 
-            self._x_backend = x_a
-            self._axis_backend = int(axis)
-            self._extrapolate_backend = True if extrapolate is None else extrapolate
-            self._y = y_a
+        self._extrapolate = True if extrapolate is None else extrapolate
 
-            return
+        if self._x.ndim != 1:
+            error = "`x` must be 1-dimensional."
+            raise ValueError(error)
+        if self._y.shape[self.axis] != len(self._x):
+            error = "The length of `y` along `axis` must be the same as `x`."
+            raise ValueError(error)
+        if len(self._x) < 2:
+            error = "`x` must contain at least 2 elements."
+            raise ValueError(error)
+        if np.any(np.diff(self._x) <= 0):
+            error = "`x` must be strictly increasing sequence."
+            raise ValueError(error)
 
-        super().__init__(x_a, as_ndarray(y_a), *args, **kwargs)
-        axis = kwargs.get("axis", args[0] if args else 0) % y_a.ndim
-        extrapolate = kwargs.get("extrapolate", args[1] if len(args) > 1 else None)
-        self._x_backend = x_a
-        self._axis_backend = int(axis)
-        self._extrapolate_backend = True if extrapolate is None else extrapolate
-        self._y: NDArrayFloat = y_a
-
-    def __call__(self, x: Any, nu: Any = 0, extrapolate: Any = None) -> Any:
+    def _evaluate(self, x: Any, nu: Any = 0, extrapolate: Any = None) -> Any:
         """Evaluate the piecewise cubic interpolant at specified point(s)."""
 
         xp = array_namespace(x, self._y)
-        if is_numpy_namespace(xp):
-            return super().__call__(as_ndarray(x), nu=nu, extrapolate=extrapolate)
 
-        x, x_i, y_i = _interpolation_backend_arrays(x, self._x_backend, self._y, xp)
-        y_i = _interpolation_values_axis_to_front(y_i, self._axis_backend, xp)
+        x, x_i, y_i = _interpolation_backend_arrays(x, self.x, self._y, xp)
+        y_i = _interpolation_values_axis_to_front(y_i, self.axis, xp)
         y_shape = y_i.shape
         y_i = xp_reshape(y_i, (y_shape[0], -1), xp=xp)
         h = x_i[1:] - x_i[:-1]
@@ -1898,49 +1883,193 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
             values = xp.zeros_like(coefficient_3)
 
         values = xp_reshape(values, (*x.shape, *y_shape[1:]), xp=xp)
-        values = _restore_interpolation_axis(values, x.ndim, self._axis_backend, xp)
+        values = _restore_interpolation_axis(values, x.ndim, self.axis, xp)
 
-        extrapolate = self._extrapolate_backend if extrapolate is None else extrapolate
+        extrapolate = self._extrapolate if extrapolate is None else extrapolate
         if not extrapolate:
             outside = (x < x_i[0]) | (x > x_i[-1])
             remaining_ndim = self._y.ndim - 1
             outside = xp_reshape(
                 outside, (*outside.shape, *((1,) * remaining_ndim)), xp=xp
             )
-            outside = _restore_interpolation_axis(
-                outside, x.ndim, self._axis_backend, xp
-            )
+            outside = _restore_interpolation_axis(outside, x.ndim, self.axis, xp)
             values = xp.where(
                 outside, xp_as_float_array(np.nan, xp=xp, like=values), values
             )
 
         return values
 
+
+class _BackendAwareInterpolator:
+    """
+    Dispatch interpolation to *SciPy* for *NumPy* inputs and to a native
+    :class:`_ArrayInterpolator` implementation for every other array namespace.
+
+    *NumPy* arrays are evaluated with *SciPy* as the numeric reference. Every
+    other array namespace, and non-*NumPy* queries against a *NumPy*-built
+    interpolator, use the native, automatic-differentiation-preserving
+    implementation. Subclasses provide the two implementation factories.
+    """
+
+    def __init__(self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any) -> None:
+        # The *SciPy* reference is built first so it owns the *NumPy* domain
+        # error messages; the native implementation is always built to service
+        # non-*NumPy* queries and to expose the ``x`` and ``y`` attributes.
+        self._scipy = (
+            self._scipy_interpolator(x, y, *args, **kwargs)
+            if is_numpy_namespace(array_namespace(y))
+            else None
+        )
+        self._array = self._array_interpolator(x, y, *args, **kwargs)
+
+    def __call__(self, x: Any, *args: Any, **kwargs: Any) -> Any:
+        """Evaluate the interpolant at the specified point(s)."""
+
+        xp = array_namespace(x, self._array.y)
+        if is_numpy_namespace(xp) and self._scipy is not None:
+            return self._scipy(as_ndarray(x), *args, **kwargs)
+
+        return self._array(x, *args, **kwargs)
+
+    @property
+    def x(self) -> NDArrayFloat:
+        """Getter for the independent and already known :math:`x` variable."""
+
+        return self._array.x
+
     @property
     def y(self) -> NDArrayFloat:
-        """
-        Getter and setter for the dependent and already known
-        :math:`y` variable.
-
-        Parameters
-        ----------
-        value
-            Value to set the dependent and already known :math:`y` variable
-            with.
-
-        Returns
-        -------
-        :class:`numpy.ndarray`
-            Dependent and already known :math:`y` variable.
+        """Getter and setter for the dependent and already known :math:`y`
+        variable.
         """
 
-        return self._y
+        return self._array.y
 
     @y.setter
     def y(self, value: ArrayLike) -> None:
         """Setter for the **self.y** property."""
 
-        self._y = as_float_array(value)
+        self._array.y = value
+
+    def _scipy_interpolator(
+        self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any
+    ) -> Any:
+        """Return the *SciPy* interpolator used for *NumPy* evaluation."""
+
+        raise NotImplementedError
+
+    def _array_interpolator(
+        self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any
+    ) -> _ArrayInterpolator:
+        """Return the native :class:`_ArrayInterpolator` implementation."""
+
+        raise NotImplementedError
+
+
+class CubicSplineInterpolator(_BackendAwareInterpolator):
+    """
+    Perform cubic spline interpolation on one-dimensional data.
+
+    Provide smooth interpolation through specified data points using
+    piecewise cubic polynomials. The resulting interpolant maintains
+    continuity in the function and its first two derivatives at data
+    points, making it suitable for spectral data and colour science
+    applications requiring smooth transitions between measured values.
+
+    Methods
+    -------
+    -   :meth:`~colour.CubicSplineInterpolator.__init__`
+
+    Notes
+    -----
+    -   *NumPy* arrays are evaluated with :class:`scipy.interpolate.interp1d`
+        for ``kind="cubic"``; other array namespaces use an equivalent native
+        *not-a-knot* cubic spline that preserves automatic differentiation
+        graphs with respect to dependent values and evaluation points. The
+        known knot locations are structural and are not differentiable inputs.
+    """
+
+    def _scipy_interpolator(
+        self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any
+    ) -> Any:
+        """Return the *SciPy* ``kind="cubic"`` interpolator."""
+
+        kwargs = {"axis": 0, **kwargs, "kind": "cubic"}
+
+        return scipy.interpolate.interp1d(
+            as_ndarray(x),
+            as_ndarray(xp_as_float_array(y, xp=array_namespace(y))),
+            *args,
+            **kwargs,
+        )
+
+    def _array_interpolator(
+        self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any
+    ) -> _ArrayCubicSplineInterpolator:
+        """Return the native cubic spline implementation."""
+
+        # *SciPy* ``interp1d`` positional order is ``x, y, kind, axis, ...``.
+        return _ArrayCubicSplineInterpolator(
+            x,
+            y,
+            axis=kwargs.get("axis", args[1] if len(args) > 1 else 0),
+            bounds_error=kwargs.get("bounds_error"),
+            fill_value=kwargs.get("fill_value", np.nan),
+            assume_sorted=kwargs.get("assume_sorted", False),
+        )
+
+
+class PchipInterpolator(_BackendAwareInterpolator):
+    """
+    Interpolate a 1-D function using Piecewise Cubic Hermite Interpolating
+    Polynomial (PCHIP) interpolation.
+
+    PCHIP interpolation constructs a smooth curve through specified data
+    points while preserving monotonicity between consecutive points. This
+    method ensures that the interpolated values do not exhibit spurious
+    oscillations, making it particularly suitable for colour science
+    applications where physical constraints must be respected.
+
+    Attributes
+    ----------
+    -   :attr:`~colour.PchipInterpolator.x`
+    -   :attr:`~colour.PchipInterpolator.y`
+
+    Methods
+    -------
+    -   :meth:`~colour.PchipInterpolator.__init__`
+
+    Notes
+    -----
+    -   *NumPy* arrays are evaluated with
+        :class:`scipy.interpolate.PchipInterpolator`; other array namespaces
+        use an equivalent native implementation that preserves automatic
+        differentiation graphs with respect to dependent values and evaluation
+        points within a stable slope-selection branch. The known knot locations
+        are structural and are not differentiable inputs.
+    """
+
+    def _scipy_interpolator(
+        self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any
+    ) -> Any:
+        """Return the *SciPy* PCHIP interpolator."""
+
+        return scipy.interpolate.PchipInterpolator(
+            as_ndarray(x),
+            as_ndarray(xp_as_float_array(y, xp=array_namespace(y))),
+            *args,
+            **kwargs,
+        )
+
+    def _array_interpolator(
+        self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any
+    ) -> _ArrayPchipInterpolator:
+        """Return the native PCHIP implementation."""
+
+        axis = kwargs.get("axis", args[0] if args else 0)
+        extrapolate = kwargs.get("extrapolate", args[1] if len(args) > 1 else None)
+
+        return _ArrayPchipInterpolator(x, y, axis=axis, extrapolate=extrapolate)
 
 
 class NullInterpolator:

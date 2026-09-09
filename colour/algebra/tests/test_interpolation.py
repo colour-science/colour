@@ -20,6 +20,7 @@ from itertools import product
 
 import numpy as np
 import pytest
+import scipy.interpolate
 
 from colour.algebra import (
     CubicSplineInterpolator,
@@ -40,6 +41,10 @@ from colour.algebra import (
     table_interpolation,
     table_interpolation_tetrahedral,
     table_interpolation_trilinear,
+)
+from colour.algebra.interpolation import (
+    _ArrayCubicSplineInterpolator,
+    _ArrayPchipInterpolator,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import NDArrayFloat, cast
@@ -1501,7 +1506,14 @@ __call__` method.
                 assert xp.any(gradient != 0)
 
     def test__call__scipy_parity(self, xp: ModuleType) -> None:
-        """Test backend-native results against *SciPy* cubic splines."""
+        """
+        Test the native cubic spline against an independently constructed
+        *SciPy* :class:`scipy.interpolate.interp1d` reference.
+
+        The native implementation is exercised directly so the comparison holds
+        for every backend, including *NumPy*, rather than delegating back to
+        *SciPy*.
+        """
 
         x = np.array([0.0, 0.4, 1.1, 2.0, 3.5, 5.0])
         y = np.array(
@@ -1516,11 +1528,14 @@ __call__` method.
             {"axis": -1, "fill_value": "extrapolate"},
             {"axis": -1, "bounds_error": False, "fill_value": (-1, 2)},
         ):
-            interpolator = CubicSplineInterpolator(x, y, **kwargs)
-            expected = interpolator(x_e)
-            result = interpolator(xp_as_array(x_e, xp=xp))
+            reference = scipy.interpolate.interp1d(x, y, kind="cubic", **kwargs)
+            native = _ArrayCubicSplineInterpolator(x, y, **kwargs)
 
-            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            xp_assert_close(
+                native(xp_as_array(x_e, xp=xp)),
+                reference(x_e),
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
 
 
 class TestPchipInterpolator:
@@ -1596,7 +1611,14 @@ class TestPchipInterpolator:
                 assert xp.any(gradient != 0)
 
     def test__call__scipy_parity(self, xp: ModuleType) -> None:
-        """Test backend-native results against *SciPy* PCHIP interpolation."""
+        """
+        Test the native PCHIP interpolant against an independently constructed
+        *SciPy* :class:`scipy.interpolate.PchipInterpolator` reference.
+
+        The native implementation is exercised directly so the comparison holds
+        for every backend, including *NumPy*, rather than delegating back to
+        *SciPy*.
+        """
 
         x = np.array([0.0, 0.4, 1.1, 2.0, 3.5, 5.0])
         y = np.array(
@@ -1606,17 +1628,22 @@ class TestPchipInterpolator:
             ]
         )
         x_e = np.linspace(x[0] - 0.2, x[-1] + 0.2, 19)
-        interpolator = PchipInterpolator(x, y, axis=-1)
+
+        reference = scipy.interpolate.PchipInterpolator(x, y, axis=-1)
+        native = _ArrayPchipInterpolator(x, y, axis=-1)
 
         for derivative in range(5):
-            expected = interpolator(x_e, nu=derivative)
-            result = interpolator(xp_as_array(x_e, xp=xp), nu=derivative)
+            xp_assert_close(
+                native(xp_as_array(x_e, xp=xp), nu=derivative),
+                reference(x_e, nu=derivative),
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
 
-            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
-
-        expected = interpolator(x_e, extrapolate=False)
-        result = interpolator(xp_as_array(x_e, xp=xp), extrapolate=False)
-        xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(
+            native(xp_as_array(x_e, xp=xp), extrapolate=False),
+            reference(x_e, extrapolate=False),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
 
 
 class TestNullInterpolator:
