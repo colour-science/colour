@@ -4,6 +4,8 @@ Backend-agnostic constants shared by the interpolator implementations.
 
 from __future__ import annotations
 
+from typing import Any
+
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
@@ -12,9 +14,33 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "validate_dimensions",
+    "validate_extrapolation_method",
     "SPRAGUE_C_COEFFICIENTS",
     "SPRAGUE_A_COEFFICIENTS",
 ]
+
+
+def validate_dimensions(x: Any, y: Any) -> None:
+    """Raise if the independent and dependent variables differ in length."""
+
+    if len(x) != len(y):
+        error = (
+            f'"x" and "y" variables have different dimensions: "{len(x)}", "{len(y)}"'
+        )
+        raise ValueError(error)
+
+
+def validate_extrapolation_method(method: Any) -> str:
+    """Return the lower-cased extrapolation method, raising if unsupported."""
+
+    method = str(method).lower()
+    if method not in ("linear", "constant"):
+        error = f'"method" must be one of "Linear", "Constant", not "{method}"!'
+        raise ValueError(error)
+
+    return method
+
 
 SPRAGUE_C_COEFFICIENTS: tuple[tuple[float, ...], ...] = (
     (884.0, -1960.0, 3033.0, -2648.0, 1080.0, -180.0),

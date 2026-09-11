@@ -20,7 +20,6 @@ from itertools import product
 
 import numpy as np
 import pytest
-import scipy.interpolate
 
 from colour.algebra import (
     CubicSplineInterpolator,
@@ -41,10 +40,6 @@ from colour.algebra import (
     table_interpolation,
     table_interpolation_tetrahedral,
     table_interpolation_trilinear,
-)
-from colour.algebra.interpolation import (
-    _ArrayCubicSplineInterpolator,
-    _ArrayPchipInterpolator,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import NDArrayFloat, cast
@@ -530,7 +525,7 @@ class TestKernelNearestNeighbour:
         """
 
         xp_assert_close(
-            kernel_nearest_neighbour(xp_linspace(-5, 5, num=25, xp=xp)),  # pyright: ignore
+            kernel_nearest_neighbour(xp_linspace(-5, 5, num=25, xp=xp)),
             [
                 0,
                 0,
@@ -572,7 +567,7 @@ class TestKernelLinear:
         """Test :func:`colour.algebra.interpolation.kernel_linear` definition."""
 
         xp_assert_close(
-            kernel_linear(xp_linspace(-5, 5, num=25, xp=xp)),  # pyright: ignore
+            kernel_linear(xp_linspace(-5, 5, num=25, xp=xp)),
             [
                 0.00000000,
                 0.00000000,
@@ -614,7 +609,7 @@ class TestKernelSinc:
         """Test :func:`colour.algebra.interpolation.kernel_sinc` definition."""
 
         xp_assert_close(
-            kernel_sinc(xp_linspace(-5, 5, num=25, xp=xp)),  # pyright: ignore
+            kernel_sinc(xp_linspace(-5, 5, num=25, xp=xp)),
             [
                 0.00000000,
                 0.00000000,
@@ -646,7 +641,7 @@ class TestKernelSinc:
         )
 
         xp_assert_close(
-            kernel_sinc(xp_linspace(-5, 5, num=25, xp=xp), 1),  # pyright: ignore
+            kernel_sinc(xp_linspace(-5, 5, num=25, xp=xp), 1),
             [
                 0.00000000,
                 0.00000000,
@@ -688,7 +683,7 @@ class TestKernelLanczos:
         """Test :func:`colour.algebra.interpolation.kernel_lanczos` definition."""
 
         xp_assert_close(
-            kernel_lanczos(xp_linspace(-5, 5, num=25, xp=xp)),  # pyright: ignore
+            kernel_lanczos(xp_linspace(-5, 5, num=25, xp=xp)),
             [
                 0.00000000e00,
                 0.00000000e00,
@@ -720,7 +715,7 @@ class TestKernelLanczos:
         )
 
         xp_assert_close(
-            kernel_lanczos(xp_linspace(-5, 5, num=25, xp=xp), 1),  # pyright: ignore
+            kernel_lanczos(xp_linspace(-5, 5, num=25, xp=xp), 1),
             [
                 0.00000000,
                 0.00000000,
@@ -765,7 +760,7 @@ class TestKernelCardinalSpline:
         """
 
         xp_assert_close(
-            kernel_cardinal_spline(xp_linspace(-5, 5, num=25, xp=xp)),  # pyright: ignore
+            kernel_cardinal_spline(xp_linspace(-5, 5, num=25, xp=xp)),
             [
                 0.00000000,
                 0.00000000,
@@ -797,7 +792,7 @@ class TestKernelCardinalSpline:
         )
 
         xp_assert_close(
-            kernel_cardinal_spline(xp_linspace(-5, 5, num=25, xp=xp), 0, 1),  # pyright: ignore
+            kernel_cardinal_spline(xp_linspace(-5, 5, num=25, xp=xp), 0, 1),
             [
                 0.00000000,
                 0.00000000,
@@ -1191,16 +1186,15 @@ class TestNearestNeighbourInterpolator:
 
     def test___init__(self) -> None:
         """
-        Test :meth:`colour.algebra.interpolation.KernelInterpolator.__init__`
-        method.
+        Test :meth:`colour.algebra.interpolation.NearestNeighbourInterpolator.\
+__init__` method.
         """
 
         x = y = np.linspace(0, 1, 10)
-        nearest_neighbour_interpolator = NearestNeighbourInterpolator(
-            x, y, kernel_kwargs={"a": 1}
-        )
+        nearest_neighbour_interpolator = NearestNeighbourInterpolator(x, y)
 
-        assert nearest_neighbour_interpolator.kernel_kwargs == {}
+        xp_assert_equal(nearest_neighbour_interpolator.x, x)
+        xp_assert_equal(nearest_neighbour_interpolator.y, y)
 
 
 class TestLinearInterpolator:
@@ -1433,7 +1427,7 @@ class TestSpragueInterpolator:
             try:
                 sprague_interpolator = SpragueInterpolator(case, case)
                 sprague_interpolator(case[0])  # pragma: no cover
-            except AssertionError:
+            except (AssertionError, ValueError):
                 pass
 
 
@@ -1504,38 +1498,6 @@ __call__` method.
             for gradient in gradients:
                 assert xp.isfinite(gradient).all()
                 assert xp.any(gradient != 0)
-
-    def test__call__scipy_parity(self, xp: ModuleType) -> None:
-        """
-        Test the native cubic spline against an independently constructed
-        *SciPy* :class:`scipy.interpolate.interp1d` reference.
-
-        The native implementation is exercised directly so the comparison holds
-        for every backend, including *NumPy*, rather than delegating back to
-        *SciPy*.
-        """
-
-        x = np.array([0.0, 0.4, 1.1, 2.0, 3.5, 5.0])
-        y = np.array(
-            [
-                [0.2, 0.8, 0.3, 1.2, 0.9, 1.5],
-                [1.1, 0.7, 1.4, 0.5, 1.0, 0.8],
-            ]
-        )
-        x_e = np.linspace(x[0] - 0.2, x[-1] + 0.2, 19)
-
-        for kwargs in (
-            {"axis": -1, "fill_value": "extrapolate"},
-            {"axis": -1, "bounds_error": False, "fill_value": (-1, 2)},
-        ):
-            reference = scipy.interpolate.interp1d(x, y, kind="cubic", **kwargs)
-            native = _ArrayCubicSplineInterpolator(x, y, **kwargs)
-
-            xp_assert_close(
-                native(xp_as_array(x_e, xp=xp)),
-                reference(x_e),
-                atol=TOLERANCE_ABSOLUTE_TESTS,
-            )
 
 
 class TestPchipInterpolator:
@@ -1609,41 +1571,6 @@ class TestPchipInterpolator:
             for gradient in gradients:
                 assert xp.isfinite(gradient).all()
                 assert xp.any(gradient != 0)
-
-    def test__call__scipy_parity(self, xp: ModuleType) -> None:
-        """
-        Test the native PCHIP interpolant against an independently constructed
-        *SciPy* :class:`scipy.interpolate.PchipInterpolator` reference.
-
-        The native implementation is exercised directly so the comparison holds
-        for every backend, including *NumPy*, rather than delegating back to
-        *SciPy*.
-        """
-
-        x = np.array([0.0, 0.4, 1.1, 2.0, 3.5, 5.0])
-        y = np.array(
-            [
-                [0.2, 0.8, 0.3, 1.2, 0.9, 1.5],
-                [1.1, 0.7, 1.4, 0.5, 1.0, 0.8],
-            ]
-        )
-        x_e = np.linspace(x[0] - 0.2, x[-1] + 0.2, 19)
-
-        reference = scipy.interpolate.PchipInterpolator(x, y, axis=-1)
-        native = _ArrayPchipInterpolator(x, y, axis=-1)
-
-        for derivative in range(5):
-            xp_assert_close(
-                native(xp_as_array(x_e, xp=xp), nu=derivative),
-                reference(x_e, nu=derivative),
-                atol=TOLERANCE_ABSOLUTE_TESTS,
-            )
-
-        xp_assert_close(
-            native(xp_as_array(x_e, xp=xp), extrapolate=False),
-            reference(x_e, extrapolate=False),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
 
 
 class TestNullInterpolator:

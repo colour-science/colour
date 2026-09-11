@@ -3,8 +3,8 @@ Unit tests for the :mod:`colour.utilities.array_api.interpolation` dispatching
 interpolators.
 
 Backend-parametrised: each interpolator is exercised on every backend whose
-framework is installed *and* whose ``backends`` submodule exists, so coverage
-grows automatically as backends are added.
+framework is installed *and* whose ``backends`` submodule exists, so
+coverage grows automatically as backends are added.
 """
 
 from __future__ import annotations
@@ -16,6 +16,7 @@ import numpy as np
 import pytest
 import scipy.interpolate
 
+from colour.utilities import array_api_enable
 from colour.utilities.array_api.interpolation import (
     CubicSplineInterpolator,
     Extrapolator,
@@ -107,6 +108,32 @@ def test_detect_backend_numpy() -> None:
 
     assert detect_backend(_X, _Y) == "numpy"
     assert detect_backend([0.0, 1.0], 2.0) == "numpy"
+
+
+def test_numpy_data_backend_query_namespace(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
+    """
+    Test that a *NumPy*-data interpolator or extrapolator evaluated at a backend
+    query returns the result in the query's namespace.
+
+    Sampling *NumPy* data (e.g. a colour matching function) at a *PyTorch* /
+    *JAX* query must not drop back to *NumPy*: the output follows the union of
+    the data and query namespaces.
+    """
+
+    name, cast = backend
+
+    interpolator = LinearInterpolator(_X, _Y)  # *NumPy* data.
+    assert interpolator.backend == "numpy"
+
+    # A backend result follows the query only while Array API dispatch is
+    # enabled, matching how the ``colour`` interpolators are used on backends.
+    with array_api_enable(name != "numpy"):
+        assert detect_backend(interpolator(cast(_X_E))) == name
+
+        extrapolator = Extrapolator(LinearInterpolator(_X, _Y), left=0.0)
+        assert detect_backend(extrapolator(cast(_X_E))) == name
 
 
 def test_cubic_spline_matches_scipy(
@@ -217,6 +244,41 @@ def test_sprague(backend: tuple[str, Callable[[Any], Any]]) -> None:
     np.testing.assert_allclose(
         _to_numpy(interpolator(cast(_X_E_UNIFORM))), _to_numpy(reference), atol=1e-8
     )
+
+
+def test_null_rank_2(backend: tuple[str, Callable[[Any], Any]]) -> None:
+    """Test the dispatching null interpolator on rank-2 dependent data."""
+
+    _name, cast = backend
+    y2 = np.stack([_Y, 2.0 * _Y], axis=-1)
+    query = np.array([_X[0], 0.5, _X[2], 3.0])  # knots and non-knots, in range
+    reference = NullInterpolator(_X, y2)(query)
+    np.testing.assert_allclose(
+        _to_numpy(NullInterpolator(cast(_X), cast(y2))(cast(query))),
+        _to_numpy(reference),
+        atol=1e-10,
+        equal_nan=True,
+    )
+
+
+def test_null_attributes(backend: tuple[str, Callable[[Any], Any]]) -> None:
+    """Test that null interpolator tolerance attributes are exposed."""
+
+    _name, cast = backend
+    interpolator = NullInterpolator(
+        cast(_X), cast(_Y), absolute_tolerance=0.1, relative_tolerance=0.2, default=0.0
+    )
+    assert interpolator.absolute_tolerance == 0.1
+    assert interpolator.relative_tolerance == 0.2
+    assert interpolator.default == 0.0
+
+
+def test_dimension_validation(backend: tuple[str, Callable[[Any], Any]]) -> None:
+    """Test that mismatched variable dimensions raise a ``ValueError``."""
+
+    _name, cast = backend
+    with pytest.raises(ValueError):
+        LinearInterpolator(cast(_X), cast(_Y[:-1]))
 
 
 def test_torch_autodiff() -> None:

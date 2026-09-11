@@ -15,6 +15,8 @@ from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
+from colour.constants import DTYPE_FLOAT_DEFAULT
+
 if TYPE_CHECKING:
     from types import ModuleType
 
@@ -52,7 +54,7 @@ def _namespace(x: Any) -> tuple[ModuleType, Any]:
     if root in ("jax", "jaxlib"):
         return importlib.import_module("jax.numpy"), x
 
-    return np, np.asarray(x, dtype=np.float64)
+    return np, np.asarray(x, dtype=DTYPE_FLOAT_DEFAULT)
 
 
 def kernel_nearest_neighbour(x: Any) -> Any:
