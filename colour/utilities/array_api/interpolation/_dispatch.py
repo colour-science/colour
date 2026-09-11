@@ -78,6 +78,25 @@ def _backend_module(backend: str) -> ModuleType:
     return importlib.import_module(_BACKEND_MODULES[backend], __package__)
 
 
+def _match_query_namespace(result: Any, x: Any, backend: str) -> Any:
+    """
+    Return the evaluation ``result`` in the query's array namespace.
+
+    The backend is resolved from the interpolator data at construction, so a
+    *NumPy*-backed interpolator (NumPy data) evaluated at a *PyTorch* or *JAX*
+    query returns a *NumPy* result. Promote it to the query namespace so the
+    output follows the union of the data and query namespaces, as expected when
+    e.g. sampling a *NumPy* colour matching function at a backend wavelength.
+    """
+
+    if backend != "numpy" or detect_backend(x) == "numpy":
+        return result
+
+    from colour.utilities import array_namespace, xp_as_array  # noqa: PLC0415
+
+    return xp_as_array(result, xp=array_namespace(x), like=x)
+
+
 class _DispatchingInterpolator:
     """
     Construct the backend-specialised implementation matching the namespace of
@@ -95,7 +114,17 @@ class _DispatchingInterpolator:
     def __call__(self, x: Any, *args: Any, **kwargs: Any) -> Any:
         """Evaluate the interpolant at the specified point(s)."""
 
-        return self._implementation(x, *args, **kwargs)
+        result = self._implementation(x, *args, **kwargs)
+
+        return _match_query_namespace(result, x, self._backend)
+
+    def __getattr__(self, name: str) -> Any:
+        """Delegate unknown attributes to the backend implementation."""
+
+        if name == "_implementation":
+            raise AttributeError(name)
+
+        return getattr(self._implementation, name)
 
     @property
     def backend(self) -> str:
@@ -208,7 +237,9 @@ class Extrapolator:
     def __call__(self, x: Any, *args: Any, **kwargs: Any) -> Any:
         """Evaluate the extrapolator at the specified point(s)."""
 
-        return self._implementation(x, *args, **kwargs)
+        result = self._implementation(x, *args, **kwargs)
+
+        return _match_query_namespace(result, x, self._backend)
 
     @property
     def backend(self) -> str:
@@ -218,24 +249,48 @@ class Extrapolator:
 
     @property
     def interpolator(self) -> Any:
-        """Getter for the wrapped interpolator."""
+        """Getter and setter for the wrapped interpolator."""
 
         return self._implementation.interpolator
 
+    @interpolator.setter
+    def interpolator(self, value: Any) -> None:
+        """Setter for the **self.interpolator** property."""
+
+        self._implementation.interpolator = value
+
     @property
     def method(self) -> Any:
-        """Getter for the extrapolation method."""
+        """Getter and setter for the extrapolation method."""
 
         return self._implementation.method
 
+    @method.setter
+    def method(self, value: Any) -> None:
+        """Setter for the **self.method** property."""
+
+        self._implementation.method = value
+
     @property
     def left(self) -> Any:
-        """Getter for the left boundary value."""
+        """Getter and setter for the left boundary value."""
 
         return self._implementation.left
 
+    @left.setter
+    def left(self, value: Any) -> None:
+        """Setter for the **self.left** property."""
+
+        self._implementation.left = value
+
     @property
     def right(self) -> Any:
-        """Getter for the right boundary value."""
+        """Getter and setter for the right boundary value."""
 
         return self._implementation.right
+
+    @right.setter
+    def right(self, value: Any) -> None:
+        """Setter for the **self.right** property."""
+
+        self._implementation.right = value

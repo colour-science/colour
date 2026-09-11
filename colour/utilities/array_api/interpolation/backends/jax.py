@@ -20,7 +20,12 @@ from typing import TYPE_CHECKING, Any
 import jax
 import jax.numpy as jnp
 
-from ._core import SPRAGUE_A_COEFFICIENTS, SPRAGUE_C_COEFFICIENTS
+from ._core import (
+    SPRAGUE_A_COEFFICIENTS,
+    SPRAGUE_C_COEFFICIENTS,
+    validate_dimensions,
+    validate_extrapolation_method,
+)
 from ._kernels import kernel_lanczos
 
 if TYPE_CHECKING:
@@ -448,6 +453,7 @@ class LinearInterpolator:
     def __init__(self, x: Any, y: Any, *args: Any, **kwargs: Any) -> None:  # noqa: ARG002
         self._x = _as_float(x)
         self._y = _as_float(y)
+        validate_dimensions(self._x, self._y)
 
     def __call__(self, x: Any) -> jnp.ndarray:
         """Evaluate the linear interpolant at the specified point(s)."""
@@ -534,14 +540,16 @@ class NullInterpolator:
     ) -> None:
         self._x = _as_float(x)
         self._y = _as_float(y)
-        self._absolute_tolerance = float(absolute_tolerance)
-        self._relative_tolerance = float(relative_tolerance)
-        self._default = default
+        validate_dimensions(self._x, self._y)
+        self.absolute_tolerance = float(absolute_tolerance)
+        self.relative_tolerance = float(relative_tolerance)
+        self.default = default
 
     def __call__(self, x: Any) -> jnp.ndarray:
         """Evaluate the null interpolant at the specified point(s)."""
 
         x = jnp.asarray(x, dtype=self._y.dtype)
+        _validate_range(x, self._x)
 
         right = jnp.clip(jnp.searchsorted(self._x, x), 0, len(self._x) - 1)
         left = jnp.clip(right - 1, 0, len(self._x) - 1)
@@ -551,14 +559,17 @@ class NullInterpolator:
         nearest = jnp.where(choose_left, left, right)
         distance = jnp.where(choose_left, distance_left, distance_right)
 
-        tolerance = self._absolute_tolerance + self._relative_tolerance * jnp.abs(
+        tolerance = self.absolute_tolerance + self.relative_tolerance * jnp.abs(
             self._x[nearest]
         )
+        matched = distance <= tolerance
+        if self._y.ndim > 1:
+            matched = matched[..., None]
 
         return jnp.where(
-            distance <= tolerance,
+            matched,
             self._y[nearest],
-            jnp.asarray(self._default, dtype=self._y.dtype),
+            jnp.asarray(self.default, dtype=self._y.dtype),
         )
 
     @property
@@ -586,6 +597,7 @@ class SpragueInterpolator:
     def __init__(self, x: Any, y: Any, *args: Any, **kwargs: Any) -> None:  # noqa: ARG002
         self._x = _as_float(x)
         self._y = _as_float(y)
+        validate_dimensions(self._x, self._y)
 
         if self._y.shape[0] < 6:
             error = "Sprague interpolation requires at least 6 points."
@@ -841,39 +853,57 @@ class Extrapolator:
                 jnp.array([-jnp.inf, jnp.inf]), jnp.array([-jnp.inf, jnp.inf])
             )
         self._interpolator = interpolator
-
-        method = str(method).lower()
-        if method not in ("linear", "constant"):
-            error = f'"method" must be one of "Linear", "Constant", not "{method}"!'
-            raise ValueError(error)
-        self._method = method
-
+        self.method = method
         self._left = left
         self._right = right
 
     @property
     def interpolator(self) -> Any:
-        """Getter for the wrapped interpolator."""
+        """Getter and setter for the wrapped interpolator."""
 
         return self._interpolator
 
+    @interpolator.setter
+    def interpolator(self, value: Any) -> None:
+        """Setter for the **self.interpolator** property."""
+
+        self._interpolator = value
+
     @property
     def method(self) -> str:
-        """Getter for the extrapolation method."""
+        """Getter and setter for the extrapolation method."""
 
         return self._method
 
+    @method.setter
+    def method(self, value: Any) -> None:
+        """Setter for the **self.method** property."""
+
+        self._method = validate_extrapolation_method(value)
+
     @property
     def left(self) -> float | None:
-        """Getter for the left boundary value (``x < xi[0]``)."""
+        """Getter and setter for the left boundary value (``x < xi[0]``)."""
 
         return self._left
 
+    @left.setter
+    def left(self, value: float | None) -> None:
+        """Setter for the **self.left** property."""
+
+        self._left = value
+
     @property
     def right(self) -> float | None:
-        """Getter for the right boundary value (``x > xi[-1]``)."""
+        """Getter and setter for the right boundary value (``x > xi[-1]``)."""
 
         return self._right
+
+    @right.setter
+    def right(self, value: float | None) -> None:
+        """Setter for the **self.right** property."""
+
+        self._right = value
 
     def __call__(self, x: Any) -> jnp.ndarray:
         """Evaluate the extrapolator at the specified point(s)."""
