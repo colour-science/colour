@@ -20,6 +20,7 @@ from itertools import product
 
 import numpy as np
 import pytest
+import scipy.interpolate
 
 from colour.algebra import (
     CubicSplineInterpolator,
@@ -40,6 +41,10 @@ from colour.algebra import (
     table_interpolation,
     table_interpolation_tetrahedral,
     table_interpolation_trilinear,
+)
+from colour.algebra.interpolation import (
+    _ArrayCubicSplineInterpolator,
+    _ArrayPchipInterpolator,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import NDArrayFloat, cast
@@ -1268,6 +1273,22 @@ class TestLinearInterpolator:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+    def test__call__autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
+        """Test gradients through vector-valued linear interpolation."""
+
+        x = np.arange(6)
+        x_i = np.arange(0, 5.1, 0.5)
+        for y in (
+            np.linspace(0, 1, 6),
+            np.transpose([np.linspace(0, 1, 6), np.linspace(1, 2, 6)]),
+        ):
+            _result, (gradient,), _inputs = autodiff(
+                lambda values: LinearInterpolator(x, values)(x_i), y
+            )
+
+            assert xp.isfinite(gradient).all()
+            assert xp.any(gradient != 0)
+
     def test_raise_exception___call__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.LinearInterpolator.__call__`
@@ -1370,6 +1391,20 @@ class TestSpragueInterpolator:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+    def test__call__autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
+        """Test gradients through vector-valued Sprague interpolation."""
+
+        x = np.arange(6)
+        x_i = np.arange(0, 5.1, 0.5)
+        y = np.transpose([np.linspace(0, 1, 6), np.linspace(1, 2, 6)])
+
+        _result, (gradient,), _inputs = autodiff(
+            lambda values: SpragueInterpolator(x, values)(x_i), y
+        )
+
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
+
     def test_raise_exception___call__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.SpragueInterpolator.__call__`
@@ -1440,6 +1475,68 @@ __call__` method.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+    def test__call__autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
+        """Test numerical gradients through cubic spline interpolation."""
+
+        x = np.array([0.0, 0.4, 1.1, 2.0, 3.5, 5.0])
+        x_e = np.linspace(x[0] + 0.05, x[-1] - 0.05, 17)
+        for y in (
+            np.array([0.2, 0.8, 0.3, 1.2, 0.9, 1.5]),
+            np.array(
+                [
+                    [0.2, 1.1],
+                    [0.8, 0.7],
+                    [0.3, 1.4],
+                    [1.2, 0.5],
+                    [0.9, 1.0],
+                    [1.5, 0.8],
+                ]
+            ),
+        ):
+            expected = CubicSplineInterpolator(x, y)(x_e)
+            result, gradients, _inputs = autodiff(
+                lambda values, query: CubicSplineInterpolator(x, values)(query),
+                y,
+                x_e,
+            )
+
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            for gradient in gradients:
+                assert xp.isfinite(gradient).all()
+                assert xp.any(gradient != 0)
+
+    def test__call__scipy_parity(self, xp: ModuleType) -> None:
+        """
+        Test the native cubic spline against an independently constructed
+        *SciPy* :class:`scipy.interpolate.interp1d` reference.
+
+        The native implementation is exercised directly so the comparison holds
+        for every backend, including *NumPy*, rather than delegating back to
+        *SciPy*.
+        """
+
+        x = np.array([0.0, 0.4, 1.1, 2.0, 3.5, 5.0])
+        y = np.array(
+            [
+                [0.2, 0.8, 0.3, 1.2, 0.9, 1.5],
+                [1.1, 0.7, 1.4, 0.5, 1.0, 0.8],
+            ]
+        )
+        x_e = np.linspace(x[0] - 0.2, x[-1] + 0.2, 19)
+
+        for kwargs in (
+            {"axis": -1, "fill_value": "extrapolate"},
+            {"axis": -1, "bounds_error": False, "fill_value": (-1, 2)},
+        ):
+            reference = scipy.interpolate.interp1d(x, y, kind="cubic", **kwargs)
+            native = _ArrayCubicSplineInterpolator(x, y, **kwargs)
+
+            xp_assert_close(
+                native(xp_as_array(x_e, xp=xp)),
+                reference(x_e),
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
 
 class TestPchipInterpolator:
     """
@@ -1480,6 +1577,71 @@ class TestPchipInterpolator:
         xp_assert_close(
             PchipInterpolator(x, np.transpose([y, y]))(x_e),
             np.transpose([reference, reference]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test__call__autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
+        """Test numerical gradients through PCHIP interpolation."""
+
+        x = np.array([0.0, 0.4, 1.1, 2.0, 3.5, 5.0])
+        x_e = np.linspace(x[0] + 0.05, x[-1] - 0.05, 17)
+        for y in (
+            np.array([0.2, 0.8, 0.3, 1.2, 0.9, 1.5]),
+            np.array(
+                [
+                    [0.2, 1.1],
+                    [0.8, 0.7],
+                    [0.3, 1.4],
+                    [1.2, 0.5],
+                    [0.9, 1.0],
+                    [1.5, 0.8],
+                ]
+            ),
+        ):
+            expected = PchipInterpolator(x, y)(x_e)
+            result, gradients, _inputs = autodiff(
+                lambda values, query: PchipInterpolator(x, values)(query),
+                y,
+                x_e,
+            )
+
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            for gradient in gradients:
+                assert xp.isfinite(gradient).all()
+                assert xp.any(gradient != 0)
+
+    def test__call__scipy_parity(self, xp: ModuleType) -> None:
+        """
+        Test the native PCHIP interpolant against an independently constructed
+        *SciPy* :class:`scipy.interpolate.PchipInterpolator` reference.
+
+        The native implementation is exercised directly so the comparison holds
+        for every backend, including *NumPy*, rather than delegating back to
+        *SciPy*.
+        """
+
+        x = np.array([0.0, 0.4, 1.1, 2.0, 3.5, 5.0])
+        y = np.array(
+            [
+                [0.2, 0.8, 0.3, 1.2, 0.9, 1.5],
+                [1.1, 0.7, 1.4, 0.5, 1.0, 0.8],
+            ]
+        )
+        x_e = np.linspace(x[0] - 0.2, x[-1] + 0.2, 19)
+
+        reference = scipy.interpolate.PchipInterpolator(x, y, axis=-1)
+        native = _ArrayPchipInterpolator(x, y, axis=-1)
+
+        for derivative in range(5):
+            xp_assert_close(
+                native(xp_as_array(x_e, xp=xp), nu=derivative),
+                reference(x_e, nu=derivative),
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
+        xp_assert_close(
+            native(xp_as_array(x_e, xp=xp), extrapolate=False),
+            reference(x_e, extrapolate=False),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 

@@ -159,7 +159,7 @@ log_decoding_FilmicPro6` clamps a finite input below the toe to ``0``.
         t = log_decoding_FilmicPro6(xp_as_array(toe - 1.0, xp=xp))
 
         xp_assert_equal(t, 0.0)
-        assert np.isfinite(np.asarray(t)).all()
+        assert xp.isfinite(t).all()
 
     def test_n_dimensional_log_decoding_FilmicPro6(self, xp: ModuleType) -> None:
         """

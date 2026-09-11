@@ -42,6 +42,8 @@ from colour.utilities import (
     to_domain_1,
 )
 
+from ._warnings import warn_if_optimisation_detaches
+
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
@@ -183,6 +185,8 @@ def XYZ_to_sd_Meng2015(
     """
 
     from scipy.optimize import minimize  # noqa: PLC0415
+
+    warn_if_optimisation_detaches(XYZ, "Meng 2015")
 
     XYZ = as_ndarray(to_domain_1(XYZ))
 
