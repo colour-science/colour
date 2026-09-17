@@ -45,7 +45,7 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
 from __future__ import annotations
 
 import typing
-from dataclasses import astuple, dataclass, field
+from dataclasses import dataclass, field
 
 if typing.TYPE_CHECKING:
     from colour.hints import (
@@ -751,8 +751,8 @@ dL=np.float64(0.8335333...), dC=np.float64(0.1135407...), \
 dH=np.float64(0.0022239...))
     """
 
-    S_L, S_C, S_H, delta_L_p, delta_C_p, delta_H_p, R_T = astuple(
-        intermediate_attributes_CIE2000(Lab_1, Lab_2)
+    S_L, S_C, S_H, delta_L_p, delta_C_p, delta_H_p, R_T = (
+        intermediate_attributes_CIE2000(Lab_1, Lab_2).values
     )
 
     k_L = 2 if textiles else 1
@@ -1319,8 +1319,8 @@ dL=np.float64(12.7962972...), dC=np.float64(9.6258211...), \
 dH=np.float64(34.5522171...))
     """
 
-    S_L, S_C, S_H, delta_L_p, delta_C_p, delta_H_p, _R_T = astuple(
-        intermediate_attributes_CIE2000(Lab_1, Lab_2)
+    S_L, S_C, S_H, delta_L_p, delta_C_p, delta_H_p, _R_T = (
+        intermediate_attributes_CIE2000(Lab_1, Lab_2).values
     )
 
     k_L = 2 if textiles else 1

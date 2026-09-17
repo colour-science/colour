@@ -852,6 +852,32 @@ tristimulus_weighting_factors_ASTME2022` definition raised exception.
         with pytest.raises(ValueError):
             tristimulus_weighting_factors_ASTME2022(cmfs_2, A_1, shape)
 
+    @pytest.mark.parametrize("interval", [5, 10, 20])
+    def test_tristimulus_weighting_factors_ASTME2022_autodiff(
+        self, interval: int, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test gradients through observer and illuminant spectral values."""
+
+        wavelengths = np.arange(400, 501, 1)
+        cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+        illuminant = SDS_ILLUMINANTS["D65"]
+        cmfs_values = cmfs[wavelengths]
+        illuminant_values = illuminant[wavelengths]
+
+        _W, gradients, _inputs = autodiff(
+            lambda observer, source: tristimulus_weighting_factors_ASTME2022(
+                MultiSpectralDistributions(observer, wavelengths),
+                SpectralDistribution(source, wavelengths),
+                SpectralShape(400, 500, interval),
+            ),
+            cmfs_values,
+            illuminant_values,
+        )
+
+        for gradient in gradients:
+            assert xp.isfinite(gradient).all()
+            assert xp.any(gradient != 0)
+
 
 class TestTristimulusWeightingFactorsIntegration:
     """
@@ -1480,6 +1506,45 @@ class TestSd_to_XYZ_ASTME308:
         with pytest.raises(ValueError):
             sd_to_XYZ_ASTME308(reshape_sd(self._sd, SpectralShape(360, 820, 2)))
 
+    @pytest.mark.parametrize(
+        ("interval", "kwargs"),
+        [
+            (1, {}),
+            (5, {}),
+            (5, {"mi_5nm_omission_method": False}),
+            (10, {}),
+            (20, {}),
+            (20, {"mi_20nm_interpolation_method": False}),
+        ],
+    )
+    def test_sd_to_XYZ_ASTME308_autodiff(
+        self,
+        interval: int,
+        kwargs: dict,
+        xp: ModuleType,
+        autodiff: typing.Callable,
+    ) -> None:
+        """Test gradients through every *ASTM E308* measurement branch."""
+
+        shape = SpectralShape(360, 780, interval)
+        values = np.linspace(0.2, 0.8, len(shape.wavelengths))
+
+        _XYZ, gradients, _inputs = autodiff(
+            lambda spectral_values, k: sd_to_XYZ(
+                SpectralDistribution(spectral_values, shape),
+                self._cmfs,
+                self._A,
+                k=k,
+                **kwargs,
+            ),
+            values,
+            np.array(1.7),
+        )
+
+        for gradient in gradients:
+            assert xp.isfinite(gradient).all()
+            assert xp.any(gradient != 0)
+
 
 class TestSd_to_XYZ:
     """
@@ -1561,6 +1626,122 @@ class TestSd_to_XYZ:
             ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+    def test_sd_to_XYZ_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test numerical gradients when spectral alignment is required."""
+
+        wavelengths = np.arange(400, 701, 50)
+        shape = SpectralShape(380, 780, 10)
+
+        _XYZ, (gradient,), _inputs = autodiff(
+            lambda values: sd_to_XYZ(
+                SpectralDistribution(values, wavelengths),
+                method="Integration",
+                shape=shape,
+            ),
+            np.linspace(0.2, 1.0, len(wavelengths)),
+        )
+
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
+
+    def test_sd_to_XYZ_illuminant_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test numerical gradients through a spectral illuminant."""
+
+        shape = SpectralShape(380, 780, 10)
+        sd = SpectralDistribution(np.linspace(0.2, 1.0, len(shape.wavelengths)), shape)
+        wavelengths = np.arange(400, 701, 50)
+
+        _XYZ, (gradient,), _inputs = autodiff(
+            lambda values: sd_to_XYZ(
+                sd,
+                illuminant=SpectralDistribution(values, wavelengths),
+                method="Integration",
+                shape=shape,
+            ),
+            np.linspace(1.0, 0.2, len(wavelengths)),
+        )
+
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
+
+    def test_sd_to_XYZ_non_uniform_spectral_values_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test gradients through independently sampled spectral inputs."""
+
+        sample_wavelengths = np.linspace(400, 500, 67)
+        sample_wavelengths += 0.2 * np.sin(np.linspace(0, np.pi, 67))
+        illuminant_wavelengths = np.linspace(400, 500, 69)
+        illuminant_wavelengths += 0.3 * np.sin(np.linspace(0, np.pi, 69))
+        observer_wavelengths = np.linspace(400, 500, 71)
+        observer_wavelengths += 0.4 * np.sin(np.linspace(0, np.pi, 71))
+
+        sample_values = np.linspace(0.2, 0.8, len(sample_wavelengths))
+        illuminant_values = SDS_ILLUMINANTS["D65"][illuminant_wavelengths]
+        observer_values = self._cmfs[observer_wavelengths]
+
+        _XYZ, gradients, _inputs = autodiff(
+            lambda sample, source, observer: sd_to_XYZ(
+                SpectralDistribution(sample, sample_wavelengths),
+                MultiSpectralDistributions(observer, observer_wavelengths),
+                SpectralDistribution(source, illuminant_wavelengths),
+                method="Integration",
+                shape=SpectralShape(400, 500, 1),
+            ),
+            sample_values,
+            illuminant_values,
+            observer_values,
+        )
+
+        for gradient in gradients:
+            assert xp.isfinite(gradient).all()
+            assert xp.any(gradient != 0)
+
+    def test_autodiff_sd_to_XYZ(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test that a finite gradient reaches raw spectral values."""
+
+        shape = SpectralShape(360, 830, 10)
+        _XYZ, (gradient,), _inputs = autodiff(
+            lambda values: sd_to_XYZ(
+                values,
+                method="Integration",
+                shape=shape,
+            ),
+            np.linspace(0.1, 1.0, len(list(shape.wavelengths))),
+        )
+
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
+
+    def test_pytorch_autograd_sd_to_XYZ_cache(self, xp: ModuleType) -> None:
+        """
+        Test that a *PyTorch* gradient-tracking input bypasses the result cache
+        so a cache hit does not share a freed graph across backward passes.
+        """
+
+        if xp.__name__ != "torch":
+            pytest.skip("Autograd preservation is only defined for *PyTorch*.")
+
+        shape = SpectralShape(360, 830, 10)
+        values = xp.rand(len(list(shape.wavelengths)), requires_grad=True)
+
+        # Caching stays enabled: two identical calls must each keep an
+        # independent, backward-able graph.
+        XYZ_1 = sd_to_XYZ(values, method="Integration", shape=shape)
+        XYZ_2 = sd_to_XYZ(values, method="Integration", shape=shape)
+
+        (gradient_1,) = xp.autograd.grad(xp.sum(XYZ_1), values)
+        (gradient_2,) = xp.autograd.grad(xp.sum(XYZ_2), values)
+
+        assert xp.isfinite(gradient_1).all()
+        assert xp.isfinite(gradient_2).all()
 
 
 class TestMsds_to_XYZ_integration:
@@ -1762,6 +1943,32 @@ msds_to_XYZ_ASTME308` definition domain and range scale support.
                     TVS_D65_ASTME308_MSDS * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
+
+    def test_msds_to_XYZ_ASTME308_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test gradients through 20 nm multi-spectral interpolation."""
+
+        shape = SpectralShape(360, 780, 20)
+        values = np.stack(
+            [
+                np.linspace(0.2, 0.8, len(shape.wavelengths)),
+                np.linspace(0.3, 0.9, len(shape.wavelengths)) ** 2,
+            ],
+            axis=1,
+        )
+
+        _XYZ, (gradient,), _inputs = autodiff(
+            lambda spectral_values: msds_to_XYZ_ASTME308(
+                MultiSpectralDistributions(spectral_values, shape),
+                MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
+                SDS_ILLUMINANTS["D65"],
+            ),
+            values,
+        )
+
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
 
     def test_raise_exception_msds_to_XYZ_ASTME308(self) -> None:
         """

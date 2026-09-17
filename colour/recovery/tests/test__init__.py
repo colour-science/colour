@@ -24,7 +24,9 @@ from colour.recovery import MSDS_GAUSSIAN_BASIS, XYZ_to_msds, XYZ_to_sd
 from colour.recovery.gaussian import RGB_COLOURSPACE_GAUSSIAN
 from colour.recovery.smits1999 import RGB_to_msds_Smits1999
 from colour.utilities import (
+    ColourUsageWarning,
     domain_range_scale,
+    is_numpy_namespace,
     xp_as_array,
     xp_assert_close,
 )
@@ -57,6 +59,27 @@ class TestXYZ_to_sd:
         )
 
         self._sd_D65 = reshape_sd(SDS_ILLUMINANTS["D65"], self._cmfs.shape)
+
+    @pytest.mark.parametrize("method", ["Meng 2015", "Jakob 2019"])
+    @pytest.mark.mps_xfail("MPS float32 singular matrix")
+    def test_backend_optimisation_warning(self, method: str, xp: ModuleType) -> None:
+        """Test backend optimisation warnings through the generic wrapper."""
+
+        if is_numpy_namespace(xp):
+            pytest.skip("The warning applies to automatic differentiation backends.")
+
+        XYZ = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
+
+        with pytest.warns(
+            ColourUsageWarning,
+            match='method="Gaussian" or method="Mallett 2019"',
+        ):
+            XYZ_to_sd(
+                XYZ,
+                method,
+                cmfs=self._cmfs,
+                illuminant=self._sd_D65,
+            )
 
     @pytest.mark.mps_xfail("MPS float32 singular matrix")
     def test_domain_range_scale_XYZ_to_sd(
