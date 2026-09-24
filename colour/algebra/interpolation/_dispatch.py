@@ -31,7 +31,6 @@ __all__ = [
     "CubicSplineInterpolator",
     "PchipInterpolator",
     "KernelInterpolator",
-    "Extrapolator",
 ]
 
 # Root module name of an array's type mapped to the backend key. Detection is
@@ -152,45 +151,79 @@ class _DispatchingInterpolator:
 
 
 class LinearInterpolator(_DispatchingInterpolator):
-    """Dispatching linear interpolator (raises outside the interpolation range)."""
+    """
+    Perform linear interpolation of a 1-D function.
+
+    Resolve the backend from the input data and delegate to the matching
+    backend-specialised implementation, raising for evaluation points outside
+    the interpolation range.
+    """
 
 
 class NearestNeighbourInterpolator(_DispatchingInterpolator):
-    """Dispatching nearest-neighbour interpolator."""
+    """
+    Perform nearest-neighbour interpolation on discrete data.
+
+    Resolve the backend from the input data and delegate to the matching
+    backend-specialised implementation, selecting the closest known data point
+    for each query position.
+    """
 
 
 class NullInterpolator(_DispatchingInterpolator):
-    """Dispatching null interpolator (exact matches within tolerance)."""
+    """
+    Implement 1-D function null interpolation.
+
+    Return the dependent value when the query matches a knot within tolerance,
+    else the default value.
+    """
 
 
 class SpragueInterpolator(_DispatchingInterpolator):
-    """Dispatching *Sprague (1880)* fifth-order interpolator (uniform spacing)."""
+    """
+    Perform fifth-order polynomial interpolation using the *Sprague (1880)*
+    method for uniformly spaced data.
+
+    A minimum of 6 data points is required.
+
+    References
+    ----------
+    :cite:`CIETC1-382005f`, :cite:`Westland2012h`
+    """
 
 
 class CubicSplineInterpolator(_DispatchingInterpolator):
     """
-    Dispatching *not-a-knot* cubic spline interpolator.
+    Perform *not-a-knot* cubic spline interpolation on one-dimensional data.
 
-    Mirrors the ``colour.algebra.interpolation.CubicSplineInterpolator`` API and
-    delegates to the backend-specialised implementation for the input data.
+    Provide smooth interpolation through specified data points using piecewise
+    cubic polynomials. *NumPy* arrays are evaluated with *SciPy*, other array
+    namespaces use an equivalent native *not-a-knot* cubic spline that preserves
+    automatic differentiation graphs.
     """
 
 
 class PchipInterpolator(_DispatchingInterpolator):
     """
-    Dispatching PCHIP interpolator.
+    Interpolate a 1-D function using Piecewise Cubic Hermite Interpolating
+    Polynomial (PCHIP) interpolation.
 
-    Mirrors the ``colour.algebra.interpolation.PchipInterpolator`` API and
-    delegates to the backend-specialised implementation for the input data.
+    *NumPy* arrays are evaluated with *SciPy*, other array namespaces use an
+    equivalent native implementation that preserves automatic differentiation
+    graphs.
     """
 
 
 class KernelInterpolator(_DispatchingInterpolator):
     """
-    Dispatching kernel-based (convolution) interpolator.
+    Perform kernel-based (convolution) interpolation of a 1-D function.
 
-    Adds the kernel/window/padding accessors on top of the shared ``x`` / ``y``
-    forwarding of :class:`_DispatchingInterpolator`.
+    Reconstruct a continuous signal from discrete samples as the convolution of
+    the data with a continuous interpolation kernel.
+
+    References
+    ----------
+    :cite:`Burger2009b`, :cite:`Wikipedia2005b`
     """
 
     @property
@@ -216,81 +249,3 @@ class KernelInterpolator(_DispatchingInterpolator):
         """Getter for the padding keyword arguments."""
 
         return self._implementation.padding_kwargs
-
-
-class Extrapolator:
-    """
-    Dispatching extrapolator wrapping an interpolator.
-
-    Unlike the interpolators, the constructor takes an ``interpolator`` (not
-    ``x`` / ``y``); the backend is resolved from the wrapped interpolator's data
-    and evaluation is delegated to the matching backend implementation.
-    """
-
-    def __init__(self, interpolator: Any = None, *args: Any, **kwargs: Any) -> None:
-        self._backend = detect_backend(
-            getattr(interpolator, "x", None), getattr(interpolator, "y", None)
-        )
-        implementation = _backend_module(self._backend).Extrapolator
-        self._implementation = implementation(interpolator, *args, **kwargs)
-
-    def __call__(self, x: Any, *args: Any, **kwargs: Any) -> Any:
-        """Evaluate the extrapolator at the specified point(s)."""
-
-        result = self._implementation(x, *args, **kwargs)
-
-        return _match_query_namespace(result, x, self._backend)
-
-    @property
-    def backend(self) -> str:
-        """Getter for the resolved backend name."""
-
-        return self._backend
-
-    @property
-    def interpolator(self) -> Any:
-        """Getter and setter for the wrapped interpolator."""
-
-        return self._implementation.interpolator
-
-    @interpolator.setter
-    def interpolator(self, value: Any) -> None:
-        """Setter for the **self.interpolator** property."""
-
-        self._implementation.interpolator = value
-
-    @property
-    def method(self) -> Any:
-        """Getter and setter for the extrapolation method."""
-
-        return self._implementation.method
-
-    @method.setter
-    def method(self, value: Any) -> None:
-        """Setter for the **self.method** property."""
-
-        self._implementation.method = value
-
-    @property
-    def left(self) -> Any:
-        """Getter and setter for the left boundary value."""
-
-        return self._implementation.left
-
-    @left.setter
-    def left(self, value: Any) -> None:
-        """Setter for the **self.left** property."""
-
-        self._implementation.left = value
-
-    @property
-    def right(self) -> Any:
-        """Getter and setter for the right boundary value."""
-
-        return self._implementation.right
-
-    @right.setter
-    def right(self, value: Any) -> None:
-        """Setter for the **self.right** property."""
-
-        self._implementation.right = value

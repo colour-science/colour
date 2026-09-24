@@ -5,7 +5,7 @@ Each submodule (``numpy``, ``torch``, ``jax``) provides identically named
 interpolator classes (``Linear``, ``NearestNeighbour``, ``Null``, ``Sprague``,
 ``CubicSpline``, ``Pchip``, ``Kernel`` and the ``Extrapolator``) specialised for
 that array backend. They are imported lazily by
-:mod:`colour.utilities.array_api.interpolation._dispatch`. The kernel functions
+:mod:`colour.algebra.interpolation._dispatch`. The kernel functions
 shared by the ``Kernel`` interpolators live in :mod:`._kernels`.
 """
 

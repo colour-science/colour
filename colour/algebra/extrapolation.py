@@ -17,9 +17,15 @@ References
 
 from __future__ import annotations
 
+from typing import Any
+
 import numpy as np  # noqa: F401  (used by the doctests)
 
-from colour.utilities.array_api import interpolation as xp_interpolation
+from colour.algebra.interpolation._dispatch import (
+    _backend_module,
+    _match_query_namespace,
+    detect_backend,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -33,13 +39,12 @@ __all__ = [
 ]
 
 
-class Extrapolator(xp_interpolation.Extrapolator):
+class Extrapolator:
     """
     Extrapolate 1-D function values beyond a wrapped interpolator's domain.
 
-    Delegates to the backend-specialised
-    :class:`colour.utilities.array_api.interpolation.Extrapolator`. Two methods
-    are supported:
+    Resolve the backend from the wrapped interpolator's data and delegate to the
+    matching backend-specialised implementation. Two methods are supported:
 
     -   *Linear*: extend using the boundary-pair slope, ``(xi[0], xi[1])`` for
         ``x < xi[0]`` and ``(xi[-1], xi[-2])`` for ``x > xi[-1]``.
@@ -91,3 +96,71 @@ class Extrapolator(xp_interpolation.Extrapolator):
     >>> extrapolator(np.array([0.1, 0.2, 8, 9]))
     array([0., 0., 3., 3.])
     """
+
+    def __init__(self, interpolator: Any = None, *args: Any, **kwargs: Any) -> None:
+        self._backend = detect_backend(
+            getattr(interpolator, "x", None), getattr(interpolator, "y", None)
+        )
+        implementation = _backend_module(self._backend).Extrapolator
+        self._implementation = implementation(interpolator, *args, **kwargs)
+
+    def __call__(self, x: Any, *args: Any, **kwargs: Any) -> Any:
+        """Evaluate the extrapolator at the specified point(s)."""
+
+        result = self._implementation(x, *args, **kwargs)
+
+        return _match_query_namespace(result, x, self._backend)
+
+    @property
+    def backend(self) -> str:
+        """Getter for the resolved backend name."""
+
+        return self._backend
+
+    @property
+    def interpolator(self) -> Any:
+        """Getter and setter for the wrapped interpolator."""
+
+        return self._implementation.interpolator
+
+    @interpolator.setter
+    def interpolator(self, value: Any) -> None:
+        """Setter for the **self.interpolator** property."""
+
+        self._implementation.interpolator = value
+
+    @property
+    def method(self) -> Any:
+        """Getter and setter for the extrapolation method."""
+
+        return self._implementation.method
+
+    @method.setter
+    def method(self, value: Any) -> None:
+        """Setter for the **self.method** property."""
+
+        self._implementation.method = value
+
+    @property
+    def left(self) -> Any:
+        """Getter and setter for the left boundary value."""
+
+        return self._implementation.left
+
+    @left.setter
+    def left(self, value: Any) -> None:
+        """Setter for the **self.left** property."""
+
+        self._implementation.left = value
+
+    @property
+    def right(self) -> Any:
+        """Getter and setter for the right boundary value."""
+
+        return self._implementation.right
+
+    @right.setter
+    def right(self, value: Any) -> None:
+        """Setter for the **self.right** property."""
+
+        self._implementation.right = value

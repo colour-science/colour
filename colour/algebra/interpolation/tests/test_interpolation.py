@@ -1,5 +1,5 @@
 """
-Unit tests for the :mod:`colour.utilities.array_api.interpolation` dispatching
+Unit tests for the :mod:`colour.algebra.interpolation` dispatching
 interpolators.
 
 Backend-parametrised: each interpolator is exercised on every backend whose
@@ -16,19 +16,19 @@ import numpy as np
 import pytest
 import scipy.interpolate
 
-from colour.utilities import array_api_enable
-from colour.utilities.array_api.interpolation import (
+from colour.algebra import Extrapolator
+from colour.algebra.interpolation import (
     CubicSplineInterpolator,
-    Extrapolator,
     KernelInterpolator,
     LinearInterpolator,
     NearestNeighbourInterpolator,
     NullInterpolator,
     PchipInterpolator,
     SpragueInterpolator,
-    detect_backend,
     kernel_linear,
 )
+from colour.algebra.interpolation._dispatch import detect_backend
+from colour.utilities import array_api_enable
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -83,9 +83,7 @@ def _available_backends() -> list[tuple[str, Callable[[Any], Any]]]:
     usable = []
     for name, cast in backends:
         try:
-            importlib.import_module(
-                f"colour.utilities.array_api.interpolation.backends.{name}"
-            )
+            importlib.import_module(f"colour.algebra.interpolation.backends.{name}")
         except ImportError:
             continue
         usable.append((name, cast))

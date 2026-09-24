@@ -3,7 +3,7 @@ Interpolation Backend Benchmark
 ===============================
 
 Compare, across data lengths and devices, the *SciPy* reference interpolators
-against the :mod:`colour.utilities.array_api.interpolation` dispatching
+against the :mod:`colour.algebra.interpolation` dispatching
 interpolators used by colour. They delegate *NumPy* inputs to *SciPy* and
 *PyTorch* / *JAX* inputs to native, automatic-differentiation-preserving
 implementations dispatched by the input array namespace.
@@ -39,7 +39,7 @@ import typing
 import numpy as np
 import scipy.interpolate
 
-from colour.utilities.array_api import interpolation as xp_interpolation
+from colour.algebra import interpolation as xp_interpolation
 
 if typing.TYPE_CHECKING:
     from collections.abc import Callable
