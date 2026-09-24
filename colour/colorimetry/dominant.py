@@ -36,8 +36,6 @@ from colour.models import XYZ_to_xy
 from colour.utilities import (
     array_namespace,
     as_float_array,
-    as_ndarray,
-    required,
     xp_as_float_array,
     xp_reshape,
     xp_resize,
@@ -60,7 +58,6 @@ __all__ = [
 ]
 
 
-@required("SciPy")
 def closest_spectral_locus_wavelength(
     xy: ArrayLike, xy_n: ArrayLike, xy_s: ArrayLike, inverse: bool = False
 ) -> Tuple[NDArrayInt, NDArrayFloat]:
@@ -108,8 +105,6 @@ def closest_spectral_locus_wavelength(
     [0.6835474... 0.3162840...]
     """
 
-    import scipy.spatial.distance  # noqa: PLC0415
-
     xy = as_float_array(xy)
 
     xp = array_namespace(xy, xy_s)
@@ -128,13 +123,8 @@ def closest_spectral_locus_wavelength(
     # Extracting the first intersection per-wavelength.
     xy_wl = xp.sort(xy_wl, axis=1)[:, 0, :]
 
-    # scipy requires numpy arrays.
     i_wl = xp.argmin(
-        xp_as_float_array(
-            scipy.spatial.distance.cdist(as_ndarray(xy_wl), as_ndarray(xy_s)),
-            xp=xp,
-            like=xy_wl,
-        ),
+        euclidean_distance(xy_wl[:, None, :], xy_s[None, :, :]),
         axis=-1,
     )
 
@@ -184,6 +174,13 @@ def dominant_wavelength(
         *Dominant wavelength*, first intersection point *CIE xy* chromaticity
         coordinates, second intersection point *CIE xy* chromaticity
         coordinates.
+
+    Notes
+    -----
+    -   The dominant or complementary wavelength selection is discrete and is
+        not differentiable. The returned intersection coordinates are
+        piecewise differentiable while the active spectral-locus edge and
+        dominant/complementary branch remain unchanged.
 
     References
     ----------
@@ -286,6 +283,13 @@ def complementary_wavelength(
         chromaticity coordinates, second intersection point *CIE xy*
         chromaticity coordinates.
 
+    Notes
+    -----
+    -   The dominant or complementary wavelength selection is discrete and is
+        not differentiable. The returned intersection coordinates are
+        piecewise differentiable while the active spectral-locus edge and
+        dominant/complementary branch remain unchanged.
+
     References
     ----------
     :cite:`CIETC1-482004o`, :cite:`Erdogana`
@@ -340,6 +344,13 @@ def excitation_purity(
     :class:`np.float` or :class:`numpy.ndarray`
         *Excitation purity* :math:`P_e`.
 
+    Notes
+    -----
+    -   This definition is piecewise differentiable with respect to ``xy`` and
+        ``xy_n``. Its local derivative assumes that the same spectral-locus
+        edge and dominant/complementary branch remain active. The derivative
+        is undefined where either selection changes.
+
     References
     ----------
     :cite:`CIETC1-482004o`, :cite:`Erdogana`
@@ -387,6 +398,13 @@ def colorimetric_purity(
     -------
     :class:`np.float` or :class:`numpy.ndarray`
         *Colorimetric purity* :math:`P_c`.
+
+    Notes
+    -----
+    -   This definition is piecewise differentiable with respect to ``xy`` and
+        ``xy_n``. Its local derivative assumes that the same spectral-locus
+        edge and dominant/complementary branch remain active. The derivative
+        is undefined where either selection changes.
 
     References
     ----------

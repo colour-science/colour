@@ -234,15 +234,20 @@ def intersect_line_segments(
     numerator_a = x_4_x_3 * y_1_y_3 - y_4_y_3 * x_1_x_3
     numerator_b = x_2_x_1 * y_1_y_3 - y_2_y_1 * x_1_x_3
     denominator = y_4_y_3 * x_2_x_1 - x_4_x_3 * y_2_y_1
+    parallel = denominator == 0
+
+    # Parallel candidates are inactive by definition. Replacing their zero
+    # denominator before division keeps invalid derivatives from contaminating
+    # the backward pass through a subsequently selected intersection.
+    denominator_safe = xp.where(parallel, xp.ones_like(denominator), denominator)
 
     with sdiv_mode("Ignore"):
-        u_a = sdiv(numerator_a, denominator)
-        u_b = sdiv(numerator_b, denominator)
+        u_a = sdiv(numerator_a, denominator_safe)
+        u_b = sdiv(numerator_b, denominator_safe)
 
-    intersect = (u_a >= 0) & (u_a <= 1) & (u_b >= 0) & (u_b <= 1)
+    intersect = (~parallel) & (u_a >= 0) & (u_a <= 1) & (u_b >= 0) & (u_b <= 1)
     xy = tstack([x_1 + x_2_x_1 * u_a, y_1 + y_2_y_1 * u_a])
     xy = xp.where(intersect[..., None], xy, float("nan"))
-    parallel = denominator == 0
     coincident = (numerator_a == 0) & (numerator_b == 0) & parallel
 
     return LineSegmentsIntersections_Specification(xy, intersect, parallel, coincident)

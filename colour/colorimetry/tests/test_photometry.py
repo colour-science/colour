@@ -2,9 +2,18 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Callable, ModuleType
+
+import numpy as np
+import pytest
+
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
     SDS_LIGHT_SOURCES,
+    SpectralDistribution,
     luminous_efficacy,
     luminous_efficiency,
     luminous_flux,
@@ -24,6 +33,7 @@ __all__ = [
     "TestLuminousFlux",
     "TestLuminousEfficiency",
     "TestLuminousEfficacy",
+    "TestPhotometryAutodiff",
 ]
 
 
@@ -121,3 +131,37 @@ class TestLuminousEfficacy:
         xp_assert_close(
             float(luminous_efficacy(sd)), 683.00000000, atol=TOLERANCE_ABSOLUTE_TESTS
         )
+
+
+class TestPhotometryAutodiff:
+    """
+    Define automatic differentiation regression tests for the
+    :mod:`colour.colorimetry.photometry` module.
+
+    An ordinary :class:`colour.SpectralDistribution` carrying backend values but
+    a NumPy wavelength axis previously detached through
+    :func:`colour.utilities.xp_trapezoid`, whose NumPy fallback dropped the
+    automatic differentiation graph.
+    """
+
+    @pytest.mark.parametrize(
+        "function",
+        [luminous_flux, luminous_efficiency, luminous_efficacy],
+        ids=lambda function: function.__name__,
+    )
+    def test_autodiff_photometry(
+        self, xp: ModuleType, autodiff: Callable, function: Callable
+    ) -> None:
+        """Test that a finite gradient reaches the spectral values."""
+
+        wavelengths = np.arange(360.0, 831.0, 1.0)
+
+        # ``sd.wavelengths`` remains a NumPy axis while ``sd.values`` is a
+        # backend tensor, the exact mixed-namespace case.
+        _result, (gradient,), _inputs = autodiff(
+            lambda values: function(SpectralDistribution(values, wavelengths)),
+            np.linspace(0.1, 1.0, wavelengths.size),
+        )
+
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)

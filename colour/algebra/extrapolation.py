@@ -2,11 +2,8 @@
 Extrapolation
 =============
 
-Define classes for extrapolating one-dimensional functions beyond their
-original domain.
-
--   :class:`colour.Extrapolator`: Extrapolate 1-D functions using various
-    methods to extend function values beyond the original interpolation range.
+Define the :class:`colour.Extrapolator` class for extending 1-D function values
+beyond their original interpolation range.
 
 References
 ----------
@@ -20,37 +17,14 @@ References
 
 from __future__ import annotations
 
-import typing
+from typing import Any
 
-import numpy as np
+import numpy as np  # noqa: F401  (used by the doctests)
 
-from colour.algebra import NullInterpolator, sdiv, sdiv_mode
-from colour.constants import DTYPE_FLOAT_DEFAULT, DTYPE_INT_DEFAULT
-
-if typing.TYPE_CHECKING:
-    from colour.hints import (
-        Any,
-        ArrayLike,
-        DTypeReal,
-        Literal,
-        NDArrayFloat,
-        ProtocolInterpolator,
-        Real,
-        Type,
-    )
-
-from colour.utilities import (
-    array_namespace,
-    as_float,
-    as_float_array,
-    attest,
-    is_numeric,
-    optional,
-    validate_method,
-    xp_as_array,
-    xp_astype,
-    xp_atleast_1d,
-    xp_reshape,
+from colour.algebra.interpolation._dispatch import (
+    _backend_module,
+    _match_query_namespace,
+    detect_backend,
 )
 
 __author__ = "Colour Developers"
@@ -67,45 +41,28 @@ __all__ = [
 
 class Extrapolator:
     """
-    Extrapolate 1-D function values beyond the specified interpolator's
-    domain boundaries.
+    Extrapolate 1-D function values beyond a wrapped interpolator's domain.
 
-    The :class:`colour.Extrapolator` class wraps a specified *Colour* or
-    *scipy* interpolator instance with compatible signature to provide
-    controlled extrapolation behaviour. Two extrapolation methods are
-    supported:
+    Resolve the backend from the wrapped interpolator's data and delegate to the
+    matching backend-specialised implementation. Two methods are supported:
 
-    -   *Linear*: Extrapolate values linearly using the slope defined by
-        boundary points (xi[0], xi[1]) for x < xi[0] and (xi[-1], xi[-2])
-        for x > xi[-1].
-    -   *Constant*: Assign boundary values xi[0] for x < xi[0] and xi[-1]
-        for x > xi[-1].
+    -   *Linear*: extend using the boundary-pair slope, ``(xi[0], xi[1])`` for
+        ``x < xi[0]`` and ``(xi[-1], xi[-2])`` for ``x > xi[-1]``.
+    -   *Constant*: assign the boundary value ``yi[0]`` / ``yi[-1]``.
 
-    Specifying *left* and *right* arguments overrides the chosen
-    extrapolation method, assigning these values to points outside the
-    interpolator's domain.
+    ``left`` / ``right`` override the method for points outside the domain. The
+    wrapped interpolator must expose ``x`` and ``y``.
 
     Parameters
     ----------
     interpolator
         Interpolator object.
     method
-        Extrapolation method.
+        Extrapolation method, ``"Linear"`` or ``"Constant"``.
     left
-        Value to return for x < xi[0].
+        Value to return for ``x < xi[0]``.
     right
-        Value to return for x > xi[-1].
-    dtype
-        Data type used for internal conversions.
-
-    Methods
-    -------
-    -   :meth:`~colour.Extrapolator.__init__`
-    -   :meth:`~colour.Extrapolator.__class__`
-
-    Notes
-    -----
-    -   The interpolator must define ``x`` and ``y`` properties.
+        Value to return for ``x > xi[-1]``.
 
     References
     ----------
@@ -118,8 +75,7 @@ class Extrapolator:
     >>> from colour.algebra import LinearInterpolator
     >>> x = np.array([3, 4, 5])
     >>> y = np.array([1, 2, 3])
-    >>> interpolator = LinearInterpolator(x, y)
-    >>> extrapolator = Extrapolator(interpolator)
+    >>> extrapolator = Extrapolator(LinearInterpolator(x, y))
     >>> extrapolator(1)
     np.float64(-1.0)
 
@@ -130,323 +86,81 @@ class Extrapolator:
 
     Using the *Constant* extrapolation method:
 
-    >>> x = np.array([3, 4, 5])
-    >>> y = np.array([1, 2, 3])
-    >>> interpolator = LinearInterpolator(x, y)
-    >>> extrapolator = Extrapolator(interpolator, method="Constant")
+    >>> extrapolator = Extrapolator(LinearInterpolator(x, y), method="Constant")
     >>> extrapolator(np.array([0.1, 0.2, 8, 9]))
     array([1., 1., 3., 3.])
 
-    Using defined *left* boundary and *Constant* extrapolation method:
+    Using a defined *left* boundary and the *Constant* method:
 
-    >>> x = np.array([3, 4, 5])
-    >>> y = np.array([1, 2, 3])
-    >>> interpolator = LinearInterpolator(x, y)
-    >>> extrapolator = Extrapolator(interpolator, method="Constant", left=0)
+    >>> extrapolator = Extrapolator(LinearInterpolator(x, y), method="Constant", left=0)
     >>> extrapolator(np.array([0.1, 0.2, 8, 9]))
     array([0., 0., 3., 3.])
     """
 
-    def __init__(
-        self,
-        interpolator: ProtocolInterpolator | None = None,
-        method: Literal["Linear", "Constant"] | str = "Linear",
-        left: Real | None = None,
-        right: Real | None = None,
-        dtype: Type[DTypeReal] | None = None,
-        *args: Any,  # noqa: ARG002
-        **kwargs: Any,  # noqa: ARG002
-    ) -> None:
-        dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
-
-        self._interpolator: ProtocolInterpolator = NullInterpolator(
-            np.array([-np.inf, np.inf]), np.array([-np.inf, np.inf])
+    def __init__(self, interpolator: Any = None, *args: Any, **kwargs: Any) -> None:
+        self._backend = detect_backend(
+            getattr(interpolator, "x", None), getattr(interpolator, "y", None)
         )
-        self.interpolator = optional(interpolator, self._interpolator)
-        self._method: Literal["Linear", "Constant"] | str = "Linear"
-        self.method = optional(method, self._method)
-        self._right: Real | None = None
-        self.right = right
-        self._left: Real | None = None
-        self.left = left
+        implementation = _backend_module(self._backend).Extrapolator
+        self._implementation = implementation(interpolator, *args, **kwargs)
 
-        self._dtype: Type[DTypeReal] = dtype
+    def __call__(self, x: Any, *args: Any, **kwargs: Any) -> Any:
+        """Evaluate the extrapolator at the specified point(s)."""
+
+        result = self._implementation(x, *args, **kwargs)
+
+        return _match_query_namespace(result, x, self._backend)
 
     @property
-    def interpolator(self) -> ProtocolInterpolator:
-        """
-        Getter and setter for the interpolator.
+    def backend(self) -> str:
+        """Getter for the resolved backend name."""
 
-        The interpolator must implement the interpolator protocol with an
-        `x` attribute containing the independent variable data.
+        return self._backend
 
-        Parameters
-        ----------
-        value
-            Value to set the interpolator instance implementing the required
-            protocol with an `x` attribute for wavelength or frequency values
-            with.
+    @property
+    def interpolator(self) -> Any:
+        """Getter and setter for the wrapped interpolator."""
 
-        Returns
-        -------
-        ProtocolInterpolator
-            Interpolator instance implementing the required protocol with
-            an `x` attribute for wavelength or frequency values.
-        """
-
-        return self._interpolator
+        return self._implementation.interpolator
 
     @interpolator.setter
-    def interpolator(self, value: ProtocolInterpolator) -> None:
+    def interpolator(self, value: Any) -> None:
         """Setter for the **self.interpolator** property."""
 
-        attest(
-            hasattr(value, "x"),
-            f'"{value}" interpolator has no "x" attribute!',
-        )
-
-        attest(
-            hasattr(value, "y"),
-            f'"{value}" interpolator has no "y" attribute!',
-        )
-
-        self._interpolator = value
+        self._implementation.interpolator = value
 
     @property
-    def method(self) -> Literal["Linear", "Constant"] | str:
-        """
-        Getter and setter for the extrapolation method for the interpolator.
+    def method(self) -> Any:
+        """Getter and setter for the extrapolation method."""
 
-        This property controls the behaviour of the interpolator when
-        extrapolating values outside the interpolation domain. The method
-        determines how values are computed beyond the specified boundaries.
-
-        Parameters
-        ----------
-        value
-            Value to set the extrapolation method to use, either ``'Linear'``
-            for linear extrapolation or ``'Constant'`` for constant value
-            extrapolation at the boundaries.
-
-        Returns
-        -------
-        :class:`str`
-            Extrapolation method to use.
-        """
-
-        return self._method
+        return self._implementation.method
 
     @method.setter
-    def method(self, value: Literal["Linear", "Constant"] | str) -> None:
+    def method(self, value: Any) -> None:
         """Setter for the **self.method** property."""
 
-        attest(
-            isinstance(value, str),
-            f'"method" property: "{value}" type is not "str"!',
-        )
-
-        value = validate_method(value, ("Linear", "Constant"))
-
-        self._method = value
+        self._implementation.method = value
 
     @property
-    def left(self) -> Real | None:
-        """
-        Getter and setter for the left boundary value.
+    def left(self) -> Any:
+        """Getter and setter for the left boundary value."""
 
-        Specifies the value to return when evaluating the interpolant at
-        points beyond the leftmost data point ( x < xi[0]).
-
-        Parameters
-        ----------
-        value
-            Value to return for x < xi[0] for extrapolation beyond the
-            leftmost data point.
-
-        Returns
-        -------
-        Real or :py:data:`None`
-            Value to return for x < xi[0] for extrapolation beyond the
-            leftmost data point.
-        """
-
-        return self._left
+        return self._implementation.left
 
     @left.setter
-    def left(self, value: Real | None) -> None:
+    def left(self, value: Any) -> None:
         """Setter for the **self.left** property."""
 
-        if value is not None:
-            attest(
-                is_numeric(value),
-                f'"left" property: "{value}" is not a "number"!',
-            )
-
-            self._left = value
+        self._implementation.left = value
 
     @property
-    def right(self) -> Real | None:
-        """
-        Getter and setter for the right boundary value.
+    def right(self) -> Any:
+        """Getter and setter for the right boundary value."""
 
-        Specifies the value to return when evaluating the interpolant at
-        points beyond the rightmost data point (x > xi[-1]).
-
-        Parameters
-        ----------
-        value
-            Value to return for x > xi[-1] for extrapolation beyond the
-            rightmost data point.
-
-        Returns
-        -------
-        :class:`numbers.Real` or :py:data:`None`
-            Value to return for x > xi[-1] for extrapolation beyond the
-            rightmost data point.
-        """
-
-        return self._right
+        return self._implementation.right
 
     @right.setter
-    def right(self, value: Real | None) -> None:
+    def right(self, value: Any) -> None:
         """Setter for the **self.right** property."""
 
-        if value is not None:
-            attest(
-                is_numeric(value),
-                f'"right" property: "{value}" is not a "number"!',
-            )
-
-            self._right = value
-
-    def __call__(self, x: ArrayLike) -> NDArrayFloat:
-        """
-        Evaluate the extrapolator at specified point(s).
-
-        Parameters
-        ----------
-        x
-            Point(s) to evaluate the extrapolator at.
-
-        Returns
-        -------
-        :class:`numpy.ndarray`
-            Extrapolated point value(s).
-        """
-
-        x = as_float_array(x)
-
-        xe = self._evaluate(x)
-
-        return as_float(xe)
-
-    def _evaluate(self, x: NDArrayFloat) -> NDArrayFloat:
-        """
-        Perform the extrapolating evaluation at specified points.
-
-        Parameters
-        ----------
-        x
-            Points to evaluate the extrapolator at.
-
-        Returns
-        -------
-        :class:`numpy.ndarray`
-            Extrapolated point values.
-        """
-
-        xi = self._interpolator.x
-        yi = self._interpolator.y
-
-        xp = array_namespace(x, xi, yi)
-
-        # Source the device from whichever of ``x`` / ``xi`` / ``yi`` is
-        # already on the target backend so the *NumPy*-backed members are
-        # promoted onto the live device rather than the backend default
-        # (which on *Torch-MPS* is *CPU* unless explicitly switched).
-        # *NumPy* 2.0 added a string ``device = "cpu"`` attribute to its
-        # arrays, so ``device is not None`` alone would falsely match
-        # *NumPy* inputs; the backend *Torch* / *JAX* device objects
-        # expose ``.type``, so use that as the discriminator.
-        device_source = next(
-            (a for a in (x, xi, yi) if hasattr(getattr(a, "device", None), "type")),
-            None,
-        )
-
-        x = xp_as_array(x, xp=xp, like=device_source)
-        xi = xp_as_array(xi, xp=xp, like=device_source)
-        yi = xp_as_array(yi, xp=xp, like=device_source)
-
-        # Promote rank-1 ``yi`` to rank-2 internally so the boundary and
-        # scatter logic operates on a single code path; the trailing axis
-        # is squeezed back on return when the input was rank-1.
-        input_rank = yi.ndim
-        if input_rank == 1:
-            yi = yi[..., None]
-
-        below = x < xi[0]
-        above = x > xi[-1]
-        in_range = xp.logical_and(x >= xi[0], x <= xi[-1])
-
-        # ``y`` of shape ``x.shape + (yi.shape[1],)``; ``zeros_like`` on a
-        # broadcast intermediate inherits ``x``'s device, which matters on
-        # backends like Torch-MPS where ``zeros(shape)`` defaults to CPU.
-        y = xp.zeros_like(x[..., None] + yi[0])
-        below_b = below[..., None]
-        above_b = above[..., None]
-        x_offset_low = (x - xi[0])[..., None]
-        x_offset_high = (x - xi[-1])[..., None]
-
-        if self._method == "linear":
-            with sdiv_mode():
-                y = xp.where(
-                    below_b,
-                    yi[0] + x_offset_low * sdiv(yi[1] - yi[0], xi[1] - xi[0]),
-                    y,
-                )
-                y = xp.where(
-                    above_b,
-                    yi[-1] + x_offset_high * sdiv(yi[-1] - yi[-2], xi[-1] - xi[-2]),
-                    y,
-                )
-        elif self._method == "constant":
-            y = xp.where(below_b, yi[0], y)
-            y = xp.where(above_b, yi[-1], y)
-
-        if self._left is not None:
-            y = xp.where(below_b, self._left, y)
-        if self._right is not None:
-            y = xp.where(above_b, self._right, y)
-
-        if xp.any(in_range):
-            # Flatten the query axes; ``y`` keeps its trailing signal axis
-            # so the scatter preserves it.
-            x_ravel = xp_reshape(x, (-1,), xp=xp)
-            in_range_ravel = xp_reshape(in_range, (-1,), xp=xp)
-            y_ravel = xp_reshape(y, (-1, yi.shape[1]), xp=xp)
-
-            interpolated_values = xp_atleast_1d(
-                self._interpolator(x_ravel[in_range_ravel]), xp=xp
-            )
-            # The underlying interpolator's ``y`` may be rank-1 (matching
-            # ``input_rank``); promote its output here so the scatter is
-            # uniform with the rank-2 ``y_ravel``.
-            if interpolated_values.ndim == 1:
-                interpolated_values = interpolated_values[..., None]
-
-            dense_idx = (
-                xp.cumulative_sum(xp_astype(in_range_ravel, DTYPE_INT_DEFAULT, xp=xp))
-                - 1
-            )
-            safe_idx = xp.clip(dense_idx, 0, interpolated_values.shape[0] - 1)
-            y_ravel = xp.where(
-                in_range_ravel[..., None],
-                interpolated_values[safe_idx],
-                y_ravel,
-            )
-            y = xp_reshape(y_ravel, (*x.shape, yi.shape[1]), xp=xp)
-
-        if input_rank == 1:
-            y = y[..., 0]
-
-        return y
+        self._implementation.right = value
