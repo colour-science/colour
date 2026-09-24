@@ -92,7 +92,6 @@ if not is_scipy_installed():  # pragma: no cover
 from colour.constants import (
     DTYPE_INT_DEFAULT,
 )
-from colour.utilities.array_api import interpolation as xp_interpolation
 
 if typing.TYPE_CHECKING:
     from colour.hints import (
@@ -110,6 +109,23 @@ from colour.utilities import (
     xp_astype,
     xp_reshape,
     xp_select,
+)
+
+from ._dispatch import (
+    CubicSplineInterpolator,
+    KernelInterpolator,
+    LinearInterpolator,
+    NearestNeighbourInterpolator,
+    NullInterpolator,
+    PchipInterpolator,
+    SpragueInterpolator,
+)
+from .backends._kernels import (
+    kernel_cardinal_spline,
+    kernel_lanczos,
+    kernel_linear,
+    kernel_nearest_neighbour,
+    kernel_sinc,
 )
 
 __author__ = "Colour Developers"
@@ -140,102 +156,6 @@ __all__ = [
     "table_interpolation",
     "linear_interpolation_index_and_factor",
 ]
-
-
-# The interpolation kernels are defined in the array-api interpolation package
-# and re-exported here to preserve the public ``colour`` API.
-kernel_nearest_neighbour = xp_interpolation.kernel_nearest_neighbour
-kernel_linear = xp_interpolation.kernel_linear
-kernel_sinc = xp_interpolation.kernel_sinc
-kernel_lanczos = xp_interpolation.kernel_lanczos
-kernel_cardinal_spline = xp_interpolation.kernel_cardinal_spline
-
-
-class KernelInterpolator(xp_interpolation.KernelInterpolator):
-    """
-    Perform kernel-based (convolution) interpolation of a 1-D function.
-
-    Delegates to the backend-specialised
-    :class:`colour.utilities.array_api.interpolation.KernelInterpolator`,
-    reconstructing a continuous signal from discrete samples as the convolution
-    of the data with a continuous interpolation kernel.
-
-    References
-    ----------
-    :cite:`Burger2009b`, :cite:`Wikipedia2005b`
-    """
-
-
-class NearestNeighbourInterpolator(xp_interpolation.NearestNeighbourInterpolator):
-    """
-    Perform nearest-neighbour interpolation on discrete data.
-
-    Delegates to the backend-specialised
-    :class:`colour.utilities.array_api.interpolation.NearestNeighbourInterpolator`,
-    selecting the closest known data point for each query position.
-    """
-
-
-class LinearInterpolator(xp_interpolation.LinearInterpolator):
-    """
-    Perform linear interpolation of a 1-D function.
-
-    Delegates to the backend-specialised
-    :class:`colour.utilities.array_api.interpolation.LinearInterpolator`,
-    raising for evaluation points outside the interpolation range.
-    """
-
-
-class SpragueInterpolator(xp_interpolation.SpragueInterpolator):
-    """
-    Perform fifth-order polynomial interpolation using the *Sprague (1880)*
-    method for uniformly spaced data.
-
-    Delegates to the backend-specialised
-    :class:`colour.utilities.array_api.interpolation.SpragueInterpolator`.
-    A minimum of 6 data points is required.
-
-    References
-    ----------
-    :cite:`CIETC1-382005f`, :cite:`Westland2012h`
-    """
-
-
-class CubicSplineInterpolator(xp_interpolation.CubicSplineInterpolator):
-    """
-    Perform cubic spline interpolation on one-dimensional data.
-
-    Provide smooth interpolation through specified data points using
-    piecewise cubic polynomials, delegating to the backend-specialised
-    :class:`colour.utilities.array_api.interpolation.CubicSplineInterpolator`:
-    *NumPy* arrays are evaluated with *SciPy*, other array namespaces use an
-    equivalent native *not-a-knot* cubic spline that preserves automatic
-    differentiation graphs.
-    """
-
-
-class PchipInterpolator(xp_interpolation.PchipInterpolator):
-    """
-    Interpolate a 1-D function using Piecewise Cubic Hermite Interpolating
-    Polynomial (PCHIP) interpolation.
-
-    Delegates to the backend-specialised
-    :class:`colour.utilities.array_api.interpolation.PchipInterpolator`:
-    *NumPy* arrays are evaluated with *SciPy*, other array namespaces use an
-    equivalent native implementation that preserves automatic differentiation
-    graphs.
-    """
-
-
-class NullInterpolator(xp_interpolation.NullInterpolator):
-    """
-    Implement 1-D function null interpolation.
-
-    Delegates to the backend-specialised
-    :class:`colour.utilities.array_api.interpolation.NullInterpolator`:
-    return the dependent value when the query matches a knot within tolerance,
-    else the default value.
-    """
 
 
 def lagrange_coefficients(r: float, n: int = 4) -> NDArrayFloat:
@@ -302,6 +222,7 @@ def table_interpolation_trilinear(V_xyz: ArrayLike, table: ArrayLike) -> NDArray
     >>> import colour
     >>> path = os.path.join(
     ...     os.path.dirname(__file__),
+    ...     "..",
     ...     "..",
     ...     "io",
     ...     "luts",
@@ -404,6 +325,7 @@ def table_interpolation_tetrahedral(V_xyz: ArrayLike, table: ArrayLike) -> NDArr
     >>> import colour
     >>> path = os.path.join(
     ...     os.path.dirname(__file__),
+    ...     "..",
     ...     "..",
     ...     "io",
     ...     "luts",
@@ -546,6 +468,7 @@ def table_interpolation(
     >>> import colour
     >>> path = os.path.join(
     ...     os.path.dirname(__file__),
+    ...     "..",
     ...     "..",
     ...     "io",
     ...     "luts",

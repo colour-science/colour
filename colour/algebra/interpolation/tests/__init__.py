@@ -1,4 +1,4 @@
-"""Unit tests for :mod:`colour.utilities.array_api.interpolation`."""
+"""Unit tests for :mod:`colour.algebra.interpolation`."""
 
 from __future__ import annotations
 
