@@ -229,7 +229,7 @@ class CubicSplineInterpolator:
             * (h_interval**2)[:, None]
             / 6
         )
-        values = values.reshape(*x.shape, *self._values_shape[1:])
+        values = values.reshape((*x.shape, *self._values_shape[1:]))
         values = _restore_axis(values, x.ndim, self.axis)
 
         below = x < x_i[0]
@@ -239,8 +239,8 @@ class CubicSplineInterpolator:
             raise ValueError(error)
         if not self._extrapolate:
             remaining_ndim = self._y.ndim - 1
-            below = below.reshape(*below.shape, *((1,) * remaining_ndim))
-            above = above.reshape(*above.shape, *((1,) * remaining_ndim))
+            below = below.reshape((*below.shape, *((1,) * remaining_ndim)))
+            above = above.reshape((*above.shape, *((1,) * remaining_ndim)))
             below = _restore_axis(below, x.ndim, self.axis)
             above = _restore_axis(above, x.ndim, self.axis)
             values = jnp.where(
@@ -412,14 +412,14 @@ class PchipInterpolator:
         else:
             values = jnp.zeros_like(coefficient_3)
 
-        values = values.reshape(*x.shape, *self._values_shape[1:])
+        values = values.reshape((*x.shape, *self._values_shape[1:]))
         values = _restore_axis(values, x.ndim, self.axis)
 
         extrapolate = self._extrapolate if extrapolate is None else extrapolate
         if not extrapolate:
             outside = (x < x_i[0]) | (x > x_i[-1])
             remaining_ndim = self._y.ndim - 1
-            outside = outside.reshape(*outside.shape, *((1,) * remaining_ndim))
+            outside = outside.reshape((*outside.shape, *((1,) * remaining_ndim)))
             outside = _restore_axis(outside, x.ndim, self.axis)
             values = jnp.where(
                 outside, jnp.asarray(jnp.nan, dtype=values.dtype), values
@@ -967,7 +967,7 @@ class Extrapolator:
             y_ravel = jnp.where(
                 in_range_ravel[..., None], interpolated[safe_idx], y_ravel
             )
-            y = y_ravel.reshape(*x.shape, yi.shape[1])
+            y = y_ravel.reshape((*x.shape, yi.shape[1]))
 
         if input_rank == 1:
             y = y[..., 0]

@@ -22,8 +22,9 @@ from typing import Any
 import numpy as np  # noqa: F401  (used by the doctests)
 
 from colour.algebra.interpolation._dispatch import (
+    _BackendDispatcher,
+    _DispatchingInterpolator,
     _backend_module,
-    _match_query_namespace,
     detect_backend,
 )
 
@@ -39,12 +40,14 @@ __all__ = [
 ]
 
 
-class Extrapolator:
+class Extrapolator(_BackendDispatcher):
     """
     Extrapolate 1-D function values beyond a wrapped interpolator's domain.
 
-    Resolve the backend from the wrapped interpolator's data and delegate to the
-    matching backend-specialised implementation. Two methods are supported:
+    Resolve the backend from the union of the wrapped interpolator's data and the
+    query (see :class:`colour.algebra.interpolation._dispatch._BackendDispatcher`)
+    and delegate to the matching backend-specialised implementation. Two methods
+    are supported:
 
     -   *Linear*: extend using the boundary-pair slope, ``(xi[0], xi[1])`` for
         ``x < xi[0]`` and ``(xi[-1], xi[-2])`` for ``x > xi[-1]``.
@@ -97,70 +100,129 @@ class Extrapolator:
     array([0., 0., 3., 3.])
     """
 
-    def __init__(self, interpolator: Any = None, *args: Any, **kwargs: Any) -> None:
-        self._backend = detect_backend(
+    def __init__(
+        self,
+        interpolator: Any = None,
+        method: str = "Linear",
+        left: float | None = None,
+        right: float | None = None,
+        *args: Any,
+        **kwargs: Any,
+    ) -> None:
+        self._interpolator_source = interpolator
+        self._method_arg = method
+        self._left_arg = left
+        self._right_arg = right
+        self._args = args
+        self._kwargs = kwargs
+
+        backend = detect_backend(
             getattr(interpolator, "x", None), getattr(interpolator, "y", None)
         )
-        implementation = _backend_module(self._backend).Extrapolator
-        self._implementation = implementation(interpolator, *args, **kwargs)
+        implementation = _backend_module(backend).Extrapolator(
+            interpolator, method, left, right, *args, **kwargs
+        )
+        self._init_dispatch(backend, implementation)
 
-    def __call__(self, x: Any, *args: Any, **kwargs: Any) -> Any:
-        """Evaluate the extrapolator at the specified point(s)."""
+    def _build_implementation(self, backend: str) -> Any:
+        interpolator = self._interpolator_source
+        if isinstance(interpolator, _DispatchingInterpolator):
+            interpolator = interpolator._implementation_for(backend)  # noqa: SLF001
+        elif interpolator is not None:
+            error = (
+                f'Cannot re-dispatch the extrapolator to the "{backend}" backend: '
+                "the wrapped interpolator is not a colour dispatching interpolator."
+            )
+            raise NotImplementedError(error)
 
-        result = self._implementation(x, *args, **kwargs)
+        return _backend_module(backend).Extrapolator(
+            interpolator,
+            self._method_arg,
+            self._left_arg,
+            self._right_arg,
+            *self._args,
+            **self._kwargs,
+        )
 
-        return _match_query_namespace(result, x, self._backend)
+    def _implementation_for(self, backend: str) -> Any:
+        """
+        Return the cross-backend implementation, rebuilding it when the wrapped
+        interpolator has been mutated in place.
 
-    @property
-    def backend(self) -> str:
-        """Getter for the resolved backend name."""
+        The base backend reads the wrapped interpolator's data live, so it needs
+        no invalidation. A cross-backend implementation instead wraps a snapshot
+        of the interpolator's per-backend implementation; the dispatching
+        interpolator rebuilds (a new object) on in-place mutation, so a cached
+        implementation wrapping a superseded object is stale and rebuilt.
+        """
 
-        return self._backend
+        if backend == self._backend:
+            return self._base_implementation
+
+        interpolator = self._interpolator_source
+        if isinstance(interpolator, _DispatchingInterpolator):
+            current = interpolator._implementation_for(backend)  # noqa: SLF001
+            cached = self._implementations.get(backend)
+            if cached is None or cached.interpolator is not current:
+                cached = self._build_implementation(backend)
+                self._implementations[backend] = cached
+
+            return cached
+
+        return super()._implementation_for(backend)
 
     @property
     def interpolator(self) -> Any:
         """Getter and setter for the wrapped interpolator."""
 
-        return self._implementation.interpolator
+        return self._base_implementation.interpolator
 
     @interpolator.setter
     def interpolator(self, value: Any) -> None:
         """Setter for the **self.interpolator** property."""
 
-        self._implementation.interpolator = value
+        self._interpolator_source = value
+        self._base_implementation.interpolator = value
+        self._invalidate_cross_backend()
 
     @property
     def method(self) -> Any:
         """Getter and setter for the extrapolation method."""
 
-        return self._implementation.method
+        return self._base_implementation.method
 
     @method.setter
     def method(self, value: Any) -> None:
         """Setter for the **self.method** property."""
 
-        self._implementation.method = value
+        self._method_arg = value
+        self._base_implementation.method = value
+        self._invalidate_cross_backend()
 
     @property
     def left(self) -> Any:
         """Getter and setter for the left boundary value."""
 
-        return self._implementation.left
+        return self._base_implementation.left
 
     @left.setter
     def left(self, value: Any) -> None:
         """Setter for the **self.left** property."""
 
-        self._implementation.left = value
+        self._left_arg = value
+        self._base_implementation.left = value
+        self._invalidate_cross_backend()
 
     @property
     def right(self) -> Any:
         """Getter and setter for the right boundary value."""
 
-        return self._implementation.right
+        return self._base_implementation.right
 
     @right.setter
     def right(self, value: Any) -> None:
         """Setter for the **self.right** property."""
 
-        self._implementation.right = value
+        self._right_arg = value
+        self._base_implementation.right = value
+        self._invalidate_cross_backend()

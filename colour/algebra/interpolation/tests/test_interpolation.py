@@ -134,6 +134,275 @@ def test_numpy_data_backend_query_namespace(
         assert detect_backend(extrapolator(cast(_X_E))) == name
 
 
+def test_numpy_data_backend_query_flag_disabled(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
+    """
+    Test that re-dispatch to the query backend is gated on Array API dispatch.
+
+    With dispatch disabled the *NumPy* backend is retained and a (concrete)
+    backend query returns a *NumPy* result.
+    """
+
+    _name, cast = backend
+
+    interpolator = LinearInterpolator(_X, _Y)
+    with array_api_enable(False):
+        assert detect_backend(interpolator(cast(_X_E))) == "numpy"
+
+
+def _query_gradient(
+    name: str, function: Callable[[Any], Any], x: np.ndarray
+) -> np.ndarray:
+    """Return ``d(sum(function(q)))/dq`` at ``x`` via ``name``'s autodiff."""
+
+    x = np.atleast_1d(np.asarray(x, dtype=np.float64))
+
+    if name == "torch":
+        import torch  # noqa: PLC0415
+
+        query = torch.tensor(x, requires_grad=True, dtype=torch.float64)
+        function(query).sum().backward()
+
+        return _to_numpy(query.grad)
+
+    if name == "jax":
+        import jax  # noqa: PLC0415
+        import jax.numpy as jnp  # noqa: PLC0415
+
+        return _to_numpy(jax.grad(lambda value: function(value).sum())(jnp.asarray(x)))
+
+    error = f'Unsupported differentiable backend: "{name}".'
+    raise ValueError(error)
+
+
+def _finite_difference(interpolator: Any, x: np.ndarray, h: float = 1e-5) -> np.ndarray:
+    """Return the central finite-difference derivative of ``interpolator``."""
+
+    x = np.atleast_1d(np.asarray(x, dtype=np.float64))
+
+    return (_to_numpy(interpolator(x + h)) - _to_numpy(interpolator(x - h))) / (2 * h)
+
+
+@pytest.mark.parametrize(
+    "interpolator_type",
+    [LinearInterpolator, CubicSplineInterpolator, PchipInterpolator],
+)
+def test_numpy_data_differentiable_query(
+    backend: tuple[str, Callable[[Any], Any]],
+    interpolator_type: type,
+) -> None:
+    """
+    Test that a *NumPy*-data interpolator is differentiable at a backend query.
+
+    A gradient-tracked *PyTorch* or *JAX* query must not drop back to *NumPy*
+    (which would raise on the conversion and sever the graph); evaluation
+    re-dispatches to the query backend, and the gradient matches a *NumPy*
+    finite-difference reference.
+    """
+
+    name, _cast = backend
+    if name == "numpy":
+        pytest.skip("Differentiability is only defined for non-NumPy backends.")
+
+    x = np.array([2.5])  # Between knots: the linear interpolant is smooth here.
+
+    with array_api_enable(True):
+        interpolator = interpolator_type(_X, _Y)  # *NumPy* data.
+        gradient = _query_gradient(name, interpolator, x)
+
+    reference = _finite_difference(interpolator_type(_X, _Y), x)
+    np.testing.assert_allclose(gradient, reference, atol=1e-4)
+
+
+def test_extrapolator_differentiable_query(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
+    """
+    Test that a *NumPy*-data extrapolator is differentiable at a backend query.
+
+    The out-of-range *Linear* gradient equals the boundary-pair slope.
+    """
+
+    name, _cast = backend
+    if name == "numpy":
+        pytest.skip("Differentiability is only defined for non-NumPy backends.")
+
+    x_i = np.array([3.0, 4.0, 5.0])
+    y_i = np.array([1.0, 2.0, 3.0])
+    slope = (y_i[1] - y_i[0]) / (x_i[1] - x_i[0])
+
+    with array_api_enable(True):
+        extrapolator = Extrapolator(LinearInterpolator(x_i, y_i))
+        gradient = _query_gradient(name, extrapolator, np.array([1.0, 6.0]))
+
+    np.testing.assert_allclose(gradient, [slope, slope], atol=1e-6)
+
+
+def test_extrapolator_differentiable_query_interpolator_mutated(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
+    """
+    Test that a cross-backend query reflects in-place mutation of the wrapped
+    interpolator after the cross-backend implementation has been cached.
+    """
+
+    name, _cast = backend
+    if name == "numpy":
+        pytest.skip("Differentiability is only defined for non-NumPy backends.")
+
+    x_i = np.array([3.0, 4.0, 5.0])
+
+    with array_api_enable(True):
+        extrapolator = Extrapolator(LinearInterpolator(x_i, np.array([1.0, 2.0, 3.0])))
+        # Cache the cross-backend implementation, then mutate the wrapped
+        # interpolator in place through the live getter.
+        _query_gradient(name, extrapolator, np.array([1.0, 6.0]))
+        extrapolator.interpolator.y = np.array([1.0, 6.0, 11.0])
+        gradient = _query_gradient(name, extrapolator, np.array([1.0, 6.0]))
+
+    np.testing.assert_allclose(gradient, [5.0, 5.0], atol=1e-6)
+
+
+def test_cross_backend_query_not_implemented(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
+    """
+    Test that a non-*NumPy* interpolator raises for a different backend query.
+    """
+
+    name, cast = backend
+    if name == "numpy":
+        pytest.skip("The NumPy backend re-dispatches instead of raising.")
+
+    foreign = "jax" if name != "jax" else "torch"
+
+    class _ForeignArray:
+        pass
+
+    _ForeignArray.__module__ = foreign
+
+    interpolator = LinearInterpolator(cast(_X), cast(_Y))
+    with array_api_enable(True), pytest.raises(NotImplementedError):
+        interpolator(_ForeignArray())
+
+
+def test_numpy_data_concrete_query_promoted(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
+    """
+    Test that a concrete backend query is evaluated with the *NumPy* backend and
+    promoted to the query namespace.
+
+    This preserves *NumPy*-only features (e.g. non-"reflect" kernel padding) that
+    the query backend does not implement, while a differentiable query
+    re-dispatches (see :func:`test_numpy_data_differentiable_query`).
+    """
+
+    name, cast = backend
+    if name == "numpy":
+        pytest.skip("Promotion only applies to non-NumPy queries.")
+
+    with array_api_enable(True):
+        interpolator = CubicSplineInterpolator(_X, _Y)  # *NumPy* data.
+        result = interpolator(cast(_X_E))  # Concrete backend query.
+
+    assert detect_backend(result) == name
+    reference = scipy.interpolate.interp1d(_X, _Y, kind="cubic")(_X_E)
+    np.testing.assert_allclose(_to_numpy(result), reference, atol=1e-10)
+
+
+# ``x``, ``y`` per interpolator; 2.5 is in-range and off-knot for both datasets.
+_INTERPOLATOR_CASES = [
+    ("linear", LinearInterpolator, _X, _Y),
+    ("nearest", NearestNeighbourInterpolator, _X, _Y),
+    ("null", NullInterpolator, _X, _Y),
+    ("sprague", SpragueInterpolator, _X_UNIFORM, _Y_UNIFORM),
+    ("cubic", CubicSplineInterpolator, _X, _Y),
+    ("pchip", PchipInterpolator, _X, _Y),
+    # The kernel (convolution) interpolator assumes uniformly spaced data.
+    ("kernel", KernelInterpolator, _X_UNIFORM, _Y_UNIFORM),
+]
+
+
+@pytest.mark.parametrize(
+    ("interpolator_type", "x", "y"),
+    [pytest.param(t, x, y, id=i) for i, t, x, y in _INTERPOLATOR_CASES],
+)
+def test_scalar_query(
+    backend: tuple[str, Callable[[Any], Any]],
+    interpolator_type: type,
+    x: np.ndarray,
+    y: np.ndarray,
+) -> None:
+    """Test that a 0-d (scalar) query returns a 0-d result."""
+
+    name, cast = backend
+
+    with array_api_enable(name != "numpy"):
+        interpolator = interpolator_type(cast(x), cast(y))
+        result = interpolator(cast(2.5))
+
+    assert _to_numpy(result).shape == ()
+
+
+@pytest.mark.parametrize(
+    ("interpolator_type", "x", "y"),
+    [pytest.param(t, x, y, id=i) for i, t, x, y in _INTERPOLATOR_CASES],
+)
+def test_empty_query(
+    backend: tuple[str, Callable[[Any], Any]],
+    interpolator_type: type,
+    x: np.ndarray,
+    y: np.ndarray,
+) -> None:
+    """Test that an empty (size-0) query returns an empty result."""
+
+    name, cast = backend
+
+    with array_api_enable(name != "numpy"):
+        interpolator = interpolator_type(cast(x), cast(y))
+        result = interpolator(cast(np.array([])))
+
+    assert _to_numpy(result).shape == (0,)
+
+
+@pytest.mark.parametrize(
+    "interpolator_type",
+    [LinearInterpolator, CubicSplineInterpolator, PchipInterpolator],
+)
+def test_scalar_differentiable_query(
+    backend: tuple[str, Callable[[Any], Any]],
+    interpolator_type: type,
+) -> None:
+    """Test that a 0-d gradient-tracked query re-dispatches and is 0-d."""
+
+    name, _cast = backend
+    if name == "numpy":
+        pytest.skip("Differentiability is only defined for non-NumPy backends.")
+
+    with array_api_enable(True):
+        interpolator = interpolator_type(_X, _Y)  # *NumPy* data.
+
+        if name == "torch":
+            import torch  # noqa: PLC0415
+
+            query = torch.tensor(2.5, requires_grad=True, dtype=torch.float64)
+            result = interpolator(query)
+            assert result.ndim == 0
+            result.backward()
+            assert query.grad is not None
+            gradient = float(query.grad)
+        else:
+            import jax  # noqa: PLC0415
+            import jax.numpy as jnp  # noqa: PLC0415
+
+            gradient = float(jax.grad(interpolator)(jnp.asarray(2.5)))
+
+    reference = _finite_difference(interpolator_type(_X, _Y), np.array([2.5]))[0]
+    np.testing.assert_allclose(gradient, reference, atol=1e-4)
+
+
 def test_cubic_spline_matches_scipy(
     backend: tuple[str, Callable[[Any], Any]],
 ) -> None:
