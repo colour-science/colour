@@ -99,6 +99,17 @@ class CubicSplineInterpolator:
         self._y = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
         self._build()
 
+    def __getattr__(self, name: str) -> Any:
+        """
+        Delegate unknown attributes to the wrapped *SciPy* ``interp1d``, exposing
+        its members such as ``axis``, ``bounds_error`` and ``fill_value``.
+        """
+
+        if name == "_interpolator":
+            raise AttributeError(name)
+
+        return getattr(self._interpolator, name)
+
 
 class PchipInterpolator:
     """
@@ -144,6 +155,18 @@ class PchipInterpolator:
 
         self._y = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
         self._build()
+
+    def __getattr__(self, name: str) -> Any:
+        """
+        Delegate unknown attributes to the wrapped *SciPy*
+        ``PchipInterpolator``, exposing its methods such as ``derivative``,
+        ``integrate``, ``roots`` and ``solve``.
+        """
+
+        if name == "_interpolator":
+            raise AttributeError(name)
+
+        return getattr(self._interpolator, name)
 
 
 class LinearInterpolator:
