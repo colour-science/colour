@@ -1066,7 +1066,7 @@ class BenchmarkRunner:
         # measurement is the enqueue latency rather than the computation.
         # ``numpy`` and ``torch-cpu`` are synchronous from the host's
         # perspective.
-        synchronise = backend == "torch-mps" and torch is not None
+        torch_mps = torch.mps if backend == "torch-mps" and torch is not None else None
         # *JAX* has no global barrier: the asynchronous computation is awaited
         # by blocking on the operation's own result.
         block = backend == "jax" and jax is not None
@@ -1084,16 +1084,16 @@ class BenchmarkRunner:
         try:
             for _ in range(self.warmup):
                 run_operation()
-            if synchronise:
-                torch.mps.synchronize()
+            if torch_mps is not None:
+                torch_mps.synchronize()
 
             for _ in range(self.runs):
-                if synchronise:
-                    torch.mps.synchronize()
+                if torch_mps is not None:
+                    torch_mps.synchronize()
                 start = time.perf_counter()
                 run_operation()
-                if synchronise:
-                    torch.mps.synchronize()
+                if torch_mps is not None:
+                    torch_mps.synchronize()
                 times.append(time.perf_counter() - start)
         # Bench isolation: a failing case (any exception other than
         # ``KeyboardInterrupt`` / ``SystemExit``) is recorded and the
@@ -1103,8 +1103,8 @@ class BenchmarkRunner:
             return BenchmarkResult.failed(suite, backend, label, exception, metadata)
 
         gc.collect()
-        if synchronise:
-            torch.mps.empty_cache()
+        if torch_mps is not None:
+            torch_mps.empty_cache()
 
         return BenchmarkResult(
             suite=suite,

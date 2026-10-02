@@ -44,6 +44,7 @@ __all__ = [
     "clean",
     "formatting",
     "quality",
+    "api",
     "prek",
     "tests",
     "examples",
@@ -199,6 +200,33 @@ def quality(
     if rstlint:
         message_box('Linting "README.rst" file...')
         ctx.run("rst-lint README.rst")
+
+
+@task
+def api(ctx: Context, against: str = "develop", verbose: bool = False) -> None:
+    """
+    Check the public API for *semantic versioning* breakages with *Griffe*.
+
+    Compare the working tree against a *Git* reference and report *breaking*
+    changes only, e.g. removed public objects or altered signatures. Additions
+    are backward-compatible and not reported. Fail on any breakage. Under
+    *semantic versioning* such breakages require a compatibility version bump.
+
+    Parameters
+    ----------
+    ctx
+        Context.
+    against
+        *Git* reference (commit, branch, tag) to compare against.
+    verbose
+        Whether to expand each breakage into a detailed multi-line explanation.
+    """
+
+    message_box('Checking public API compatibility with "Griffe"...')
+    ctx.run(
+        f"griffe check {PYTHON_PACKAGE_NAME} --search . --against {against}"
+        f"{' --format verbose' if verbose else ''}"
+    )
 
 
 @task

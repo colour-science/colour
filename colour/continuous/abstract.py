@@ -35,6 +35,7 @@ from colour.utilities import (
     array_namespace,
     as_float,
     as_float_array,
+    as_ndarray,
     attest,
     closest,
     is_uniform,
@@ -121,6 +122,8 @@ arithmetical_operation`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.is_uniform`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.copy`
     """
+
+    _range: NDArrayFloat
 
     def __init__(self, name: str | None = None) -> None:
         super().__init__()
@@ -879,11 +882,32 @@ arithmetical_operation`
         :class:`colour.continuous.AbstractContinuousFunction`
             Copy of the abstract continuous function.
 
+        Notes
+        -----
+        -   Copying within an array namespace preserves the computational
+            graph of the range values. Converting to another namespace cannot
+            preserve a graph owned by the source backend.
+
         """
 
-        copy = deepcopy(self)
+        source_range = self._range
+        source_xp = array_namespace(source_range)
+        target_xp = source_xp if xp is None else xp
 
-        if xp is not None:
-            copy.range = xp_as_array(as_float_array(copy.range), xp=xp)
+        range_input = (
+            source_range
+            if target_xp.__name__ == source_xp.__name__
+            else as_ndarray(source_range)
+        )
+        range_copy = xp_as_array(range_input, xp=target_xp, copy=True)
 
-        return copy
+        # PyTorch deliberately rejects ``deepcopy`` for non-leaf tensors.
+        # Supply the graph-preserving range copy through the memo and discard
+        # any cached interpolator, which can retain another reference to the
+        # original range.
+        memo: dict[int, object] = {id(source_range): range_copy}
+        function = getattr(self, "_function", None)
+        if function is not None:
+            memo[id(function)] = None
+
+        return deepcopy(self, memo)

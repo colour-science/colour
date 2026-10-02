@@ -70,6 +70,7 @@ from colour.utilities import (
     filter_kwargs,
     interval,
     is_caching_enabled,
+    is_gradient_tracked,
     is_iterable,
     is_numeric,
     is_numpy_namespace,
@@ -1240,6 +1241,10 @@ class SpectralDistribution(Signal):
             required to extend the range of the spectral distribution use the
             :meth:`colour.SpectralDistribution.extrapolate` or
             :meth:`colour.SpectralDistribution.align` methods.
+        -   *Sprague (1880)*, linear, cubic spline and *PCHIP* interpolation
+            preserve automatic differentiation for non-*NumPy* array
+            namespaces. *PCHIP* gradients are piecewise-defined while its
+            slope-selection branch remains stable.
 
         Warnings
         --------
@@ -3011,11 +3016,15 @@ def reshape_sd(
         if isinstance(value, Mapping):
             kwargs_items[i] = (keyword, tuple(value.items()))
 
-    hash_key = hash(
-        (sd, shape, method, tuple(kwargs_items), type(sd.values).__module__)
-    )
+    cacheable = is_caching_enabled() and not is_gradient_tracked(sd.values)
 
-    if is_caching_enabled() and hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
+    hash_key = None
+    if cacheable:
+        hash_key = hash(
+            (sd, shape, method, tuple(kwargs_items), type(sd.values).__module__)
+        )
+
+    if cacheable and hash_key in _CACHE_RESHAPED_SDS_AND_MSDS:
         reshaped_sd = _CACHE_RESHAPED_SDS_AND_MSDS[hash_key]
 
         return reshaped_sd.copy() if copy else reshaped_sd
@@ -3035,7 +3044,7 @@ def reshape_sd(
     ):
         reshaped_sd.values = xp_as_float_array(reshaped_sd.values, xp=xp, like=R)
 
-    if is_caching_enabled():
+    if cacheable:
         _CACHE_RESHAPED_SDS_AND_MSDS[hash_key] = reshaped_sd
 
     return reshaped_sd

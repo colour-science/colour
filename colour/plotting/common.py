@@ -257,7 +257,7 @@ def colour_style(use_style: bool = True) -> dict:
     """
 
     constants = CONSTANTS_COLOUR_STYLE
-    style = {
+    style: dict[str, Any] = {
         # Figure Size Settings
         "figure.figsize": (12.80, 7.20),
         "figure.dpi": 100,
@@ -319,7 +319,7 @@ def colour_style(use_style: bool = True) -> dict:
     }
 
     if use_style:
-        plt.rcParams.update(style)
+        plt.rcParams.update(cast("Any", style))
 
     return style
 
