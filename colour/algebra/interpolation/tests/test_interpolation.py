@@ -935,3 +935,62 @@ def test_jax_jit() -> None:
 
     reference = scipy.interpolate.interp1d(_X, _Y, kind="cubic")(_X_E)
     np.testing.assert_allclose(_to_numpy(evaluate(x_e)), reference, atol=1e-8)
+
+
+def test_jax_jit_range_checked_evaluation() -> None:
+    """
+    Test that *JAX* interpolators whose evaluation validates the query range
+    evaluate under ``jax.jit`` and match eager evaluation.
+
+    The range check raises eagerly but is skipped under ``jit``, where the query
+    values are unknown at trace time.
+    """
+
+    jax = pytest.importorskip("jax")
+    import jax.numpy as jnp  # noqa: PLC0415
+
+    jax.config.update("jax_enable_x64", True)
+    x = jnp.asarray(_X)
+    y = jnp.asarray(_Y)
+    x_e = jnp.asarray(_X_E)
+
+    interpolators = [
+        LinearInterpolator(x, y),
+        NearestNeighbourInterpolator(x, y),
+        CubicSplineInterpolator(x, y),
+        KernelInterpolator(jnp.asarray(_X_UNIFORM), jnp.asarray(_Y_UNIFORM)),
+    ]
+    for interpolator in interpolators:
+        query = (
+            jnp.asarray(_X_E_UNIFORM)
+            if isinstance(interpolator, KernelInterpolator)
+            else x_e
+        )
+        np.testing.assert_allclose(
+            _to_numpy(jax.jit(interpolator.__call__)(query)),
+            _to_numpy(interpolator(query)),
+            atol=1e-8,
+        )
+
+
+def test_jax_jit_extrapolator() -> None:
+    """
+    Test that a *JAX* :class:`Extrapolator` evaluates under ``jax.jit``, over a
+    query spanning below, within and above the interpolation range, and matches
+    eager evaluation.
+    """
+
+    jax = pytest.importorskip("jax")
+    import jax.numpy as jnp  # noqa: PLC0415
+
+    jax.config.update("jax_enable_x64", True)
+    x = jnp.asarray(_X)
+    y = jnp.asarray(_Y)
+    query = jnp.asarray(np.linspace(_X[0] - 1.0, _X[-1] + 1.0, 29))
+
+    extrapolator = Extrapolator(CubicSplineInterpolator(x, y, fill_value="extrapolate"))
+    np.testing.assert_allclose(
+        _to_numpy(jax.jit(extrapolator)(query)),
+        _to_numpy(extrapolator(query)),
+        atol=1e-8,
+    )
