@@ -28,6 +28,7 @@ from colour.algebra.interpolation import (
     kernel_linear,
 )
 from colour.algebra.interpolation._dispatch import detect_backend
+from colour.algebra.interpolation.backends._core import reflect_indices
 from colour.utilities import array_api_enable
 
 if TYPE_CHECKING:
@@ -762,6 +763,69 @@ def test_kernel_raises() -> None:
 
     with pytest.raises(ValueError):
         KernelInterpolator(np.linspace(0, 1, 10), np.linspace(0, 1, 15))
+
+
+def test_kernel_reflect_padding_wider_than_data(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
+    """
+    Test that a window wider than the data reflects correctly and agrees across
+    backends.
+
+    Regression: the default ``window`` is wider than a two-sample input, which
+    used to raise on *PyTorch* and silently clamp (diverging numerically) on
+    *JAX*.
+    """
+
+    _name, cast = backend
+    query = np.array([0.5])
+
+    reference = KernelInterpolator(np.array([0.0, 1.0]), np.array([2.0, 4.0]))(query)
+    got = KernelInterpolator(cast(np.array([0.0, 1.0])), cast(np.array([2.0, 4.0])))(
+        cast(query)
+    )
+    np.testing.assert_allclose(_to_numpy(got), _to_numpy(reference), atol=1e-10)
+
+
+@pytest.mark.parametrize("window", [1, 2, 3, 5, 9])
+def test_kernel_reflect_padding_matches_numpy(
+    backend: tuple[str, Callable[[Any], Any]], window: int
+) -> None:
+    """Test that reflect padding matches ``np.pad`` for arbitrary window widths."""
+
+    _name, cast = backend
+    x = np.arange(4.0)
+    y = np.array([2.0, 4.0, 8.0, 16.0])
+    query = np.linspace(0.0, 3.0, 13)
+
+    reference = KernelInterpolator(x, y, window=window)(query)
+    got = KernelInterpolator(cast(x), cast(y), window=window)(cast(query))
+    np.testing.assert_allclose(_to_numpy(got), _to_numpy(reference), atol=1e-8)
+
+
+@pytest.mark.parametrize(("n", "window"), [(1, 2), (2, 3), (4, 1), (4, 7), (5, 2)])
+def test_reflect_indices_match_numpy_pad(n: int, window: int) -> None:
+    """Test that ``reflect_indices`` reproduces ``np.pad`` reflect, incl. ``n == 1``."""
+
+    y = np.arange(float(n)) + 1.0
+    reference = np.pad(y, (window, window), mode="reflect" if n > 1 else "edge")
+    np.testing.assert_array_equal(y[reflect_indices(n, window)], reference)
+
+
+@pytest.mark.parametrize(
+    "padding_kwargs",
+    [{"mode": "mean"}, {"pad_width": (5, 5), "mode": "reflect"}],
+)
+def test_kernel_padding_kwargs_rejected(
+    backend: tuple[str, Callable[[Any], Any]], padding_kwargs: dict
+) -> None:
+    """Test that unsupported padding is rejected the same way on every backend."""
+
+    _name, cast = backend
+    with pytest.raises(ValueError):
+        KernelInterpolator(
+            cast(_X_UNIFORM), cast(_Y_UNIFORM), padding_kwargs=padding_kwargs
+        )
 
 
 def test_extrapolator_rank_2(backend: tuple[str, Callable[[Any], Any]]) -> None:

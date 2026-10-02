@@ -432,7 +432,9 @@ class KernelInterpolator(_DispatchingInterpolator):
     Perform kernel-based (convolution) interpolation of a 1-D function.
 
     Reconstruct a continuous signal from discrete samples as the convolution of
-    the data with a continuous interpolation kernel.
+    the data with a continuous interpolation kernel. Only reflect padding with a
+    ``pad_width`` equal to ``window`` is supported; other ``padding_kwargs``
+    raise.
 
     References
     ----------

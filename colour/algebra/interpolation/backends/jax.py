@@ -23,8 +23,10 @@ import jax.numpy as jnp
 from ._core import (
     SPRAGUE_A_COEFFICIENTS,
     SPRAGUE_C_COEFFICIENTS,
+    reflect_indices,
     validate_dimensions,
     validate_extrapolation_method,
+    validate_padding_kwargs,
 )
 from ._kernels import kernel_lanczos
 
@@ -686,19 +688,14 @@ class SpragueInterpolator:
 
 def _reflect_pad(y: jnp.ndarray, window: int) -> jnp.ndarray:
     """
-    Reflect-pad the leading axis of ``y`` by ``window`` on each side.
+    Reflect-pad the leading axis of ``y`` by ``window`` on each side, matching
+    ``np.pad(mode="reflect")`` for any width.
 
-    Reflection excludes the edge sample (``np.pad`` ``"reflect"`` semantics) and
-    is expressed as an integer-index gather so the padded values keep their
-    autodiff graph with respect to ``y``.
+    The integer-index gather keeps the padded values' autodiff graph with
+    respect to ``y``.
     """
 
-    n = y.shape[0]
-    left = jnp.arange(window, 0, -1)
-    middle = jnp.arange(n)
-    right = jnp.arange(n - 2, n - 2 - window, -1)
-
-    return y[jnp.concatenate([left, middle, right])]
+    return y[jnp.asarray(reflect_indices(y.shape[0], window))]
 
 
 class KernelInterpolator:
@@ -706,8 +703,9 @@ class KernelInterpolator:
     Native kernel-based (convolution) interpolant over *JAX* inputs.
 
     Evaluation preserves autodiff with respect to the dependent values (through
-    the gathered padded values). Uniform ``x`` spacing is assumed. Only
-    ``"reflect"`` padding is supported on device.
+    the gathered padded values). Uniform ``x`` spacing is assumed. Only reflect
+    padding with a ``pad_width`` equal to ``window`` is supported; other
+    ``padding_kwargs`` raise.
     """
 
     def __init__(
@@ -729,9 +727,7 @@ class KernelInterpolator:
             if padding_kwargs is None
             else dict(padding_kwargs)
         )
-        if self._padding_kwargs.get("mode", "reflect") != "reflect":
-            error = 'Only "reflect" padding is supported by the JAX backend.'
-            raise ValueError(error)
+        validate_padding_kwargs(self._padding_kwargs, window)
 
         self._x = _as_float(x)
         self._y = _as_float(y)
