@@ -50,10 +50,25 @@ __all__ = [
 ]
 
 
+def _any_true(mask: jnp.ndarray) -> bool:
+    """
+    Return whether any element of ``mask`` is true.
+
+    Return ``False`` for an abstract tracer (under ``jax.jit``), where the query
+    values are unknown at trace time and the predicate cannot be evaluated;
+    concrete tracers (under ``jax.grad``) are evaluated as usual.
+    """
+
+    try:
+        return bool(jnp.any(mask))
+    except jax.errors.TracerBoolConversionError:
+        return False
+
+
 def _validate_range(x: jnp.ndarray, x_i: jnp.ndarray) -> None:
     """Raise if any query value lies outside the interpolation range."""
 
-    if bool(jnp.any(x < x_i[0])) or bool(jnp.any(x > x_i[-1])):
+    if _any_true((x < x_i[0]) | (x > x_i[-1])):
         error = "A value in x is outside the interpolation range."
         raise ValueError(error)
 
@@ -234,7 +249,7 @@ class CubicSplineInterpolator:
 
         below = x < x_i[0]
         above = x > x_i[-1]
-        if self.bounds_error and bool(jnp.any(below | above)):
+        if self.bounds_error and _any_true(below | above):
             error = "A value in x_new is outside the interpolation range."
             raise ValueError(error)
         if not self._extrapolate:
@@ -752,9 +767,7 @@ class KernelInterpolator:
     def _evaluate(self, x: jnp.ndarray) -> jnp.ndarray:
         """Evaluate the interpolating convolution at the specified point(s)."""
 
-        if bool(jnp.any(x < self._x[0])) or bool(jnp.any(x > self._x[-1])):
-            error = "A value in x is outside the interpolation range."
-            raise ValueError(error)
+        _validate_range(x, self._x)
 
         w = int(self._window)
         interval = self._interval
@@ -953,21 +966,20 @@ class Extrapolator:
         if self._right is not None:
             y = jnp.where(above_b, jnp.asarray(self._right, dtype=y.dtype), y)
 
-        if bool(jnp.any(in_range)):
-            x_ravel = x.reshape(-1)
-            in_range_ravel = in_range.reshape(-1)
-            y_ravel = y.reshape(-1, yi.shape[1])
+        # Evaluate the wrapped interpolator on the query clamped into its domain
+        # (fixed-shape, so the path traces under ``jax.jit``) and keep only the
+        # in-range results. Clamping guarantees in-range values, so the wrapped
+        # interpolator's own range check never fires.
+        x_ravel = x.reshape(-1)
+        clamped = jnp.clip(x_ravel, xi[0], xi[-1])
+        interpolated = jnp.atleast_1d(self._interpolator(clamped))
+        if interpolated.ndim == 1:
+            interpolated = interpolated[..., None]
 
-            interpolated = jnp.atleast_1d(self._interpolator(x_ravel[in_range_ravel]))
-            if interpolated.ndim == 1:
-                interpolated = interpolated[..., None]
-
-            dense_idx = jnp.cumsum(in_range_ravel.astype(int)) - 1
-            safe_idx = jnp.clip(dense_idx, 0, interpolated.shape[0] - 1)
-            y_ravel = jnp.where(
-                in_range_ravel[..., None], interpolated[safe_idx], y_ravel
-            )
-            y = y_ravel.reshape((*x.shape, yi.shape[1]))
+        y_ravel = jnp.where(
+            in_range.reshape(-1)[..., None], interpolated, y.reshape(-1, yi.shape[1])
+        )
+        y = y_ravel.reshape((*x.shape, yi.shape[1]))
 
         if input_rank == 1:
             y = y[..., 0]
