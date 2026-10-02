@@ -460,6 +460,109 @@ def test_y_setter(backend: tuple[str, Callable[[Any], Any]]) -> None:
     )
 
 
+def test_x_setter(backend: tuple[str, Callable[[Any], Any]]) -> None:
+    """Test that assigning ``x`` rebuilds the interpolant and shifts evaluation."""
+
+    _name, cast = backend
+    interpolator = LinearInterpolator(cast(_X), cast(_Y))
+
+    x_new = _X * 2.0
+    interpolator.x = cast(x_new)
+
+    query = np.linspace(x_new[0], x_new[-1], 11)
+    reference = LinearInterpolator(x_new, _Y)(query)
+    np.testing.assert_allclose(
+        _to_numpy(interpolator(cast(query))), _to_numpy(reference), atol=1e-10
+    )
+
+
+def test_kernel_setters(backend: tuple[str, Callable[[Any], Any]]) -> None:
+    """Test that assigning kernel parameters rebuilds the interpolant."""
+
+    _name, cast = backend
+    interpolator = KernelInterpolator(cast(_X_UNIFORM), cast(_Y_UNIFORM))
+
+    interpolator.window = 4
+    interpolator.kernel = kernel_linear
+    assert interpolator.window == 4
+    assert interpolator.kernel is kernel_linear
+
+    reference = KernelInterpolator(
+        _X_UNIFORM, _Y_UNIFORM, window=4, kernel=kernel_linear
+    )(_X_E_UNIFORM)
+    np.testing.assert_allclose(
+        _to_numpy(interpolator(cast(_X_E_UNIFORM))), _to_numpy(reference), atol=1e-8
+    )
+
+
+def test_null_setters(backend: tuple[str, Callable[[Any], Any]]) -> None:
+    """
+    Test that assigning ``default`` and the tolerances changes evaluation.
+
+    Regression: a bare attribute write previously shadowed the implementation
+    through :meth:`__getattr__` and was silently ignored by evaluation.
+    """
+
+    _name, cast = backend
+    interpolator = NullInterpolator(cast(_X), cast(_Y))
+
+    interpolator.default = 42.0
+    interpolator.absolute_tolerance = 0.1
+    interpolator.relative_tolerance = 0.2
+    assert interpolator.default == 42.0
+    assert interpolator.absolute_tolerance == 0.1
+    assert interpolator.relative_tolerance == 0.2
+
+    # A query away from any knot does not match within tolerance: the default.
+    off_knot = np.array([_X[0] + 0.123])
+    np.testing.assert_allclose(_to_numpy(interpolator(cast(off_knot))), 42.0)
+
+
+def test_setattr_rejects_shadowing(backend: tuple[str, Callable[[Any], Any]]) -> None:
+    """
+    Test that assigning an attribute without a writable property raises rather
+    than silently shadowing the delegated implementation.
+    """
+
+    _name, cast = backend
+    interpolator = NullInterpolator(cast(_X), cast(_Y))
+
+    with pytest.raises(AttributeError):
+        interpolator.nonexistent = 1.0
+
+    # ``backend`` is a read-only property and likewise not writable.
+    with pytest.raises(AttributeError):
+        interpolator.backend = "numpy"  # pyright: ignore[reportAttributeAccessIssue]
+
+
+def test_scipy_members(backend: tuple[str, Callable[[Any], Any]]) -> None:
+    """
+    Test that the wrapped *SciPy* members are exposed on the *NumPy* backend.
+
+    ``PchipInterpolator`` methods and ``interp1d.fill_value`` wrap *SciPy* and
+    exist on the *NumPy* backend only.
+    """
+
+    name, cast = backend
+    cubic = CubicSplineInterpolator(cast(_X), cast(_Y))
+    pchip = PchipInterpolator(cast(_X), cast(_Y))
+    pchip_methods = ("derivative", "integrate", "roots", "solve")
+
+    if name == "numpy":
+        assert hasattr(cubic, "fill_value")
+        for method in pchip_methods:
+            assert callable(getattr(pchip, method))
+
+        reference = scipy.interpolate.PchipInterpolator(_X, _Y)
+        np.testing.assert_allclose(
+            pchip.integrate(_X[0], _X[-1]), reference.integrate(_X[0], _X[-1])
+        )
+    else:
+        assert not hasattr(cubic, "fill_value")
+        for method in pchip_methods:
+            assert not hasattr(pchip, method)
+
+
 def test_linear(backend: tuple[str, Callable[[Any], Any]]) -> None:
     """Test the dispatching linear interpolator across backends."""
 

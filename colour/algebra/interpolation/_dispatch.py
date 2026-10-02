@@ -170,9 +170,30 @@ class _BackendDispatcher(ABC):
         return implementation
 
     def _invalidate_cross_backend(self) -> None:
-        """Drop cached cross-backend implementations after a mutation."""
+        """
+        Drop cached cross-backend implementations, keeping the base implementation
+        mutated in place.
+
+        For a dispatcher whose base implementation exposes setters (e.g.
+        :class:`colour.Extrapolator`), the base is mutated directly and only the
+        cross-backend snapshots are stale.
+        """
 
         self._implementations = {self._backend: self._base_implementation}
+
+    def _rebuild(self) -> None:
+        """
+        Rebuild the base implementation from the current construction inputs and
+        drop any cached cross-backend implementations.
+
+        For a dispatcher whose base implementation has no setter for a mutated
+        attribute, reconstruction from the stored inputs is the only way to apply
+        the change.
+        """
+
+        self._implementations = {
+            self._backend: self._build_implementation(self._backend)
+        }
 
     @property
     def _base_implementation(self) -> Any:
@@ -242,11 +263,47 @@ class _DispatchingInterpolator(_BackendDispatcher):
 
         return getattr(self._base_implementation, name)
 
+    def __setattr__(self, name: str, value: Any) -> None:
+        """
+        Set an internal attribute or a writable property, rejecting anything
+        else.
+
+        A public name without a backing property would otherwise create an
+        instance attribute that shadows :meth:`__getattr__` without reaching the
+        implementation, leaving a stale value that evaluation never reads.
+        """
+
+        if name.startswith("_") or isinstance(
+            getattr(type(self), name, None), property
+        ):
+            super().__setattr__(name, value)
+
+            return
+
+        error = (
+            f'Cannot set attribute "{name}" on {type(self).__name__}; it is not a '
+            f"writable property."
+        )
+        raise AttributeError(error)
+
+    def _set_construction_kwarg(self, name: str, value: Any) -> None:
+        """Update a construction keyword argument and rebuild."""
+
+        self._kwargs[name] = value
+        self._rebuild()
+
     @property
     def x(self) -> Any:
-        """Getter for the independent :math:`x` variable."""
+        """Getter and setter for the independent :math:`x` variable."""
 
         return self._base_implementation.x
+
+    @x.setter
+    def x(self, value: Any) -> None:
+        """Setter for the **self.x** property; rebuilds the implementation."""
+
+        self._x_source = value
+        self._rebuild()
 
     @property
     def y(self) -> Any:
@@ -256,11 +313,10 @@ class _DispatchingInterpolator(_BackendDispatcher):
 
     @y.setter
     def y(self, value: Any) -> None:
-        """Setter for the **self.y** property."""
+        """Setter for the **self.y** property; rebuilds the implementation."""
 
         self._y_source = value
-        self._base_implementation.y = value
-        self._invalidate_cross_backend()
+        self._rebuild()
 
 
 class LinearInterpolator(_DispatchingInterpolator):
@@ -291,6 +347,42 @@ class NullInterpolator(_DispatchingInterpolator):
     else the default value.
     """
 
+    @property
+    def absolute_tolerance(self) -> Any:
+        """Getter and setter for the absolute matching tolerance."""
+
+        return self._base_implementation.absolute_tolerance
+
+    @absolute_tolerance.setter
+    def absolute_tolerance(self, value: Any) -> None:
+        """Setter for the **self.absolute_tolerance** property."""
+
+        self._set_construction_kwarg("absolute_tolerance", value)
+
+    @property
+    def relative_tolerance(self) -> Any:
+        """Getter and setter for the relative matching tolerance."""
+
+        return self._base_implementation.relative_tolerance
+
+    @relative_tolerance.setter
+    def relative_tolerance(self, value: Any) -> None:
+        """Setter for the **self.relative_tolerance** property."""
+
+        self._set_construction_kwarg("relative_tolerance", value)
+
+    @property
+    def default(self) -> Any:
+        """Getter and setter for the value returned when no knot matches."""
+
+        return self._base_implementation.default
+
+    @default.setter
+    def default(self, value: Any) -> None:
+        """Setter for the **self.default** property."""
+
+        self._set_construction_kwarg("default", value)
+
 
 class SpragueInterpolator(_DispatchingInterpolator):
     """
@@ -313,6 +405,10 @@ class CubicSplineInterpolator(_DispatchingInterpolator):
     cubic polynomials. *NumPy* arrays are evaluated with *SciPy*, other array
     namespaces use an equivalent native *not-a-knot* cubic spline that preserves
     automatic differentiation graphs.
+
+    On the *NumPy* backend, attributes absent here fall through to the wrapped
+    *SciPy* ``interp1d``, exposing its members such as ``fill_value``. ``axis``
+    and ``bounds_error`` are available on every backend.
     """
 
 
@@ -324,6 +420,10 @@ class PchipInterpolator(_DispatchingInterpolator):
     *NumPy* arrays are evaluated with *SciPy*, other array namespaces use an
     equivalent native implementation that preserves automatic differentiation
     graphs.
+
+    On the *NumPy* backend the wrapped *SciPy* ``PchipInterpolator`` methods
+    ``derivative``, ``integrate``, ``roots`` and ``solve`` are exposed; they are
+    unavailable for other backends.
     """
 
 
@@ -341,24 +441,48 @@ class KernelInterpolator(_DispatchingInterpolator):
 
     @property
     def window(self) -> Any:
-        """Getter for the interpolation window size."""
+        """Getter and setter for the interpolation window size."""
 
         return self._base_implementation.window
 
+    @window.setter
+    def window(self, value: Any) -> None:
+        """Setter for the **self.window** property; rebuilds the implementation."""
+
+        self._set_construction_kwarg("window", value)
+
     @property
     def kernel(self) -> Any:
-        """Getter for the interpolation kernel callable."""
+        """Getter and setter for the interpolation kernel callable."""
 
         return self._base_implementation.kernel
 
+    @kernel.setter
+    def kernel(self, value: Any) -> None:
+        """Setter for the **self.kernel** property; rebuilds the implementation."""
+
+        self._set_construction_kwarg("kernel", value)
+
     @property
     def kernel_kwargs(self) -> Any:
-        """Getter for the kernel keyword arguments."""
+        """Getter and setter for the kernel keyword arguments."""
 
         return self._base_implementation.kernel_kwargs
 
+    @kernel_kwargs.setter
+    def kernel_kwargs(self, value: Any) -> None:
+        """Setter for the **self.kernel_kwargs** property; rebuilds."""
+
+        self._set_construction_kwarg("kernel_kwargs", value)
+
     @property
     def padding_kwargs(self) -> Any:
-        """Getter for the padding keyword arguments."""
+        """Getter and setter for the padding keyword arguments."""
 
         return self._base_implementation.padding_kwargs
+
+    @padding_kwargs.setter
+    def padding_kwargs(self, value: Any) -> None:
+        """Setter for the **self.padding_kwargs** property; rebuilds."""
+
+        self._set_construction_kwarg("padding_kwargs", value)
