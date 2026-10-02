@@ -218,6 +218,7 @@ class NearestNeighbourInterpolator:
     def __init__(self, x: Any, y: Any, *args: Any, **kwargs: Any) -> None:  # noqa: ARG002
         self._x = np.asarray(x, dtype=DTYPE_FLOAT_DEFAULT)
         self._y = np.asarray(y, dtype=DTYPE_FLOAT_DEFAULT)
+        validate_dimensions(self._x, self._y)
 
     def __call__(self, x: Any) -> np.ndarray:
         """Evaluate the nearest-neighbour interpolant at the specified point(s)."""
@@ -424,16 +425,7 @@ class KernelInterpolator:
 
         self._x = np.asarray(x, dtype=DTYPE_FLOAT_DEFAULT)
         self._y = np.asarray(y, dtype=DTYPE_FLOAT_DEFAULT)
-
-        if self._x.ndim != 1:
-            error = '"x" independent variable must have exactly one dimension!'
-            raise ValueError(error)
-        if len(self._x) != len(self._y):
-            error = (
-                '"x" independent and "y" dependent variables have different '
-                f'dimensions: "{len(self._x)}", "{len(self._y)}"'
-            )
-            raise ValueError(error)
+        validate_dimensions(self._x, self._y)
 
         self._build()
 

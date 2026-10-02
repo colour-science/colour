@@ -644,12 +644,32 @@ def test_null_attributes(backend: tuple[str, Callable[[Any], Any]]) -> None:
     assert interpolator.default == 0.0
 
 
-def test_dimension_validation(backend: tuple[str, Callable[[Any], Any]]) -> None:
-    """Test that mismatched variable dimensions raise a ``ValueError``."""
+@pytest.mark.parametrize(
+    "interpolator",
+    [
+        LinearInterpolator,
+        NearestNeighbourInterpolator,
+        NullInterpolator,
+        SpragueInterpolator,
+        KernelInterpolator,
+    ],
+)
+def test_dimension_validation(
+    backend: tuple[str, Callable[[Any], Any]], interpolator: type
+) -> None:
+    """
+    Test that mismatched lengths and a non-1-D ``x`` raise at construction.
+
+    Regression: the nearest-neighbour interpolator accepted invalid inputs and
+    failed later with backend-dependent indexing errors.
+    """
 
     _name, cast = backend
     with pytest.raises(ValueError):
-        LinearInterpolator(cast(_X), cast(_Y[:-1]))
+        interpolator(cast(_X), cast(_Y[:-1]))
+
+    with pytest.raises(ValueError):
+        interpolator(cast(np.stack([_X, _X])), cast(_Y))
 
 
 def test_torch_autodiff() -> None:
