@@ -490,6 +490,7 @@ class NearestNeighbourInterpolator:
     def __init__(self, x: Any, y: Any, *args: Any, **kwargs: Any) -> None:  # noqa: ARG002
         self._x = _as_float(torch.as_tensor(x))
         self._y = _as_float(torch.as_tensor(y))
+        validate_dimensions(self._x, self._y)
 
     def __call__(self, x: Any) -> torch.Tensor:
         """Evaluate the nearest-neighbour interpolant at the specified point(s)."""
@@ -724,16 +725,7 @@ class KernelInterpolator:
 
         self._x = _as_float(torch.as_tensor(x))
         self._y = _as_float(torch.as_tensor(y))
-
-        if self._x.ndim != 1:
-            error = '"x" independent variable must have exactly one dimension!'
-            raise ValueError(error)
-        if self._x.shape[0] != self._y.shape[0]:
-            error = (
-                '"x" independent and "y" dependent variables have different '
-                f'dimensions: "{self._x.shape[0]}", "{self._y.shape[0]}"'
-            )
-            raise ValueError(error)
+        validate_dimensions(self._x, self._y)
 
         self._build()
 

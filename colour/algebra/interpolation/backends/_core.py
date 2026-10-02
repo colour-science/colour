@@ -26,7 +26,17 @@ __all__ = [
 
 
 def validate_dimensions(x: Any, y: Any) -> None:
-    """Raise if the independent and dependent variables differ in length."""
+    """
+    Raise if the independent variable is not one-dimensional or if it differs in
+    length from the dependent variable.
+
+    ``x`` and ``y`` are backend arrays. Validating at construction avoids later
+    backend-dependent indexing errors.
+    """
+
+    if x.ndim != 1:
+        error = '"x" independent variable must have exactly one dimension!'
+        raise ValueError(error)
 
     if len(x) != len(y):
         error = (
