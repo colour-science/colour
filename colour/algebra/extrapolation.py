@@ -22,9 +22,9 @@ from typing import Any
 import numpy as np  # noqa: F401  (used by the doctests)
 
 from colour.algebra.interpolation._dispatch import (
+    _backend_module,
     _BackendDispatcher,
     _DispatchingInterpolator,
-    _backend_module,
     detect_backend,
 )
 
