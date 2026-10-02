@@ -6,6 +6,8 @@ from __future__ import annotations
 
 from typing import Any
 
+import numpy as np
+
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
@@ -16,6 +18,8 @@ __status__ = "Production"
 __all__ = [
     "validate_dimensions",
     "validate_extrapolation_method",
+    "validate_padding_kwargs",
+    "reflect_indices",
     "SPRAGUE_C_COEFFICIENTS",
     "SPRAGUE_A_COEFFICIENTS",
 ]
@@ -40,6 +44,59 @@ def validate_extrapolation_method(method: Any) -> str:
         raise ValueError(error)
 
     return method
+
+
+def validate_padding_kwargs(padding_kwargs: dict, window: float) -> None:
+    """
+    Raise unless ``padding_kwargs`` requests the only supported padding:
+    ``"reflect"`` with a ``pad_width`` of ``(window, window)``.
+
+    The kernel gather spans ``2 * window`` samples around each query and is
+    clipped to an ``x`` range padded by ``window``, so ``pad_width`` must equal
+    ``window`` and only reflect padding is implemented on every backend.
+    """
+
+    mode = padding_kwargs.get("mode", "reflect")
+    if mode != "reflect":
+        error = f'Only "reflect" kernel padding is supported, not "{mode}".'
+        raise ValueError(error)
+
+    # ``np.pad`` accepts a scalar, a ``(before, after)`` pair or ``((b, a),)``;
+    # all are honoured as long as every side equals the window.
+    pad_width = padding_kwargs.get("pad_width", window)
+    flat = np.ravel(pad_width)
+    if flat.size > 2 or not bool(np.all(flat == window)):
+        error = (
+            f'Kernel "pad_width" must equal the window on both sides, '
+            f"({window}, {window}), not {pad_width}."
+        )
+        raise ValueError(error)
+
+
+def reflect_indices(n: int, window: int) -> np.ndarray:
+    """
+    Return the gather indices that reflect-pad a length-``n`` axis by ``window``
+    on each side, matching :func:`numpy.pad` ``mode="reflect"`` for any width.
+
+    Reflection excludes the edge sample and bounces for widths of ``n`` or more.
+    Expressing the padding as an integer gather keeps autodiff graphs intact on
+    the array backends. A length-one axis has no interior to reflect, so
+    ``numpy.pad`` repeats its single sample.
+
+    >>> reflect_indices(2, 3).tolist()
+    [1, 0, 1, 0, 1, 0, 1, 0]
+    >>> reflect_indices(4, 1).tolist()
+    [1, 0, 1, 2, 3, 2]
+    """
+
+    positions = np.arange(-window, n + window)
+    if n == 1:
+        return np.zeros_like(positions)
+
+    period = 2 * (n - 1)
+    wrapped = positions % period
+
+    return np.where(wrapped < n, wrapped, period - wrapped)
 
 
 SPRAGUE_C_COEFFICIENTS: tuple[tuple[float, ...], ...] = (

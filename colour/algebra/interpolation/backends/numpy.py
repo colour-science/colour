@@ -18,6 +18,7 @@ from ._core import (
     SPRAGUE_C_COEFFICIENTS,
     validate_dimensions,
     validate_extrapolation_method,
+    validate_padding_kwargs,
 )
 from ._kernels import kernel_lanczos
 
@@ -396,7 +397,8 @@ class KernelInterpolator:
 
     Reconstruct a continuous signal from discrete samples as the convolution of
     the data with a continuous interpolation kernel. Uniform ``x`` spacing is
-    assumed.
+    assumed. Only reflect padding with a ``pad_width`` equal to ``window`` is
+    supported; other ``padding_kwargs`` raise.
     """
 
     def __init__(
@@ -418,6 +420,7 @@ class KernelInterpolator:
             if padding_kwargs is None
             else dict(padding_kwargs)
         )
+        validate_padding_kwargs(self._padding_kwargs, window)
 
         self._x = np.asarray(x, dtype=DTYPE_FLOAT_DEFAULT)
         self._y = np.asarray(y, dtype=DTYPE_FLOAT_DEFAULT)

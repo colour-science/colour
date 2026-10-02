@@ -912,14 +912,19 @@ kernel_kwargs` property.
     def test_padding_kwargs(self) -> None:
         """
         Test :attr:`colour.algebra.interpolation.KernelInterpolator.\
-padding_kwargs` property.
+padding_kwargs` property and rejection of unsupported padding.
         """
 
         x = y = np.linspace(0, 1, 10)
-        padding_kwargs = {"pad_width": (3, 3), "mode": "mean"}
+        padding_kwargs = {"pad_width": (3, 3), "mode": "reflect"}
         kernel_interpolator = KernelInterpolator(x, y, padding_kwargs=padding_kwargs)
 
         assert kernel_interpolator.padding_kwargs == padding_kwargs
+
+        with pytest.raises(ValueError):
+            KernelInterpolator(
+                x, y, padding_kwargs={"pad_width": (3, 3), "mode": "mean"}
+            )
 
     def test_raise_exception___init__(self) -> None:
         """
@@ -1072,40 +1077,11 @@ padding_kwargs` property.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        kernel_interpolator = KernelInterpolator(
-            x, y, padding_kwargs={"pad_width": (3, 3), "mode": "mean"}
-        )
-        xp_assert_close(
-            kernel_interpolator(xp_as_array(x_i, xp=xp)),
-            [
-                4.4384879,
-                4.35723245,
-                3.62918155,
-                2.77471295,
-                2.13474499,
-                2.08206794,
-                2.50585862,
-                3.24992692,
-                3.84593162,
-                4.06289704,
-                3.80825633,
-                3.21068994,
-                2.65177161,
-                2.32137382,
-                2.45995375,
-                2.88799997,
-                3.43843598,
-                3.79504892,
-                3.79937086,
-                3.47673343,
-                2.99303182,
-                2.59771985,
-                2.49380017,
-                2.76339043,
-                3.14159265,
-            ],
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
+        # Non-reflect padding is rejected consistently across backends.
+        with pytest.raises(ValueError):
+            KernelInterpolator(
+                x, y, padding_kwargs={"pad_width": (3, 3), "mode": "mean"}
+            )
 
         x_1 = np.arange(1, 10, 1)
         x_2 = x_1 * 10
