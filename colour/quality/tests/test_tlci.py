@@ -519,6 +519,22 @@ television_lighting_consistency_index` definition with additional data.
             xp_assert_close(specification.Q_a, 100, atol=5e-4)
             xp_assert_close(specification.D_uv, 0, atol=1.5e-2)
 
+    def test_television_lighting_consistency_index_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test local numerical gradients through spectral alignment."""
+
+        sd = SDS_ILLUMINANTS["FL2"]
+        _Q_a, (gradient,), _inputs = autodiff(
+            lambda values: television_lighting_consistency_index(
+                SpectralDistribution(values, sd.wavelengths)
+            ),
+            sd.values,
+        )
+
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
+
     def test_television_lighting_consistency_index_mixed_reference(
         self, xp: ModuleType
     ) -> None:
@@ -628,6 +644,23 @@ television_luminaire_matching_factor` definition with additional data.
         assert 0.0 <= specification.Q_a <= 100.0
         assert specification.delta_E_a >= 0.0
         assert specification.delta_E_s.shape == (24,)
+
+    def test_television_luminaire_matching_factor_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test local numerical gradients through spectral alignment."""
+
+        sd = SDS_ILLUMINANTS["FL2"]
+        sd_reference = SDS_ILLUMINANTS["D65"]
+        _Q_a, (gradient,), _inputs = autodiff(
+            lambda values: television_luminaire_matching_factor(
+                SpectralDistribution(values, sd.wavelengths), sd_reference
+            ),
+            sd.values,
+        )
+
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
 
     def test_television_luminaire_matching_factor_regression_spectra(
         self, xp: ModuleType

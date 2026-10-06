@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import typing
 
 import numpy as np
 
@@ -39,7 +40,9 @@ class TestProcessImageOpenColorIO:
         if not is_opencolorio_installed():  # pragma: no cover
             return
 
-        import PyOpenColorIO as ocio  # noqa: PLC0415
+        import PyOpenColorIO as ocio_module  # noqa: PLC0415
+
+        ocio = typing.cast("typing.Any", ocio_module)
 
         config = os.path.join(ROOT_RESOURCES, "config-aces-reference.ocio.yaml")
 
@@ -76,7 +79,7 @@ class TestProcessImageOpenColorIO:
                 "ACES - ACES2065-1",
                 "Display - sRGB",
                 "Output - SDR Video - ACES 1.0",
-                ocio.TRANSFORM_DIR_FORWARD,  # pyright: ignore
+                ocio.TRANSFORM_DIR_FORWARD,
                 config=config,
             ),
             [

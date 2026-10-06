@@ -36,6 +36,7 @@ __status__ = "Production"
 __all__ = [
     "TestLab_to_Metamerism_Index",
     "TestXYZ_to_Metamerism_Index",
+    "TestSD_to_Metamerism_IndexAutodiff",
 ]
 
 
@@ -276,3 +277,43 @@ class TestSD_to_Metamerism_Index:
                         value,
                         atol=TOLERANCE_ABSOLUTE_TESTS,
                     )
+
+
+class TestSD_to_Metamerism_IndexAutodiff:
+    """
+    Define automatic differentiation regression tests for
+    :func:`colour.difference.metamerism_index.sd_to_metamerism_index`.
+
+    The namespace was previously inferred from the NumPy weighting factors, so
+    backend spectral values were consumed by NumPy matrix products and detached.
+    """
+
+    def test_autodiff_sd_to_metamerism_index(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test that a finite gradient reaches both spectral inputs."""
+
+        wavelengths = np.arange(400.0, 701.0, 10.0)
+
+        def function(values_spl: typing.Any, values_std: typing.Any) -> typing.Any:
+            """Return the metamerism index for the spectral values."""
+
+            return sd_to_metamerism_index(
+                SpectralDistribution(values_spl, wavelengths),
+                SpectralDistribution(values_std, wavelengths),
+                MSDS_CMFS["CIE 1964 10 Degree Standard Observer"],
+                SDS_ILLUMINANTS["D65"],
+                SDS_ILLUMINANTS["A"],
+                method="CIE 1976",
+            )
+
+        _M_t, (gradient_spl, gradient_std), _inputs = autodiff(
+            function,
+            np.linspace(0.1, 0.9, wavelengths.size),
+            np.linspace(0.15, 0.95, wavelengths.size),
+        )
+
+        assert xp.isfinite(gradient_spl).all()
+        assert xp.isfinite(gradient_std).all()
+        assert xp.any(gradient_spl != 0)
+        assert xp.any(gradient_std != 0)

@@ -283,6 +283,20 @@ class TestSigmaBarten1999:
         cases = np.array(list(set(product(cases, repeat=3))))
         sigma_Barten1999(cases, cases, cases)
 
+    def test_autodiff_sigma_Barten1999(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """
+        Test :func:`colour.contrast.barten1999.sigma_Barten1999` automatic
+        differentiation when one argument is a backend array and the others
+        keep their scalar defaults.
+        """
+
+        _sigma, (gradient,), _inputs = autodiff(lambda d: sigma_Barten1999(d=d), 2.1)
+
+        assert xp.isfinite(gradient).all()
+        assert gradient != 0
+
 
 class TestRetinalIlluminanceBarten1999:
     """

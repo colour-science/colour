@@ -22,6 +22,7 @@ References
 from __future__ import annotations
 
 import typing
+from contextlib import suppress
 from dataclasses import dataclass
 
 import numpy as np
@@ -534,10 +535,15 @@ def sd_reference_illuminant_TLCI2012(
             xp_as_float_array(5000, xp=xp, like=CCT), shape
         )
         weight = (CCT - 3400) / (5000 - 3400)
+        name = "TLCI-2012 Reference"
+        # A traced scalar cannot be materialised only to decorate the
+        # spectrum name; the numerical result does not depend on it.
+        with suppress(AttributeError, TypeError):
+            name = f"{name} {float(as_ndarray(CCT)):.0f}K"
         sd_reference = SpectralDistribution(
             linstep_function(weight, sd_planckian_3400.values, sd_daylight_5000.values),
             shape,
-            name=f"TLCI-2012 Reference {float(as_ndarray(CCT)):.0f}K",
+            name=name,
         )
 
     # EBU Tech 3355 section 1.1.1, equation [8], normalised to 0.0054 per
@@ -823,8 +829,15 @@ def television_lighting_consistency_index(
     Returns
     -------
     :class:`float` or \
-:class:`colour.quality.ColourQuality_Specification_TLCI2012`
+    :class:`colour.quality.ColourQuality_Specification_TLCI2012`
         *TLCI-2012* score or detailed specification.
+
+    Notes
+    -----
+    -   The score is piecewise differentiable with respect to the test
+        spectral values while the reference-illuminant branch and excluded
+        sample set remain unchanged. Its derivative is undefined where either
+        selection changes.
 
     References
     ----------
@@ -911,8 +924,14 @@ def television_luminaire_matching_factor(
     Returns
     -------
     :class:`float` or \
-:class:`colour.quality.ColourQuality_Specification_TLMF2013`
+    :class:`colour.quality.ColourQuality_Specification_TLMF2013`
         *TLMF-2013* score or detailed specification.
+
+    Notes
+    -----
+    -   The score is piecewise differentiable with respect to the test
+        spectral values while the excluded sample set remains unchanged. Its
+        derivative is undefined where that selection changes.
 
     References
     ----------

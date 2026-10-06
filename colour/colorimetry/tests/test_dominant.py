@@ -382,6 +382,21 @@ class TestExcitationPurity:
         P_e = xp_reshape(xp_as_array(P_e, xp=xp), (2, 3), xp=xp)
         xp_assert_close(excitation_purity(xy, xy_n), P_e, atol=TOLERANCE_ABSOLUTE_TESTS)
 
+    def test_excitation_purity_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test local numerical gradients on both locus-selection branches."""
+
+        for xy in ([0.54369557, 0.32107944], [0.37605506, 0.24452225]):
+            _P_e, (gradient_xy, gradient_xy_n), _inputs = autodiff(
+                excitation_purity, xy, self._xy_D65
+            )
+
+            assert xp.isfinite(gradient_xy).all()
+            assert xp.isfinite(gradient_xy_n).all()
+            assert xp.any(gradient_xy != 0)
+            assert xp.any(gradient_xy_n != 0)
+
     @ignore_numpy_errors
     def test_nan_excitation_purity(self) -> None:
         """
@@ -455,6 +470,21 @@ class TestColorimetricPurity:
             P_e,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+    def test_colorimetric_purity_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test local numerical gradients on both locus-selection branches."""
+
+        for xy in ([0.54369557, 0.32107944], [0.37605506, 0.24452225]):
+            _P_c, (gradient_xy, gradient_xy_n), _inputs = autodiff(
+                colorimetric_purity, xy, self._xy_D65
+            )
+
+            assert xp.isfinite(gradient_xy).all()
+            assert xp.isfinite(gradient_xy_n).all()
+            assert xp.any(gradient_xy != 0)
+            assert xp.any(gradient_xy_n != 0)
 
     @ignore_numpy_errors
     def test_nan_colorimetric_purity(self) -> None:

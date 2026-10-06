@@ -113,6 +113,7 @@ __all__ = [
     "trace_array_namespace",
     "array_namespace",
     "is_numpy_namespace",
+    "is_gradient_tracked",
     "is_non_ndarray",
     "as_ndarray",
     "cast_non_ndarray",
@@ -615,6 +616,40 @@ def is_numpy_namespace(xp: ProtocolArrayNamespace | ModuleType) -> bool:
     return False
 
 
+def is_gradient_tracked(a: Any) -> bool:
+    """
+    Determine whether the specified backend array tracks automatic
+    differentiation, i.e. it is a *PyTorch* tensor requiring gradients or a
+    traced *JAX* array.
+
+    Parameters
+    ----------
+    a
+        Array to test.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether the array tracks automatic differentiation.
+
+    Examples
+    --------
+    >>> is_gradient_tracked(np.array([0.5, 0.5]))
+    False
+    """
+
+    if bool(getattr(a, "requires_grad", False)):
+        return True
+
+    namespace = getattr(a, "__array_namespace__", None)
+    if namespace is None or namespace().__name__ != "jax.numpy":
+        return False
+
+    from jax.core import Tracer  # noqa: PLC0415
+
+    return isinstance(a, Tracer)
+
+
 def is_non_ndarray(a: Any) -> bool:
     """
     Determine whether the specified object is a non-*NumPy* array.
@@ -709,11 +744,21 @@ def as_ndarray(a: Any) -> np.ndarray:
     # disabled returns the *NumPy* fallback, which has no ``to_device``.
     namespace = getattr(a, "__array_namespace__", None)
     if namespace is not None:
-        return np.asarray(namespace().to_device(a, "cpu"))
+        return cast("NDArray", np.asarray(namespace().to_device(a, "cpu")))
 
     error = f'"{type(a)}" cannot be converted to a "numpy.ndarray"!'
 
     raise TypeError(error)
+
+
+def _copy_array(a: ArrayLike, xp: ProtocolArrayNamespace | ModuleType) -> NDArray:
+    """Return a backend array copy while preserving its computational graph."""
+
+    clone = getattr(xp, "clone", None)
+    if callable(clone):
+        return cast("NDArray", clone(a))
+
+    return cast("NDArray", xp.asarray(a, copy=True))
 
 
 def xp_as_array(
@@ -818,7 +863,7 @@ def xp_as_array(
                         )
 
         if copy and result is a:
-            result = xp.asarray(a, copy=True)
+            result = _copy_array(a, xp)
         return result  # pyright: ignore
 
     # Non-*NumPy* namespace: convert from *NumPy* / *Python* to the target
@@ -1124,13 +1169,68 @@ def xp_astype(
 # unsupported on the active device (e.g. *MPS*).
 
 
+_XP_FALLBACK_ALTERNATIVE_DEFAULT: str = (
+    "Use a backend-native implementation when gradients are required."
+)
+"""Guidance used when a fallback has no function-specific alternative."""
+
+_XP_FALLBACK_ALTERNATIVES: dict[str, str] = {
+    "xp_eig": (
+        'Use a backend and device with native "linalg.eig" support when '
+        "gradients are required."
+    ),
+    "xp_eigh": (
+        'Use a backend and device with native "linalg.eigh" support when '
+        "gradients are required."
+    ),
+    "xp_gradient": (
+        'Use a backend and device with native "gradient" support when '
+        "gradients are required."
+    ),
+    "xp_interp": (
+        'Use "colour.LinearInterpolator" for gradient-preserving linear interpolation.'
+    ),
+    "xp_isin": (
+        "Membership testing is discrete and has no gradient-preserving equivalent."
+    ),
+    "xp_lstsq": (
+        'Use a backend and device with native "linalg.lstsq" support when '
+        "gradients are required."
+    ),
+    "xp_linspace": (
+        'Use the backend-native "linspace" without unsupported keyword '
+        "arguments when gradients with respect to its bounds are required."
+    ),
+    "xp_median": (
+        'Use a backend and device with native "median" support when '
+        "gradients are required."
+    ),
+    "xp_pad": (
+        'Use a backend and device with native "pad" support when gradients '
+        "are required."
+    ),
+    "xp_trapezoid": (
+        'Use a backend and device with native "trapezoid" support when '
+        "gradients are required."
+    ),
+    "xp_unique": (
+        "Selecting unique values is discrete and has no generally "
+        "gradient-preserving equivalent."
+    ),
+}
+"""Per-function guidance appended to the *NumPy* fallback runtime warning."""
+
+
 def _runtime_warning_xp_fallback(name: str) -> None:
     """Emit the standard *falling back to NumPy* runtime warning."""
+
+    alternative = _XP_FALLBACK_ALTERNATIVES.get(name, _XP_FALLBACK_ALTERNATIVE_DEFAULT)
 
     runtime_warning(
         f'"{name}" is falling back to "NumPy" for non-"NumPy" '
         "arrays, this will incur a performance penalty due to array "
-        "conversion."
+        "conversion and will not preserve automatic differentiation graphs. "
+        f"{alternative}"
     )
 
 
@@ -1310,8 +1410,11 @@ def xp_trapezoid(
     if is_numpy_namespace(xp):
         return np.trapezoid(y, x=x, dx=dx, axis=axis)  # pyright: ignore
 
+    y = xp_as_float_array(y, xp=xp)
+
     try:
         if x is not None:
+            x = xp_as_float_array(x, xp=xp, like=y)
             return xp.trapezoid(y, x=x, axis=axis)
 
         return xp.trapezoid(y, dx=dx, axis=axis)
@@ -1479,7 +1582,7 @@ def xp_resize(
     # ``numpy.resize`` accepts ``int``, ``tuple``, or ``list`` shapes;
     # normalise once at the boundary.
     shape_tuple = tuple(new_shape) if hasattr(new_shape, "__iter__") else (new_shape,)
-    a = xp.asarray(a)
+    a = xp_as_array(a, xp=xp)
     raveled = xp.reshape(a, (-1,))
     target_size = 1
     for shape in shape_tuple:
@@ -1488,7 +1591,7 @@ def xp_resize(
     if raveled.shape[0] == 0:
         return xp.zeros(
             shape_tuple,
-            dtype=a.dtype,  # pyright: ignore
+            dtype=a.dtype,
             device=getattr(a, "device", None),
         )
 
@@ -3178,26 +3281,35 @@ def as_array(
             if dtype is not None:
                 dtype = getattr(xp, np.dtype(dtype).name, dtype)
 
-            return xp.stack([xp.asarray(x) for x in a])
+            return xp.stack([xp_as_array(x, xp=xp, like=a[0]) for x in a])
 
         xp = array_namespace(a)
 
-        if dtype is not None and not is_numpy_namespace(xp):
-            dtype = getattr(xp, np.dtype(dtype).name, dtype)
+        result = (
+            (a if dtype is None else cast_non_ndarray(a, dtype))
+            if is_non_ndarray(a)
+            else None
+        )
 
-        try:
-            return xp.asarray(a, dtype=dtype)
-        except TypeError:
-            # The device does not support the requested dtype, e.g. *MPS* has
-            # no float64: the input dtype is kept and a warning is emitted
-            # rather than failing, mirroring :func:`xp_as_array`.
-            dtype_a = getattr(a, "dtype", None)
-            if dtype_a is None:
-                raise
+        if result is None:
+            if dtype is not None and not is_numpy_namespace(xp):
+                dtype = getattr(xp, np.dtype(dtype).name, dtype)
 
-            _runtime_warning_xp_downcast(xp, dtype, dtype_a)
+            try:
+                result = xp.asarray(a, dtype=dtype)
+            except TypeError:
+                # The device does not support the requested dtype, e.g. *MPS* has
+                # no float64: the input dtype is kept and a warning is emitted
+                # rather than failing, mirroring :func:`xp_as_array`.
+                dtype_a = getattr(a, "dtype", None)
+                if dtype_a is None:
+                    raise
 
-            return xp.asarray(a)
+                _runtime_warning_xp_downcast(xp, dtype, dtype_a)
+
+                result = xp.asarray(a)
+
+        return result  # pyright: ignore
 
     try:
         return np.asarray(a, dtype)
@@ -4084,7 +4196,7 @@ def _scale_at(
 
     factor = xp_as_array(scale_factor, dtype=dtype, xp=xp, like=a)
 
-    return xp.asarray(a / factor if divide else a * factor)
+    return xp_as_array(a / factor if divide else a * factor, xp=xp)
 
 
 def to_domain_1(
@@ -4913,7 +5025,7 @@ def ndarray_copy(a: NDArray) -> NDArray:
 
         if is_numpy_namespace(xp):
             return np.copy(a)
-        return xp.asarray(a, copy=True)
+        return _copy_array(a, xp)
     return a
 
 

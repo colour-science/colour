@@ -215,8 +215,14 @@ def colour_rendering_index(
     Returns
     -------
     :class:`float`, :class:`numpy.ndarray` or \
-:class:`colour.quality.ColourRendering_Specification_CRI`
+    :class:`colour.quality.ColourRendering_Specification_CRI`
         *Colour Rendering Index* (CRI).
+
+    Notes
+    -----
+    -   The score is piecewise differentiable with respect to the test
+        spectral values while the reference-illuminant branch remains
+        unchanged. Its derivative is undefined where that selection changes.
 
     References
     ----------

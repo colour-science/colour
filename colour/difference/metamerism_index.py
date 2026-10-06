@@ -45,6 +45,7 @@ from colour.utilities import (
     domain_range_scale,
     filter_kwargs,
     validate_method,
+    xp_as_float_array,
     xp_isclose,
     xp_matrix_transpose,
 )
@@ -578,7 +579,10 @@ def sd_to_metamerism_index(
     A_r = tristimulus_weighting_factors_integration(cmfs, illuminant_r, shape=shape)
     A_t = tristimulus_weighting_factors_integration(cmfs, illuminant_t, shape=shape)
 
-    xp = array_namespace(A_r)
+    xp = array_namespace(A_r, sd_spl.values, sd_std.values)
+
+    A_r = xp_as_float_array(A_r, xp=xp, like=sd_spl.values)
+    A_t = xp_as_float_array(A_t, xp=xp, like=sd_spl.values)
 
     A_r_T = xp_matrix_transpose(A_r, xp=xp)
     R = xp.matmul(

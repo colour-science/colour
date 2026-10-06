@@ -71,6 +71,8 @@ from colour.utilities import (
     zeros,
 )
 
+from ._warnings import warn_if_optimisation_detaches
+
 if is_tqdm_installed():
     from tqdm import tqdm
 else:  # pragma: no cover
@@ -704,6 +706,8 @@ def XYZ_to_sd_Jakob2019(
     >>> sd_to_XYZ_integration(sd, cmfs, illuminant) / 100  # doctest: +ELLIPSIS
     array([0.2066217..., 0.1220128..., 0.0513958...])
     """
+
+    warn_if_optimisation_detaches(XYZ, "Jakob 2019")
 
     XYZ = to_domain_1(XYZ)
 
