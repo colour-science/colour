@@ -20,6 +20,7 @@ build/
 dist/
 docs/_build/
 docs/generated/
+htmlcov/
 node_modules/
 references/
 
