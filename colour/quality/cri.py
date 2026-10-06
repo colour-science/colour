@@ -20,29 +20,37 @@ from __future__ import annotations
 import typing
 from dataclasses import dataclass
 
-import numpy as np
-
 from colour.algebra import euclidean_distance, sdiv, sdiv_mode, spow
 from colour.colorimetry import (
     MSDS_CMFS,
     SPECTRAL_SHAPE_DEFAULT,
+    CIE_illuminant_D_series,
     MultiSpectralDistributions,
     SpectralDistribution,
+    msds_to_XYZ,
+    planck_law,
     reshape_msds,
     reshape_sd,
-    sd_blackbody,
-    sd_CIE_illuminant_D_series,
     sd_to_XYZ,
 )
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Dict, Literal, NDArrayFloat, Tuple
+    from colour.hints import Dict, List, Literal, NDArrayFloat, Tuple
 
-from colour.hints import cast
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.quality.datasets.tcs import INDEXES_TO_NAMES_TCS, SDS_TCS
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
-from colour.utilities import domain_range_scale, validate_method
+from colour.utilities import (
+    array_namespace,
+    as_float_scalar,
+    domain_range_scale,
+    suppress_warnings,
+    tstack,
+    validate_method,
+    xp_as_float_array,
+    xp_average,
+    xp_matrix_transpose,
+)
 from colour.utilities.documentation import DocstringTuple, is_documentation_building
 
 __author__ = "Colour Developers"
@@ -161,33 +169,32 @@ References
 @typing.overload
 def colour_rendering_index(
     sd_test: SpectralDistribution,
-    additional_data: Literal[True] = True,
+    additional_data: Literal[False] = False,
+    method: Literal["CIE 1995", "CIE 2024"] | str = ...,
+) -> float: ...
+
+
+@typing.overload
+def colour_rendering_index(
+    sd_test: SpectralDistribution,
+    additional_data: Literal[True],
     method: Literal["CIE 1995", "CIE 2024"] | str = ...,
 ) -> ColourRendering_Specification_CRI: ...
 
 
 @typing.overload
 def colour_rendering_index(
-    sd_test: SpectralDistribution,
-    *,
-    additional_data: Literal[False],
+    sd_test: MultiSpectralDistributions,
+    additional_data: Literal[False] = False,
     method: Literal["CIE 1995", "CIE 2024"] | str = ...,
-) -> float: ...
-
-
-@typing.overload
-def colour_rendering_index(
-    sd_test: SpectralDistribution,
-    additional_data: Literal[False],
-    method: Literal["CIE 1995", "CIE 2024"] | str = ...,
-) -> float: ...
+) -> NDArrayFloat: ...
 
 
 def colour_rendering_index(
-    sd_test: SpectralDistribution,
+    sd_test: SpectralDistribution | MultiSpectralDistributions,
     additional_data: bool = False,
     method: Literal["CIE 1995", "CIE 2024"] | str = "CIE 1995",
-) -> float | ColourRendering_Specification_CRI:
+) -> float | NDArrayFloat | ColourRendering_Specification_CRI:
     """
     Compute the *Colour Rendering Index* (CRI) :math:`Q_a` of the specified
     spectral distribution.
@@ -195,7 +202,11 @@ def colour_rendering_index(
     Parameters
     ----------
     sd_test
-        Test spectral distribution.
+        Test spectral distribution. A
+        :class:`colour.MultiSpectralDistributions` of ``N`` test
+        illuminants is also accepted, in which case ``additional_data``
+        must be ``False`` and the return value is a :class:`numpy.ndarray`
+        of ``N`` :math:`Q_a` values.
     additional_data
         Whether to output additional data.
     method
@@ -203,7 +214,8 @@ def colour_rendering_index(
 
     Returns
     -------
-    :class:`float` or :class:`colour.quality.ColourRendering_Specification_CRI`
+    :class:`float`, :class:`numpy.ndarray` or \
+:class:`colour.quality.ColourRendering_Specification_CRI`
         *Colour Rendering Index* (CRI).
 
     References
@@ -227,49 +239,199 @@ def colour_rendering_index(
     )
 
     shape = cmfs.shape
-    sd_test = reshape_sd(sd_test, shape, copy=False)
     sds_tcs = SDS_TCS[method]
     tcs_sds = {sd.name: reshape_sd(sd, shape, copy=False) for sd in sds_tcs.values()}
 
-    with domain_range_scale("1"):
-        XYZ = sd_to_XYZ(sd_test, cmfs)
+    is_msds = isinstance(sd_test, MultiSpectralDistributions)
+    if is_msds and additional_data:
+        error = (
+            '"additional_data=True" is not supported when "sd_test" is a '
+            '"MultiSpectralDistributions" instance.'
+        )
+        raise NotImplementedError(error)
 
-    uv = UCS_to_uv(XYZ_to_UCS(XYZ))
-    CCT, _D_uv = uv_to_CCT_Robertson1968(uv)
-
-    if CCT < 5000:
-        sd_reference = sd_blackbody(CCT, shape)
+    if is_msds:
+        sd_test = reshape_msds(sd_test, shape, copy=False)
+        sd_test_values = sd_test.values
+        xp = array_namespace(sd_test_values)
+        test_values = xp_matrix_transpose(
+            xp_as_float_array(sd_test_values, xp=xp), xp=xp
+        )
     else:
-        xy = CCT_to_xy_CIE_D(CCT)
-        sd_reference = sd_CIE_illuminant_D_series(xy)
-        sd_reference.align(shape)
+        sd_test = reshape_sd(sd_test, shape, copy=False)
+        sd_test_values = sd_test.values
+        xp = array_namespace(sd_test_values)
+        test_values = xp_as_float_array(sd_test_values, xp=xp)[None, :]
 
-    test_tcs_colorimetry_data = tcs_colorimetry_data(
-        sd_test, sd_reference, tcs_sds, cmfs, chromatic_adaptation=True, method=method
-    )
-
-    reference_tcs_colorimetry_data = tcs_colorimetry_data(
-        sd_reference, sd_reference, tcs_sds, cmfs, method=method
-    )
-
-    Q_as = colour_rendering_indexes(
-        test_tcs_colorimetry_data, reference_tcs_colorimetry_data
-    )
-
-    Q_a = cast(
-        "float",
-        np.average([v.Q_a for k, v in Q_as.items() if k in (1, 2, 3, 4, 5, 6, 7, 8)]),
-    )
-
-    if additional_data:
-        return ColourRendering_Specification_CRI(
-            sd_test.name,
-            Q_a,
-            Q_as,
-            (test_tcs_colorimetry_data, reference_tcs_colorimetry_data),
+    with domain_range_scale("1"):
+        XYZ = (
+            msds_to_XYZ(test_values, cmfs, method="Integration", shape=shape)
+            if is_msds
+            else sd_to_XYZ(sd_test, cmfs)[None, :]
         )
 
-    return Q_a
+    uv = UCS_to_uv(XYZ_to_UCS(XYZ))
+    CCT = uv_to_CCT_Robertson1968(uv)[..., 0]
+
+    # ``planck_law`` squeezes its output, so a single-CCT batch collapses
+    # to 1-D; the sample axis is reinstated below.
+    planckian = planck_law(shape.wavelengths * 1e-9, CCT) * 1e-9
+    planckian_values = (
+        planckian[None, :]
+        if planckian.ndim == 1
+        else xp_matrix_transpose(planckian, xp=xp)
+    )
+    # ``CCT_to_xy_CIE_D`` warns for any sample outside ``[4000, 25000]`` K
+    # even when the ``xp.where`` below will discard those values.
+    with suppress_warnings(colour_usage_warnings=True):
+        daylight = CIE_illuminant_D_series(CCT_to_xy_CIE_D(CCT), shape=shape)
+    daylight_values = (
+        daylight[None, :]
+        if daylight.ndim == 1
+        else xp_matrix_transpose(daylight, xp=xp)
+    )
+    ref_values = xp.where(CCT[..., None] < 5000, planckian_values, daylight_values)
+
+    test_names, test_XYZ, test_uv, test_UVW = _tcs_colorimetry_data(
+        test_values, ref_values, tcs_sds, cmfs, chromatic_adaptation=True, method=method
+    )
+    ref_names, ref_XYZ, ref_uv, ref_UVW = _tcs_colorimetry_data(
+        ref_values, ref_values, tcs_sds, cmfs, method=method
+    )
+
+    delta_E = euclidean_distance(test_UVW, ref_UVW)
+    # The general *Colour Rendering Index* (CRI) :math:`R_a` is defined over
+    # the first 8 test colour samples only, the remaining samples yield
+    # special indexes.
+    delta_E_8 = delta_E[..., :8]
+    Q_a = xp_average(100 - 4.6 * delta_E_8, axis=-1, xp=xp)
+
+    if is_msds:
+        return Q_a
+
+    Q_a_scalar = as_float_scalar(Q_a[0])
+
+    if additional_data:
+        Q_as = {
+            i + 1: DataColourQualityScale_TCS(
+                test_names[i], as_float_scalar(100 - 4.6 * delta_E[0, i])
+            )
+            for i in range(len(test_names))
+        }
+        test_data = tuple(
+            DataColorimetry_TCS(name, test_XYZ[0, i], test_uv[0, i], test_UVW[0, i])
+            for i, name in enumerate(test_names)
+        )
+        ref_data = tuple(
+            DataColorimetry_TCS(name, ref_XYZ[0, i], ref_uv[0, i], ref_UVW[0, i])
+            for i, name in enumerate(ref_names)
+        )
+        return ColourRendering_Specification_CRI(
+            sd_test.name, Q_a_scalar, Q_as, (test_data, ref_data)
+        )
+
+    return Q_a_scalar
+
+
+def _tcs_colorimetry_data(
+    t_values: NDArrayFloat,
+    r_values: NDArrayFloat,
+    sds_tcs: Dict[str, SpectralDistribution],
+    cmfs: MultiSpectralDistributions,
+    chromatic_adaptation: bool = False,
+    method: Literal["CIE 1995", "CIE 2024"] | str = "CIE 1995",
+) -> Tuple[List[str], NDArrayFloat, NDArrayFloat, NDArrayFloat]:
+    """
+    Compute the *test colour samples* colorimetry arrays in a single
+    vectorised pass over an arbitrary leading shape of test/reference
+    irradiance pairs.
+
+    Parameters
+    ----------
+    t_values, r_values
+        Test and reference irradiance values of shape
+        ``(..., n_wavelengths)``.
+
+    Returns
+    -------
+    :class:`tuple`
+        ``(names, XYZ_tcs, uv_tcs, UVW_tcs)`` with leading shape
+        ``(..., n_test_colour_samples)``.
+    """
+
+    method = validate_method(method, tuple(COLOUR_RENDERING_INDEX_METHODS))
+
+    XYZ_t = msds_to_XYZ(t_values, cmfs, method="Integration", shape=cmfs.shape)
+    uv_t = UCS_to_uv(XYZ_to_UCS(XYZ_t))
+    u_t, v_t = uv_t[..., 0], uv_t[..., 1]
+
+    XYZ_r = msds_to_XYZ(r_values, cmfs, method="Integration", shape=cmfs.shape)
+    uv_r = UCS_to_uv(XYZ_to_UCS(XYZ_r))
+    u_r, v_r = uv_r[..., 0], uv_r[..., 1]
+
+    names: List[str] = []
+    tcs_values_list = []
+    for _key, value in sorted(INDEXES_TO_NAMES_TCS[method].items()):
+        if value not in sds_tcs:
+            continue
+        names.append(sds_tcs[value].name)
+        tcs_values_list.append(sds_tcs[value].values)
+
+    xp = array_namespace(XYZ_t, t_values)
+    tcs_values = xp.stack(
+        [xp_as_float_array(values, xp=xp, like=XYZ_t) for values in tcs_values_list]
+    )
+
+    # Vectorised :math:`XYZ_{tcs}` across the test colour samples; the
+    # ``100 / Y_t`` factor recovers the reflectance-under-illuminant scale
+    # of :func:`sd_to_XYZ(sd_tcs, cmfs, sd_t)`.
+    sds_tcs_t = tcs_values * t_values[..., None, :]
+    XYZ_tcs = msds_to_XYZ(
+        sds_tcs_t,
+        cmfs,
+        method="Integration",
+        shape=cmfs.shape,
+    ) * (100 / XYZ_t[..., 1:2, None])
+
+    xyY_tcs = XYZ_to_xyY(XYZ_tcs)
+    uv_tcs = UCS_to_uv(XYZ_to_UCS(XYZ_tcs))
+    u_tcs, v_tcs = uv_tcs[..., 0], uv_tcs[..., 1]
+
+    if chromatic_adaptation:
+
+        def c(x: NDArrayFloat, y: NDArrayFloat) -> NDArrayFloat:
+            """Compute the :math:`c` term."""
+
+            with sdiv_mode():
+                return sdiv(4 - x - 10 * y, y)
+
+        def d(x: NDArrayFloat, y: NDArrayFloat) -> NDArrayFloat:
+            """Compute the :math:`d` term."""
+
+            with sdiv_mode():
+                return sdiv(1.708 * y + 0.404 - 1.481 * x, y)
+
+        c_t, d_t = c(u_t, v_t), d(u_t, v_t)
+        c_r, d_r = c(u_r, v_r), d(u_r, v_r)
+        tcs_c, tcs_d = c(u_tcs, v_tcs), d(u_tcs, v_tcs)
+
+        with sdiv_mode():
+            c_r_c_t = sdiv(c_r, c_t)[..., None]
+            d_r_d_t = sdiv(d_r, d_t)[..., None]
+
+        # NOTE: ``uv_tcs`` keeps the pre-adaptation value; the adapted
+        # ``u``, ``v`` only feed the ``U``, ``V`` derivation below.
+        u_tcs = (10.872 + 0.404 * c_r_c_t * tcs_c - 4 * d_r_d_t * tcs_d) / (
+            16.518 + 1.481 * c_r_c_t * tcs_c - d_r_d_t * tcs_d
+        )
+        v_tcs = 5.52 / (16.518 + 1.481 * c_r_c_t * tcs_c - d_r_d_t * tcs_d)
+
+    W_tcs = 25 * spow(xyY_tcs[..., -1], 1 / 3) - 17
+    U_tcs = 13 * W_tcs * (u_tcs - u_r[..., None])
+    V_tcs = 13 * W_tcs * (v_tcs - v_r[..., None])
+    UVW_tcs = tstack([U_tcs, V_tcs, W_tcs])
+
+    return names, XYZ_tcs, uv_tcs, UVW_tcs
 
 
 def tcs_colorimetry_data(
@@ -302,65 +464,20 @@ def tcs_colorimetry_data(
         *Test colour samples* colorimetry data.
     """
 
-    method = validate_method(method, tuple(COLOUR_RENDERING_INDEX_METHODS))
+    xp = array_namespace(sd_t.values)
+    names, XYZ_tcs, uv_tcs, UVW_tcs = _tcs_colorimetry_data(
+        xp_as_float_array(sd_t.values, xp=xp),
+        xp_as_float_array(sd_r.values, xp=xp),
+        sds_tcs,
+        cmfs,
+        chromatic_adaptation,
+        method,
+    )
 
-    XYZ_t = sd_to_XYZ(sd_t, cmfs)
-    uv_t = UCS_to_uv(XYZ_to_UCS(XYZ_t))
-    u_t, v_t = uv_t[0], uv_t[1]
-
-    XYZ_r = sd_to_XYZ(sd_r, cmfs)
-    uv_r = UCS_to_uv(XYZ_to_UCS(XYZ_r))
-    u_r, v_r = uv_r[0], uv_r[1]
-
-    tcs_data = []
-    for _key, value in sorted(INDEXES_TO_NAMES_TCS[method].items()):
-        if value not in sds_tcs:
-            continue
-
-        sd_tcs = sds_tcs[value]
-        XYZ_tcs = sd_to_XYZ(sd_tcs, cmfs, sd_t)
-        xyY_tcs = XYZ_to_xyY(XYZ_tcs)
-        uv_tcs = UCS_to_uv(XYZ_to_UCS(XYZ_tcs))
-        u_tcs, v_tcs = uv_tcs[0], uv_tcs[1]
-
-        if chromatic_adaptation:
-
-            def c(x: NDArrayFloat, y: NDArrayFloat) -> NDArrayFloat:
-                """Compute the :math:`c` term."""
-
-                with sdiv_mode():
-                    return sdiv(4 - x - 10 * y, y)
-
-            def d(x: NDArrayFloat, y: NDArrayFloat) -> NDArrayFloat:
-                """Compute the :math:`d` term."""
-
-                with sdiv_mode():
-                    return sdiv(1.708 * y + 0.404 - 1.481 * x, y)
-
-            c_t, d_t = c(u_t, v_t), d(u_t, v_t)
-            c_r, d_r = c(u_r, v_r), d(u_r, v_r)
-            tcs_c, tcs_d = c(u_tcs, v_tcs), d(u_tcs, v_tcs)
-
-            with sdiv_mode():
-                c_r_c_t = sdiv(c_r, c_t)
-                d_r_d_t = sdiv(d_r, d_t)
-
-            u_tcs = (10.872 + 0.404 * c_r_c_t * tcs_c - 4 * d_r_d_t * tcs_d) / (
-                16.518 + 1.481 * c_r_c_t * tcs_c - d_r_d_t * tcs_d
-            )
-            v_tcs = 5.52 / (16.518 + 1.481 * c_r_c_t * tcs_c - d_r_d_t * tcs_d)
-
-        W_tcs = 25 * spow(xyY_tcs[-1], 1 / 3) - 17
-        U_tcs = 13 * W_tcs * (u_tcs - u_r)
-        V_tcs = 13 * W_tcs * (v_tcs - v_r)
-
-        tcs_data.append(
-            DataColorimetry_TCS(
-                sd_tcs.name, XYZ_tcs, uv_tcs, np.array([U_tcs, V_tcs, W_tcs])
-            )
-        )
-
-    return tuple(tcs_data)
+    return tuple(
+        DataColorimetry_TCS(name, XYZ_tcs[i], uv_tcs[i], UVW_tcs[i])
+        for i, name in enumerate(names)
+    )
 
 
 def colour_rendering_indexes(
@@ -390,8 +507,7 @@ def colour_rendering_indexes(
             test_data[i].name,
             100
             - 4.6
-            * cast(
-                "float",
+            * as_float_scalar(
                 euclidean_distance(reference_data[i].UVW, test_data[i].UVW),
             ),
         )

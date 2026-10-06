@@ -6,7 +6,6 @@ import json
 import os
 import typing
 
-import numpy as np
 import pytest
 
 from colour.colorimetry import SpectralDistribution
@@ -16,6 +15,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import Any
 
 from colour.io import SpectralDistribution_Sekonic, SpectralDistribution_UPRTek
+from colour.utilities import xp_assert_close, xp_assert_equal
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -96,10 +96,8 @@ class AbstractTestSpectralDistribution:
 
         sd_r = SpectralDistribution(self._spectral_data)
 
-        np.testing.assert_array_equal(sd_r.domain, sd.domain)
-        np.testing.assert_allclose(
-            sd_r.values, sd.values, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_equal(sd_r.domain, sd.domain)
+        xp_assert_close(sd_r.values, sd.values, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         for key, value in self._header.items():
             for specification in sd.header.mapping.elements:

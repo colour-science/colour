@@ -27,8 +27,12 @@ if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Domain100, NDArrayFloat, Range100
 
 from colour.utilities import (
-    as_float_array,
+    array_namespace,
+    from_range_100,
     ones,
+    to_domain_100,
+    xp_as_float_array,
+    xp_atleast_1d,
 )
 
 __author__ = "Colour Developers"
@@ -120,11 +124,17 @@ def chromatic_adaptation_Li2025(
     array([40.0072581..., 43.7014895..., 21.3290293...])
     """
 
-    XYZ_s = as_float_array(XYZ_s)
-    XYZ_ws = as_float_array(XYZ_ws)
-    XYZ_wd = as_float_array(XYZ_wd)
-    L_A = as_float_array(L_A)
-    F_surround = as_float_array(F_surround)
+    XYZ_s = to_domain_100(XYZ_s)
+    XYZ_ws = to_domain_100(XYZ_ws)
+    XYZ_wd = to_domain_100(XYZ_wd)
+
+    xp = array_namespace(XYZ_s, XYZ_ws, XYZ_wd, L_A, F_surround)
+
+    XYZ_s = xp_as_float_array(XYZ_s, xp=xp, like=XYZ_ws)
+    XYZ_wd = xp_as_float_array(XYZ_wd, xp=xp, like=XYZ_ws)
+
+    L_A = xp_as_float_array(L_A, xp=xp, like=XYZ_s)
+    F_surround = xp_as_float_array(F_surround, xp=xp, like=XYZ_s)
 
     LMS_s = vecmul(CAT_CAT16, XYZ_s)
     LMS_w_s = vecmul(CAT_CAT16, XYZ_ws)
@@ -132,18 +142,16 @@ def chromatic_adaptation_Li2025(
 
     Y_w_s = XYZ_ws[..., 1] if XYZ_ws.ndim > 1 else XYZ_ws[1]
     Y_w_d = XYZ_wd[..., 1] if XYZ_wd.ndim > 1 else XYZ_wd[1]
-
     if discount_illuminant:
-        D = ones(L_A.shape)
+        D = xp_as_float_array(ones(L_A.shape), xp=xp, like=XYZ_s)
     else:
-        D = F_surround * (1 - (1 / 3.6) * np.exp((-L_A - 42) / 92))
-        D = np.clip(D, 0, 1)
-
-    D = np.atleast_1d(D)[..., None] if LMS_s.ndim > 1 else D
+        D = F_surround * (1 - (1 / 3.6) * xp.exp((-L_A - 42) / 92))
+        D = xp.clip(D, 0, 1)
+    D = xp_atleast_1d(D, xp=xp)[..., None] if LMS_s.ndim > 1 else D
 
     with sdiv_mode():
         Y_ratio = sdiv(Y_w_s, Y_w_d)
         Y_ratio = Y_ratio[..., None] if LMS_s.ndim > 1 else Y_ratio
         LMS_a = LMS_s * (D * Y_ratio * sdiv(LMS_w_d, LMS_w_s) + (1 - D))
 
-    return vecmul(CAT_CAT16_INVERSE, LMS_a)
+    return from_range_100(vecmul(CAT_CAT16_INVERSE, LMS_a))

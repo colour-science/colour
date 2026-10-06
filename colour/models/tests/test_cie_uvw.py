@@ -2,13 +2,25 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 from itertools import product
 
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import UVW_to_XYZ, XYZ_to_UVW
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    domain_range_scale,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -29,96 +41,90 @@ class TestXYZ_to_UVW:
     methods.
     """
 
-    def test_XYZ_to_UVW(self) -> None:
+    def test_XYZ_to_UVW(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.cie_uvw.XYZ_to_UVW` definition."""
 
-        np.testing.assert_allclose(
-            XYZ_to_UVW(np.array([0.20654008, 0.12197225, 0.05136952]) * 100),
-            np.array([94.55035725, 11.55536523, 40.54757405]),
+        xp_assert_close(
+            XYZ_to_UVW(xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp) * 100),
+            [94.55035725, 11.55536523, 40.54757405],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            XYZ_to_UVW(np.array([0.14222010, 0.23042768, 0.10495772]) * 100),
-            np.array([-36.92762376, 28.90425105, 54.14071478]),
+        xp_assert_close(
+            XYZ_to_UVW(xp_as_array([0.14222010, 0.23042768, 0.10495772], xp=xp) * 100),
+            [-36.92762376, 28.90425105, 54.14071478],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            XYZ_to_UVW(np.array([0.07818780, 0.06157201, 0.28099326]) * 100),
-            np.array([-10.60111550, -41.94580000, 28.82134002]),
+        xp_assert_close(
+            XYZ_to_UVW(xp_as_array([0.07818780, 0.06157201, 0.28099326], xp=xp) * 100),
+            [-10.60111550, -41.94580000, 28.82134002],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_UVW(
-                np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
-                np.array([0.44757, 0.40745]),
+                xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp) * 100,
+                xp_as_array([0.44757, 0.40745], xp=xp),
             ),
-            np.array([63.90676310, -8.11466183, 40.54757405]),
+            [63.90676310, -8.11466183, 40.54757405],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_UVW(
-                np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
-                np.array([0.34570, 0.35850]),
+                xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp) * 100,
+                xp_as_array([0.34570, 0.35850], xp=xp),
             ),
-            np.array([88.56798946, 4.61154385, 40.54757405]),
+            [88.56798946, 4.61154385, 40.54757405],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_UVW(
-                np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
-                np.array([0.34570, 0.35850, 1.00000]),
+                xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp) * 100,
+                xp_as_array([0.34570, 0.35850, 1.00000], xp=xp),
             ),
-            np.array([88.56798946, 4.61154385, 40.54757405]),
+            [88.56798946, 4.61154385, 40.54757405],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_UVW(self) -> None:
+    def test_n_dimensional_XYZ_to_UVW(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_uvw.XYZ_to_UVW` definition n-dimensional
         support.
         """
 
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
-        illuminant = np.array([0.31270, 0.32900])
-        UVW = XYZ_to_UVW(XYZ, illuminant)
+        XYZ = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp) * 100
+        illuminant = xp_as_array([0.31270, 0.32900], xp=xp)
+        UVW = as_ndarray(XYZ_to_UVW(XYZ, illuminant))
 
-        XYZ = np.tile(XYZ, (6, 1))
-        UVW = np.tile(UVW, (6, 1))
-        np.testing.assert_allclose(
-            XYZ_to_UVW(XYZ, illuminant), UVW, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        UVW = xp.tile(xp_as_array(UVW, xp=xp), (6, 1))
+        xp_assert_close(XYZ_to_UVW(XYZ, illuminant), UVW, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_allclose(
-            XYZ_to_UVW(XYZ, illuminant), UVW, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        illuminant = xp.tile(xp_as_array(illuminant, xp=xp), (6, 1))
+        xp_assert_close(XYZ_to_UVW(XYZ, illuminant), UVW, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        illuminant = np.reshape(illuminant, (2, 3, 2))
-        UVW = np.reshape(UVW, (2, 3, 3))
-        np.testing.assert_allclose(
-            XYZ_to_UVW(XYZ, illuminant), UVW, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        illuminant = xp_reshape(xp_as_array(illuminant, xp=xp), (2, 3, 2), xp=xp)
+        UVW = xp_reshape(xp_as_array(UVW, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(XYZ_to_UVW(XYZ, illuminant), UVW, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_XYZ_to_UVW(self) -> None:
+    def test_domain_range_scale_XYZ_to_UVW(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_uvw.XYZ_to_UVW` definition domain and
         range scale support.
         """
 
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
-        illuminant = np.array([0.31270, 0.32900])
-        UVW = XYZ_to_UVW(XYZ, illuminant)
+        XYZ = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp) * 100
+        illuminant = xp_as_array([0.31270, 0.32900], xp=xp)
+        UVW = as_ndarray(XYZ_to_UVW(XYZ, illuminant))
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     XYZ_to_UVW(XYZ * factor, illuminant),
                     UVW * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -139,96 +145,90 @@ class TestUVW_to_XYZ:
     methods.
     """
 
-    def test_UVW_to_XYZ(self) -> None:
+    def test_UVW_to_XYZ(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.cie_uvw.UVW_to_XYZ` definition."""
 
-        np.testing.assert_allclose(
-            UVW_to_XYZ(np.array([94.55035725, 11.55536523, 40.54757405])),
-            np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
+        xp_assert_close(
+            UVW_to_XYZ(xp_as_array([94.55035725, 11.55536523, 40.54757405], xp=xp)),
+            xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp) * 100,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            UVW_to_XYZ(np.array([-36.92762376, 28.90425105, 54.14071478])),
-            np.array([0.14222010, 0.23042768, 0.10495772]) * 100,
+        xp_assert_close(
+            UVW_to_XYZ(xp_as_array([-36.92762376, 28.90425105, 54.14071478], xp=xp)),
+            xp_as_array([0.14222010, 0.23042768, 0.10495772], xp=xp) * 100,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            UVW_to_XYZ(np.array([-10.60111550, -41.94580000, 28.82134002])),
-            np.array([0.07818780, 0.06157201, 0.28099326]) * 100,
+        xp_assert_close(
+            UVW_to_XYZ(xp_as_array([-10.60111550, -41.94580000, 28.82134002], xp=xp)),
+            xp_as_array([0.07818780, 0.06157201, 0.28099326], xp=xp) * 100,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             UVW_to_XYZ(
-                np.array([63.90676310, -8.11466183, 40.54757405]),
-                np.array([0.44757, 0.40745]),
+                xp_as_array([63.90676310, -8.11466183, 40.54757405], xp=xp),
+                xp_as_array([0.44757, 0.40745], xp=xp),
             ),
-            np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
+            xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp) * 100,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             UVW_to_XYZ(
-                np.array([88.56798946, 4.61154385, 40.54757405]),
-                np.array([0.34570, 0.35850]),
+                xp_as_array([88.56798946, 4.61154385, 40.54757405], xp=xp),
+                xp_as_array([0.34570, 0.35850], xp=xp),
             ),
-            np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
+            xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp) * 100,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             UVW_to_XYZ(
-                np.array([88.56798946, 4.61154385, 40.54757405]),
-                np.array([0.34570, 0.35850, 1.00000]),
+                xp_as_array([88.56798946, 4.61154385, 40.54757405], xp=xp),
+                xp_as_array([0.34570, 0.35850, 1.00000], xp=xp),
             ),
-            np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
+            xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp) * 100,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_UVW_to_XYZ(self) -> None:
+    def test_n_dimensional_UVW_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_uvw.UVW_to_XYZ` definition n-dimensional
         support.
         """
 
-        UVW = np.array([94.55035725, 11.55536523, 40.54757405])
-        illuminant = np.array([0.31270, 0.32900])
-        XYZ = UVW_to_XYZ(UVW, illuminant)
+        UVW = xp_as_array([94.55035725, 11.55536523, 40.54757405], xp=xp)
+        illuminant = xp_as_array([0.31270, 0.32900], xp=xp)
+        XYZ = as_ndarray(UVW_to_XYZ(UVW, illuminant))
 
-        XYZ = np.tile(XYZ, (6, 1))
-        UVW = np.tile(UVW, (6, 1))
-        np.testing.assert_allclose(
-            UVW_to_XYZ(UVW, illuminant), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        UVW = xp.tile(xp_as_array(UVW, xp=xp), (6, 1))
+        xp_assert_close(UVW_to_XYZ(UVW, illuminant), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        illuminant = np.tile(illuminant, (6, 1))
-        np.testing.assert_allclose(
-            UVW_to_XYZ(UVW, illuminant), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        illuminant = xp.tile(xp_as_array(illuminant, xp=xp), (6, 1))
+        xp_assert_close(UVW_to_XYZ(UVW, illuminant), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        illuminant = np.reshape(illuminant, (2, 3, 2))
-        UVW = np.reshape(UVW, (2, 3, 3))
-        np.testing.assert_allclose(
-            UVW_to_XYZ(UVW, illuminant), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        illuminant = xp_reshape(xp_as_array(illuminant, xp=xp), (2, 3, 2), xp=xp)
+        UVW = xp_reshape(xp_as_array(UVW, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(UVW_to_XYZ(UVW, illuminant), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_UVW_to_XYZ(self) -> None:
+    def test_domain_range_scale_UVW_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_uvw.UVW_to_XYZ` definition domain and
         range scale support.
         """
 
-        UVW = np.array([94.55035725, 11.55536523, 40.54757405])
-        illuminant = np.array([0.31270, 0.32900])
-        XYZ = UVW_to_XYZ(UVW, illuminant)
+        UVW = xp_as_array([94.55035725, 11.55536523, 40.54757405], xp=xp)
+        illuminant = xp_as_array([0.31270, 0.32900], xp=xp)
+        XYZ = as_ndarray(UVW_to_XYZ(UVW, illuminant))
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     UVW_to_XYZ(UVW * factor, illuminant),
                     XYZ * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,

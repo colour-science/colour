@@ -30,8 +30,6 @@ from __future__ import annotations
 import typing
 from dataclasses import dataclass
 
-import numpy as np
-
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
 
 if typing.TYPE_CHECKING:
@@ -49,6 +47,7 @@ from colour.hints import NDArrayFloat, cast
 from colour.utilities import (
     CanonicalMapping,
     MixinDataclassIterable,
+    array_namespace,
     as_float_array,
     from_range_100,
     from_range_degrees,
@@ -57,6 +56,8 @@ from colour.utilities import (
     to_domain_degrees,
     tsplit,
     tstack,
+    xp_degrees,
+    xp_radians,
 )
 
 __author__ = "Colour Developers"
@@ -169,6 +170,7 @@ def JMh_CIECAM02_to_UCS_Luo2006(
 
     Examples
     --------
+    >>> import numpy as np
     >>> from colour.appearance import (
     ...     VIEWING_CONDITIONS_CIECAM02,
     ...     XYZ_to_CIECAM02,
@@ -185,6 +187,8 @@ def JMh_CIECAM02_to_UCS_Luo2006(
     array([54.9043313..., -0.0845039..., -0.0685483...])
     """
 
+    xp = array_namespace(JMh)
+
     J, M, h = tsplit(JMh)
     J = to_domain_100(J)
     M = to_domain_100(M)
@@ -193,9 +197,9 @@ def JMh_CIECAM02_to_UCS_Luo2006(
     _K_L, c_1, c_2 = coefficients.values
 
     J_p = ((1 + 100 * c_1) * J) / (1 + c_1 * J)
-    M_p = (1 / c_2) * np.log1p(c_2 * M)
+    M_p = (1 / c_2) * xp.log1p(c_2 * M)
 
-    a_p, b_p = tsplit(polar_to_cartesian(tstack([M_p, np.radians(h)])))
+    a_p, b_p = tsplit(polar_to_cartesian(tstack([M_p, xp_radians(h)])))
 
     Jpapbp = tstack([J_p, a_p, b_p])
 
@@ -244,26 +248,32 @@ def UCS_Luo2006_to_JMh_CIECAM02(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Jpapbp = np.array([54.90433134, -0.08450395, -0.06854831])
     >>> UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
     ... # doctest: +ELLIPSIS
     array([4.1731091...e+01, 1.0884217...e-01, 2.1904843...e+02])
     """
 
-    J_p, a_p, b_p = tsplit(to_domain_100(Jpapbp))
+    Jpapbp = to_domain_100(Jpapbp)
+
+    xp = array_namespace(Jpapbp)
+
+    J_p, a_p, b_p = tsplit(Jpapbp)
+
     _K_L, c_1, c_2 = coefficients.values
 
     J = -J_p / (c_1 * J_p - 1 - 100 * c_1)
 
     M_p, h = tsplit(cartesian_to_polar(tstack([a_p, b_p])))
 
-    M = np.expm1(M_p / (1 / c_2)) / c_2
+    M = xp.expm1(M_p * c_2) / c_2
 
     return tstack(
         [
             from_range_100(J),
             from_range_100(M),
-            from_range_degrees(np.degrees(h) % 360),
+            from_range_degrees(xp_degrees(h) % 360),
         ]
     )
 
@@ -311,6 +321,7 @@ def JMh_CIECAM02_to_CAM02LCD(
 
     Examples
     --------
+    >>> import numpy as np
     >>> from colour.appearance import (
     ...     VIEWING_CONDITIONS_CIECAM02,
     ...     XYZ_to_CIECAM02,
@@ -374,6 +385,7 @@ def CAM02LCD_to_JMh_CIECAM02(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Jpapbp = np.array([54.90433134, -0.08450395, -0.06854831])
     >>> CAM02LCD_to_JMh_CIECAM02(Jpapbp)  # doctest: +ELLIPSIS
     array([4.1731091...e+01, 1.0884217...e-01, 2.1904843...e+02])
@@ -427,6 +439,7 @@ def JMh_CIECAM02_to_CAM02SCD(
 
     Examples
     --------
+    >>> import numpy as np
     >>> from colour.appearance import (
     ...     VIEWING_CONDITIONS_CIECAM02,
     ...     XYZ_to_CIECAM02,
@@ -491,6 +504,7 @@ def CAM02SCD_to_JMh_CIECAM02(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Jpapbp = np.array([54.90433134, -0.08436178, -0.06843298])
     >>> CAM02SCD_to_JMh_CIECAM02(Jpapbp)  # doctest: +ELLIPSIS
     array([4.1731091...e+01, 1.0884217...e-01, 2.1904843...e+02])
@@ -544,6 +558,7 @@ def JMh_CIECAM02_to_CAM02UCS(
 
     Examples
     --------
+    >>> import numpy as np
     >>> from colour.appearance import (
     ...     VIEWING_CONDITIONS_CIECAM02,
     ...     XYZ_to_CIECAM02,
@@ -607,6 +622,7 @@ def CAM02UCS_to_JMh_CIECAM02(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Jpapbp = np.array([54.90433134, -0.08442362, -0.06848314])
     >>> CAM02UCS_to_JMh_CIECAM02(Jpapbp)  # doctest: +ELLIPSIS
     array([4.1731091...e+01, 1.0884217...e-01, 2.1904843...e+02])
@@ -672,6 +688,7 @@ def XYZ_to_UCS_Luo2006(
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_UCS_Luo2006(XYZ, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
     ... # doctest: +ELLIPSIS
@@ -694,7 +711,6 @@ def XYZ_to_UCS_Luo2006(
 
     if domain_range_reference:
         XYZ = as_float_array(XYZ) * 100
-
     specification = XYZ_to_CIECAM02(XYZ, **settings)
     JMh = tstack(
         [
@@ -762,6 +778,7 @@ def UCS_Luo2006_to_XYZ(
 
     Examples
     --------
+    >>> import numpy as np
     >>> Jpapbp = np.array([46.61386154, 39.35760236, 15.96730435])
     >>> UCS_Luo2006_to_XYZ(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
     ... # doctest: +ELLIPSIS
@@ -784,7 +801,6 @@ def UCS_Luo2006_to_XYZ(
         settings["XYZ_w"] = as_float_array(XYZ_w) * 100
 
     J, M, h = tsplit(UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients))
-
     specification = CAM_Specification_CIECAM02(J=J, M=M, h=h)
 
     XYZ = CIECAM02_to_XYZ(specification, **settings)
@@ -849,6 +865,7 @@ def XYZ_to_CAM02LCD(XYZ: Domain1, **kwargs: Any) -> Range100:
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_CAM02LCD(XYZ)  # doctest: +ELLIPSIS
     array([46.6138615..., 39.3576023..., 15.9673043...])
@@ -911,6 +928,7 @@ def CAM02LCD_to_XYZ(Jpapbp: Domain100, **kwargs: Any) -> Range1:
 
     Examples
     --------
+    >>> import numpy as np
     >>> Jpapbp = np.array([46.61386154, 39.35760236, 15.96730435])
     >>> CAM02LCD_to_XYZ(Jpapbp)  # doctest: +ELLIPSIS
     array([0.2065400..., 0.1219722..., 0.0513695...])
@@ -975,6 +993,7 @@ def XYZ_to_CAM02SCD(XYZ: Domain1, **kwargs: Any) -> Range100:
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_CAM02SCD(XYZ)  # doctest: +ELLIPSIS
     array([46.6138615..., 25.6287988..., 10.3975548...])
@@ -1037,6 +1056,7 @@ def CAM02SCD_to_XYZ(Jpapbp: Domain100, **kwargs: Any) -> Range1:
 
     Examples
     --------
+    >>> import numpy as np
     >>> Jpapbp = np.array([46.61386154, 25.62879882, 10.39755489])
     >>> CAM02SCD_to_XYZ(Jpapbp)  # doctest: +ELLIPSIS
     array([0.2065400..., 0.1219722..., 0.0513695...])
@@ -1101,6 +1121,7 @@ def XYZ_to_CAM02UCS(XYZ: Domain1, **kwargs: Any) -> Range100:
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_CAM02UCS(XYZ)  # doctest: +ELLIPSIS
     array([46.6138615..., 29.8831001..., 12.1235168...])
@@ -1163,6 +1184,7 @@ def CAM02UCS_to_XYZ(Jpapbp: Domain100, **kwargs: Any) -> Range1:
 
     Examples
     --------
+    >>> import numpy as np
     >>> Jpapbp = np.array([46.61386154, 29.88310013, 12.12351683])
     >>> CAM02UCS_to_XYZ(Jpapbp)  # doctest: +ELLIPSIS
     array([0.2065400..., 0.1219722..., 0.0513695...])

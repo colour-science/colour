@@ -21,12 +21,16 @@ from __future__ import annotations
 import typing
 from dataclasses import dataclass
 
-import numpy as np
-
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
-from colour.utilities import MixinDataclassIterable, as_float, as_float_array
+from colour.utilities import (
+    MixinDataclassIterable,
+    array_namespace,
+    as_float,
+    as_float_array,
+    xp_as_float_array,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -277,6 +281,7 @@ def sky_luminance_gradation_CIE2003(
 
     Examples
     --------
+    >>> import numpy as np
     >>> sky_luminance_gradation_CIE2003(0, 4.0, -0.70)  # doctest: +ELLIPSIS
     np.float64(2.9863412...)
     >>> sky_luminance_gradation_CIE2003(  # doctest: +ELLIPSIS
@@ -286,12 +291,15 @@ def sky_luminance_gradation_CIE2003(
     """
 
     Z = as_float_array(Z)
-    a = as_float_array(a)
-    b = as_float_array(b)
 
-    phi = np.where(
-        np.pi / 2 > Z,
-        1 + a * np.exp(b / np.cos(Z)),
+    xp = array_namespace(Z)
+
+    a = xp_as_float_array(a, xp=xp, like=Z)
+    b = xp_as_float_array(b, xp=xp, like=Z)
+
+    phi = xp.where(
+        xp.pi / 2 > Z,
+        1 + a * xp.exp(b / xp.cos(Z)),
         1.0,
     )
 
@@ -332,6 +340,7 @@ def sky_scattering_indicatrix_CIE2003(
 
     Examples
     --------
+    >>> import numpy as np
     >>> sky_scattering_indicatrix_CIE2003(  # doctest: +ELLIPSIS
     ...     np.radians(30), 10, -3.0, 0.45
     ... )
@@ -339,11 +348,14 @@ def sky_scattering_indicatrix_CIE2003(
     """
 
     chi = as_float_array(chi)
-    c = as_float_array(c)
-    d = as_float_array(d)
-    e = as_float_array(e)
 
-    f = 1 + c * (np.exp(d * chi) - np.exp(d * np.pi / 2)) + e * np.cos(chi) ** 2
+    xp = array_namespace(chi)
+
+    c = xp_as_float_array(c, xp=xp, like=chi)
+    d = xp_as_float_array(d, xp=xp, like=chi)
+    e = xp_as_float_array(e, xp=xp, like=chi)
+
+    f = 1 + c * (xp.exp(d * chi) - xp.exp(d * xp.pi / 2)) + e * xp.cos(chi) ** 2
 
     return as_float(f)
 
@@ -396,6 +408,7 @@ def sky_luminance_distribution_CIE2003(
 
     Examples
     --------
+    >>> import numpy as np
     >>> sky_luminance_distribution_CIE2003(  # doctest: +ELLIPSIS
     ...     1, np.radians(45), np.radians(180), np.radians(30), np.radians(0)
     ... )
@@ -411,9 +424,12 @@ def sky_luminance_distribution_CIE2003(
         raise ValueError(error)
 
     Z = as_float_array(Z)
-    alpha = as_float_array(alpha)
-    Z_s = as_float_array(Z_s)
-    alpha_s = as_float_array(alpha_s)
+
+    xp = array_namespace(Z)
+
+    alpha = xp_as_float_array(alpha, xp=xp, like=Z)
+    Z_s = xp_as_float_array(Z_s, xp=xp, like=Z)
+    alpha_s = xp_as_float_array(alpha_s, xp=xp, like=Z)
 
     parameters = CIE_STANDARD_SKY_PARAMETERS[sky_type]
     a = parameters.a
@@ -423,9 +439,9 @@ def sky_luminance_distribution_CIE2003(
     e = parameters.e
 
     # Angular distance between sky element and the sun (Equation 1).
-    chi = np.arccos(
-        np.cos(Z_s) * np.cos(Z)
-        + np.sin(Z_s) * np.sin(Z) * np.cos(np.abs(alpha - alpha_s))
+    chi = xp.acos(
+        xp.cos(Z_s) * xp.cos(Z)
+        + xp.sin(Z_s) * xp.sin(Z) * xp.cos(xp.abs(alpha - alpha_s))
     )
 
     # Relative luminance (Equations 3-7).
@@ -468,6 +484,7 @@ def sky_luminance_distribution_overcast_CIE2003(
 
     Examples
     --------
+    >>> import numpy as np
     >>> sky_luminance_distribution_overcast_CIE2003(0)  # doctest: +ELLIPSIS
     np.float64(1.0)
     >>> sky_luminance_distribution_overcast_CIE2003(  # doctest: +ELLIPSIS
@@ -478,6 +495,8 @@ def sky_luminance_distribution_overcast_CIE2003(
 
     Z = as_float_array(Z)
 
-    gamma = np.pi / 2 - Z
+    xp = array_namespace(Z)
 
-    return as_float((1 + 2 * np.sin(gamma)) / 3)
+    gamma = xp.pi / 2 - Z
+
+    return as_float((1 + 2 * xp.sin(gamma)) / 3)

@@ -112,18 +112,33 @@ if typing.TYPE_CHECKING:
 from colour.hints import NDArrayFloat, NDArrayReal, cast
 from colour.utilities import (
     CanonicalMapping,
+    array_namespace,
     as_array,
     as_float,
     as_float_array,
     as_float_scalar,
     as_int_array,
+    as_ndarray,
     attest,
     closest_indexes,
+    first_item,
     interval,
     is_numeric,
+    is_numpy_namespace,
     optional,
     runtime_warning,
     validate_method,
+    xp_as_float_array,
+    xp_as_int_array,
+    xp_astype,
+    xp_atleast_1d,
+    xp_interp,
+    xp_isclose,
+    xp_pad,
+    xp_reshape,
+    xp_select,
+    xp_sinc,
+    xp_squeeze,
 )
 
 __author__ = "Colour Developers"
@@ -132,6 +147,7 @@ __license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
 __maintainer__ = "Colour Developers"
 __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
+
 
 __all__ = [
     "kernel_nearest_neighbour",
@@ -184,7 +200,11 @@ def kernel_nearest_neighbour(x: ArrayLike) -> NDArrayFloat:
     array([1, 1, 1, 1, 1, 0, 0, 0, 0, 0])
     """
 
-    return np.where(np.abs(x) < 0.5, 1, 0)
+    x = as_float_array(x)
+
+    xp = array_namespace(x)
+
+    return xp.where(xp.abs(x) < 0.5, 1, 0)
 
 
 def kernel_linear(x: ArrayLike) -> NDArrayFloat:
@@ -217,7 +237,11 @@ def kernel_linear(x: ArrayLike) -> NDArrayFloat:
            0.4444444..., 0.3333333..., 0.2222222..., 0.1111111..., 0.        ])
     """
 
-    return np.where(np.abs(x) < 1, 1 - np.abs(x), 0)
+    x = as_float_array(x)
+
+    xp = array_namespace(x)
+
+    return xp.where(xp.abs(x) < 1, 1 - xp.abs(x), 0)
 
 
 def kernel_sinc(x: ArrayLike, a: float = 3) -> NDArrayFloat:
@@ -259,9 +283,11 @@ def kernel_sinc(x: ArrayLike, a: float = 3) -> NDArrayFloat:
 
     x = as_float_array(x)
 
+    xp = array_namespace(x)
+
     attest(bool(a >= 1), '"a" must be equal or superior to 1!')
 
-    return np.where(np.abs(x) < a, np.sinc(x), 0)
+    return xp.where(xp.abs(x) < a, xp_sinc(x, xp=xp), 0)
 
 
 def kernel_lanczos(x: ArrayLike, a: float = 3) -> NDArrayFloat:
@@ -300,9 +326,11 @@ def kernel_lanczos(x: ArrayLike, a: float = 3) -> NDArrayFloat:
 
     x = as_float_array(x)
 
+    xp = array_namespace(x)
+
     attest(bool(a >= 1), '"a" must be equal or superior to 1!')
 
-    return np.where(np.abs(x) < a, np.sinc(x) * np.sinc(x / a), 0)
+    return xp.where(xp.abs(x) < a, xp_sinc(x, xp=xp) * xp_sinc(x / a, xp=xp), 0)
 
 
 def kernel_cardinal_spline(
@@ -345,8 +373,10 @@ def kernel_cardinal_spline(
 
     x = as_float_array(x)
 
-    x_abs = np.abs(x)
-    y = np.where(
+    xp = array_namespace(x)
+
+    x_abs = xp.abs(x)
+    y = xp.where(
         x_abs < 1,
         (-6 * a - 9 * b + 12) * x_abs**3 + (6 * a + 12 * b - 18) * x_abs**2 - 2 * b + 6,
         (-6 * a - b) * x_abs**3
@@ -355,7 +385,7 @@ def kernel_cardinal_spline(
         + 24 * a
         + 8 * b,
     )
-    y = np.where(x_abs >= 2, 0, y)
+    y = xp.where(x_abs >= 2, 0, y)
 
     return 1 / 6 * y
 
@@ -455,11 +485,11 @@ class KernelInterpolator:
     ) -> None:
         dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
-        self._x_p: NDArrayFloat = np.array([])
-        self._y_p: NDArrayFloat = np.array([])
+        self._x_p: NDArrayFloat = np.asarray([])
+        self._y_p: NDArrayFloat = np.asarray([])
 
-        self._x: NDArrayFloat = np.array([])
-        self._y: NDArrayFloat = np.array([])
+        self._x: NDArrayFloat = np.asarray([])
+        self._y: NDArrayFloat = np.asarray([])
         self._window: float = 3
         self._padding_kwargs: dict = {
             "pad_width": (window, window),
@@ -500,7 +530,9 @@ class KernelInterpolator:
     def x(self, value: ArrayLike) -> None:
         """Setter for the **self.x** property."""
 
-        value = np.atleast_1d(value).astype(self._dtype)
+        xp = array_namespace(value)
+
+        value = xp_astype(xp_atleast_1d(value, xp=xp), self._dtype, xp=xp)
 
         attest(
             value.ndim == 1,
@@ -517,14 +549,15 @@ class KernelInterpolator:
 
         self._x = as_array(value, self._dtype)
 
-        self._x_p = np.pad(
+        self._x_p = xp_pad(
             self._x,
             as_int_array([self._window, self._window]),
             "linear_ramp",
             end_values=(
-                np.min(self._x) - self._window * value_interval[0],
-                np.max(self._x) + self._window * value_interval[0],
+                float(xp.min(self._x) - self._window * value_interval[0]),
+                float(xp.max(self._x) + self._window * value_interval[0]),
             ),
+            xp=xp,
         )
 
     @property
@@ -550,17 +583,25 @@ class KernelInterpolator:
     def y(self, value: ArrayLike) -> None:
         """Setter for the **self.y** property."""
 
-        value = np.atleast_1d(value).astype(self._dtype)
+        xp = array_namespace(value)
+
+        value = xp_astype(xp_atleast_1d(value, xp=xp), self._dtype, xp=xp)
 
         attest(
-            value.ndim == 1,
-            '"y" dependent variable must have exactly one dimension!',
+            value.ndim in (1, 2),
+            '"y" dependent variable must have one or two dimensions!',
         )
 
         self._y = as_array(value, self._dtype)
 
         if self._window is not None:
-            self._y_p = np.pad(self._y, **self._padding_kwargs)
+            pad_kwargs = dict(self._padding_kwargs)
+            if self._y.ndim == 2:
+                # Pad only along the leading axis for rank-2 ``y``; the
+                # trailing axis is preserved.
+                pad_width = pad_kwargs["pad_width"]
+                pad_kwargs["pad_width"] = (pad_width, (0, 0))
+            self._y_p = xp_pad(self._y, xp=xp, **pad_kwargs)
 
     @property
     def window(self) -> float:
@@ -731,6 +772,10 @@ class KernelInterpolator:
 
         xi = self._evaluate(x)
 
+        # Collapse the ``xp_atleast_1d`` leading axis for 0-d ``x``.
+        if x.ndim == 0:
+            xi = first_item(xi)
+
         return as_float(xi)
 
     def _evaluate(self, x: NDArrayFloat) -> NDArrayFloat:
@@ -748,25 +793,37 @@ class KernelInterpolator:
             Interpolated values at the specified point.
         """
 
+        xp = array_namespace(x, self._x, self._y)
+
+        # Promoted to at least 1-D so the gather pipeline broadcasts uniformly.
+        x = xp_atleast_1d(xp_as_float_array(x, xp=xp), xp=xp)
+
         self._validate_dimensions()
         self._validate_interpolation_range(x)
 
-        x_interval = interval(self._x)[0]
-        x_f = np.floor(x / x_interval)
+        x_interval = float(interval(self._x)[0])
+        x_f = xp.floor(x / x_interval)
 
-        windows = x_f[..., None] + np.arange(-self._window + 1, self._window + 1)
-        clip_l = min(self._x_p) / x_interval
-        clip_h = max(self._x_p) / x_interval
-        windows = np.clip(windows, clip_l, clip_h) - clip_l
-        windows = as_int_array(np.around(windows))
+        windows = x_f[..., None] + xp_as_float_array(
+            np.arange(-self._window + 1, self._window + 1), xp=xp, like=x
+        )
+        clip_l = float(min(self._x_p)) / x_interval
+        clip_h = float(max(self._x_p)) / x_interval
+        windows = xp.clip(windows, clip_l, clip_h) - clip_l
+        windows = as_int_array(xp.round(windows))
 
-        return np.sum(
-            self._y_p[windows]
-            * self._kernel(
-                x[..., None] / x_interval - windows - min(self._x_p) / x_interval,
-                **self._kernel_kwargs,
-            ),
-            axis=-1,
+        weights = self._kernel(
+            x[..., None] / x_interval - windows - float(min(self._x_p)) / x_interval,
+            **self._kernel_kwargs,
+        )
+        if self._y.ndim == 2:
+            # Append a trailing axis to the kernel weights so the product
+            # with ``_y_p[windows]`` of shape ``(N_query, 2 * window, N_*)``
+            # broadcasts over ``y``'s trailing axis.
+            weights = weights[..., None]
+        return xp.sum(
+            xp_as_float_array(self._y_p, xp=xp, like=x)[windows] * weights,
+            axis=1,
         )
 
     def _validate_dimensions(self) -> None:
@@ -806,15 +863,17 @@ class KernelInterpolator:
             If the point is outside the valid interpolation range.
         """
 
+        xp = array_namespace(x)
+
         below_interpolation_range = x < self._x[0]
         above_interpolation_range = x > self._x[-1]
 
-        if below_interpolation_range.any():
+        if bool(xp.any(below_interpolation_range)):
             error = f'"{x}" is below interpolation range.'
 
             raise ValueError(error)
 
-        if above_interpolation_range.any():
+        if bool(xp.any(above_interpolation_range)):
             error = f'"{x}" is above interpolation range.'
 
             raise ValueError(error)
@@ -951,7 +1010,9 @@ class LinearInterpolator:
     def x(self, value: ArrayLike) -> None:
         """Setter for the **self.x** property."""
 
-        value = cast("NDArrayFloat", np.atleast_1d(value).astype(self._dtype))
+        xp = array_namespace(value)
+
+        value = xp_astype(xp_atleast_1d(value, xp=xp), self._dtype, xp=xp)
 
         attest(
             value.ndim == 1,
@@ -989,11 +1050,13 @@ class LinearInterpolator:
     def y(self, value: ArrayLike) -> None:
         """Setter for the **self.y** property."""
 
-        value = cast("NDArrayFloat", np.atleast_1d(value).astype(self._dtype))
+        xp = array_namespace(value)
+
+        value = xp_astype(xp_atleast_1d(value, xp=xp), self._dtype, xp=xp)
 
         attest(
-            value.ndim == 1,
-            '"y" dependent variable must have exactly one dimension!',
+            value.ndim in (1, 2),
+            '"y" dependent variable must have one or two dimensions!',
         )
 
         self._y = value
@@ -1001,7 +1064,6 @@ class LinearInterpolator:
     def __call__(self, x: ArrayLike) -> NDArrayFloat:
         """
         Evaluate the interpolating polynomial at specified point(s).
-
 
         Parameters
         ----------
@@ -1035,10 +1097,40 @@ class LinearInterpolator:
             Interpolated points values.
         """
 
+        xp = array_namespace(x, self._x, self._y)
+
+        x = xp_as_float_array(x, xp=xp)
+
         self._validate_dimensions()
         self._validate_interpolation_range(x)
 
-        return np.interp(x, self._x, self._y)
+        if self._y.ndim == 1:
+            return xp_interp(
+                x,
+                xp_as_float_array(self._x, xp=xp, like=x),
+                self._y,
+                xp=xp,
+            )
+
+        # Manual linear interpolation for rank-2 ``y``: bracket each query
+        # point with ``searchsorted``, compute the normalised interpolation
+        # parameter ``t``, and lerp the bracketing ``y`` rows. Indexing is
+        # done CPU-side via numpy so backends without integer-tensor
+        # advanced indexing support (e.g. MPS) work correctly.
+        self_x = xp_as_float_array(self._x, xp=xp, like=x)
+        i_np = np.clip(as_ndarray(xp.searchsorted(self_x, x) - 1), 0, len(self._x) - 2)
+        self_x_np = as_ndarray(self_x)
+        self_y_np = as_ndarray(xp_as_float_array(self._y, xp=xp))
+
+        x_low = xp_as_float_array(self_x_np[i_np], xp=xp, like=x)
+        x_high = xp_as_float_array(self_x_np[i_np + 1], xp=xp, like=x)
+        y_low = xp_as_float_array(self_y_np[i_np], xp=xp, like=x)
+        y_high = xp_as_float_array(self_y_np[i_np + 1], xp=xp, like=x)
+
+        with sdiv_mode():
+            t = sdiv(x - x_low, x_high - x_low)
+
+        return y_low + (y_high - y_low) * t[..., None]
 
     def _validate_dimensions(self) -> None:
         """Validate that the variables dimensions are the same."""
@@ -1054,15 +1146,17 @@ class LinearInterpolator:
     def _validate_interpolation_range(self, x: NDArrayFloat) -> None:
         """Validate specified point to be in interpolation range."""
 
+        xp = array_namespace(x)
+
         below_interpolation_range = x < self._x[0]
         above_interpolation_range = x > self._x[-1]
 
-        if below_interpolation_range.any():
+        if bool(xp.any(below_interpolation_range)):
             error = f'"{x}" is below interpolation range.'
 
             raise ValueError(error)
 
-        if above_interpolation_range.any():
+        if bool(xp.any(above_interpolation_range)):
             error = f'"{x}" is above interpolation range.'
 
             raise ValueError(error)
@@ -1155,8 +1249,8 @@ class SpragueInterpolator:
     ) -> None:
         dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
-        self._xp: NDArrayFloat = np.array([])
-        self._yp: NDArrayFloat = np.array([])
+        self._x_p: NDArrayFloat = np.array([])
+        self._y_p: NDArrayFloat = np.array([])
 
         self._x: NDArrayFloat = np.array([])
         self._y: NDArrayFloat = np.array([])
@@ -1194,7 +1288,9 @@ class SpragueInterpolator:
     def x(self, value: ArrayLike) -> None:
         """Setter for the **self.x** property."""
 
-        value = as_array(np.atleast_1d(value), self._dtype)
+        xp = array_namespace(value)
+
+        value = xp_astype(xp_atleast_1d(value, xp=xp), self._dtype, xp=xp)
 
         attest(
             value.ndim == 1,
@@ -1210,11 +1306,14 @@ class SpragueInterpolator:
         xp3 = self._x[-1] + value_interval
         xp4 = self._x[-1] + value_interval * 2
 
-        self._xp = np.concatenate(
+        # NOTE: The boundary values are stacked rather than converted so that
+        # they stay on ``value``'s device; the dtype is restored as the
+        # interval arithmetic promotes it.
+        self._x_p = xp.concat(
             [
-                as_array([xp1, xp2], self._dtype),
+                xp_astype(xp.stack([xp1, xp2]), self._dtype, xp=xp),
                 value,
-                as_array([xp3, xp4], self._dtype),
+                xp_astype(xp.stack([xp3, xp4]), self._dtype, xp=xp),
             ]
         )
 
@@ -1248,11 +1347,13 @@ class SpragueInterpolator:
     def y(self, value: ArrayLike) -> None:
         """Setter for the **self.y** property."""
 
-        value = as_array(np.atleast_1d(value), self._dtype)
+        xp = array_namespace(value)
+
+        value = xp_astype(xp_atleast_1d(value, xp=xp), self._dtype, xp=xp)
 
         attest(
-            value.ndim == 1,
-            '"y" dependent variable must have exactly one dimension!',
+            value.ndim in (1, 2),
+            '"y" dependent variable must have one or two dimensions!',
         )
 
         attest(
@@ -1262,22 +1363,22 @@ class SpragueInterpolator:
 
         self._y = value
 
-        yp1, yp2, yp3, yp4 = (
-            np.sum(
-                self.SPRAGUE_C_COEFFICIENTS
-                * np.asarray((value[0:6], value[0:6], value[-6:], value[-6:])),
+        # ``SPRAGUE_C_COEFFICIENTS`` is ``(4, 6)``; for rank-2 ``y`` the
+        # coefficient tensor expands to ``(4, 6, 1)`` so the product with
+        # the stacked boundary windows broadcasts over ``y``'s trailing
+        # axis. The sum collapses the window axis.
+        C = xp_as_float_array(self.SPRAGUE_C_COEFFICIENTS, xp=xp, like=value)
+        if value.ndim == 2:
+            C = C[..., None]
+        yp = (
+            xp.sum(
+                C * xp.stack([value[0:6], value[0:6], value[-6:], value[-6:]]),
                 axis=1,
             )
             / 209
         )
 
-        self._yp = np.concatenate(
-            [
-                as_array([yp1, yp2], self._dtype),
-                value,
-                as_array([yp3, yp4], self._dtype),
-            ]
-        )
+        self._y_p = xp.concat([yp[:2], value, yp[2:]], axis=0)
 
     def __call__(self, x: ArrayLike) -> NDArrayFloat:
         """
@@ -1298,6 +1399,10 @@ class SpragueInterpolator:
 
         xi = self._evaluate(x)
 
+        # Collapse the ``xp_atleast_1d`` leading axis for 0-d ``x``.
+        if x.ndim == 0:
+            xi = first_item(xi)
+
         return as_float(xi)
 
     def _evaluate(self, x: NDArrayFloat) -> NDArrayFloat:
@@ -1315,36 +1420,62 @@ class SpragueInterpolator:
             Interpolated point values.
         """
 
+        xp = array_namespace(x, self._x, self._y)
+
+        # Promoted to at least 1-D so the stack / matmul pipeline broadcasts uniformly.
+        x = xp_atleast_1d(xp_as_float_array(x, xp=xp), xp=xp)
+
         self._validate_dimensions()
         self._validate_interpolation_range(x)
 
-        i = np.searchsorted(self._xp, x) - 1
+        i = xp.searchsorted(xp_as_float_array(self._x_p, xp=xp, like=x), x) - 1
+        # Convert index to numpy for CPU-side gather so that backends without
+        # integer-tensor advanced indexing support (e.g. MPS) work correctly.
+        i_np = as_ndarray(i)
+        # ``t`` is the normalised interpolation parameter, the local
+        # fractional distance ``(x - x_i) / (x_{i+1} - x_i)`` within the
+        # bracketing interval.
         with sdiv_mode():
-            X = sdiv(x - self._xp[i], self._xp[i + 1] - self._xp[i])
+            _x_p_np = as_ndarray(xp_as_float_array(self._x_p, xp=xp))
+            t = sdiv(
+                x - xp_as_float_array(_x_p_np[i_np], xp=xp, like=x),
+                xp_as_float_array(_x_p_np[i_np + 1] - _x_p_np[i_np], xp=xp, like=x),
+            )
 
-        r = self._yp
-
-        r_s = np.asarray((r[i - 2], r[i - 1], r[i], r[i + 1], r[i + 2], r[i + 3]))
-        w_s = np.asarray(
+        r_np = as_ndarray(xp_as_float_array(self._y_p, xp=xp))
+        r_s = xp.stack(
+            [
+                xp_as_float_array(r_np[i_np + k], xp=xp, like=x)
+                for k in (-2, -1, 0, 1, 2, 3)
+            ]
+        )
+        w_s = xp_as_float_array(
             (
                 (2, -16, 0, 16, -2, 0),
                 (-1, 16, -30, 16, -1, 0),
                 (-9, 39, -70, 66, -33, 7),
                 (13, -64, 126, -124, 61, -12),
                 (-5, 25, -50, 50, -25, 5),
-            )
+            ),
+            xp=xp,
+            like=x,
         )
-        a = np.dot(w_s, r_s) / 24
+        # Flatten the trailing axes of ``r_s`` so a single ``matmul`` over
+        # the window axis handles rank-1 and rank-2 ``y`` uniformly.
+        r_s_shape = r_s.shape
+        r_s_flat = xp_reshape(r_s, (r_s_shape[0], -1), xp=xp)
+        a = xp_reshape(
+            xp.matmul(w_s, r_s_flat) / 24, (w_s.shape[0], *r_s_shape[1:]), xp=xp
+        )
 
-        # Fancy vector code here... use underlying numpy structures to accelerate
-        # parts of the linear algebra.
-
-        y = r[i] + (a.reshape(5, -1) * X ** np.arange(1, 6).reshape(-1, 1)).sum(axis=0)
-
-        if y.size == 1:
-            return y[0]
-
-        return y
+        powers = xp_as_float_array([[1], [2], [3], [4], [5]], xp=xp, like=x)
+        # Polynomial basis ``t**k`` for k in 1..5; a trailing axis is
+        # appended for rank-2 ``y`` so it broadcasts over ``y``'s
+        # trailing axis.
+        basis = t**powers
+        if self._y.ndim == 2:
+            basis = basis[..., None]
+        return xp_as_float_array(r_np[i_np], xp=xp, like=x) + (a * basis).sum(axis=0)
 
     def _validate_dimensions(self) -> None:
         """Validate that the variables dimensions are the same."""
@@ -1360,15 +1491,17 @@ class SpragueInterpolator:
     def _validate_interpolation_range(self, x: NDArrayFloat) -> None:
         """Validate specified point to be in interpolation range."""
 
+        xp = array_namespace(x)
+
         below_interpolation_range = x < self._x[0]
         above_interpolation_range = x > self._x[-1]
 
-        if below_interpolation_range.any():
+        if bool(xp.any(below_interpolation_range)):
             error = f'"{x}" is below interpolation range.'
 
             raise ValueError(error)
 
-        if above_interpolation_range.any():
+        if bool(xp.any(above_interpolation_range)):
             error = f'"{x}" is above interpolation range.'
 
             raise ValueError(error)
@@ -1393,9 +1526,26 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
     -   This class is a wrapper around *scipy.interpolate.interp1d* class.
     """
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any) -> None:
         kwargs["kind"] = "cubic"
-        super().__init__(*args, **kwargs)
+        # Interpolate along the leading axis so rank-2 ``y`` evaluates
+        # batched along its trailing axis; rank-1 ``y`` is unaffected.
+        kwargs.setdefault("axis", 0)
+        super().__init__(as_ndarray(x), as_ndarray(y), *args, **kwargs)
+
+    def __call__(self, x: Any) -> Any:
+        """Evaluate, converting non-*NumPy* arrays to *NumPy* for *SciPy*."""
+
+        xp = array_namespace(x)
+        y = super().__call__(as_ndarray(x))
+        if not is_numpy_namespace(xp):
+            runtime_warning(
+                '"CubicSplineInterpolator" is falling back to "SciPy" for '
+                "non-NumPy arrays; the result is converted back to the input "
+                "namespace at a performance cost."
+            )
+            y = xp_as_float_array(y, xp=xp, like=x)
+        return y
 
 
 class PchipInterpolator(scipy.interpolate.PchipInterpolator):
@@ -1424,9 +1574,25 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
     """
 
     def __init__(self, x: ArrayLike, y: ArrayLike, *args: Any, **kwargs: Any) -> None:
-        super().__init__(as_float_array(x), as_float_array(y), *args, **kwargs)
+        x = as_ndarray(x)
+        y = as_ndarray(y)
+        super().__init__(x, y, *args, **kwargs)
 
-        self._y: NDArrayFloat = as_float_array(y)
+        self._y: NDArrayFloat = y
+
+    def __call__(self, x: Any, *args: Any, **kwargs: Any) -> Any:
+        """Evaluate, converting non-*NumPy* arrays to *NumPy* for *SciPy*."""
+
+        xp = array_namespace(x)
+        y = super().__call__(as_ndarray(x), *args, **kwargs)
+        if not is_numpy_namespace(xp):
+            runtime_warning(
+                '"PchipInterpolator" is falling back to "SciPy" for non-NumPy '
+                "arrays; the result is converted back to the input namespace at "
+                "a performance cost."
+            )
+            y = xp_as_float_array(y, xp=xp, like=x)
+        return y
 
     @property
     def y(self) -> NDArrayFloat:
@@ -1515,7 +1681,7 @@ class NullInterpolator:
         y: ArrayLike,
         absolute_tolerance: float = TOLERANCE_ABSOLUTE_DEFAULT,
         relative_tolerance: float = TOLERANCE_RELATIVE_DEFAULT,
-        default: float = np.nan,
+        default: float = float("nan"),
         dtype: Type[DTypeReal] | None = None,
         *args: Any,  # noqa: ARG002
         **kwargs: Any,  # noqa: ARG002
@@ -1526,7 +1692,7 @@ class NullInterpolator:
         self._y: NDArrayFloat = np.array([])
         self._absolute_tolerance: float = TOLERANCE_ABSOLUTE_DEFAULT
         self._relative_tolerance: float = TOLERANCE_RELATIVE_DEFAULT
-        self._default: float = np.nan
+        self._default: float = float("nan")
         self._dtype: Type[DTypeReal] = dtype
 
         self.x = x
@@ -1564,7 +1730,9 @@ class NullInterpolator:
     def x(self, value: ArrayLike) -> None:
         """Setter for the **self.x** property."""
 
-        value = cast("NDArrayFloat", np.atleast_1d(value).astype(self._dtype))
+        xp = array_namespace(value)
+
+        value = xp_astype(xp_atleast_1d(value, xp=xp), self._dtype, xp=xp)
 
         attest(
             value.ndim == 1,
@@ -1602,11 +1770,13 @@ class NullInterpolator:
     def y(self, value: ArrayLike) -> None:
         """Setter for the **self.y** property."""
 
-        value = cast("NDArrayFloat", np.atleast_1d(value).astype(self._dtype))
+        xp = array_namespace(value)
+
+        value = xp_astype(xp_atleast_1d(value, xp=xp), self._dtype, xp=xp)
 
         attest(
-            value.ndim == 1,
-            '"y" dependent variable must have exactly one dimension!',
+            value.ndim in (1, 2),
+            '"y" dependent variable must have one or two dimensions!',
         )
 
         self._y = value
@@ -1717,7 +1887,6 @@ class NullInterpolator:
         """
         Evaluate the interpolator at specified point(s).
 
-
         Parameters
         ----------
         x
@@ -1732,6 +1901,11 @@ class NullInterpolator:
         x = as_float_array(x)
 
         xi = self._evaluate(x)
+
+        # Collapse the synthetic leading axis for 0-d ``x``; guarded against
+        # the rank-1 ``y`` path that already returns a 0-d scalar.
+        if x.ndim == 0 and xi.ndim > 0:
+            xi = first_item(xi)
 
         return as_float(xi)
 
@@ -1750,20 +1924,31 @@ class NullInterpolator:
             Interpolated points values.
         """
 
+        xp = array_namespace(x, self._x, self._y)
+
+        x = xp_as_float_array(x, xp=xp)
+
         self._validate_dimensions()
         self._validate_interpolation_range(x)
 
-        indexes = closest_indexes(self._x, x)
-        values = self._y[indexes]
-        close = np.isclose(
-            self._x[indexes],
+        sx = xp_as_float_array(self._x, xp=xp, like=x)
+        sy = xp_as_float_array(self._y, xp=xp, like=x)
+        indexes = closest_indexes(sx, x)
+        # ``close`` is always ``(N_query,)``; a trailing axis is appended
+        # for rank-2 ``y`` so it broadcasts over ``y``'s trailing axis.
+        values = sy[indexes]
+        close = xp_isclose(
+            sx[indexes],
             x,
-            rtol=self._absolute_tolerance,
-            atol=self._relative_tolerance,
+            rtol=self._relative_tolerance,
+            atol=self._absolute_tolerance,
+            xp=xp,
         )
-        values = np.where(~close, self._default, values)
+        if self._y.ndim == 2:
+            close = close[..., None]
+        values = xp.where(~close, self._default, values)
 
-        return np.squeeze(values)
+        return xp_squeeze(values, xp=xp) if self._y.ndim == 1 else values
 
     def _validate_dimensions(self) -> None:
         """Validate that the variables dimensions are the same."""
@@ -1779,15 +1964,17 @@ class NullInterpolator:
     def _validate_interpolation_range(self, x: NDArrayFloat) -> None:
         """Validate specified point to be in interpolation range."""
 
+        xp = array_namespace(x)
+
         below_interpolation_range = x < self._x[0]
         above_interpolation_range = x > self._x[-1]
 
-        if below_interpolation_range.any():
+        if bool(xp.any(below_interpolation_range)):
             error = f'"{x}" is below interpolation range.'
 
             raise ValueError(error)
 
-        if above_interpolation_range.any():
+        if bool(xp.any(above_interpolation_range)):
             error = f'"{x}" is above interpolation range.'
 
             raise ValueError(error)
@@ -1827,7 +2014,7 @@ def lagrange_coefficients(r: float, n: int = 4) -> NDArrayFloat:
         basis = [(r - r_i[i]) / (r_i[j] - r_i[i]) for i in range(len(r_i)) if i != j]
         L_n.append(reduce(lambda x, y: x * y, basis))
 
-    return np.array(L_n)
+    return np.asarray(L_n)
 
 
 def table_interpolation_trilinear(V_xyz: ArrayLike, table: ArrayLike) -> NDArrayFloat:
@@ -1880,17 +2067,21 @@ def table_interpolation_trilinear(V_xyz: ArrayLike, table: ArrayLike) -> NDArray
     """
 
     V_xyz = cast("NDArrayFloat", V_xyz)
+
+    xp = array_namespace(V_xyz)
+
     original_shape = V_xyz.shape
-    V_xyz = cast("NDArrayFloat", np.clip(V_xyz, 0, 1).reshape(-1, 3))
+
+    V_xyz = cast("NDArrayFloat", xp_reshape(xp.clip(V_xyz, 0, 1), (-1, 3), xp=xp))
 
     # Index computation
-    table = cast("NDArrayFloat", table)
-    i_m = np.array(table.shape[:-1]) - 1
+    table = xp_as_float_array(table, xp=xp, like=V_xyz)
+    i_m = xp_as_int_array(table.shape[:-1], xp=xp, like=V_xyz) - 1
     V_xyz_s = V_xyz * i_m
 
-    i_f = V_xyz_s.astype(DTYPE_INT_DEFAULT)
-    i_f = np.clip(i_f, 0, i_m)
-    i_c = np.minimum(i_f + 1, i_m)
+    i_f = xp_astype(V_xyz_s, DTYPE_INT_DEFAULT, xp=xp)
+    i_f = xp.clip(i_f, 0, i_m)
+    i_c = xp.minimum(i_f + 1, i_m)
 
     # Relative coordinates (fractional part)
     frac = V_xyz_s - i_f
@@ -1925,7 +2116,7 @@ def table_interpolation_trilinear(V_xyz: ArrayLike, table: ArrayLike) -> NDArray
         + v111 * (dx * dy * dz)
     )
 
-    return result.reshape(original_shape)
+    return xp_reshape(result, original_shape, xp=xp)
 
 
 def table_interpolation_tetrahedral(V_xyz: ArrayLike, table: ArrayLike) -> NDArrayFloat:
@@ -1978,17 +2169,21 @@ def table_interpolation_tetrahedral(V_xyz: ArrayLike, table: ArrayLike) -> NDArr
     """
 
     V_xyz = cast("NDArrayFloat", V_xyz)
+
+    xp = array_namespace(V_xyz)
+
     original_shape = V_xyz.shape
-    V_xyz = cast("NDArrayFloat", np.clip(V_xyz, 0, 1).reshape(-1, 3))
+
+    V_xyz = cast("NDArrayFloat", xp_reshape(xp.clip(V_xyz, 0, 1), (-1, 3), xp=xp))
 
     # Index computation
-    table = cast("NDArrayFloat", table)
-    i_m = np.array(table.shape[:-1]) - 1
+    table = xp_as_float_array(table, xp=xp, like=V_xyz)
+    i_m = xp_as_int_array(table.shape[:-1], xp=xp, like=V_xyz) - 1
     V_xyz_s = V_xyz * i_m
 
-    i_f = V_xyz_s.astype(DTYPE_INT_DEFAULT)
-    i_f = np.clip(i_f, 0, i_m)
-    i_c = np.minimum(i_f + 1, i_m)
+    i_f = xp_astype(V_xyz_s, DTYPE_INT_DEFAULT, xp=xp)
+    i_f = xp.clip(i_f, 0, i_m)
+    i_c = xp.minimum(i_f + 1, i_m)
 
     # Relative coordinates
     r = V_xyz_s - i_f
@@ -2009,19 +2204,19 @@ def table_interpolation_tetrahedral(V_xyz: ArrayLike, table: ArrayLike) -> NDArr
     V111 = table[cx, cy, cz]
 
     # Expand dimensions for broadcasting
-    x = x[:, np.newaxis]
-    y = y[:, np.newaxis]
-    z = z[:, np.newaxis]
+    x = x[:, None]
+    y = y[:, None]
+    z = z[:, None]
 
     # Tetrahedral interpolation - select tetrahedron based on position
-    xyz_o = np.select(
+    xyz_o = xp_select(
         [
-            np.logical_and(x > y, y > z),
-            np.logical_and(x > z, z >= y),
-            np.logical_and(z >= x, x > y),
-            np.logical_and(y >= x, x > z),
-            np.logical_and(y >= z, z >= x),
-            np.logical_and(z > y, y >= x),
+            xp.logical_and(x > y, y > z),
+            xp.logical_and(x > z, z >= y),
+            xp.logical_and(z >= x, x > y),
+            xp.logical_and(y >= x, x > z),
+            xp.logical_and(y >= z, z >= x),
+            xp.logical_and(z > y, y >= x),
         ],
         [
             (1 - x) * V000 + (x - y) * V100 + (y - z) * V110 + z * V111,
@@ -2031,9 +2226,10 @@ def table_interpolation_tetrahedral(V_xyz: ArrayLike, table: ArrayLike) -> NDArr
             (1 - y) * V000 + (y - z) * V010 + (z - x) * V011 + x * V111,
             (1 - z) * V000 + (z - y) * V001 + (y - x) * V011 + x * V111,
         ],
+        xp=xp,
     )
 
-    return xyz_o.reshape(original_shape)
+    return xp_reshape(xyz_o, original_shape, xp=xp)
 
 
 TABLE_INTERPOLATION_METHODS = CanonicalMapping(
@@ -2164,28 +2360,36 @@ def linear_interpolation_index_and_factor(
     (array([0, 0, 2, 3]...), array([0. , 0.5, 0.5, 0. ]))
     """
 
-    value = as_float_array(value)
-    break_points = as_float_array(break_points)
+    xp = array_namespace(value, break_points)
 
-    clamped = np.clip(value, break_points[0], break_points[-1])
+    value = xp_as_float_array(value, xp=xp, like=break_points)
+    break_points = xp_as_float_array(break_points, xp=xp, like=value)
+
+    clamped = xp.clip(value, break_points[0], break_points[-1])
 
     # Upper bound search starting from break_points[1].
     next_idx = (
-        np.searchsorted(break_points[1:], clamped.ravel(), side="right").reshape(
-            clamped.shape
+        xp_reshape(
+            xp.searchsorted(
+                break_points[1:],
+                xp_reshape(clamped, (-1,), xp=xp),
+                side="right",
+            ),
+            clamped.shape,
+            xp=xp,
         )
         + 1
     )
 
     at_end = next_idx >= len(break_points)
-    index = np.where(at_end, len(break_points) - 1, next_idx - 1)
+    index = xp.where(at_end, len(break_points) - 1, next_idx - 1)
 
-    safe_next = np.minimum(next_idx, len(break_points) - 1)
+    safe_next = xp.clip(next_idx, max=len(break_points) - 1)
     denominator = break_points[safe_next] - break_points[index]
-    factor = np.where(
+    factor = xp.where(
         at_end | (denominator == 0),
         0.0,
-        (clamped - break_points[index]) / np.where(denominator == 0, 1.0, denominator),
+        (clamped - break_points[index]) / xp.where(denominator == 0, 1.0, denominator),
     )
 
-    return index.astype(np.intp), factor
+    return xp_astype(index, DTYPE_INT_DEFAULT, xp=xp), factor

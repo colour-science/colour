@@ -27,7 +27,17 @@ if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
 from colour.hints import List, cast
-from colour.utilities import as_float_array, as_float_scalar, required, validate_method
+from colour.utilities import (
+    array_namespace,
+    as_float_array,
+    as_float_scalar,
+    required,
+    validate_method,
+    xp_as_float_array,
+    xp_reshape,
+    xp_round,
+    xp_unique,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -97,25 +107,33 @@ def edges_to_chord(edges: ArrayLike, index: int = 0) -> NDArrayFloat:
            [-0. , -0.5,  0. ]])
     """
 
-    edge_list = cast("List[List[float]]", as_float_array(edges).tolist())
+    edges = as_float_array(edges)
+
+    xp = array_namespace(edges)
+
+    edge_list = cast("List[List[float]]", edges.tolist())
 
     edges_ordered = [edge_list.pop(index)]
-    segment = np.array(edges_ordered[0][1])
+    segment = xp_as_float_array(edges_ordered[0][1], xp=xp)
 
     while len(edge_list) > 0:
-        edges_array = np.array(edge_list)
-        d_0 = np.linalg.norm(edges_array[:, 0, :] - segment, axis=1)
-        d_1 = np.linalg.norm(edges_array[:, 1, :] - segment, axis=1)
-        d_0_argmin, d_1_argmin = d_0.argmin(), d_1.argmin()
+        edges = xp_as_float_array(edge_list, xp=xp)
+        d_0 = xp.linalg.vector_norm(edges[:, 0, :] - segment, axis=1)
+        d_1 = xp.linalg.vector_norm(edges[:, 1, :] - segment, axis=1)
+        d_0_argmin, d_1_argmin = int(xp.argmin(d_0)), int(xp.argmin(d_1))
 
         if d_0[d_0_argmin] < d_1[d_1_argmin]:
             edges_ordered.append(edge_list.pop(d_0_argmin))
-            segment = np.array(edges_ordered[-1][1])
+            segment = xp_as_float_array(edges_ordered[-1][1], xp=xp)
         else:
             edges_ordered.append(edge_list.pop(d_1_argmin))
-            segment = np.array(edges_ordered[-1][0])
+            segment = xp_as_float_array(edges_ordered[-1][0], xp=xp)
 
-    return np.reshape(as_float_array(edges_ordered), (-1, segment.shape[-1]))
+    return xp_reshape(
+        xp_as_float_array(edges_ordered, xp=xp, like=segment),
+        (-1, segment.shape[-1]),
+        xp=xp,
+    )
 
 
 def close_chord(vertices: ArrayLike) -> NDArrayFloat:
@@ -143,7 +161,9 @@ def close_chord(vertices: ArrayLike) -> NDArrayFloat:
 
     vertices = as_float_array(vertices)
 
-    return np.vstack([vertices, vertices[0]])
+    xp = array_namespace(vertices)
+
+    return xp.concat([vertices, vertices[0:1]], axis=0)
 
 
 def unique_vertices(
@@ -181,11 +201,13 @@ def unique_vertices(
 
     vertices = as_float_array(vertices)
 
-    unique, indexes = np.unique(
-        vertices.round(decimals=decimals), axis=0, return_index=True
+    xp = array_namespace(vertices)
+
+    unique, indexes = xp_unique(
+        xp_round(vertices, decimals=decimals, xp=xp), axis=0, return_index=True, xp=xp
     )
 
-    return unique[np.argsort(indexes)]
+    return unique[xp.argsort(indexes)]
 
 
 @required("trimesh")
@@ -262,18 +284,20 @@ def hull_section(
     )
 
     if axis == "+x":
-        normal, plane = np.array([1, 0, 0]), np.array([origin, 0, 0])
+        normal, plane = as_float_array([1, 0, 0]), as_float_array([origin, 0, 0])
     elif axis == "+y":
-        normal, plane = np.array([0, 1, 0]), np.array([0, origin, 0])
+        normal, plane = as_float_array([0, 1, 0]), as_float_array([0, origin, 0])
     elif axis == "+z":
-        normal, plane = np.array([0, 0, 1]), np.array([0, 0, origin])
+        normal, plane = as_float_array([0, 0, 1]), as_float_array([0, 0, origin])
+
+    xp = array_namespace(normal)
 
     if normalise:
         vertices = hull.vertices * normal
         origin = as_float_scalar(
-            linear_conversion(origin, [0, 1], [np.min(vertices), np.max(vertices)])
+            linear_conversion(origin, [0, 1], [xp.min(vertices), xp.max(vertices)])
         )
-        plane = np.where(plane != 0, origin, plane)
+        plane = xp.where(plane != 0, origin, plane)
 
     section = trimesh.intersections.mesh_plane(hull, normal, plane)
     if len(section) == 0:

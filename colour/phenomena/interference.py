@@ -20,10 +20,15 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import numpy as np
-
 from colour.phenomena.tmm import matrix_transfer_tmm
-from colour.utilities import as_float_array, tstack
+from colour.utilities import (
+    array_namespace,
+    as_float_array,
+    tstack,
+    xp_as_float_array,
+    xp_atleast_1d,
+    xp_radians,
+)
 
 if TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
@@ -145,7 +150,9 @@ def light_water_refractive_index_Schiebener1990(
 
     LL = light_water_molar_refraction_Schiebener1990(wavelength, temperature, density)
 
-    return np.sqrt((2 * LL + 1 / p_s) / (1 / p_s - LL))
+    xp = array_namespace(LL)
+
+    return xp.sqrt((2 * LL + 1 / p_s) / (1 / p_s - LL))
 
 
 def thin_film_tmm(
@@ -206,6 +213,7 @@ def thin_film_tmm(
     --------
     Basic usage:
 
+    >>> import numpy as np
     >>> R, T = thin_film_tmm([1.0, 1.5, 1.0], 250, 555)
     >>> R.shape, T.shape
     ((1, 1, 1, 2), (1, 1, 1, 2))
@@ -274,10 +282,14 @@ def thin_film_tmm(
     :cite:`Byrnes2016`
     """
 
-    t = np.atleast_1d(as_float_array(t))
+    wavelength = as_float_array(wavelength)
+
+    xp = array_namespace(wavelength)
+
+    t = xp_atleast_1d(xp_as_float_array(t, xp=xp, like=wavelength), xp=xp)
 
     # Handle thickness broadcasting: reshape from (T,) to (T, 1) for single-layer
-    t = t[:, np.newaxis] if len(t) > 1 else t
+    t = t[:, None] if len(t) > 1 else t
 
     return multilayer_tmm(n=n, t=t, wavelength=wavelength, theta=theta)
 
@@ -345,6 +357,7 @@ def multilayer_tmm(
     --------
     Single layer:
 
+    >>> import numpy as np
     >>> R, T = multilayer_tmm([1.0, 1.5, 1.0], [250], 555)
     >>> R.shape, T.shape
     ((1, 1, 1, 2), (1, 1, 1, 2))
@@ -404,11 +417,15 @@ def multilayer_tmm(
     :cite:`Byrnes2016`
     """
 
-    theta = np.atleast_1d(as_float_array(theta))
+    wavelength = as_float_array(wavelength)
+
+    xp = array_namespace(wavelength)
+
+    theta = xp_atleast_1d(xp_as_float_array(theta, xp=xp, like=wavelength), xp=xp)
 
     result = matrix_transfer_tmm(
         n=n,
-        t=np.atleast_1d(as_float_array(t)),
+        t=xp_atleast_1d(xp_as_float_array(t, xp=xp, like=wavelength), xp=xp),
         theta=theta,
         wavelength=wavelength,
     )
@@ -420,8 +437,8 @@ def multilayer_tmm(
 
     # T = thickness_count, A = angles_count, W = wavelengths_count
     # Reflectance (Byrnes Eq. 15, 23)
-    r_s = np.abs(result.M_s[:, :, :, 1, 0] / result.M_s[:, :, :, 0, 0]) ** 2
-    r_p = np.abs(result.M_p[:, :, :, 1, 0] / result.M_p[:, :, :, 0, 0]) ** 2
+    r_s = xp.abs(result.M_s[:, :, :, 1, 0] / result.M_s[:, :, :, 0, 0]) ** 2
+    r_p = xp.abs(result.M_p[:, :, :, 1, 0] / result.M_p[:, :, :, 0, 0]) ** 2
 
     # Transmittance (Byrnes Eq. 14, 21-22)
     t_s = 1 / result.M_s[:, :, :, 0, 0]
@@ -429,17 +446,17 @@ def multilayer_tmm(
 
     # Transmittance correction factor: Re[n_f cos(θ_f) / n_i cos(θ_i)]
     # result.theta has shape (A, M) where M = media_count
-    cos_theta_i = np.cos(np.radians(theta))[:, None]  # (A, 1)
-    cos_theta_f = np.cos(np.radians(result.theta[:, -1]))[:, None]  # (A, 1)
-    transmittance_correction = np.real(
+    cos_theta_i = xp.cos(xp_radians(theta))[:, None]  # (A, 1)
+    cos_theta_f = xp.cos(xp_radians(result.theta[:, -1]))[:, None]  # (A, 1)
+    transmittance_correction = xp.real(
         (n_substrate * cos_theta_f) / (n_incident * cos_theta_i)
     )  # (A, 1)
 
     # Broadcast to thickness dimension: (1, A, 1)
     transmittance_correction = transmittance_correction[None, :, :]
 
-    t_s = np.abs(t_s) ** 2 * transmittance_correction  # (T, A, W)
-    t_p = np.abs(t_p) ** 2 * transmittance_correction  # (T, A, W)
+    t_s = xp.abs(t_s) ** 2 * transmittance_correction  # (T, A, W)
+    t_p = xp.abs(t_p) ** 2 * transmittance_correction  # (T, A, W)
 
     # Stack results: (T, A, W, 2)
     R = tstack([r_s, r_p])

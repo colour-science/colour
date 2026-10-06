@@ -30,6 +30,7 @@ from colour.colorimetry import (
     msds_to_XYZ,
     msds_to_XYZ_ASTME308,
     msds_to_XYZ_integration,
+    msds_to_XYZ_tristimulus_weighting_factors_ASTME308,
     reshape_msds,
     reshape_sd,
     sd_CIE_standard_illuminant_A,
@@ -47,9 +48,14 @@ from colour.colorimetry import (
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 
 if typing.TYPE_CHECKING:
-    from colour.hints import NDArrayFloat
+    from colour.hints import NDArrayFloat, ModuleType
 
-from colour.utilities import domain_range_scale
+from colour.utilities import (
+    domain_range_scale,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -719,13 +725,13 @@ lagrange_coefficients_ASTME2022` definition unit tests methods.
 lagrange_coefficients_ASTME2022` definition.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             lagrange_coefficients_ASTME2022(10, "inner"),
             LAGRANGE_COEFFICIENTS_A,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             lagrange_coefficients_ASTME2022(10, "boundary"),
             LAGRANGE_COEFFICIENTS_B,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -734,7 +740,7 @@ lagrange_coefficients_ASTME2022` definition.
         # Testing that the cache returns a copy of the data.
         lagrange_coefficients = lagrange_coefficients_ASTME2022(10)
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             lagrange_coefficients,
             LAGRANGE_COEFFICIENTS_A,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -742,7 +748,7 @@ lagrange_coefficients_ASTME2022` definition.
 
         lagrange_coefficients *= 10
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             lagrange_coefficients_ASTME2022(10),
             LAGRANGE_COEFFICIENTS_A,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -777,12 +783,16 @@ tristimulus_weighting_factors_ASTME2022` definition.
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, A, SpectralShape(360, 830, 10)
         )
-        np.testing.assert_allclose(np.round(twf, 3), TWF_A_CIE_1964_10_10, atol=1e-5)
+        xp_assert_close(
+            np.around(twf, 3), TWF_A_CIE_1964_10_10, atol=TOLERANCE_ABSOLUTE_TESTS * 100
+        )
 
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, A, SpectralShape(360, 830, 20)
         )
-        np.testing.assert_allclose(np.round(twf, 3), TWF_A_CIE_1964_10_20, atol=1e-5)
+        xp_assert_close(
+            np.around(twf, 3), TWF_A_CIE_1964_10_20, atol=TOLERANCE_ABSOLUTE_TESTS * 100
+        )
 
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
         D65 = reshape_sd(
@@ -791,8 +801,8 @@ tristimulus_weighting_factors_ASTME2022` definition.
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, D65, SpectralShape(360, 830, 20)
         )
-        np.testing.assert_allclose(
-            np.round(twf, 3),
+        xp_assert_close(
+            np.around(twf, 3),
             TWF_D65_CIE_1931_2_20,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -800,23 +810,21 @@ tristimulus_weighting_factors_ASTME2022` definition.
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, D65, SpectralShape(360, 830, 20), k=1
         )
-        np.testing.assert_allclose(
-            twf, TWF_D65_CIE_1931_2_20_K1, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(twf, TWF_D65_CIE_1931_2_20_K1, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         # Testing that the cache returns a copy of the data.
         cmfs = MSDS_CMFS["CIE 1964 10 Degree Standard Observer"]
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, A, SpectralShape(360, 830, 10)
         )
-        np.testing.assert_allclose(
-            np.round(twf, 3),
+        xp_assert_close(
+            np.around(twf, 3),
             TWF_A_CIE_1964_10_10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            np.round(
+        xp_assert_close(
+            np.around(
                 tristimulus_weighting_factors_ASTME2022(
                     cmfs, A, SpectralShape(360, 830, 10)
                 ),
@@ -838,21 +846,11 @@ tristimulus_weighting_factors_ASTME2022` definition raised exception.
         A_1 = sd_CIE_standard_illuminant_A(cmfs_1.shape)
         A_2 = sd_CIE_standard_illuminant_A(cmfs_2.shape)
 
-        pytest.raises(
-            ValueError,
-            tristimulus_weighting_factors_ASTME2022,
-            cmfs_1,
-            A_2,
-            shape,
-        )
+        with pytest.raises(ValueError):
+            tristimulus_weighting_factors_ASTME2022(cmfs_1, A_2, shape)
 
-        pytest.raises(
-            ValueError,
-            tristimulus_weighting_factors_ASTME2022,
-            cmfs_2,
-            A_1,
-            shape,
-        )
+        with pytest.raises(ValueError):
+            tristimulus_weighting_factors_ASTME2022(cmfs_2, A_1, shape)
 
 
 class TestTristimulusWeightingFactorsIntegration:
@@ -873,8 +871,8 @@ tristimulus_weighting_factors_integration` definition.
         twf = tristimulus_weighting_factors_integration(
             cmfs, A, SpectralShape(360, 830, 20)
         )
-        np.testing.assert_allclose(
-            np.round(twf, 3),
+        xp_assert_close(
+            np.around(twf, 3),
             TWF_INTEGRATION_A_CIE_1964_10_20,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -886,8 +884,8 @@ tristimulus_weighting_factors_integration` definition.
         twf = tristimulus_weighting_factors_integration(
             cmfs, D65, SpectralShape(360, 830, 20)
         )
-        np.testing.assert_allclose(
-            np.round(twf, 3),
+        xp_assert_close(
+            np.around(twf, 3),
             TWF_INTEGRATION_D65_CIE_1931_2_20,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -895,7 +893,7 @@ tristimulus_weighting_factors_integration` definition.
         twf = tristimulus_weighting_factors_integration(
             cmfs, D65, SpectralShape(360, 830, 20), k=1
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             twf, TWF_INTEGRATION_D65_CIE_1931_2_20_K1, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
@@ -906,15 +904,18 @@ class TestAdjustTristimulusWeightingFactorsASTME308:
 adjust_tristimulus_weighting_factors_ASTME308` definition unit tests methods.
     """
 
-    def test_adjust_tristimulus_weighting_factors_ASTME308(self) -> None:
+    def test_adjust_tristimulus_weighting_factors_ASTME308(
+        self,
+        xp: ModuleType,
+    ) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 adjust_tristimulus_weighting_factors_ASTME308` definition.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             adjust_tristimulus_weighting_factors_ASTME308(
-                TWF_D65_CIE_1931_2_20,
+                xp_as_array(TWF_D65_CIE_1931_2_20, xp=xp),
                 SpectralShape(360, 830, 20),
                 SpectralShape(400, 700, 20),
             ),
@@ -929,61 +930,61 @@ class TestSd_to_XYZ_integration:
     definition unit tests methods.
     """
 
-    def test_sd_to_XYZ_integration(self) -> None:
+    def test_sd_to_XYZ_integration(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 sd_to_XYZ_integration` definition.
         """
 
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS["A"]),
-            np.array([14.46341147, 10.85819624, 2.04695585]),
+            [14.46341147, 10.85819624, 2.04695585],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_integration(
-                SD_SAMPLE.values,
+                xp_as_array(SD_SAMPLE.values, xp=xp),
                 cmfs,
                 SDS_ILLUMINANTS["A"],
                 shape=SD_SAMPLE.shape,
             ),
-            np.array([14.46365947, 10.85828084, 2.04663993]),
+            [14.46365947, 10.85828084, 2.04663993],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         cmfs = MSDS_CMFS["CIE 1964 10 Degree Standard Observer"]
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS["C"]),
-            np.array([10.77002699, 9.44876636, 6.62415290]),
+            [10.77002699, 9.44876636, 6.62415290],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS["FL2"]),
-            np.array([11.57540576, 9.98608874, 3.95242590]),
+            [11.57540576, 9.98608874, 3.95242590],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS["FL2"], k=683),
-            np.array([1223.7509261493, 1055.7284645912, 417.8501342332]),
+            [1223.7509261493, 1055.7284645912, 417.8501342332],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_integration(
                 SD_SAMPLE,
                 cmfs,
                 SDS_ILLUMINANTS["FL2"],
                 shape=SpectralShape(400, 700, 20),
             ),
-            np.array([11.98232967, 10.13543929, 3.66442524]),
+            [11.98232967, 10.13543929, 3.66442524],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_sd_to_XYZ_integration(self) -> None:
+    def test_domain_range_scale_sd_to_XYZ_integration(self, xp: ModuleType) -> None:  # noqa: ARG002
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 sd_to_XYZ_integration` definition domain and range scale support.
@@ -995,7 +996,7 @@ sd_to_XYZ_integration` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     sd_to_XYZ_integration(SD_SAMPLE, cmfs, SDS_ILLUMINANTS["A"]),
                     XYZ * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -1009,7 +1010,10 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
     definition unit tests methods.
     """
 
-    def test_sd_to_XYZ_tristimulus_weighting_factors_ASTME308(self) -> None:
+    def test_sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
+        self,
+        xp: ModuleType,  # noqa: ARG002
+    ) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
@@ -1017,73 +1021,73 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308`
         """
 
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SD_SAMPLE, cmfs, SDS_ILLUMINANTS["A"]
             ),
-            np.array([14.46341867, 10.85820227, 2.04697034]),
+            [14.46341867, 10.85820227, 2.04697034],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         cmfs = MSDS_CMFS["CIE 1964 10 Degree Standard Observer"]
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SD_SAMPLE, cmfs, SDS_ILLUMINANTS["C"]
             ),
-            np.array([10.77005571, 9.44877491, 6.62428210]),
+            [10.77005571, 9.44877491, 6.62428210],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 SD_SAMPLE, cmfs, SDS_ILLUMINANTS["FL2"]
             ),
-            np.array([11.57542759, 9.98605604, 3.95273304]),
+            [11.57542759, 9.98605604, 3.95273304],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 reshape_sd(SD_SAMPLE, SpectralShape(400, 700, 5), "Trim"),
                 cmfs,
                 SDS_ILLUMINANTS["A"],
             ),
-            np.array([14.38153638, 10.74503131, 2.01613844]),
+            [14.38153638, 10.74503131, 2.01613844],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 reshape_sd(SD_SAMPLE, SpectralShape(400, 700, 10), "Interpolate"),
                 cmfs,
                 SDS_ILLUMINANTS["A"],
             ),
-            np.array([14.38257202, 10.74568178, 2.01588427]),
+            [14.38257202, 10.74568178, 2.01588427],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 reshape_sd(SD_SAMPLE, SpectralShape(400, 700, 20), "Interpolate"),
                 cmfs,
                 SDS_ILLUMINANTS["A"],
             ),
-            np.array([14.38329645, 10.74603515, 2.01561113]),
+            [14.38329645, 10.74603515, 2.01561113],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                 reshape_sd(SD_SAMPLE, SpectralShape(400, 700, 20), "Interpolate"),
                 cmfs,
                 SDS_ILLUMINANTS["A"],
                 k=1,
             ),
-            np.array([1636.74881983, 1222.84626486, 229.36669308]),
+            [1636.74881983, 1222.84626486, 229.36669308],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_sd_to_XYZ_twf_ASTME308(self) -> None:
+    def test_domain_range_scale_sd_to_XYZ_twf_ASTME308(self, xp: ModuleType) -> None:  # noqa: ARG002
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 sd_to_XYZ_tristimulus_weighting_factors_ASTME308` definition domain and
@@ -1098,7 +1102,7 @@ sd_to_XYZ_tristimulus_weighting_factors_ASTME308` definition domain and
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
                         SD_SAMPLE, cmfs, SDS_ILLUMINANTS["A"]
                     ),
@@ -1126,54 +1130,54 @@ class TestSd_to_XYZ_ASTME308:
         definition for 1 nm measurement intervals.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, self._cmfs.shape), self._cmfs, self._A
             ),
-            np.array([14.46372680, 10.85832950, 2.04663200]),
+            [14.46372680, 10.85832950, 2.04663200],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, self._cmfs.shape),
                 self._cmfs,
                 self._A,
                 use_practice_range=False,
             ),
-            np.array([14.46366018, 10.85827949, 2.04662258]),
+            [14.46366018, 10.85827949, 2.04662258],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 1)),
                 self._cmfs,
                 self._A,
             ),
-            np.array([14.54173397, 10.88628632, 2.04965822]),
+            [14.54173397, 10.88628632, 2.04965822],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 1)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False,
             ),
-            np.array([14.54203076, 10.88636754, 2.04964877]),
+            [14.54203076, 10.88636754, 2.04964877],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 1)),
                 self._cmfs,
                 self._A,
                 k=1,
             ),
-            np.array([15.6898152997, 11.7457671769, 2.2114803420]),
+            [15.6898152997, 11.7457671769, 2.2114803420],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -1183,71 +1187,71 @@ class TestSd_to_XYZ_ASTME308:
         definition for 5 nm measurement intervals.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 830, 5)),
                 self._cmfs,
                 self._A,
             ),
-            np.array([14.46372173, 10.85832502, 2.04664734]),
+            [14.46372173, 10.85832502, 2.04664734],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 830, 5)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False,
             ),
-            np.array([14.46366388, 10.85828159, 2.04663915]),
+            [14.46366388, 10.85828159, 2.04663915],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 830, 5)),
                 self._cmfs,
                 self._A,
                 mi_5nm_omission_method=False,
             ),
-            np.array([14.46373399, 10.85833553, 2.0466465]),
+            [14.46373399, 10.85833553, 2.0466465],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 5)),
                 self._cmfs,
                 self._A,
             ),
-            np.array([14.54025742, 10.88576251, 2.04950226]),
+            [14.54025742, 10.88576251, 2.04950226],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 5)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False,
             ),
-            np.array([14.54051517, 10.88583304, 2.04949406]),
+            [14.54051517, 10.88583304, 2.04949406],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 5)),
                 self._cmfs,
                 self._A,
                 mi_5nm_omission_method=False,
             ),
-            np.array([14.54022093, 10.88575468, 2.04951057]),
+            [14.54022093, 10.88575468, 2.04951057],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 830, 5)),
                 self._cmfs,
@@ -1255,11 +1259,11 @@ class TestSd_to_XYZ_ASTME308:
                 use_practice_range=False,
                 mi_5nm_omission_method=False,
             ),
-            np.array([14.46366737, 10.85828552, 2.04663707]),
+            [14.46366737, 10.85828552, 2.04663707],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 5)),
                 self._cmfs,
@@ -1267,18 +1271,18 @@ class TestSd_to_XYZ_ASTME308:
                 use_practice_range=False,
                 mi_5nm_omission_method=False,
             ),
-            np.array([14.54051772, 10.88583590, 2.04950113]),
+            [14.54051772, 10.88583590, 2.04950113],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 5)),
                 self._cmfs,
                 self._A,
                 k=1,
             ),
-            np.array([15.6882479013, 11.7452212708, 2.2113156963]),
+            [15.6882479013, 11.7452212708, 2.2113156963],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -1288,67 +1292,67 @@ class TestSd_to_XYZ_ASTME308:
         definition for 10 nm measurement intervals.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 830, 10)),
                 self._cmfs,
                 self._A,
             ),
-            np.array([14.47779980, 10.86358645, 2.04751388]),
+            [14.47779980, 10.86358645, 2.04751388],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 830, 10)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False,
             ),
-            np.array([14.47773312, 10.86353641, 2.04750445]),
+            [14.47773312, 10.86353641, 2.04750445],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 10)),
                 self._cmfs,
                 self._A,
             ),
-            np.array([14.54137532, 10.88641727, 2.04931318]),
+            [14.54137532, 10.88641727, 2.04931318],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 10)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False,
             ),
-            np.array([14.54167211, 10.88649849, 2.04930374]),
+            [14.54167211, 10.88649849, 2.04930374],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 10)),
                 self._cmfs,
                 self._A,
                 k=1,
             ),
-            np.array([15.6894283333, 11.7459084705, 2.2111080639]),
+            [15.6894283333, 11.7459084705, 2.2111080639],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(401, 701, 10)),
                 self._cmfs,
                 self._A,
                 k=1,
             ),
-            np.array([15.6713226093, 11.7392254489, 2.2117708792]),
+            [15.6713226093, 11.7392254489, 2.2117708792],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -1358,71 +1362,71 @@ class TestSd_to_XYZ_ASTME308:
         definition for 20 nm measurement intervals.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 820, 20)),
                 self._cmfs,
                 self._A,
             ),
-            np.array([14.50187464, 10.87217124, 2.04918305]),
+            [14.50187464, 10.87217124, 2.04918305],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 820, 20)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False,
             ),
-            np.array([14.50180785, 10.87212116, 2.04917361]),
+            [14.50180785, 10.87212116, 2.04917361],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 820, 20)),
                 self._cmfs,
                 self._A,
                 mi_20nm_interpolation_method=False,
             ),
-            np.array([14.50216194, 10.87236873, 2.04977256]),
+            [14.50216194, 10.87236873, 2.04977256],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 20)),
                 self._cmfs,
                 self._A,
             ),
-            np.array([14.54114025, 10.88634755, 2.04916445]),
+            [14.54114025, 10.88634755, 2.04916445],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 20)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False,
             ),
-            np.array([14.54143704, 10.88642877, 2.04915501]),
+            [14.54143704, 10.88642877, 2.04915501],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 20)),
                 self._cmfs,
                 self._A,
                 mi_20nm_interpolation_method=False,
             ),
-            np.array([14.54242562, 10.88694088, 2.04919645]),
+            [14.54242562, 10.88694088, 2.04919645],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(360, 820, 20)),
                 self._cmfs,
@@ -1430,11 +1434,11 @@ class TestSd_to_XYZ_ASTME308:
                 use_practice_range=False,
                 mi_20nm_interpolation_method=False,
             ),
-            np.array([14.50209515, 10.87231865, 2.04976312]),
+            [14.50209515, 10.87231865, 2.04976312],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 20)),
                 self._cmfs,
@@ -1442,28 +1446,28 @@ class TestSd_to_XYZ_ASTME308:
                 use_practice_range=False,
                 mi_20nm_interpolation_method=False,
             ),
-            np.array([14.54272240, 10.88702210, 2.04918701]),
+            [14.54272240, 10.88702210, 2.04918701],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(400, 700, 20)),
                 self._cmfs,
                 self._A,
                 k=1,
             ),
-            np.array([15.6891747040, 11.7458332427, 2.2109475945]),
+            [15.6891747040, 11.7458332427, 2.2109475945],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ_ASTME308(
                 reshape_sd(self._sd, SpectralShape(401, 701, 20)),
                 self._cmfs,
                 self._A,
             ),
-            np.array([14.5220164311, 10.8790959535, 2.0490905325]),
+            [14.5220164311, 10.8790959535, 2.0490905325],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -1473,11 +1477,8 @@ class TestSd_to_XYZ_ASTME308:
         definition raised exception.
         """
 
-        pytest.raises(
-            ValueError,
-            sd_to_XYZ_ASTME308,
-            reshape_sd(self._sd, SpectralShape(360, 820, 2)),
-        )
+        with pytest.raises(ValueError):
+            sd_to_XYZ_ASTME308(reshape_sd(self._sd, SpectralShape(360, 820, 2)))
 
 
 class TestSd_to_XYZ:
@@ -1502,21 +1503,21 @@ class TestSd_to_XYZ:
         # Testing that the cache returns a copy of the data.
         XYZ = sd_to_XYZ(self._sd, self._cmfs, self._A)
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ,
-            np.array([14.46372680, 10.85832950, 2.04663200]),
+            [14.46372680, 10.85832950, 2.04663200],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ *= 10
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ(self._sd, self._cmfs, self._A),
-            np.array([14.46372680, 10.85832950, 2.04663200]),
+            [14.46372680, 10.85832950, 2.04663200],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ(
                 self._sd,
                 self._cmfs,
@@ -1524,42 +1525,40 @@ class TestSd_to_XYZ:
                 method="Integration",
                 shape=SpectralShape(400, 700, 20),
             ),
-            np.array([14.52005467, 10.88000966, 2.03888717]),
+            [14.52005467, 10.88000966, 2.03888717],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_to_XYZ(
                 sds_and_msds_to_msds(SDS_COLOURCHECKERS["babel_average"].values()),
             ),
-            np.array(
-                [
-                    [12.06344619, 10.33615020, 6.25100082],
-                    [40.27284790, 35.29615976, 23.01540616],
-                    [18.09306423, 18.50797244, 31.67770084],
-                    [11.16523793, 13.25122619, 6.36666038],
-                    [25.83420330, 23.32560917, 40.31232440],
-                    [31.64244829, 41.64149301, 40.76605171],
-                    [40.89999141, 31.22508083, 5.82002195],
-                    [13.60742370, 11.51655221, 35.39885724],
-                    [30.69032237, 19.87942885, 12.46562439],
-                    [8.93362430, 6.46162368, 13.07228804],
-                    [35.66114785, 44.08411919, 10.28724123],
-                    [49.24169657, 43.46327044, 7.13506647],
-                    [7.81888273, 5.89050934, 25.75773837],
-                    [15.18817149, 22.93975934, 8.94663877],
-                    [22.23187260, 12.73987267, 4.62599881],
-                    [60.68157753, 60.55780947, 8.43465082],
-                    [32.27071879, 20.22049576, 28.85354643],
-                    [14.49902213, 19.10377565, 35.60283004],
-                    [90.78293221, 91.26928233, 87.29499532],
-                    [58.53195263, 58.84257471, 58.34877604],
-                    [35.77113141, 35.94371650, 35.85712527],
-                    [18.98962045, 19.11651714, 19.15115933],
-                    [8.87518188, 8.93947283, 9.06486638],
-                    [3.21099614, 3.20073667, 3.25495104],
-                ]
-            ),
+            [
+                [12.06344619, 10.33615020, 6.25100082],
+                [40.27284790, 35.29615976, 23.01540616],
+                [18.09306423, 18.50797244, 31.67770084],
+                [11.16523793, 13.25122619, 6.36666038],
+                [25.83420330, 23.32560917, 40.31232440],
+                [31.64244829, 41.64149301, 40.76605171],
+                [40.89999141, 31.22508083, 5.82002195],
+                [13.60742370, 11.51655221, 35.39885724],
+                [30.69032237, 19.87942885, 12.46562439],
+                [8.93362430, 6.46162368, 13.07228804],
+                [35.66114785, 44.08411919, 10.28724123],
+                [49.24169657, 43.46327044, 7.13506647],
+                [7.81888273, 5.89050934, 25.75773837],
+                [15.18817149, 22.93975934, 8.94663877],
+                [22.23187260, 12.73987267, 4.62599881],
+                [60.68157753, 60.55780947, 8.43465082],
+                [32.27071879, 20.22049576, 28.85354643],
+                [14.49902213, 19.10377565, 35.60283004],
+                [90.78293221, 91.26928233, 87.29499532],
+                [58.53195263, 58.84257471, 58.34877604],
+                [35.77113141, 35.94371650, 35.85712527],
+                [18.98962045, 19.11651714, 19.15115933],
+                [8.87518188, 8.93947283, 9.06486638],
+                [3.21099614, 3.20073667, 3.25495104],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -1577,13 +1576,13 @@ msds_to_XYZ_integration` definition.
         """
 
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
-        np.testing.assert_allclose(
+        xp_assert_close(
             msds_to_XYZ_integration(MSDS_TWO, cmfs, SDS_ILLUMINANTS["D65"]),
             TVS_D65_INTEGRATION_MSDS,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             msds_to_XYZ_integration(
                 DATA_TWO,
                 cmfs,
@@ -1594,7 +1593,7 @@ msds_to_XYZ_integration` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             msds_to_XYZ_integration(
                 DATA_TWO,
                 cmfs,
@@ -1606,7 +1605,7 @@ msds_to_XYZ_integration` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_msds_to_XYZ_integration(self) -> None:
+    def test_domain_range_scale_msds_to_XYZ_integration(self, xp: ModuleType) -> None:  # noqa: ARG002
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 msds_to_XYZ_integration` definition domain and range scale support.
@@ -1616,7 +1615,7 @@ msds_to_XYZ_integration` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     msds_to_XYZ_integration(
                         DATA_TWO,
                         cmfs,
@@ -1624,6 +1623,96 @@ msds_to_XYZ_integration` definition domain and range scale support.
                         shape=SpectralShape(400, 700, 60),
                     ),
                     TVS_D65_ARRAY_INTEGRATION * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
+
+class TestMsds_to_XYZ_tristimulus_weighting_factors_ASTME308:
+    """
+    Define :func:`colour.colorimetry.tristimulus_values.\
+msds_to_XYZ_tristimulus_weighting_factors_ASTME308`
+    definition unit tests methods.
+    """
+
+    def test_msds_to_XYZ_tristimulus_weighting_factors_ASTME308(
+        self,
+        xp: ModuleType,  # noqa: ARG002
+    ) -> None:
+        """
+        Test :func:`colour.colorimetry.tristimulus_values.\
+msds_to_XYZ_tristimulus_weighting_factors_ASTME308`
+        definition.
+        """
+
+        cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+        msds = reshape_msds(MSDS_TWO, SpectralShape(400, 700, 20))
+        xp_assert_close(
+            msds_to_XYZ_tristimulus_weighting_factors_ASTME308(
+                msds, cmfs, SDS_ILLUMINANTS["A"]
+            ),
+            np.array(
+                [
+                    sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
+                        sd, cmfs, SDS_ILLUMINANTS["A"]
+                    )
+                    for sd in msds.to_sds()
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        cmfs = MSDS_CMFS["CIE 1964 10 Degree Standard Observer"]
+        xp_assert_close(
+            msds_to_XYZ_tristimulus_weighting_factors_ASTME308(
+                msds, cmfs, SDS_ILLUMINANTS["FL2"]
+            ),
+            np.array(
+                [
+                    sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
+                        sd, cmfs, SDS_ILLUMINANTS["FL2"]
+                    )
+                    for sd in msds.to_sds()
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        xp_assert_close(
+            msds_to_XYZ_tristimulus_weighting_factors_ASTME308(
+                msds, cmfs, SDS_ILLUMINANTS["A"], k=1
+            ),
+            np.array(
+                [
+                    sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
+                        sd, cmfs, SDS_ILLUMINANTS["A"], k=1
+                    )
+                    for sd in msds.to_sds()
+                ]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_domain_range_scale_msds_to_XYZ_twf_ASTME308(self, xp: ModuleType) -> None:  # noqa: ARG002
+        """
+        Test :func:`colour.colorimetry.tristimulus_values.\
+msds_to_XYZ_tristimulus_weighting_factors_ASTME308` definition domain and
+        range scale support.
+        """
+
+        cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+        msds = reshape_msds(MSDS_TWO, SpectralShape(400, 700, 20))
+        XYZ = msds_to_XYZ_tristimulus_weighting_factors_ASTME308(
+            msds, cmfs, SDS_ILLUMINANTS["A"]
+        )
+
+        d_r = (("reference", 1), ("1", 0.01), ("100", 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                xp_assert_close(
+                    msds_to_XYZ_tristimulus_weighting_factors_ASTME308(
+                        msds, cmfs, SDS_ILLUMINANTS["A"]
+                    ),
+                    XYZ * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
@@ -1642,19 +1731,19 @@ msds_to_XYZ_ASTME308` definition.
 
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
         msds = reshape_msds(MSDS_TWO, SpectralShape(400, 700, 20))
-        np.testing.assert_allclose(
+        xp_assert_close(
             msds_to_XYZ_ASTME308(msds, cmfs, SDS_ILLUMINANTS["D65"]),
             TVS_D65_ASTME308_MSDS,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             msds_to_XYZ_ASTME308(msds, cmfs, SDS_ILLUMINANTS["D65"], k=1),
             TVS_D65_ASTME308_K1_MSDS,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_msds_to_XYZ_ASTME308(self) -> None:
+    def test_domain_range_scale_msds_to_XYZ_ASTME308(self, xp: ModuleType) -> None:  # noqa: ARG002
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 msds_to_XYZ_ASTME308` definition domain and range scale support.
@@ -1664,7 +1753,7 @@ msds_to_XYZ_ASTME308` definition domain and range scale support.
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     msds_to_XYZ_ASTME308(
                         reshape_msds(MSDS_TWO, SpectralShape(400, 700, 20)),
                         cmfs,
@@ -1680,7 +1769,8 @@ msds_to_XYZ_ASTME308` definition domain and range scale support.
 msds_to_XYZ_ASTME308` definition raise exception.
         """
 
-        pytest.raises(TypeError, msds_to_XYZ_ASTME308, DATA_TWO)
+        with pytest.raises(TypeError):
+            msds_to_XYZ_ASTME308(DATA_TWO)  # pyright: ignore
 
 
 class TestAbsoluteIntegrationToXYZ:
@@ -1713,7 +1803,7 @@ class TestAbsoluteIntegrationToXYZ:
             XYZ = method(sd, k=k)
             XYZ = np.reshape(XYZ, 3) if len(XYZ.shape) > 1 else XYZ
             (
-                np.testing.assert_allclose(XYZ[1], k, atol=5e-5),
+                xp_assert_close(XYZ[1], k, atol=TOLERANCE_ABSOLUTE_TESTS * 500),
                 (
                     "1 watt @ 555nm should be approximately 683 candela."
                     f" Failed method: {method}"
@@ -1727,7 +1817,7 @@ class TestAbsoluteIntegrationToXYZ:
             if len(XYZ.shape) > 1:
                 XYZ = np.reshape(XYZ, 3)
             (
-                np.testing.assert_allclose(XYZ[1], k, atol=5e-5),
+                xp_assert_close(XYZ[1], k, atol=TOLERANCE_ABSOLUTE_TESTS * 500),
                 (
                     "1 watt @ 555nm should be approximately 683 candela."
                     f" Failed method: {method}"
@@ -1762,7 +1852,7 @@ class TestAbsoluteIntegrationToXYZ:
             XYZ: np.ndarray = method(sd, k=k)
             XYZ = np.reshape(XYZ, 3) if len(XYZ.shape) > 1 else XYZ
             (
-                np.testing.assert_allclose(XYZ[1], k, atol=5e-2),
+                xp_assert_close(XYZ[1], k, atol=TOLERANCE_ABSOLUTE_TESTS * 500000),
                 (
                     "1 watt @ 555nm should be approximately 683 candela. "
                     f"Failed method: {method}"
@@ -1776,7 +1866,7 @@ class TestAbsoluteIntegrationToXYZ:
             if len(XYZ.shape) > 1:
                 XYZ = np.reshape(XYZ, 3)
             (
-                np.testing.assert_allclose(XYZ[1], k, atol=5e-2),
+                xp_assert_close(XYZ[1], k, atol=TOLERANCE_ABSOLUTE_TESTS * 500000),
                 (
                     "1 watt @ 555nm should be approximately 683 candela."
                     f"Failed method: {method}"
@@ -1790,27 +1880,36 @@ class TestWavelength_to_XYZ:
     definition unit tests methods.
     """
 
-    def test_wavelength_to_XYZ(self) -> None:
+    def test_wavelength_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.wavelength_to_XYZ`
         definition.
         """
 
-        np.testing.assert_allclose(
-            wavelength_to_XYZ(480, MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]),
-            np.array([0.09564, 0.13902, 0.81295]),
+        xp_assert_close(
+            wavelength_to_XYZ(
+                xp_as_array(480.0, xp=xp),
+                MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
+            ),
+            [0.09564, 0.13902, 0.81295],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            wavelength_to_XYZ(480, MSDS_CMFS["CIE 2015 2 Degree Standard Observer"]),
-            np.array([0.08182895, 0.17880480, 0.75523790]),
+        xp_assert_close(
+            wavelength_to_XYZ(
+                xp_as_array(480.0, xp=xp),
+                MSDS_CMFS["CIE 2015 2 Degree Standard Observer"],
+            ),
+            [0.08182895, 0.17880480, 0.75523790],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            wavelength_to_XYZ(641.5, MSDS_CMFS["CIE 2015 2 Degree Standard Observer"]),
-            np.array([0.44575583, 0.18184213, 0.00000000]),
+        xp_assert_close(
+            wavelength_to_XYZ(
+                xp_as_array(641.5, xp=xp),
+                MSDS_CMFS["CIE 2015 2 Degree Standard Observer"],
+            ),
+            [0.44575583, 0.18184213, 0.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -1820,11 +1919,13 @@ class TestWavelength_to_XYZ:
         definition raised exception.
         """
 
-        pytest.raises(ValueError, wavelength_to_XYZ, 1)
+        with pytest.raises(ValueError):
+            wavelength_to_XYZ(1)
 
-        pytest.raises(ValueError, wavelength_to_XYZ, 1000)
+        with pytest.raises(ValueError):
+            wavelength_to_XYZ(1000)
 
-    def test_n_dimensional_wavelength_to_XYZ(self) -> None:
+    def test_n_dimensional_wavelength_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.wavelength_to_XYZ`
         definition n-dimensional arrays support.
@@ -1834,20 +1935,14 @@ class TestWavelength_to_XYZ:
         wl = 480
         XYZ = wavelength_to_XYZ(wl, cmfs)
 
-        wl = np.tile(wl, 6)
-        XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
-            wavelength_to_XYZ(wl, cmfs), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        xp_assert_close(wavelength_to_XYZ(wl, cmfs), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        wl = np.reshape(wl, (2, 3))
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
-            wavelength_to_XYZ(wl, cmfs), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(wavelength_to_XYZ(wl, cmfs), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        wl = np.reshape(wl, (2, 3, 1))
-        XYZ = np.reshape(XYZ, (2, 3, 1, 3))
-        np.testing.assert_allclose(
-            wavelength_to_XYZ(wl, cmfs), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 1, 3), xp=xp)
+        xp_assert_close(wavelength_to_XYZ(wl, cmfs), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)

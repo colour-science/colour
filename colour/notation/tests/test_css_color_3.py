@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.notation import keyword_to_RGB_CSSColor3
+from colour.utilities import xp_assert_close, xp_assert_equal
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -31,16 +30,12 @@ class TestKeywordToRGBCSSColor3:
         definition.
         """
 
-        np.testing.assert_array_equal(
-            keyword_to_RGB_CSSColor3("black"), np.array([0, 0, 0])
-        )
+        xp_assert_equal(keyword_to_RGB_CSSColor3("black"), [0, 0, 0])
 
-        np.testing.assert_array_equal(
-            keyword_to_RGB_CSSColor3("white"), np.array([1, 1, 1])
-        )
+        xp_assert_equal(keyword_to_RGB_CSSColor3("white"), [1, 1, 1])
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             keyword_to_RGB_CSSColor3("aliceblue"),
-            np.array([0.94117647, 0.97254902, 1.00000000]),
+            [0.94117647, 0.97254902, 1.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

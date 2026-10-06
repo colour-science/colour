@@ -40,6 +40,7 @@ CIECAM02
 
     CAM_KWARGS_CIECAM02_sRGB
     InductionFactors_CIECAM02
+    ciecam02.hue_quadrature
 
 CIECAM16
 --------
@@ -199,6 +200,17 @@ Nayatani (1995)
     CAM_Specification_Nayatani95
     XYZ_to_Nayatani95
 
+**Ancillary Objects**
+
+``colour.appearance``
+
+.. currentmodule:: colour.appearance
+
+.. autosummary::
+    :toctree: generated/
+
+    nayatani95.hue_quadrature
+
 RLAB
 ----
 
@@ -249,6 +261,7 @@ sCAM
     :toctree: generated/
 
     InductionFactors_sCAM
+    scam.hue_quadrature
 
 ZCAM
 ----
@@ -275,6 +288,7 @@ ZCAM
     :toctree: generated/
 
     InductionFactors_ZCAM
+    zcam.hue_quadrature
 
 Helmholtz-Kohlrausch Effect Estimation
 --------------------------------------

@@ -3,11 +3,25 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.smpte_240m` module.
 """
 
+from __future__ import annotations
+
+import typing
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import eotf_SMPTE240M, oetf_SMPTE240M
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    domain_range_scale,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -28,73 +42,71 @@ class TestOetf_SMPTE240M:
 oetf_SMPTE240M` definition unit tests methods.
     """
 
-    def test_oetf_SMPTE240M(self) -> None:
+    def test_oetf_SMPTE240M(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.smpte_240m.\
 oetf_SMPTE240M` definition.
         """
 
-        np.testing.assert_allclose(
-            oetf_SMPTE240M(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        xp_assert_close(
+            oetf_SMPTE240M(xp_as_array(0.0, xp=xp)),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            oetf_SMPTE240M(0.02),
+        xp_assert_close(
+            oetf_SMPTE240M(xp_as_array(0.02, xp=xp)),
             0.080000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            oetf_SMPTE240M(0.18),
+        xp_assert_close(
+            oetf_SMPTE240M(xp_as_array(0.18, xp=xp)),
             0.402285796753870,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            oetf_SMPTE240M(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        xp_assert_close(
+            oetf_SMPTE240M(xp_as_array(1.0, xp=xp)),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_oetf_SMPTE240M(self) -> None:
+    def test_n_dimensional_oetf_SMPTE240M(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.smpte_240m.\
 oetf_SMPTE240M` definition n-dimensional arrays support.
         """
 
         L_c = 0.18
-        V_c = oetf_SMPTE240M(L_c)
+        V_c = as_ndarray(oetf_SMPTE240M(xp_as_array(L_c, xp=xp)))
 
-        L_c = np.tile(L_c, 6)
-        V_c = np.tile(V_c, 6)
-        np.testing.assert_allclose(
-            oetf_SMPTE240M(L_c), V_c, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        L_c = xp.tile(xp_as_array(L_c, xp=xp), (6,))
+        V_c = xp.tile(xp_as_array(V_c, xp=xp), (6,))
+        xp_assert_close(oetf_SMPTE240M(L_c), V_c, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        L_c = np.reshape(L_c, (2, 3))
-        V_c = np.reshape(V_c, (2, 3))
-        np.testing.assert_allclose(
-            oetf_SMPTE240M(L_c), V_c, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        L_c = xp_reshape(xp_as_array(L_c, xp=xp), (2, 3), xp=xp)
+        V_c = xp_reshape(xp_as_array(V_c, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(oetf_SMPTE240M(L_c), V_c, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        L_c = np.reshape(L_c, (2, 3, 1))
-        V_c = np.reshape(V_c, (2, 3, 1))
-        np.testing.assert_allclose(
-            oetf_SMPTE240M(L_c), V_c, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        L_c = xp_reshape(xp_as_array(L_c, xp=xp), (2, 3, 1), xp=xp)
+        V_c = xp_reshape(xp_as_array(V_c, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(oetf_SMPTE240M(L_c), V_c, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_oetf_SMPTE240M(self) -> None:
+    def test_domain_range_scale_oetf_SMPTE240M(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.smpte_240m.\
 oetf_SMPTE240M` definition domain and range scale support.
         """
 
         L_c = 0.18
-        V_c = oetf_SMPTE240M(L_c)
+        V_c = as_ndarray(oetf_SMPTE240M(xp_as_array(L_c, xp=xp)))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    oetf_SMPTE240M(L_c * factor),
+                xp_assert_close(
+                    oetf_SMPTE240M(xp_as_array(L_c * factor, xp=xp)),
                     V_c * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -115,73 +127,71 @@ class TestEotf_SMPTE240M:
 eotf_SMPTE240M` definition unit tests methods.
     """
 
-    def test_eotf_SMPTE240M(self) -> None:
+    def test_eotf_SMPTE240M(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.smpte_240m.\
 eotf_SMPTE240M` definition.
         """
 
-        np.testing.assert_allclose(
-            eotf_SMPTE240M(0.0), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        xp_assert_close(
+            eotf_SMPTE240M(xp_as_array(0.0, xp=xp)),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            eotf_SMPTE240M(0.080000000000000),
+        xp_assert_close(
+            eotf_SMPTE240M(xp_as_array(0.080000000000000, xp=xp)),
             0.02,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            eotf_SMPTE240M(0.402285796753870),
+        xp_assert_close(
+            eotf_SMPTE240M(xp_as_array(0.402285796753870, xp=xp)),
             0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            eotf_SMPTE240M(1.0), 1.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        xp_assert_close(
+            eotf_SMPTE240M(xp_as_array(1.0, xp=xp)),
+            1.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_eotf_SMPTE240M(self) -> None:
+    def test_n_dimensional_eotf_SMPTE240M(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.smpte_240m.\
 eotf_SMPTE240M` definition n-dimensional arrays support.
         """
 
         V_r = 0.402285796753870
-        L_r = eotf_SMPTE240M(V_r)
+        L_r = as_ndarray(eotf_SMPTE240M(xp_as_array(V_r, xp=xp)))
 
-        V_r = np.tile(V_r, 6)
-        L_r = np.tile(L_r, 6)
-        np.testing.assert_allclose(
-            eotf_SMPTE240M(V_r), L_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        V_r = xp.tile(xp_as_array(V_r, xp=xp), (6,))
+        L_r = xp.tile(xp_as_array(L_r, xp=xp), (6,))
+        xp_assert_close(eotf_SMPTE240M(V_r), L_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        V_r = np.reshape(V_r, (2, 3))
-        L_r = np.reshape(L_r, (2, 3))
-        np.testing.assert_allclose(
-            eotf_SMPTE240M(V_r), L_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        V_r = xp_reshape(xp_as_array(V_r, xp=xp), (2, 3), xp=xp)
+        L_r = xp_reshape(xp_as_array(L_r, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(eotf_SMPTE240M(V_r), L_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        V_r = np.reshape(V_r, (2, 3, 1))
-        L_r = np.reshape(L_r, (2, 3, 1))
-        np.testing.assert_allclose(
-            eotf_SMPTE240M(V_r), L_r, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        V_r = xp_reshape(xp_as_array(V_r, xp=xp), (2, 3, 1), xp=xp)
+        L_r = xp_reshape(xp_as_array(L_r, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(eotf_SMPTE240M(V_r), L_r, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_eotf_SMPTE240M(self) -> None:
+    def test_domain_range_scale_eotf_SMPTE240M(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.smpte_240m.\
 eotf_SMPTE240M` definition domain and range scale support.
         """
 
         V_r = 0.402285796753870
-        L_r = eotf_SMPTE240M(V_r)
+        L_r = as_ndarray(eotf_SMPTE240M(xp_as_array(V_r, xp=xp)))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    eotf_SMPTE240M(V_r * factor),
+                xp_assert_close(
+                    eotf_SMPTE240M(xp_as_array(V_r * factor, xp=xp)),
                     L_r * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )

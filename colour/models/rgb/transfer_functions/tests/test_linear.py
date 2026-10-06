@@ -3,11 +3,24 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.linear` module.
 """
 
+from __future__ import annotations
+
+import typing
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import linear_function
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -27,44 +40,38 @@ class TestLinearFunction:
 linear_function` definition unit tests methods.
     """
 
-    def test_linear_function(self) -> None:
+    def test_linear_function(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.linear.\
 linear_function` definition.
         """
 
-        assert linear_function(0.0) == 0.0
+        assert as_ndarray(linear_function(xp_as_array(0.0, xp=xp))) == 0.0
 
-        assert linear_function(0.18) == 0.18
+        assert as_ndarray(linear_function(xp_as_array(0.18, xp=xp))) == 0.18
 
-        assert linear_function(1.0) == 1.0
+        assert as_ndarray(linear_function(xp_as_array(1.0, xp=xp))) == 1.0
 
-    def test_n_dimensional_linear_function(self) -> None:
+    def test_n_dimensional_linear_function(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.linear.\
 linear_function` definition n-dimensional arrays support.
         """
 
         a = 0.18
-        a_p = linear_function(a)
+        a_p = as_ndarray(linear_function(xp_as_array(a, xp=xp)))
 
-        a = np.tile(a, 6)
-        a_p = np.tile(a_p, 6)
-        np.testing.assert_allclose(
-            linear_function(a), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        a = xp.tile(xp_as_array(a, xp=xp), (6,))
+        a_p = xp.tile(xp_as_array(a_p, xp=xp), (6,))
+        xp_assert_close(linear_function(a), a_p, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        a = np.reshape(a, (2, 3))
-        a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_allclose(
-            linear_function(a), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(linear_function(a), a_p, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        a = np.reshape(a, (2, 3, 1))
-        a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_allclose(
-            linear_function(a), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3, 1), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(linear_function(a), a_p, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_linear_function(self) -> None:

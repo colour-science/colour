@@ -523,8 +523,8 @@ if (
     os.environ.get("COLOUR_SCIENCE__FILTER_COLOUR_WARNINGS") is not None
 ):  # pragma: no cover
     filter_warnings(
-        colour_usage_warnings=as_bool(
-            os.environ["COLOUR_SCIENCE__FILTER_WARNINGS"],
+        colour_warnings=as_bool(
+            os.environ["COLOUR_SCIENCE__FILTER_COLOUR_WARNINGS"],
         )
     )
 
@@ -532,9 +532,7 @@ if (
     os.environ.get("COLOUR_SCIENCE__FILTER_PYTHON_WARNINGS") is not None
 ):  # pragma: no cover
     filter_warnings(
-        colour_usage_warnings=as_bool(
-            os.environ["COLOUR_SCIENCE__FILTER_PYTHON_WARNINGS"]
-        )
+        python_warnings=as_bool(os.environ["COLOUR_SCIENCE__FILTER_PYTHON_WARNINGS"])
     )
 
 
@@ -1142,9 +1140,9 @@ def multiline_repr(
     ...                 {"name": "_b"},
     ...                 {
     ...                     "name": "_c",
-    ...                     "formatter": lambda x: repr(x)
-    ...                     .replace("[", "(")
-    ...                     .replace("]", ")"),
+    ...                     "formatter": lambda x: (
+    ...                         repr(x).replace("[", "(").replace("]", ")")
+    ...                     ),
     ...                 },
     ...             ],
     ...         )

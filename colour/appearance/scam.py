@@ -23,19 +23,23 @@ References
 
 from __future__ import annotations
 
+import typing
 from dataclasses import astuple, dataclass, field
 
 import numpy as np
 
 from colour.adaptation import chromatic_adaptation_Li2025
 from colour.algebra import sdiv, sdiv_mode, spow
-from colour.hints import (  # noqa: TC001
-    Annotated,
-    ArrayLike,
-    Domain100,
-    NDArrayFloat,
-    Range100,
-)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import (
+        Annotated,
+        ArrayLike,
+        Domain100,
+        NDArrayFloat,
+        Range100,
+    )
+
 from colour.models.sucs import (
     XYZ_to_sUCS,
     sUCS_Iab_to_sUCS_ICh,
@@ -46,6 +50,7 @@ from colour.utilities import (
     CanonicalMapping,
     MixinDataclassArithmetic,
     MixinDataclassIterable,
+    array_namespace,
     as_float,
     as_float_array,
     domain_range_scale,
@@ -56,6 +61,9 @@ from colour.utilities import (
     to_domain_degrees,
     tsplit,
     tstack,
+    xp_as_float_array,
+    xp_radians,
+    xp_select,
 )
 
 __author__ = "Colour Developers"
@@ -185,6 +193,7 @@ def XYZ_to_sCAM(
     Y_b: ArrayLike,
     surround: InductionFactors_sCAM = VIEWING_CONDITIONS_sCAM["Average"],
     discount_illuminant: bool = False,
+    compute_H: bool = False,
 ) -> Annotated[
     CAM_Specification_sCAM, (100, 100, 360, 100, 100, 400, 100, 100, 100, 100)
 ]:
@@ -213,6 +222,11 @@ def XYZ_to_sCAM(
         Surround viewing conditions induction factors.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
+    compute_H
+        When *True*, compute the *Hue Quadrature* :math:`H` correlate
+        via :func:`colour.appearance.scam.hue_quadrature`. Defaults to
+        *False* because :math:`H` is rarely consumed downstream and
+        skipping the bin search is a measurable cost saving.
 
     Returns
     -------
@@ -266,7 +280,10 @@ def XYZ_to_sCAM(
     >>> L_A = 318.31
     >>> Y_b = 20.0
     >>> surround = VIEWING_CONDITIONS_sCAM["Average"]
-    >>> XYZ_to_sCAM(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
+    >>> XYZ_to_sCAM(
+    ...     XYZ, XYZ_w, L_A, Y_b, surround,
+    ...     compute_H=True,
+    ... )  # doctest: +ELLIPSIS
     CAM_Specification_sCAM(J=np.float64(49.9795668...), \
 C=np.float64(0.0140531...), h=np.float64(328.2724924...), \
 Q=np.float64(195.2302423...), M=np.float64(0.0050244...), \
@@ -277,20 +294,25 @@ D=np.float64(65.0265672...))
 
     XYZ = to_domain_100(XYZ)
     XYZ_w = to_domain_100(XYZ_w)
-    L_A = as_float_array(L_A)
-    Y_b = as_float_array(Y_b)
+
+    xp = array_namespace(XYZ, XYZ_w, L_A, Y_b)
+
+    L_A = xp_as_float_array(L_A, xp=xp, like=XYZ)
+    Y_b = xp_as_float_array(Y_b, xp=xp, like=XYZ)
 
     Y_w = XYZ_w[..., 1] if XYZ_w.ndim > 1 else XYZ_w[1]
 
     with sdiv_mode():
         z = 1.48 + spow(sdiv(Y_b, Y_w), 0.5)
 
-    F_L = 0.1710 * spow(L_A, 1 / 3) / (1 - 0.4934 * np.exp(-0.9934 * L_A))
+    F_L = 0.1710 * spow(L_A, 1 / 3) / (1 - 0.4934 * xp.exp(-0.9934 * L_A))
 
     with sdiv_mode():
         L_A_D65 = sdiv(L_A * 100, Y_b)
 
-    XYZ_w_D65 = TVS_D65_sCAM * L_A_D65[..., None]
+    XYZ_w_D65 = (
+        xp_as_float_array(TVS_D65_sCAM, xp=xp, like=L_A_D65) * L_A_D65[..., None]
+    )
 
     with domain_range_scale("ignore"):
         XYZ_D65 = chromatic_adaptation_Li2025(
@@ -305,7 +327,7 @@ D=np.float64(65.0265672...))
 
     I_a = 100 * spow(I / 100, surround.c * z)
 
-    e_t = 1 + 0.06 * np.cos(np.radians(110 + h))
+    e_t = 1 + 0.06 * xp.cos(xp_radians(110 + h))
 
     with sdiv_mode():
         M = (C * spow(F_L, 0.1) * sdiv(1, spow(I_a, 0.27)) * e_t) * surround.F
@@ -314,13 +336,13 @@ D=np.float64(65.0265672...))
         # After confirmation with the author, 0.1 is the recommended value.
         Q = sdiv(2, surround.c) * I_a * spow(F_L, 0.1)
 
-    H = hue_quadrature(h)
+    H = hue_quadrature(h) if compute_H else xp.full_like(h, float("nan"))
 
-    V = np.sqrt(I_a**2 + 3 * C**2)
+    V = xp.sqrt(I_a**2 + 3 * C**2)
 
     K = 100 - V
 
-    D = 1.3 * np.sqrt((100 - I_a) ** 2 + 1.6 * C**2)
+    D = 1.3 * xp.sqrt((100 - I_a) ** 2 + 1.6 * C**2)
 
     W = 100 - D
 
@@ -423,8 +445,12 @@ def sCAM_to_XYZ(
     M = to_domain_100(M) if not has_only_nan(M) else None
 
     XYZ_w = to_domain_100(XYZ_w)
-    L_A = as_float_array(L_A)
-    Y_b = as_float_array(Y_b)
+
+    xp = array_namespace(I_a, C, h, M, XYZ_w, L_A, Y_b)
+
+    XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=I_a)
+    L_A = xp_as_float_array(L_A, xp=xp, like=I_a)
+    Y_b = xp_as_float_array(Y_b, xp=xp, like=I_a)
 
     if has_only_nan(I_a) or has_only_nan(h):
         error = (
@@ -448,8 +474,8 @@ def sCAM_to_XYZ(
         z = 1.48 + spow(sdiv(Y_b, Y_w), 0.5)
 
     if C is None and M is not None:
-        F_L = 0.1710 * spow(L_A, 1 / 3) / (1 - 0.4934 * np.exp(-0.9934 * L_A))
-        e_t = 1 + 0.06 * np.cos(np.radians(110 + h))
+        F_L = 0.1710 * spow(L_A, 1 / 3) / (1 - 0.4934 * xp.exp(-0.9934 * L_A))
+        e_t = 1 + 0.06 * xp.cos(xp_radians(110 + h))
 
         with sdiv_mode():
             C = sdiv(M * spow(I_a, 0.27), spow(F_L, 0.1) * e_t * surround.F)
@@ -463,7 +489,9 @@ def sCAM_to_XYZ(
     XYZ_D65 = XYZ_D65 * Y_w[..., None]
 
     L_A_D65 = sdiv(L_A * 100, Y_b)
-    XYZ_w_D65 = TVS_D65_sCAM * L_A_D65[..., None]
+    XYZ_w_D65 = (
+        xp_as_float_array(TVS_D65_sCAM, xp=xp, like=L_A_D65) * L_A_D65[..., None]
+    )
 
     with domain_range_scale("ignore"):
         XYZ = chromatic_adaptation_Li2025(
@@ -498,13 +526,13 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     +---------------------+-----------------------+---------------+
     | **Domain**          | **Scale - Reference** | **Scale - 1** |
     +=====================+=======================+===============+
-    | ``h``      | 360                   | 1             |
+    | ``h``               | 360                   | 1             |
     +---------------------+-----------------------+---------------+
 
     +---------------------+-----------------------+---------------+
     | **Range**           | **Scale - Reference** | **Scale - 1** |
     +=====================+=======================+===============+
-    | ``H``      | 400                   | 1             |
+    | ``H``               | 400                   | 1             |
     +---------------------+-----------------------+---------------+
 
     References
@@ -519,32 +547,42 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     """
 
     h = as_float_array(h)
-    h_n = as_float_array(h % 360)
 
-    h_i = HUE_DATA_FOR_HUE_QUADRATURE_sCAM["h_i"]
-    e_i = HUE_DATA_FOR_HUE_QUADRATURE_sCAM["e_i"]
-    H_i = HUE_DATA_FOR_HUE_QUADRATURE_sCAM["H_i"]
+    xp = array_namespace(h)
 
-    h_n = np.where(np.isnan(h_n), 0, h_n)
-    h_n = np.where(h_n < h_i[0], h_n + 360, h_n)
+    h_n = h % 360
+    h_n = as_float_array(xp.where(xp.isnan(h_n), 0, h_n))
 
-    i = np.searchsorted(h_i, h_n, side="right") - 1
-    i = np.clip(i, 0, len(h_i) - 2)
+    # Wrap-around: h_n < 15.6 is treated as h_n + 360.
+    h_w = as_float_array(xp.where(h_n < 15.6, h_n + 360, h_n))
 
-    h1 = h_i[i]
-    e1 = e_i[i]
-    H1 = H_i[i]
+    # Hue quadrature table (5 entries, 4 intervals).
+    #   h_i = [15.6,  80.3,  157.8, 219.7, 376.6]
+    #   e_i = [0.7,   0.6,   1.2,   0.9,   0.7  ]
+    #   H_i = [0.0,   100.0, 200.0, 300.0, 400.0]
+    def _H(
+        h_k: float, e_k: float, H_k: float, h_k1: float, e_k1: float
+    ) -> NDArrayFloat:
+        """Compute hue quadrature for a single bin."""
 
-    h2_idx = (i + 1) % len(h_i)
-    h2 = h_i[h2_idx]
-    e2 = e_i[i + 1]
+        t1 = (h_w - h_k) / e_k
+        t2 = (h_k1 - h_w) / e_k1
+        return H_k + 100 * t1 / (t1 + t2)
 
-    h2 = np.where(h2 < h1, h2 + 360, h2)
-
-    with sdiv_mode():
-        term1 = sdiv(h_n - h1, e1)
-        term2 = sdiv(h2 - h_n, e2)
-
-        H = H1 + 100 * sdiv(term1, term1 + term2)
+    H = xp_select(
+        [
+            (h_w >= 15.6) & (h_w < 80.3),
+            (h_w >= 80.3) & (h_w < 157.8),
+            (h_w >= 157.8) & (h_w < 219.7),
+            (h_w >= 219.7) & (h_w < 376.6),
+        ],
+        [
+            _H(15.6, 0.7, 0.0, 80.3, 0.6),
+            _H(80.3, 0.6, 100.0, 157.8, 1.2),
+            _H(157.8, 1.2, 200.0, 219.7, 0.9),
+            _H(219.7, 0.9, 300.0, 376.6, 0.7),
+        ],
+        xp=xp,
+    )
 
     return as_float(H)

@@ -24,7 +24,7 @@ from .common import (
     sdiv,
     sdiv_mode,
     set_sdiv_mode,
-    set_spow_enable,
+    set_spow_enabled,
     smooth,
     smoothstep_function,
     spow,
@@ -78,7 +78,7 @@ __all__ = [
     "sdiv",
     "sdiv_mode",
     "set_sdiv_mode",
-    "set_spow_enable",
+    "set_spow_enabled",
     "smooth",
     "smoothstep_function",
     "spow",
@@ -135,6 +135,11 @@ API_CHANGES: dict = {
         [
             "colour.algebra.vector_dot",
             "colour.algebra.vecmul",
+        ],
+        # v0.4.8
+        [
+            "colour.algebra.set_spow_enable",
+            "colour.algebra.set_spow_enabled",
         ],
     ]
 }

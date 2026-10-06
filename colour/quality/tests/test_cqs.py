@@ -2,12 +2,24 @@
 
 from __future__ import annotations
 
-import numpy as np
+import typing
 
-from colour.colorimetry import SDS_ILLUMINANTS, SDS_LIGHT_SOURCES
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
+import numpy as np
+import pytest
+
+from colour.colorimetry import (
+    SDS_ILLUMINANTS,
+    SDS_LIGHT_SOURCES,
+    SPECTRAL_SHAPE_DEFAULT,
+    MultiSpectralDistributions,
+)
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.quality import ColourRendering_Specification_CQS, colour_quality_scale
 from colour.quality.cqs import DataColorimetry_VS, DataColourQualityScale_VS
+from colour.utilities import xp_as_array, xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -27,48 +39,54 @@ class TestColourQualityScale:
     tests methods.
     """
 
-    def test_colour_quality_scale(self) -> None:
+    @pytest.mark.mps_tolerance_absolute(1e-2)
+    def test_colour_quality_scale(self, xp: ModuleType) -> None:
         """Test :func:`colour.quality.cqs.colour_quality_scale` definition."""
 
-        np.testing.assert_allclose(
-            colour_quality_scale(SDS_ILLUMINANTS["FL1"], additional_data=False),
+        sd_fl1_xp = SDS_ILLUMINANTS["FL1"].copy(xp=xp)
+
+        xp_assert_close(
+            colour_quality_scale(sd_fl1_xp, additional_data=False),
             74.982585798279914,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             colour_quality_scale(
-                SDS_ILLUMINANTS["FL1"], additional_data=False, method="NIST CQS 7.4"
+                sd_fl1_xp, additional_data=False, method="NIST CQS 7.4"
             ),
             75.377089740493361,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            colour_quality_scale(SDS_ILLUMINANTS["FL2"], additional_data=False),
+        sd_fl2_xp = SDS_ILLUMINANTS["FL2"].copy(xp=xp)
+
+        xp_assert_close(
+            colour_quality_scale(sd_fl2_xp, additional_data=False),
             64.111822015662852,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             colour_quality_scale(
-                SDS_ILLUMINANTS["FL2"], additional_data=False, method="NIST CQS 7.4"
+                sd_fl2_xp, additional_data=False, method="NIST CQS 7.4"
             ),
             64.774586908581369,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            colour_quality_scale(
-                SDS_LIGHT_SOURCES["Neodimium Incandescent"], additional_data=False
-            ),
+        sd_neo = SDS_LIGHT_SOURCES["Neodimium Incandescent"]
+        sd_neo_xp = sd_neo.copy(xp=xp)
+
+        xp_assert_close(
+            colour_quality_scale(sd_neo_xp, additional_data=False),
             89.737456186836681,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             colour_quality_scale(
-                SDS_LIGHT_SOURCES["Neodimium Incandescent"],
+                sd_neo_xp,
                 additional_data=False,
                 method="NIST CQS 7.4",
             ),
@@ -76,17 +94,18 @@ class TestColourQualityScale:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            colour_quality_scale(
-                SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"], additional_data=False
-            ),
+        sd_tri = SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]
+        sd_tri_xp = sd_tri.copy(xp=xp)
+
+        xp_assert_close(
+            colour_quality_scale(sd_tri_xp, additional_data=False),
             84.934928463428903,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             colour_quality_scale(
-                SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"],
+                sd_tri_xp,
                 additional_data=False,
                 method="NIST CQS 7.4",
             ),
@@ -400,7 +419,7 @@ class TestColourQualityScale:
             SDS_ILLUMINANTS["FL1"], additional_data=True, method="NIST CQS 7.4"
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             [data.Q_a for _index, data in sorted(specification_r.Q_as.items())],
             [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -712,8 +731,36 @@ class TestColourQualityScale:
             SDS_ILLUMINANTS["FL1"], additional_data=True, method="NIST CQS 9.0"
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             [data.Q_a for _index, data in sorted(specification_r.Q_as.items())],
             [data.Q_a for _index, data in sorted(specification_t.Q_as.items())],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        sds = [
+            sd.copy().align(SPECTRAL_SHAPE_DEFAULT)
+            for sd in (
+                SDS_ILLUMINANTS["FL1"],
+                SDS_ILLUMINANTS["FL2"],
+                SDS_LIGHT_SOURCES["Neodimium Incandescent"],
+                SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"],
+            )
+        ]
+        msds = MultiSpectralDistributions(
+            xp_as_array(np.column_stack([sd.values for sd in sds]), xp=xp),
+            sds[0].wavelengths,
+            labels=[sd.name for sd in sds],
+        )
+
+        for method in ("NIST CQS 9.0", "NIST CQS 7.4"):
+            xp_assert_close(
+                colour_quality_scale(msds, method=method),
+                xp_as_array(
+                    [colour_quality_scale(sd.copy(xp=xp), method=method) for sd in sds],
+                    xp=xp,
+                ),
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
+        with pytest.raises(NotImplementedError):
+            colour_quality_scale(msds, additional_data=True)  # pyright: ignore[reportCallIssue, reportArgumentType]

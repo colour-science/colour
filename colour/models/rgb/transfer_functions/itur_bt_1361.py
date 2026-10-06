@@ -19,15 +19,19 @@ R-REC-BT.1361-0-199802-W!!PDF-E.pdf
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.algebra import spow
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
 from colour.models.rgb.transfer_functions import oetf_BT709, oetf_inverse_BT709
-from colour.utilities import as_float, domain_range_scale, from_range_1, to_domain_1
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -87,11 +91,13 @@ def oetf_BT1361(L: Domain1) -> Range1:
 
     L = to_domain_1(L)
 
+    xp = array_namespace(L)
+
     with domain_range_scale("ignore"):
-        E_p = np.where(
+        E_p = xp.where(
             L >= 0,
             oetf_BT709(L),
-            np.where(
+            xp.where(
                 L <= -0.0045,
                 # L in [-0.25, -0.0045] range
                 -(1.099 * spow(-4 * L, 0.45) - 0.099) / 4,
@@ -148,11 +154,13 @@ def oetf_inverse_BT1361(E_p: Domain1) -> Range1:
 
     E_p = to_domain_1(E_p)
 
+    xp = array_namespace(E_p)
+
     with domain_range_scale("ignore"):
-        L = np.where(
+        L = xp.where(
             E_p >= 0,
             oetf_inverse_BT709(E_p),
-            np.where(
+            xp.where(
                 E_p <= 4.500 * -0.0045,
                 # L in [-0.25, -0.0045] range
                 -spow((-4 * E_p + 0.099) / 1.099, 1 / 0.45) / 4,

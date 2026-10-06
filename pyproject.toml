@@ -45,7 +45,7 @@ classifiers = [
     "Topic :: Software Development",
 ]
 dependencies = [
-    "numpy>=2.0.0,<3",
+    "numpy>=2.1.0,<3",
 ]
 
 [project.optional-dependencies]
@@ -62,6 +62,10 @@ optional = [
     "tqdm>=4,<5",
     "trimesh>=4,<5",
     "xxhash>=3,<4",
+]
+array-api = [
+    "array-api-compat>=1,<2",
+    "array-api-extra>=0.7,<1",
 ]
 docs = [
     "biblib-simple",
@@ -80,6 +84,7 @@ Changelog = "https://github.com/colour-science/colour/releases"
 
 [tool.uv]
 package = true
+conflicts = [[{ group = "jax" }, { group = "torch" }]]
 
 [dependency-groups]
 dev = [
@@ -97,6 +102,8 @@ dev = [
     "toml",
     "twine",
 ]
+jax = ["jax>=0.4,<1"]
+torch = ["torch>=2,<3"]
 
 [build-system]
 requires = ["hatchling"]
@@ -132,9 +139,11 @@ addopts = "-n auto --dist=loadscope --durations=5"
 filterwarnings = [
     "ignore::RuntimeWarning",
     "ignore::pytest.PytestCollectionWarning",
-    "ignore::colour.utilities.ColourWarning",
-    "ignore::colour.utilities.ColourRuntimeWarning",
-    "ignore::colour.utilities.ColourUsageWarning",
+    # NOTE: The ``colour.utilities.Colour*Warning`` filters are registered in
+    # the root ``conftest.py`` ``pytest_configure`` hook rather than here:
+    # resolving an ``ignore::colour...`` ini entry forces ``import colour``
+    # during pytest's initial-conftest phase, before *pytest-cov* starts
+    # recording in each xdist worker, leaving all import-time code untraced.
     "ignore:Implicit None on return values is deprecated:DeprecationWarning",
     "ignore:Jupyter is migrating its paths:DeprecationWarning",
     "ignore:the imp module is deprecated:DeprecationWarning",
@@ -145,6 +154,10 @@ filterwarnings = [
     "ignore:overflow encountered in:RuntimeWarning",
     "ignore:Matplotlib is currently using agg:UserWarning",
     "ignore:override the edgecolor or facecolor properties:UserWarning",
+]
+markers = [
+    "mps_tolerance_absolute: override the absolute test tolerance (TOLERANCE_ABSOLUTE_TESTS) under the torch-mps backend, e.g. mps_tolerance_absolute(1e-2).",
+    "mps_xfail: strict expected failure under the torch-mps backend for tests that cannot pass at float32, e.g. mps_xfail('reason').",
 ]
 
 [tool.ruff]

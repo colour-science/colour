@@ -20,7 +20,7 @@ from colour.io.luts import (
     LUTSequence,
 )
 from colour.models import gamma_function
-from colour.utilities import as_float_array, tstack
+from colour.utilities import as_float_array, tstack, xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -446,16 +446,14 @@ LUTSequence(
         samples = np.linspace(0, 1, 5)
         RGB = tstack([samples, samples, samples])
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             LUT_sequence.apply(RGB, GammaOperator={"direction": "Inverse"}),
-            np.array(
-                [
-                    [0.03386629, 0.03386629, 0.03386629],
-                    [0.27852298, 0.27852298, 0.27852298],
-                    [0.46830881, 0.46830881, 0.46830881],
-                    [0.65615595, 0.65615595, 0.65615595],
-                    [0.75000000, 0.75000000, 0.75000000],
-                ]
-            ),
+            [
+                [0.03386629, 0.03386629, 0.03386629],
+                [0.27852298, 0.27852298, 0.27852298],
+                [0.46830881, 0.46830881, 0.46830881],
+                [0.65615595, 0.65615595, 0.65615595],
+                [0.75000000, 0.75000000, 0.75000000],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )

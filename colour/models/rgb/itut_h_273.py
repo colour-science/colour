@@ -147,7 +147,7 @@ from colour.models.rgb.transfer_functions import (
     oetf_H273_LogSqrt,
     oetf_SMPTE240M,
 )
-from colour.utilities import message_box, multiline_str
+from colour.utilities import array_namespace, message_box, multiline_str
 from colour.utilities.documentation import DocstringDict, is_documentation_building
 
 __all__ = [
@@ -213,7 +213,9 @@ def _clipped_domain_function(
     def wrapped(x: ArrayLike, *args: Any, **kwargs: Any) -> Any:
         """Wrap specified function."""
 
-        return function(np.clip(x, *domain), *args, **kwargs)
+        xp = array_namespace(x)
+
+        return function(xp.clip(x, *domain), *args, **kwargs)
 
     return wrapped
 

@@ -44,7 +44,7 @@ from colour.plotting import (
     uniform_axes3d,
     update_settings_collection,
 )
-from colour.utilities import attest
+from colour.utilities import attest, xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -142,7 +142,7 @@ class TestXYZToPlottingColourspace:
         """
 
         XYZ = np.random.random(3)
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_sRGB(XYZ),
             XYZ_to_plotting_colourspace(XYZ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -160,29 +160,29 @@ class TestColourCycle:
 
         cycler = colour_cycle()
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             next(cycler),
-            np.array([0.95686275, 0.26274510, 0.21176471, 1.00000000]),
+            [0.95686275, 0.26274510, 0.21176471, 1.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             next(cycler),
-            np.array([0.61582468, 0.15423299, 0.68456747, 1.00000000]),
+            [0.61582468, 0.15423299, 0.68456747, 1.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             next(cycler),
-            np.array([0.25564014, 0.31377163, 0.70934256, 1.00000000]),
+            [0.25564014, 0.31377163, 0.70934256, 1.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         cycler = colour_cycle(colour_cycle_map="viridis")
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             next(cycler),
-            np.array([0.26700400, 0.00487400, 0.32941500, 1.00000000]),
+            [0.26700400, 0.00487400, 0.32941500, 1.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 

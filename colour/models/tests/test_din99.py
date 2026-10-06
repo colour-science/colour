@@ -2,13 +2,25 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 from itertools import product
 
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import DIN99_to_Lab, DIN99_to_XYZ, Lab_to_DIN99, XYZ_to_DIN99
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    domain_range_scale,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -31,106 +43,102 @@ class TestLab_to_DIN99:
     methods.
     """
 
-    def test_Lab_to_DIN99(self) -> None:
+    def test_Lab_to_DIN99(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.din99.Lab_to_DIN99` definition."""
 
-        np.testing.assert_allclose(
-            Lab_to_DIN99(np.array([41.52787529, 52.63858304, 26.92317922])),
-            np.array([53.22821988, 28.41634656, 3.89839552]),
+        xp_assert_close(
+            Lab_to_DIN99(xp_as_array([41.52787529, 52.63858304, 26.92317922], xp=xp)),
+            [53.22821988, 28.41634656, 3.89839552],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            Lab_to_DIN99(np.array([55.11636304, -41.08791787, 30.91825778])),
-            np.array([66.08943912, -17.35290106, 16.09690691]),
+        xp_assert_close(
+            Lab_to_DIN99(xp_as_array([55.11636304, -41.08791787, 30.91825778], xp=xp)),
+            [66.08943912, -17.35290106, 16.09690691],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            Lab_to_DIN99(np.array([29.80565520, 20.01830466, -48.34913874])),
-            np.array([40.71533366, 3.48714163, -21.45321411]),
+        xp_assert_close(
+            Lab_to_DIN99(xp_as_array([29.80565520, 20.01830466, -48.34913874], xp=xp)),
+            [40.71533366, 3.48714163, -21.45321411],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             Lab_to_DIN99(
-                np.array([41.52787529, 52.63858304, 26.92317922]),
+                xp_as_array([41.52787529, 52.63858304, 26.92317922], xp=xp),
                 method="DIN99b",
             ),
-            np.array([45.58303137, 34.71824493, 17.61622149]),
+            [45.58303137, 34.71824493, 17.61622149],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             Lab_to_DIN99(
-                np.array([41.52787529, 52.63858304, 26.92317922]),
+                xp_as_array([41.52787529, 52.63858304, 26.92317922], xp=xp),
                 method="DIN99c",
             ),
-            np.array([45.40284208, 32.75074741, 15.74603532]),
+            [45.40284208, 32.75074741, 15.74603532],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             Lab_to_DIN99(
-                np.array([41.52787529, 52.63858304, 26.92317922]),
+                xp_as_array([41.52787529, 52.63858304, 26.92317922], xp=xp),
                 method="DIN99d",
             ),
-            np.array([45.31204747, 31.42106716, 14.17004652]),
+            [45.31204747, 31.42106716, 14.17004652],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_Lab_to_DIN99(self) -> None:
+    def test_n_dimensional_Lab_to_DIN99(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.din99.Lab_to_DIN99` definition n-dimensional
         support.
         """
 
-        Lab = np.array([41.52787529, 52.63858304, 26.92317922])
-        Lab_99 = Lab_to_DIN99(Lab)
+        Lab = xp_as_array([41.52787529, 52.63858304, 26.92317922], xp=xp)
+        Lab_99 = as_ndarray(Lab_to_DIN99(Lab))
 
-        Lab = np.tile(Lab, (6, 1))
-        Lab_99 = np.tile(Lab_99, (6, 1))
-        np.testing.assert_allclose(
-            Lab_to_DIN99(Lab), Lab_99, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        Lab = xp.tile(xp_as_array(Lab, xp=xp), (6, 1))
+        Lab_99 = xp.tile(xp_as_array(Lab_99, xp=xp), (6, 1))
+        xp_assert_close(Lab_to_DIN99(Lab), Lab_99, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        Lab = np.reshape(Lab, (2, 3, 3))
-        Lab_99 = np.reshape(Lab_99, (2, 3, 3))
-        np.testing.assert_allclose(
-            Lab_to_DIN99(Lab), Lab_99, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        Lab = xp_reshape(xp_as_array(Lab, xp=xp), (2, 3, 3), xp=xp)
+        Lab_99 = xp_reshape(xp_as_array(Lab_99, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(Lab_to_DIN99(Lab), Lab_99, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_Lab_to_DIN99(self) -> None:
+    def test_domain_range_scale_Lab_to_DIN99(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.din99.Lab_to_DIN99` definition domain and
         range scale support.
         """
 
-        Lab = np.array([41.52787529, 52.63858304, 26.92317922])
-        Lab_99 = Lab_to_DIN99(Lab)
-        Lab_99_b = Lab_to_DIN99(Lab, method="DIN99b")
-        Lab_99_c = Lab_to_DIN99(Lab, method="DIN99c")
-        Lab_99_d = Lab_to_DIN99(Lab, method="DIN99d")
+        Lab = xp_as_array([41.52787529, 52.63858304, 26.92317922], xp=xp)
+        Lab_99 = as_ndarray(Lab_to_DIN99(Lab))
+        Lab_99_b = as_ndarray(Lab_to_DIN99(Lab, method="DIN99b"))
+        Lab_99_c = as_ndarray(Lab_to_DIN99(Lab, method="DIN99c"))
+        Lab_99_d = as_ndarray(Lab_to_DIN99(Lab, method="DIN99d"))
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     Lab_to_DIN99(Lab * factor),
                     Lab_99 * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
-                np.testing.assert_allclose(
+                xp_assert_close(
                     Lab_to_DIN99((Lab * factor), method="DIN99b"),
                     Lab_99_b * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
-                np.testing.assert_allclose(
+                xp_assert_close(
                     Lab_to_DIN99((Lab * factor), method="DIN99c"),
                     Lab_99_c * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
-                np.testing.assert_allclose(
+                xp_assert_close(
                     Lab_to_DIN99((Lab * factor), method="DIN99d"),
                     Lab_99_d * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -154,106 +162,102 @@ class TestDIN99_to_Lab:
     methods.
     """
 
-    def test_DIN99_to_Lab(self) -> None:
+    def test_DIN99_to_Lab(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.din99.DIN99_to_Lab` definition."""
 
-        np.testing.assert_allclose(
-            DIN99_to_Lab(np.array([53.22821988, 28.41634656, 3.89839552])),
-            np.array([41.52787529, 52.63858304, 26.92317922]),
+        xp_assert_close(
+            DIN99_to_Lab(xp_as_array([53.22821988, 28.41634656, 3.89839552], xp=xp)),
+            [41.52787529, 52.63858304, 26.92317922],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            DIN99_to_Lab(np.array([66.08943912, -17.35290106, 16.09690691])),
-            np.array([55.11636304, -41.08791787, 30.91825778]),
+        xp_assert_close(
+            DIN99_to_Lab(xp_as_array([66.08943912, -17.35290106, 16.09690691], xp=xp)),
+            [55.11636304, -41.08791787, 30.91825778],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            DIN99_to_Lab(np.array([40.71533366, 3.48714163, -21.45321411])),
-            np.array([29.80565520, 20.01830466, -48.34913874]),
+        xp_assert_close(
+            DIN99_to_Lab(xp_as_array([40.71533366, 3.48714163, -21.45321411], xp=xp)),
+            [29.80565520, 20.01830466, -48.34913874],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             DIN99_to_Lab(
-                np.array([45.58303137, 34.71824493, 17.61622149]),
+                xp_as_array([45.58303137, 34.71824493, 17.61622149], xp=xp),
                 method="DIN99b",
             ),
-            np.array([41.52787529, 52.63858304, 26.92317922]),
+            [41.52787529, 52.63858304, 26.92317922],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             DIN99_to_Lab(
-                np.array([45.40284208, 32.75074741, 15.74603532]),
+                xp_as_array([45.40284208, 32.75074741, 15.74603532], xp=xp),
                 method="DIN99c",
             ),
-            np.array([41.52787529, 52.63858304, 26.92317922]),
+            [41.52787529, 52.63858304, 26.92317922],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             DIN99_to_Lab(
-                np.array([45.31204747, 31.42106716, 14.17004652]),
+                xp_as_array([45.31204747, 31.42106716, 14.17004652], xp=xp),
                 method="DIN99d",
             ),
-            np.array([41.52787529, 52.63858304, 26.92317922]),
+            [41.52787529, 52.63858304, 26.92317922],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_DIN99_to_Lab(self) -> None:
+    def test_n_dimensional_DIN99_to_Lab(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.din99.DIN99_to_Lab` definition n-dimensional
         support.
         """
 
-        Lab_99 = np.array([53.22821988, 28.41634656, 3.89839552])
-        Lab = DIN99_to_Lab(Lab_99)
+        Lab_99 = xp_as_array([53.22821988, 28.41634656, 3.89839552], xp=xp)
+        Lab = as_ndarray(DIN99_to_Lab(Lab_99))
 
-        Lab_99 = np.tile(Lab_99, (6, 1))
-        Lab = np.tile(Lab, (6, 1))
-        np.testing.assert_allclose(
-            DIN99_to_Lab(Lab_99), Lab, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        Lab_99 = xp.tile(xp_as_array(Lab_99, xp=xp), (6, 1))
+        Lab = xp.tile(xp_as_array(Lab, xp=xp), (6, 1))
+        xp_assert_close(DIN99_to_Lab(Lab_99), Lab, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        Lab_99 = np.reshape(Lab_99, (2, 3, 3))
-        Lab = np.reshape(Lab, (2, 3, 3))
-        np.testing.assert_allclose(
-            DIN99_to_Lab(Lab_99), Lab, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        Lab_99 = xp_reshape(xp_as_array(Lab_99, xp=xp), (2, 3, 3), xp=xp)
+        Lab = xp_reshape(xp_as_array(Lab, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(DIN99_to_Lab(Lab_99), Lab, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_DIN99_to_Lab(self) -> None:
+    def test_domain_range_scale_DIN99_to_Lab(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.din99.DIN99_to_Lab` definition domain and
         range scale support.
         """
 
-        Lab_99 = np.array([53.22821988, 28.41634656, 3.89839552])
-        Lab = DIN99_to_Lab(Lab_99)
-        Lab_b = DIN99_to_Lab(Lab_99, method="DIN99b")
-        Lab_c = DIN99_to_Lab(Lab_99, method="DIN99c")
-        Lab_d = DIN99_to_Lab(Lab_99, method="DIN99d")
+        Lab_99 = xp_as_array([53.22821988, 28.41634656, 3.89839552], xp=xp)
+        Lab = as_ndarray(DIN99_to_Lab(Lab_99))
+        Lab_b = as_ndarray(DIN99_to_Lab(Lab_99, method="DIN99b"))
+        Lab_c = as_ndarray(DIN99_to_Lab(Lab_99, method="DIN99c"))
+        Lab_d = as_ndarray(DIN99_to_Lab(Lab_99, method="DIN99d"))
 
         d_r = (("reference", 1), ("1", 0.01), ("100", 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     DIN99_to_Lab(Lab_99 * factor),
                     Lab * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
-                np.testing.assert_allclose(
+                xp_assert_close(
                     DIN99_to_Lab((Lab_99 * factor), method="DIN99b"),
                     Lab_b * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
-                np.testing.assert_allclose(
+                xp_assert_close(
                     DIN99_to_Lab((Lab_99 * factor), method="DIN99c"),
                     Lab_c * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
-                np.testing.assert_allclose(
+                xp_assert_close(
                     DIN99_to_Lab((Lab_99 * factor), method="DIN99d"),
                     Lab_d * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -277,70 +281,67 @@ class TestXYZ_to_DIN99:
     methods.
     """
 
-    def test_XYZ_to_DIN99(self) -> None:
+    def test_XYZ_to_DIN99(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.din99.XYZ_to_DIN99` definition."""
 
-        np.testing.assert_allclose(
-            XYZ_to_DIN99(np.array([0.20654008, 0.12197225, 0.05136952])),
-            np.array([53.22821988, 28.41634656, 3.89839552]),
+        xp_assert_close(
+            XYZ_to_DIN99(xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)),
+            [53.22821988, 28.41634656, 3.89839552],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            XYZ_to_DIN99(np.array([0.14222010, 0.23042768, 0.10495772])),
-            np.array([66.08943912, -17.35290106, 16.09690691]),
+        xp_assert_close(
+            XYZ_to_DIN99(xp_as_array([0.14222010, 0.23042768, 0.10495772], xp=xp)),
+            [66.08943912, -17.35290106, 16.09690691],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            XYZ_to_DIN99(np.array([0.07818780, 0.06157201, 0.28099326])),
-            np.array([40.71533366, 3.48714163, -21.45321411]),
+        xp_assert_close(
+            XYZ_to_DIN99(xp_as_array([0.07818780, 0.06157201, 0.28099326], xp=xp)),
+            [40.71533366, 3.48714163, -21.45321411],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_DIN99(
-                np.array([0.20654008, 0.12197225, 0.05136952]), method="DIN99b"
+                xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp),
+                method="DIN99b",
             ),
-            np.array([45.58303137, 34.71824493, 17.61622149]),
+            [45.58303137, 34.71824493, 17.61622149],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_DIN99(self) -> None:
+    def test_n_dimensional_XYZ_to_DIN99(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.din99.XYZ_to_DIN99` definition n-dimensional
         support.
         """
 
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        Lab_99 = XYZ_to_DIN99(XYZ)
+        XYZ = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
+        Lab_99 = as_ndarray(XYZ_to_DIN99(XYZ))
 
-        XYZ = np.tile(XYZ, (6, 1))
-        Lab_99 = np.tile(Lab_99, (6, 1))
-        np.testing.assert_allclose(
-            XYZ_to_DIN99(XYZ), Lab_99, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        Lab_99 = xp.tile(xp_as_array(Lab_99, xp=xp), (6, 1))
+        xp_assert_close(XYZ_to_DIN99(XYZ), Lab_99, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        Lab_99 = np.reshape(Lab_99, (2, 3, 3))
-        np.testing.assert_allclose(
-            XYZ_to_DIN99(XYZ), Lab_99, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        Lab_99 = xp_reshape(xp_as_array(Lab_99, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(XYZ_to_DIN99(XYZ), Lab_99, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_XYZ_to_DIN99(self) -> None:
+    def test_domain_range_scale_XYZ_to_DIN99(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.din99.XYZ_to_DIN99` definition domain and
         range scale support.
         """
 
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        Lab_99 = XYZ_to_DIN99(XYZ)
+        XYZ = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
+        Lab_99 = as_ndarray(XYZ_to_DIN99(XYZ))
 
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    XYZ_to_DIN99(XYZ * factor_a),
+                xp_assert_close(
+                    XYZ_to_DIN99(XYZ * xp_as_array(factor_a, xp=xp)),
                     Lab_99 * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -360,71 +361,67 @@ class TestDIN99_to_XYZ:
     methods.
     """
 
-    def test_DIN99_to_XYZ(self) -> None:
+    def test_DIN99_to_XYZ(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.din99.DIN99_to_XYZ` definition."""
 
-        np.testing.assert_allclose(
-            DIN99_to_XYZ(np.array([53.22821988, 28.41634656, 3.89839552])),
-            np.array([0.20654008, 0.12197225, 0.05136952]),
+        xp_assert_close(
+            DIN99_to_XYZ(xp_as_array([53.22821988, 28.41634656, 3.89839552], xp=xp)),
+            [0.20654008, 0.12197225, 0.05136952],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            DIN99_to_XYZ(np.array([66.08943912, -17.35290106, 16.09690691])),
-            np.array([0.14222010, 0.23042768, 0.10495772]),
+        xp_assert_close(
+            DIN99_to_XYZ(xp_as_array([66.08943912, -17.35290106, 16.09690691], xp=xp)),
+            [0.14222010, 0.23042768, 0.10495772],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            DIN99_to_XYZ(np.array([40.71533366, 3.48714163, -21.45321411])),
-            np.array([0.07818780, 0.06157201, 0.28099326]),
+        xp_assert_close(
+            DIN99_to_XYZ(xp_as_array([40.71533366, 3.48714163, -21.45321411], xp=xp)),
+            [0.07818780, 0.06157201, 0.28099326],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             DIN99_to_XYZ(
-                np.array([45.58303137, 34.71824493, 17.61622149]),
+                xp_as_array([45.58303137, 34.71824493, 17.61622149], xp=xp),
                 method="DIN99b",
             ),
-            np.array([0.20654008, 0.12197225, 0.05136952]),
+            [0.20654008, 0.12197225, 0.05136952],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_DIN99_to_XYZ(self) -> None:
+    def test_n_dimensional_DIN99_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.din99.DIN99_to_XYZ` definition n-dimensional
         support.
         """
 
-        Lab_99 = np.array([53.22821988, 28.41634656, 3.89839552])
-        XYZ = DIN99_to_XYZ(Lab_99)
+        Lab_99 = xp_as_array([53.22821988, 28.41634656, 3.89839552], xp=xp)
+        XYZ = as_ndarray(DIN99_to_XYZ(Lab_99))
 
-        Lab_99 = np.tile(Lab_99, (6, 1))
-        XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
-            DIN99_to_XYZ(Lab_99), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        Lab_99 = xp.tile(xp_as_array(Lab_99, xp=xp), (6, 1))
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        xp_assert_close(DIN99_to_XYZ(Lab_99), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        Lab_99 = np.reshape(Lab_99, (2, 3, 3))
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
-            DIN99_to_XYZ(Lab_99), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        Lab_99 = xp_reshape(xp_as_array(Lab_99, xp=xp), (2, 3, 3), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(DIN99_to_XYZ(Lab_99), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_DIN99_to_XYZ(self) -> None:
+    def test_domain_range_scale_DIN99_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.din99.DIN99_to_XYZ` definition domain and
         range scale support.
         """
 
-        Lab_99 = np.array([53.22821988, 28.41634656, 3.89839552])
-        XYZ = DIN99_to_XYZ(Lab_99)
+        Lab_99 = xp_as_array([53.22821988, 28.41634656, 3.89839552], xp=xp)
+        XYZ = as_ndarray(DIN99_to_XYZ(Lab_99))
 
         d_r = (("reference", 1, 1), ("1", 0.01, 1), ("100", 1, 100))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
-                    DIN99_to_XYZ(Lab_99 * factor_a),
+                xp_assert_close(
+                    DIN99_to_XYZ(Lab_99 * xp_as_array(factor_a, xp=xp)),
                     XYZ * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )

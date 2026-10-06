@@ -6,10 +6,9 @@ import os
 import shutil
 import tempfile
 
-import numpy as np
-
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import read_LUT_SonySPImtx, write_LUT_SonySPImtx
+from colour.utilities import xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -41,61 +40,55 @@ class TestReadLUTSonySPImtx:
 
         LUT_1 = read_LUT_SonySPImtx(os.path.join(ROOT_LUTS, "dt.spimtx"))
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             LUT_1.matrix,
-            np.array(
-                [
-                    [0.864274, 0.000000, 0.000000, 0.000000],
-                    [0.000000, 0.864274, 0.000000, 0.000000],
-                    [0.000000, 0.000000, 0.864274, 0.000000],
-                    [0.000000, 0.000000, 0.000000, 1.000000],
-                ]
-            ),
+            [
+                [0.864274, 0.000000, 0.000000, 0.000000],
+                [0.000000, 0.864274, 0.000000, 0.000000],
+                [0.000000, 0.000000, 0.864274, 0.000000],
+                [0.000000, 0.000000, 0.000000, 1.000000],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             LUT_1.offset,
-            np.array([0.000000, 0.000000, 0.000000, 0.000000]),
+            [0.000000, 0.000000, 0.000000, 0.000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         assert LUT_1.name == "dt"
 
         LUT_2 = read_LUT_SonySPImtx(os.path.join(ROOT_LUTS, "p3_to_xyz16.spimtx"))
-        np.testing.assert_allclose(
+        xp_assert_close(
             LUT_2.matrix,
-            np.array(
-                [
-                    [0.44488, 0.27717, 0.17237, 0.00000],
-                    [0.20936, 0.72170, 0.06895, 0.00000],
-                    [0.00000, 0.04707, 0.90780, 0.00000],
-                    [0.00000, 0.00000, 0.00000, 1.00000],
-                ]
-            ),
+            [
+                [0.44488, 0.27717, 0.17237, 0.00000],
+                [0.20936, 0.72170, 0.06895, 0.00000],
+                [0.00000, 0.04707, 0.90780, 0.00000],
+                [0.00000, 0.00000, 0.00000, 1.00000],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             LUT_2.offset,
-            np.array([0.000000, 0.000000, 0.000000, 0.000000]),
+            [0.000000, 0.000000, 0.000000, 0.000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         assert LUT_2.name == "p3 to xyz16"
 
         LUT_3 = read_LUT_SonySPImtx(os.path.join(ROOT_LUTS, "Matrix_Offset.spimtx"))
-        np.testing.assert_allclose(
+        xp_assert_close(
             LUT_3.matrix,
-            np.array(
-                [
-                    [1.0, 0.0, 0.0, 0.0],
-                    [0.0, 1.0, 0.0, 0.0],
-                    [0.0, 0.0, 1.0, 0.0],
-                    [0.0, 0.0, 0.0, 1.0],
-                ]
-            ),
+            [
+                [1.0, 0.0, 0.0, 0.0],
+                [0.0, 1.0, 0.0, 0.0],
+                [0.0, 0.0, 1.0, 0.0],
+                [0.0, 0.0, 0.0, 1.0],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             LUT_3.offset,
-            np.array([0.0, 0.0, 1.0, 0.0]),
+            [0.0, 0.0, 1.0, 0.0],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
         assert LUT_3.name == "Matrix Offset"

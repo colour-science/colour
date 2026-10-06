@@ -69,7 +69,8 @@ class TestPlotDaylightLocus:
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
 
-        pytest.raises(ValueError, lambda: plot_daylight_locus(method="Undefined"))
+        with pytest.raises(ValueError):
+            plot_daylight_locus(method="Undefined")
 
         figure, axes = plot_daylight_locus(method="CIE 1976 UCS")
 
@@ -113,7 +114,8 @@ class TestPlotPlanckianLocus:
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
 
-        pytest.raises(ValueError, lambda: plot_planckian_locus(method="Undefined"))
+        with pytest.raises(ValueError):
+            plot_planckian_locus(method="Undefined")
 
         figure, axes = plot_planckian_locus(method="CIE 1976 UCS")
 
@@ -168,15 +170,13 @@ plot_planckian_locus_in_chromaticity_diagram` definition.
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
 
-        pytest.raises(
-            ValueError,
-            lambda: plot_planckian_locus_in_chromaticity_diagram(
+        with pytest.raises(ValueError):
+            plot_planckian_locus_in_chromaticity_diagram(
                 ["A", "B", "C"],
                 chromaticity_diagram_callable=lambda **x: x,
                 planckian_locus_callable=lambda **x: x,
                 method="Undefined",
-            ),
-        )
+            )
 
 
 class TestPlotPlanckianLocusInChromaticityDiagramCIE1931:

@@ -17,8 +17,6 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.algebra import spherical_to_cartesian
 from colour.geometry import MAPPING_PLANE_TO_AXIS
 
@@ -27,13 +25,17 @@ if typing.TYPE_CHECKING:
 
 from colour.utilities import (
     CanonicalMapping,
+    array_namespace,
     as_float_array,
+    as_ndarray,
     filter_kwargs,
     full,
     ones,
     tsplit,
     tstack,
     validate_method,
+    xp_matrix_transpose,
+    xp_radians,
     zeros,
 )
 
@@ -412,7 +414,12 @@ def primitive_vertices_sphere(
             [ 3.7493994...e-33,  6.1232340...e-17, -5.0000000...e-01]]])
     """
 
-    origin = as_float_array(origin)
+    # Mesh geometry is host render data; a backend ``radius`` / ``origin`` is
+    # coerced to the host so the sphere is always built with *NumPy*.
+    radius = float(radius)
+    origin = as_float_array(as_ndarray(origin))
+
+    xp = array_namespace(origin)
 
     axis = MAPPING_PLANE_TO_AXIS.get(axis, axis).lower()
     axis = validate_method(
@@ -420,34 +427,38 @@ def primitive_vertices_sphere(
     )
 
     if not intermediate:
-        theta = np.tile(
-            np.radians(np.linspace(0, 180, segments + 1)),
+        theta = xp.tile(
+            xp_radians(xp.linspace(0, 180, segments + 1)),
             (int(segments) + 1, 1),
         )
-        phi = np.transpose(
-            np.tile(
-                np.radians(np.linspace(-180, 180, segments + 1)),
+        phi = xp_matrix_transpose(
+            xp.tile(
+                xp_radians(xp.linspace(-180, 180, segments + 1)),
                 (int(segments) + 1, 1),
-            )
+            ),
+            xp=xp,
         )
     else:
-        theta = np.tile(
-            np.radians(np.linspace(0, 180, segments * 2 + 1)[1::2][1:-1]),
+        theta = xp.tile(
+            xp_radians(xp.linspace(0, 180, segments * 2 + 1)[1::2][1:-1]),
             (int(segments) + 1, 1),
         )
-        theta = np.hstack(
+
+        theta = xp.concat(
             [
                 zeros((segments + 1, 1)),
                 theta,
-                full((segments + 1, 1), np.pi),
-            ]
+                full((segments + 1, 1), xp.pi),
+            ],
+            axis=1,
         )
-        phi = np.transpose(
-            np.tile(
-                np.radians(np.linspace(-180, 180, segments + 1))
-                + np.radians(360 / segments / 2),
+        phi = xp_matrix_transpose(
+            xp.tile(
+                xp_radians(xp.linspace(-180, 180, segments + 1))
+                + xp_radians(360 / segments / 2),
                 (int(segments), 1),
-            )
+            ),
+            xp=xp,
         )
 
     rho = ones(phi.shape) * radius
@@ -461,9 +472,9 @@ def primitive_vertices_sphere(
     if axis == "+z":
         pass
     elif axis == "+y":
-        vertices = np.roll(vertices, 2, -1)
+        vertices = xp.roll(vertices, 2, axis=-1)
     elif axis == "+x":
-        vertices = np.roll(vertices, 1, -1)
+        vertices = xp.roll(vertices, 1, axis=-1)
 
     return vertices + origin
 

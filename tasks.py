@@ -238,6 +238,24 @@ def tests(ctx: Context) -> None:
 
 
 @task
+def benchmark(ctx: Context, mode: str = "quick") -> None:
+    """
+    Run the cross-backend benchmarks.
+
+    Parameters
+    ----------
+    ctx
+        Context.
+    mode
+        Benchmark mode, either *quick* for a correctness smoke test or *full*
+        for *HD* timing.
+    """
+
+    message_box("Running benchmarks...")
+    ctx.run(f"python {os.path.join('utilities', 'benchmark.py')} --mode {mode}")
+
+
+@task
 def examples(ctx: Context, plots: bool = False) -> None:
     """
     Run the examples.

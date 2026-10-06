@@ -26,6 +26,7 @@ from colour.hints import (  # noqa: TC001
     Range1,
 )
 from colour.models import Iab_to_XYZ, XYZ_to_Iab
+from colour.utilities import array_namespace, xp_as_float_array
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -113,13 +114,17 @@ def XYZ_to_IgPgTg(XYZ: Domain1) -> Range1:
     array([0.4242125..., 0.1863249..., 0.1068922...])
     """
 
-    def LMS_to_LMS_p_callable(LMS: ArrayLike) -> NDArrayFloat:
+    def LMS_to_LMS_p_callable(LMS: NDArrayFloat) -> NDArrayFloat:
         """
         Callable applying the forward non-linearity to the :math:`LMS`
         colourspace array.
         """
 
-        return spow(LMS / np.array([18.36, 21.46, 19435]), 0.427)
+        xp = array_namespace(LMS)
+
+        constants = xp_as_float_array([18.36, 21.46, 19435], xp=xp, like=LMS)
+
+        return spow(LMS / constants, 0.427)
 
     return XYZ_to_Iab(
         XYZ,
@@ -178,7 +183,11 @@ def IgPgTg_to_XYZ(IgPgTg: Domain1) -> Range1:
         colourspace array.
         """
 
-        return spow(LMS_p, 1 / 0.427) * np.array([18.36, 21.46, 19435])
+        xp = array_namespace(LMS_p)
+
+        constants = xp_as_float_array([18.36, 21.46, 19435], xp=xp, like=LMS_p)
+
+        return spow(LMS_p, 1 / 0.427) * constants
 
     return Iab_to_XYZ(
         IgPgTg,

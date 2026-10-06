@@ -22,14 +22,19 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.algebra import sdiv, sdiv_mode
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
-from colour.utilities import CanonicalMapping, as_float, as_float_array, validate_method
+from colour.utilities import (
+    CanonicalMapping,
+    array_namespace,
+    as_float,
+    as_float_array,
+    validate_method,
+    xp_as_float_array,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -69,6 +74,7 @@ def index_stress_Garcia2007(d_E: ArrayLike, d_V: ArrayLike) -> NDArrayFloat:
 
     Examples
     --------
+    >>> import numpy as np
     >>> d_E = np.array([2.0425, 2.8615, 3.4412])
     >>> d_V = np.array([1.2644, 1.2630, 1.8731])
     >>> index_stress_Garcia2007(d_E, d_V)  # doctest: +ELLIPSIS
@@ -76,12 +82,15 @@ def index_stress_Garcia2007(d_E: ArrayLike, d_V: ArrayLike) -> NDArrayFloat:
     """
 
     d_E = as_float_array(d_E)
-    d_V = as_float_array(d_V)
+
+    xp = array_namespace(d_E, d_V)
+
+    d_V = xp_as_float_array(d_V, xp=xp, like=d_E)
 
     with sdiv_mode():
-        F_1 = sdiv(np.sum(d_E**2), np.sum(d_E * d_V))
+        F_1 = sdiv(xp.sum(d_E**2), xp.sum(d_E * d_V))
 
-        stress = np.sqrt(sdiv(np.sum((d_E - F_1 * d_V) ** 2), np.sum(F_1**2 * d_V**2)))
+        stress = xp.sqrt(sdiv(xp.sum((d_E - F_1 * d_V) ** 2), xp.sum(F_1**2 * d_V**2)))
 
     return as_float(stress)
 
@@ -130,6 +139,7 @@ def index_stress(
 
     Examples
     --------
+    >>> import numpy as np
     >>> d_E = np.array([2.0425, 2.8615, 3.4412])
     >>> d_V = np.array([1.2644, 1.2630, 1.8731])
     >>> index_stress(d_E, d_V)  # doctest: +ELLIPSIS

@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 from itertools import product
 
 import numpy as np
@@ -33,7 +38,15 @@ from colour.models.cam02_ucs import (
     UCS_Luo2006_to_XYZ,
     XYZ_to_UCS_Luo2006,
 )
-from colour.utilities import attest, domain_range_scale, ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    attest,
+    domain_range_scale,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -68,102 +81,98 @@ class TestJMh_CIECAM02_to_UCS_Luo2006:
 
         self._JMh = np.array([specification.J, specification.M, specification.h])
 
-    def test_JMh_CIECAM02_to_UCS_Luo2006(self) -> None:
+    def test_JMh_CIECAM02_to_UCS_Luo2006(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cam02_ucs.JMh_CIECAM02_to_UCS_Luo2006`
         definition.
         """
 
-        np.testing.assert_allclose(
-            JMh_CIECAM02_to_UCS_Luo2006(
-                self._JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-            ),
-            np.array([54.90433134, -0.08450395, -0.06854831]),
+        JMh = xp_as_array(self._JMh, xp=xp)
+
+        xp_assert_close(
+            JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
+            [54.90433134, -0.08450395, -0.06854831],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            JMh_CIECAM02_to_UCS_Luo2006(
-                self._JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
-            ),
-            JMh_CIECAM02_to_CAM02LCD(self._JMh),
+        xp_assert_close(
+            JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
+            as_ndarray(JMh_CIECAM02_to_CAM02LCD(JMh)),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            JMh_CIECAM02_to_UCS_Luo2006(
-                self._JMh, COEFFICIENTS_UCS_LUO2006["CAM02-SCD"]
-            ),
-            np.array([54.90433134, -0.08436178, -0.06843298]),
+        xp_assert_close(
+            JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006["CAM02-SCD"]),
+            [54.90433134, -0.08436178, -0.06843298],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            JMh_CIECAM02_to_UCS_Luo2006(
-                self._JMh, COEFFICIENTS_UCS_LUO2006["CAM02-SCD"]
-            ),
-            JMh_CIECAM02_to_CAM02SCD(self._JMh),
+        xp_assert_close(
+            JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006["CAM02-SCD"]),
+            as_ndarray(JMh_CIECAM02_to_CAM02SCD(JMh)),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            JMh_CIECAM02_to_UCS_Luo2006(
-                self._JMh, COEFFICIENTS_UCS_LUO2006["CAM02-UCS"]
-            ),
-            np.array([54.90433134, -0.08442362, -0.06848314]),
+        xp_assert_close(
+            JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006["CAM02-UCS"]),
+            [54.90433134, -0.08442362, -0.06848314],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            JMh_CIECAM02_to_UCS_Luo2006(
-                self._JMh, COEFFICIENTS_UCS_LUO2006["CAM02-UCS"]
-            ),
-            JMh_CIECAM02_to_CAM02UCS(self._JMh),
+        xp_assert_close(
+            JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006["CAM02-UCS"]),
+            as_ndarray(JMh_CIECAM02_to_CAM02UCS(JMh)),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_JMh_CIECAM02_to_UCS_Luo2006(self) -> None:
+    def test_n_dimensional_JMh_CIECAM02_to_UCS_Luo2006(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cam02_ucs.JMh_CIECAM02_to_UCS_Luo2006`
         definition n-dimensional support.
         """
 
-        JMh = self._JMh
-        Jpapbp = JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+        JMh = xp_as_array(self._JMh, xp=xp)
+        Jpapbp = as_ndarray(
+            JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+        )
 
-        JMh = np.tile(JMh, (6, 1))
-        Jpapbp = np.tile(Jpapbp, (6, 1))
-        np.testing.assert_allclose(
+        JMh = xp.tile(xp_as_array(JMh, xp=xp), (6, 1))
+        Jpapbp = xp.tile(xp_as_array(Jpapbp, xp=xp), (6, 1))
+        xp_assert_close(
             JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             Jpapbp,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        JMh = np.reshape(JMh, (2, 3, 3))
-        Jpapbp = np.reshape(Jpapbp, (2, 3, 3))
-        np.testing.assert_allclose(
+        JMh = xp_reshape(xp_as_array(JMh, xp=xp), (2, 3, 3), xp=xp)
+        Jpapbp = xp_reshape(xp_as_array(Jpapbp, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(
             JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             Jpapbp,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_JMh_CIECAM02_to_UCS_Luo2006(self) -> None:
+    def test_domain_range_scale_JMh_CIECAM02_to_UCS_Luo2006(
+        self, xp: ModuleType
+    ) -> None:
         """
         Test :func:`colour.models.cam02_ucs.JMh_CIECAM02_to_UCS_Luo2006`
         definition domain and range scale support.
         """
 
-        JMh = self._JMh
-        Jpapbp = JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+        JMh = xp_as_array(self._JMh, xp=xp)
+        Jpapbp = as_ndarray(
+            JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+        )
 
         d_r = (
             ("reference", 1, 1),
-            ("1", np.array([0.01, 0.01, 1 / 360]), 0.01),
-            ("100", np.array([1, 1, 1 / 3.6]), 1),
+            ("1", xp_as_array([0.01, 0.01, 1 / 360], xp=xp), 0.01),
+            ("100", xp_as_array([1, 1, 1 / 3.6], xp=xp), 1),
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     JMh_CIECAM02_to_UCS_Luo2006(
                         JMh * factor_a, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
                     ),
@@ -189,99 +198,105 @@ class TestUCS_Luo2006_to_JMh_CIECAM02:
     definition unit tests methods.
     """
 
-    def test_UCS_Luo2006_to_JMh_CIECAM02(self) -> None:
+    def test_UCS_Luo2006_to_JMh_CIECAM02(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_JMh_CIECAM02`
         definition.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             UCS_Luo2006_to_JMh_CIECAM02(
-                np.array([54.90433134, -0.08442362, -0.06848314]),
+                xp_as_array([54.90433134, -0.08442362, -0.06848314], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
             ),
-            np.array([41.73109113, 0.10873867, 219.04843202]),
+            [41.73109113, 0.10873867, 219.04843202],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             UCS_Luo2006_to_JMh_CIECAM02(
-                np.array([54.90433134, -0.08442362, -0.06848314]),
+                xp_as_array([54.90433134, -0.08442362, -0.06848314], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
             ),
-            CAM02LCD_to_JMh_CIECAM02(np.array([54.90433134, -0.08442362, -0.06848314])),
+            CAM02LCD_to_JMh_CIECAM02([54.90433134, -0.08442362, -0.06848314]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             UCS_Luo2006_to_JMh_CIECAM02(
-                np.array([54.90433134, -0.08442362, -0.06848314]),
+                xp_as_array([54.90433134, -0.08442362, -0.06848314], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-SCD"],
             ),
-            np.array([41.73109113, 0.10892212, 219.04843202]),
+            [41.73109113, 0.10892212, 219.04843202],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             UCS_Luo2006_to_JMh_CIECAM02(
-                np.array([54.90433134, -0.08442362, -0.06848314]),
+                xp_as_array([54.90433134, -0.08442362, -0.06848314], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-SCD"],
             ),
-            CAM02SCD_to_JMh_CIECAM02(np.array([54.90433134, -0.08442362, -0.06848314])),
+            CAM02SCD_to_JMh_CIECAM02([54.90433134, -0.08442362, -0.06848314]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             UCS_Luo2006_to_JMh_CIECAM02(
-                np.array([54.90433134, -0.08442362, -0.06848314]),
+                xp_as_array([54.90433134, -0.08442362, -0.06848314], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-UCS"],
             ),
-            np.array([41.73109113, 0.10884218, 219.04843202]),
+            [41.73109113, 0.10884218, 219.04843202],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             UCS_Luo2006_to_JMh_CIECAM02(
-                np.array([54.90433134, -0.08442362, -0.06848314]),
+                xp_as_array([54.90433134, -0.08442362, -0.06848314], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-UCS"],
             ),
-            CAM02UCS_to_JMh_CIECAM02(np.array([54.90433134, -0.08442362, -0.06848314])),
+            CAM02UCS_to_JMh_CIECAM02([54.90433134, -0.08442362, -0.06848314]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_UCS_Luo2006_to_JMh_CIECAM02(self) -> None:
+    def test_n_dimensional_UCS_Luo2006_to_JMh_CIECAM02(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_JMh_CIECAM02`
         definition n-dimensional support.
         """
 
-        Jpapbp = np.array([54.90433134, -0.08442362, -0.06848314])
-        JMh = UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+        Jpapbp = xp_as_array([54.90433134, -0.08442362, -0.06848314], xp=xp)
+        JMh = as_ndarray(
+            UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+        )
 
-        Jpapbp = np.tile(Jpapbp, (6, 1))
-        JMh = np.tile(JMh, (6, 1))
-        np.testing.assert_allclose(
+        Jpapbp = xp.tile(xp_as_array(Jpapbp, xp=xp), (6, 1))
+        JMh = xp.tile(xp_as_array(JMh, xp=xp), (6, 1))
+        xp_assert_close(
             UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             JMh,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        Jpapbp = np.reshape(Jpapbp, (2, 3, 3))
-        JMh = np.reshape(JMh, (2, 3, 3))
-        np.testing.assert_allclose(
+        Jpapbp = xp_reshape(xp_as_array(Jpapbp, xp=xp), (2, 3, 3), xp=xp)
+        JMh = xp_reshape(xp_as_array(JMh, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(
             UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             JMh,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_UCS_Luo2006_to_JMh_CIECAM02(self) -> None:
+    def test_domain_range_scale_UCS_Luo2006_to_JMh_CIECAM02(
+        self, xp: ModuleType
+    ) -> None:
         """
         Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_JMh_CIECAM02`
         definition domain and range scale support.
         """
 
-        Jpapbp = np.array([54.90433134, -0.08442362, -0.06848314])
-        JMh = UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+        Jpapbp = xp_as_array([54.90433134, -0.08442362, -0.06848314], xp=xp)
+        JMh = as_ndarray(
+            UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+        )
 
         d_r = (
             ("reference", 1, 1),
@@ -290,7 +305,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02:
         )
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     UCS_Luo2006_to_JMh_CIECAM02(
                         Jpapbp * factor_a,
                         COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
@@ -317,106 +332,110 @@ class TestXYZ_to_UCS_Luo2006:
     unit tests methods.
     """
 
-    def test_XYZ_to_UCS_Luo2006(self) -> None:
+    def test_XYZ_to_UCS_Luo2006(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.cam02_ucs.XYZ_to_UCS_Luo2006` definition."""
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_UCS_Luo2006(
-                np.array([0.20654008, 0.12197225, 0.05136952]),
+                xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
             ),
-            np.array([46.61386154, 39.35760236, 15.96730435]),
+            [46.61386154, 39.35760236, 15.96730435],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_UCS_Luo2006(
-                np.array([0.20654008, 0.12197225, 0.05136952]),
+                xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
             ),
-            XYZ_to_CAM02LCD(np.array([0.20654008, 0.12197225, 0.05136952])),
+            XYZ_to_CAM02LCD([0.20654008, 0.12197225, 0.05136952]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_UCS_Luo2006(
-                np.array([0.20654008, 0.12197225, 0.05136952]),
+                xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-SCD"],
             ),
-            np.array([46.61386154, 25.62879882, 10.39755489]),
+            [46.61386154, 25.62879882, 10.39755489],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_UCS_Luo2006(
-                np.array([0.20654008, 0.12197225, 0.05136952]),
+                xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-SCD"],
             ),
-            XYZ_to_CAM02SCD(np.array([0.20654008, 0.12197225, 0.05136952])),
+            XYZ_to_CAM02SCD([0.20654008, 0.12197225, 0.05136952]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_UCS_Luo2006(
-                np.array([0.20654008, 0.12197225, 0.05136952]),
+                xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-UCS"],
             ),
-            np.array([46.61386154, 29.88310013, 12.12351683]),
+            [46.61386154, 29.88310013, 12.12351683],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_to_UCS_Luo2006(
-                np.array([0.20654008, 0.12197225, 0.05136952]),
+                xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-UCS"],
             ),
-            XYZ_to_CAM02UCS(np.array([0.20654008, 0.12197225, 0.05136952])),
+            XYZ_to_CAM02UCS([0.20654008, 0.12197225, 0.05136952]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_UCS_Luo2006(self) -> None:
+    def test_n_dimensional_XYZ_to_UCS_Luo2006(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cam02_ucs.XYZ_to_UCS_Luo2006` definition
         n-dimensional support.
         """
 
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        Jpapbp = XYZ_to_UCS_Luo2006(XYZ, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+        XYZ = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
+        Jpapbp = as_ndarray(
+            XYZ_to_UCS_Luo2006(XYZ, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+        )
 
-        XYZ = np.tile(XYZ, (6, 1))
-        Jpapbp = np.tile(Jpapbp, (6, 1))
-        np.testing.assert_allclose(
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        Jpapbp = xp.tile(xp_as_array(Jpapbp, xp=xp), (6, 1))
+        xp_assert_close(
             XYZ_to_UCS_Luo2006(XYZ, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             Jpapbp,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        Jpapbp = np.reshape(Jpapbp, (2, 3, 3))
-        np.testing.assert_allclose(
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        Jpapbp = xp_reshape(xp_as_array(Jpapbp, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(
             XYZ_to_UCS_Luo2006(XYZ, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             Jpapbp,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_XYZ_to_UCS_Luo2006(self) -> None:
+    def test_domain_range_scale_XYZ_to_UCS_Luo2006(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cam02_ucs.XYZ_to_UCS_Luo2006` definition
         domain and range scale support.
         """
 
-        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-        XYZ_w = CAM_KWARGS_CIECAM02_sRGB["XYZ_w"] / 100
-        Jpapbp = XYZ_to_UCS_Luo2006(XYZ, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+        XYZ = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
+        XYZ_w = xp_as_array(CAM_KWARGS_CIECAM02_sRGB["XYZ_w"] / 100, xp=xp)
+        Jpapbp = as_ndarray(
+            XYZ_to_UCS_Luo2006(XYZ, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+        )
 
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     XYZ_to_UCS_Luo2006(
-                        XYZ * factor_a,
+                        XYZ * xp_as_array(factor_a, xp=xp),
                         COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
-                        XYZ_w=XYZ_w * factor_a,
+                        XYZ_w=XYZ_w * xp_as_array(factor_a, xp=xp),
                     ),
                     Jpapbp * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -440,104 +459,108 @@ class TestUCS_Luo2006_to_XYZ:
     unit tests methods.
     """
 
-    def test_UCS_Luo2006_to_XYZ(self) -> None:
+    def test_UCS_Luo2006_to_XYZ(self, xp: ModuleType) -> None:
         """Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_XYZ` definition."""
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             UCS_Luo2006_to_XYZ(
-                np.array([46.61386154, 39.35760236, 15.96730435]),
+                xp_as_array([46.61386154, 39.35760236, 15.96730435], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
             ),
-            np.array([0.20654008, 0.12197225, 0.05136952]),
+            [0.20654008, 0.12197225, 0.05136952],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             UCS_Luo2006_to_XYZ(
-                np.array([46.61386154, 39.35760236, 15.96730435]),
+                xp_as_array([46.61386154, 39.35760236, 15.96730435], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
             ),
-            CAM02LCD_to_XYZ(np.array([46.61386154, 39.35760236, 15.96730435])),
+            CAM02LCD_to_XYZ([46.61386154, 39.35760236, 15.96730435]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             UCS_Luo2006_to_XYZ(
-                np.array([46.61386154, 39.35760236, 15.96730435]),
+                xp_as_array([46.61386154, 39.35760236, 15.96730435], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-SCD"],
             ),
-            np.array([0.28264475, 0.11036927, 0.00824593]),
+            [0.28264475, 0.11036927, 0.00824593],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             UCS_Luo2006_to_XYZ(
-                np.array([46.61386154, 39.35760236, 15.96730435]),
+                xp_as_array([46.61386154, 39.35760236, 15.96730435], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-SCD"],
             ),
-            CAM02SCD_to_XYZ(np.array([46.61386154, 39.35760236, 15.96730435])),
+            CAM02SCD_to_XYZ([46.61386154, 39.35760236, 15.96730435]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             UCS_Luo2006_to_XYZ(
-                np.array([46.61386154, 39.35760236, 15.96730435]),
+                xp_as_array([46.61386154, 39.35760236, 15.96730435], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-UCS"],
             ),
-            np.array([0.24229809, 0.11573005, 0.02517649]),
+            [0.24229809, 0.11573005, 0.02517649],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             UCS_Luo2006_to_XYZ(
-                np.array([46.61386154, 39.35760236, 15.96730435]),
+                xp_as_array([46.61386154, 39.35760236, 15.96730435], xp=xp),
                 COEFFICIENTS_UCS_LUO2006["CAM02-UCS"],
             ),
-            CAM02UCS_to_XYZ(np.array([46.61386154, 39.35760236, 15.96730435])),
+            CAM02UCS_to_XYZ([46.61386154, 39.35760236, 15.96730435]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_UCS_Luo2006_to_XYZ(self) -> None:
+    def test_n_dimensional_UCS_Luo2006_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_XYZ` definition
         n-dimensional support.
         """
 
-        Jpapbp = np.array([46.61386154, 39.35760236, 15.96730435])
-        XYZ = UCS_Luo2006_to_XYZ(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+        Jpapbp = xp_as_array([46.61386154, 39.35760236, 15.96730435], xp=xp)
+        XYZ = as_ndarray(
+            UCS_Luo2006_to_XYZ(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+        )
 
-        Jpapbp = np.tile(Jpapbp, (6, 1))
-        XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_allclose(
+        Jpapbp = xp.tile(xp_as_array(Jpapbp, xp=xp), (6, 1))
+        XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
+        xp_assert_close(
             UCS_Luo2006_to_XYZ(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        Jpapbp = np.reshape(Jpapbp, (2, 3, 3))
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_allclose(
+        Jpapbp = xp_reshape(xp_as_array(Jpapbp, xp=xp), (2, 3, 3), xp=xp)
+        XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
+        xp_assert_close(
             UCS_Luo2006_to_XYZ(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]),
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_domain_range_scale_UCS_Luo2006_to_XYZ(self) -> None:
+    def test_domain_range_scale_UCS_Luo2006_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_XYZ` definition
         domain and range scale support.
         """
 
-        Jpapbp = np.array([46.61386154, 39.35760236, 15.96730435])
-        XYZ = UCS_Luo2006_to_XYZ(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
-        XYZ_w = CAM_KWARGS_CIECAM02_sRGB["XYZ_w"] / 100
+        Jpapbp = xp_as_array([46.61386154, 39.35760236, 15.96730435], xp=xp)
+        XYZ = as_ndarray(
+            UCS_Luo2006_to_XYZ(Jpapbp, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"])
+        )
+        XYZ_w = xp_as_array(CAM_KWARGS_CIECAM02_sRGB["XYZ_w"] / 100, xp=xp)
 
         d_r = (("reference", 1, 1, 1), ("1", 0.01, 1, 1), ("100", 1, 100, 100))
         for scale, factor_a, factor_b, factor_c in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_allclose(
+                xp_assert_close(
                     UCS_Luo2006_to_XYZ(
-                        Jpapbp * factor_a,
+                        Jpapbp * xp_as_array(factor_a, xp=xp),
                         COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
                         XYZ_w=XYZ_w * factor_c,
                     ),

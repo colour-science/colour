@@ -23,7 +23,7 @@ from colour.io import (
     write_image_Imageio,
     write_image_OpenImageIO,
 )
-from colour.utilities import attest, full
+from colour.utilities import attest, full, xp_assert_close, xp_assert_equal
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -89,10 +89,10 @@ class TestConvertBitDepth:
 
         a = np.around(np.linspace(0, 1, 10) * 255).astype("uint8")
         assert convert_bit_depth(a, "uint8").dtype is np.dtype("uint8")
-        np.testing.assert_equal(convert_bit_depth(a, "uint8"), a)
+        xp_assert_equal(convert_bit_depth(a, "uint8"), a)
 
         assert convert_bit_depth(a, "uint16").dtype is np.dtype("uint16")
-        np.testing.assert_equal(
+        xp_assert_equal(
             convert_bit_depth(a, "uint16"),
             np.array(
                 [
@@ -111,42 +111,38 @@ class TestConvertBitDepth:
         )
 
         assert convert_bit_depth(a, "float16").dtype is np.dtype("float16")
-        np.testing.assert_allclose(
+        xp_assert_close(
             convert_bit_depth(a, "float16"),
-            np.array(
-                [
-                    0.0000,
-                    0.1098,
-                    0.2235,
-                    0.3333,
-                    0.443,
-                    0.5566,
-                    0.6665,
-                    0.7764,
-                    0.8900,
-                    1.0000,
-                ]
-            ),
-            atol=5e-4,
+            [
+                0.0000,
+                0.1098,
+                0.2235,
+                0.3333,
+                0.443,
+                0.5566,
+                0.6665,
+                0.7764,
+                0.8900,
+                1.0000,
+            ],
+            atol=TOLERANCE_ABSOLUTE_TESTS * 5000,  # *float16* mantissa precision.
         )
 
         assert convert_bit_depth(a, "float32").dtype is np.dtype("float32")
-        np.testing.assert_allclose(
+        xp_assert_close(
             convert_bit_depth(a, "float32"),
-            np.array(
-                [
-                    0.00000000,
-                    0.10980392,
-                    0.22352941,
-                    0.33333334,
-                    0.44313726,
-                    0.55686277,
-                    0.66666669,
-                    0.77647060,
-                    0.89019608,
-                    1.00000000,
-                ]
-            ),
+            [
+                0.00000000,
+                0.10980392,
+                0.22352941,
+                0.33333334,
+                0.44313726,
+                0.55686277,
+                0.66666669,
+                0.77647060,
+                0.89019608,
+                1.00000000,
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -157,51 +153,48 @@ class TestConvertBitDepth:
 
         a = np.around(np.linspace(0, 1, 10) * 65535).astype("uint16")
         assert convert_bit_depth(a, "uint8").dtype is np.dtype("uint8")
-        np.testing.assert_equal(
+        xp_assert_equal(
             convert_bit_depth(a, "uint8"),
             np.array([0, 28, 56, 85, 113, 141, 170, 198, 226, 255]),
         )
 
         assert convert_bit_depth(a, "uint16").dtype is np.dtype("uint16")
-        np.testing.assert_equal(convert_bit_depth(a, "uint16"), a)
+        xp_assert_equal(convert_bit_depth(a, "uint16"), a)
 
         assert convert_bit_depth(a, "float16").dtype is np.dtype("float16")
-        np.testing.assert_allclose(
+        xp_assert_close(
             convert_bit_depth(a, "float16"),
-            np.array(
-                [
-                    0.0000,
-                    0.1098,
-                    0.2235,
-                    0.3333,
-                    0.443,
-                    0.5566,
-                    0.6665,
-                    0.7764,
-                    0.8900,
-                    1.0000,
-                ]
-            ),
-            atol=5e-2,
+            [
+                0.0000,
+                0.1098,
+                0.2235,
+                0.3333,
+                0.443,
+                0.5566,
+                0.6665,
+                0.7764,
+                0.8900,
+                1.0000,
+            ],
+            # Coarse *float16* quantisation across this batch.
+            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
         )
 
         assert convert_bit_depth(a, "float32").dtype is np.dtype("float32")
-        np.testing.assert_allclose(
+        xp_assert_close(
             convert_bit_depth(a, "float32"),
-            np.array(
-                [
-                    0.00000000,
-                    0.11111620,
-                    0.22221714,
-                    0.33333334,
-                    0.44444954,
-                    0.55555046,
-                    0.66666669,
-                    0.77778286,
-                    0.88888383,
-                    1.00000000,
-                ]
-            ),
+            [
+                0.00000000,
+                0.11111620,
+                0.22221714,
+                0.33333334,
+                0.44444954,
+                0.55555046,
+                0.66666669,
+                0.77778286,
+                0.88888383,
+                1.00000000,
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -212,13 +205,13 @@ class TestConvertBitDepth:
 
         a = np.linspace(0, 1, 10, dtype=np.float64)
         assert convert_bit_depth(a, "uint8").dtype is np.dtype("uint8")
-        np.testing.assert_equal(
+        xp_assert_equal(
             convert_bit_depth(a, "uint8"),
             np.array([0, 28, 57, 85, 113, 142, 170, 198, 227, 255]),
         )
 
         assert convert_bit_depth(a, "uint16").dtype is np.dtype("uint16")
-        np.testing.assert_equal(
+        xp_assert_equal(
             convert_bit_depth(a, "uint16"),
             np.array(
                 [
@@ -237,27 +230,25 @@ class TestConvertBitDepth:
         )
 
         assert convert_bit_depth(a, "float16").dtype is np.dtype("float16")
-        np.testing.assert_allclose(
+        xp_assert_close(
             convert_bit_depth(a, "float16"),
-            np.array(
-                [
-                    0.0000,
-                    0.1111,
-                    0.2222,
-                    0.3333,
-                    0.4443,
-                    0.5557,
-                    0.6665,
-                    0.7780,
-                    0.8887,
-                    1.0000,
-                ]
-            ),
-            atol=5e-4,
+            [
+                0.0000,
+                0.1111,
+                0.2222,
+                0.3333,
+                0.4443,
+                0.5557,
+                0.6665,
+                0.7780,
+                0.8887,
+                1.0000,
+            ],
+            atol=TOLERANCE_ABSOLUTE_TESTS * 5000,  # *float16* mantissa precision.
         )
 
         assert convert_bit_depth(a, "float32").dtype is np.dtype("float32")
-        np.testing.assert_allclose(
+        xp_assert_close(
             convert_bit_depth(a, "float32"), a, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
@@ -377,25 +368,29 @@ class TestWriteImageOpenImageIO:
         path = os.path.join(self._temporary_directory, "8-bit.png")
         RGB = full((1, 1, 3), 255, np.uint8)
         write_image_OpenImageIO(RGB, path, bit_depth="uint8")
-        image = read_image_OpenImageIO(path, bit_depth="uint8")
-        np.testing.assert_equal(np.squeeze(RGB), image)
+        image = read_image_OpenImageIO(path, bit_depth="uint8", additional_data=False)
+        xp_assert_equal(np.squeeze(RGB), image)
 
         path = os.path.join(self._temporary_directory, "16-bit.png")
         RGB = full((1, 1, 3), 65535, np.uint16)
         write_image_OpenImageIO(RGB, path, bit_depth="uint16")
-        image = read_image_OpenImageIO(path, bit_depth="uint16")
-        np.testing.assert_equal(np.squeeze(RGB), image)
+        image = read_image_OpenImageIO(path, bit_depth="uint16", additional_data=False)
+        xp_assert_equal(np.squeeze(RGB), image)
 
         source_path = os.path.join(ROOT_RESOURCES, "Overflowing_Gradient.png")
-        source_image = read_image_OpenImageIO(source_path, bit_depth="uint8")
+        source_image = read_image_OpenImageIO(
+            source_path, bit_depth="uint8", additional_data=False
+        )
         target_path = os.path.join(
             self._temporary_directory, "Overflowing_Gradient.png"
         )
         RGB = np.arange(0, 256, 1, dtype=np.uint8)[None] * 2
         write_image_OpenImageIO(RGB, target_path, bit_depth="uint8")
-        target_image = read_image_OpenImageIO(source_path, bit_depth="uint8")
-        np.testing.assert_equal(source_image, target_image)
-        np.testing.assert_equal(np.squeeze(RGB), target_image)
+        target_image = read_image_OpenImageIO(
+            source_path, bit_depth="uint8", additional_data=False
+        )
+        xp_assert_equal(source_image, target_image)
+        xp_assert_equal(np.squeeze(RGB), target_image)
 
         source_path = os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr")
         source_image = read_image_OpenImageIO(
@@ -408,7 +403,7 @@ class TestWriteImageOpenImageIO:
             target_path,
             additional_data=False,
         )
-        np.testing.assert_equal(source_image, target_image)
+        xp_assert_equal(source_image, target_image)
         assert target_image.shape == (1267, 1274, 3)
         assert target_image.dtype is np.dtype("float32")
 
@@ -439,7 +434,7 @@ class TestWriteImageOpenImageIO:
                 if write_attribute.name == read_attribute.name:
                     attribute_exists = True
                     if isinstance(write_attribute.value, tuple):
-                        np.testing.assert_allclose(
+                        xp_assert_close(
                             write_attribute.value,
                             read_attribute.value,
                             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -534,8 +529,8 @@ class TestWriteImageImageio:
         RGB = np.arange(0, 256, 1, dtype=np.uint8)[None] * 2
         write_image_Imageio(RGB, target_path, bit_depth="uint8")
         target_image = read_image_Imageio(target_path, bit_depth="uint8")
-        np.testing.assert_equal(np.squeeze(RGB), target_image)
-        np.testing.assert_equal(source_image, target_image)
+        xp_assert_equal(np.squeeze(RGB), target_image)
+        xp_assert_equal(source_image, target_image)
 
     @pytest.mark.skipif(
         platform.system() == "Linux",
@@ -552,9 +547,7 @@ class TestWriteImageImageio:
         target_path = os.path.join(self._temporary_directory, "CMS_Test_Pattern.exr")
         write_image_Imageio(source_image, target_path)
         target_image = read_image_Imageio(target_path)
-        np.testing.assert_allclose(
-            source_image, target_image, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(source_image, target_image, atol=TOLERANCE_ABSOLUTE_TESTS)
         assert target_image.shape == (1267, 1274, 3)
         assert target_image.dtype is np.dtype("float32")
 
@@ -612,9 +605,7 @@ class TestWriteImage:
         target_path = os.path.join(self._temporary_directory, "CMS_Test_Pattern.exr")
         write_image(source_image, target_path)
         target_image = read_image(target_path)
-        np.testing.assert_allclose(
-            source_image, target_image, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(source_image, target_image, atol=TOLERANCE_ABSOLUTE_TESTS)
         assert target_image.shape == (1267, 1274, 3)
         assert target_image.dtype is np.dtype("float32")
 
@@ -630,17 +621,17 @@ class TestAs3ChannelsImage:
 
         a = 0.18
         b = np.array([[[0.18, 0.18, 0.18]]])
-        np.testing.assert_equal(as_3_channels_image(a), b)
+        xp_assert_equal(as_3_channels_image(a), b)
         a = np.array([0.18])
-        np.testing.assert_equal(as_3_channels_image(a), b)
+        xp_assert_equal(as_3_channels_image(a), b)
         a = np.array([0.18, 0.18, 0.18])
-        np.testing.assert_equal(as_3_channels_image(a), b)
+        xp_assert_equal(as_3_channels_image(a), b)
         a = np.array([[0.18, 0.18, 0.18]])
-        np.testing.assert_equal(as_3_channels_image(a), b)
+        xp_assert_equal(as_3_channels_image(a), b)
         a = np.array([[[0.18, 0.18, 0.18]]])
-        np.testing.assert_equal(as_3_channels_image(a), b)
+        xp_assert_equal(as_3_channels_image(a), b)
         a = np.array([[[[0.18, 0.18, 0.18]]]])
-        np.testing.assert_equal(as_3_channels_image(a), b)
+        xp_assert_equal(as_3_channels_image(a), b)
         a = np.array([[0.18, 0.18, 0.18], [0.20, 0.20, 0.20]])
         result = as_3_channels_image(a)
         assert result.shape == (1, 2, 3)
@@ -651,23 +642,19 @@ class TestAs3ChannelsImage:
         exception.
         """
 
-        pytest.raises(
-            ValueError,
-            as_3_channels_image,
-            [
+        with pytest.raises(ValueError):
+            as_3_channels_image(
                 [
-                    [[0.18, 0.18, 0.18], [0.18, 0.18, 0.18]],
-                    [[0.18, 0.18, 0.18], [0.18, 0.18, 0.18]],
-                ],
-                [
-                    [[0.18, 0.18, 0.18], [0.18, 0.18, 0.18]],
-                    [[0.18, 0.18, 0.18], [0.18, 0.18, 0.18]],
-                ],
-            ],
-        )
+                    [
+                        [[0.18, 0.18, 0.18], [0.18, 0.18, 0.18]],
+                        [[0.18, 0.18, 0.18], [0.18, 0.18, 0.18]],
+                    ],
+                    [
+                        [[0.18, 0.18, 0.18], [0.18, 0.18, 0.18]],
+                        [[0.18, 0.18, 0.18], [0.18, 0.18, 0.18]],
+                    ],
+                ]
+            )
 
-        pytest.raises(
-            ValueError,
-            as_3_channels_image,
-            [0.18, 0.18, 0.18, 0.18],
-        )
+        with pytest.raises(ValueError):
+            as_3_channels_image([0.18, 0.18, 0.18, 0.18])

@@ -3,11 +3,25 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.gamma` module.
 """
 
+from __future__ import annotations
+
+import typing
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import gamma_function
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_assert_equal,
+    xp_reshape,
+)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -27,126 +41,124 @@ class TestGammaFunction:
     definition unit tests methods.
     """
 
-    def test_gamma_function(self) -> None:
+    def test_gamma_function(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.gamma.\
 gamma_function` definition.
         """
 
-        np.testing.assert_allclose(
-            gamma_function(0.0, 2.2), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        xp_assert_close(
+            gamma_function(xp_as_array(0.0, xp=xp), 2.2),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            gamma_function(0.18, 2.2),
+        xp_assert_close(
+            gamma_function(xp_as_array(0.18, xp=xp), 2.2),
             0.022993204992707,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            gamma_function(0.022993204992707, 1.0 / 2.2),
+        xp_assert_close(
+            gamma_function(xp_as_array(0.022993204992707, xp=xp), 1.0 / 2.2),
             0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            gamma_function(-0.18, 2.0),
+        xp_assert_close(
+            gamma_function(xp_as_array(-0.18, xp=xp), 2.0),
             0.0323999999999998,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_equal(gamma_function(-0.18, 2.2), np.nan)
+        xp_assert_equal(gamma_function(xp_as_array(-0.18, xp=xp), 2.2), np.nan)
 
-        np.testing.assert_allclose(
-            gamma_function(-0.18, 2.2, "Mirror"),
+        xp_assert_close(
+            gamma_function(xp_as_array(-0.18, xp=xp), 2.2, "Mirror"),
             -0.022993204992707,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            gamma_function(-0.18, 2.2, "Preserve"),
+        xp_assert_close(
+            gamma_function(xp_as_array(-0.18, xp=xp), 2.2, "Preserve"),
             -0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            gamma_function(-0.18, 2.2, "Clamp"),
+        xp_assert_close(
+            gamma_function(xp_as_array(-0.18, xp=xp), 2.2, "Clamp"),
             0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_array_equal(gamma_function(-0.18, -2.2), np.nan)
+        xp_assert_equal(gamma_function(xp_as_array(-0.18, xp=xp), -2.2), np.nan)
 
-        np.testing.assert_allclose(
-            gamma_function(0.0, -2.2, "Mirror"),
+        xp_assert_close(
+            gamma_function(xp_as_array(0.0, xp=xp), -2.2, "Mirror"),
             0.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            gamma_function(0.0, 2.2, "Preserve"),
+        xp_assert_close(
+            gamma_function(xp_as_array(0.0, xp=xp), 2.2, "Preserve"),
             0.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            gamma_function(0.0, 2.2, "Clamp"), 0, atol=TOLERANCE_ABSOLUTE_TESTS
+        xp_assert_close(
+            gamma_function(xp_as_array(0.0, xp=xp), 2.2, "Clamp"),
+            0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_gamma_function(self) -> None:
+    def test_n_dimensional_gamma_function(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.gamma.\
 gamma_function` definition n-dimensional arrays support.
         """
 
         a = 0.18
-        a_p = gamma_function(a, 2.2)
+        a_p = as_ndarray(gamma_function(xp_as_array(a, xp=xp), 2.2))
 
-        a = np.tile(a, 6)
-        a_p = np.tile(a_p, 6)
-        np.testing.assert_allclose(
-            gamma_function(a, 2.2), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        a = xp.tile(xp_as_array(a, xp=xp), (6,))
+        a_p = xp.tile(xp_as_array(a_p, xp=xp), (6,))
+        xp_assert_close(gamma_function(a, 2.2), a_p, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        a = np.reshape(a, (2, 3))
-        a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_allclose(
-            gamma_function(a, 2.2), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(gamma_function(a, 2.2), a_p, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        a = np.reshape(a, (2, 3, 1))
-        a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_allclose(
-            gamma_function(a, 2.2), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3, 1), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(gamma_function(a, 2.2), a_p, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         a = -0.18
         a_p = -0.022993204992707
-        np.testing.assert_allclose(
+        xp_assert_close(
             gamma_function(a, 2.2, "Mirror"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.tile(a, 6)
-        a_p = np.tile(a_p, 6)
-        np.testing.assert_allclose(
+        a = xp.tile(xp_as_array(a, xp=xp), (6,))
+        a_p = xp.tile(xp_as_array(a_p, xp=xp), (6,))
+        xp_assert_close(
             gamma_function(a, 2.2, "Mirror"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.reshape(a, (2, 3))
-        a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_allclose(
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
             gamma_function(a, 2.2, "Mirror"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.reshape(a, (2, 3, 1))
-        a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_allclose(
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3, 1), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
             gamma_function(a, 2.2, "Mirror"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -154,31 +166,31 @@ gamma_function` definition n-dimensional arrays support.
 
         a = -0.18
         a_p = -0.18
-        np.testing.assert_allclose(
+        xp_assert_close(
             gamma_function(a, 2.2, "Preserve"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.tile(a, 6)
-        a_p = np.tile(a_p, 6)
-        np.testing.assert_allclose(
+        a = xp.tile(xp_as_array(a, xp=xp), (6,))
+        a_p = xp.tile(xp_as_array(a_p, xp=xp), (6,))
+        xp_assert_close(
             gamma_function(a, 2.2, "Preserve"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.reshape(a, (2, 3))
-        a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_allclose(
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
             gamma_function(a, 2.2, "Preserve"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.reshape(a, (2, 3, 1))
-        a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_allclose(
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3, 1), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
             gamma_function(a, 2.2, "Preserve"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -186,26 +198,34 @@ gamma_function` definition n-dimensional arrays support.
 
         a = -0.18
         a_p = 0.0
-        np.testing.assert_allclose(
-            gamma_function(a, 2.2, "Clamp"), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
+        xp_assert_close(
+            gamma_function(a, 2.2, "Clamp"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.tile(a, 6)
-        a_p = np.tile(a_p, 6)
-        np.testing.assert_allclose(
-            gamma_function(a, 2.2, "Clamp"), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
+        a = xp.tile(xp_as_array(a, xp=xp), (6,))
+        a_p = xp.tile(xp_as_array(a_p, xp=xp), (6,))
+        xp_assert_close(
+            gamma_function(a, 2.2, "Clamp"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.reshape(a, (2, 3))
-        a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_allclose(
-            gamma_function(a, 2.2, "Clamp"), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
+            gamma_function(a, 2.2, "Clamp"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.reshape(a, (2, 3, 1))
-        a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_allclose(
-            gamma_function(a, 2.2, "Clamp"), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3, 1), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
+            gamma_function(a, 2.2, "Clamp"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors

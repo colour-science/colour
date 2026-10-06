@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-import unittest
-
 import numpy as np
+import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.graph import colourspace_model_to_reference
 from colour.models import COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE
+from colour.utilities import xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -22,7 +22,7 @@ __all__ = [
 ]
 
 
-class TestColourspaceModelToReference(unittest.TestCase):
+class TestColourspaceModelToReference:
     """
     Define :func:`colour.graph.common.colourspace_model_to_reference`
     definition unit tests methods.
@@ -36,62 +36,65 @@ class TestColourspaceModelToReference(unittest.TestCase):
 
         Lab_1 = np.array([0.41527875, 0.52638583, 0.26923179])
         Lab_reference = colourspace_model_to_reference(Lab_1, "CIE Lab")
-        np.testing.assert_allclose(
+        xp_assert_close(
             Lab_reference,
-            np.array([41.52787529, 52.63858304, 26.92317922]),
+            [41.52787529, 52.63858304, 26.92317922],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         Luv_1 = np.array([0.41527875, 0.52638583, 0.26923179])
         Luv_reference = colourspace_model_to_reference(Luv_1, "CIE Luv")
-        np.testing.assert_allclose(
+        xp_assert_close(
             Luv_reference,
-            np.array([41.52787529, 52.63858304, 26.92317922]),
+            [41.52787529, 52.63858304, 26.92317922],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         CAM02LCD_1 = np.array([0.5, 0.5, 0.5])
         CAM02LCD_reference = colourspace_model_to_reference(CAM02LCD_1, "CAM02LCD")
-        np.testing.assert_allclose(
+        xp_assert_close(
             CAM02LCD_reference,
-            np.array([50.0, 50.0, 50.0]),
+            [50.0, 50.0, 50.0],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         XYZ_1 = np.array([0.20654008, 0.12197225, 0.05136952])
         XYZ_reference = colourspace_model_to_reference(XYZ_1, "CIE XYZ")
-        np.testing.assert_allclose(
+        xp_assert_close(
             XYZ_reference,
-            np.array([0.20654008, 0.12197225, 0.05136952]),
+            [0.20654008, 0.12197225, 0.05136952],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         RGB_1 = np.array([0.5, 0.3, 0.8])
         RGB_reference = colourspace_model_to_reference(RGB_1, "RGB")
-        np.testing.assert_allclose(
+        xp_assert_close(
             RGB_reference,
-            np.array([0.5, 0.3, 0.8]),
+            [0.5, 0.3, 0.8],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         value_1 = np.array([0.5, 0.5, 0.5])
         value_reference = colourspace_model_to_reference(value_1, "Invalid Model")
-        np.testing.assert_allclose(
+        xp_assert_close(
             value_reference,
             value_1,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        for model in COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE:
-            with self.subTest(model=model):
-                np.testing.assert_allclose(
-                    colourspace_model_to_reference(value_1, model),
-                    value_1
-                    * COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model],
-                    atol=TOLERANCE_ABSOLUTE_TESTS,
-                    err_msg=f"Mismatch for model: {model}",
-                )
+    @pytest.mark.parametrize(
+        "model", list(COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE)
+    )
+    def test_colourspace_model_to_reference_all_models(self, model: str) -> None:
+        """
+        Test :func:`colour.graph.common.colourspace_model_to_reference`
+        definition for all models.
+        """
 
-
-if __name__ == "__main__":
-    unittest.main()
+        value_1 = np.array([0.5, 0.5, 0.5])
+        xp_assert_close(
+            colourspace_model_to_reference(value_1, model),
+            value_1 * COLOURSPACE_MODELS_DOMAIN_RANGE_SCALE_1_TO_REFERENCE[model],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+            err_msg=f"Mismatch for model: {model}",
+        )

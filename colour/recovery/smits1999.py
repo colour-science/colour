@@ -13,9 +13,8 @@ References
 
 from __future__ import annotations
 
+import typing
 from typing import TYPE_CHECKING
-
-import numpy as np
 
 from colour.colorimetry import (
     CCS_ILLUMINANTS,
@@ -25,14 +24,18 @@ from colour.colorimetry import (
 from colour.models import RGB_Colourspace, RGB_COLOURSPACE_sRGB, XYZ_to_RGB
 from colour.recovery import MSDS_SMITS1999
 from colour.utilities import (
+    array_namespace,
     as_float_array,
     optional,
     to_domain_1,
-    tsplit,
+    xp_as_float_array,
+    xp_atleast_2d,
+    xp_matrix_transpose,
+    xp_reshape,
 )
 
 if TYPE_CHECKING:
-    from colour.hints import ArrayLike, Domain1, NDArrayFloat, Range1
+    from colour.hints import ArrayLike, Domain1, Literal, NDArrayFloat, Range1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -118,13 +121,33 @@ def XYZ_to_RGB_Smits1999(XYZ: Domain1) -> Range1:
     return XYZ_to_RGB(XYZ, RGB_COLOURSPACE_SMITS1999)
 
 
+@typing.overload
 def RGB_to_msds_Smits1999(
     RGB: ArrayLike,
     basis: MultiSpectralDistributions | None = None,
-) -> NDArrayFloat:
+    *,
+    as_array: Literal[False] = False,
+) -> MultiSpectralDistributions: ...
+
+
+@typing.overload
+def RGB_to_msds_Smits1999(
+    RGB: ArrayLike,
+    basis: MultiSpectralDistributions | None = None,
+    *,
+    as_array: Literal[True],
+) -> NDArrayFloat: ...
+
+
+def RGB_to_msds_Smits1999(
+    RGB: ArrayLike,
+    basis: MultiSpectralDistributions | None = None,
+    *,
+    as_array: bool = False,
+) -> MultiSpectralDistributions | NDArrayFloat:
     """
-    Recover spectral values from *RGB* colourspace array using the
-    *Smits (1999)* decomposition algorithm.
+    Recover the multi-spectral distributions from the specified *RGB*
+    colourspace array using the *Smits (1999)* decomposition algorithm.
 
     This is a vectorised implementation supporting multi-dimensional arrays.
 
@@ -136,11 +159,17 @@ def RGB_to_msds_Smits1999(
     basis
         Multi-spectral distributions basis with signals: white, cyan, magenta,
         yellow, red, green, blue. Defaults to :attr:`MSDS_SMITS1999`.
+    as_array
+        Whether to return raw spectral values as a
+        :class:`numpy.ndarray` of shape
+        ``(*RGB.shape[:-1], wavelengths)`` instead of a
+        :class:`MultiSpectralDistributions` instance. Defaults to *False*.
 
     Returns
     -------
-    :class:`numpy.ndarray`
-        Recovered spectral values with shape ``(*RGB.shape[:-1], wavelengths)``.
+    :class:`MultiSpectralDistributions` or :class:`numpy.ndarray`
+        Recovered multi-spectral distributions, or the underlying
+        spectral values when ``as_array=True``.
 
     Notes
     -----
@@ -164,73 +193,82 @@ def RGB_to_msds_Smits1999(
     ...         [0.01863137, 0.05139773, 0.28887675],
     ...     ]
     ... )
-    >>> RGB_to_msds_Smits1999(RGB).shape
+    >>> RGB_to_msds_Smits1999(RGB, as_array=True).shape
     (3, 10)
-    >>> float(RGB_to_msds_Smits1999(RGB)[0, 0])  # doctest: +ELLIPSIS
+    >>> float(RGB_to_msds_Smits1999(RGB, as_array=True)[0, 0])
+    ... # doctest: +ELLIPSIS
     0.0829...
     """
 
     basis = optional(basis, MSDS_SMITS1999)
 
     RGB = to_domain_1(as_float_array(RGB))
+
+    xp = array_namespace(RGB)
+
     shape = RGB.shape
-    RGB = np.atleast_2d(RGB.reshape(-1, 3))
+    RGB = xp_atleast_2d(xp_reshape(RGB, (-1, 3), xp=xp), xp=xp)
 
-    R, G, B = tsplit(RGB)
+    label_to_index = {label: index for index, label in enumerate(basis.labels)}
+    basis_values = xp_as_float_array(basis.values, xp=xp, like=RGB)
 
-    labels = list(basis.labels)
-    white = basis.values[:, labels.index("white")]
-    cyan = basis.values[:, labels.index("cyan")]
-    magenta = basis.values[:, labels.index("magenta")]
-    yellow = basis.values[:, labels.index("yellow")]
-    red = basis.values[:, labels.index("red")]
-    green = basis.values[:, labels.index("green")]
-    blue = basis.values[:, labels.index("blue")]
-
-    R = R[..., np.newaxis]
-    G = G[..., np.newaxis]
-    B = B[..., np.newaxis]
-
-    # if R <= G and R <= B:
-    #     sd += white * R
-    #     if G <= B:
-    #         sd += cyan * (G - R) + blue * (B - G)
-    #     else:
-    #         sd += cyan * (B - R) + green * (G - B)
-    R_le_G_le_B = (R <= G) & (R <= B) & (G <= B)
-    R_le_B_lt_G = (R <= G) & (R <= B) & (G > B)
-
-    # elif G <= R and G <= B:
-    #     sd += white * G
-    #     if R <= B:
-    #         sd += magenta * (R - G) + blue * (B - R)
-    #     else:
-    #         sd += magenta * (B - G) + red * (R - B)
-    G_lt_R_le_B = (G < R) & (G <= B) & (R <= B)
-    G_le_B_lt_R = (G < R) & (G <= B) & (R > B)
-
-    # else:  # B < R and B < G
-    #     sd += white * B
-    #     if R <= G:
-    #         sd += yellow * (R - B) + green * (G - R)
-    #     else:
-    #         sd += yellow * (G - B) + red * (R - G)
-    B_lt_R_le_G = (B < R) & (B < G) & (R <= G)
-    B_lt_G_lt_R = (B < R) & (B < G) & (R > G)
-
-    spectra = np.select(
-        [R_le_G_le_B, R_le_B_lt_G, G_lt_R_le_B, G_le_B_lt_R, B_lt_R_le_G, B_lt_G_lt_R],
+    # *Smits (1999)* decomposes any *RGB* into three basis spectra
+    # weighted by the sorted ``(min, mid, max)`` channel deltas. The
+    # paper expresses this as a six-branch ``if`` ladder over the
+    # orderings of *R*, *G*, *B*:
+    #
+    #   min  max  | secondary  primary  | spectrum
+    #   ---- ---- | ---------- -------- | ---------------------------------
+    #   R    B    | cyan       blue     | white*R + cyan*(G - R) + blue*(B - G)
+    #   R    G    | cyan       green    | white*R + cyan*(B - R) + green*(G - B)
+    #   G    B    | magenta    blue     | white*G + magenta*(R - G) + blue*(B - R)
+    #   G    R    | magenta    red      | white*G + magenta*(B - G) + red*(R - B)
+    #   B    G    | yellow     green    | white*B + yellow*(R - B) + green*(G - R)
+    #   B    R    | yellow     red      | white*B + yellow*(G - B) + red*(R - G)
+    #
+    # Every branch reduces to ``white*min + secondary*(mid - min) +
+    # primary*(max - mid)``; ``argmin`` / ``argmax`` over the stacked
+    # candidate bases collapse the six-way switch to a single gather.
+    white = basis_values[:, label_to_index["white"]]
+    secondary_bases = xp.stack(
         [
-            white * R + cyan * (G - R) + blue * (B - G),
-            white * R + cyan * (B - R) + green * (G - B),
-            white * G + magenta * (R - G) + blue * (B - R),
-            white * G + magenta * (B - G) + red * (R - B),
-            white * B + yellow * (R - B) + green * (G - R),
-            white * B + yellow * (G - B) + red * (R - G),
-        ],
+            basis_values[:, label_to_index["cyan"]],
+            basis_values[:, label_to_index["magenta"]],
+            basis_values[:, label_to_index["yellow"]],
+        ]
+    )
+    primary_bases = xp.stack(
+        [
+            basis_values[:, label_to_index["red"]],
+            basis_values[:, label_to_index["green"]],
+            basis_values[:, label_to_index["blue"]],
+        ]
     )
 
-    return np.reshape(spectra, [*list(shape[:-1]), len(white)])
+    min_channel = xp.min(RGB, axis=-1)
+    max_channel = xp.max(RGB, axis=-1)
+    mid_channel = xp.sum(RGB, axis=-1) - min_channel - max_channel
+    secondary = secondary_bases[xp.argmin(RGB, axis=-1)]
+    primary = primary_bases[xp.argmax(RGB, axis=-1)]
+
+    spectra = (
+        white * min_channel[..., None]
+        + secondary * (mid_channel - min_channel)[..., None]
+        + primary * (max_channel - mid_channel)[..., None]
+    )
+
+    spectra = xp_reshape(spectra, [*list(shape[:-1]), len(white)], xp=xp)
+
+    if as_array:
+        return spectra
+
+    # ``MultiSpectralDistributions`` expects ``(n_wavelengths,
+    # n_samples)``; flatten any leading shape into a single sample axis.
+    msds_values = xp_matrix_transpose(
+        xp_reshape(spectra, (-1, len(white)), xp=xp), xp=xp
+    )
+
+    return MultiSpectralDistributions(msds_values, basis.wavelengths)
 
 
 def RGB_to_sd_Smits1999(
@@ -307,7 +345,7 @@ def RGB_to_sd_Smits1999(
     basis = optional(basis, MSDS_SMITS1999)
     name = optional(name, f"Smits (1999) - {RGB!r}")
 
-    values = RGB_to_msds_Smits1999(RGB, basis)
+    values = RGB_to_msds_Smits1999(RGB, basis, as_array=True)
 
     return SpectralDistribution(
         values,

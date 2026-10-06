@@ -27,8 +27,6 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 if typing.TYPE_CHECKING:
     from colour.hints import NDArrayReal
 
@@ -39,6 +37,7 @@ from colour.hints import (  # noqa: TC001
 )
 from colour.utilities import (
     Structure,
+    array_namespace,
     as_float,
     as_int,
     from_range_1,
@@ -134,9 +133,12 @@ def eotf_inverse_DICOMGSDF(
     """
 
     L = to_domain_1(L)
+
+    xp = array_namespace(L)
+
     constants = optional(constants, CONSTANTS_DICOMGSDF)
 
-    L_lg = np.log10(L)
+    L_lg = xp.log10(L)
 
     A = constants.A
     B = constants.B
@@ -161,7 +163,7 @@ def eotf_inverse_DICOMGSDF(
     )
 
     if out_int:
-        return as_int(np.round(J))
+        return as_int(xp.round(J))
 
     return as_float(from_range_1(J / 1023))
 
@@ -217,6 +219,9 @@ def eotf_DICOMGSDF(
     """
 
     J = to_domain_1(J)
+
+    xp = array_namespace(J)
+
     constants = optional(constants, CONSTANTS_DICOMGSDF)
 
     if not in_int:
@@ -233,7 +238,7 @@ def eotf_DICOMGSDF(
     k = constants.k
     m = constants.m
 
-    J_ln = np.log(J)
+    J_ln = xp.log(J)
     J_ln2 = J_ln**2
     J_ln3 = J_ln**3
     J_ln4 = J_ln**4

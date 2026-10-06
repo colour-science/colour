@@ -44,13 +44,21 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from colour.constants import DTYPE_COMPLEX_DEFAULT
 from colour.utilities import (
     MixinDataclassArithmetic,
+    array_namespace,
     as_complex_array,
     as_float_array,
-    tsplit,
-    tstack,
+    as_ndarray,
+    xp_as_array,
+    xp_as_float_array,
+    xp_astype,
+    xp_atleast_1d,
+    xp_atleast_2d,
+    xp_broadcast_to,
+    xp_degrees,
+    xp_matrix_transpose,
+    xp_radians,
 )
 
 if TYPE_CHECKING:
@@ -80,9 +88,9 @@ def _tsplit_complex(a: ArrayLike) -> NDArrayComplex:
     Split the specified stacked array along the last axis (tail)
     to produce an array of complex arrays.
 
-    Convenience wrapper around :func:`colour.utilities.tsplit` that
-    automatically uses ``DTYPE_COMPLEX_DEFAULT`` for complex number
-    operations in *Transfer Matrix Method* calculations.
+    Convenience wrapper that ensures complex dtype via
+    :func:`colour.utilities.as_complex_array` (which handles backends
+    that do not support ``complex128``, e.g. *MPS*) before splitting.
 
     Parameters
     ----------
@@ -95,7 +103,11 @@ def _tsplit_complex(a: ArrayLike) -> NDArrayComplex:
         Array of complex arrays.
     """
 
-    return tsplit(a, dtype=DTYPE_COMPLEX_DEFAULT)  # type: ignore[arg-type]
+    a = as_complex_array(a)
+
+    xp = array_namespace(a)
+
+    return xp.stack([a[..., x] for x in range(a.shape[-1])])
 
 
 def _tstack_complex(a: ArrayLike) -> NDArrayComplex:
@@ -103,9 +115,9 @@ def _tstack_complex(a: ArrayLike) -> NDArrayComplex:
     Stack the specified array of arrays along the last axis (tail)
     to produce a stacked complex array.
 
-    Convenience wrapper around :func:`colour.utilities.tstack` that
-    automatically uses ``DTYPE_COMPLEX_DEFAULT`` for complex number
-    operations in *Transfer Matrix Method* calculations.
+    Convenience wrapper that ensures complex dtype via
+    :func:`colour.utilities.as_complex_array` (which handles backends
+    that do not support ``complex128``, e.g. *MPS*) before stacking.
 
     Parameters
     ----------
@@ -122,7 +134,11 @@ def _tstack_complex(a: ArrayLike) -> NDArrayComplex:
     :cite:`Byrnes2016`
     """
 
-    return tstack(a, dtype=DTYPE_COMPLEX_DEFAULT)  # type: ignore[arg-type]
+    a = [as_complex_array(x) for x in a]  # pyright: ignore
+
+    xp = array_namespace(a[0])
+
+    return xp.stack(a, axis=-1)
 
 
 def snell_law(
@@ -172,12 +188,15 @@ def snell_law(
     np.float64(19.4712206...)
     """
 
-    n_1 = np.real(as_complex_array(n_1))
-    n_2 = np.real(as_complex_array(n_2))
-    theta_i = np.radians(as_float_array(theta_i))
+    theta_i = xp_radians(as_float_array(theta_i))
+
+    xp = array_namespace(theta_i)
+
+    n_1 = xp_as_float_array(np.real(as_ndarray(n_1)), xp=xp, like=theta_i)
+    n_2 = xp_as_float_array(np.real(as_ndarray(n_2)), xp=xp, like=theta_i)
 
     # Apply Snell's law: n_i * sin(theta_i) = n_j * sin(theta_j) (Byrnes Eq. 3)
-    return np.degrees(np.arcsin(n_1 * np.sin(theta_i) / n_2))
+    return xp_degrees(xp.asin(n_1 * xp.sin(theta_i) / n_2))
 
 
 def polarised_light_magnitude_elements(
@@ -233,8 +252,24 @@ np.complex128(1.5+0j))
     n_1 = as_complex_array(n_1)
     n_2 = as_complex_array(n_2)
 
-    cos_theta_i = np.cos(np.radians(as_float_array(theta_i)))
-    cos_theta_t = np.cos(np.radians(as_float_array(theta_t)))
+    theta_i_rad = xp_radians(as_float_array(theta_i))
+    theta_t_rad = xp_radians(as_float_array(theta_t))
+
+    xp = array_namespace(theta_i_rad)
+
+    n_1 = (
+        xp_as_array(n_1, xp=xp, like=theta_i_rad)
+        if isinstance(n_1, np.ndarray)
+        else n_1
+    )
+    n_2 = (
+        xp_as_array(n_2, xp=xp, like=theta_i_rad)
+        if isinstance(n_2, np.ndarray)
+        else n_2
+    )
+
+    cos_theta_i = xp_astype(xp.cos(theta_i_rad), n_1.dtype, xp=xp)
+    cos_theta_t = xp_astype(xp.cos(theta_t_rad), n_1.dtype, xp=xp)
 
     n_1_cos_theta_i = n_1 * cos_theta_i
     n_1_cos_theta_t = n_1 * cos_theta_t
@@ -377,7 +412,11 @@ def polarised_light_reflection_coefficient(
     """
 
     # Reflectance: R = |r|^2 (Byrnes Eq. 23)
-    R = np.abs(polarised_light_reflection_amplitude(n_1, n_2, theta_i, theta_t)) ** 2
+    r = polarised_light_reflection_amplitude(n_1, n_2, theta_i, theta_t)
+
+    xp = array_namespace(r)
+
+    R = xp.abs(r) ** 2
 
     return as_complex_array(R)
 
@@ -535,9 +574,11 @@ def polarised_light_transmission_coefficient(
     )
 
     # Transmittance with beam cross-section correction (Byrnes Eq. 21-22)
-    T = (n_2_cos_theta_t / n_1_cos_theta_i)[..., None] * np.abs(
-        polarised_light_transmission_amplitude(n_1, n_2, theta_i, theta_t)
-    ) ** 2
+    t_amp = polarised_light_transmission_amplitude(n_1, n_2, theta_i, theta_t)
+
+    xp = array_namespace(t_amp)
+
+    T = (n_2_cos_theta_t / n_1_cos_theta_i)[..., None] * xp.abs(t_amp) ** 2
     return as_complex_array(T)
 
 
@@ -726,20 +767,29 @@ v_{n+1} \\\\ w_{n+1} \\end{pmatrix}
 
     n = as_complex_array(n)
     t = as_float_array(t)
-    theta = np.atleast_1d(as_float_array(theta))
-    wavelength = np.atleast_1d(as_float_array(wavelength))
+    theta = as_float_array(theta)
+    wavelength = as_float_array(wavelength)
+
+    xp = array_namespace(wavelength, theta)
+
+    n = xp_as_array(n, xp=xp, like=wavelength) if isinstance(n, np.ndarray) else n
+    t = xp_as_array(t, xp=xp, like=wavelength)
+    theta = xp_atleast_1d(xp_as_array(theta, xp=xp, like=wavelength), xp=xp)
+    wavelength = xp_atleast_1d(wavelength, xp=xp)
 
     wavelengths_count = wavelength.shape[0]
 
-    # Convert 1D n to column vector and tile across wavelengths
-    # (M,) -> (M, 1) -> (M, W)
     if n.ndim == 1:
-        n = np.transpose(np.atleast_2d(n))
-        n = np.tile(n, (1, wavelengths_count))
+        n = xp_matrix_transpose(xp_atleast_2d(n, xp=xp), xp=xp)
+        # ``broadcast_to`` is equivalent to ``tile`` for an ``(M, 1)`` ->
+        # ``(M, W)`` expansion, works on every backend (*MPS* does not
+        # support ``tile`` on complex tensors) and avoids the copy; ``n``
+        # is only ever read downstream.
+        n = xp_broadcast_to(n, (n.shape[0], wavelengths_count), xp=xp)
 
     # (1, layers_count)
     if t.ndim == 1:
-        t = t[np.newaxis, :]
+        t = t[None, :]
 
     media_count = n.shape[0]
     layers_count = media_count - 2
@@ -748,9 +798,14 @@ v_{n+1} \\\\ w_{n+1} \\end{pmatrix}
 
     # Snell's law: n_i * sin(theta_i) = n_j * sin(theta_j) (Byrnes Eq. 3)
     # Broadcasting: theta (A,) → theta_media (A, M)
-    theta_media = snell_law(
-        n_0, (n[:, 0] if n.ndim == 2 else n)[:, None], theta[None, :]
-    ).T
+    theta_media = xp_matrix_transpose(
+        snell_law(
+            n_0,
+            (n[:, 0] if n.ndim == 2 else n)[:, None],
+            theta[None, :],
+        ),
+        xp=xp,
+    )
 
     # Fresnel coefficients (Byrnes Eq. 6)
     # Broadcasting: n (M, W), theta_media (A, M) → coefficients (A, M-1, W)
@@ -783,19 +838,19 @@ v_{n+1} \\\\ w_{n+1} \\end{pmatrix}
     n_layer = n[1 : layers_count + 1, :]  # (L, W) - Each layer's refractive index
     theta_layer = theta_media[:, 0:layers_count]  # (A, L)
 
-    theta_radians = np.radians(theta_layer)[:, :, None]  # (A, L, 1)
-    k_z_layers = np.sqrt(
+    theta_radians = xp_radians(theta_layer)[:, :, None]  # (A, L, 1)
+    k_z_layers = xp.sqrt(
         n_layer[None, :, :] ** 2
-        - n_previous[None, :, :] ** 2 * np.sin(theta_radians) ** 2
+        - n_previous[None, :, :] ** 2 * xp.sin(theta_radians) ** 2
     )  # (A, L, W)
 
     # Compute phase: delta = (2π/λ) * d * k_z
     phase_factor = 2 * np.pi / wavelength[:, None, None, None]  # (W, 1, 1, 1)
     # Reshape k_z from (A, L, W) to (W, A, 1, L) for broadcasting with thickness
-    k_z = np.transpose(k_z_layers, (2, 0, 1))[:, :, None, :]  # (W, A, 1, L)
+    k_z = xp.moveaxis(k_z_layers, (0, 1, 2), (1, 2, 0))[:, :, None, :]  # (W, A, 1, L)
     delta = phase_factor * t[None, None, :, :] * k_z  # (W, A, T, L)
 
-    A = np.exp(1j * delta)  # (W, A, T, L)
+    A = xp.exp(1j * delta)  # (W, A, T, L)
 
     # Layer matrices: M_n = L_n * I_{n,n+1} (Byrnes Eq. 10-11)
     # (W, A, T, L, 2, 2, 2) for [wavelengths, angles, thickness, layers, 2x2, pol]
@@ -806,59 +861,58 @@ v_{n+1} \\\\ w_{n+1} \\end{pmatrix}
 
     # Broadcast Fresnel coefficients from (A, L, W) to (W, A, 1, L)
     # (A,L,W) -> (W,A,L) -> (W,A,1,L)
-    r_s_b = np.transpose(r_s, (2, 0, 1))[:, :, None, :]
-    r_p_b = np.transpose(r_p, (2, 0, 1))[:, :, None, :]
-    t_s_b = np.transpose(t_s, (2, 0, 1))[:, :, None, :]
-    t_p_b = np.transpose(t_p, (2, 0, 1))[:, :, None, :]
+    r_s_b = xp.moveaxis(r_s, (0, 1, 2), (1, 2, 0))[:, :, None, :]
+    r_p_b = xp.moveaxis(r_p, (0, 1, 2), (1, 2, 0))[:, :, None, :]
+    t_s_b = xp.moveaxis(t_s, (0, 1, 2), (1, 2, 0))[:, :, None, :]
+    t_p_b = xp.moveaxis(t_p, (0, 1, 2), (1, 2, 0))[:, :, None, :]
 
-    # Build 2x2 matrices for s and p polarizations using np.stack
-    M_s_layer = np.stack(
+    M_s_layer = xp.stack(
         [
-            np.stack([1 / (A * t_s_b), r_s_b / (A * t_s_b)], axis=-1),
-            np.stack([A * r_s_b / t_s_b, A / t_s_b], axis=-1),
+            xp.stack([1 / (A * t_s_b), r_s_b / (A * t_s_b)], axis=-1),
+            xp.stack([A * r_s_b / t_s_b, A / t_s_b], axis=-1),
         ],
         axis=-2,
     )
-    M_p_layer = np.stack(
+    M_p_layer = xp.stack(
         [
-            np.stack([1 / (A * t_p_b), r_p_b / (A * t_p_b)], axis=-1),
-            np.stack([A * r_p_b / t_p_b, A / t_p_b], axis=-1),
+            xp.stack([1 / (A * t_p_b), r_p_b / (A * t_p_b)], axis=-1),
+            xp.stack([A * r_p_b / t_p_b, A / t_p_b], axis=-1),
         ],
         axis=-2,
     )
-    M = np.stack([M_s_layer, M_p_layer], axis=-1)
+    M = xp.stack([M_s_layer, M_p_layer], axis=-1)
 
     # Initial interface matrix (Byrnes Eq. 11)
     # Shape: (W, A, T, 2, 2)
     # Fresnel coefficients at incident → first layer interface
     t_s_01 = t_media_s[:, 0, :]  # (A, W)
     r_s_01 = r_media_s[:, 0, :]  # (A, W)
-    inv_t_s = (1 / t_s_01).T[:, :, None]  # (W, A, 1)
-    r_over_t_s = (r_s_01 / t_s_01).T[:, :, None]
-    M_s = np.stack(
+    inv_t_s = xp_matrix_transpose(1 / t_s_01, xp=xp)[:, :, None]  # (W, A, 1)
+    r_over_t_s = xp_matrix_transpose(r_s_01 / t_s_01, xp=xp)[:, :, None]
+    M_s = xp.stack(
         [
-            np.stack([inv_t_s, r_over_t_s], axis=-1),
-            np.stack([r_over_t_s, inv_t_s], axis=-1),
+            xp.stack([inv_t_s, r_over_t_s], axis=-1),
+            xp.stack([r_over_t_s, inv_t_s], axis=-1),
         ],
         axis=-2,
     )
 
     t_p_01 = t_media_p[:, 0, :]  # (A, W)
     r_p_01 = r_media_p[:, 0, :]  # (A, W)
-    inv_t_p = (1 / t_p_01).T[:, :, None]
-    r_over_t_p = (r_p_01 / t_p_01).T[:, :, None]
-    M_p = np.stack(
+    inv_t_p = xp_matrix_transpose(1 / t_p_01, xp=xp)[:, :, None]
+    r_over_t_p = xp_matrix_transpose(r_p_01 / t_p_01, xp=xp)[:, :, None]
+    M_p = xp.stack(
         [
-            np.stack([inv_t_p, r_over_t_p], axis=-1),
-            np.stack([r_over_t_p, inv_t_p], axis=-1),
+            xp.stack([inv_t_p, r_over_t_p], axis=-1),
+            xp.stack([r_over_t_p, inv_t_p], axis=-1),
         ],
         axis=-2,
     )
 
     # Overall transfer matrix: M_tilde = I_01 @ M_1 @ M_2 @ ... (Byrnes Eq. 12)
     for i in range(layers_count):
-        M_s = np.matmul(M_s, M[:, :, :, i, :, :, 0])
-        M_p = np.matmul(M_p, M[:, :, :, i, :, :, 1])
+        M_s = xp.matmul(M_s, M[:, :, :, i, :, :, 0])
+        M_p = xp.matmul(M_p, M[:, :, :, i, :, :, 1])
 
     return TransferMatrixResult(
         M_s=M_s,

@@ -43,6 +43,7 @@ Common
     :template: class.rst
 
     CacheRegistry
+    caching_enable
 
 .. currentmodule:: colour.utilities
 
@@ -52,9 +53,7 @@ Common
     attest
     batch
     CACHE_REGISTRY
-    caching_enable
     copy_definition
-    disable_multiprocessing
     filter_kwargs
     filter_mapping
     first_item
@@ -67,13 +66,12 @@ Common
     is_iterable
     is_numeric
     is_sibling
-    multiprocessing_pool
     optional
     print_numpy_errors
     raise_numpy_errors
-    set_caching_enable
+    set_caching_enabled
     slugify
-    url_download
+    download_url
     hash_sha256
     validate_method
     warn_numpy_errors
@@ -93,6 +91,7 @@ Array
     MixinDataclassArray
     MixinDataclassFields
     MixinDataclassIterable
+    ndarray_copy_enable
 
 .. autosummary::
     :toctree: generated/
@@ -123,14 +122,14 @@ Array
     is_ndarray_copy_enabled
     is_uniform
     ndarray_copy
-    ndarray_copy_enable
     ndarray_write
     ones
     orient
     row_as_diagonal
+    set_default_complex_dtype
     set_default_float_dtype
     set_default_int_dtype
-    set_ndarray_copy_enable
+    set_ndarray_copy_enabled
     to_domain_1
     to_domain_10
     to_domain_100
@@ -139,6 +138,90 @@ Array
     tsplit
     tstack
     zeros
+
+Array API
+---------
+
+``colour.utilities``
+
+.. currentmodule:: colour.utilities
+
+**Context Managers**
+
+.. autosummary::
+    :toctree: generated/
+    :template: class.rst
+
+    array_api_enable
+    trace_array_namespace
+
+**Namespace and Dispatch**
+
+.. autosummary::
+    :toctree: generated/
+
+    array_namespace
+    is_array_api_enabled
+    is_non_ndarray
+    is_numpy_namespace
+    set_array_api_enabled
+
+**Boundary Conversion**
+
+.. autosummary::
+    :toctree: generated/
+
+    as_ndarray
+    cast_non_ndarray
+    xp_as_array
+    xp_as_float_array
+    xp_as_int_array
+
+**Assertion Helpers**
+
+.. autosummary::
+    :toctree: generated/
+
+    xp_assert_close
+    xp_assert_equal
+
+**Array Operations**
+
+.. autosummary::
+    :toctree: generated/
+
+    xp_ascontiguousarray
+    xp_astype
+    xp_atleast_1d
+    xp_atleast_2d
+    xp_average
+    xp_broadcast_to
+    xp_create_diagonal
+    xp_degrees
+    xp_eig
+    xp_eigh
+    xp_gradient
+    xp_insert
+    xp_interp
+    xp_isclose
+    xp_isin
+    xp_linspace
+    xp_lstsq
+    xp_matrix_transpose
+    xp_median
+    xp_nan_to_num
+    xp_nanmean
+    xp_pad
+    xp_radians
+    xp_reshape
+    xp_resize
+    xp_round
+    xp_select
+    xp_setxor1d
+    xp_sinc
+    xp_squeeze
+    xp_trapezoid
+    xp_unique
 
 Data Structures
 ---------------
@@ -229,6 +312,8 @@ Requirements
 .. autosummary::
     :toctree: generated/
 
+    is_array_api_compat_installed
+    is_array_api_extra_installed
     is_ctlrender_installed
     is_imageio_installed
     is_matplotlib_installed

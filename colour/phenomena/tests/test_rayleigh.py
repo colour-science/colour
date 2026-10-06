@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -25,7 +30,12 @@ from colour.phenomena.rayleigh import (
     mean_molecular_weights,
     molecular_density,
 )
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import (
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -485,31 +495,33 @@ class TestAirRefractionIndexPenndorf1957:
 air_refraction_index_Penndorf1957` definition unit tests methods.
     """
 
-    def test_air_refraction_index_Penndorf1957(self) -> None:
+    def test_air_refraction_index_Penndorf1957(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.\
 air_refraction_index_Penndorf1957` definition.
         """
 
-        np.testing.assert_allclose(
-            air_refraction_index_Penndorf1957(0.360),
+        xp_assert_close(
+            air_refraction_index_Penndorf1957(xp_as_array([0.360], xp=xp)),
             1.000285316795146,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            air_refraction_index_Penndorf1957(0.555),
+        xp_assert_close(
+            air_refraction_index_Penndorf1957(xp_as_array([0.555], xp=xp)),
             1.000277729533864,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            air_refraction_index_Penndorf1957(0.830),
+        xp_assert_close(
+            air_refraction_index_Penndorf1957(xp_as_array([0.830], xp=xp)),
             1.000274856640486,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_air_refraction_index_Penndorf1957(self) -> None:
+    def test_n_dimensional_air_refraction_index_Penndorf1957(
+        self, xp: ModuleType
+    ) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.\
 air_refraction_index_Penndorf1957` definition n-dimensional arrays support.
@@ -518,25 +530,25 @@ air_refraction_index_Penndorf1957` definition n-dimensional arrays support.
         wl = 0.360
         n = air_refraction_index_Penndorf1957(wl)
 
-        wl = np.tile(wl, 6)
-        n = np.tile(n, 6)
-        np.testing.assert_allclose(
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        n = xp.tile(xp_as_array(n, xp=xp), (6,))
+        xp_assert_close(
             air_refraction_index_Penndorf1957(wl),
             n,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3))
-        n = np.reshape(n, (2, 3))
-        np.testing.assert_allclose(
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
             air_refraction_index_Penndorf1957(wl),
             n,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3, 1))
-        n = np.reshape(n, (2, 3, 1))
-        np.testing.assert_allclose(
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
             air_refraction_index_Penndorf1957(wl),
             n,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -560,31 +572,31 @@ class TestAirRefractionIndexEdlen1966:
     definition unit tests methods.
     """
 
-    def test_air_refraction_index_Edlen1966(self) -> None:
+    def test_air_refraction_index_Edlen1966(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.\
 rayleigh.air_refraction_index_Edlen1966` definition.
         """
 
-        np.testing.assert_allclose(
-            air_refraction_index_Edlen1966(0.360),
+        xp_assert_close(
+            air_refraction_index_Edlen1966(xp_as_array([0.360], xp=xp)),
             1.000285308809879,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            air_refraction_index_Edlen1966(0.555),
+        xp_assert_close(
+            air_refraction_index_Edlen1966(xp_as_array([0.555], xp=xp)),
             1.000277727690364,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            air_refraction_index_Edlen1966(0.830),
+        xp_assert_close(
+            air_refraction_index_Edlen1966(xp_as_array([0.830], xp=xp)),
             1.000274862218835,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_air_refraction_index_Edlen1966(self) -> None:
+    def test_n_dimensional_air_refraction_index_Edlen1966(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.\
 air_refraction_index_Edlen1966` definition n-dimensional arrays support.
@@ -593,25 +605,25 @@ air_refraction_index_Edlen1966` definition n-dimensional arrays support.
         wl = 0.360
         n = air_refraction_index_Edlen1966(wl)
 
-        wl = np.tile(wl, 6)
-        n = np.tile(n, 6)
-        np.testing.assert_allclose(
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        n = xp.tile(xp_as_array(n, xp=xp), (6,))
+        xp_assert_close(
             air_refraction_index_Edlen1966(wl),
             n,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3))
-        n = np.reshape(n, (2, 3))
-        np.testing.assert_allclose(
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
             air_refraction_index_Edlen1966(wl),
             n,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3, 1))
-        n = np.reshape(n, (2, 3, 1))
-        np.testing.assert_allclose(
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
             air_refraction_index_Edlen1966(wl),
             n,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -635,31 +647,31 @@ class TestAirRefractionIndexPeck1972:
     definition unit tests methods.
     """
 
-    def test_air_refraction_index_Peck1972(self) -> None:
+    def test_air_refraction_index_Peck1972(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.air_refraction_index_Peck1972`
         definition.
         """
 
-        np.testing.assert_allclose(
-            air_refraction_index_Peck1972(0.360),
+        xp_assert_close(
+            air_refraction_index_Peck1972(xp_as_array([0.360], xp=xp)),
             1.000285310285056,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            air_refraction_index_Peck1972(0.555),
+        xp_assert_close(
+            air_refraction_index_Peck1972(xp_as_array([0.555], xp=xp)),
             1.000277726541484,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            air_refraction_index_Peck1972(0.830),
+        xp_assert_close(
+            air_refraction_index_Peck1972(xp_as_array([0.830], xp=xp)),
             1.000274859144804,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_air_refraction_index_Peck1972(self) -> None:
+    def test_n_dimensional_air_refraction_index_Peck1972(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.air_refraction_index_Peck1972`
         definition n-dimensional arrays support.
@@ -668,22 +680,28 @@ class TestAirRefractionIndexPeck1972:
         wl = 0.360
         n = air_refraction_index_Peck1972(wl)
 
-        wl = np.tile(wl, 6)
-        n = np.tile(n, 6)
-        np.testing.assert_allclose(
-            air_refraction_index_Peck1972(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        n = xp.tile(xp_as_array(n, xp=xp), (6,))
+        xp_assert_close(
+            air_refraction_index_Peck1972(wl),
+            n,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3))
-        n = np.reshape(n, (2, 3))
-        np.testing.assert_allclose(
-            air_refraction_index_Peck1972(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
+            air_refraction_index_Peck1972(wl),
+            n,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3, 1))
-        n = np.reshape(n, (2, 3, 1))
-        np.testing.assert_allclose(
-            air_refraction_index_Peck1972(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
+            air_refraction_index_Peck1972(wl),
+            n,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -704,49 +722,51 @@ class TestAirRefractionIndexBodhaine1999:
 air_refraction_index_Bodhaine1999` definition unit tests methods.
     """
 
-    def test_air_refraction_index_Bodhaine1999(self) -> None:
+    def test_air_refraction_index_Bodhaine1999(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.\
 air_refraction_index_Bodhaine1999` definition.
         """
 
-        np.testing.assert_allclose(
-            air_refraction_index_Bodhaine1999(0.360),
+        xp_assert_close(
+            air_refraction_index_Bodhaine1999(xp_as_array([0.360], xp=xp)),
             1.000285310285056,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            air_refraction_index_Bodhaine1999(0.555),
+        xp_assert_close(
+            air_refraction_index_Bodhaine1999(xp_as_array([0.555], xp=xp)),
             1.000277726541484,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            air_refraction_index_Bodhaine1999(0.830),
+        xp_assert_close(
+            air_refraction_index_Bodhaine1999(xp_as_array([0.830], xp=xp)),
             1.000274859144804,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            air_refraction_index_Bodhaine1999(0.360, 0),
+        xp_assert_close(
+            air_refraction_index_Bodhaine1999(xp_as_array([0.360], xp=xp), 0),
             1.000285264064789,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            air_refraction_index_Bodhaine1999(0.555, 360),
+        xp_assert_close(
+            air_refraction_index_Bodhaine1999(xp_as_array([0.555], xp=xp), 360),
             1.000277735539824,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            air_refraction_index_Bodhaine1999(0.830, 620),
+        xp_assert_close(
+            air_refraction_index_Bodhaine1999(xp_as_array([0.830], xp=xp), 620),
             1.000274906640464,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_air_refraction_index_Bodhaine1999(self) -> None:
+    def test_n_dimensional_air_refraction_index_Bodhaine1999(
+        self, xp: ModuleType
+    ) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.\
 air_refraction_index_Bodhaine1999` definition n-dimensional arrays support.
@@ -755,25 +775,25 @@ air_refraction_index_Bodhaine1999` definition n-dimensional arrays support.
         wl = 0.360
         n = air_refraction_index_Bodhaine1999(wl)
 
-        wl = np.tile(wl, 6)
-        n = np.tile(n, 6)
-        np.testing.assert_allclose(
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        n = xp.tile(xp_as_array(n, xp=xp), (6,))
+        xp_assert_close(
             air_refraction_index_Bodhaine1999(wl),
             n,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3))
-        n = np.reshape(n, (2, 3))
-        np.testing.assert_allclose(
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
             air_refraction_index_Bodhaine1999(wl),
             n,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        wl = np.reshape(wl, (2, 3, 1))
-        n = np.reshape(n, (2, 3, 1))
-        np.testing.assert_allclose(
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
             air_refraction_index_Bodhaine1999(wl),
             n,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -796,28 +816,28 @@ class TestN2Depolarisation:
     unit tests methods.
     """
 
-    def test_N2_depolarisation(self) -> None:
+    def test_N2_depolarisation(self, xp: ModuleType) -> None:
         """Test :func:`colour.phenomena.rayleigh.N2_depolarisation` definition."""
 
-        np.testing.assert_allclose(
-            N2_depolarisation(0.360),
+        xp_assert_close(
+            N2_depolarisation(xp_as_array([0.360], xp=xp)),
             1.036445987654321,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            N2_depolarisation(0.555),
+        xp_assert_close(
+            N2_depolarisation(xp_as_array([0.555], xp=xp)),
             1.035029137245354,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            N2_depolarisation(0.830),
+        xp_assert_close(
+            N2_depolarisation(xp_as_array([0.830], xp=xp)),
             1.034460153868486,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_N2_depolarisation(self) -> None:
+    def test_n_dimensional_N2_depolarisation(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.N2_depolarisation`
         definition n-dimensional arrays support.
@@ -826,23 +846,17 @@ class TestN2Depolarisation:
         wl = 0.360
         n = N2_depolarisation(wl)
 
-        wl = np.tile(wl, 6)
-        n = np.tile(n, 6)
-        np.testing.assert_allclose(
-            N2_depolarisation(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        n = xp.tile(xp_as_array(n, xp=xp), (6,))
+        xp_assert_close(N2_depolarisation(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        wl = np.reshape(wl, (2, 3))
-        n = np.reshape(n, (2, 3))
-        np.testing.assert_allclose(
-            N2_depolarisation(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(N2_depolarisation(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        wl = np.reshape(wl, (2, 3, 1))
-        n = np.reshape(n, (2, 3, 1))
-        np.testing.assert_allclose(
-            N2_depolarisation(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(N2_depolarisation(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_N2_depolarisation(self) -> None:
@@ -860,28 +874,28 @@ class TestO2Depolarisation:
     unit tests methods.
     """
 
-    def test_O2_depolarisation(self) -> None:
+    def test_O2_depolarisation(self, xp: ModuleType) -> None:
         """Test :func:`colour.phenomena.rayleigh.O2_depolarisation` definition."""
 
-        np.testing.assert_allclose(
-            O2_depolarisation(0.360),
+        xp_assert_close(
+            O2_depolarisation(xp_as_array([0.360], xp=xp)),
             1.115307746532541,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            O2_depolarisation(0.555),
+        xp_assert_close(
+            O2_depolarisation(xp_as_array([0.555], xp=xp)),
             1.102022536201071,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            O2_depolarisation(0.830),
+        xp_assert_close(
+            O2_depolarisation(xp_as_array([0.830], xp=xp)),
             1.098315561269013,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_O2_depolarisation(self) -> None:
+    def test_n_dimensional_O2_depolarisation(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.O2_depolarisation` definition
         n-dimensional arrays support.
@@ -890,23 +904,17 @@ class TestO2Depolarisation:
         wl = 0.360
         n = O2_depolarisation(wl)
 
-        wl = np.tile(wl, 6)
-        n = np.tile(n, 6)
-        np.testing.assert_allclose(
-            O2_depolarisation(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        n = xp.tile(xp_as_array(n, xp=xp), (6,))
+        xp_assert_close(O2_depolarisation(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        wl = np.reshape(wl, (2, 3))
-        n = np.reshape(n, (2, 3))
-        np.testing.assert_allclose(
-            O2_depolarisation(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(O2_depolarisation(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        wl = np.reshape(wl, (2, 3, 1))
-        n = np.reshape(n, (2, 3, 1))
-        np.testing.assert_allclose(
-            O2_depolarisation(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(O2_depolarisation(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_O2_depolarisation(self) -> None:
@@ -924,15 +932,19 @@ class TestF_airPenndorf1957:
     unit tests methods.
     """
 
-    def test_F_air_Penndorf1957(self) -> None:
+    def test_F_air_Penndorf1957(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.F_air_Penndorf1957`
         definition.
         """
 
-        assert F_air_Penndorf1957(0.360) == 1.0608
+        xp_assert_close(
+            F_air_Penndorf1957(xp_as_array([0.360], xp=xp)),
+            1.0608,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
 
-    def test_n_dimensional_F_air_Penndorf1957(self) -> None:
+    def test_n_dimensional_F_air_Penndorf1957(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.F_air_Penndorf1957` definition
         n-dimensional arrays support.
@@ -941,23 +953,17 @@ class TestF_airPenndorf1957:
         wl = 0.360
         n = F_air_Penndorf1957(wl)
 
-        wl = np.tile(wl, 6)
-        n = np.tile(n, 6)
-        np.testing.assert_allclose(
-            F_air_Penndorf1957(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        n = xp.tile(xp_as_array(n, xp=xp), (6,))
+        xp_assert_close(F_air_Penndorf1957(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        wl = np.reshape(wl, (2, 3))
-        n = np.reshape(n, (2, 3))
-        np.testing.assert_allclose(
-            F_air_Penndorf1957(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(F_air_Penndorf1957(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        wl = np.reshape(wl, (2, 3, 1))
-        n = np.reshape(n, (2, 3, 1))
-        np.testing.assert_allclose(
-            F_air_Penndorf1957(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(F_air_Penndorf1957(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_F_air_Penndorf1957(self) -> None:
@@ -975,12 +981,16 @@ class TestF_airYoung1981:
     unit tests methods.
     """
 
-    def test_F_air_Young1981(self) -> None:
+    def test_F_air_Young1981(self, xp: ModuleType) -> None:
         """Test :func:`colour.phenomena.rayleigh.F_air_Young1981` definition."""
 
-        assert F_air_Young1981(0.360) == 1.0480
+        xp_assert_close(
+            F_air_Young1981(xp_as_array([0.360], xp=xp)),
+            1.0480,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
 
-    def test_n_dimensional_F_air_Young1981(self) -> None:
+    def test_n_dimensional_F_air_Young1981(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.F_air_Young1981` definition
         n-dimensional arrays support.
@@ -989,23 +999,17 @@ class TestF_airYoung1981:
         wl = 0.360
         n = F_air_Young1981(wl)
 
-        wl = np.tile(wl, 6)
-        n = np.tile(n, 6)
-        np.testing.assert_allclose(
-            F_air_Young1981(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        n = xp.tile(xp_as_array(n, xp=xp), (6,))
+        xp_assert_close(F_air_Young1981(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        wl = np.reshape(wl, (2, 3))
-        n = np.reshape(n, (2, 3))
-        np.testing.assert_allclose(
-            F_air_Young1981(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(F_air_Young1981(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        wl = np.reshape(wl, (2, 3, 1))
-        n = np.reshape(n, (2, 3, 1))
-        np.testing.assert_allclose(
-            F_air_Young1981(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(F_air_Young1981(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_F_air_Young1981(self) -> None:
@@ -1023,28 +1027,28 @@ class TestF_airBates1984:
     tests methods.
     """
 
-    def test_F_air_Bates1984(self) -> None:
+    def test_F_air_Bates1984(self, xp: ModuleType) -> None:
         """Test :func:`colour.phenomena.rayleigh.F_air_Bates1984` definition."""
 
-        np.testing.assert_allclose(
-            F_air_Bates1984(0.360),
+        xp_assert_close(
+            F_air_Bates1984(xp_as_array([0.360], xp=xp)),
             1.051997277711708,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            F_air_Bates1984(0.555),
+        xp_assert_close(
+            F_air_Bates1984(xp_as_array([0.555], xp=xp)),
             1.048153579718658,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            F_air_Bates1984(0.830),
+        xp_assert_close(
+            F_air_Bates1984(xp_as_array([0.830], xp=xp)),
             1.046947068600589,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_F_air_Bates1984(self) -> None:
+    def test_n_dimensional_F_air_Bates1984(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.F_air_Bates1984` definition
         n-dimensional arrays support.
@@ -1053,23 +1057,17 @@ class TestF_airBates1984:
         wl = 0.360
         n = F_air_Bates1984(wl)
 
-        wl = np.tile(wl, 6)
-        n = np.tile(n, 6)
-        np.testing.assert_allclose(
-            F_air_Bates1984(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        n = xp.tile(xp_as_array(n, xp=xp), (6,))
+        xp_assert_close(F_air_Bates1984(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        wl = np.reshape(wl, (2, 3))
-        n = np.reshape(n, (2, 3))
-        np.testing.assert_allclose(
-            F_air_Bates1984(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(F_air_Bates1984(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        wl = np.reshape(wl, (2, 3, 1))
-        n = np.reshape(n, (2, 3, 1))
-        np.testing.assert_allclose(
-            F_air_Bates1984(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(F_air_Bates1984(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_F_air_Bates1984(self) -> None:
@@ -1087,49 +1085,49 @@ class TestF_airBodhaine1999:
     unit tests methods.
     """
 
-    def test_F_air_Bodhaine1999(self) -> None:
+    def test_F_air_Bodhaine1999(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.F_air_Bodhaine1999`
         definition.
         """
 
-        np.testing.assert_allclose(
-            F_air_Bodhaine1999(0.360),
+        xp_assert_close(
+            F_air_Bodhaine1999(xp_as_array([0.360], xp=xp)),
             1.052659005129014,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            F_air_Bodhaine1999(0.555),
+        xp_assert_close(
+            F_air_Bodhaine1999(xp_as_array([0.555], xp=xp)),
             1.048769718142427,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            F_air_Bodhaine1999(0.830),
+        xp_assert_close(
+            F_air_Bodhaine1999(xp_as_array([0.830], xp=xp)),
             1.047548896943893,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            F_air_Bodhaine1999(0.360, 0),
+        xp_assert_close(
+            F_air_Bodhaine1999(xp_as_array([0.360], xp=xp), 0),
             1.052629792313939,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            F_air_Bodhaine1999(0.555, 360),
+        xp_assert_close(
+            F_air_Bodhaine1999(xp_as_array([0.555], xp=xp), 360),
             1.048775791959338,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            F_air_Bodhaine1999(0.830, 620),
+        xp_assert_close(
+            F_air_Bodhaine1999(xp_as_array([0.830], xp=xp), 620),
             1.047581672775155,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_F_air_Bodhaine1999(self) -> None:
+    def test_n_dimensional_F_air_Bodhaine1999(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.F_air_Bodhaine1999` definition
         n-dimensional arrays support.
@@ -1138,23 +1136,17 @@ class TestF_airBodhaine1999:
         wl = 0.360
         n = F_air_Bodhaine1999(wl)
 
-        wl = np.tile(wl, 6)
-        n = np.tile(n, 6)
-        np.testing.assert_allclose(
-            F_air_Bodhaine1999(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
+        n = xp.tile(xp_as_array(n, xp=xp), (6,))
+        xp_assert_close(F_air_Bodhaine1999(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        wl = np.reshape(wl, (2, 3))
-        n = np.reshape(n, (2, 3))
-        np.testing.assert_allclose(
-            F_air_Bodhaine1999(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(F_air_Bodhaine1999(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        wl = np.reshape(wl, (2, 3, 1))
-        n = np.reshape(n, (2, 3, 1))
-        np.testing.assert_allclose(
-            F_air_Bodhaine1999(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        wl = xp_reshape(xp_as_array(wl, xp=xp), (2, 3, 1), xp=xp)
+        n = xp_reshape(xp_as_array(n, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(F_air_Bodhaine1999(wl), n, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_F_air_Bodhaine1999(self) -> None:
@@ -1173,22 +1165,28 @@ class TestMolecularDensity:
     unit tests methods.
     """
 
-    def test_molecular_density(self) -> None:
+    def test_molecular_density(self, xp: ModuleType) -> None:
         """Test :func:`colour.phenomena.rayleigh.molecular_density` definition."""
 
-        np.testing.assert_allclose(
-            molecular_density(200), 3.669449208173649e19, atol=10000
+        xp_assert_close(
+            molecular_density(xp_as_array([200.0], xp=xp)),
+            3.669449208173649e19,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1e11,
         )
 
-        np.testing.assert_allclose(
-            molecular_density(300), 2.4462994721157665e19, atol=10000
+        xp_assert_close(
+            molecular_density(xp_as_array([300.0], xp=xp)),
+            2.4462994721157665e19,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1e11,
         )
 
-        np.testing.assert_allclose(
-            molecular_density(400), 1.834724604086825e19, atol=10000
+        xp_assert_close(
+            molecular_density(xp_as_array([400.0], xp=xp)),
+            1.834724604086825e19,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1e11,
         )
 
-    def test_n_dimensional_molecular_density(self) -> None:
+    def test_n_dimensional_molecular_density(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.molecular_density` definition
         n-dimensional arrays support.
@@ -1197,22 +1195,28 @@ class TestMolecularDensity:
         temperature = 200
         N_s = molecular_density(temperature)
 
-        temperature = np.tile(temperature, 6)
-        N_s = np.tile(N_s, 6)
-        np.testing.assert_allclose(
-            molecular_density(temperature), N_s, atol=TOLERANCE_ABSOLUTE_TESTS
+        temperature = xp.tile(xp_as_array(temperature, xp=xp), (6,))
+        N_s = xp.tile(xp_as_array(N_s, xp=xp), (6,))
+        xp_assert_close(
+            molecular_density(temperature),
+            N_s,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        temperature = np.reshape(temperature, (2, 3))
-        N_s = np.reshape(N_s, (2, 3))
-        np.testing.assert_allclose(
-            molecular_density(temperature), N_s, atol=TOLERANCE_ABSOLUTE_TESTS
+        temperature = xp_reshape(xp_as_array(temperature, xp=xp), (2, 3), xp=xp)
+        N_s = xp_reshape(xp_as_array(N_s, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
+            molecular_density(temperature),
+            N_s,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        temperature = np.reshape(temperature, (2, 3, 1))
-        N_s = np.reshape(N_s, (2, 3, 1))
-        np.testing.assert_allclose(
-            molecular_density(temperature), N_s, atol=TOLERANCE_ABSOLUTE_TESTS
+        temperature = xp_reshape(xp_as_array(temperature, xp=xp), (2, 3, 1), xp=xp)
+        N_s = xp_reshape(xp_as_array(N_s, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
+            molecular_density(temperature),
+            N_s,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -1231,29 +1235,31 @@ class TestMeanMolecularWeights:
     definition unit tests methods.
     """
 
-    def test_mean_molecular_weights(self) -> None:
+    def test_mean_molecular_weights(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.mean_molecular_weights`
         definition.
         """
 
-        np.testing.assert_allclose(
-            mean_molecular_weights(0), 28.9595, atol=TOLERANCE_ABSOLUTE_TESTS
+        xp_assert_close(
+            mean_molecular_weights(xp_as_array([0.0], xp=xp)),
+            28.9595,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            mean_molecular_weights(360),
+        xp_assert_close(
+            mean_molecular_weights(xp_as_array([360.0], xp=xp)),
             28.964920015999997,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            mean_molecular_weights(620),
+        xp_assert_close(
+            mean_molecular_weights(xp_as_array([620.0], xp=xp)),
             28.968834471999998,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_mean_molecular_weights(self) -> None:
+    def test_n_dimensional_mean_molecular_weights(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.mean_molecular_weights`
         definition n-dimensional arrays support.
@@ -1262,22 +1268,28 @@ class TestMeanMolecularWeights:
         CO2_c = 300
         m_a = mean_molecular_weights(CO2_c)
 
-        CO2_c = np.tile(CO2_c, 6)
-        m_a = np.tile(m_a, 6)
-        np.testing.assert_allclose(
-            mean_molecular_weights(CO2_c), m_a, atol=TOLERANCE_ABSOLUTE_TESTS
+        CO2_c = xp.tile(xp_as_array(CO2_c, xp=xp), (6,))
+        m_a = xp.tile(xp_as_array(m_a, xp=xp), (6,))
+        xp_assert_close(
+            mean_molecular_weights(CO2_c),
+            m_a,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        CO2_c = np.reshape(CO2_c, (2, 3))
-        m_a = np.reshape(m_a, (2, 3))
-        np.testing.assert_allclose(
-            mean_molecular_weights(CO2_c), m_a, atol=TOLERANCE_ABSOLUTE_TESTS
+        CO2_c = xp_reshape(xp_as_array(CO2_c, xp=xp), (2, 3), xp=xp)
+        m_a = xp_reshape(xp_as_array(m_a, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
+            mean_molecular_weights(CO2_c),
+            m_a,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        CO2_c = np.reshape(CO2_c, (2, 3, 1))
-        m_a = np.reshape(m_a, (2, 3, 1))
-        np.testing.assert_allclose(
-            mean_molecular_weights(CO2_c), m_a, atol=TOLERANCE_ABSOLUTE_TESTS
+        CO2_c = xp_reshape(xp_as_array(CO2_c, xp=xp), (2, 3, 1), xp=xp)
+        m_a = xp_reshape(xp_as_array(m_a, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
+            mean_molecular_weights(CO2_c),
+            m_a,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -1296,44 +1308,44 @@ class TestGravityList1968:
     unit tests methods.
     """
 
-    def test_gravity_List1968(self) -> None:
+    def test_gravity_List1968(self, xp: ModuleType) -> None:
         """Test :func:`colour.phenomena.rayleigh.gravity_List1968` definition."""
 
-        np.testing.assert_allclose(
-            gravity_List1968(0.0, 0.0),
+        xp_assert_close(
+            gravity_List1968(xp_as_array([0.0], xp=xp), xp_as_array([0.0], xp=xp)),
             978.03560706,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            gravity_List1968(45.0, 1500.0),
+        xp_assert_close(
+            gravity_List1968(xp_as_array([45.0], xp=xp), xp_as_array([1500.0], xp=xp)),
             980.15334386,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            gravity_List1968(48.8567, 35.0),
+        xp_assert_close(
+            gravity_List1968(xp_as_array([48.8567], xp=xp), xp_as_array([35.0], xp=xp)),
             980.95241784,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_gravity_List1968(self) -> None:
+    def test_n_dimensional_gravity_List1968(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.gravity_List1968`
         definition n-dimensional arrays support.
         """
 
         g = 978.03560706
-        np.testing.assert_allclose(gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        g = np.tile(g, 6)
-        np.testing.assert_allclose(gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS)
+        g = xp.tile(xp_as_array(g, xp=xp), (6,))
+        xp_assert_close(gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        g = np.reshape(g, (2, 3))
-        np.testing.assert_allclose(gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS)
+        g = xp_reshape(xp_as_array(g, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        g = np.reshape(g, (2, 3, 1))
-        np.testing.assert_allclose(gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS)
+        g = xp_reshape(xp_as_array(g, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(gravity_List1968(), g, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_gravity_List1968(self) -> None:
@@ -1352,67 +1364,73 @@ class TestScatteringCrossSection:
     definition unit tests methods.
     """
 
-    def test_scattering_cross_section(self) -> None:
+    def test_scattering_cross_section(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.scattering_cross_section`
         definition.
         """
 
-        np.testing.assert_allclose(
-            scattering_cross_section(360 * 10e-8),
+        xp_assert_close(
+            scattering_cross_section(xp_as_array([360 * 10e-8], xp=xp)),
             2.600908533851937e-26,
-            atol=1e-30,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1e-23,
         )
 
-        np.testing.assert_allclose(
-            scattering_cross_section(555 * 10e-8),
+        xp_assert_close(
+            scattering_cross_section(xp_as_array([555 * 10e-8], xp=xp)),
             4.346669248087624e-27,
-            atol=1e-30,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1e-23,
         )
 
-        np.testing.assert_allclose(
-            scattering_cross_section(830 * 10e-8),
+        xp_assert_close(
+            scattering_cross_section(xp_as_array([830 * 10e-8], xp=xp)),
             8.501515434751428e-28,
-            atol=1e-30,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1e-23,
         )
 
-        np.testing.assert_allclose(
-            scattering_cross_section(555 * 10e-8, 0),
+        xp_assert_close(
+            scattering_cross_section(xp_as_array([555 * 10e-8], xp=xp), 0),
             4.346543336839102e-27,
-            atol=1e-30,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1e-23,
         )
 
-        np.testing.assert_allclose(
-            scattering_cross_section(555 * 10e-8, 360),
+        xp_assert_close(
+            scattering_cross_section(xp_as_array([555 * 10e-8], xp=xp), 360),
             4.346694421271718e-27,
-            atol=1e-30,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1e-23,
         )
 
-        np.testing.assert_allclose(
-            scattering_cross_section(555 * 10e-8, 620),
+        xp_assert_close(
+            scattering_cross_section(xp_as_array([555 * 10e-8], xp=xp), 620),
             4.346803470171720e-27,
-            atol=1e-30,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1e-23,
         )
 
-        np.testing.assert_allclose(
-            scattering_cross_section(555 * 10e-8, temperature=200),
+        xp_assert_close(
+            scattering_cross_section(
+                xp_as_array([555 * 10e-8], xp=xp), temperature=200
+            ),
             2.094012829135068e-27,
-            atol=1e-30,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1e-23,
         )
 
-        np.testing.assert_allclose(
-            scattering_cross_section(555 * 10e-8, temperature=300),
+        xp_assert_close(
+            scattering_cross_section(
+                xp_as_array([555 * 10e-8], xp=xp), temperature=300
+            ),
             4.711528865553901e-27,
-            atol=1e-30,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1e-23,
         )
 
-        np.testing.assert_allclose(
-            scattering_cross_section(555 * 10e-8, temperature=400),
+        xp_assert_close(
+            scattering_cross_section(
+                xp_as_array([555 * 10e-8], xp=xp), temperature=400
+            ),
             8.376051316540270e-27,
-            atol=1e-30,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1e-23,
         )
 
-    def test_n_dimensional_scattering_cross_section(self) -> None:
+    def test_n_dimensional_scattering_cross_section(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.scattering_cross_section`
         definition n-dimensional arrays support.
@@ -1421,18 +1439,18 @@ class TestScatteringCrossSection:
         wl = 360 * 10e-8
         sigma = scattering_cross_section(wl)
 
-        sigma = np.tile(sigma, 6)
-        np.testing.assert_allclose(
+        sigma = xp.tile(xp_as_array(sigma, xp=xp), (6,))
+        xp_assert_close(
             scattering_cross_section(wl), sigma, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        sigma = np.reshape(sigma, (2, 3))
-        np.testing.assert_allclose(
+        sigma = xp_reshape(xp_as_array(sigma, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
             scattering_cross_section(wl), sigma, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
-        sigma = np.reshape(sigma, (2, 3, 1))
-        np.testing.assert_allclose(
+        sigma = xp_reshape(xp_as_array(sigma, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
             scattering_cross_section(wl), sigma, atol=TOLERANCE_ABSOLUTE_TESTS
         )
 
@@ -1453,103 +1471,113 @@ class TestRayleighOpticalDepth:
     definition unit tests methods.
     """
 
-    def test_rayleigh_optical_depth(self) -> None:
+    def test_rayleigh_optical_depth(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.rayleigh_optical_depth`
         definition.
         """
 
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(360 * 10e-8),
+        xp_assert_close(
+            rayleigh_optical_depth(xp_as_array([360 * 10e-8], xp=xp)),
             0.560246579231107,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(555 * 10e-8),
+        xp_assert_close(
+            rayleigh_optical_depth(xp_as_array([555 * 10e-8], xp=xp)),
             0.093629074056042,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(830 * 10e-8),
+        xp_assert_close(
+            rayleigh_optical_depth(xp_as_array([830 * 10e-8], xp=xp)),
             0.018312619911882,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(555 * 10e-8, 0),
+        xp_assert_close(
+            rayleigh_optical_depth(xp_as_array([555 * 10e-8], xp=xp), 0),
             0.093640964348049,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(555 * 10e-8, 360),
+        xp_assert_close(
+            rayleigh_optical_depth(xp_as_array([555 * 10e-8], xp=xp), 360),
             0.093626696247360,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(555 * 10e-8, 620),
+        xp_assert_close(
+            rayleigh_optical_depth(xp_as_array([555 * 10e-8], xp=xp), 620),
             0.093616393371777,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(555 * 10e-8, temperature=200),
+        xp_assert_close(
+            rayleigh_optical_depth(xp_as_array([555 * 10e-8], xp=xp), temperature=200),
             0.045105912380991,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(555 * 10e-8, temperature=300),
+        xp_assert_close(
+            rayleigh_optical_depth(xp_as_array([555 * 10e-8], xp=xp), temperature=300),
             0.101488302857230,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(555 * 10e-8, temperature=400),
+        xp_assert_close(
+            rayleigh_optical_depth(xp_as_array([555 * 10e-8], xp=xp), temperature=400),
             0.180423649523964,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(555 * 10e-8, pressure=101325),
+        xp_assert_close(
+            rayleigh_optical_depth(xp_as_array([555 * 10e-8], xp=xp), pressure=101325),
             0.093629074056042,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(555 * 10e-8, pressure=100325),
+        xp_assert_close(
+            rayleigh_optical_depth(xp_as_array([555 * 10e-8], xp=xp), pressure=100325),
             0.092705026939772,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(555 * 10e-8, pressure=99325),
+        xp_assert_close(
+            rayleigh_optical_depth(xp_as_array([555 * 10e-8], xp=xp), pressure=99325),
             0.091780979823502,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(555 * 10e-8, latitude=0, altitude=0),
+        xp_assert_close(
+            rayleigh_optical_depth(
+                xp_as_array([555 * 10e-8], xp=xp), latitude=0, altitude=0
+            ),
             0.093629074056041,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(555 * 10e-8, latitude=45, altitude=1500),
+        xp_assert_close(
+            rayleigh_optical_depth(
+                xp_as_array([555 * 10e-8], xp=xp),
+                latitude=45,
+                altitude=1500,
+            ),
             0.093426777407767,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(555 * 10e-8, latitude=48.8567, altitude=35),
+        xp_assert_close(
+            rayleigh_optical_depth(
+                xp_as_array([555 * 10e-8], xp=xp),
+                latitude=48.8567,
+                altitude=35,
+            ),
             0.093350672894038,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_rayleigh_optical_depth(self) -> None:
+    def test_n_dimensional_rayleigh_optical_depth(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.rayleigh_optical_depth`
         definition n-dimensional arrays support.
@@ -1558,20 +1586,14 @@ class TestRayleighOpticalDepth:
         wl = 360 * 10e-8
         T_R = rayleigh_optical_depth(wl)
 
-        T_R = np.tile(T_R, 6)
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(wl), T_R, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        T_R = xp.tile(xp_as_array(T_R, xp=xp), (6,))
+        xp_assert_close(rayleigh_optical_depth(wl), T_R, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        T_R = np.reshape(T_R, (2, 3))
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(wl), T_R, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        T_R = xp_reshape(xp_as_array(T_R, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(rayleigh_optical_depth(wl), T_R, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        T_R = np.reshape(T_R, (2, 3, 1))
-        np.testing.assert_allclose(
-            rayleigh_optical_depth(wl), T_R, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        T_R = xp_reshape(xp_as_array(T_R, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(rayleigh_optical_depth(wl), T_R, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     @ignore_numpy_errors
     def test_nan_rayleigh_optical_depth(self) -> None:
@@ -1596,7 +1618,7 @@ class TestSdRayleighScattering:
         definition.
         """
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             sd_rayleigh_scattering().values,
             DATA_SD_RAYLEIGH_SCATTERING,
             atol=TOLERANCE_ABSOLUTE_TESTS,

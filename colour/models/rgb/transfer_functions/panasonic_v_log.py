@@ -16,14 +16,19 @@ References
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
-from colour.utilities import Structure, as_float, from_range_1, optional, to_domain_1
+from colour.utilities import (
+    Structure,
+    array_namespace,
+    as_float,
+    from_range_1,
+    optional,
+    to_domain_1,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -93,6 +98,7 @@ def log_encoding_VLog(
 
     Examples
     --------
+    >>> import numpy as np
     >>> log_encoding_VLog(0.18)  # doctest: +ELLIPSIS
     np.float64(0.4233114...)
 
@@ -113,6 +119,9 @@ def log_encoding_VLog(
     """
 
     L_in = to_domain_1(L_in)
+
+    xp = array_namespace(L_in)
+
     constants = optional(constants, CONSTANTS_VLOG)
 
     if not in_reflection:
@@ -123,10 +132,10 @@ def log_encoding_VLog(
     c = constants.c
     d = constants.d
 
-    V_out = np.where(
+    V_out = xp.where(
         L_in < cut1,
         5.6 * L_in + 0.125,
-        c * np.log10(L_in + b) + d,
+        c * xp.log10(L_in + b) + d,
     )
 
     V_out_cv = V_out if out_normalised_code_value else legal_to_full(V_out, bit_depth)
@@ -190,6 +199,9 @@ def log_decoding_VLog(
     """
 
     V_out = to_domain_1(V_out)
+
+    xp = array_namespace(V_out)
+
     constants = optional(constants, CONSTANTS_VLOG)
 
     V_out = V_out if in_normalised_code_value else full_to_legal(V_out, bit_depth)
@@ -199,7 +211,7 @@ def log_decoding_VLog(
     c = constants.c
     d = constants.d
 
-    L_in = np.where(
+    L_in = xp.where(
         V_out < cut2,
         (V_out - 0.125) / 5.6,
         10 ** ((V_out - d) / c) - b,

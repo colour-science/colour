@@ -7,9 +7,8 @@ Define objects for reflectance recovery using Gaussian basis spectra.
 
 from __future__ import annotations
 
+import typing
 from typing import TYPE_CHECKING
-
-import numpy as np
 
 from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import (
@@ -30,10 +29,25 @@ from colour.colorimetry import (
 from colour.difference import delta_E
 from colour.models import RGB_Colourspace, RGB_COLOURSPACE_sRGB, XYZ_to_Lab, XYZ_to_RGB
 from colour.recovery.smits1999 import RGB_to_msds_Smits1999, RGB_to_sd_Smits1999
-from colour.utilities import as_float, optional, required
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    as_float_array,
+    optional,
+    required,
+    xp_as_float_array,
+    xp_matrix_transpose,
+)
 
 if TYPE_CHECKING:
-    from colour.hints import ArrayLike, Domain1, DTypeFloat, NDArrayFloat, Range1
+    from colour.hints import (
+        ArrayLike,
+        Domain1,
+        DTypeFloat,
+        Literal,
+        NDArrayFloat,
+        Range1,
+    )
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -244,21 +258,29 @@ def optimise_gaussian_basis_parameters(
 
     # XYZ values for round-trip optimization (RGB, CMY, grey)
     M = colourspace.matrix_RGB_to_XYZ
-    XYZ_c = np.array(
+
+    xp = array_namespace(M)
+
+    primaries = xp_as_float_array(
         [
-            np.dot(M, [1, 0, 0]),  # Red
-            np.dot(M, [0, 1, 0]),  # Green
-            np.dot(M, [0, 0, 1]),  # Blue
-            np.dot(M, [0, 1, 1]),  # Cyan
-            np.dot(M, [1, 0, 1]),  # Magenta
-            np.dot(M, [1, 1, 0]),  # Yellow
-            np.dot(M, [0.5, 0.5, 0.5]),  # Grey
-        ]
+            [1, 0, 0],  # Red
+            [0, 1, 0],  # Green
+            [0, 0, 1],  # Blue
+            [0, 1, 1],  # Cyan
+            [1, 0, 1],  # Magenta
+            [1, 1, 0],  # Yellow
+            [0.5, 0.5, 0.5],  # Grey
+        ],
+        xp=xp,
+        like=M,
     )
+    XYZ_c = xp.matmul(primaries, xp_matrix_transpose(M, xp=xp))
 
     sds_cc_r = list(SDS_COLOURCHECKERS["ISO 17321-1"].values())
-    XYZ_cc_r = np.array(
-        [sd_to_XYZ(sd, cmfs=cmfs, illuminant=illuminant) / 100 for sd in sds_cc_r]
+    XYZ_cc_r = xp_as_float_array(
+        [sd_to_XYZ(sd, cmfs=cmfs, illuminant=illuminant) / 100 for sd in sds_cc_r],
+        xp=xp,
+        like=M,
     )
     RGB_cc_r = XYZ_to_RGB(XYZ_cc_r, colourspace)
     Lab_cc_r = XYZ_to_Lab(XYZ_cc_r)
@@ -325,30 +347,36 @@ def optimise_gaussian_basis_parameters(
             name="Gaussian Basis (Optimisation)",
         )
 
+        spd_vals = as_float_array(
+            RGB_to_msds_Smits1999(XYZ_to_RGB(XYZ_c, colourspace), basis, as_array=True)
+        )
         msds = MultiSpectralDistributions(
-            np.transpose(RGB_to_msds_Smits1999(XYZ_to_RGB(XYZ_c, colourspace), basis)),
+            xp_matrix_transpose(spd_vals, xp=xp),
             basis.wavelengths,
             labels=[str(i) for i in range(len(XYZ_c))],
         )
         XYZ_t = msds_to_XYZ_integration(msds, cmfs, illuminant) / 100
 
         # Colorimetric error for primaries/secondaries
-        colorimetric_error = np.sum((XYZ_t - XYZ_c) ** 2)
+        colorimetric_error = xp.sum((XYZ_t - XYZ_c) ** 2)
 
         # ColorChecker Delta E error
+        spd_vals_cc = as_float_array(
+            RGB_to_msds_Smits1999(RGB_cc_r, basis, as_array=True)
+        )
         msds_cc_t = MultiSpectralDistributions(
-            np.transpose(RGB_to_msds_Smits1999(RGB_cc_r, basis)),
+            xp_matrix_transpose(spd_vals_cc, xp=xp),
             basis.wavelengths,
             labels=[str(i) for i in range(len(RGB_cc_r))],
         )
         XYZ_cc_t = msds_to_XYZ_integration(msds_cc_t, cmfs, illuminant) / 100
         Lab_cc_t = XYZ_to_Lab(XYZ_cc_t)
         delta_E_cc = delta_E(Lab_cc_r, Lab_cc_t, method="CIE 2000")
-        colorchecker_error = np.mean(delta_E_cc)
+        colorchecker_error = xp.mean(delta_E_cc)
 
         # Smoothness penalty: penalize deviation from standard Gaussian (exp=2)
-        exponents = np.array([R_exp, G_exp, B_exp, C_exp, M_exp, Y_exp])
-        smoothness_penalty = np.sum((exponents - 2.0) ** 2) * smoothness_penalty_weight
+        exponents = xp_as_float_array([R_exp, G_exp, B_exp, C_exp, M_exp, Y_exp], xp=xp)
+        smoothness_penalty = xp.sum((exponents - 2.0) ** 2) * smoothness_penalty_weight
 
         # Combined loss: colorimetric error + ColorChecker Delta E + smoothness
         return as_float(colorimetric_error + colorchecker_error + smoothness_penalty)
@@ -645,21 +673,42 @@ Parameters can be recomputed using :func:`optimise_gaussian_basis_parameters`.
 """
 
 
-def RGB_to_msds_Gaussian(RGB: ArrayLike) -> NDArrayFloat:
+@typing.overload
+def RGB_to_msds_Gaussian(
+    RGB: ArrayLike, *, as_array: Literal[False] = False
+) -> MultiSpectralDistributions: ...
+
+
+@typing.overload
+def RGB_to_msds_Gaussian(
+    RGB: ArrayLike, *, as_array: Literal[True]
+) -> NDArrayFloat: ...
+
+
+def RGB_to_msds_Gaussian(
+    RGB: ArrayLike, *, as_array: bool = False
+) -> MultiSpectralDistributions | NDArrayFloat:
     """
-    Recover spectral values from *RGB* colourspace array using *Gaussian*
-    basis spectra and the *Smits (1999)* decomposition algorithm.
+    Recover the multi-spectral distributions from the specified *RGB*
+    colourspace array using *Gaussian* basis spectra and the
+    *Smits (1999)* decomposition algorithm.
 
     Parameters
     ----------
     RGB
         *RGB* colourspace array to recover spectral values from. The last
         dimension must be size 3.
+    as_array
+        Whether to return raw spectral values as a
+        :class:`numpy.ndarray` of shape
+        ``(*RGB.shape[:-1], wavelengths)`` instead of a
+        :class:`MultiSpectralDistributions` instance. Defaults to *False*.
 
     Returns
     -------
-    :class:`numpy.ndarray`
-        Recovered spectral values with shape ``(*RGB.shape[:-1], wavelengths)``.
+    :class:`MultiSpectralDistributions` or :class:`numpy.ndarray`
+        Recovered multi-spectral distributions, or the underlying
+        spectral values when ``as_array=True``.
 
     Notes
     -----
@@ -679,13 +728,14 @@ def RGB_to_msds_Gaussian(RGB: ArrayLike) -> NDArrayFloat:
     ...         [0.01863137, 0.05139773, 0.28887675],
     ...     ]
     ... )
-    >>> RGB_to_msds_Gaussian(RGB).shape
+    >>> RGB_to_msds_Gaussian(RGB, as_array=True).shape
     (3, 421)
-    >>> float(RGB_to_msds_Gaussian(RGB)[0, 300])  # doctest: +ELLIPSIS
+    >>> float(RGB_to_msds_Gaussian(RGB, as_array=True)[0, 300])
+    ... # doctest: +ELLIPSIS
     0.4561...
     """
 
-    return RGB_to_msds_Smits1999(RGB, MSDS_GAUSSIAN_BASIS)
+    return RGB_to_msds_Smits1999(RGB, MSDS_GAUSSIAN_BASIS, as_array=as_array)
 
 
 def RGB_to_sd_Gaussian(RGB: Domain1) -> SpectralDistribution:

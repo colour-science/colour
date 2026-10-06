@@ -34,12 +34,14 @@ from colour.hints import (  # noqa: TC001
     Range100,
 )
 from colour.utilities import (
+    array_namespace,
     as_float_array,
     from_range_100,
     to_domain_100,
     tsplit,
     tstack,
     usage_warning,
+    xp_as_float_array,
 )
 
 __author__ = "Colour Developers"
@@ -151,10 +153,14 @@ def chromatic_adaptation_CIE1994(
 
     XYZ_1 = to_domain_100(XYZ_1)
     Y_o = as_float_array(to_domain_100(Y_o))
-    E_o1 = as_float_array(E_o1)
-    E_o2 = as_float_array(E_o2)
 
-    if np.any(Y_o < 18) or np.any(Y_o > 100):
+    xp = array_namespace(XYZ_1, Y_o, E_o1, E_o2)
+
+    Y_o = xp_as_float_array(Y_o, xp=xp, like=XYZ_1)
+    E_o1 = xp_as_float_array(E_o1, xp=xp, like=XYZ_1)
+    E_o2 = xp_as_float_array(E_o2, xp=xp, like=XYZ_1)
+
+    if xp.any(Y_o < 18) or xp.any(Y_o > 100):
         usage_warning(
             '"Y_o" luminance factor must be in [18, 100] domain, '
             "unpredictable results may occur!"
@@ -295,10 +301,13 @@ def effective_adapting_responses(
     """
 
     xez = as_float_array(xez)
-    Y_o = as_float_array(Y_o)
-    E_o = as_float_array(E_o)
 
-    return ((Y_o[..., None] * E_o[..., None]) / (100 * np.pi)) * xez
+    xp = array_namespace(xez, Y_o, E_o)
+
+    Y_o = xp_as_float_array(Y_o, xp=xp, like=xez)
+    E_o = xp_as_float_array(E_o, xp=xp, like=xez)
+
+    return ((Y_o[..., None] * E_o[..., None]) / (100 * xp.pi)) * xez
 
 
 @typing.overload
@@ -447,12 +456,15 @@ def K_coefficient(
     np.float64(1.0)
     """
 
+    xp = array_namespace(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n)
+
+    Y_o = xp_as_float_array(Y_o, xp=xp, like=xez_1)
+    n = xp_as_float_array(n, xp=xp, like=xez_1)
+
     xi_1, eta_1, _zeta_1 = tsplit(xez_1)
     xi_2, eta_2, _zeta_2 = tsplit(xez_2)
     bR_o1, bG_o1, _bB_o1 = tsplit(bRGB_o1)
     bR_o2, bG_o2, _bB_o2 = tsplit(bRGB_o2)
-    Y_o = as_float_array(Y_o)
-    n = as_float_array(n)
 
     return (
         spow((Y_o * xi_1 + n) / (20 * xi_1 + n), (2 / 3) * bR_o1)
@@ -523,14 +535,17 @@ def corresponding_colour(
     array([23.1636901..., 20.0211948..., 16.2001664...])
     """
 
+    xp = array_namespace(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n)
+
+    Y_o = xp_as_float_array(Y_o, xp=xp, like=RGB_1)
+    K = xp_as_float_array(K, xp=xp, like=RGB_1)
+    n = xp_as_float_array(n, xp=xp, like=RGB_1)
+
     R_1, G_1, B_1 = tsplit(RGB_1)
     xi_1, eta_1, zeta_1 = tsplit(xez_1)
     xi_2, eta_2, zeta_2 = tsplit(xez_2)
     bR_o1, bG_o1, bB_o1 = tsplit(bRGB_o1)
     bR_o2, bG_o2, bB_o2 = tsplit(bRGB_o2)
-    Y_o = as_float_array(Y_o)
-    K = as_float_array(K)
-    n = as_float_array(n)
 
     def RGB_c(
         x_1: NDArrayFloat,

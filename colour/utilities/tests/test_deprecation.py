@@ -325,7 +325,8 @@ class TestModuleAPI:
 
             colour.utilities.tests.test_deprecated.OLD_NAME  # noqa: B018  # pyright: ignore
 
-        pytest.warns(ColourUsageWarning, assert_warns)
+        with pytest.warns(ColourUsageWarning):
+            assert_warns()
 
         del sys.modules["colour.utilities.tests.test_deprecated"]
 
@@ -337,12 +338,8 @@ class TestModuleAPI:
 
         import colour.utilities.tests.test_deprecated  # noqa: PLC0415
 
-        pytest.raises(
-            AttributeError,
-            getattr,
-            colour.utilities.tests.test_deprecated,
-            "REMOVED",
-        )
+        with pytest.raises(AttributeError):
+            _ = colour.utilities.tests.test_deprecated.REMOVED  # pyright: ignore
 
         del sys.modules["colour.utilities.tests.test_deprecated"]
 
@@ -364,7 +361,7 @@ class TestGetAttribute:
 
         assert get_attribute("colour.models.eotf_inverse_sRGB") is eotf_inverse_sRGB
 
-        from colour.utilities.array import as_float  # noqa: PLC0415
+        from colour.utilities import as_float  # noqa: PLC0415
 
         assert get_attribute("colour.utilities.array.as_float") is as_float
 

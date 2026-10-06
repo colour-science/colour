@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 from itertools import product
 
 import numpy as np
@@ -21,14 +26,26 @@ from colour.algebra import (
     sdiv,
     sdiv_mode,
     set_sdiv_mode,
-    set_spow_enable,
+    set_spow_enabled,
     smoothstep_function,
     spow,
     spow_enable,
     vecmul,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.utilities import ColourRuntimeWarning, ignore_numpy_errors
+from colour.utilities import (
+    ColourRuntimeWarning,
+    array_api_enable,
+    as_ndarray,
+    ignore_numpy_errors,
+    is_numpy_namespace,
+    xp_as_array,
+    xp_assert_close,
+    xp_assert_equal,
+    xp_create_diagonal,
+    xp_linspace,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -166,49 +183,64 @@ class TestSdiv:
     tests methods.
     """
 
-    def test_sdiv(self) -> None:
+    @pytest.mark.mps_xfail("MPS float32 overflow")
+    def test_sdiv(self, xp: ModuleType) -> None:
         """Test :func:`colour.algebra.common.sdiv` definition."""
 
-        a = np.array([0, 1, 2])
-        b = np.array([2, 1, 0])
+        a = xp_as_array([0, 1, 2], xp=xp)
+        b = xp_as_array([2, 1, 0], xp=xp)
 
-        with sdiv_mode("Numpy"):
-            pytest.warns(RuntimeWarning, sdiv, a, b)
+        if is_numpy_namespace(xp):
+            with sdiv_mode("Numpy"), pytest.warns(RuntimeWarning):
+                sdiv(a, b)
 
         with sdiv_mode("Ignore"):
-            np.testing.assert_equal(sdiv(a, b), np.array([0, 1, np.inf]))
+            xp_assert_equal(as_ndarray(sdiv(a, b)), [0, 1, np.inf])
 
-        with sdiv_mode("Warning"):
-            pytest.warns(RuntimeWarning, sdiv, a, b)
-            np.testing.assert_equal(sdiv(a, b), np.array([0, 1, np.inf]))
+        if is_numpy_namespace(xp):
+            with sdiv_mode("Warning"):
+                with pytest.warns(RuntimeWarning):
+                    sdiv(a, b)
+                xp_assert_equal(as_ndarray(sdiv(a, b)), [0, 1, np.inf])
 
-        with sdiv_mode("Raise"):
-            pytest.raises(FloatingPointError, sdiv, a, b)
+        if is_numpy_namespace(xp):
+            with sdiv_mode("Raise"), pytest.raises(FloatingPointError):
+                sdiv(a, b)
 
         with sdiv_mode("Ignore Zero Conversion"):
-            np.testing.assert_equal(sdiv(a, b), np.array([0, 1, 0]))
+            xp_assert_equal(as_ndarray(sdiv(a, b)), [0, 1, 0])
 
-        with sdiv_mode("Warning Zero Conversion"):
-            pytest.warns(RuntimeWarning, sdiv, a, b)
-            np.testing.assert_equal(sdiv(a, b), np.array([0, 1, 0]))
+        if is_numpy_namespace(xp):
+            with sdiv_mode("Warning Zero Conversion"):
+                with pytest.warns(RuntimeWarning):
+                    sdiv(a, b)
+                xp_assert_equal(as_ndarray(sdiv(a, b)), [0, 1, 0])
 
         with sdiv_mode("Ignore Limit Conversion"):
-            np.testing.assert_equal(sdiv(a, b), np.nan_to_num(np.array([0, 1, np.inf])))
+            xp_assert_equal(as_ndarray(sdiv(a, b)), np.nan_to_num([0, 1, np.inf]))
 
-        with sdiv_mode("Warning Limit Conversion"):
-            pytest.warns(RuntimeWarning, sdiv, a, b)
-            np.testing.assert_equal(sdiv(a, b), np.nan_to_num(np.array([0, 1, np.inf])))
+        if is_numpy_namespace(xp):
+            with sdiv_mode("Warning Limit Conversion"):
+                with pytest.warns(RuntimeWarning):
+                    sdiv(a, b)
+                xp_assert_equal(as_ndarray(sdiv(a, b)), np.nan_to_num([0, 1, np.inf]))
 
         with sdiv_mode("Replace With Epsilon"):
-            np.testing.assert_allclose(
-                sdiv(a, b), np.array([0, 1, 2 / np.finfo(np.double).eps])
+            xp_assert_close(
+                sdiv(a, b),
+                xp_as_array([0, 1, float(2 / np.finfo(np.double).eps)], xp=xp),
+                atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-        with sdiv_mode("Warning Replace With Epsilon"):
-            pytest.warns(ColourRuntimeWarning, sdiv, a, b)
-            np.testing.assert_allclose(
-                sdiv(a, b), np.array([0, 1, 2 / np.finfo(np.double).eps])
-            )
+        if is_numpy_namespace(xp):
+            with sdiv_mode("Warning Replace With Epsilon"):
+                with pytest.warns(ColourRuntimeWarning):
+                    sdiv(a, b)
+                xp_assert_close(
+                    sdiv(a, b),
+                    xp_as_array([0, 1, float(2 / np.finfo(np.double).eps)], xp=xp),
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
 
 
 class TestIsSpowEnabled:
@@ -229,19 +261,19 @@ class TestIsSpowEnabled:
 
 class TestSetSpowEnabled:
     """
-    Define :func:`colour.algebra.common.set_spow_enable` definition unit
+    Define :func:`colour.algebra.common.set_spow_enabled` definition unit
     tests methods.
     """
 
-    def test_set_spow_enable(self) -> None:
-        """Test :func:`colour.algebra.common.set_spow_enable` definition."""
+    def test_set_spow_enabled(self) -> None:
+        """Test :func:`colour.algebra.common.set_spow_enabled` definition."""
 
         with spow_enable(is_spow_enabled()):
-            set_spow_enable(True)
+            set_spow_enabled(True)
             assert is_spow_enabled()
 
         with spow_enable(is_spow_enabled()):
-            set_spow_enable(False)
+            set_spow_enabled(False)
             assert not is_spow_enabled()
 
 
@@ -283,26 +315,26 @@ class TestSpow:
     tests methods.
     """
 
-    def test_spow(self) -> None:
+    def test_spow(self, xp: ModuleType) -> None:
         """Test :func:`colour.algebra.common.spow` definition."""
 
         assert spow(2, 2) == 4.0
 
         assert spow(-2, 2) == -4.0
 
-        np.testing.assert_allclose(
-            spow([2, -2, -2, 0], [2, 2, 0.15, 0]),
-            np.array([4.00000000, -4.00000000, -1.10956947, 0.00000000]),
+        xp_assert_close(
+            spow(
+                xp_as_array([2, -2, -2, 0], xp=xp), xp_as_array([2, 2, 0.15, 0], xp=xp)
+            ),
+            [4.00000000, -4.00000000, -1.10956947, 0.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         with spow_enable(True):
-            np.testing.assert_allclose(
-                spow(-2, 0.15), -1.10956947, atol=TOLERANCE_ABSOLUTE_TESTS
-            )
+            xp_assert_close(spow(-2, 0.15), -1.10956947, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         with spow_enable(False):
-            np.testing.assert_equal(spow(-2, 0.15), np.nan)
+            xp_assert_equal(spow(-2, 0.15), np.nan)
 
 
 class TestNormaliseVector:
@@ -311,24 +343,24 @@ class TestNormaliseVector:
     tests methods.
     """
 
-    def test_normalise_vector(self) -> None:
+    def test_normalise_vector(self, xp: ModuleType) -> None:
         """Test :func:`colour.algebra.common.normalise_vector` definition."""
 
-        np.testing.assert_allclose(
-            normalise_vector(np.array([0.20654008, 0.12197225, 0.05136952])),
-            np.array([0.84197033, 0.49722560, 0.20941026]),
+        xp_assert_close(
+            normalise_vector(xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)),
+            [0.84197033, 0.49722560, 0.20941026],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            normalise_vector(np.array([0.14222010, 0.23042768, 0.10495772])),
-            np.array([0.48971705, 0.79344877, 0.36140872]),
+        xp_assert_close(
+            normalise_vector(xp_as_array([0.14222010, 0.23042768, 0.10495772], xp=xp)),
+            [0.48971705, 0.79344877, 0.36140872],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            normalise_vector(np.array([0.07818780, 0.06157201, 0.28099326])),
-            np.array([0.26229003, 0.20655044, 0.94262445]),
+        xp_assert_close(
+            normalise_vector(xp_as_array([0.07818780, 0.06157201, 0.28099326], xp=xp)),
+            [0.26229003, 0.20655044, 0.94262445],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -339,75 +371,75 @@ class TestNormaliseMaximum:
     tests methods.
     """
 
-    def test_normalise_maximum(self) -> None:
+    def test_normalise_maximum(self, xp: ModuleType) -> None:
         """Test :func:`colour.algebra.common.normalise_maximum` definition."""
 
-        np.testing.assert_allclose(
-            normalise_maximum(np.array([0.20654008, 0.12197225, 0.05136952])),
-            np.array([1.00000000, 0.59055003, 0.24871454]),
+        xp_assert_close(
+            normalise_maximum(xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)),
+            [1.00000000, 0.59055003, 0.24871454],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             normalise_maximum(
-                np.array(
+                xp_as_array(
                     [
                         [0.20654008, 0.12197225, 0.05136952],
                         [0.14222010, 0.23042768, 0.10495772],
                         [0.07818780, 0.06157201, 0.28099326],
-                    ]
+                    ],
+                    xp=xp,
                 )
             ),
-            np.array(
-                [
-                    [0.73503571, 0.43407536, 0.18281406],
-                    [0.50613349, 0.82004700, 0.37352398],
-                    [0.27825507, 0.21912273, 1.00000000],
-                ]
-            ),
+            [
+                [0.73503571, 0.43407536, 0.18281406],
+                [0.50613349, 0.82004700, 0.37352398],
+                [0.27825507, 0.21912273, 1.00000000],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             normalise_maximum(
-                np.array(
+                xp_as_array(
                     [
                         [0.20654008, 0.12197225, 0.05136952],
                         [0.14222010, 0.23042768, 0.10495772],
                         [0.07818780, 0.06157201, 0.28099326],
-                    ]
+                    ],
+                    xp=xp,
                 ),
                 axis=-1,
             ),
-            np.array(
-                [
-                    [1.00000000, 0.59055003, 0.24871454],
-                    [0.61720059, 1.00000000, 0.45549094],
-                    [0.27825507, 0.21912273, 1.00000000],
-                ]
-            ),
+            [
+                [1.00000000, 0.59055003, 0.24871454],
+                [0.61720059, 1.00000000, 0.45549094],
+                [0.27825507, 0.21912273, 1.00000000],
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             normalise_maximum(
-                np.array([0.20654008, 0.12197225, 0.05136952]), factor=10
+                xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp), factor=10
             ),
-            np.array([10.00000000, 5.90550028, 2.48714535]),
+            [10.00000000, 5.90550028, 2.48714535],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            normalise_maximum(np.array([-0.11518475, -0.10080000, 0.05089373])),
-            np.array([0.00000000, 0.00000000, 1.00000000]),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
-
-        np.testing.assert_allclose(
+        xp_assert_close(
             normalise_maximum(
-                np.array([-0.20654008, -0.12197225, 0.05136952]), clip=False
+                xp_as_array([-0.11518475, -0.10080000, 0.05089373], xp=xp)
             ),
-            np.array([-4.02067374, -2.37440899, 1.00000000]),
+            [0.00000000, 0.00000000, 1.00000000],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        xp_assert_close(
+            normalise_maximum(
+                xp_as_array([-0.20654008, -0.12197225, 0.05136952], xp=xp), clip=False
+            ),
+            [-4.02067374, -2.37440899, 1.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -418,7 +450,7 @@ class TestVectorDot:
     methods.
     """
 
-    def test_vecmul(self) -> None:
+    def test_vecmul(self, xp: ModuleType) -> None:
         """Test :func:`colour.algebra.common.vecmul` definition."""
 
         m = np.array(
@@ -428,14 +460,27 @@ class TestVectorDot:
                 [0.0030, 0.0136, 0.9834],
             ]
         )
-        m = np.reshape(np.tile(m, (6, 1)), (6, 3, 3))
+        m = xp_reshape(xp.tile(xp_as_array(m, xp=xp), (6, 1)), (6, 3, 3), xp=xp)
 
         v = np.array([0.20654008, 0.12197225, 0.05136952])
-        v = np.tile(v, (6, 1))
+        v = xp.tile(xp_as_array(v, xp=xp), (6, 1))
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             vecmul(m, v),
-            np.array(
+            [
+                [0.19540944, 0.06203965, 0.05279523],
+                [0.19540944, 0.06203965, 0.05279523],
+                [0.19540944, 0.06203965, 0.05279523],
+                [0.19540944, 0.06203965, 0.05279523],
+                [0.19540944, 0.06203965, 0.05279523],
+                [0.19540944, 0.06203965, 0.05279523],
+            ],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        with array_api_enable(True):
+            xp_assert_close(
+                vecmul(m, v),
                 [
                     [0.19540944, 0.06203965, 0.05279523],
                     [0.19540944, 0.06203965, 0.05279523],
@@ -443,10 +488,9 @@ class TestVectorDot:
                     [0.19540944, 0.06203965, 0.05279523],
                     [0.19540944, 0.06203965, 0.05279523],
                     [0.19540944, 0.06203965, 0.05279523],
-                ]
-            ),
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
+                ],
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
 
 
 class TestEuclideanDistance:
@@ -455,58 +499,62 @@ class TestEuclideanDistance:
     tests methods.
     """
 
-    def test_euclidean_distance(self) -> None:
+    def test_euclidean_distance(self, xp: ModuleType) -> None:
         """Test :func:`colour.algebra.common.euclidean_distance` definition."""
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             euclidean_distance(
-                np.array([100.00000000, 21.57210357, 272.22819350]),
-                np.array([100.00000000, 426.67945353, 72.39590835]),
+                xp_as_array([100.00000000, 21.57210357, 272.22819350], xp=xp),
+                xp_as_array([100.00000000, 426.67945353, 72.39590835], xp=xp),
             ),
             451.71330197,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             euclidean_distance(
-                np.array([100.00000000, 21.57210357, 272.22819350]),
-                np.array([100.00000000, 74.05216981, 276.45318193]),
+                xp_as_array([100.00000000, 21.57210357, 272.22819350], xp=xp),
+                xp_as_array([100.00000000, 74.05216981, 276.45318193], xp=xp),
             ),
             52.64986116,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             euclidean_distance(
-                np.array([100.00000000, 21.57210357, 272.22819350]),
-                np.array([100.00000000, 8.32281957, -73.58297716]),
+                xp_as_array([100.00000000, 21.57210357, 272.22819350], xp=xp),
+                xp_as_array([100.00000000, 8.32281957, -73.58297716], xp=xp),
             ),
             346.06489172,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_euclidean_distance(self) -> None:
+    def test_n_dimensional_euclidean_distance(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.algebra.common.euclidean_distance` definition
         n-dimensional arrays support.
         """
 
-        a = np.array([100.00000000, 21.57210357, 272.22819350])
-        b = np.array([100.00000000, 426.67945353, 72.39590835])
-        distance = euclidean_distance(a, b)
+        a = xp_as_array([100.00000000, 21.57210357, 272.22819350], xp=xp)
+        b = xp_as_array([100.00000000, 426.67945353, 72.39590835], xp=xp)
+        distance = as_ndarray(euclidean_distance(a, b))
 
-        a = np.tile(a, (6, 1))
-        b = np.tile(b, (6, 1))
-        distance = np.tile(distance, 6)
-        np.testing.assert_allclose(
-            euclidean_distance(a, b), distance, atol=TOLERANCE_ABSOLUTE_TESTS
+        a = xp.tile(xp_as_array(a, xp=xp), (6, 1))
+        b = xp.tile(xp_as_array(b, xp=xp), (6, 1))
+        distance = xp.tile(xp_as_array(distance, xp=xp), (6,))
+        xp_assert_close(
+            euclidean_distance(a, b),
+            distance,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.reshape(a, (2, 3, 3))
-        b = np.reshape(b, (2, 3, 3))
-        distance = np.reshape(distance, (2, 3))
-        np.testing.assert_allclose(
-            euclidean_distance(a, b), distance, atol=TOLERANCE_ABSOLUTE_TESTS
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3, 3), xp=xp)
+        b = xp_reshape(xp_as_array(b, xp=xp), (2, 3, 3), xp=xp)
+        distance = xp_reshape(xp_as_array(distance, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
+            euclidean_distance(a, b),
+            distance,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -527,58 +575,62 @@ class TestManhattanDistance:
     tests methods.
     """
 
-    def test_manhattan_distance(self) -> None:
+    def test_manhattan_distance(self, xp: ModuleType) -> None:
         """Test :func:`colour.algebra.common.manhattan_distance` definition."""
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             manhattan_distance(
-                np.array([100.00000000, 21.57210357, 272.22819350]),
-                np.array([100.00000000, 426.67945353, 72.39590835]),
+                xp_as_array([100.00000000, 21.57210357, 272.22819350], xp=xp),
+                xp_as_array([100.00000000, 426.67945353, 72.39590835], xp=xp),
             ),
             604.93963510999993,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             manhattan_distance(
-                np.array([100.00000000, 21.57210357, 272.22819350]),
-                np.array([100.00000000, 74.05216981, 276.45318193]),
+                xp_as_array([100.00000000, 21.57210357, 272.22819350], xp=xp),
+                xp_as_array([100.00000000, 74.05216981, 276.45318193], xp=xp),
             ),
             56.705054670000052,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             manhattan_distance(
-                np.array([100.00000000, 21.57210357, 272.22819350]),
-                np.array([100.00000000, 8.32281957, -73.58297716]),
+                xp_as_array([100.00000000, 21.57210357, 272.22819350], xp=xp),
+                xp_as_array([100.00000000, 8.32281957, -73.58297716], xp=xp),
             ),
             359.06045465999995,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_manhattan_distance(self) -> None:
+    def test_n_dimensional_manhattan_distance(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.algebra.common.manhattan_distance` definition
         n-dimensional arrays support.
         """
 
-        a = np.array([100.00000000, 21.57210357, 272.22819350])
-        b = np.array([100.00000000, 426.67945353, 72.39590835])
-        distance = manhattan_distance(a, b)
+        a = xp_as_array([100.00000000, 21.57210357, 272.22819350], xp=xp)
+        b = xp_as_array([100.00000000, 426.67945353, 72.39590835], xp=xp)
+        distance = as_ndarray(manhattan_distance(a, b))
 
-        a = np.tile(a, (6, 1))
-        b = np.tile(b, (6, 1))
-        distance = np.tile(distance, 6)
-        np.testing.assert_allclose(
-            manhattan_distance(a, b), distance, atol=TOLERANCE_ABSOLUTE_TESTS
+        a = xp.tile(xp_as_array(a, xp=xp), (6, 1))
+        b = xp.tile(xp_as_array(b, xp=xp), (6, 1))
+        distance = xp.tile(xp_as_array(distance, xp=xp), (6,))
+        xp_assert_close(
+            manhattan_distance(a, b),
+            distance,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.reshape(a, (2, 3, 3))
-        b = np.reshape(b, (2, 3, 3))
-        distance = np.reshape(distance, (2, 3))
-        np.testing.assert_allclose(
-            manhattan_distance(a, b), distance, atol=TOLERANCE_ABSOLUTE_TESTS
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3, 3), xp=xp)
+        b = xp_reshape(xp_as_array(b, xp=xp), (2, 3, 3), xp=xp)
+        distance = xp_reshape(xp_as_array(distance, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
+            manhattan_distance(a, b),
+            distance,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     @ignore_numpy_errors
@@ -599,27 +651,27 @@ class TestLinearConversion:
     tests methods.
     """
 
-    def test_linear_conversion(self) -> None:
+    def test_linear_conversion(self, xp: ModuleType) -> None:
         """Test :func:`colour.algebra.common.linear_conversion` definition."""
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             linear_conversion(
-                np.linspace(0, 1, 10), np.array([0, 1]), np.array([1, np.pi])
+                xp_linspace(0, 1, num=10, xp=xp),  # pyright: ignore
+                xp_as_array([0, 1], xp=xp),
+                xp_as_array([1, np.pi], xp=xp),
             ),
-            np.array(
-                [
-                    1.00000000,
-                    1.23795474,
-                    1.47590948,
-                    1.71386422,
-                    1.95181896,
-                    2.18977370,
-                    2.42772844,
-                    2.66568318,
-                    2.90363791,
-                    3.14159265,
-                ]
-            ),
+            [
+                1.00000000,
+                1.23795474,
+                1.47590948,
+                1.71386422,
+                1.95181896,
+                2.18977370,
+                2.42772844,
+                2.66568318,
+                2.90363791,
+                3.14159265,
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -630,53 +682,49 @@ class TestLinstepFunction:
     tests methods.
     """
 
-    def test_linstep_function(self) -> None:
+    def test_linstep_function(self, xp: ModuleType) -> None:
         """Test :func:`colour.algebra.common.linstep_function` definition."""
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             linstep_function(
-                np.linspace(0, 1, 10),
-                np.linspace(0, 1, 10),
-                np.linspace(0, 2, 10),
+                xp_linspace(0, 1, num=10, xp=xp),  # pyright: ignore
+                xp_linspace(0, 1, num=10, xp=xp),  # pyright: ignore
+                xp_linspace(0, 2, num=10, xp=xp),  # pyright: ignore
             ),
-            np.array(
-                [
-                    0.00000000,
-                    0.12345679,
-                    0.27160494,
-                    0.44444444,
-                    0.64197531,
-                    0.86419753,
-                    1.11111111,
-                    1.38271605,
-                    1.67901235,
-                    2.00000000,
-                ]
-            ),
+            [
+                0.00000000,
+                0.12345679,
+                0.27160494,
+                0.44444444,
+                0.64197531,
+                0.86419753,
+                1.11111111,
+                1.38271605,
+                1.67901235,
+                2.00000000,
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             linstep_function(
-                np.linspace(0, 2, 10),
-                np.linspace(0.25, 0.5, 10),
-                np.linspace(0.5, 0.75, 10),
+                xp_linspace(0, 2, num=10, xp=xp),  # pyright: ignore
+                xp_linspace(0.25, 0.5, num=10, xp=xp),  # pyright: ignore
+                xp_linspace(0.5, 0.75, num=10, xp=xp),  # pyright: ignore
                 clip=True,
             ),
-            np.array(
-                [
-                    0.25000000,
-                    0.33333333,
-                    0.41666667,
-                    0.50000000,
-                    0.58333333,
-                    0.63888889,
-                    0.66666667,
-                    0.69444444,
-                    0.72222222,
-                    0.75000000,
-                ]
-            ),
+            [
+                0.25000000,
+                0.33333333,
+                0.41666667,
+                0.50000000,
+                0.58333333,
+                0.63888889,
+                0.66666667,
+                0.69444444,
+                0.72222222,
+                0.75000000,
+            ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -687,22 +735,22 @@ class TestSmoothstepFunction:
     tests methods.
     """
 
-    def test_smoothstep_function(self) -> None:
+    def test_smoothstep_function(self, xp: ModuleType) -> None:
         """Test :func:`colour.algebra.common.smoothstep_function` definition."""
 
         assert smoothstep_function(0.5) == 0.5
         assert smoothstep_function(0.25) == 0.15625
         assert smoothstep_function(0.75) == 0.84375
 
-        x = np.linspace(-2, 2, 5)
-        np.testing.assert_allclose(
-            smoothstep_function(x),
-            np.array([28.00000, 5.00000, 0.00000, 1.00000, -4.00000]),
+        x = xp_linspace(-2, 2, num=5, xp=xp)
+        xp_assert_close(
+            smoothstep_function(x),  # pyright: ignore
+            [28.00000, 5.00000, 0.00000, 1.00000, -4.00000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
-            smoothstep_function(x, -2, 2, clip=True),
-            np.array([0.00000, 0.15625, 0.50000, 0.84375, 1.00000]),
+        xp_assert_close(
+            smoothstep_function(x, -2, 2, clip=True),  # pyright: ignore
+            [0.00000, 0.15625, 0.50000, 0.84375, 1.00000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -713,18 +761,22 @@ class TestIsIdentity:
     methods.
     """
 
-    def test_is_identity(self) -> None:
+    def test_is_identity(self, xp: ModuleType) -> None:
         """Test :func:`colour.algebra.common.is_identity` definition."""
 
-        assert is_identity(np.reshape(np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]), (3, 3)))
-
-        assert not is_identity(
-            np.reshape(np.array([1, 2, 0, 0, 1, 0, 0, 0, 1]), (3, 3))
+        assert is_identity(
+            xp_reshape(xp_as_array([1, 0, 0, 0, 1, 0, 0, 0, 1], xp=xp), (3, 3), xp=xp)
         )
 
-        assert is_identity(np.reshape(np.array([1, 0, 0, 1]), (2, 2)))
+        assert not is_identity(
+            xp_reshape(xp_as_array([1, 2, 0, 0, 1, 0, 0, 0, 1], xp=xp), (3, 3), xp=xp)
+        )
 
-        assert not is_identity(np.reshape(np.array([1, 2, 0, 1]), (2, 2)))
+        assert is_identity(xp_reshape(xp_as_array([1, 0, 0, 1], xp=xp), (2, 2), xp=xp))
+
+        assert not is_identity(
+            xp_reshape(xp_as_array([1, 2, 0, 1], xp=xp), (2, 2), xp=xp)
+        )
 
 
 class TestEigenDecomposition:
@@ -733,35 +785,39 @@ class TestEigenDecomposition:
     tests methods.
     """
 
-    def test_is_identity(self) -> None:
+    def test_is_identity(self, xp: ModuleType) -> None:
         """Test :func:`colour.algebra.common.eigen_decomposition` definition."""
 
-        a = np.diag([1, 2, 3])
+        a = xp_create_diagonal(xp_as_array([1, 2, 3], xp=xp), xp=xp)
 
         w, v = eigen_decomposition(a)
-        np.testing.assert_equal(w, np.array([3.0, 2.0, 1.0]))
-        np.testing.assert_equal(
-            v, np.array([[0.0, 0.0, 1.0], [0.0, 1.0, 0.0], [1.0, 0.0, 0.0]])
+        xp_assert_equal(as_ndarray(w), [3.0, 2.0, 1.0])
+        xp_assert_equal(
+            as_ndarray(v),
+            [[0.0, 0.0, 1.0], [0.0, 1.0, 0.0], [1.0, 0.0, 0.0]],
         )
 
         w, v = eigen_decomposition(a, 1)
-        np.testing.assert_equal(w, np.array([3.0]))
-        np.testing.assert_equal(v, np.array([[0.0], [0.0], [1.0]]))
+        xp_assert_equal(as_ndarray(w), [3.0])
+        xp_assert_equal(as_ndarray(v), [[0.0], [0.0], [1.0]])
 
         w, v = eigen_decomposition(a, descending_order=False)
-        np.testing.assert_equal(w, np.array([1.0, 2.0, 3.0]))
-        np.testing.assert_equal(
-            v, np.array([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])
+        xp_assert_equal(as_ndarray(w), [1.0, 2.0, 3.0])
+        xp_assert_equal(
+            as_ndarray(v),
+            [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]],
         )
 
         w, v = eigen_decomposition(a, covariance_matrix=True)
-        np.testing.assert_equal(w, np.array([9.0, 4.0, 1.0]))
-        np.testing.assert_equal(
-            v, np.array([[0.0, 0.0, 1.0], [0.0, 1.0, 0.0], [1.0, 0.0, 0.0]])
+        xp_assert_equal(as_ndarray(w), [9.0, 4.0, 1.0])
+        xp_assert_equal(
+            as_ndarray(v),
+            [[0.0, 0.0, 1.0], [0.0, 1.0, 0.0], [1.0, 0.0, 0.0]],
         )
 
         w, v = eigen_decomposition(a, descending_order=False, covariance_matrix=True)
-        np.testing.assert_equal(w, np.array([1.0, 4.0, 9.0]))
-        np.testing.assert_equal(
-            v, np.array([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])
+        xp_assert_equal(as_ndarray(w), [1.0, 4.0, 9.0])
+        xp_assert_equal(
+            as_ndarray(v),
+            [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]],
         )

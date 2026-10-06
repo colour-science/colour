@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 import numpy as np
 
 from colour import (
@@ -19,7 +24,7 @@ from colour.difference.metamerism_index import (
     XYZ_to_metamerism_index,
     sd_to_metamerism_index,
 )
-from colour.utilities import domain_range_scale
+from colour.utilities import domain_range_scale, xp_as_array, xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -40,14 +45,14 @@ class TestLab_to_Metamerism_Index:
     definition unit tests methods.
     """
 
-    def test_domain_range_scale_Lab_to_metamerism_index(self) -> None:
+    def test_domain_range_scale_Lab_to_metamerism_index(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.difference.metamerism_index.Lab_to_metamerism_index`
         definition domain and range scale support.
         """
 
-        Lab_1 = np.array([48.99183622, -0.10561667, 400.65619925])
-        offset = np.array([0, 0, 2])
+        Lab_1 = xp_as_array([48.99183622, -0.10561667, 400.65619925], xp=xp)
+        offset = xp_as_array([0, 0, 2], xp=xp)
 
         c = ("Additive", "Multiplicative")
         m = ("CIE 1976", "CIE 1994", "CIE 2000", "CMC", "DIN99")
@@ -72,7 +77,7 @@ class TestLab_to_Metamerism_Index:
         for correction, method, value in it:
             for scale, factor in d_r:
                 with domain_range_scale(scale):
-                    np.testing.assert_allclose(
+                    xp_assert_close(
                         Lab_to_metamerism_index(
                             (Lab_1 + offset) * factor,
                             Lab_1 * factor,
@@ -92,14 +97,14 @@ class TestXYZ_to_Metamerism_Index:
     definition unit tests methods.
     """
 
-    def test_domain_range_scale_XYZ_to_metamerism_index(self) -> None:
+    def test_domain_range_scale_XYZ_to_metamerism_index(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.difference.metamerism_index.XYZ_to_metamerism_index`
         definition domain and range scale support.
         """
 
-        XYZ_1 = np.array([0.20654008, 0.12197225, 0.05136952])
-        offset = np.array([0, 0, 0.01])
+        XYZ_1 = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
+        offset = xp_as_array([0, 0, 0.01], xp=xp)
 
         c = ("Additive", "Multiplicative")
         m = ("CIE 1976", "CIE 1994", "CIE 2000", "CMC", "DIN99")
@@ -124,7 +129,7 @@ class TestXYZ_to_Metamerism_Index:
         for correction, method, value in it:
             for scale, factor in d_r:
                 with domain_range_scale(scale):
-                    np.testing.assert_allclose(
+                    xp_assert_close(
                         XYZ_to_metamerism_index(
                             (XYZ_1 + offset) * factor,
                             XYZ_1 * factor,
@@ -144,7 +149,10 @@ class TestSD_to_Metamerism_Index:
     definition unit tests methods.
     """
 
-    def test_domain_range_scale_sd_to_metamerism_index(self) -> None:
+    def test_domain_range_scale_sd_to_metamerism_index(
+        self,
+        xp: ModuleType,  # noqa: ARG002
+    ) -> None:
         """
         Test :func:`colour.difference.metamerism_index.sd_to_metamerism_index`
         definition domain and range scale support.
@@ -255,7 +263,7 @@ class TestSD_to_Metamerism_Index:
         for observer, illuminant, method, value in it:
             for scale, _ in d_r:
                 with domain_range_scale(scale):
-                    np.testing.assert_allclose(
+                    xp_assert_close(
                         sd_to_metamerism_index(
                             N_spl,
                             N_std,

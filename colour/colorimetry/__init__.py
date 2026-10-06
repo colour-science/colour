@@ -3,16 +3,21 @@ from .spectrum import (
     MultiSpectralDistributions,
     SpectralDistribution,
     SpectralShape,
+    extrapolate_signal,
+    interpolate_signal,
     reshape_msds,
     reshape_sd,
     sds_and_msds_to_msds,
     sds_and_msds_to_sds,
+    trim_signal,
 )
 
 # isort: split
 
 from .blackbody import (
     blackbody_spectral_radiance,
+    msds_blackbody,
+    msds_rayleigh_jeans,
     planck_law,
     rayleigh_jeans_law,
     sd_blackbody,
@@ -68,6 +73,7 @@ from .tristimulus_values import (
     msds_to_XYZ,
     msds_to_XYZ_ASTME308,
     msds_to_XYZ_integration,
+    msds_to_XYZ_tristimulus_weighting_factors_ASTME308,
     sd_to_XYZ,
     sd_to_XYZ_ASTME308,
     sd_to_XYZ_integration,
@@ -89,7 +95,9 @@ from .correction import (
 # isort: split
 
 from .illuminants import (
+    CIE_illuminant_D_series,
     daylight_locus_function,
+    msds_CIE_illuminant_D_series,
     sd_CIE_illuminant_D_series,
     sd_CIE_standard_illuminant_A,
 )
@@ -160,13 +168,18 @@ __all__ = [
     "MultiSpectralDistributions",
     "SpectralDistribution",
     "SpectralShape",
+    "extrapolate_signal",
+    "interpolate_signal",
     "reshape_msds",
     "reshape_sd",
     "sds_and_msds_to_msds",
     "sds_and_msds_to_sds",
+    "trim_signal",
 ]
 __all__ += [
     "blackbody_spectral_radiance",
+    "msds_blackbody",
+    "msds_rayleigh_jeans",
     "planck_law",
     "rayleigh_jeans_law",
     "sd_blackbody",
@@ -222,6 +235,7 @@ __all__ += [
     "msds_to_XYZ",
     "msds_to_XYZ_ASTME308",
     "msds_to_XYZ_integration",
+    "msds_to_XYZ_tristimulus_weighting_factors_ASTME308",
     "sd_to_XYZ",
     "sd_to_XYZ_ASTME308",
     "sd_to_XYZ_integration",
@@ -239,7 +253,9 @@ __all__ += [
     "bandpass_correction_Stearns1988",
 ]
 __all__ += [
+    "CIE_illuminant_D_series",
     "daylight_locus_function",
+    "msds_CIE_illuminant_D_series",
     "sd_CIE_illuminant_D_series",
     "sd_CIE_standard_illuminant_A",
 ]

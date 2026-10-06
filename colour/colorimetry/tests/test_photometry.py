@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
     SDS_LIGHT_SOURCES,
@@ -13,6 +11,7 @@ from colour.colorimetry import (
     sd_zeros,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.utilities import xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -37,20 +36,20 @@ class TestLuminousFlux:
     def test_luminous_flux(self) -> None:
         """Test :func:`colour.colorimetry.photometry.luminous_flux` definition."""
 
-        np.testing.assert_allclose(
-            luminous_flux(SDS_ILLUMINANTS["FL2"].copy().normalise()),
+        xp_assert_close(
+            float(luminous_flux(SDS_ILLUMINANTS["FL2"].copy().normalise())),
             28588.73612977,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            luminous_flux(SDS_LIGHT_SOURCES["Neodimium Incandescent"]),
+        xp_assert_close(
+            float(luminous_flux(SDS_LIGHT_SOURCES["Neodimium Incandescent"])),
             23807.65552737,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            luminous_flux(SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]),
+        xp_assert_close(
+            float(luminous_flux(SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"])),
             13090.06759053,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -68,20 +67,20 @@ class TestLuminousEfficiency:
         definition.
         """
 
-        np.testing.assert_allclose(
-            luminous_efficiency(SDS_ILLUMINANTS["FL2"].copy().normalise()),
+        xp_assert_close(
+            float(luminous_efficiency(SDS_ILLUMINANTS["FL2"].copy().normalise())),
             0.49317624,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            luminous_efficiency(SDS_LIGHT_SOURCES["Neodimium Incandescent"]),
+        xp_assert_close(
+            float(luminous_efficiency(SDS_LIGHT_SOURCES["Neodimium Incandescent"])),
             0.19943936,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            luminous_efficiency(SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]),
+        xp_assert_close(
+            float(luminous_efficiency(SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"])),
             0.51080919,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -99,26 +98,26 @@ class TestLuminousEfficacy:
         definition.
         """
 
-        np.testing.assert_allclose(
-            luminous_efficacy(SDS_ILLUMINANTS["FL2"].copy().normalise()),
+        xp_assert_close(
+            float(luminous_efficacy(SDS_ILLUMINANTS["FL2"].copy().normalise())),
             336.83937176,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            luminous_efficacy(SDS_LIGHT_SOURCES["Neodimium Incandescent"]),
+        xp_assert_close(
+            float(luminous_efficacy(SDS_LIGHT_SOURCES["Neodimium Incandescent"])),
             136.21708032,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            luminous_efficacy(SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"]),
+        xp_assert_close(
+            float(luminous_efficacy(SDS_LIGHT_SOURCES["F32T8/TL841 (Triphosphor)"])),
             348.88267549,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         sd = sd_zeros()
         sd[555] = 1
-        np.testing.assert_allclose(
-            luminous_efficacy(sd), 683.00000000, atol=TOLERANCE_ABSOLUTE_TESTS
+        xp_assert_close(
+            float(luminous_efficacy(sd)), 683.00000000, atol=TOLERANCE_ABSOLUTE_TESTS
         )

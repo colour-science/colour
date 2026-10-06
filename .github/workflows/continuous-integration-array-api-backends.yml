@@ -1,0 +1,64 @@
+name: Continuous Integration - Array API Backends
+
+on: [push, pull_request]
+
+jobs:
+  continuous-integration-array-api-backends:
+    name: ${{ matrix.os }} - Python ${{ matrix.python-version }} - ${{ matrix.backend }}
+    strategy:
+      matrix:
+        os: [macOS-latest, ubuntu-latest, windows-latest]
+        python-version: [3.11, 3.12, 3.13, 3.14]
+        backend: [jax, torch]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Environment Variables
+        run: |
+          echo "CI_PACKAGE=colour" >> $GITHUB_ENV
+          echo "MPLBACKEND=AGG" >> $GITHUB_ENV
+          # https://github.com/scipy/scipy/issues/20613
+          echo "OMP_NUM_THREADS=1" >> $GITHUB_ENV
+          echo "COLOUR_SCIENCE__TEST_BACKENDS=${{ matrix.backend }}" >> $GITHUB_ENV
+        shell: bash
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Dependencies (macOS)
+        if: matrix.os == 'macOS-latest'
+        run: |
+          brew install freeimage
+          # TODO: Drop when https://github.com/imageio/imageio/issues/628 is addressed
+          echo "IMAGEIO_FREEIMAGE_LIB=/opt/homebrew/Cellar/freeimage/3.18.0/lib/libfreeimage.3.18.0.dylib" >> $GITHUB_ENV
+      - name: Install Dependencies (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get --yes install graphviz graphviz-dev
+      - name: Install uv
+        run: |
+          pip install uv
+        shell: bash
+      - name: Install Package Dependencies
+        run: |
+          uv sync --all-extras
+          uv run python -c "import imageio;imageio.plugins.freeimage.download()"
+        shell: bash
+      - name: Install Backend
+        id: backend
+        run: |
+          # Graceful skip when no wheel exists for this Python version
+          if uv sync --all-extras --group ${{ matrix.backend }}; then
+            echo "available=true" >> $GITHUB_OUTPUT
+          else
+            echo "available=false" >> $GITHUB_OUTPUT
+            echo "::notice::No ${{ matrix.backend }} wheel for Python ${{ matrix.python-version }} on ${{ matrix.os }}; skipping backend tests."
+          fi
+        shell: bash
+      - name: Test with Pytest
+        if: steps.backend.outputs.available == 'true'
+        run: |
+          uv run python -W ignore -m pytest --ignore=$CI_PACKAGE/examples $CI_PACKAGE
+        shell: bash

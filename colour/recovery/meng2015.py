@@ -33,7 +33,14 @@ if typing.TYPE_CHECKING:
     from colour.hints import DTypeFloat
 
 from colour.hints import Domain1, NDArrayFloat  # noqa: TC001
-from colour.utilities import from_range_100, required, to_domain_1
+from colour.utilities import (
+    array_namespace,
+    as_float_array,
+    as_ndarray,
+    from_range_100,
+    required,
+    to_domain_1,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -177,7 +184,7 @@ def XYZ_to_sd_Meng2015(
 
     from scipy.optimize import minimize  # noqa: PLC0415
 
-    XYZ = to_domain_1(XYZ)
+    XYZ = as_ndarray(to_domain_1(XYZ))
 
     cmfs, illuminant = handle_spectral_arguments(
         cmfs, illuminant, shape_default=SPECTRAL_SHAPE_MENG2015
@@ -188,7 +195,11 @@ def XYZ_to_sd_Meng2015(
     def objective_function(a: NDArrayFloat) -> DTypeFloat:
         """Define the objective function."""
 
-        return np.sum(np.square(np.diff(a)))
+        a = as_float_array(a)
+
+        xp = array_namespace(a)
+
+        return xp.sum(xp.square(xp.diff(a)))
 
     def constraint_function(a: NDArrayFloat) -> NDArrayFloat:
         """Define the constraint function."""

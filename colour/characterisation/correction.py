@@ -79,6 +79,7 @@ if typing.TYPE_CHECKING:
 
 from colour.utilities import (
     CanonicalMapping,
+    array_namespace,
     as_float,
     as_float_array,
     as_int,
@@ -88,6 +89,12 @@ from colour.utilities import (
     tsplit,
     tstack,
     validate_method,
+    xp_as_array,
+    xp_as_float_array,
+    xp_lstsq,
+    xp_matrix_transpose,
+    xp_reshape,
+    xp_squeeze,
 )
 
 __author__ = "Colour Developers"
@@ -162,10 +169,14 @@ def matrix_augmented_Cheung2004(
 
     RGB = as_float_array(RGB)
 
+    xp = array_namespace(RGB)
+
     R, G, B = tsplit(RGB)
     tail = ones(R.shape)
 
-    existing_terms = np.array([3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35])
+    existing_terms = xp_as_float_array(
+        [3, 4, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22, 35], xp=xp
+    )
     closest_terms = as_int(closest(existing_terms, terms))
     if closest_terms != terms:
         error = (
@@ -465,10 +476,12 @@ def polynomial_expansion_Finlayson2015(
 
     RGB = as_float_array(RGB)
 
+    xp = array_namespace(RGB)
+
     R, G, B = tsplit(RGB)
 
     # TODO: Generalise polynomial expansion.
-    existing_degrees = np.array([1, 2, 3, 4])
+    existing_degrees = xp_as_array([1, 2, 3, 4], xp=xp)
     closest_degree = as_int(closest(existing_degrees, degree))
     if closest_degree != degree:
         error = (
@@ -652,10 +665,21 @@ def polynomial_expansion_Vandermonde(a: ArrayLike, degree: int = 1) -> NDArrayFl
 
     a = as_float_array(a)
 
-    a_e = np.transpose(np.vander(np.ravel(a), int(degree) + 1))
-    a_e = np.hstack(list(np.reshape(a_e, (a_e.shape[0], -1, 3))))
+    xp = array_namespace(a)
 
-    return np.squeeze(a_e[:, 0 : a_e.shape[-1] - a.shape[-1] + 1])
+    N = int(degree) + 1
+    expanded = xp_matrix_transpose(
+        xp.stack(
+            [xp_reshape(a, (-1,), xp=xp) ** i for i in range(N - 1, -1, -1)],
+            axis=-1,
+        ),
+        xp=xp,
+    )
+    expanded = xp.concat(
+        list(xp_reshape(expanded, (expanded.shape[0], -1, 3), xp=xp)), axis=1
+    )
+
+    return xp_squeeze(expanded[:, 0 : expanded.shape[-1] - a.shape[-1] + 1], xp=xp)
 
 
 POLYNOMIAL_EXPANSION_METHODS: CanonicalMapping = CanonicalMapping(
@@ -1058,13 +1082,19 @@ def apply_matrix_colour_correction_Cheung2004(
     """
 
     RGB = as_float_array(RGB)
+
+    xp = array_namespace(RGB, CCM)
+
+    CCM = xp_as_float_array(CCM, xp=xp, like=RGB)
     shape = RGB.shape
 
-    RGB = np.reshape(RGB, (-1, 3))
+    RGB = xp_reshape(RGB, (-1, 3), xp=xp)
 
     RGB_e = matrix_augmented_Cheung2004(RGB, terms)
 
-    return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
+    return xp_reshape(
+        xp.squeeze(xp.matmul(CCM, RGB_e[..., None]), axis=-1), shape, xp=xp
+    )
 
 
 def apply_matrix_colour_correction_Finlayson2015(
@@ -1113,13 +1143,19 @@ def apply_matrix_colour_correction_Finlayson2015(
     """
 
     RGB = as_float_array(RGB)
+
+    xp = array_namespace(RGB, CCM)
+
+    CCM = xp_as_float_array(CCM, xp=xp, like=RGB)
     shape = RGB.shape
 
-    RGB = np.reshape(RGB, (-1, 3))
+    RGB = xp_reshape(RGB, (-1, 3), xp=xp)
 
     RGB_e = polynomial_expansion_Finlayson2015(RGB, degree, root_polynomial_expansion)
 
-    return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
+    return xp_reshape(
+        xp.squeeze(xp.matmul(CCM, RGB_e[..., None]), axis=-1), shape, xp=xp
+    )
 
 
 def apply_matrix_colour_correction_Vandermonde(
@@ -1163,13 +1199,19 @@ def apply_matrix_colour_correction_Vandermonde(
     """
 
     RGB = as_float_array(RGB)
+
+    xp = array_namespace(RGB, CCM)
+
+    CCM = xp_as_float_array(CCM, xp=xp, like=RGB)
     shape = RGB.shape
 
-    RGB = np.reshape(RGB, (-1, 3))
+    RGB = xp_reshape(RGB, (-1, 3), xp=xp)
 
     RGB_e = polynomial_expansion_Vandermonde(RGB, degree)
 
-    return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
+    return xp_reshape(
+        xp.squeeze(xp.matmul(CCM, RGB_e[..., None]), axis=-1), shape, xp=xp
+    )
 
 
 APPLY_MATRIX_COLOUR_CORRECTION_METHODS = CanonicalMapping(
@@ -1426,8 +1468,11 @@ def _tps3d_kernel_bookstein(r: np.ndarray, eps: float = 1e-12) -> np.ndarray:
     ----------
     Thin plate spline radial basis kernel: phi(r) = r^2 log r. See e.g. Wikipedia.
     """
-    r2 = np.maximum(r * r, eps)
-    return r2 * np.log(r2)
+
+    xp = array_namespace(r)
+
+    r2 = xp.clip(r * r, min=eps)
+    return r2 * xp.log(r2)
 
 
 def _tps3d_kernel_polyharmonic_3d(r: np.ndarray) -> np.ndarray:
@@ -1450,9 +1495,12 @@ def _pairwise_distances_euclidean(A: np.ndarray, B: np.ndarray) -> np.ndarray:
     Compute pairwise Euclidean distances between A (M,3) and B (N,3) without SciPy.
     Returns (M,N).
     """
+
+    xp = array_namespace(A)
+
     # (M,1,3) - (1,N,3) -> (M,N,3)
     D = A[:, None, :] - B[None, :, :]
-    return np.sqrt(np.sum(D * D, axis=-1))
+    return xp.sqrt(xp.sum(D * D, axis=-1))
 
 
 def tps3d_parameters(
@@ -1489,6 +1537,8 @@ def tps3d_parameters(
     ctrl = as_float_array(source_points)
     dest = as_float_array(destination_points)
 
+    xp = array_namespace(ctrl)
+
     if ctrl.ndim != 2 or ctrl.shape[1] != 3:
         message = '"source_points" must be an (N, 3) array!'
         raise ValueError(message)
@@ -1505,35 +1555,43 @@ def tps3d_parameters(
     kernel = validate_method(kernel, ("Bookstein", "Polyharmonic 3D"))
 
     # P: (N,4) -> [1, R, G, B]
-    P = np.hstack([np.ones((N, 1)), ctrl])
+    P = xp.concat([xp_as_float_array(ones((N, 1)), xp=xp, like=ctrl), ctrl], axis=1)
 
     # K: (N,N) from pairwise distances
     r = _pairwise_distances_euclidean(ctrl, ctrl)
     if kernel == "Bookstein":
         K = _tps3d_kernel_bookstein(r)
-        np.fill_diagonal(K, 0.0)
+        diag_mask = xp.eye(K.shape[0], dtype=bool)
+        K = xp.where(diag_mask, 0.0, K)
     else:
         K = _tps3d_kernel_polyharmonic_3d(r)
-        np.fill_diagonal(K, 0.0)
+        diag_mask = xp.eye(K.shape[0], dtype=bool)
+        K = xp.where(diag_mask, 0.0, K)
 
     if smoothing < 0:
         message = '"smoothing" must be >= 0!'
         raise ValueError(message)
 
     if smoothing > 0:
-        K = K + np.eye(N) * smoothing
+        K = K + xp.eye(N) * smoothing
 
-    Z = np.zeros((4, 4))
-    L = np.block([[K, P], [P.T, Z]])
+    Z = xp_as_float_array(np.zeros((4, 4)), xp=xp, like=ctrl)
+    L = xp.concat(
+        [
+            xp.concat([K, P], axis=1),
+            xp.concat([xp_matrix_transpose(P, xp=xp), Z], axis=1),
+        ],
+        axis=0,
+    )
 
-    V = np.vstack([dest, np.zeros((4, 3))])
+    V = xp.concat([dest, xp_as_float_array(np.zeros((4, 3)), xp=xp, like=ctrl)], axis=0)
 
     # Solve L * params = V
     # Use solve when possible; fallback to lstsq for robustness.
     try:
-        params = np.linalg.solve(L, V)
-    except np.linalg.LinAlgError:
-        params = np.linalg.lstsq(L, V, rcond=None)[0]
+        params = xp.linalg.solve(L, V)
+    except (np.linalg.LinAlgError, RuntimeError):
+        params = xp_lstsq(L, V, xp=xp)
 
     W = params[:N, :]
     A = params[N:, :]
@@ -1565,7 +1623,7 @@ def apply_tps3d(
     clip
         Whether to clip to [0, 1].
     chunk_size
-        Process pixels in chunks to avoid huge (M,N) temporary arrays for images.
+        Process pixels in slices to avoid huge (M,N) temporary arrays for images.
 
     Returns
     -------
@@ -1575,24 +1633,27 @@ def apply_tps3d(
     kernel = validate_method(kernel, ("Bookstein", "Polyharmonic 3D"))
 
     RGB = as_float_array(RGB)
+
+    xp = array_namespace(RGB)
+
     shape = RGB.shape
 
     if shape[-1] != 3:
         message = '"RGB" last dimension must be 3!'
         raise ValueError(message)
 
-    pixels = RGB.reshape((-1, 3))
+    pixels = xp_reshape(RGB, (-1, 3), xp=xp)
     M = pixels.shape[0]
 
-    out = np.empty_like(pixels)
+    slices = []
 
-    # Precompute affine input [1, R, G, B]
-    # Do it chunked to keep memory stable.
     for start in range(0, M, chunk_size):
         end = min(start + chunk_size, M)
         X = pixels[start:end]
 
-        P_all = np.hstack([np.ones((X.shape[0], 1)), X])  # (m,4)
+        P_all = xp.concat(
+            [xp_as_float_array(ones((X.shape[0], 1)), xp=xp, like=X), X], axis=1
+        )  # (m,4)
         r = _pairwise_distances_euclidean(X, ctrl)  # (m,N)
 
         if kernel == "Bookstein":
@@ -1600,12 +1661,14 @@ def apply_tps3d(
         else:
             U = _tps3d_kernel_polyharmonic_3d(r)
 
-        out[start:end] = U @ W + P_all @ A
+        slices.append(xp.matmul(U, W) + xp.matmul(P_all, A))
+
+    out = xp.concat(slices, axis=0)
 
     if clip:
-        out = np.clip(out, 0.0, 1.0)
+        out = xp.clip(out, 0.0, 1.0)
 
-    return out.reshape(shape)
+    return xp_reshape(out, shape, xp=xp)
 
 
 def colour_correction_TPS3D(

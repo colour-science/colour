@@ -53,6 +53,7 @@ R-REC-BT.2100-2-201807-I!!PDF-E.pdf
 
 from __future__ import annotations
 
+import math
 import typing
 
 import numpy as np
@@ -82,6 +83,7 @@ from colour.models.rgb.transfer_functions.arib_std_b67 import CONSTANTS_ARIBSTDB
 from colour.utilities import (
     CanonicalMapping,
     Structure,
+    array_namespace,
     as_float,
     as_float_array,
     as_float_scalar,
@@ -94,6 +96,8 @@ from colour.utilities import (
     tstack,
     usage_warning,
     validate_method,
+    xp_as_float_array,
+    xp_atleast_1d,
 )
 
 __author__ = "Colour Developers"
@@ -450,9 +454,10 @@ def gamma_function_BT2100_HLG(L_W: float = 1000) -> float:
     np.float64(1.3264325...)
     >>> gamma_function_BT2100_HLG(4000)  # doctest: +ELLIPSIS
     np.float64(1.4528651...)
+
     """
 
-    gamma = 1.2 + 0.42 * np.log10(L_W / 1000)
+    gamma = 1.2 + 0.42 * math.log10(L_W / 1000)
 
     return as_float_scalar(gamma)
 
@@ -592,7 +597,7 @@ def black_level_lift_BT2100_HLG(
 
     gamma = optional(gamma, gamma_function_BT2100_HLG(L_W))
 
-    beta = np.sqrt(3 * spow((L_B / L_W), 1 / gamma))
+    beta = math.sqrt(3 * spow((L_B / L_W), 1 / gamma))
 
     return as_float_scalar(beta)
 
@@ -1122,7 +1127,9 @@ def ootf_BT2100_HLG_1(
 
     E = to_domain_1(E)
 
-    is_single_channel = np.atleast_1d(E).shape[-1] != 3
+    xp = array_namespace(E)
+
+    is_single_channel = xp_atleast_1d(E, xp=xp).shape[-1] != 3
 
     if is_single_channel:
         usage_warning(
@@ -1138,13 +1145,17 @@ def ootf_BT2100_HLG_1(
     alpha = L_W - L_B
     beta = L_B
 
-    Y_S = np.sum(WEIGHTS_BT2100_HLG * tstack([R_S, G_S, B_S]), axis=-1)
+    Y_S = xp.sum(
+        xp_as_float_array(WEIGHTS_BT2100_HLG, xp=xp, like=R_S)
+        * tstack([R_S, G_S, B_S]),
+        axis=-1,
+    )
 
     gamma = optional(gamma, gamma_function_BT2100_HLG(L_W))
 
-    R_D = alpha * R_S * np.abs(Y_S) ** (gamma - 1) + beta
-    G_D = alpha * G_S * np.abs(Y_S) ** (gamma - 1) + beta
-    B_D = alpha * B_S * np.abs(Y_S) ** (gamma - 1) + beta
+    R_D = alpha * R_S * xp.abs(Y_S) ** (gamma - 1) + beta
+    G_D = alpha * G_S * xp.abs(Y_S) ** (gamma - 1) + beta
+    B_D = alpha * B_S * xp.abs(Y_S) ** (gamma - 1) + beta
 
     if is_single_channel:
         return as_float(from_range_1(R_D))
@@ -1210,7 +1221,9 @@ def ootf_BT2100_HLG_2(
 
     E = to_domain_1(E)
 
-    is_single_channel = np.atleast_1d(E).shape[-1] != 3
+    xp = array_namespace(E)
+
+    is_single_channel = xp_atleast_1d(E, xp=xp).shape[-1] != 3
 
     if is_single_channel:
         usage_warning(
@@ -1225,13 +1238,17 @@ def ootf_BT2100_HLG_2(
 
     alpha = L_W
 
-    Y_S = np.sum(WEIGHTS_BT2100_HLG * tstack([R_S, G_S, B_S]), axis=-1)
+    Y_S = xp.sum(
+        xp_as_float_array(WEIGHTS_BT2100_HLG, xp=xp, like=R_S)
+        * tstack([R_S, G_S, B_S]),
+        axis=-1,
+    )
 
     gamma = optional(gamma, gamma_function_BT2100_HLG(L_W))
 
-    R_D = alpha * R_S * np.abs(Y_S) ** (gamma - 1)
-    G_D = alpha * G_S * np.abs(Y_S) ** (gamma - 1)
-    B_D = alpha * B_S * np.abs(Y_S) ** (gamma - 1)
+    R_D = alpha * R_S * xp.abs(Y_S) ** (gamma - 1)
+    G_D = alpha * G_S * xp.abs(Y_S) ** (gamma - 1)
+    B_D = alpha * B_S * xp.abs(Y_S) ** (gamma - 1)
 
     if is_single_channel:
         return as_float(from_range_1(R_D))
@@ -1391,7 +1408,9 @@ def ootf_inverse_BT2100_HLG_1(
 
     F_D = to_domain_1(F_D)
 
-    is_single_channel = np.atleast_1d(F_D).shape[-1] != 3
+    xp = array_namespace(F_D)
+
+    is_single_channel = xp_atleast_1d(F_D, xp=xp).shape[-1] != 3
 
     if is_single_channel:
         usage_warning(
@@ -1404,26 +1423,30 @@ def ootf_inverse_BT2100_HLG_1(
     else:
         R_D, G_D, B_D = tsplit(F_D)
 
-    Y_D = np.sum(WEIGHTS_BT2100_HLG * tstack([R_D, G_D, B_D]), axis=-1)
+    Y_D = xp.sum(
+        xp_as_float_array(WEIGHTS_BT2100_HLG, xp=xp, like=R_D)
+        * tstack([R_D, G_D, B_D]),
+        axis=-1,
+    )
 
     alpha = L_W - L_B
     beta = L_B
 
     gamma = optional(gamma, gamma_function_BT2100_HLG(L_W))
 
-    Y_D_beta = np.abs((Y_D - beta) / alpha) ** ((1 - gamma) / gamma)
+    Y_D_beta = xp.abs((Y_D - beta) / alpha) ** ((1 - gamma) / gamma)
 
-    R_S = np.where(
+    R_S = xp.where(
         beta == Y_D,
         0.0,
         Y_D_beta * (R_D - beta) / alpha,
     )
-    G_S = np.where(
+    G_S = xp.where(
         beta == Y_D,
         0.0,
         Y_D_beta * (G_D - beta) / alpha,
     )
-    B_S = np.where(
+    B_S = xp.where(
         beta == Y_D,
         0.0,
         Y_D_beta * (B_D - beta) / alpha,
@@ -1494,7 +1517,9 @@ def ootf_inverse_BT2100_HLG_2(
 
     F_D = to_domain_1(F_D)
 
-    is_single_channel = np.atleast_1d(F_D).shape[-1] != 3
+    xp = array_namespace(F_D)
+
+    is_single_channel = xp_atleast_1d(F_D, xp=xp).shape[-1] != 3
 
     if is_single_channel:
         usage_warning(
@@ -1507,25 +1532,29 @@ def ootf_inverse_BT2100_HLG_2(
     else:
         R_D, G_D, B_D = tsplit(F_D)
 
-    Y_D = np.sum(WEIGHTS_BT2100_HLG * tstack([R_D, G_D, B_D]), axis=-1)
+    Y_D = xp.sum(
+        xp_as_float_array(WEIGHTS_BT2100_HLG, xp=xp, like=R_D)
+        * tstack([R_D, G_D, B_D]),
+        axis=-1,
+    )
 
     alpha = L_W
 
     gamma = optional(gamma, gamma_function_BT2100_HLG(L_W))
 
-    Y_D_alpha = np.abs(Y_D / alpha) ** ((1 - gamma) / gamma)
+    Y_D_alpha = xp.abs(Y_D / alpha) ** ((1 - gamma) / gamma)
 
-    R_S = np.where(
+    R_S = xp.where(
         Y_D == 0,
         0.0,
         Y_D_alpha * R_D / alpha,
     )
-    G_S = np.where(
+    G_S = xp.where(
         Y_D == 0,
         0.0,
         Y_D_alpha * G_D / alpha,
     )
-    B_S = np.where(
+    B_S = xp.where(
         Y_D == 0,
         0.0,
         Y_D_alpha * B_D / alpha,

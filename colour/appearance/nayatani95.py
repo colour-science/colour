@@ -24,8 +24,6 @@ from __future__ import annotations
 import typing
 from dataclasses import dataclass, field
 
-import numpy as np
-
 from colour.adaptation.cie1994 import (
     MATRIX_XYZ_TO_RGB_CIE1994,
     beta_1,
@@ -41,12 +39,16 @@ from colour.hints import Annotated, NDArrayFloat, cast
 from colour.models import XYZ_to_xy
 from colour.utilities import (
     MixinDataclassArithmetic,
+    array_namespace,
     as_float,
     as_float_array,
     from_range_degrees,
     to_domain_100,
     tsplit,
-    tstack,
+    xp_as_float_array,
+    xp_degrees,
+    xp_radians,
+    xp_select,
 )
 
 __author__ = "Colour Developers"
@@ -61,24 +63,7 @@ __all__ = [
     "CAM_ReferenceSpecification_Nayatani95",
     "CAM_Specification_Nayatani95",
     "XYZ_to_Nayatani95",
-    "illuminance_to_luminance",
-    "XYZ_to_RGB_Nayatani95",
-    "scaling_coefficient",
-    "achromatic_response",
-    "tritanopic_response",
-    "protanopic_response",
-    "brightness_correlate",
-    "ideal_white_brightness_correlate",
-    "achromatic_lightness_correlate",
-    "normalised_achromatic_lightness_correlate",
-    "hue_angle",
-    "saturation_components",
-    "saturation_correlate",
-    "chroma_components",
-    "chroma_correlate",
-    "colourfulness_components",
-    "colourfulness_correlate",
-    "chromatic_strength_function",
+    "hue_quadrature",
 ]
 
 MATRIX_XYZ_TO_RGB_NAYATANI95: NDArrayFloat = MATRIX_XYZ_TO_RGB_CIE1994
@@ -194,6 +179,7 @@ def XYZ_to_Nayatani95(
     E_o: ArrayLike,
     E_or: ArrayLike,
     n: ArrayLike = 1,
+    compute_H: bool = False,
 ) -> Annotated[CAM_Specification_Nayatani95, 360]:
     """
     Compute the *Nayatani (1995)* colour appearance model correlates from the
@@ -216,6 +202,11 @@ def XYZ_to_Nayatani95(
         domain [1000, 3000].
     n
         Noise term used in the non-linear chromatic adaptation model.
+    compute_H
+        When *True*, compute the *Hue Quadrature* :math:`H` correlate
+        via :func:`colour.appearance.nayatani95.hue_quadrature`. Defaults to
+        *False* because :math:`H` is rarely consumed downstream and
+        skipping the bin search is a measurable cost saving.
 
     Returns
     -------
@@ -244,787 +235,221 @@ def XYZ_to_Nayatani95(
 
     Examples
     --------
+    *Fairchild (2013)* Table 11.1 Case 1 (near-grey stimulus, photopic):
+
+    >>> import numpy as np
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_n = np.array([95.05, 100.00, 108.88])
     >>> Y_o = 20.0
     >>> E_o = 5000.0
     >>> E_or = 1000.0
-    >>> XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)  # doctest: +ELLIPSIS
+    >>> XYZ_to_Nayatani95(
+    ...     XYZ, XYZ_n, Y_o, E_o, E_or,
+    ...     compute_H=True,
+    ... )  # doctest: +ELLIPSIS
     CAM_Specification_Nayatani95(L_star_P=np.float64(49.9998829...), \
 C=np.float64(0.0133550...), h=np.float64(257.5232268...), \
 s=np.float64(0.0133550...), Q=np.float64(62.6266734...), \
-M=np.float64(0.0167262...), H=None, HC=None, L_star_N=np.float64(50.0039154...))
+M=np.float64(0.0167262...), H=np.float64(317.7841135...), HC=None, \
+L_star_N=np.float64(50.0039154...))
+
+    *Fairchild (2013)* Table 11.1 Case 2 (chromatic stimulus, lower
+    illuminance):
+
+    >>> XYZ_to_Nayatani95(np.array([57.06, 43.06, 31.96]), XYZ_n, 20.0, \
+500.0, 1000.0, compute_H=True)  # doctest: +ELLIPSIS
+    CAM_Specification_Nayatani95(L_star_P=np.float64(72.9768964...), \
+C=np.float64(48.3460111...), h=np.float64(21.5766539...), \
+s=np.float64(37.1030727...), Q=np.float64(67.3493717...), \
+M=np.float64(42.9012040...), H=np.float64(2.0564758...), HC=None, \
+L_star_N=np.float64(75.8970185...))
     """
 
     XYZ = to_domain_100(XYZ)
     XYZ_n = to_domain_100(XYZ_n)
-    Y_o = as_float_array(Y_o)
-    E_o = as_float_array(E_o)
-    E_or = as_float_array(E_or)
 
-    # Computing adapting luminance :math:`L_o` and normalising luminance
-    # :math:`L_{or}` in in :math:`cd/m^2`.
-    # L_o = illuminance_to_luminance(E_o, Y_o)
-    L_or = illuminance_to_luminance(E_or, Y_o)
+    xp = array_namespace(XYZ, XYZ_n, Y_o, E_o, E_or)
 
-    # Computing :math:`\\xi` :math:`\\eta`, :math:`\\zeta` values.
+    Y_o = xp_as_float_array(Y_o, xp=xp, like=XYZ)
+    E_o = xp_as_float_array(E_o, xp=xp, like=XYZ)
+    E_or = xp_as_float_array(E_or, xp=xp, like=XYZ)
+    n = xp_as_float_array(n, xp=xp, like=XYZ)
+
+    # Computing normalising luminance :math:`L_{or}` in :math:`cd/m^2`.
+    L_or = Y_o * E_or / (100 * xp.pi)
+
+    # Computing :math:`\\xi`, :math:`\\eta`, :math:`\\zeta` values from the
+    # reference white chromaticity (*CIE 1994* chromatic adaptation primitive).
     xez = intermediate_values(XYZ_to_xy(XYZ_n / 100))
-    xi, eta, _zeta = tsplit(xez)
+    xi, eta, zeta = tsplit(xez)
 
     # Computing adapting field cone responses.
-    RGB_o = ((Y_o[..., None] * E_o[..., None]) / (100 * np.pi)) * xez
+    RGB_o = ((Y_o[..., None] * E_o[..., None]) / (100 * xp.pi)) * xez
 
     # Computing stimulus cone responses.
-    RGB = XYZ_to_RGB_Nayatani95(XYZ)
-    R, G, _B = tsplit(RGB)
+    RGB = vecmul(MATRIX_XYZ_TO_RGB_NAYATANI95, XYZ)
+    R, G, B = tsplit(RGB)
 
-    # Computing exponential factors of the chromatic adaptation.
-    bRGB_o = exponential_factors(RGB_o)
-    bL_or = beta_1(L_or)
+    # Computing exponential factors :math:`\\beta_1(R_o)`,
+    # :math:`\\beta_1(G_o)`, :math:`\\beta_2(B_o)` and the normalising
+    # :math:`\\beta_1(B_{or})` (*CIE 1994* chromatic adaptation primitives).
+    # Cast back to the active backend dtype for consistent propagation.
+    bRGB_o = xp_as_float_array(exponential_factors(RGB_o), xp=xp, like=XYZ)
+    bR_o, bG_o, bB_o = tsplit(bRGB_o)
+    bL_or = xp_as_float_array(beta_1(L_or), xp=xp, like=XYZ)
 
-    # Computing scaling coefficients :math:`e(R)` and :math:`e(G)`
-    eR = scaling_coefficient(R, xi)
-    eG = scaling_coefficient(G, eta)
+    # Computing scaling coefficients :math:`e(R)` and :math:`e(G)`: 1.758 when
+    # the cone response exceeds 20 times the intermediate value, otherwise 1.
+    # Both ``xp.where`` branches are bare *Python* scalars, so nothing anchors
+    # the result dtype and the backend default, e.g. float32 for stock
+    # *PyTorch*, would be adopted; the branches are promoted to the *Colour*
+    # default float dtype first.
+    one = xp_as_float_array(1, xp=xp, like=XYZ)
+    eR = xp.where((20 * xi) <= R, xp_as_float_array(1.758, xp=xp, like=XYZ), one)
+    eG = xp.where((20 * eta) <= G, xp_as_float_array(1.758, xp=xp, like=XYZ), one)
 
-    # Computing opponent colour dimensions.
-    # Computing achromatic response :math:`Q`:
-    Q_response = achromatic_response(RGB, bRGB_o, xez, bL_or, eR, eG, n)
+    # Computing the logarithmic cone-response terms shared by the achromatic,
+    # tritanopic and protanopic opponent responses.
+    log_R = xp.log10((R + n) / (20 * xi + n))
+    log_G = xp.log10((G + n) / (20 * eta + n))
+    log_B = xp.log10((B + n) / (20 * zeta + n))
 
-    # Computing tritanopic response :math:`t`:
-    t_response = tritanopic_response(RGB, bRGB_o, xez, n)
+    # Computing achromatic response :math:`Q` as a weighted combination of the
+    # logarithmic red and green opponent terms.
+    Q_response = (2 / 3) * bR_o * eR * log_R
+    Q_response += (1 / 3) * bG_o * eG * log_G
+    Q_response *= 41.69 / bL_or
 
-    # Computing protanopic response :math:`p`:
-    p_response = protanopic_response(RGB, bRGB_o, xez, n)
+    # Computing tritanopic response :math:`t`.
+    t_response = bR_o * log_R - (12 / 11) * bG_o * log_G + (1 / 11) * bB_o * log_B
+
+    # Computing protanopic response :math:`p`.
+    p_response = (
+        (1 / 9) * bR_o * log_R + (1 / 9) * bG_o * log_G - (2 / 9) * bB_o * log_B
+    )
 
     # Computing the correlate of *brightness* :math:`B_r`.
-    B_r = brightness_correlate(bRGB_o, bL_or, Q_response)
+    B_r = (50 / bL_or) * ((2 / 3) * bR_o + (1 / 3) * bG_o) + Q_response
 
     # Computing *brightness* :math:`B_{rw}` of ideal white.
-    brightness_ideal_white = ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n)
-
-    # Computing the correlate of achromatic *Lightness* :math:`L_p^\\star`.
-    L_star_P = achromatic_lightness_correlate(Q_response)
-
-    # Computing the correlate of normalised achromatic *Lightness*
-    # :math:`L_n^\\star`.
-    L_star_N = normalised_achromatic_lightness_correlate(B_r, brightness_ideal_white)
-
-    # Computing the *hue* angle :math:`\\theta`.
-    theta = hue_angle(p_response, t_response)
-    # TODO: Implement hue quadrature & composition computation.
-
-    # Computing the correlate of *saturation* :math:`S`.
-    S_RG, S_YB = tsplit(saturation_components(theta, bL_or, t_response, p_response))
-    S = saturation_correlate(S_RG, S_YB)
-
-    # Computing the correlate of *chroma* :math:`C`.
-    # C_RG, C_YB = tsplit(chroma_components(L_star_P, S_RG, S_YB))
-    C = chroma_correlate(L_star_P, S)
-
-    # Computing the correlate of *colourfulness* :math:`M`.
-    # TODO: Investigate components usage.
-    # M_RG, M_YB = tsplit(colourfulness_components(C_RG, C_YB,
-    # brightness_ideal_white))
-    M = colourfulness_correlate(C, brightness_ideal_white)
-
-    return CAM_Specification_Nayatani95(
-        L_star_P=L_star_P,
-        C=C,
-        h=as_float(from_range_degrees(theta)),
-        s=S,
-        Q=B_r,
-        M=M,
-        H=None,
-        HC=None,
-        L_star_N=L_star_N,
-    )
-
-
-def illuminance_to_luminance(E: ArrayLike, Y_f: ArrayLike) -> NDArrayFloat:
-    """
-    Convert the specified *illuminance* :math:`E` value in lux to *luminance*
-    :math:`Y` in :math:`cd/m^2`.
-
-    Parameters
-    ----------
-    E
-        *Illuminance* :math:`E` in lux.
-    Y_f
-        *Luminance* factor :math:`Y_f` in :math:`cd/m^2`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *Luminance* :math:`Y` in :math:`cd/m^2`.
-
-    Examples
-    --------
-    >>> illuminance_to_luminance(5000.0, 20.0)  # doctest: +ELLIPSIS
-    np.float64(318.3098861...)
-    """
-
-    E = as_float_array(E)
-    Y_f = as_float_array(Y_f)
-
-    return Y_f * E / (100 * np.pi)
-
-
-def XYZ_to_RGB_Nayatani95(XYZ: ArrayLike) -> NDArrayFloat:
-    """
-    Convert *CIE XYZ* tristimulus values to cone responses.
-
-    Parameters
-    ----------
-    XYZ
-        *CIE XYZ* tristimulus values.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Cone responses.
-
-    Examples
-    --------
-    >>> XYZ = np.array([19.01, 20.00, 21.78])
-    >>> XYZ_to_RGB_Nayatani95(XYZ)  # doctest: +ELLIPSIS
-    array([20.0005206..., 19.999783..., 19.9988316...])
-    """
-
-    return vecmul(MATRIX_XYZ_TO_RGB_NAYATANI95, XYZ)
-
-
-def scaling_coefficient(x: ArrayLike, y: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the scaling coefficient :math:`e(R)` or :math:`e(G)`.
-
-    Parameters
-    ----------
-    x
-        Cone response.
-    y
-        Intermediate value.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Scaling coefficient :math:`e(R)` or :math:`e(G)`.
-
-    Examples
-    --------
-    >>> x = 20.000520600000002
-    >>> y = 1.000042192
-    >>> scaling_coefficient(x, y)
-    np.float64(1.0)
-    """
-
-    x = as_float_array(x)
-    y = as_float_array(y)
-
-    return as_float(np.where(x >= (20 * y), 1.758, 1))
-
-
-def achromatic_response(
-    RGB: ArrayLike,
-    bRGB_o: ArrayLike,
-    xez: ArrayLike,
-    bL_or: ArrayLike,
-    eR: ArrayLike,
-    eG: ArrayLike,
-    n: ArrayLike = 1,
-) -> NDArrayFloat:
-    """
-    Compute the achromatic response :math:`Q` from the specified stimulus
-    cone responses.
-
-    Parameters
-    ----------
-    RGB
-        Stimulus cone responses.
-    bRGB_o
-        Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-        :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
-    xez
-        Intermediate values :math:`\\xi`, :math:`\\eta`, :math:`\\zeta`.
-    bL_or
-        Normalising chromatic adaptation exponential factor
-        :math:`\\beta_1(B_{or})`.
-    eR
-        Scaling coefficient :math:`e(R)`.
-    eG
-        Scaling coefficient :math:`e(G)`.
-    n
-        Noise term used in the non-linear chromatic adaptation model.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Achromatic response :math:`Q`.
-
-    Examples
-    --------
-    >>> RGB = np.array([20.00052060, 19.99978300, 19.99883160])
-    >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
-    >>> xez = np.array([1.00004219, 0.99998001, 0.99975794])
-    >>> bL_or = 3.681021495604089
-    >>> eR = 1.0
-    >>> eG = 1.758
-    >>> n = 1.0
-    >>> achromatic_response(RGB, bRGB_o, xez, bL_or, eR, eG, n)
-    ... # doctest: +ELLIPSIS
-    np.float64(-0.0001169...)
-    """
-
-    R, G, _B = tsplit(RGB)
-    bR_o, bG_o, _bB_o = tsplit(bRGB_o)
-    xi, eta, _zeta = tsplit(xez)
-    bL_or = as_float_array(bL_or)
-    eR = as_float_array(eR)
-    eG = as_float_array(eG)
-
-    Q = (2 / 3) * bR_o * eR * np.log10((R + n) / (20 * xi + n))
-    Q += (1 / 3) * bG_o * eG * np.log10((G + n) / (20 * eta + n))
-    Q *= 41.69 / bL_or
-
-    return as_float(Q)
-
-
-def tritanopic_response(
-    RGB: ArrayLike, bRGB_o: ArrayLike, xez: ArrayLike, n: ArrayLike
-) -> NDArrayFloat:
-    """
-    Compute the tritanopic response :math:`t` from the specified stimulus cone
-    responses.
-
-    Parameters
-    ----------
-    RGB
-        Stimulus cone responses.
-    bRGB_o
-        Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-        :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
-    xez
-        Intermediate values :math:`\\xi`, :math:`\\eta`, :math:`\\zeta`.
-    n
-        Noise term used in the non-linear chromatic adaptation model.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Tritanopic response :math:`t`.
-
-    Examples
-    --------
-    >>> RGB = np.array([20.00052060, 19.99978300, 19.99883160])
-    >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
-    >>> xez = np.array([1.00004219, 0.99998001, 0.99975794])
-    >>> n = 1.0
-    >>> tritanopic_response(RGB, bRGB_o, xez, n)  # doctest: +ELLIPSIS
-    np.float64(-1.7703650...e-05)
-    """
-
-    R, G, B = tsplit(RGB)
-    bR_o, bG_o, bB_o = tsplit(bRGB_o)
-    xi, eta, zeta = tsplit(xez)
-
-    t = (
-        bR_o * np.log10((R + n) / (20 * xi + n))
-        - (12 / 11) * bG_o * np.log10((G + n) / (20 * eta + n))
-        + (1 / 11) * bB_o * np.log10((B + n) / (20 * zeta + n))
-    )
-
-    return as_float(t)
-
-
-def protanopic_response(
-    RGB: ArrayLike, bRGB_o: ArrayLike, xez: ArrayLike, n: ArrayLike
-) -> NDArrayFloat:
-    """
-    Compute the protanopic response :math:`p` from the specified stimulus cone
-    responses.
-
-    Parameters
-    ----------
-    RGB
-        Stimulus cone responses.
-    bRGB_o
-        Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-        :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
-    xez
-        Intermediate values :math:`\\xi`, :math:`\\eta`, :math:`\\zeta`.
-    n
-        Noise term used in the non-linear chromatic adaptation model.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Protanopic response :math:`p`.
-
-    Examples
-    --------
-    >>> RGB = np.array([20.00052060, 19.99978300, 19.99883160])
-    >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
-    >>> xez = np.array([1.00004219, 0.99998001, 0.99975794])
-    >>> n = 1.0
-    >>> protanopic_response(RGB, bRGB_o, xez, n)  # doctest: +ELLIPSIS
-    np.float64(-8.0021426...e-05)
-    """
-
-    R, G, B = tsplit(RGB)
-    bR_o, bG_o, bB_o = tsplit(bRGB_o)
-    xi, eta, zeta = tsplit(xez)
-
-    p = (1 / 9) * bR_o * np.log10((R + n) / (20 * xi + n))
-    p += (1 / 9) * bG_o * np.log10((G + n) / (20 * eta + n))
-    p += -(2 / 9) * bB_o * np.log10((B + n) / (20 * zeta + n))
-
-    return as_float(p)
-
-
-def brightness_correlate(
-    bRGB_o: ArrayLike, bL_or: ArrayLike, Q: ArrayLike
-) -> NDArrayFloat:
-    """
-    Compute the *brightness* correlate :math:`B_r`.
-
-    Parameters
-    ----------
-    bRGB_o
-        Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-        :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
-    bL_or
-        Normalising chromatic adaptation exponential factor
-        :math:`\\beta_1(B_{or})`.
-    Q
-        Achromatic response :math:`Q`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *Brightness* correlate :math:`B_r`.
-
-    Examples
-    --------
-    >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
-    >>> bL_or = 3.681021495604089
-    >>> Q = -0.000117024294955
-    >>> brightness_correlate(bRGB_o, bL_or, Q)  # doctest: +ELLIPSIS
-    np.float64(62.6266734...)
-    """
-
-    bR_o, bG_o, _bB_o = tsplit(bRGB_o)
-    bL_or = as_float_array(bL_or)
-    Q = as_float_array(Q)
-
-    B_r = (50 / bL_or) * ((2 / 3) * bR_o + (1 / 3) * bG_o) + Q
-
-    return as_float(B_r)
-
-
-def ideal_white_brightness_correlate(
-    bRGB_o: ArrayLike,
-    xez: ArrayLike,
-    bL_or: ArrayLike,
-    n: ArrayLike,
-) -> NDArrayFloat:
-    """
-    Compute the ideal white *brightness* correlate :math:`B_{rw}`.
-
-    Parameters
-    ----------
-    bRGB_o
-        Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
-        :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
-    xez
-        Intermediate values :math:`\\xi`, :math:`\\eta`, :math:`\\zeta`.
-    bL_or
-        Normalising chromatic adaptation exponential factor
-        :math:`\\beta_1(B_{or})`.
-    n
-        Noise term used in the non-linear chromatic adaptation model.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Ideal white *brightness* correlate :math:`B_{rw}`.
-
-    Examples
-    --------
-    >>> bRGB_o = np.array([4.61062223, 4.61058926, 4.65206986])
-    >>> xez = np.array([1.00004219, 0.99998001, 0.99975794])
-    >>> bL_or = 3.681021495604089
-    >>> n = 1.0
-    >>> ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n)
-    ... # doctest: +ELLIPSIS
-    np.float64(125.2435392...)
-    """
-
-    bR_o, bG_o, _bB_o = tsplit(bRGB_o)
-    xi, eta, _zeta = tsplit(xez)
-    bL_or = as_float_array(bL_or)
-
-    B_rw = (2 / 3) * bR_o * 1.758 * np.log10((100 * xi + n) / (20 * xi + n))
-    B_rw += (1 / 3) * bG_o * 1.758 * np.log10((100 * eta + n) / (20 * eta + n))
+    B_rw = (2 / 3) * bR_o * 1.758 * xp.log10((100 * xi + n) / (20 * xi + n))
+    B_rw += (1 / 3) * bG_o * 1.758 * xp.log10((100 * eta + n) / (20 * eta + n))
     B_rw *= 41.69 / bL_or
     B_rw += (50 / bL_or) * (2 / 3) * bR_o
     B_rw += (50 / bL_or) * (1 / 3) * bG_o
 
-    return as_float(B_rw)
+    # Computing the correlate of achromatic *Lightness* :math:`L_p^\\star`.
+    L_star_P = Q_response + 50
 
+    # Computing the correlate of normalised achromatic *Lightness*
+    # :math:`L_n^\\star`.
+    L_star_N = 100 * B_r / B_rw
 
-def achromatic_lightness_correlate(
-    Q: ArrayLike,
-) -> NDArrayFloat:
-    """
-    Compute the *achromatic lightness* correlate :math:`L_p^\\star`.
+    # Computing the *hue* angle :math:`\\theta` in degrees from the protanopic
+    # and tritanopic responses.
+    theta = xp_degrees(xp.atan2(p_response, t_response)) % 360
+    # Computing the *hue* :math:`h` quadrature :math:`H` only when requested
+    # via ``compute_H``; the bin search delegates to :func:`hue_quadrature`,
+    # a 400-step linear interpolation between unique-hue angles 20.14, 90.00,
+    # 164.25, 231.00 per *Fairchild (2013)* p.202.
+    H = hue_quadrature(theta) if compute_H else xp.full_like(theta, float("nan"))
+    # TODO: Implement hue composition computation.
 
-    Parameters
-    ----------
-    Q
-        Achromatic response :math:`Q`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *Achromatic lightness* correlate :math:`L_p^\\star`.
-
-    Examples
-    --------
-    >>> Q = -0.000117024294955
-    >>> achromatic_lightness_correlate(Q)  # doctest: +ELLIPSIS
-    np.float64(49.9998829...)
-    """
-
-    Q = as_float_array(Q)
-
-    return as_float(Q + 50)
-
-
-def normalised_achromatic_lightness_correlate(
-    B_r: ArrayLike, B_rw: ArrayLike
-) -> NDArrayFloat:
-    """
-    Compute the *normalised achromatic lightness* correlate
-    :math:`L_n^\\star`.
-
-    Parameters
-    ----------
-    B_r
-        *Brightness* correlate :math:`B_r`.
-    B_rw
-        Ideal white *brightness* correlate :math:`B_{rw}`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *Normalised achromatic lightness* correlate :math:`L_n^\\star`.
-
-    Examples
-    --------
-    >>> B_r = 62.626673467230766
-    >>> B_rw = 125.24353925846037
-    >>> normalised_achromatic_lightness_correlate(B_r, B_rw)
-    ... # doctest: +ELLIPSIS
-    np.float64(50.0039154...)
-    """
-
-    B_r = as_float_array(B_r)
-    B_rw = as_float_array(B_rw)
-
-    return as_float(100 * B_r / B_rw)
-
-
-def hue_angle(p: ArrayLike, t: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the *hue* angle :math:`h` in degrees from the specified
-    protanopic and tritanopic responses.
-
-    Parameters
-    ----------
-    p
-        Protanopic response :math:`p`.
-    t
-        Tritanopic response :math:`t`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *Hue* angle :math:`h` in degrees.
-
-    Examples
-    --------
-    >>> p = -8.002142682085493e-05
-    >>> t = -0.000017703650669
-    >>> hue_angle(p, t)  # doctest: +ELLIPSIS
-    np.float64(257.5250300...)
-    """
-
-    p = as_float_array(p)
-    t = as_float_array(t)
-
-    h_L = np.degrees(np.arctan2(p, t)) % 360
-
-    return as_float(h_L)
-
-
-def chromatic_strength_function(
-    theta: ArrayLike,
-) -> NDArrayFloat:
-    """
-    Define the chromatic strength function :math:`E_s(\\theta)` used to
-    correct saturation scale as a function of hue angle :math:`\\theta` in
-    degrees.
-
-    Parameters
-    ----------
-    theta
-        Hue angle :math:`\\theta` in degrees.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Corrected saturation scale.
-
-    Examples
-    --------
-    >>> h = 257.52322689806243
-    >>> chromatic_strength_function(h)  # doctest: +ELLIPSIS
-    np.float64(1.2267869...)
-    """
-
-    theta = np.radians(theta)
-
+    # Computing the chromatic strength function :math:`E_s(\\theta)` used to
+    # correct the saturation scale as a function of hue angle.
+    theta_rad = xp_radians(theta)
     E_s = cast("NDArrayFloat", 0.9394)
-    E_s += -0.2478 * np.sin(1 * theta)
-    E_s += -0.0743 * np.sin(2 * theta)
-    E_s += +0.0666 * np.sin(3 * theta)
-    E_s += -0.0186 * np.sin(4 * theta)
-    E_s += -0.0055 * np.cos(1 * theta)
-    E_s += -0.0521 * np.cos(2 * theta)
-    E_s += -0.0573 * np.cos(3 * theta)
-    E_s += -0.0061 * np.cos(4 * theta)
+    E_s += -0.2478 * xp.sin(1 * theta_rad)
+    E_s += -0.0743 * xp.sin(2 * theta_rad)
+    E_s += +0.0666 * xp.sin(3 * theta_rad)
+    E_s += -0.0186 * xp.sin(4 * theta_rad)
+    E_s += -0.0055 * xp.cos(1 * theta_rad)
+    E_s += -0.0521 * xp.cos(2 * theta_rad)
+    E_s += -0.0573 * xp.cos(3 * theta_rad)
+    E_s += -0.0061 * xp.cos(4 * theta_rad)
 
-    return as_float(E_s)
+    # Computing *saturation* components :math:`S_{RG}` and :math:`S_{YB}` and
+    # the *saturation* correlate :math:`S`.
+    S_RG = 488.93 / bL_or * E_s * t_response
+    S_YB = 488.93 / bL_or * E_s * p_response
+    S = xp.hypot(S_RG, S_YB)
+
+    # Computing the correlate of *chroma* :math:`C`.
+    C = spow(L_star_P / 50, 0.7) * S
+
+    # Computing the correlate of *colourfulness* :math:`M`.
+    # TODO: Investigate components usage.
+    M = C * B_rw / 100
+
+    return CAM_Specification_Nayatani95(
+        L_star_P=as_float(L_star_P),
+        C=as_float(C),
+        h=as_float(from_range_degrees(theta)),
+        s=as_float(S),
+        Q=as_float(B_r),
+        M=as_float(M),
+        H=as_float(from_range_degrees(H, 400)),
+        HC=None,
+        L_star_N=as_float(L_star_N),
+    )
 
 
-def saturation_components(
-    h: ArrayLike,
-    bL_or: ArrayLike,
-    t: ArrayLike,
-    p: ArrayLike,
-) -> NDArrayFloat:
+def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     """
-    Compute the *saturation* components :math:`S_{RG}` and :math:`S_{YB}`.
+    Compute hue quadrature :math:`H` from the specified *Nayatani (1995)*
+    hue :math:`\\theta` angle in degrees via linear interpolation between
+    the four unique-hue angles.
 
     Parameters
     ----------
     h
-        Correlate of *hue* :math:`h` in degrees.
-    bL_or
-         Normalising chromatic adaptation exponential factor
-         :math:`\\beta_1(B_or)`.
-    t
-        Tritanopic response :math:`t`.
-    p
-        Protanopic response :math:`p`.
+        Hue :math:`\\theta` angle in degrees.
 
     Returns
     -------
     :class:`numpy.ndarray`
-        *Saturation* components :math:`S_{RG}` and :math:`S_{YB}`.
+        Hue quadrature :math:`H` in the 400-step *Nayatani (1995)* scale
+        (R 0, Y 100, G 200, B 300, wrap to R 400).
+
+    References
+    ----------
+    :cite:`Fairchild2013ba`, :cite:`Nayatani1995a`
 
     Examples
     --------
-    >>> h = 257.52322689806243
-    >>> bL_or = 3.681021495604089
-    >>> t = -0.000017706764677
-    >>> p = -0.000080023561356
-    >>> saturation_components(h, bL_or, t, p)  # doctest: +ELLIPSIS
-    array([-0.0028852..., -0.0130396...])
+    >>> hue_quadrature(257.5232268)  # doctest: +ELLIPSIS
+    np.float64(317.7841134...)
     """
 
     h = as_float_array(h)
-    bL_or = as_float_array(bL_or)
-    t = as_float_array(t)
-    p = as_float_array(p)
 
-    E_s = chromatic_strength_function(h)
-    S_RG = 488.93 / bL_or * E_s * t
-    S_YB = 488.93 / bL_or * E_s * p
+    xp = array_namespace(h)
 
-    return tstack([S_RG, S_YB])
+    h = as_float_array(xp.where(xp.isnan(h), 0, h))
 
+    # Unique-hue angles per *Fairchild (2013)* p.202:
+    #   R 20.14, Y 90.00, G 164.25, B 231.00, R 380.14 (wrap).
+    # Hue quadrature is a 400-step scale obtained via linear interpolation
+    # between consecutive bin boundaries; no eccentricity weighting (unlike
+    # *CIECAM02*).
+    H_0 = (h - 20.14) / (90.00 - 20.14) * 100
+    H_1 = 100 + (h - 90.00) / (164.25 - 90.00) * 100
+    H_2 = 200 + (h - 164.25) / (231.00 - 164.25) * 100
+    H_3 = 300 + (h - 231.00) / (380.14 - 231.00) * 100
 
-def saturation_correlate(S_RG: ArrayLike, S_YB: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the correlate of *saturation* :math:`S`.
+    # ``h < 20.14`` wraps through ``360`` into the B -> R interval.
+    H_wrap = 300 + (h + 360 - 231.00) / (380.14 - 231.00) * 100
 
-    Parameters
-    ----------
-    S_RG
-        *Saturation* component :math:`S_{RG}`.
-    S_YB
-        *Saturation* component :math:`S_{YB}`.
+    H = xp_select(
+        [
+            (h >= 20.14) & (h < 90.00),
+            (h >= 90.00) & (h < 164.25),
+            (h >= 164.25) & (h < 231.00),
+            h >= 231.00,
+        ],
+        [H_0, H_1, H_2, H_3],
+        default=H_wrap,
+        xp=xp,
+    )
 
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Correlate of *saturation* :math:`S`.
-
-    Examples
-    --------
-    >>> S_RG = -0.002885271638197
-    >>> S_YB = -0.013039632941332
-    >>> saturation_correlate(S_RG, S_YB)  # doctest: +ELLIPSIS
-    np.float64(0.0133550...)
-    """
-
-    S_RG = as_float_array(S_RG)
-    S_YB = as_float_array(S_YB)
-
-    S = np.hypot(S_RG, S_YB)
-
-    return as_float(S)
-
-
-def chroma_components(
-    L_star_P: ArrayLike,
-    S_RG: ArrayLike,
-    S_YB: ArrayLike,
-) -> NDArrayFloat:
-    """
-    Compute the *chroma* components :math:`C_{RG}` and :math:`C_{YB}`.
-
-    Parameters
-    ----------
-    L_star_P
-        *Achromatic lightness* correlate :math:`L_p^\\star`.
-    S_RG
-        *Saturation* component :math:`S_{RG}`.
-    S_YB
-        *Saturation* component :math:`S_{YB}`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *Chroma* components :math:`C_{RG}` and :math:`C_{YB}`.
-
-    Examples
-    --------
-    >>> L_star_P = 49.99988297570504
-    >>> S_RG = -0.002885271638197
-    >>> S_YB = -0.013039632941332
-    >>> chroma_components(L_star_P, S_RG, S_YB)  # doctest: +ELLIPSIS
-    array([-0.00288527, -0.01303961])
-    """
-
-    L_star_P = as_float_array(L_star_P)
-    S_RG = as_float_array(S_RG)
-    S_YB = as_float_array(S_YB)
-
-    C_RG = spow(L_star_P / 50, 0.7) * S_RG
-    C_YB = spow(L_star_P / 50, 0.7) * S_YB
-
-    return tstack([C_RG, C_YB])
-
-
-def chroma_correlate(L_star_P: ArrayLike, S: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the correlate of *chroma* :math:`C`.
-
-    Parameters
-    ----------
-    L_star_P
-        *Achromatic lightness* correlate :math:`L_p^\\star`.
-    S
-        Correlate of *saturation* :math:`S`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Correlate of *chroma* :math:`C`.
-
-    Examples
-    --------
-    >>> L_star_P = 49.99988297570504
-    >>> S = 0.013355029751778
-    >>> chroma_correlate(L_star_P, S)  # doctest: +ELLIPSIS
-    np.float64(0.0133550...)
-    """
-
-    L_star_P = as_float_array(L_star_P)
-    S = as_float_array(S)
-
-    return spow(L_star_P / 50, 0.7) * S
-
-
-def colourfulness_components(
-    C_RG: ArrayLike,
-    C_YB: ArrayLike,
-    B_rw: ArrayLike,
-) -> NDArrayFloat:
-    """
-    Compute the *colourfulness* components :math:`M_{RG}` and :math:`M_{YB}`.
-
-    Parameters
-    ----------
-    C_RG
-        *Chroma* component :math:`C_{RG}`.
-    C_YB
-        *Chroma* component :math:`C_{YB}`.
-    B_rw
-        Ideal white *brightness* correlate :math:`B_{rw}`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        *Colourfulness* components :math:`M_{RG}` and :math:`M_{YB}`.
-
-    Examples
-    --------
-    >>> C_RG = -0.002885271638197
-    >>> C_YB = -0.013039632941332
-    >>> B_rw = 125.24353925846037
-    >>> colourfulness_components(C_RG, C_YB, B_rw)  # doctest: +ELLIPSIS
-    array([-0.0036136..., -0.0163313...])
-    """
-
-    C_RG = as_float_array(C_RG)
-    C_YB = as_float_array(C_YB)
-    B_rw = as_float_array(B_rw)
-
-    M_RG = C_RG * B_rw / 100
-    M_YB = C_YB * B_rw / 100
-
-    return tstack([M_RG, M_YB])
-
-
-def colourfulness_correlate(C: ArrayLike, B_rw: ArrayLike) -> NDArrayFloat:
-    """
-    Compute the correlate of *colourfulness* :math:`M`.
-
-    Parameters
-    ----------
-    C
-        Correlate of *chroma* :math:`C`.
-    B_rw
-        Ideal white *brightness* correlate :math:`B_{rw}`.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Correlate of *colourfulness* :math:`M`.
-
-    Examples
-    --------
-    >>> C = 0.013355007871689
-    >>> B_rw = 125.24353925846037
-    >>> colourfulness_correlate(C, B_rw)  # doctest: +ELLIPSIS
-    np.float64(0.0167262...)
-    """
-
-    C = as_float_array(C)
-    B_rw = as_float_array(B_rw)
-
-    M = C * B_rw / 100
-
-    return as_float(M)
+    return as_float(H)

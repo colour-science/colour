@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 import numpy as np
 import pytest
 
@@ -38,6 +43,7 @@ from colour.quality.tlci import (
     uv_to_CCT_TLCI2012,
 )
 from colour.temperature import CCT_to_xy_CIE_D
+from colour.utilities import xp_as_array, xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -246,12 +252,14 @@ class TestSdPlanckianTLCI2012:
     tests methods.
     """
 
-    def test_sd_planckian_TLCI2012(self) -> None:
+    def test_sd_planckian_TLCI2012(self, xp: ModuleType) -> None:
         """Test :func:`colour.quality.tlci.sd_planckian_TLCI2012` definition."""
 
-        sd = sd_planckian_TLCI2012(3400, SPECTRAL_SHAPE_TLCI_TLMF_TESTS)
+        sd = sd_planckian_TLCI2012(
+            xp_as_array(3400, xp=xp), SPECTRAL_SHAPE_TLCI_TLMF_TESTS
+        )
 
-        assert sd[560] == pytest.approx(100)
+        xp_assert_close(sd[560], 100)
 
         for wavelength in (380, 560, 760):
             # EBU Tech 3355 section 1.1.2.1, equation [9].
@@ -263,7 +271,7 @@ class TestSdPlanckianTLCI2012:
                     / np.expm1(1.435e7 / (wavelength * 3400))
                 )
             )
-            assert sd[wavelength] == pytest.approx(value)
+            xp_assert_close(sd[wavelength], value)
 
 
 class TestSdDaylightTLCI2012:
@@ -272,15 +280,17 @@ class TestSdDaylightTLCI2012:
     tests methods.
     """
 
-    def test_sd_daylight_TLCI2012(self) -> None:
+    def test_sd_daylight_TLCI2012(self, xp: ModuleType) -> None:
         """Test :func:`colour.quality.tlci.sd_daylight_TLCI2012` definition."""
 
-        sd = sd_daylight_TLCI2012(6500, SPECTRAL_SHAPE_TLCI_TLMF_TESTS)
+        sd = sd_daylight_TLCI2012(
+            xp_as_array(6500, xp=xp), SPECTRAL_SHAPE_TLCI_TLMF_TESTS
+        )
 
         # EBU Tech 3355 section 1.1.2.2 anchors the daylight components at
         # 560 nm, so the reconstruction is 100 there for any CCT.
-        assert sd[560] == pytest.approx(100)
-        np.testing.assert_allclose(sd[400], 82.423248, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(sd[560], 100)
+        xp_assert_close(sd[400], 82.423248, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestUvToCCTTLCI2012:
@@ -289,20 +299,25 @@ class TestUvToCCTTLCI2012:
     tests methods.
     """
 
-    def test_uv_to_CCT_TLCI2012(self) -> None:
+    @pytest.mark.mps_tolerance_absolute(3e-2)
+    def test_uv_to_CCT_TLCI2012(self, xp: ModuleType) -> None:
         """Test :func:`colour.quality.tlci.uv_to_CCT_TLCI2012` definition."""
 
         # EBU Tech 3355 section 1.1.1 selects the Planckian locus below the
         # daylight range and the daylight locus above it.
-        CCT, _uv_locus, is_daylight = uv_to_CCT_TLCI2012(np.array([0.26, 0.35]))
-        np.testing.assert_allclose(CCT, 2755.437250, atol=TOLERANCE_ABSOLUTE_TESTS)
+        CCT, _uv_locus, is_daylight = uv_to_CCT_TLCI2012(
+            xp_as_array([0.26, 0.35], xp=xp)
+        )
+        xp_assert_close(CCT, 2755.437250, atol=TOLERANCE_ABSOLUTE_TESTS)
         assert not is_daylight
 
-        CCT, _uv_locus, is_daylight = uv_to_CCT_TLCI2012(np.array([0.19, 0.31]))
-        np.testing.assert_allclose(CCT, 7255.262985, atol=TOLERANCE_ABSOLUTE_TESTS)
+        CCT, _uv_locus, is_daylight = uv_to_CCT_TLCI2012(
+            xp_as_array([0.19, 0.31], xp=xp)
+        )
+        xp_assert_close(CCT, 7255.262985, atol=TOLERANCE_ABSOLUTE_TESTS)
         assert is_daylight
 
-    def test_uv_to_CCT_TLCI2012_nearest_locus_sample(self) -> None:
+    def test_uv_to_CCT_TLCI2012_nearest_locus_sample(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.quality.tlci.uv_to_CCT_TLCI2012` definition nearest
         locus sample fallback.
@@ -311,28 +326,28 @@ class TestUvToCCTTLCI2012:
         # A test colour outside the tabulated normal-intersection range falls
         # back to the nearest Appendix 2 locus sample, here the 25000 K
         # daylight endpoint.
-        uv = np.array([0.18, 0.20])
+        uv = xp_as_array([0.18, 0.20], xp=xp)
         CCT, uv_locus, is_daylight = uv_to_CCT_TLCI2012(uv)
-        np.testing.assert_allclose(CCT, 25000, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(CCT, 25000, atol=TOLERANCE_ABSOLUTE_TESTS)
         assert is_daylight
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             uv_locus,
             xy_to_UCS_uv(DATA_DAYLIGHT_LOCUS_TLCI2012[-1, 1:]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_uv_to_CCT_TLCI2012_daylight_endpoint(self) -> None:
+    def test_uv_to_CCT_TLCI2012_daylight_endpoint(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.quality.tlci.uv_to_CCT_TLCI2012` definition at the
         first daylight-locus sample.
         """
 
-        uv = xy_to_UCS_uv(DATA_DAYLIGHT_LOCUS_TLCI2012[0, 1:])
+        uv = xp_as_array(xy_to_UCS_uv(DATA_DAYLIGHT_LOCUS_TLCI2012[0, 1:]), xp=xp)
         CCT, uv_locus, is_daylight = uv_to_CCT_TLCI2012(uv)
 
-        assert pytest.approx(5000) == CCT
-        np.testing.assert_allclose(uv_locus, uv, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(CCT, 5000, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(uv_locus, uv, atol=TOLERANCE_ABSOLUTE_TESTS)
         assert is_daylight
 
 
@@ -342,7 +357,8 @@ class TestSdReferenceIlluminantTLCI2012:
     definition unit tests methods.
     """
 
-    def test_sd_reference_illuminant_TLCI2012(self) -> None:
+    @pytest.mark.mps_tolerance_absolute(2e-3)
+    def test_sd_reference_illuminant_TLCI2012(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.quality.tlci.sd_reference_illuminant_TLCI2012`
         definition.
@@ -350,19 +366,21 @@ class TestSdReferenceIlluminantTLCI2012:
 
         # EBU Tech 3355 section 1.1.2 uses a Planckian reference below 3400 K
         # and a daylight reference above 5000 K.
-        sd_reference, CCT, D_uv = sd_reference_illuminant_TLCI2012(SDS_ILLUMINANTS["A"])
-        assert sd_reference[560] == pytest.approx(100)
-        np.testing.assert_allclose(CCT, 2848.132209, atol=TOLERANCE_ABSOLUTE_TESTS)
-        assert D_uv == pytest.approx(0, abs=1.5e-2)
+        sd_reference, CCT, D_uv = sd_reference_illuminant_TLCI2012(
+            SDS_ILLUMINANTS["A"].copy(xp=xp)
+        )
+        xp_assert_close(sd_reference[560], 100)
+        xp_assert_close(CCT, 2848.132209, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(D_uv, 0, atol=1.5e-2)
 
         sd_reference, CCT, D_uv = sd_reference_illuminant_TLCI2012(
-            SDS_ILLUMINANTS["D65"]
+            SDS_ILLUMINANTS["D65"].copy(xp=xp)
         )
-        assert sd_reference[560] == pytest.approx(100)
-        np.testing.assert_allclose(CCT, 6505.096585, atol=TOLERANCE_ABSOLUTE_TESTS)
-        assert D_uv == pytest.approx(0, abs=1.5e-2)
+        xp_assert_close(sd_reference[560], 100)
+        xp_assert_close(CCT, 6505.096585, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(D_uv, 0, atol=1.5e-2)
 
-    def test_sd_reference_illuminant_TLCI2012_D_uv_sign(self) -> None:
+    def test_sd_reference_illuminant_TLCI2012_D_uv_sign(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.quality.tlci.sd_reference_illuminant_TLCI2012`
         definition ``D_uv`` sign convention.
@@ -387,8 +405,8 @@ class TestSdReferenceIlluminantTLCI2012:
         # EBU Tech 3355 section 1.1.1 reverses the sign for green-side offsets
         # (uT < uL); section 1.1.2.3 equations [16]-[17] label positive d as
         # magenta and negative d as green.
-        assert sd_reference_illuminant_TLCI2012(sd_green)[2] < -0.5
-        assert sd_reference_illuminant_TLCI2012(sd_magenta)[2] > 0.5
+        assert sd_reference_illuminant_TLCI2012(sd_green.copy(xp=xp))[2] < -0.5
+        assert sd_reference_illuminant_TLCI2012(sd_magenta.copy(xp=xp))[2] > 0.5
 
 
 class TestColourDifferencesTLCI2012:
@@ -397,26 +415,30 @@ class TestColourDifferencesTLCI2012:
     unit tests methods.
     """
 
-    def test_colour_differences_TLCI2012(self) -> None:
+    def test_colour_differences_TLCI2012(self, xp: ModuleType) -> None:
         """Test :func:`colour.quality.tlci.colour_differences_TLCI2012`."""
 
-        msds_camera = MSDS_CAMERA_SENSITIVITIES_TLCI2012["EBU Standard Camera"]
-        delta_E_s, invalid = colour_differences_TLCI2012(
-            SDS_ILLUMINANTS["D65"], SDS_ILLUMINANTS["D65"], msds_camera
+        msds_camera = MSDS_CAMERA_SENSITIVITIES_TLCI2012["EBU Standard Camera"].copy(
+            xp=xp
         )
-        np.testing.assert_allclose(delta_E_s, 0, atol=TOLERANCE_ABSOLUTE_TESTS)
+        delta_E_s, invalid = colour_differences_TLCI2012(
+            SDS_ILLUMINANTS["D65"].copy(xp=xp),
+            SDS_ILLUMINANTS["D65"].copy(xp=xp),
+            msds_camera,
+        )
+        xp_assert_close(delta_E_s, 0, atol=TOLERANCE_ABSOLUTE_TESTS)
         assert invalid.shape == (24,)
 
         # EBU Tech 3355 section 1.3.1 applies the reference balance to both
         # TLMF sources before normalising the test-source camera luma.
         delta_E_s, invalid = colour_differences_TLCI2012(
-            SDS_ILLUMINANTS["FL2"],
-            SDS_ILLUMINANTS["D65"],
+            SDS_ILLUMINANTS["FL2"].copy(xp=xp),
+            SDS_ILLUMINANTS["D65"].copy(xp=xp),
             msds_camera,
             normalise_test_luma_only=True,
         )
         Q_a, _delta_E_a = quality_index_TLCI2012(delta_E_s[~invalid])
-        assert Q_a == pytest.approx(5.376079603398939)
+        xp_assert_close(Q_a, 5.376079603398939)
 
 
 class TestQualityIndexTLCI2012:
@@ -425,22 +447,22 @@ class TestQualityIndexTLCI2012:
     tests methods.
     """
 
-    def test_quality_index_TLCI2012(self) -> None:
+    def test_quality_index_TLCI2012(self, xp: ModuleType) -> None:
         """Test :func:`colour.quality.tlci.quality_index_TLCI2012`."""
 
         # EBU Tech 3355 section 1.5.1 defines 3.16 as the watershed aggregate
         # colour difference that must produce a quality index of 50.
         # Public numerical definitions accept array-like inputs.
-        delta_E_s = [3.16]
+        delta_E_s = xp_as_array([3.16], xp=xp)
         Q_a, delta_E_a = quality_index_TLCI2012(delta_E_s)
-        assert delta_E_a == pytest.approx(3.16)
-        assert Q_a == pytest.approx(50)
+        xp_assert_close(delta_E_a, 3.16)
+        xp_assert_close(Q_a, 50)
 
-    def test_raise_exception_quality_index_TLCI2012(self) -> None:
+    def test_raise_exception_quality_index_TLCI2012(self, xp: ModuleType) -> None:
         """Test :func:`colour.quality.tlci.quality_index_TLCI2012` exception."""
 
         with pytest.raises(ValueError, match="All TLCI/TLMF samples were excluded"):
-            quality_index_TLCI2012(np.array([]))
+            quality_index_TLCI2012(xp_as_array([], xp=xp))
 
 
 class TestTelevisionLightingConsistencyIndex:
@@ -449,32 +471,39 @@ class TestTelevisionLightingConsistencyIndex:
 television_lighting_consistency_index` definition unit tests methods.
     """
 
-    def test_television_lighting_consistency_index(self) -> None:
+    def test_television_lighting_consistency_index(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.quality.tlci.\
 television_lighting_consistency_index` definition.
         """
 
-        np.testing.assert_allclose(
-            television_lighting_consistency_index(SDS_ILLUMINANTS["FL2"]),
+        sd_fl2_xp = SDS_ILLUMINANTS["FL2"].copy(xp=xp)
+
+        xp_assert_close(
+            television_lighting_consistency_index(sd_fl2_xp),
             29.492541753138433,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         # An explicit camera name selects the same *EBU Standard Camera*
         # sensitivities as the default and therefore yields the same score.
-        assert television_lighting_consistency_index(
-            SDS_ILLUMINANTS["FL2"], camera="EBU Standard Camera"
-        ) == television_lighting_consistency_index(SDS_ILLUMINANTS["FL2"])
+        xp_assert_close(
+            television_lighting_consistency_index(
+                sd_fl2_xp, camera="EBU Standard Camera"
+            ),
+            television_lighting_consistency_index(sd_fl2_xp),
+        )
 
-    def test_television_lighting_consistency_index_additional_data(self) -> None:
+    def test_television_lighting_consistency_index_additional_data(
+        self, xp: ModuleType
+    ) -> None:
         """
         Test :func:`colour.quality.tlci.\
 television_lighting_consistency_index` definition with additional data.
         """
 
         specification = television_lighting_consistency_index(
-            SDS_ILLUMINANTS["FL2"], additional_data=True
+            SDS_ILLUMINANTS["FL2"].copy(xp=xp), additional_data=True
         )
         assert isinstance(specification, ColourQuality_Specification_TLCI2012)
         assert 0.0 <= specification.Q_a <= 100.0
@@ -485,30 +514,34 @@ television_lighting_consistency_index` definition with additional data.
         # a near-zero reference-locus distance.
         for name in ("A", "D65"):
             specification = television_lighting_consistency_index(
-                SDS_ILLUMINANTS[name], additional_data=True
+                SDS_ILLUMINANTS[name].copy(xp=xp), additional_data=True
             )
-            assert specification.Q_a == pytest.approx(100, abs=5e-4)
-            assert specification.D_uv == pytest.approx(0, abs=1.5e-2)
+            xp_assert_close(specification.Q_a, 100, atol=5e-4)
+            xp_assert_close(specification.D_uv, 0, atol=1.5e-2)
 
-    def test_television_lighting_consistency_index_mixed_reference(self) -> None:
+    def test_television_lighting_consistency_index_mixed_reference(
+        self, xp: ModuleType
+    ) -> None:
         """
         Test :func:`colour.quality.tlci.\
 television_lighting_consistency_index` definition mixed-reference region.
         """
 
         specification = television_lighting_consistency_index(
-            sd_planckian(4000), additional_data=True
+            sd_planckian(4000).copy(xp=xp), additional_data=True
         )
-        assert specification.Q_a == pytest.approx(100, abs=0.5)
-        assert specification.D_uv == pytest.approx(0, abs=2e-2)
+        xp_assert_close(specification.Q_a, 100, atol=0.5)
+        xp_assert_close(specification.D_uv, 0, atol=2e-2)
 
         specification = television_lighting_consistency_index(
-            sd_mixed_reference(4500), additional_data=True
+            sd_mixed_reference(4500).copy(xp=xp), additional_data=True
         )
         assert 4000 < specification.CCT < 5000
-        assert specification.Q_a == pytest.approx(100, abs=0.5)
+        xp_assert_close(specification.Q_a, 100, atol=0.5)
 
-    def test_television_lighting_consistency_index_regression_spectra(self) -> None:
+    def test_television_lighting_consistency_index_regression_spectra(
+        self, xp: ModuleType
+    ) -> None:
         """
         Test :func:`colour.quality.tlci.\
 television_lighting_consistency_index` definition against generated and
@@ -526,8 +559,10 @@ television_lighting_consistency_index` definition against generated and
             (sd_phosphor_led_cool(), 77),
             (sd_rgb_led_balanced(), 58),
         ):
-            assert television_lighting_consistency_index(sd) == pytest.approx(
-                reference, abs=0.5
+            xp_assert_close(
+                television_lighting_consistency_index(sd.copy(xp=xp)),
+                reference,
+                atol=0.5,
             )
 
         # Public in-tree CIE/NIST LED spectral distributions as regression
@@ -538,8 +573,10 @@ television_lighting_consistency_index` definition against generated and
             ("Phosphor LED YAG", SDS_LIGHT_SOURCES, 60),
             ("4-LED-1 (461/526/576/624)", SDS_LIGHT_SOURCES, 79),
         ):
-            assert television_lighting_consistency_index(source[name]) == pytest.approx(
-                reference, abs=0.5
+            xp_assert_close(
+                television_lighting_consistency_index(source[name].copy(xp=xp)),
+                reference,
+                atol=0.5,
             )
 
 
@@ -549,40 +586,52 @@ class TestTelevisionLuminaireMatchingFactor:
 television_luminaire_matching_factor` definition unit tests methods.
     """
 
-    def test_television_luminaire_matching_factor(self) -> None:
+    def test_television_luminaire_matching_factor(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.quality.tlci.\
 television_luminaire_matching_factor` definition.
         """
 
         # Identical test and reference sources are a perfect match.
-        assert television_luminaire_matching_factor(
-            SDS_ILLUMINANTS["D65"], SDS_ILLUMINANTS["D65"]
-        ) == pytest.approx(100.0, abs=1e-10)
-
-        np.testing.assert_allclose(
+        xp_assert_close(
             television_luminaire_matching_factor(
-                SDS_ILLUMINANTS["FL2"], SDS_ILLUMINANTS["D65"]
+                SDS_ILLUMINANTS["D65"].copy(xp=xp),
+                SDS_ILLUMINANTS["D65"].copy(xp=xp),
+            ),
+            100.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        xp_assert_close(
+            television_luminaire_matching_factor(
+                SDS_ILLUMINANTS["FL2"].copy(xp=xp),
+                SDS_ILLUMINANTS["D65"].copy(xp=xp),
             ),
             5.376079603398939,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_television_luminaire_matching_factor_additional_data(self) -> None:
+    def test_television_luminaire_matching_factor_additional_data(
+        self, xp: ModuleType
+    ) -> None:
         """
         Test :func:`colour.quality.tlci.\
 television_luminaire_matching_factor` definition with additional data.
         """
 
         specification = television_luminaire_matching_factor(
-            SDS_ILLUMINANTS["FL2"], SDS_ILLUMINANTS["D65"], additional_data=True
+            SDS_ILLUMINANTS["FL2"].copy(xp=xp),
+            SDS_ILLUMINANTS["D65"].copy(xp=xp),
+            additional_data=True,
         )
         assert isinstance(specification, ColourQuality_Specification_TLMF2013)
         assert 0.0 <= specification.Q_a <= 100.0
         assert specification.delta_E_a >= 0.0
         assert specification.delta_E_s.shape == (24,)
 
-    def test_television_luminaire_matching_factor_regression_spectra(self) -> None:
+    def test_television_luminaire_matching_factor_regression_spectra(
+        self, xp: ModuleType
+    ) -> None:
         """
         Test :func:`colour.quality.tlci.\
 television_luminaire_matching_factor` definition against generated regression
@@ -598,6 +647,10 @@ television_luminaire_matching_factor` definition against generated regression
             (sd_mixed_reference(4000), sd_planckian(3400), 18),
             (sd_mixed_reference(4990), sd_daylight(5000), 100),
         ):
-            assert television_luminaire_matching_factor(
-                sd_test, sd_reference
-            ) == pytest.approx(reference, abs=0.5)
+            xp_assert_close(
+                television_luminaire_matching_factor(
+                    sd_test.copy(xp=xp), sd_reference.copy(xp=xp)
+                ),
+                reference,
+                atol=0.5,
+            )

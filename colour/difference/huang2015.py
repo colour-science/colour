@@ -28,6 +28,7 @@ import numpy as np
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
+from colour.algebra import spow
 from colour.utilities import CanonicalMapping, tsplit, validate_method
 
 __author__ = "Colour Developers"
@@ -136,4 +137,4 @@ def power_function_Huang2015(
 
     a, b = tsplit(COEFFICIENTS_HUANG2015[coefficients])
 
-    return a * d_E**b
+    return a * spow(d_E, b)

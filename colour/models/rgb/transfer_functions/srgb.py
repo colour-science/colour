@@ -25,14 +25,18 @@ R-REC-BT.709-6-201506-I!!PDF-E.pdf
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.algebra import spow
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import as_float, domain_range_scale, from_range_1, to_domain_1
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    domain_range_scale,
+    from_range_1,
+    to_domain_1,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -89,7 +93,9 @@ def eotf_inverse_sRGB(L: Domain1) -> Range1:
 
     L = to_domain_1(L)
 
-    V = np.where(L <= 0.0031308, L * 12.92, 1.055 * spow(L, 1 / 2.4) - 0.055)
+    xp = array_namespace(L)
+
+    V = xp.where(L <= 0.0031308, L * 12.92, 1.055 * spow(L, 1 / 2.4) - 0.055)
 
     return as_float(from_range_1(V))
 
@@ -136,8 +142,10 @@ def eotf_sRGB(V: Domain1) -> Range1:
 
     V = to_domain_1(V)
 
+    xp = array_namespace(V)
+
     with domain_range_scale("ignore"):
-        L = np.where(
+        L = xp.where(
             eotf_inverse_sRGB(0.0031308) >= V,
             V / 12.92,
             spow((V + 0.055) / 1.055, 2.4),

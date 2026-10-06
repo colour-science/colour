@@ -24,8 +24,6 @@ References
 
 from __future__ import annotations
 
-import numpy as np
-
 from colour.algebra import sdiv, sdiv_mode
 from colour.hints import (  # noqa: TC001
     ArrayLike,
@@ -33,7 +31,15 @@ from colour.hints import (  # noqa: TC001
     NDArrayFloat,
     Range1,
 )
-from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
+from colour.utilities import (
+    array_namespace,
+    from_range_1,
+    to_domain_1,
+    tsplit,
+    tstack,
+    xp_as_float_array,
+    xp_resize,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -238,11 +244,21 @@ def uv_to_UCS(uv: ArrayLike, V: Domain1 = 1) -> Range1:
     array([1.1288911..., 1.        , 0.8639104...])
     """
 
-    u, v = tsplit(uv)
     V = to_domain_1(V)
 
+    xp = array_namespace(uv, V)
+
+    u, v = tsplit(uv)
+    V = xp_as_float_array(V, xp=xp, like=u)
+
     with sdiv_mode():
-        UVW = tstack([V * sdiv(u, v), np.resize(V, u.shape), -V * sdiv(u + v - 1, v)])
+        UVW = tstack(
+            [
+                V * sdiv(u, v),
+                xp_resize(V, u.shape, xp=xp),
+                -V * sdiv(u + v - 1, v),
+            ]
+        )
 
     return from_range_1(UVW)
 

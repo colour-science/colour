@@ -15,13 +15,13 @@ References
 
 from __future__ import annotations
 
-import numpy as np
+import math
 
 from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import as_float, from_range_1, to_domain_1
+from colour.utilities import array_namespace, as_float, from_range_1, to_domain_1
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -111,20 +111,22 @@ def log_encoding_FilmLightTLog(
 
     x = to_domain_1(x)
 
-    b = 1 / (0.7107 + 1.2359 * np.log(w * g))
+    xp = array_namespace(x)
+
+    b = 1 / (0.7107 + 1.2359 * math.log(w * g))
     gs = g / (1 - o)
     C = b / gs
-    a = 1 - b * np.log(w + C)
-    y0 = a + b * np.log(C)
+    a = 1 - b * math.log(w + C)
+    y0 = a + b * math.log(C)
     s = (1 - o) / (1 - y0)
     A = 1 + (a - 1) * s
     B = b * s
     G = gs * s
 
-    t = np.where(
+    t = xp.where(
         x < 0.0,
         G * x + o,
-        np.log(x + C) * B + A,
+        xp.log(x + C) * B + A,
     )
 
     return as_float(from_range_1(t))
@@ -207,20 +209,22 @@ def log_decoding_FilmLightTLog(
 
     t = to_domain_1(t)
 
-    b = 1 / (0.7107 + 1.2359 * np.log(w * g))
+    xp = array_namespace(t)
+
+    b = 1 / (0.7107 + 1.2359 * math.log(w * g))
     gs = g / (1 - o)
     C = b / gs
-    a = 1 - b * np.log(w + C)
-    y0 = a + b * np.log(C)
+    a = 1 - b * math.log(w + C)
+    y0 = a + b * math.log(C)
     s = (1 - o) / (1 - y0)
     A = 1 + (a - 1) * s
     B = b * s
     G = gs * s
 
-    x = np.where(
+    x = xp.where(
         t < o,
         (t - o) / G,
-        np.exp((t - A) / B) - C,
+        xp.exp((t - A) / B) - C,
     )
 
     return as_float(from_range_1(x))

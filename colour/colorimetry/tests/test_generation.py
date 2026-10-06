@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 import numpy as np
 
 from colour.colorimetry.generation import (
@@ -21,6 +26,7 @@ from colour.colorimetry.generation import (
     sd_zeros,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.utilities import xp_as_array, xp_assert_close, xp_assert_equal
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -58,11 +64,11 @@ class TestSdConstant:
 
         sd = sd_constant(np.pi)
 
-        np.testing.assert_allclose(sd[360], np.pi, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(float(sd[360]), np.pi, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        np.testing.assert_allclose(sd[555], np.pi, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(float(sd[555]), np.pi, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        np.testing.assert_allclose(sd[780], np.pi, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(float(sd[780]), np.pi, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestSdZeros:
@@ -79,11 +85,11 @@ class TestSdZeros:
 
         sd = sd_zeros()
 
-        assert sd[360] == 0
+        assert float(sd[360]) == 0
 
-        assert sd[555] == 0
+        assert float(sd[555]) == 0
 
-        assert sd[780] == 0
+        assert float(sd[780]) == 0
 
 
 class TestSdOnes:
@@ -97,11 +103,11 @@ class TestSdOnes:
 
         sd = sd_ones()
 
-        assert sd[360] == 1
+        assert float(sd[360]) == 1
 
-        assert sd[555] == 1
+        assert float(sd[555]) == 1
 
-        assert sd[780] == 1
+        assert float(sd[780]) == 1
 
 
 class TestMsdsConstant:
@@ -115,21 +121,21 @@ class TestMsdsConstant:
 
         msds = msds_constant(np.pi, labels=["a", "b", "c"])
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             msds[360],
-            np.array([np.pi, np.pi, np.pi]),
+            [np.pi, np.pi, np.pi],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             msds[555],
-            np.array([np.pi, np.pi, np.pi]),
+            [np.pi, np.pi, np.pi],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             msds[780],
-            np.array([np.pi, np.pi, np.pi]),
+            [np.pi, np.pi, np.pi],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -148,11 +154,11 @@ class TestMsdsZeros:
 
         msds = msds_zeros(labels=["a", "b", "c"])
 
-        np.testing.assert_equal(msds[360], np.array([0, 0, 0]))
+        xp_assert_equal(msds[360], [0, 0, 0])
 
-        np.testing.assert_equal(msds[555], np.array([0, 0, 0]))
+        xp_assert_equal(msds[555], [0, 0, 0])
 
-        np.testing.assert_equal(msds[780], np.array([0, 0, 0]))
+        xp_assert_equal(msds[780], [0, 0, 0])
 
 
 class TestMsdsOnes:
@@ -166,11 +172,11 @@ class TestMsdsOnes:
 
         msds = msds_ones(labels=["a", "b", "c"])
 
-        np.testing.assert_equal(msds[360], np.array([1, 1, 1]))
+        xp_assert_equal(msds[360], [1, 1, 1])
 
-        np.testing.assert_equal(msds[555], np.array([1, 1, 1]))
+        xp_assert_equal(msds[555], [1, 1, 1])
 
-        np.testing.assert_equal(msds[780], np.array([1, 1, 1]))
+        xp_assert_equal(msds[780], [1, 1, 1])
 
 
 class TestSdGaussianNormal:
@@ -187,15 +193,11 @@ class TestSdGaussianNormal:
 
         sd = sd_gaussian_normal(555, 25)
 
-        np.testing.assert_allclose(
-            sd[530], 0.606530659712633, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(sd[530], 0.606530659712633, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        np.testing.assert_allclose(sd[555], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(sd[555], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        np.testing.assert_allclose(
-            sd[580], 0.606530659712633, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(sd[580], 0.606530659712633, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestSdGaussianFwhm:
@@ -211,15 +213,13 @@ class TestSdGaussianFwhm:
 
         sd = sd_gaussian_fwhm(555, 25)
 
-        np.testing.assert_allclose(sd[530], 0.0625, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(sd[530], 0.0625, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        np.testing.assert_allclose(sd[555], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(sd[555], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        np.testing.assert_allclose(
-            sd[580], 0.062499999999999, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(sd[580], 0.062499999999999, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        np.testing.assert_allclose(sd[555 - 25 / 2], 0.5, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(sd[555 - 25 / 2], 0.5, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestSdGaussianSuperClamped:
@@ -236,23 +236,23 @@ class TestSdGaussianSuperClamped:
 
         # Test without clamping (symmetric)
         sd = sd_gaussian_super_clamped(555, 25, clamp="none")
-        np.testing.assert_allclose(sd[555], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(sd[555], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         # Test right clamping
         sd = sd_gaussian_super_clamped(600, 50, clamp="right")
-        np.testing.assert_allclose(sd[600], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(sd[700], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(sd[600], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(sd[700], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
         assert sd[500] < 1
 
         # Test left clamping
         sd = sd_gaussian_super_clamped(450, 40, clamp="left")
-        np.testing.assert_allclose(sd[450], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(sd[400], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(sd[450], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(sd[400], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
         assert sd[500] < 1
 
         # Test super-Gaussian exponent (flatter peak)
         sd = sd_gaussian_super_clamped(555, 25, exponent=4.0)
-        np.testing.assert_allclose(sd[555], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(sd[555], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
         # With higher exponent, the falloff is steeper but the peak is flatter
 
 
@@ -267,16 +267,14 @@ class TestSdGaussian:
 
         # Test default method (Normal)
         sd = sd_gaussian(555, 25)
-        np.testing.assert_allclose(
-            sd[530], 0.606530659712633, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(sd[530], 0.606530659712633, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         sd = sd_gaussian(555, 25, method="FWHM")
-        np.testing.assert_allclose(sd[530], 0.0625, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(sd[530], 0.0625, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         sd = sd_gaussian(600, 50, method="Super-Gaussian Clamped", clamp="right")
-        np.testing.assert_allclose(sd[600], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
-        np.testing.assert_allclose(sd[700], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(sd[600], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(sd[700], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestSdSingleLedOhno2005:
@@ -293,15 +291,11 @@ class TestSdSingleLedOhno2005:
 
         sd = sd_single_led_Ohno2005(555, 25)
 
-        np.testing.assert_allclose(
-            sd[530], 0.127118445056538, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(sd[530], 0.127118445056538, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        np.testing.assert_allclose(sd[555], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(sd[555], 1, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        np.testing.assert_allclose(
-            sd[580], 0.127118445056538, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(sd[580], 0.127118445056538, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestSdSingleLed:
@@ -315,15 +309,11 @@ class TestSdSingleLed:
 
         # Test default method (Ohno 2005)
         sd = sd_single_led(555, half_spectral_width=25)
-        np.testing.assert_allclose(
-            sd[530], 0.127118445056538, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(sd[530], 0.127118445056538, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         # Test explicit Ohno 2005 method
         sd = sd_single_led(555, method="Ohno 2005", half_spectral_width=25)
-        np.testing.assert_allclose(
-            sd[530], 0.127118445056538, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(sd[530], 0.127118445056538, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestSdMultiLedsOhno2005:
@@ -332,46 +322,34 @@ class TestSdMultiLedsOhno2005:
     definition unit tests methods.
     """
 
-    def test_sd_multi_leds_Ohno2005(self) -> None:
+    def test_sd_multi_leds_Ohno2005(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.generation.sd_multi_leds_Ohno2005`
         definition.
         """
 
         sd = sd_multi_leds_Ohno2005(
-            np.array([457, 530, 615]),
-            np.array([20, 30, 20]),
-            np.array([0.731, 1.000, 1.660]),
+            xp_as_array([457, 530, 615], xp=xp),
+            xp_as_array([20, 30, 20], xp=xp),
+            xp_as_array([0.731, 1.000, 1.660], xp=xp),
         )
 
-        np.testing.assert_allclose(
-            sd[500], 0.129513248576116, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(sd[500], 0.129513248576116, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        np.testing.assert_allclose(
-            sd[570], 0.059932156222703, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(sd[570], 0.059932156222703, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        np.testing.assert_allclose(
-            sd[640], 0.116433257970624, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(sd[640], 0.116433257970624, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         sd = sd_multi_leds_Ohno2005(
-            np.array([457, 530, 615]),
-            np.array([20, 30, 20]),
+            xp_as_array([457, 530, 615], xp=xp),
+            xp_as_array([20, 30, 20], xp=xp),
         )
 
-        np.testing.assert_allclose(
-            sd[500], 0.130394510062799, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(sd[500], 0.130394510062799, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        np.testing.assert_allclose(
-            sd[570], 0.058539618824187, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(sd[570], 0.058539618824187, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        np.testing.assert_allclose(
-            sd[640], 0.070140708922879, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(sd[640], 0.070140708922879, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestSdMultiLeds:
@@ -380,26 +358,22 @@ class TestSdMultiLeds:
     tests methods.
     """
 
-    def test_sd_multi_leds(self) -> None:
+    def test_sd_multi_leds(self, xp: ModuleType) -> None:
         """Test :func:`colour.colorimetry.generation.sd_multi_leds` definition."""
 
         # Test default method (Ohno 2005)
         sd = sd_multi_leds(
-            np.array([457, 530, 615]),
-            half_spectral_widths=np.array([20, 30, 20]),
-            peak_power_ratios=np.array([0.731, 1.000, 1.660]),
+            xp_as_array([457, 530, 615], xp=xp),
+            half_spectral_widths=xp_as_array([20, 30, 20], xp=xp),
+            peak_power_ratios=xp_as_array([0.731, 1.000, 1.660], xp=xp),
         )
-        np.testing.assert_allclose(
-            sd[500], 0.129513248576116, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(sd[500], 0.129513248576116, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         # Test explicit Ohno 2005 method
         sd = sd_multi_leds(
-            np.array([457, 530, 615]),
+            xp_as_array([457, 530, 615], xp=xp),
             method="Ohno 2005",
-            half_spectral_widths=np.array([20, 30, 20]),
-            peak_power_ratios=np.array([0.731, 1.000, 1.660]),
+            half_spectral_widths=xp_as_array([20, 30, 20], xp=xp),
+            peak_power_ratios=xp_as_array([0.731, 1.000, 1.660], xp=xp),
         )
-        np.testing.assert_allclose(
-            sd[500], 0.129513248576116, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
+        xp_assert_close(sd[500], 0.129513248576116, atol=TOLERANCE_ABSOLUTE_TESTS)

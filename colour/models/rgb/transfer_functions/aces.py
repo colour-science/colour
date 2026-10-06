@@ -49,9 +49,8 @@ References
 
 from __future__ import annotations
 
+import math
 import typing
-
-import numpy as np
 
 if typing.TYPE_CHECKING:
     from colour.hints import Literal, NDArrayInt
@@ -64,6 +63,7 @@ from colour.hints import (  # noqa: TC001
 )
 from colour.utilities import (
     Structure,
+    array_namespace,
     as_float,
     as_int,
     from_range_1,
@@ -183,6 +183,9 @@ def log_encoding_ACESproxy(
     """
 
     lin_AP1 = to_domain_1(lin_AP1)
+
+    xp = array_namespace(lin_AP1)
+
     constants = optional(constants, CONSTANTS_ACES_PROXY)
 
     CV_min = constants[bit_depth].CV_min
@@ -191,21 +194,21 @@ def log_encoding_ACESproxy(
     mid_log_offset = constants[bit_depth].mid_log_offset
     steps_per_stop = constants[bit_depth].steps_per_stop
 
-    def float_2_cv(x: float) -> float:
+    def float_2_cv(x: NDArrayFloat) -> NDArrayFloat:
         """Convert specified numeric to code value."""
 
-        return np.maximum(CV_min, np.minimum(CV_max, np.round(x)))
+        return xp.clip(xp.round(x), min=CV_min, max=CV_max)
 
-    ACESproxy = np.where(
+    ACESproxy = xp.where(
         lin_AP1 > 2**-9.72,
         float_2_cv(
-            (np.log2(lin_AP1) + mid_log_offset) * steps_per_stop + mid_CV_offset
+            (xp.log2(lin_AP1) + mid_log_offset) * steps_per_stop + mid_CV_offset
         ),
-        np.resize(CV_min, lin_AP1.shape),
+        CV_min,
     )
 
     if out_int:
-        return as_int(np.round(ACESproxy))
+        return as_int(xp.round(ACESproxy))
 
     return as_float(from_range_1(ACESproxy / (2**bit_depth - 1)))
 
@@ -326,14 +329,16 @@ def log_encoding_ACEScc(lin_AP1: Domain1) -> Range1:
 
     lin_AP1 = to_domain_1(lin_AP1)
 
-    ACEScc = np.where(
+    xp = array_namespace(lin_AP1)
+
+    ACEScc = xp.where(
         lin_AP1 < 0,
-        (np.log2(2**-16) + 9.72) / 17.52,
-        (np.log2(2**-16 + lin_AP1 * 0.5) + 9.72) / 17.52,
+        (math.log2(2**-16) + 9.72) / 17.52,
+        (xp.log2(2**-16 + lin_AP1 * 0.5) + 9.72) / 17.52,
     )
-    ACEScc = np.where(
+    ACEScc = xp.where(
         lin_AP1 >= 2**-15,
-        (np.log2(lin_AP1) + 9.72) / 17.52,
+        (xp.log2(lin_AP1) + 9.72) / 17.52,
         ACEScc,
     )
 
@@ -383,13 +388,15 @@ def log_decoding_ACEScc(ACEScc: Domain1) -> Range1:
 
     ACEScc = to_domain_1(ACEScc)
 
-    lin_AP1 = np.where(
+    xp = array_namespace(ACEScc)
+
+    lin_AP1 = xp.where(
         ACEScc < (9.72 - 15) / 17.52,
         (2 ** (ACEScc * 17.52 - 9.72) - 2**-16) * 2,
         2 ** (ACEScc * 17.52 - 9.72),
     )
-    lin_AP1 = np.where(
-        ACEScc >= (np.log2(65504) + 9.72) / 17.52,
+    lin_AP1 = xp.where(
+        ACEScc >= (math.log2(65504) + 9.72) / 17.52,
         65504,
         lin_AP1,
     )
@@ -443,12 +450,15 @@ def log_encoding_ACEScct(
     """
 
     lin_AP1 = to_domain_1(lin_AP1)
+
+    xp = array_namespace(lin_AP1)
+
     constants = optional(constants, CONSTANTS_ACES_CCT)
 
-    ACEScct = np.where(
+    ACEScct = xp.where(
         lin_AP1 <= constants.X_BRK,
         constants.A * lin_AP1 + constants.B,
-        (np.log2(lin_AP1) + 9.72) / 17.52,
+        (xp.log2(lin_AP1) + 9.72) / 17.52,
     )
 
     return as_float(from_range_1(ACEScct))
@@ -500,9 +510,12 @@ def log_decoding_ACEScct(
     """
 
     ACEScct = to_domain_1(ACEScct)
+
+    xp = array_namespace(ACEScct)
+
     constants = optional(constants, CONSTANTS_ACES_CCT)
 
-    lin_AP1 = np.where(
+    lin_AP1 = xp.where(
         ACEScct > constants.Y_BRK,
         2 ** (ACEScct * 17.52 - 9.72),
         (ACEScct - constants.B) / constants.A,

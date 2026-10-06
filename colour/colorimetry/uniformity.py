@@ -20,13 +20,12 @@ import typing
 if typing.TYPE_CHECKING:
     from collections.abc import ValuesView
 
-import numpy as np
-
 from colour.colorimetry import (
     MultiSpectralDistributions,
     SpectralDistribution,
     sds_and_msds_to_msds,
 )
+from colour.utilities import array_namespace, xp_gradient, xp_matrix_transpose
 
 if typing.TYPE_CHECKING:
     from colour.hints import NDArrayFloat, Sequence
@@ -121,9 +120,11 @@ def spectral_uniformity(
 
     interval = msds.shape.interval
 
-    r_i = np.gradient(np.transpose(msds.values), axis=1) / interval
+    xp = array_namespace(msds.values)
+
+    r_i = xp_gradient(xp_matrix_transpose(msds.values, xp=xp), axis=1, xp=xp) / interval
 
     if use_second_order_derivatives:
-        r_i = np.gradient(r_i, axis=1) / interval
+        r_i = xp_gradient(r_i, axis=1, xp=xp) / interval
 
-    return np.mean(r_i**2, axis=0)
+    return xp.mean(r_i**2, axis=0)

@@ -2,13 +2,25 @@
 
 from __future__ import annotations
 
+import typing
 from itertools import product
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
 
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.notation.hexadecimal import HEX_to_RGB, RGB_to_HEX
-from colour.utilities import domain_range_scale, ignore_numpy_errors
+from colour.utilities import (
+    as_ndarray,
+    domain_range_scale,
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_assert_equal,
+    xp_reshape,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -29,46 +41,59 @@ class TestRGB_to_HEX:
     tests methods.
     """
 
-    def test_RGB_to_HEX(self) -> None:
+    def test_RGB_to_HEX(self, xp: ModuleType) -> None:
         """Test :func:`colour.notation.hexadecimal.RGB_to_HEX` definition."""
 
-        assert RGB_to_HEX(np.array([0.45620519, 0.03081071, 0.04091952])) == "#74070a"
+        assert (
+            RGB_to_HEX(xp_as_array([0.45620519, 0.03081071, 0.04091952], xp=xp))
+            == "#74070a"
+        )
 
-        assert RGB_to_HEX(np.array([0.00000000, 0.00000000, 0.00000000])) == "#000000"
+        assert (
+            RGB_to_HEX(xp_as_array([0.00000000, 0.00000000, 0.00000000], xp=xp))
+            == "#000000"
+        )
 
-        assert RGB_to_HEX(np.array([1.00000000, 1.00000000, 1.00000000])) == "#ffffff"
+        assert (
+            RGB_to_HEX(xp_as_array([1.00000000, 1.00000000, 1.00000000], xp=xp))
+            == "#ffffff"
+        )
 
-        np.testing.assert_equal(
+        xp_assert_equal(
             RGB_to_HEX(
-                np.array(
+                xp_as_array(
                     [
                         [10.00000000, 1.00000000, 1.00000000],
                         [1.00000000, 1.00000000, 1.00000000],
                         [0.00000000, 1.00000000, 0.00000000],
-                    ]
+                    ],
+                    xp=xp,
                 )
             ),
             ["#fe0e0e", "#0e0e0e", "#000e00"],
         )
 
-    def test_n_dimensional_RGB_to_HEX(self) -> None:
+    def test_n_dimensional_RGB_to_HEX(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.notation.hexadecimal.RGB_to_HEX` definition
         n-dimensional arrays support.
         """
 
-        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
+        RGB = xp_as_array([0.45620519, 0.03081071, 0.04091952], xp=xp)
         HEX = RGB_to_HEX(RGB)
 
-        RGB = np.tile(RGB, (6, 1))
+        RGB = xp_as_array(np.tile(as_ndarray(RGB), (6, 1)), xp=xp)
         HEX = np.tile(HEX, 6)
         assert RGB_to_HEX(RGB).tolist() == HEX.tolist()
 
-        RGB = np.reshape(RGB, (2, 3, 3))
+        RGB = xp_reshape(RGB, (2, 3, 3), xp=xp)
         HEX = np.reshape(HEX, (2, 3))
         assert RGB_to_HEX(RGB).tolist() == HEX.tolist()
 
-    def test_domain_range_scale_RGB_to_HEX(self) -> None:
+    def test_domain_range_scale_RGB_to_HEX(
+        self,
+        xp: ModuleType,  # noqa: ARG002
+    ) -> None:
         """
         Test :func:`colour.notation.hexadecimal.RGB_to_HEX` definition domain
         and range scale support.
@@ -103,42 +128,45 @@ class TestHEX_to_RGB:
     def test_HEX_to_RGB(self) -> None:
         """Test :func:`colour.notation.hexadecimal.HEX_to_RGB` definition."""
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             HEX_to_RGB("#74070a"),
-            np.array([0.45620519, 0.03081071, 0.04091952]),
-            atol=1e-1,
+            [0.45620519, 0.03081071, 0.04091952],
+            atol=TOLERANCE_ABSOLUTE_TESTS * 1e06,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             HEX_to_RGB("#000000"),
-            np.array([0.00000000, 0.00000000, 0.00000000]),
+            [0.00000000, 0.00000000, 0.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
+        xp_assert_close(
             HEX_to_RGB("#ffffff"),
-            np.array([1.00000000, 1.00000000, 1.00000000]),
+            [1.00000000, 1.00000000, 1.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_HEX_to_RGB(self) -> None:
+    def test_n_dimensional_HEX_to_RGB(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.notation.hexadecimal.HEX_to_RGB` definition
         n-dimensional arrays support.
         """
 
         HEX = "#74070a"
-        RGB = HEX_to_RGB(HEX)
+        RGB = xp_as_array(HEX_to_RGB(HEX), xp=xp)
 
         HEX = np.tile(HEX, 6)
-        RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_allclose(HEX_to_RGB(HEX), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
+        RGB = xp_as_array(np.tile(as_ndarray(RGB), (6, 1)), xp=xp)
+        xp_assert_close(HEX_to_RGB(HEX), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         HEX = np.reshape(HEX, (2, 3))
-        RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_allclose(HEX_to_RGB(HEX), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
+        RGB = xp_reshape(RGB, (2, 3, 3), xp=xp)
+        xp_assert_close(HEX_to_RGB(HEX), RGB, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-    def test_domain_range_scale_HEX_to_RGB(self) -> None:
+    def test_domain_range_scale_HEX_to_RGB(
+        self,
+        xp: ModuleType,  # noqa: ARG002
+    ) -> None:
         """
         Test :func:`colour.notation.hexadecimal.HEX_to_RGB` definition domain
         and range scale support.
@@ -150,4 +178,4 @@ class TestHEX_to_RGB:
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_array_equal(HEX_to_RGB(HEX), RGB * factor)
+                xp_assert_equal(HEX_to_RGB(HEX), RGB * factor)

@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+import typing
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
 from colour.models import (
     describe_video_signal_colour_primaries,
     describe_video_signal_matrix_coefficients,
@@ -45,7 +50,10 @@ class TestDescribeVideoSignalTransferCharacteristics:
 describe_video_signal_transfer_characteristics` definition unit tests methods.
     """
 
-    def test_describe_video_signal_transfer_characteristics(self) -> None:
+    def test_describe_video_signal_transfer_characteristics(
+        self,
+        xp: ModuleType,  # noqa: ARG002
+    ) -> None:
         """
         Test :func:`colour.models.rgb.itut_h_273.\
 describe_video_signal_transfer_characteristics` definition.

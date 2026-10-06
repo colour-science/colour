@@ -3,6 +3,10 @@ Define the unit tests for the
 :mod:`colour.models.rgb.transfer_functions.exponent` module.
 """
 
+from __future__ import annotations
+
+import typing
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -10,7 +14,15 @@ from colour.models.rgb.transfer_functions import (
     exponent_function_basic,
     exponent_function_monitor_curve,
 )
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import (
+    ignore_numpy_errors,
+    xp_as_array,
+    xp_assert_close,
+    xp_reshape,
+)
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -31,7 +43,7 @@ class TestExponentFunctionBasic:
 exponent_function_basic` definition unit tests methods.
     """
 
-    def test_exponent_function_basic(self) -> None:
+    def test_exponent_function_basic(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_basic` definition.
@@ -39,79 +51,83 @@ exponent_function_basic` definition.
 
         a = 0.18
         a_p = 0.0229932049927
-        np.testing.assert_allclose(
-            exponent_function_basic(a, 2.2), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
-        )
-
-        np.testing.assert_allclose(
-            exponent_function_basic(a, 2.2, "basicMirrorFwd"),
+        xp_assert_close(
+            exponent_function_basic(xp_as_array(a, xp=xp), 2.2),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            exponent_function_basic(a, 2.2, "basicPassThruFwd"),
+        xp_assert_close(
+            exponent_function_basic(xp_as_array(a, xp=xp), 2.2, "basicMirrorFwd"),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        xp_assert_close(
+            exponent_function_basic(xp_as_array(a, xp=xp), 2.2, "basicPassThruFwd"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = 0.0229932049927
         a_p = 0.18
-        np.testing.assert_allclose(
-            exponent_function_basic(a, 2.2, "basicRev"),
+        xp_assert_close(
+            exponent_function_basic(xp_as_array(a, xp=xp), 2.2, "basicRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            exponent_function_basic(a, 2.2, "basicMirrorRev"),
+        xp_assert_close(
+            exponent_function_basic(xp_as_array(a, xp=xp), 2.2, "basicMirrorRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            exponent_function_basic(a, 2.2, "basicPassThruRev"),
+        xp_assert_close(
+            exponent_function_basic(xp_as_array(a, xp=xp), 2.2, "basicPassThruRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = -0.18
-        np.testing.assert_allclose(
-            exponent_function_basic(a, 2.2), 0.0, atol=TOLERANCE_ABSOLUTE_TESTS
+        xp_assert_close(
+            exponent_function_basic(xp_as_array(a, xp=xp), 2.2),
+            0.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            exponent_function_basic(a, 2.2, "basicMirrorFwd"),
+        xp_assert_close(
+            exponent_function_basic(xp_as_array(a, xp=xp), 2.2, "basicMirrorFwd"),
             -0.0229932049927,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            exponent_function_basic(a, 2.2, "basicPassThruFwd"),
+        xp_assert_close(
+            exponent_function_basic(xp_as_array(a, xp=xp), 2.2, "basicPassThruFwd"),
             -0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = -0.0229932049927
-        np.testing.assert_allclose(
-            exponent_function_basic(a, 2.2, "basicRev"),
+        xp_assert_close(
+            exponent_function_basic(xp_as_array(a, xp=xp), 2.2, "basicRev"),
             0.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            exponent_function_basic(a, 2.2, "basicMirrorRev"),
+        xp_assert_close(
+            exponent_function_basic(xp_as_array(a, xp=xp), 2.2, "basicMirrorRev"),
             -0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            exponent_function_basic(a, 2.2, "basicPassThruRev"),
+        xp_assert_close(
+            exponent_function_basic(xp_as_array(a, xp=xp), 2.2, "basicPassThruRev"),
             -0.0229932049927,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_exponent_function_basic(self) -> None:
+    def test_n_dimensional_exponent_function_basic(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_basic` definition n-dimensional arrays support.
@@ -120,49 +136,55 @@ exponent_function_basic` definition n-dimensional arrays support.
         a = 0.18
         a_p = 0.0229932049927
 
-        a = np.tile(a, 6)
-        a_p = np.tile(a_p, 6)
-        np.testing.assert_allclose(
-            exponent_function_basic(a, 2.2), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
+        a = xp.tile(xp_as_array(a, xp=xp), (6,))
+        a_p = xp.tile(xp_as_array(a_p, xp=xp), (6,))
+        xp_assert_close(
+            exponent_function_basic(a, 2.2),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_basic(a, 2.2, "basicMirrorFwd"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_basic(a, 2.2, "basicPassThruFwd"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.reshape(a, (2, 3))
-        a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_allclose(
-            exponent_function_basic(a, 2.2), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
+            exponent_function_basic(a, 2.2),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_basic(a, 2.2, "basicMirrorFwd"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_basic(a, 2.2, "basicPassThruFwd"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.reshape(a, (2, 3, 1))
-        a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_allclose(
-            exponent_function_basic(a, 2.2), a_p, atol=TOLERANCE_ABSOLUTE_TESTS
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3, 1), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
+            exponent_function_basic(a, 2.2),
+            a_p,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_basic(a, 2.2, "basicMirrorFwd"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_basic(a, 2.2, "basicPassThruFwd"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -171,55 +193,55 @@ exponent_function_basic` definition n-dimensional arrays support.
         a = 0.0229932049927
         a_p = 0.18
 
-        a = np.tile(a, 6)
-        a_p = np.tile(a_p, 6)
-        np.testing.assert_allclose(
+        a = xp.tile(xp_as_array(a, xp=xp), (6,))
+        a_p = xp.tile(xp_as_array(a_p, xp=xp), (6,))
+        xp_assert_close(
             exponent_function_basic(a, 2.2, "basicRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_basic(a, 2.2, "basicMirrorRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_basic(a, 2.2, "basicPassThruRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.reshape(a, (2, 3))
-        a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_allclose(
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
             exponent_function_basic(a, 2.2, "basicRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_basic(a, 2.2, "basicMirrorRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_basic(a, 2.2, "basicPassThruRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.reshape(a, (2, 3, 1))
-        a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_allclose(
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3, 1), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
             exponent_function_basic(a, 2.2, "basicRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_basic(a, 2.2, "basicMirrorRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_basic(a, 2.2, "basicPassThruRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -243,7 +265,7 @@ class TestExponentFunctionMonitorCurve:
 exponent_function_monitor_curve` definition unit tests methods.
     """
 
-    def test_exponent_function_monitor_curve(self) -> None:
+    def test_exponent_function_monitor_curve(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_monitor_curve` definition.
@@ -251,59 +273,73 @@ exponent_function_monitor_curve` definition.
 
         a = 0.18
         a_p = 0.0232240466001
-        np.testing.assert_allclose(
-            exponent_function_monitor_curve(a, 2.2, 0.001),
+        xp_assert_close(
+            exponent_function_monitor_curve(xp_as_array(a, xp=xp), 2.2, 0.001),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorFwd"),
+        xp_assert_close(
+            exponent_function_monitor_curve(
+                xp_as_array(a, xp=xp), 2.2, 0.001, "monCurveMirrorFwd"
+            ),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = 0.0232240466001
         a_p = 0.18
-        np.testing.assert_allclose(
-            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
+        xp_assert_close(
+            exponent_function_monitor_curve(
+                xp_as_array(a, xp=xp), 2.2, 0.001, "monCurveRev"
+            ),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorRev"),
+        xp_assert_close(
+            exponent_function_monitor_curve(
+                xp_as_array(a, xp=xp), 2.2, 0.001, "monCurveMirrorRev"
+            ),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = -0.18
-        np.testing.assert_allclose(
-            exponent_function_monitor_curve(a, 2.2, 0.001),
+        xp_assert_close(
+            exponent_function_monitor_curve(xp_as_array(a, xp=xp), 2.2, 0.001),
             -0.000205413951,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorFwd"),
+        xp_assert_close(
+            exponent_function_monitor_curve(
+                xp_as_array(a, xp=xp), 2.2, 0.001, "monCurveMirrorFwd"
+            ),
             -0.0232240466001,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         a = -0.000205413951
-        np.testing.assert_allclose(
-            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
+        xp_assert_close(
+            exponent_function_monitor_curve(
+                xp_as_array(a, xp=xp), 2.2, 0.001, "monCurveRev"
+            ),
             -0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        np.testing.assert_allclose(
-            exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorRev"),
+        xp_assert_close(
+            exponent_function_monitor_curve(
+                xp_as_array(a, xp=xp), 2.2, 0.001, "monCurveMirrorRev"
+            ),
             -0.0201036111565,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_exponent_function_monitor_curve(self) -> None:
+    def test_n_dimensional_exponent_function_monitor_curve(
+        self, xp: ModuleType
+    ) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_monitor_curve` definition n-dimensional arrays support.
@@ -312,40 +348,40 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
         a = 0.18
         a_p = 0.0232240466001
 
-        a = np.tile(a, 6)
-        a_p = np.tile(a_p, 6)
-        np.testing.assert_allclose(
+        a = xp.tile(xp_as_array(a, xp=xp), (6,))
+        a_p = xp.tile(xp_as_array(a_p, xp=xp), (6,))
+        xp_assert_close(
             exponent_function_monitor_curve(a, 2.2, 0.001),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorFwd"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.reshape(a, (2, 3))
-        a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_allclose(
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
             exponent_function_monitor_curve(a, 2.2, 0.001),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorFwd"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.reshape(a, (2, 3, 1))
-        a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_allclose(
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3, 1), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
             exponent_function_monitor_curve(a, 2.2, 0.001),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorFwd"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
@@ -354,40 +390,40 @@ exponent_function_monitor_curve` definition n-dimensional arrays support.
         a = 0.0232240466001
         a_p = 0.18
 
-        a = np.tile(a, 6)
-        a_p = np.tile(a_p, 6)
-        np.testing.assert_allclose(
+        a = xp.tile(xp_as_array(a, xp=xp), (6,))
+        a_p = xp.tile(xp_as_array(a_p, xp=xp), (6,))
+        xp_assert_close(
             exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.reshape(a, (2, 3))
-        a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_allclose(
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3), xp=xp)
+        xp_assert_close(
             exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        a = np.reshape(a, (2, 3, 1))
-        a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_allclose(
+        a = xp_reshape(xp_as_array(a, xp=xp), (2, 3, 1), xp=xp)
+        a_p = xp_reshape(xp_as_array(a_p, xp=xp), (2, 3, 1), xp=xp)
+        xp_assert_close(
             exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
-        np.testing.assert_allclose(
+        xp_assert_close(
             exponent_function_monitor_curve(a, 2.2, 0.001, "monCurveMirrorRev"),
             a_p,
             atol=TOLERANCE_ABSOLUTE_TESTS,

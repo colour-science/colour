@@ -6,15 +6,16 @@ import os
 import shutil
 import tempfile
 
-import numpy as np
 import pytest
 
 from colour.colorimetry import SpectralDistribution, SpectralShape
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.io import (
     read_sds_from_csv_file,
     read_spectral_data_from_csv_file,
     write_sds_to_csv_file,
 )
+from colour.utilities import xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -210,10 +211,16 @@ class TestWriteSdsToCsvFile:
         write_sds_to_csv_file(sds, colour_checker_n_ohta_test)
         sds_test = read_sds_from_csv_file(colour_checker_n_ohta_test)
         for key, value in sds.items():
-            np.testing.assert_allclose(
-                value.wavelengths, sds_test[key].wavelengths, atol=1e-10
+            xp_assert_close(
+                value.wavelengths,
+                sds_test[key].wavelengths,
+                atol=TOLERANCE_ABSOLUTE_TESTS * 0.001,
             )
-            np.testing.assert_allclose(value.values, sds_test[key].values, atol=1e-10)
+            xp_assert_close(
+                value.values,
+                sds_test[key].values,
+                atol=TOLERANCE_ABSOLUTE_TESTS * 0.001,
+            )
 
     def test_raise_exception_write_sds_to_csv_file(self) -> None:
         """
@@ -226,4 +233,5 @@ class TestWriteSdsToCsvFile:
         key = next(iter(sds.keys()))
         sds[key] = sds[key].align(SpectralShape(400, 700, 10))
 
-        pytest.raises(ValueError, write_sds_to_csv_file, sds, "")
+        with pytest.raises(ValueError):
+            write_sds_to_csv_file(sds, "")

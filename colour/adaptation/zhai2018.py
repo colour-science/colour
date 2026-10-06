@@ -18,8 +18,6 @@ from __future__ import annotations
 
 import typing
 
-import numpy as np
-
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.algebra import vecmul
 
@@ -32,12 +30,13 @@ from colour.hints import (  # noqa: TC001
     Range100,
 )
 from colour.utilities import (
-    as_float_array,
+    array_namespace,
     from_range_100,
     get_domain_range_scale,
     optional,
     to_domain_100,
     validate_method,
+    xp_as_float_array,
 )
 
 __author__ = "Colour Developers"
@@ -134,6 +133,7 @@ def chromatic_adaptation_Zhai2018(
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ_b = np.array([48.900, 43.620, 6.250])
     >>> XYZ_wb = np.array([109.850, 100, 35.585])
     >>> XYZ_wd = np.array([95.047, 100, 108.883])
@@ -157,20 +157,26 @@ def chromatic_adaptation_Zhai2018(
     XYZ_wo = to_domain_100(
         optional(
             XYZ_wo,
-            np.array([1, 1, 1])
+            [1, 1, 1]
             if get_domain_range_scale() == "reference"
-            else np.array([0.01, 0.01, 0.01]),
+            else [0.01, 0.01, 0.01],
         )
     )
-    D_b = as_float_array(D_b)
-    D_d = as_float_array(D_d)
+
+    xp = array_namespace(XYZ_b, XYZ_wb, XYZ_wd, XYZ_wo, D_b, D_d)
+
+    XYZ_wb = xp_as_float_array(XYZ_wb, xp=xp, like=XYZ_b)
+    XYZ_wd = xp_as_float_array(XYZ_wd, xp=xp, like=XYZ_b)
+    XYZ_wo = xp_as_float_array(XYZ_wo, xp=xp, like=XYZ_b)
+    D_b = xp_as_float_array(D_b, xp=xp, like=XYZ_b)
+    D_d = xp_as_float_array(D_d, xp=xp, like=XYZ_b)
 
     Y_wb = XYZ_wb[..., 1][..., None]
     Y_wd = XYZ_wd[..., 1][..., None]
     Y_wo = XYZ_wo[..., 1][..., None]
 
     transform = validate_method(transform, ("CAT02", "CAT16"))
-    M = CHROMATIC_ADAPTATION_TRANSFORMS[transform]
+    M = xp_as_float_array(CHROMATIC_ADAPTATION_TRANSFORMS[transform], xp=xp, like=XYZ_b)
 
     RGB_b = vecmul(M, XYZ_b)
     RGB_wb = vecmul(M, XYZ_wb)
@@ -184,6 +190,6 @@ def chromatic_adaptation_Zhai2018(
 
     RGB_d = D_RGB * RGB_b
 
-    XYZ_d = vecmul(np.linalg.inv(M), RGB_d)
+    XYZ_d = vecmul(xp.linalg.inv(M), RGB_d)
 
     return from_range_100(XYZ_d)
