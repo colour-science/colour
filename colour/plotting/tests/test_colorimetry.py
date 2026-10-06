@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+from matplotlib.patches import Rectangle
 
 from colour.colorimetry import SpectralDistribution
 from colour.plotting import (
@@ -20,6 +22,7 @@ from colour.plotting import (
     plot_single_luminance_function,
     plot_single_sd,
     plot_visible_spectrum,
+    plot_visible_spectrum_colours,
 )
 
 __author__ = "Colour Developers"
@@ -36,6 +39,7 @@ __all__ = [
     "TestPlotMultiCmfs",
     "TestPlotSingleIlluminantSd",
     "TestPlotMultiIlluminantSds",
+    "TestPlotVisibleSpectrumColours",
     "TestPlotVisibleSpectrum",
     "TestPlotSingleLightnessFunction",
     "TestPlotMultiLightnessFunctions",
@@ -44,6 +48,25 @@ __all__ = [
     "TestPlotBlackbodySpectralRadiance",
     "TestPlotBlackbodyColours",
 ]
+
+
+def _visible_spectrum_axes(figure: Figure, axes: Axes) -> Axes:
+    return next(axis for axis in figure.axes if axis is not axes)
+
+
+def _visible_spectrum_patches(
+    axes: Axes, hatched: bool | None = None
+) -> list[Rectangle]:
+    strip_patches = [patch for patch in axes.patches if isinstance(patch, Rectangle)]
+
+    if hatched is None:
+        return strip_patches
+
+    return [
+        patch
+        for patch in strip_patches
+        if (patch.get_hatch() not in (None, "")) is hatched
+    ]
 
 
 class TestPlotSingleSd:
@@ -73,10 +96,12 @@ class TestPlotSingleSd:
             out_of_gamut_clipping=False,
             modulate_colours_with_sd_amplitude=True,
             equalize_sd_amplitude=True,
+            show_visible_spectrum=True,
         )
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
+        assert len(figure.axes) == 2
 
 
 class TestPlotMultiSds:
@@ -115,11 +140,16 @@ class TestPlotMultiSds:
 
         figure, axes = plot_multi_sds(
             [sd_1, sd_2],
-            plot_kwargs={"use_sd_colours": True, "normalise_sd_colours": True},
+            plot_kwargs={
+                "use_sd_colours": True,
+                "normalise_sd_colours": True,
+            },
+            show_visible_spectrum=True,
         )
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
+        assert len(figure.axes) == 2
 
         figure, axes = plot_multi_sds(
             [sd_1, sd_2],
@@ -128,6 +158,59 @@ class TestPlotMultiSds:
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
+
+    def test_plot_multi_sds_extended_domain_visible_spectrum(self) -> None:
+        """
+        Test :func:`colour.plotting.colorimetry.plot_multi_sds` definition
+        with spectra extending outside the visible domain and wavelength
+        colours enabled.
+        """
+
+        sd_1 = SpectralDistribution(
+            {wavelength: 0.5 for wavelength in range(300, 1001, 10)},
+            name="Extended",
+        )
+        sd_2 = SpectralDistribution(
+            {wavelength: 0.25 for wavelength in range(400, 701, 10)},
+            name="Visible",
+        )
+
+        figure, axes = plot_multi_sds(
+            [sd_1, sd_2],
+            show_visible_spectrum=True,
+        )
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        visible_spectrum_axes = _visible_spectrum_axes(figure, axes)
+        visible_strip_patches = _visible_spectrum_patches(
+            visible_spectrum_axes, hatched=False
+        )
+        non_visible_strip_patches = _visible_spectrum_patches(
+            visible_spectrum_axes, hatched=True
+        )
+
+        np.testing.assert_allclose(
+            (
+                min(patch.get_x() for patch in visible_strip_patches),
+                max(
+                    patch.get_x() + patch.get_width() for patch in visible_strip_patches
+                ),
+            ),
+            (360, 830),
+        )
+        assert len(non_visible_strip_patches) == 2
+        np.testing.assert_allclose(
+            [
+                (
+                    patch.get_x(),
+                    patch.get_x() + patch.get_width(),
+                )
+                for patch in non_visible_strip_patches
+            ],
+            [(300, 360), (830, 1000)],
+        )
 
 
 class TestPlotSingleCmfs:
@@ -158,11 +241,13 @@ class TestPlotMultiCmfs:
             [
                 "CIE 1931 2 Degree Standard Observer",
                 "CIE 1964 10 Degree Standard Observer",
-            ]
+            ],
+            show_visible_spectrum=True,
         )
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
+        assert len(figure.axes) == 2
 
 
 class TestPlotSingleIlluminantSd:
@@ -207,6 +292,47 @@ class TestPlotMultiIlluminantSds:
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
+
+        figure, axes = plot_multi_illuminant_sds(
+            ["A", "B", "C"],
+            show_visible_spectrum=True,
+        )
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+        assert len(figure.axes) == 2
+
+
+class TestPlotVisibleSpectrumColours:
+    """
+    Define :func:`colour.plotting.colorimetry.plot_visible_spectrum_colours`
+    definition unit tests methods.
+    """
+
+    def test_plot_visible_spectrum_colours(self) -> None:
+        """
+        Test :func:`colour.plotting.colorimetry.plot_visible_spectrum_colours`
+        definition.
+        """
+
+        figure, axes = plot_visible_spectrum_colours(bounding_box=(300, 1000, 0, 1))
+
+        assert isinstance(figure, Figure)
+        assert isinstance(axes, Axes)
+
+        visible_strip_patches = _visible_spectrum_patches(axes, hatched=False)
+        non_visible_strip_patches = _visible_spectrum_patches(axes, hatched=True)
+
+        np.testing.assert_allclose(
+            (
+                min(patch.get_x() for patch in visible_strip_patches),
+                max(
+                    patch.get_x() + patch.get_width() for patch in visible_strip_patches
+                ),
+            ),
+            (360, 830),
+        )
+        assert len(non_visible_strip_patches) == 2
 
 
 class TestPlotVisibleSpectrum:
