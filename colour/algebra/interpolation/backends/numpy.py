@@ -83,9 +83,16 @@ class CubicSplineInterpolator:
 
     @property
     def x(self) -> np.ndarray:
-        """Getter for the independent :math:`x` variable."""
+        """Getter and setter for the independent :math:`x` variable."""
 
         return self._x
+
+    @x.setter
+    def x(self, value: Any) -> None:
+        """Setter for the **self.x** property; rebuilds the spline."""
+
+        self._x = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
+        self._build()
 
     @property
     def y(self) -> np.ndarray:
@@ -140,9 +147,16 @@ class PchipInterpolator:
 
     @property
     def x(self) -> np.ndarray:
-        """Getter for the independent :math:`x` variable."""
+        """Getter and setter for the independent :math:`x` variable."""
 
         return self._x
+
+    @x.setter
+    def x(self, value: Any) -> None:
+        """Setter for the **self.x** property; rebuilds the interpolant."""
+
+        self._x = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
+        self._build()
 
     @property
     def y(self) -> np.ndarray:
@@ -195,9 +209,17 @@ class LinearInterpolator:
 
     @property
     def x(self) -> np.ndarray:
-        """Getter for the independent :math:`x` variable."""
+        """Getter and setter for the independent :math:`x` variable."""
 
         return self._x
+
+    @x.setter
+    def x(self, value: Any) -> None:
+        """Setter for the **self.x** property."""
+
+        x = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
+        validate_dimensions(x, self._y)
+        self._x = x
 
     @property
     def y(self) -> np.ndarray:
@@ -209,7 +231,9 @@ class LinearInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property."""
 
-        self._y = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
+        y = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
+        validate_dimensions(self._x, y)
+        self._y = y
 
 
 class NearestNeighbourInterpolator:
@@ -234,9 +258,17 @@ class NearestNeighbourInterpolator:
 
     @property
     def x(self) -> np.ndarray:
-        """Getter for the independent :math:`x` variable."""
+        """Getter and setter for the independent :math:`x` variable."""
 
         return self._x
+
+    @x.setter
+    def x(self, value: Any) -> None:
+        """Setter for the **self.x** property."""
+
+        x = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
+        validate_dimensions(x, self._y)
+        self._x = x
 
     @property
     def y(self) -> np.ndarray:
@@ -248,7 +280,9 @@ class NearestNeighbourInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property."""
 
-        self._y = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
+        y = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
+        validate_dimensions(self._x, y)
+        self._y = y
 
 
 class NullInterpolator:
@@ -270,8 +304,8 @@ class NullInterpolator:
         self._x = np.asarray(x, dtype=DTYPE_FLOAT_DEFAULT)
         self._y = np.asarray(y, dtype=DTYPE_FLOAT_DEFAULT)
         validate_dimensions(self._x, self._y)
-        self.absolute_tolerance = float(absolute_tolerance)
-        self.relative_tolerance = float(relative_tolerance)
+        self.absolute_tolerance = absolute_tolerance
+        self.relative_tolerance = relative_tolerance
         self.default = default
 
     def __call__(self, x: Any) -> np.ndarray:
@@ -299,9 +333,17 @@ class NullInterpolator:
 
     @property
     def x(self) -> np.ndarray:
-        """Getter for the independent :math:`x` variable."""
+        """Getter and setter for the independent :math:`x` variable."""
 
         return self._x
+
+    @x.setter
+    def x(self, value: Any) -> None:
+        """Setter for the **self.x** property."""
+
+        x = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
+        validate_dimensions(x, self._y)
+        self._x = x
 
     @property
     def y(self) -> np.ndarray:
@@ -313,7 +355,45 @@ class NullInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property."""
 
-        self._y = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
+        y = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
+        validate_dimensions(self._x, y)
+        self._y = y
+
+    @property
+    def absolute_tolerance(self) -> float:
+        """Getter and setter for the absolute matching tolerance."""
+
+        return self._absolute_tolerance
+
+    @absolute_tolerance.setter
+    def absolute_tolerance(self, value: Any) -> None:
+        """Setter for the **self.absolute_tolerance** property."""
+
+        self._absolute_tolerance = float(value)
+
+    @property
+    def relative_tolerance(self) -> float:
+        """Getter and setter for the relative matching tolerance."""
+
+        return self._relative_tolerance
+
+    @relative_tolerance.setter
+    def relative_tolerance(self, value: Any) -> None:
+        """Setter for the **self.relative_tolerance** property."""
+
+        self._relative_tolerance = float(value)
+
+    @property
+    def default(self) -> Any:
+        """Getter and setter for the value returned when no knot matches."""
+
+        return self._default
+
+    @default.setter
+    def default(self, value: Any) -> None:
+        """Setter for the **self.default** property."""
+
+        self._default = value
 
 
 class SpragueInterpolator:
@@ -374,9 +454,18 @@ class SpragueInterpolator:
 
     @property
     def x(self) -> np.ndarray:
-        """Getter for the independent :math:`x` variable."""
+        """Getter and setter for the independent :math:`x` variable."""
 
         return self._x
+
+    @x.setter
+    def x(self, value: Any) -> None:
+        """Setter for the **self.x** property; rebuilds the boundary extension."""
+
+        x = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
+        validate_dimensions(x, self._y)
+        self._x = x
+        self._build()
 
     @property
     def y(self) -> np.ndarray:
@@ -388,7 +477,9 @@ class SpragueInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property; rebuilds the boundary extension."""
 
-        self._y = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
+        y = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
+        validate_dimensions(self._x, y)
+        self._y = y
         self._build()
 
 
@@ -416,12 +507,7 @@ class KernelInterpolator:
         self._window = window
         self._kernel = kernel
         self._kernel_kwargs = {} if kernel_kwargs is None else dict(kernel_kwargs)
-        self._padding_kwargs = (
-            {"pad_width": (window, window), "mode": "reflect"}
-            if padding_kwargs is None
-            else dict(padding_kwargs)
-        )
-        validate_padding_kwargs(self._padding_kwargs, window)
+        self._padding_kwargs_arg = padding_kwargs
 
         self._x = np.asarray(x, dtype=DTYPE_FLOAT_DEFAULT)
         self._y = np.asarray(y, dtype=DTYPE_FLOAT_DEFAULT)
@@ -430,6 +516,15 @@ class KernelInterpolator:
         self._build()
 
     def _build(self) -> None:
+        # The default padding tracks the current window, so changing the window
+        # recomputes it to ``(window, window)`` to match a fresh construction.
+        self._padding_kwargs = (
+            {"pad_width": (self._window, self._window), "mode": "reflect"}
+            if self._padding_kwargs_arg is None
+            else dict(self._padding_kwargs_arg)
+        )
+        validate_padding_kwargs(self._padding_kwargs, self._window)
+
         w = self._window
         interval = float(self._x[1] - self._x[0])
         self._interval = interval
@@ -486,9 +581,18 @@ class KernelInterpolator:
 
     @property
     def x(self) -> np.ndarray:
-        """Getter for the independent :math:`x` variable."""
+        """Getter and setter for the independent :math:`x` variable."""
 
         return self._x
+
+    @x.setter
+    def x(self, value: Any) -> None:
+        """Setter for the **self.x** property; rebuilds the padded values."""
+
+        x = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
+        validate_dimensions(x, self._y)
+        self._x = x
+        self._build()
 
     @property
     def y(self) -> np.ndarray:
@@ -500,32 +604,60 @@ class KernelInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property; rebuilds the padded values."""
 
-        self._y = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
+        y = np.asarray(value, dtype=DTYPE_FLOAT_DEFAULT)
+        validate_dimensions(self._x, y)
+        self._y = y
         self._build()
 
     @property
     def window(self) -> float:
-        """Getter for the interpolation window size."""
+        """Getter and setter for the interpolation window size."""
 
         return self._window
 
+    @window.setter
+    def window(self, value: Any) -> None:
+        """Setter for the **self.window** property; rebuilds the padded values."""
+
+        self._window = value
+        self._build()
+
     @property
     def kernel(self) -> Callable:
-        """Getter for the interpolation kernel callable."""
+        """Getter and setter for the interpolation kernel callable."""
 
         return self._kernel
 
+    @kernel.setter
+    def kernel(self, value: Any) -> None:
+        """Setter for the **self.kernel** property."""
+
+        self._kernel = value
+
     @property
     def kernel_kwargs(self) -> dict:
-        """Getter for the kernel keyword arguments."""
+        """Getter and setter for the kernel keyword arguments."""
 
         return self._kernel_kwargs
 
+    @kernel_kwargs.setter
+    def kernel_kwargs(self, value: Any) -> None:
+        """Setter for the **self.kernel_kwargs** property."""
+
+        self._kernel_kwargs = dict(value)
+
     @property
     def padding_kwargs(self) -> dict:
-        """Getter for the padding keyword arguments."""
+        """Getter and setter for the padding keyword arguments."""
 
         return self._padding_kwargs
+
+    @padding_kwargs.setter
+    def padding_kwargs(self, value: Any) -> None:
+        """Setter for the **self.padding_kwargs** property; rebuilds the padding."""
+
+        self._padding_kwargs_arg = value
+        self._build()
 
 
 class Extrapolator:

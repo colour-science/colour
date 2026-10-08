@@ -25,7 +25,8 @@ from colour.algebra.interpolation._dispatch import (
     _backend_module,
     _BackendDispatcher,
     _DispatchingInterpolator,
-    detect_backend,
+    _forward_properties,
+    _resolve_backend,
 )
 
 __author__ = "Colour Developers"
@@ -40,14 +41,15 @@ __all__ = [
 ]
 
 
+@_forward_properties
 class Extrapolator(_BackendDispatcher):
     """
     Extrapolate 1-D function values beyond a wrapped interpolator's domain.
 
-    Resolve the backend from the union of the wrapped interpolator's data and the
-    query (see :class:`colour.algebra.interpolation._dispatch._BackendDispatcher`)
-    and delegate to the matching backend-specialised implementation. Two methods
-    are supported:
+    Resolve the backend from the wrapped interpolator's data (see
+    :class:`colour.algebra.interpolation._dispatch._BackendDispatcher`) and
+    delegate to the matching backend-specialised implementation. The query is
+    forwarded to that implementation unchanged. Two methods are supported:
 
     -   *Linear*: extend using the boundary-pair slope, ``(xi[0], xi[1])`` for
         ``x < xi[0]`` and ``(xi[-1], xi[-2])`` for ``x > xi[-1]``.
@@ -110,119 +112,91 @@ class Extrapolator(_BackendDispatcher):
         **kwargs: Any,
     ) -> None:
         self._interpolator_source = interpolator
-        self._method_arg = method
-        self._left_arg = left
-        self._right_arg = right
+        self._method = method
+        self._left = left
+        self._right = right
         self._args = args
         self._kwargs = kwargs
+        self._overrides = {}
 
-        backend = detect_backend(
+        backend = _resolve_backend(
             getattr(interpolator, "x", None), getattr(interpolator, "y", None)
         )
-        implementation = _backend_module(backend).Extrapolator(
-            interpolator, method, left, right, *args, **kwargs
-        )
-        self._init_dispatch(backend, implementation)
+        self._init_dispatch(backend, self._construct(backend))
 
-    def _build_implementation(self, backend: str) -> Any:
-        interpolator = self._interpolator_source
+    def _resolve_wrapped(self, interpolator: Any) -> Any:
+        """
+        Return the implementation the backend extrapolator wraps.
+
+        A dispatching interpolator yields its backend implementation so the
+        native extrapolator wraps a native interpolator. A plain backend
+        interpolator (or ``None``) passes through unchanged.
+        """
+
         if isinstance(interpolator, _DispatchingInterpolator):
-            interpolator = interpolator._implementation_for(backend)  # noqa: SLF001
-        elif interpolator is not None:
-            error = (
-                f'Cannot re-dispatch the extrapolator to the "{backend}" backend: '
-                "the wrapped interpolator is not a colour dispatching interpolator."
-            )
-            raise NotImplementedError(error)
+            return interpolator._impl  # noqa: SLF001
+
+        return interpolator
+
+    def _construct(self, backend: str) -> Any:
+        """Build a fresh implementation from the construction inputs."""
 
         return _backend_module(backend).Extrapolator(
-            interpolator,
-            self._method_arg,
-            self._left_arg,
-            self._right_arg,
+            self._resolve_wrapped(self._interpolator_source),
+            self._method,
+            self._left,
+            self._right,
             *self._args,
             **self._kwargs,
         )
 
-    def _implementation_for(self, backend: str) -> Any:
-        """
-        Return the cross-backend implementation, rebuilding it when the wrapped
-        interpolator has been mutated in place.
-
-        The base backend reads the wrapped interpolator's data live, so it needs
-        no invalidation. A cross-backend implementation instead wraps a snapshot
-        of the interpolator's per-backend implementation; the dispatching
-        interpolator rebuilds (a new object) on in-place mutation, so a cached
-        implementation wrapping a superseded object is stale and rebuilt.
-        """
-
-        if backend == self._backend:
-            return self._base_implementation
+    def _resolved_backend(self) -> str:
+        """Return the backend of the wrapped interpolator's current data."""
 
         interpolator = self._interpolator_source
-        if isinstance(interpolator, _DispatchingInterpolator):
-            current = interpolator._implementation_for(backend)  # noqa: SLF001
-            cached = self._implementations.get(backend)
-            if cached is None or cached.interpolator is not current:
-                cached = self._build_implementation(backend)
-                self._implementations[backend] = cached
 
-            return cached
+        return _resolve_backend(
+            getattr(interpolator, "x", None), getattr(interpolator, "y", None)
+        )
 
-        return super()._implementation_for(backend)
+    def _sync_backend(self) -> None:
+        """
+        Rebuild the implementation when the wrapped interpolator's backend has
+        changed.
+
+        The wrapped interpolator may be mutated in place after being wrapped
+        (e.g. ``extrapolator.interpolator.y = <tensor>``), switching its backend
+        without passing through a setter here. Re-resolving on evaluation keeps
+        the extrapolator on the wrapped interpolator's current backend.
+        """
+
+        backend = self._resolved_backend()
+        if backend != self._backend:
+            self._backend = backend
+            self._impl = self._build_implementation(backend)
+
+    def __call__(self, x: Any, *args: Any, **kwargs: Any) -> Any:
+        """Evaluate at the specified point(s), tracking the wrapped backend."""
+
+        self._sync_backend()
+
+        return self._impl(x, *args, **kwargs)
 
     @property
     def interpolator(self) -> Any:
         """Getter and setter for the wrapped interpolator."""
 
-        return self._base_implementation.interpolator
+        return self._interpolator_source
 
     @interpolator.setter
     def interpolator(self, value: Any) -> None:
-        """Setter for the **self.interpolator** property."""
+        """Setter for the **self.interpolator** property; may re-detect backend."""
 
-        self._interpolator_source = value
-        self._base_implementation.interpolator = value
-        self._invalidate_cross_backend()
+        backend = _resolve_backend(getattr(value, "x", None), getattr(value, "y", None))
 
-    @property
-    def method(self) -> Any:
-        """Getter and setter for the extrapolation method."""
-
-        return self._base_implementation.method
-
-    @method.setter
-    def method(self, value: Any) -> None:
-        """Setter for the **self.method** property."""
-
-        self._method_arg = value
-        self._base_implementation.method = value
-        self._invalidate_cross_backend()
-
-    @property
-    def left(self) -> Any:
-        """Getter and setter for the left boundary value."""
-
-        return self._base_implementation.left
-
-    @left.setter
-    def left(self, value: Any) -> None:
-        """Setter for the **self.left** property."""
-
-        self._left_arg = value
-        self._base_implementation.left = value
-        self._invalidate_cross_backend()
-
-    @property
-    def right(self) -> Any:
-        """Getter and setter for the right boundary value."""
-
-        return self._base_implementation.right
-
-    @right.setter
-    def right(self, value: Any) -> None:
-        """Setter for the **self.right** property."""
-
-        self._right_arg = value
-        self._base_implementation.right = value
-        self._invalidate_cross_backend()
+        self._reassign(
+            backend,
+            "_interpolator_source",
+            value,
+            lambda: setattr(self._impl, "interpolator", self._resolve_wrapped(value)),
+        )

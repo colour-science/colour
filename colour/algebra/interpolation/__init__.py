@@ -32,6 +32,12 @@ numerical interpolation tasks in colour science applications.
 -   :func:`colour.table_interpolation`: Perform interpolation with table using
     specified method.
 
+The interpolator classes dispatch to an array backend (*NumPy*, *PyTorch* or
+*JAX*) resolved from the input data. To pin a specific backend instead -- e.g.
+to guarantee automatic differentiation or ``jax.jit`` support -- import it from
+:mod:`colour.algebra.interpolation.backends`, whose submodules expose the same
+classes specialised for one backend.
+
 References
 ----------
 -   :cite:`Bourkeb` : Bourke, P. (n.d.). Trilinear Interpolation. Retrieved

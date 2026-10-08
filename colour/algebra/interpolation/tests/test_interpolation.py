@@ -32,7 +32,7 @@ from colour.algebra.interpolation.backends._core import reflect_indices
 from colour.utilities import array_api_enable
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Callable, Generator
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -94,12 +94,29 @@ def _available_backends() -> list[tuple[str, Callable[[Any], Any]]]:
 
 _BACKENDS = _available_backends()
 
+# Non-*NumPy* backends, used by the tests that exercise backend switching (which
+# only happens under Array API dispatch for framework data).
+_FRAMEWORK_BACKENDS = [(name, cast) for name, cast in _BACKENDS if name != "numpy"]
+
 
 @pytest.fixture(params=[name for name, _ in _BACKENDS])
-def backend(request: pytest.FixtureRequest) -> tuple[str, Callable[[Any], Any]]:
-    """Yield ``(name, cast)`` for each available backend."""
+def backend(
+    request: pytest.FixtureRequest,
+) -> Generator[tuple[str, Callable[[Any], Any]], None, None]:
+    """
+    Yield ``(name, cast)`` for each available backend.
 
-    return next(item for item in _BACKENDS if item[0] == request.param)
+    Non-*NumPy* backends enable Array API dispatch for the duration of the test,
+    matching the project-wide ``xp`` fixture: a backend is only engaged when the
+    caller has opted into dispatch.
+    """
+
+    item = next(item for item in _BACKENDS if item[0] == request.param)
+    if item[0] == "numpy":
+        yield item
+    else:
+        with array_api_enable(True):
+            yield item
 
 
 def test_detect_backend_numpy() -> None:
@@ -107,210 +124,6 @@ def test_detect_backend_numpy() -> None:
 
     assert detect_backend(_X, _Y) == "numpy"
     assert detect_backend([0.0, 1.0], 2.0) == "numpy"
-
-
-def test_numpy_data_backend_query_namespace(
-    backend: tuple[str, Callable[[Any], Any]],
-) -> None:
-    """
-    Test that a *NumPy*-data interpolator or extrapolator evaluated at a backend
-    query returns the result in the query's namespace.
-
-    Sampling *NumPy* data (e.g. a colour matching function) at a *PyTorch* /
-    *JAX* query must not drop back to *NumPy*: the output follows the union of
-    the data and query namespaces.
-    """
-
-    name, cast = backend
-
-    interpolator = LinearInterpolator(_X, _Y)  # *NumPy* data.
-    assert interpolator.backend == "numpy"
-
-    # A backend result follows the query only while Array API dispatch is
-    # enabled, matching how the ``colour`` interpolators are used on backends.
-    with array_api_enable(name != "numpy"):
-        assert detect_backend(interpolator(cast(_X_E))) == name
-
-        extrapolator = Extrapolator(LinearInterpolator(_X, _Y), left=0.0)
-        assert detect_backend(extrapolator(cast(_X_E))) == name
-
-
-def test_numpy_data_backend_query_flag_disabled(
-    backend: tuple[str, Callable[[Any], Any]],
-) -> None:
-    """
-    Test that re-dispatch to the query backend is gated on Array API dispatch.
-
-    With dispatch disabled the *NumPy* backend is retained and a (concrete)
-    backend query returns a *NumPy* result.
-    """
-
-    _name, cast = backend
-
-    interpolator = LinearInterpolator(_X, _Y)
-    with array_api_enable(False):
-        assert detect_backend(interpolator(cast(_X_E))) == "numpy"
-
-
-def _query_gradient(
-    name: str, function: Callable[[Any], Any], x: np.ndarray
-) -> np.ndarray:
-    """Return ``d(sum(function(q)))/dq`` at ``x`` via ``name``'s autodiff."""
-
-    x = np.atleast_1d(np.asarray(x, dtype=np.float64))
-
-    if name == "torch":
-        import torch  # noqa: PLC0415
-
-        query = torch.tensor(x, requires_grad=True, dtype=torch.float64)
-        function(query).sum().backward()
-
-        return _to_numpy(query.grad)
-
-    if name == "jax":
-        import jax  # noqa: PLC0415
-        import jax.numpy as jnp  # noqa: PLC0415
-
-        return _to_numpy(jax.grad(lambda value: function(value).sum())(jnp.asarray(x)))
-
-    error = f'Unsupported differentiable backend: "{name}".'
-    raise ValueError(error)
-
-
-def _finite_difference(interpolator: Any, x: np.ndarray, h: float = 1e-5) -> np.ndarray:
-    """Return the central finite-difference derivative of ``interpolator``."""
-
-    x = np.atleast_1d(np.asarray(x, dtype=np.float64))
-
-    return (_to_numpy(interpolator(x + h)) - _to_numpy(interpolator(x - h))) / (2 * h)
-
-
-@pytest.mark.parametrize(
-    "interpolator_type",
-    [LinearInterpolator, CubicSplineInterpolator, PchipInterpolator],
-)
-def test_numpy_data_differentiable_query(
-    backend: tuple[str, Callable[[Any], Any]],
-    interpolator_type: type,
-) -> None:
-    """
-    Test that a *NumPy*-data interpolator is differentiable at a backend query.
-
-    A gradient-tracked *PyTorch* or *JAX* query must not drop back to *NumPy*
-    (which would raise on the conversion and sever the graph); evaluation
-    re-dispatches to the query backend, and the gradient matches a *NumPy*
-    finite-difference reference.
-    """
-
-    name, _cast = backend
-    if name == "numpy":
-        pytest.skip("Differentiability is only defined for non-NumPy backends.")
-
-    x = np.array([2.5])  # Between knots: the linear interpolant is smooth here.
-
-    with array_api_enable(True):
-        interpolator = interpolator_type(_X, _Y)  # *NumPy* data.
-        gradient = _query_gradient(name, interpolator, x)
-
-    reference = _finite_difference(interpolator_type(_X, _Y), x)
-    np.testing.assert_allclose(gradient, reference, atol=1e-4)
-
-
-def test_extrapolator_differentiable_query(
-    backend: tuple[str, Callable[[Any], Any]],
-) -> None:
-    """
-    Test that a *NumPy*-data extrapolator is differentiable at a backend query.
-
-    The out-of-range *Linear* gradient equals the boundary-pair slope.
-    """
-
-    name, _cast = backend
-    if name == "numpy":
-        pytest.skip("Differentiability is only defined for non-NumPy backends.")
-
-    x_i = np.array([3.0, 4.0, 5.0])
-    y_i = np.array([1.0, 2.0, 3.0])
-    slope = (y_i[1] - y_i[0]) / (x_i[1] - x_i[0])
-
-    with array_api_enable(True):
-        extrapolator = Extrapolator(LinearInterpolator(x_i, y_i))
-        gradient = _query_gradient(name, extrapolator, np.array([1.0, 6.0]))
-
-    np.testing.assert_allclose(gradient, [slope, slope], atol=1e-6)
-
-
-def test_extrapolator_differentiable_query_interpolator_mutated(
-    backend: tuple[str, Callable[[Any], Any]],
-) -> None:
-    """
-    Test that a cross-backend query reflects in-place mutation of the wrapped
-    interpolator after the cross-backend implementation has been cached.
-    """
-
-    name, _cast = backend
-    if name == "numpy":
-        pytest.skip("Differentiability is only defined for non-NumPy backends.")
-
-    x_i = np.array([3.0, 4.0, 5.0])
-
-    with array_api_enable(True):
-        extrapolator = Extrapolator(LinearInterpolator(x_i, np.array([1.0, 2.0, 3.0])))
-        # Cache the cross-backend implementation, then mutate the wrapped
-        # interpolator in place through the live getter.
-        _query_gradient(name, extrapolator, np.array([1.0, 6.0]))
-        extrapolator.interpolator.y = np.array([1.0, 6.0, 11.0])
-        gradient = _query_gradient(name, extrapolator, np.array([1.0, 6.0]))
-
-    np.testing.assert_allclose(gradient, [5.0, 5.0], atol=1e-6)
-
-
-def test_cross_backend_query_not_implemented(
-    backend: tuple[str, Callable[[Any], Any]],
-) -> None:
-    """
-    Test that a non-*NumPy* interpolator raises for a different backend query.
-    """
-
-    name, cast = backend
-    if name == "numpy":
-        pytest.skip("The NumPy backend re-dispatches instead of raising.")
-
-    foreign = "jax" if name != "jax" else "torch"
-
-    class _ForeignArray:
-        pass
-
-    _ForeignArray.__module__ = foreign
-
-    interpolator = LinearInterpolator(cast(_X), cast(_Y))
-    with array_api_enable(True), pytest.raises(NotImplementedError):
-        interpolator(_ForeignArray())
-
-
-def test_numpy_data_concrete_query_promoted(
-    backend: tuple[str, Callable[[Any], Any]],
-) -> None:
-    """
-    Test that a concrete backend query is evaluated with the *NumPy* backend and
-    promoted to the query namespace.
-
-    This preserves *NumPy*-only features (e.g. non-"reflect" kernel padding) that
-    the query backend does not implement, while a differentiable query
-    re-dispatches (see :func:`test_numpy_data_differentiable_query`).
-    """
-
-    name, cast = backend
-    if name == "numpy":
-        pytest.skip("Promotion only applies to non-NumPy queries.")
-
-    with array_api_enable(True):
-        interpolator = CubicSplineInterpolator(_X, _Y)  # *NumPy* data.
-        result = interpolator(cast(_X_E))  # Concrete backend query.
-
-    assert detect_backend(result) == name
-    reference = scipy.interpolate.interp1d(_X, _Y, kind="cubic")(_X_E)
-    np.testing.assert_allclose(_to_numpy(result), reference, atol=1e-10)
 
 
 # ``x``, ``y`` per interpolator; 2.5 is in-range and off-knot for both datasets.
@@ -338,11 +151,10 @@ def test_scalar_query(
 ) -> None:
     """Test that a 0-d (scalar) query returns a 0-d result."""
 
-    name, cast = backend
+    _name, cast = backend
 
-    with array_api_enable(name != "numpy"):
-        interpolator = interpolator_type(cast(x), cast(y))
-        result = interpolator(cast(2.5))
+    interpolator = interpolator_type(cast(x), cast(y))
+    result = interpolator(cast(2.5))
 
     assert _to_numpy(result).shape == ()
 
@@ -359,49 +171,12 @@ def test_empty_query(
 ) -> None:
     """Test that an empty (size-0) query returns an empty result."""
 
-    name, cast = backend
+    _name, cast = backend
 
-    with array_api_enable(name != "numpy"):
-        interpolator = interpolator_type(cast(x), cast(y))
-        result = interpolator(cast(np.array([])))
+    interpolator = interpolator_type(cast(x), cast(y))
+    result = interpolator(cast(np.array([])))
 
     assert _to_numpy(result).shape == (0,)
-
-
-@pytest.mark.parametrize(
-    "interpolator_type",
-    [LinearInterpolator, CubicSplineInterpolator, PchipInterpolator],
-)
-def test_scalar_differentiable_query(
-    backend: tuple[str, Callable[[Any], Any]],
-    interpolator_type: type,
-) -> None:
-    """Test that a 0-d gradient-tracked query re-dispatches and is 0-d."""
-
-    name, _cast = backend
-    if name == "numpy":
-        pytest.skip("Differentiability is only defined for non-NumPy backends.")
-
-    with array_api_enable(True):
-        interpolator = interpolator_type(_X, _Y)  # *NumPy* data.
-
-        if name == "torch":
-            import torch  # noqa: PLC0415
-
-            query = torch.tensor(2.5, requires_grad=True, dtype=torch.float64)
-            result = interpolator(query)
-            assert result.ndim == 0
-            result.backward()
-            assert query.grad is not None
-            gradient = float(query.grad)
-        else:
-            import jax  # noqa: PLC0415
-            import jax.numpy as jnp  # noqa: PLC0415
-
-            gradient = float(jax.grad(interpolator)(jnp.asarray(2.5)))
-
-    reference = _finite_difference(interpolator_type(_X, _Y), np.array([2.5]))[0]
-    np.testing.assert_allclose(gradient, reference, atol=1e-4)
 
 
 def test_cubic_spline_matches_scipy(
@@ -672,6 +447,7 @@ def test_dimension_validation(
         interpolator(cast(np.stack([_X, _X])), cast(_Y))
 
 
+@array_api_enable(True)
 def test_torch_autodiff() -> None:
     """Test that *PyTorch* autograd propagates through the interpolators."""
 
@@ -693,6 +469,7 @@ def test_torch_autodiff() -> None:
         assert torch.isfinite(gradient_x).all() and bool((gradient_x != 0).any())
 
 
+@array_api_enable(True)
 def test_jax_autodiff() -> None:
     """Test that *JAX* autodiff propagates through the interpolators."""
 
@@ -906,6 +683,7 @@ def test_extrapolator_properties() -> None:
     assert extrapolator.right == 9.0
 
 
+@array_api_enable(True)
 def test_kernel_torch_autodiff() -> None:
     """Test *PyTorch* autograd propagates through the kernel interpolator."""
 
@@ -924,6 +702,7 @@ def test_kernel_torch_autodiff() -> None:
     assert torch.isfinite(gradient_x).all() and bool((gradient_x != 0).any())
 
 
+@array_api_enable(True)
 def test_extrapolator_torch_autodiff() -> None:
     """Test *PyTorch* autograd propagates through the extrapolator."""
 
@@ -939,6 +718,7 @@ def test_extrapolator_torch_autodiff() -> None:
     assert torch.isfinite(gradient_y).all() and bool((gradient_y != 0).any())
 
 
+@array_api_enable(True)
 def test_kernel_jax_autodiff() -> None:
     """Test *JAX* autodiff propagates through the kernel interpolator."""
 
@@ -956,6 +736,7 @@ def test_kernel_jax_autodiff() -> None:
     assert bool(jnp.isfinite(gradient_y).all()) and bool((gradient_y != 0).any())
 
 
+@array_api_enable(True)
 def test_extrapolator_jax_autodiff() -> None:
     """Test *JAX* autodiff propagates through the extrapolator."""
 
@@ -1105,6 +886,7 @@ def test_validation_errors(backend: tuple[str, Callable[[Any], Any]]) -> None:
         SpragueInterpolator(cast(_X[:5]), cast(_Y[:5]))
 
 
+@array_api_enable(True)
 def test_jax_jit() -> None:
     """Test the *JAX* cubic spline and PCHIP evaluate under ``jax.jit``."""
 
@@ -1124,6 +906,7 @@ def test_jax_jit() -> None:
     np.testing.assert_allclose(_to_numpy(evaluate(x_e)), reference, atol=1e-8)
 
 
+@array_api_enable(True)
 def test_jax_jit_range_checked_evaluation() -> None:
     """
     Test that *JAX* interpolators whose evaluation validates the query range
@@ -1160,6 +943,7 @@ def test_jax_jit_range_checked_evaluation() -> None:
         )
 
 
+@array_api_enable(True)
 def test_jax_jit_extrapolator() -> None:
     """
     Test that a *JAX* :class:`Extrapolator` evaluates under ``jax.jit``, over a
@@ -1181,3 +965,273 @@ def test_jax_jit_extrapolator() -> None:
         _to_numpy(extrapolator(query)),
         atol=1e-8,
     )
+
+
+def test_backend_interpolators_standalone(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
+    """
+    Test that a backend submodule's interpolators are usable directly, with the
+    same writable surface and mutation behaviour as a fresh instance.
+    """
+
+    name, cast = backend
+    module = importlib.import_module(f"colour.algebra.interpolation.backends.{name}")
+
+    kernel = module.KernelInterpolator(cast(_X_UNIFORM), cast(_Y_UNIFORM))
+    kernel.window = 4
+    kernel.kernel = kernel_linear
+    assert kernel.window == 4
+    assert kernel.kernel is kernel_linear
+
+    reference = module.KernelInterpolator(
+        cast(_X_UNIFORM), cast(_Y_UNIFORM), window=4, kernel=kernel_linear
+    )
+    np.testing.assert_allclose(
+        _to_numpy(kernel(cast(_X_E_UNIFORM))),
+        _to_numpy(reference(cast(_X_E_UNIFORM))),
+        atol=1e-8,
+    )
+
+    null = module.NullInterpolator(cast(_X), cast(_Y))
+    null.absolute_tolerance = 0.1
+    null.default = 7.0
+    assert null.absolute_tolerance == 0.1
+    assert null.default == 7.0
+
+
+def test_mutate_between_calls_in_place(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
+    """
+    Test that mutating a forwarded attribute between evaluations takes effect on
+    the next call and reuses the cached backend implementation in place.
+    """
+
+    _name, cast = backend
+    interpolator = KernelInterpolator(cast(_X_UNIFORM), cast(_Y_UNIFORM))
+
+    interpolator(cast(_X_E_UNIFORM))
+    cached = interpolator._impl  # noqa: SLF001
+
+    interpolator.window = 4
+    assert interpolator._impl is cached  # noqa: SLF001
+
+    reference = KernelInterpolator(cast(_X_UNIFORM), cast(_Y_UNIFORM), window=4)
+    np.testing.assert_allclose(
+        _to_numpy(interpolator(cast(_X_E_UNIFORM))),
+        _to_numpy(reference(cast(_X_E_UNIFORM))),
+        atol=1e-8,
+    )
+
+
+def test_set_raises_and_preserves_on_rejected_value(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
+    """
+    Test that a write the backend rejects raises, keeps the previous value and
+    still evaluates (the rejected write leaves no half-applied state).
+    """
+
+    _name, cast = backend
+    interpolator = KernelInterpolator(cast(_X_UNIFORM), cast(_Y_UNIFORM))
+    reference = _to_numpy(interpolator(cast(_X_E_UNIFORM)))
+
+    with pytest.raises(ValueError):
+        interpolator.padding_kwargs = {"mode": "edge", "pad_width": (3, 3)}
+
+    assert interpolator.padding_kwargs["mode"] == "reflect"
+    np.testing.assert_allclose(
+        _to_numpy(interpolator(cast(_X_E_UNIFORM))), reference, atol=1e-8
+    )
+
+
+def test_rejected_write_is_not_recorded(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
+    """
+    Test that a write the backend rejects is not recorded, so it is not replayed
+    when the implementation is later rebuilt.
+    """
+
+    _name, cast = backend
+    interpolator = KernelInterpolator(cast(_X_UNIFORM), cast(_Y_UNIFORM))
+
+    with pytest.raises(ValueError):
+        interpolator.padding_kwargs = {"mode": "edge", "pad_width": (3, 3)}
+
+    assert "padding_kwargs" not in interpolator._overrides  # noqa: SLF001
+
+    # Rebuilding replays only recorded writes, so the rejected one is gone and
+    # the rebuild succeeds.
+    interpolator._impl = interpolator._build_implementation(  # noqa: SLF001
+        interpolator._backend  # noqa: SLF001
+    )
+
+
+@pytest.mark.parametrize("interpolator", [CubicSplineInterpolator, PchipInterpolator])
+def test_x_setter_cubic_pchip(
+    backend: tuple[str, Callable[[Any], Any]], interpolator: type
+) -> None:
+    """
+    Test that the ``x`` setter rebuilds the Cubic/Pchip interpolant, both
+    standalone and through the dispatcher.
+
+    Regression: forwarding only the *NumPy* backend's setters dropped the
+    writable ``x`` these interpolators previously exposed.
+    """
+
+    name, cast = backend
+    module = importlib.import_module(f"colour.algebra.interpolation.backends.{name}")
+
+    new_x = _X_UNIFORM * 2.0
+    query = cast(np.array([5.0]))
+    reference = interpolator(cast(new_x), cast(_Y_UNIFORM))
+
+    dispatching = interpolator(cast(_X_UNIFORM), cast(_Y_UNIFORM))
+    standalone = getattr(module, interpolator.__name__)(
+        cast(_X_UNIFORM), cast(_Y_UNIFORM)
+    )
+    for interp in (dispatching, standalone):
+        interp.x = cast(new_x)
+        np.testing.assert_allclose(
+            _to_numpy(interp(query)), _to_numpy(reference(query)), atol=1e-8
+        )
+
+
+def test_extrapolator_sees_interpolator_mutation(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
+    """
+    Test that mutating a wrapped interpolator in place is seen by the
+    extrapolator, which holds the interpolator's implementation object.
+    """
+
+    _name, cast = backend
+    x = cast(np.array([3.0, 4.0, 5.0]))
+    interpolator = LinearInterpolator(x, cast(np.array([1.0, 2.0, 3.0])))
+    extrapolator = Extrapolator(interpolator)
+
+    interpolator.y = cast(np.array([10.0, 20.0, 30.0]))
+
+    reference = Extrapolator(LinearInterpolator(x, cast(np.array([10.0, 20.0, 30.0]))))
+    query = cast(np.array([1.0]))
+    np.testing.assert_allclose(
+        _to_numpy(extrapolator(query)), _to_numpy(reference(query)), atol=1e-10
+    )
+
+
+@pytest.mark.parametrize(("name", "cast"), _FRAMEWORK_BACKENDS)
+@pytest.mark.parametrize("axis", ["x", "y"])
+def test_set_data_switches_backend(
+    name: str, cast: Callable[[Any], Any], axis: str
+) -> None:
+    """
+    Test that assigning a framework array to ``x`` or ``y`` of a *NumPy*-built
+    interpolator switches the backend, resolving it from the incoming value
+    combined with the retained other axis.
+    """
+
+    with array_api_enable(True):
+        interpolator = LinearInterpolator(_X, _Y)  # *NumPy* data.
+        assert interpolator.backend == "numpy"
+
+        setattr(interpolator, axis, cast(_X if axis == "x" else _Y))
+        assert interpolator.backend == name
+
+        reference = LinearInterpolator(cast(_X), cast(_Y))
+        query = cast(np.array([2.5]))
+        np.testing.assert_allclose(
+            _to_numpy(interpolator(query)), _to_numpy(reference(query)), atol=1e-8
+        )
+
+
+@pytest.mark.parametrize(("name", "cast"), _FRAMEWORK_BACKENDS)
+def test_switch_replays_recorded_overrides(
+    name: str, cast: Callable[[Any], Any]
+) -> None:
+    """
+    Test that an option written before a backend switch is replayed onto the
+    implementation rebuilt on the new backend.
+    """
+
+    with array_api_enable(True):
+        interpolator = NullInterpolator(_X, _Y)  # *NumPy* data.
+        interpolator.default = 7.0
+        assert interpolator.backend == "numpy"
+
+        interpolator.x = cast(_X)  # Switch to the framework backend.
+        assert interpolator.backend == name
+        assert float(interpolator.default) == 7.0
+
+
+@pytest.mark.parametrize("cast", [cast for _, cast in _FRAMEWORK_BACKENDS])
+def test_switch_rollback_on_failed_rebuild(cast: Callable[[Any], Any]) -> None:
+    """
+    Test that a backend switch whose rebuild fails leaves the interpolator
+    unchanged and still evaluable (no half-applied state).
+    """
+
+    with array_api_enable(True):
+        interpolator = LinearInterpolator(_X, _Y)  # *NumPy* data.
+        query = np.array([2.5])
+        reference = _to_numpy(interpolator(query))
+
+        with pytest.raises(ValueError):
+            interpolator.x = cast(_X[:-1])  # Framework array, mismatched length.
+
+        assert interpolator.backend == "numpy"
+        np.testing.assert_allclose(_to_numpy(interpolator(query)), reference, atol=1e-8)
+
+
+@pytest.mark.skipif(
+    {"torch", "jax"} - {name for name, _ in _FRAMEWORK_BACKENDS} != set(),
+    reason="Requires both PyTorch and JAX.",
+)
+def test_mixed_namespaces_raise() -> None:
+    """
+    Test that data spanning two framework namespaces has no single backend and
+    raises, both at construction and on reassignment.
+    """
+
+    casts = dict(_FRAMEWORK_BACKENDS)
+    torch_cast, jax_cast = casts["torch"], casts["jax"]
+
+    with array_api_enable(True):
+        with pytest.raises(ValueError):
+            LinearInterpolator(torch_cast(_X), jax_cast(_Y))
+
+        interpolator = LinearInterpolator(torch_cast(_X), torch_cast(_Y))
+        with pytest.raises(ValueError):
+            interpolator.y = jax_cast(_Y)
+
+        # The rejected reassignment left the interpolator on its backend.
+        assert interpolator.backend == "torch"
+
+
+@pytest.mark.parametrize(("name", "cast"), _FRAMEWORK_BACKENDS)
+def test_extrapolator_tracks_wrapped_backend_switch(
+    name: str, cast: Callable[[Any], Any]
+) -> None:
+    """
+    Test that an extrapolator tracks a backend switch of its wrapped
+    interpolator mutated in place after wrapping.
+    """
+
+    with array_api_enable(True):
+        interpolator = LinearInterpolator(_X, _Y)  # *NumPy* data.
+        extrapolator = Extrapolator(interpolator)
+        assert extrapolator.backend == "numpy"
+
+        interpolator.x = cast(_X)  # Switch the wrapped interpolator's backend.
+        assert interpolator.backend == name
+
+        query = cast(np.array([-1.0, 6.0]))  # Outside the domain: extrapolated.
+        result = extrapolator(query)
+        assert extrapolator.backend == name
+        assert detect_backend(result) == name
+
+        reference = Extrapolator(LinearInterpolator(cast(_X), cast(_Y)))
+        np.testing.assert_allclose(
+            _to_numpy(result), _to_numpy(reference(query)), atol=1e-8
+        )
