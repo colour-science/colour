@@ -1,27 +1,21 @@
 """
 Backend detection and dispatching interpolators.
 
-The dispatching interpolators inspect the array namespace of their input data
-at construction and delegate to the matching backend submodule
+The dispatching interpolator inspect the array namespace of their input data
+and delegate to the matching backend submodule
 (``.backends.<backend>``), which provides an identically named,
 backend-specialised interpolator.
-
-Evaluation resolves the backend from the union of the construction data and the
-query namespace: when Array API dispatch is enabled, a *NumPy*-data interpolator
-evaluated at a *PyTorch* or *JAX* query re-dispatches to the query backend, so
-the computation stays in the query namespace and preserves automatic
-differentiation. See :class:`_BackendDispatcher`.
 """
 
 from __future__ import annotations
 
 import importlib
+import inspect
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Any
-
-import numpy as np
+from typing import TYPE_CHECKING, Any, TypeVar
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
     from types import ModuleType
 
 __author__ = "Colour Developers"
@@ -86,182 +80,147 @@ def _backend_module(backend: str) -> ModuleType:
     return importlib.import_module(_BACKEND_MODULES[backend], __package__)
 
 
-def _as_numpy_query(x: Any) -> np.ndarray | None:
+def _resolve_backend(*arrays: Any) -> str:
     """
-    Return the query materialised as a *NumPy* array, or ``None`` when it cannot
-    be converted, e.g. a gradient-tracked *PyTorch* tensor or a *JAX* tracer.
+    Return the single backend selected for the specified data, gated on Array
+    API dispatch.
+
+    With dispatch disabled the *NumPy* backend is used for any data, matching
+    :func:`colour.utilities.array_namespace`. Enabled, the backend is the sole
+    non-*NumPy* namespace present (:func:`detect_backend`), or *NumPy* when none
+    is. Data spanning two different non-*NumPy* namespaces (e.g. *PyTorch* and
+    *JAX*) has no single backend and raises.
     """
 
-    try:
-        return np.asarray(x)
-    except Exception:  # noqa: BLE001
-        return None
+    from colour.utilities import is_array_api_enabled  # noqa: PLC0415
 
+    if not is_array_api_enabled():
+        return "numpy"
 
-def _promote_to_query(result: Any, x: Any) -> Any:
-    """Return a *NumPy* ``result`` promoted to the query's array namespace."""
+    frameworks = {
+        backend
+        for array in arrays
+        if array is not None and (backend := detect_backend(array)) != "numpy"
+    }
+    if len(frameworks) > 1:
+        error = (
+            "Cannot resolve a single backend for data spanning multiple array "
+            f"namespaces: {sorted(frameworks)}."
+        )
+        raise ValueError(error)
 
-    from colour.utilities import array_namespace, xp_as_array  # noqa: PLC0415
-
-    return xp_as_array(result, xp=array_namespace(x), like=x)
+    return frameworks.pop() if frameworks else "numpy"
 
 
 class _BackendDispatcher(ABC):
     """
-    Resolve the array backend from the union of the construction data and the
-    query, then delegate evaluation to the matching backend implementation.
+    Hold a single backend implementation and forward evaluation, attribute
+    reads and writes to it.
 
-    The construction data fixes a base backend. When Array API dispatch is
-    enabled (:func:`colour.utilities.is_array_api_enabled`) and a *NumPy*-backed
-    object is evaluated at a *PyTorch* or *JAX* query, evaluation re-dispatches to
-    the query backend so the computation stays in the query namespace and
-    preserves automatic differentiation. Backend implementations are built lazily
-    from the construction data and cached per backend.
+    The backend is resolved from the construction data (:func:`detect_backend`)
+    and delegated to the matching ``.backends.<backend>`` implementation. A
+    query is passed straight to that implementation, which coerces it into its
+    own namespace or raises; the backend is never resolved from the query.
 
-    Subclasses provide :meth:`_build_implementation` and seed the base backend
-    with :meth:`_init_dispatch`.
+    Subclasses provide :meth:`_construct` and seed the implementation with
+    :meth:`_init_dispatch`. A write to a forwarded option is applied in place
+    and recorded in :attr:`_overrides`, so a rebuild on another backend replays
+    it.
     """
 
     _backend: str
-    _implementations: dict[str, Any]
+    _impl: Any
+    _overrides: dict[str, Any]
 
     def _init_dispatch(self, backend: str, implementation: Any) -> None:
-        """Seed the dispatcher with the base backend implementation."""
+        """Seed the dispatcher with the backend implementation."""
 
         self._backend = backend
-        self._implementations = {backend: implementation}
+        self._impl = implementation
 
     @abstractmethod
+    def _construct(self, backend: str) -> Any:
+        """Build a fresh implementation for the backend from construction inputs."""
+
     def _build_implementation(self, backend: str) -> Any:
-        """Build the implementation for the specified backend."""
+        """Build an implementation and replay the recorded writes onto it."""
 
-    def _resolve_query_backend(self, x: Any) -> str | None:
-        """
-        Return the query backend requiring cross-namespace handling, else
-        ``None`` to evaluate with the base backend.
-        """
-
-        from colour.utilities import is_array_api_enabled  # noqa: PLC0415
-
-        if not is_array_api_enabled():
-            return None
-
-        query_backend = detect_backend(x)
-        if query_backend in ("numpy", self._backend):
-            return None
-
-        if self._backend != "numpy":
-            error = (
-                f'Cannot evaluate a "{self._backend}"-backed '
-                f'{type(self).__name__} at a "{query_backend}" query.'
-            )
-            raise NotImplementedError(error)
-
-        return query_backend
-
-    def _implementation_for(self, backend: str) -> Any:
-        """Return the cached or freshly built implementation for a backend."""
-
-        implementation = self._implementations.get(backend)
-        if implementation is None:
-            implementation = self._build_implementation(backend)
-            self._implementations[backend] = implementation
+        implementation = self._construct(backend)
+        for name, value in self._overrides.items():
+            setattr(implementation, name, value)
 
         return implementation
 
-    def _invalidate_cross_backend(self) -> None:
+    def _apply_in_place(self, mutate: Callable[[], None]) -> None:
         """
-        Drop cached cross-backend implementations, keeping the base implementation
-        mutated in place.
+        Apply an in-place mutation to the live implementation.
 
-        For a dispatcher whose base implementation exposes setters (e.g.
-        :class:`colour.Extrapolator`), the base is mutated directly and only the
-        cross-backend snapshots are stale.
-        """
-
-        self._implementations = {self._backend: self._base_implementation}
-
-    def _rebuild(self) -> None:
-        """
-        Rebuild the base implementation from the current construction inputs and
-        drop any cached cross-backend implementations.
-
-        For a dispatcher whose base implementation has no setter for a mutated
-        attribute, reconstruction from the stored inputs is the only way to apply
-        the change.
+        A mutation that raises rebuilds a clean implementation from the current
+        inputs, so a backend setter that partially mutated before raising leaves
+        no half-applied state behind, then re-raises.
         """
 
-        self._implementations = {
-            self._backend: self._build_implementation(self._backend)
-        }
+        try:
+            mutate()
+        except Exception:
+            self._impl = self._build_implementation(self._backend)
 
-    @property
-    def _base_implementation(self) -> Any:
-        """Return the implementation built from the construction data."""
+            raise
 
-        return self._implementations[self._backend]
+    def _set_forwarded(self, name: str, value: Any) -> None:
+        """
+        Apply a write in place to the implementation and record it for replay.
+
+        A write the backend rejects leaves no half-applied state and is not
+        recorded (see :meth:`_apply_in_place`), then re-raises.
+        """
+
+        self._apply_in_place(lambda: setattr(self._impl, name, value))
+        self._overrides[name] = value
+
+    def _reassign(
+        self, backend: str, source_attr: str, value: Any, mutate: Callable[[], None]
+    ) -> None:
+        """
+        Reassign a data source, switching backend when it changed.
+
+        Same backend: apply ``mutate`` to the live implementation (which a
+        wrapper may hold by reference), then store ``value`` in ``source_attr``.
+        Changed backend: store ``value``, build a fresh implementation (restoring
+        the previous source if the build fails) and swap it in. The stored source
+        is kept consistent with the live implementation throughout.
+        """
+
+        previous = getattr(self, source_attr)
+        if backend == self._backend:
+            self._apply_in_place(mutate)
+            setattr(self, source_attr, value)
+
+            return
+
+        setattr(self, source_attr, value)
+        try:
+            implementation = self._build_implementation(backend)
+        except Exception:
+            setattr(self, source_attr, previous)
+
+            raise
+
+        self._backend = backend
+        self._impl = implementation
 
     def __call__(self, x: Any, *args: Any, **kwargs: Any) -> Any:
-        """Evaluate at the specified point(s) in the query's namespace."""
+        """Evaluate at the specified point(s), delegating to the backend."""
 
-        query_backend = self._resolve_query_backend(x)
-        if query_backend is None:
-            return self._base_implementation(x, *args, **kwargs)
-
-        # A *NumPy*-data object evaluated at a *PyTorch* / *JAX* query. A
-        # concrete query is evaluated with the (feature-complete) *NumPy* backend
-        # and promoted to the query namespace; a query that cannot be
-        # materialised to *NumPy* (gradient-tracked or traced) is evaluated
-        # natively on the query backend so automatic differentiation is
-        # preserved.
-        x_numpy = _as_numpy_query(x)
-        if x_numpy is None:
-            return self._implementation_for(query_backend)(x, *args, **kwargs)
-
-        result = self._base_implementation(x_numpy, *args, **kwargs)
-
-        return _promote_to_query(result, x)
-
-    @property
-    def backend(self) -> str:
-        """Getter for the base backend name resolved from the data."""
-
-        return self._backend
-
-
-class _DispatchingInterpolator(_BackendDispatcher):
-    """
-    Construct the backend-specialised implementation matching the namespace of
-    the input data and delegate evaluation and attribute access to it.
-
-    Subclasses carry no behaviour; their name selects the identically named
-    interpolator in the resolved backend submodule.
-    """
-
-    def __init__(self, x: Any, y: Any, *args: Any, **kwargs: Any) -> None:
-        self._x_source = x
-        self._y_source = y
-        self._args = args
-        self._kwargs = kwargs
-
-        backend = detect_backend(x, y)
-        implementation = getattr(_backend_module(backend), type(self).__name__)(
-            x, y, *args, **kwargs
-        )
-        self._init_dispatch(backend, implementation)
-
-    def _build_implementation(self, backend: str) -> Any:
-        return getattr(_backend_module(backend), type(self).__name__)(
-            self._x_source, self._y_source, *self._args, **self._kwargs
-        )
+        return self._impl(x, *args, **kwargs)
 
     def __getattr__(self, name: str) -> Any:
-        """Delegate unknown attributes to the base backend implementation."""
+        """Delegate unknown public attributes to the backend implementation."""
 
-        if name in ("_implementations", "_backend"):
+        if name.startswith("_"):
             raise AttributeError(name)
 
-        return getattr(self._base_implementation, name)
+        return getattr(self._impl, name)
 
     def __setattr__(self, name: str, value: Any) -> None:
         """
@@ -286,39 +245,142 @@ class _DispatchingInterpolator(_BackendDispatcher):
         )
         raise AttributeError(error)
 
-    def _set_construction_kwarg(self, name: str, value: Any) -> None:
-        """Update a construction keyword argument and rebuild."""
+    @property
+    def backend(self) -> str:
+        """Getter for the backend name resolved from the data."""
 
-        self._kwargs[name] = value
-        self._rebuild()
+        return self._backend
+
+
+_C = TypeVar("_C", bound=type)
+
+
+def _forwarded_property(name: str, *, writable: bool) -> property:
+    """
+    Return a property that reads ``name`` off the backend implementation.
+
+    When ``writable``, the setter records the write and applies it in place
+    through :meth:`_BackendDispatcher._set_forwarded`; otherwise the property is
+    read-only.
+    """
+
+    def getter(self: _BackendDispatcher) -> Any:
+        return getattr(self._impl, name)
+
+    if not writable:
+        return property(getter, doc=f"Getter for the **self.{name}** property.")
+
+    def setter(self: _BackendDispatcher, value: Any) -> None:
+        self._set_forwarded(name, value)
+
+    return property(
+        getter, setter, doc=f"Getter and setter for the **self.{name}** property."
+    )
+
+
+def _forward_properties(cls: _C) -> _C:
+    """
+    Install forwarding properties on ``cls`` mirroring the *NumPy* backend's
+    properties for the identically named class.
+
+    The *NumPy* backend is the reference surface: each of its properties becomes
+    a forwarding property on the dispatcher, read/write when the backend exposes
+    a setter and read-only otherwise, so the API tracks the backend without
+    hand-written boilerplate. Properties already defined on the dispatcher (e.g.
+    the data accessors ``x`` and ``y``, or the :class:`Extrapolator`
+    ``interpolator``) are left untouched, and non-property members (e.g. the
+    wrapped *SciPy* ``fill_value``) still reach the caller through
+    :meth:`_BackendDispatcher.__getattr__`.
+    """
+
+    backend_cls = getattr(_backend_module("numpy"), cls.__name__)
+    for name, member in inspect.getmembers(
+        backend_cls, lambda member: isinstance(member, property)
+    ):
+        if not hasattr(cls, name):
+            setattr(
+                cls, name, _forwarded_property(name, writable=member.fset is not None)
+            )
+
+    return cls
+
+
+class _DispatchingInterpolator(_BackendDispatcher):
+    """
+    Construct the backend-specialised implementation matching the namespace of
+    the input data and delegate evaluation and attribute access to it.
+
+    A write to a forwarded option is applied in place to the implementation and
+    recorded in :attr:`_overrides`. Writing ``x`` or ``y`` re-detects the
+    backend: an unchanged backend applies the write in place, a changed backend
+    rebuilds the implementation on the new backend and replays the recorded
+    writes. Subclasses carry no behaviour; their name selects the identically
+    named interpolator in the resolved backend submodule and the *NumPy*
+    backend's writable surface.
+    """
+
+    def __init__(self, x: Any, y: Any, *args: Any, **kwargs: Any) -> None:
+        self._x_source = x
+        self._y_source = y
+        self._args = args
+        self._kwargs = kwargs
+        self._overrides = {}
+
+        backend = _resolve_backend(x, y)
+        self._init_dispatch(backend, self._construct(backend))
+
+    def _construct(self, backend: str) -> Any:
+        """Build a fresh implementation from the construction inputs."""
+
+        return getattr(_backend_module(backend), type(self).__name__)(
+            self._x_source, self._y_source, *self._args, **self._kwargs
+        )
+
+    def _set_data(self, name: str, value: Any) -> None:
+        """
+        Assign ``x`` or ``y``, re-detecting the backend from the incoming value
+        combined with the retained other axis.
+
+        An unchanged backend applies the write in place, preserving the
+        implementation object a wrapper (e.g. an :class:`colour.Extrapolator`)
+        may hold. A changed backend rebuilds on the new backend and replays the
+        recorded writes.
+        """
+
+        x = value if name == "x" else self._x_source
+        y = value if name == "y" else self._y_source
+        backend = _resolve_backend(x, y)
+
+        self._reassign(
+            backend, f"_{name}_source", value, lambda: setattr(self._impl, name, value)
+        )
 
     @property
     def x(self) -> Any:
         """Getter and setter for the independent :math:`x` variable."""
 
-        return self._base_implementation.x
+        return self._impl.x
 
     @x.setter
     def x(self, value: Any) -> None:
-        """Setter for the **self.x** property; rebuilds the implementation."""
+        """Setter for the **self.x** property; may re-detect the backend."""
 
-        self._x_source = value
-        self._rebuild()
+        self._set_data("x", value)
 
     @property
     def y(self) -> Any:
         """Getter and setter for the dependent :math:`y` variable."""
 
-        return self._base_implementation.y
+        return self._impl.y
 
     @y.setter
     def y(self, value: Any) -> None:
-        """Setter for the **self.y** property; rebuilds the implementation."""
+        """Setter for the **self.y** property; may re-detect the backend."""
 
-        self._y_source = value
-        self._rebuild()
+        self._set_data("y", value)
 
 
+@_forward_properties
 class LinearInterpolator(_DispatchingInterpolator):
     """
     Perform linear interpolation of a 1-D function.
@@ -329,6 +391,7 @@ class LinearInterpolator(_DispatchingInterpolator):
     """
 
 
+@_forward_properties
 class NearestNeighbourInterpolator(_DispatchingInterpolator):
     """
     Perform nearest-neighbour interpolation on discrete data.
@@ -339,51 +402,18 @@ class NearestNeighbourInterpolator(_DispatchingInterpolator):
     """
 
 
+@_forward_properties
 class NullInterpolator(_DispatchingInterpolator):
     """
     Implement 1-D function null interpolation.
 
     Return the dependent value when the query matches a knot within tolerance,
-    else the default value.
+    else the default value. ``absolute_tolerance``, ``relative_tolerance`` and
+    ``default`` are writable.
     """
 
-    @property
-    def absolute_tolerance(self) -> Any:
-        """Getter and setter for the absolute matching tolerance."""
 
-        return self._base_implementation.absolute_tolerance
-
-    @absolute_tolerance.setter
-    def absolute_tolerance(self, value: Any) -> None:
-        """Setter for the **self.absolute_tolerance** property."""
-
-        self._set_construction_kwarg("absolute_tolerance", value)
-
-    @property
-    def relative_tolerance(self) -> Any:
-        """Getter and setter for the relative matching tolerance."""
-
-        return self._base_implementation.relative_tolerance
-
-    @relative_tolerance.setter
-    def relative_tolerance(self, value: Any) -> None:
-        """Setter for the **self.relative_tolerance** property."""
-
-        self._set_construction_kwarg("relative_tolerance", value)
-
-    @property
-    def default(self) -> Any:
-        """Getter and setter for the value returned when no knot matches."""
-
-        return self._base_implementation.default
-
-    @default.setter
-    def default(self, value: Any) -> None:
-        """Setter for the **self.default** property."""
-
-        self._set_construction_kwarg("default", value)
-
-
+@_forward_properties
 class SpragueInterpolator(_DispatchingInterpolator):
     """
     Perform fifth-order polynomial interpolation using the *Sprague (1880)*
@@ -397,6 +427,7 @@ class SpragueInterpolator(_DispatchingInterpolator):
     """
 
 
+@_forward_properties
 class CubicSplineInterpolator(_DispatchingInterpolator):
     """
     Perform *not-a-knot* cubic spline interpolation on one-dimensional data.
@@ -412,6 +443,7 @@ class CubicSplineInterpolator(_DispatchingInterpolator):
     """
 
 
+@_forward_properties
 class PchipInterpolator(_DispatchingInterpolator):
     """
     Interpolate a 1-D function using Piecewise Cubic Hermite Interpolating
@@ -427,64 +459,18 @@ class PchipInterpolator(_DispatchingInterpolator):
     """
 
 
+@_forward_properties
 class KernelInterpolator(_DispatchingInterpolator):
     """
     Perform kernel-based (convolution) interpolation of a 1-D function.
 
     Reconstruct a continuous signal from discrete samples as the convolution of
-    the data with a continuous interpolation kernel. Only reflect padding with a
-    ``pad_width`` equal to ``window`` is supported; other ``padding_kwargs``
-    raise.
+    the data with a continuous interpolation kernel. ``window``, ``kernel``,
+    ``kernel_kwargs`` and ``padding_kwargs`` are writable. Only reflect padding
+    with a ``pad_width`` equal to ``window`` is supported; other
+    ``padding_kwargs`` raise.
 
     References
     ----------
     :cite:`Burger2009b`, :cite:`Wikipedia2005b`
     """
-
-    @property
-    def window(self) -> Any:
-        """Getter and setter for the interpolation window size."""
-
-        return self._base_implementation.window
-
-    @window.setter
-    def window(self, value: Any) -> None:
-        """Setter for the **self.window** property; rebuilds the implementation."""
-
-        self._set_construction_kwarg("window", value)
-
-    @property
-    def kernel(self) -> Any:
-        """Getter and setter for the interpolation kernel callable."""
-
-        return self._base_implementation.kernel
-
-    @kernel.setter
-    def kernel(self, value: Any) -> None:
-        """Setter for the **self.kernel** property; rebuilds the implementation."""
-
-        self._set_construction_kwarg("kernel", value)
-
-    @property
-    def kernel_kwargs(self) -> Any:
-        """Getter and setter for the kernel keyword arguments."""
-
-        return self._base_implementation.kernel_kwargs
-
-    @kernel_kwargs.setter
-    def kernel_kwargs(self, value: Any) -> None:
-        """Setter for the **self.kernel_kwargs** property; rebuilds."""
-
-        self._set_construction_kwarg("kernel_kwargs", value)
-
-    @property
-    def padding_kwargs(self) -> Any:
-        """Getter and setter for the padding keyword arguments."""
-
-        return self._base_implementation.padding_kwargs
-
-    @padding_kwargs.setter
-    def padding_kwargs(self, value: Any) -> None:
-        """Setter for the **self.padding_kwargs** property; rebuilds."""
-
-        self._set_construction_kwarg("padding_kwargs", value)
