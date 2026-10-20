@@ -523,14 +523,13 @@ def Hellwig2022_to_XYZ(
     h = to_domain_degrees(h)
     M = to_domain_100(M)
 
-    # *Helmholtz-Kohlrausch* effect extension, inverted: recover the
-    # plain *Lightness* :math:`J` from :math:`J_{HK}` when only the
-    # latter has been provided, using the *Hellwig 2022*-specific
-    # 2-harmonic Fourier hue angle dependency.
-    if has_only_nan(J) and not has_only_nan(J_HK):
-        J_HK = to_domain_100(J_HK)
-
-        J = J_HK - hue_angle_dependency_Hellwig2022(h) * spow(C, 0.587)
+    # *Helmholtz-Kohlrausch* effect extension, inverted: when only
+    # :math:`J_{HK}` has been provided, the plain *Lightness* :math:`J` is
+    # recovered once the correlate of *chroma* :math:`C` is known, see
+    # below. :math:`J_{HK}` stands in for :math:`J` until then.
+    J_from_J_HK = has_only_nan(J) and not has_only_nan(J_HK)
+    if J_from_J_HK:
+        J = to_domain_100(J_HK)
     elif has_only_nan(J):
         error = (
             'Either "J" or "J_HK" correlate must be defined in '
@@ -606,6 +605,19 @@ def Hellwig2022_to_XYZ(
         )
 
         raise ValueError(error)
+
+    if J_from_J_HK:
+        # Recovering the correlate of *chroma* :math:`C` from the correlate
+        # of *colourfulness* :math:`M` when only the latter has been
+        # provided, the *Helmholtz-Kohlrausch* term depends on it.
+        if has_only_nan(C):
+            with sdiv_mode():
+                C = 35 * sdiv(M, A_w)
+
+        # Recovering the plain *Lightness* :math:`J` from :math:`J_{HK}`
+        # using the *Hellwig 2022*-specific 2-harmonic Fourier hue angle
+        # dependency.
+        J = J - hue_angle_dependency_Hellwig2022(h) * spow(C, 0.587)
 
     e_t = eccentricity_factor_Hellwig2022(h)
 

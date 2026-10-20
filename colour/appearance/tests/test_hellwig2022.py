@@ -324,6 +324,16 @@ class TestHellwig2022_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        specification = CAM_Specification_Hellwig2022(
+            J_HK=70.501874363913880, M=30.244622269198004, h=17.486592427576902
+        )
+        L_A = 31.83
+        xp_assert_close(
+            Hellwig2022_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
+            [57.06, 43.06, 31.96],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_Hellwig2022_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.appearance.hellwig2022.Hellwig2022_to_XYZ`
