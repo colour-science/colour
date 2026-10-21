@@ -519,34 +519,19 @@ def Hellwig2022_to_XYZ(
 
     J, C, h, _s, _Q, M, _H, _HC, J_HK, _Q_HK = astuple(specification)
 
+    J = to_domain_100(J)
+    J_HK = to_domain_100(J_HK)
     C = to_domain_100(C)
     h = to_domain_degrees(h)
     M = to_domain_100(M)
 
-    # *Helmholtz-Kohlrausch* effect extension, inverted: recover the
-    # plain *Lightness* :math:`J` from :math:`J_{HK}` when only the
-    # latter has been provided, using the *Hellwig 2022*-specific
-    # 2-harmonic Fourier hue angle dependency.
-    if has_only_nan(J) and not has_only_nan(J_HK):
-        J_HK = to_domain_100(J_HK)
-
-        J = J_HK - hue_angle_dependency_Hellwig2022(h) * spow(C, 0.587)
-    elif has_only_nan(J):
-        error = (
-            'Either "J" or "J_HK" correlate must be defined in '
-            'the "CAM_Specification_Hellwig2022" argument!'
-        )
-
-        raise ValueError(error)
-    else:
-        J = to_domain_100(J)
-
     L_A = as_float_array(L_A)
     XYZ_w = to_domain_100(XYZ_w)
 
-    xp = array_namespace(J, C, h, M, XYZ_w, L_A)
+    xp = array_namespace(J, J_HK, C, h, M, XYZ_w, L_A)
 
-    J = xp_as_float_array(J, xp=xp)
+    J = xp_as_float_array(J, xp=xp, like=J_HK)
+    J_HK = xp_as_float_array(J_HK, xp=xp, like=J)
     C = xp_as_float_array(C, xp=xp, like=J)
     h = xp_as_float_array(h, xp=xp, like=J)
     M = xp_as_float_array(M, xp=xp, like=J)
@@ -606,6 +591,27 @@ def Hellwig2022_to_XYZ(
         )
 
         raise ValueError(error)
+
+    if has_only_nan(J):
+        if has_only_nan(J_HK):
+            error = (
+                'Either "J" or "J_HK" correlate must be defined in '
+                'the "CAM_Specification_Hellwig2022" argument!'
+            )
+
+            raise ValueError(error)
+
+        # Recovering the correlate of *chroma* :math:`C` from the correlate
+        # of *colourfulness* :math:`M` when only the latter has been
+        # provided, the *Helmholtz-Kohlrausch* term depends on it.
+        if has_only_nan(C):
+            with sdiv_mode():
+                C = 35 * sdiv(M, A_w)
+
+        # Recovering the plain *Lightness* :math:`J` from :math:`J_{HK}`
+        # using the *Hellwig 2022*-specific 2-harmonic Fourier hue angle
+        # dependency.
+        J = J_HK - hue_angle_dependency_Hellwig2022(h) * spow(C, 0.587)
 
     e_t = eccentricity_factor_Hellwig2022(h)
 
