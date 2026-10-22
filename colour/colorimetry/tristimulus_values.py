@@ -2587,8 +2587,13 @@ def wavelength_to_XYZ(
 
         raise ValueError(error)
 
+    # ``cmfs[...]`` indexes the reference *NumPy* data and returns a *NumPy*
+    # array regardless of ``wavelength``'s namespace; coerce it back so strict
+    # backends (e.g. *PyTorch*) accept the subsequent reshape.
     return xp_reshape(
-        cmfs[xp_reshape(wavelength, (-1,), xp=xp)],
+        xp_as_float_array(
+            cmfs[xp_reshape(wavelength, (-1,), xp=xp)], xp=xp, like=wavelength
+        ),
         (*wavelength.shape, 3),
         xp=xp,
     )
