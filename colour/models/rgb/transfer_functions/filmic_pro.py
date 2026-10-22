@@ -21,7 +21,13 @@ from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import array_namespace, as_float, from_range_1, to_domain_1
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    from_range_1,
+    to_domain_1,
+    xp_as_float_array,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -179,6 +185,10 @@ def log_decoding_FilmicPro6(y: Domain1) -> Range1:
 
     y = to_domain_1(y)
 
-    t = _log_decoding_FilmicPro6_interpolator()(y)
+    # The interpolator is a fixed *NumPy* LUT, so it returns *NumPy* values
+    # regardless of ``y``'s namespace; coerce back so the output tracks the
+    # input namespace (strict backends such as *PyTorch* reject *NumPy* data).
+    xp = array_namespace(y)
+    t = xp_as_float_array(_log_decoding_FilmicPro6_interpolator()(y), xp=xp, like=y)
 
     return as_float(from_range_1(t))

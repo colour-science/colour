@@ -16,7 +16,6 @@ from matplotlib.figure import Figure
 import colour
 from colour.colorimetry import SDS_ILLUMINANTS
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.hints import List, cast
 from colour.io import read_image
 from colour.models import RGB_COLOURSPACES, XYZ_to_sRGB, gamma_function
 from colour.plotting import (
@@ -300,7 +299,7 @@ class TestLabelRectangles:
         samples = np.linspace(0, 1, 10)
 
         _figure, axes = label_rectangles(
-            cast("List[float]", samples.tolist()),
+            samples.tolist(),
             axes.bar(samples, 1),
             figure=figure,
             axes=axes,
