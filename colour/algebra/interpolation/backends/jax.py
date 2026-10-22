@@ -19,6 +19,7 @@ from typing import TYPE_CHECKING, Any
 
 import jax
 import jax.numpy as jnp
+import numpy as np
 
 from ._core import (
     SPRAGUE_A_COEFFICIENTS,
@@ -75,10 +76,19 @@ def _validate_range(x: jnp.ndarray, x_i: jnp.ndarray) -> None:
         raise ValueError(error)
 
 
-def _as_float(a: Any) -> jnp.ndarray:
-    """Return the array promoted to a floating dtype."""
+def _as_float(a: Any, dtype: Any = None) -> jnp.ndarray:
+    """
+    Return ``a`` as a float array.
+
+    A *NumPy* ``dtype`` casts to it (subject to the *JAX* ``x64`` configuration),
+    preserving the autodiff graph. Unspecified, an existing floating dtype is
+    kept and an integer array promoted to the default float.
+    """
 
     a = jnp.asarray(a)
+    if dtype is not None:
+        return a.astype(np.dtype(dtype))
+
     if jnp.issubdtype(a.dtype, jnp.floating):
         return a
 
@@ -164,9 +174,10 @@ class CubicSplineInterpolator:
         bounds_error: bool | None = None,
         fill_value: Any = float("nan"),
         assume_sorted: bool = False,
+        dtype: Any = None,
     ) -> None:
-        x = _as_float(x)
-        y = _as_float(y)
+        x = _as_float(x, dtype)
+        y = _as_float(y, dtype)
         self.axis = int(axis % y.ndim)
 
         if not assume_sorted:
@@ -187,6 +198,7 @@ class CubicSplineInterpolator:
             error = "`x` must be strictly increasing."
             raise ValueError(error)
 
+        self._dtype_arg = dtype
         self._x = x
         self._y = y
 
@@ -283,7 +295,7 @@ class CubicSplineInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property; re-solves the spline."""
 
-        self._x = _as_float(value)
+        self._x = _as_float(value, self._dtype_arg)
         self._solve()
 
     @property
@@ -296,8 +308,14 @@ class CubicSplineInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property; re-solves the spline."""
 
-        self._y = _as_float(value)
+        self._y = _as_float(value, self._dtype_arg)
         self._solve()
+
+    @property
+    def dtype(self) -> jnp.dtype:
+        """Getter for the data dtype."""
+
+        return self._y.dtype
 
 
 class PchipInterpolator:
@@ -309,9 +327,11 @@ class PchipInterpolator:
         y: Any,
         axis: int = 0,
         extrapolate: bool | None = None,
+        *,
+        dtype: Any = None,
     ) -> None:
-        x = _as_float(x)
-        y = _as_float(y)
+        x = _as_float(x, dtype)
+        y = _as_float(y, dtype)
         self.axis = int(axis % y.ndim)
         self._extrapolate = True if extrapolate is None else extrapolate
 
@@ -328,6 +348,7 @@ class PchipInterpolator:
             error = "`x` must be strictly increasing."
             raise ValueError(error)
 
+        self._dtype_arg = dtype
         self._x = x
         self._y = y
         self._solve()
@@ -461,7 +482,7 @@ class PchipInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property; recomputes the derivatives."""
 
-        self._x = _as_float(value)
+        self._x = _as_float(value, self._dtype_arg)
         self._solve()
 
     @property
@@ -474,16 +495,30 @@ class PchipInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property; recomputes the derivatives."""
 
-        self._y = _as_float(value)
+        self._y = _as_float(value, self._dtype_arg)
         self._solve()
+
+    @property
+    def dtype(self) -> jnp.dtype:
+        """Getter for the data dtype."""
+
+        return self._y.dtype
 
 
 class LinearInterpolator:
     """Linear interpolant over *JAX* inputs; raises outside the range."""
 
-    def __init__(self, x: Any, y: Any, *args: Any, **kwargs: Any) -> None:  # noqa: ARG002
-        self._x = _as_float(x)
-        self._y = _as_float(y)
+    def __init__(
+        self,
+        x: Any,
+        y: Any,
+        dtype: Any = None,
+        *args: Any,  # noqa: ARG002
+        **kwargs: Any,  # noqa: ARG002
+    ) -> None:
+        self._dtype_arg = dtype
+        self._x = _as_float(x, dtype)
+        self._y = _as_float(y, dtype)
         validate_dimensions(self._x, self._y)
 
     def __call__(self, x: Any) -> jnp.ndarray:
@@ -509,7 +544,7 @@ class LinearInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property."""
 
-        x = _as_float(value)
+        x = _as_float(value, self._dtype_arg)
         validate_dimensions(x, self._y)
         self._x = x
 
@@ -523,17 +558,31 @@ class LinearInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property."""
 
-        y = _as_float(value)
+        y = _as_float(value, self._dtype_arg)
         validate_dimensions(self._x, y)
         self._y = y
+
+    @property
+    def dtype(self) -> jnp.dtype:
+        """Getter for the data dtype."""
+
+        return self._y.dtype
 
 
 class NearestNeighbourInterpolator:
     """Nearest-neighbour interpolant over *JAX* inputs."""
 
-    def __init__(self, x: Any, y: Any, *args: Any, **kwargs: Any) -> None:  # noqa: ARG002
-        self._x = _as_float(x)
-        self._y = _as_float(y)
+    def __init__(
+        self,
+        x: Any,
+        y: Any,
+        dtype: Any = None,
+        *args: Any,  # noqa: ARG002
+        **kwargs: Any,  # noqa: ARG002
+    ) -> None:
+        self._dtype_arg = dtype
+        self._x = _as_float(x, dtype)
+        self._y = _as_float(y, dtype)
         validate_dimensions(self._x, self._y)
 
     def __call__(self, x: Any) -> jnp.ndarray:
@@ -558,7 +607,7 @@ class NearestNeighbourInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property."""
 
-        x = _as_float(value)
+        x = _as_float(value, self._dtype_arg)
         validate_dimensions(x, self._y)
         self._x = x
 
@@ -572,9 +621,15 @@ class NearestNeighbourInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property."""
 
-        y = _as_float(value)
+        y = _as_float(value, self._dtype_arg)
         validate_dimensions(self._x, y)
         self._y = y
+
+    @property
+    def dtype(self) -> jnp.dtype:
+        """Getter for the data dtype."""
+
+        return self._y.dtype
 
 
 class NullInterpolator:
@@ -587,11 +642,13 @@ class NullInterpolator:
         absolute_tolerance: float = 1e-8,
         relative_tolerance: float = 1e-8,
         default: float = float("nan"),
+        dtype: Any = None,
         *args: Any,  # noqa: ARG002
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
-        self._x = _as_float(x)
-        self._y = _as_float(y)
+        self._dtype_arg = dtype
+        self._x = _as_float(x, dtype)
+        self._y = _as_float(y, dtype)
         validate_dimensions(self._x, self._y)
         self.absolute_tolerance = absolute_tolerance
         self.relative_tolerance = relative_tolerance
@@ -634,7 +691,7 @@ class NullInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property."""
 
-        x = _as_float(value)
+        x = _as_float(value, self._dtype_arg)
         validate_dimensions(x, self._y)
         self._x = x
 
@@ -648,9 +705,15 @@ class NullInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property."""
 
-        y = _as_float(value)
+        y = _as_float(value, self._dtype_arg)
         validate_dimensions(self._x, y)
         self._y = y
+
+    @property
+    def dtype(self) -> jnp.dtype:
+        """Getter for the data dtype."""
+
+        return self._y.dtype
 
     @property
     def absolute_tolerance(self) -> float:
@@ -692,9 +755,17 @@ class NullInterpolator:
 class SpragueInterpolator:
     """Fifth-order *Sprague (1880)* interpolant over uniformly spaced data."""
 
-    def __init__(self, x: Any, y: Any, *args: Any, **kwargs: Any) -> None:  # noqa: ARG002
-        self._x = _as_float(x)
-        self._y = _as_float(y)
+    def __init__(
+        self,
+        x: Any,
+        y: Any,
+        dtype: Any = None,
+        *args: Any,  # noqa: ARG002
+        **kwargs: Any,  # noqa: ARG002
+    ) -> None:
+        self._dtype_arg = dtype
+        self._x = _as_float(x, dtype)
+        self._y = _as_float(y, dtype)
         validate_dimensions(self._x, self._y)
 
         if self._y.shape[0] < 6:
@@ -757,7 +828,7 @@ class SpragueInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property; rebuilds the boundary extension."""
 
-        x = _as_float(value)
+        x = _as_float(value, self._dtype_arg)
         validate_dimensions(x, self._y)
         self._x = x
         self._solve()
@@ -772,10 +843,16 @@ class SpragueInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property; rebuilds the boundary extension."""
 
-        y = _as_float(value)
+        y = _as_float(value, self._dtype_arg)
         validate_dimensions(self._x, y)
         self._y = y
         self._solve()
+
+    @property
+    def dtype(self) -> jnp.dtype:
+        """Getter for the data dtype."""
+
+        return self._y.dtype
 
 
 def _reflect_pad(y: jnp.ndarray, window: int) -> jnp.ndarray:
@@ -804,20 +881,22 @@ class KernelInterpolator:
         self,
         x: Any,
         y: Any,
-        *,
         window: float = 3,
         kernel: Callable = kernel_lanczos,
         kernel_kwargs: dict | None = None,
         padding_kwargs: dict | None = None,
+        dtype: Any = None,
+        *args: Any,  # noqa: ARG002
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
+        self._dtype_arg = dtype
         self._window = window
         self._kernel = kernel
         self._kernel_kwargs = {} if kernel_kwargs is None else dict(kernel_kwargs)
         self._padding_kwargs_arg = padding_kwargs
 
-        self._x = _as_float(x)
-        self._y = _as_float(y)
+        self._x = _as_float(x, dtype)
+        self._y = _as_float(y, dtype)
         validate_dimensions(self._x, self._y)
 
         self._build()
@@ -883,7 +962,7 @@ class KernelInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property; rebuilds the padded values."""
 
-        x = _as_float(value)
+        x = _as_float(value, self._dtype_arg)
         validate_dimensions(x, self._y)
         self._x = x
         self._build()
@@ -898,7 +977,7 @@ class KernelInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property; rebuilds the padded values."""
 
-        y = _as_float(value)
+        y = _as_float(value, self._dtype_arg)
         validate_dimensions(self._x, y)
         self._y = y
         self._build()
@@ -952,6 +1031,12 @@ class KernelInterpolator:
 
         self._padding_kwargs_arg = value
         self._build()
+
+    @property
+    def dtype(self) -> jnp.dtype:
+        """Getter for the data dtype."""
+
+        return self._y.dtype
 
 
 def _safe_divide(a: jnp.ndarray, b: jnp.ndarray) -> jnp.ndarray:
