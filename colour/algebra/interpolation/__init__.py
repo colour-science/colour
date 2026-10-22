@@ -38,6 +38,11 @@ to guarantee automatic differentiation or ``jax.jit`` support -- import it from
 :mod:`colour.algebra.interpolation.backends`, whose submodules expose the same
 classes specialised for one backend.
 
+Every interpolator accepts a ``dtype`` setting the stored-data and output
+precision, defaulting to :attr:`colour.constants.DTYPE_FLOAT_DEFAULT` for *NumPy*
+data and to the framework's own default float for *PyTorch* / *JAX* data. The
+resolved dtype is exposed read-only as ``dtype``.
+
 References
 ----------
 -   :cite:`Bourkeb` : Bourke, P. (n.d.). Trilinear Interpolation. Retrieved

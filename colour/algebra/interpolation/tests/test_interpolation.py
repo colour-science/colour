@@ -10,6 +10,7 @@ coverage grows automatically as backends are added.
 from __future__ import annotations
 
 import importlib
+import inspect
 from typing import TYPE_CHECKING, Any
 
 import numpy as np
@@ -29,6 +30,7 @@ from colour.algebra.interpolation import (
 )
 from colour.algebra.interpolation._dispatch import detect_backend
 from colour.algebra.interpolation.backends._core import reflect_indices
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.utilities import array_api_enable
 
 if TYPE_CHECKING:
@@ -1235,3 +1237,109 @@ def test_extrapolator_tracks_wrapped_backend_switch(
         np.testing.assert_allclose(
             _to_numpy(result), _to_numpy(reference(query)), atol=1e-8
         )
+
+
+# Backend class names shared across every backend submodule.
+_CLASS_NAMES = [t.__name__ for _, t, _, _ in _INTERPOLATOR_CASES]
+
+
+@pytest.mark.parametrize("class_name", _CLASS_NAMES)
+def test_backend_property_symmetry(class_name: str) -> None:
+    """
+    Test that every backend exposes the same property surface for a class.
+
+    :func:`colour.algebra.interpolation._dispatch._forward_properties` mirrors
+    the *NumPy* backend's properties onto the dispatcher, so a backend drifting
+    out of parallel would silently break the forwarded API. ``dtype`` is part of
+    the shared surface.
+    """
+
+    property_sets = {}
+    for name, _ in _BACKENDS:
+        module = importlib.import_module(
+            f"colour.algebra.interpolation.backends.{name}"
+        )
+        property_sets[name] = {
+            member
+            for member, value in inspect.getmembers(
+                getattr(module, class_name), lambda v: isinstance(v, property)
+            )
+        }
+
+    reference = property_sets["numpy"]
+    assert "dtype" in reference
+    for name, properties in property_sets.items():
+        assert properties == reference, (name, properties ^ reference)
+
+
+@pytest.mark.parametrize("dtype", [np.float32, np.float64])
+@pytest.mark.parametrize(
+    ("interpolator_type", "x", "y"),
+    [pytest.param(t, x, y, id=i) for i, t, x, y in _INTERPOLATOR_CASES],
+)
+def test_dtype_honoured(
+    backend: tuple[str, Callable[[Any], Any]],
+    interpolator_type: type,
+    x: np.ndarray,
+    y: np.ndarray,
+    dtype: type,
+) -> None:
+    """Test that ``dtype`` sets the stored-data and output precision."""
+
+    _name, cast = backend
+
+    interpolator = interpolator_type(cast(x), cast(y), dtype=dtype)
+
+    assert np.asarray(interpolator.x).dtype == np.dtype(dtype)
+    assert np.asarray(interpolator.y).dtype == np.dtype(dtype)
+    assert np.asarray(interpolator(cast(2.5))).dtype == np.dtype(dtype)
+
+
+@pytest.mark.parametrize(
+    "interpolator_type", [LinearInterpolator, NearestNeighbourInterpolator]
+)
+def test_dtype_positional(
+    backend: tuple[str, Callable[[Any], Any]],
+    interpolator_type: type,
+) -> None:
+    """Test that ``dtype`` may be passed positionally, matching the prior API."""
+
+    _name, cast = backend
+
+    interpolator = interpolator_type(cast(_X), cast(_Y), np.float32)
+
+    assert np.asarray(interpolator.x).dtype == np.dtype(np.float32)
+
+
+def test_default_dtype_numpy() -> None:
+    """Test that the *NumPy* backend defaults to the library float precision."""
+
+    interpolator = LinearInterpolator(_X, _Y)
+
+    assert interpolator.dtype == np.dtype(DTYPE_FLOAT_DEFAULT)
+    assert interpolator.x.dtype == np.dtype(DTYPE_FLOAT_DEFAULT)
+
+
+def test_kernel_positional_window(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
+    """Test that the kernel ``window`` may be passed positionally."""
+
+    _name, cast = backend
+
+    interpolator = KernelInterpolator(cast(_X_UNIFORM), cast(_Y_UNIFORM), 4)
+
+    assert interpolator.window == 4
+
+
+def test_setter_preserves_dtype(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
+    """Test that assigning ``y`` keeps the construction ``dtype``."""
+
+    _name, cast = backend
+
+    interpolator = LinearInterpolator(cast(_X), cast(_Y), dtype=np.float32)
+    interpolator.y = cast(_Y)  # ``cast`` yields float64 data.
+
+    assert np.asarray(interpolator.y).dtype == np.float32
