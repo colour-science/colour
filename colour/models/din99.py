@@ -40,7 +40,7 @@ from colour.hints import (  # noqa: TC001
     Range1,
     Range100,
 )
-from colour.models import Lab_to_XYZ, XYZ_to_Lab
+from colour.models import Lab_to_XYZ, XYZ_to_Lab, XYZ_to_xyY, xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (
     CanonicalMapping,
     array_namespace,
@@ -134,6 +134,10 @@ def Lab_to_DIN99(
     | ``Lab_99`` | 100                    | 1                  |
     +------------+------------------------+--------------------+
 
+    For *DIN99c* and *DIN99d*, ``Lab`` must be computed from the
+    Kuehni-corrected tristimulus values and reference white. Use
+    :func:`colour.XYZ_to_DIN99` to apply the correction automatically.
+
     References
     ----------
     :cite:`ASTMInternational2007`, :cite:`Cui2002`
@@ -220,6 +224,10 @@ def DIN99_to_Lab(
     +============+========================+====================+
     | ``Lab``    | 100                    | 1                  |
     +------------+------------------------+--------------------+
+
+    For *DIN99c* and *DIN99d*, the returned *CIE L\\*a\\*b\\** coordinates
+    correspond to the Kuehni-corrected tristimulus values and reference
+    white. Use :func:`colour.DIN99_to_XYZ` to undo the correction.
 
     References
     ----------
@@ -318,7 +326,7 @@ def XYZ_to_DIN99(
 
     References
     ----------
-    :cite:`ASTMInternational2007`
+    :cite:`ASTMInternational2007`, :cite:`Cui2002`
 
     Examples
     --------
@@ -327,6 +335,18 @@ def XYZ_to_DIN99(
     >>> XYZ_to_DIN99(XYZ)  # doctest: +ELLIPSIS
     array([53.2282198..., 28.4163465...,  3.8983955...])
     """
+
+    method = validate_method(method, tuple(DIN99_METHODS))
+
+    if method in ("din99c", "din99d"):
+        c_0 = 1.1 if method == "din99c" else 1.12
+
+        # Apply Kuehni's correction to the sample and reference white.
+        X, Y, Z = tsplit(XYZ)
+        XYZ = tstack([c_0 * X - (c_0 - 1) * Z, Y, Z])
+
+        X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
+        illuminant = XYZ_to_xyY(tstack([c_0 * X_n - (c_0 - 1) * Z_n, Y_n, Z_n]))
 
     Lab = XYZ_to_Lab(XYZ, illuminant)
 
@@ -388,7 +408,7 @@ def DIN99_to_XYZ(
 
     References
     ----------
-    :cite:`ASTMInternational2007`
+    :cite:`ASTMInternational2007`, :cite:`Cui2002`
 
     Examples
     --------
@@ -398,6 +418,20 @@ def DIN99_to_XYZ(
     array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
-    Lab = DIN99_to_Lab(Lab_99, k_E, k_CH, method)
+    method = validate_method(method, tuple(DIN99_METHODS))
+    c_0 = 1.1 if method == "din99c" else 1.12
 
-    return Lab_to_XYZ(Lab, illuminant)
+    if method in ("din99c", "din99d"):
+        # Apply Kuehni's correction to the reference white.
+        X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
+        illuminant = XYZ_to_xyY(tstack([c_0 * X_n - (c_0 - 1) * Z_n, Y_n, Z_n]))
+
+    Lab = DIN99_to_Lab(Lab_99, k_E, k_CH, method)
+    XYZ = Lab_to_XYZ(Lab, illuminant)
+
+    if method in ("din99c", "din99d"):
+        # Undo Kuehni's correction after converting from CIE L*a*b*.
+        X, Y, Z = tsplit(XYZ)
+        XYZ = tstack([(X + (c_0 - 1) * Z) / c_0, Y, Z])
+
+    return XYZ
