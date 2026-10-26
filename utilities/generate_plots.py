@@ -135,8 +135,7 @@ from colour.plotting.temperature import (
     plot_planckian_locus_in_chromaticity_diagram,
 )
 from colour.quality import colour_quality_scale
-from colour.utilities import domain_range_scale  # ; noqa: RUF100
-from colour.utilities import filter_warnings
+from colour.utilities import domain_range_scale, filter_warnings  # ; noqa: RUF100
 
 __copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"

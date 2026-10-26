@@ -113,8 +113,14 @@ class Image_Specification_Attribute:
 
 
 if is_openimageio_installed():  # pragma: no cover
-    from OpenImageIO import ImageSpec  # pyright: ignore
-    from OpenImageIO import DOUBLE, FLOAT, HALF, UINT8, UINT16
+    from OpenImageIO import (  # pyright: ignore
+        DOUBLE,
+        FLOAT,
+        HALF,
+        UINT8,
+        UINT16,
+        ImageSpec,
+    )
 
     MAPPING_BIT_DEPTH: CanonicalMapping = CanonicalMapping(
         {
