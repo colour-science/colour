@@ -37,7 +37,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get --yes install graphviz graphviz-dev
+          sudo apt-get --yes install graphviz graphviz-dev libgvplugin-neato-layout8
       - name: Install uv
         run: |
           pip install uv
