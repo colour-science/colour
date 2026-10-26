@@ -10,9 +10,11 @@ if typing.TYPE_CHECKING:
 from itertools import product
 
 import numpy as np
+import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import DIN99_to_Lab, DIN99_to_XYZ, Lab_to_DIN99, XYZ_to_DIN99
+from colour.models.din99 import DIN99_METHODS
 from colour.utilities import (
     as_ndarray,
     domain_range_scale,
@@ -311,37 +313,75 @@ class TestXYZ_to_DIN99:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_XYZ_to_DIN99(self, xp: ModuleType) -> None:
+        # Worked example from the Appendix of Cui et al. (2002).
+        illuminant = xp_as_array([94.81 / 302.14, 100 / 302.14], xp=xp)
+        xp_assert_close(
+            XYZ_to_DIN99(
+                xp_as_array(
+                    [[0.0496, 0.0372, 0.1959], [0.046651, 0.0381, 0.177848]], xp=xp
+                ),
+                illuminant,
+                method="DIN99c",
+            ),
+            [
+                [25.64330868, 0.18933667, -31.28052116],
+                [25.97900147, -2.51777723, -29.66880927],
+            ],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        xp_assert_close(
+            XYZ_to_DIN99(
+                xp_as_array(
+                    [[0.0496, 0.0372, 0.1959], [0.046651, 0.0381, 0.177848]], xp=xp
+                ),
+                illuminant,
+                method="DIN99d",
+            ),
+            [
+                [25.57201275, -0.96273879, -30.87306045],
+                [25.90712338, -3.51626016, -29.15613995],
+            ],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    @pytest.mark.parametrize("method", tuple(DIN99_METHODS))
+    def test_n_dimensional_XYZ_to_DIN99(self, xp: ModuleType, method: str) -> None:
         """
         Test :func:`colour.models.din99.XYZ_to_DIN99` definition n-dimensional
         support.
         """
 
         XYZ = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
-        Lab_99 = as_ndarray(XYZ_to_DIN99(XYZ))
+        Lab_99 = as_ndarray(XYZ_to_DIN99(XYZ, method=method))
 
         XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
         Lab_99 = xp.tile(xp_as_array(Lab_99, xp=xp), (6, 1))
-        xp_assert_close(XYZ_to_DIN99(XYZ), Lab_99, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(
+            XYZ_to_DIN99(XYZ, method=method), Lab_99, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
         Lab_99 = xp_reshape(xp_as_array(Lab_99, xp=xp), (2, 3, 3), xp=xp)
-        xp_assert_close(XYZ_to_DIN99(XYZ), Lab_99, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(
+            XYZ_to_DIN99(XYZ, method=method), Lab_99, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-    def test_domain_range_scale_XYZ_to_DIN99(self, xp: ModuleType) -> None:
+    @pytest.mark.parametrize("method", tuple(DIN99_METHODS))
+    def test_domain_range_scale_XYZ_to_DIN99(self, xp: ModuleType, method: str) -> None:
         """
         Test :func:`colour.models.din99.XYZ_to_DIN99` definition domain and
         range scale support.
         """
 
         XYZ = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
-        Lab_99 = as_ndarray(XYZ_to_DIN99(XYZ))
+        Lab_99 = as_ndarray(XYZ_to_DIN99(XYZ, method=method))
 
         d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 xp_assert_close(
-                    XYZ_to_DIN99(XYZ * xp_as_array(factor_a, xp=xp)),
+                    XYZ_to_DIN99(XYZ * xp_as_array(factor_a, xp=xp), method=method),
                     Lab_99 * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -352,7 +392,8 @@ class TestXYZ_to_DIN99:
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        XYZ_to_DIN99(cases)
+        for method in DIN99_METHODS:
+            XYZ_to_DIN99(cases, method=method)
 
 
 class TestDIN99_to_XYZ:
@@ -391,37 +432,77 @@ class TestDIN99_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_DIN99_to_XYZ(self, xp: ModuleType) -> None:
+        # Worked example from the Appendix of Cui et al. (2002).
+        illuminant = xp_as_array([94.81 / 302.14, 100 / 302.14], xp=xp)
+        xp_assert_close(
+            DIN99_to_XYZ(
+                xp_as_array(
+                    [
+                        [25.64330868, 0.18933667, -31.28052116],
+                        [25.97900147, -2.51777723, -29.66880927],
+                    ],
+                    xp=xp,
+                ),
+                illuminant,
+                method="DIN99c",
+            ),
+            [[0.0496, 0.0372, 0.1959], [0.046651, 0.0381, 0.177848]],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        xp_assert_close(
+            DIN99_to_XYZ(
+                xp_as_array(
+                    [
+                        [25.57201275, -0.96273879, -30.87306045],
+                        [25.90712338, -3.51626016, -29.15613995],
+                    ],
+                    xp=xp,
+                ),
+                illuminant,
+                method="DIN99d",
+            ),
+            [[0.0496, 0.0372, 0.1959], [0.046651, 0.0381, 0.177848]],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    @pytest.mark.parametrize("method", tuple(DIN99_METHODS))
+    def test_n_dimensional_DIN99_to_XYZ(self, xp: ModuleType, method: str) -> None:
         """
         Test :func:`colour.models.din99.DIN99_to_XYZ` definition n-dimensional
         support.
         """
 
         Lab_99 = xp_as_array([53.22821988, 28.41634656, 3.89839552], xp=xp)
-        XYZ = as_ndarray(DIN99_to_XYZ(Lab_99))
+        XYZ = as_ndarray(DIN99_to_XYZ(Lab_99, method=method))
 
         Lab_99 = xp.tile(xp_as_array(Lab_99, xp=xp), (6, 1))
         XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
-        xp_assert_close(DIN99_to_XYZ(Lab_99), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(
+            DIN99_to_XYZ(Lab_99, method=method), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         Lab_99 = xp_reshape(xp_as_array(Lab_99, xp=xp), (2, 3, 3), xp=xp)
         XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)
-        xp_assert_close(DIN99_to_XYZ(Lab_99), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(
+            DIN99_to_XYZ(Lab_99, method=method), XYZ, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
-    def test_domain_range_scale_DIN99_to_XYZ(self, xp: ModuleType) -> None:
+    @pytest.mark.parametrize("method", tuple(DIN99_METHODS))
+    def test_domain_range_scale_DIN99_to_XYZ(self, xp: ModuleType, method: str) -> None:
         """
         Test :func:`colour.models.din99.DIN99_to_XYZ` definition domain and
         range scale support.
         """
 
         Lab_99 = xp_as_array([53.22821988, 28.41634656, 3.89839552], xp=xp)
-        XYZ = as_ndarray(DIN99_to_XYZ(Lab_99))
+        XYZ = as_ndarray(DIN99_to_XYZ(Lab_99, method=method))
 
         d_r = (("reference", 1, 1), ("1", 0.01, 1), ("100", 1, 100))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 xp_assert_close(
-                    DIN99_to_XYZ(Lab_99 * xp_as_array(factor_a, xp=xp)),
+                    DIN99_to_XYZ(Lab_99 * xp_as_array(factor_a, xp=xp), method=method),
                     XYZ * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
@@ -432,4 +513,5 @@ class TestDIN99_to_XYZ:
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=3))))
-        DIN99_to_XYZ(cases)
+        for method in DIN99_METHODS:
+            DIN99_to_XYZ(cases, method=method)

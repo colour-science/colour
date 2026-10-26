@@ -41,7 +41,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get --yes install graphviz graphviz-dev latexmk texlive-full
+          sudo apt-get --yes install graphviz graphviz-dev libgvplugin-neato-layout8 latexmk texlive-full
       - name: Install uv
         run: |
           pip install uv
