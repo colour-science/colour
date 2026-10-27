@@ -285,6 +285,23 @@ class TestRender:
             axes_visible=False,
         )
 
+        for use_figure in (False, True):
+            plt.close("all")
+            figure = Figure()
+            axes = figure.add_subplot()
+            kwargs = {"figure": figure} if use_figure else {}
+
+            try:
+                figure_rendered, axes_rendered = render(
+                    axes=axes, show=False, tight_layout=False, **kwargs
+                )
+
+                assert plt.get_fignums() == []
+                assert figure_rendered is figure
+                assert axes_rendered is axes
+            finally:
+                plt.close("all")
+
 
 class TestLabelRectangles:
     """

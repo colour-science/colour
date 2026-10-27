@@ -566,6 +566,22 @@ def artist(**kwargs: KwargsArtist | Any) -> Tuple[Figure, Axes]:
     return cast("Figure", figure), axes
 
 
+def _figure_and_axes(
+    figure: Figure | None = None, axes: Axes | None = None
+) -> Tuple[Figure, Axes]:
+    """Resolve supplied figure and axes, falling back to the current pyplot figure."""
+
+    if axes is not None:
+        figure_axes, axes = artist(axes=axes)
+
+        return figure_axes if figure is None else figure, axes
+
+    if figure is None:
+        figure = plt.gcf()
+
+    return figure, figure.gca()
+
+
 class KwargsCamera(TypedDict):
     """
     Define the keyword argument types for the
@@ -608,8 +624,8 @@ def camera(**kwargs: KwargsCamera | Any) -> Tuple[Figure, Axes3D]:
         Current figure and axes.
     """
 
-    figure = cast("Figure", kwargs.get("figure", plt.gcf()))
-    axes = cast("Axes3D", kwargs.get("axes", plt.gca()))
+    figure, axes = _figure_and_axes(kwargs.get("figure"), kwargs.get("axes"))
+    axes = cast("Axes3D", axes)
 
     settings = Structure(camera_aspect="equal", elevation=None, azimuth=None)
     settings.update(kwargs)
@@ -715,8 +731,7 @@ def render(
         Current figure and axes.
     """
 
-    figure = cast("Figure", kwargs.get("figure", plt.gcf()))
-    axes = cast("Axes", kwargs.get("axes", plt.gca()))
+    figure, axes = _figure_and_axes(kwargs.get("figure"), kwargs.get("axes"))
 
     kwargs = handle_arguments_deprecation(
         {
@@ -824,8 +839,7 @@ def label_rectangles(
         '"{0}" rotation is invalid, it must be one of {1}!',
     )
 
-    figure = kwargs.get("figure", plt.gcf())
-    axes = kwargs.get("axes", plt.gca())
+    figure, axes = _figure_and_axes(kwargs.get("figure"), kwargs.get("axes"))
 
     offset = as_float_array(optional(offset, (0.0, 0.025)))
 
@@ -870,8 +884,8 @@ def uniform_axes3d(**kwargs: Any) -> Tuple[Figure, Axes3D]:
         Current figure and axes.
     """
 
-    figure = kwargs.get("figure", plt.gcf())
-    axes = kwargs.get("axes", plt.gca())
+    figure, axes = _figure_and_axes(kwargs.get("figure"), kwargs.get("axes"))
+    axes = cast("Axes3D", axes)
 
     with contextlib.suppress(NotImplementedError):  # pragma: no cover
         # TODO: Reassess according to
