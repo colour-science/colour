@@ -36,6 +36,8 @@ from colour.utilities import array_api_enable
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
 
+    import torch
+
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
 __license__ = "BSD-3-Clause - https://opensource.org/licenses/BSD-3-Clause"
@@ -1116,10 +1118,14 @@ def test_set_raises_and_preserves_on_rejected_value(
     _name, cast = backend
     interpolator = KernelInterpolator(cast(_X_UNIFORM), cast(_Y_UNIFORM))
     reference = _to_numpy(interpolator(cast(_X_E_UNIFORM)))
+    cached = interpolator._impl  # noqa: SLF001
 
     with pytest.raises(ValueError):
         interpolator.padding_kwargs = {"mode": "edge", "pad_width": (3, 3)}
 
+    # The rejected write recovers in place, so a wrapper holding the
+    # implementation by reference (e.g. an Extrapolator) stays attached.
+    assert interpolator._impl is cached  # noqa: SLF001
     assert interpolator.padding_kwargs["mode"] == "reflect"
     np.testing.assert_allclose(
         _to_numpy(interpolator(cast(_X_E_UNIFORM))), reference, atol=1e-8

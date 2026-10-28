@@ -112,6 +112,13 @@ def _resolve_backend(*arrays: Any) -> str:
     return frameworks.pop() if frameworks else "numpy"
 
 
+def _restore_state(target: Any, source: Any) -> None:
+    """Overwrite ``target``'s state with ``source``'s, keeping ``target``'s identity."""
+
+    vars(target).clear()
+    vars(target).update(vars(source))
+
+
 class _BackendDispatcher(ABC):
     """
     Hold a single backend implementation and forward evaluation, attribute
@@ -155,15 +162,19 @@ class _BackendDispatcher(ABC):
         """
         Apply an in-place mutation to the live implementation.
 
-        A mutation that raises rebuilds a clean implementation from the current
-        inputs, so a backend setter that partially mutated before raising leaves
-        no half-applied state behind, then re-raises.
+        A mutation that raises restores clean state from the current inputs, so
+        a backend setter that partially mutated before raising leaves no
+        half-applied state behind, then re-raises. The clean state is adopted
+        into the existing implementation object rather than swapping in a new
+        one, preserving the implementation identity a wrapper (e.g. a
+        :class:`colour.Extrapolator`) holds by reference; a rejected write that
+        rebound it would silently detach the wrapper from later writes.
         """
 
         try:
             mutate()
         except Exception:
-            self._impl = self._build_implementation(self._backend)
+            _restore_state(self._impl, self._build_implementation(self._backend))
 
             raise
 
