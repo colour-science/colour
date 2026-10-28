@@ -61,16 +61,29 @@ def _validate_range(x: torch.Tensor, x_i: torch.Tensor) -> None:
         raise ValueError(error)
 
 
-def _as_float(a: Any, dtype: Any = None) -> torch.Tensor:
+def _colocate(a: torch.Tensor, like: torch.Tensor) -> torch.Tensor:
+    return a.to(like.device)
+
+
+def _as_float(
+    a: Any, dtype: Any = None, *, like: torch.Tensor | None = None
+) -> torch.Tensor:
     """
     Return ``a`` as a float tensor.
 
     A *NumPy* ``dtype`` casts to the matching *PyTorch* dtype, preserving the
     autodiff graph and device. Unspecified, an existing floating dtype is kept
-    and an integer tensor promoted to the default float.
+    and an integer tensor promoted to the default float. A ``like`` reference
+    moves the result onto that tensor's device, mirroring the dispatch layer's
+    :func:`colour.utilities.xp_as_float_array` ``like`` argument. Co-locating
+    the knots with the values avoids a device mismatch when, for example,
+    host coordinates are paired with device-resident values.
     """
 
     a = torch.as_tensor(a)
+    if like is not None:
+        a = _colocate(a, like)
+
     if dtype is not None:
         return a.to(getattr(torch, np.dtype(dtype).name))
 
@@ -153,8 +166,8 @@ class CubicSplineInterpolator:
         assume_sorted: bool = False,
         dtype: Any = None,
     ) -> None:
-        x = _as_float(x, dtype)
         y = _as_float(y, dtype)
+        x = _as_float(x, dtype, like=y)
         self.axis = int(axis % y.ndim)
 
         if not assume_sorted:
@@ -274,7 +287,7 @@ class CubicSplineInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property; re-solves the spline."""
 
-        self._x = _as_float(value, self._dtype_arg)
+        self._x = _as_float(value, self._dtype_arg, like=self._y)
         self._solve()
 
     @property
@@ -288,6 +301,7 @@ class CubicSplineInterpolator:
         """Setter for the **self.y** property; re-solves the spline."""
 
         self._y = _as_float(value, self._dtype_arg)
+        self._x = _colocate(self._x, self._y)
         self._solve()
 
     @property
@@ -309,8 +323,8 @@ class PchipInterpolator:
         *,
         dtype: Any = None,
     ) -> None:
-        x = _as_float(x, dtype)
         y = _as_float(y, dtype)
+        x = _as_float(x, dtype, like=y)
         self.axis = int(axis % y.ndim)
         self._extrapolate = True if extrapolate is None else extrapolate
 
@@ -463,7 +477,7 @@ class PchipInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property; recomputes the derivatives."""
 
-        self._x = _as_float(value, self._dtype_arg)
+        self._x = _as_float(value, self._dtype_arg, like=self._y)
         self._solve()
 
     @property
@@ -477,6 +491,7 @@ class PchipInterpolator:
         """Setter for the **self.y** property; recomputes the derivatives."""
 
         self._y = _as_float(value, self._dtype_arg)
+        self._x = _colocate(self._x, self._y)
         self._solve()
 
     @property
@@ -498,8 +513,8 @@ class LinearInterpolator:
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
         self._dtype_arg = dtype
-        self._x = _as_float(x, dtype)
         self._y = _as_float(y, dtype)
+        self._x = _as_float(x, dtype, like=self._y)
         validate_dimensions(self._x, self._y)
 
     def __call__(self, x: Any) -> torch.Tensor:
@@ -525,7 +540,7 @@ class LinearInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property."""
 
-        x = _as_float(value, self._dtype_arg)
+        x = _as_float(value, self._dtype_arg, like=self._y)
         validate_dimensions(x, self._y)
         self._x = x
 
@@ -541,6 +556,7 @@ class LinearInterpolator:
 
         y = _as_float(value, self._dtype_arg)
         validate_dimensions(self._x, y)
+        self._x = _colocate(self._x, y)
         self._y = y
 
     @property
@@ -562,8 +578,8 @@ class NearestNeighbourInterpolator:
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
         self._dtype_arg = dtype
-        self._x = _as_float(x, dtype)
         self._y = _as_float(y, dtype)
+        self._x = _as_float(x, dtype, like=self._y)
         validate_dimensions(self._x, self._y)
 
     def __call__(self, x: Any) -> torch.Tensor:
@@ -588,7 +604,7 @@ class NearestNeighbourInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property."""
 
-        x = _as_float(value, self._dtype_arg)
+        x = _as_float(value, self._dtype_arg, like=self._y)
         validate_dimensions(x, self._y)
         self._x = x
 
@@ -604,6 +620,7 @@ class NearestNeighbourInterpolator:
 
         y = _as_float(value, self._dtype_arg)
         validate_dimensions(self._x, y)
+        self._x = _colocate(self._x, y)
         self._y = y
 
     @property
@@ -628,8 +645,8 @@ class NullInterpolator:
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
         self._dtype_arg = dtype
-        self._x = _as_float(x, dtype)
         self._y = _as_float(y, dtype)
+        self._x = _as_float(x, dtype, like=self._y)
         validate_dimensions(self._x, self._y)
         self.absolute_tolerance = absolute_tolerance
         self.relative_tolerance = relative_tolerance
@@ -672,7 +689,7 @@ class NullInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property."""
 
-        x = _as_float(value, self._dtype_arg)
+        x = _as_float(value, self._dtype_arg, like=self._y)
         validate_dimensions(x, self._y)
         self._x = x
 
@@ -688,6 +705,7 @@ class NullInterpolator:
 
         y = _as_float(value, self._dtype_arg)
         validate_dimensions(self._x, y)
+        self._x = _colocate(self._x, y)
         self._y = y
 
     @property
@@ -745,8 +763,8 @@ class SpragueInterpolator:
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
         self._dtype_arg = dtype
-        self._x = _as_float(x, dtype)
         self._y = _as_float(y, dtype)
+        self._x = _as_float(x, dtype, like=self._y)
         validate_dimensions(self._x, self._y)
 
         if self._y.shape[0] < 6:
@@ -817,7 +835,7 @@ class SpragueInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property; rebuilds the boundary extension."""
 
-        x = _as_float(value, self._dtype_arg)
+        x = _as_float(value, self._dtype_arg, like=self._y)
         validate_dimensions(x, self._y)
         self._x = x
         self._solve()
@@ -834,6 +852,7 @@ class SpragueInterpolator:
 
         y = _as_float(value, self._dtype_arg)
         validate_dimensions(self._x, y)
+        self._x = _colocate(self._x, y)
         self._y = y
         self._solve()
 
@@ -889,8 +908,8 @@ class KernelInterpolator:
         self._kernel_kwargs = {} if kernel_kwargs is None else dict(kernel_kwargs)
         self._padding_kwargs_arg = padding_kwargs
 
-        self._x = _as_float(x, dtype)
         self._y = _as_float(y, dtype)
+        self._x = _as_float(x, dtype, like=self._y)
         validate_dimensions(self._x, self._y)
 
         self._build()
@@ -956,7 +975,7 @@ class KernelInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property; rebuilds the padded values."""
 
-        x = _as_float(value, self._dtype_arg)
+        x = _as_float(value, self._dtype_arg, like=self._y)
         validate_dimensions(x, self._y)
         self._x = x
         self._build()
@@ -973,6 +992,7 @@ class KernelInterpolator:
 
         y = _as_float(value, self._dtype_arg)
         validate_dimensions(self._x, y)
+        self._x = _colocate(self._x, y)
         self._y = y
         self._build()
 

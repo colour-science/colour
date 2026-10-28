@@ -720,6 +720,84 @@ def test_extrapolator_torch_autodiff() -> None:
     assert torch.isfinite(gradient_y).all() and bool((gradient_y != 0).any())
 
 
+def _torch_accelerator() -> str | None:
+    """Return an available non-*CPU* *PyTorch* device, or *None*."""
+
+    try:
+        import torch  # noqa: PLC0415
+    except ImportError:
+        return None
+
+    if torch.cuda.is_available():
+        return "cuda"
+
+    mps = getattr(torch.backends, "mps", None)
+    if mps is not None and mps.is_available():
+        return "mps"
+
+    return None
+
+
+_TORCH_ACCELERATOR = _torch_accelerator()
+
+# ``(interpolator, x, y)`` triples; *Sprague* and the kernel require uniform
+# spacing, so they use the uniform sample.
+_TORCH_DEVICE_INTERPOLATORS = [
+    (CubicSplineInterpolator, _X, _Y),
+    (PchipInterpolator, _X, _Y),
+    (LinearInterpolator, _X, _Y),
+    (NearestNeighbourInterpolator, _X, _Y),
+    (NullInterpolator, _X, _Y),
+    (SpragueInterpolator, _X_UNIFORM, _Y_UNIFORM),
+    (KernelInterpolator, _X_UNIFORM, _Y_UNIFORM),
+]
+
+
+@pytest.mark.skipif(
+    _TORCH_ACCELERATOR is None,
+    reason="Requires a non-CPU PyTorch device (CUDA or MPS).",
+)
+@pytest.mark.parametrize(
+    ("cls", "x", "y"),
+    _TORCH_DEVICE_INTERPOLATORS,
+    ids=[cls.__name__ for cls, _, _ in _TORCH_DEVICE_INTERPOLATORS],
+)
+def test_torch_colocates_host_knots_with_device_values(
+    cls: Any, x: np.ndarray, y: np.ndarray
+) -> None:
+    """
+    Test host knot coordinates co-locate with device-resident values.
+
+    Host ``x`` paired with device ``y`` must not raise a device mismatch; both
+    construction and data reassignment move ``x`` onto the values' device. The
+    query is evaluated at interior knots, which every interpolator (including
+    the exact-match :class:`NullInterpolator`) resolves to a finite value.
+    """
+
+    torch = pytest.importorskip("torch")
+    device = _TORCH_ACCELERATOR
+
+    def _device_values() -> torch.Tensor:
+        return torch.as_tensor(y.astype(np.float32), device=device)
+
+    def _assert_colocated(interpolator: Any) -> None:
+        assert interpolator.x.device == interpolator.y.device
+        result = interpolator(
+            torch.as_tensor(x[1:-1].astype(np.float32), device=device)
+        )
+        assert result.device.type == torch.device(device).type
+        assert bool(torch.isfinite(result).all())
+
+    with array_api_enable(True):
+        interpolator = cls(x, _device_values(), dtype=np.float32)
+        _assert_colocated(interpolator)
+
+        # Reassigning host ``x`` and device ``y`` keeps both on one device.
+        interpolator.x = x
+        interpolator.y = _device_values()
+        _assert_colocated(interpolator)
+
+
 @array_api_enable(True)
 def test_kernel_jax_autodiff() -> None:
     """Test *JAX* autodiff propagates through the kernel interpolator."""
