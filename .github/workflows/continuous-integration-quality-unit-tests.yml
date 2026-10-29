@@ -38,6 +38,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get --yes install graphviz graphviz-dev
+          sudo dot -c
       - name: Install uv
         run: |
           pip install uv

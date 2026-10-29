@@ -42,6 +42,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get --yes install graphviz graphviz-dev latexmk texlive-full
+          sudo dot -c
       - name: Install uv
         run: |
           pip install uv
