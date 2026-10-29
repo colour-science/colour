@@ -285,8 +285,8 @@ def uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArrayFloat:
 
     # Normalize interpolated direction
     length_i = xp.hypot(du_i, dv_i)
-    du_i /= length_i
-    dv_i /= length_i
+    du_i = du_i / length_i
+    dv_i = dv_i / length_i
 
     # Calculate D_uv
     uu = xp_reshape(u, (-1,), xp=xp) - u_i
@@ -363,12 +363,12 @@ def CCT_to_uv_Robertson1968(CCT_D_uv: ArrayLike) -> NDArrayFloat:
 
     # Normalize interpolated direction
     length_i = xp.hypot(du_i, dv_i)
-    du_i /= length_i
-    dv_i /= length_i
+    du_i = du_i / length_i
+    dv_i = dv_i / length_i
 
     # Offset by D_uv along the isotherm
-    u += du_i * -D_uv
-    v += dv_i * -D_uv
+    u = u + du_i * -D_uv
+    v = v + dv_i * -D_uv
 
     result = tstack([u, v])
 

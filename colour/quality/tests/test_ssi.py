@@ -7,6 +7,8 @@ import typing
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
 
+import numpy as np
+import pytest
 
 from colour.colorimetry import (
     SDS_ILLUMINANTS,
@@ -16,8 +18,14 @@ from colour.colorimetry import (
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.quality import spectral_similarity_index
-from colour.quality.ssi import matrix_integration_SSI
+from colour.quality.ssi import (
+    SPECTRAL_SHAPE_SSI,
+    _convolve_wdr_i,
+    _round_SSI,
+    matrix_integration_SSI,
+)
 from colour.utilities import (
+    ColourUsageWarning,
     xp_as_array,
     xp_assert_close,
     xp_assert_equal,
@@ -31,7 +39,9 @@ __email__ = "colour-developers@colour-science.org"
 __status__ = "Production"
 
 __all__ = [
+    "TestConvolveWdrI",
     "TestMatrixIntegrationSSI",
+    "TestRoundSSI",
     "TestSpectralSimilarityIndex",
 ]
 
@@ -636,6 +646,103 @@ class TestSpectralSimilarityIndex:
             [50.0, 84.0, 20.0],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+    def test_autodiff_spectral_similarity_index(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test unrounded SSI automatic differentiation."""
+
+        wavelengths = SPECTRAL_SHAPE_SSI.wavelengths
+
+        def function(
+            values_test: typing.Any, values_reference: typing.Any
+        ) -> typing.Any:
+            """Return the unrounded SSI for the spectral values."""
+
+            return spectral_similarity_index(
+                SpectralDistribution(values_test, wavelengths),
+                SpectralDistribution(values_reference, wavelengths),
+                round_result=False,
+            )
+
+        _SSI, (gradient_test, gradient_reference), _inputs = autodiff(
+            function,
+            np.linspace(0.2, 1.0, len(wavelengths)),
+            np.linspace(1.0, 0.3, len(wavelengths)),
+        )
+
+        assert xp.isfinite(gradient_test).all()
+        assert xp.isfinite(gradient_reference).all()
+        assert xp.any(gradient_test != 0)
+        assert xp.any(gradient_reference != 0)
+
+
+class TestConvolveWdrI:
+    """Define tests for the *SSI* three-tap convolution."""
+
+    def test_convolve_wdr_i(self, xp: ModuleType) -> None:
+        """Test the convolution values along the spectral axis."""
+
+        wdr_i = xp_as_array([1.0, 2.0, 3.0], xp=xp)
+
+        xp_assert_close(
+            _convolve_wdr_i(wdr_i),
+            [1.0, 2.0, 2.12],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        wdr_i = xp_as_array([[1.0, 4.0], [2.0, 5.0], [3.0, 6.0]], xp=xp)
+
+        xp_assert_close(
+            _convolve_wdr_i(wdr_i),
+            [[1.0, 3.34], [2.0, 5.0], [2.12, 4.46]],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_convolve_wdr_i_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test exact convolution gradients and device retention."""
+
+        _result, (gradient,), _inputs = autodiff(_convolve_wdr_i, [1.0, 2.0, 3.0])
+
+        xp_assert_close(
+            gradient,
+            xp_as_array([0.78, 1.0, 0.78], xp=xp),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+
+class TestRoundSSI:
+    """Define tests for the final *SSI* rounding operation."""
+
+    def test_round_SSI_disabled_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test that disabling rounding retains a continuous gradient."""
+
+        result, (gradient,), _inputs = autodiff(
+            lambda values: _round_SSI(values, False), [1.2, 2.8]
+        )
+
+        xp_assert_close(result, xp_as_array([1.2, 2.8], xp=xp))
+        xp_assert_equal(gradient, xp_as_array([1.0, 1.0], xp=xp))
+
+    def test_round_SSI_autodiff_warning(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test that rounding warns about and produces zero gradients."""
+
+        with pytest.warns(
+            ColourUsageWarning,
+            match="produces zero gradients almost everywhere",
+        ):
+            result, (gradient,), _inputs = autodiff(
+                lambda values: _round_SSI(values, True), [1.2, 2.8]
+            )
+
+        xp_assert_close(result, xp_as_array([1.0, 3.0], xp=xp))
+        xp_assert_equal(gradient, xp_as_array([0.0, 0.0], xp=xp))
 
 
 class TestMatrixIntegrationSSI:

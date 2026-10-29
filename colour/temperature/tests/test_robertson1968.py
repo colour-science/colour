@@ -38,6 +38,7 @@ __all__ = [
     "TestCCT_to_mired",
     "TestUv_to_CCT_Robertson1968",
     "TestCCT_to_uv_Robertson1968",
+    "TestRobertson1968Autodiff",
 ]
 
 TEMPERATURE_DUV_TO_UV: dict = {
@@ -372,3 +373,42 @@ class TestCCT_to_uv_Robertson1968:
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = np.array(list(set(product(cases, repeat=2))))
         CCT_to_uv_Robertson1968(cases)
+
+
+class TestRobertson1968Autodiff:
+    """
+    Define automatic differentiation regression tests for the
+    :mod:`colour.temperature.robertson1968` module.
+
+    The *Robertson (1968)* direction-vector normalisation previously used
+    in-place ``/=`` and ``+=`` updates, which modify values the differentiation
+    graph still needs and raise during reverse-mode differentiation.
+    """
+
+    def test_autodiff_uv_to_CCT_Robertson1968(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """
+        Test :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
+        automatic differentiation preservation.
+        """
+
+        _CCT_D_uv, (gradient,), _inputs = autodiff(
+            uv_to_CCT_Robertson1968, [0.1978, 0.3122]
+        )
+
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
+
+    def test_autodiff_CCT_to_uv_Robertson1968(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """
+        Test :func:`colour.temperature.robertson1968.CCT_to_uv_Robertson1968`
+        automatic differentiation preservation.
+        """
+
+        _uv, (gradient,), _inputs = autodiff(CCT_to_uv_Robertson1968, [6500.0, 0.003])
+
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)

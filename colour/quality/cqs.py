@@ -264,8 +264,14 @@ def colour_quality_scale(
     Returns
     -------
     :class:`float`, :class:`numpy.ndarray` or \
-:class:`colour.quality.ColourRendering_Specification_CQS`
+    :class:`colour.quality.ColourRendering_Specification_CQS`
         *Colour Quality Scale* (CQS).
+
+    Notes
+    -----
+    -   The score is piecewise differentiable with respect to the test
+        spectral values while the reference-illuminant branch remains
+        unchanged. Its derivative is undefined where that selection changes.
 
     References
     ----------

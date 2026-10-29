@@ -210,8 +210,12 @@ def sigma_Barten1999(
 
     xp = array_namespace(sigma_0, C_ab, d)
 
-    C_ab = xp_as_float_array(C_ab, xp=xp, like=sigma_0)
-    d = xp_as_float_array(d, xp=xp, like=sigma_0)
+    # Promote every operand into the namespace so a single backend argument
+    # (e.g. a *PyTorch* ``d``) does not leave the scalar defaults as NumPy and
+    # break ``xp.hypot``.
+    sigma_0 = xp_as_float_array(sigma_0, xp=xp, like=d)
+    C_ab = xp_as_float_array(C_ab, xp=xp, like=d)
+    d = xp_as_float_array(d, xp=xp, like=d)
 
     return as_float(xp.hypot(sigma_0, C_ab * d))
 

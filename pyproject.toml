@@ -90,6 +90,7 @@ conflicts = [[{ group = "jax" }, { group = "torch" }]]
 dev = [
     "coverage",
     "coveralls",
+    "griffe",
     "hatch",
     "invoke",
     "jupyter",

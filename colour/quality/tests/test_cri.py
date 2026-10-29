@@ -485,3 +485,19 @@ class TestColourRenderingIndex:
 
         with pytest.raises(NotImplementedError):
             colour_rendering_index(msds, additional_data=True)  # pyright: ignore[reportCallIssue, reportArgumentType]
+
+    def test_colour_rendering_index_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test local numerical gradients through spectral alignment."""
+
+        sd = SDS_ILLUMINANTS["FL2"]
+        _Q_a, (gradient,), _inputs = autodiff(
+            lambda values: colour_rendering_index(
+                SpectralDistribution(values, sd.wavelengths)
+            ),
+            sd.values,
+        )
+
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
