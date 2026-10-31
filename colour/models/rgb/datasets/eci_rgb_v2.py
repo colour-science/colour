@@ -11,6 +11,10 @@ References
 -   :cite:`EuropeanColorInitiative2002a` : European Color Initiative. (2002).
     ECI RGB v2.
     http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
+-   :cite:`InternationalColorConsortium2026` : International Color Consortium.
+    (n.d.). eciRGB. Three Component Color Encoding Registry. Retrieved
+    October 28, 2026, from
+    https://registry.color.org/rgb-registry/ecirgb
 """
 
 from __future__ import annotations
@@ -50,12 +54,18 @@ __all__ = [
 
 PRIMARIES_ECI_RGB_V2: NDArrayFloat = np.array(
     [
-        [0.670103092783505, 0.329896907216495],
-        [0.209905660377358, 0.709905660377358],
-        [0.140061791967044, 0.080329557157570],
+        [0.6700, 0.3300],
+        [0.2100, 0.7100],
+        [0.1400, 0.0800],
     ]
 )
-"""*ECI RGB v2* colourspace primaries."""
+"""
+*ECI RGB v2* colourspace primaries.
+
+References
+----------
+:cite:`InternationalColorConsortium2026`
+"""
 
 WHITEPOINT_NAME_ECI_RGB_V: str = "D50"
 """*ECI RGB v2* colourspace whitepoint name."""
@@ -116,5 +126,5 @@ RGB_COLOURSPACE_ECI_RGB_V2.__doc__ = """
 
 References
 ----------
-:cite:`EuropeanColorInitiative2002a`
+:cite:`EuropeanColorInitiative2002a`, :cite:`InternationalColorConsortium2026`
 """

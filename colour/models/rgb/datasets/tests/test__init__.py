@@ -14,7 +14,7 @@ import numpy as np
 import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.models import RGB_COLOURSPACES, normalised_primary_matrix
+from colour.models import RGB_COLOURSPACES, XYZ_to_xy, normalised_primary_matrix
 from colour.utilities import (
     as_ndarray,
     ignore_numpy_errors,
@@ -41,7 +41,6 @@ class TestRGB_COLOURSPACES:
     attribute unit tests methods.
     """
 
-    @pytest.mark.mps_xfail("MPS float32; test uses hard-coded tolerance literals")
     def test_transformation_matrices(self, xp: ModuleType) -> None:
         """
         Test the transformations matrices from the
@@ -70,7 +69,10 @@ class TestRGB_COLOURSPACES:
                 normalised_primary_matrix(colourspace.primaries, colourspace.whitepoint)
             )
 
-            tolerance = tolerances.get(colourspace.name, 1e-7)
+            tolerance = max(
+                tolerances.get(colourspace.name, TOLERANCE_ABSOLUTE_TESTS),
+                TOLERANCE_ABSOLUTE_TESTS,
+            )
             xp_assert_close(
                 colourspace.matrix_RGB_to_XYZ,
                 M,
@@ -87,6 +89,43 @@ class TestRGB_COLOURSPACES:
             RGB = np.dot(colourspace.matrix_XYZ_to_RGB, as_ndarray(XYZ_r))
             XYZ = np.dot(colourspace.matrix_RGB_to_XYZ, RGB)
             xp_assert_close(XYZ_r, XYZ, atol=tolerance)
+
+        # Published RGB-to-XYZ matrices from Bruce Lindbloom:
+        # http://www.brucelindbloom.com/Eqn_RGB_XYZ_Matrix.html#WSMatrices
+        reference_matrices = {
+            "Best RGB": [
+                [0.6326696, 0.2045558, 0.1269946],
+                [0.2284569, 0.7373523, 0.0341908],
+                [0.0000000, 0.0095142, 0.8156958],
+            ],
+            "Don RGB 4": [
+                [0.6457711, 0.1933511, 0.1250978],
+                [0.2783496, 0.6879702, 0.0336802],
+                [0.0037113, 0.0179861, 0.8035125],
+            ],
+            "ECI RGB v2": [
+                [0.6502043, 0.1780774, 0.1359384],
+                [0.3202499, 0.6020711, 0.0776791],
+                [0.0000000, 0.0678390, 0.7573710],
+            ],
+            "Ekta Space PS 5": [
+                [0.5938914, 0.2729801, 0.0973485],
+                [0.2606286, 0.7349465, 0.0044249],
+                [0.0000000, 0.0419969, 0.7832131],
+            ],
+        }
+        for name, matrix in reference_matrices.items():
+            matrix = xp_as_array(matrix, xp=xp)  # noqa: PLW2901
+            # Use the reference matrix's white to account for the different
+            # precision of the D50 chromaticity coordinates.
+            whitepoint = XYZ_to_xy(xp.sum(matrix, axis=1))
+            xp_assert_close(
+                normalised_primary_matrix(
+                    xp_as_array(RGB_COLOURSPACES[name].primaries, xp=xp), whitepoint
+                ),
+                matrix,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
 
     @pytest.mark.mps_xfail("MPS float32; test uses hard-coded tolerance literals")
     def test_cctf(self, xp: ModuleType) -> None:

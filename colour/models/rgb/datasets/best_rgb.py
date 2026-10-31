@@ -8,6 +8,9 @@ Define the *Best RGB* colourspace:
 
 References
 ----------
+-   :cite:`Lindbloom2014a` : Lindbloom, B. (2014). RGB Working Space
+    Information. Retrieved April 11, 2014, from
+    http://www.brucelindbloom.com/WorkingSpaceInfo.html
 -   :cite:`HutchColord` : HutchColor. (n.d.). BestRGB (4 K).
     http://www.hutchcolor.com/profiles/BestRGB.zip
 """
@@ -44,9 +47,9 @@ __all__ = [
 
 PRIMARIES_BEST_RGB: NDArrayFloat = np.array(
     [
-        [0.735191637630662, 0.264808362369338],
-        [0.215336134453781, 0.774159663865546],
-        [0.130122950819672, 0.034836065573770],
+        [0.7347, 0.2653],
+        [0.2150, 0.7750],
+        [0.1300, 0.0350],
     ]
 )
 """*Best RGB* colourspace primaries."""
@@ -82,5 +85,5 @@ RGB_COLOURSPACE_BEST_RGB.__doc__ = """
 
 References
 ----------
-:cite:`HutchColord`
+:cite:`HutchColord`, :cite:`Lindbloom2014a`
 """
