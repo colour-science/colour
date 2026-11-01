@@ -624,7 +624,10 @@ def camera(**kwargs: KwargsCamera | Any) -> Tuple[Figure, Axes3D]:
         Current figure and axes.
     """
 
-    figure, axes = _figure_and_axes(kwargs.get("figure"), kwargs.get("axes"))
+    figure, axes = _figure_and_axes(
+        cast("Figure | None", kwargs.get("figure")),
+        cast("Axes | None", kwargs.get("axes")),
+    )
     axes = cast("Axes3D", axes)
 
     settings = Structure(camera_aspect="equal", elevation=None, azimuth=None)
@@ -731,7 +734,10 @@ def render(
         Current figure and axes.
     """
 
-    figure, axes = _figure_and_axes(kwargs.get("figure"), kwargs.get("axes"))
+    figure, axes = _figure_and_axes(
+        cast("Figure | None", kwargs.get("figure")),
+        cast("Axes | None", kwargs.get("axes")),
+    )
 
     kwargs = handle_arguments_deprecation(
         {
@@ -855,7 +861,7 @@ def label_rectangles(
         axes.text(
             x + width / 2 + offset[0] * width,
             height + offset[1] * y_m,
-            labels[i],
+            str(labels[i]),
             ha="center",
             va="bottom",
             rotation=rotation,
