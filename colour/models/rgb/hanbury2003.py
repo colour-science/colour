@@ -107,7 +107,7 @@ def RGB_to_IHLS(RGB: Domain1) -> Range1:
     with sdiv_mode():
         C_1_C = sdiv(C_1, C)
 
-    arcos_C_1_C_2 = xp.where(C_1_C != 0, xp.acos(xp.clip(C_1_C, -1, 1)), 0)
+    arcos_C_1_C_2 = xp.where(C != 0, xp.acos(xp.clip(C_1_C, -1, 1)), 0)
 
     H = xp.where(C_2 <= 0, arcos_C_1_C_2, (xp.pi * 2) - arcos_C_1_C_2)
 

@@ -62,6 +62,18 @@ class TestRGB_to_IHLS:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        xp_assert_close(
+            RGB_to_IHLS(xp_as_array([0.50000000, 1.00000000, 0.00000000], xp=xp)),
+            [1.57079633, 0.82150000, 1.00000000],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        xp_assert_close(
+            RGB_to_IHLS(xp_as_array([0.25000000, 0.00000000, 0.50000000], xp=xp)),
+            [4.71238898, 0.08925000, 0.50000000],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_RGB_to_IHLS(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.hanbury2003.RGB_to_IHLS` definition
