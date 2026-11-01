@@ -8,6 +8,9 @@ Define the *Don RGB 4* colourspace:
 
 References
 ----------
+-   :cite:`Lindbloom2014a` : Lindbloom, B. (2014). RGB Working Space
+    Information. Retrieved April 11, 2014, from
+    http://www.brucelindbloom.com/WorkingSpaceInfo.html
 -   :cite:`HutchColorg` : HutchColor. (n.d.). DonRGB4 (4 K).
     http://www.hutchcolor.com/profiles/DonRGB4.zip
 """
@@ -44,9 +47,9 @@ __all__ = [
 
 PRIMARIES_DON_RGB_4: NDArrayFloat = np.array(
     [
-        [0.696120689655172, 0.299568965517241],
-        [0.214682981090100, 0.765294771968854],
-        [0.129937629937630, 0.035343035343035],
+        [0.6960, 0.3000],
+        [0.2150, 0.7650],
+        [0.1300, 0.0350],
     ]
 )
 """*Don RGB 4* colourspace primaries."""
@@ -82,5 +85,5 @@ RGB_COLOURSPACE_DON_RGB_4.__doc__ = """
 
 References
 ----------
-:cite:`HutchColorg`
+:cite:`HutchColorg`, :cite:`Lindbloom2014a`
 """

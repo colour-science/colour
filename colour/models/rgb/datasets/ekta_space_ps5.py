@@ -8,6 +8,9 @@ Define the *Ekta Space PS 5* colourspace:
 
 References
 ----------
+-   :cite:`Lindbloom2014a` : Lindbloom, B. (2014). RGB Working Space
+    Information. Retrieved April 11, 2014, from
+    http://www.brucelindbloom.com/WorkingSpaceInfo.html
 -   :cite:`Holmesa` : Holmes, J. (n.d.). Ekta Space PS 5.
     https://www.josephholmes.com/userfiles/Ekta_Space_PS5_JHolmes.zip
 """
@@ -44,9 +47,9 @@ __all__ = [
 
 PRIMARIES_EKTA_SPACE_PS_5: NDArrayFloat = np.array(
     [
-        [0.694736842105263, 0.305263157894737],
-        [0.260000000000000, 0.700000000000000],
-        [0.109728506787330, 0.004524886877828],
+        [0.6950, 0.3050],
+        [0.2600, 0.7000],
+        [0.1100, 0.0050],
     ]
 )
 """*Ekta Space PS 5* colourspace primaries."""
@@ -84,5 +87,5 @@ RGB_COLOURSPACE_EKTA_SPACE_PS_5.__doc__ = """
 
 References
 ----------
-:cite:`Holmesa`
+:cite:`Holmesa`, :cite:`Lindbloom2014a`
 """
