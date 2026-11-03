@@ -134,13 +134,15 @@ def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArra
             [ 0.3559542...,  0.3559542...,  0.3559542...]]])
     """
 
-    import PyOpenColorIO as ocio  # noqa: PLC0415
+    import PyOpenColorIO as ocio_module  # noqa: PLC0415
+
+    ocio = typing.cast("typing.Any", ocio_module)
 
     config = kwargs.get("config")
     config = (
-        ocio.Config.CreateFromEnv()  # pyright: ignore
+        ocio.Config.CreateFromEnv()
         if config is None
-        else ocio.Config.CreateFromFile(config)  # pyright: ignore
+        else ocio.Config.CreateFromFile(config)
     )
 
     a = as_float_array(a)
@@ -151,9 +153,7 @@ def process_image_OpenColorIO(a: ArrayLike, *args: Any, **kwargs: Any) -> NDArra
 
     processor = config.getProcessor(*args).getDefaultCPUProcessor()
 
-    image_desc = ocio.PackedImageDesc(  # pyright: ignore
-        a, width, height, channels
-    )
+    image_desc = ocio.PackedImageDesc(a, width, height, channels)
 
     processor.apply(image_desc)
 

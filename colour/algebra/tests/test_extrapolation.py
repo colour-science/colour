@@ -10,6 +10,7 @@ if typing.TYPE_CHECKING:
 from itertools import product
 
 import numpy as np
+import pytest
 
 from colour.algebra import (
     CubicSplineInterpolator,
@@ -221,3 +222,23 @@ class TestExtrapolator:
         for case in cases:
             extrapolator = Extrapolator(LinearInterpolator(case, case))
             extrapolator(case[0])
+
+    def test_rejected_write_keeps_wrapper_live(self) -> None:
+        """
+        Test that a write the wrapped interpolator rejects does not detach the
+        extrapolator from later successful updates.
+
+        A rejected write recovers in place, preserving the implementation
+        identity the extrapolator holds, so subsequent valid writes still reach
+        it (regression: a rebound implementation left the wrapper stale).
+        """
+
+        interpolator = LinearInterpolator([0, 1], [0, 1])
+        extrapolator = Extrapolator(interpolator)
+
+        with pytest.raises(ValueError):
+            interpolator.x = [0, 1, 2]
+
+        interpolator.y = [0, 2]
+
+        assert extrapolator(0.5) == interpolator(0.5)

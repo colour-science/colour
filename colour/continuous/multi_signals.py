@@ -1815,11 +1815,13 @@ class MultiSignals(AbstractContinuousFunction):
         elif is_pandas_installed():
             if isinstance(data, Series):
                 domain_unpacked = as_float_array(data.index.values, dtype)  # pyright: ignore
-                range_unpacked = xp_reshape(as_float_array(data.values, dtype), (-1, 1))
+                range_unpacked = xp_reshape(
+                    as_float_array(data.to_numpy(), dtype), (-1, 1)
+                )
                 labels_unpacked = ["0"]
             elif isinstance(data, DataFrame):
                 domain_unpacked = as_float_array(data.index.values, dtype)  # pyright: ignore
-                range_unpacked = as_float_array(data.values, dtype)
+                range_unpacked = as_float_array(data.to_numpy(), dtype)
                 if range_unpacked.ndim == 1:
                     range_unpacked = xp_reshape(range_unpacked, (-1, 1))
                 labels_unpacked = [str(label) for label in data.columns]

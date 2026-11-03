@@ -525,7 +525,7 @@ class TestKernelNearestNeighbour:
         """
 
         xp_assert_close(
-            kernel_nearest_neighbour(xp_linspace(-5, 5, num=25, xp=xp)),  # pyright: ignore
+            kernel_nearest_neighbour(xp_linspace(-5, 5, num=25, xp=xp)),
             [
                 0,
                 0,
@@ -567,7 +567,7 @@ class TestKernelLinear:
         """Test :func:`colour.algebra.interpolation.kernel_linear` definition."""
 
         xp_assert_close(
-            kernel_linear(xp_linspace(-5, 5, num=25, xp=xp)),  # pyright: ignore
+            kernel_linear(xp_linspace(-5, 5, num=25, xp=xp)),
             [
                 0.00000000,
                 0.00000000,
@@ -609,7 +609,7 @@ class TestKernelSinc:
         """Test :func:`colour.algebra.interpolation.kernel_sinc` definition."""
 
         xp_assert_close(
-            kernel_sinc(xp_linspace(-5, 5, num=25, xp=xp)),  # pyright: ignore
+            kernel_sinc(xp_linspace(-5, 5, num=25, xp=xp)),
             [
                 0.00000000,
                 0.00000000,
@@ -641,7 +641,7 @@ class TestKernelSinc:
         )
 
         xp_assert_close(
-            kernel_sinc(xp_linspace(-5, 5, num=25, xp=xp), 1),  # pyright: ignore
+            kernel_sinc(xp_linspace(-5, 5, num=25, xp=xp), 1),
             [
                 0.00000000,
                 0.00000000,
@@ -683,7 +683,7 @@ class TestKernelLanczos:
         """Test :func:`colour.algebra.interpolation.kernel_lanczos` definition."""
 
         xp_assert_close(
-            kernel_lanczos(xp_linspace(-5, 5, num=25, xp=xp)),  # pyright: ignore
+            kernel_lanczos(xp_linspace(-5, 5, num=25, xp=xp)),
             [
                 0.00000000e00,
                 0.00000000e00,
@@ -715,7 +715,7 @@ class TestKernelLanczos:
         )
 
         xp_assert_close(
-            kernel_lanczos(xp_linspace(-5, 5, num=25, xp=xp), 1),  # pyright: ignore
+            kernel_lanczos(xp_linspace(-5, 5, num=25, xp=xp), 1),
             [
                 0.00000000,
                 0.00000000,
@@ -760,7 +760,7 @@ class TestKernelCardinalSpline:
         """
 
         xp_assert_close(
-            kernel_cardinal_spline(xp_linspace(-5, 5, num=25, xp=xp)),  # pyright: ignore
+            kernel_cardinal_spline(xp_linspace(-5, 5, num=25, xp=xp)),
             [
                 0.00000000,
                 0.00000000,
@@ -792,7 +792,7 @@ class TestKernelCardinalSpline:
         )
 
         xp_assert_close(
-            kernel_cardinal_spline(xp_linspace(-5, 5, num=25, xp=xp), 0, 1),  # pyright: ignore
+            kernel_cardinal_spline(xp_linspace(-5, 5, num=25, xp=xp), 0, 1),
             [
                 0.00000000,
                 0.00000000,
@@ -912,14 +912,19 @@ kernel_kwargs` property.
     def test_padding_kwargs(self) -> None:
         """
         Test :attr:`colour.algebra.interpolation.KernelInterpolator.\
-padding_kwargs` property.
+padding_kwargs` property and rejection of unsupported padding.
         """
 
         x = y = np.linspace(0, 1, 10)
-        padding_kwargs = {"pad_width": (3, 3), "mode": "mean"}
+        padding_kwargs = {"pad_width": (3, 3), "mode": "reflect"}
         kernel_interpolator = KernelInterpolator(x, y, padding_kwargs=padding_kwargs)
 
         assert kernel_interpolator.padding_kwargs == padding_kwargs
+
+        with pytest.raises(ValueError):
+            KernelInterpolator(
+                x, y, padding_kwargs={"pad_width": (3, 3), "mode": "mean"}
+            )
 
     def test_raise_exception___init__(self) -> None:
         """
@@ -1072,40 +1077,11 @@ padding_kwargs` property.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        kernel_interpolator = KernelInterpolator(
-            x, y, padding_kwargs={"pad_width": (3, 3), "mode": "mean"}
-        )
-        xp_assert_close(
-            kernel_interpolator(xp_as_array(x_i, xp=xp)),
-            [
-                4.4384879,
-                4.35723245,
-                3.62918155,
-                2.77471295,
-                2.13474499,
-                2.08206794,
-                2.50585862,
-                3.24992692,
-                3.84593162,
-                4.06289704,
-                3.80825633,
-                3.21068994,
-                2.65177161,
-                2.32137382,
-                2.45995375,
-                2.88799997,
-                3.43843598,
-                3.79504892,
-                3.79937086,
-                3.47673343,
-                2.99303182,
-                2.59771985,
-                2.49380017,
-                2.76339043,
-                3.14159265,
-            ],
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
+        # Non-reflect padding is rejected consistently across backends.
+        with pytest.raises(ValueError):
+            KernelInterpolator(
+                x, y, padding_kwargs={"pad_width": (3, 3), "mode": "mean"}
+            )
 
         x_1 = np.arange(1, 10, 1)
         x_2 = x_1 * 10
@@ -1186,16 +1162,15 @@ class TestNearestNeighbourInterpolator:
 
     def test___init__(self) -> None:
         """
-        Test :meth:`colour.algebra.interpolation.KernelInterpolator.__init__`
-        method.
+        Test :meth:`colour.algebra.interpolation.NearestNeighbourInterpolator.\
+__init__` method.
         """
 
         x = y = np.linspace(0, 1, 10)
-        nearest_neighbour_interpolator = NearestNeighbourInterpolator(
-            x, y, kernel_kwargs={"a": 1}
-        )
+        nearest_neighbour_interpolator = NearestNeighbourInterpolator(x, y)
 
-        assert nearest_neighbour_interpolator.kernel_kwargs == {}
+        xp_assert_equal(nearest_neighbour_interpolator.x, x)
+        xp_assert_equal(nearest_neighbour_interpolator.y, y)
 
 
 class TestLinearInterpolator:
@@ -1267,6 +1242,22 @@ class TestLinearInterpolator:
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+    def test__call__autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
+        """Test gradients through vector-valued linear interpolation."""
+
+        x = np.arange(6)
+        x_i = np.arange(0, 5.1, 0.5)
+        for y in (
+            np.linspace(0, 1, 6),
+            np.transpose([np.linspace(0, 1, 6), np.linspace(1, 2, 6)]),
+        ):
+            _result, (gradient,), _inputs = autodiff(
+                lambda values: LinearInterpolator(x, values)(x_i), y
+            )
+
+            assert xp.isfinite(gradient).all()
+            assert xp.any(gradient != 0)
 
     def test_raise_exception___call__(self) -> None:
         """
@@ -1370,6 +1361,20 @@ class TestSpragueInterpolator:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+    def test__call__autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
+        """Test gradients through vector-valued Sprague interpolation."""
+
+        x = np.arange(6)
+        x_i = np.arange(0, 5.1, 0.5)
+        y = np.transpose([np.linspace(0, 1, 6), np.linspace(1, 2, 6)])
+
+        _result, (gradient,), _inputs = autodiff(
+            lambda values: SpragueInterpolator(x, values)(x_i), y
+        )
+
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
+
     def test_raise_exception___call__(self) -> None:
         """
         Test :meth:`colour.algebra.interpolation.SpragueInterpolator.__call__`
@@ -1398,7 +1403,7 @@ class TestSpragueInterpolator:
             try:
                 sprague_interpolator = SpragueInterpolator(case, case)
                 sprague_interpolator(case[0])  # pragma: no cover
-            except AssertionError:
+            except (AssertionError, ValueError):
                 pass
 
 
@@ -1439,6 +1444,36 @@ __call__` method.
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+    def test__call__autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
+        """Test numerical gradients through cubic spline interpolation."""
+
+        x = np.array([0.0, 0.4, 1.1, 2.0, 3.5, 5.0])
+        x_e = np.linspace(x[0] + 0.05, x[-1] - 0.05, 17)
+        for y in (
+            np.array([0.2, 0.8, 0.3, 1.2, 0.9, 1.5]),
+            np.array(
+                [
+                    [0.2, 1.1],
+                    [0.8, 0.7],
+                    [0.3, 1.4],
+                    [1.2, 0.5],
+                    [0.9, 1.0],
+                    [1.5, 0.8],
+                ]
+            ),
+        ):
+            expected = CubicSplineInterpolator(x, y)(x_e)
+            result, gradients, _inputs = autodiff(
+                lambda values, query: CubicSplineInterpolator(x, values)(query),
+                y,
+                x_e,
+            )
+
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            for gradient in gradients:
+                assert xp.isfinite(gradient).all()
+                assert xp.any(gradient != 0)
 
 
 class TestPchipInterpolator:
@@ -1482,6 +1517,36 @@ class TestPchipInterpolator:
             np.transpose([reference, reference]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+    def test__call__autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
+        """Test numerical gradients through PCHIP interpolation."""
+
+        x = np.array([0.0, 0.4, 1.1, 2.0, 3.5, 5.0])
+        x_e = np.linspace(x[0] + 0.05, x[-1] - 0.05, 17)
+        for y in (
+            np.array([0.2, 0.8, 0.3, 1.2, 0.9, 1.5]),
+            np.array(
+                [
+                    [0.2, 1.1],
+                    [0.8, 0.7],
+                    [0.3, 1.4],
+                    [1.2, 0.5],
+                    [0.9, 1.0],
+                    [1.5, 0.8],
+                ]
+            ),
+        ):
+            expected = PchipInterpolator(x, y)(x_e)
+            result, gradients, _inputs = autodiff(
+                lambda values, query: PchipInterpolator(x, values)(query),
+                y,
+                x_e,
+            )
+
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            for gradient in gradients:
+                assert xp.isfinite(gradient).all()
+                assert xp.any(gradient != 0)
 
 
 class TestNullInterpolator:

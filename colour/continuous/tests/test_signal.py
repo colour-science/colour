@@ -694,6 +694,22 @@ class TestSignal:
         assert signal is not signal.copy()
         assert signal == signal.copy()
 
+    def test_copy_autodiff(self, autodiff: typing.Callable) -> None:
+        """Test that copying preserves the computational graph."""
+
+        def function(range_: typing.Any) -> typing.Any:
+            """Copy a signal after materialising its interpolator."""
+
+            signal = Signal(range_, self._domain)
+            signal[150]
+
+            return signal.copy().range
+
+        copied, (gradient,), _inputs = autodiff(function, self._range)
+
+        xp_assert_close(copied, self._range)
+        xp_assert_close(gradient, np.ones_like(self._range))
+
     def test_signal_unpack_data(self, xp: ModuleType) -> None:
         """
         Test :meth:`colour.continuous.signal.Signal.signal_unpack_data`

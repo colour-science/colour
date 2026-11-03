@@ -139,7 +139,8 @@ def CCT_to_uv_Krystek1985(CCT: ArrayLike) -> NDArrayFloat:
     Notes
     -----
     -   *Krystek (1985)* method computations are valid for correlated colour
-        temperature :math:`T_{cp}` normalised to domain [1000, 15000].
+        temperature :math:`T_{cp}` normalised to domain [1000, 15000]. The
+        temperature must be finite.
 
     References
     ----------
@@ -155,10 +156,14 @@ def CCT_to_uv_Krystek1985(CCT: ArrayLike) -> NDArrayFloat:
 
     xp = array_namespace(T)
 
-    if xp.any(xp.logical_or(T < 1000, T > 15000)):
+    if xp.any(
+        xp.logical_or(
+            xp.logical_not(xp.isfinite(T)), xp.logical_or(T < 1000, T > 15000)
+        )
+    ):
         usage_warning(
-            "Correlated colour temperature must be in domain "
-            "[1000, 15000], unpredictable results may occur!"
+            "Correlated colour temperature must be finite and in domain "
+            "[1000, 15000] K, unpredictable results may occur!"
         )
 
     T_2 = T**2

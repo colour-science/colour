@@ -64,6 +64,7 @@ else:
     )
 
 from colour.utilities import (
+    ColourRuntimeWarning,
     MixinDataclassArithmetic,
     MixinDataclassArray,
     MixinDataclassFields,
@@ -186,6 +187,7 @@ __all__ = [
     "TestXpAstype",
     "TestXpMatrixTranspose",
     "TestXpSelect",
+    "TestRuntimeWarningXpFallback",
     "TestXpInterp",
     "TestXpTrapezoid",
     "TestXpAverage",
@@ -582,6 +584,18 @@ class TestXpAsArray:
         no_copy = xp_as_array(original, xp=xp)
         assert no_copy is original
 
+    def test_xp_as_array_copy_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test that a backend copy preserves automatic differentiation."""
+
+        copied, (gradient,), (original,) = autodiff(
+            lambda a: xp_as_array(a, xp=xp, copy=True), [1.0, 2.0, 3.0]
+        )
+
+        assert copied is not original
+        xp_assert_equal(gradient, xp.ones_like(original))
+
 
 class TestXpAsFloatArray:
     """Define :func:`colour.utilities.xp_as_float_array` unit tests."""
@@ -746,6 +760,29 @@ class TestXpSelect:
         xp_assert_equal(result, expected)
 
 
+class TestRuntimeWarningXpFallback:
+    """Define tests for the backend-to-*NumPy* fallback warning."""
+
+    @pytest.mark.parametrize(
+        ("name", "alternative"),
+        [
+            ("xp_interp", "LinearInterpolator"),
+            ("xp_unique", "no generally gradient-preserving equivalent"),
+            ("xp_lstsq", "linalg.lstsq"),
+        ],
+    )
+    def test_runtime_warning_xp_fallback(self, name: str, alternative: str) -> None:
+        """Test that fallback warnings explain graph-safe alternatives."""
+
+        with pytest.warns(
+            ColourRuntimeWarning,
+            match="will not preserve automatic differentiation graphs",
+        ) as warnings:
+            utilities_array._runtime_warning_xp_fallback(name)  # noqa: SLF001
+
+        assert alternative in str(warnings[0].message)
+
+
 class TestXpInterp:
     """Define :func:`colour.utilities.xp_interp` unit tests."""
 
@@ -899,6 +936,18 @@ class TestXpResize:
         result = xp_resize(a, (0,), xp=xp)
         expected = np.resize(np.array([1.0, 2.0, 3.0]), (0,))
         xp_assert_equal(result, expected)
+
+    def test_xp_resize_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test that resizing preserves automatic differentiation."""
+
+        resized, (gradient,), _inputs = autodiff(
+            lambda a: xp_resize(a, (2, 3), xp=xp), [1.0, 2.0, 3.0]
+        )
+
+        xp_assert_equal(resized, [[1.0, 2.0, 3.0], [1.0, 2.0, 3.0]])
+        xp_assert_equal(gradient, [2.0, 2.0, 2.0])
 
 
 class TestXpNanmean:
@@ -1916,6 +1965,21 @@ class TestAsArray:
             [1, 2, 3],
         )
 
+    def test_as_array_autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
+        """Test that conversion preserves automatic differentiation."""
+
+        converted, (gradient,), (original,) = autodiff(
+            lambda a: as_array(a, DTYPE_FLOAT_DEFAULT), [1.0, 2.0, 3.0]
+        )
+
+        xp_assert_equal(gradient, xp.ones_like(original))
+
+        _stacked, (gradient,), (original,) = autodiff(
+            lambda a: as_array([a, a * 2]), [1.0, 2.0, 3.0]
+        )
+
+        xp_assert_equal(gradient, xp.full_like(original, 3))
+
 
 class TestAsInt:
     """
@@ -2864,6 +2928,16 @@ class TestNdarrayCopy:
 
         with ndarray_copy_enable(False):
             assert id(ndarray_copy(a)) == id(a)  # pyright: ignore
+
+    def test_ndarray_copy_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test that copying preserves automatic differentiation."""
+
+        copied, (gradient,), (original,) = autodiff(ndarray_copy, [1.0, 2.0, 3.0])
+
+        assert copied is not original
+        xp_assert_equal(gradient, xp.ones_like(original))
 
 
 class TestClosestIndexes:
