@@ -38,8 +38,8 @@ if typing.TYPE_CHECKING:
 from matplotlib.patches import Polygon
 
 if typing.TYPE_CHECKING:
-    from matplotlib.figure import Figure
     from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
 
 from colour.algebra import LinearInterpolator, normalise_maximum, sdiv, sdiv_mode
 from colour.colorimetry import (

@@ -20,7 +20,7 @@ from colour.colorimetry import (
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 
 if typing.TYPE_CHECKING:
-    from colour.hints import NDArrayFloat, ModuleType
+    from colour.hints import ModuleType, NDArrayFloat
 
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import (
