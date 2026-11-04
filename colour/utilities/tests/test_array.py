@@ -53,14 +53,14 @@ else:
         Domain1,
         Domain10,
         Domain100,
-        Domain360,
         Domain100_100_360,
+        Domain360,
         NDArrayFloat,
         Range1,
         Range10,
         Range100,
-        Range360,
         Range100_100_360,
+        Range360,
     )
 
 from colour.utilities import (

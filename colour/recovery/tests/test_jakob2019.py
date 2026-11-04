@@ -16,7 +16,7 @@ from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.difference import JND_CIE1976, delta_E_CIE1976
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Type, ModuleType
+    from colour.hints import ModuleType, Type
 
 from colour.models import RGB_COLOURSPACE_sRGB, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_xy
 from colour.recovery.jakob2019 import (
