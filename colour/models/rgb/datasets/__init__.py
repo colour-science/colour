@@ -14,6 +14,7 @@ from .aces import (
 from .adobe_rgb_1998 import RGB_COLOURSPACE_ADOBE_RGB1998
 from .adobe_wide_gamut_rgb import RGB_COLOURSPACE_ADOBE_WIDE_GAMUT_RGB
 from .apple_rgb import RGB_COLOURSPACE_APPLE_RGB
+from .apple_wide_gamut import RGB_COLOURSPACE_APPLE_WIDE_GAMUT
 from .arri import (
     RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3,
     RGB_COLOURSPACE_ARRI_WIDE_GAMUT_4,
@@ -151,6 +152,9 @@ __all__ += [
 ]
 __all__ += [
     "RGB_COLOURSPACE_APPLE_RGB",
+]
+__all__ += [
+    "RGB_COLOURSPACE_APPLE_WIDE_GAMUT",
 ]
 __all__ += [
     "RGB_COLOURSPACE_ARRI_WIDE_GAMUT_3",
