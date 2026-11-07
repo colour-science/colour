@@ -3,7 +3,7 @@ name = "colour-science"
 version = "0.4.7"
 description = "Colour Science for Python"
 readme = "README.rst"
-requires-python = ">=3.11,<3.15"
+requires-python = ">=3.13,<3.16"
 authors = [
     { name = "Colour Developers", email = "colour-developers@colour-science.org" },
 ]
@@ -45,20 +45,21 @@ classifiers = [
     "Topic :: Software Development",
 ]
 dependencies = [
-    "numpy>=2.1.0,<3",
+    "numpy>=2.2,<3",
 ]
 
 [project.optional-dependencies]
 optional = [
     "imageio>=2,<3",
-    "matplotlib>=3.9",
-    "networkx>=3.3,<4",
-    "onnxruntime>=1,<2",
+    "matplotlib>=3.10",
+    "networkx>=3.5,<4",
+    "onnxruntime>=1,<2; python_version < '3.15'",
     "opencolorio>=2,<3; python_version < '3.14'",
     "openimageio>=3.1.19,<4",
-    "pandas>=2.2,<3",
+    "pandas>=2.3,<3; python_version < '3.15'",
+    "pandas>=3,<4; python_version >= '3.15'",
     "pydot>=3,<4",
-    "scipy>=1.13.0,<2",
+    "scipy>=1.15,<2",
     "tqdm>=4,<5",
     "trimesh>=4,<5",
     "xxhash>=3,<4",
@@ -162,7 +163,7 @@ markers = [
 ]
 
 [tool.ruff]
-target-version = "py311"
+target-version = "py313"
 line-length = 88
 select = ["ALL"]
 ignore = [
@@ -201,6 +202,9 @@ ignore = [
     "RUF022", # [*] `__all__` is not sorted
     "TRY003", # Avoid specifying long messages outside the exception class
     "UP038", #  Use `X | Y` in `isinstance` call instead of `(X, Y)`
+    "UP040", # Preserve runtime-compatible type aliases
+    "UP043", # Keep explicit default type arguments
+    "UP047", # Preserve TypeVar-based generic functions
 ]
 typing-modules = ["colour.hints"]
 
