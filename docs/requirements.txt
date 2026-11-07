@@ -63,7 +63,7 @@ numpy==2.3.5
     #   trimesh
 opencolorio==2.5.0 ; python_full_version < '3.14'
     # via colour-science
-openimageio==3.1.8.0
+openimageio==3.1.19.0
     # via colour-science
 packaging==25.0
     # via

@@ -301,7 +301,7 @@ numpy-typing-compat==20250818.2.3
     # via optype
 opencolorio==2.5.0 ; python_full_version < '3.14'
     # via colour-science
-openimageio==3.1.8.0
+openimageio==3.1.19.0
     # via colour-science
 optype==0.14.0
     # via scipy-stubs

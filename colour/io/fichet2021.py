@@ -881,7 +881,11 @@ def write_spectral_image_Fichet2021(
         channel_buffer = ImageBuf(channel_data.astype(bit_depth_specification.numpy))
         channel_specification = channel_buffer.specmod()
         channel_specification.channelnames = [channel_name]  # pyright: ignore
-        image_buffer = ImageBufAlgo.channel_append(image_buffer, channel_buffer)
+        image_buffer = (
+            ImageBufAlgo.channel_append(image_buffer, channel_buffer)
+            if image_buffer.initialized
+            else channel_buffer
+        )
 
     add_attributes_to_image_specification_OpenImageIO(
         image_buffer.specmod(),  # pyright: ignore
