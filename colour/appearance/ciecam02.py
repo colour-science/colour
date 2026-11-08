@@ -34,7 +34,7 @@ References
 from __future__ import annotations
 
 import typing
-from dataclasses import astuple, dataclass, field
+from dataclasses import dataclass, field
 
 import numpy as np
 
@@ -67,6 +67,7 @@ from colour.utilities import (
     from_range_100,
     from_range_degrees,
     has_only_nan,
+    is_non_ndarray,
     ones,
     to_domain_100,
     to_domain_degrees,
@@ -309,7 +310,8 @@ M=np.float64(0.1088421...), H=np.float64(278.0607358...), HC=None)
 
     xp = array_namespace(XYZ, XYZ_w, L_A, Y_b)
 
-    XYZ = xp_as_float_array(XYZ, xp=xp)
+    reference = next((a for a in (XYZ, XYZ_w, L_A, Y_b) if is_non_ndarray(a)), None)
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
     XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=XYZ)
     L_A = xp_as_float_array(L_A, xp=xp, like=XYZ)
     Y_b = xp_as_float_array(Y_b, xp=xp, like=XYZ)
@@ -526,7 +528,7 @@ def CIECAM02_to_XYZ(
     array([19.01..., 20...  , 21.78...])
     """
 
-    J, C, h, _s, _Q, M, _H, _HC = astuple(specification)
+    J, C, h, _s, _Q, M, _H, _HC = specification.values
 
     J = to_domain_100(J)
     C = to_domain_100(C)
@@ -534,14 +536,19 @@ def CIECAM02_to_XYZ(
     M = to_domain_100(M)
     XYZ_w = to_domain_100(XYZ_w)
 
-    xp = array_namespace(J, C, h, M, XYZ_w, L_A)
+    xp = array_namespace(J, C, h, M, XYZ_w, L_A, Y_b)
 
-    J = xp_as_float_array(J, xp=xp)
+    reference = next(
+        (a for a in (J, C, h, M, XYZ_w, L_A, Y_b) if is_non_ndarray(a)),
+        None,
+    )
+    J = xp_as_float_array(J, xp=xp, like=reference)
     C = xp_as_float_array(C, xp=xp, like=J)
     h = xp_as_float_array(h, xp=xp, like=J)
     M = xp_as_float_array(M, xp=xp, like=J)
     XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=J)
     L_A = xp_as_float_array(L_A, xp=xp, like=J)
+    Y_b = xp_as_float_array(Y_b, xp=xp, like=J)
 
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
@@ -777,8 +784,10 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     ) -> NDArrayFloat:
         """Compute hue quadrature for a single bin."""
 
-        t1 = (h - h_k) / e_k
-        t2 = (h_k1 - h) / e_k1
+        # Inactive rational extensions can have poles outside their bins.
+        h_bin = xp.where((h >= h_k) & (h < h_k1), h, h_k)
+        t1 = (h_bin - h_k) / e_k
+        t2 = (h_k1 - h_bin) / e_k1
         return H_k + 100 * t1 / (t1 + t2)
 
     H_0 = _H(h_i[0], e_i[0], H_i[0], h_i[1], e_i[1])
@@ -787,9 +796,13 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
 
     # Last interval and wrap-around use special formulas that account for
     # the circular hue boundary at 360 degrees.
-    t1_3 = (h - h_i[3]) / e_i[3]
-    H_3 = H_i[3] + (85.9 * t1_3) / (t1_3 + (360 - h) / 0.856)
-    H_wrap = 385.9 + (14.1 * h / 0.856) / (h / 0.856 + (h_i[0] - h) / e_i[0])
+    h_last = xp.where(h >= h_i[3], h, h_i[3])
+    t1_3 = (h_last - h_i[3]) / e_i[3]
+    H_3 = H_i[3] + (85.9 * t1_3) / (t1_3 + (360 - h_last) / 0.856)
+    h_wrap = xp.where(h < h_i[0], h, 0)
+    H_wrap = 385.9 + (14.1 * h_wrap / 0.856) / (
+        h_wrap / 0.856 + (h_i[0] - h_wrap) / e_i[0]
+    )
 
     H = xp_select(
         [

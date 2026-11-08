@@ -43,6 +43,7 @@ from colour.utilities import (
     as_float,
     as_float_array,
     from_range_degrees,
+    is_non_ndarray,
     to_domain_100,
     tsplit,
     xp_as_float_array,
@@ -268,7 +269,14 @@ L_star_N=np.float64(75.8970185...))
     XYZ = to_domain_100(XYZ)
     XYZ_n = to_domain_100(XYZ_n)
 
-    xp = array_namespace(XYZ, XYZ_n, Y_o, E_o, E_or)
+    xp = array_namespace(XYZ, XYZ_n, Y_o, E_o, E_or, n)
+
+    reference = next(
+        (a for a in (XYZ, XYZ_n, Y_o, E_o, E_or, n) if is_non_ndarray(a)),
+        None,
+    )
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+    XYZ_n = xp_as_float_array(XYZ_n, xp=xp, like=XYZ)
 
     Y_o = xp_as_float_array(Y_o, xp=xp, like=XYZ)
     E_o = xp_as_float_array(E_o, xp=xp, like=XYZ)
@@ -316,9 +324,9 @@ L_star_N=np.float64(75.8970185...))
 
     # Computing achromatic response :math:`Q` as a weighted combination of the
     # logarithmic red and green opponent terms.
-    Q_response = (2 / 3) * bR_o * eR * log_R
-    Q_response += (1 / 3) * bG_o * eG * log_G
-    Q_response *= 41.69 / bL_or
+    Q_response = ((2 / 3) * bR_o * eR * log_R + (1 / 3) * bG_o * eG * log_G) * (
+        41.69 / bL_or
+    )
 
     # Computing tritanopic response :math:`t`.
     t_response = bR_o * log_R - (12 / 11) * bG_o * log_G + (1 / 11) * bB_o * log_B
@@ -333,10 +341,10 @@ L_star_N=np.float64(75.8970185...))
 
     # Computing *brightness* :math:`B_{rw}` of ideal white.
     B_rw = (2 / 3) * bR_o * 1.758 * xp.log10((100 * xi + n) / (20 * xi + n))
-    B_rw += (1 / 3) * bG_o * 1.758 * xp.log10((100 * eta + n) / (20 * eta + n))
-    B_rw *= 41.69 / bL_or
-    B_rw += (50 / bL_or) * (2 / 3) * bR_o
-    B_rw += (50 / bL_or) * (1 / 3) * bG_o
+    B_rw = B_rw + (1 / 3) * bG_o * 1.758 * xp.log10((100 * eta + n) / (20 * eta + n))
+    B_rw = B_rw * (41.69 / bL_or)
+    B_rw = B_rw + (50 / bL_or) * (2 / 3) * bR_o
+    B_rw = B_rw + (50 / bL_or) * (1 / 3) * bG_o
 
     # Computing the correlate of achromatic *Lightness* :math:`L_p^\\star`.
     L_star_P = Q_response + 50

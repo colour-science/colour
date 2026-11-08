@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -23,6 +24,7 @@ from colour.appearance import (
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
+    array_namespace,
     as_float_array,
     as_ndarray,
     domain_range_scale,
@@ -128,13 +130,29 @@ class TestXYZ_to_Kim2009:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # A sole native secondary operand must determine device placement.
+        luminance = xp_as_array(318.31, xp=xp)
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            result = XYZ_to_Kim2009([30, 20, 10], [95.05, 100, 108.88], luminance).J
+            expected = XYZ_to_Kim2009(
+                xp_as_array([30, 20, 10], xp=xp, like=luminance),
+                xp_as_array([95.05, 100, 108.88], xp=xp, like=luminance),
+                318.31,
+            ).J
+        assert result is not None
+        assert expected is not None
+        assert array_namespace(result).__name__ == array_namespace(luminance).__name__
+        assert getattr(result, "device", None) == getattr(luminance, "device", None)
+        xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+
     def test_n_dimensional_XYZ_to_Kim2009(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.appearance.kim2009.XYZ_to_Kim2009` definition
         n-dimensional support.
         """
 
-        XYZ = xp_as_array([19.01, 20.00, 21.78], xp=xp)
+        # Keep hue well conditioned when comparing scalar and batched kernels.
+        XYZ = xp_as_array([57.06, 43.06, 31.96], xp=xp)
         XYZ_w = xp_as_array([95.05, 100.00, 108.88], xp=xp)
         L_a = 318.31
         media = MEDIA_PARAMETERS_KIM2009["CRT Displays"]
@@ -258,7 +276,7 @@ class TestKim2009_to_XYZ:
         xp_assert_close(
             Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
             [19.01, 20.00, 21.78],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
         )
 
         specification = CAM_Specification_Kim2009(
@@ -275,7 +293,7 @@ class TestKim2009_to_XYZ:
         xp_assert_close(
             Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
             [57.06, 43.06, 31.96],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
         )
 
         specification = CAM_Specification_Kim2009(
@@ -293,7 +311,7 @@ class TestKim2009_to_XYZ:
         xp_assert_close(
             Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
             [3.53, 6.56, 2.14],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
         )
 
         specification = CAM_Specification_Kim2009(
@@ -310,7 +328,7 @@ class TestKim2009_to_XYZ:
         xp_assert_close(
             Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround),
             [19.01, 20.00, 21.78],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
         )
 
     def test_n_dimensional_Kim2009_to_XYZ(self, xp: ModuleType) -> None:
@@ -328,7 +346,7 @@ class TestKim2009_to_XYZ:
         XYZ = as_ndarray(Kim2009_to_XYZ(specification, XYZ_w, L_a, media, surround))
 
         specification = CAM_Specification_Kim2009(
-            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()
+            *np.transpose(np.tile(tsplit(specification), (6, 1)))
         )
         XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
         xp_assert_close(
@@ -345,7 +363,7 @@ class TestKim2009_to_XYZ:
         )
 
         specification = CAM_Specification_Kim2009(
-            *tsplit(np.reshape(specification, (2, 3, 8))).tolist()
+            *tsplit(np.reshape(specification, (2, 3, 8)))
         )
         XYZ_w = xp_reshape(xp_as_array(XYZ_w, xp=xp), (2, 3, 3), xp=xp)
         XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)

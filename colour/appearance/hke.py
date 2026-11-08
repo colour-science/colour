@@ -38,6 +38,7 @@ from colour.utilities import (
     array_namespace,
     as_float,
     as_float_array,
+    is_non_ndarray,
     tsplit,
     validate_method,
     xp_as_float_array,
@@ -124,6 +125,10 @@ def HelmholtzKohlrausch_effect_object_Nayatani1997(
     """
 
     xp = array_namespace(uv, uv_c, L_a)
+
+    reference = next((a for a in (uv, uv_c, L_a) if is_non_ndarray(a)), None)
+    uv = xp_as_float_array(uv, xp=xp, like=reference)
+    uv_c = xp_as_float_array(uv_c, xp=xp, like=uv)
 
     u, v = tsplit(uv)
     u_c, v_c = tsplit(uv_c)

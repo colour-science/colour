@@ -26,7 +26,7 @@ References
 from __future__ import annotations
 
 import typing
-from dataclasses import astuple, dataclass, field
+from dataclasses import dataclass, field
 
 from colour.adaptation import CAT_CAT02
 from colour.algebra import sdiv, sdiv_mode, spow, vecmul
@@ -57,6 +57,7 @@ from colour.utilities import (
     from_range_100,
     from_range_degrees,
     has_only_nan,
+    is_non_ndarray,
     ones,
     to_domain_100,
     to_domain_degrees,
@@ -320,7 +321,9 @@ M=np.float64(0.4641738...), H=np.float64(278.0602824...), HC=None)
 
     xp = array_namespace(XYZ, XYZ_w, L_A)
 
-    XYZ = xp_as_float_array(XYZ, xp=xp)
+    reference = next((a for a in (XYZ, XYZ_w, L_A) if is_non_ndarray(a)), None)
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+
     XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=XYZ)
     L_A = xp_as_float_array(L_A, xp=xp, like=XYZ)
 
@@ -511,7 +514,7 @@ def Kim2009_to_XYZ(
     array([19.0099995..., 19.9999999..., 21.7800000...])
     """
 
-    J, C, h, _s, _Q, M, _H, _HC = astuple(specification)
+    J, C, h, _s, _Q, M, _H, _HC = specification.values
 
     J = to_domain_100(J)
     C = to_domain_100(C)
@@ -522,7 +525,9 @@ def Kim2009_to_XYZ(
 
     xp = array_namespace(J, C, h, M, XYZ_w, L_A)
 
-    J = xp_as_float_array(J, xp=xp)
+    reference = next((a for a in (J, C, h, M, XYZ_w, L_A) if is_non_ndarray(a)), None)
+    J = xp_as_float_array(J, xp=xp, like=reference)
+
     C = xp_as_float_array(C, xp=xp, like=J)
     h = xp_as_float_array(h, xp=xp, like=J)
     M = xp_as_float_array(M, xp=xp, like=J)

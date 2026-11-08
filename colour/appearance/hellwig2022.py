@@ -26,7 +26,7 @@ References
 from __future__ import annotations
 
 import typing
-from dataclasses import astuple, dataclass, field
+from dataclasses import dataclass, field
 
 from colour.algebra import sdiv, sdiv_mode, spow, vecmul
 from colour.appearance.cam16 import MATRIX_16, MATRIX_INVERSE_16
@@ -55,6 +55,7 @@ from colour.utilities import (
     from_range_100,
     from_range_degrees,
     has_only_nan,
+    is_non_ndarray,
     ones,
     to_domain_100,
     to_domain_degrees,
@@ -292,7 +293,9 @@ J_HK=np.float64(41.8802782...), Q_HK=np.float64(56.0518358...))
 
     xp = array_namespace(XYZ, XYZ_w, L_A, Y_b)
 
-    XYZ = xp_as_float_array(XYZ, xp=xp)
+    reference = next((a for a in (XYZ, XYZ_w, L_A, Y_b) if is_non_ndarray(a)), None)
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+
     XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=XYZ)
     L_A = xp_as_float_array(L_A, xp=xp, like=XYZ)
     Y_b = xp_as_float_array(Y_b, xp=xp, like=XYZ)
@@ -517,7 +520,7 @@ def Hellwig2022_to_XYZ(
     array([19.01..., 20...  , 21.78...])
     """
 
-    J, C, h, _s, _Q, M, _H, _HC, J_HK, _Q_HK = astuple(specification)
+    J, C, h, _s, _Q, M, _H, _HC, J_HK, _Q_HK = specification.values
 
     J = to_domain_100(J)
     J_HK = to_domain_100(J_HK)
@@ -528,15 +531,20 @@ def Hellwig2022_to_XYZ(
     L_A = as_float_array(L_A)
     XYZ_w = to_domain_100(XYZ_w)
 
-    xp = array_namespace(J, J_HK, C, h, M, XYZ_w, L_A)
+    xp = array_namespace(J, J_HK, C, h, M, XYZ_w, L_A, Y_b)
 
-    J = xp_as_float_array(J, xp=xp, like=J_HK)
+    reference = next(
+        (a for a in (J, J_HK, C, h, M, XYZ_w, L_A, Y_b) if is_non_ndarray(a)), None
+    )
+    J = xp_as_float_array(J, xp=xp, like=reference)
+
     J_HK = xp_as_float_array(J_HK, xp=xp, like=J)
     C = xp_as_float_array(C, xp=xp, like=J)
     h = xp_as_float_array(h, xp=xp, like=J)
     M = xp_as_float_array(M, xp=xp, like=J)
     XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=J)
     L_A = xp_as_float_array(L_A, xp=xp, like=J)
+    Y_b = xp_as_float_array(Y_b, xp=xp, like=J)
 
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 

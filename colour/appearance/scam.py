@@ -24,7 +24,7 @@ References
 from __future__ import annotations
 
 import typing
-from dataclasses import astuple, dataclass, field
+from dataclasses import dataclass, field
 
 import numpy as np
 
@@ -57,6 +57,7 @@ from colour.utilities import (
     from_range_100,
     from_range_degrees,
     has_only_nan,
+    is_non_ndarray,
     to_domain_100,
     to_domain_degrees,
     tsplit,
@@ -297,6 +298,10 @@ D=np.float64(65.0265672...))
 
     xp = array_namespace(XYZ, XYZ_w, L_A, Y_b)
 
+    reference = next((a for a in (XYZ, XYZ_w, L_A, Y_b) if is_non_ndarray(a)), None)
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+    XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=XYZ)
+
     L_A = xp_as_float_array(L_A, xp=xp, like=XYZ)
     Y_b = xp_as_float_array(Y_b, xp=xp, like=XYZ)
 
@@ -437,7 +442,7 @@ def sCAM_to_XYZ(
     array([19.01..., 20...  , 21.78...])
     """
 
-    I_a, C, h, _Q, M, _H, _HC, _V, _K, _W, _D = astuple(specification)
+    I_a, C, h, _Q, M, _H, _HC, _V, _K, _W, _D = specification.values
 
     I_a = to_domain_100(I_a)
     C = to_domain_100(C) if not has_only_nan(C) else None
@@ -447,6 +452,14 @@ def sCAM_to_XYZ(
     XYZ_w = to_domain_100(XYZ_w)
 
     xp = array_namespace(I_a, C, h, M, XYZ_w, L_A, Y_b)
+
+    reference = next(
+        (a for a in (I_a, C, h, M, XYZ_w, L_A, Y_b) if is_non_ndarray(a)), None
+    )
+    I_a = xp_as_float_array(I_a, xp=xp, like=reference)
+    C = xp_as_float_array(float("nan") if C is None else C, xp=xp, like=I_a)
+    h = xp_as_float_array(h, xp=xp, like=I_a)
+    M = xp_as_float_array(float("nan") if M is None else M, xp=xp, like=I_a)
 
     XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=I_a)
     L_A = xp_as_float_array(L_A, xp=xp, like=I_a)
@@ -460,7 +473,7 @@ def sCAM_to_XYZ(
 
         raise ValueError(error)
 
-    if has_only_nan(C) and has_only_nan(M):  # pyright: ignore
+    if has_only_nan(C) and has_only_nan(M):
         error = (
             'Either "C" or "M" correlate must be defined in '
             'the "CAM_Specification_sCAM" argument!'
@@ -473,7 +486,7 @@ def sCAM_to_XYZ(
     with sdiv_mode():
         z = 1.48 + spow(sdiv(Y_b, Y_w), 0.5)
 
-    if C is None and M is not None:
+    if has_only_nan(C):
         F_L = 0.1710 * spow(L_A, 1 / 3) / (1 - 0.4934 * xp.exp(-0.9934 * L_A))
         e_t = 1 + 0.06 * xp.cos(xp_radians(110 + h))
 
@@ -484,7 +497,7 @@ def sCAM_to_XYZ(
         I = 100 * spow(sdiv(I_a, 100), sdiv(1, surround.c * z))  # noqa: E741
 
     with domain_range_scale("ignore"):
-        XYZ_D65 = sUCS_to_XYZ(sUCS_ICh_to_sUCS_Iab(tstack([I, C, h])))  # type: ignore[arg-type]
+        XYZ_D65 = sUCS_to_XYZ(sUCS_ICh_to_sUCS_Iab(tstack([I, C, h])))
 
     XYZ_D65 = XYZ_D65 * Y_w[..., None]
 
