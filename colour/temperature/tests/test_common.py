@@ -145,6 +145,14 @@ class TestSolve_CCT_Newton:
         Test :func:`colour.temperature.common.solve_CCT_Newton` definition.
         """
 
+        scalar = xp_as_array(6500.0, xp=xp)
+        result = solve_CCT_Newton(_forward_linear, _forward_linear(scalar))
+        assert result.shape == ()
+        if xp.__name__ == "numpy":
+            assert isinstance(result, np.floating)
+        elif hasattr(scalar, "device"):
+            assert result.device == scalar.device
+
         # Convergence on a smooth monotonic forward.
         for CCT_reference in (1500.0, 6500.0, 15000.0, 25000.0):
             target = _forward_linear(xp_as_array([CCT_reference], xp=xp))
