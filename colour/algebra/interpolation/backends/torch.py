@@ -1484,8 +1484,14 @@ class Extrapolator:
         y = torch.zeros_like(x[..., None] + yi[0])
         below_b = below[..., None]
         above_b = above[..., None]
-        x_offset_low = (x - xi[0])[..., None]
-        x_offset_high = (x - xi[-1])[..., None]
+        # Fixed overrides and inactive sides must not record infinite offsets:
+        # their zero reverse-mode cotangents would otherwise multiply infinity.
+        x_offset_low = torch.where(below & (self._left is None), x - xi[0], 0)[
+            ..., None
+        ]
+        x_offset_high = torch.where(above & (self._right is None), x - xi[-1], 0)[
+            ..., None
+        ]
 
         if self._method == "linear":
             y = torch.where(
