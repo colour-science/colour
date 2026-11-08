@@ -18,6 +18,7 @@ from colour.algebra import (
     KernelInterpolator,
     LinearInterpolator,
 )
+from colour.colorimetry import MultiSpectralDistributions
 from colour.constants import DTYPE_FLOAT_DEFAULT, TOLERANCE_ABSOLUTE_TESTS
 from colour.continuous import MultiSignals, Signal
 from colour.utilities import (
@@ -128,6 +129,8 @@ class TestMultiSignals:
         multi_signals.dtype = np.float32
         assert multi_signals.dtype == np.float32
 
+        assert MultiSignals(np.ones((3, 2)), dtype=np.float32).dtype == np.float32
+
     def test_domain(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.continuous.multi_signals.MultiSignals.domain`
@@ -162,6 +165,9 @@ class TestMultiSignals:
 
         with pytest.warns(ColourRuntimeWarning):
             assert_warns()
+
+        with pytest.raises(AssertionError):
+            MultiSignals([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]], domain=[2, 1, 0])
 
     def test_range(self, xp: ModuleType) -> None:
         """
@@ -372,6 +378,14 @@ function` property raised exception.
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__init__`
         method.
         """
+
+        for constructor in (MultiSignals, MultiSpectralDistributions):
+            empty = constructor({})
+            default = constructor()
+            assert empty.labels == default.labels == ["Undefined"]
+            assert empty.range.shape == default.range.shape == (0, 1)
+            xp_assert_equal(empty.domain, default.domain)
+            xp_assert_equal(empty.range, default.range)
 
         multi_signals = MultiSignals(xp_as_array(self._range_1, xp=xp))
         xp_assert_equal(multi_signals.domain, self._domain_1)
@@ -736,6 +750,22 @@ function` property raised exception.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        native = MultiSignals(xp_as_array(self._range_2, xp=xp))
+        native[10.0] = [110.0, 120.0, 130.0]
+        assert isinstance(str(native), str)
+        assert isinstance(repr(native), str)
+        native.dtype = np.float64
+        native.domain = np.arange(11, dtype=np.float64) + 1e-9
+        expected = MultiSignals(
+            as_ndarray(native.range),
+            native.domain,
+            labels=native.labels,
+            dtype=np.float64,
+        )
+        expected.domain = native.domain
+        assert str(native) == str(expected)
+        assert repr(native) == repr(expected)
+
     def test__contains__(self, xp: ModuleType) -> None:
         """
         Test :meth:`colour.continuous.multi_signals.MultiSignals.__contains__`
@@ -746,6 +776,15 @@ function` property raised exception.
         assert 0 in multi_signals
         assert 0.5 in multi_signals
         assert 1000 not in multi_signals
+
+        for query in ([0.0, 0.5], np.array([0.0, 0.5]), xp_as_array([0.0, 0.5], xp=xp)):
+            assert query in MultiSignals(xp_as_array(self._range_2, xp=xp))
+        precise_domain = 1 + np.arange(10) * 1e-9
+        precise = MultiSignals(xp_as_array(self._range_2, xp=xp), precise_domain)
+        precise.dtype = np.float64
+        precise.domain = precise_domain
+        assert [precise_domain[0], precise_domain[-1]] in precise
+        assert np.array([precise_domain[-1] + 1e-10]) not in precise
 
     def test__iter__(self, xp: ModuleType) -> None:
         """Test :func:`colour.continuous.signal.Signal.__iter__` method."""
@@ -777,6 +816,18 @@ function` property raised exception.
         assert signal_1 == signal_2
 
         assert signal_1 != ()
+
+        precise_domain = 1 + np.arange(10) * 1e-9
+        host_domain = MultiSignals(xp_as_array(self._range_2, xp=xp), precise_domain)
+        matching = MultiSignals(xp_as_array(self._range_2, xp=xp), precise_domain)
+        # Domain reassignment is valid and must retain its exact host precision.
+        host_domain.dtype = np.float64
+        matching.dtype = np.float64
+        host_domain.domain = precise_domain
+        matching.domain = precise_domain.copy()
+        assert host_domain == matching
+        matching.domain = precise_domain + 1e-10
+        assert host_domain != matching
 
     def test__ne__(self, xp: ModuleType) -> None:
         """
@@ -1105,3 +1156,27 @@ domain_distance` method.
                 .to_dataframe()
                 .equals(DataFrame(data, self._domain_2))
             )
+
+    def test_arithmetical_operation_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test gradients when a native operand promotes host signal values."""
+
+        def operation(values: typing.Any) -> typing.Any:
+            return (
+                MultiSignals([[2.0, 3.0], [3.0, 4.0], [4.0, 5.0]], [0, 1, 2])
+                * MultiSignals(values, [0, 1, 2])
+            ).range
+
+        autodiff(operation, xp_as_array([[1.0, 2.0], [2.0, 3.0], [3.0, 4.0]], xp=xp))
+
+    def test_multi_signals_unpack_data_backend(self, xp: ModuleType) -> None:
+        """Test round-tripping the unpacked representation with native axes."""
+
+        values = xp_as_array([[1.0, 2.0], [3.0, 4.0]], xp=xp)
+        domain = xp_as_array([0.0, 1.0], xp=xp)
+        unpacked = MultiSignals.multi_signals_unpack_data(values, domain=domain)
+        roundtrip = MultiSignals.multi_signals_unpack_data(unpacked)
+        xp_assert_close(roundtrip[0], domain, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(roundtrip[1], values, atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert roundtrip[2] == unpacked[2]

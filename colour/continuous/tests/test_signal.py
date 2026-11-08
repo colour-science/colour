@@ -22,6 +22,7 @@ from colour.constants import DTYPE_FLOAT_DEFAULT, TOLERANCE_ABSOLUTE_TESTS
 from colour.continuous import Signal
 from colour.utilities import (
     ColourRuntimeWarning,
+    array_namespace,
     as_ndarray,
     attest,
     is_pandas_installed,
@@ -497,6 +498,15 @@ class TestSignal:
         assert 0.5 in signal
         assert 1000 not in signal
 
+        for query in ([0.0, 0.5], np.array([0.0, 0.5]), xp_as_array([0.0, 0.5], xp=xp)):
+            assert query in Signal(xp_as_array(self._range, xp=xp))
+        precise_domain = 1 + np.arange(10) * 1e-9
+        precise = Signal(xp_as_array(self._range, xp=xp), precise_domain)
+        precise.dtype = np.float64
+        precise.domain = precise_domain
+        assert [precise_domain[0], precise_domain[-1]] in precise
+        assert np.array([precise_domain[-1] + 1e-10]) not in precise
+
     def test__iter__(self, xp: ModuleType) -> None:
         """Test :func:`colour.continuous.signal.Signal.__iter__` method."""
 
@@ -519,6 +529,18 @@ class TestSignal:
         signal_2 = Signal(xp_as_array(self._range, xp=xp))
 
         assert signal_1 == signal_2
+
+        precise_domain = 1 + np.arange(10) * 1e-9
+        host_domain = Signal(xp_as_array(self._range, xp=xp), precise_domain)
+        matching = Signal(xp_as_array(self._range, xp=xp), precise_domain)
+        # Domain reassignment is valid and must retain its exact host precision.
+        host_domain.dtype = np.float64
+        matching.dtype = np.float64
+        host_domain.domain = precise_domain
+        matching.domain = precise_domain.copy()
+        assert host_domain == matching
+        matching.domain = precise_domain + 1e-10
+        assert host_domain != matching
 
     def test__ne__(self, xp: ModuleType) -> None:
         """Test :func:`colour.continuous.signal.Signal.__ne__` method."""
@@ -694,7 +716,7 @@ class TestSignal:
         assert signal is not signal.copy()
         assert signal == signal.copy()
 
-    def test_copy_autodiff(self, autodiff: typing.Callable) -> None:
+    def test_copy_autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
         """Test that copying preserves the computational graph."""
 
         def function(range_: typing.Any) -> typing.Any:
@@ -709,6 +731,16 @@ class TestSignal:
 
         xp_assert_close(copied, self._range)
         xp_assert_close(gradient, np.ones_like(self._range))
+
+        for namespace in (xp, array_namespace(xp_as_array(self._range, xp=xp))):
+            copied, (gradient,), _inputs = autodiff(
+                lambda values, namespace=namespace: Signal(values, self._domain)
+                .copy(xp=namespace)
+                .range,
+                self._range,
+            )
+            xp_assert_close(copied, self._range)
+            xp_assert_close(gradient, np.ones_like(self._range))
 
     def test_signal_unpack_data(self, xp: ModuleType) -> None:
         """
@@ -800,3 +832,22 @@ class TestSignal:
                 Signal(self._range, self._domain).to_series().all()
                 == Series(dict(zip(self._domain, self._range, strict=True))).all()
             )
+
+    def test_arithmetical_operation_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test numerical gradients through arithmetic on two signals."""
+
+        def operation(values: typing.Any) -> typing.Any:
+            return (
+                Signal(values, [0, 1, 2]) * Signal([2.0, 3.0, 4.0], [0, 1, 2])
+            ).range
+
+        autodiff(operation, xp_as_array([1.0, 2.0, 3.0], xp=xp))
+
+        autodiff(
+            lambda values: (
+                Signal([2.0, 3.0, 4.0], [0, 1, 2]) * Signal(values, [0, 1, 2])
+            ).range,
+            xp_as_array([1.0, 2.0, 3.0], xp=xp),
+        )

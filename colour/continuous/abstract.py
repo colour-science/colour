@@ -41,6 +41,7 @@ from colour.utilities import (
     is_uniform,
     optional,
     xp_as_array,
+    xp_as_float_array,
 )
 
 __author__ = "Colour Developers"
@@ -525,6 +526,8 @@ arithmetical_operation`
 
         xp = array_namespace(domain, range_)
 
+        domain = xp_as_float_array(domain, xp=xp, like=range_)
+        range_ = xp_as_float_array(range_, xp=xp, like=domain)
         yield from xp.concat([domain, range_], axis=1)
 
     def __len__(self) -> int:
@@ -896,7 +899,8 @@ arithmetical_operation`
 
         range_input = (
             source_range
-            if target_xp.__name__ == source_xp.__name__
+            if target_xp.__name__.removeprefix("array_api_compat.")
+            == source_xp.__name__.removeprefix("array_api_compat.")
             else as_ndarray(source_range)
         )
         range_copy = xp_as_array(range_input, xp=target_xp, copy=True)

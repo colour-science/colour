@@ -16,11 +16,21 @@ from __future__ import annotations
 import typing
 from collections.abc import Iterator, KeysView, Mapping, ValuesView
 from operator import pow  # noqa: A004
-from operator import add, iadd, imul, ipow, isub, itruediv, mul, sub, truediv
+from operator import (
+    add,
+    iadd,
+    imul,
+    ipow,
+    isub,
+    itruediv,
+    mul,
+    sub,
+    truediv,
+)
 
 import numpy as np
 
-from colour.algebra import Extrapolator, LinearInterpolator
+from colour.algebra import CubicSplineInterpolator, Extrapolator, LinearInterpolator
 from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.continuous import AbstractContinuousFunction, Signal
 
@@ -367,8 +377,13 @@ class MultiSignals(AbstractContinuousFunction):
         # ``isfinite`` check on the full 2-D ``range`` replaces the prior
         # per-child fan-out validation.
         self._domain, self._range, self._labels = self.multi_signals_unpack_data(
-            data, domain, labels, dtype=self._dtype, **kwargs
+            data,
+            domain,
+            labels,
+            dtype=self._dtype,
+            **{key: value for key, value in kwargs.items() if key != "dtype"},
         )
+        self.domain = self._domain
 
         if len(self._range) > 0 and self._range.shape[-1] > 0:
             xp = array_namespace(self._range)
@@ -658,11 +673,14 @@ class MultiSignals(AbstractContinuousFunction):
             if len(self.domain) != 0 and len(self.range) != 0:
                 xp = array_namespace(self.domain, self.range)
                 domain = xp_as_float_array(self.domain, xp=xp, like=self.range)
+                interpolator_kwargs = dict(self.interpolator_kwargs)
+                if issubclass(self.interpolator, CubicSplineInterpolator):
+                    interpolator_kwargs.setdefault("axis", 0)
                 self._function = self.extrapolator(
                     self.interpolator(
                         domain,
                         self.range,
-                        **self.interpolator_kwargs,
+                        **interpolator_kwargs,
                     ),
                     **self.extrapolator_kwargs,
                 )
@@ -753,6 +771,7 @@ class MultiSignals(AbstractContinuousFunction):
         self._domain, self._range, self._labels = self.multi_signals_unpack_data(
             value, dtype=self._dtype
         )
+        self.domain = self._domain
         self._function = None  # Invalidate the underlying continuous function.
 
     @property
@@ -839,9 +858,11 @@ class MultiSignals(AbstractContinuousFunction):
          [  9. 100. 110. 120.]]
         """
 
-        xp = array_namespace(self.domain, self.range)
-
-        return str(xp.concat([self.domain[:, None], self.range], axis=1))
+        return str(
+            np.concatenate(
+                [as_ndarray(self.domain)[:, None], as_ndarray(self.range)], axis=1
+            )
+        )
 
     def __repr__(self) -> str:
         """
@@ -883,8 +904,9 @@ class MultiSignals(AbstractContinuousFunction):
             [
                 {
                     "formatter": lambda x: repr(  # noqa: ARG005
-                        array_namespace(self.domain, self.range).concat(
-                            [self.domain[:, None], self.range], axis=1
+                        np.concatenate(
+                            [as_ndarray(self.domain)[:, None], as_ndarray(self.range)],
+                            axis=1,
                         )
                     ),
                 },
@@ -922,6 +944,7 @@ class MultiSignals(AbstractContinuousFunction):
                 int_digest(as_ndarray(self._domain).tobytes()),
                 int_digest(as_ndarray(self._range).tobytes()),
                 array_namespace(self._domain, self._range).__name__,
+                str(getattr(self._range, "device", None)),
                 self._interpolator.__name__,
                 repr(self._interpolator_kwargs),
                 self._extrapolator.__name__,
@@ -1133,19 +1156,19 @@ class MultiSignals(AbstractContinuousFunction):
             index: ArrayLike | slice, values: ArrayLike, xp: ProtocolArrayNamespace
         ) -> None:
             """
-            Set ``self._range`` at ``[index, x_c]`` mutably, round-tripping
-            through numpy for immutable backends.
+            Set ``self._range`` at ``[index, x_c]`` while retaining the backend
+            differentiation graph.
             """
 
             sliced = values[..., x_c]  # pyright: ignore
             if not is_non_ndarray(self._range):
                 self._range[index, x_c] = sliced  # pyright: ignore
+            elif hasattr(self._range, "at"):
+                self._range = self._range.at[index, x_c].set(sliced)  # pyright: ignore  # noqa: PD008
             else:
-                range_ = np.array(as_ndarray(self._range))
-                range_[  # pyright: ignore
-                    index if isinstance(index, slice) else as_ndarray(index), x_c
-                ] = as_ndarray(sliced)
-                self._range = xp_as_array(range_, xp=xp, like=self._range)
+                range_ = xp_as_array(self._range, xp=xp, copy=True)
+                range_[index, x_c] = sliced  # pyright: ignore
+                self._range = range_
 
         if isinstance(x_r, slice):
             set_range(x_r, y, xp)
@@ -1166,7 +1189,7 @@ class MultiSignals(AbstractContinuousFunction):
             x_nm = x_r[~mask]
             if len(x_nm) != 0:
                 indexes = xp.searchsorted(domain, x_nm)
-                self._domain = as_ndarray(xp_insert(domain, indexes, x_nm, xp=xp))
+                self._domain = xp_insert(domain, indexes, x_nm, xp=xp)
                 self._range = xp_insert(self._range, indexes, y[~mask], axis=0, xp=xp)
 
         self._function = None  # Invalidate the underlying continuous function.
@@ -1198,20 +1221,25 @@ class MultiSignals(AbstractContinuousFunction):
         False
         """
 
-        xp = array_namespace(self._domain)
-
-        return bool(
-            xp.all(
-                xp.where(
-                    xp.logical_and(
-                        x >= xp.min(self._domain),
-                        x <= xp.max(self._domain),
-                    ),
-                    True,
-                    False,
+        if (
+            is_non_ndarray(x)
+            and array_namespace(x) is array_namespace(self._domain)
+            and getattr(x, "device", None) == getattr(self._domain, "device", None)
+        ):
+            xp = array_namespace(self._domain)
+            query_native = xp_as_array(cast("ArrayLike", x), xp=xp)
+            return bool(
+                xp.all(
+                    (query_native >= xp.min(self._domain))
+                    & (query_native <= xp.max(self._domain))
                 )
             )
-        )
+
+        # Membership is metadata: preserve the exact stored coordinates when
+        # the query and domain cannot be compared natively without a cast.
+        domain = as_ndarray(self._domain)
+        query = as_ndarray(x)
+        return bool(np.all((query >= np.min(domain)) & (query <= np.max(domain))))
 
     def __eq__(self, other: object) -> bool:
         """
@@ -1251,15 +1279,27 @@ class MultiSignals(AbstractContinuousFunction):
         # handle NaNs. Different-backend operands are treated as unequal.
         if isinstance(other, MultiSignals):
             xp = array_namespace(self._domain, self._range)
-            if xp is not array_namespace(other.domain, other.range):
+            if xp is not array_namespace(other.domain, other.range) or getattr(
+                self._range, "device", None
+            ) != getattr(other._range, "device", None):
                 return False
+
+            for left, right in (
+                (self._domain, other.domain),
+                (self._range, other.range),
+            ):
+                if left.shape != right.shape:
+                    return False
+                if array_namespace(left) is array_namespace(right) and getattr(
+                    left, "device", None
+                ) == getattr(right, "device", None):
+                    if not bool(array_namespace(left).all(left == right)):
+                        return False
+                elif not np.array_equal(as_ndarray(left), as_ndarray(right)):
+                    return False
 
             return all(
                 [
-                    self._domain.shape == other.domain.shape
-                    and bool(xp.all(self._domain == other.domain)),
-                    self._range.shape == other.range.shape
-                    and bool(xp.all(self._range == other.range)),
                     self._interpolator is other.interpolator,
                     repr(self._interpolator_kwargs) == repr(other.interpolator_kwargs),
                     self._extrapolator is other.extrapolator,
@@ -1437,15 +1477,19 @@ class MultiSignals(AbstractContinuousFunction):
                     'underlying "Signal" components!',
                 )
 
-                # The operation is on the ranges, so the namespace is resolved
-                # from both ranges (the domains are always *NumPy*) and both
-                # operands are promoted to it.
-                a_range = a[self._domain]
+                # Evaluate each operand on its own backend before combining ranges.
+                a_range = a[
+                    xp_as_float_array(
+                        self._domain, xp=array_namespace(a.range), like=a.range
+                    )
+                ]
                 xp = array_namespace(self._range, a_range)
 
-                self[self._domain] = operator(
-                    xp_as_float_array(self._range, xp=xp, like=a_range),
-                    xp_as_float_array(a_range, xp=xp, like=self._range),
+                reference = self._range if is_non_ndarray(self._range) else a_range
+                self_range = xp_as_float_array(self._range, xp=xp, like=reference)
+                self.range = operator(
+                    self_range,
+                    xp_as_float_array(a_range, xp=xp, like=self_range),
                 )
                 exclusive_or = xp_setxor1d(self._domain, a.domain)
                 self[exclusive_or] = full(
@@ -1474,7 +1518,8 @@ class MultiSignals(AbstractContinuousFunction):
                     )
 
                 xp = array_namespace(self._range, operand)
-                self_range = xp_as_float_array(self._range, xp=xp, like=operand)
+                reference = self._range if is_non_ndarray(self._range) else operand
+                self_range = xp_as_float_array(self._range, xp=xp, like=reference)
                 operand = xp_as_array(operand, xp=xp, like=self_range)
                 self.range = ioperator(self_range, operand)
 
@@ -1724,7 +1769,6 @@ class MultiSignals(AbstractContinuousFunction):
         elif (
             isinstance(data, tuple)
             and len(data) == 3
-            and is_non_ndarray(data[0]) is False
             and isinstance(data[2], (list, tuple))
             and all(isinstance(label, str) for label in data[2])
         ):
@@ -1769,9 +1813,19 @@ class MultiSignals(AbstractContinuousFunction):
             )
 
             if is_signal:
-                domain_unpacked = as_float_array(data_sequence[0].domain, dtype)
+                domain_unpacked = as_float_array(
+                    np.unique(
+                        np.concatenate(
+                            [as_ndarray(signal.domain) for signal in data_sequence]
+                        )
+                    ),
+                    dtype,
+                )
                 range_unpacked = tstack(
-                    [as_float_array(signal.range, dtype) for signal in data_sequence]
+                    [
+                        as_float_array(signal[domain_unpacked], dtype)
+                        for signal in data_sequence
+                    ]
                 )
                 if range_unpacked.ndim == 1:
                     range_unpacked = xp_reshape(range_unpacked, (-1, 1))
@@ -1794,18 +1848,27 @@ class MultiSignals(AbstractContinuousFunction):
             )
 
             if is_signal:
-                first_signal = next(iter(data_mapping.values()))
-                domain_unpacked = as_float_array(first_signal.domain, dtype)
+                domain_unpacked = as_float_array(
+                    np.unique(
+                        np.concatenate(
+                            [
+                                as_ndarray(signal.domain)
+                                for signal in data_mapping.values()
+                            ]
+                        )
+                    ),
+                    dtype,
+                )
                 range_unpacked = tstack(
                     [
-                        as_float_array(signal.range, dtype)
+                        as_float_array(signal[domain_unpacked], dtype)
                         for signal in data_mapping.values()
                     ]
                 )
                 if range_unpacked.ndim == 1:
                     range_unpacked = xp_reshape(range_unpacked, (-1, 1))
                 labels_unpacked = [str(label) for label in data_mapping]
-            else:
+            elif data_mapping:
                 keys, values = zip(*sorted(data_mapping.items()), strict=True)
                 domain_unpacked = as_float_array(keys, dtype)
                 range_unpacked = as_float_array(np.asarray(values), dtype)
