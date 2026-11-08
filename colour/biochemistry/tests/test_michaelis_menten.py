@@ -6,8 +6,10 @@ module.
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
+    import pytest
     from colour.hints import ModuleType
 
 from itertools import product
@@ -52,7 +54,9 @@ class TestReactionRateMichaelisMentenMichaelis1913:
 reaction_rate_MichaelisMenten_Michaelis1913` definition unit tests methods.
     """
 
-    def test_reaction_rate_MichaelisMenten_Michaelis1913(self, xp: ModuleType) -> None:
+    def test_reaction_rate_MichaelisMenten_Michaelis1913(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Michaelis1913` definition.
@@ -87,6 +91,28 @@ reaction_rate_MichaelisMenten_Michaelis1913` definition.
             [0.487500000000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([0.5, 0.6], 2.5, 0.8)
+        reference = reaction_rate_MichaelisMenten_Michaelis1913(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = reaction_rate_MichaelisMenten_Michaelis1913(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(
+                lambda parameter: reaction_rate_MichaelisMenten_Michaelis1913(
+                    [0.5, 0.6], parameter, 0.8
+                ),
+                2.5,
+            )
 
     def test_n_dimensional_reaction_rate_MichaelisMenten_Michaelis1913(
         self, xp: ModuleType
@@ -147,7 +173,9 @@ reaction_rate_MichaelisMenten_Michaelis1913` definition unit tests methods.
     """
 
     def test_substrate_concentration_MichaelisMenten_Michaelis1913(
-        self, xp: ModuleType
+        self,
+        xp: ModuleType,
+        request: pytest.FixtureRequest,
     ) -> None:
         """
         Test :func:`colour.biochemistry.michaelis_menten.\
@@ -183,6 +211,28 @@ substrate_concentration_MichaelisMenten_Michaelis1913` definition.
             [0.650000000000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([0.5, 0.6], 2.5, 0.8)
+        reference = substrate_concentration_MichaelisMenten_Michaelis1913(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = substrate_concentration_MichaelisMenten_Michaelis1913(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(
+                lambda parameter: substrate_concentration_MichaelisMenten_Michaelis1913(
+                    [0.5, 0.6], parameter, 0.8
+                ),
+                2.5,
+            )
 
     def test_n_dimensional_substrate_concentration_MichaelisMenten_Michaelis1913(
         self, xp: ModuleType
@@ -244,7 +294,9 @@ class TestReactionRateMichaelisMentenAbebe2017:
 reaction_rate_MichaelisMenten_Abebe2017` definition unit tests methods.
     """
 
-    def test_reaction_rate_MichaelisMenten_Abebe2017(self, xp: ModuleType) -> None:
+    def test_reaction_rate_MichaelisMenten_Abebe2017(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.biochemistry.michaelis_menten.\
 reaction_rate_MichaelisMenten_Abebe2017` definition.
@@ -282,6 +334,28 @@ reaction_rate_MichaelisMenten_Abebe2017` definition.
             [0.951219512195122],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([0.5, 0.6], 2.5, 0.8, 0.7)
+        reference = reaction_rate_MichaelisMenten_Abebe2017(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = reaction_rate_MichaelisMenten_Abebe2017(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(
+                lambda parameter: reaction_rate_MichaelisMenten_Abebe2017(
+                    [0.5, 0.6], parameter, 0.8, 0.7
+                ),
+                2.5,
+            )
 
     def test_n_dimensional_reaction_rate_MichaelisMenten_Abebe2017(
         self, xp: ModuleType
@@ -345,7 +419,9 @@ reaction_rate_MichaelisMenten_Abebe2017` definition unit tests methods.
     """
 
     def test_substrate_concentration_MichaelisMenten_Abebe2017(
-        self, xp: ModuleType
+        self,
+        xp: ModuleType,
+        request: pytest.FixtureRequest,
     ) -> None:
         """
         Test :func:`colour.biochemistry.michaelis_menten.\
@@ -384,6 +460,28 @@ substrate_concentration_MichaelisMenten_Abebe2017` definition.
             [0.650000000000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([0.5, 0.6], 2.5, 0.8, 0.7)
+        reference = substrate_concentration_MichaelisMenten_Abebe2017(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = substrate_concentration_MichaelisMenten_Abebe2017(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(
+                lambda parameter: substrate_concentration_MichaelisMenten_Abebe2017(
+                    [0.5, 0.6], parameter, 0.8, 0.7
+                ),
+                2.5,
+            )
 
     def test_n_dimensional_substrate_concentration_MichaelisMenten_Abebe2017(
         self, xp: ModuleType
