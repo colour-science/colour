@@ -69,6 +69,8 @@ from colour.utilities import (
     from_range_1,
     optional,
     to_domain_1,
+    xp_log2,
+    xp_power,
 )
 
 __author__ = "Colour Developers"
@@ -202,7 +204,9 @@ def log_encoding_ACESproxy(
     ACESproxy = xp.where(
         lin_AP1 > 2**-9.72,
         float_2_cv(
-            (xp.log2(lin_AP1) + mid_log_offset) * steps_per_stop + mid_CV_offset
+            (xp_log2(lin_AP1, where=lin_AP1 > 0, xp=xp) + mid_log_offset)
+            * steps_per_stop
+            + mid_CV_offset
         ),
         CV_min,
     )
@@ -334,11 +338,11 @@ def log_encoding_ACEScc(lin_AP1: Domain1) -> Range1:
     ACEScc = xp.where(
         lin_AP1 < 0,
         (math.log2(2**-16) + 9.72) / 17.52,
-        (xp.log2(2**-16 + lin_AP1 * 0.5) + 9.72) / 17.52,
+        (xp_log2(2**-16 + lin_AP1 * 0.5, where=~(lin_AP1 < 0), xp=xp) + 9.72) / 17.52,
     )
     ACEScc = xp.where(
         lin_AP1 >= 2**-15,
-        (xp.log2(lin_AP1) + 9.72) / 17.52,
+        (xp_log2(lin_AP1, where=lin_AP1 > 0, xp=xp) + 9.72) / 17.52,
         ACEScc,
     )
 
@@ -390,16 +394,14 @@ def log_decoding_ACEScc(ACEScc: Domain1) -> Range1:
 
     xp = array_namespace(ACEScc)
 
+    saturated = ACEScc >= (math.log2(65504) + 9.72) / 17.52
+    power = xp_power(2, ACEScc * 17.52 - 9.72, where=~saturated, xp=xp)
     lin_AP1 = xp.where(
         ACEScc < (9.72 - 15) / 17.52,
-        (2 ** (ACEScc * 17.52 - 9.72) - 2**-16) * 2,
-        2 ** (ACEScc * 17.52 - 9.72),
+        (power - 2**-16) * 2,
+        power,
     )
-    lin_AP1 = xp.where(
-        ACEScc >= (math.log2(65504) + 9.72) / 17.52,
-        65504,
-        lin_AP1,
-    )
+    lin_AP1 = xp.where(saturated, 65504, lin_AP1)
 
     return as_float(from_range_1(lin_AP1))
 
@@ -458,7 +460,7 @@ def log_encoding_ACEScct(
     ACEScct = xp.where(
         lin_AP1 <= constants.X_BRK,
         constants.A * lin_AP1 + constants.B,
-        (xp.log2(lin_AP1) + 9.72) / 17.52,
+        (xp_log2(lin_AP1, where=~(lin_AP1 <= constants.X_BRK), xp=xp) + 9.72) / 17.52,
     )
 
     return as_float(from_range_1(ACEScct))

@@ -55,6 +55,9 @@ from colour.utilities import (
     as_float_array,
     optional,
     validate_method,
+    xp_log,
+    xp_log2,
+    xp_log10,
 )
 
 __author__ = "Colour Developers"
@@ -141,14 +144,27 @@ def logarithmic_function_basic(
         '"{0}" style is invalid, it must be one of {1}!',
     )
 
+    # A positive-input guard also handles backends that flush FLT_MIN to zero.
     if style == "log10":
-        return as_float(xp.where(x >= FLT_MIN, xp.log10(x), math.log10(FLT_MIN)))
+        return as_float(
+            xp.where(
+                (x > 0) & (x >= FLT_MIN),
+                xp_log10(x, where=(x > 0) & (x >= FLT_MIN), xp=xp),
+                math.log10(FLT_MIN),
+            )
+        )
 
     if style == "antilog10":
         return as_float(10**x)
 
     if style == "log2":
-        return as_float(xp.where(x >= FLT_MIN, xp.log2(x), math.log2(FLT_MIN)))
+        return as_float(
+            xp.where(
+                (x > 0) & (x >= FLT_MIN),
+                xp_log2(x, where=(x > 0) & (x >= FLT_MIN), xp=xp),
+                math.log2(FLT_MIN),
+            )
+        )
 
     if style == "antilog2":
         return as_float(2**x)
@@ -227,10 +243,19 @@ def logarithmic_function_quasilog(
     )
 
     if style == "lintolog":
+        # Native float32 kernels can flush the subnormal floor to zero.
+        logarithm_argument = lin_side_slope * x + lin_side_offset
+        logarithm_active = (
+            (logarithm_argument > 0) & (logarithm_argument >= FLT_MIN)
+        ) | xp.isnan(logarithm_argument)
         y = (
             log_side_slope
             * (
-                xp.log(xp.clip(lin_side_slope * x + lin_side_offset, min=FLT_MIN))
+                xp.where(
+                    logarithm_active,
+                    xp_log(logarithm_argument, where=logarithm_active, xp=xp),
+                    math.log(FLT_MIN),
+                )
                 / math.log(base)
             )
             + log_side_offset

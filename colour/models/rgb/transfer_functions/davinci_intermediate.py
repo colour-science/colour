@@ -29,6 +29,7 @@ from colour.utilities import (
     from_range_1,
     optional,
     to_domain_1,
+    xp_log2,
 )
 
 __author__ = "Colour Developers"
@@ -113,7 +114,7 @@ def oetf_DaVinciIntermediate(
     V_out = xp.where(
         L <= DI_LIN_CUT,
         L * DI_M,
-        DI_C * (xp.log2(L + DI_A) + DI_B),
+        DI_C * (xp_log2(L + DI_A, where=~(L <= DI_LIN_CUT), xp=xp) + DI_B),
     )
 
     return as_float(from_range_1(V_out))

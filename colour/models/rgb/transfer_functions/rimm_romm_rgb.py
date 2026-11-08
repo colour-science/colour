@@ -48,6 +48,7 @@ from colour.utilities import (
     domain_range_scale,
     from_range_1,
     to_domain_1,
+    xp_log,
     xp_select,
 )
 
@@ -464,7 +465,7 @@ def log_encoding_ERIMMRGB(
         [
             0,
             I_max * ((l_E_t - l_E_min) / (l_E_clip - l_E_min)) * X / E_t,
-            I_max * ((xp.log(X) - l_E_min) / (l_E_clip - l_E_min)),
+            I_max * ((xp_log(X, where=X > 0, xp=xp) - l_E_min) / (l_E_clip - l_E_min)),
             I_max,
         ],
         xp=xp,

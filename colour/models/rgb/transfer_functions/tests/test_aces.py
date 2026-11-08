@@ -11,6 +11,8 @@ import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import (
+    cctf_decoding,
+    log_decoding,
     log_decoding_ACEScc,
     log_decoding_ACEScct,
     log_decoding_ACESproxy,
@@ -28,6 +30,8 @@ from colour.utilities import (
 )
 
 if typing.TYPE_CHECKING:
+    import pytest
+
     from colour.hints import ModuleType
 
 __author__ = "Colour Developers"
@@ -165,31 +169,31 @@ log_decoding_ACESproxy` definition.
         xp_assert_close(
             log_decoding_ACESproxy(xp_as_array(0.062561094819159, xp=xp)),
             0.0,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
         )
 
         xp_assert_close(
             log_decoding_ACESproxy(xp_as_array(0.416422287390029, xp=xp)),
             0.18,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
         )
 
         xp_assert_close(
             log_decoding_ACESproxy(xp_as_array(0.416361416361416, xp=xp), 12),
             0.18,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
         )
 
         xp_assert_close(
             log_decoding_ACESproxy(xp_as_array(0.537634408602151, xp=xp)),
             1.0,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
         )
 
         xp_assert_close(
             log_decoding_ACESproxy(xp_as_array(426, xp=xp), in_int=True),
             0.18,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
         )
 
     def test_n_dimensional_log_decoding_ACESproxy(self, xp: ModuleType) -> None:
@@ -350,7 +354,9 @@ class TestLogDecoding_ACEScc:
 log_decoding_ACEScc` definition unit tests methods.
     """
 
-    def test_log_decoding_ACEScc(self, xp: ModuleType) -> None:
+    def test_log_decoding_ACEScc(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScc` definition.
@@ -373,6 +379,37 @@ log_decoding_ACEScc` definition.
             1.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        xp_assert_close(
+            log_decoding_ACEScc(
+                xp_as_array(
+                    [(9.72 - 15) / 17.52, (np.log2(65504) + 9.72) / 17.52],
+                    xp=xp,
+                )
+            ),
+            [2**-15, 65504],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        saturated = xp_as_array([10.0, 100.0], xp=xp)
+        xp_assert_close(
+            log_decoding_ACEScc(saturated),
+            [65504, 65504],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        for decoder in (log_decoding, cctf_decoding):
+            xp_assert_close(
+                decoder(saturated, function="ACEScc"),
+                [65504, 65504],
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+            if xp.__name__ != "numpy":
+                _result, (gradient,), _inputs = request.getfixturevalue("autodiff")(
+                    lambda value, decoder=decoder: decoder(value, function="ACEScc"),
+                    xp_as_array([0.18, 0.5, 10.0, 100.0], xp=xp),
+                )
+                xp_assert_close(
+                    gradient[-2:], [0.0, 0.0], atol=TOLERANCE_ABSOLUTE_TESTS
+                )
 
     def test_n_dimensional_log_decoding_ACEScc(self, xp: ModuleType) -> None:
         """
@@ -540,6 +577,13 @@ log_encoding_ACEScct` definition nan support.
         """
 
         log_encoding_ACEScct(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
+    def test_log_encoding_ACEScct_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test numerical gradients through the piecewise transfer curve."""
+
+        autodiff(log_encoding_ACEScct, xp_as_array([0.0, 0.18], xp=xp))
 
 
 class TestLogDecoding_ACEScct:

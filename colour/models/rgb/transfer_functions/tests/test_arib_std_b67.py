@@ -129,6 +129,13 @@ oetf_ARIBSTDB67` definition nan support.
 
         oetf_ARIBSTDB67(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
+    def test_oetf_ARIBSTDB67_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test gradients when an inactive logarithm would have zero input."""
+
+        autodiff(oetf_ARIBSTDB67, xp_as_array([0.28466892, 0.5], xp=xp))
+
 
 class TestOetf_inverse_ARIBSTDB67:
     """

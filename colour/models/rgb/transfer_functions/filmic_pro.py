@@ -25,6 +25,7 @@ from colour.utilities import (
     array_namespace,
     as_float,
     from_range_1,
+    is_numpy_namespace,
     to_domain_1,
     xp_as_float_array,
 )
@@ -185,10 +186,17 @@ def log_decoding_FilmicPro6(y: Domain1) -> Range1:
 
     y = to_domain_1(y)
 
-    # The interpolator is a fixed *NumPy* LUT, so it returns *NumPy* values
-    # regardless of ``y``'s namespace; coerce back so the output tracks the
-    # input namespace (strict backends such as *PyTorch* reject *NumPy* data).
     xp = array_namespace(y)
-    t = xp_as_float_array(_log_decoding_FilmicPro6_interpolator()(y), xp=xp, like=y)
+    interpolator = _log_decoding_FilmicPro6_interpolator()
+    if not is_numpy_namespace(xp):
+        data = interpolator.interpolator
+        interpolator = Extrapolator(
+            LinearInterpolator(
+                xp_as_float_array(data.x, xp=xp, like=y),
+                xp_as_float_array(data.y, xp=xp, like=y),
+            ),
+            left=0,
+        )
+    t = interpolator(y)
 
     return as_float(from_range_1(t))

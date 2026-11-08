@@ -26,6 +26,7 @@ from colour.utilities import (
     array_namespace,
     as_float,
     from_range_1,
+    is_non_ndarray,
     to_domain_1,
     xp_as_float_array,
 )
@@ -93,7 +94,10 @@ def log_encoding_Panalog(
 
     x = to_domain_1(x)
 
-    xp = array_namespace(x)
+    xp = array_namespace(x, black_offset)
+
+    reference = next((a for a in (x, black_offset) if is_non_ndarray(a)), None)
+    x = xp_as_float_array(x, xp=xp, like=reference)
 
     black_offset = xp_as_float_array(black_offset, xp=xp, like=x)
 
@@ -152,7 +156,10 @@ def log_decoding_Panalog(
 
     y = to_domain_1(y)
 
-    xp = array_namespace(y)
+    xp = array_namespace(y, black_offset)
+
+    reference = next((a for a in (y, black_offset) if is_non_ndarray(a)), None)
+    y = xp_as_float_array(y, xp=xp, like=reference)
 
     black_offset = xp_as_float_array(black_offset, xp=xp, like=y)
 

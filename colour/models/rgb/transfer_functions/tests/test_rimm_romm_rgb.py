@@ -173,13 +173,13 @@ cctf_decoding_ROMMRGB` definition.
         xp_assert_close(
             cctf_decoding_ROMMRGB(xp_as_array(98, xp=xp), in_int=True),
             0.18,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
         )
 
         xp_assert_close(
             cctf_decoding_ROMMRGB(xp_as_array(1579, xp=xp), bit_depth=12, in_int=True),
             0.18,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.001),
         )
 
     def test_n_dimensional_cctf_decoding_ROMMRGB(self, xp: ModuleType) -> None:
@@ -357,13 +357,13 @@ cctf_decoding_RIMMRGB` definition.
         xp_assert_close(
             cctf_decoding_RIMMRGB(xp_as_array(74, xp=xp), in_int=True),
             0.18,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 50000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.005),
         )
 
         xp_assert_close(
             cctf_decoding_RIMMRGB(xp_as_array(1194, xp=xp), bit_depth=12, in_int=True),
             0.18,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 50000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.005),
         )
 
     def test_n_dimensional_cctf_decoding_RIMMRGB(self, xp: ModuleType) -> None:
@@ -541,13 +541,13 @@ log_decoding_ERIMMRGB` definition.
         xp_assert_close(
             log_decoding_ERIMMRGB(xp_as_array(105, xp=xp), in_int=True),
             0.18,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 50000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.005),
         )
 
         xp_assert_close(
             log_decoding_ERIMMRGB(xp_as_array(1679, xp=xp), bit_depth=12, in_int=True),
             0.18,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 50000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.005),
         )
 
     def test_n_dimensional_log_decoding_ERIMMRGB(self, xp: ModuleType) -> None:

@@ -150,7 +150,7 @@ class TestEotf_DCDM:
         xp_assert_close(
             eotf_DCDM(xp_as_array(462, xp=xp), in_int=True),
             0.18,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-05),
         )
 
     def test_n_dimensional_eotf_DCDM(self, xp: ModuleType) -> None:

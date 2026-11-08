@@ -15,6 +15,7 @@ from colour.models.rgb.transfer_functions import (
     exponent_function_monitor_curve,
 )
 from colour.utilities import (
+    array_namespace,
     ignore_numpy_errors,
     xp_as_array,
     xp_assert_close,
@@ -22,6 +23,8 @@ from colour.utilities import (
 )
 
 if typing.TYPE_CHECKING:
+    import pytest
+
     from colour.hints import ModuleType
 
 __author__ = "Colour Developers"
@@ -43,7 +46,9 @@ class TestExponentFunctionBasic:
 exponent_function_basic` definition unit tests methods.
     """
 
-    def test_exponent_function_basic(self, xp: ModuleType) -> None:
+    def test_exponent_function_basic(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_basic` definition.
@@ -126,6 +131,26 @@ exponent_function_basic` definition.
             -0.0229932049927,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {"x": 0.18, "exponent": 2.2}
+        expected = exponent_function_basic(**host_arguments)
+        for parameter in ("exponent",):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = exponent_function_basic(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: exponent_function_basic(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_exponent_function_basic(self, xp: ModuleType) -> None:
         """
@@ -258,6 +283,32 @@ exponent_function_basic` definition nan support.
         for case in cases:
             exponent_function_basic(case, case)
 
+    def test_exponent_function_basic_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test numerical gradients through the piecewise transfer curve."""
+
+        autodiff(
+            lambda values: exponent_function_basic(values, 2.4, "basicMirrorFwd"),
+            xp_as_array([-0.18, 0.5], xp=xp),
+        )
+
+        for style in (
+            "basicFwd",
+            "basicRev",
+            "basicMirrorFwd",
+            "basicMirrorRev",
+            "basicPassThruFwd",
+            "basicPassThruRev",
+        ):
+            autodiff(
+                lambda values, exponent, style=style: exponent_function_basic(
+                    values, exponent, style
+                ),
+                xp_as_array([-0.18, 0.5], xp=xp),
+                xp_as_array(2.4, xp=xp),
+            )
+
 
 class TestExponentFunctionMonitorCurve:
     """
@@ -265,7 +316,9 @@ class TestExponentFunctionMonitorCurve:
 exponent_function_monitor_curve` definition unit tests methods.
     """
 
-    def test_exponent_function_monitor_curve(self, xp: ModuleType) -> None:
+    def test_exponent_function_monitor_curve(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.exponent.\
 exponent_function_monitor_curve` definition.
@@ -336,6 +389,42 @@ exponent_function_monitor_curve` definition.
             -0.0201036111565,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "x": 0.18,
+            "exponent": 2.2,
+            "offset": 0.001,
+        }
+        expected = exponent_function_monitor_curve(**host_arguments)
+        for parameter in ("exponent", "offset"):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = exponent_function_monitor_curve(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: exponent_function_monitor_curve(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
+
+        for style, values in (
+            ("monCurveRev", [0.18, 0.5]),
+            ("monCurveMirrorRev", [-0.18, 0, 0.5]),
+        ):
+            xp_assert_close(
+                exponent_function_monitor_curve(
+                    xp_as_array(values, xp=xp), style=style
+                ),
+                values,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
 
     def test_n_dimensional_exponent_function_monitor_curve(
         self, xp: ModuleType
@@ -439,3 +528,55 @@ exponent_function_monitor_curve` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         for case in cases:
             exponent_function_monitor_curve(case, case, case)
+
+    def test_exponent_function_monitor_curve_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test numerical gradients through the piecewise transfer curve."""
+
+        autodiff(
+            lambda values: exponent_function_monitor_curve(
+                values, 2.4, 0.055, "monCurveMirrorRev"
+            ),
+            xp_as_array([-0.18, 0.5], xp=xp),
+        )
+
+        for style, values in (
+            ("monCurveRev", [0.18, 0.5]),
+            ("monCurveMirrorRev", [-0.18, 0, 0.5]),
+        ):
+            autodiff(
+                lambda values, style=style: exponent_function_monitor_curve(
+                    values, style=style
+                ),
+                xp_as_array(values, xp=xp),
+            )
+
+        for style in ("monCurveRev", "monCurveMirrorRev"):
+            for exponent, offset in ((2.2, 0), (2.2, 0.001), (2.4, 0.055)):
+                values = [0.18, 0.5] if style == "monCurveRev" else [-0.18, 0.5]
+                autodiff(
+                    lambda values, exponent=exponent, offset=offset, style=style: (
+                        exponent_function_monitor_curve(values, exponent, offset, style)
+                    ),
+                    xp_as_array(values, xp=xp),
+                )
+
+            for exponent in (1, 2.2):
+                autodiff(
+                    lambda exponent, style=style: exponent_function_monitor_curve(
+                        0.18, exponent, 0, style
+                    ),
+                    xp_as_array(exponent, xp=xp),
+                )
+
+            autodiff(
+                lambda exponent, offset, style=style: exponent_function_monitor_curve(
+                    -0.18 if style == "monCurveMirrorRev" else 0.18,
+                    exponent,
+                    offset,
+                    style,
+                ),
+                xp_as_array(2.2, xp=xp),
+                xp_as_array(0.055, xp=xp),
+            )

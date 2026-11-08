@@ -531,6 +531,13 @@ log_encoding_SLog3` definition nan support.
 
         log_encoding_SLog3(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
+    def test_log_encoding_SLog3_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test gradients within the negative linear extension."""
+
+        autodiff(log_encoding_SLog3, xp_as_array([-0.01, 0.18], xp=xp))
+
 
 class TestLogDecoding_SLog3:
     """

@@ -31,9 +31,11 @@ from colour.utilities import (
     as_float,
     domain_range_scale,
     from_range_1,
+    is_non_ndarray,
     optional,
     to_domain_1,
     xp_as_float_array,
+    xp_log,
 )
 
 __author__ = "Colour Developers"
@@ -108,8 +110,10 @@ def oetf_ARIBSTDB67(
 
     E = to_domain_1(E)
 
-    xp = array_namespace(E)
+    xp = array_namespace(E, r)
 
+    reference = E if is_non_ndarray(E) else r
+    E = xp_as_float_array(E, xp=xp, like=reference)
     r = xp_as_float_array(r, xp=xp, like=E)
     constants = optional(constants, CONSTANTS_ARIBSTDB67)
 
@@ -117,7 +121,11 @@ def oetf_ARIBSTDB67(
     b = constants.b
     c = constants.c
 
-    E_p = xp.where(E <= 1, r * gamma_function(E, 0.5, "mirror"), a * xp.log(E - b) + c)
+    E_p = xp.where(
+        E <= 1,
+        r * gamma_function(E, 0.5, "mirror"),
+        a * xp_log(E - b, where=~(E <= 1), xp=xp) + c,
+    )
 
     return as_float(from_range_1(E_p))
 
@@ -177,8 +185,10 @@ def oetf_inverse_ARIBSTDB67(
 
     E_p = to_domain_1(E_p)
 
-    xp = array_namespace(E_p)
+    xp = array_namespace(E_p, r)
 
+    reference = E_p if is_non_ndarray(E_p) else r
+    E_p = xp_as_float_array(E_p, xp=xp, like=reference)
     r = xp_as_float_array(r, xp=xp, like=E_p)
 
     constants = optional(constants, CONSTANTS_ARIBSTDB67)

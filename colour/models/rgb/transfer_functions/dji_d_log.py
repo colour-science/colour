@@ -21,7 +21,13 @@ from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import array_namespace, as_float, from_range_1, to_domain_1
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    from_range_1,
+    to_domain_1,
+    xp_log10,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -81,7 +87,8 @@ def log_encoding_DJIDLog(x: Domain1) -> Range1:
     y = xp.where(
         x <= 0.0078,
         6.025 * x + 0.0929,
-        (xp.log10(x * 0.9892 + 0.0108)) * 0.256663 + 0.584555,
+        (xp_log10(x * 0.9892 + 0.0108, where=~(x <= 0.0078), xp=xp)) * 0.256663
+        + 0.584555,
     )
 
     return as_float(from_range_1(y))

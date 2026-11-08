@@ -59,6 +59,7 @@ from colour.utilities import (
     from_range_1,
     to_domain_1,
     validate_method,
+    xp_log10,
     xp_select,
 )
 
@@ -167,8 +168,24 @@ def log_encoding_CanonLog_v1(
     with domain_range_scale("ignore"):
         clog = xp.where(
             x < log_decoding_CanonLog_v1(0.0730597, bit_depth, False),
-            -(0.529136 * (xp.log10(-x * 10.1596 + 1)) - 0.0730597),
-            0.529136 * xp.log10(10.1596 * x + 1) + 0.0730597,
+            -(
+                0.529136
+                * (
+                    xp_log10(
+                        -x * 10.1596 + 1,
+                        where=x < log_decoding_CanonLog_v1(0.0730597, bit_depth, False),
+                        xp=xp,
+                    )
+                )
+                - 0.0730597
+            ),
+            0.529136
+            * xp_log10(
+                10.1596 * x + 1,
+                where=~(x < log_decoding_CanonLog_v1(0.0730597, bit_depth, False)),
+                xp=xp,
+            )
+            + 0.0730597,
         )
 
     clog_cv = full_to_legal(clog, bit_depth) if out_normalised_code_value else clog
@@ -305,8 +322,25 @@ def log_encoding_CanonLog_v1_2(
     with domain_range_scale("ignore"):
         clog = xp.where(
             x < (log_decoding_CanonLog_v1_2(0.12512248, bit_depth, True)),
-            -(0.45310179 * (xp.log10(-x * 10.1596 + 1)) - 0.12512248),
-            0.45310179 * xp.log10(10.1596 * x + 1) + 0.12512248,
+            -(
+                0.45310179
+                * (
+                    xp_log10(
+                        -x * 10.1596 + 1,
+                        where=x
+                        < log_decoding_CanonLog_v1_2(0.12512248, bit_depth, True),
+                        xp=xp,
+                    )
+                )
+                - 0.12512248
+            ),
+            0.45310179
+            * xp_log10(
+                10.1596 * x + 1,
+                where=~(x < log_decoding_CanonLog_v1_2(0.12512248, bit_depth, True)),
+                xp=xp,
+            )
+            + 0.12512248,
         )
 
     # NOTE: *Canon Log* v1.2 constants are expressed in legal range
@@ -616,8 +650,25 @@ def log_encoding_CanonLog2_v1(
     with domain_range_scale("ignore"):
         clog2 = xp.where(
             x < log_decoding_CanonLog2_v1(0.035388128, bit_depth, False),
-            -(0.281863093 * (xp.log10(-x * 87.09937546 + 1)) - 0.035388128),
-            0.281863093 * xp.log10(x * 87.09937546 + 1) + 0.035388128,
+            -(
+                0.281863093
+                * (
+                    xp_log10(
+                        -x * 87.09937546 + 1,
+                        where=x
+                        < log_decoding_CanonLog2_v1(0.035388128, bit_depth, False),
+                        xp=xp,
+                    )
+                )
+                - 0.035388128
+            ),
+            0.281863093
+            * xp_log10(
+                x * 87.09937546 + 1,
+                where=~(x < log_decoding_CanonLog2_v1(0.035388128, bit_depth, False)),
+                xp=xp,
+            )
+            + 0.035388128,
         )
 
     clog2_cv = full_to_legal(clog2, bit_depth) if out_normalised_code_value else clog2
@@ -755,8 +806,25 @@ def log_encoding_CanonLog2_v1_2(
     with domain_range_scale("ignore"):
         clog2 = xp.where(
             x < (log_decoding_CanonLog2_v1_2(0.092864125, bit_depth, True)),
-            -(0.24136077 * (xp.log10(-x * 87.09937546 + 1)) - 0.092864125),
-            0.24136077 * xp.log10(x * 87.09937546 + 1) + 0.092864125,
+            -(
+                0.24136077
+                * (
+                    xp_log10(
+                        -x * 87.09937546 + 1,
+                        where=x
+                        < log_decoding_CanonLog2_v1_2(0.092864125, bit_depth, True),
+                        xp=xp,
+                    )
+                )
+                - 0.092864125
+            ),
+            0.24136077
+            * xp_log10(
+                x * 87.09937546 + 1,
+                where=~(x < log_decoding_CanonLog2_v1_2(0.092864125, bit_depth, True)),
+                xp=xp,
+            )
+            + 0.092864125,
         )
 
     # NOTE: *Canon Log 2* v1.2 constants are expressed in legal range
@@ -1068,9 +1136,23 @@ def log_encoding_CanonLog3_v1(
                 x > log_decoding_CanonLog3_v1(0.105357102, bit_depth, False, False),
             ),
             (
-                -0.42889912 * xp.log10(-x * 14.98325 + 1) + 0.07623209,
+                -0.42889912
+                * xp_log10(
+                    -x * 14.98325 + 1,
+                    where=x
+                    < log_decoding_CanonLog3_v1(0.04076162, bit_depth, False, False),
+                    xp=xp,
+                )
+                + 0.07623209,
                 2.3069815 * x + 0.073059361,
-                0.42889912 * xp.log10(x * 14.98325 + 1) + 0.069886632,
+                0.42889912
+                * xp_log10(
+                    x * 14.98325 + 1,
+                    where=x
+                    > log_decoding_CanonLog3_v1(0.105357102, bit_depth, False, False),
+                    xp=xp,
+                )
+                + 0.069886632,
             ),
             xp=xp,
         )
@@ -1219,9 +1301,23 @@ def log_encoding_CanonLog3_v1_2(
                 x > log_decoding_CanonLog3_v1_2(0.15277891, bit_depth, True, False),
             ),
             (
-                -0.36726845 * xp.log10(-x * 14.98325 + 1) + 0.12783901,
+                -0.36726845
+                * xp_log10(
+                    -x * 14.98325 + 1,
+                    where=x
+                    < log_decoding_CanonLog3_v1_2(0.097465473, bit_depth, True, False),
+                    xp=xp,
+                )
+                + 0.12783901,
                 1.9754798 * x + 0.12512219,
-                0.36726845 * xp.log10(x * 14.98325 + 1) + 0.12240537,
+                0.36726845
+                * xp_log10(
+                    x * 14.98325 + 1,
+                    where=x
+                    > log_decoding_CanonLog3_v1_2(0.15277891, bit_depth, True, False),
+                    xp=xp,
+                )
+                + 0.12240537,
             ),
             xp=xp,
         )

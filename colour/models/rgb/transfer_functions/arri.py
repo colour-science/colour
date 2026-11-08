@@ -41,6 +41,8 @@ from colour.utilities import (
     optional,
     to_domain_1,
     validate_method,
+    xp_log2,
+    xp_log10,
 )
 
 __author__ = "Colour Developers"
@@ -626,7 +628,7 @@ def log_encoding_ARRILogC3(
         method
     ][EI]
 
-    t = xp.where(x > cut, c * xp.log10(a * x + b) + d, e * x + f)
+    t = xp.where(x > cut, c * xp_log10(a * x + b, where=x > cut, xp=xp) + d, e * x + f)
 
     return as_float(from_range_1(t))
 
@@ -774,7 +776,7 @@ def log_encoding_ARRILogC4(
 
     E_p = xp.where(
         E_scene >= t,
-        (xp.log2(a * E_scene + 64) - 6) / 14 * b + c,
+        (xp_log2(a * E_scene + 64, where=E_scene >= t, xp=xp) - 6) / 14 * b + c,
         (E_scene - t) / s,
     )
 
