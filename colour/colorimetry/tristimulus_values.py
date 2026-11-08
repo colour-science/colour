@@ -85,6 +85,8 @@ from colour.utilities import (
     int_digest,
     is_caching_enabled,
     is_gradient_tracked,
+    is_non_ndarray,
+    is_numpy_namespace,
     optional,
     runtime_warning,
     validate_method,
@@ -430,8 +432,15 @@ def tristimulus_weighting_factors_ASTME2022(
     global _CACHE_TRISTIMULUS_WEIGHTING_FACTORS  # noqa: PLW0602
 
     xp = array_namespace(cmfs.values, illuminant.values, k)
-    cacheable = is_caching_enabled() and all(
-        _is_cache_safe(a) for a in (cmfs.values, illuminant.values, k) if a is not None
+    # Native scalar tensors can mutate without changing their identity hash.
+    cacheable = (
+        is_caching_enabled()
+        and not is_non_ndarray(k)
+        and all(
+            _is_cache_safe(a)
+            for a in (cmfs.values, illuminant.values, k)
+            if a is not None
+        )
     )
 
     hash_key = None
@@ -459,7 +468,11 @@ def tristimulus_weighting_factors_ASTME2022(
     # The colour matching functions and illuminant values are promoted to a
     # single namespace so that the products below dispatch for a backend
     # ``cmfs`` or ``illuminant``.
-    Y = xp_as_float_array(cmfs.values, xp=xp)
+    reference = next(
+        (a for a in (cmfs.values, illuminant.values, k) if is_non_ndarray(a)),
+        cmfs.values,
+    )
+    Y = xp_as_float_array(cmfs.values, xp=xp, like=reference)
     S = xp_as_float_array(illuminant.values, xp=xp, like=Y)
 
     W = S[::interval_i, None] * Y[::interval_i, :]
@@ -540,7 +553,7 @@ def tristimulus_weighting_factors_ASTME2022(
             W, xp=xp, copy=True
         )
 
-    return W
+    return cast("NDArrayFloat", W)
 
 
 def adjust_tristimulus_weighting_factors_ASTME308(
@@ -627,7 +640,7 @@ def adjust_tristimulus_weighting_factors_ASTME308(
 
     # Build adjustment array using row index broadcasting
     n = W_slice.shape[0]
-    row_indices = xp.arange(n)
+    row_indices = xp.arange(n, device=getattr(W, "device", None))
     adjustment = (row_indices == 0)[:, None] * first_summation + (row_indices == n - 1)[
         :, None
     ] * last_summation
@@ -639,7 +652,7 @@ def tristimulus_weighting_factors_integration(
     cmfs: MultiSpectralDistributions,
     illuminant: SpectralDistribution,
     shape: SpectralShape,
-    k: Real | None = None,
+    k: ArrayLike | None = None,
 ) -> NDArrayFloat:
     """
     Compute the tristimulus weighting factors using the integration method.
@@ -720,25 +733,29 @@ def tristimulus_weighting_factors_integration(
 
     xp = array_namespace(XYZ_b, S, k)
 
-    XYZ_b = xp_as_float_array(XYZ_b, xp=xp)
-    S = xp_as_float_array(S, xp=xp)
-
+    reference = next((a for a in (XYZ_b, S, k) if is_non_ndarray(a)), XYZ_b)
+    XYZ_b = xp_as_float_array(XYZ_b, xp=xp, like=reference)
+    S = xp_as_float_array(S, xp=xp, like=XYZ_b)
     d_w = cmfs.shape.interval
 
     # normalisation constant k from Y = 100 of perfect diffuser
     with sdiv_mode():
-        k = cast("Real", optional(k, sdiv(100, (xp.sum(XYZ_b[..., 1] * S) * d_w))))
+        k_array = xp_as_float_array(
+            optional(k, sdiv(100, xp.sum(XYZ_b[..., 1] * S) * d_w)),
+            xp=xp,
+            like=XYZ_b,
+        )
 
     # --- weights matrix A (DIN EN ISO 18314-4, eq. 7-8) ---
     # A[i, :] = k * S(λ_i) * [x̄(λ_i), ȳ(λ_i), z̄(λ_i)] * Δλ
-    return k * S[..., None] * XYZ_b * d_w  # shape: (n, 3)
+    return k_array * S[..., None] * XYZ_b * d_w  # shape: (n, 3)
 
 
 def sd_to_XYZ_integration(
     sd: ArrayLike | SpectralDistribution | MultiSpectralDistributions,
     cmfs: MultiSpectralDistributions | None = None,
     illuminant: SpectralDistribution | None = None,
-    k: Real | None = None,
+    k: ArrayLike | None = None,
     shape: SpectralShape | None = None,
 ) -> Range100:
     """
@@ -925,6 +942,8 @@ def sd_to_XYZ_integration(
     A = tristimulus_weighting_factors_integration(cmfs, illuminant, shape, k)
 
     xp = array_namespace(R, A)
+    reference = R if is_non_ndarray(R) else A
+    R = xp_as_float_array(R, xp=xp, like=reference)
 
     if isinstance(sd, MultiSpectralDistributions):
         R = xp_matrix_transpose(R, xp=xp)
@@ -1082,7 +1101,8 @@ def sd_to_XYZ_tristimulus_weighting_factors_ASTME308(
 
     R = as_float_array(sd.values)
 
-    xp = array_namespace(R)
+    xp = array_namespace(R, W)
+    R = xp_as_float_array(R, xp=xp, like=W)
     W = xp_as_float_array(W, xp=xp, like=R)
 
     XYZ = xp.sum(W * R[..., None], axis=0)
@@ -1500,10 +1520,14 @@ def sd_to_XYZ(
         if isinstance(sd, (SpectralDistribution, MultiSpectralDistributions))
         else sd
     )
-    cacheable = is_caching_enabled() and all(
-        _is_cache_safe(a)
-        for a in (sd_values, cmfs.values, illuminant.values, k)
-        if a is not None
+    cacheable = (
+        is_caching_enabled()
+        and not is_non_ndarray(k)
+        and all(
+            _is_cache_safe(a)
+            for a in (sd_values, cmfs.values, illuminant.values, k)
+            if a is not None
+        )
     )
 
     hash_key = None
@@ -1531,6 +1555,7 @@ def sd_to_XYZ(
                 tuple(kwargs.items()),
                 get_domain_range_scale(),
                 type(sd_values).__module__,
+                str(getattr(sd_values, "device", None)),
             )
         )
 
@@ -1563,7 +1588,7 @@ def msds_to_XYZ_integration(
     msds: ArrayLike | SpectralDistribution | MultiSpectralDistributions,
     cmfs: MultiSpectralDistributions | None = None,
     illuminant: SpectralDistribution | None = None,
-    k: Real | None = None,
+    k: ArrayLike | None = None,
     shape: SpectralShape | None = None,
 ) -> Range100:
     """
@@ -1934,7 +1959,8 @@ def msds_to_XYZ_tristimulus_weighting_factors_ASTME308(
 
     R = as_float_array(msds.values)
 
-    xp = array_namespace(R)
+    xp = array_namespace(R, W)
+    R = xp_as_float_array(R, xp=xp, like=W)
     W = xp_as_float_array(W, xp=xp, like=R)
 
     XYZ = xp.matmul(xp_matrix_transpose(R, xp=xp), W)
@@ -2574,9 +2600,12 @@ def wavelength_to_XYZ(
 
     wavelength = as_float_array(wavelength)
 
-    xp = array_namespace(wavelength)
-
     cmfs, _illuminant = handle_spectral_arguments(cmfs)
+
+    values = cmfs.values
+    xp = array_namespace(wavelength, values)
+    reference = wavelength if is_non_ndarray(wavelength) else values
+    wavelength = xp_as_float_array(wavelength, xp=xp, like=reference)
 
     shape = cmfs.shape
     if xp.min(wavelength) < shape.start or xp.max(wavelength) > shape.end:
@@ -2587,9 +2616,10 @@ def wavelength_to_XYZ(
 
         raise ValueError(error)
 
-    # ``cmfs[...]`` indexes the reference *NumPy* data and returns a *NumPy*
-    # array regardless of ``wavelength``'s namespace; coerce it back so strict
-    # backends (e.g. *PyTorch*) accept the subsequent reshape.
+    if not is_numpy_namespace(xp):
+        cmfs = cmfs.copy()
+        cmfs.values = xp_as_float_array(cmfs.values, xp=xp, like=wavelength)
+
     return xp_reshape(
         xp_as_float_array(
             cmfs[xp_reshape(wavelength, (-1,), xp=xp)], xp=xp, like=wavelength

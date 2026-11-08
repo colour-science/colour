@@ -17,6 +17,7 @@ from colour.colorimetry import (
     luminous_efficacy,
     luminous_efficiency,
     luminous_flux,
+    sd_ones,
     sd_zeros,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -165,3 +166,14 @@ class TestPhotometryAutodiff:
 
         assert xp.isfinite(gradient).all()
         assert xp.any(gradient != 0)
+
+        result, (gradient,), inputs = autodiff(
+            lambda values: function(
+                sd_ones(SpectralDistribution(values, wavelengths).shape),
+                SpectralDistribution(values, wavelengths),
+            ),
+            np.linspace(0.1, 1.0, wavelengths.size),
+        )
+        assert xp.isfinite(gradient).all()
+        assert xp.any(gradient != 0)
+        assert getattr(result, "device", None) == getattr(inputs[0], "device", None)

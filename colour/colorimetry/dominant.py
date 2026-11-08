@@ -36,6 +36,7 @@ from colour.models import XYZ_to_xy
 from colour.utilities import (
     array_namespace,
     as_float_array,
+    is_non_ndarray,
     xp_as_float_array,
     xp_reshape,
     xp_resize,
@@ -107,7 +108,9 @@ def closest_spectral_locus_wavelength(
 
     xy = as_float_array(xy)
 
-    xp = array_namespace(xy, xy_s)
+    xp = array_namespace(xy, xy_n, xy_s)
+    reference = next((a for a in (xy, xy_n, xy_s) if is_non_ndarray(a)), xy)
+    xy = xp_as_float_array(xy, xp=xp, like=reference)
 
     xy_n = xp_resize(xp_as_float_array(xy_n, xp=xp, like=xy), xy.shape, xp=xp)
     xy_e = extend_line_segment(xy, xy_n) if inverse else extend_line_segment(xy_n, xy)
@@ -215,7 +218,9 @@ def dominant_wavelength(
 
     xy = as_float_array(xy)
 
-    xp = array_namespace(xy)
+    xp = array_namespace(xy, xy_n, cmfs.values)
+    reference = next((a for a in (xy, xy_n, cmfs.values) if is_non_ndarray(a)), xy)
+    xy = xp_as_float_array(xy, xp=xp, like=reference)
 
     xy_n = xp_resize(xp_as_float_array(xy_n, xp=xp, like=xy), xy.shape, xp=xp)
 
@@ -421,7 +426,9 @@ def colorimetric_purity(
     np.float64(0.6135828...)
     """
 
-    xy = as_float_array(xy)
+    xp = array_namespace(xy, xy_n)
+    xy = xp_as_float_array(xy, xp=xp, like=xy if is_non_ndarray(xy) else xy_n)
+    xy_n = xp_as_float_array(xy_n, xp=xp, like=xy)
 
     _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
     P_e = excitation_purity(xy, xy_n, cmfs)

@@ -64,6 +64,7 @@ from colour.utilities import (
     filter_kwargs,
     from_range_100,
     get_domain_range_scale,
+    is_non_ndarray,
     to_domain_100,
     tsplit,
     tstack,
@@ -139,6 +140,10 @@ def whiteness_Berger1959(XYZ: Domain100, XYZ_0: Domain100) -> Range100:
     np.float64(30.3638017...)
     """
 
+    xp = array_namespace(XYZ, XYZ_0)
+    reference = XYZ if is_non_ndarray(XYZ) else XYZ_0
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+    XYZ_0 = xp_as_float_array(XYZ_0, xp=xp, like=XYZ)
     X, Y, Z = tsplit(to_domain_100(XYZ))
     X_0, _Y_0, Z_0 = tsplit(to_domain_100(XYZ_0))
 
@@ -196,6 +201,10 @@ def whiteness_Taube1960(XYZ: Domain100, XYZ_0: Domain100) -> Range100:
     np.float64(91.4071738...)
     """
 
+    xp = array_namespace(XYZ, XYZ_0)
+    reference = XYZ if is_non_ndarray(XYZ) else XYZ_0
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+    XYZ_0 = xp_as_float_array(XYZ_0, xp=xp, like=XYZ)
     _X, Y, Z = tsplit(to_domain_100(XYZ))
     _X_0, _Y_0, Z_0 = tsplit(to_domain_100(XYZ_0))
 
@@ -362,6 +371,7 @@ def whiteness_Ganz1979(xy: ArrayLike, Y: Domain100) -> Range100:
     Y = to_domain_100(Y)
 
     xp = array_namespace(xy, Y)
+    xy = xp_as_float_array(xy, xp=xp, like=xy if is_non_ndarray(xy) else Y)
 
     Y = xp_as_float_array(Y, xp=xp, like=xy)
     x, y = tsplit(xy)
@@ -447,7 +457,9 @@ def whiteness_CIE2004(
 
     Y = to_domain_100(Y)
 
-    xp = array_namespace(xy, Y)
+    xp = array_namespace(xy, Y, xy_n)
+    reference = next((a for a in (xy, Y, xy_n) if is_non_ndarray(a)), xy)
+    xy = xp_as_float_array(xy, xp=xp, like=reference)
 
     Y = xp_as_float_array(Y, xp=xp, like=xy)
     x, y = tsplit(xy)

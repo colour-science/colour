@@ -20,6 +20,7 @@ from colour.constants import CONSTANT_K_M
 from colour.utilities import (
     array_namespace,
     as_float_scalar,
+    is_non_ndarray,
     optional,
     xp_as_float_array,
     xp_trapezoid,
@@ -84,9 +85,10 @@ def luminous_flux(
         extrapolator_kwargs={"method": "Constant", "left": 0, "right": 0},
     )
 
-    xp = array_namespace(sd.values)
+    xp = array_namespace(sd.values, lef.values)
+    reference = sd.values if is_non_ndarray(sd.values) else lef.values
 
-    sd_values = xp_as_float_array(sd.values, xp=xp)
+    sd_values = xp_as_float_array(sd.values, xp=xp, like=reference)
     lef_values = xp_as_float_array(lef.values, xp=xp, like=sd_values)
 
     flux = K_m * xp_trapezoid(lef_values * sd_values, x=sd.wavelengths, xp=xp)
@@ -140,9 +142,10 @@ def luminous_efficiency(
         extrapolator_kwargs={"method": "Constant", "left": 0, "right": 0},
     )
 
-    xp = array_namespace(sd.values)
+    xp = array_namespace(sd.values, lef.values)
+    reference = sd.values if is_non_ndarray(sd.values) else lef.values
 
-    sd_values = xp_as_float_array(sd.values, xp=xp)
+    sd_values = xp_as_float_array(sd.values, xp=xp, like=reference)
     lef_values = xp_as_float_array(lef.values, xp=xp, like=sd_values)
 
     efficiency = xp_trapezoid(

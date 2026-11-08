@@ -44,8 +44,15 @@ from colour.colorimetry import (
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
+    from colour.colorimetry import MultiSpectralDistributions
 
-from colour.utilities import array_namespace, as_float_array, tstack, xp_as_float_array
+from colour.utilities import (
+    array_namespace,
+    as_float_array,
+    is_non_ndarray,
+    tstack,
+    xp_as_float_array,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -61,6 +68,20 @@ __all__ = [
     "LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs",
     "LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs",
 ]
+
+
+def _cmfs_values(
+    cmfs: MultiSpectralDistributions, wavelength: ArrayLike
+) -> NDArrayFloat:
+    """Evaluate a reference table in the wavelength's namespace and device."""
+
+    if is_non_ndarray(wavelength):
+        cmfs = cmfs.copy()
+        cmfs.values = xp_as_float_array(
+            cmfs.values, xp=array_namespace(wavelength), like=wavelength
+        )
+
+    return cmfs[wavelength]
 
 
 def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
@@ -100,7 +121,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
 
     cmfs = MSDS_CMFS_RGB["Wright & Guild 1931 2 Degree RGB CMFs"]
 
-    rgb_bar = cmfs[wavelength]
+    rgb_bar = _cmfs_values(cmfs, wavelength)
 
     rgb_bar = as_float_array(rgb_bar)
 
@@ -137,6 +158,9 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
         cmfs.shape,
         copy=False,
     )
+    if is_non_ndarray(wavelength):
+        V = V.copy()
+        V.values = xp_as_float_array(V.values, xp=xp, like=wavelength)
     L = V[wavelength]
 
     x_bar = x / y * L
@@ -184,7 +208,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
 
     cmfs = MSDS_CMFS_RGB["Stiles & Burch 1959 10 Degree RGB CMFs"]
 
-    rgb_bar = as_float_array(cmfs[wavelength])
+    rgb_bar = as_float_array(_cmfs_values(cmfs, wavelength))
 
     xp = array_namespace(rgb_bar)
 
@@ -240,7 +264,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
 
     cmfs = MSDS_CMFS_RGB["Stiles & Burch 1959 10 Degree RGB CMFs"]
 
-    rgb_bar = as_float_array(cmfs[wavelength])
+    rgb_bar = as_float_array(_cmfs_values(cmfs, wavelength))
 
     xp = array_namespace(rgb_bar)
 
@@ -260,7 +284,11 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
         [
             lms_bar[..., 0],
             lms_bar[..., 1],
-            xp.where(xp_as_float_array(wavelength, xp=xp) > 505, 0, lms_bar[..., -1]),
+            xp.where(
+                xp_as_float_array(wavelength, xp=xp, like=lms_bar) > 505,
+                0,
+                lms_bar[..., -1],
+            ),
         ]
     )
 
@@ -302,7 +330,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
 
     cmfs = MSDS_CMFS_LMS["Stockman & Sharpe 2 Degree Cone Fundamentals"]
 
-    lms_bar = as_float_array(cmfs[wavelength])
+    lms_bar = as_float_array(_cmfs_values(cmfs, wavelength))
 
     xp = array_namespace(lms_bar)
 
@@ -356,7 +384,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(
 
     cmfs = MSDS_CMFS_LMS["Stockman & Sharpe 10 Degree Cone Fundamentals"]
 
-    lms_bar = as_float_array(cmfs[wavelength])
+    lms_bar = as_float_array(_cmfs_values(cmfs, wavelength))
 
     xp = array_namespace(lms_bar)
 

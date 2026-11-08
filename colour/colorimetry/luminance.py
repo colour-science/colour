@@ -89,6 +89,7 @@ from colour.utilities import (
     from_range_1,
     from_range_100,
     get_domain_range_scale,
+    is_non_ndarray,
     optional,
     to_domain_10,
     to_domain_100,
@@ -272,6 +273,7 @@ def intermediate_luminance_function_CIE1976(
 
     xp = array_namespace(f_Y_Y_n, Y_n)
 
+    f_Y_Y_n = xp_as_float_array(f_Y_Y_n, xp=xp, like=Y_n)
     Y_n = xp_as_float_array(Y_n, xp=xp, like=f_Y_Y_n)
 
     Y = xp.where(
@@ -384,6 +386,9 @@ def luminance_Fairchild2010(L_hdr: Domain100, epsilon: ArrayLike = 1.836) -> Ran
     L_hdr = to_domain_100(L_hdr)
 
     xp = array_namespace(L_hdr, epsilon)
+    L_hdr = xp_as_float_array(
+        L_hdr, xp=xp, like=L_hdr if is_non_ndarray(L_hdr) else epsilon
+    )
 
     epsilon = xp_as_float_array(epsilon, xp=xp, like=L_hdr)
     Y = xp.exp(
@@ -452,6 +457,9 @@ def luminance_Fairchild2011(
     L_hdr = to_domain_100(L_hdr)
 
     xp = array_namespace(L_hdr, epsilon)
+    L_hdr = xp_as_float_array(
+        L_hdr, xp=xp, like=L_hdr if is_non_ndarray(L_hdr) else epsilon
+    )
 
     epsilon = xp_as_float_array(epsilon, xp=xp, like=L_hdr)
     method = validate_method(method, ("hdr-CIELAB", "hdr-IPT"))
@@ -531,8 +539,9 @@ def luminance_Abebe2017(
 
     L = as_float_array(L)
 
-    xp = array_namespace(L)
+    xp = array_namespace(L, Y_n)
 
+    L = xp_as_float_array(L, xp=xp, like=Y_n)
     Y_n = xp_as_float_array(optional(Y_n, 100), xp=xp, like=L)
     method = validate_method(method, ("Michaelis-Menten", "Stevens"))
 

@@ -3,13 +3,19 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ModuleType
+    from pytest import FixtureRequest
+
+    from colour.colorimetry import SpectralDistribution
+    from colour.hints import ModuleType, NDArrayFloat
 
 import numpy as np
 
 from colour.colorimetry import (
+    SDS_LEFS_PHOTOPIC,
+    SDS_LEFS_SCOTOPIC,
     mesopic_weighting_function,
     sd_mesopic_luminous_efficiency_function,
 )
@@ -446,7 +452,9 @@ class TestMesopicWeightingFunction:
     definition unit tests methods.
     """
 
-    def test_mesopic_weighting_function(self) -> None:
+    def test_mesopic_weighting_function(
+        self, xp: ModuleType, request: FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.colorimetry.lefs.mesopic_weighting_function`
         definition.
@@ -469,6 +477,46 @@ class TestMesopicWeightingFunction:
             0.00410200,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        wavelengths = np.array([500.0, 510.0])
+        expected = mesopic_weighting_function(wavelengths, 0.2)
+        for key, template in (
+            (
+                "photopic_lef",
+                SDS_LEFS_PHOTOPIC["CIE 1924 Photopic Standard Observer"],
+            ),
+            (
+                "scotopic_lef",
+                SDS_LEFS_SCOTOPIC["CIE 1951 Scotopic Standard Observer"],
+            ),
+        ):
+            values = xp_as_array(template.values, xp=xp)
+
+            def evaluate(
+                values: NDArrayFloat,
+                template: SpectralDistribution = template,
+                key: str = key,
+            ) -> NDArrayFloat:
+                """Evaluate a host query against one supplied native table."""
+
+                table = template.copy()
+                table.values = values
+                return mesopic_weighting_function(
+                    wavelengths,
+                    0.2,
+                    photopic_lef=table if key == "photopic_lef" else None,
+                    scotopic_lef=table if key == "scotopic_lef" else None,
+                )
+
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = evaluate(values)
+                xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+                if hasattr(values, "device"):
+                    assert result.device == values.device
+                if xp.__name__ != "numpy":
+                    autodiff = request.getfixturevalue("autodiff")
+                    _result, (gradient,), _inputs = autodiff(evaluate, values)
+                    assert bool(xp.any(gradient != 0))
 
     def test_n_dimensional_mesopic_weighting_function(self, xp: ModuleType) -> None:
         """

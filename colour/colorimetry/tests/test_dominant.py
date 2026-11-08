@@ -7,6 +7,7 @@ import typing
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
 
+import contextlib
 from itertools import product
 
 import numpy as np
@@ -86,6 +87,26 @@ closest_spectral_locus_wavelength` definition.
             [0.45723147, 0.13628148],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host = [
+            np.array([[0.54369557, 0.32107944], [0.37605506, 0.24452225]]),
+            np.array([0.3127, 0.329]),
+            np.array([[0.1, 0.1], [0.8, 0.1], [0.1, 0.8]]),
+        ]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        expected = closest_spectral_locus_wavelength(native[0], native[1], native[2])
+        for i in range(len(host)):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = closest_spectral_locus_wavelength(mixed[0], mixed[1], mixed[2])
+            for actual, reference in zip(result, expected, strict=True):
+                xp_assert_close(actual, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+                assert getattr(actual, "device", None) == getattr(
+                    native[i], "device", None
+                )
 
     def test_n_dimensional_closest_spectral_locus_wavelength(
         self, xp: ModuleType
@@ -181,6 +202,25 @@ class TestDominantWavelength:
             [0.01040962, 0.73207453],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host = [
+            np.array([[0.54369557, 0.32107944], [0.37605506, 0.24452225]]),
+            np.array([0.3127, 0.329]),
+        ]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        expected = dominant_wavelength(native[0], native[1])
+        for i in range(len(host)):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = dominant_wavelength(mixed[0], mixed[1])
+            for actual, reference in zip(result, expected, strict=True):
+                xp_assert_close(actual, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+                assert getattr(actual, "device", None) == getattr(
+                    native[i], "device", None
+                )
 
     def test_n_dimensional_dominant_wavelength(self, xp: ModuleType) -> None:
         """
@@ -362,6 +402,22 @@ class TestExcitationPurity:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        host = [
+            np.array([[0.54369557, 0.32107944], [0.37605506, 0.24452225]]),
+            np.array([0.3127, 0.329]),
+        ]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        expected = excitation_purity(native[0], native[1])
+        for i in range(len(host)):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = excitation_purity(mixed[0], mixed[1])
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native[i], "device", None)
+
     def test_n_dimensional_excitation_purity(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.dominant.excitation_purity` definition
@@ -442,6 +498,22 @@ class TestColorimetricPurity:
             0.244307811178847,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host = [
+            np.array([[0.54369557, 0.32107944], [0.37605506, 0.24452225]]),
+            np.array([0.3127, 0.329]),
+        ]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        expected = colorimetric_purity(native[0], native[1])
+        for i in range(len(host)):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = colorimetric_purity(mixed[0], mixed[1])
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native[i], "device", None)
 
     def test_n_dimensional_colorimetric_purity(self, xp: ModuleType) -> None:
         """

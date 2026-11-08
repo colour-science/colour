@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import typing
 
 import numpy as np
@@ -241,6 +242,16 @@ intermediate_luminance_function_CIE1976` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        xp_assert_close(
+            intermediate_luminance_function_CIE1976(
+                [0.2, 0.3], xp_as_array([100.0, 100.0], xp=xp)
+            ),
+            intermediate_luminance_function_CIE1976(
+                xp_as_array([0.2, 0.3], xp=xp), 100.0
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_intermediate_luminance_function_CIE1976(
         self, xp: ModuleType
     ) -> None:
@@ -454,6 +465,19 @@ class TestLuminanceFairchild2010:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        host = [np.array([50.0, 60.0]), np.array([1.8, 1.9])]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        expected = luminance_Fairchild2010(*native)
+        for i in range(len(host)):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = luminance_Fairchild2010(*mixed)
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native[i], "device", None)
+
     def test_n_dimensional_luminance_Fairchild2010(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
@@ -556,6 +580,19 @@ class TestLuminanceFairchild2011:
             100800.00000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host = [np.array([50.0, 60.0]), np.array([0.4, 0.5])]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        expected = luminance_Fairchild2011(native[0], native[1])
+        for i in range(len(host)):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = luminance_Fairchild2011(mixed[0], mixed[1])
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native[i], "device", None)
 
     def test_n_dimensional_luminance_Fairchild2011(self, xp: ModuleType) -> None:
         """

@@ -270,6 +270,7 @@ def intermediate_lightness_function_CIE1976(
 
     xp = array_namespace(Y, Y_n)
 
+    Y = xp_as_float_array(Y, xp=xp, like=Y_n)
     Y_n = xp_as_float_array(Y_n, xp=xp, like=Y)
 
     Y_Y_n = Y / Y_n
@@ -518,8 +519,9 @@ def lightness_Abebe2017(
 
     Y = as_float_array(Y)
 
-    xp = array_namespace(Y)
+    xp = array_namespace(Y, Y_n)
 
+    Y = xp_as_float_array(Y, xp=xp, like=Y_n)
     Y_n = xp_as_float_array(optional(Y_n, 100), xp=xp, like=Y)
     method = validate_method(method, ("Michaelis-Menten", "Stevens"))
 

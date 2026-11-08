@@ -7,6 +7,7 @@ import typing
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
 
+import contextlib
 from itertools import product
 
 import numpy as np
@@ -115,6 +116,22 @@ class TestWhitenessBerger1959:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        host = [
+            np.array([[90.0, 92.0, 95.0], [80.0, 82.0, 85.0]]),
+            np.array([95.0, 100.0, 108.0]),
+        ]
+        expected = whiteness_Berger1959(*host)
+        for i in range(2):
+            native = xp_as_array(host[i], xp=xp)
+            mixed = list(host)
+            mixed[i] = native
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = whiteness_Berger1959(*mixed)
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native, "device", None)
+
     def test_domain_range_scale_whiteness_Berger1959(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_Berger1959`
@@ -212,6 +229,22 @@ class TestWhitenessTaube1960:
             WI,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host = [
+            np.array([[90.0, 92.0, 95.0], [80.0, 82.0, 85.0]]),
+            np.array([95.0, 100.0, 108.0]),
+        ]
+        expected = whiteness_Taube1960(*host)
+        for i in range(2):
+            native = xp_as_array(host[i], xp=xp)
+            mixed = list(host)
+            mixed[i] = native
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = whiteness_Taube1960(*mixed)
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native, "device", None)
 
     def test_domain_range_scale_whiteness_Taube1960(self, xp: ModuleType) -> None:
         """
@@ -454,6 +487,19 @@ class TestWhitenessGanz1979:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        host = [np.array([[0.31, 0.32], [0.32, 0.33]]), np.array([90.0, 95.0])]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        expected = whiteness_Ganz1979(*native)
+        for i in range(len(host)):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = whiteness_Ganz1979(*mixed)
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native[i], "device", None)
+
     def test_n_dimensional_whiteness_Ganz1979(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.whiteness.whiteness_Ganz1979`
@@ -560,6 +606,23 @@ class TestWhitenessCIE2004:
             [80.49000000, -18.00500000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host = [
+            np.array([[0.31, 0.32], [0.32, 0.33]]),
+            np.array([90.0, 95.0]),
+            np.array([0.3127, 0.329]),
+        ]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        expected = whiteness_CIE2004(native[0], native[1], native[2])
+        for i in range(len(host)):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = whiteness_CIE2004(mixed[0], mixed[1], mixed[2])
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native[i], "device", None)
 
     def test_n_dimensional_whiteness_CIE2004(self, xp: ModuleType) -> None:
         """

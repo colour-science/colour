@@ -27,7 +27,14 @@ from colour.colorimetry.datasets.lefs import DATA_MESOPIC_X
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
-from colour.utilities import closest, optional, validate_method
+from colour.utilities import (
+    array_namespace,
+    closest,
+    is_non_ndarray,
+    optional,
+    validate_method,
+    xp_as_float_array,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -112,6 +119,27 @@ def mesopic_weighting_function(
     mesopic_x_luminance_values = sorted(DATA_MESOPIC_X.keys())
     index = mesopic_x_luminance_values.index(closest(mesopic_x_luminance_values, L_p))
     x = DATA_MESOPIC_X[mesopic_x_luminance_values[index]][source][method]
+
+    xp = array_namespace(wavelength, scotopic_lef.values, photopic_lef.values)
+
+    reference = next(
+        (
+            a
+            for a in (wavelength, scotopic_lef.values, photopic_lef.values)
+            if is_non_ndarray(a)
+        ),
+        None,
+    )
+    if reference is not None:
+        wavelength = xp_as_float_array(wavelength, xp=xp, like=reference)
+        scotopic_lef = scotopic_lef.copy()
+        photopic_lef = photopic_lef.copy()
+        scotopic_lef.values = xp_as_float_array(
+            scotopic_lef.values, xp=xp, like=wavelength
+        )
+        photopic_lef.values = xp_as_float_array(
+            photopic_lef.values, xp=xp, like=wavelength
+        )
 
     return (1 - x) * scotopic_lef[wavelength] + x * photopic_lef[wavelength]
 
