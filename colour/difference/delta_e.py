@@ -56,6 +56,7 @@ if typing.TYPE_CHECKING:
     )
 
 from colour.algebra import euclidean_distance
+from colour.hints import cast
 from colour.utilities import (
     MixinDataclassArithmetic,
     array_namespace,
@@ -385,8 +386,11 @@ dH=np.float64(0.0015891...))
     k_C = 1
     k_H = 1
 
-    C_1 = xp.hypot(a_1, b_1)
-    C_2 = xp.hypot(a_2, b_2)
+    # Only the composite distance has a regular chromatic limit when both
+    # colours are neutral. Keep its inactive norms away from their singularity.
+    neutral = (a_1 == 0) & (b_1 == 0) & (a_2 == 0) & (b_2 == 0)
+    C_1 = xp.where(neutral, 0, xp.hypot(xp.where(neutral, 1, a_1), b_1))
+    C_2 = xp.where(neutral, 0, xp.hypot(xp.where(neutral, 1, a_2), b_2))
 
     s_L = 1
     s_C = 1 + k_1 * C_1
@@ -398,16 +402,20 @@ dH=np.float64(0.0015891...))
     delta_B = b_1 - b_2
 
     radical = delta_A**2 + delta_B**2 - delta_C**2
-    delta_H = xp.sqrt(xp.where(radical > 0, radical, 0.0))
+    delta_H_squared = xp.where(radical > 0, radical, 0.0)
 
     L = delta_L / (k_L * s_L)
     C = delta_C / (k_C * s_C)
-    H = delta_H / (k_H * s_H)
+    # Keep the squared hue term: sqrt(0) followed by squaring introduces
+    # an infinite forward derivative even when the final distance is regular.
+    H_squared = delta_H_squared / (k_H * s_H) ** 2
 
-    d_E = as_float(xp.sqrt(L**2 + C**2 + H**2))
+    d_E = as_float(xp.sqrt(L**2 + C**2 + H_squared))
 
     if not additional_data:
         return d_E
+
+    H = xp.sqrt(delta_H_squared) / (k_H * s_H)
 
     return DeltaE_Specification_CIE1994(
         d_E,
@@ -512,29 +520,31 @@ delta_H_p=np.float64(0.0105030...), R_T=np.float64(-3...))
     L_1, a_1, b_1 = tsplit(Lab_1)
     L_2, a_2, b_2 = tsplit(Lab_2)
 
-    C_1_ab = xp.hypot(a_1, b_1)
-    C_2_ab = xp.hypot(a_2, b_2)
+    neutral = (a_1 == 0) & (b_1 == 0) & (a_2 == 0) & (b_2 == 0)
+    C_1_ab = xp.where(neutral, 0, xp.hypot(xp.where(neutral, 1, a_1), b_1))
+    C_2_ab = xp.where(neutral, 0, xp.hypot(xp.where(neutral, 1, a_2), b_2))
 
     C_bar_ab = (C_1_ab + C_2_ab) / 2
     C_bar_ab_7 = C_bar_ab**7
 
-    G = 0.5 * (1 - xp.sqrt(C_bar_ab_7 / (C_bar_ab_7 + 25.0**7)))
+    G_ratio = C_bar_ab_7 / (C_bar_ab_7 + 25.0**7)
+    G = 0.5 * (1 - xp.where(neutral, 0, xp.sqrt(xp.where(neutral, 1, G_ratio))))
 
     a_p_1 = (1 + G) * a_1
     a_p_2 = (1 + G) * a_2
 
-    C_p_1 = xp.hypot(a_p_1, b_1)
-    C_p_2 = xp.hypot(a_p_2, b_2)
+    C_p_1 = xp.where(neutral, 0, xp.hypot(xp.where(neutral, 1, a_p_1), b_1))
+    C_p_2 = xp.where(neutral, 0, xp.hypot(xp.where(neutral, 1, a_p_2), b_2))
 
     h_p_1 = xp.where(
         xp.logical_and(b_1 == 0, a_p_1 == 0),
         0,
-        xp_degrees(xp.atan2(b_1, a_p_1)) % 360,
+        xp_degrees(xp.atan2(b_1, xp.where(neutral, 1, a_p_1))) % 360,
     )
     h_p_2 = xp.where(
         xp.logical_and(b_2 == 0, a_p_2 == 0),
         0,
-        xp_degrees(xp.atan2(b_2, a_p_2)) % 360,
+        xp_degrees(xp.atan2(b_2, xp.where(neutral, 1, a_p_2))) % 360,
     )
 
     delta_L_p = L_2 - L_1
@@ -559,7 +569,11 @@ delta_H_p=np.float64(0.0105030...), R_T=np.float64(-3...))
         xp=xp,
     )
 
-    delta_H_p = 2 * xp.sqrt(C_p_1_m_2) * xp.sin(xp_radians(delta_h_p / 2))
+    delta_H_p = (
+        2
+        * xp.where(neutral, 0, xp.sqrt(xp.where(neutral, 1, C_p_1_m_2)))
+        * xp.sin(xp_radians(delta_h_p / 2))
+    )
 
     L_bar_p = (L_1 + L_2) / 2
 
@@ -594,7 +608,8 @@ delta_H_p=np.float64(0.0105030...), R_T=np.float64(-3...))
     delta_theta = 30 * xp.exp(-(((h_bar_p - 275) / 25) ** 2))
 
     C_bar_p_7 = C_bar_p**7
-    R_C = 2 * xp.sqrt(C_bar_p_7 / (C_bar_p_7 + 25.0**7))
+    R_C_ratio = C_bar_p_7 / (C_bar_p_7 + 25.0**7)
+    R_C = 2 * xp.where(neutral, 0, xp.sqrt(xp.where(neutral, 1, R_C_ratio)))
 
     L_bar_p_2 = (L_bar_p - 50) ** 2
     S_L = 1 + ((0.015 * L_bar_p_2) / xp.sqrt(20 + L_bar_p_2))
@@ -611,8 +626,8 @@ delta_H_p=np.float64(0.0105030...), R_T=np.float64(-3...))
         S_H,
         delta_L_p,
         delta_C_p,
-        delta_H_p,
-        R_T,
+        cast("NDArrayFloat", delta_H_p),
+        cast("NDArrayFloat", R_T),
     )
 
 
@@ -905,11 +920,14 @@ dH=np.float64(0.0037676...))
     L_1, a_1, b_1 = tsplit(Lab_1)
     L_2, a_2, b_2 = tsplit(Lab_2)
 
-    C_1 = xp.hypot(a_1, b_1)
-    C_2 = xp.hypot(a_2, b_2)
+    # Only the composite distance has a regular chromatic limit when both
+    # colours are neutral. Keep its inactive norms away from their singularity.
+    neutral = (a_1 == 0) & (b_1 == 0) & (a_2 == 0) & (b_2 == 0)
+    C_1 = xp.where(neutral, 0, xp.hypot(xp.where(neutral, 1, a_1), b_1))
+    C_2 = xp.where(neutral, 0, xp.hypot(xp.where(neutral, 1, a_2), b_2))
     s_L = xp.where(L_1 < 16, 0.511, (0.040975 * L_1) / (1 + 0.01765 * L_1))
     s_C = 0.0638 * C_1 / (1 + 0.0131 * C_1) + 0.638
-    h_1 = xp_degrees(xp.atan2(b_1, a_1)) % 360
+    h_1 = xp_degrees(xp.atan2(b_1, xp.where(neutral, 1, a_1))) % 360
 
     t = xp.where(
         xp.logical_and(h_1 >= 164, h_1 <= 345),
@@ -918,7 +936,8 @@ dH=np.float64(0.0037676...))
     )
 
     C_4 = C_1 * C_1 * C_1 * C_1
-    f = xp.sqrt(C_4 / (C_4 + 1900))
+    f_ratio = C_4 / (C_4 + 1900)
+    f = xp.where(neutral, 0, xp.sqrt(xp.where(neutral, 1, f_ratio)))
     s_h = s_C * (f * t + 1 - f)
 
     delta_L = L_1 - L_2
@@ -926,16 +945,18 @@ dH=np.float64(0.0037676...))
     delta_A = a_1 - a_2
     delta_B = b_1 - b_2
     radical = delta_A**2 + delta_B**2 - delta_C**2
-    delta_H = xp.sqrt(xp.where(radical > 0, radical, 0.0))
+    delta_H_squared = xp.where(radical > 0, radical, 0.0)
 
     L = delta_L / (l * s_L)
     C = delta_C / (c * s_C)
-    H = delta_H / s_h
+    H_squared = delta_H_squared / s_h**2
 
-    d_E = as_float(xp.sqrt(L**2 + C**2 + H**2))
+    d_E = as_float(xp.sqrt(L**2 + C**2 + H_squared))
 
     if not additional_data:
         return d_E
+
+    H = xp.sqrt(delta_H_squared) / s_h
 
     return DeltaE_Specification_CMC(
         d_E,

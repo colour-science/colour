@@ -32,7 +32,9 @@ from colour.utilities import (
     array_namespace,
     as_float,
     as_float_array,
+    is_non_ndarray,
     tsplit,
+    xp_as_float_array,
 )
 
 __author__ = "Colour Developers"
@@ -167,6 +169,9 @@ db=np.float64(13.5073618...))
     """
 
     xp = array_namespace(Jpapbp_1, Jpapbp_2)
+    reference = Jpapbp_1 if is_non_ndarray(Jpapbp_1) else Jpapbp_2
+    Jpapbp_1 = xp_as_float_array(Jpapbp_1, xp=xp, like=reference)
+    Jpapbp_2 = xp_as_float_array(Jpapbp_2, xp=xp, like=Jpapbp_1)
 
     J_p_1, a_p_1, b_p_1 = tsplit(Jpapbp_1)
     J_p_2, a_p_2, b_p_2 = tsplit(Jpapbp_2)
