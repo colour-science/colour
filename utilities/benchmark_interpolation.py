@@ -40,6 +40,7 @@ import numpy as np
 import scipy.interpolate
 
 from colour.algebra import interpolation as xp_interpolation
+from colour.utilities import array_api_enable
 
 if typing.TYPE_CHECKING:
     from collections.abc import Callable
@@ -143,7 +144,7 @@ def _jax_synchronize(result: object) -> None:
         ready()
         return
 
-    implementation = getattr(result, "_implementation", result)
+    implementation = getattr(result, "_impl", result)
     jax.block_until_ready(
         [
             value
@@ -239,34 +240,41 @@ def benchmark_interpolator(
     across configurations.
     """
 
-    configurations = _configurations(scipy_constructor, native_constructor)
-    names = [name for name, *_ in configurations]
+    with array_api_enable(True):
+        configurations = _configurations(scipy_constructor, native_constructor)
+        names = [name for name, *_ in configurations]
 
-    build_rows: list[tuple[int, list[float]]] = []
-    call_rows: list[tuple[int, list[float]]] = []
-    for length in DATA_LENGTHS:
-        x_np, y_np, x_e_np = _sample_data(length)
+        build_rows: list[tuple[int, list[float]]] = []
+        call_rows: list[tuple[int, list[float]]] = []
+        for length in DATA_LENGTHS:
+            x_np, y_np, x_e_np = _sample_data(length)
 
-        builds, calls = [], []
-        for _name, constructor, cast, synchronize in configurations:
-            x, y, x_e = cast(x_np), cast(y_np), cast(x_e_np)
-            synchronize(x_e)  # Settle the device transfer before timing.
+            builds, calls = [], []
+            for _name, constructor, cast, synchronize in configurations:
+                x, y, x_e = cast(x_np), cast(y_np), cast(x_e_np)
+                synchronize(x_e)  # Settle the device transfer before timing.
 
-            builds.append(measure(lambda c=constructor, x=x, y=y: c(x, y), synchronize))
+                builds.append(
+                    measure(lambda c=constructor, x=x, y=y: c(x, y), synchronize)
+                )
 
-            interpolator = constructor(x, y)
-            synchronize(interpolator)
-            calls.append(measure(lambda f=interpolator, x_e=x_e: f(x_e), synchronize))
+                interpolator = constructor(x, y)
+                synchronize(interpolator)
+                calls.append(
+                    measure(lambda f=interpolator, x_e=x_e: f(x_e), synchronize)
+                )
 
-        build_rows.append((length, builds))
-        call_rows.append((length, calls))
+            build_rows.append((length, builds))
+            call_rows.append((length, calls))
 
-    _print_table(f"{label} - construction (ms, min of {_RUNS} runs)", names, build_rows)
-    _print_table(
-        f"{label} - evaluation (ms, {QUERY_FACTOR}x knots query points)",
-        names,
-        call_rows,
-    )
+        _print_table(
+            f"{label} - construction (ms, min of {_RUNS} runs)", names, build_rows
+        )
+        _print_table(
+            f"{label} - evaluation (ms, {QUERY_FACTOR}x knots query points)",
+            names,
+            call_rows,
+        )
 
 
 def main() -> None:

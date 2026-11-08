@@ -28,7 +28,7 @@ Currently implemented suites:
     API*.
 -   :class:`BenchmarkSuite_IntegrationObject`, spectral integration
     object-path (``SpectralDistribution`` / ``MultiSpectralDistributions``
-    inputs across all methods); numpy-bound by the SD object machinery.
+    inputs across all methods); spectral values follow the selected backend.
 -   :class:`BenchmarkSuite_TransferFunction`, CCTF encoding / decoding.
 -   :class:`BenchmarkSuite_Adaptation`, direct chromatic adaptation
     transforms.
@@ -47,7 +47,7 @@ Currently implemented suites:
     :class:`MultiSpectralDistributions` construction.
 -   :class:`BenchmarkSuite_QualityObject`, light-source quality indices
     (CRI / CFI / CQS / SSI) on single :class:`SpectralDistribution`
-    inputs; numpy-bound by the SD object machinery.
+    inputs with backend-typed spectral values.
 -   :class:`BenchmarkSuite_Volume`, gamut volume on ``RGB_Colourspace``
     instances (``Monte Carlo``, ``RGB_colourspace_limits``).
 -   :class:`BenchmarkSuite_VolumeIterative`, ``scipy.spatial.Delaunay``-
@@ -66,11 +66,11 @@ Currently implemented suites:
     dispatches through the *Array API*.
 -   :class:`BenchmarkSuite_GeneratorsObject`, per-:class:`SpectralDistribution`
     generators (``sd_blackbody``, ``sd_rayleigh_jeans``,
-    ``sd_CIE_illuminant_D_series``, ``msds_*`` variants); numpy-bound
-    by the SD object machinery.
+    ``sd_CIE_illuminant_D_series``, ``msds_*`` variants); scalar ``sd_*``
+    cases use *NumPy*, while ``msds_*`` cases follow the selected backend.
 -   :class:`BenchmarkSuite_Photometry`, photometric measures over a
     :class:`SpectralDistribution` (``luminous_flux``,
-    ``luminous_efficacy``, ``luminous_efficiency``); numpy-bound.
+    ``luminous_efficacy``, ``luminous_efficiency``) with backend-typed values.
 
 Usage::
 
@@ -147,9 +147,11 @@ from colour.colorimetry import (
     sd_rayleigh_jeans,
     sd_to_XYZ,
 )
+from colour.constants import DTYPE_FLOAT_DEFAULT
 from colour.contrast import contrast_sensitivity_function
 from colour.difference import DELTA_E_METHODS
 from colour.graph.conversion import CONVERSION_SPECIFICATIONS_DATA, convert
+from colour.hints import cast
 from colour.models import (
     CCTF_DECODINGS,
     CCTF_ENCODINGS,
@@ -181,10 +183,16 @@ from colour.recovery.mallett2019 import MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
 from colour.temperature import (
     CCT_TO_UV_METHODS,
     UV_TO_CCT_METHODS,
+    CCT_to_uv_Krystek1985,
+    CCT_to_uv_Planck1900,
     CCT_to_xy,
     xy_to_CCT,
 )
-from colour.utilities import array_api_enable, set_default_float_dtype
+from colour.utilities import (
+    array_api_enable,
+    ndarray_copy_enable,
+    set_default_float_dtype,
+)
 from colour.volume import (
     RGB_colourspace_limits,
     RGB_colourspace_volume_MonteCarlo,
@@ -1051,6 +1059,25 @@ class BenchmarkRunner:
             status,
         )
 
+    @staticmethod
+    def synchronize_result(result: typing.Any) -> None:
+        """Await arrays in native containers and *Colour* result objects."""
+
+        if is_dataclass(result) and not isinstance(result, type):
+            for field in fields(result):
+                BenchmarkRunner.synchronize_result(getattr(result, field.name))
+        elif isinstance(result, (SpectralDistribution, MultiSpectralDistributions)):
+            with ndarray_copy_enable(False):
+                BenchmarkRunner.synchronize_result(result.values)
+        elif isinstance(result, dict):
+            for value in result.values():
+                BenchmarkRunner.synchronize_result(value)
+        elif isinstance(result, (list, tuple)):
+            for value in result:
+                BenchmarkRunner.synchronize_result(value)
+        elif hasattr(result, "block_until_ready"):
+            cast("typing.Any", result).block_until_ready()
+
     def run_case(
         self,
         suite: str,
@@ -1078,7 +1105,7 @@ class BenchmarkRunner:
                 result = operation()
 
             if block:
-                jax.block_until_ready(result)
+                self.synchronize_result(result)
 
         times: list[float] = []
         try:
@@ -1123,28 +1150,31 @@ class BenchmarkRunner:
         done = 0
 
         for backend in self.resolved_backends:
+            dtype_original = DTYPE_FLOAT_DEFAULT
             if backend == "torch-mps":
                 set_default_float_dtype(np.float32)
 
-            for label, metadata, operation in suite.cases(backend):
-                done += 1
-                if operation is None:
-                    result = BenchmarkResult(
-                        suite=suite.NAME,
-                        backend=backend,
-                        status="SKIPPED",
-                        label=label,
-                        metadata=metadata,
-                    )
-                else:
-                    result = self.run_case(
-                        suite.NAME, backend, label, metadata, operation
-                    )
-                results.append(result)
-                self.log_progress(done, total, result)
+            try:
+                for label, metadata, operation in suite.cases(backend):
+                    done += 1
+                    if operation is None:
+                        result = BenchmarkResult(
+                            suite=suite.NAME,
+                            backend=backend,
+                            status="SKIPPED",
+                            label=label,
+                            metadata=metadata,
+                        )
+                    else:
+                        result = self.run_case(
+                            suite.NAME, backend, label, metadata, operation
+                        )
+                    results.append(result)
+                    self.log_progress(done, total, result)
 
-            if backend == "torch-mps":
-                set_default_float_dtype(np.float64)
+            finally:
+                if backend == "torch-mps":
+                    set_default_float_dtype(dtype_original)
 
         return results
 
@@ -1355,7 +1385,12 @@ class BenchmarkSuite_ConversionGraph(BenchmarkSuite):
         if source == "CMYK":
             return rng.random((n, 4))
 
-        if source.startswith("CCT") or source.endswith((" xy", " uv")):
+        if source == "CCT":
+            return np.column_stack(
+                [rng.uniform(2000, 10000, n), rng.uniform(-0.005, 0.005, n)]
+            )
+
+        if source.endswith((" xy", " uv")):
             return rng.random((n, 2))
 
         return rng.random((n, 3))
@@ -1403,10 +1438,16 @@ class BenchmarkSuite_ConversionGraph(BenchmarkSuite):
             for method in methods:
                 if not self._include_case(source, target, method):
                     continue
+                method_data = data
+                if source == "CCT" and CCT_TO_UV_METHODS[method] in (
+                    CCT_to_uv_Krystek1985,
+                    CCT_to_uv_Planck1900,
+                ):
+                    method_data = cast("typing.Any", data)[..., 0]
                 yield (
                     f"{source} -> {target} ({method})",
                     {**base_metadata, "method": method},
-                    lambda x=data, s=source, t=target, m=method: convert(
+                    lambda x=method_data, s=source, t=target, m=method: convert(
                         x, s, t, method=m
                     ),
                 )
@@ -2009,12 +2050,12 @@ class BenchmarkSuite_QualityObject(BenchmarkSuite):
 
 class BenchmarkSuite_Volume(BenchmarkSuite):
     """
-    Benchmark the *Array API*-dispatchable gamut volume cases:
-    ``RGB_colourspace_volume_MonteCarlo`` and ``RGB_colourspace_limits``.
+    Benchmark the host gamut volume cases on *NumPy*.
 
-    The ``scipy.spatial.Delaunay``-backed containment checks live in
-    :class:`BenchmarkSuite_VolumeIterative` so the geo-mean here is not
-    polluted by host-only ``Delaunay`` triangulation.
+    ``RGB_colourspace_volume_MonteCarlo`` and ``RGB_colourspace_limits`` do
+    not accept backend input arrays. Accelerator cases are reported as skipped.
+    The ``scipy.spatial.Delaunay`` containment checks are benchmarked separately
+    in :class:`BenchmarkSuite_VolumeIterative`.
     """
 
     NAME = "volume"
@@ -2035,7 +2076,11 @@ class BenchmarkSuite_Volume(BenchmarkSuite):
     ) -> Iterable[tuple[str, dict[str, str], Callable[[], object] | None]]:
         """See :class:`BenchmarkSuite`."""
 
-        del backend
+        if backend != "numpy":
+            yield "RGB_colourspace_volume_MonteCarlo", {}, None
+            yield "RGB_colourspace_limits", {}, None
+            return
+
         yield (
             "RGB_colourspace_volume_MonteCarlo",
             {"function": "RGB_colourspace_volume_MonteCarlo"},
@@ -2494,8 +2539,8 @@ class BenchmarkSuite_Photometry(BenchmarkSuite):
     Benchmark photometric measures over a :class:`SpectralDistribution`.
 
     ``luminous_flux``, ``luminous_efficacy`` and ``luminous_efficiency``
-    consume a :class:`SpectralDistribution` instance (numpy-backed) and
-    are therefore numpy-bound regardless of the requested backend.
+    consume a :class:`SpectralDistribution` rebuilt with values in the
+    requested backend. Their numerical kernels follow those values.
     """
 
     NAME = "photometry"
