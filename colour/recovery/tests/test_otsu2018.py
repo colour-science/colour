@@ -38,9 +38,11 @@ from colour.recovery.otsu2018 import (
     PartitionAxis,
 )
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     domain_range_scale,
     metric_mse,
+    xp_as_array,
     xp_assert_close,
 )
 
@@ -620,7 +622,7 @@ class TestData_Otsu2018:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_reconstruct(self) -> None:
+    def test_reconstruct(self, xp: ModuleType) -> None:
         """
         Test :meth:`colour.recovery.otsu2018.Data_Otsu2018.reconstruct`
         method.
@@ -678,6 +680,16 @@ class TestData_Otsu2018:
             ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        query = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
+        result = data.reconstruct(query).values
+        xp_assert_close(
+            result,
+            data.reconstruct(as_ndarray(query)).values,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        assert array_namespace(result) is array_namespace(query)
+        assert getattr(result, "device", None) == getattr(query, "device", None)
 
     def test_raise_exception_reconstruct(self) -> None:
         """

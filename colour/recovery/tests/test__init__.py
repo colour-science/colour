@@ -60,8 +60,16 @@ class TestXYZ_to_sd:
 
         self._sd_D65 = reshape_sd(SDS_ILLUMINANTS["D65"], self._cmfs.shape)
 
-    @pytest.mark.parametrize("method", ["Meng 2015", "Jakob 2019"])
-    @pytest.mark.mps_xfail("MPS float32 singular matrix")
+    @pytest.mark.parametrize(
+        "method",
+        [
+            pytest.param(
+                "Meng 2015",
+                marks=pytest.mark.mps_xfail("MPS float32 singular matrix"),
+            ),
+            "Jakob 2019",
+        ],
+    )
     def test_backend_optimisation_warning(self, method: str, xp: ModuleType) -> None:
         """Test backend optimisation warnings through the generic wrapper."""
 

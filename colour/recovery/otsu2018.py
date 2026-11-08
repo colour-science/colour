@@ -974,7 +974,7 @@ class Data_Otsu2018:
             )
             reflectance = xp.matmul(
                 weights, xp_as_float_array(self._basis_functions, xp=xp, like=XYZ)
-            ) + xp_as_float_array(cast("NDArrayFloat", self._mean), xp=xp)
+            ) + xp_as_float_array(cast("NDArrayFloat", self._mean), xp=xp, like=XYZ)
             reflectance = xp.clip(reflectance, 0, 1)
 
             return SpectralDistribution(reflectance, self._cmfs.wavelengths)

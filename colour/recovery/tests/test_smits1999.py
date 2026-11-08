@@ -5,7 +5,11 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
+    import pytest
+
     from colour.hints import ModuleType
+
+import contextlib
 
 import numpy as np
 
@@ -18,7 +22,12 @@ from colour.recovery import (
     RGB_to_sd_Smits1999,
 )
 from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999
-from colour.utilities import domain_range_scale, xp_as_array, xp_assert_close
+from colour.utilities import (
+    as_ndarray,
+    domain_range_scale,
+    xp_as_array,
+    xp_assert_close,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -110,7 +119,9 @@ class TestRGB_to_msds_Smits1999:
     definition unit tests methods.
     """
 
-    def test_RGB_to_msds_Smits1999(self, xp: ModuleType) -> None:
+    def test_RGB_to_msds_Smits1999(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.recovery.smits1999.RGB_to_msds_Smits1999`
         definition.
@@ -173,6 +184,87 @@ class TestRGB_to_msds_Smits1999:
         white_values = xp_as_array(SDS_SMITS1999["white"].values, xp=xp)
         xp_assert_close(msds[0], white_values, atol=TOLERANCE_ABSOLUTE_TESTS)
         xp_assert_close(msds[1], white_values * 0.5, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        # Normalise before comparing so an erroneous zero cannot pass the
+        # absolute tolerance for this small but representable cyan signal.
+        tiny = xp_as_array([0.0, 1e-20, 1.0], xp=xp)
+        basis_values = MSDS_SMITS1999.values
+        blue = basis_values[:, MSDS_SMITS1999.labels.index("blue")]
+        cyan = basis_values[:, MSDS_SMITS1999.labels.index("cyan")]
+        bands = np.flatnonzero((blue == 0) & (cyan > 0))
+        assert len(bands) == 2
+        with contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu"):
+            recovered = RGB_to_msds_Smits1999(tiny, as_array=True)
+        assert getattr(recovered, "device", None) == getattr(tiny, "device", None)
+        for band in bands:
+            xp_assert_close(
+                recovered[int(band)] / 1e-20,
+                cyan[band],
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
+        for scale, factor in (("reference", 1), ("1", 1), ("100", 100)):
+            with domain_range_scale(scale):
+                scaled = RGB_to_msds_Smits1999(tiny * factor, as_array=True)
+            xp_assert_close(
+                scaled / 1e-20, recovered / 1e-20, atol=TOLERANCE_ABSOLUTE_TESTS
+            )
+
+        for channel in range(3):
+            with_nan = [0.2, 0.3, 0.4]
+            with_nan[channel] = float("nan")
+            assert bool(
+                xp.all(
+                    xp.isnan(
+                        RGB_to_msds_Smits1999(
+                            xp_as_array(with_nan, xp=xp), as_array=True
+                        )
+                    )
+                )
+            )
+
+        magnitude = (
+            2e38
+            if getattr(getattr(tiny, "device", None), "type", None) == "mps"
+            else 1e308
+        )
+        extended = xp_as_array([magnitude] * 3, xp=xp)
+        with contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu"):
+            recovered = RGB_to_msds_Smits1999(extended, as_array=True)
+        assert bool(xp.all(xp.isfinite(recovered)))
+        assert getattr(recovered, "device", None) == getattr(extended, "device", None)
+        xp_assert_close(
+            as_ndarray(recovered) / magnitude,
+            white_values,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        basis = MSDS_SMITS1999.copy(xp=np)
+        native = xp_as_array(basis.values, xp=xp)
+        RGB = np.array([[0.2, 0.3, 0.4]])
+        expected = RGB_to_msds_Smits1999(xp_as_array(RGB, xp=xp), basis, as_array=True)
+        basis.values = native
+        with contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu"):
+            result = RGB_to_msds_Smits1999(RGB, basis, as_array=True)
+        xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert getattr(result, "device", None) == getattr(native, "device", None)
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(
+                lambda values: RGB_to_msds_Smits1999(values, as_array=True),
+                [[0.2, 0.3, 0.4]],
+            )
+            autodiff(
+                lambda values: RGB_to_msds_Smits1999(
+                    np.array([[0.2, 0.3, 0.4]]),
+                    type(MSDS_SMITS1999)(
+                        values, MSDS_SMITS1999.wavelengths, labels=MSDS_SMITS1999.labels
+                    ),
+                    as_array=True,
+                ),
+                MSDS_SMITS1999.values,
+            )
 
 
 class TestSd_from_RGB_Smits1999:

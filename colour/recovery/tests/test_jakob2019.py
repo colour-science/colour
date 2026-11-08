@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import os
 import shutil
 import tempfile
@@ -67,7 +68,7 @@ class TestErrorFunction:
 
         self._Lab_e = np.array([72, -20, 61])
 
-    def test_intermediates(self) -> None:
+    def test_intermediates(self, xp: ModuleType) -> None:
         """
         Test intermediate results of
         :func:`colour.recovery.jakob2019.error_function` with
@@ -114,6 +115,23 @@ class TestErrorFunction:
             assert abs(error_reference - error) < JND_CIE1976 / 100
             assert delta_E_CIE1976(Lab, sd_Lab) < JND_CIE1976 / 100
 
+        coefficients = np.array([0.1, 0.2, 0.3])
+        target = np.array([50.0, 0.0, 0.0])
+        expected = error_function(coefficients, target, self._cmfs, self._sd_D65)
+        for i in range(2):
+            host = [coefficients, target]
+            native = xp_as_array(host[i], xp=xp)
+            host[i] = native
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = error_function(host[0], host[1], self._cmfs, self._sd_D65)
+            for actual, reference in zip(result, expected, strict=True):
+                xp_assert_close(actual, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+                assert getattr(actual, "device", None) == getattr(
+                    native, "device", None
+                )
+
     def test_derivatives(self) -> None:
         """
         Test the gradients computed using closed-form expressions of the
@@ -147,7 +165,7 @@ class TestErrorFunction:
             xp_assert_close(
                 staggered_derrors,
                 approximate_derrors,
-                atol=TOLERANCE_ABSOLUTE_TESTS * 50000,
+                atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.005),
             )
 
 
@@ -328,7 +346,7 @@ class TestLUT3D_Jakob2019:
             xp_assert_close(
                 LUT.coefficients,
                 LUT_t.coefficients,
-                atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+                atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
             )
         finally:
             shutil.rmtree(temporary_directory)

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -118,6 +119,21 @@ class TestRGB_to_msds_Gaussian:
         msds = RGB_to_msds_Gaussian(RGB, as_array=True)
 
         assert msds.shape == (3, 421)
+
+        magnitude = (
+            2e38
+            if getattr(getattr(RGB, "device", None), "type", None) == "mps"
+            else 1e308
+        )
+        extended = xp_as_array([magnitude] * 3, xp=xp)
+        with nullcontext() if xp.__name__ != "torch" else xp.device("cpu"):
+            recovered = RGB_to_msds_Gaussian(extended, as_array=True)
+        assert bool(xp.all(xp.isfinite(recovered)))
+        assert getattr(recovered, "device", None) == getattr(extended, "device", None)
+        white = MSDS_GAUSSIAN_BASIS.values[:, MSDS_GAUSSIAN_BASIS.labels.index("white")]
+        xp_assert_close(
+            as_ndarray(recovered) / magnitude, white, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
         xp_assert_close(
             msds[0, 0],

@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import contextlib
+import typing
+
 import numpy as np
 import pytest
 
@@ -27,6 +30,12 @@ from colour.recovery import (
     RGB_to_sd_Mallett2019,
     spectral_primary_decomposition_Mallett2019,
 )
+from colour.utilities import xp_as_array, xp_assert_close
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
+
+from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -140,10 +149,32 @@ class TestRGB_to_sd_Mallett2019(FixtureMallett2019):
         self._RGB_colourspace = RGB_COLOURSPACE_sRGB
         self._basis = MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
 
-    def test_RGB_to_sd_Mallett2019(self) -> None:
+    def test_RGB_to_sd_Mallett2019(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.recovery.mallett2019.RGB_to_sd_Mallett2019`
         definition.
         """
 
         self.check_basis_functions()
+
+        basis = self._basis.copy(xp=np)
+        native = xp_as_array(basis.values, xp=xp)
+        RGB = np.array([0.2, 0.3, 0.4])
+        expected = RGB_to_sd_Mallett2019(xp_as_array(RGB, xp=xp), basis).values
+        basis.values = native
+        with contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu"):
+            result = RGB_to_sd_Mallett2019(RGB, basis).values
+        xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert getattr(result, "device", None) == getattr(native, "device", None)
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(
+                lambda values: RGB_to_sd_Mallett2019(
+                    np.array([0.2, 0.3, 0.4]),
+                    type(self._basis)(values, self._basis.wavelengths),
+                ).values,
+                self._basis.values,
+            )

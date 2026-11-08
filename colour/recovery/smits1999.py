@@ -26,6 +26,7 @@ from colour.recovery import MSDS_SMITS1999
 from colour.utilities import (
     array_namespace,
     as_float_array,
+    is_non_ndarray,
     optional,
     to_domain_1,
     xp_as_float_array,
@@ -204,7 +205,9 @@ def RGB_to_msds_Smits1999(
 
     RGB = to_domain_1(as_float_array(RGB))
 
-    xp = array_namespace(RGB)
+    xp = array_namespace(RGB, basis.values)
+    reference = next((a for a in (RGB, basis.values) if is_non_ndarray(a)), RGB)
+    RGB = xp_as_float_array(RGB, xp=xp, like=reference)
 
     shape = RGB.shape
     RGB = xp_atleast_2d(xp_reshape(RGB, (-1, 3), xp=xp), xp=xp)
@@ -247,7 +250,9 @@ def RGB_to_msds_Smits1999(
 
     min_channel = xp.min(RGB, axis=-1)
     max_channel = xp.max(RGB, axis=-1)
-    mid_channel = xp.sum(RGB, axis=-1) - min_channel - max_channel
+    # Select the middle channel directly: summing all three channels can
+    # overflow for finite extended RGB or cancel a small middle channel.
+    mid_channel = xp.sort(RGB, axis=-1)[..., 1]
     secondary = secondary_bases[xp.argmin(RGB, axis=-1)]
     primary = primary_bases[xp.argmax(RGB, axis=-1)]
 
