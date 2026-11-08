@@ -38,7 +38,9 @@ from colour.utilities import (
     as_float,
     as_float_array,
     as_ndarray,
+    is_non_ndarray,
     xp_as_float_array,
+    xp_log,
     xp_reshape,
     xp_squeeze,
 )
@@ -76,9 +78,9 @@ CONSTANT_N: float = 1
 def planck_law(
     wavelength: ArrayLike,
     temperature: ArrayLike,
-    c1: float = CONSTANT_C1,
-    c2: float = CONSTANT_C2,
-    n: float = CONSTANT_N,
+    c1: ArrayLike = CONSTANT_C1,
+    c2: ArrayLike = CONSTANT_C2,
+    n: ArrayLike = CONSTANT_N,
 ) -> NDArrayFloat:
     """
     Compute the spectral radiance of a blackbody as a function of
@@ -92,18 +94,20 @@ def planck_law(
     temperature
         Temperature :math:`T[K]` in kelvin degrees.
     c1
-        The official value of :math:`c1` is provided by the Committee on
-        Data for Science and Technology (CODATA) and is
+        Scalar first radiation constant. The official value of :math:`c1`
+        is provided by the Committee on Data for Science and Technology
+        (CODATA) and is
         :math:`c1=3.741771 \\times 10^{-16}\\ \\mathrm{W/m^2}` *(Mohr and
         Taylor, 2000)*.
     c2
-        Since :math:`T` is measured on the International Temperature
-        Scale, the value of :math:`c2` used in colorimetry should follow
+        Scalar second radiation constant. Since :math:`T` is measured on
+        the International Temperature Scale, the value of :math:`c2` used
+        in colorimetry should follow
         that adopted in the current International Temperature Scale
         (ITS-90) *(Preston-Thomas, 1990; Mielenz et al., 1991)*, namely
         :math:`c2=1.4388 \\times 10^{-2}\\ \\mathrm{m \\cdot K}`.
     n
-        Medium index of refraction. For dry air at 15°C and 101 325 Pa,
+        Scalar medium index of refraction. For dry air at 15°C and 101 325 Pa,
         containing 0.03 percent by volume of carbon dioxide, it is
         approximately 1.00028 throughout the visible region although
         *CIE 15:2004* recommends using :math:`n=1`.
@@ -144,10 +148,15 @@ def planck_law(
     l = as_float_array(wavelength)  # noqa: E741
     t = as_float_array(temperature)
 
-    xp = array_namespace(l, t)
+    arrays = (l, t, c1, c2, n)
+    xp = array_namespace(*arrays)
+    reference = next((a for a in arrays if is_non_ndarray(a)), l)
 
-    l = xp_as_float_array(l, xp=xp, like=t)  # noqa: E741
+    l = xp_as_float_array(l, xp=xp, like=reference)  # noqa: E741
     t = xp_as_float_array(t, xp=xp, like=l)
+    c1 = xp_as_float_array(c1, xp=xp, like=l)
+    c2 = xp_as_float_array(c2, xp=xp, like=l)
+    n = xp_as_float_array(n, xp=xp, like=l)
 
     attest(xp.all(l > 0), "Wavelengths must be positive real numbers!")
 
@@ -156,7 +165,7 @@ def planck_law(
 
     # Exact binary scaling keeps visible-wavelength powers and their
     # derivatives representable on float32 backends.
-    wavelength_scale = 2**20
+    wavelength_scale = float(2**20)
     l = l * wavelength_scale  # noqa: E741
     exponent = (c2 * wavelength_scale) / (n * l * t)
     wien_tail = exponent > 20
@@ -175,13 +184,17 @@ def planck_law(
 
     l_tail = xp.where(wien_tail, l, 1.0)
     exponent_tail = xp.where(wien_tail, exponent, 1.0)
+    # The scalar physical parameters must remain in the native graph. At
+    # c1 == 0, a linear zero factor also retains the derivative with respect
+    # to c1 without evaluating log(0).
     log_factor = (
-        log(abs(c1)) + 5 * log(wavelength_scale) - 2 * log(abs(n)) - log(xp.pi)
-        if c1 != 0
-        else -float("inf")
+        xp_log(xp.abs(c1), where=wien_tail & (c1 != 0), xp=xp)
+        + 5 * log(wavelength_scale)
+        - 2 * xp_log(xp.abs(n), where=wien_tail, xp=xp)
+        - log(xp.pi)
     )
     p_tail = (
-        (-1 if c1 < 0 else 1)
+        xp.where(c1 == 0, c1, xp.sign(c1))
         * xp.exp(log_factor - 5 * xp.log(l_tail) - exponent_tail)
         / -xp.expm1(-exponent_tail)
     )

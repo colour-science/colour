@@ -1325,6 +1325,78 @@ class TestPlanckLaw:
                     temperature,
                 )
 
+        # Scalar physical model parameters must retain their native placement
+        # and derivatives in both the ordinary and Wien expressions. Ratios
+        # avoid differencing the very small first radiation constant directly.
+        for temperature in (300.0, 1000.0, 5500.0):
+            wavelength = 500e-9
+            n = 1.2
+            exponent = CONSTANT_C2 / (n * wavelength * temperature)
+            reference = float(
+                CONSTANT_C1 / np.pi / n**2 / wavelength**5 / np.expm1(exponent)
+            )
+            for index in range(3):
+                parameters: list[float | NDArrayFloat] = [CONSTANT_C1, CONSTANT_C2, n]
+                native = xp_as_array(parameters[index], xp=xp)
+                parameters[index] = native
+                with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                    result = planck_law(wavelength, temperature, *parameters)
+                xp_assert_close(result / reference, 1.0, atol=TOLERANCE_ABSOLUTE_TESTS)
+                if hasattr(native, "device"):
+                    assert result.device == native.device
+
+            for sign in (-1, 0, 1):
+                result = planck_law(
+                    xp_as_array(wavelength, xp=xp),
+                    temperature,
+                    c1=xp_as_array(sign * CONSTANT_C1, xp=xp),
+                    n=n,
+                )
+                xp_assert_close(result / reference, sign, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+            if xp.__name__ != "numpy":
+
+                def physical_model(
+                    ratios: NDArrayFloat,
+                    wavelength: float = wavelength,
+                    temperature: float = temperature,
+                    n: float = n,
+                    reference: float = reference,
+                ) -> NDArrayFloat:
+                    with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                        return (
+                            planck_law(
+                                wavelength,
+                                temperature,
+                                c1=CONSTANT_C1 * ratios[0],
+                                c2=CONSTANT_C2 * ratios[1],
+                                n=n * ratios[2],
+                            )
+                            / reference
+                        )
+
+                result, (gradient,), (ratios,) = autodiff(
+                    physical_model, [1.0, 1.0, 1.0]
+                )
+                thermal_factor = exponent / -np.expm1(-exponent)
+                expected = xp_as_array(
+                    [1.0, -thermal_factor, thermal_factor - 2],
+                    dtype=gradient.dtype,
+                    xp=xp,
+                    like=gradient,
+                )
+                xp_assert_close(
+                    gradient / expected,
+                    [1.0, 1.0, 1.0],
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+                assert result.device == ratios.device
+                result, (gradient,), _ = autodiff(physical_model, [0.0, 1.0, 1.0])
+                xp_assert_close(result, 0.0, atol=TOLERANCE_ABSOLUTE_TESTS)
+                xp_assert_close(
+                    gradient, [1.0, 0.0, 0.0], atol=TOLERANCE_ABSOLUTE_TESTS
+                )
+
     def test_raise_exception_planck_law(self) -> None:
         """
         Test :func:`colour.colorimetry.blackbody.planck_law` definition
