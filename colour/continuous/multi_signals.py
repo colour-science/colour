@@ -521,13 +521,17 @@ class MultiSignals(AbstractContinuousFunction):
                 f"unpredictable results may occur!"
             )
 
-        if value.ndim in (0, 1):
+        if value.ndim in (0, 1) or (
+            value.ndim == 2 and value.shape[-1] == 1 and self._range.shape[1] != 1
+        ):
             value = xp_broadcast_to(
                 value[..., None] if value.ndim == 1 else value,
                 self._range.shape,
                 xp=xp,
             )
-            value = as_float_array(value, self.dtype)
+            # Broadcast views can be read-only or share storage between
+            # columns; canonical ranges must support independent writes.
+            value = xp_as_array(value, xp=xp, copy=True)
         else:
             attest(
                 value.shape[-1] == self._range.shape[1],
