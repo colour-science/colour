@@ -7,6 +7,7 @@ Configure *pytest* with array backend fixtures for *Array API* testing.
 
 from __future__ import annotations
 
+import contextlib
 import os
 import sys
 import typing
@@ -17,13 +18,17 @@ import pytest
 if typing.TYPE_CHECKING:
     from colour.hints import Generator, ModuleType
 
-from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.constants import (
+    DTYPE_COMPLEX_DEFAULT,
+    DTYPE_FLOAT_DEFAULT,
+    TOLERANCE_ABSOLUTE_TESTS,
+)
 from colour.utilities import (
     array_api_enable,
     as_ndarray,
     set_default_complex_dtype,
     set_default_float_dtype,
-    xp_assert_close,
+    xp_as_float_array,
 )
 
 __author__ = "Colour Developers"
@@ -242,16 +247,21 @@ def autodiff(xp: ModuleType) -> typing.Callable:
     Reverse-mode gradients are compared with central finite differences and
     checked for device retention. Small inputs receive a component-wise
     comparison; larger inputs use deterministic directional derivatives to
-    keep spectral regression tests tractable.
+    keep spectral regression tests tractable. Inconclusive float32 differences
+    receive an independent float64 CPU reference using the same callable and
+    input values. Outputs, analytical gradients and device checks remain native,
+    and comparison tolerances are unchanged.
     """
 
     if xp.__name__ == "numpy":
         pytest.skip("Automatic differentiation requires *JAX* or *PyTorch*.")
 
-    def evaluate(function: typing.Callable, *inputs: object) -> tuple:
+    def evaluate(function: typing.Callable, *inputs: typing.Any) -> tuple:
         """Evaluate a function and verify its summed-output gradients."""
 
-        variables = tuple(xp.asarray(value) for value in inputs)
+        variables: tuple[typing.Any, ...] = tuple(
+            xp_as_float_array(value, xp=xp) for value in inputs
+        )
 
         if xp.__name__ == "torch":
             variables = tuple(
@@ -274,96 +284,164 @@ def autodiff(xp: ModuleType) -> typing.Callable:
                 has_aux=True,
             )(*variables)
 
-        def objective(arguments: tuple[typing.Any, ...]) -> typing.Any:
-            """Evaluate the summed output without building a *PyTorch* graph."""
-
-            if xp.__name__ == "torch":
-                with xp.no_grad():
-                    return xp.sum(function(*arguments))
-
-            return xp.sum(function(*arguments))
+        # Outputs and analytical gradients always come from the requested
+        # backend/device. A higher-precision reference below is verification
+        # only and never substitutes for these gradients.
+        device = getattr(variables[0], "device", None)
+        for value in (result, *gradients):
+            if not bool(xp.all(xp.isfinite(value))):
+                pytest.fail("Automatic differentiation produced a nonfinite value.")
+            if device is not None and getattr(value, "device", None) != device:
+                pytest.fail(
+                    "Automatic differentiation moved a value off its input device."
+                )
 
         def central_difference(
-            index: int, direction: typing.Any, step: float
-        ) -> typing.Any:
-            """Return a central directional finite difference."""
+            arguments: tuple, index: int, direction: typing.Any, step: float
+        ) -> tuple[float, float]:
+            """Return the difference and its output-rounding error scale."""
 
-            arguments_plus = list(variables)
-            arguments_minus = list(variables)
-            arguments_plus[index] = variables[index] + step * direction
-            arguments_minus[index] = variables[index] - step * direction
+            plus = list(arguments)
+            minus = list(arguments)
+            plus[index] = arguments[index] + step * direction
+            minus[index] = arguments[index] - step * direction
+            try:
+                with (
+                    xp.no_grad() if xp.__name__ == "torch" else contextlib.nullcontext()
+                ):
+                    output_plus = function(*plus)
+                    output_minus = function(*minus)
+            except (TypeError, RuntimeError, ValueError) as error:
+                if reference_active:
+                    pytest.fail(
+                        "The float64 CPU reference could not evaluate the same "
+                        f"callable; check captured device-specific state: {error}"
+                    )
+                raise
+            if reference_active:
+                for output in (output_plus, output_minus):
+                    if (
+                        str(output.dtype) not in ("torch.float64", "float64")
+                        or "cpu" not in str(output.device).lower()
+                    ):
+                        pytest.fail(
+                            "The float64 CPU reference retained captured "
+                            "device-specific state or could not evaluate in the "
+                            "requested precision."
+                        )
+            epsilon = float(xp.finfo(output_plus.dtype).eps)
+            plus_values = as_ndarray(output_plus).astype(np.float64)
+            minus_values = as_ndarray(output_minus).astype(np.float64)
+            # Subtract outputs before summing to avoid cancellation against
+            # the float32 summed objective's potentially large offset.
+            derivative = float(np.sum(plus_values - minus_values) / (2 * step))
+            roundoff = float(
+                epsilon
+                * np.sum(np.abs(plus_values) + np.abs(minus_values))
+                / (2 * step)
+            )
 
-            return (
-                objective(tuple(arguments_plus)) - objective(tuple(arguments_minus))
-            ) / (2 * step)
+            return derivative, roundoff
 
+        rtol = max(_AUTODIFF_RELATIVE_TOLERANCE, 10 * TOLERANCE_ABSOLUTE_TESTS)
+        atol = max(_AUTODIFF_ABSOLUTE_TOLERANCE, TOLERANCE_ABSOLUTE_TESTS)
+        reference_active = False
+        reference_checks = []
         for index, (variable, gradient) in enumerate(
-            zip(variables, gradients, strict=False)
+            zip(variables, gradients, strict=True)
         ):
             values = as_ndarray(variable)
             epsilon = float(xp.finfo(variable.dtype).eps)
-            step_base = epsilon ** (1 / 3)
-            rtol = max(
-                _AUTODIFF_RELATIVE_TOLERANCE,
-                10 * TOLERANCE_ABSOLUTE_TESTS,
+            rng = np.random.default_rng(_AUTODIFF_DIRECTION_SEED + index)
+            count = (
+                values.size
+                if values.size <= _AUTODIFF_FULL_FINITE_DIFFERENCE_SIZE
+                else _AUTODIFF_DIRECTIONAL_CHECKS
             )
-            atol = max(
-                _AUTODIFF_ABSOLUTE_TOLERANCE,
-                TOLERANCE_ABSOLUTE_TESTS,
-            )
-            device = getattr(variable, "device", None)
-
-            if values.size <= _AUTODIFF_FULL_FINITE_DIFFERENCE_SIZE:
-                numerical_values = []
-                for element, value in enumerate(values.flat):
+            for element in range(count):
+                if values.size <= _AUTODIFF_FULL_FINITE_DIFFERENCE_SIZE:
                     direction_values = np.zeros_like(values)
                     direction_values.flat[element] = 1
-                    direction = xp.asarray(
-                        direction_values,
-                        dtype=variable.dtype,
-                        device=device,
-                    )
-                    step = step_base * max(1, abs(float(value)))
-                    numerical_values.append(central_difference(index, direction, step))
-
-                numerical_gradient = xp.reshape(
-                    xp.stack(numerical_values), variable.shape
-                )
-                xp_assert_close(
-                    gradient,
-                    numerical_gradient,
-                    rtol=rtol,
-                    atol=atol,
-                )
-                continue
-
-            rng = np.random.default_rng(_AUTODIFF_DIRECTION_SEED + index)
-            step = step_base * max(1, float(np.max(np.abs(values))))
-            for _check in range(_AUTODIFF_DIRECTIONAL_CHECKS):
-                direction_values = rng.uniform(-1, 1, variable.shape)
-                direction_values /= np.max(np.abs(direction_values))
+                    scale = max(1, abs(float(values.flat[element])))
+                else:
+                    direction_values = rng.uniform(-1, 1, variable.shape)
+                    direction_values /= np.max(np.abs(direction_values))
+                    scale = max(1, float(np.max(np.abs(values))))
                 direction = xp.asarray(
-                    direction_values,
-                    dtype=variable.dtype,
-                    device=device,
+                    direction_values, dtype=variable.dtype, device=variable.device
                 )
-                analytical_derivative = xp.sum(gradient * direction)
-                numerical_derivative = central_difference(index, direction, step)
-                xp_assert_close(
-                    analytical_derivative,
-                    numerical_derivative,
-                    rtol=rtol,
-                    atol=atol,
+                analytical = float(as_ndarray(xp.sum(gradient * direction)))
+                step = epsilon ** (1 / 3) * scale
+                numerical, roundoff = central_difference(
+                    variables, index, direction, step
                 )
-
-        device = getattr(variables[0], "device", None)
-        if device is not None:
-            for value in (result, *gradients):
-                if getattr(value, "device", None) != device:
-                    pytest.fail(
-                        "Automatic differentiation moved an output or gradient "
-                        "away from the input device."
+                allowance = atol + rtol * abs(numerical)
+                if epsilon >= np.finfo(np.float32).eps:
+                    refined, refined_roundoff = central_difference(
+                        variables, index, direction, step / 2
                     )
+                    uncertainty = abs(refined - numerical) + max(
+                        roundoff, refined_roundoff
+                    )
+                    # Cancellation or branch-crossing can make native float32
+                    # differences inconclusive. Resolve them independently at
+                    # float64 precision rather than enlarging tolerances.
+                    if uncertainty > allowance or abs(
+                        analytical - refined
+                    ) > atol + rtol * abs(refined):
+                        reference_checks.append(
+                            (index, direction_values, scale, analytical)
+                        )
+                        continue
+                    numerical = refined
+                np.testing.assert_allclose(analytical, numerical, rtol=rtol, atol=atol)
+
+        if reference_checks:
+            dtype_original = DTYPE_FLOAT_DEFAULT
+            complex_original = DTYPE_COMPLEX_DEFAULT
+            torch_dtype = xp.get_default_dtype() if xp.__name__ == "torch" else None
+            if xp.__name__ == "torch":
+                context = xp.device("cpu")
+            else:
+                jax_backend = jax
+                if jax_backend is None:
+                    error = "The JAX numerical reference backend is unavailable."
+                    raise RuntimeError(error)
+                context = jax_backend.default_device(jax_backend.devices("cpu")[0])
+            try:
+                with context:
+                    if xp.__name__ == "torch":
+                        xp.set_default_dtype(xp.float64)
+                    set_default_float_dtype(np.float64)
+                    set_default_complex_dtype(np.complex128)
+                    reference_variables = tuple(
+                        xp.asarray(as_ndarray(value), dtype=xp.float64, device="cpu")
+                        if xp.__name__ == "torch"
+                        else xp.asarray(as_ndarray(value), dtype=xp.float64)
+                        for value in variables
+                    )
+                    reference_active = True
+                    for index, direction_values, scale, analytical in reference_checks:
+                        direction = xp.asarray(direction_values, dtype=xp.float64)
+                        step = np.finfo(np.float64).eps ** (1 / 3) * scale
+                        numerical, _ = central_difference(
+                            reference_variables, index, direction, step
+                        )
+                        refined, _ = central_difference(
+                            reference_variables, index, direction, step / 2
+                        )
+                        np.testing.assert_allclose(
+                            numerical, refined, rtol=rtol, atol=atol
+                        )
+                        np.testing.assert_allclose(
+                            analytical, refined, rtol=rtol, atol=atol
+                        )
+            finally:
+                reference_active = False
+                set_default_float_dtype(dtype_original)
+                set_default_complex_dtype(complex_original)
+                if torch_dtype is not None:
+                    xp.set_default_dtype(torch_dtype)
 
         return result, gradients, variables
 
