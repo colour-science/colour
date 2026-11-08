@@ -35,6 +35,7 @@ from colour.utilities import (
     array_namespace,
     as_float,
     as_float_array,
+    is_non_ndarray,
     is_numpy_namespace,
     optional,
     runtime_warning,
@@ -43,7 +44,6 @@ from colour.utilities import (
     xp_as_float_array,
     xp_eigh,
     xp_matrix_transpose,
-    xp_nan_to_num,
 )
 
 __author__ = "Colour Developers"
@@ -389,6 +389,42 @@ def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
         ),
     )
 
+    def warn_exceptional_division() -> None:
+        """Report exceptional divisions without evaluating invalid lanes."""
+
+        if bool(xp.any((b == 0) & xp.isfinite(a) & (a != 0))):
+            runtime_warning('"sdiv" encountered a zero division.')
+        if bool(xp.any(((a == 0) & (b == 0)) | (xp.isinf(a) & xp.isinf(b)))):
+            runtime_warning('"sdiv" encountered an invalid division.')
+        if bool(
+            xp.any(
+                xp.isfinite(a)
+                & xp.isfinite(b)
+                & (b != 0)
+                & (xp.abs(a) > xp.finfo(a.dtype).max * xp.minimum(xp.abs(b), 1))
+            )
+        ):
+            runtime_warning('"sdiv" encountered an overflowing division.')
+
+    def converted_division(limit: bool = False) -> NDArrayFloat:
+        """Divide finite lanes without recording invalid inactive operations."""
+
+        finite = xp.isfinite(a) & xp.isfinite(b) & (b != 0)
+        within_limit = xp.abs(a) <= xp.finfo(a.dtype).max * xp.minimum(xp.abs(b), 1)
+        valid = finite & within_limit
+        result = xp.where(valid, a, 0) / xp.where(valid, b, 1)
+        if limit:
+            overflow = (
+                (~xp.isnan(a))
+                & (~xp.isnan(b))
+                & (a != 0)
+                & ((b == 0) | xp.isinf(a) | (finite & ~within_limit))
+                & (~(xp.isinf(a) & xp.isinf(b)))
+            )
+            sign = xp.sign(a) * xp.where(xp.signbit(b), -1, 1)
+            result = xp.where(overflow, sign * xp.finfo(a.dtype).max, result)
+        return result
+
     if mode == "numpy":
         c = a / b
     elif mode == "ignore":
@@ -402,10 +438,7 @@ def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
             with np.errstate(divide="warn", invalid="warn"):
                 c = a / b
         else:
-            # Backends have no ``errstate`` equivalent; the zero denominators
-            # are detected explicitly to preserve the warning behaviour.
-            if bool(xp.any(b == 0)):
-                runtime_warning('"sdiv" encountered a zero division.')
+            warn_exceptional_division()
             c = a / b
     elif mode == "raise":
         if is_numpy_namespace(xp):
@@ -414,8 +447,8 @@ def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
         else:
             # Backends have no ``errstate`` equivalent; the zero denominators
             # are detected explicitly to preserve the raising behaviour.
-            if bool(xp.any(b == 0)):
-                error = "Zero division encountered during safe division."
+            if bool(xp.any(((b == 0) & xp.isfinite(a)) | (xp.isinf(a) & xp.isinf(b)))):
+                error = "Zero or invalid division encountered during safe division."
                 raise FloatingPointError(error)
             c = a / b
     elif mode == "ignore zero conversion":
@@ -423,27 +456,27 @@ def sdiv(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
             with np.errstate(divide="ignore", invalid="ignore"):
                 c = np.nan_to_num(a / b, nan=0, posinf=0, neginf=0)
         else:
-            d = a / b
-            c = xp.where(xp.isnan(d) | xp.isinf(d), 0.0, d)
+            c = converted_division()
     elif mode == "warning zero conversion":
         if is_numpy_namespace(xp):
             with np.errstate(divide="warn", invalid="warn"):
                 c = np.nan_to_num(a / b, nan=0, posinf=0, neginf=0)
         else:
-            d = a / b
-            c = xp.where(xp.isnan(d) | xp.isinf(d), 0.0, d)
+            warn_exceptional_division()
+            c = converted_division()
     elif mode == "ignore limit conversion":
         if is_numpy_namespace(xp):
             with np.errstate(divide="ignore", invalid="ignore"):
                 c = np.nan_to_num(a / b)
         else:
-            c = xp_nan_to_num(a / b, xp=xp)
+            c = converted_division(True)
     elif mode == "warning limit conversion":
         if is_numpy_namespace(xp):
             with np.errstate(divide="warn", invalid="warn"):
                 c = np.nan_to_num(a / b)
         else:
-            c = xp_nan_to_num(a / b, xp=xp)
+            warn_exceptional_division()
+            c = converted_division(True)
     elif mode == "replace with epsilon":
         b = xp.where(b == 0, EPSILON, b)
         c = a / b
@@ -624,6 +657,7 @@ def spow(a: ArrayLike, p: ArrayLike) -> DTypeFloat | NDArrayFloat:
     # zero-base contribution back out.
     base = xp.where(a == 0, 1.0, xp.abs(a))
     a_p = xp.sign(a) * base**p
+    a_p = xp.where((a == 0) & (p == 1), a, a_p)
 
     return as_float(a_p)
 
@@ -837,6 +871,9 @@ def manhattan_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
 
     xp = array_namespace(a, b)
 
+    a = xp_as_float_array(a, xp=xp, like=b)
+    b = xp_as_float_array(b, xp=xp, like=a)
+
     return as_float(xp.sum(xp.abs(a - b), axis=-1))
 
 
@@ -868,7 +905,11 @@ def linear_conversion(
     array([ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9., 10.])
     """
 
-    a = as_float_array(a)
+    xp = array_namespace(a, old_range, new_range)
+    reference = next((x for x in (a, old_range, new_range) if is_non_ndarray(x)), a)
+    a = xp_as_float_array(a, xp=xp, like=reference)
+    old_range = xp_as_float_array(old_range, xp=xp, like=a)
+    new_range = xp_as_float_array(new_range, xp=xp, like=a)
 
     in_min, in_max = tsplit(old_range)
     out_min, out_max = tsplit(new_range)
@@ -915,6 +956,7 @@ def linstep_function(
 
     xp = array_namespace(x, a, b)
 
+    x = xp_as_float_array(x, xp=xp, like=a if is_non_ndarray(a) else b)
     a = xp_as_float_array(a, xp=xp, like=x)
     b = xp_as_float_array(b, xp=xp, like=x)
 
@@ -969,6 +1011,7 @@ def smoothstep_function(
 
     xp = array_namespace(x, a, b)
 
+    x = xp_as_float_array(x, xp=xp, like=a if is_non_ndarray(a) else b)
     a = xp_as_float_array(a, xp=xp, like=x)
     b = xp_as_float_array(b, xp=xp, like=x)
 

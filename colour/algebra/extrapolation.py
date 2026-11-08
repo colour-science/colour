@@ -17,7 +17,7 @@ References
 
 from __future__ import annotations
 
-from typing import Any
+import typing
 
 import numpy as np  # noqa: F401  (used by the doctests)
 
@@ -28,6 +28,9 @@ from colour.algebra.interpolation._dispatch import (
     _forward_properties,
     _resolve_backend,
 )
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -171,7 +174,11 @@ class Extrapolator(_BackendDispatcher):
         """
 
         backend = self._resolved_backend()
-        if backend != self._backend:
+        if (
+            backend != self._backend
+            or self._impl.interpolator
+            is not self._resolve_wrapped(self._interpolator_source)
+        ):
             self._backend = backend
             self._impl = self._build_implementation(backend)
 

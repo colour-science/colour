@@ -7,6 +7,8 @@ import typing
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
 
+import contextlib
+import warnings
 from itertools import product
 
 import numpy as np
@@ -190,6 +192,49 @@ class TestSdiv:
         a = xp_as_array([0, 1, 2], xp=xp)
         b = xp_as_array([2, 1, 0], xp=xp)
 
+        native = xp_as_array([1.0], xp=xp)
+        maximum = np.finfo(as_ndarray(native).dtype).max
+        warning_type = (
+            RuntimeWarning if is_numpy_namespace(xp) else ColourRuntimeWarning
+        )
+        for numerator_value, denominator_value, warns in (
+            (1.0, 0.0, True),
+            (0.0, 0.0, True),
+            (np.inf, np.inf, True),
+            (maximum, 0.5, True),
+            (np.inf, 0.0, False),
+            (np.nan, 0.0, False),
+            (2.0, np.inf, False),
+            (2.0, 1.0, False),
+        ):
+            numerator = xp_as_array(
+                numerator_value, dtype=native.dtype, xp=xp, like=native
+            )
+            denominator = xp_as_array(
+                denominator_value, dtype=native.dtype, xp=xp, like=native
+            )
+            with np.errstate(all="ignore"):
+                quotient = as_ndarray(numerator) / as_ndarray(denominator)
+            for mode, expected in (
+                ("Warning", quotient),
+                (
+                    "Warning Zero Conversion",
+                    np.nan_to_num(quotient, nan=0, posinf=0, neginf=0),
+                ),
+                ("Warning Limit Conversion", np.nan_to_num(quotient)),
+            ):
+                with sdiv_mode(mode), warnings.catch_warnings(record=True) as caught:
+                    warnings.simplefilter("always")
+                    result = sdiv(numerator, denominator)
+                assert bool(caught) == warns
+                assert all(
+                    issubclass(warning.category, warning_type) for warning in caught
+                )
+                xp_assert_equal(result, expected)
+                assert getattr(result, "device", None) == getattr(
+                    native, "device", None
+                )
+
         if is_numpy_namespace(xp):
             with sdiv_mode("Numpy"), pytest.warns(RuntimeWarning):
                 sdiv(a, b)
@@ -241,6 +286,35 @@ class TestSdiv:
                     xp_as_array([0, 1, float(2 / np.finfo(np.double).eps)], xp=xp),
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
+
+    def test_sdiv_autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
+        """Test finite gradients at converted zero divisions."""
+
+        with sdiv_mode("Ignore Zero Conversion"):
+            autodiff(
+                sdiv, xp_as_array([0.0, 1.0], xp=xp), xp_as_array([0.0, 1.0], xp=xp)
+            )
+
+        with sdiv_mode("Raise"):
+            for numerator, denominator in (
+                (float("inf"), float("inf")),
+                (1.0, 0.0),
+                (0.0, 0.0),
+            ):
+                with pytest.raises(FloatingPointError):
+                    sdiv(xp_as_array(numerator, xp=xp), xp_as_array(denominator, xp=xp))
+            xp_assert_close(
+                sdiv(xp_as_array(2.0, xp=xp), xp_as_array(float("inf"), xp=xp)), 0
+            )
+            xp_assert_equal(
+                sdiv(xp_as_array(float("nan"), xp=xp), xp_as_array(1.0, xp=xp)), np.nan
+            )
+            xp_assert_equal(
+                sdiv(xp_as_array(float("inf"), xp=xp), xp_as_array(0.0, xp=xp)), np.inf
+            )
+            xp_assert_equal(
+                sdiv(xp_as_array(float("nan"), xp=xp), xp_as_array(0.0, xp=xp)), np.nan
+            )
 
 
 class TestIsSpowEnabled:
@@ -315,7 +389,7 @@ class TestSpow:
     tests methods.
     """
 
-    def test_spow(self, xp: ModuleType) -> None:
+    def test_spow(self, xp: ModuleType, request: pytest.FixtureRequest) -> None:
         """Test :func:`colour.algebra.common.spow` definition."""
 
         assert spow(2, 2) == 4.0
@@ -335,6 +409,16 @@ class TestSpow:
 
         with spow_enable(False):
             xp_assert_equal(spow(-2, 0.15), np.nan)
+
+        if not is_numpy_namespace(xp):
+            autodiff = request.getfixturevalue("autodiff")
+            _result, gradients, _inputs = autodiff(
+                lambda a, p: spow(a, p), np.array([0.0, 2.0]), np.ones(2)
+            )
+            xp_assert_close(gradients[0], [1.0, 1.0], atol=TOLERANCE_ABSOLUTE_TESTS)
+            xp_assert_close(
+                gradients[1], [0.0, 2.0 * np.log(2.0)], atol=TOLERANCE_ABSOLUTE_TESTS
+            )
 
 
 class TestNormaliseVector:
@@ -674,6 +758,19 @@ class TestLinearConversion:
             ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host = [np.array([0.2, 0.5]), np.array([0.0, 1.0]), np.array([0.0, 100.0])]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        expected = linear_conversion(*native)
+        for i in range(len(host)):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = linear_conversion(*mixed)
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native[i], "device", None)
 
 
 class TestLinstepFunction:

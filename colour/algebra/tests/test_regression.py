@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import typing
 
 if typing.TYPE_CHECKING:
@@ -67,3 +68,13 @@ least_square_mapping_MoorePenrose` definition.
             ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # Host/native operand pairs share a device independently of the default.
+        native = xp_as_array(np.eye(3), xp=xp)
+        with contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu"):
+            result = least_square_mapping_MoorePenrose(np.eye(3), native)
+            reverse = least_square_mapping_MoorePenrose(native, np.eye(3))
+        xp_assert_close(result, np.eye(3), atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(reverse, np.eye(3), atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert getattr(result, "device", None) == getattr(native, "device", None)
+        assert getattr(reverse, "device", None) == getattr(native, "device", None)
