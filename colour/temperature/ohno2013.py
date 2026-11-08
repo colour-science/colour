@@ -74,6 +74,9 @@ CCT_DEFAULT_SPACING_OHNO2013: float = 1.001
 # Minimum spacing for the Planckian tangent central difference.
 _FINITE_DIFFERENCE_STEP_OHNO2013: float = 0.01
 
+# Bound the nearest-row working memory independently of the input batch size.
+_MAXIMUM_LOOKUP_PAIRS_OHNO2013: int = 262144
+
 _CACHE_PLANCKIAN_TABLE: dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_PLANCKIAN_TABLE"
 )
@@ -247,14 +250,28 @@ def uv_to_CCT_Ohno2013(
 
     # The Planckian table depends only on ``cmfs`` / ``start`` / ``end``
     # / ``spacing`` so it is computed once and reused; the per-sample
-    # nearest-row lookup is vectorised below.
+    # nearest-row lookup is vectorised in bounded slices below.
     table = xp_as_float_array(
         planckian_table(cmfs, start, end, spacing), xp=xp, like=uv
     )
     n_rows = table.shape[0]
 
-    distances = xp.linalg.vector_norm(table[None, :, 1:] - uv[:, None, :], axis=-1)
-    indices = xp.argmin(distances, axis=-1)
+    if uv.shape[0] == 0:
+        return xp_reshape(uv, shape, xp=xp)
+
+    slice_size = max(1, _MAXIMUM_LOOKUP_PAIRS_OHNO2013 // n_rows)
+    indices = xp.concat(
+        [
+            xp.argmin(
+                xp.linalg.vector_norm(
+                    table[None, :, 1:] - uv[offset : offset + slice_size, None, :],
+                    axis=-1,
+                ),
+                axis=-1,
+            )
+            for offset in range(0, uv.shape[0], slice_size)
+        ]
+    )
 
     # Emit a single warning per boundary irrespective of sample count,
     # then clip so the neighbour gather below stays in range.
@@ -272,30 +289,13 @@ def uv_to_CCT_Ohno2013(
 
     # ``(N, 3, 4)`` neighbour triple expected by the *Ohno (2014)*
     # triangular and parabolic solutions below.
-    sample_indices = xp.arange(uv.shape[0])
-    tables = xp.stack(
-        [
-            xp.concat(
-                [
-                    table[indices - 1],
-                    distances[sample_indices, indices - 1][..., None],
-                ],
-                axis=-1,
-            ),
-            xp.concat(
-                [table[indices], distances[sample_indices, indices][..., None]],
-                axis=-1,
-            ),
-            xp.concat(
-                [
-                    table[indices + 1],
-                    distances[sample_indices, indices + 1][..., None],
-                ],
-                axis=-1,
-            ),
-        ],
-        axis=1,
+    neighbours = xp.stack(
+        [table[indices - 1], table[indices], table[indices + 1]], axis=1
     )
+    # Recompute only the selected distances so differentiation retains three
+    # neighbours per sample rather than every Planckian table row.
+    distances = xp.linalg.vector_norm(neighbours[..., 1:] - uv[:, None, :], axis=-1)
+    tables = xp.concat([neighbours, distances[..., None]], axis=-1)
 
     Tip, uip, vip, dip = tsplit(tables[:, 0, :])
     Ti, _ui, _vi, di = tsplit(tables[:, 1, :])
