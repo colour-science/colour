@@ -22,6 +22,7 @@ from colour.utilities import (
     is_caching_enabled,
     required,
     validate_method,
+    xp_as_array,
 )
 from colour.volume import OPTIMAL_COLOUR_STIMULI_ILLUMINANTS
 
@@ -143,4 +144,4 @@ def is_within_macadam_limits(
 
     simplex = triangulation.find_simplex(as_ndarray(XYZ), tol=tolerance)
 
-    return xp.asarray(simplex >= 0)
+    return xp_as_array(simplex >= 0, xp=xp, like=XYZ)
