@@ -5,6 +5,7 @@ Define the unit tests for the :mod:`colour.appearance.scam` module.
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -22,6 +23,7 @@ from colour.appearance import (
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
+    array_namespace,
     as_float_array,
     as_ndarray,
     domain_range_scale,
@@ -118,13 +120,30 @@ class TestXYZ_to_sCAM:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # A sole native secondary operand must determine device placement.
+        luminance = xp_as_array(318.31, xp=xp)
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            result = XYZ_to_sCAM([30, 20, 10], [95.05, 100, 108.88], luminance, 20).J
+            expected = XYZ_to_sCAM(
+                xp_as_array([30, 20, 10], xp=xp, like=luminance),
+                xp_as_array([95.05, 100, 108.88], xp=xp, like=luminance),
+                318.31,
+                20,
+            ).J
+        assert result is not None
+        assert expected is not None
+        assert array_namespace(result).__name__ == array_namespace(luminance).__name__
+        assert getattr(result, "device", None) == getattr(luminance, "device", None)
+        xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+
     def test_n_dimensional_XYZ_to_sCAM(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.appearance.scam.XYZ_to_sCAM` definition
         n-dimensional support.
         """
 
-        XYZ = xp_as_array([19.01, 20.00, 21.78], xp=xp)
+        # Keep hue well conditioned when comparing scalar and batched kernels.
+        XYZ = xp_as_array([57.06, 43.06, 31.96], xp=xp)
         XYZ_w = xp_as_array([95.05, 100.00, 108.88], xp=xp)
         L_A = 318.31
         Y_b = 20
@@ -282,7 +301,7 @@ class TestsCAM_to_XYZ:
         XYZ = as_ndarray(sCAM_to_XYZ(specification, XYZ_w, L_A, Y_b, surround))
 
         specification = CAM_Specification_sCAM(
-            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()
+            *np.transpose(np.tile(tsplit(specification), (6, 1)))
         )
         XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
         xp_assert_close(
@@ -299,7 +318,7 @@ class TestsCAM_to_XYZ:
         )
 
         specification = CAM_Specification_sCAM(
-            *tsplit(np.reshape(specification, (2, 3, 11))).tolist()
+            *tsplit(np.reshape(specification, (2, 3, 11)))
         )
         XYZ_w = xp_reshape(xp_as_array(XYZ_w, xp=xp), (2, 3, 3), xp=xp)
         XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)

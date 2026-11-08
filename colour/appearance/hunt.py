@@ -25,7 +25,7 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
-from colour.algebra import spow, vecmul
+from colour.algebra import LinearInterpolator, spow, vecmul
 
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Domain100
@@ -39,13 +39,13 @@ from colour.utilities import (
     as_float,
     as_float_array,
     from_range_degrees,
+    is_non_ndarray,
     to_domain_100,
     tsplit,
     tstack,
     usage_warning,
     xp_as_float_array,
     xp_degrees,
-    xp_interp,
 )
 
 __author__ = "Colour Developers"
@@ -364,9 +364,24 @@ M=np.float64(0.1238964...), H=None, HC=None)
     XYZ_w = to_domain_100(XYZ_w)
     XYZ_b = to_domain_100(XYZ_b)
 
-    xp = array_namespace(XYZ, XYZ_w, XYZ_b, L_A)
+    # Only participating optional inputs choose the backend: an explicit
+    # scotopic luminance overrides CCT, and no contrast uses no proximal field.
+    operands = (
+        XYZ,
+        XYZ_w,
+        XYZ_b,
+        L_A,
+        L_AS if L_AS is not None else CCT_w,
+        XYZ_p if p is not None else None,
+        p,
+        S,
+        S_w,
+    )
+    xp = array_namespace(*operands)
+    reference = next((a for a in operands if is_non_ndarray(a)), None)
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+    XYZ_b = xp_as_float_array(XYZ_b, xp=xp, like=XYZ)
 
-    XYZ = xp_as_float_array(XYZ, xp=xp)
     XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=XYZ)
     L_A = xp_as_float_array(L_A, xp=xp, like=XYZ)
 
@@ -409,7 +424,11 @@ M=np.float64(0.1238964...), H=None, HC=None)
         # Approximating scotopic luminance :math:`L_{AS}` from the correlated
         # colour temperature :math:`T_{cp}` per *Hunt (2004)*, "The
         # Reproduction of Colour", 6th ed., section on scotopic responses.
-        L_AS = 2.26 * L_A * spow((cast("NDArrayFloat", CCT_w) / 4000) - 0.4, 1 / 3)
+        L_AS = (
+            2.26
+            * L_A
+            * spow((xp_as_float_array(CCT_w, xp=xp, like=XYZ) / 4000) - 0.4, 1 / 3)
+        )
         usage_warning(
             f'Unspecified "L_AS" argument, using approximation from "CCT": "{L_AS}"'
         )
@@ -529,7 +548,9 @@ M=np.float64(0.1238964...), H=None, HC=None)
     # :math:`[20.14, 237.53]` range.
     h_s = xp_as_float_array(HUE_DATA_FOR_HUE_QUADRATURE["h_s"], xp=xp, like=h)
     e_s_lut = xp_as_float_array(HUE_DATA_FOR_HUE_QUADRATURE["e_s"], xp=xp, like=h)
-    e_s = xp_interp(h, h_s, e_s_lut, xp=xp)
+    # Match the endpoint clamping of ``numpy.interp`` while keeping the
+    # hue-dependent eccentricity differentiable on native array backends.
+    e_s = LinearInterpolator(h_s, e_s_lut)(xp.clip(h, h_s[0], h_s[-1]))
     e_s = xp.where(h < 20.14, 0.856 - (h / 20.14) * 0.056, e_s)
     e_s = xp.where(h > 237.53, 0.856 + 0.344 * (360 - h) / (360 - 237.53), e_s)
 
@@ -557,7 +578,7 @@ M=np.float64(0.1238964...), H=None, HC=None)
     # achromatic post-adaptation signals and the scotopic response,
     # mediated by the scotopic luminance level adaptation factor
     # :math:`F_{LS}` and cone bleach factor :math:`B_S`.
-    L_AS_226 = cast("NDArrayFloat", L_AS) / 2.26
+    L_AS_226 = xp_as_float_array(cast("ArrayLike", L_AS), xp=xp, like=XYZ) / 2.26
     j_sc = 0.00001 / ((5 * L_AS_226) + 0.00001)
     F_LS = 3800 * (j_sc**2) * (5 * L_AS_226) + 0.2 * (spow(1 - (j_sc**2), 0.4)) * (
         spow(5 * L_AS_226, 1 / 6)

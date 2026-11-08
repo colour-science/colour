@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
+    import pytest
     from colour.hints import ModuleType
 
 from itertools import product
@@ -19,6 +20,7 @@ from colour.appearance.hke import (
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     ignore_numpy_errors,
     xp_as_array,
@@ -48,7 +50,7 @@ HelmholtzKohlrausch_effect_object_Nayatani1997` definition unit tests methods.
     """
 
     def test_HelmholtzKohlrausch_effect_object_Nayatani1997(
-        self, xp: ModuleType
+        self, xp: ModuleType, request: pytest.FixtureRequest
     ) -> None:
         """
         Test :func:`colour.appearance.hke.\
@@ -76,6 +78,31 @@ HelmholtzKohlrausch_effect_object_Nayatani1997` definition.
             1.261777232837009,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "uv": [[0.4035101, 0.53933673], [0.3, 0.4]],
+            "uv_c": [0.19783001, 0.46831999],
+            "L_a": 63.66,
+        }
+        expected = HelmholtzKohlrausch_effect_object_Nayatani1997(**host_arguments)
+        for parameter in ("uv_c", "L_a"):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = HelmholtzKohlrausch_effect_object_Nayatani1997(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value,
+                    parameter=parameter: HelmholtzKohlrausch_effect_object_Nayatani1997(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_HelmholtzKohlrausch_effect_object_Nayatani1997(
         self, xp: ModuleType
@@ -164,7 +191,7 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition unit tests
     """
 
     def test_HelmholtzKohlrausch_effect_luminous_Nayatani1997(
-        self, xp: ModuleType
+        self, xp: ModuleType, request: pytest.FixtureRequest
     ) -> None:
         """
         Test :func:`colour.appearance.hke.\
@@ -192,6 +219,31 @@ HelmholtzKohlrausch_effect_luminous_Nayatani1997` definition.
             1.727991241148628,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "uv": [[0.4035101, 0.53933673], [0.3, 0.4]],
+            "uv_c": [0.19783001, 0.46831999],
+            "L_a": 63.66,
+        }
+        expected = HelmholtzKohlrausch_effect_luminous_Nayatani1997(**host_arguments)
+        for parameter in ("uv_c", "L_a"):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = HelmholtzKohlrausch_effect_luminous_Nayatani1997(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                function = HelmholtzKohlrausch_effect_luminous_Nayatani1997
+                autodiff(
+                    lambda value, parameter=parameter, function=function: function(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_HelmholtzKohlrausch_effect_luminous_Nayatani1997(
         self, xp: ModuleType

@@ -39,6 +39,7 @@ from colour.utilities import (
     as_float,
     as_float_array,
     from_range_degrees,
+    is_non_ndarray,
     row_as_diagonal,
     to_domain_100,
     tsplit,
@@ -266,7 +267,11 @@ b=np.float64(-52.6142956...))
 
     xp = array_namespace(XYZ, XYZ_n, Y_n, D, sigma)
 
-    XYZ = xp_as_float_array(XYZ, xp=xp)
+    reference = next(
+        (a for a in (XYZ, XYZ_n, Y_n, D, sigma) if is_non_ndarray(a)), None
+    )
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+
     XYZ_n = xp_as_float_array(XYZ_n, xp=xp, like=XYZ)
     Y_n = xp_as_float_array(Y_n, xp=xp, like=XYZ)
     D = xp_as_float_array(D, xp=xp, like=XYZ)

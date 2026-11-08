@@ -28,7 +28,7 @@ References
 from __future__ import annotations
 
 import typing
-from dataclasses import astuple, dataclass, field
+from dataclasses import dataclass, field
 
 import numpy as np
 
@@ -60,6 +60,7 @@ from colour.utilities import (
     from_range_1,
     from_range_degrees,
     has_only_nan,
+    is_non_ndarray,
     ones,
     to_domain_1,
     to_domain_degrees,
@@ -469,6 +470,10 @@ W=np.float64(91.6821728...))
 
     xp = array_namespace(XYZ, XYZ_w, L_A, Y_b)
 
+    reference = next((a for a in (XYZ, XYZ_w, L_A, Y_b) if is_non_ndarray(a)), None)
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+    XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=XYZ)
+
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
     L_A = xp_as_float_array(L_A, xp=xp, like=XYZ)
     Y_b = xp_as_float_array(Y_b, xp=xp, like=XYZ)
@@ -688,7 +693,7 @@ def ZCAM_to_XYZ(
     array([185., 206., 163.])
     """
 
-    J_z, C_z, h_z, _S_z, _Q_z, M_z, _H, _H_Z, _V_z, _K_z, _W_z = astuple(specification)
+    J_z, C_z, h_z, _S_z, _Q_z, M_z, _H, _H_Z, _V_z, _K_z, _W_z = specification.values
 
     J_z = to_domain_1(J_z)
     C_z = to_domain_1(C_z)
@@ -699,14 +704,17 @@ def ZCAM_to_XYZ(
 
     xp = array_namespace(J_z, C_z, h_z, M_z, XYZ_w, L_A, Y_b)
 
-    _X_w, Y_w, _Z_w = tsplit(XYZ_w)
+    reference = next(
+        (a for a in (J_z, C_z, h_z, M_z, XYZ_w, L_A, Y_b) if is_non_ndarray(a)), None
+    )
+    J_z = xp_as_float_array(J_z, xp=xp, like=reference)
 
-    J_z = xp_as_float_array(J_z, xp=xp)
     C_z = xp_as_float_array(C_z, xp=xp, like=J_z)
     h_z = xp_as_float_array(h_z, xp=xp, like=J_z)
     M_z = xp_as_float_array(M_z, xp=xp, like=J_z)
     Y_b = xp_as_float_array(Y_b, xp=xp, like=J_z)
     XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=J_z)
+    _X_w, Y_w, _Z_w = tsplit(XYZ_w)
     L_A = xp_as_float_array(L_A, xp=xp, like=J_z)
 
     F_s, F, _c, _N_c = surround.values
@@ -824,8 +832,11 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
     ) -> NDArrayFloat:
         """Compute hue quadrature for a single bin."""
 
-        t1 = (h_w - h_k) / e_k
-        t2 = (h_k1 - h_w) / e_k1
+        # Evaluate inactive bins at their lower boundary: their rational
+        # extensions can have poles inside another bin and poison gradients.
+        h_bin = xp.where((h_w >= h_k) & (h_w <= h_k1), h_w, h_k)
+        t1 = (h_bin - h_k) / e_k
+        t2 = (h_k1 - h_bin) / e_k1
         return H_k + 100 * t1 / (t1 + t2)
 
     H = xp_select(
@@ -833,7 +844,7 @@ def hue_quadrature(h: ArrayLike) -> NDArrayFloat:
             (h_w >= 33.44) & (h_w < 89.29),
             (h_w >= 89.29) & (h_w < 146.30),
             (h_w >= 146.30) & (h_w < 238.36),
-            (h_w >= 238.36) & (h_w < 393.44),
+            (h_w >= 238.36) & (h_w <= 393.44),
         ],
         [
             _H(33.44, 0.68, 0.0, 89.29, 0.64),

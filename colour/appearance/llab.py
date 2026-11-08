@@ -46,12 +46,12 @@ from colour.utilities import (
     as_float,
     as_float_array,
     from_range_degrees,
+    is_non_ndarray,
     to_domain_100,
     tsplit,
     tstack,
     xp_as_float_array,
     xp_degrees,
-    xp_radians,
 )
 
 __author__ = "Colour Developers"
@@ -334,6 +334,10 @@ HC=None, a=np.float64(1.764967...), b=np.float64(-54.564560...))
 
     xp = array_namespace(XYZ, XYZ_0, Y_b, L)
 
+    reference = next((a for a in (XYZ, XYZ_0, Y_b, L) if is_non_ndarray(a)), None)
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+    XYZ_0 = xp_as_float_array(XYZ_0, xp=xp, like=XYZ)
+
     _X, Y, _Z = tsplit(XYZ)
     Y_b = xp_as_float_array(Y_b, xp=xp, like=XYZ)
     L = xp_as_float_array(L, xp=xp, like=XYZ)
@@ -399,7 +403,25 @@ HC=None, a=np.float64(1.764967...), b=np.float64(-54.564560...))
 
     # Computing the final opponent signals :math:`A_L`, :math:`B_L` from
     # polar coordinates :math:`(C_L, h_L)`.
-    A_L, B_L = tsplit(polar_to_cartesian(tstack([C_L, xp_radians(h_L)])))
+    # The final Cartesian fields remain regular at neutral even though the
+    # intermediate hue and chroma do not. Their radial factor tends to 1.25.
+    neutral = (a == 0) & (b == 0)
+    finite = xp.isfinite(c)
+    c_safe = xp.where(neutral | ~finite, 1, c)
+    radial = xp.where(neutral, 1.25, 25 * xp.log1p(0.05 * c_safe) / c_safe)
+    factor = radial * S_M * S_C * F_C
+    A_L = factor * a
+    B_L = factor * b
+
+    # Retain the polar formula's nonfinite values with safe inactive operands.
+    a_polar = xp.where(finite, 1, a)
+    b_polar = xp.where(finite, 0, b)
+    C_polar = 25 * xp.log1p(0.05 * spow(a_polar**2 + b_polar**2, 0.5))
+    C_polar = C_polar * S_M * S_C * F_C
+    h_polar = xp.atan2(b_polar, a_polar)
+    A_polar, B_polar = tsplit(polar_to_cartesian(tstack([C_polar, h_polar])))
+    A_L = xp.where(finite, A_L, A_polar)
+    B_L = xp.where(finite, B_L, B_polar)
 
     return CAM_Specification_LLAB(
         J=as_float(L_L),

@@ -70,7 +70,7 @@ class TestXYZ_to_ATD95:
                 0.0205,
                 0.0108,
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
         )
 
         XYZ = xp_as_array([57.06, 43.06, 31.96], xp=xp)
@@ -88,7 +88,7 @@ class TestXYZ_to_ATD95:
                 0.0308,
                 0.0005,
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
         )
 
         XYZ = xp_as_array([3.53, 6.56, 2.14], xp=xp)
@@ -107,7 +107,7 @@ class TestXYZ_to_ATD95:
                 -0.0014,
                 0.0044,
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
         )
 
         XYZ = xp_as_array([19.01, 20.00, 21.78], xp=xp)
@@ -125,7 +125,19 @@ class TestXYZ_to_ATD95:
                 0.0102,
                 0.013,
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
+        )
+
+        xp_assert_close(
+            XYZ_to_ATD95(
+                xp_as_array([19.01, 20.0, 21.78], xp=xp),
+                [95.05, 100.0, 108.88],
+                318.31,
+                0,
+                50,
+            ),
+            XYZ_to_ATD95([19.01, 20.0, 21.78], [95.05, 100.0, 108.88], 318.31, 0, 50),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_XYZ_to_ATD95(self, xp: ModuleType) -> None:

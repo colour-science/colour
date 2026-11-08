@@ -19,6 +19,7 @@ from colour.appearance import (
     InductionFactors_CIECAM02,
     XYZ_to_CIECAM02,
 )
+from colour.appearance.ciecam02 import hue_quadrature
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
     as_float_array,
@@ -50,7 +51,9 @@ class TestXYZ_to_CIECAM02:
     tests methods.
     """
 
-    def test_XYZ_to_CIECAM02(self, xp: ModuleType) -> None:
+    def test_XYZ_to_CIECAM02(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.appearance.ciecam02.XYZ_to_CIECAM02` definition.
 
@@ -66,10 +69,39 @@ class TestXYZ_to_CIECAM02:
         L_A = 318.31
         Y_b = 20
         surround = InductionFactors_CIECAM02(1, 0.69, 1)
+        # Near-achromatic opponent coordinates amplify float32 hue rounding.
+        specification = as_ndarray(
+            XYZ_to_CIECAM02(
+                XYZ,
+                XYZ_w,
+                L_A,
+                Y_b,
+                surround,
+                compute_H=True,
+            )
+        )
+        expected = np.array(
+            [
+                41.73,
+                0.1,
+                219,
+                2.36,
+                195.37,
+                0.11,
+                278.1,
+                np.nan,
+            ]
+        )
         xp_assert_close(
-            XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround, compute_H=True),
-            [41.73, 0.1, 219, 2.36, 195.37, 0.11, 278.1, np.nan],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
+            specification[[0, 1, 3, 4, 5, 7]],
+            expected[[0, 1, 3, 4, 5, 7]],
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05),
+        )
+        hue_tolerance = 0.15 if as_ndarray(XYZ).dtype.itemsize == 4 else 0
+        xp_assert_close(
+            specification[[2, 6]],
+            expected[[2, 6]],
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05, hue_tolerance),
         )
 
         XYZ = xp_as_array([57.06, 43.06, 31.96], xp=xp)
@@ -77,7 +109,7 @@ class TestXYZ_to_CIECAM02:
         xp_assert_close(
             XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround, compute_H=True),
             [65.96, 48.57, 19.6, 52.25, 152.67, 41.67, 399.6, np.nan],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05),
         )
 
         XYZ = xp_as_array([3.53, 6.56, 2.14], xp=xp)
@@ -86,7 +118,7 @@ class TestXYZ_to_CIECAM02:
         xp_assert_close(
             XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround, compute_H=True),
             [21.79, 46.94, 177.1, 58.79, 141.17, 48.8, 220.4, np.nan],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05),
         )
 
         XYZ = xp_as_array([19.01, 20.00, 21.78], xp=xp)
@@ -94,7 +126,7 @@ class TestXYZ_to_CIECAM02:
         xp_assert_close(
             XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround, compute_H=True),
             [42.53, 51.92, 248.9, 60.22, 122.83, 44.54, 305.8, np.nan],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05),
         )
 
         XYZ = xp_as_array([61.45276998, 7.00421901, 82.24067384], xp=xp)
@@ -112,8 +144,16 @@ class TestXYZ_to_CIECAM02:
                 375.5788601911363,
                 np.nan,
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05),
         )
+
+        # The inactive wrap-around formula has a pole at this regular hue.
+        hue = xp_as_array(307.85428571428605, xp=xp)
+        xp_assert_close(
+            hue_quadrature(hue), 342.1183501574902, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+        if xp.__name__ != "numpy":
+            request.getfixturevalue("autodiff")(hue_quadrature, hue)
 
     def test_n_dimensional_XYZ_to_CIECAM02(self, xp: ModuleType) -> None:
         """
@@ -121,7 +161,8 @@ class TestXYZ_to_CIECAM02:
         n-dimensional support.
         """
 
-        XYZ = xp_as_array([19.01, 20.00, 21.78], xp=xp)
+        # Keep hue well conditioned when comparing scalar and batched kernels.
+        XYZ = xp_as_array([57.06, 43.06, 31.96], xp=xp)
         XYZ_w = xp_as_array([95.05, 100.00, 108.88], xp=xp)
         L_A = 318.31
         Y_b = 20
@@ -239,7 +280,7 @@ class TestCIECAM02_to_XYZ:
         xp_assert_close(
             CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             [19.01, 20.00, 21.78],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05),
         )
 
         specification = CAM_Specification_CIECAM02(
@@ -249,7 +290,7 @@ class TestCIECAM02_to_XYZ:
         xp_assert_close(
             CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             [57.06, 43.06, 31.96],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05),
         )
 
         specification = CAM_Specification_CIECAM02(
@@ -260,7 +301,7 @@ class TestCIECAM02_to_XYZ:
         xp_assert_close(
             CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             [3.53, 6.56, 2.14],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05),
         )
 
         specification = CAM_Specification_CIECAM02(
@@ -270,7 +311,7 @@ class TestCIECAM02_to_XYZ:
         xp_assert_close(
             CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             [19.01, 20.00, 21.78],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05),
         )
 
         specification = CAM_Specification_CIECAM02(
@@ -288,7 +329,27 @@ class TestCIECAM02_to_XYZ:
         xp_assert_close(
             CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
             [61.45276998, 7.00421901, 82.24067384],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05),
+        )
+
+        specification_native = CAM_Specification_CIECAM02(
+            J=xp_as_array(41.7, xp=xp),
+            C=xp_as_array(0.1, xp=xp),
+            h=xp_as_array(217.0, xp=xp),
+        )
+        background = xp_as_array(20.0, xp=xp)
+        if xp.__name__ == "torch":
+            background = xp.asarray(background, device="cpu")
+        result_native = CIECAM02_to_XYZ(
+            specification_native, [95.05, 100.0, 108.88], 318.31, background
+        )
+        assert getattr(result_native, "device", None) == getattr(
+            specification_native.J, "device", None
+        )
+        xp_assert_close(
+            result_native,
+            CIECAM02_to_XYZ(specification_native, [95.05, 100.0, 108.88], 318.31, 20.0),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_CIECAM02_to_XYZ(self, xp: ModuleType) -> None:
@@ -306,7 +367,7 @@ class TestCIECAM02_to_XYZ:
         XYZ = as_ndarray(CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround))
 
         specification = CAM_Specification_CIECAM02(
-            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()
+            *np.transpose(np.tile(tsplit(specification), (6, 1)))
         )
         XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
         xp_assert_close(
@@ -323,7 +384,7 @@ class TestCIECAM02_to_XYZ:
         )
 
         specification = CAM_Specification_CIECAM02(
-            *tsplit(np.reshape(specification, (2, 3, 8))).tolist()
+            *tsplit(np.reshape(specification, (2, 3, 8)))
         )
         XYZ_w = xp_reshape(xp_as_array(XYZ_w, xp=xp), (2, 3, 3), xp=xp)
         XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)

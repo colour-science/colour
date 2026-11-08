@@ -3,8 +3,11 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
+    import pytest
+
     from colour.hints import ModuleType
 
 from itertools import product
@@ -15,7 +18,9 @@ from colour.appearance import XYZ_to_Nayatani95
 from colour.appearance.nayatani95 import hue_quadrature
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
+    array_namespace,
     as_float_array,
+    as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
     xp_as_array,
@@ -59,10 +64,40 @@ class TestXYZ_to_Nayatani95:
         Y_o = 20
         E_o = 5000
         E_or = 1000
+        # Near-achromatic opponent coordinates amplify float32 hue rounding.
+        specification = as_ndarray(
+            XYZ_to_Nayatani95(
+                XYZ,
+                XYZ_n,
+                Y_o,
+                E_o,
+                E_or,
+                compute_H=True,
+            )
+        )
+        expected = np.array(
+            [
+                50,
+                0.01,
+                257.5,
+                0.01,
+                62.6,
+                0.02,
+                317.8,
+                np.nan,
+                50,
+            ]
+        )
         xp_assert_close(
-            XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, compute_H=True),
-            [50, 0.01, 257.5, 0.01, 62.6, 0.02, 317.8, np.nan, 50],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
+            specification[[0, 1, 3, 4, 5, 7, 8]],
+            expected[[0, 1, 3, 4, 5, 7, 8]],
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05),
+        )
+        hue_tolerance = 0.15 if as_ndarray(XYZ).dtype.itemsize == 4 else 0
+        xp_assert_close(
+            specification[[2, 6]],
+            expected[[2, 6]],
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05, hue_tolerance),
         )
 
         XYZ = xp_as_array([57.06, 43.06, 31.96], xp=xp)
@@ -70,7 +105,7 @@ class TestXYZ_to_Nayatani95:
         xp_assert_close(
             XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, compute_H=True),
             [73, 48.3, 21.6, 37.1, 67.3, 42.9, 2.1, np.nan, 75.9],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05),
         )
 
         XYZ = xp_as_array([3.53, 6.56, 2.14], xp=xp)
@@ -79,7 +114,7 @@ class TestXYZ_to_Nayatani95:
         xp_assert_close(
             XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, compute_H=True),
             [24.5, 49.3, 190.6, 81.3, 37.5, 62.1, 239.4, np.nan, 29.7],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05),
         )
 
         XYZ = xp_as_array([19.01, 20.00, 21.78], xp=xp)
@@ -87,10 +122,26 @@ class TestXYZ_to_Nayatani95:
         xp_assert_close(
             XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, compute_H=True),
             [49.4, 39.9, 236.3, 40.2, 44.2, 35.8, 303.6, np.nan, 49.4],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05),
         )
 
-    def test_n_dimensional_XYZ_to_Nayatani95(self, xp: ModuleType) -> None:
+        xp_assert_close(
+            XYZ_to_Nayatani95(
+                xp_as_array([19.01, 20.0, 21.78], xp=xp),
+                [95.05, 100.0, 108.88],
+                20,
+                1000,
+                1000,
+            ),
+            XYZ_to_Nayatani95(
+                [19.01, 20.0, 21.78], [95.05, 100.0, 108.88], 20, 1000, 1000
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_n_dimensional_XYZ_to_Nayatani95(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.appearance.nayatani95.XYZ_to_Nayatani95` definition
         n-dimensional support.
@@ -126,6 +177,35 @@ class TestXYZ_to_Nayatani95:
             specification,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # Batched reference illuminance expands otherwise scalar responses.
+        host_arguments: dict[str, typing.Any] = {
+            "XYZ": [57.06, 43.06, 31.96],
+            "XYZ_n": [95.05, 100.0, 108.88],
+            "Y_o": 20.0,
+            "E_o": 1000.0,
+            "E_or": np.array([1000.0, 2000.0]),
+            "n": 1.0,
+        }
+        expected = XYZ_to_Nayatani95(**host_arguments)
+        for parameter, argument in host_arguments.items():
+            native = xp_as_array(argument, xp=xp)
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                actual = XYZ_to_Nayatani95(**{**host_arguments, parameter: native})
+            for correlate in ("L_star_P", "L_star_N", "Q", "C", "M"):
+                value = getattr(actual, correlate)
+                assert array_namespace(value) is array_namespace(native)
+                assert getattr(value, "device", None) == getattr(native, "device", None)
+                xp_assert_close(
+                    value, getattr(expected, correlate), atol=TOLERANCE_ABSOLUTE_TESTS
+                )
+            if xp.__name__ != "numpy":
+                request.getfixturevalue("autodiff")(
+                    lambda value, parameter=parameter: XYZ_to_Nayatani95(
+                        **{**host_arguments, parameter: value}
+                    ).L_star_N,
+                    native,
+                )
 
     def test_domain_range_scale_XYZ_to_Nayatani95(self, xp: ModuleType) -> None:
         """

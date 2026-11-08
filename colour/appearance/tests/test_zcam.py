@@ -5,6 +5,7 @@ Define the unit tests for the :mod:`colour.appearance.zcam` module.
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -21,8 +22,10 @@ from colour.appearance import (
     XYZ_to_ZCAM,
     ZCAM_to_XYZ,
 )
+from colour.appearance.zcam import hue_quadrature
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
+    array_namespace,
     as_float_array,
     as_ndarray,
     domain_range_scale,
@@ -49,7 +52,7 @@ class TestXYZ_to_ZCAM:
     methods.
     """
 
-    def test_XYZ_to_ZCAM(self, xp: ModuleType) -> None:
+    def test_XYZ_to_ZCAM(self, xp: ModuleType, request: pytest.FixtureRequest) -> None:
         """
         Tests :func:`colour.appearance.zcam.XYZ_to_ZCAM` definition.
         """
@@ -75,7 +78,7 @@ class TestXYZ_to_ZCAM:
                 91.6837,
             ],
             rtol=0.025,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 250000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.025),
         )
 
         XYZ = xp_as_array([89, 96, 120], xp=xp)
@@ -95,7 +98,7 @@ class TestXYZ_to_ZCAM:
                 70.4026,
             ],
             rtol=0.025,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 250000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.025),
         )
 
         # NOTE: Hue quadrature :math:`H_z` is significantly different for this
@@ -123,7 +126,7 @@ class TestXYZ_to_ZCAM:
                 68.8737,
             ],
             rtol=0.025,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 40000000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 4),
         )
 
         XYZ = xp_as_array([910, 1114, 500], xp=xp)
@@ -147,7 +150,7 @@ class TestXYZ_to_ZCAM:
                 78.2653,
             ],
             rtol=0.025,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 250000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.025),
         )
 
         XYZ = xp_as_array([96, 67, 28], xp=xp)
@@ -167,7 +170,51 @@ class TestXYZ_to_ZCAM:
                 30.2593,
             ],
             rtol=0.025,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 250000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.025),
+        )
+
+        # A sole native secondary operand must determine device placement.
+        luminance = xp_as_array(318.31, xp=xp)
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            result = XYZ_to_ZCAM([0.3, 0.2, 0.1], [0.9505, 1, 1.0888], luminance, 0.2).J
+            expected = XYZ_to_ZCAM(
+                xp_as_array([0.3, 0.2, 0.1], xp=xp, like=luminance),
+                xp_as_array([0.9505, 1, 1.0888], xp=xp, like=luminance),
+                318.31,
+                0.2,
+            ).J
+        assert result is not None
+        assert expected is not None
+        assert array_namespace(result).__name__ == array_namespace(luminance).__name__
+        assert getattr(result, "device", None) == getattr(luminance, "device", None)
+        xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        # Inactive rational bins have poles inside these selected intervals.
+        hues = xp_as_array([47.82818181818182, 332.87493896484375], xp=xp)
+        xp_assert_close(
+            hue_quadrature(hues),
+            [24.619859843977256, 357.9505075844266],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        if xp.__name__ != "numpy":
+            request.getfixturevalue("autodiff")(hue_quadrature, hues)
+
+        # Wrapping the lower endpoint reaches the inclusive final endpoint.
+        dtype = as_ndarray(hues).dtype
+        boundary = dtype.type(33.44)
+        endpoints = xp_as_array(
+            [
+                boundary,
+                dtype.type(393.44),
+                np.nextafter(boundary, dtype.type(-np.inf)),
+                np.nextafter(boundary, dtype.type(np.inf)),
+            ],
+            xp=xp,
+        )
+        xp_assert_close(
+            hue_quadrature(endpoints),
+            [400.0, 400.0, 400.0, 0.0],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
     def test_n_dimensional_XYZ_to_ZCAM(self, xp: ModuleType) -> None:
@@ -310,7 +357,7 @@ class TestZCAM_to_XYZ:
         xp_assert_close(
             ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
             [185, 206, 163],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
             rtol=0.01,
         )
 
@@ -330,7 +377,7 @@ class TestZCAM_to_XYZ:
         xp_assert_close(
             ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
             [89, 96, 120],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
             rtol=0.01,
         )
 
@@ -351,7 +398,7 @@ class TestZCAM_to_XYZ:
         xp_assert_close(
             ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
             [79, 81, 62],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
             rtol=0.01,
         )
 
@@ -375,7 +422,7 @@ class TestZCAM_to_XYZ:
         xp_assert_close(
             ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
             [910, 1114, 500],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
             rtol=0.01,
         )
 
@@ -395,7 +442,7 @@ class TestZCAM_to_XYZ:
         xp_assert_close(
             ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
             [96, 67, 28],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
             rtol=0.01,
         )
 
@@ -410,7 +457,7 @@ class TestZCAM_to_XYZ:
         xp_assert_close(
             ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround),
             [910, 1114, 500],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
             rtol=0.01,
         )
 
@@ -429,7 +476,7 @@ class TestZCAM_to_XYZ:
         XYZ = as_ndarray(ZCAM_to_XYZ(specification, XYZ_w, L_a, Y_b, surround))
 
         specification = CAM_Specification_ZCAM(
-            *np.transpose(np.tile(tsplit(specification), (6, 1))).tolist()
+            *np.transpose(np.tile(tsplit(specification), (6, 1)))
         )
         XYZ = xp.tile(xp_as_array(XYZ, xp=xp), (6, 1))
         xp_assert_close(
@@ -446,7 +493,7 @@ class TestZCAM_to_XYZ:
         )
 
         specification = CAM_Specification_ZCAM(
-            *tsplit(np.reshape(specification, (2, 3, 11))).tolist()
+            *tsplit(np.reshape(specification, (2, 3, 11)))
         )
         XYZ_w = xp_reshape(xp_as_array(XYZ_w, xp=xp), (2, 3, 3), xp=xp)
         XYZ = xp_reshape(xp_as_array(XYZ, xp=xp), (2, 3, 3), xp=xp)

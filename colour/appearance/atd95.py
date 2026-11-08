@@ -39,6 +39,7 @@ from colour.utilities import (
     array_namespace,
     as_float,
     from_range_degrees,
+    is_non_ndarray,
     to_domain_100,
     tsplit,
     tstack,
@@ -247,6 +248,13 @@ T_2=np.float64(0.0205377...), D_2=np.float64(0.0107584...))
     XYZ_0 = to_domain_100(XYZ_0)
 
     xp = array_namespace(XYZ, XYZ_0, Y_0, k_1, k_2, sigma)
+
+    reference = next(
+        (a for a in (XYZ, XYZ_0, Y_0, k_1, k_2, sigma) if is_non_ndarray(a)),
+        None,
+    )
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+    XYZ_0 = xp_as_float_array(XYZ_0, xp=xp, like=XYZ)
 
     Y_0 = xp_as_float_array(Y_0, xp=xp, like=XYZ)
     k_1 = xp_as_float_array(k_1, xp=xp, like=XYZ)
