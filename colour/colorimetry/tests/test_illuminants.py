@@ -293,7 +293,9 @@ class TestMsdsCIEIlluminantDSeries:
 msds_CIE_illuminant_D_series` definition unit tests methods.
     """
 
-    def test_msds_CIE_illuminant_D_series(self) -> None:
+    def test_msds_CIE_illuminant_D_series(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.colorimetry.illuminants.\
 msds_CIE_illuminant_D_series` definition.
@@ -309,6 +311,27 @@ msds_CIE_illuminant_D_series` definition.
                 msds.values[:, i],
                 sd_CIE_illuminant_D_series(xy_batch[i]).values,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
+        native = xp_as_array(xy_batch, xp=xp)
+        shape = SpectralShape(400, 700, 10)
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            result = msds_CIE_illuminant_D_series(native, shape=shape)
+        assert result.labels == msds.labels
+        assert array_namespace(result.values) is array_namespace(native)
+        assert getattr(result.values, "device", None) == getattr(native, "device", None)
+        xp_assert_close(
+            result.values,
+            CIE_illuminant_D_series(xy_batch, shape=shape),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(
+                lambda values: msds_CIE_illuminant_D_series(
+                    values, M1_M2_rounding=False, shape=shape
+                ).values,
+                xy_batch,
             )
 
 

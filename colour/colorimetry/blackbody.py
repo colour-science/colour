@@ -38,6 +38,7 @@ from colour.utilities import (
     as_float,
     as_float_array,
     as_ndarray,
+    is_gradient_tracked,
     is_non_ndarray,
     xp_as_float_array,
     xp_log,
@@ -334,10 +335,19 @@ def msds_blackbody(
 
     temperatures = as_float_array(temperatures)
 
+    # Labels are metadata: traced JAX temperatures cannot be materialised on
+    # the host, so retain the constructor's static labels during tracing.
+    labels = (
+        None
+        if array_namespace(temperatures).__name__ == "jax.numpy"
+        and is_gradient_tracked(temperatures)
+        else [f"{T}K Blackbody" for T in as_ndarray(temperatures)]
+    )
+
     return MultiSpectralDistributions(
         planck_law(shape.wavelengths * 1e-9, temperatures, c1, c2, n) * 1e-9,
         shape.wavelengths,
-        labels=[f"{T}K Blackbody" for T in as_ndarray(temperatures)],
+        labels=labels,
     )
 
 
@@ -536,8 +546,16 @@ def msds_rayleigh_jeans(
 
     temperatures = as_float_array(temperatures)
 
+    # Keep numerical temperature derivatives independent of label formatting.
+    labels = (
+        None
+        if array_namespace(temperatures).__name__ == "jax.numpy"
+        and is_gradient_tracked(temperatures)
+        else [f"{T}K Rayleigh-Jeans" for T in as_ndarray(temperatures)]
+    )
+
     return MultiSpectralDistributions(
         rayleigh_jeans_law(shape.wavelengths * 1e-9, temperatures) * 1e-9,
         shape.wavelengths,
-        labels=[f"{T}K Rayleigh-Jeans" for T in as_ndarray(temperatures)],
+        labels=labels,
     )
