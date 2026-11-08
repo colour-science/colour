@@ -49,6 +49,7 @@ from colour.utilities import (
     as_float_scalar,
     as_int_scalar,
     as_ndarray,
+    is_non_ndarray,
     tsplit,
     tstack,
     usage_warning,
@@ -118,12 +119,6 @@ def matrix_RGB_to_WSYBRG(
     """
 
     wavelengths = cmfs.wavelengths
-    WSYBRG = vecmul(MATRIX_LMS_TO_WSYBRG, cmfs.values)
-
-    xp = array_namespace(WSYBRG)
-
-    WS, YB, RG = tsplit(WSYBRG)
-
     primaries = reshape_msds(
         primaries,
         cmfs.shape,
@@ -131,7 +126,14 @@ def matrix_RGB_to_WSYBRG(
         extrapolator_kwargs={"method": "Constant", "left": 0, "right": 0},
     )
 
-    R, G, B = tsplit(primaries.values)
+    cmfs_values, primaries_values = cmfs.values, primaries.values
+    xp = array_namespace(cmfs_values, primaries_values)
+    reference = cmfs_values if is_non_ndarray(cmfs_values) else primaries_values
+    cmfs_values = xp_as_float_array(cmfs_values, xp=xp, like=reference)
+    primaries_values = xp_as_float_array(primaries_values, xp=xp, like=cmfs_values)
+
+    WS, YB, RG = tsplit(vecmul(MATRIX_LMS_TO_WSYBRG, cmfs_values))
+    R, G, B = tsplit(primaries_values)
 
     WS_R = xp_trapezoid(R * WS, x=wavelengths, xp=xp)
     WS_G = xp_trapezoid(G * WS, x=wavelengths, xp=xp)
@@ -145,11 +147,11 @@ def matrix_RGB_to_WSYBRG(
     RG_G = xp_trapezoid(G * RG, x=wavelengths, xp=xp)
     RG_B = xp_trapezoid(B * RG, x=wavelengths, xp=xp)
 
-    M_G = as_float_array(
+    M_G = xp.stack(
         [
-            [WS_R, WS_G, WS_B],
-            [YB_R, YB_G, YB_B],
-            [RG_R, RG_G, RG_B],
+            xp.stack([WS_R, WS_G, WS_B]),
+            xp.stack([YB_R, YB_G, YB_B]),
+            xp.stack([RG_R, RG_G, RG_B]),
         ]
     )
 
