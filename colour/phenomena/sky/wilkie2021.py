@@ -1455,16 +1455,20 @@ def _compute_transmittance_interpolation(
 def _compute_transmittance_parameters(
     dataset: SkyDataset_Wilkie2021,
     theta: ArrayLike,
-    distance: float,
+    distance: ArrayLike,
     altitude: ArrayLike,
 ) -> tuple[tuple[NDArrayFloat, NDArrayFloat], tuple[NDArrayFloat, NDArrayFloat]]:
-    """Convert viewing geometry to transmittance interpolation parameters."""
+    """Convert viewing geometry and scalar distance to interpolation parameters."""
 
     theta = as_float_array(theta)
     altitude = as_float_array(altitude)
 
-    xp = array_namespace(theta, altitude)
+    operands = (theta, distance, altitude)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), theta)
 
+    theta = xp_as_float_array(theta, xp=xp, like=like)
+    distance_array = xp_as_float_array(distance, xp=xp, like=theta)
     altitude = xp_as_float_array(altitude, xp=xp, like=theta)
 
     ray_direction_x = xp.sin(theta)
@@ -1513,9 +1517,7 @@ def _compute_transmittance_parameters(
     )
 
     distance_to_intersection = xp.where(is_low_altitude, distance_low, distance_high)
-    distance_to_intersection = xp.minimum(
-        distance_to_intersection, xp_as_float_array(distance, xp=xp)
-    )
+    distance_to_intersection = xp.minimum(distance_to_intersection, distance_array)
 
     intersection_x = ray_direction_x * distance_to_intersection
     intersection_y = ray_direction_y * distance_to_intersection + ray_position_y
@@ -1683,6 +1685,7 @@ def sky_transmittance_Wilkie2021(
 
     operands = (
         wavelength,
+        distance,
         parameters.theta,
         parameters.gamma,
         parameters.shadow,
@@ -1695,6 +1698,7 @@ def sky_transmittance_Wilkie2021(
     xp = array_namespace(*operands)
     like = next((a for a in operands if is_non_ndarray(a)), wavelength)
     wavelength = xp_as_float_array(wavelength, xp=xp, like=like)
+    distance_array = xp_as_float_array(distance, xp=xp, like=wavelength)
 
     wavelength_count = len(wavelength)
 
@@ -1737,7 +1741,7 @@ def sky_transmittance_Wilkie2021(
     altitude_factor = xp_broadcast_to(altitude_factor, shape, xp=xp)
 
     altitude_interpolation, distance_interpolation = _compute_transmittance_parameters(
-        dataset, theta, distance, altitude
+        dataset, theta, distance_array, altitude
     )
 
     # 4-point interpolation over visibility x altitude.

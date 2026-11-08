@@ -233,7 +233,9 @@ class TestSkyDatasetWilkie2021:
     class unit tests methods.
     """
 
-    def test_required_attributes(self, xp: ModuleType) -> None:
+    def test_required_attributes(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = (
@@ -338,6 +340,43 @@ class TestSkyDatasetWilkie2021:
                 xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
                 if hasattr(angles, "device"):
                     assert result.device == angles.device
+
+        # Nonconstant coefficients expose physical viewing-distance sensitivity,
+        # even when distance is the only native input and creation defaults to CPU.
+        dataset.data_transmittance_u = np.tile(np.arange(1, 9) / 10, 2)
+        host_parameters = SkyParameters_Wilkie2021(
+            theta=np.array([0.5]),
+            gamma=np.array([0.5]),
+            shadow=np.array([0.5]),
+            zero=np.array([0.5]),
+            elevation=np.array([0.005]),
+            altitude=np.array([0.5]),
+            visibility=0.5,
+            albedo=0.5,
+        )
+        distance: typing.Any = xp_as_array(100000.0, xp=xp)
+
+        def distance_transmittance(distance: typing.Any) -> typing.Any:
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                return sky_transmittance_Wilkie2021(
+                    dataset, host_parameters, [405.0], distance
+                )
+
+        result = distance_transmittance(distance)
+        xp_assert_close(result, [[0.29440551]], atol=TOLERANCE_ABSOLUTE_TESTS)
+        control = sky_transmittance_Wilkie2021(
+            dataset, host_parameters, wavelength[1:], distance
+        )
+        xp_assert_close(result, control, atol=TOLERANCE_ABSOLUTE_TESTS)
+        if hasattr(distance, "device"):
+            assert result.device == distance.device
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            # Scale the output so the derivative per metre is order unity.
+            _result, (gradient,), _inputs = autodiff(
+                lambda distance: distance_transmittance(distance) * 1e6, 100000.0
+            )
+            assert xp.all(gradient != 0)
 
     @pytest.mark.skipif(
         not DATASET_AVAILABLE,
