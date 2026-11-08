@@ -36,6 +36,7 @@ from colour.recovery import MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019
 from colour.utilities import (
     array_namespace,
     as_ndarray,
+    is_non_ndarray,
     required,
     to_domain_1,
     xp_as_float_array,
@@ -388,7 +389,11 @@ def RGB_to_sd_Mallett2019(
 
     RGB = to_domain_1(RGB)
 
-    xp = array_namespace(RGB)
+    xp = array_namespace(RGB, basis_functions.values)
+    reference = next(
+        (a for a in (RGB, basis_functions.values) if is_non_ndarray(a)), RGB
+    )
+    RGB = xp_as_float_array(RGB, xp=xp, like=reference)
 
     basis_functions_values = xp_as_float_array(basis_functions.values, xp=xp, like=RGB)
     sd = SpectralDistribution(

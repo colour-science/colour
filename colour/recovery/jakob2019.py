@@ -57,12 +57,14 @@ from colour.utilities import (
     domain_range_scale,
     full,
     index_along_last_axis,
+    is_non_ndarray,
     is_tqdm_installed,
     message_box,
     optional,
     required,
     to_domain_1,
     tsplit,
+    tstack,
     xp_as_float_array,
     xp_astype,
     xp_linspace,
@@ -207,7 +209,7 @@ def sd_Jakob2019(
 
     xp = array_namespace(coefficients)
 
-    wl = shape.wavelengths
+    wl = xp_as_float_array(shape.wavelengths, xp=xp, like=coefficients)
     U = c_0 * wl**2 + c_1 * wl + c_2
     R = 1 / 2 + U / (2 * xp.sqrt(1 + U**2))
 
@@ -294,11 +296,11 @@ def error_function(
         Raised when the error is below ``max_error``.
     """
 
-    target = as_float_array(target)
-
-    c_0, c_1, c_2 = as_float_array(coefficients)
-
-    xp = array_namespace(target)
+    arrays = (coefficients, target, cmfs.values, illuminant.values)
+    xp = array_namespace(*arrays)
+    reference = next((a for a in arrays if is_non_ndarray(a)), target)
+    target = xp_as_float_array(target, xp=xp, like=reference)
+    c_0, c_1, c_2 = xp_as_float_array(coefficients, xp=xp, like=target)
 
     # ``xp_linspace`` anchors the dtype to the *Colour* default rather than
     # the backend default, which would otherwise be float32 for stock
@@ -394,8 +396,6 @@ def dimensionalise_coefficients(
         and 1, respectively.
     """
 
-    xp = array_namespace(coefficients)
-
     cp_0, cp_1, cp_2 = tsplit(coefficients)
 
     span = shape.end - shape.start
@@ -404,7 +404,7 @@ def dimensionalise_coefficients(
     c_1 = cp_1 / span - 2 * cp_0 * shape.start / span**2
     c_2 = cp_0 * shape.start**2 / span**2 - cp_1 * shape.start / span + cp_2
 
-    return xp_as_float_array([c_0, c_1, c_2], xp=xp)
+    return tstack([c_0, c_1, c_2])
 
 
 def lightness_scale(steps: int) -> NDArrayFloat:

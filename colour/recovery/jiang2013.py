@@ -45,6 +45,7 @@ from colour.recovery import BASIS_FUNCTIONS_DYER2017
 from colour.utilities import (
     array_namespace,
     as_float_array,
+    is_non_ndarray,
     optional,
     runtime_warning,
     tsplit,
@@ -308,7 +309,10 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
 
     RGB = as_float_array(RGB)
 
-    xp = array_namespace(RGB)
+    arrays = (RGB, eigen_w, illuminant.values, reflectances.values)
+    xp = array_namespace(*arrays)
+    reference = next((a for a in arrays if is_non_ndarray(a)), RGB)
+    RGB = xp_as_float_array(RGB, xp=xp, like=reference)
 
     shape = optional(shape, illuminant.shape)
 
@@ -327,6 +331,7 @@ def RGB_to_sd_camera_sensitivity_Jiang2013(
         xp_as_float_array(reflectances.values, xp=xp, like=RGB), xp=xp
     )
 
+    eigen_w = xp_as_float_array(eigen_w, xp=xp, like=RGB)
     A = xp.matmul(xp.matmul(R, S), eigen_w)
 
     X = xp_lstsq(A, RGB, xp=xp)
@@ -481,7 +486,16 @@ def RGB_to_msds_camera_sensitivities_Jiang2013(
 
     RGB = as_float_array(RGB)
 
-    xp = array_namespace(RGB)
+    xp = array_namespace(RGB, basis_functions, illuminant.values, reflectances.values)
+    reference = next(
+        (
+            a
+            for a in (RGB, basis_functions, illuminant.values, reflectances.values)
+            if is_non_ndarray(a)
+        ),
+        RGB,
+    )
+    RGB = xp_as_float_array(RGB, xp=xp, like=reference)
 
     R, G, B = tsplit(xp_reshape(RGB, [-1, 3], xp=xp))
     basis_functions = xp_as_float_array(basis_functions, xp=xp, like=RGB)

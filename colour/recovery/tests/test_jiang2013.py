@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import contextlib
+import typing
 import warnings
 
 import numpy as np
@@ -27,7 +29,10 @@ from colour.recovery import (
     RGB_to_msds_camera_sensitivities_Jiang2013,
     RGB_to_sd_camera_sensitivity_Jiang2013,
 )
-from colour.utilities import tsplit, xp_assert_close
+from colour.utilities import tsplit, xp_as_array, xp_assert_close
+
+if typing.TYPE_CHECKING:
+    from colour.hints import ModuleType
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -245,7 +250,7 @@ class TestRGB_to_sd_camera_sensitivity_Jiang2013(FixtureJiang2013):
 
         FixtureJiang2013.__init__(self)
 
-    def test_RGB_to_sd_camera_sensitivity_Jiang2013(self) -> None:
+    def test_RGB_to_sd_camera_sensitivity_Jiang2013(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.recovery.jiang2013.\
 RGB_to_sd_camera_sensitivity_Jiang2013` definition.
@@ -351,6 +356,35 @@ RGB_to_sd_camera_sensitivity_Jiang2013` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # Promote a fixed host basis beside explicit native RGB data.
+        shape = SpectralShape(400, 700, 10)
+        wavelengths = shape.wavelengths
+        basis = np.column_stack([np.ones(31), np.linspace(0.0, 1.0, 31)])
+        reflectances = MultiSpectralDistributions(basis, wavelengths)
+        illuminant = SpectralDistribution(np.ones(31), wavelengths)
+        rgb_host = basis.T @ basis @ np.array([0.2, 0.4])
+        native = xp_as_array(rgb_host, xp=xp)
+        native_basis = xp_as_array(basis, xp=xp)
+        with contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu"):
+            result = RGB_to_sd_camera_sensitivity_Jiang2013(
+                native, illuminant, reflectances, basis, shape
+            ).values
+            result_native_basis = RGB_to_sd_camera_sensitivity_Jiang2013(
+                rgb_host, illuminant, reflectances, native_basis, shape
+            ).values
+        xp_assert_close(
+            result, basis @ np.array([0.2, 0.4]), atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+        assert getattr(result, "device", None) == getattr(native, "device", None)
+        xp_assert_close(
+            result_native_basis,
+            basis @ np.array([0.2, 0.4]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        assert getattr(result_native_basis, "device", None) == getattr(
+            native_basis, "device", None
+        )
+
 
 class TestRGB_to_msds_camera_sensitivities_Jiang2013(FixtureJiang2013):
     """
@@ -363,7 +397,9 @@ RGB_to_msds_camera_sensitivities_Jiang2013` definition unit tests methods.
 
         FixtureJiang2013.__init__(self)
 
-    def test_RGB_to_msds_camera_sensitivities_Jiang2013(self) -> None:
+    def test_RGB_to_msds_camera_sensitivities_Jiang2013(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.recovery.jiang2013.\
 RGB_to_msds_camera_sensitivities_Jiang2013` definition.
@@ -466,6 +502,53 @@ RGB_to_msds_camera_sensitivities_Jiang2013` definition.
             ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        shape = SPECTRAL_SHAPE_BASIS_FUNCTIONS_DYER2017
+        wavelengths = shape.wavelengths
+        reflectances = np.stack(
+            [np.ones(31), np.linspace(0, 1, 31), np.linspace(0, 1, 31) ** 2], axis=-1
+        )
+        RGB = np.array([[0.3, 0.2, 0.1], [0.5, 0.6, 0.4], [0.7, 0.4, 0.8]])
+        host = [RGB, np.ones(31), reflectances, BASIS_FUNCTIONS_DYER2017]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        for i in range(4):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = RGB_to_msds_camera_sensitivities_Jiang2013(
+                    mixed[0],
+                    SpectralDistribution(mixed[1], wavelengths),
+                    MultiSpectralDistributions(mixed[2], wavelengths),
+                    mixed[3],
+                    shape,
+                    as_array=True,
+                )
+            expected = RGB_to_msds_camera_sensitivities_Jiang2013(
+                native[0],
+                SpectralDistribution(native[1], wavelengths),
+                MultiSpectralDistributions(native[2], wavelengths),
+                native[3],
+                shape,
+                as_array=True,
+            )
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native[i], "device", None)
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(
+                lambda values: RGB_to_msds_camera_sensitivities_Jiang2013(
+                    RGB,
+                    SpectralDistribution(values, wavelengths),
+                    MultiSpectralDistributions(reflectances, wavelengths),
+                    BASIS_FUNCTIONS_DYER2017,
+                    shape,
+                    as_array=True,
+                ),
+                np.ones(31),
+            )
 
     def test_RGB_to_msds_camera_sensitivities_Jiang2013_as_array(self) -> None:
         """
