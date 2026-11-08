@@ -5445,8 +5445,9 @@ def closest_indexes(a: ArrayLike, b: ArrayLike) -> NDArray:
 
     xp = array_namespace(a, b)
 
-    a = xp_as_float_array(a, xp=xp, like=b)
-    b = xp_as_float_array(b, xp=xp, like=a)
+    reference = _native_reference(a, b)
+    a = xp_as_array(a, xp=xp, like=reference)
+    b = xp_as_array(b, xp=xp, like=a)
 
     a = xp_reshape(a, (-1,), xp=xp)[:, None]
     b = xp_reshape(b, (-1,), xp=xp)[None, :]
@@ -5489,14 +5490,11 @@ def closest(a: ArrayLike, b: ArrayLike) -> NDArray:
     array([62.70988028, 25.40026416])
     """
 
-    b = as_float_array(b)
-
     xp = array_namespace(a, b)
 
-    # The dtype is preserved rather than forced to float, matching the
-    # historical ``numpy.array(a)`` conversion: ``closest`` returns elements
-    # OF ``a`` and must not silently upcast an integer or float32 table.
-    a = xp_as_array(a, xp=xp, like=b)
+    reference = _native_reference(a, b)
+    a = xp_as_array(a, xp=xp, like=reference)
+    b = xp_as_array(b, xp=xp, like=a)
 
     return a[closest_indexes(a, b)]
 
