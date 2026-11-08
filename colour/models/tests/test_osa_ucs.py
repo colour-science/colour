@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -12,14 +13,16 @@ from itertools import product
 import numpy as np
 import pytest
 
-from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.constants import DTYPE_FLOAT_DEFAULT, TOLERANCE_ABSOLUTE_TESTS
 from colour.models import OSA_UCS_to_XYZ, XYZ_to_OSA_UCS
 from colour.utilities import (
     as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
+    set_default_float_dtype,
     xp_as_array,
     xp_assert_close,
+    xp_assert_equal,
     xp_reshape,
 )
 
@@ -126,7 +129,9 @@ class TestOSA_UCS_to_XYZ:
     # precision-dependent finite difference, so the float32 result carries a
     # circa 6e-3 absolute error on tristimulus values of magnitude 20.
     @pytest.mark.mps_tolerance_absolute(1e-2)
-    def test_OSA_UCS_to_XYZ(self, xp: ModuleType) -> None:
+    def test_OSA_UCS_to_XYZ(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """Test :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition."""
 
         xp_assert_close(
@@ -155,6 +160,70 @@ class TestOSA_UCS_to_XYZ:
             xp_as_array([0.07818780, 0.06157201, 0.28099326], xp=xp) * 100,
             atol=max(TOLERANCE_ABSOLUTE_TESTS, 5e-05),
         )
+
+        if xp.__name__ != "numpy":
+            # The red-cone response is exactly the Newton seed. The local
+            # inverse still varies with all three target coordinates.
+            dtype = DTYPE_FLOAT_DEFAULT
+            try:
+                set_default_float_dtype(np.float64)
+                XYZ = np.array(
+                    [120.0, 80.0, (0.799 * 120 + 0.4194 * 80 - 121.84) / 0.1648]
+                )
+                target = XYZ_to_OSA_UCS(XYZ)
+            finally:
+                set_default_float_dtype(dtype)
+            native = xp_as_array(target, xp=xp)
+            try:
+                set_default_float_dtype(np.float64)
+                # Anchor the same rounded native target with independent
+                # forward-equation differences in double precision.
+                XYZ = OSA_UCS_to_XYZ(as_ndarray(native).astype(np.float64))
+                step = np.finfo(np.float64).eps ** (1 / 3) * np.maximum(1, np.abs(XYZ))
+                forward = np.column_stack(
+                    [
+                        (
+                            XYZ_to_OSA_UCS(XYZ + np.eye(3)[i] * step[i])
+                            - XYZ_to_OSA_UCS(XYZ - np.eye(3)[i] * step[i])
+                        )
+                        / (2 * step[i])
+                        for i in range(3)
+                    ]
+                )
+                expected = np.linalg.inv(forward)
+            finally:
+                set_default_float_dtype(dtype)
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                if xp.__name__ == "torch":
+                    jacobians = (
+                        xp.autograd.functional.jacobian(OSA_UCS_to_XYZ, native),
+                    )
+                else:
+                    jax = pytest.importorskip("jax")
+                    jacobians = (
+                        jax.jacfwd(OSA_UCS_to_XYZ)(native),
+                        jax.jacrev(OSA_UCS_to_XYZ)(native),
+                    )
+                for jacobian in jacobians:
+                    assert getattr(jacobian, "device", None) == native.device
+                    xp_assert_close(jacobian, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+                request.getfixturevalue("autodiff")(OSA_UCS_to_XYZ, native)
+
+                settings = {"tolerance": float("inf")}
+                approximate: typing.Any = xp_as_array(
+                    [-3.00499790, 2.99713697, -9.66784231], xp=xp
+                )
+                expected = OSA_UCS_to_XYZ(approximate, settings)
+                if xp.__name__ == "torch":
+                    tracked = approximate.detach().clone().requires_grad_(True)
+                    actual = OSA_UCS_to_XYZ(tracked, settings)
+                else:
+                    actual, _ = jax.jvp(
+                        lambda value: OSA_UCS_to_XYZ(value, settings),
+                        (approximate,),
+                        (xp.ones_like(approximate),),
+                    )
+                xp_assert_equal(actual, expected)
 
     def test_n_dimensional_OSA_UCS_to_XYZ(self, xp: ModuleType) -> None:
         """
