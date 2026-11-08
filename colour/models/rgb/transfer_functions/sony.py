@@ -36,6 +36,7 @@ from colour.utilities import (
     domain_range_scale,
     from_range_1,
     to_domain_1,
+    xp_log10,
 )
 
 __author__ = "Colour Developers"
@@ -126,7 +127,7 @@ def log_encoding_SLog(
 
     y = xp.where(
         x >= 0,
-        ((0.432699 * xp.log10(x + 0.037584) + 0.616596) + 0.03),
+        ((0.432699 * xp_log10(x + 0.037584, where=x >= 0, xp=xp) + 0.616596) + 0.03),
         x * 5 + 0.030001222851889303,
     )
 
@@ -405,7 +406,11 @@ def log_encoding_SLog3(
 
     y = xp.where(
         x >= 0.01125000,
-        (420 + xp.log10((x + 0.01) / (0.18 + 0.01)) * 261.5) / 1023,
+        (
+            420
+            + xp_log10((x + 0.01) / (0.18 + 0.01), where=x >= 0.01125000, xp=xp) * 261.5
+        )
+        / 1023,
         (x * (171.2102946929 - 95) / 0.01125000 + 95) / 1023,
     )
 

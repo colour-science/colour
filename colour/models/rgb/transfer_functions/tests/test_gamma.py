@@ -8,6 +8,7 @@ from __future__ import annotations
 import typing
 
 import numpy as np
+import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import gamma_function
@@ -237,3 +238,20 @@ gamma_function` definition nan support.
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         gamma_function(cases, cases)
+
+    @pytest.mark.parametrize("handling", ["Preserve", "Clamp"])
+    def test_gamma_function_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable, handling: str
+    ) -> None:
+        """Test gradients of the selected negative-number handling branch."""
+
+        autodiff(
+            lambda values: gamma_function(values, 2.4, handling),
+            xp_as_array([-0.1, 0.18], xp=xp),
+        )
+
+        autodiff(
+            lambda values, exponent: gamma_function(values, exponent, handling),
+            xp_as_array([-0.1, 0.18], xp=xp),
+            xp_as_array(2.4, xp=xp),
+        )

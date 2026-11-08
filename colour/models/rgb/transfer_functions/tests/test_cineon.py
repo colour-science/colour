@@ -15,6 +15,7 @@ from colour.models.rgb.transfer_functions import (
     log_encoding_Cineon,
 )
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
@@ -24,6 +25,8 @@ from colour.utilities import (
 )
 
 if typing.TYPE_CHECKING:
+    import pytest
+
     from colour.hints import ModuleType
 
 __author__ = "Colour Developers"
@@ -45,7 +48,9 @@ class TestLogEncoding_Cineon:
 log_encoding_Cineon` definition unit tests methods.
     """
 
-    def test_log_encoding_Cineon(self, xp: ModuleType) -> None:
+    def test_log_encoding_Cineon(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.cineon.\
 log_encoding_Cineon` definition.
@@ -68,6 +73,26 @@ log_encoding_Cineon` definition.
             0.669599217986315,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {"x": 0.18, "black_offset": 0.01}
+        expected = log_encoding_Cineon(**host_arguments)
+        for parameter in ("black_offset",):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = log_encoding_Cineon(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: log_encoding_Cineon(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_log_encoding_Cineon(self, xp: ModuleType) -> None:
         """
@@ -124,7 +149,9 @@ class TestLogDecoding_Cineon:
 log_decoding_Cineon` definition unit tests methods.
     """
 
-    def test_log_decoding_Cineon(self, xp: ModuleType) -> None:
+    def test_log_decoding_Cineon(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.cineon.\
 log_decoding_Cineon` definition.
@@ -147,6 +174,26 @@ log_decoding_Cineon` definition.
             1.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {"y": 0.4, "black_offset": 0.01}
+        expected = log_decoding_Cineon(**host_arguments)
+        for parameter in ("black_offset",):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = log_decoding_Cineon(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: log_decoding_Cineon(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_log_decoding_Cineon(self, xp: ModuleType) -> None:
         """

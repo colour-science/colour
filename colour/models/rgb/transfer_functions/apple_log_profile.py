@@ -35,7 +35,9 @@ from colour.utilities import (
     from_range_1,
     optional,
     to_domain_1,
+    xp_log2,
     xp_select,
+    xp_sqrt,
 )
 
 __author__ = "Colour Developers"
@@ -131,7 +133,7 @@ def log_encoding_AppleLogProfile(
             R < R_0,
         ],
         [
-            gamma * xp.log2(R + beta) + delta,
+            gamma * xp_log2(R + beta, where=R + beta > 0, xp=xp) + delta,
             sigma * (R - R_0) ** 2,
             0,
         ],
@@ -212,7 +214,7 @@ def log_decoding_AppleLogProfile(
         ],
         [
             2 ** ((P - delta) / gamma) - beta,
-            xp.sqrt(P / sigma) + R_0,
+            xp_sqrt(P / sigma, where=P >= 0, xp=xp) + R_0,
             R_0,
         ],
         xp=xp,

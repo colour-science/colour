@@ -6,10 +6,12 @@ Define the unit tests for the
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 import numpy as np
+import pytest
 
-from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.constants import DTYPE_FLOAT_DEFAULT, TOLERANCE_ABSOLUTE_TESTS
 from colour.models.rgb.transfer_functions import (
     log_decoding_Log2,
     log_encoding_Log2,
@@ -17,9 +19,11 @@ from colour.models.rgb.transfer_functions import (
     logarithmic_function_camera,
     logarithmic_function_quasilog,
 )
+from colour.models.rgb.transfer_functions.log import FLT_MIN
 from colour.utilities import (
     as_ndarray,
     ignore_numpy_errors,
+    set_default_float_dtype,
     xp_as_array,
     xp_assert_close,
     xp_reshape,
@@ -97,6 +101,64 @@ logarithmic_function_basic` definition.
             0.180000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        values = np.array(
+            [
+                -1,
+                0,
+                np.nextafter(FLT_MIN, 0),
+                FLT_MIN,
+                np.nextafter(FLT_MIN, np.inf),
+                0.18,
+                np.nan,
+            ]
+        )
+        for style, logarithm in (("log10", np.log10), ("log2", np.log2)):
+            expected = np.where(
+                values >= FLT_MIN,
+                logarithm(np.maximum(values, FLT_MIN)),
+                logarithm(FLT_MIN),
+            )
+            xp_assert_close(
+                logarithmic_function_basic(xp_as_array(values, xp=xp), style),
+                expected,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
+        if xp.__name__ != "numpy":
+            original_dtype = DTYPE_FLOAT_DEFAULT
+            try:
+                set_default_float_dtype(np.float32)
+                values: typing.Any = xp_as_array(
+                    [-1, -0.1, 0, np.nextafter(np.float32(FLT_MIN), np.float32(0))],
+                    dtype=xp.float32,
+                    xp=xp,
+                )
+                for style, logarithm in (("log10", np.log10), ("log2", np.log2)):
+                    if xp.__name__ == "torch":
+                        inputs = values.detach().clone().requires_grad_(True)
+                        result = logarithmic_function_basic(inputs, style)
+                        gradient = xp.autograd.grad(xp.sum(result), inputs)[0]
+                    else:
+                        jax = pytest.importorskip("jax")
+                        result = logarithmic_function_basic(values, style)
+                        gradient = jax.grad(
+                            lambda value, style=style: xp.sum(
+                                logarithmic_function_basic(value, style)
+                            )
+                        )(values)
+                    assert result.dtype == xp.float32
+                    assert gradient.dtype == xp.float32
+                    xp_assert_close(
+                        result,
+                        xp_as_array([logarithm(FLT_MIN)] * 4, dtype=xp.float32, xp=xp),
+                        atol=TOLERANCE_ABSOLUTE_TESTS,
+                    )
+                    xp_assert_close(
+                        gradient, [0, 0, 0, 0], atol=TOLERANCE_ABSOLUTE_TESTS
+                    )
+            finally:
+                set_default_float_dtype(original_dtype)
 
     def test_n_dimensional_logarithmic_function_basic(self, xp: ModuleType) -> None:
         """
@@ -250,6 +312,48 @@ logarithmic_function_quasilog` definition.
             0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        values = np.array([-np.inf, -1, 0, FLT_MIN, 0.18, np.inf, np.nan])
+        for base in (2, 10):
+            expected = np.log(np.maximum(values, FLT_MIN)) / np.log(base)
+            xp_assert_close(
+                logarithmic_function_quasilog(xp_as_array(values, xp=xp), base=base),
+                expected,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
+        if xp.__name__ != "numpy":
+            original_dtype = DTYPE_FLOAT_DEFAULT
+            try:
+                set_default_float_dtype(np.float32)
+                values_native: typing.Any = xp_as_array(
+                    [-1, -0.1, 0, np.nextafter(np.float32(FLT_MIN), np.float32(0))],
+                    dtype=xp.float32,
+                    xp=xp,
+                )
+                with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                    if xp.__name__ == "torch":
+                        inputs = values_native.detach().clone().requires_grad_(True)
+                        result = logarithmic_function_quasilog(inputs)
+                        gradient = xp.autograd.grad(xp.sum(result), inputs)[0]
+                    else:
+                        jax = pytest.importorskip("jax")
+                        result = logarithmic_function_quasilog(values_native)
+                        gradient = jax.grad(
+                            lambda value: xp.sum(logarithmic_function_quasilog(value))
+                        )(values_native)
+                assert result.dtype == xp.float32
+                assert gradient.dtype == xp.float32
+                assert getattr(result, "device", None) == values_native.device
+                assert getattr(gradient, "device", None) == values_native.device
+                xp_assert_close(
+                    result,
+                    [np.log2(FLT_MIN)] * 4,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+                xp_assert_close(gradient, [0, 0, 0, 0], atol=TOLERANCE_ABSOLUTE_TESTS)
+            finally:
+                set_default_float_dtype(original_dtype)
 
     def test_n_dimensional_logarithmic_function_quasilog(self, xp: ModuleType) -> None:
         """
@@ -478,6 +582,40 @@ logarithmic_function_camera` definition.
             0.005000000000000,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        if xp.__name__ != "numpy":
+            original_dtype = DTYPE_FLOAT_DEFAULT
+            try:
+                set_default_float_dtype(np.float32)
+                values_native: typing.Any = xp_as_array(
+                    [-1, 0], dtype=xp.float32, xp=xp
+                )
+                with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                    if xp.__name__ == "torch":
+                        inputs = values_native.detach().clone().requires_grad_(True)
+                        result = logarithmic_function_camera(inputs)
+                        gradient = xp.autograd.grad(xp.sum(result), inputs)[0]
+                    else:
+                        jax = pytest.importorskip("jax")
+                        result = logarithmic_function_camera(values_native)
+                        gradient = jax.grad(
+                            lambda value: xp.sum(logarithmic_function_camera(value))
+                        )(values_native)
+                linear_slope = 1 / (0.005 * np.log(2))
+                linear_offset = np.log2(0.005) - linear_slope * 0.005
+                expected = linear_slope * as_ndarray(values_native) + linear_offset
+                assert result.dtype == xp.float32
+                assert gradient.dtype == xp.float32
+                assert getattr(result, "device", None) == values_native.device
+                assert getattr(gradient, "device", None) == values_native.device
+                xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+                xp_assert_close(
+                    gradient,
+                    [linear_slope, linear_slope],
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+            finally:
+                set_default_float_dtype(original_dtype)
 
     def test_n_dimensional_logarithmic_function_camera(self, xp: ModuleType) -> None:
         """

@@ -98,6 +98,7 @@ from colour.utilities import (
     validate_method,
     xp_as_float_array,
     xp_atleast_1d,
+    xp_power,
 )
 
 __author__ = "Colour Developers"
@@ -1153,9 +1154,14 @@ def ootf_BT2100_HLG_1(
 
     gamma = optional(gamma, gamma_function_BT2100_HLG(L_W))
 
-    R_D = alpha * R_S * xp.abs(Y_S) ** (gamma - 1) + beta
-    G_D = alpha * G_S * xp.abs(Y_S) ** (gamma - 1) + beta
-    B_D = alpha * B_S * xp.abs(Y_S) ** (gamma - 1) + beta
+    luminance_power = xp_power(xp.abs(Y_S), gamma - 1, where=Y_S != 0, xp=xp)
+    luminance_power = xp.where(
+        Y_S != 0, luminance_power, 0 if gamma > 1 else 1 if gamma == 1 else float("inf")
+    )
+
+    R_D = alpha * R_S * luminance_power + beta
+    G_D = alpha * G_S * luminance_power + beta
+    B_D = alpha * B_S * luminance_power + beta
 
     if is_single_channel:
         return as_float(from_range_1(R_D))
@@ -1246,9 +1252,14 @@ def ootf_BT2100_HLG_2(
 
     gamma = optional(gamma, gamma_function_BT2100_HLG(L_W))
 
-    R_D = alpha * R_S * xp.abs(Y_S) ** (gamma - 1)
-    G_D = alpha * G_S * xp.abs(Y_S) ** (gamma - 1)
-    B_D = alpha * B_S * xp.abs(Y_S) ** (gamma - 1)
+    luminance_power = xp_power(xp.abs(Y_S), gamma - 1, where=Y_S != 0, xp=xp)
+    luminance_power = xp.where(
+        Y_S != 0, luminance_power, 0 if gamma > 1 else 1 if gamma == 1 else float("inf")
+    )
+
+    R_D = alpha * R_S * luminance_power
+    G_D = alpha * G_S * luminance_power
+    B_D = alpha * B_S * luminance_power
 
     if is_single_channel:
         return as_float(from_range_1(R_D))

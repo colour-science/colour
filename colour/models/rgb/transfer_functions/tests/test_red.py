@@ -28,6 +28,7 @@ from colour.models.rgb.transfer_functions.red import (
     log_encoding_Log3G10_v3,
 )
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
@@ -68,7 +69,9 @@ class TestLogEncoding_REDLog:
 log_encoding_REDLog` definition unit tests methods.
     """
 
-    def test_log_encoding_REDLog(self, xp: ModuleType) -> None:
+    def test_log_encoding_REDLog(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.red.\
 log_encoding_REDLog` definition.
@@ -91,6 +94,26 @@ log_encoding_REDLog` definition.
             1.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {"x": 0.18, "black_offset": 0.01}
+        expected = log_encoding_REDLog(**host_arguments)
+        for parameter in ("black_offset",):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = log_encoding_REDLog(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: log_encoding_REDLog(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_log_encoding_REDLog(self, xp: ModuleType) -> None:
         """
@@ -147,7 +170,9 @@ class TestLogDecoding_REDLog:
 log_decoding_REDLog` definition unit tests methods.
     """
 
-    def test_log_decoding_REDLog(self, xp: ModuleType) -> None:
+    def test_log_decoding_REDLog(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.red.\
 log_decoding_REDLog` definition.
@@ -170,6 +195,26 @@ log_decoding_REDLog` definition.
             1.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {"y": 0.4, "black_offset": 0.01}
+        expected = log_decoding_REDLog(**host_arguments)
+        for parameter in ("black_offset",):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = log_decoding_REDLog(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: log_decoding_REDLog(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_log_decoding_REDLog(self, xp: ModuleType) -> None:
         """
@@ -226,7 +271,9 @@ class TestLogEncoding_REDLogFilm:
 log_encoding_REDLogFilm` definition unit tests methods.
     """
 
-    def test_log_encoding_REDLogFilm(self, xp: ModuleType) -> None:
+    def test_log_encoding_REDLogFilm(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.red.\
 log_encoding_REDLogFilm` definition.
@@ -249,6 +296,26 @@ log_encoding_REDLogFilm` definition.
             0.669599217986315,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {"x": 0.18, "black_offset": 0.01}
+        expected = log_encoding_REDLogFilm(**host_arguments)
+        for parameter in ("black_offset",):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = log_encoding_REDLogFilm(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: log_encoding_REDLogFilm(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_log_encoding_REDLogFilm(self, xp: ModuleType) -> None:
         """
@@ -305,7 +372,9 @@ class TestLogDecoding_REDLogFilm:
 log_decoding_REDLogFilm` definition unit tests methods.
     """
 
-    def test_log_decoding_REDLogFilm(self, xp: ModuleType) -> None:
+    def test_log_decoding_REDLogFilm(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.red.\
 log_decoding_REDLogFilm` definition.
@@ -328,6 +397,26 @@ log_decoding_REDLogFilm` definition.
             1.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {"y": 0.4, "black_offset": 0.01}
+        expected = log_decoding_REDLogFilm(**host_arguments)
+        for parameter in ("black_offset",):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = log_decoding_REDLogFilm(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: log_decoding_REDLogFilm(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_log_decoding_REDLogFilm(self, xp: ModuleType) -> None:
         """
@@ -779,7 +868,9 @@ class TestLogDecoding_Log3G10_v3:
 log_decoding_Log3G10_v3` definition unit tests methods.
     """
 
-    def test_log_decoding_Log3G10_v3(self, xp: ModuleType) -> None:
+    def test_log_decoding_Log3G10_v3(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.red.\
 log_decoding_Log3G10_v3` definition.
@@ -802,6 +893,25 @@ log_decoding_Log3G10_v3` definition.
             0.18,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # The negative linear segment must not differentiate an overflowing,
+        # unused exponential. Zero is a join with rounded, differing slopes.
+        xp_assert_close(
+            log_decoding_Log3G10_v3(xp_as_array(-100.0, xp=xp)),
+            -100.0 / 15.1927 - 0.01,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            _, gradients, _ = autodiff(
+                log_decoding_Log3G10_v3,
+                xp_as_array([-100.0, -0.1], xp=xp),
+            )
+            xp_assert_close(
+                gradients[0],
+                xp_as_array([1 / 15.1927, 1 / 15.1927], xp=xp),
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
 
     def test_n_dimensional_log_decoding_Log3G10_v3(self, xp: ModuleType) -> None:
         """

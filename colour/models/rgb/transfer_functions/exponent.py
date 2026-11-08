@@ -29,8 +29,10 @@ from colour.utilities import (
     array_namespace,
     as_float,
     as_float_array,
+    is_non_ndarray,
     validate_method,
     xp_as_float_array,
+    xp_power,
 )
 
 __author__ = "Colour Developers"
@@ -149,7 +151,10 @@ def exponent_function_basic(
 
     x = as_float_array(x)
 
-    xp = array_namespace(x)
+    xp = array_namespace(x, exponent)
+
+    reference = next((a for a in (x, exponent) if is_non_ndarray(a)), None)
+    x = xp_as_float_array(x, xp=xp, like=reference)
 
     exponent = xp_as_float_array(exponent, xp=xp, like=x)
 
@@ -169,12 +174,12 @@ def exponent_function_basic(
     def exponent_forward(x: NDArrayFloat) -> NDArrayFloat:
         """Return the input raised to the exponent value."""
 
-        return x**exponent
+        return xp_power(x, exponent, where=~(x < 0), xp=xp)
 
     def exponent_reverse(y: NDArrayFloat) -> NDArrayFloat:
         """Return the input raised to the inverse exponent value."""
 
-        return y ** (1 / exponent)
+        return xp_power(y, 1 / exponent, where=~(y < 0), xp=xp)
 
     m_x = x >= 0
     if style == "basicfwd":
@@ -279,7 +284,10 @@ def exponent_function_monitor_curve(
 
     x = as_float_array(x)
 
-    xp = array_namespace(x)
+    xp = array_namespace(x, exponent, offset)
+
+    reference = next((a for a in (x, exponent, offset) if is_non_ndarray(a)), None)
+    x = xp_as_float_array(x, xp=xp, like=reference)
 
     exponent = xp_as_float_array(exponent, xp=xp, like=x)
     offset = xp_as_float_array(offset, xp=xp, like=x)
@@ -311,7 +319,11 @@ def exponent_function_monitor_curve(
 
         y = x * s
 
-        return xp.where(x >= x_break, ((x + offset) / (1 + offset)) ** exponent, y)
+        return xp.where(
+            x >= x_break,
+            xp_power((x + offset) / (1 + offset), exponent, where=x >= x_break, xp=xp),
+            y,
+        )
 
     def monitor_curve_reverse(
         y: NDArrayFloat, offset: NDArrayFloat, exponent: NDArrayFloat
@@ -323,10 +335,15 @@ def exponent_function_monitor_curve(
                 sdiv(exponent * offset, (exponent - 1) * (1 + offset))
             ) ** exponent
 
-            x = y / s
+            # The linear branch is inactive when the power curve is selected;
+            # its slope can be zero for valid zero-offset curves.
+            x = y / xp.where(y >= y_break, 1, s)
 
         return xp.where(
-            y >= y_break, ((1 + offset) * (y ** (1 / exponent))) - offset, x
+            y >= y_break,
+            (1 + offset) * xp_power(y, 1 / exponent, where=y >= y_break, xp=xp)
+            - offset,
+            x,
         )
 
     m_x = x >= 0
@@ -341,10 +358,8 @@ def exponent_function_monitor_curve(
             -monitor_curve_forward(-x, offset, exponent),
         )
     else:  # style == 'moncurvemirrorrev'
-        y = xp.where(
-            m_x,
-            monitor_curve_reverse(x, offset, exponent),
-            -monitor_curve_reverse(-x, offset, exponent),
+        y = xp.where(m_x, 1, -1) * monitor_curve_reverse(
+            xp.where(m_x, x, -x), offset, exponent
         )
 
     return as_float(y)

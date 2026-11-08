@@ -139,13 +139,13 @@ log_decoding_DJIDLog` definition.
         xp_assert_close(
             log_decoding_DJIDLog(xp_as_array(0.398764556189331, xp=xp)),
             0.18,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
         xp_assert_close(
             log_decoding_DJIDLog(xp_as_array(0.584555, xp=xp)),
             1.0,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
     def test_n_dimensional_log_decoding_DLog(self, xp: ModuleType) -> None:

@@ -28,6 +28,7 @@ from colour.utilities import (
     from_range_1,
     optional,
     to_domain_1,
+    xp_log10,
 )
 
 __author__ = "Colour Developers"
@@ -135,7 +136,7 @@ def log_encoding_VLog(
     V_out = xp.where(
         L_in < cut1,
         5.6 * L_in + 0.125,
-        c * xp.log10(L_in + b) + d,
+        c * xp_log10(L_in + b, where=~(L_in < cut1), xp=xp) + d,
     )
 
     V_out_cv = V_out if out_normalised_code_value else legal_to_full(V_out, bit_depth)

@@ -21,8 +21,10 @@ from colour.utilities import (
     array_namespace,
     as_float,
     as_float_array,
+    is_non_ndarray,
     validate_method,
     xp_as_float_array,
+    xp_power,
 )
 
 __author__ = "Colour Developers"
@@ -90,8 +92,10 @@ def gamma_function(
 
     a = as_float_array(a)
 
-    xp = array_namespace(a)
+    xp = array_namespace(a, exponent)
 
+    reference = a if is_non_ndarray(a) else exponent
+    a = xp_as_float_array(a, xp=xp, like=reference)
     exponent = xp_as_float_array(exponent, xp=xp, like=a)
     negative_number_handling = validate_method(
         negative_number_handling,
@@ -105,8 +109,10 @@ def gamma_function(
     if negative_number_handling == "mirror":
         return spow(a, exponent)
 
+    a_positive = xp_power(a, exponent, where=~(a <= 0), xp=xp)
+
     if negative_number_handling == "preserve":
-        return as_float(xp.where(a <= 0, a, a**exponent))
+        return as_float(xp.where(a <= 0, a, a_positive))
 
     # negative_number_handling == 'clamp':
-    return as_float(xp.where(a <= 0, 0, a**exponent))
+    return as_float(xp.where(a <= 0, 0, a_positive))

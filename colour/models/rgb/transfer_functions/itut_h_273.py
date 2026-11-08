@@ -46,6 +46,7 @@ from colour.utilities import (
     as_float_array,
     from_range_1,
     to_domain_1,
+    xp_log10,
 )
 
 __author__ = "Colour Developers"
@@ -123,7 +124,7 @@ def oetf_H273_Log(L_c: Domain1) -> Range1:
     V = xp.where(
         L_c >= 0.01,
         # L_c in [0.01, 1] range
-        1 + xp.log10(L_c) / 2,
+        1 + xp_log10(L_c, where=L_c > 0, xp=xp) / 2,
         # L_c in [0, 0.01] range
         0,
     )
@@ -252,7 +253,7 @@ def oetf_H273_LogSqrt(L_c: Domain1) -> Range1:
     V = xp.where(
         L_c >= math.sqrt(10) / 1000,
         # L_c in [sqrt(10)/1000, 1] range
-        1 + xp.log10(L_c) / 2.5,
+        1 + xp_log10(L_c, where=L_c > 0, xp=xp) / 2.5,
         # L_c in [0, sqrt(10)/1000] range
         0,
     )

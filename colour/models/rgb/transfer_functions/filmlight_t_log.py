@@ -21,7 +21,13 @@ from colour.hints import (  # noqa: TC001
     Domain1,
     Range1,
 )
-from colour.utilities import array_namespace, as_float, from_range_1, to_domain_1
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    from_range_1,
+    to_domain_1,
+    xp_log,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -126,7 +132,7 @@ def log_encoding_FilmLightTLog(
     t = xp.where(
         x < 0.0,
         G * x + o,
-        xp.log(x + C) * B + A,
+        xp_log(x + C, where=~(x < 0.0), xp=xp) * B + A,
     )
 
     return as_float(from_range_1(t))

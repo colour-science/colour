@@ -27,6 +27,7 @@ from colour.utilities import (
     from_range_1,
     optional,
     to_domain_1,
+    xp_log,
 )
 
 __author__ = "Colour Developers"
@@ -113,7 +114,7 @@ def oetf_BlackmagicFilmGeneration5(
     V_out = xp.where(
         x < LIN_CUT,
         D * x + E,
-        A * xp.log(x + B) + C,
+        A * xp_log(x + B, where=~(x < LIN_CUT), xp=xp) + C,
     )
 
     return as_float(from_range_1(V_out))

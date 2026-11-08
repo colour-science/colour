@@ -55,9 +55,11 @@ from colour.utilities import (
     array_namespace,
     as_float,
     from_range_1,
+    is_non_ndarray,
     to_domain_1,
     validate_method,
     xp_as_float_array,
+    xp_power,
 )
 
 __author__ = "Colour Developers"
@@ -132,7 +134,10 @@ def log_encoding_REDLog(
 
     x = to_domain_1(x)
 
-    xp = array_namespace(x)
+    xp = array_namespace(x, black_offset)
+
+    reference = next((a for a in (x, black_offset) if is_non_ndarray(a)), None)
+    x = xp_as_float_array(x, xp=xp, like=reference)
 
     black_offset = xp_as_float_array(black_offset, xp=xp, like=x)
 
@@ -186,7 +191,10 @@ def log_decoding_REDLog(
 
     y = to_domain_1(y)
 
-    xp = array_namespace(y)
+    xp = array_namespace(y, black_offset)
+
+    reference = next((a for a in (y, black_offset) if is_non_ndarray(a)), None)
+    y = xp_as_float_array(y, xp=xp, like=reference)
 
     black_offset = xp_as_float_array(black_offset, xp=xp, like=y)
 
@@ -332,7 +340,11 @@ def log_encoding_Log3G10_v1(x: Domain1) -> Range1:
 
     xp = array_namespace(x)
 
-    y = xp.sign(x) * 0.222497 * xp.log10((xp.abs(x) * 169.379333) + 1)
+    y = (
+        xp.where(x >= 0, 1, -1)
+        * 0.222497
+        * xp.log10((xp.where(x >= 0, x, -x) * 169.379333) + 1)
+    )
 
     return as_float(from_range_1(y))
 
@@ -382,7 +394,11 @@ def log_decoding_Log3G10_v1(y: Domain1) -> Range1:
 
     xp = array_namespace(y)
 
-    x = xp.sign(y) * (10.0 ** (xp.abs(y) / 0.222497) - 1) / 169.379333
+    x = (
+        xp.where(y >= 0, 1, -1)
+        * (10.0 ** (xp.where(y >= 0, y, -y) / 0.222497) - 1)
+        / 169.379333
+    )
 
     return as_float(from_range_1(x))
 
@@ -431,7 +447,11 @@ def log_encoding_Log3G10_v2(x: Domain1) -> Range1:
 
     xp = array_namespace(x)
 
-    y = xp.sign(x + 0.01) * 0.224282 * xp.log10((xp.abs(x + 0.01) * 155.975327) + 1)
+    y = (
+        xp.where(x >= -0.01, 1, -1)
+        * 0.224282
+        * xp.log10(xp.where(x >= -0.01, x + 0.01, -(x + 0.01)) * 155.975327 + 1)
+    )
 
     return as_float(from_range_1(y))
 
@@ -481,7 +501,11 @@ def log_decoding_Log3G10_v2(y: Domain1) -> Range1:
 
     xp = array_namespace(y)
 
-    x = (xp.sign(y) * (10.0 ** (xp.abs(y) / 0.224282) - 1) / 155.975327) - 0.01
+    x = (
+        xp.where(y >= 0, 1, -1)
+        * (10.0 ** (xp.where(y >= 0, y, -y) / 0.224282) - 1)
+        / 155.975327
+    ) - 0.01
 
     return as_float(from_range_1(x))
 
@@ -537,7 +561,11 @@ def log_encoding_Log3G10_v3(x: Domain1) -> Range1:
 
     x = x + c
 
-    y = xp.where(x < 0.0, x * g, xp.sign(x) * a * xp.log10((xp.abs(x) * b) + 1.0))
+    y = xp.where(
+        x < 0.0,
+        x * g,
+        xp.where(x >= 0, 1, -1) * a * xp.log10((xp.where(x >= 0, x, -x) * b) + 1.0),
+    )
 
     return as_float(from_range_1(y))
 
@@ -595,7 +623,10 @@ def log_decoding_Log3G10_v3(y: Domain1) -> Range1:
     x = xp.where(
         y < 0.0,
         (y / g) - c,
-        xp.sign(y) * (10 ** (xp.abs(y) / a) - 1.0) / b - c,
+        xp.where(y >= 0, 1, -1)
+        * (xp_power(10, xp.where(y >= 0, y, -y) / a, where=~(y < 0), xp=xp) - 1.0)
+        / b
+        - c,
     )
 
     return as_float(from_range_1(x))
@@ -806,7 +837,11 @@ def log_encoding_Log3G12(x: Domain1) -> Range1:
 
     xp = array_namespace(x)
 
-    y = xp.sign(x) * 0.184904 * xp.log10((xp.abs(x) * 347.189667) + 1)
+    y = (
+        xp.where(x >= 0, 1, -1)
+        * 0.184904
+        * xp.log10((xp.where(x >= 0, x, -x) * 347.189667) + 1)
+    )
 
     return as_float(from_range_1(y))
 
@@ -853,6 +888,10 @@ def log_decoding_Log3G12(y: Domain1) -> Range1:
 
     xp = array_namespace(y)
 
-    x = xp.sign(y) * (10.0 ** (xp.abs(y) / 0.184904) - 1) / 347.189667
+    x = (
+        xp.where(y >= 0, 1, -1)
+        * (10.0 ** (xp.where(y >= 0, y, -y) / 0.184904) - 1)
+        / 347.189667
+    )
 
     return as_float(from_range_1(x))

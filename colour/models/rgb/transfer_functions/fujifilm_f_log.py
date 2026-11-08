@@ -31,6 +31,7 @@ from colour.utilities import (
     from_range_1,
     optional,
     to_domain_1,
+    xp_log10,
 )
 
 __author__ = "Colour Developers"
@@ -157,7 +158,7 @@ def log_encoding_FLog(
     out_r = xp.where(
         in_r < cut1,
         e * in_r + f,
-        c * xp.log10(a * in_r + b) + d,
+        c * xp_log10(a * in_r + b, where=~(in_r < cut1), xp=xp) + d,
     )
 
     out_r_cv = out_r if out_normalised_code_value else legal_to_full(out_r, bit_depth)
