@@ -16,7 +16,17 @@ from __future__ import annotations
 import typing
 from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
 from operator import pow  # noqa: A004
-from operator import add, iadd, imul, ipow, isub, itruediv, mul, sub, truediv
+from operator import (
+    add,
+    iadd,
+    imul,
+    ipow,
+    isub,
+    itruediv,
+    mul,
+    sub,
+    truediv,
+)
 
 import numpy as np
 
@@ -693,6 +703,7 @@ class Signal(AbstractContinuousFunction):
                 int_digest(as_ndarray(self._domain).tobytes()),
                 int_digest(as_ndarray(self._range).tobytes()),
                 array_namespace(self._domain, self._range).__name__,
+                str(getattr(self._range, "device", None)),
                 self.interpolator.__name__,
                 repr(self.interpolator_kwargs),
                 self.extrapolator.__name__,
@@ -817,18 +828,18 @@ class Signal(AbstractContinuousFunction):
             index: ArrayLike | slice, values: ArrayLike, xp: ProtocolArrayNamespace
         ) -> None:
             """
-            Set ``self._range`` mutably, round-tripping through numpy for
-            immutable backends.
+            Set ``self._range`` while retaining the backend differentiation
+            graph.
             """
 
             if not is_non_ndarray(self._range):
                 self._range[index] = values  # pyright: ignore
+            elif hasattr(self._range, "at"):
+                self._range = self._range.at[index].set(values)  # pyright: ignore  # noqa: PD008
             else:
-                range_ = np.array(as_ndarray(self._range))
-                range_[index if isinstance(index, slice) else as_ndarray(index)] = (
-                    as_ndarray(values)
-                )
-                self._range = xp_as_array(range_, xp=xp, like=self._range)
+                range_ = xp_as_array(self._range, xp=xp, copy=True)
+                range_[index] = values  # pyright: ignore
+                self._range = range_
 
         xp = array_namespace(self._range)
 
@@ -853,7 +864,7 @@ class Signal(AbstractContinuousFunction):
             x_nm = x[~mask]
             if len(x_nm) != 0:
                 indexes = xp.searchsorted(domain, x_nm)
-                self._domain = as_ndarray(xp_insert(domain, indexes, x_nm, xp=xp))
+                self._domain = xp_insert(domain, indexes, x_nm, xp=xp)
                 self._range = xp_insert(self._range, indexes, y[~mask], xp=xp)
 
         self._function = None  # Invalidate the underlying continuous function.
@@ -885,20 +896,25 @@ class Signal(AbstractContinuousFunction):
         False
         """
 
-        xp = array_namespace(self._domain)
-
-        return bool(
-            xp.all(
-                xp.where(
-                    xp.logical_and(
-                        x >= xp.min(self._domain),
-                        x <= xp.max(self._domain),
-                    ),
-                    True,
-                    False,
+        if (
+            is_non_ndarray(x)
+            and array_namespace(x) is array_namespace(self._domain)
+            and getattr(x, "device", None) == getattr(self._domain, "device", None)
+        ):
+            xp = array_namespace(self._domain)
+            query_native = xp_as_array(cast("ArrayLike", x), xp=xp)
+            return bool(
+                xp.all(
+                    (query_native >= xp.min(self._domain))
+                    & (query_native <= xp.max(self._domain))
                 )
             )
-        )
+
+        # Membership is metadata: preserve the exact stored coordinates when
+        # the query and domain cannot be compared natively without a cast.
+        domain = as_ndarray(self._domain)
+        query = as_ndarray(x)
+        return bool(np.all((query >= np.min(domain)) & (query <= np.max(domain))))
 
     @ndarray_copy_enable(False)
     def __eq__(self, other: object) -> bool:
@@ -938,15 +954,27 @@ class Signal(AbstractContinuousFunction):
         # handle NaNs. Different-backend operands are treated as unequal.
         if isinstance(other, Signal):
             xp = array_namespace(self._domain, self._range)
-            if xp is not array_namespace(other.domain, other.range):
+            if xp is not array_namespace(other.domain, other.range) or getattr(
+                self._range, "device", None
+            ) != getattr(other._range, "device", None):
                 return False
+
+            for left, right in (
+                (self._domain, other.domain),
+                (self._range, other.range),
+            ):
+                if left.shape != right.shape:
+                    return False
+                if array_namespace(left) is array_namespace(right) and getattr(
+                    left, "device", None
+                ) == getattr(right, "device", None):
+                    if not bool(array_namespace(left).all(left == right)):
+                        return False
+                elif not np.array_equal(as_ndarray(left), as_ndarray(right)):
+                    return False
 
             return all(
                 [
-                    self._domain.shape == other.domain.shape
-                    and bool(xp.all(self._domain == other.domain)),
-                    self._range.shape == other.range.shape
-                    and bool(xp.all(self._range == other.range)),
                     self._interpolator is other.interpolator,
                     repr(self._interpolator_kwargs) == repr(other.interpolator_kwargs),
                     self._extrapolator is other.extrapolator,
@@ -1148,14 +1176,17 @@ class Signal(AbstractContinuousFunction):
 
         if in_place:
             if isinstance(a, Signal):
-                # The operation is on the ranges, so the namespace is resolved
-                # from both ranges (the domains are always *NumPy*) and both
-                # operands are promoted to it.
-                a_range = a[self._domain]
+                # Evaluate each operand on its own backend before combining ranges.
+                a_range = a[
+                    xp_as_float_array(
+                        self._domain, xp=array_namespace(a.range), like=a.range
+                    )
+                ]
                 xp = array_namespace(self._range, a_range)
 
-                self_range = xp_as_float_array(self._range, xp=xp, like=a_range)
-                self[self._domain] = operator(
+                reference = self._range if is_non_ndarray(self._range) else a_range
+                self_range = xp_as_float_array(self._range, xp=xp, like=reference)
+                self.range = operator(
                     self_range,
                     xp_as_float_array(a_range, xp=xp, like=self_range),
                 )
@@ -1163,7 +1194,8 @@ class Signal(AbstractContinuousFunction):
                 self[exclusive_or] = full(exclusive_or.shape, float("nan"))
             else:
                 xp = array_namespace(self._range, a)
-                self_range = xp_as_float_array(self._range, xp=xp, like=a)
+                reference = self._range if is_non_ndarray(self._range) else a
+                self_range = xp_as_float_array(self._range, xp=xp, like=reference)
                 a = xp_as_array(cast("ArrayLike", a), xp=xp, like=self_range)
                 self.range = ioperator(self_range, a)
 
