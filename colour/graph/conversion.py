@@ -17,7 +17,6 @@ import re
 import sys
 import textwrap
 import typing
-from copy import deepcopy
 from dataclasses import dataclass
 from functools import partial
 from pprint import pformat
@@ -2234,7 +2233,10 @@ SDS_ILLUMINANTS["FL2"], XYZ_to_sRGB={"illuminant": illuminant})
 
     conversion_path_list = conversion_path(source, target)
 
-    verbose_kwargs = deepcopy(kwargs)
+    verbose_kwargs: dict[str, typing.Any] = {
+        key: value.copy() if isinstance(value, dict) else value
+        for key, value in kwargs.items()
+    }
     for i, conversion_function in enumerate(conversion_path_list):
         conversion_function_name = _lower_order_function(conversion_function).__name__
 
@@ -2273,6 +2275,7 @@ SDS_ILLUMINANTS["FL2"], XYZ_to_sRGB={"illuminant": illuminant})
                 if promoted:
                     promoted_function = partial(
                         conversion_function.func,
+                        *conversion_function.args,
                         **{**conversion_function.keywords, **promoted},
                     )
                 else:
