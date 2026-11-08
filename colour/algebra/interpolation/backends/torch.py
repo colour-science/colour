@@ -491,7 +491,8 @@ class PchipInterpolator:
         w_2 = h[1:, None] + 2 * h[:-1, None]
         # Anchor the harmonic mean at the smaller slope. Its ratio to the
         # larger slope may underflow harmlessly, but is never inverted.
-        previous_smaller = torch.abs(safe_previous) <= torch.abs(safe_following)
+        # Keep the original ordering: guarded disparate slopes are both one,
+        # but their harmonic mean still needs the original interval weight.
         smaller = torch.where(previous_smaller, safe_previous, safe_following)
         larger = torch.where(previous_smaller, safe_following, safe_previous)
         # Normalize the ratio with a normal binary factor: JAX division
