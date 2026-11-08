@@ -3598,6 +3598,63 @@ class TestClosestIndexes:
             [3, 4, 5],
         )
 
+        host_values = np.array([1.0, 3.0, 7.0], dtype=np.float32)
+        host_query = np.array([[2.0, 6.0]], dtype=np.float32)
+        native_values = xp_as_array(host_values, xp=xp)
+        native_query = xp_as_array(host_query, xp=xp)
+        for values, query in (
+            (native_values, native_query),
+            (native_values, host_query),
+            (host_values, native_query),
+        ):
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = closest_indexes(values, query)
+            xp_assert_equal(result, [0, 2])
+            assert result.shape == (2,)
+            assert getattr(result, "device", None) == getattr(
+                native_values, "device", None
+            )
+        xp_assert_equal(closest_indexes(native_values, 2.0), [0])
+        xp_assert_equal(closest_indexes(native_values, []), [])
+        xp_assert_equal(
+            closest_indexes(
+                native_values, xp_as_array([np.nan, np.inf, -np.inf], xp=xp)
+            ),
+            [0, 0, 0],
+        )
+
+        integer_values = np.array([2**60, 2**60 + 1], dtype=np.int64)
+        integer_query = np.array([2**60 + 1], dtype=np.int64)
+        for values, query in (
+            (xp_as_array(integer_values, xp=xp), integer_query),
+            (integer_values, xp_as_array(integer_query, xp=xp)),
+        ):
+            result = closest_indexes(values, query)
+            xp_assert_equal(result, [1])
+            assert getattr(result, "device", None) == getattr(
+                native_values, "device", None
+            )
+
+        if getattr(getattr(native_values, "device", None), "type", None) != "mps":
+            precise_values = xp_as_array(
+                np.array([1.0, 1.0 + 1e-9], dtype=np.float64), xp=xp
+            )
+            precise_query = np.array([1.0 + 1e-9], dtype=np.float64)
+            xp_assert_equal(closest_indexes(precise_values, precise_query), [1])
+            complex_values = np.array([1 + 1j, 1 + 2j], dtype=np.complex128)
+            complex_query = np.array([1 + 2j], dtype=np.complex128)
+            for values, query in (
+                (xp_as_array(complex_values, xp=xp), complex_query),
+                (complex_values, xp_as_array(complex_query, xp=xp)),
+            ):
+                result = closest_indexes(values, query)
+                xp_assert_equal(result, [1])
+                assert getattr(result, "device", None) == getattr(
+                    native_values, "device", None
+                )
+
 
 class TestClosest:
     """
@@ -3625,6 +3682,62 @@ class TestClosest:
             [62.70988028, 46.84480573, 25.40026416],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host_values = np.array([1.0, 3.0, 7.0], dtype=np.float32)
+        host_query = np.array([[2.0, 6.0]], dtype=np.float32)
+        native_values = xp_as_array(host_values, xp=xp)
+        native_query = xp_as_array(host_query, xp=xp)
+        for values, query in (
+            (native_values, native_query),
+            (native_values, host_query),
+            (host_values, native_query),
+        ):
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = closest(values, query)
+            xp_assert_equal(result, [1.0, 7.0])
+            assert result.shape == (2,)
+            assert result.dtype == native_values.dtype
+            assert getattr(result, "device", None) == getattr(
+                native_values, "device", None
+            )
+        xp_assert_equal(closest(native_values, 2.0), [1.0])
+        xp_assert_equal(closest(native_values, []), [])
+        xp_assert_equal(
+            closest(native_values, xp_as_array([np.nan, np.inf, -np.inf], xp=xp)),
+            [1.0, 1.0, 1.0],
+        )
+
+        integer_values = np.array([2**60, 2**60 + 1], dtype=np.int64)
+        integer_query = np.array([2**60 + 1], dtype=np.int64)
+        for values, query in (
+            (xp_as_array(integer_values, xp=xp), integer_query),
+            (integer_values, xp_as_array(integer_query, xp=xp)),
+        ):
+            result = closest(values, query)
+            xp_assert_equal(result, [2**60 + 1])
+            assert getattr(result, "device", None) == getattr(
+                native_values, "device", None
+            )
+
+        if getattr(getattr(native_values, "device", None), "type", None) != "mps":
+            precise_values = xp_as_array(
+                np.array([1.0, 1.0 + 1e-9], dtype=np.float64), xp=xp
+            )
+            precise_query = np.array([1.0 + 1e-9], dtype=np.float64)
+            xp_assert_equal(closest(precise_values, precise_query), [1.0 + 1e-9])
+            complex_values = np.array([1 + 1j, 1 + 2j], dtype=np.complex128)
+            complex_query = np.array([1 + 2j], dtype=np.complex128)
+            for values, query in (
+                (xp_as_array(complex_values, xp=xp), complex_query),
+                (complex_values, xp_as_array(complex_query, xp=xp)),
+            ):
+                result = closest(values, query)
+                xp_assert_equal(result, [1 + 2j])
+                assert getattr(result, "device", None) == getattr(
+                    native_values, "device", None
+                )
 
 
 class TestInterval:
