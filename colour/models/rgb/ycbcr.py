@@ -74,6 +74,7 @@ from colour.utilities import (
     as_int_array,
     domain_range_scale,
     from_range_1,
+    is_non_ndarray,
     to_domain_1,
     tsplit,
     tstack,
@@ -312,13 +313,17 @@ def matrix_YCbCr(
     array([ 38, 140, 171])
     """
 
-    xp = array_namespace(K)
+    xp = array_namespace(K, S)
+
+    reference = next((a for a in (K, S) if is_non_ndarray(a)), None)
+    K = xp_as_float_array(K, xp=xp, like=reference)
+    S = xp_as_float_array(S, xp=xp, like=K)
 
     Kr, Kb = K
     Cb_scale, Cr_scale = S
     Y_min, Y_max, C_min, C_max = ranges_YCbCr(bits, is_legal, is_int)
 
-    Y = xp_as_float_array([Kr, (1 - Kr - Kb), Kb], xp=xp, like=K)
+    Y = tstack([Kr, (1 - Kr - Kb), Kb])
     Cb = Cb_scale * (xp_as_float_array([0, 0, 1], xp=xp, like=K) - Y) / (1 - Kb)
     Cr = Cr_scale * (xp_as_float_array([1, 0, 0], xp=xp, like=K) - Y) / (1 - Kr)
     Y = Y * (Y_max - Y_min)
@@ -555,13 +560,28 @@ def RGB_to_YCbCr(
 
     RGB = as_float_array(RGB) if in_int else to_domain_1(RGB)
 
-    xp = array_namespace(RGB)
+    operands = (
+        RGB,
+        K,
+        S,
+        kwargs.get("in_range"),
+        kwargs.get("out_range"),
+    )
+    xp = array_namespace(*operands)
+    reference = next((a for a in operands if is_non_ndarray(a)), None)
+    RGB = xp_as_float_array(RGB, xp=xp, like=reference)
+    K = xp_as_float_array(K, xp=xp, like=RGB)
+    S = xp_as_float_array(S, xp=xp, like=RGB)
 
     Kr, Kb = K
     Cb_scale, Cr_scale = S
-    RGB_min, RGB_max = kwargs.get("in_range", CV_range(in_bits, in_legal, in_int))
-    Y_min, Y_max, C_min, C_max = kwargs.get(
-        "out_range", ranges_YCbCr(out_bits, out_legal, out_int)
+    RGB_min, RGB_max = xp_as_float_array(
+        kwargs.get("in_range", CV_range(in_bits, in_legal, in_int)), xp=xp, like=RGB
+    )
+    Y_min, Y_max, C_min, C_max = xp_as_float_array(
+        kwargs.get("out_range", ranges_YCbCr(out_bits, out_legal, out_int)),
+        xp=xp,
+        like=RGB,
     )
 
     RGB_float = as_float_array(RGB) - RGB_min
@@ -712,15 +732,32 @@ def YCbCr_to_RGB(
 
     YCbCr = as_float_array(YCbCr) if in_int else to_domain_1(YCbCr)
 
-    xp = array_namespace(YCbCr)
+    operands = (
+        YCbCr,
+        K,
+        S,
+        kwargs.get("in_range"),
+        kwargs.get("out_range"),
+    )
+    xp = array_namespace(*operands)
+    reference = next((a for a in operands if is_non_ndarray(a)), None)
+    YCbCr = xp_as_float_array(YCbCr, xp=xp, like=reference)
+    K = xp_as_float_array(K, xp=xp, like=YCbCr)
+    S = xp_as_float_array(S, xp=xp, like=YCbCr)
 
     Y, Cb, Cr = tsplit(YCbCr)
     Kr, Kb = K
     Cb_scale, Cr_scale = S
-    Y_min, Y_max, C_min, C_max = kwargs.get(
-        "in_range", ranges_YCbCr(in_bits, in_legal, in_int)
+    Y_min, Y_max, C_min, C_max = xp_as_float_array(
+        kwargs.get("in_range", ranges_YCbCr(in_bits, in_legal, in_int)),
+        xp=xp,
+        like=YCbCr,
     )
-    RGB_min, RGB_max = kwargs.get("out_range", CV_range(out_bits, out_legal, out_int))
+    RGB_min, RGB_max = xp_as_float_array(
+        kwargs.get("out_range", CV_range(out_bits, out_legal, out_int)),
+        xp=xp,
+        like=YCbCr,
+    )
 
     Y = Y - Y_min
     Cb = Cb - (C_max + C_min) / 2
@@ -830,12 +867,20 @@ def RGB_to_YcCbcCrc(
 
     RGB = to_domain_1(RGB)
 
-    xp = array_namespace(RGB)
+    operands = (
+        RGB,
+        kwargs.get("out_range"),
+    )
+    xp = array_namespace(*operands)
+    reference = next((a for a in operands if is_non_ndarray(a)), None)
+    RGB = xp_as_float_array(RGB, xp=xp, like=reference)
 
     R, G, B = tsplit(RGB)
 
-    Y_min, Y_max, C_min, C_max = kwargs.get(
-        "out_range", ranges_YCbCr(out_bits, out_legal, out_int)
+    Y_min, Y_max, C_min, C_max = xp_as_float_array(
+        kwargs.get("out_range", ranges_YCbCr(out_bits, out_legal, out_int)),
+        xp=xp,
+        like=RGB,
     )
 
     Yc = 0.2627 * R + 0.6780 * G + 0.0593 * B
@@ -947,11 +992,19 @@ def YcCbcCrc_to_RGB(
 
     YcCbcCrc = as_float_array(YcCbcCrc) if in_int else to_domain_1(YcCbcCrc)
 
-    xp = array_namespace(YcCbcCrc)
+    operands = (
+        YcCbcCrc,
+        kwargs.get("in_range"),
+    )
+    xp = array_namespace(*operands)
+    reference = next((a for a in operands if is_non_ndarray(a)), None)
+    YcCbcCrc = xp_as_float_array(YcCbcCrc, xp=xp, like=reference)
 
     Yc, Cbc, Crc = tsplit(YcCbcCrc)
-    Y_min, Y_max, C_min, C_max = kwargs.get(
-        "in_range", ranges_YCbCr(in_bits, in_legal, in_int)
+    Y_min, Y_max, C_min, C_max = xp_as_float_array(
+        kwargs.get("in_range", ranges_YCbCr(in_bits, in_legal, in_int)),
+        xp=xp,
+        like=YcCbcCrc,
     )
 
     Yc = (Yc - Y_min) * (1 / (Y_max - Y_min))

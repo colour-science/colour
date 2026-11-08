@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
+    import pytest
     from colour.hints import ModuleType
 
 import contextlib
@@ -24,6 +25,7 @@ from colour.models import (
 )
 from colour.models.rgb.derivation import xy_to_z
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     ignore_numpy_errors,
     xp_as_array,
@@ -113,7 +115,9 @@ class TestNormalisedPrimaryMatrix:
     definition unit tests methods.
     """
 
-    def test_normalised_primary_matrix(self, xp: ModuleType) -> None:
+    def test_normalised_primary_matrix(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.models.rgb.derivation.normalised_primary_matrix`
         definition.
@@ -146,6 +150,29 @@ class TestNormalisedPrimaryMatrix:
             ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "primaries": [[0.64, 0.33], [0.3, 0.6], [0.15, 0.06]],
+            "whitepoint": [0.3127, 0.329],
+        }
+        expected = normalised_primary_matrix(**host_arguments)
+        for parameter in ("whitepoint",):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = normalised_primary_matrix(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: normalised_primary_matrix(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     @ignore_numpy_errors
     def test_nan_normalised_primary_matrix(self) -> None:
@@ -345,6 +372,13 @@ class TestRGBLuminanceEquation:
             pattern,
             RGB_luminance_equation(P, xp_as_array([0.32168, 0.33767], xp=xp)),
         )
+        assert re.match(
+            pattern,
+            RGB_luminance_equation(
+                [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700],
+                xp_as_array([0.32168, 0.33767], xp=xp),
+            ),
+        )
 
 
 class TestRGBLuminance:
@@ -353,7 +387,9 @@ class TestRGBLuminance:
     unit tests methods.
     """
 
-    def test_RGB_luminance(self, xp: ModuleType) -> None:
+    def test_RGB_luminance(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.models.rgb.derivation.RGB_luminance`
         definition.
@@ -392,6 +428,30 @@ class TestRGBLuminance:
             0.121995947729870,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "RGB": [0.2, 0.3, 0.4],
+            "primaries": [[0.64, 0.33], [0.3, 0.6], [0.15, 0.06]],
+            "whitepoint": [0.3127, 0.329],
+        }
+        expected = RGB_luminance(**host_arguments)
+        for parameter in ("primaries", "whitepoint"):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = RGB_luminance(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: RGB_luminance(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_RGB_luminance(self, xp: ModuleType) -> None:
         """
