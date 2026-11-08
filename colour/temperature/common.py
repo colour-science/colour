@@ -23,12 +23,13 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, Callable, NDArrayFloat
+    from colour.hints import Any, ArrayLike, Callable, NDArrayBoolean, NDArrayFloat
 
 from colour.hints import cast
 from colour.utilities import (
     array_namespace,
     as_float_array,
+    is_gradient_tracked,
     is_non_ndarray,
     tstack,
     usage_warning,
@@ -68,6 +69,173 @@ _JACOBIAN_FLOOR: float = 1e-30
 :func:`solve_CCT_Newton` and :func:`solve_xy_Newton` to damp the
 *Gauss-Newton* update when the forward goes flat at a domain edge.
 Numerical-stability constant; not a user knob."""
+
+
+def _forward_derivatives(
+    forward: Callable[[NDArrayFloat], NDArrayFloat],
+    point: NDArrayFloat,
+    coordinate_input: bool,
+) -> tuple[NDArrayFloat, NDArrayFloat, NDArrayFloat]:
+    """Evaluate local pointwise derivatives without probing neighboring pieces."""
+
+    xp = array_namespace(point)
+    if xp.__name__.endswith("torch"):
+        import torch  # noqa: PLC0415
+
+        # Clone without detaching: callers and captured model parameters keep
+        # their graphs, and a cached/caller-owned leaf is never mutated.
+        working = cast("Any", point).clone()
+        if not working.requires_grad:
+            working.requires_grad_(True)
+        centre = forward(working)
+
+        def gradient(value: Any) -> NDArrayFloat:
+            """Return a graph-preserving derivative, including constant maps."""
+
+            if not value.requires_grad:
+                return xp.zeros_like(working)
+            result = torch.autograd.grad(
+                value.sum(), working, create_graph=True, allow_unused=True
+            )[0]
+            return xp.zeros_like(working) if result is None else result
+
+        if coordinate_input:
+            jacobian = gradient(centre)
+            hessian = xp.stack(
+                [gradient(jacobian[..., index]) for index in range(2)], axis=-2
+            )
+        else:
+            derivatives = [gradient(centre[..., index]) for index in range(2)]
+            jacobian = xp.stack(derivatives, axis=-1)
+            hessian = xp.stack([gradient(value) for value in derivatives], axis=-1)
+
+        return centre, jacobian, hessian
+
+    import jax  # noqa: PLC0415
+
+    if coordinate_input:
+        ones = xp.ones_like(point[..., 0])
+        zeros = xp.zeros_like(ones)
+        directions = (tstack([ones, zeros]), tstack([zeros, ones]))
+
+        def derivative(values: NDArrayFloat, index: int) -> NDArrayFloat:
+            """Differentiate independent samples along one local coordinate."""
+
+            return jax.jvp(forward, (values,), (directions[index],))[1]
+
+        centre = forward(point)
+        jacobian = tstack([derivative(point, index) for index in range(2)])
+        hessian = xp.stack(
+            [
+                tstack(
+                    [
+                        jax.jvp(
+                            lambda values, index=index: derivative(values, index),
+                            (point,),
+                            (direction,),
+                        )[1]
+                        for direction in directions
+                    ]
+                )
+                for index in range(2)
+            ],
+            axis=-2,
+        )
+    else:
+        direction = xp.ones_like(point)
+        centre, jacobian = jax.jvp(forward, (point,), (direction,))
+        hessian = jax.jvp(
+            lambda values: jax.jvp(forward, (values,), (direction,))[1],
+            (point,),
+            (direction,),
+        )[1]
+
+    return centre, jacobian, hessian
+
+
+def _stationary_CCT(
+    forward: Callable[[NDArrayFloat], NDArrayFloat],
+    target: NDArrayFloat,
+    CCT: NDArrayFloat,
+    tolerance: float,
+) -> tuple[NDArrayFloat, NDArrayBoolean]:
+    """Polish solutions stationary to the requested temperature resolution."""
+
+    xp = array_namespace(CCT)
+
+    centre = forward(CCT)
+    if not is_gradient_tracked(centre - target):
+        return CCT, xp.zeros_like(CCT) != 0
+
+    # A local Newton update supplies the implicit sensitivity even at an
+    # initially stationary off-locus target, where Gauss-Newton omits r . f''.
+    centre, jacobian, curvature = _forward_derivatives(forward, CCT, False)
+    residual = centre - target
+    hessian = xp.sum(jacobian**2 + residual * curvature, axis=-1)
+    positive = hessian > _JACOBIAN_FLOOR
+    correction = -xp.sum(jacobian * residual, axis=-1) / xp.where(
+        positive, hessian, 1.0
+    )
+    # A polish must stay within the convergence resolution. A larger
+    # full-Newton step would change the legacy damped solver's result,
+    # rather than resolve the sensitivity of an already-solved system.
+    stationary = positive & (xp.abs(correction) <= tolerance)
+    return CCT + xp.where(stationary, correction, 0.0), stationary
+
+
+def _stationary_xy(
+    forward: Callable[[NDArrayFloat], NDArrayFloat],
+    target: NDArrayFloat,
+    xy: NDArrayFloat,
+    reference_xy: NDArrayFloat,
+    reference_weight: float,
+    tolerance: float,
+) -> tuple[NDArrayFloat, NDArrayBoolean]:
+    """Polish solutions stationary to the requested chromaticity resolution."""
+
+    xp = array_namespace(xy)
+
+    centre = forward(xy)
+    if not is_gradient_tracked(centre - target):
+        return xy, xp.zeros_like(target) != 0
+
+    # The local full Hessian retains residual curvature and the anchor term.
+    centre, jacobian, hessian = _forward_derivatives(forward, xy, True)
+    x, y = xy[..., 0], xy[..., 1]
+    df_dx, df_dy = jacobian[..., 0], jacobian[..., 1]
+    d2f_dx2, d2f_dy2 = hessian[..., 0, 0], hessian[..., 1, 1]
+    d2f_dxdy = hessian[..., 0, 1]
+    residual = centre - target
+    anchor_x = x - reference_xy[..., 0]
+    anchor_y = y - reference_xy[..., 1]
+    gradient_x = df_dx * residual + reference_weight * anchor_x
+    gradient_y = df_dy * residual + reference_weight * anchor_y
+    B_xx = reference_weight + residual * d2f_dx2
+    B_yy = reference_weight + residual * d2f_dy2
+    B_xy = residual * d2f_dxdy
+    # H = J.T J + B. Expand away the cancelling rank-one determinant,
+    # as in the Gauss-Newton update above, to retain the small anchor term.
+    determinant = (
+        B_xx * B_yy
+        - B_xy**2
+        + df_dx**2 * B_yy
+        + df_dy**2 * B_xx
+        - 2 * df_dx * df_dy * B_xy
+    )
+    positive = (df_dx**2 + B_xx > 0) & (determinant > _JACOBIAN_FLOOR)
+    determinant = xp.where(positive, determinant, 1.0)
+    cross = df_dy * anchor_x - df_dx * anchor_y
+    correction_x = (
+        -(reference_weight * df_dy * cross + B_yy * gradient_x - B_xy * gradient_y)
+        / determinant
+    )
+    correction_y = (
+        -(-reference_weight * df_dx * cross + B_xx * gradient_y - B_xy * gradient_x)
+        / determinant
+    )
+    correction = tstack([correction_x, correction_y])
+    stationary = positive & (xp.max(xp.abs(correction), axis=-1) <= tolerance)
+    return xy + xp.where(stationary[..., None], correction, 0.0), stationary
 
 
 def x0_CCT_grid(
@@ -183,9 +351,15 @@ def solve_CCT_Newton(
     -   *Gauss-Newton* on the residual :math:`r(T) = forward(T) - target`
         with central-difference Jacobian; the 1-D normal equations
         collapse to :math:`\\delta T = -(J \\cdot r) / (J \\cdot J)`.
+    -   For gradient-tracked native arrays, a local *Newton* stationarity
+        update at initialization and convergence includes residual curvature.
+        Updates within the
+        existing step tolerance retain physical target derivatives at an
+        already-stationary guess; larger corrections leave the damped
+        iteration's approximate result unchanged.
     -   A per-sample backtracking line search halves the step until the
-        squared residual decreases on every sample, guarding against
-        overshoot on highly non-linear forwards (e.g.
+        squared residual decreases (or is exactly zero) on every sample,
+        guarding against overshoot on highly non-linear forwards (e.g.
         *Krystek (1985)*'s rational polynomial).
     -   A :func:`colour.utilities.usage_warning` is issued if the maximum
         absolute step has not dropped below ``tolerance`` within
@@ -227,6 +401,17 @@ def solve_CCT_Newton(
         float(xp.finfo(CCT.dtype).eps) * float(xp.max(xp.abs(CCT))),
     )
 
+    # Retain initially solved components before finite-difference roundoff
+    # in a mixed batch can move them away from stationarity.
+    initial_CCT = CCT
+    initial_stationary = xp.zeros_like(CCT) != 0
+    if newton_iterations > 0:
+        initial_CCT, initial_stationary = _stationary_CCT(
+            forward, target, CCT, tolerance
+        )
+        if bool(xp.all(initial_stationary)):
+            return initial_CCT
+
     relative_step = max(1e-5, float(xp.finfo(CCT.dtype).eps) ** (1 / 3))
     converged = False
     for _iteration in range(newton_iterations):
@@ -258,7 +443,7 @@ def solve_CCT_Newton(
         for _backtrack in range(backtrack_iterations):
             residual_trial = forward(CCT + step) - target
             objective_trial = xp.sum(residual_trial * residual_trial, axis=-1)
-            improved = objective_trial < objective
+            improved = (objective_trial < objective) | (objective_trial == 0)
             step = xp.where(improved, step, step * 0.5)
 
         CCT = CCT + step
@@ -277,7 +462,10 @@ def solve_CCT_Newton(
             "iterations."
         )
 
-    return CCT
+    if converged:
+        CCT, _stationary = _stationary_CCT(forward, target, CCT, tolerance)
+
+    return xp.where(initial_stationary, initial_CCT, CCT)
 
 
 def solve_xy_Newton(
@@ -348,9 +536,13 @@ def solve_xy_Newton(
         an analytical 2x2 *Hessian* inversion. The :math:`\\lambda I`
         term resolves the rank-1 deficiency of :math:`J^T J` and pulls
         the solution toward ``reference_xy`` along the level set.
+    -   For gradient-tracked native arrays, a local *Newton* stationarity
+        update at initialization and convergence includes residual curvature
+        and regularisation in physical target and reference-anchor sensitivities.
+        Only corrections within the existing step tolerance are applied.
     -   A per-sample backtracking line search halves the step until the
-        augmented squared residual decreases on every sample, guarding
-        against overshoot on highly non-linear forwards (e.g.
+        augmented squared residual decreases (or is exactly zero) on every
+        sample, guarding against overshoot on highly non-linear forwards (e.g.
         *McCamy (1992)*'s rational ``n``-polynomial).
     -   A :func:`colour.utilities.usage_warning` is issued if the maximum
         absolute step has not dropped below ``tolerance`` within
@@ -395,6 +587,17 @@ def solve_xy_Newton(
     # precision so that a float32 iteration can converge rather than always
     # exhausting its budget. See :func:`solve_CCT_Newton`.
     tolerance = max(tolerance, float(xp.finfo(xy.dtype).eps))
+
+    # As with temperature inversion, preserve initially stationary members
+    # while the remaining batch members undergo the damped iteration.
+    initial_xy = xy
+    initial_stationary = xp.zeros_like(target) != 0
+    if newton_iterations > 0:
+        initial_xy, initial_stationary = _stationary_xy(
+            forward, target, xy, reference_xy, reference_weight, tolerance
+        )
+        if bool(xp.all(initial_stationary)):
+            return initial_xy
 
     relative_step = max(1e-5, float(xp.finfo(xy.dtype).eps) ** (1 / 3))
     converged = False
@@ -447,7 +650,7 @@ def solve_xy_Newton(
                 + reference_weight
                 * xp.sum(anchor_residual_trial * anchor_residual_trial, axis=-1)
             )
-            improved = objective_trial < objective
+            improved = (objective_trial < objective) | (objective_trial == 0)
             step = xp.where(improved[..., None], step, step * 0.5)
 
         xy = xy + step
@@ -469,4 +672,9 @@ def solve_xy_Newton(
             "iterations."
         )
 
-    return xy
+    if converged:
+        xy, _stationary = _stationary_xy(
+            forward, target, xy, reference_xy, reference_weight, tolerance
+        )
+
+    return xp.where(initial_stationary[..., None], initial_xy, xy)
