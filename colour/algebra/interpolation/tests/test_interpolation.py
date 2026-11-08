@@ -9,6 +9,7 @@ coverage grows automatically as backends are added.
 
 from __future__ import annotations
 
+import contextlib
 import importlib
 import inspect
 import typing
@@ -1767,6 +1768,167 @@ def test_dtype_honoured(
         viewed.x = x_view
         viewed.y = y_view
         xp_assert_close(viewed(query_view), reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+    if interpolator_type is PchipInterpolator:
+        # Nonuniform intervals distinguish the harmonic-mean weights when
+        # either adjacent secant is much smaller than its neighbour.
+        devices = [None]
+        if _name == "torch":
+            import torch  # noqa: PLC0415
+
+            devices = [torch.device("cpu")]
+            if dtype == np.float32 and torch.backends.mps.is_available():
+                devices.append(torch.device("mps"))
+
+        for device in devices:
+
+            def native_pchip(a: Any, device_: Any = device) -> Any:
+                if _name == "torch":
+                    return torch.as_tensor(
+                        a, dtype=getattr(torch, np.dtype(dtype).name), device=device_
+                    )
+                return cast(a).astype(dtype)
+
+            for grid in ([0.0, 1.0, 3.0], [0.0, 1.0, 2.0]):
+                for raw, interval_index in (
+                    ([-1e20, -1.0, 0.0], 1),
+                    ([0.0, 1.0, 1e20], 0),
+                    ([1e20, 1.0, 0.0], 1),
+                    ([0.0, -1.0, -1e20], 0),
+                    ([0.0, 1.0, 3.0], 0),
+                    ([0.0, 2.0, 1.0], 1),
+                    ([0.0, 0.0, 1.0], 1),
+                ):
+                    rounded = np.asarray(raw, dtype=dtype).astype(np.float64)
+                    knots = native_pchip(grid)
+                    ordinates = native_pchip(rounded)
+                    control = scipy.interpolate.PchipInterpolator(grid, rounded)
+                    left, right = grid[interval_index : interval_index + 2]
+                    points = left + np.array([0.25, 0.5]) * (right - left)
+                    magnitude = max(1.0, float(np.max(np.abs(control(points)))))
+                    query_scale = (right - left) / 2
+                    for query_values in (points[0], points.reshape(1, 2)):
+                        query = native_pchip(query_values)
+                        with (
+                            torch.device("cpu")
+                            if _name == "torch"
+                            else contextlib.nullcontext()
+                        ):
+                            actual = PchipInterpolator(knots, ordinates, dtype=dtype)
+                            for order in range(4):
+                                result = actual(query, nu=order)
+                                assert result.shape == np.shape(query_values)
+                                assert result.dtype == ordinates.dtype
+                                assert getattr(result, "device", None) == getattr(
+                                    ordinates, "device", None
+                                )
+                                xp_assert_close(
+                                    as_ndarray(result).astype(np.float64)
+                                    * query_scale**order
+                                    / magnitude,
+                                    control(query_values, nu=order)
+                                    * query_scale**order
+                                    / magnitude,
+                                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                                    err_msg=f"{grid=} {raw=} {order=}",
+                                )
+                        if _name == "numpy":
+                            continue
+
+                        # Normalize ordinate perturbations component-wise: a
+                        # unit direction must resolve both the 1e20 and unit
+                        # ordinates without changing the active slope branch.
+                        scales = np.maximum(np.abs(rounded), 1.0)
+                        parameters = native_pchip(rounded / scales)
+                        native_scales = native_pchip(scales)
+                        # Canonical interval coordinates keep query tangents
+                        # comparable across the unequal interval widths.
+                        query = native_pchip((query_values - left) / query_scale - 1)
+
+                        def normalized_pchip(
+                            parameters_: Any,
+                            query_: Any,
+                            knots_: Any = knots,
+                            scales_: Any = native_scales,
+                            magnitude_: float = magnitude,
+                            left_: float = left,
+                            query_scale_: float = query_scale,
+                        ) -> Any:
+                            return (
+                                PchipInterpolator(
+                                    knots_, parameters_ * scales_, dtype=dtype
+                                )(left_ + (query_ + 1) * query_scale_)
+                                / magnitude_
+                            )
+
+                        with (
+                            torch.device("cpu")
+                            if _name == "torch"
+                            else contextlib.nullcontext()
+                        ):
+                            if _name == "torch":
+                                parameters = parameters.clone().requires_grad_(True)
+                                query = query.clone().requires_grad_(True)
+                                gradients = [
+                                    torch.autograd.grad(
+                                        normalized_pchip(parameters, query).sum(),
+                                        (parameters, query),
+                                    )
+                                ]
+                            else:
+                                import jax  # noqa: PLC0415
+                                import jax.numpy as jnp  # noqa: PLC0415
+
+                                def objective(parameters_: Any, query_: Any) -> Any:
+                                    return jnp.sum(
+                                        normalized_pchip(parameters_, query_)
+                                    )
+
+                                gradients = [
+                                    differentiate(objective, argnums=(0, 1))(
+                                        parameters, query
+                                    )
+                                    for differentiate in (jax.jacfwd, jax.jacrev)
+                                ]
+                        expected_query = (
+                            control(query_values, nu=1) * query_scale / magnitude
+                        )
+                        # A plateau's ordinate Jacobian is not defined at the
+                        # branch boundary; query derivatives remain defined.
+                        expected_parameters = []
+                        step = 1e-4
+                        for index in range(3):
+                            perturbation = np.zeros(3)
+                            perturbation[index] = step * scales[index]
+                            plus = scipy.interpolate.PchipInterpolator(
+                                grid, rounded + perturbation
+                            )(query_values)
+                            minus = scipy.interpolate.PchipInterpolator(
+                                grid, rounded - perturbation
+                            )(query_values)
+                            expected_parameters.append(
+                                np.sum(plus - minus) / (2 * step * magnitude)
+                            )
+                        for gradient_y, gradient_query in gradients:
+                            assert (
+                                getattr(gradient_y, "device", None) == parameters.device
+                            )
+                            assert (
+                                getattr(gradient_query, "device", None) == query.device
+                            )
+                            if raw[0] != raw[1]:
+                                xp_assert_close(
+                                    gradient_y,
+                                    expected_parameters,
+                                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                                    err_msg=f"{grid=} {raw=}",
+                                )
+                            xp_assert_close(
+                                gradient_query,
+                                expected_query,
+                                atol=TOLERANCE_ABSOLUTE_TESTS,
+                                err_msg=f"{grid=} {raw=}",
+                            )
 
     if dtype == np.float32 and interpolator_type in (
         PchipInterpolator,
