@@ -31,7 +31,7 @@ from __future__ import annotations
 
 import typing
 
-from colour.algebra import LinearInterpolator
+from colour.algebra import LinearInterpolator, SpragueInterpolator
 from colour.colorimetry import (
     SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES,
     SPECTRAL_SHAPE_DEFAULT,
@@ -427,7 +427,11 @@ def sd_CIE_illuminant_D_series(
     )
 
     if shape is not None:
-        sd.align(shape)
+        # The historical single-spectrum path interpolated each uniform
+        # basis with Sprague before combining it. Sprague is linear in the
+        # basis values, so combining first preserves that result and the
+        # computational graph of the chromaticity coordinates.
+        sd.align(shape, interpolator=SpragueInterpolator)
 
     return sd
 
