@@ -20,6 +20,7 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
+    from colour.difference import DeltaE_Specification
     from colour.hints import (
         Any,
         Domain1,
@@ -28,7 +29,6 @@ if typing.TYPE_CHECKING:
         LiteralDeltaEMethod,
         NDArrayFloat,
     )
-    from colour.difference import DeltaE_Specification
 
 import colour
 from colour.colorimetry import (
@@ -44,6 +44,7 @@ from colour.utilities import (
     attest,
     domain_range_scale,
     filter_kwargs,
+    is_non_ndarray,
     validate_method,
     xp_as_float_array,
     xp_isclose,
@@ -205,10 +206,20 @@ def Lab_to_metamerism_index(
     np.float64(3.9842216...)
     """
 
+    xp = array_namespace(Lab_spl_t, Lab_std_t, Lab_spl_r, Lab_std_r)
+    reference = next(
+        (a for a in (Lab_spl_t, Lab_std_t, Lab_spl_r, Lab_std_r) if is_non_ndarray(a)),
+        None,
+    )
+    Lab_spl_t = xp_as_float_array(Lab_spl_t, xp=xp, like=reference)
+    Lab_std_t = xp_as_float_array(Lab_std_t, xp=xp, like=Lab_spl_t)
+    Lab_spl_r = xp_as_float_array(Lab_spl_r, xp=xp, like=Lab_spl_t)
+    Lab_std_r = xp_as_float_array(Lab_std_r, xp=xp, like=Lab_spl_t)
+
     correction = validate_method(correction, ("Additive", "Multiplicative"))
 
     if correction == "additive":
-        Lab_corr_t = as_array(Lab_spl_t) - (as_array(Lab_spl_r) - as_array(Lab_std_r))
+        Lab_corr_t = Lab_spl_t - (Lab_spl_r - Lab_std_r)
 
     elif correction == "multiplicative":
         Lab_corr_t = as_array(Lab_spl_t) * (as_array(Lab_std_r) / as_array(Lab_spl_r))
@@ -370,10 +381,20 @@ def XYZ_to_metamerism_index(
     np.float64(4.6910648...)
     """
 
+    xp = array_namespace(XYZ_spl_t, XYZ_std_t, XYZ_spl_r, XYZ_std_r)
+    reference = next(
+        (a for a in (XYZ_spl_t, XYZ_std_t, XYZ_spl_r, XYZ_std_r) if is_non_ndarray(a)),
+        None,
+    )
+    XYZ_spl_t = xp_as_float_array(XYZ_spl_t, xp=xp, like=reference)
+    XYZ_std_t = xp_as_float_array(XYZ_std_t, xp=xp, like=XYZ_spl_t)
+    XYZ_spl_r = xp_as_float_array(XYZ_spl_r, xp=xp, like=XYZ_spl_t)
+    XYZ_std_r = xp_as_float_array(XYZ_std_r, xp=xp, like=XYZ_spl_t)
+
     correction = validate_method(correction, ("Additive", "Multiplicative"))
 
     if correction == "additive":
-        XYZ_corr_t = as_array(XYZ_spl_t) - (as_array(XYZ_spl_r) - as_array(XYZ_std_r))
+        XYZ_corr_t = XYZ_spl_t - (XYZ_spl_r - XYZ_std_r)
 
     elif correction == "multiplicative":
         XYZ_corr_t = as_array(XYZ_spl_t) * (as_array(XYZ_std_r) / as_array(XYZ_spl_r))
@@ -581,8 +602,10 @@ def sd_to_metamerism_index(
 
     xp = array_namespace(A_r, sd_spl.values, sd_std.values)
 
-    A_r = xp_as_float_array(A_r, xp=xp, like=sd_spl.values)
-    A_t = xp_as_float_array(A_t, xp=xp, like=sd_spl.values)
+    spl_values = xp_as_float_array(sd_spl.values, xp=xp, like=sd_std.values)
+    std_values = xp_as_float_array(sd_std.values, xp=xp, like=spl_values)
+    A_r = xp_as_float_array(A_r, xp=xp, like=spl_values)
+    A_t = xp_as_float_array(A_t, xp=xp, like=spl_values)
 
     A_r_T = xp_matrix_transpose(A_r, xp=xp)
     R = xp.matmul(
@@ -590,15 +613,16 @@ def sd_to_metamerism_index(
         A_r_T,
     )
 
-    sd_spl_corr = xp.matmul(R, sd_std.values) + xp.matmul(
-        xp.eye(R.shape[0]) - R, sd_spl.values
+    sd_spl_corr = xp.matmul(R, std_values) + xp.matmul(
+        xp_as_float_array(xp.eye(R.shape[0], dtype=R.dtype), xp=xp, like=R) - R,
+        spl_values,
     )
     sd_spl_corr = SpectralDistribution(sd_spl_corr, shape)
 
     XYZ_spl_corr_t = xp.matmul(sd_spl_corr.values, A_t) / 100
-    XYZ_std_t = xp.matmul(sd_std.values, A_t) / 100
+    XYZ_std_t = xp.matmul(std_values, A_t) / 100
     XYZ_spl_corr = xp.matmul(sd_spl_corr.values, A_r) / 100
-    XYZ_std = xp.matmul(sd_std.values, A_r) / 100
+    XYZ_std = xp.matmul(std_values, A_r) / 100
 
     attest(
         bool(

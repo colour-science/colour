@@ -203,7 +203,8 @@ class TestDelta_E_CIE1994:
         )
 
         # testing additional data boolean
-        xp_assert_close(
+        # The tiny hue diagnostic subtracts nearly equal squared differences.
+        components = as_ndarray(
             xp.stack(
                 list(
                     delta_E_CIE1994(
@@ -212,14 +213,18 @@ class TestDelta_E_CIE1994:
                         additional_data=True,
                     ).values
                 )
-            ),
-            [
-                1.6711191305411999,
-                -1.6672370199999946,
-                -0.11383155366801864,
-                0.0014983296827213444,
-            ],
+            )
+        )
+        xp_assert_close(
+            components[:3],
+            [1.6711191305411999, -1.6672370199999946, -0.11383155366801864],
             atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        hue_tolerance = 0.002 if components.dtype.itemsize == 4 else 0
+        xp_assert_close(
+            components[3],
+            0.0014983296827213444,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, hue_tolerance),
         )
 
     def test_n_dimensional_delta_E_CIE1994(self, xp: ModuleType) -> None:
@@ -705,7 +710,9 @@ class TestDelta_E_CIE2000:
         )
 
         xp_assert_close(
-            delta_E_CIE2000(Lab_1, Lab_2), d_E, atol=TOLERANCE_ABSOLUTE_TESTS * 1000
+            delta_E_CIE2000(Lab_1, Lab_2),
+            d_E,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
 
@@ -777,7 +784,8 @@ class TestDelta_E_CMC:
         )
 
         # testing additional data boolean
-        xp_assert_close(
+        # The tiny hue diagnostic subtracts nearly equal squared differences.
+        components = as_ndarray(
             xp.stack(
                 list(
                     delta_E_CMC(
@@ -786,14 +794,18 @@ class TestDelta_E_CMC:
                         additional_data=True,
                     ).values
                 )
-            ),
-            [
-                0.8996999756834185,
-                -0.7743459246308059,
-                -0.4580766751407644,
-                0.003767617866617381,
-            ],
+            )
+        )
+        xp_assert_close(
+            components[:3],
+            [0.8996999756834185, -0.7743459246308059, -0.4580766751407644],
             atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        hue_tolerance = 0.005 if components.dtype.itemsize == 4 else 0
+        xp_assert_close(
+            components[3],
+            0.003767617866617381,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, hue_tolerance),
         )
 
     def test_n_dimensional_delta_E_CMC(self, xp: ModuleType) -> None:
@@ -1484,3 +1496,53 @@ class TestDelta_E_Autodiff:
         assert xp.isfinite(gradient_2).all()
         assert xp.any(gradient_1 != 0)
         assert xp.any(gradient_2 != 0)
+
+        if function in (delta_E_CIE1994, delta_E_CIE2000, delta_E_CMC):
+            # A nonzero distance between neutral colours has zero first
+            # chromatic derivatives, despite its singular intermediate norms.
+            for additional_data in (False, True):
+
+                def distance(
+                    first: typing.Any,
+                    second: typing.Any,
+                    additional_data: bool = additional_data,
+                ) -> typing.Any:
+                    result = function(first, second, additional_data=additional_data)
+                    return result.dE if additional_data else result
+
+                with caching_enable(False):
+                    _value, gradients, inputs = autodiff(
+                        distance,
+                        [[50.0, 0.0, 0.0], [48.0, -0.1, 12.0]],
+                        [[60.0, 0.0, 0.0], [50.6, -0.11, 14.8]],
+                    )
+                    for gradient in gradients:
+                        xp_assert_close(
+                            gradient[0, 1:],
+                            [0.0, 0.0],
+                            atol=TOLERANCE_ABSOLUTE_TESTS,
+                        )
+                    if xp.__name__.startswith("jax"):
+                        jax = pytest.importorskip("jax")
+                        forward = jax.jacfwd(distance, argnums=(0, 1))(*inputs)
+                        reverse = jax.jacrev(distance, argnums=(0, 1))(*inputs)
+                        for actual, expected in zip(forward, reverse, strict=True):
+                            xp_assert_close(
+                                actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS
+                            )
+
+        if function in (delta_E_CIE1994, delta_E_CMC):
+            # The final distance is regular even when its hue component is zero.
+            with caching_enable(False):
+                _value, gradients, inputs = autodiff(
+                    function, [50.0, 10.0, 20.0], [60.0, 10.0, 20.0]
+                )
+                if xp.__name__.startswith("jax"):
+                    jax = pytest.importorskip("jax")
+                    forward = jax.jacfwd(function, argnums=(0, 1))(*inputs)
+                    reverse = jax.jacrev(function, argnums=(0, 1))(*inputs)
+                    for actual, expected, gradient in zip(
+                        forward, reverse, gradients, strict=True
+                    ):
+                        xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+                        xp_assert_close(actual, gradient, atol=TOLERANCE_ABSOLUTE_TESTS)

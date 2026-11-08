@@ -85,6 +85,7 @@ def index_stress_Garcia2007(d_E: ArrayLike, d_V: ArrayLike) -> NDArrayFloat:
 
     xp = array_namespace(d_E, d_V)
 
+    d_E = xp_as_float_array(d_E, xp=xp, like=d_V)
     d_V = xp_as_float_array(d_V, xp=xp, like=d_E)
 
     with sdiv_mode():

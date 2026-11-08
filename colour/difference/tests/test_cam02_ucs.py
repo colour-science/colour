@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
+    import pytest
     from colour.hints import ModuleType
 
 from itertools import product
@@ -16,6 +18,7 @@ from colour.difference import delta_E_CAM02LCD, delta_E_CAM02SCD, delta_E_CAM02U
 from colour.difference.cam02_ucs import delta_E_Luo2006
 from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     ignore_numpy_errors,
     xp_as_array,
@@ -41,7 +44,9 @@ class TestDelta_E_Luo2006:
     tests methods.
     """
 
-    def test_delta_E_Luo2006(self, xp: ModuleType) -> None:
+    def test_delta_E_Luo2006(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """Test :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition."""
 
         xp_assert_close(
@@ -118,6 +123,31 @@ class TestDelta_E_Luo2006:
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host_1 = np.array([[40.0, 10.0, 20.0], [50.0, 12.0, 22.0]])
+        host_2 = np.array([[42.0, 11.0, 19.0], [51.0, 13.0, 23.0]])
+        for function in (delta_E_CAM02LCD, delta_E_CAM02SCD, delta_E_CAM02UCS):
+            expected = function(host_1, host_2)
+            for index in (0, 1):
+                native = xp_as_array((host_1, host_2)[index], xp=xp)
+                arguments = [host_1, host_2]
+                arguments[index] = native
+                with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                    actual = function(*arguments)
+                    assert array_namespace(actual) is array_namespace(native)
+                    assert getattr(actual, "device", None) == getattr(
+                        native, "device", None
+                    )
+                    xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+                    if xp.__name__ != "numpy":
+                        autodiff = request.getfixturevalue("autodiff")
+                        autodiff(
+                            lambda value, index=index, function=function: function(
+                                value if index == 0 else host_1,
+                                value if index == 1 else host_2,
+                            ),
+                            native,
+                        )
 
     def test_n_dimensional_delta_E_Luo2006(self, xp: ModuleType) -> None:
         """

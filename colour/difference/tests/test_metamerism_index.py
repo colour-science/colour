@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
+    import pytest
     from colour.hints import ModuleType
 
 import numpy as np
@@ -24,7 +25,12 @@ from colour.difference.metamerism_index import (
     XYZ_to_metamerism_index,
     sd_to_metamerism_index,
 )
-from colour.utilities import domain_range_scale, xp_as_array, xp_assert_close
+from colour.utilities import (
+    array_namespace,
+    domain_range_scale,
+    xp_as_array,
+    xp_assert_close,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -46,7 +52,9 @@ class TestLab_to_Metamerism_Index:
     definition unit tests methods.
     """
 
-    def test_domain_range_scale_Lab_to_metamerism_index(self, xp: ModuleType) -> None:
+    def test_domain_range_scale_Lab_to_metamerism_index(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.difference.metamerism_index.Lab_to_metamerism_index`
         definition domain and range scale support.
@@ -91,6 +99,32 @@ class TestLab_to_Metamerism_Index:
                         atol=TOLERANCE_ABSOLUTE_TESTS,
                     )
 
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "Lab_spl_t": [37.9013, -19.56327, 16.9346],
+            "Lab_std_t": [38.17781, -17.4939, 21.0618],
+            "Lab_spl_r": [38.83253, -19.8787, 20.0453],
+            "Lab_std_r": [39.0908, -21.3269, 22.6657],
+            "method": "CIE 1976",
+        }
+        expected = Lab_to_metamerism_index(**host_arguments)
+        for parameter in ("Lab_spl_t", "Lab_std_t", "Lab_spl_r", "Lab_std_r"):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = Lab_to_metamerism_index(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: Lab_to_metamerism_index(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
+
 
 class TestXYZ_to_Metamerism_Index:
     """
@@ -98,7 +132,9 @@ class TestXYZ_to_Metamerism_Index:
     definition unit tests methods.
     """
 
-    def test_domain_range_scale_XYZ_to_metamerism_index(self, xp: ModuleType) -> None:
+    def test_domain_range_scale_XYZ_to_metamerism_index(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.difference.metamerism_index.XYZ_to_metamerism_index`
         definition domain and range scale support.
@@ -142,6 +178,32 @@ class TestXYZ_to_Metamerism_Index:
                         value,
                         atol=TOLERANCE_ABSOLUTE_TESTS,
                     )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "XYZ_spl_t": [0.2, 0.3, 0.4],
+            "XYZ_std_t": [0.21, 0.31, 0.41],
+            "XYZ_spl_r": [0.22, 0.32, 0.42],
+            "XYZ_std_r": [0.23, 0.33, 0.43],
+            "method": "CIE 1976",
+        }
+        expected = XYZ_to_metamerism_index(**host_arguments)
+        for parameter in ("XYZ_spl_t", "XYZ_std_t", "XYZ_spl_r", "XYZ_std_r"):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = XYZ_to_metamerism_index(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: XYZ_to_metamerism_index(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
 
 class TestSD_to_Metamerism_Index:
