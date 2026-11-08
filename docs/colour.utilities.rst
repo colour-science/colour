@@ -206,12 +206,16 @@ Array API
     xp_isclose
     xp_isin
     xp_linspace
+    xp_log
+    xp_log10
+    xp_log2
     xp_lstsq
     xp_matrix_transpose
     xp_median
     xp_nan_to_num
     xp_nanmean
     xp_pad
+    xp_power
     xp_radians
     xp_reshape
     xp_resize
@@ -219,6 +223,7 @@ Array API
     xp_select
     xp_setxor1d
     xp_sinc
+    xp_sqrt
     xp_squeeze
     xp_trapezoid
     xp_unique

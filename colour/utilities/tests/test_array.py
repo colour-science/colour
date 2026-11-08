@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import contextlib
+import importlib
 import types
 import typing
 from copy import deepcopy
@@ -53,14 +55,14 @@ else:
         Domain1,
         Domain10,
         Domain100,
-        Domain360,
         Domain100_100_360,
+        Domain360,
         NDArrayFloat,
         Range1,
         Range10,
         Range100,
-        Range360,
         Range100_100_360,
+        Range360,
     )
 
 from colour.utilities import (
@@ -145,12 +147,16 @@ from colour.utilities import (
     xp_isclose,
     xp_isin,
     xp_linspace,
+    xp_log,
+    xp_log2,
+    xp_log10,
     xp_lstsq,
     xp_matrix_transpose,
     xp_median,
     xp_nan_to_num,
     xp_nanmean,
     xp_pad,
+    xp_power,
     xp_radians,
     xp_reshape,
     xp_resize,
@@ -158,6 +164,7 @@ from colour.utilities import (
     xp_select,
     xp_setxor1d,
     xp_sinc,
+    xp_sqrt,
     xp_squeeze,
     xp_trapezoid,
     xp_unique,
@@ -546,13 +553,15 @@ class TestXpAsArray:
         # Scalar cache hit.
         first = xp_as_array(0.5, dtype=DTYPE_FLOAT_DEFAULT, xp=xp)
         second = xp_as_array(0.5, dtype=DTYPE_FLOAT_DEFAULT, xp=xp)
-        assert first is second
+        assert first is not second
+        xp_assert_equal(first, second)
 
         # Small constant array cache hit.
         constant = np.array([0.1, 0.2, 0.3], dtype=np.float64)
         first = xp_as_array(constant, dtype=DTYPE_FLOAT_DEFAULT, xp=xp)
         second = xp_as_array(constant, dtype=DTYPE_FLOAT_DEFAULT, xp=xp)
-        assert first is second
+        assert first is not second
+        xp_assert_equal(first, second)
 
         # Caching disabled bypasses the scalar cache.
         with caching_enable(False):
@@ -573,6 +582,30 @@ class TestXpAsArray:
         assert copied is not original
         xp_assert_equal(copied, [1.0, 2.0, 3.0])
 
+        if xp.__name__ == "jax.numpy":
+            jax = importlib.import_module("jax")
+
+            for copy in (None, True):
+                convert = partial(
+                    xp_as_array, xp=xp, like=original, dtype=np.float32, copy=copy
+                )
+                converted = convert(original)
+                assert converted.device == original.device
+                assert converted.dtype == xp.float32
+                if copy:
+                    assert converted is not original
+                xp_assert_equal(jax.jit(convert)(original), original)
+                xp_assert_equal(
+                    jax.grad(lambda values, convert=convert: xp.sum(convert(values)))(
+                        original
+                    ),
+                    xp.ones_like(original),
+                )
+                for differentiate in (jax.jacrev, jax.jacfwd):
+                    xp_assert_equal(
+                        differentiate(convert)(original), xp.eye(len(original))
+                    )
+
         # ``copy=True`` bypasses the scalar-promotion cache.
         constant = np.array([0.4, 0.5, 0.6], dtype=np.float64)
         first = xp_as_array(constant, dtype=DTYPE_FLOAT_DEFAULT, xp=xp, copy=True)
@@ -580,9 +613,47 @@ class TestXpAsArray:
         if is_array_api_enabled() and not is_numpy_namespace(xp):
             assert first is not second
 
+        # Distinct wrappers can still share the host source's buffer.
+        for size in (2, 20):
+            for dtype in (None, DTYPE_FLOAT_DEFAULT):
+                source = np.arange(size, dtype=DTYPE_FLOAT_DEFAULT)
+                first = xp_as_array(source, dtype=dtype, xp=xp, copy=True)
+                second = xp_as_array(source, dtype=dtype, xp=xp, copy=True)
+                source[0] = 99
+                xp_assert_equal(first, np.arange(size, dtype=DTYPE_FLOAT_DEFAULT))
+                xp_assert_equal(second, np.arange(size, dtype=DTYPE_FLOAT_DEFAULT))
+                if not hasattr(first, "at"):
+                    first[0] = -1
+                    assert source[0] == 99
+                    xp_assert_equal(second, np.arange(size, dtype=DTYPE_FLOAT_DEFAULT))
+
         # ``copy=None`` (default) preserves the no-copy short-circuit.
         no_copy = xp_as_array(original, xp=xp)
         assert no_copy is original
+
+        constant = np.array([1.0, 2.0])
+        xp_as_array(constant, xp=xp)
+        constant[0] = 9
+        xp_assert_equal(xp_as_array(np.array([1.0, 2.0]), xp=xp), [1.0, 2.0])
+
+        if xp.__name__ == "torch":
+            original_dtype = xp.get_default_dtype()
+            try:
+                with xp.device("cpu"):
+                    for dtype in (xp.float64, xp.float32):
+                        xp.set_default_dtype(dtype)
+                        assert xp_as_array(1.234567, xp=xp).dtype == dtype
+                    source = np.array([1.0, 2.0], dtype=np.float32)
+                    xp_as_array(source, xp=xp)
+                    if xp.backends.mps.is_available():
+                        with xp.device("mps"):
+                            assert str(
+                                getattr(
+                                    xp_as_array(source.copy(), xp=xp), "device", None
+                                )
+                            ).startswith("mps")
+            finally:
+                xp.set_default_dtype(original_dtype)
 
     def test_xp_as_array_copy_autodiff(
         self, xp: ModuleType, autodiff: typing.Callable
@@ -609,6 +680,37 @@ class TestXpAsFloatArray:
         # Dtype enforcement.
         result = xp_as_float_array([1, 2, 3], xp=np)
         assert result.dtype == DTYPE_FLOAT_DEFAULT
+
+        for function, scale in (
+            (to_domain_1, "100"),
+            (to_domain_10, "1"),
+            (to_domain_100, "1"),
+            (to_domain_degrees, "1"),
+            (to_domain_int, "1"),
+            (from_range_1, "100"),
+            (from_range_10, "100"),
+            (from_range_100, "1"),
+            (from_range_degrees, "1"),
+            (from_range_int, "1"),
+        ):
+            host = np.array([0.25, 0.5])
+            native = xp_as_array([8.0, 10.0], xp=xp)
+            with domain_range_scale(scale):
+                expected = function(xp_as_array(host, xp=xp), native)
+                with (
+                    contextlib.nullcontext()
+                    if xp.__name__ != "torch"
+                    else xp.device("cpu")
+                ):
+                    result = function(host, native)
+                xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+                assert getattr(result, "device", None) == getattr(
+                    native, "device", None
+                )
+            with domain_range_scale("reference"):
+                result = function(host, native)
+                assert isinstance(result, np.ndarray)
+                xp_assert_equal(result, host)
 
 
 class TestXpAsIntArray:
@@ -642,6 +744,10 @@ class TestXpAstype:
         a_int = xp_as_array([1, 2, 3], xp=xp)
         result = xp_astype(a_int, DTYPE_FLOAT_DEFAULT)
         assert as_ndarray(result).dtype == DTYPE_FLOAT_DEFAULT
+
+        for host in ([0.0, 1.0], np.array([0.0, 1.0], dtype=np.float32)):
+            result = xp_astype(host, np.float32, xp=xp)
+            xp_assert_close(result, [0.0, 1.0], atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestXpAscontiguousarray:
@@ -680,6 +786,13 @@ class TestXpAscontiguousarray:
         result = xp_ascontiguousarray(a)
         assert result.flags["C_CONTIGUOUS"]
         xp_assert_equal(result, a)
+
+        for host in ([1, 2], np.array([1, 2], dtype=np.int32)):
+            result = xp_ascontiguousarray(host, xp=xp)
+            xp_assert_equal(result, [1, 2])
+            assert array_namespace(result) is array_namespace(xp_as_array([1], xp=xp))
+            if isinstance(host, np.ndarray):
+                assert as_ndarray(result).dtype == np.int32
 
 
 class TestXpMatrixTranspose:
@@ -730,6 +843,150 @@ class TestXpMatrixTranspose:
         assert result.shape == (3, 2)
         assert result.flags["C_CONTIGUOUS"]
 
+        for host in ([1, 2], np.array([1, 2], dtype=np.int32)):
+            result = xp_matrix_transpose(
+                host.reshape(1, 2) if isinstance(host, np.ndarray) else [host], xp=xp
+            )
+            xp_assert_equal(result, [[1], [2]])
+            if isinstance(host, np.ndarray):
+                assert as_ndarray(result).dtype == np.int32
+
+
+@pytest.mark.parametrize("function", [xp_log, xp_log2, xp_log10, xp_sqrt, xp_power])
+class TestXpGuardedMath:
+    """Define guarded logarithm, square-root and power unit tests."""
+
+    def test_ordinary(self, xp: ModuleType, function: typing.Callable) -> None:
+        """Match the ordinary operation exactly, including scalar promotion."""
+
+        for dtype in (xp.float32, xp.float64):
+            if (
+                xp.__name__ == "torch"
+                and str(xp.get_default_device()) == "mps"
+                and dtype == xp.float64
+            ):
+                continue
+            a = xp_as_array([1.0, 4.0, 16.0], dtype=dtype, xp=xp)
+            if function is xp_power:
+                result = function(a, 0.5)
+                expected = a**0.5
+            else:
+                result = function(a)
+                expected = getattr(xp, function.__name__[3:])(a)
+            xp_assert_equal(result, expected)
+            assert result.dtype == expected.dtype == a.dtype
+            assert getattr(result, "device", None) == getattr(a, "device", None)
+
+    def test_guarded(self, xp: ModuleType, function: typing.Callable) -> None:
+        """Replace inactive unsafe operands and retain active NaNs."""
+
+        a = xp_as_array([-1.0, 0.0, np.nan, 4.0, np.nan], xp=xp)
+        mask = xp_as_array([False, False, False, True, True], xp=xp)
+        if function is xp_power:
+            exponent = xp_as_array([np.nan, -1.0, np.nan, 0.5, 2.0], xp=xp)
+            result = function(a, exponent, where=mask)
+            expected = [1.0, 1.0, 1.0, 2.0, np.nan]
+            broadcast = function(
+                xp_as_array([[0.0], [4.0]], xp=xp),
+                xp_as_array([[-1.0, 0.0, 0.5, np.nan]], xp=xp),
+                where=[[False, False, False, False], [True, True, True, False]],
+            )
+            xp_assert_close(
+                broadcast,
+                [[1.0, 1.0, 1.0, 1.0], [0.25, 1.0, 2.0, 1.0]],
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+        else:
+            result = function(a, where=mask)
+            operation = getattr(np, function.__name__[3:])
+            inactive = 1.0 if function is xp_sqrt else 0.0
+            expected = [inactive, inactive, inactive, operation(4.0), np.nan]
+        xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert result.dtype == a.dtype
+        assert getattr(result, "device", None) == getattr(a, "device", None)
+
+    def test_broadcasting(self, xp: ModuleType, function: typing.Callable) -> None:
+        """Broadcast a native mask with host inputs and preserve its device."""
+
+        mask = xp_as_array([[False], [True]], xp=xp)
+        host = np.array([1.0, 4.0], dtype=np.float32)
+        if function is xp_power:
+            result = function(host, 0.5, where=mask)
+            expected = [[1.0, 1.0], [1.0, 2.0]]
+        else:
+            result = function(host, where=mask)
+            inactive = 1.0 if function is xp_sqrt else 0.0
+            expected = [
+                [inactive, inactive],
+                getattr(np, function.__name__[3:])(host).tolist(),
+            ]
+        xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert result.dtype == xp.float32
+        assert getattr(result, "device", None) == getattr(mask, "device", None)
+
+    def test_cpu_default(self, xp: ModuleType, function: typing.Callable) -> None:
+        """Keep native devices when *PyTorch* defaults to the CPU."""
+
+        if xp.__name__ != "torch":
+            return
+        a = xp_as_array([-1.0, 4.0], dtype=xp.float32, xp=xp)
+        with xp.device("cpu"):
+            mask = xp_as_array([False, True], xp=xp)
+            if function is xp_power:
+                result = function(a, 0.5, where=mask)
+                expected = [1.0, 2.0]
+            else:
+                result = function(a, where=mask)
+                inactive = 1.0 if function is xp_sqrt else 0.0
+                expected = [inactive, getattr(np, function.__name__[3:])(4.0)]
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert result.device == a.device
+            assert result.dtype == a.dtype
+
+    @pytest.mark.parametrize("inactive", [-1.0, np.nan])
+    def test_autodiff(
+        self,
+        xp: ModuleType,
+        autodiff: typing.Callable,
+        function: typing.Callable,
+        inactive: float,
+    ) -> None:
+        """Verify numerical gradients through guarded base and exponent."""
+
+        if function is xp_power:
+            result, gradients, _ = autodiff(
+                lambda a, exponent: function(
+                    a, exponent, where=xp_as_array([False, False, True], xp=xp, like=a)
+                ),
+                [inactive, 0.0, 4.0],
+                [inactive, -1.0, 0.5],
+            )
+            xp_assert_equal(result, [1.0, 1.0, 2.0])
+            xp_assert_close(
+                gradients[0], [0.0, 0.0, 0.25], atol=TOLERANCE_ABSOLUTE_TESTS
+            )
+            xp_assert_close(
+                gradients[1],
+                [0.0, 0.0, 2 * np.log(4.0)],
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+        else:
+            result, (gradient,), _ = autodiff(
+                lambda a: function(
+                    a, where=xp_as_array([False, False, True], xp=xp, like=a)
+                ),
+                [inactive, 0.0, 4.0],
+            )
+            expected = {
+                xp_log: 0.25,
+                xp_log2: 0.25 / np.log(2.0),
+                xp_log10: 0.25 / np.log(10.0),
+                xp_sqrt: 0.25,
+            }[function]
+            xp_assert_close(
+                gradient, [0.0, 0.0, expected], atol=TOLERANCE_ABSOLUTE_TESTS
+            )
+
 
 class TestXpSelect:
     """Define :func:`colour.utilities.xp_select` unit tests."""
@@ -758,6 +1015,18 @@ class TestXpSelect:
         result = xp_select([x > 100], [x * 10], default=-1.0, xp=xp)
         expected = np.select([as_ndarray(x > 100)], [as_ndarray(x * 10)], default=-1.0)
         xp_assert_equal(result, expected)
+
+        host = [np.array([True, False]), np.array([1.0, 2.0]), np.array([3.0, 4.0])]
+        for i in range(3):
+            native = xp_as_array(host[i], xp=xp)
+            mixed = list(host)
+            mixed[i] = native
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = xp_select([mixed[0]], [mixed[1]], default=mixed[2])
+            xp_assert_equal(result, [1.0, 4.0])
+            assert getattr(result, "device", None) == getattr(native, "device", None)
 
 
 class TestRuntimeWarningXpFallback:
@@ -819,6 +1088,38 @@ class TestXpInterp:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        host = [np.array([0.2, 0.5]), np.array([0.0, 1.0]), np.array([2.0, 3.0])]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        mixed = native
+        expected = xp_interp(*mixed)
+        for i in range(len(host)):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = xp_interp(*mixed)
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native[i], "device", None)
+
+        native_query = xp_as_array([0.5], xp=xp)
+        for ordinate_dtype in (np.int32, np.int64, np.float32, np.float64):
+            ordinates = xp_as_array(np.array([0, 1], dtype=ordinate_dtype), xp=xp)
+            result = xp_interp(native_query, xp_as_array([0, 1], xp=xp), ordinates)
+            xp_assert_close(result, [0.5], atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(
+                native_query, "device", None
+            )
+        if getattr(getattr(native_query, "device", None), "type", None) != "mps":
+            ordinates = xp_as_array(
+                np.array([0 + 1j, 1 + 3j], dtype=np.complex64), xp=xp
+            )
+            xp_assert_close(
+                xp_interp(native_query, xp_as_array([0, 1], xp=xp), ordinates),
+                [0.5 + 2j],
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
 
 class TestXpTrapezoid:
     """Define :func:`colour.utilities.xp_trapezoid` unit tests."""
@@ -846,6 +1147,20 @@ class TestXpTrapezoid:
             expected,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host = [np.array([1.0, 2.0]), np.array([0.0, 1.0])]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        mixed = native
+        expected = xp_trapezoid(mixed[0], x=mixed[1])
+        for i in range(len(host)):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = xp_trapezoid(mixed[0], x=mixed[1])
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native[i], "device", None)
 
 
 class TestXpAverage:
@@ -883,6 +1198,20 @@ class TestXpAverage:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        host = [np.array([1.0, 2.0]), np.array([2.0, 3.0])]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        mixed = native
+        expected = xp_average(mixed[0], weights=mixed[1])
+        for i in range(len(host)):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = xp_average(mixed[0], weights=mixed[1])
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native[i], "device", None)
+
 
 class TestXpGradient:
     """Define :func:`colour.utilities.xp_gradient` unit tests."""
@@ -907,6 +1236,19 @@ class TestXpGradient:
             expected,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A spacing fallback retains an explicit input device under a CPU default.
+        values = xp_as_array(np.arange(9.0).reshape(3, 3), xp=xp)
+        with contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu"):
+            result = xp_gradient(values, 2.0, axis=1, xp=xp)
+        xp_assert_close(result, np.ones((3, 3)) / 2)
+        assert getattr(result, "device", None) == getattr(values, "device", None)
+
+        spacing = xp_as_array([0.0, 1.0, 2.0], xp=xp)
+        with contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu"):
+            result = xp_gradient(np.array([1.0, 3.0, 6.0]), spacing)
+        xp_assert_close(result, [2.0, 2.5, 3.0], atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert getattr(result, "device", None) == getattr(spacing, "device", None)
 
 
 class TestXpResize:
@@ -983,6 +1325,12 @@ class TestXpNanmean:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        for host in ([0.0, 1.0], np.array([0.0, 1.0], dtype=np.float32)):
+            result = xp_nanmean(host, xp=xp)
+            xp_assert_close(
+                result, np.nanmean([0.0, 1.0]), atol=TOLERANCE_ABSOLUTE_TESTS
+            )
+
 
 class TestXpMedian:
     """Define :func:`colour.utilities.xp_median` unit tests."""
@@ -1044,6 +1392,10 @@ class TestXpRound:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        for host in ([0.0, 1.0], np.array([0.0, 1.0], dtype=np.float32)):
+            result = xp_round(host, xp=xp)
+            xp_assert_close(result, [0.0, 1.0], atol=TOLERANCE_ABSOLUTE_TESTS)
+
 
 class TestXpRadians:
     """Define :func:`colour.utilities.xp_radians` unit tests."""
@@ -1063,6 +1415,12 @@ class TestXpRadians:
             np.pi,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        for host in ([0.0, 1.0], np.array([0.0, 1.0], dtype=np.float32)):
+            result = xp_radians(host, xp=xp)
+            xp_assert_close(
+                result, np.radians([0.0, 1.0]), atol=TOLERANCE_ABSOLUTE_TESTS
+            )
 
 
 class TestXpDegrees:
@@ -1084,6 +1442,12 @@ class TestXpDegrees:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        for host in ([0.0, 1.0], np.array([0.0, 1.0], dtype=np.float32)):
+            result = xp_degrees(host, xp=xp)
+            xp_assert_close(
+                result, np.degrees([0.0, 1.0]), atol=TOLERANCE_ABSOLUTE_TESTS
+            )
+
 
 class TestXpAtleast1d:
     """Define :func:`colour.utilities.xp_atleast_1d` unit tests."""
@@ -1102,6 +1466,13 @@ class TestXpAtleast1d:
         result = xp_atleast_1d(1.0)
         assert as_ndarray(result).ndim == 1
         xp_assert_equal(result, [1.0])
+
+        for host in ([1, 2], np.array([1, 2], dtype=np.int32)):
+            result = xp_atleast_1d(host, xp=xp)
+            assert array_namespace(result) is array_namespace(xp_as_array([1], xp=xp))
+            xp_assert_equal(result, [1, 2])
+            if isinstance(host, np.ndarray):
+                assert as_ndarray(result).dtype == np.int32
 
 
 class TestXpAtleast2d:
@@ -1124,6 +1495,13 @@ class TestXpAtleast2d:
         assert as_ndarray(result).shape == (1, 1)
         xp_assert_equal(result, [[1.0]])
 
+        for host in ([1, 2], np.array([1, 2], dtype=np.int32)):
+            result = xp_atleast_2d(host, xp=xp)
+            assert array_namespace(result) is array_namespace(xp_as_array([1], xp=xp))
+            xp_assert_equal(result, [[1, 2]])
+            if isinstance(host, np.ndarray):
+                assert as_ndarray(result).dtype == np.int32
+
 
 class TestXpSqueeze:
     """Define :func:`colour.utilities.xp_squeeze` unit tests."""
@@ -1141,6 +1519,15 @@ class TestXpSqueeze:
         a = xp_as_array([1.0, 2.0, 3.0], xp=xp)
         xp_assert_close(xp_squeeze(a, xp=xp), [1.0, 2.0, 3.0])
 
+        for host in ([1, 2], np.array([1, 2], dtype=np.int32)):
+            result = xp_squeeze(
+                host.reshape(1, 2) if isinstance(host, np.ndarray) else [host], xp=xp
+            )
+            assert array_namespace(result) is array_namespace(xp_as_array([1], xp=xp))
+            xp_assert_equal(result, [1, 2])
+            if isinstance(host, np.ndarray):
+                assert as_ndarray(result).dtype == np.int32
+
 
 class TestXpSinc:
     """Define :func:`colour.utilities.xp_sinc` unit tests."""
@@ -1155,6 +1542,11 @@ class TestXpSinc:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        for host in ([0.0, 1.0], np.array([0.0, 1.0], dtype=np.float32)):
+            result = xp_sinc(host, xp=xp)
+            assert array_namespace(result) is array_namespace(xp_as_array([1], xp=xp))
+            xp_assert_close(result, np.sinc([0.0, 1.0]), atol=TOLERANCE_ABSOLUTE_TESTS)
+
 
 class TestXpIsclose:
     """Define :func:`colour.utilities.xp_isclose` unit tests."""
@@ -1166,21 +1558,41 @@ class TestXpIsclose:
         b = xp_as_array([1.0, 2.0, 3.0], xp=xp)
 
         xp_assert_equal(
-            xp_isclose(a, b, atol=TOLERANCE_ABSOLUTE_TESTS * 10000),
+            xp_isclose(a, b, atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.001)),
             np.isclose(
                 [1.0, 2.0001, 3.0],
                 [1.0, 2.0, 3.0],
-                atol=TOLERANCE_ABSOLUTE_TESTS * 10000,
+                atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.001),
             ),
         )
         xp_assert_equal(
-            xp_isclose(a, b, atol=TOLERANCE_ABSOLUTE_TESTS * 100),
+            xp_isclose(a, b, atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-05)),
             np.isclose(
                 [1.0, 2.0001, 3.0],
                 [1.0, 2.0, 3.0],
-                atol=TOLERANCE_ABSOLUTE_TESTS * 100,
+                atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-05),
             ),
         )
+
+        for dtype in (np.float32, np.float64, np.int32):
+            native = xp_as_array(np.array([1.0, 2.0], dtype=dtype), xp=xp)
+            for host_dtype in (np.float32, np.float64, np.int64):
+                host = np.array([1.0, 2.0], dtype=host_dtype)
+                with (
+                    contextlib.nullcontext()
+                    if xp.__name__ != "torch"
+                    else xp.device("cpu")
+                ):
+                    result = xp_isclose(native, host)
+                    reverse = xp_isclose(host, native)
+                xp_assert_equal(result, [True, True])
+                xp_assert_equal(reverse, [True, True])
+                assert getattr(result, "device", None) == getattr(
+                    native, "device", None
+                )
+                assert getattr(reverse, "device", None) == getattr(
+                    native, "device", None
+                )
 
 
 class TestXpNanToNum:
@@ -1208,6 +1620,11 @@ class TestXpNanToNum:
             ),
         )
 
+        for host in ([1.0, np.nan], np.array([1.0, np.nan])):
+            result = xp_nan_to_num(host, xp=xp)
+            xp_assert_equal(result, [1.0, 0.0])
+            assert array_namespace(result) is array_namespace(xp_as_array([1], xp=xp))
+
 
 class TestXpCreateDiagonal:
     """Define :func:`colour.utilities.xp_create_diagonal` unit tests."""
@@ -1218,6 +1635,15 @@ class TestXpCreateDiagonal:
         v = xp_as_array([1.0, 2.0, 3.0], xp=xp)
         result = xp_create_diagonal(v)
         xp_assert_equal(result, np.diag([1.0, 2.0, 3.0]))
+
+        for host in ([1, 2], np.array([1, 2], dtype=np.int32)):
+            result = xp_create_diagonal(host, xp=xp)
+            xp_assert_equal(result, [[1, 0], [0, 2]])
+            if isinstance(host, np.ndarray):
+                assert as_ndarray(result).dtype == np.int32
+
+        result = xp_create_diagonal(xp_as_array([[1, 2], [3, 4]], xp=xp))
+        xp_assert_equal(result, np.diagflat([[1, 2], [3, 4]]))
 
 
 class TestXpReshape:
@@ -1241,6 +1667,12 @@ class TestXpReshape:
         expected = np.array([1, 2, 3, 4]).reshape((2, 2))
         xp_assert_equal(result, expected)
 
+        for host in ([1, 2], np.array([1, 2], dtype=np.int32)):
+            result = xp_reshape(host, (2, 1), xp=xp)
+            xp_assert_equal(result, [[1], [2]])
+            if isinstance(host, np.ndarray):
+                assert as_ndarray(result).dtype == np.int32
+
 
 class TestXpBroadcastTo:
     """Define :func:`colour.utilities.xp_broadcast_to` unit tests."""
@@ -1262,6 +1694,12 @@ class TestXpBroadcastTo:
         a = xp_as_array([[1.0, 2.0], [3.0, 4.0]], xp=xp)
         result = xp_broadcast_to(a, (2, 2), xp=xp)
         xp_assert_equal(result, [[1.0, 2.0], [3.0, 4.0]])
+
+        for host in ([1, 2], np.array([1, 2], dtype=np.int32)):
+            result = xp_broadcast_to(host, (2, 2), xp=xp)
+            xp_assert_equal(result, [[1, 2], [1, 2]])
+            if isinstance(host, np.ndarray):
+                assert as_ndarray(result).dtype == np.int32
 
 
 class TestXpEig:
@@ -1293,7 +1731,7 @@ class TestXpEigh:
 class TestXpLstsq:
     """Define :func:`colour.utilities.xp_lstsq` unit tests."""
 
-    def test_xp_lstsq(self, xp: ModuleType) -> None:
+    def test_xp_lstsq(self, xp: ModuleType, request: pytest.FixtureRequest) -> None:
         """Test :func:`colour.utilities.xp_lstsq` definition."""
 
         A = xp_as_array([[1.0, 1.0], [1.0, 2.0], [1.0, 3.0]], xp=xp)
@@ -1306,6 +1744,45 @@ class TestXpLstsq:
             rcond=None,
         )[0]
         xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        xp_assert_close(
+            xp_lstsq(
+                xp_as_array([[1.0, 0.0], [0.0, 1e-4]], xp=xp),
+                xp_as_array([1.0, 1.0], xp=xp),
+                rcond=0.1,
+            ),
+            [1.0, 0.0],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        host = [np.eye(2), np.array([2.0, 3.0])]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        mixed = native
+        expected = xp_lstsq(*mixed)
+        for i in range(len(host)):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = xp_lstsq(*mixed)
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native[i], "device", None)
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(lambda rhs: xp_lstsq(np.eye(2), rhs), np.array([2.0, 3.0]))
+
+        native = xp_as_array([2.0, 3.0], xp=xp)
+        if getattr(getattr(native, "device", None), "type", None) != "mps":
+            complex_rhs = xp_as_array(
+                np.array([2.0 + 1j, 3.0 + 2j], dtype=np.complex64), xp=xp
+            )
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = xp_lstsq(np.eye(2, dtype=np.float32), complex_rhs)
+            xp_assert_close(result, [2.0 + 1j, 3.0 + 2j], atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestXpIsin:
@@ -1354,6 +1831,16 @@ class TestXpIsin:
             np.isin([1.0, np.nan, 3.0], [np.nan]),
         )
 
+        # Host membership values follow native elements under a CPU default.
+        values = xp_as_array([1, 2, 3], xp=xp)
+        with contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu"):
+            result = xp_isin(values, [1, 3], xp=xp)
+            reverse = xp_isin([1, 2, 3], values, xp=xp)
+        xp_assert_equal(result, [True, False, True])
+        xp_assert_equal(reverse, [True, True, True])
+        assert getattr(result, "device", None) == getattr(values, "device", None)
+        assert getattr(reverse, "device", None) == getattr(values, "device", None)
+
 
 class TestXpLinspace:
     """Define :func:`colour.utilities.xp_linspace` unit tests."""
@@ -1373,6 +1860,57 @@ class TestXpLinspace:
             expected_step,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host = [np.array(0.0), np.array(1.0)]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        mixed = native
+        expected = xp_linspace(*mixed, num=5)
+        for i in range(len(host)):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = xp_linspace(*mixed, num=5)
+            assert not isinstance(result, tuple)
+            assert not isinstance(expected, tuple)
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native[i], "device", None)
+
+        native = xp_as_array(0.0, xp=xp)
+        for dtype in (np.float32, xp.float32):
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                sampled = xp_linspace(native, 1.0, num=5, retstep=True, dtype=dtype)
+            assert isinstance(sampled, tuple)
+            values, step = sampled
+            xp_assert_close(
+                values, [0.0, 0.25, 0.5, 0.75, 1.0], atol=TOLERANCE_ABSOLUTE_TESTS
+            )
+            xp_assert_close(step, 0.25, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(values, "device", None) == getattr(native, "device", None)
+
+        start = xp_as_array(-1.0, xp=xp)
+        stop = xp_as_array(2.0, xp=xp)
+        for dtype in (np.int64, xp.int64):
+            for retstep in (False, True):
+                with (
+                    contextlib.nullcontext()
+                    if xp.__name__ != "torch"
+                    else xp.device("cpu")
+                ):
+                    if retstep:
+                        sampled = xp_linspace(
+                            start, stop, num=5, dtype=dtype, retstep=True
+                        )
+                    else:
+                        sampled = xp_linspace(start, stop, num=5, dtype=dtype)
+                values = sampled[0] if isinstance(sampled, tuple) else sampled
+                xp_assert_equal(values, np.linspace(-1.0, 2.0, 5, dtype=np.int64))
+                assert getattr(values, "device", None) == getattr(start, "device", None)
+                if isinstance(sampled, tuple):
+                    xp_assert_close(sampled[1], 0.75, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestXpPad:
@@ -1522,6 +2060,59 @@ class TestXpInsert:
         )
         xp_assert_equal(result, expected)
 
+        source = xp_as_array([1.0, 2.0, 3.0], xp=xp)
+        xp_assert_equal(xp_insert(source, [0, 2], 9, xp=xp), [9, 1, 2, 9, 3])
+
+        host = [np.array([1.0, 2.0]), np.array([1]), np.array([3.0])]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        mixed = native
+        expected = xp_insert(*mixed)
+        for i in range(len(host)):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = xp_insert(*mixed)
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native[i], "device", None)
+
+        # Validate discrete metadata with NumPy's scalar, vector and empty rules.
+        base = np.array([10, 20])
+        for index in (
+            3,
+            -4,
+            0.5,
+            [3, 0],
+            [-5, 0],
+            [0.0, 1.0],
+            np.array([], dtype=float),
+            np.array([[0, 1]]),
+            np.array([0, 2**64 - 1], dtype=np.uint64),
+        ):
+            try:
+                np.insert(base, np.asarray(index), 99)
+            except (IndexError, TypeError, ValueError) as error:
+                with pytest.raises(type(error)):
+                    xp_insert(xp_as_array(base, xp=xp), index, 99, xp=xp)
+        for index in (0, -2, [0], [-2], [2, 0], [-3, 0], [], np.array([], dtype=int)):
+            xp_assert_equal(
+                xp_insert(xp_as_array(base, xp=xp), index, 99, xp=xp),
+                np.insert(base, index, 99),
+            )
+        for index in (0, [0], []):
+            xp_assert_equal(
+                xp_insert(xp_as_array([], xp=xp), index, 99, xp=xp),
+                np.insert([], index, 99),
+            )
+        with pytest.raises(ValueError):
+            xp_insert(xp_as_array(base, xp=xp), [], [3, 4], xp=xp)
+        for index in (0, [0]):
+            xp_assert_equal(
+                xp_insert(xp_as_array(base, xp=xp), index, [3, 4], xp=xp),
+                np.insert(base, index, [3, 4]),
+            )
+
 
 class TestXpSetxor1d:
     """Define :func:`colour.utilities.xp_setxor1d` unit tests."""
@@ -1554,6 +2145,20 @@ class TestXpSetxor1d:
 
         result = xp_setxor1d(xp_as_array([], xp=xp), xp_as_array([], xp=xp), xp=xp)
         xp_assert_equal(result, np.array([], dtype=float))
+
+        host = [np.array([1.0, 2.0]), np.array([2.0, 3.0])]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        mixed = native
+        expected = xp_setxor1d(*mixed)
+        for i in range(len(host)):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = xp_setxor1d(*mixed)
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native[i], "device", None)
 
 
 class TestXpAssertClose:
@@ -1979,6 +2584,11 @@ class TestAsArray:
         )
 
         xp_assert_equal(gradient, xp.full_like(original, 3))
+
+        with domain_range_scale("1"):
+            autodiff(
+                lambda factor: to_domain_100(np.array([0.2, 0.5]), factor), [8.0, 10.0]
+            )
 
 
 class TestAsInt:
@@ -2702,6 +3312,11 @@ class TestToDomainDegrees:
         with domain_range_scale("100"):
             assert to_domain_degrees(1, dtype=np.float16).dtype == np.float16
 
+        with domain_range_scale("Reference"):
+            xp_assert_equal(
+                to_domain_degrees([1.0, 2.0], scale_factor=[360, 720]), [1.0, 2.0]
+            )
+
 
 class TestToDomainInt:
     """
@@ -2726,6 +3341,9 @@ class TestToDomainInt:
 
         with domain_range_scale("100"):
             assert to_domain_int(1, dtype=np.float16).dtype == np.float16
+
+        with domain_range_scale("Reference"):
+            xp_assert_equal(to_domain_int([1.0, 2.0], bit_depth=[8, 10]), [1.0, 2.0])
 
 
 class TestFromRange1:
@@ -2815,6 +3433,11 @@ class TestFromRangeDegrees:
         with domain_range_scale("100"):
             assert float(from_range_degrees(1, np.pi)) == 1 / (np.pi / 100)
 
+        with domain_range_scale("Reference"):
+            xp_assert_equal(
+                from_range_degrees([1.0, 2.0], scale_factor=[360, 720]), [1.0, 2.0]
+            )
+
 
 class TestFromRangeInt:
     """
@@ -2839,6 +3462,9 @@ class TestFromRangeInt:
 
         with domain_range_scale("100"):
             assert from_range_int(1, dtype=np.float16).dtype == np.float16
+
+        with domain_range_scale("Reference"):
+            xp_assert_equal(from_range_int([1.0, 2.0], bit_depth=[8, 10]), [1.0, 2.0])
 
 
 class TestIsNdarrayCopyEnabled:
@@ -3042,6 +3668,13 @@ class TestInterval:
             xp_as_array([], xp=xp),
         )
 
+    def test_interval_autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
+        """Test gradients through repeated interval calculations with caching."""
+
+        values = xp_as_array([0.0, 1.0, 2.0], xp=xp)
+        autodiff(lambda values: interval(values, False), values)
+        autodiff(lambda values: interval(values, False), values)
+
 
 class TestIsUniform:
     """
@@ -3082,6 +3715,17 @@ class TestInArray:
             as_ndarray(in_array(xp_as_array([[0.50], [0.60]], xp=xp), b)),  # pyright: ignore
             np.array([[True], [True]]),
         )
+
+        # Either host operand follows the native operand under a CPU default.
+        native = xp_as_array([1.0, 2.0], xp=xp)
+        host = np.array([1.0, 3.0])
+        with contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu"):
+            result = in_array(host, native)
+            reverse = in_array(native, host)
+        xp_assert_equal(result, [True, False])
+        xp_assert_equal(reverse, [True, False])
+        assert getattr(result, "device", None) == getattr(native, "device", None)
+        assert getattr(reverse, "device", None) == getattr(native, "device", None)
 
     def test_n_dimensional_in_array(self, xp: ModuleType) -> None:
         """
@@ -3351,6 +3995,21 @@ class TestRowAsDiagonal:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        integer = xp_as_array([[16777217, -16777217]], dtype=np.int64, xp=xp)
+        result = row_as_diagonal(integer)
+        xp_assert_equal(result, [[[16777217, 0], [0, -16777217]]])
+        if not is_numpy_namespace(array_namespace(integer)):
+            assert result.dtype == integer.dtype
+        if xp.__name__ == "torch":
+            original_dtype = xp.get_default_dtype()
+            xp.set_default_dtype(xp.float32)
+            try:
+                xp_assert_equal(
+                    row_as_diagonal(integer), [[[16777217, 0], [0, -16777217]]]
+                )
+            finally:
+                xp.set_default_dtype(original_dtype)
+
 
 class TestOrient:
     """
@@ -3420,6 +4079,12 @@ class TestOrient:
 
         xp_assert_equal(orient(a), as_ndarray(a))
 
+        image = np.arange(18).reshape(2, 3, 3)
+        for orientation, turns in (("90 CW", -1), ("90 CCW", 1)):
+            xp_assert_equal(
+                orient(xp_as_array(image, xp=xp), orientation), np.rot90(image, turns)
+            )
+
 
 class TestCentroid:
     """
@@ -3464,6 +4129,11 @@ class TestFillNan:
             fill_nan(a, method="Constant", default=8.0),
             [0.1, 0.2, 8.0, 0.4, 0.5],
             atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        xp_assert_equal(
+            fill_nan(np.array([1 + 2j, np.nan + 0j, 3 + 4j]), method="Constant"),
+            [1 + 2j, 0, 3 + 4j],
         )
 
 
@@ -3514,6 +4184,8 @@ class TestZeros:
         """Test :func:`colour.utilities.array.zeros` definition."""
 
         xp_assert_equal(zeros(3), np.zeros(3))
+
+        assert zeros((2, 3), order="F").flags.f_contiguous
 
 
 class TestOnes:
@@ -3597,6 +4269,12 @@ class TestIndexAlongLastAxis:
             ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        integer = np.array([[2**60 + 1]], dtype=np.int64)
+        result = index_along_last_axis(integer, [0])
+        assert result.dtype == integer.dtype
+        xp_assert_equal(result, integer[:, 0])
+        xp_assert_equal(index_along_last_axis(np.array([[1 + 2j]]), [0]), [1 + 2j])
 
     def test_compare_with_argmin_argmax(self, xp: ModuleType) -> None:
         """

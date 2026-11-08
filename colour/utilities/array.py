@@ -22,6 +22,7 @@ import contextlib
 import contextvars
 import copy
 import functools
+import importlib
 import os
 import re
 import sys
@@ -65,19 +66,19 @@ if typing.TYPE_CHECKING:
     from colour.hints import (
         Any,
         Callable,
+        Dataclass,
         DType,
         DTypeBoolean,
         DTypeReal,
-        Dataclass,
         Generator,
         Literal,
         ModuleType,
         NDArray,
-        ProtocolArrayNamespace,
         NDArrayBoolean,
         NDArrayComplex,
         NDArrayFloat,
         NDArrayInt,
+        ProtocolArrayNamespace,
         Real,
         Self,
         Sequence,
@@ -123,6 +124,11 @@ __all__ = [
     "xp_ascontiguousarray",
     "xp_astype",
     "xp_matrix_transpose",
+    "xp_log",
+    "xp_log2",
+    "xp_log10",
+    "xp_sqrt",
+    "xp_power",
     "xp_select",
     "xp_interp",
     "xp_trapezoid",
@@ -761,6 +767,12 @@ def _copy_array(a: ArrayLike, xp: ProtocolArrayNamespace | ModuleType) -> NDArra
     return cast("NDArray", xp.asarray(a, copy=True))
 
 
+def _native_reference(*arrays: Any) -> Any:
+    """Return the first native input to anchor mixed-input promotions."""
+
+    return next((a for a in arrays if is_non_ndarray(a)), None)
+
+
 def xp_as_array(
     a: ArrayLike,
     *,
@@ -837,10 +849,22 @@ def xp_as_array(
         # reach the arithmetic unmoved and fail with a device mismatch. The
         # move precedes the dtype cast so that the cast is evaluated against
         # the destination device's capabilities, e.g. *MPS* has no float64.
-        device_like = getattr(like, "device", None)
+        device_like = getattr(like, "device", None) if is_non_ndarray(like) else None
+        if getattr(device_like, "type", None) == "mps" and getattr(
+            result, "dtype", None
+        ) == getattr(xp, "float64", None):
+            result = xp_astype(result, xp.float32, xp=xp)
         if device_like is not None and getattr(result, "device", None) != device_like:
             try:
-                result = xp.asarray(result, device=device_like)
+                if xp.__name__ == "jax.numpy":
+                    # ``asarray(device=...)`` fails under forward-mode
+                    # transformations; ``device_put`` supports traced values
+                    # while retaining placement for concrete arrays too.
+                    result = importlib.import_module("jax").device_put(
+                        result, device_like
+                    )
+                else:
+                    result = xp.asarray(result, device=device_like)
             except (TypeError, RuntimeError, ValueError):
                 runtime_warning(
                     f'Backend "{xp.__name__}" could not move the array to '
@@ -876,7 +900,15 @@ def xp_as_array(
     xp_target_dtype = _resolve_backend_dtype(xp, dtype) if dtype is not None else None
 
     cache_key = None
-    if is_caching_enabled() and not copy:
+    # Implicit backend defaults can change between calls. Cache only when
+    # both the target device and precision are explicitly anchored.
+    if (
+        is_caching_enabled()
+        and not copy
+        and is_non_ndarray(like)
+        and device is not None
+        and dtype is not None
+    ):
         if isinstance(a, (int, float, complex)):
             # ``type(a).__name__`` disambiguates ``True`` / ``1`` / ``1.0``
             # which share a hash and compare equal; the tuple itself is the
@@ -898,7 +930,7 @@ def xp_as_array(
         if cache_key is not None:
             cached = _CACHE_SCALAR_PROMOTION.get(cache_key)
             if cached is not None:
-                return cached
+                return _copy_array(cached, xp)
 
     # A non-contiguous *NumPy* array (e.g. a negatively-strided view from a
     # flip or transpose) is made contiguous before hand-off: backends such as
@@ -910,6 +942,8 @@ def xp_as_array(
     # scalar at the backend default dtype (e.g. float32 for stock *PyTorch*)
     # and only then upcasting, which would quantise the value.
     asarray_kwargs: dict[str, Any] = {}
+    if copy:
+        asarray_kwargs["copy"] = True
     if device_kwarg is not None:
         asarray_kwargs["device"] = device_kwarg
     if xp_target_dtype is not None:
@@ -945,7 +979,7 @@ def xp_as_array(
             )
 
     if cache_key is not None:
-        _CACHE_SCALAR_PROMOTION[cache_key] = result
+        _CACHE_SCALAR_PROMOTION[cache_key] = _copy_array(result, xp)
 
     return result
 
@@ -1053,6 +1087,8 @@ def xp_ascontiguousarray(
 
     xp = array_namespace(a) if xp is None else xp
 
+    a = xp_as_array(a, xp=xp)
+
     if is_numpy_namespace(xp):
         return np.ascontiguousarray(a)
 
@@ -1063,7 +1099,7 @@ def xp_ascontiguousarray(
     if callable(contiguous):
         return contiguous()  # pyright: ignore
 
-    return a  # pyright: ignore
+    return a
 
 
 def xp_matrix_transpose(
@@ -1104,8 +1140,9 @@ def xp_matrix_transpose(
            [2, 5]])
     """
 
-    if xp is None or not hasattr(xp, "matrix_transpose"):
-        xp = array_namespace(a)
+    xp = array_namespace(a) if xp is None else xp
+    a = xp_as_array(a, xp=xp)
+    xp = array_namespace(a)
 
     return xp_ascontiguousarray(xp.matrix_transpose(a), xp=xp)
 
@@ -1137,13 +1174,15 @@ def xp_astype(
 
     xp = array_namespace(a) if xp is None else xp
 
+    a = xp_as_array(a, xp=xp)
+
     if is_numpy_namespace(xp):
-        return a.astype(dtype)  # pyright: ignore
+        return a.astype(dtype)
 
     xp_dtype = _resolve_backend_dtype(xp, dtype)
 
-    if a.dtype == xp_dtype:  # pyright: ignore
-        return a  # pyright: ignore
+    if a.dtype == xp_dtype:
+        return a
 
     # NOTE: ``array_namespace(a)`` is called again to obtain the
     # ``array-api-compat`` wrapped namespace which provides ``astype`` for
@@ -1154,7 +1193,7 @@ def xp_astype(
         # Fall back to float32 for backends that don't support float64
         # (e.g., MPS on Apple Silicon).
         xp_dtype_f32 = getattr(xp, "float32", None)
-        if xp_dtype_f32 is not None and xp_dtype_f32 != xp_dtype:
+        if xp_dtype == getattr(xp, "float64", None) and xp_dtype_f32 is not None:
             _runtime_warning_xp_downcast(xp, xp_dtype, xp_dtype_f32)
             return array_namespace(a).astype(a, xp_dtype_f32)
         raise
@@ -1258,6 +1297,231 @@ def _xpx() -> ModuleType:
     return xpx
 
 
+def _xp_guarded_operands(
+    *operands: ArrayLike,
+    where: ArrayLike | None,
+    xp: ProtocolArrayNamespace | ModuleType | None,
+) -> tuple[ProtocolArrayNamespace | ModuleType, tuple[Any, ...]]:
+    """Co-locate operands and replace inactive inputs before evaluation."""
+
+    xp = array_namespace(*operands, where) if xp is None else xp
+    like = _native_reference(*operands, where)
+    values = tuple(
+        value
+        if isinstance(value, (int, float, complex))
+        else xp_as_array(value, xp=xp, like=like)
+        for value in operands
+    )
+
+    if where is None:
+        return xp, tuple(
+            xp_as_array(value, xp=xp, like=like) if index == 0 else value
+            for index, value in enumerate(values)
+        )
+
+    mask = xp_as_array(where, dtype=bool, xp=xp, like=like)
+    anchor = next((value for value in values if hasattr(value, "dtype")), None)
+    guarded = []
+    for value in values:
+        dtype = (
+            xp.result_type(anchor, value)
+            if anchor is not None and isinstance(value, (int, float, complex))
+            else None
+        )
+        operand = xp_as_array(value, dtype=dtype, xp=xp, like=like)
+        guarded.append(xp.where(mask, operand, xp.ones_like(operand)))
+
+    return xp, tuple(guarded)
+
+
+def xp_log(
+    a: ArrayLike,
+    *,
+    where: ArrayLike | None = None,
+    xp: ProtocolArrayNamespace | ModuleType | None = None,
+) -> NDArrayFloat:
+    """
+    Evaluate :func:`numpy.log` with optional guarded operands.
+
+    Parameters
+    ----------
+    a
+        Input values.
+    where
+        Boolean mask, broadcast with the inputs. Evaluate original operands
+        where *True* and replace the input with one elsewhere.
+        If *None*, evaluate the ordinary operation.
+    xp
+        Array namespace module. If *None*, derived from the inputs and mask.
+
+    Returns
+    -------
+    :class:`object`
+        Log values at active positions and zero at inactive positions.
+        Active inputs, including NaNs, retain the ordinary operation's behavior.
+
+    Notes
+    -----
+    The mask prevents unsafe arithmetic inside this function. It cannot undo
+    unsafe arithmetic already evaluated while constructing its arguments.
+    """
+
+    namespace, (operand,) = _xp_guarded_operands(a, where=where, xp=xp)
+
+    return namespace.log(operand)
+
+
+def xp_log2(
+    a: ArrayLike,
+    *,
+    where: ArrayLike | None = None,
+    xp: ProtocolArrayNamespace | ModuleType | None = None,
+) -> NDArrayFloat:
+    """
+    Evaluate :func:`numpy.log2` with optional guarded operands.
+
+    Parameters
+    ----------
+    a
+        Input values.
+    where
+        Boolean mask, broadcast with the inputs. Evaluate original operands
+        where *True* and replace the input with one elsewhere.
+        If *None*, evaluate the ordinary operation.
+    xp
+        Array namespace module. If *None*, derived from the inputs and mask.
+
+    Returns
+    -------
+    :class:`object`
+        Log2 values at active positions and zero at inactive positions.
+        Active inputs, including NaNs, retain the ordinary operation's behavior.
+
+    Notes
+    -----
+    The mask prevents unsafe arithmetic inside this function. It cannot undo
+    unsafe arithmetic already evaluated while constructing its arguments.
+    """
+
+    namespace, (operand,) = _xp_guarded_operands(a, where=where, xp=xp)
+
+    return namespace.log2(operand)
+
+
+def xp_log10(
+    a: ArrayLike,
+    *,
+    where: ArrayLike | None = None,
+    xp: ProtocolArrayNamespace | ModuleType | None = None,
+) -> NDArrayFloat:
+    """
+    Evaluate :func:`numpy.log10` with optional guarded operands.
+
+    Parameters
+    ----------
+    a
+        Input values.
+    where
+        Boolean mask, broadcast with the inputs. Evaluate original operands
+        where *True* and replace the input with one elsewhere.
+        If *None*, evaluate the ordinary operation.
+    xp
+        Array namespace module. If *None*, derived from the inputs and mask.
+
+    Returns
+    -------
+    :class:`object`
+        Log10 values at active positions and zero at inactive positions.
+        Active inputs, including NaNs, retain the ordinary operation's behavior.
+
+    Notes
+    -----
+    The mask prevents unsafe arithmetic inside this function. It cannot undo
+    unsafe arithmetic already evaluated while constructing its arguments.
+    """
+
+    namespace, (operand,) = _xp_guarded_operands(a, where=where, xp=xp)
+
+    return namespace.log10(operand)
+
+
+def xp_sqrt(
+    a: ArrayLike,
+    *,
+    where: ArrayLike | None = None,
+    xp: ProtocolArrayNamespace | ModuleType | None = None,
+) -> NDArrayFloat:
+    """
+    Evaluate :func:`numpy.sqrt` with optional guarded operands.
+
+    Parameters
+    ----------
+    a
+        Input values.
+    where
+        Boolean mask, broadcast with the inputs. Evaluate original operands
+        where *True* and replace the input with one elsewhere.
+        If *None*, evaluate the ordinary operation.
+    xp
+        Array namespace module. If *None*, derived from the inputs and mask.
+
+    Returns
+    -------
+    :class:`object`
+        Sqrt values at active positions and one at inactive positions.
+        Active inputs, including NaNs, retain the ordinary operation's behavior.
+
+    Notes
+    -----
+    The mask prevents unsafe arithmetic inside this function. It cannot undo
+    unsafe arithmetic already evaluated while constructing its arguments.
+    """
+
+    namespace, (operand,) = _xp_guarded_operands(a, where=where, xp=xp)
+
+    return namespace.sqrt(operand)
+
+
+def xp_power(
+    a: ArrayLike,
+    exponent: ArrayLike,
+    *,
+    where: ArrayLike | None = None,
+    xp: ProtocolArrayNamespace | ModuleType | None = None,
+) -> NDArrayFloat:
+    """
+    Evaluate :func:`numpy.power` with optional guarded operands.
+
+    Parameters
+    ----------
+    a
+        Base values.
+    exponent
+        Exponents.
+    where
+        Boolean mask, broadcast with the inputs. Evaluate original operands
+        where *True* and replace both the base and exponent with one elsewhere.
+        If *None*, evaluate the ordinary operation.
+    xp
+        Array namespace module. If *None*, derived from the inputs and mask.
+
+    Returns
+    -------
+    :class:`object`
+        Power values at active positions and one at inactive positions.
+        Active inputs, including NaNs, retain the ordinary operation's behavior.
+
+    Notes
+    -----
+    The mask prevents unsafe arithmetic inside this function. It cannot undo
+    unsafe arithmetic already evaluated while constructing its arguments.
+    """
+
+    _namespace, (base, powers) = _xp_guarded_operands(a, exponent, where=where, xp=xp)
+
+    return base**powers
+
+
 def xp_select(
     condlist: Any,
     choicelist: Any,
@@ -1286,16 +1550,12 @@ def xp_select(
         Array with elements from *choicelist* where *condlist* is ``True``.
     """
 
-    xp = array_namespace(*condlist, *choicelist) if xp is None else xp
+    xp = array_namespace(*condlist, *choicelist, default) if xp is None else xp
 
     if is_numpy_namespace(xp):
         return np.select(condlist, choicelist, default)
 
-    like = None
-    for item in (*condlist, *choicelist):
-        if hasattr(item, "device"):
-            like = item
-            break
+    like = _native_reference(*condlist, *choicelist, default)
 
     condlist = [xp_as_array(c, xp=xp, like=like) for c in condlist]
     choicelist = [xp_as_float_array(c, xp=xp, like=like) for c in choicelist]
@@ -1349,6 +1609,11 @@ def xp_interp(
     if is_numpy_namespace(xp):
         return np.interp(x, x_data, fp)  # pyright: ignore
 
+    like = _native_reference(x, x_data, fp)
+    x = xp_as_float_array(x, xp=xp, like=like)
+    x_data = xp_as_float_array(x_data, xp=xp, like=x)
+    fp = xp_as_array(fp, xp=xp, like=x)
+
     try:
         return xp.interp(x, x_data, fp)
     except (AttributeError, TypeError):
@@ -1358,7 +1623,8 @@ def xp_interp(
 
     fp_nd = as_ndarray(fp)
     result = np.interp(as_ndarray(x), as_ndarray(x_data), fp_nd)
-    result = result.astype(fp_nd.dtype)
+    if np.issubdtype(fp_nd.dtype, np.inexact):
+        result = result.astype(fp_nd.dtype)
 
     device = getattr(x, "device", None)
     if device is not None and hasattr(device, "type"):
@@ -1372,7 +1638,7 @@ def xp_interp(
             result = result.astype(np.float32)
         return xp.asarray(result, device=device)
 
-    return xp.asarray(result)
+    return xp_as_array(result, xp=xp, like=x)
 
 
 def xp_trapezoid(
@@ -1410,7 +1676,7 @@ def xp_trapezoid(
     if is_numpy_namespace(xp):
         return np.trapezoid(y, x=x, dx=dx, axis=axis)  # pyright: ignore
 
-    y = xp_as_float_array(y, xp=xp)
+    y = xp_as_float_array(y, xp=xp, like=_native_reference(y, x))
 
     try:
         if x is not None:
@@ -1427,7 +1693,7 @@ def xp_trapezoid(
         as_ndarray(y), x=as_ndarray(x) if x is not None else None, dx=dx, axis=axis
     )
 
-    return xp.asarray(result)
+    return xp_as_array(result, xp=xp, like=y)
 
 
 def xp_average(
@@ -1463,7 +1729,7 @@ def xp_average(
     if is_numpy_namespace(xp):
         return np.average(a, axis=axis, weights=weights)  # pyright: ignore
 
-    a = xp_as_float_array(a, xp=xp)
+    a = xp_as_float_array(a, xp=xp, like=_native_reference(a, weights))
 
     if weights is None:
         return xp.mean(a, axis=axis)
@@ -1509,7 +1775,7 @@ def xp_gradient(
     *varargs
         Spacing between values.
     xp
-        Array namespace module. If *None*, derived from ``f``.
+        Array namespace module. If *None*, derived from ``f`` and spacing arrays.
     axis
         Axis along which to compute the gradient.
 
@@ -1519,10 +1785,18 @@ def xp_gradient(
         Gradient of *f*.
     """
 
-    xp = array_namespace(f) if xp is None else xp
+    xp = array_namespace(f, *varargs) if xp is None else xp
 
     if is_numpy_namespace(xp):
         return np.gradient(f, *varargs, axis=axis)
+
+    f = xp_as_array(f, xp=xp, like=_native_reference(f, *varargs))
+    varargs = tuple(
+        xp_as_array(v, xp=xp, like=f)
+        if hasattr(v, "shape") or isinstance(v, (list, tuple))
+        else v
+        for v in varargs
+    )
 
     try:
         result = xp.gradient(f, *varargs, axis=axis)
@@ -1538,10 +1812,10 @@ def xp_gradient(
 
     result = np.gradient(as_ndarray(f), *(as_ndarray(v) for v in varargs), axis=axis)
 
-    if isinstance(result, list):
-        return [xp.asarray(r) for r in result]
+    if isinstance(result, (list, tuple)):
+        return [xp_as_array(r, xp=xp, like=f) for r in result]
 
-    return xp.asarray(result)
+    return xp_as_array(result, xp=xp, like=f)
 
 
 def xp_resize(
@@ -1630,10 +1904,11 @@ def xp_nanmean(
     if is_numpy_namespace(xp):
         return np.nanmean(a, axis=axis)  # pyright: ignore
 
+    a = xp_as_array(a, xp=xp)
     mask = xp.isnan(a)
-    zeroed = xp.where(mask, xp.asarray(0.0, dtype=a.dtype), a)  # pyright: ignore
+    zeroed = xp.where(mask, xp_as_array(0, dtype=a.dtype, xp=xp, like=a), a)
     count = xp.sum(
-        xp_astype(~mask, a.dtype, xp=xp),  # pyright: ignore
+        xp_astype(~mask, a.dtype, xp=xp),
         axis=axis,
     )
 
@@ -1673,7 +1948,7 @@ def xp_median(
 
     result = np.median(as_ndarray(a), axis=axis)
 
-    return xp.asarray(result)
+    return xp_as_array(result, xp=xp, like=a)
 
 
 def xp_round(
@@ -1687,7 +1962,7 @@ def xp_round(
 
     The Array API standard ``xp.round`` does not accept a *decimals*
     parameter. This helper uses the backend's native ``round`` when it
-    supports *decimals* (JAX, CuPy), otherwise falls back to a
+    supports *decimals* (*JAX*, *CuPy*), otherwise falls back to a
     multiply-round-divide pattern using the standard ``xp.round``.
 
     Parameters
@@ -1710,6 +1985,8 @@ def xp_round(
     if is_numpy_namespace(xp):
         return np.round(a, decimals)  # pyright: ignore
 
+    a = xp_as_array(a, xp=xp)
+
     try:
         return xp.round(a, decimals)
     except (AttributeError, TypeError):
@@ -1731,6 +2008,8 @@ def _scale_by(
         return a * factor
 
     xp = array_namespace(a) if xp is None else xp
+
+    a = xp_as_float_array(a, xp=xp)
 
     return a * xp_as_float_array(factor, xp=xp, like=a)
 
@@ -1811,10 +2090,9 @@ def xp_atleast_1d(
     if is_numpy_namespace(xp):
         return np.atleast_1d(a)
 
-    if isinstance(a, (np.ndarray, np.generic)):
-        a = xp_as_array(a, xp=xp)
+    a = xp_as_array(a, xp=xp)
 
-    return _xpx().atleast_nd(a, ndim=1, xp=xp)
+    return _xpx().atleast_nd(a, ndim=1, xp=array_namespace(a))
 
 
 def xp_atleast_2d(
@@ -1841,10 +2119,9 @@ def xp_atleast_2d(
     if is_numpy_namespace(xp):
         return np.atleast_2d(a)
 
-    if isinstance(a, (np.ndarray, np.generic)):
-        a = xp_as_array(a, xp=xp)
+    a = xp_as_array(a, xp=xp)
 
-    return _xpx().atleast_nd(a, ndim=2, xp=xp)
+    return _xpx().atleast_nd(a, ndim=2, xp=array_namespace(a))
 
 
 def xp_squeeze(
@@ -1886,13 +2163,15 @@ def xp_squeeze(
 
     xp = array_namespace(a) if xp is None else xp
 
+    a = xp_as_array(a, xp=xp)
+
     if axis is not None:
         return xp.squeeze(a, axis=axis)
 
-    axes = tuple(i for i in range(a.ndim) if a.shape[i] == 1)  # pyright: ignore
+    axes = tuple(i for i in range(a.ndim) if a.shape[i] == 1)
 
     if not axes:
-        return a  # pyright: ignore
+        return a
 
     return xp.squeeze(a, axis=axes)
 
@@ -1921,10 +2200,9 @@ def xp_sinc(
     if is_numpy_namespace(xp):
         return np.sinc(a)  # pyright: ignore
 
-    if isinstance(a, (np.ndarray, np.generic)):
-        a = xp_as_array(a, xp=xp)
+    a = xp_as_array(a, xp=xp)
 
-    return _xpx().sinc(a, xp=xp)
+    return _xpx().sinc(a, xp=array_namespace(a))
 
 
 def xp_isclose(
@@ -1962,10 +2240,12 @@ def xp_isclose(
     if is_numpy_namespace(xp):
         return np.isclose(a, b, rtol=rtol, atol=atol)
 
-    if isinstance(a, (np.ndarray, np.generic)):
-        a = xp_as_array(a, xp=xp)
-    if isinstance(b, (np.ndarray, np.generic)):
-        b = xp_as_array(b, xp=xp)
+    like = _native_reference(a, b)
+    a = xp_as_array(a, xp=xp, like=like)
+    b = xp_as_array(b, xp=xp, like=a)
+    dtype = xp.result_type(a, b)
+    a = xp_astype(a, dtype, xp=xp)
+    b = xp_astype(b, dtype, xp=xp)
 
     return _xpx().isclose(a, b, rtol=rtol, atol=atol, xp=xp)
 
@@ -2005,7 +2285,8 @@ def xp_nan_to_num(
     if is_numpy_namespace(xp):
         return np.nan_to_num(a, nan=nan, posinf=posinf, neginf=neginf)
 
-    a = as_float_array(a)
+    a = xp_as_float_array(a, xp=xp)
+    xp = array_namespace(a)
 
     result = as_float_array(_xpx().nan_to_num(a, fill_value=nan, xp=xp))
 
@@ -2027,7 +2308,7 @@ def xp_create_diagonal(
     Parameters
     ----------
     a
-        1-D array of diagonal values.
+        Array of diagonal values, flattened before forming the diagonal.
     xp
         Array namespace module. If *None*, derived from ``a``.
 
@@ -2042,10 +2323,9 @@ def xp_create_diagonal(
     if is_numpy_namespace(xp):
         return np.diagflat(a)
 
-    if isinstance(a, (np.ndarray, np.generic)):
-        a = xp_as_array(a, xp=xp)
+    a = xp_as_array(a, xp=xp)
 
-    return _xpx().create_diagonal(a, xp=xp)
+    return _xpx().create_diagonal(xp.reshape(a, (-1,)), xp=array_namespace(a))
 
 
 def xp_reshape(
@@ -2083,7 +2363,7 @@ def xp_reshape(
 
     xp = array_namespace(a) if xp is None else xp
 
-    return xp.reshape(a, shape)
+    return xp.reshape(xp_as_array(a, xp=xp), shape)
 
 
 def xp_broadcast_to(
@@ -2122,7 +2402,7 @@ def xp_broadcast_to(
 
     xp = array_namespace(a) if xp is None else xp
 
-    return xp.broadcast_to(a, shape)
+    return xp.broadcast_to(xp_as_array(a, xp=xp), shape)
 
 
 def xp_lstsq(
@@ -2147,7 +2427,8 @@ def xp_lstsq(
     b
         Ordinate values.
     rcond
-        Cut-off ratio for small singular values (passed to *NumPy* only).
+        Cut-off ratio for small singular values, passed to the native backend
+        or the *NumPy* fallback.
     xp
         Array namespace module. If *None*, derived from ``a`` and ``b``.
 
@@ -2162,8 +2443,20 @@ def xp_lstsq(
     if is_numpy_namespace(xp):
         return np.linalg.lstsq(a, b, rcond=rcond)[0]  # pyright: ignore
 
+    a = xp_as_array(a, xp=xp, like=_native_reference(a, b))
+    b = xp_as_array(b, xp=xp, like=a)
+    dtype = xp.result_type(a, b)
+    inexact_dtypes = tuple(
+        getattr(xp, name, None)
+        for name in ("float16", "float32", "float64", "complex64", "complex128")
+    )
+    if dtype not in inexact_dtypes:
+        dtype = _resolve_backend_dtype(xp, DTYPE_FLOAT_DEFAULT)
+    a = xp_astype(a, dtype, xp=xp)
+    b = xp_astype(b, dtype, xp=xp)
+
     try:
-        return xp.linalg.lstsq(a, b)[0]
+        return xp.linalg.lstsq(a, b, rcond=rcond)[0]
     except (AttributeError, TypeError, NotImplementedError, RuntimeError):
         pass
 
@@ -2173,7 +2466,7 @@ def xp_lstsq(
     result = np.linalg.lstsq(a_nd, as_ndarray(b), rcond=rcond)[0]
     result = result.astype(a_nd.dtype)
 
-    return xp.asarray(result)
+    return xp_as_array(result, xp=xp, like=a)
 
 
 def _xp_eig_generic(
@@ -2257,8 +2550,8 @@ def xp_isin(
     """
     *Array API* compatible implementation of :func:`numpy.isin`.
 
-    Use the backend's native ``isin`` when available (JAX, CuPy),
-    otherwise fall back to NumPy.
+    Use the backend's native ``isin`` when available (*JAX*, *CuPy*),
+    otherwise fall back to *NumPy*.
 
     Parameters
     ----------
@@ -2290,20 +2583,24 @@ def xp_isin(
     if is_numpy_namespace(xp):
         return np.isin(element, test_elements)
 
-    reference = element if like is None else like
+    reference = (
+        (element if is_non_ndarray(element) else test_elements)
+        if like is None
+        else like
+    )
+    element = xp_as_array(element, xp=xp, like=reference)
+    test_elements = xp_as_array(test_elements, xp=xp, like=element)
 
     try:
-        if isinstance(test_elements, np.ndarray) and hasattr(reference, "device"):
-            test_elements = xp.asarray(test_elements, device=reference.device)  # pyright: ignore
         return xp.isin(element, test_elements)
     except (AttributeError, TypeError):
         pass
 
     _runtime_warning_xp_fallback("xp_isin")
 
-    result = np.isin(np.asarray(element), np.asarray(test_elements))
+    result = np.isin(as_ndarray(element), as_ndarray(test_elements))
 
-    return xp.asarray(result)
+    return xp_as_array(result, xp=xp, like=element)
 
 
 def xp_linspace(
@@ -2352,26 +2649,43 @@ def xp_linspace(
     if is_numpy_namespace(xp):
         return np.linspace(start, stop, num, **kwargs)  # pyright: ignore
 
+    like = _native_reference(start, stop) if like is None else like
     device = getattr(like, "device", None)
 
     # The backend default dtype, e.g. float32 for stock *PyTorch*, would
     # otherwise silently determine the precision of the samples; the *Colour*
     # default float dtype is requested instead unless the caller specifies one.
     dtype = kwargs.pop("dtype", DTYPE_FLOAT_DEFAULT)
+    try:
+        numpy_dtype = np.dtype(dtype)
+    except TypeError:
+        numpy_dtype = np.dtype(str(dtype).rsplit(".", 1)[-1])
+    integer_output = np.issubdtype(numpy_dtype, np.integer)
+    sample_dtype = DTYPE_FLOAT_DEFAULT if integer_output else dtype
+    if getattr(device, "type", None) == "mps" and _resolve_backend_dtype(
+        xp, sample_dtype
+    ) == getattr(xp, "float64", None):
+        _runtime_warning_xp_downcast(xp, sample_dtype, "float32")
+        sample_dtype = np.float32
 
     try:
-        return xp.linspace(
+        result = xp.linspace(
             start,
             stop,
             num,
             device=device,
-            dtype=_resolve_backend_dtype(xp, dtype),
+            dtype=_resolve_backend_dtype(xp, sample_dtype),
             **kwargs,
         )
+        # NumPy floors fractional samples for integer output; PyTorch's
+        # integer linspace instead truncates negative samples towards zero.
+        return xp_astype(xp.floor(result), dtype, xp=xp) if integer_output else result
     except (AttributeError, TypeError):
         _runtime_warning_xp_fallback("xp_linspace")
 
-        result = np.linspace(start, stop, num, dtype=dtype, **kwargs)  # pyright: ignore
+        result = np.linspace(
+            as_ndarray(start), as_ndarray(stop), num, dtype=numpy_dtype, **kwargs
+        )
 
         def _to_backend(arr: NDArrayFloat) -> NDArrayFloat:
             try:
@@ -2396,8 +2710,8 @@ def xp_pad(
     """
     *Array API* compatible implementation of :func:`numpy.pad`.
 
-    Use the backend's native ``pad`` when available (JAX, CuPy),
-    otherwise fall back to NumPy.
+    Use the backend's native ``pad`` when available (*JAX*, *CuPy*),
+    otherwise fall back to *NumPy*.
 
     Parameters
     ----------
@@ -2432,7 +2746,7 @@ def xp_pad(
 
     result = np.pad(as_ndarray(a), pad_width, *args, **kwargs)
 
-    return xp.asarray(result)
+    return xp_as_array(result, xp=xp, like=a)
 
 
 def xp_unique(
@@ -2480,9 +2794,9 @@ def xp_unique(
     result = np.unique(as_ndarray(a), **kwargs)
 
     if isinstance(result, tuple):
-        return tuple(xp.asarray(r) for r in result)
+        return tuple(xp_as_array(r, xp=xp, like=a) for r in result)
 
-    return xp.asarray(result)
+    return xp_as_array(result, xp=xp, like=a)
 
 
 def xp_insert(
@@ -2522,62 +2836,99 @@ def xp_insert(
     if is_numpy_namespace(xp):
         return np.insert(a, indices, values, axis=axis)  # pyright: ignore
 
-    a_array: NDArray = xp_as_array(a, xp=xp)
-    indices_array = xp_as_array(indices, xp=xp)
-    # ``numpy.insert`` treats a scalar index differently from a length-1
-    # sequence: the former is a block insert whose ``values`` are moved onto
-    # ``axis`` first. The distinction is captured before promoting to 1-D.
-    indices_scalar = getattr(indices_array, "ndim", 0) == 0
-    indices_1d: NDArray = xp_atleast_1d(indices_array, xp=xp)
-    # A scalar ``values`` is promoted to at least 1-D so that it can be sliced
-    # along ``axis`` below, matching ``numpy.insert`` which accepts scalars.
-    values_array: NDArray = xp_atleast_1d(xp_as_array(values, xp=xp), xp=xp)
+    like = _native_reference(a, values, indices)
+    a_array: NDArray = xp_as_array(a, xp=xp, like=like)
+    # Indices are discrete metadata and are materialised once. Validating in
+    # NumPy preserves integer precision and its scalar/array indexing rules.
+    indices_host = np.array(as_ndarray(indices), copy=True)
+    if indices_host.dtype == bool:
+        if indices_host.ndim != 1:
+            error = "Boolean insertion indices must be one-dimensional."
+            raise ValueError(error)
+        indices_host = np.flatnonzero(indices_host)
+    elif indices_host.ndim > 1:
+        error = "Insertion indices must be one-dimensional or scalar."
+        raise ValueError(error)
 
+    indices_scalar = indices_host.ndim == 0
+    indices_host = np.atleast_1d(indices_host)
+    single_index = indices_host.size == 1
+    if indices_host.size == 0 and isinstance(indices, (list, tuple)):
+        indices_host = indices_host.astype(np.intp)
+    integer_indices = np.issubdtype(indices_host.dtype, np.integer)
+    if not integer_indices and not single_index:
+        error = "Arrays used as indices must be of integer or boolean type."
+        raise IndexError(error)
+
+    values_array: NDArray = xp_atleast_1d(
+        xp_as_array(values, dtype=a_array.dtype, xp=xp, like=a_array), xp=xp
+    )
     if axis is None:
         a_array = xp_reshape(a_array, (-1,), xp=xp)
         axis = 0
+    elif axis < -a_array.ndim or axis >= a_array.ndim:
+        raise np.exceptions.AxisError(axis, ndim=a_array.ndim)
+    axis %= a_array.ndim
+    a_axis_length = a_array.shape[axis]
 
     def slice_along(arr: NDArray, indexer: slice | NDArray) -> NDArray:
         """Index ``arr`` along ``axis`` with ``indexer``."""
 
-        selector = [slice(None)] * arr.ndim
-        selector[cast("int", axis)] = indexer  # pyright: ignore
+        selector: list[Any] = [slice(None)] * arr.ndim
+        selector[axis] = indexer
         return arr[tuple(selector)]
 
-    if indices_scalar:
-        # ``numpy.insert`` pads ``values`` to the rank of ``a`` and moves its
-        # leading axis onto ``axis`` before counting the insertions, so that
-        # ``a[:, 0, :] = ...`` and ``a[:, [0], :] = ...`` semantics differ.
+    if single_index:
+        index = indices_host[0].item()
+        if index < -a_axis_length or index > a_axis_length:
+            error = (
+                f"Index {index} is out of bounds for axis {axis} "
+                f"with size {a_axis_length}."
+            )
+            raise IndexError(error)
+        if not integer_indices:
+            error = "Insertion indices must be integers."
+            raise TypeError(error)
+        index = int(index)
+        if index < 0:
+            index += a_axis_length
         while values_array.ndim < a_array.ndim:
             values_array = values_array[None, ...]
-        if a_array.ndim > 1:
+        if indices_scalar and a_array.ndim > 1:
             values_array = xp.moveaxis(values_array, 0, axis)
+        count = values_array.shape[axis]
+        indices_sorted = np.full(count, index, dtype=np.intp)
+        order = np.arange(count)
+    else:
+        # Match NumPy's stable placement of multiple indices, including
+        # negative positions normalised against the expanded output axis.
+        positions = indices_host.copy()
+        positions[positions < 0] += a_axis_length
+        order = np.argsort(positions, kind="stable")
+        count = len(positions)
+        positions[order] += np.arange(count)
+        output_length = a_axis_length + count
+        if np.any(positions < -output_length) or np.any(positions >= output_length):
+            error = "Insertion index is out of bounds for the output axis."
+            raise IndexError(error)
+        positions = np.where(positions < 0, positions + output_length, positions)
+        if len(np.unique(positions)) != count:
+            error = "Insertion indices leave an incompatible output shape."
+            raise ValueError(error)
+        order = np.argsort(positions, kind="stable")
+        indices_sorted = positions[order] - np.arange(count)
 
-        # ``numpy.insert`` assigns ``values`` into the insertion slot, which
-        # broadcasts it against the remaining axes; the concat below requires
-        # the operands to match exactly, so the broadcast is explicit here.
-        shape_values = list(a_array.shape)
-        shape_values[axis] = values_array.shape[axis]
-        values_array = xp_broadcast_to(values_array, tuple(shape_values), xp=xp)
-
-        # The scalar index is a block insert before one position: it is
-        # broadcast to one index per inserted value for the concat below.
-        indices_1d = xp_broadcast_to(indices_1d, (values_array.shape[axis],), xp=xp)
-
-    # ``numpy.insert`` normalises negative indices against the axis length
-    # before sorting; doing so here keeps the sorted concat equivalent.
-    a_axis_length = a_array.shape[axis]
-    indices_1d = xp.where(indices_1d < 0, indices_1d + a_axis_length, indices_1d)
-
-    # ``numpy.insert`` accepts unsorted indices and normalises to the
-    # sorted equivalent; the sequential concat below requires sorted
-    # indices, so sort them and reorder ``values`` along ``axis`` to
-    # match. Materialise sorted indices to *NumPy* once (single host
-    # sync) to avoid per-iteration ``int(indices[i])`` syncs inside the
-    # loop below.
-    order = xp.argsort(indices_1d)
-    values_array = slice_along(values_array, order)
-    indices_sorted = as_ndarray(indices_1d[order])
+    shape_values = list(a_array.shape)
+    shape_values[axis] = count
+    if np.broadcast_shapes(values_array.shape, tuple(shape_values)) != tuple(
+        shape_values
+    ):
+        error = "Insertion values cannot be broadcast into the insertion slots."
+        raise ValueError(error)
+    values_array = xp_broadcast_to(values_array, tuple(shape_values), xp=xp)
+    values_array = slice_along(
+        values_array, xp_as_int_array(order, xp=xp, like=a_array)
+    )
 
     a_axis = a_array.shape[axis]
     parts = []
@@ -2623,7 +2974,7 @@ def xp_setxor1d(
     if is_numpy_namespace(xp):
         return np.setxor1d(a, b)
 
-    a = xp_as_array(a, xp=xp)
+    a = xp_as_array(a, xp=xp, like=_native_reference(a, b))
     b = xp_as_array(b, xp=xp, like=a)
 
     # NOTE: ``cast`` is used to bridge ``NDArrayFloat`` and the ``Array``
@@ -3272,16 +3623,19 @@ def as_array(
         a = list(a)
 
     if is_array_api_enabled():
-        # When ``a`` is a list/tuple of non-NumPy arrays, resolve the
-        # namespace from the first element and use ``xp.stack`` since
-        # ``xp.asarray(list)`` would fall back to NumPy.
-        if isinstance(a, list) and len(a) > 0 and is_non_ndarray(a[0]):
-            xp = array_namespace(a[0])
+        # Discover native components regardless of their sequence position.
+        # ``xp.asarray(sequence)`` may otherwise coerce through *NumPy*.
+        reference = (
+            next((x for x in a if is_non_ndarray(x)), None)
+            if isinstance(a, (list, tuple))
+            else None
+        )
+        if reference is not None and isinstance(a, (list, tuple)):
+            xp = array_namespace(*a)
 
-            if dtype is not None:
-                dtype = getattr(xp, np.dtype(dtype).name, dtype)
-
-            return xp.stack([xp_as_array(x, xp=xp, like=a[0]) for x in a])
+            return xp.stack(
+                [xp_as_array(x, dtype=dtype, xp=xp, like=reference) for x in a]
+            )
 
         xp = array_namespace(a)
 
@@ -3337,7 +3691,7 @@ def as_int(a: ArrayLike, dtype: Type[DTypeInt] | None = None) -> DTypeInt | NDAr
     """
     Convert the specified variable :math:`a` to an integer value.
 
-    Scalars and 0-dimensional arrays are returned as a Python / *NumPy*
+    Scalars and 0-dimensional arrays are returned as a *Python* / *NumPy*
     integer scalar. Higher-dimensional arrays go through
     :func:`as_int_array`, which is namespace-aware: when *Array API* dispatch
     is enabled and :math:`a` is a non-*NumPy* array, the result is returned
@@ -3396,7 +3750,7 @@ def as_float(
     """
     Convert the specified variable :math:`a` to a floating-point value.
 
-    Scalars and 0-dimensional arrays are returned as a Python / *NumPy*
+    Scalars and 0-dimensional arrays are returned as a *Python* / *NumPy*
     float scalar. Higher-dimensional arrays go through
     :func:`as_float_array`, which is namespace-aware: when *Array API*
     dispatch is enabled and :math:`a` is a non-*NumPy* array, the result is
@@ -4190,9 +4544,10 @@ def _scale_at(
         # collapse a 0-d array divided / multiplied by a Python scalar to
         # a :class:`numpy.float*` instance, which would break downstream
         # callers expecting an :class:`numpy.ndarray`.
-        return np.asarray(a / scale_factor if divide else a * scale_factor)
+        return np.asarray(a / scale_factor if divide else a * scale_factor, dtype=dtype)
 
-    xp = array_namespace(a)
+    xp = array_namespace(a, scale_factor)
+    a = xp_as_array(a, dtype=dtype, xp=xp, like=_native_reference(a, scale_factor))
 
     factor = xp_as_array(scale_factor, dtype=dtype, xp=xp, like=a)
 
@@ -4445,9 +4800,15 @@ def to_domain_degrees(
 
     a = ndarray_copy(as_float_array(a, dtype))
 
+    if get_domain_range_scale() not in ("1", "100"):
+        return a
+
+    xp = array_namespace(a, scale_factor)
+    a = xp_as_array(a, dtype=dtype, xp=xp, like=_native_reference(a, scale_factor))
+    scale_factor = xp_as_array(scale_factor, dtype=dtype, xp=xp, like=a)
     a = _scale_at(a, "1", scale_factor, dtype)
 
-    return _scale_at(a, "100", scale_factor / 100, dtype)  # pyright: ignore
+    return _scale_at(a, "100", scale_factor / 100, dtype)
 
 
 def to_domain_int(
@@ -4514,7 +4875,13 @@ def to_domain_int(
 
     a = ndarray_copy(as_float_array(a, dtype))
 
-    maximum_code_value = 2**bit_depth - 1  # pyright: ignore
+    if get_domain_range_scale() not in ("1", "100"):
+        return a
+
+    xp = array_namespace(a, bit_depth)
+    a = xp_as_array(a, dtype=dtype, xp=xp, like=_native_reference(a, bit_depth))
+    bit_depth = xp_as_array(bit_depth, xp=xp, like=a)
+    maximum_code_value = 2**bit_depth - 1
 
     a = _scale_at(a, "1", maximum_code_value, dtype)
 
@@ -4785,9 +5152,15 @@ def from_range_degrees(
 
     a = as_float_array(a, dtype)
 
+    if get_domain_range_scale() not in ("1", "100"):
+        return a
+
+    xp = array_namespace(a, scale_factor)
+    a = xp_as_array(a, dtype=dtype, xp=xp, like=_native_reference(a, scale_factor))
+    scale_factor = xp_as_array(scale_factor, dtype=dtype, xp=xp, like=a)
     a = _scale_at(a, "1", scale_factor, dtype, divide=True)
 
-    return _scale_at(a, "100", scale_factor / 100, dtype, divide=True)  # pyright: ignore
+    return _scale_at(a, "100", scale_factor / 100, dtype, divide=True)
 
 
 def from_range_int(
@@ -4860,7 +5233,13 @@ def from_range_int(
 
     a = as_float_array(a, dtype)
 
-    maximum_code_value = 2**bit_depth - 1  # pyright: ignore
+    if get_domain_range_scale() not in ("1", "100"):
+        return a
+
+    xp = array_namespace(a, bit_depth)
+    a = xp_as_array(a, dtype=dtype, xp=xp, like=_native_reference(a, bit_depth))
+    bit_depth = xp_as_array(bit_depth, xp=xp, like=a)
+    maximum_code_value = 2**bit_depth - 1
 
     a = _scale_at(a, "1", maximum_code_value, dtype, divide=True)
 
@@ -5175,15 +5554,19 @@ def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
 
     xp = array_namespace(distribution)
 
-    hash_key = hash(
-        (
-            int_digest(as_ndarray(distribution).tobytes()),
-            distribution.shape,
-            unique,
+    hash_key = None
+    if is_caching_enabled() and not is_gradient_tracked(distribution):
+        hash_key = hash(
+            (
+                int_digest(as_ndarray(distribution).tobytes()),
+                distribution.shape,
+                unique,
+                str(getattr(distribution, "device", None)),
+                str(distribution.dtype),
+            )
         )
-    )
 
-    if is_caching_enabled() and hash_key in _CACHE_DISTRIBUTION_INTERVAL:
+    if hash_key is not None and hash_key in _CACHE_DISTRIBUTION_INTERVAL:
         return xp_as_array(
             _CACHE_DISTRIBUTION_INTERVAL[hash_key],
             xp=xp,
@@ -5202,7 +5585,7 @@ def interval(distribution: ArrayLike, unique: bool = True) -> NDArray:
     else:
         interval_ = differences
 
-    if is_caching_enabled():
+    if hash_key is not None:
         _CACHE_DISTRIBUTION_INTERVAL[hash_key] = xp_as_array(
             interval_, xp=xp, copy=True
         )
@@ -5283,6 +5666,10 @@ def in_array(a: ArrayLike, b: ArrayLike, tolerance: Real = EPSILON) -> NDArray:
 
     xp = array_namespace(a, b)
 
+    reference = a if is_non_ndarray(a) else b
+    a = xp_as_float_array(a, xp=xp, like=reference)
+    b = xp_as_float_array(b, xp=xp, like=a)
+
     d = xp.abs(xp_reshape(a, (-1,), xp=xp) - b[..., None])
 
     return xp_reshape(xp.any(d <= tolerance, axis=0), a.shape, xp=xp)
@@ -5353,15 +5740,17 @@ def tstack(
 
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
-    if (
-        is_array_api_enabled()
-        and isinstance(a, (list, tuple))
-        and a
-        and is_non_ndarray(a[0])
-    ):
-        xp = array_namespace(a[0])
+    reference = (
+        next((x for x in a if is_non_ndarray(x)), None)
+        if is_array_api_enabled() and isinstance(a, (list, tuple))
+        else None
+    )
+    if reference is not None and isinstance(a, (list, tuple)):
+        xp = array_namespace(*a)
 
-        return xp.stack([xp_as_array(x, xp=xp, like=a[0]) for x in a], axis=-1)
+        return xp.stack(
+            [xp_as_array(x, dtype=dtype, xp=xp, like=reference) for x in a], axis=-1
+        )
 
     if isinstance(a, (list, tuple)) and a:
         # Stack the components directly, avoiding the ``as_array(list)``
@@ -5523,7 +5912,11 @@ def row_as_diagonal(a: ArrayLike) -> NDArray:
 
     d = xp.expand_dims(d, axis=-2)
 
-    eye = xp.eye(d.shape[-1], device=getattr(d, "device", None))
+    eye = (
+        xp.eye(d.shape[-1])
+        if is_numpy_namespace(xp)
+        else xp.eye(d.shape[-1], dtype=d.dtype, device=getattr(d, "device", None))
+    )
 
     return eye * d
 
@@ -5588,9 +5981,9 @@ def orient(
     elif orientation == "flop":
         oriented = xp.flip(a, axis=0)
     elif orientation == "90 cw":
-        oriented = xp_matrix_transpose(xp.flip(a, axis=0), xp=xp)
+        oriented = xp.permute_dims(xp.flip(a, axis=0), (1, 0, *range(2, a.ndim)))
     elif orientation == "90 ccw":
-        oriented = xp_matrix_transpose(xp.flip(a, axis=1), xp=xp)
+        oriented = xp.permute_dims(xp.flip(a, axis=1), (1, 0, *range(2, a.ndim)))
     elif orientation == "180":
         oriented = xp.flip(xp.flip(a, axis=0), axis=1)
 
@@ -5676,7 +6069,7 @@ def fill_nan(
     array([0.1, 0.2, 0. , 0.4, 0.5])
     """
 
-    a = as_float_array(a)
+    a = as_array(a)
 
     xp = array_namespace(a)
 
@@ -5777,6 +6170,7 @@ def ndarray_write(a: ArrayLike) -> Generator:
 def zeros(
     shape: int | Sequence[int],
     dtype: Type[DTypeReal] | None = None,
+    order: str = "C",
 ) -> NDArray:
     """
     Create an array of zeros with the active dtype.
@@ -5794,6 +6188,9 @@ def zeros(
         :class:`numpy.dtype` defined by the
         :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
 
+    order
+        Memory layout for *NumPy* arrays, either "C" or "F".
+
     Returns
     -------
     :class:`numpy.ndarray`
@@ -5810,12 +6207,16 @@ def zeros(
 
     xp = array_namespace()
 
+    if is_numpy_namespace(xp):
+        return xp.zeros(shape, dtype=dtype, order=order)
+
     return xp.zeros(shape, dtype=dtype)
 
 
 def ones(
     shape: int | Sequence[int],
     dtype: Type[DTypeReal] | None = None,
+    order: str = "C",
 ) -> NDArray:
     """
     Create an array of ones with the active dtype.
@@ -5833,6 +6234,9 @@ def ones(
         :class:`numpy.dtype` defined by the
         :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
 
+    order
+        Memory layout for *NumPy* arrays, either "C" or "F".
+
     Returns
     -------
     :class:`numpy.ndarray`
@@ -5848,6 +6252,9 @@ def ones(
 
     xp = array_namespace()
 
+    if is_numpy_namespace(xp):
+        return xp.ones(shape, dtype=dtype, order=order)
+
     return xp.ones(shape, dtype=dtype)
 
 
@@ -5855,6 +6262,7 @@ def full(
     shape: int | Sequence[int],
     fill_value: Real,
     dtype: Type[DTypeReal] | None = None,
+    order: str = "C",
 ) -> NDArray:
     """
     Create an array of the specified value with the active dtype.
@@ -5874,6 +6282,9 @@ def full(
         :class:`numpy.dtype` defined by the
         :attr:`colour.constant.DTYPE_FLOAT_DEFAULT` attribute.
 
+    order
+        Memory layout for *NumPy* arrays, either "C" or "F".
+
     Returns
     -------
     :class:`numpy.ndarray`
@@ -5889,6 +6300,9 @@ def full(
     dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
     xp = array_namespace()
+
+    if is_numpy_namespace(xp):
+        return xp.full(shape, fill_value, dtype=dtype, order=order)
 
     return xp.full(shape, fill_value, dtype=dtype)
 
@@ -5977,11 +6391,11 @@ def index_along_last_axis(a: ArrayLike, indexes: ArrayLike) -> NDArray:
            [4.8, 6.9, 7.1, 1.9]])
     """
 
-    a = as_float_array(a)
+    a = as_array(a)
     indexes = as_int_array(indexes)
 
     xp = array_namespace(a, indexes)
-    a = xp_as_float_array(a, xp=xp, like=indexes)
+    a = xp_as_array(a, xp=xp, like=a if is_non_ndarray(a) else indexes)
     indexes = xp_as_int_array(indexes, xp=xp, like=a)
 
     if a.shape[:-1] != indexes.shape:

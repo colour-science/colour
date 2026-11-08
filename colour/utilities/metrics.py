@@ -30,7 +30,12 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.utilities import array_namespace, as_float, as_float_array
+from colour.utilities import (
+    array_namespace,
+    as_float,
+    as_float_array,
+    xp_as_float_array,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -84,9 +89,10 @@ def metric_mse(
     np.float64(0.0012714...)
     """
 
-    diff = as_float_array(a) - as_float_array(b)
-
-    xp = array_namespace(diff)
+    xp = array_namespace(a, b)
+    a = xp_as_float_array(a, xp=xp, like=b)
+    b = xp_as_float_array(b, xp=xp, like=a)
+    diff = a - b
 
     return as_float(xp.mean(diff**2, axis=axis))
 
