@@ -895,7 +895,7 @@ def xp_as_array(
     # CPU-to-GPU transfers for module-level constants. The cache is bypassed
     # when ``copy=True`` so callers asking for a fresh copy cannot
     # accidentally mutate the cached entry.
-    device = getattr(like, "device", None)
+    device = getattr(like, "device", None) if is_non_ndarray(like) else None
     device_kwarg = device if device is not None and hasattr(device, "type") else None
     xp_target_dtype = _resolve_backend_dtype(xp, dtype) if dtype is not None else None
 
@@ -963,6 +963,11 @@ def xp_as_array(
         # than silently returning a different dtype than the caller asked for.
         asarray_kwargs.pop("dtype", None)
         result = xp.asarray(a, **asarray_kwargs)
+
+    if xp.__name__ == "jax.numpy" and device is not None:
+        # JAX devices have no ``type`` attribute. Use the same public transfer
+        # as the native-input branch, which also supports traced values.
+        result = importlib.import_module("jax").device_put(result, device)
 
     if (
         xp_target_dtype is not None
