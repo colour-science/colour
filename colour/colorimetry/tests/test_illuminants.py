@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 import numpy as np
 
+from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
+    SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES,
     SDS_ILLUMINANTS,
     CIE_illuminant_D_series,
     MultiSpectralDistributions,
@@ -14,16 +17,20 @@ from colour.colorimetry import (
     SpectralShape,
     daylight_locus_function,
     msds_CIE_illuminant_D_series,
+    reshape_sd,
     sd_CIE_illuminant_D_series,
     sd_CIE_standard_illuminant_A,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 
 if typing.TYPE_CHECKING:
-    from colour.hints import NDArrayFloat, ModuleType
+    import pytest
+
+    from colour.hints import ModuleType, NDArrayFloat
 
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     ignore_numpy_errors,
     xp_as_array,
@@ -194,6 +201,19 @@ class TestCIEIlluminantDSeries:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        shape = SpectralShape(400, 700, 1)
+        natural = CIE_illuminant_D_series(xy_batch)
+        wavelengths = SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S0"].wavelengths
+        expected = np.stack(
+            [np.interp(shape.wavelengths, wavelengths, column) for column in natural.T],
+            axis=-1,
+        )
+        xp_assert_close(
+            CIE_illuminant_D_series(xy_batch, shape=shape),
+            expected,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
 
 class TestSdCIEIlluminantDSeries:
     """
@@ -201,7 +221,9 @@ class TestSdCIEIlluminantDSeries:
     definition unit tests methods.
     """
 
-    def test_sd_CIE_illuminant_D_series(self) -> None:
+    def test_sd_CIE_illuminant_D_series(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.colorimetry.illuminants.\
 sd_CIE_illuminant_D_series` definition.
@@ -224,6 +246,45 @@ sd_CIE_illuminant_D_series` definition.
                 sd_t[sd_r.wavelengths],
                 atol=tolerance,
             )
+
+        xy = xp_as_array([0.3127, 0.3290], xp=xp)
+        for shape in (
+            SpectralShape(400, 700, 1),
+            SpectralShape(400, 700, 5),
+            SpectralShape(280, 850, 1),
+        ):
+            basis = [
+                reshape_sd(
+                    SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES[name], shape
+                ).values
+                for name in ("S0", "S1", "S2")
+            ]
+            expected = basis[0] - 0.290 * basis[1] - 0.667 * basis[2]
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                sd = sd_CIE_illuminant_D_series(xy, shape=shape)
+            xp_assert_close(sd.values, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if shape == SpectralShape(400, 700, 1):
+                xp_assert_close(
+                    sd.values[28], 87.10776608, atol=TOLERANCE_ABSOLUTE_TESTS
+                )
+            assert array_namespace(sd.values) is array_namespace(xy)
+            assert getattr(sd.values, "device", None) == getattr(xy, "device", None)
+            assert sd.shape == shape
+            assert sd.interpolator is LinearInterpolator
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            shape = SpectralShape(400, 700, 1)
+
+            def illuminant_values(xy: NDArrayFloat) -> NDArrayFloat:
+                """Evaluate smooth chromaticity dependence with a CPU default."""
+
+                with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                    return sd_CIE_illuminant_D_series(
+                        xy, M1_M2_rounding=False, shape=shape
+                    ).values
+
+            autodiff(illuminant_values, [0.3127, 0.3290])
 
 
 class TestMsdsCIEIlluminantDSeries:
