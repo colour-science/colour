@@ -5,10 +5,12 @@ Unit tests for the TPS-3D colour correction method.
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 import numpy as np
 
 if typing.TYPE_CHECKING:
+    import pytest
     from colour.hints import ModuleType
 
 from colour.characterisation.correction import (
@@ -17,10 +19,12 @@ from colour.characterisation.correction import (
     tps3d_parameters,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.utilities import as_ndarray, xp_as_array
+from colour.utilities import as_ndarray, xp_as_array, xp_assert_close
 
 
-def test_tps3d_maps_control_points(xp: ModuleType) -> None:
+def test_tps3d_maps_control_points(
+    xp: ModuleType, request: pytest.FixtureRequest
+) -> None:
     """Control points should map exactly to their targets."""
     rng = np.random.default_rng(42)
     M_T_np = rng.random((24, 3))
@@ -33,6 +37,44 @@ def test_tps3d_maps_control_points(xp: ModuleType) -> None:
     mapped = apply_tps3d(M_T, W, A, ctrl, clip=False, chunk_size=1024)
 
     assert np.max(np.abs(as_ndarray(mapped) - M_R_np)) < TOLERANCE_ABSOLUTE_TESTS
+
+    for mixed_source, mixed_destination in ((M_T_np, M_R), (M_T, M_R_np)):
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            mixed_W, mixed_A, mixed_ctrl = tps3d_parameters(
+                mixed_source, mixed_destination, smoothing=1e-10
+            )
+            mapped = apply_tps3d(M_T_np, mixed_W, mixed_A, mixed_ctrl, clip=False)
+        assert np.max(np.abs(as_ndarray(mapped) - M_R_np)) < TOLERANCE_ABSOLUTE_TESTS
+        if hasattr(M_T, "device"):
+            assert mapped.device == M_T.device
+
+    # Rank-deficient controls retain the least-squares fallback on every backend.
+    duplicate_source = xp_as_array(np.zeros((4, 3)), xp=xp)
+    constant_destination = xp_as_array(np.full((4, 3), 0.2), xp=xp)
+    parameters = tps3d_parameters(duplicate_source, constant_destination)
+    xp_assert_close(
+        apply_tps3d([[0.1, 0.2, 0.3]], *parameters, clip=False),
+        [[0.2, 0.2, 0.2]],
+        atol=TOLERANCE_ABSOLUTE_TESTS,
+    )
+
+    if xp.__name__ != "numpy":
+        autodiff = request.getfixturevalue("autodiff")
+        source = np.random.default_rng(4).random((8, 3))
+        destination = np.random.default_rng(5).random((8, 3))
+        for controls, vary_source in ((source, True), (destination, False)):
+            autodiff(
+                lambda values, vary_source=vary_source: apply_tps3d(
+                    [[0.1, 0.2, 0.3]],
+                    *tps3d_parameters(
+                        values if vary_source else source,
+                        destination if vary_source else values,
+                        smoothing=0.001,
+                    ),
+                    clip=False,
+                ),
+                controls,
+            )
 
 
 def test_tps3d_identity_is_identity(xp: ModuleType) -> None:
