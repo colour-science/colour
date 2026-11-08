@@ -692,11 +692,13 @@ class KernelInterpolator:
         )
 
         pad_kwargs = dict(self._padding_kwargs)
-        if self._y.ndim == 2:
+        if self._y.ndim > 1:
             pad_width = np.broadcast_to(
                 np.asarray(pad_kwargs["pad_width"]).ravel(), (2,)
             )
-            pad_kwargs["pad_width"] = (tuple(pad_width), (0, 0))
+            pad_kwargs["pad_width"] = (tuple(pad_width),) + ((0, 0),) * (
+                self._y.ndim - 1
+            )
         self._y_p = np.pad(self._y, **pad_kwargs)
 
     def __call__(self, x: Any) -> np.ndarray:
@@ -729,12 +731,10 @@ class KernelInterpolator:
             x[..., None] / interval - windows - x_p_min / interval,
             **self._kernel_kwargs,
         )
-        if self._y.ndim == 2:
-            weights = weights[..., None]
+        if self._y.ndim > 1:
+            weights = weights.reshape(weights.shape + (1,) * (self._y.ndim - 1))
 
-        return np.sum(
-            self._y_p[windows] * weights, axis=-2 if self._y.ndim == 2 else -1
-        )
+        return np.sum(self._y_p[windows] * weights, axis=x.ndim)
 
     @property
     def x(self) -> np.ndarray:

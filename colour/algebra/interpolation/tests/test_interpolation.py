@@ -578,8 +578,10 @@ def test_kernel(backend: tuple[str, Callable[[Any], Any]]) -> None:
     )
 
 
-def test_kernel_rank_2(backend: tuple[str, Callable[[Any], Any]]) -> None:
-    """Test the dispatching kernel interpolator on rank-2 dependent data."""
+def test_kernel_rank_2(
+    backend: tuple[str, Callable[[Any], Any]], request: pytest.FixtureRequest
+) -> None:
+    """Test kernel interpolation preserves every trailing dependent-data axis."""
 
     _name, cast = backend
     y2 = np.stack([_Y_UNIFORM, _Y_UNIFORM * 2.0], axis=-1)
@@ -601,6 +603,43 @@ def test_kernel_rank_2(backend: tuple[str, Callable[[Any], Any]]) -> None:
         KernelInterpolator(_X_UNIFORM, y2)(query.ravel()).reshape((*query.shape, 2)),
         atol=TOLERANCE_ABSOLUTE_TESTS,
     )
+
+    for trailing_shape in ((2, 3), (2, 1, 3)):
+        values = np.linspace(0.2, 1.4, len(_X_UNIFORM) * 6).reshape(
+            (len(_X_UNIFORM), *trailing_shape)
+        )
+        native_values = cast(values)
+        interpolator = KernelInterpolator(_X_UNIFORM, native_values)
+        for points in (np.array(1.25), query, np.empty((2, 0))):
+            # Every component is evaluated independently by the scalar NumPy
+            # implementation, without the batched padding or broadcasting.
+            expected = np.stack(
+                [
+                    KernelInterpolator(
+                        _X_UNIFORM, values.reshape(len(values), -1)[:, i]
+                    )(points)
+                    for i in range(6)
+                ],
+                axis=-1,
+            ).reshape((*points.shape, *trailing_shape))
+            actual = interpolator(cast(points))
+            assert actual.shape == (*points.shape, *trailing_shape)
+            assert actual.dtype == native_values.dtype
+            assert array_namespace(actual) is array_namespace(native_values)
+            if hasattr(native_values, "device"):
+                assert actual.device == native_values.device
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        if _name != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            for points in (np.array(1.25), query):
+                autodiff(
+                    lambda ordinates, coordinates: KernelInterpolator(
+                        _X_UNIFORM, ordinates
+                    )(coordinates),
+                    values,
+                    points,
+                )
 
 
 def test_kernel_properties() -> None:
@@ -867,6 +906,23 @@ def test_torch_colocates_host_knots_with_device_values(
         interpolator.x = x
         interpolator.y = _device_values()
         _assert_colocated(interpolator)
+
+        if cls is KernelInterpolator:
+            # Explicit device arrays must also work with a CPU default device.
+            with torch.device("cpu"):
+                for trailing_shape in ((2, 3), (2, 1, 3)):
+                    values = np.linspace(0.2, 1.4, len(x) * 6).reshape(
+                        (len(x), *trailing_shape)
+                    )
+                    native_values = torch.as_tensor(
+                        values, dtype=torch.float32, device=device
+                    )
+                    interpolator = cls(x, native_values, dtype=np.float32)
+                    _assert_colocated(interpolator)
+                    result = interpolator(x[1:-1])
+                    assert result.shape == (len(x) - 2, *trailing_shape)
+                    assert result.device == native_values.device
+                    xp_assert_close(result, values[1:-1], atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 @array_api_enable(True)
