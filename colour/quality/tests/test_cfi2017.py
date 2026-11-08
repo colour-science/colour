@@ -10,6 +10,7 @@ Notes
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -569,7 +570,7 @@ class TestColourFidelityIndexCIE2017:
             sd_xp = sd.copy(xp=xp)
             specification = colour_fidelity_index_CIE2017(sd_xp, additional_data=True)
             xp_assert_close(
-                specification.R_f, 81.6, atol=TOLERANCE_ABSOLUTE_TESTS * 1e06
+                specification.R_f, 81.6, atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.1)
             )
             xp_assert_close(
                 specification.R_s,
@@ -674,12 +675,14 @@ class TestColourFidelityIndexCIE2017:
                     84.2,
                     77.4,
                 ],
-                atol=TOLERANCE_ABSOLUTE_TESTS * 1e06,
+                atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.1),
             )
 
         sd_fl1_xp = SDS_ILLUMINANTS["FL1"].copy(xp=xp)
         specification = colour_fidelity_index_CIE2017(sd_fl1_xp, additional_data=True)
-        xp_assert_close(specification.R_f, 80.6, atol=TOLERANCE_ABSOLUTE_TESTS * 1e06)
+        xp_assert_close(
+            specification.R_f, 80.6, atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.1)
+        )
         xp_assert_close(
             specification.R_s,
             [
@@ -783,12 +786,14 @@ class TestColourFidelityIndexCIE2017:
                 75.2,
                 55.5,
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1e06,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.1),
         )
 
         sd_fl2_xp = SDS_ILLUMINANTS["FL2"].copy(xp=xp)
         specification = colour_fidelity_index_CIE2017(sd_fl2_xp, additional_data=True)
-        xp_assert_close(specification.R_f, 70.1, atol=TOLERANCE_ABSOLUTE_TESTS * 1e06)
+        xp_assert_close(
+            specification.R_f, 70.1, atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.1)
+        )
         xp_assert_close(
             specification.R_s,
             [
@@ -892,7 +897,7 @@ class TestColourFidelityIndexCIE2017:
                 67.0,
                 45.0,
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1e06,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.1),
         )
 
         shape = SpectralShape(380, 780, 5)
@@ -957,3 +962,13 @@ class TestTcsColorimetryData:
 
         result = tcs_colorimetry_data(sd_xp, test_sds, cmfs)
         assert len(result) == 1
+
+        for index, operand in enumerate((sd, test_sds, cmfs)):
+            mixed = [sd, test_sds, cmfs]
+            native = operand.copy(xp=xp)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                mixed_result = tcs_colorimetry_data(*mixed)[0].XYZ
+            xp_assert_close(mixed_result, result[0].XYZ, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native.values, "device"):
+                assert mixed_result.device == native.values.device

@@ -11,6 +11,7 @@ Notes
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -61,20 +62,21 @@ class TestColourFidelityIndexANSIIESTM3018:
 
         # Test without additional data (returns R_f only)
         R_f = colour_fidelity_index_ANSIIESTM3018(sd_fl2_xp, additional_data=False)
-        xp_assert_close(R_f, 70, atol=TOLERANCE_ABSOLUTE_TESTS * 2e06)
+        xp_assert_close(R_f, 70, atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.2))
 
         # Test with additional data (returns full specification)
-        specification = colour_fidelity_index_ANSIIESTM3018(
-            sd_fl2_xp, additional_data=True
-        )
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            specification = colour_fidelity_index_ANSIIESTM3018(
+                sd_fl2_xp, additional_data=True
+            )
+        if hasattr(sd_fl2_xp.values, "device"):
+            assert specification.R_fs.device == sd_fl2_xp.values.device
 
-        xp_assert_close(specification.R_f, 70, atol=TOLERANCE_ABSOLUTE_TESTS * 2e06)
-        xp_assert_close(specification.R_g, 86, atol=TOLERANCE_ABSOLUTE_TESTS * 5000000)
+        xp_assert_close(specification.R_f, 70, atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.2))
+        xp_assert_close(specification.R_g, 86, atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.5))
+        xp_assert_close(specification.CCT, 4225, atol=max(TOLERANCE_ABSOLUTE_TESTS, 1))
         xp_assert_close(
-            specification.CCT, 4225, atol=TOLERANCE_ABSOLUTE_TESTS * 10000000
-        )
-        xp_assert_close(
-            specification.D_uv, 0.0019, atol=TOLERANCE_ABSOLUTE_TESTS * 10000
+            specification.D_uv, 0.0019, atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.001)
         )
 
         xp_assert_close(
@@ -180,18 +182,18 @@ class TestColourFidelityIndexANSIIESTM3018:
                 67,
                 45,
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 7500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.75),
         )
 
         xp_assert_close(
             specification.R_fs,
             [60, 61, 53, 68, 80, 88, 77, 73, 76, 62, 70, 77, 81, 71, 64, 65],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 7500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.75),
         )
         xp_assert_close(
             specification.R_cs,
             [-25, -18, -9, 5, 11, 4, -8, -15, -17, -15, -4, 5, 11, 7, -6, -16],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 7500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.75),
         )
         xp_assert_close(
             specification.R_hs,
@@ -213,7 +215,7 @@ class TestColourFidelityIndexANSIIESTM3018:
                 -0.26,
                 -0.17,
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 7500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.75),
         )
 
         # A :class:`MultiSpectralDistributions` batch returns the same

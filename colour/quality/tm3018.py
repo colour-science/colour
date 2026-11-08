@@ -37,6 +37,7 @@ from colour.utilities import (
     as_float_scalar,
     as_int_array,
     xp_as_float_array,
+    xp_as_int_array,
     xp_matrix_transpose,
     xp_nanmean,
     xp_reshape,
@@ -186,7 +187,7 @@ def colour_fidelity_index_ANSIIESTM3018(
 
     bins = as_int_array(xp.floor(JMh[:, 2] / 22.5))
 
-    arange_16 = xp.arange(16)
+    arange_16 = xp_as_int_array(range(16), xp=xp, like=JMh)
     bin_mask = bins == xp_reshape(arange_16, (-1, 1), xp=xp)
 
     # "bin_mask" is used later with broadcasting and "nanmean" to skip a list

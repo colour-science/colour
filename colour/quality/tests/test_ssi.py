@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -646,6 +647,15 @@ class TestSpectralSimilarityIndex:
             [50.0, 84.0, 20.0],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        reference_native = SDS_ILLUMINANTS["D65"].copy(xp=xp)
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            mixed_score = spectral_similarity_index(
+                SDS_ILLUMINANTS["C"], reference_native, False
+            )
+        xp_assert_close(mixed_score, 94.182971057336000, atol=TOLERANCE_ABSOLUTE_TESTS)
+        if hasattr(reference_native.values, "device"):
+            assert mixed_score.device == reference_native.values.device
 
     def test_autodiff_spectral_similarity_index(
         self, xp: ModuleType, autodiff: typing.Callable

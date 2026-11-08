@@ -52,7 +52,13 @@ if typing.TYPE_CHECKING:
     )
 
 from colour.models import Lab_to_LCHab  # pyright: ignore
-from colour.models import UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ
+from colour.models import (
+    UCS_to_uv,
+    XYZ_to_Lab,
+    XYZ_to_UCS,
+    XYZ_to_xy,
+    xy_to_XYZ,
+)
 from colour.quality.datasets.vs import INDEXES_TO_NAMES_VS, SDS_VS
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.utilities import (
@@ -60,6 +66,7 @@ from colour.utilities import (
     as_float_array,
     as_float_scalar,
     domain_range_scale,
+    is_non_ndarray,
     suppress_warnings,
     tsplit,
     validate_method,
@@ -609,19 +616,39 @@ def vs_colorimetry_data(
         *VS test colour samples* colorimetry data.
     """
 
-    xp = array_namespace(sd_test.values)
-    names, XYZ_vs, Lab_vs, C_vs = _vs_colorimetry_data(
-        xp_as_float_array(sd_test.values, xp=xp),
-        xp_as_float_array(sd_reference.values, xp=xp),
-        sds_vs,
-        cmfs,
-        chromatic_adaptation,
-    )
+    XYZ_t = sd_to_XYZ(sd_test, cmfs)
 
-    return tuple(
-        DataColorimetry_VS(name, XYZ_vs[i], Lab_vs[i], C_vs[i])
-        for i, name in enumerate(names)
-    )
+    with sdiv_mode():
+        XYZ_t = sdiv(XYZ_t, XYZ_t[1])
+
+    XYZ_r = sd_to_XYZ(sd_reference, cmfs)
+
+    with sdiv_mode():
+        XYZ_r = sdiv(XYZ_r, XYZ_r[1])
+
+    xy_r = XYZ_to_xy(XYZ_r)
+
+    vs_data = []
+    for _key, value in sorted(INDEXES_TO_NAMES_VS.items()):
+        if value not in sds_vs:
+            continue
+
+        sd_vs = sds_vs[value]
+
+        with domain_range_scale("1"):
+            XYZ_vs = sd_to_XYZ(sd_vs, cmfs, sd_test)
+
+        if chromatic_adaptation:
+            XYZ_vs = chromatic_adaptation_VonKries(
+                XYZ_vs, XYZ_t, XYZ_r, transform="CMCCAT2000"
+            )
+
+        Lab_vs = XYZ_to_Lab(XYZ_vs, illuminant=xy_r)
+        _L_vs, C_vs, _Hab = Lab_to_LCHab(Lab_vs)
+
+        vs_data.append(DataColorimetry_VS(sd_vs.name, XYZ_vs, Lab_vs, C_vs))
+
+    return tuple(vs_data)
 
 
 def CCT_factor(
@@ -710,10 +737,17 @@ def scale_conversion(
 
     D_E_ab = as_float_array(D_E_ab)
 
-    xp = array_namespace(D_E_ab)
+    xp = array_namespace(D_E_ab, CCT_f, scaling_f)
+
+    reference = next(
+        (a for a in (D_E_ab, CCT_f, scaling_f) if is_non_ndarray(a)), D_E_ab
+    )
+    D_E_ab = xp_as_float_array(D_E_ab, xp=xp, like=reference)
+    CCT_f = xp_as_float_array(CCT_f, xp=xp, like=D_E_ab)
+    scaling_f_array = xp_as_float_array(scaling_f, xp=xp, like=D_E_ab)
 
     return as_float_array(
-        10 * xp.log1p(xp.exp((100 - scaling_f * D_E_ab) / 10)) * CCT_f
+        10 * xp.log1p(xp.exp((100 - scaling_f_array * D_E_ab) / 10)) * CCT_f
     )
 
 

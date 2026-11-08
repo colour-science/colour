@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -74,6 +75,12 @@ __all__ = [
 ]
 
 SPECTRAL_SHAPE_TLCI_TLMF_TESTS: SpectralShape = SpectralShape(380, 760, 5)
+
+# Approximate reference limits are independent of the backend precision floor.
+TOLERANCE_D_UV = TOLERANCE_ABSOLUTE_TESTS * 150000
+TOLERANCE_D_UV_MIXED_REFERENCE = TOLERANCE_ABSOLUTE_TESTS * 200000
+TOLERANCE_Q_A = TOLERANCE_ABSOLUTE_TESTS * 5000
+TOLERANCE_Q_A_MIXED_REFERENCE = TOLERANCE_ABSOLUTE_TESTS * 5000000
 
 
 def gaussian(wavelengths: np.ndarray, centre: float, width: float) -> np.ndarray:
@@ -371,14 +378,14 @@ class TestSdReferenceIlluminantTLCI2012:
         )
         xp_assert_close(sd_reference[560], 100)
         xp_assert_close(CCT, 2848.132209, atol=TOLERANCE_ABSOLUTE_TESTS)
-        xp_assert_close(D_uv, 0, atol=1.5e-2)
+        xp_assert_close(D_uv, 0, atol=max(TOLERANCE_ABSOLUTE_TESTS, TOLERANCE_D_UV))
 
         sd_reference, CCT, D_uv = sd_reference_illuminant_TLCI2012(
             SDS_ILLUMINANTS["D65"].copy(xp=xp)
         )
         xp_assert_close(sd_reference[560], 100)
         xp_assert_close(CCT, 6505.096585, atol=TOLERANCE_ABSOLUTE_TESTS)
-        xp_assert_close(D_uv, 0, atol=1.5e-2)
+        xp_assert_close(D_uv, 0, atol=max(TOLERANCE_ABSOLUTE_TESTS, TOLERANCE_D_UV))
 
     def test_sd_reference_illuminant_TLCI2012_D_uv_sign(self, xp: ModuleType) -> None:
         """
@@ -439,6 +446,22 @@ class TestColourDifferencesTLCI2012:
         )
         Q_a, _delta_E_a = quality_index_TLCI2012(delta_E_s[~invalid])
         xp_assert_close(Q_a, 5.376079603398939)
+
+        arguments = [
+            SDS_ILLUMINANTS["FL2"],
+            SDS_ILLUMINANTS["D65"],
+            MSDS_CAMERA_SENSITIVITIES_TLCI2012["EBU Standard Camera"],
+        ]
+        reference, _invalid = colour_differences_TLCI2012(*arguments)
+        for index, operand in enumerate(arguments):
+            mixed: list[typing.Any] = list(arguments)
+            native = operand.copy(xp=xp)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                mixed_result, _mixed_invalid = colour_differences_TLCI2012(*mixed)
+            xp_assert_close(mixed_result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native.values, "device"):
+                assert mixed_result.device == native.values.device
 
 
 class TestQualityIndexTLCI2012:
@@ -516,24 +539,33 @@ television_lighting_consistency_index` definition with additional data.
             specification = television_lighting_consistency_index(
                 SDS_ILLUMINANTS[name].copy(xp=xp), additional_data=True
             )
-            xp_assert_close(specification.Q_a, 100, atol=5e-4)
-            xp_assert_close(specification.D_uv, 0, atol=1.5e-2)
+            xp_assert_close(
+                specification.Q_a,
+                100,
+                atol=max(TOLERANCE_ABSOLUTE_TESTS, TOLERANCE_Q_A),
+            )
+            xp_assert_close(
+                specification.D_uv,
+                0,
+                atol=max(TOLERANCE_ABSOLUTE_TESTS, TOLERANCE_D_UV),
+            )
 
     def test_television_lighting_consistency_index_autodiff(
         self, xp: ModuleType, autodiff: typing.Callable
     ) -> None:
         """Test local numerical gradients through spectral alignment."""
 
-        sd = SDS_ILLUMINANTS["FL2"]
-        _Q_a, (gradient,), _inputs = autodiff(
-            lambda values: television_lighting_consistency_index(
-                SpectralDistribution(values, sd.wavelengths)
-            ),
-            sd.values,
-        )
+        for name in ("A", "FL2", "D65"):
+            sd = SDS_ILLUMINANTS[name]
+            _Q_a, (gradient,), _inputs = autodiff(
+                lambda values, sd=sd: television_lighting_consistency_index(
+                    SpectralDistribution(values, sd.wavelengths)
+                ),
+                sd.values,
+            )
 
-        assert xp.isfinite(gradient).all()
-        assert xp.any(gradient != 0)
+            assert xp.isfinite(gradient).all()
+            assert xp.any(gradient != 0)
 
     def test_television_lighting_consistency_index_mixed_reference(
         self, xp: ModuleType
@@ -546,14 +578,26 @@ television_lighting_consistency_index` definition mixed-reference region.
         specification = television_lighting_consistency_index(
             sd_planckian(4000).copy(xp=xp), additional_data=True
         )
-        xp_assert_close(specification.Q_a, 100, atol=0.5)
-        xp_assert_close(specification.D_uv, 0, atol=2e-2)
+        xp_assert_close(
+            specification.Q_a,
+            100,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, TOLERANCE_Q_A_MIXED_REFERENCE),
+        )
+        xp_assert_close(
+            specification.D_uv,
+            0,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, TOLERANCE_D_UV_MIXED_REFERENCE),
+        )
 
         specification = television_lighting_consistency_index(
             sd_mixed_reference(4500).copy(xp=xp), additional_data=True
         )
         assert 4000 < specification.CCT < 5000
-        xp_assert_close(specification.Q_a, 100, atol=0.5)
+        xp_assert_close(
+            specification.Q_a,
+            100,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, TOLERANCE_Q_A_MIXED_REFERENCE),
+        )
 
     def test_television_lighting_consistency_index_regression_spectra(
         self, xp: ModuleType
@@ -578,7 +622,7 @@ television_lighting_consistency_index` definition against generated and
             xp_assert_close(
                 television_lighting_consistency_index(sd.copy(xp=xp)),
                 reference,
-                atol=0.5,
+                atol=max(TOLERANCE_ABSOLUTE_TESTS, TOLERANCE_Q_A_MIXED_REFERENCE),
             )
 
         # Public in-tree CIE/NIST LED spectral distributions as regression
@@ -592,7 +636,7 @@ television_lighting_consistency_index` definition against generated and
             xp_assert_close(
                 television_lighting_consistency_index(source[name].copy(xp=xp)),
                 reference,
-                atol=0.5,
+                atol=max(TOLERANCE_ABSOLUTE_TESTS, TOLERANCE_Q_A_MIXED_REFERENCE),
             )
 
 
@@ -685,5 +729,5 @@ television_luminaire_matching_factor` definition against generated regression
                     sd_test.copy(xp=xp), sd_reference.copy(xp=xp)
                 ),
                 reference,
-                atol=0.5,
+                atol=max(TOLERANCE_ABSOLUTE_TESTS, TOLERANCE_Q_A_MIXED_REFERENCE),
             )

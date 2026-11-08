@@ -501,3 +501,18 @@ class TestColourRenderingIndex:
 
         assert xp.isfinite(gradient).all()
         assert xp.any(gradient != 0)
+
+    def test_tcs_colorimetry_data(self) -> None:
+        """Test the public colourimetry helper with unaligned standard spectra."""
+
+        data = tcs_colorimetry_data(
+            SDS_ILLUMINANTS["D65"],
+            SDS_ILLUMINANTS["D50"],
+            SDS_TCS["CIE 1995"],
+            MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
+        )
+        xp_assert_close(
+            data[0].XYZ,
+            [32.99261581, 29.78330402, 24.515613],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
