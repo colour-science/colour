@@ -5,6 +5,8 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
+    import pytest
+
     from colour.hints import ModuleType
 
 import contextlib
@@ -17,7 +19,13 @@ from colour.geometry import (
     intersect_line_segments,
     intersect_ray_circle_2d,
 )
-from colour.utilities import as_ndarray, xp_as_array, xp_assert_close, xp_assert_equal
+from colour.utilities import (
+    array_namespace,
+    as_ndarray,
+    xp_as_array,
+    xp_assert_close,
+    xp_assert_equal,
+)
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -39,7 +47,9 @@ class TestExtendLineSegment:
     tests methods.
     """
 
-    def test_extend_line_segment(self, xp: ModuleType) -> None:
+    def test_extend_line_segment(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """Test :func:`colour.geometry.intersection.extend_line_segment` definition."""
 
         xp_assert_close(
@@ -83,6 +93,36 @@ class TestExtendLineSegment:
                 result = extend_line_segment(mixed[0], mixed[1])
             xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
             assert getattr(result, "device", None) == getattr(native[i], "device", None)
+
+        endpoints = np.eye(2)
+        distance = xp_as_array(2.0, xp=xp)
+
+        def extend(distance: typing.Any) -> typing.Any:
+            """Extend host batches with a native distance under a CPU default."""
+
+            with (
+                xp.device("cpu") if xp.__name__ == "torch" else contextlib.nullcontext()
+            ):
+                return extend_line_segment(np.zeros((2, 2)), endpoints, distance)
+
+        result = extend(distance)
+        xp_assert_close(result, endpoints * (1 + as_ndarray(distance)))
+        assert result.shape == endpoints.shape
+        assert array_namespace(result) is array_namespace(distance)
+        assert result.dtype == distance.dtype
+        assert getattr(result, "device", None) == getattr(distance, "device", None)
+        xp_assert_close(
+            result,
+            extend_line_segment(
+                xp_as_array(np.zeros((2, 2)), xp=xp),
+                xp_as_array(endpoints, xp=xp),
+                distance,
+            ),
+        )
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            _result, (gradient,), _inputs = autodiff(extend, 2.0)
+            xp_assert_close(gradient, endpoints.sum())
 
 
 class TestIntersectLineSegments:
@@ -181,7 +221,9 @@ class TestIntersectRayCircle2D:
     definition unit tests methods.
     """
 
-    def test_intersect_ray_circle_2d(self, xp: ModuleType) -> None:
+    def test_intersect_ray_circle_2d(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.geometry.intersection.\
 intersect_ray_circle_2d` definition.
@@ -198,6 +240,43 @@ intersect_ray_circle_2d` definition.
             )
         )
         xp_assert_close(distance, 5.0, atol=TOLERANCE_ABSOLUTE_TESTS * 0.001)
+
+        radius = xp_as_array(10.0, xp=xp)
+        for origin, direction, offsets in (
+            ([0.0, 5.0], [0.0, 1.0], np.array(5.0)),
+            ([[0.0, 5.0], [3.0, 0.0]], [[0.0, 1.0], [1.0, 0.0]], np.array([5.0, 3.0])),
+        ):
+
+            def intersect(
+                radius: typing.Any,
+                origin: typing.Any = origin,
+                direction: typing.Any = direction,
+            ) -> typing.Any:
+                """Intersect host rays with a native radius under a CPU default."""
+
+                with (
+                    xp.device("cpu")
+                    if xp.__name__ == "torch"
+                    else contextlib.nullcontext()
+                ):
+                    return intersect_ray_circle_2d(origin, direction, radius)
+
+            result = intersect(radius)
+            xp_assert_close(result, as_ndarray(radius) - offsets)
+            assert result.shape == offsets.shape
+            assert array_namespace(result) is array_namespace(radius)
+            assert result.dtype == radius.dtype
+            assert getattr(result, "device", None) == getattr(radius, "device", None)
+            xp_assert_close(
+                result,
+                intersect_ray_circle_2d(
+                    xp_as_array(origin, xp=xp), xp_as_array(direction, xp=xp), radius
+                ),
+            )
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                _result, (gradient,), _inputs = autodiff(intersect, 10.0)
+                xp_assert_close(gradient, offsets.size)
 
         # Ray pointing down from inside, should hit far side.
         distance = float(
