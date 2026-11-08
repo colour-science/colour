@@ -49,13 +49,8 @@ jobs:
       - name: Install Backend
         id: backend
         run: |
-          # Graceful skip when no wheel exists for this Python version
-          if uv sync --all-extras --group ${{ matrix.backend }}; then
-            echo "available=true" >> $GITHUB_OUTPUT
-          else
-            echo "available=false" >> $GITHUB_OUTPUT
-            echo "::notice::No ${{ matrix.backend }} wheel for Python ${{ matrix.python-version }} on ${{ matrix.os }}; skipping backend tests."
-          fi
+          uv sync --all-extras --group ${{ matrix.backend }}
+          echo "available=true" >> $GITHUB_OUTPUT
         shell: bash
       - name: Test with Pytest
         if: steps.backend.outputs.available == 'true'
