@@ -3,8 +3,11 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
+    import pytest
+
     from colour.hints import ModuleType
 
 from itertools import product
@@ -21,6 +24,7 @@ from colour.models import (
     xyY_to_XYZ,
 )
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
@@ -339,7 +343,7 @@ class Testxy_to_xyY:
     methods.
     """
 
-    def test_xy_to_xyY(self, xp: ModuleType) -> None:
+    def test_xy_to_xyY(self, xp: ModuleType, request: pytest.FixtureRequest) -> None:
         """Test :func:`colour.models.cie_xyy.xy_to_xyY` definition."""
 
         xp_assert_close(
@@ -371,6 +375,26 @@ class Testxy_to_xyY:
             [0.31270000, 0.32900000, 100.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        xy = xp_as_array([0.3127, 0.329], xp=xp)
+        Y = xp_as_array(1.0, xp=xp)
+        secondary_Y = xp.asarray(Y, device="cpu") if xp.__name__ == "torch" else Y
+        # Preserve the primary device even with CPU factories and luminance.
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            actual = xy_to_xyY(xy, secondary_Y)
+            assert array_namespace(actual) is array_namespace(xy)
+            assert getattr(actual, "device", None) == getattr(xy, "device", None)
+            xp_assert_close(actual, [0.3127, 0.329, 1.0], atol=TOLERANCE_ABSOLUTE_TESTS)
+
+            actual = xy_to_xyY([0.3127, 0.329], Y)
+            assert array_namespace(actual) is array_namespace(Y)
+            assert getattr(actual, "device", None) == getattr(Y, "device", None)
+            xp_assert_close(actual, [0.3127, 0.329, 1.0], atol=TOLERANCE_ABSOLUTE_TESTS)
+
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(lambda value: xy_to_xyY(value, secondary_Y), xy)
+                autodiff(lambda value: xy_to_xyY([0.3127, 0.329], value), Y)
 
     def test_n_dimensional_xy_to_xyY(self, xp: ModuleType) -> None:
         """
