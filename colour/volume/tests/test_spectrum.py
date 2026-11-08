@@ -5,6 +5,8 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
+    import pytest
+
     from colour.hints import ModuleType
 
 from itertools import product
@@ -14,6 +16,8 @@ import numpy as np
 from colour.colorimetry import (
     MSDS_CMFS,
     SPECTRAL_SHAPE_DEFAULT,
+    MultiSpectralDistributions,
+    SpectralDistribution,
     SpectralShape,
     reshape_msds,
 )
@@ -144,7 +148,9 @@ class TestXYZOuterSurface:
     definition unit tests methods.
     """
 
-    def test_XYZ_outer_surface(self) -> None:
+    def test_XYZ_outer_surface(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.volume.spectrum.XYZ_outer_surface`
         definition.
@@ -193,6 +199,42 @@ class TestXYZOuterSurface:
             ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            shape = SpectralShape(400, 650, 50)
+            cmfs = reshape_msds(cmfs, shape).copy(xp=xp)
+            illuminant_values = xp_as_array(np.ones(len(shape.wavelengths)), xp=xp)
+
+            # Equal-valued inputs must build independent differentiation graphs,
+            # even after an untracked evaluation has populated the cache.
+            for vary_cmfs in (True, False):
+                XYZ_outer_surface(
+                    MultiSpectralDistributions(
+                        cmfs.values if vary_cmfs else as_ndarray(cmfs.values), shape
+                    ),
+                    SpectralDistribution(
+                        as_ndarray(illuminant_values)
+                        if vary_cmfs
+                        else illuminant_values,
+                        shape,
+                    ),
+                )
+                for _ in range(2):
+                    _XYZ, (gradient,), _inputs = autodiff(
+                        lambda values, vary_cmfs=vary_cmfs: XYZ_outer_surface(
+                            MultiSpectralDistributions(
+                                values if vary_cmfs else as_ndarray(cmfs.values), shape
+                            ),
+                            SpectralDistribution(
+                                as_ndarray(illuminant_values) if vary_cmfs else values,
+                                shape,
+                            ),
+                        ),
+                        cmfs.values if vary_cmfs else illuminant_values,
+                    )
+                    assert xp.isfinite(gradient).all()
+                    assert xp.any(gradient != 0)
 
 
 class TestIsWithinVisibleSpectrum:

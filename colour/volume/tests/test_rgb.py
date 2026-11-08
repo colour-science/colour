@@ -125,7 +125,7 @@ class TestRGB_colourspaceVolumeMonteCarlo:
             )
             * 1e-6,
             821700.0 * 1e-6,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10000000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1),
         )
 
 

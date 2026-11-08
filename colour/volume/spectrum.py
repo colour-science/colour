@@ -46,6 +46,7 @@ from colour.utilities import (
     array_namespace,
     get_domain_range_scale,
     is_caching_enabled,
+    is_gradient_tracked,
     validate_method,
     zeros,
 )
@@ -373,18 +374,26 @@ def XYZ_outer_surface(
     settings = dict(kwargs)
     settings.update({"shape": cmfs.shape})
 
+    # Tracked inputs need a fresh graph and cannot be hashed while tracing.
+    cache = is_caching_enabled() and not any(
+        is_gradient_tracked(values) for values in (cmfs.values, illuminant.values)
+    )
     # The tristimulus values are scale-dependent, so the domain-range scale is
     # part of the cache key.
     key = (
-        hash(cmfs),
-        hash(illuminant),
-        point_order,
-        filter_jagged_points,
-        str(settings),
-        get_domain_range_scale(),
+        (
+            hash(cmfs),
+            hash(illuminant),
+            point_order,
+            filter_jagged_points,
+            str(settings),
+            get_domain_range_scale(),
+        )
+        if cache
+        else None
     )
 
-    if is_caching_enabled():
+    if cache:
         XYZ = _CACHE_OUTER_SURFACE_XYZ.get(key)
 
         if XYZ is not None:  # pragma: no cover
@@ -398,7 +407,7 @@ def XYZ_outer_surface(
         / 100
     )
 
-    if is_caching_enabled():
+    if cache:
         _CACHE_OUTER_SURFACE_XYZ[key] = XYZ
 
     return XYZ
