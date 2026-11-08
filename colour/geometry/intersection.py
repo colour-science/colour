@@ -56,7 +56,7 @@ __all__ = [
 
 
 def extend_line_segment(
-    a: ArrayLike, b: ArrayLike, distance: float = 1
+    a: ArrayLike, b: ArrayLike, distance: ArrayLike = 1
 ) -> NDArrayFloat:
     """
     Extend the line segment defined by point arrays :math:`a` and :math:`b` by
@@ -69,7 +69,8 @@ def extend_line_segment(
     b
         Point array :math:`b`.
     distance
-        Distance to extend the line segment.
+        Scalar distance to extend the line segment, supplied as a number or
+        zero-dimensional backend array.
 
     Returns
     -------
@@ -93,9 +94,12 @@ def extend_line_segment(
     array([-0.5367248...,  1.1776534...])
     """
 
-    xp = array_namespace(a, b)
-    a = xp_as_float_array(a, xp=xp, like=a if is_non_ndarray(a) else b)
+    arrays = (a, b, distance)
+    xp = array_namespace(*arrays)
+    reference = next((value for value in arrays if is_non_ndarray(value)), a)
+    a = xp_as_float_array(a, xp=xp, like=reference)
     b = xp_as_float_array(b, xp=xp, like=a)
+    distance = xp_as_float_array(distance, xp=xp, like=a)
     x_a, y_a = tsplit(a)
     x_b, y_b = tsplit(b)
 
@@ -261,7 +265,7 @@ def intersect_line_segments(
 def intersect_ray_circle_2d(
     ray_origin: ArrayLike,
     ray_direction: ArrayLike,
-    circle_radius: float,
+    circle_radius: ArrayLike,
 ) -> NDArrayFloat:
     """
     Compute the intersection distance of 2D ray(s) with a circle centred
@@ -278,7 +282,8 @@ def intersect_ray_circle_2d(
         Ray direction(s) as 2D vector(s) ``[..., 2]`` (does not need to
         be normalised).
     circle_radius
-        Radius of the circle centred at the origin.
+        Scalar radius of the circle centred at the origin, supplied as a
+        number or zero-dimensional backend array.
 
     Returns
     -------
@@ -298,10 +303,13 @@ def intersect_ray_circle_2d(
 
     direction = as_float_array(ray_direction)
 
-    xp = array_namespace(origin, direction)
+    arrays = (origin, direction, circle_radius)
+    xp = array_namespace(*arrays)
+    reference = next((value for value in arrays if is_non_ndarray(value)), origin)
 
-    origin = xp_as_float_array(origin, xp=xp, like=direction)
+    origin = xp_as_float_array(origin, xp=xp, like=reference)
     direction = xp_as_float_array(direction, xp=xp, like=origin)
+    circle_radius = xp_as_float_array(circle_radius, xp=xp, like=origin)
 
     direction_x = direction[..., 0]
     direction_y = direction[..., 1]
