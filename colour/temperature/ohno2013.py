@@ -256,21 +256,23 @@ def uv_to_CCT_Ohno2013(
     )
     n_rows = table.shape[0]
 
-    if uv.shape[0] == 0:
-        return xp_reshape(uv, shape, xp=xp)
-
     slice_size = max(1, _MAXIMUM_LOOKUP_PAIRS_OHNO2013 // n_rows)
-    indices = xp.concat(
-        [
-            xp.argmin(
-                xp.linalg.vector_norm(
-                    table[None, :, 1:] - uv[offset : offset + slice_size, None, :],
-                    axis=-1,
-                ),
+    index_slices = [
+        xp.argmin(
+            xp.linalg.vector_norm(
+                table[None, :, 1:] - uv[offset : offset + slice_size, None, :],
                 axis=-1,
-            )
-            for offset in range(0, uv.shape[0], slice_size)
-        ]
+            ),
+            axis=-1,
+        )
+        for offset in range(0, uv.shape[0], slice_size)
+    ]
+    # Empty batches still pass through the neighbour arithmetic so their
+    # outputs retain zero gradients with respect to native CMFS values.
+    indices = (
+        xp.concat(index_slices)
+        if index_slices
+        else xp_as_array([], dtype=xp.int64, xp=xp, like=uv)
     )
 
     # Emit a single warning per boundary irrespective of sample count,

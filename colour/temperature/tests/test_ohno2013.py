@@ -29,6 +29,7 @@ from colour.utilities import (
     ignore_numpy_errors,
     xp_as_array,
     xp_assert_close,
+    xp_assert_equal,
     xp_reshape,
 )
 
@@ -151,7 +152,10 @@ class TestUv_to_CCT_Ohno2013:
             )
 
     def test_n_dimensional_uv_to_CCT_Ohno2013(
-        self, xp: ModuleType, monkeypatch: pytest.MonkeyPatch
+        self,
+        xp: ModuleType,
+        monkeypatch: pytest.MonkeyPatch,
+        request: pytest.FixtureRequest,
     ) -> None:
         """
         Test :func:`colour.temperature.ohno2013.uv_to_CCT_Ohno2013` definition
@@ -211,6 +215,34 @@ class TestUv_to_CCT_Ohno2013:
         assert result.shape == empty.shape
         if hasattr(empty, "device"):
             assert result.device == empty.device
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            for values, native_cmfs in (
+                (np.empty((2, 0, 2)), False),
+                (cmfs.values, True),
+            ):
+
+                def empty_result(
+                    values: typing.Any, native_cmfs: bool = native_cmfs
+                ) -> typing.Any:
+                    """Retain both primary and secondary empty-batch gradients."""
+
+                    with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                        return uv_to_CCT_Ohno2013(
+                            np.empty((2, 0, 2)) if native_cmfs else values,
+                            MultiSpectralDistributions(values, cmfs.wavelengths)
+                            if native_cmfs
+                            else cmfs,
+                            spacing=1.05,
+                        )
+
+                result, (gradient,), (native_values,) = autodiff(empty_result, values)
+                assert result.shape == (2, 0, 2)
+                xp_assert_equal(gradient, np.zeros_like(values))
+                if hasattr(native_values, "device"):
+                    assert result.device == native_values.device
+                    assert gradient.device == native_values.device
 
     @ignore_numpy_errors
     def test_nan_uv_to_CCT_Ohno2013(self) -> None:
