@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import os
 import typing
+from contextlib import nullcontext
 
 import numpy as np
 import pytest
@@ -104,7 +105,9 @@ class TestSdToAcesRelativeExposureValues:
 sd_to_aces_relative_exposure_values` definition unit tests methods.
     """
 
-    def test_sd_to_aces_relative_exposure_values(self) -> None:
+    def test_sd_to_aces_relative_exposure_values(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.characterisation.aces_it.\
 sd_to_aces_relative_exposure_values` definition.
@@ -152,6 +155,100 @@ sd_to_aces_relative_exposure_values` definition.
             [0.11805993, 0.08689013, 0.05900396],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        arguments = [SDS_ILLUMINANTS["D55"], SDS_ILLUMINANTS["D65"]]
+        reference = sd_to_aces_relative_exposure_values(*arguments)
+        for index, operand in enumerate(arguments):
+            mixed: list[typing.Any] = list(arguments)
+            native = operand.copy(xp=xp)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = sd_to_aces_relative_exposure_values(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native.values, "device"):
+                assert result.device == native.values.device
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            shape = MSDS_ACES_RICD.shape
+            illuminant = SDS_ILLUMINANTS["D65"].copy().align(shape)
+            sd_test = SpectralDistribution(
+                np.linspace(0.1, 0.9, len(shape.wavelengths)), shape
+            )
+            for transform in (None, "CAT02"):
+                autodiff(
+                    lambda values,
+                    transform=transform: sd_to_aces_relative_exposure_values(
+                        sd_test,
+                        SpectralDistribution(values, shape),
+                        chromatic_adaptation_transform=transform,
+                    ),
+                    illuminant.values,
+                )
+                autodiff(
+                    lambda values,
+                    transform=transform: sd_to_aces_relative_exposure_values(
+                        SpectralDistribution(values, shape),
+                        illuminant,
+                        chromatic_adaptation_transform=transform,
+                    ),
+                    sd_test.values,
+                )
+
+        arguments = [
+            read_training_data_rawtoaces_v1(),
+            MSDS_CANON_EOS_5DMARK_II,
+            SDS_ILLUMINANTS["D55"],
+        ]
+        reference = training_data_sds_to_RGB(
+            *(operand.copy(xp=xp) for operand in arguments)
+        )[0]
+        for index, operand in enumerate(arguments):
+            mixed: list[typing.Any] = list(arguments)
+            native = operand.copy(xp=xp)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = training_data_sds_to_RGB(*mixed)[0]
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native.values, "device"):
+                assert result.device == native.values.device
+
+        arguments = [
+            read_training_data_rawtoaces_v1(),
+            MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
+            SDS_ILLUMINANTS["D55"],
+        ]
+        reference = training_data_sds_to_XYZ(
+            *(operand.copy(xp=xp) for operand in arguments)
+        )
+        for index, operand in enumerate(arguments):
+            mixed: list[typing.Any] = list(arguments)
+            native = operand.copy(xp=xp)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = training_data_sds_to_XYZ(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native.values, "device"):
+                assert result.device == native.values.device
+
+        weights = [2.0, 1.0, 1.5]
+        illuminants = {"D55": SDS_ILLUMINANTS["D55"], "D65": SDS_ILLUMINANTS["D65"]}
+        reference_name = best_illuminant(
+            weights, MSDS_CANON_EOS_5DMARK_II, illuminants
+        ).name
+        native_illuminants = {key: sd.copy(xp=xp) for key, sd in illuminants.items()}
+        for mixed_weights, mixed_sensitivities, mixed_illuminants in (
+            (xp_as_array(weights, xp=xp), MSDS_CANON_EOS_5DMARK_II, illuminants),
+            (weights, MSDS_CANON_EOS_5DMARK_II.copy(xp=xp), illuminants),
+            (weights, MSDS_CANON_EOS_5DMARK_II, native_illuminants),
+        ):
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                assert (
+                    best_illuminant(
+                        mixed_weights, mixed_sensitivities, mixed_illuminants
+                    ).name
+                    == reference_name
+                )
 
     def test_domain_range_scale_spectral_to_aces_relative_exposure_values(
         self,
@@ -264,7 +361,9 @@ class TestWhiteBalanceMultipliers:
     definition unit tests methods.
     """
 
-    def test_white_balance_multipliers(self) -> None:
+    def test_white_balance_multipliers(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.characterisation.aces_it.white_balance_multipliers`
         definition.
@@ -284,6 +383,35 @@ class TestWhiteBalanceMultipliers:
             [1.57095278, 1.00000000, 2.43560477],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        arguments = [MSDS_CANON_EOS_5DMARK_II, SDS_ILLUMINANTS["D55"]]
+        reference = white_balance_multipliers(*arguments)
+        for index, operand in enumerate(arguments):
+            mixed: list[typing.Any] = list(arguments)
+            native = operand.copy(xp=xp)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = white_balance_multipliers(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native.values, "device"):
+                assert result.device == native.values.device
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            sensitivities = MSDS_CANON_EOS_5DMARK_II
+            illuminant = SDS_ILLUMINANTS["D55"].copy().align(sensitivities.shape)
+            for index, operand in enumerate((sensitivities, illuminant)):
+                autodiff(
+                    lambda values, index=index: white_balance_multipliers(
+                        RGB_CameraSensitivities(values, sensitivities.wavelengths)
+                        if index == 0
+                        else sensitivities,
+                        SpectralDistribution(values, illuminant.wavelengths)
+                        if index == 1
+                        else illuminant,
+                    ),
+                    operand.values,
+                )
 
 
 class TestBestIlluminant:
@@ -327,7 +455,7 @@ class TestNormaliseIlluminant:
     definition unit tests methods.
     """
 
-    def test_normalise_illuminant(self) -> None:
+    def test_normalise_illuminant(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.characterisation.aces_it.normalise_illuminant`
         definition.
@@ -342,6 +470,18 @@ class TestNormaliseIlluminant:
             3.439037388220850,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        arguments = [SDS_ILLUMINANTS["D55"], MSDS_CANON_EOS_5DMARK_II]
+        reference = normalise_illuminant(*arguments).values
+        for index, operand in enumerate(arguments):
+            mixed: list[typing.Any] = list(arguments)
+            native = operand.copy(xp=xp)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = normalise_illuminant(*mixed).values
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native.values, "device"):
+                assert result.device == native.values.device
 
 
 class TestTrainingDataSdsToRGB:
@@ -927,6 +1067,13 @@ whitepoint_preserving_matrix` definition.
             [[0, 1, 0], [3, 4, -5], [6, 7, -10]],
         )
 
+        xp_assert_equal(
+            whitepoint_preserving_matrix(
+                np.eye(3), xp_as_array([1.0, 1.0, 1.0], xp=xp)
+            ),
+            np.eye(3),
+        )
+
 
 class TestOptimizationFactoryRawtoacesV1:
     """
@@ -934,13 +1081,30 @@ class TestOptimizationFactoryRawtoacesV1:
 optimisation_factory_rawtoaces_v1` definition unit tests methods.
     """
 
-    def test_optimisation_factory_rawtoaces_v1(self) -> None:
+    def test_optimisation_factory_rawtoaces_v1(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.characterisation.aces_it.\
 optimisation_factory_rawtoaces_v1` definition.
         """
 
         assert len(optimisation_factory_rawtoaces_v1()) == 4
+
+        x0, objective, _to_model, _finalise = optimisation_factory_rawtoaces_v1()
+        arguments = [
+            x0,
+            np.array([[0.1, 0.2, 0.3], [0.2, 0.3, 0.4]]),
+            np.array([[40.0, 1.0, 2.0], [50.0, 3.0, 4.0]]),
+        ]
+        reference = objective(*arguments)
+        for index, argument in enumerate(arguments):
+            mixed: list[typing.Any] = list(arguments)
+            native = xp_as_array(argument, xp=xp)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = objective(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
 
 
 class TestOptimizationFactoryJzazbz:
@@ -949,13 +1113,30 @@ class TestOptimizationFactoryJzazbz:
 optimisation_factory_Jzazbz` definition unit tests methods.
     """
 
-    def test_optimisation_factory_Jzazbz(self) -> None:
+    def test_optimisation_factory_Jzazbz(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.characterisation.aces_it.\
 optimisation_factory_Jzazbz` definition.
         """
 
         assert len(optimisation_factory_Jzazbz()) == 4
+
+        x0, objective, _to_model, _finalise = optimisation_factory_Jzazbz()
+        arguments = [
+            x0,
+            np.array([[0.1, 0.2, 0.3], [0.2, 0.3, 0.4]]),
+            np.array([[40.0, 1.0, 2.0], [50.0, 3.0, 4.0]]),
+        ]
+        reference = objective(*arguments)
+        for index, argument in enumerate(arguments):
+            mixed: list[typing.Any] = list(arguments)
+            native = xp_as_array(argument, xp=xp)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = objective(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
 
 
 class TestOptimizationFactoryOklab18:
@@ -964,13 +1145,25 @@ class TestOptimizationFactoryOklab18:
 optimisation_factory_Oklab_15` definition unit tests methods.
     """
 
-    def test_optimisation_factory_Oklab_18(self) -> None:
+    def test_optimisation_factory_Oklab_18(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.characterisation.aces_it.\
 optimisation_factory_Oklab_15` definition.
         """
 
         assert len(optimisation_factory_Oklab_15()) == 4
+
+        objective = optimisation_factory_Oklab_15()[1]
+        parameters = np.ones(15)
+        RGB = np.ones((2, 3))
+        Jab = np.ones((2, 3))
+        reference = objective(parameters, RGB, Jab)
+        for native in range(3):
+            arguments = [parameters, RGB, Jab]
+            arguments[native] = xp_as_array(arguments[native], xp=xp)
+            xp_assert_close(
+                objective(*arguments), reference, atol=TOLERANCE_ABSOLUTE_TESTS
+            )
 
 
 class TestMatrixIdt:
@@ -997,7 +1190,7 @@ class TestMatrixIdt:
                 [0.05654629, 1.12305999, -0.17960629],
                 [0.02369089, -0.20253026, 1.17883937],
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         # The *RAW to ACES* v1 matrix for the same camera and optimized by
@@ -1013,7 +1206,7 @@ class TestMatrixIdt:
                 [0.02180460, 1.06661379, -0.08841839],
                 [-0.01971799, -0.20666347, 1.22638146],
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         M, RGB_w = matrix_idt(
@@ -1029,12 +1222,12 @@ class TestMatrixIdt:
                 [0.05413281, 1.12208831, -0.17622112],
                 [0.02327675, -0.22372411, 1.20044737],
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
         xp_assert_close(
             RGB_w,
             [2.34141541, 1.00000000, 1.51633759],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
         M, RGB_w = matrix_idt(
             MSDS_CANON_EOS_5DMARK_II,
@@ -1070,12 +1263,12 @@ class TestMatrixIdt:
                     -0.03411748,
                 ],
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
         xp_assert_close(
             RGB_w,
             [2.34141541, 1.00000000, 1.51633759],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         M, RGB_w = matrix_idt(
@@ -1091,12 +1284,12 @@ class TestMatrixIdt:
                 [0.082968, 1.134324, -0.217291],
                 [0.015048, -0.150215, 1.135168],
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
         xp_assert_close(
             RGB_w,
             [2.34141541, 1.00000000, 1.51633759],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         training_data = sds_and_msds_to_msds(
@@ -1117,7 +1310,7 @@ class TestMatrixIdt:
                 [-0.00117867, 1.09993170, -0.09875304],
                 [0.06964389, -0.31098445, 1.24134056],
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         xp_assert_close(
@@ -1131,7 +1324,7 @@ class TestMatrixIdt:
                 [0.05633306, 1.12612394, -0.18245700],
                 [0.02450723, -0.20931423, 1.18480700],
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         _M, RGB_w, XYZ, RGB = matrix_idt(
@@ -1202,3 +1395,16 @@ class TestCamera_RGB_to_ACES2065_1:
             [2.24358784, 0.98311459, 1.64045840],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([0.1, 0.2, 0.3], np.eye(3), [1.0, 1.0, 1.0], 1.0)
+        reference = camera_RGB_to_ACES2065_1(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = camera_RGB_to_ACES2065_1(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device

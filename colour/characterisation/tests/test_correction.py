@@ -8,6 +8,7 @@ from __future__ import annotations
 import contextlib
 import platform
 import typing
+from contextlib import nullcontext
 from itertools import product
 
 import numpy as np
@@ -970,6 +971,19 @@ apply_matrix_colour_correction_Cheung2004` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([0.1, 0.2, 0.3], np.eye(3))
+        reference = apply_matrix_colour_correction_Cheung2004(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = apply_matrix_colour_correction_Cheung2004(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
+
     def test_n_dimensional_apply_matrix_colour_correction_Cheung2004(
         self, xp: ModuleType
     ) -> None:
@@ -1055,6 +1069,19 @@ apply_matrix_colour_correction_Finlayson2015` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([0.1, 0.2, 0.3], np.eye(3))
+        reference = apply_matrix_colour_correction_Finlayson2015(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = apply_matrix_colour_correction_Finlayson2015(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
+
     def test_n_dimensional_apply_matrix_colour_correction_Finlayson2015(
         self, xp: ModuleType
     ) -> None:
@@ -1139,6 +1166,22 @@ apply_matrix_colour_correction_Vandermonde` definition.
             [0.15034881, 0.10503956, 0.10512517],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = (
+            [0.1, 0.2, 0.3],
+            np.concatenate([np.eye(3), np.zeros((3, 1))], axis=1),
+        )
+        reference = apply_matrix_colour_correction_Vandermonde(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = apply_matrix_colour_correction_Vandermonde(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
 
     def test_n_dimensional_apply_matrix_colour_correction_Vandermonde(
         self, xp: ModuleType

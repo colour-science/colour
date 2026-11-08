@@ -85,6 +85,7 @@ from colour.utilities import (
     as_int,
     closest,
     filter_kwargs,
+    is_non_ndarray,
     ones,
     tsplit,
     tstack,
@@ -1083,8 +1084,11 @@ def apply_matrix_colour_correction_Cheung2004(
 
     RGB = as_float_array(RGB)
 
-    xp = array_namespace(RGB, CCM)
+    operands = (RGB, CCM)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), RGB)
 
+    RGB = xp_as_float_array(RGB, xp=xp, like=like)
     CCM = xp_as_float_array(CCM, xp=xp, like=RGB)
     shape = RGB.shape
 
@@ -1144,8 +1148,11 @@ def apply_matrix_colour_correction_Finlayson2015(
 
     RGB = as_float_array(RGB)
 
-    xp = array_namespace(RGB, CCM)
+    operands = (RGB, CCM)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), RGB)
 
+    RGB = xp_as_float_array(RGB, xp=xp, like=like)
     CCM = xp_as_float_array(CCM, xp=xp, like=RGB)
     shape = RGB.shape
 
@@ -1200,8 +1207,11 @@ def apply_matrix_colour_correction_Vandermonde(
 
     RGB = as_float_array(RGB)
 
-    xp = array_namespace(RGB, CCM)
+    operands = (RGB, CCM)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), RGB)
 
+    RGB = xp_as_float_array(RGB, xp=xp, like=like)
     CCM = xp_as_float_array(CCM, xp=xp, like=RGB)
     shape = RGB.shape
 
@@ -1500,7 +1510,13 @@ def _pairwise_distances_euclidean(A: np.ndarray, B: np.ndarray) -> np.ndarray:
 
     # (M,1,3) - (1,N,3) -> (M,N,3)
     D = A[:, None, :] - B[None, :, :]
-    return xp.sqrt(xp.sum(D * D, axis=-1))
+    squared = xp.sum(D * D, axis=-1)
+    positive = squared > 0
+    # The self-distance diagonal is identically zero; keep sqrt away from
+    # its singular derivative so fitting remains differentiable in ctrl.
+    return xp.where(
+        positive, xp.sqrt(xp.where(positive, squared, xp.ones_like(squared))), 0.0
+    )
 
 
 def tps3d_parameters(
@@ -1537,7 +1553,12 @@ def tps3d_parameters(
     ctrl = as_float_array(source_points)
     dest = as_float_array(destination_points)
 
-    xp = array_namespace(ctrl)
+    operands = (ctrl, dest)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), ctrl)
+
+    ctrl = xp_as_float_array(ctrl, xp=xp, like=like)
+    dest = xp_as_float_array(dest, xp=xp, like=ctrl)
 
     if ctrl.ndim != 2 or ctrl.shape[1] != 3:
         message = '"source_points" must be an (N, 3) array!'
@@ -1561,11 +1582,11 @@ def tps3d_parameters(
     r = _pairwise_distances_euclidean(ctrl, ctrl)
     if kernel == "Bookstein":
         K = _tps3d_kernel_bookstein(r)
-        diag_mask = xp.eye(K.shape[0], dtype=bool)
+        diag_mask = xp_as_array(np.eye(K.shape[0], dtype=bool), xp=xp, like=ctrl)
         K = xp.where(diag_mask, 0.0, K)
     else:
         K = _tps3d_kernel_polyharmonic_3d(r)
-        diag_mask = xp.eye(K.shape[0], dtype=bool)
+        diag_mask = xp_as_array(np.eye(K.shape[0], dtype=bool), xp=xp, like=ctrl)
         K = xp.where(diag_mask, 0.0, K)
 
     if smoothing < 0:
@@ -1573,7 +1594,7 @@ def tps3d_parameters(
         raise ValueError(message)
 
     if smoothing > 0:
-        K = K + xp.eye(N) * smoothing
+        K = K + xp_as_float_array(np.eye(N), xp=xp, like=ctrl) * smoothing
 
     Z = xp_as_float_array(np.zeros((4, 4)), xp=xp, like=ctrl)
     L = xp.concat(
@@ -1588,10 +1609,23 @@ def tps3d_parameters(
 
     # Solve L * params = V
     # Use solve when possible; fallback to lstsq for robustness.
-    try:
-        params = xp.linalg.solve(L, V)
-    except (np.linalg.LinAlgError, RuntimeError):
-        params = xp_lstsq(L, V, xp=xp)
+    if xp.__name__.startswith("jax"):
+        import jax  # noqa: PLC0415
+        import jax.numpy as jnp  # noqa: PLC0415
+
+        # JAX returns non-finite values for singular systems instead of
+        # raising. Select the solver before evaluating it so an unused
+        # singular solve cannot contaminate reverse-mode differentiation.
+        params = jax.lax.cond(
+            jnp.linalg.slogdet(L)[0] != 0,
+            lambda: xp.linalg.solve(L, V),
+            lambda: xp_lstsq(L, V, xp=xp),
+        )
+    else:
+        try:
+            params = xp.linalg.solve(L, V)
+        except (np.linalg.LinAlgError, RuntimeError):
+            params = xp_lstsq(L, V, xp=xp)
 
     W = params[:N, :]
     A = params[N:, :]
@@ -1634,7 +1668,14 @@ def apply_tps3d(
 
     RGB = as_float_array(RGB)
 
-    xp = array_namespace(RGB)
+    operands = (RGB, W, A, ctrl)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), RGB)
+
+    RGB = xp_as_float_array(RGB, xp=xp, like=like)
+    W = xp_as_float_array(W, xp=xp, like=RGB)
+    A = xp_as_float_array(A, xp=xp, like=RGB)
+    ctrl = xp_as_float_array(ctrl, xp=xp, like=RGB)
 
     shape = RGB.shape
 
@@ -1644,6 +1685,8 @@ def apply_tps3d(
 
     pixels = xp_reshape(RGB, (-1, 3), xp=xp)
     M = pixels.shape[0]
+    if M == 0:
+        return RGB
 
     slices = []
 
