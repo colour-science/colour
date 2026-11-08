@@ -13,16 +13,18 @@ from itertools import product
 import numpy as np
 import pytest
 
-from colour.colorimetry import MSDS_CMFS
+from colour.colorimetry import MSDS_CMFS, MultiSpectralDistributions
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.temperature import (
     CCT_to_uv_Ohno2013,
     CCT_to_XYZ_Ohno2013,
     XYZ_to_CCT_Ohno2013,
+    ohno2013,
     uv_to_CCT_Ohno2013,
 )
 from colour.temperature.ohno2013 import planckian_table
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     ignore_numpy_errors,
     xp_as_array,
@@ -98,7 +100,9 @@ class TestUv_to_CCT_Ohno2013:
     """
 
     @pytest.mark.mps_tolerance_absolute(1)
-    def test_uv_to_CCT_Ohno2013(self, xp: ModuleType) -> None:
+    def test_uv_to_CCT_Ohno2013(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.temperature.ohno2013.uv_to_CCT_Ohno2013`
         definition.
@@ -133,7 +137,22 @@ class TestUv_to_CCT_Ohno2013:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-    def test_n_dimensional_uv_to_CCT_Ohno2013(self, xp: ModuleType) -> None:
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(lambda uv: uv_to_CCT_Ohno2013(uv, spacing=1.05), [0.1978, 0.3122])
+            cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+            autodiff(
+                lambda values: uv_to_CCT_Ohno2013(
+                    [0.1978, 0.3122],
+                    MultiSpectralDistributions(values, cmfs.wavelengths),
+                    spacing=1.05,
+                ),
+                cmfs.values,
+            )
+
+    def test_n_dimensional_uv_to_CCT_Ohno2013(
+        self, xp: ModuleType, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
         """
         Test :func:`colour.temperature.ohno2013.uv_to_CCT_Ohno2013` definition
         n-dimensional arrays support.
@@ -149,6 +168,49 @@ class TestUv_to_CCT_Ohno2013:
         uv = xp_reshape(xp_as_array(uv, xp=xp), (2, 3, 2), xp=xp)
         CCT_D_uv = xp_reshape(xp_as_array(CCT_D_uv, xp=xp), (2, 3, 2), xp=xp)
         xp_assert_close(uv_to_CCT_Ohno2013(uv), CCT_D_uv, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        # Force two samples per lookup slice and cross two slice boundaries.
+        uv = xp_as_array(
+            [
+                [0.1978, 0.3122],
+                [0.4328, 0.2883],
+                [0.2927, 0.2722],
+                [0.2, 0.31],
+                [0.21, 0.32],
+            ],
+            xp=xp,
+        )
+        expected = uv_to_CCT_Ohno2013(uv, spacing=1.05)
+        cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+        rows = planckian_table(cmfs, 1000, 100000, 1.05).shape[0]
+        monkeypatch.setattr(ohno2013, "_MAXIMUM_LOOKUP_PAIRS_OHNO2013", 2 * rows)
+        namespace = array_namespace(uv)
+        vector_norm = namespace.linalg.vector_norm
+        lookup_sizes = []
+
+        def bounded_vector_norm(
+            a: typing.Any, *args: typing.Any, **kwargs: typing.Any
+        ) -> typing.Any:
+            """Verify that nearest-row temporaries respect the pair budget."""
+
+            if a.ndim == 3 and a.shape[1] == rows:
+                assert a.shape[0] * rows <= 2 * rows
+                lookup_sizes.append(a.shape[0])
+            return vector_norm(a, *args, **kwargs)
+
+        monkeypatch.setattr(namespace.linalg, "vector_norm", bounded_vector_norm)
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            result = uv_to_CCT_Ohno2013(uv, spacing=1.05)
+        xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert sum(lookup_sizes) == uv.shape[0]
+        if hasattr(uv, "device"):
+            assert result.device == uv.device
+
+        empty = xp_as_array(np.empty((2, 0, 2)), xp=xp)
+        result = uv_to_CCT_Ohno2013(empty)
+        assert result.shape == empty.shape
+        if hasattr(empty, "device"):
+            assert result.device == empty.device
 
     @ignore_numpy_errors
     def test_nan_uv_to_CCT_Ohno2013(self) -> None:
