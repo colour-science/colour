@@ -40,6 +40,7 @@ from colour.models import XYZ_to_xyY
 from colour.utilities import (
     array_namespace,
     from_range_100,
+    is_gradient_tracked,
     to_domain_100,
     tsplit,
     tstack,
@@ -243,9 +244,10 @@ def OSA_UCS_to_XYZ(Ljg: Domain100, optimisation_kwargs: dict | None = None) -> R
     # iteration would diverge. ``sqrt(eps)`` is the standard forward-difference
     # step, i.e. circa 1.5e-8 for float64, preserving the previous behaviour.
     epsilon_machine = float(xp.finfo(Ljg.dtype).eps)
+    tolerance = epsilon_machine**0.75 * 100
     settings: dict[str, typing.Any] = {
         "iterations_maximum": 20,
-        "tolerance": epsilon_machine**0.75 * 100,
+        "tolerance": tolerance,
         "epsilon": epsilon_machine**0.5,
     }
     if optimisation_kwargs is not None:
@@ -298,7 +300,7 @@ def OSA_UCS_to_XYZ(Ljg: Domain100, optimisation_kwargs: dict | None = None) -> R
     # *Schloemer (2019)* Eq. (4) ``(g, j)`` rows, augmented with
     # ``[1, 0, 0]`` to make it non-singular (set ``w = cbrt(R)``).
     A_augmented = xp_as_float_array(
-        [VECTOR_G_OSA_UCS, VECTOR_J_OSA_UCS, VECTOR_AUGMENT_OSA_UCS],
+        np.stack([VECTOR_G_OSA_UCS, VECTOR_J_OSA_UCS, VECTOR_AUGMENT_OSA_UCS]),
         xp=xp,
         like=L,
     )
@@ -336,6 +338,28 @@ def OSA_UCS_to_XYZ(Ljg: Domain100, optimisation_kwargs: dict | None = None) -> R
 
         error = Y0_computed - Y0
         if xp.all(xp.abs(error) < settings["tolerance"]):
+            if is_gradient_tracked(Ljg) and xp.all(xp.abs(error) < tolerance):
+                # A converged constant seed still needs the residual's
+                # derivative. One native Newton correction restores the local
+                # inverse derivative without changing the iteration criterion.
+                # A deliberately loose custom stopping tolerance must retain
+                # its approximate solution instead.
+                RGB_derivative = 3 * RGB_cbrt**2 * A_inv[:, 2]
+                XYZ_derivative = vecmul(MATRIX_RGB_TO_XYZ_OSA_UCS, RGB_derivative)
+                dX, dY, dZ = tsplit(XYZ_derivative)
+                with sdiv_mode():
+                    dx = sdiv(dX - x * (dX + dY + dZ), sum_XYZ)
+                    dy = sdiv(dY - y * (dX + dY + dZ), sum_XYZ)
+                    derivative = dY * K + Y * (
+                        (8.9868 * x - 4.276 * y - 1.3744) * dx
+                        + (8.6068 * y - 4.276 * x - 2.5643) * dy
+                    )
+                    w = w - sdiv(error, derivative)
+                RGB_cbrt = xp.matmul(
+                    xp.stack([a_coef, b_coef, w], axis=-1),
+                    xp_matrix_transpose(A_inv, xp=xp),
+                )
+                XYZ = vecmul(MATRIX_RGB_TO_XYZ_OSA_UCS, spow(RGB_cbrt, 3))
             break
 
         # Newton step: compute derivative and update w
