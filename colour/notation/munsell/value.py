@@ -46,6 +46,8 @@ from __future__ import annotations
 
 import typing
 
+import numpy as np
+
 from colour.algebra import (
     Extrapolator,
     LinearInterpolator,
@@ -72,6 +74,7 @@ from colour.utilities import (
     is_caching_enabled,
     to_domain_100,
     validate_method,
+    xp_as_float_array,
 )
 
 __author__ = "Colour Developers"
@@ -98,7 +101,7 @@ _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR: dict = CACHE_REGISTRY.register_
 )
 
 
-def _munsell_value_ASTMD1535_interpolator() -> Extrapolator:
+def _munsell_value_ASTMD1535_interpolator(like: object = None) -> Extrapolator:
     """
     Return the *Munsell* value interpolator for the *ASTM D1535-08e1*
     method, caching it if not existing.
@@ -111,14 +114,19 @@ def _munsell_value_ASTMD1535_interpolator() -> Extrapolator:
 
     global _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR  # noqa: PLW0602
 
-    key = "ASTM D1535-08 Interpolator"
+    key = (
+        "ASTM D1535-08 Interpolator",
+        type(like).__module__,
+        str(getattr(like, "device", None)),
+        str(getattr(like, "dtype", None)),
+    )
 
     if is_caching_enabled() and key in _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR:
         return _CACHE_MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR[key]
 
-    xp = array_namespace()
+    xp = array_namespace(like)
 
-    munsell_values = xp.arange(0, 10, 0.001)
+    munsell_values = xp_as_float_array(np.arange(0, 10, 0.001), xp=xp, like=like)
     # The interpolator maps reference-scale luminance to reference-scale
     # *Munsell* values, the caller applying the domain-range scaling; it is
     # therefore built with the scale ignored so that a single cached
@@ -482,7 +490,7 @@ def munsell_value_ASTMD1535(
 
     Y = to_domain_100(Y)
 
-    V = _munsell_value_ASTMD1535_interpolator()(Y)
+    V = _munsell_value_ASTMD1535_interpolator(Y)(Y)
 
     return as_float(from_range_10(V))
 

@@ -91,7 +91,7 @@ class TestMunsellSpecification_to_xyY:
         xp_assert_close(
             munsell_specification_to_xyY(specification, method="ONNX"),
             munsell_specification_to_xyY_Onnx(specification),
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
     def test_munsell_specification_to_xyY_raise_exception(self) -> None:
@@ -153,7 +153,7 @@ class TestMunsellColour_to_xyY:
         xp_assert_close(
             munsell_colour_to_xyY("4.2YR 8.1/5.3", method="ONNX"),
             munsell_colour_to_xyY_Onnx("4.2YR 8.1/5.3"),
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
     def test_munsell_colour_to_xyY_raise_exception(self) -> None:
@@ -219,7 +219,7 @@ class TestxyY_to_munsell_specification:
         xp_assert_close(
             xyY_to_munsell_specification(xyY, method="ONNX"),
             xyY_to_munsell_specification_Onnx(xyY),
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
     def test_xyY_to_munsell_specification_raise_exception(self) -> None:

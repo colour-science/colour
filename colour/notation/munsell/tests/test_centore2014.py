@@ -1336,7 +1336,7 @@ class TestxyY_to_munsell_specification_Centore2014:
         xp_assert_close(
             xyY_to_munsell_specification_Centore2014(xp_as_array(xyY, xp=xp)),
             specification,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 5e-05),
         )
 
         specification, xyY = (
@@ -1350,7 +1350,7 @@ class TestxyY_to_munsell_specification_Centore2014:
         xp_assert_close(
             xyY_to_munsell_specification_Centore2014(xp_as_array(xyY, xp=xp)),
             specification,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-05),
         )
 
     def test_n_dimensional_xyY_to_munsell_specification_Centore2014(
@@ -1420,7 +1420,7 @@ class TestxyY_to_munsell_specification_Centore2014:
                         xyY * xp_as_array(factor_a, xp=xp)
                     ),
                     specification * factor_b,
-                    atol=TOLERANCE_ABSOLUTE_TESTS * 200,
+                    atol=max(TOLERANCE_ABSOLUTE_TESTS, 2e-05),
                 )
 
     @ignore_numpy_errors
@@ -1867,7 +1867,7 @@ class Test_xy_fromRenotationOvoid:
         xp_assert_close(
             xy_from_renotation_ovoid(xp_as_array([np.nan, 8, np.nan, np.nan], xp=xp)),
             [0.31006, 0.31616],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-05),
         )
 
 

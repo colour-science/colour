@@ -131,7 +131,7 @@ class TestHEX_to_RGB:
         xp_assert_close(
             HEX_to_RGB("#74070a"),
             [0.45620519, 0.03081071, 0.04091952],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1e06,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.1),
         )
 
         xp_assert_close(

@@ -72,7 +72,7 @@ class TestMunsellSpecification_to_xyY_Onnx:
         xp_assert_close(
             munsell_specification_to_xyY_Onnx(specification),
             xyY,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05),
         )
 
     def test_n_dimensional_munsell_specification_to_xyY_Onnx(
@@ -93,7 +93,7 @@ class TestMunsellSpecification_to_xyY_Onnx:
         xp_assert_close(
             munsell_specification_to_xyY_Onnx(specification),
             xyY,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
         specification = np.reshape(specification, (2, 3, 4))
@@ -101,7 +101,7 @@ class TestMunsellSpecification_to_xyY_Onnx:
         xp_assert_close(
             munsell_specification_to_xyY_Onnx(specification),
             xyY,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
         specification = np.array([np.nan, 8.9, np.nan, np.nan])
@@ -112,7 +112,7 @@ class TestMunsellSpecification_to_xyY_Onnx:
         xp_assert_close(
             munsell_specification_to_xyY_Onnx(specification),
             xyY,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
         specification = np.reshape(specification, (2, 3, 4))
@@ -120,7 +120,7 @@ class TestMunsellSpecification_to_xyY_Onnx:
         xp_assert_close(
             munsell_specification_to_xyY_Onnx(specification),
             xyY,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
     def test_domain_range_scale_munsell_specification_to_xyY_Onnx(
@@ -213,7 +213,7 @@ class TestMunsellColour_to_xyY_Onnx:
         xp_assert_close(
             munsell_colour_to_xyY_Onnx(munsell_colour),
             xyY,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
         munsell_colour = np.reshape(munsell_colour, (2, 3))
@@ -221,7 +221,7 @@ class TestMunsellColour_to_xyY_Onnx:
         xp_assert_close(
             munsell_colour_to_xyY_Onnx(munsell_colour),
             xyY,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
         munsell_colour = "N8.9"
@@ -232,7 +232,7 @@ class TestMunsellColour_to_xyY_Onnx:
         xp_assert_close(
             munsell_colour_to_xyY_Onnx(munsell_colour),
             xyY,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
         munsell_colour = np.reshape(munsell_colour, (2, 3))
@@ -240,7 +240,7 @@ class TestMunsellColour_to_xyY_Onnx:
         xp_assert_close(
             munsell_colour_to_xyY_Onnx(munsell_colour),
             xyY,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
 
@@ -269,7 +269,7 @@ class TestxyY_to_munsell_specification_Onnx:
         xp_assert_close(
             xyY_to_munsell_specification_Onnx(xyY),
             specification,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10000000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1),
         )
 
     def test_n_dimensional_xyY_to_munsell_specification_Onnx(
@@ -290,7 +290,7 @@ class TestxyY_to_munsell_specification_Onnx:
         xp_assert_close(
             xyY_to_munsell_specification_Onnx(xyY),
             specification,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
         xyY = np.reshape(xyY, (2, 3, 3))
@@ -298,7 +298,7 @@ class TestxyY_to_munsell_specification_Onnx:
         xp_assert_close(
             xyY_to_munsell_specification_Onnx(xyY),
             specification,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
     def test_domain_range_scale_xyY_to_munsell_specification_Onnx(
