@@ -1255,12 +1255,10 @@ class KernelInterpolator:
             - self._x_p_min / interval,
             **self._kernel_kwargs,
         )
-        if self._y.ndim == 2:
-            weights = weights[..., None]
+        if self._y.ndim > 1:
+            weights = weights.reshape(weights.shape + (1,) * (self._y.ndim - 1))
 
-        return jnp.sum(
-            self._y_p[windows_i] * weights, axis=-2 if self._y.ndim == 2 else -1
-        )
+        return jnp.sum(self._y_p[windows_i] * weights, axis=x.ndim)
 
     @property
     def x(self) -> jnp.ndarray:
