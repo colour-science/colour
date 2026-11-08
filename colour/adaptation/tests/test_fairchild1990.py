@@ -94,6 +94,22 @@ chromatic_adaptation_Fairchild1990` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        xp_assert_close(
+            chromatic_adaptation_Fairchild1990(
+                xp_as_array([19.01, 20.0, 21.78], xp=xp),
+                [95.05, 100.0, 108.88],
+                [109.85, 100.0, 35.585],
+                200,
+            ),
+            chromatic_adaptation_Fairchild1990(
+                [19.01, 20.0, 21.78],
+                [95.05, 100.0, 108.88],
+                [109.85, 100.0, 35.585],
+                200,
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_chromatic_adaptation_Fairchild1990(
         self, xp: ModuleType
     ) -> None:

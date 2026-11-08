@@ -32,6 +32,7 @@ from colour.utilities import (
     array_namespace,
     as_float_array,
     from_range_100,
+    is_non_ndarray,
     ones,
     to_domain_100,
     xp_as_float_array,
@@ -136,6 +137,11 @@ def chromatic_adaptation_Fairchild1990(
     XYZ_r = to_domain_100(XYZ_r)
 
     xp = array_namespace(XYZ_1, XYZ_n, XYZ_r, Y_n)
+
+    reference = next((a for a in (XYZ_1, XYZ_n, XYZ_r, Y_n) if is_non_ndarray(a)), None)
+    XYZ_1 = xp_as_float_array(XYZ_1, xp=xp, like=reference)
+    XYZ_n = xp_as_float_array(XYZ_n, xp=xp, like=XYZ_1)
+    XYZ_r = xp_as_float_array(XYZ_r, xp=xp, like=XYZ_1)
 
     Y_n = xp_as_float_array(Y_n, xp=xp, like=XYZ_1)
 
@@ -249,6 +255,9 @@ def degrees_of_adaptation(
     LMS = as_float_array(LMS)
 
     xp = array_namespace(LMS, Y_n, v)
+
+    reference = next((a for a in (LMS, Y_n, v) if is_non_ndarray(a)), None)
+    LMS = xp_as_float_array(LMS, xp=xp, like=reference)
 
     if discount_illuminant:
         return xp_as_float_array(ones(LMS.shape), xp=xp, like=LMS)

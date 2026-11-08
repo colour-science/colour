@@ -3,13 +3,15 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
 
-from colour.adaptation import chromatic_adaptation
+from colour.adaptation import chromatic_adaptation, matrix_chromatic_adaptation_vk20
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     domain_range_scale,
     xp_as_array,
@@ -111,6 +113,44 @@ class TestChromaticAdaptation:
             [0.21468842, 0.12456164, 0.04662558],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A sole native secondary operand must determine device placement.
+        luminance = xp_as_array(318.31, xp=xp)
+        reference = xp_as_array([0.96, 1, 0.83], xp=xp)
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            result = chromatic_adaptation(
+                [30, 20, 10],
+                [95.05, 100, 108.88],
+                [96, 100, 83],
+                method="Li 2025",
+                L_A=luminance,
+                F_surround=1,
+            )
+            expected = chromatic_adaptation(
+                [30, 20, 10],
+                [95.05, 100, 108.88],
+                [96, 100, 83],
+                method="Li 2025",
+                L_A=318.31,
+                F_surround=1,
+            )
+            matrix = matrix_chromatic_adaptation_vk20(
+                [0.95, 1, 1.09],
+                [0.95, 1, 1.09],
+                reference,
+            )
+            matrix_expected = matrix_chromatic_adaptation_vk20(
+                [0.95, 1, 1.09],
+                [0.95, 1, 1.09],
+                [0.96, 1, 0.83],
+            )
+        for actual, native, expected_value in (
+            (result, luminance, expected),
+            (matrix, reference, matrix_expected),
+        ):
+            assert array_namespace(actual).__name__ == array_namespace(native).__name__
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected_value, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_domain_range_scale_chromatic_adaptation(self, xp: ModuleType) -> None:
         """

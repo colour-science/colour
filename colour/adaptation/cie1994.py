@@ -37,6 +37,7 @@ from colour.utilities import (
     array_namespace,
     as_float_array,
     from_range_100,
+    is_non_ndarray,
     to_domain_100,
     tsplit,
     tstack,
@@ -154,7 +155,15 @@ def chromatic_adaptation_CIE1994(
     XYZ_1 = to_domain_100(XYZ_1)
     Y_o = as_float_array(to_domain_100(Y_o))
 
-    xp = array_namespace(XYZ_1, Y_o, E_o1, E_o2)
+    xp = array_namespace(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n)
+
+    reference = next(
+        (a for a in (XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n) if is_non_ndarray(a)),
+        None,
+    )
+    XYZ_1 = xp_as_float_array(XYZ_1, xp=xp, like=reference)
+    xy_o1 = xp_as_float_array(xy_o1, xp=xp, like=XYZ_1)
+    xy_o2 = xp_as_float_array(xy_o2, xp=xp, like=XYZ_1)
 
     Y_o = xp_as_float_array(Y_o, xp=xp, like=XYZ_1)
     E_o1 = xp_as_float_array(E_o1, xp=xp, like=XYZ_1)
@@ -303,6 +312,9 @@ def effective_adapting_responses(
     xez = as_float_array(xez)
 
     xp = array_namespace(xez, Y_o, E_o)
+
+    reference = next((a for a in (xez, Y_o, E_o) if is_non_ndarray(a)), None)
+    xez = xp_as_float_array(xez, xp=xp, like=reference)
 
     Y_o = xp_as_float_array(Y_o, xp=xp, like=xez)
     E_o = xp_as_float_array(E_o, xp=xp, like=xez)
@@ -458,6 +470,15 @@ def K_coefficient(
 
     xp = array_namespace(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n)
 
+    reference = next(
+        (a for a in (xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n) if is_non_ndarray(a)),
+        None,
+    )
+    xez_1 = xp_as_float_array(xez_1, xp=xp, like=reference)
+    xez_2 = xp_as_float_array(xez_2, xp=xp, like=xez_1)
+    bRGB_o1 = xp_as_float_array(bRGB_o1, xp=xp, like=xez_1)
+    bRGB_o2 = xp_as_float_array(bRGB_o2, xp=xp, like=xez_1)
+
     Y_o = xp_as_float_array(Y_o, xp=xp, like=xez_1)
     n = xp_as_float_array(n, xp=xp, like=xez_1)
 
@@ -536,6 +557,20 @@ def corresponding_colour(
     """
 
     xp = array_namespace(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n)
+
+    reference = next(
+        (
+            a
+            for a in (RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n)
+            if is_non_ndarray(a)
+        ),
+        None,
+    )
+    RGB_1 = xp_as_float_array(RGB_1, xp=xp, like=reference)
+    xez_1 = xp_as_float_array(xez_1, xp=xp, like=RGB_1)
+    xez_2 = xp_as_float_array(xez_2, xp=xp, like=RGB_1)
+    bRGB_o1 = xp_as_float_array(bRGB_o1, xp=xp, like=RGB_1)
+    bRGB_o2 = xp_as_float_array(bRGB_o2, xp=xp, like=RGB_1)
 
     Y_o = xp_as_float_array(Y_o, xp=xp, like=RGB_1)
     K = xp_as_float_array(K, xp=xp, like=RGB_1)
