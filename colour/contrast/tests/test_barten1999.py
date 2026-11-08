@@ -153,6 +153,12 @@ class TestPupilDiameterBarten1999:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        xp_assert_close(
+            pupil_diameter_Barten1999([1.0, 2.0], xp_as_array([60.0, 60.0], xp=xp)),
+            [4.58015462, 4.23350885],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_pupil_diameter_Barten1999(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.contrast.barten1999.pupil_diameter_Barten1999`

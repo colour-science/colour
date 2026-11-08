@@ -39,6 +39,7 @@ from colour.utilities import (
     as_float,
     as_float_array,
     filter_kwargs,
+    is_non_ndarray,
     validate_method,
     xp_as_float_array,
 )
@@ -101,8 +102,11 @@ def reaction_rate_MichaelisMenten_Michaelis1913(
 
     S = as_float_array(S)
 
-    xp = array_namespace(S, V_max, K_m)
+    operands = (S, V_max, K_m)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), S)
 
+    S = xp_as_float_array(S, xp=xp, like=like)
     V_max = xp_as_float_array(V_max, xp=xp, like=S)
     K_m = xp_as_float_array(K_m, xp=xp, like=S)
 
@@ -155,8 +159,11 @@ def reaction_rate_MichaelisMenten_Abebe2017(
 
     S = as_float_array(S)
 
-    xp = array_namespace(S, V_max, K_m, b_m)
+    operands = (S, V_max, K_m, b_m)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), S)
 
+    S = xp_as_float_array(S, xp=xp, like=like)
     V_max = xp_as_float_array(V_max, xp=xp, like=S)
     K_m = xp_as_float_array(K_m, xp=xp, like=S)
     b_m = xp_as_float_array(b_m, xp=xp, like=S)
@@ -278,8 +285,11 @@ def substrate_concentration_MichaelisMenten_Michaelis1913(
 
     v = as_float_array(v)
 
-    xp = array_namespace(v, V_max, K_m)
+    operands = (v, V_max, K_m)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), v)
 
+    v = xp_as_float_array(v, xp=xp, like=like)
     V_max = xp_as_float_array(V_max, xp=xp, like=v)
     K_m = xp_as_float_array(K_m, xp=xp, like=v)
 
@@ -332,8 +342,11 @@ def substrate_concentration_MichaelisMenten_Abebe2017(
 
     v = as_float_array(v)
 
-    xp = array_namespace(v, V_max, K_m, b_m)
+    operands = (v, V_max, K_m, b_m)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), v)
 
+    v = xp_as_float_array(v, xp=xp, like=like)
     V_max = xp_as_float_array(V_max, xp=xp, like=v)
     K_m = xp_as_float_array(K_m, xp=xp, like=v)
     b_m = xp_as_float_array(b_m, xp=xp, like=v)

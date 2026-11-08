@@ -40,6 +40,7 @@ from colour.utilities import (
     array_namespace,
     as_float,
     as_float_array,
+    is_non_ndarray,
     xp_as_float_array,
 )
 
@@ -97,6 +98,7 @@ def optical_MTF_Barten1999(u: ArrayLike, sigma: ArrayLike = 0.01) -> NDArrayFloa
 
     xp = array_namespace(u, sigma)
 
+    u = xp_as_float_array(u, xp=xp, like=u if is_non_ndarray(u) else sigma)
     sigma = xp_as_float_array(sigma, xp=xp, like=u)
 
     return as_float(xp.exp(-2 * xp.pi**2 * sigma**2 * u**2))
@@ -146,6 +148,8 @@ def pupil_diameter_Barten1999(
 
     xp = array_namespace(L, X_0, Y_0)
 
+    like = next((a for a in (L, X_0, Y_0) if is_non_ndarray(a)), L)
+    L = xp_as_float_array(L, xp=xp, like=like)
     X_0 = xp_as_float_array(X_0, xp=xp, like=L)
     Y_0 = xp_as_float_array(Y_0, xp=xp, like=L)
 
@@ -210,12 +214,10 @@ def sigma_Barten1999(
 
     xp = array_namespace(sigma_0, C_ab, d)
 
-    # Promote every operand into the namespace so a single backend argument
-    # (e.g. a *PyTorch* ``d``) does not leave the scalar defaults as NumPy and
-    # break ``xp.hypot``.
-    sigma_0 = xp_as_float_array(sigma_0, xp=xp, like=d)
-    C_ab = xp_as_float_array(C_ab, xp=xp, like=d)
-    d = xp_as_float_array(d, xp=xp, like=d)
+    like = next((a for a in (sigma_0, C_ab, d) if is_non_ndarray(a)), d)
+    sigma_0 = xp_as_float_array(sigma_0, xp=xp, like=like)
+    C_ab = xp_as_float_array(C_ab, xp=xp, like=sigma_0)
+    d = xp_as_float_array(d, xp=xp, like=sigma_0)
 
     return as_float(xp.hypot(sigma_0, C_ab * d))
 
@@ -268,6 +270,11 @@ def retinal_illuminance_Barten1999(
     d = as_float_array(d)
     L = as_float_array(L)
 
+    xp = array_namespace(L, d)
+
+    L = xp_as_float_array(L, xp=xp, like=L if is_non_ndarray(L) else d)
+    d = xp_as_float_array(d, xp=xp, like=L)
+
     E = (np.pi * d**2) / 4 * L
 
     if apply_stiles_crawford_effect_correction:
@@ -319,6 +326,15 @@ def maximum_angular_size_Barten1999(
     X_0 = as_float_array(X_0)
     X_max = as_float_array(X_max)
     N_max = as_float_array(N_max)
+
+    operands = (u, X_0, X_max, N_max)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), u)
+
+    u = xp_as_float_array(u, xp=xp, like=like)
+    X_0 = xp_as_float_array(X_0, xp=xp, like=u)
+    X_max = xp_as_float_array(X_max, xp=xp, like=u)
+    N_max = xp_as_float_array(N_max, xp=xp, like=u)
 
     return as_float((1 / X_0**2 + 1 / X_max**2 + u**2 / N_max**2) ** -0.5)
 
@@ -517,8 +533,12 @@ def contrast_sensitivity_function_Barten1999(
 
     u = as_float_array(u)
 
-    xp = array_namespace(u)
+    operands = (u, sigma, k, T, X_0, Y_0, X_max, Y_max, N_max, n, p, E, phi_0, u_0)
+    xp = array_namespace(*operands)
 
+    like = next((a for a in operands if is_non_ndarray(a)), u)
+    u = xp_as_float_array(u, xp=xp, like=like)
+    sigma = xp_as_float_array(sigma, xp=xp, like=u)
     k = xp_as_float_array(k, xp=xp, like=u)
     T = xp_as_float_array(T, xp=xp, like=u)
     X_0 = xp_as_float_array(X_0, xp=xp, like=u)
