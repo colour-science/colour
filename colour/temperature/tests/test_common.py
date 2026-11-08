@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import typing
+import warnings
 from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
@@ -14,6 +15,7 @@ import pytest
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.temperature import (
     CCT_to_uv_Krystek1985,
+    CCT_to_xy_Kang2002,
     solve_CCT_Newton,
     solve_xy_Newton,
     x0_CCT_grid,
@@ -214,7 +216,9 @@ class TestSolve_CCT_Newton:
         if hasattr(native_guess, "device"):
             assert result.device == native_guess.device
 
-    def test_n_dimensional_solve_CCT_Newton(self, xp: ModuleType) -> None:
+    def test_n_dimensional_solve_CCT_Newton(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.temperature.common.solve_CCT_Newton` definition
         n-dimensional arrays support.
@@ -232,6 +236,91 @@ class TestSolve_CCT_Newton:
             _forward_linear, xp_as_array(np.empty((2, 0, 2)), xp=xp)
         )
         assert result.shape == (2, 0)
+
+        # Exact on-locus and off-locus stationary initial solutions need the
+        # inverse sensitivity, including the residual-curvature Hessian term.
+        def curved(CCT: NDArrayFloat) -> NDArrayFloat:
+            z = (CCT - 6500) / 6500
+            return tstack([z, z**2])
+
+        targets = [[0.0, 0.0], [0.0, 0.1], [0.02, 0.1], [0.1, 0.01]]
+        roots = []
+        for a, b in targets:
+            candidates = np.roots([2, 0, 1 - 2 * b, -a])
+            roots.append(float(candidates[np.argmin(np.abs(candidates.imag))].real))
+        expected = np.asarray(roots)
+
+        def inverse(values: NDArrayFloat) -> NDArrayFloat:
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                return (solve_CCT_Newton(curved, values) - 6500) / 6500
+
+        xp_assert_close(
+            inverse(xp_as_array(targets, xp=xp)),
+            expected,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            _result, (gradient,), _inputs = autodiff(inverse, targets)
+            hessian = 1 + 6 * expected**2 - 2 * np.asarray(targets)[:, 1]
+            xp_assert_close(
+                gradient,
+                np.column_stack([1 / hessian, 2 * expected / hessian]),
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
+        # Local derivatives must not probe unrelated Kang polynomial pieces
+        # or the invalid lower-temperature range from a smooth valid point.
+        for seed in (1800.0, 2000.0, 2330.0, 3500.0, 4500.0):
+            native_target = CCT_to_xy_Kang2002(xp_as_array(seed, xp=xp))
+            with warnings.catch_warnings(record=True) as caught:
+                warnings.simplefilter("always", ColourUsageWarning)
+                if xp.__name__ == "numpy":
+                    solve_CCT_Newton(CCT_to_xy_Kang2002, native_target, x0=seed)
+                else:
+                    autodiff(
+                        lambda values, seed=seed: (
+                            solve_CCT_Newton(CCT_to_xy_Kang2002, values, x0=seed) - seed
+                        )
+                        / seed,
+                        native_target,
+                    )
+            assert not caught
+
+        if xp.__name__ != "numpy":
+
+            def parameter_inverse(parameter: NDArrayFloat) -> NDArrayFloat:
+                def forward(CCT: NDArrayFloat) -> NDArrayFloat:
+                    z = (CCT - 6500) / 6500
+                    return tstack([parameter * z, z**2])
+
+                return (
+                    solve_CCT_Newton(
+                        forward,
+                        [0.1, 0.01],
+                        x0=xp_as_array(7150.0, xp=xp, like=parameter),
+                    )
+                    - 6500
+                ) / 6500
+
+            _result, (gradient,), _inputs = autodiff(parameter_inverse, 1.0)
+            xp_assert_close(gradient, -0.1 / 1.04, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+            # A captured parameter can affect a constant map without affecting
+            # its coordinate derivatives; unused autograd inputs are zeros.
+            autodiff(
+                lambda parameter: solve_CCT_Newton(
+                    lambda CCT: tstack(
+                        [
+                            xp.ones_like(CCT) * parameter,
+                            xp.zeros_like(CCT),
+                        ]
+                    ),
+                    [0.5, 0.0],
+                    x0=xp_as_array(6500.0, xp=xp, like=parameter),
+                ),
+                0.5,
+            )
 
 
 class TestSolve_xy_Newton:
@@ -336,7 +425,9 @@ class TestSolve_xy_Newton:
                 [0.3, 0.3],
             )
 
-    def test_n_dimensional_solve_xy_Newton(self, xp: ModuleType) -> None:
+    def test_n_dimensional_solve_xy_Newton(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.temperature.common.solve_xy_Newton` definition
         n-dimensional arrays support.
@@ -353,3 +444,90 @@ class TestSolve_xy_Newton:
             _forward_xy_linear, xp_as_array(np.empty((2, 0)), xp=xp)
         )
         assert result.shape == (2, 0, 2)
+
+        def curved(xy: NDArrayFloat) -> NDArrayFloat:
+            x, y = xy[..., 0], xy[..., 1]
+            return x**2 + x * y + y**2
+
+        # At (.3, .4), J=(1, 1.1). The second anchor makes the nonzero
+        # residual -.1 exactly balance the regularisation gradient.
+        targets = [0.37, 0.47, 0.5]
+        anchors = [[0.3, 0.4], [0.2, 0.29], [0.2, 0.29]]
+
+        def inverse(values: NDArrayFloat) -> NDArrayFloat:
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                return solve_xy_Newton(
+                    curved,
+                    values,
+                    x0=(0.3, 0.4),
+                    reference_xy=anchors,
+                    reference_weight=1.0,
+                )
+
+        result = inverse(xp_as_array(targets, xp=xp))
+        xp_assert_close(
+            result[:2], [[0.3, 0.4], [0.3, 0.4]], atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            jacobian = np.asarray([1.0, 1.1])
+            for index in range(2):
+                _result, (gradient,), _inputs = autodiff(
+                    lambda values, index=index: inverse(values)[..., index], targets
+                )
+                for row, residual in enumerate((0.0, -0.1)):
+                    hessian = (
+                        np.outer(jacobian, jacobian)
+                        + np.eye(2)
+                        + residual * np.asarray([[2.0, 1.0], [1.0, 2.0]])
+                    )
+                    xp_assert_close(
+                        gradient[row],
+                        np.linalg.solve(hessian, jacobian)[index],
+                        atol=TOLERANCE_ABSOLUTE_TESTS,
+                    )
+
+        # A real temperature forward has J.T J many orders above the default
+        # regularisation. Its rank-one Hessian must retain the small anchor
+        # term without catastrophic determinant cancellation at native32.
+        if xp.__name__ != "numpy":
+            native_target = xy_to_CCT_McCamy1992(xp_as_array([0.3127, 0.329], xp=xp))
+            n = (0.3127 - 0.3320) / (0.329 - 0.1858)
+            derivative = -1347 * n**2 + 7050 * n - 6823.3
+            jacobian = derivative * np.asarray(
+                [1 / (0.329 - 0.1858), -n / (0.329 - 0.1858)]
+            )
+            sensitivity = jacobian / (np.sum(jacobian**2) + 1e-6)
+            for index in range(2):
+                _result, (gradient,), _inputs = autodiff(
+                    lambda target, index=index: solve_xy_Newton(
+                        xy_to_CCT_McCamy1992, target
+                    )[..., index]
+                    * 1e5,
+                    native_target,
+                )
+                xp_assert_close(
+                    gradient, sensitivity[index] * 1e5, atol=TOLERANCE_ABSOLUTE_TESTS
+                )
+
+        if xp.__name__ != "numpy":
+
+            def parameter_inverse(parameter: NDArrayFloat) -> NDArrayFloat:
+                return solve_xy_Newton(
+                    lambda xy: parameter * curved(xy),
+                    0.37,
+                    x0=xp_as_array([0.3, 0.4], xp=xp, like=parameter),
+                    reference_xy=[0.3, 0.4],
+                    reference_weight=1.0,
+                )
+
+            for index in range(2):
+                _result, (gradient,), _inputs = autodiff(
+                    lambda parameter, index=index: parameter_inverse(parameter)[index],
+                    1.0,
+                )
+                xp_assert_close(
+                    gradient,
+                    -0.37 * [1.0, 1.1][index] / 3.21,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
