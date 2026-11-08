@@ -120,13 +120,19 @@ class TestExtrapolator:
         """
 
         extrapolator = Extrapolator(
-            LinearInterpolator(np.array([5, 6, 7]), np.array([5, 6, 7]))
+            LinearInterpolator(
+                xp_as_array([5, 6, 7], xp=xp),
+                xp_as_array([5, 6, 7], xp=xp),
+            )
         )
         xp_assert_equal(extrapolator(xp_as_array([4, 8], xp=xp)), (4, 8))
         xp_assert_equal(extrapolator(xp_as_array([4], xp=xp)), [4])
 
         extrapolator = Extrapolator(
-            LinearInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3])),
+            LinearInterpolator(
+                xp_as_array([3, 4, 5], xp=xp),
+                xp_as_array([1, 2, 3], xp=xp),
+            ),
             method="Constant",
         )
         xp_assert_equal(
@@ -136,7 +142,10 @@ class TestExtrapolator:
         xp_assert_equal(extrapolator(xp_as_array([0.1], xp=xp)), [1.0])
 
         extrapolator = Extrapolator(
-            LinearInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3])),
+            LinearInterpolator(
+                xp_as_array([3, 4, 5], xp=xp),
+                xp_as_array([1, 2, 3], xp=xp),
+            ),
             method="Constant",
             left=0,
         )
@@ -147,7 +156,10 @@ class TestExtrapolator:
         xp_assert_equal(extrapolator(xp_as_array([0.1], xp=xp)), [0])
 
         extrapolator = Extrapolator(
-            LinearInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3])),
+            LinearInterpolator(
+                xp_as_array([3, 4, 5], xp=xp),
+                xp_as_array([1, 2, 3], xp=xp),
+            ),
             method="Constant",
             right=0,
         )
@@ -158,7 +170,10 @@ class TestExtrapolator:
         xp_assert_equal(extrapolator(xp_as_array([9], xp=xp)), [0])
 
         extrapolator = Extrapolator(
-            CubicSplineInterpolator(np.array([3, 4, 5, 6]), np.array([1, 2, 3, 4]))
+            CubicSplineInterpolator(
+                xp_as_array([3, 4, 5, 6], xp=xp),
+                xp_as_array([1, 2, 3, 4], xp=xp),
+            )
         )
         xp_assert_close(
             extrapolator(xp_as_array([0.1, 0.2, 8.0, 9.0], xp=xp)),
@@ -172,7 +187,10 @@ class TestExtrapolator:
         )
 
         extrapolator = Extrapolator(
-            PchipInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3]))
+            PchipInterpolator(
+                xp_as_array([3, 4, 5], xp=xp),
+                xp_as_array([1, 2, 3], xp=xp),
+            )
         )
         xp_assert_close(
             extrapolator(xp_as_array([0.1, 0.2, 8.0, 9.0], xp=xp)),
@@ -185,12 +203,14 @@ class TestExtrapolator:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        x = np.array([3, 4, 5])
-        y = np.array([1, 2, 3])
+        x = xp_as_array([3, 4, 5], xp=xp)
+        y = xp_as_array([1, 2, 3], xp=xp)
         x_e = xp_as_array([0.1, 0.2, 4.5, 8.0, 9.0], xp=xp)
         reference = as_ndarray(Extrapolator(LinearInterpolator(x, y))(x_e))
         xp_assert_close(
-            as_ndarray(Extrapolator(LinearInterpolator(x, np.transpose([y, y])))(x_e)),
+            as_ndarray(
+                Extrapolator(LinearInterpolator(x, xp.stack([y, y], axis=-1)))(x_e)
+            ),
             np.transpose([reference, reference]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
@@ -201,7 +221,7 @@ class TestExtrapolator:
         xp_assert_close(
             as_ndarray(
                 Extrapolator(
-                    LinearInterpolator(x, np.transpose([y, y])),
+                    LinearInterpolator(x, xp.stack([y, y], axis=-1)),
                     method="Constant",
                     left=0,
                 )(x_e)

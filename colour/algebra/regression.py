@@ -25,6 +25,8 @@ if typing.TYPE_CHECKING:
 from colour.utilities import (
     array_namespace,
     as_float_array,
+    is_non_ndarray,
+    xp_as_float_array,
     xp_atleast_2d,
     xp_matrix_transpose,
 )
@@ -80,8 +82,9 @@ def least_square_mapping_MoorePenrose(y: ArrayLike, x: ArrayLike) -> NDArrayFloa
 
     xp = array_namespace(y, x)
 
-    y = xp_atleast_2d(y, xp=xp)
-    x = xp_atleast_2d(x, xp=xp)
+    reference = y if is_non_ndarray(y) else x
+    y = xp_atleast_2d(xp_as_float_array(y, xp=xp, like=reference), xp=xp)
+    x = xp_atleast_2d(xp_as_float_array(x, xp=xp, like=y), xp=xp)
 
     return xp.matmul(
         xp_matrix_transpose(x, xp=xp),
