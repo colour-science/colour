@@ -138,7 +138,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
                 cmfs, primaries, xp_as_array([2, 0, 0], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Protanomaly"][0.1],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         xp_assert_close(
@@ -146,7 +146,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
                 cmfs, primaries, xp_as_array([10, 0, 0], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Protanomaly"][0.5],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         xp_assert_close(
@@ -154,7 +154,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
                 cmfs, primaries, xp_as_array([20, 0, 0], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Protanomaly"][1.0],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         xp_assert_close(
@@ -162,7 +162,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
                 cmfs, primaries, xp_as_array([0, 2, 0], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Deuteranomaly"][0.1],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         xp_assert_close(
@@ -170,7 +170,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
                 cmfs, primaries, xp_as_array([0, 10, 0], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Deuteranomaly"][0.5],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         xp_assert_close(
@@ -178,7 +178,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
                 cmfs, primaries, xp_as_array([0, 20, 0], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Deuteranomaly"][1.0],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         xp_assert_close(
@@ -186,7 +186,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
                 cmfs, primaries, xp_as_array([0, 0, 5.00056688094503], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Tritanomaly"][0.1],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         xp_assert_close(
@@ -194,7 +194,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
                 cmfs, primaries, xp_as_array([0, 0, 29.002939088780934], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Tritanomaly"][0.5],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         xp_assert_close(
@@ -202,7 +202,7 @@ matrix_anomalous_trichromacy_Machado2009` definition.
                 cmfs, primaries, xp_as_array([0, 0, 59.00590434857581], xp=xp)
             ),
             CVD_MATRICES_MACHADO2010["Tritanomaly"][1.0],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.001),
         )
 
 

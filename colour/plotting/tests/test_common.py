@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+from mpl_toolkits.mplot3d.axes3d import Axes3D
 
 import colour
 from colour.colorimetry import SDS_ILLUMINANTS
@@ -316,7 +317,7 @@ class TestLabelRectangles:
         samples = np.linspace(0, 1, 10)
 
         _figure, axes = label_rectangles(
-            samples.tolist(),
+            [float(sample) for sample in samples],
             axes.bar(samples, 1),
             figure=figure,
             axes=axes,
@@ -336,6 +337,7 @@ class TestUniformAxes3d:
 
         figure, _axes = artist()
         axes = figure.add_subplot(111, projection="3d")
+        assert isinstance(axes, Axes3D)
 
         uniform_axes3d(axes=axes)
 

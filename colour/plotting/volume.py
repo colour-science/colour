@@ -529,7 +529,7 @@ def plot_RGB_colourspaces_gamuts(
     settings.update(kwargs)
 
     figure = plt.figure()
-    axes = figure.add_subplot(111, projection="3d")
+    axes = cast("Axes3D", figure.add_subplot(111, projection="3d"))
 
     points = zeros((4, 3))
     if show_spectral_locus:
