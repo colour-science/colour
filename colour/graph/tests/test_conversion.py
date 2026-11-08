@@ -97,7 +97,7 @@ class TestConvert:
         # NOTE: The "CIE XYZ" tristimulus values to "sRGB" matrix is given
         # rounded at 4 decimals as per "IEC 61966-2-1:1999" and thus preventing
         # exact roundtrip.
-        xp_assert_close(RGB_a, RGB_b, atol=TOLERANCE_ABSOLUTE_TESTS * 1000)
+        xp_assert_close(RGB_a, RGB_b, atol=1e-4)
 
         xp_assert_close(
             convert("#808080", "Hexadecimal", "Scene-Referred RGB"),
