@@ -32,9 +32,11 @@ from colour.colorimetry import (
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType, NDArrayFloat, ProtocolArrayNamespace
 
+from colour.hints import cast
 from colour.utilities import (
     array_namespace,
     is_gradient_tracked,
+    is_non_ndarray,
     usage_warning,
     xp_as_float_array,
     xp_reshape,
@@ -211,9 +213,14 @@ def spectral_similarity_index(
 
     xp = array_namespace(sd_test.values, sd_reference.values)
 
-    sd_test_values = xp_as_float_array(sd_test.values, xp=xp)
+    sd_test_values, sd_reference_values = sd_test.values, sd_reference.values
+    like = next(
+        (a for a in (sd_test_values, sd_reference_values) if is_non_ndarray(a)),
+        sd_test_values,
+    )
+    sd_test_values = xp_as_float_array(sd_test_values, xp=xp, like=like)
     sd_reference_values = xp_as_float_array(
-        sd_reference.values, xp=xp, like=sd_test_values
+        sd_reference_values, xp=xp, like=sd_test_values
     )
     matrix = xp_as_float_array(_MATRIX_INTEGRATION, xp=xp, like=sd_test_values)
 
@@ -274,6 +281,6 @@ def spectral_similarity_index(
     c_wdr_i = _convolve_wdr_i(wdr_i)
     m_v = xp.sum(xp.square(c_wdr_i), axis=0)
 
-    SSI = 100 - 32 * xp.sqrt(m_v)
+    SSI = cast("NDArrayFloat", 100 - 32 * xp.sqrt(m_v))
 
     return _round_SSI(SSI, round_result)

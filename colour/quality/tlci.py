@@ -22,7 +22,6 @@ References
 from __future__ import annotations
 
 import typing
-from contextlib import suppress
 from dataclasses import dataclass
 
 import numpy as np
@@ -64,6 +63,8 @@ from colour.utilities import (
     as_ndarray,
     domain_range_scale,
     is_caching_enabled,
+    is_gradient_tracked,
+    is_non_ndarray,
     optional,
     xp_as_float_array,
     xp_isclose,
@@ -238,11 +239,11 @@ def sd_planckian_TLCI2012(
         * (xp.expm1(c_2 / (560 * CCT)) / xp.expm1(c_2 / (wavelengths * CCT)))
     )
 
-    return SpectralDistribution(
-        values,
-        shape,
-        name=f"TLCI-2012 Planckian {float(as_ndarray(CCT)):.0f}K",
-    )
+    name = "TLCI-2012 Planckian"
+    if not is_gradient_tracked(CCT):
+        name = f"{name} {float(as_ndarray(CCT)):.0f}K"
+
+    return SpectralDistribution(values, shape, name=name)
 
 
 def sd_daylight_TLCI2012(
@@ -300,12 +301,16 @@ def sd_daylight_TLCI2012(
     ).values
     daylight_basis = xp_as_float_array(daylight_basis, xp=xp, like=x)
 
+    name = "TLCI-2012 Daylight"
+    if not is_gradient_tracked(CCT):
+        name = f"{name} {float(as_ndarray(CCT)):.0f}K"
+
     return SpectralDistribution(
         daylight_basis[..., 0]
         + M1 * daylight_basis[..., 1]
         + M2 * daylight_basis[..., 2],
         shape,
-        name=f"TLCI-2012 Daylight {float(as_ndarray(CCT)):.0f}K",
+        name=name,
     )
 
 
@@ -538,7 +543,7 @@ def sd_reference_illuminant_TLCI2012(
         name = "TLCI-2012 Reference"
         # A traced scalar cannot be materialised only to decorate the
         # spectrum name; the numerical result does not depend on it.
-        with suppress(AttributeError, TypeError):
+        if not is_gradient_tracked(CCT):
             name = f"{name} {float(as_ndarray(CCT)):.0f}K"
         sd_reference = SpectralDistribution(
             linstep_function(weight, sd_planckian_3400.values, sd_daylight_5000.values),
@@ -624,14 +629,20 @@ def colour_differences_TLCI2012(
 
     msds_tcs = reshape_msds(msds_tcs, shape, "Align", copy=False)
 
-    xp = array_namespace(sd_test.values, sd_reference.values, msds_camera.values)
-    msds_tcs = msds_tcs.copy(xp=xp)
-    msds_camera = msds_camera.copy(xp=xp)
+    operands = (sd_test.values, sd_reference.values, msds_camera.values)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), operands[0])
+    sd_test, sd_reference = sd_test.copy(), sd_reference.copy()
+    msds_tcs, msds_camera = msds_tcs.copy(), msds_camera.copy()
+    sd_test.values = xp_as_float_array(sd_test.values, xp=xp, like=like)
+    sd_reference.values = xp_as_float_array(sd_reference.values, xp=xp, like=like)
+    msds_tcs.values = xp_as_float_array(msds_tcs.values, xp=xp, like=like)
+    msds_camera.values = xp_as_float_array(msds_camera.values, xp=xp, like=like)
 
     # EBU Tech 3355 section 1.3.1 sets the neutral reflector level to 0.9 so
     # the ColorChecker white patch generates peak white.
     sd_reflector = SpectralDistribution(
-        xp.full((len(shape.wavelengths),), 0.9),
+        xp.ones_like(msds_tcs.values[:, 0]) * 0.9,
         shape,
         name="90% Flat Reflector",
     )

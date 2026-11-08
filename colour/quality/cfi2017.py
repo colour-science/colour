@@ -54,6 +54,7 @@ from colour.utilities import (
     as_ndarray,
     attest,
     is_caching_enabled,
+    is_non_ndarray,
     suppress_warnings,
     tstack,
     usage_warning,
@@ -479,8 +480,13 @@ def _tcs_colorimetry_data(
     """
 
     sds_tcs_values_raw = sds_tcs.values
-    xp = array_namespace(irradiance_values, sds_tcs_values_raw)
-
+    operands = (irradiance_values, XYZ_w, sds_tcs_values_raw, cmfs.values)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), irradiance_values)
+    irradiance_values = xp_as_float_array(irradiance_values, xp=xp, like=like)
+    XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=irradiance_values)
+    cmfs = cmfs.copy()
+    cmfs.values = xp_as_float_array(cmfs.values, xp=xp, like=irradiance_values)
     sds_tcs_values = xp_as_float_array(
         sds_tcs_values_raw, xp=xp, like=irradiance_values
     )
@@ -558,11 +564,15 @@ def tcs_colorimetry_data(
     if isinstance(sd_irradiance, SpectralDistribution):
         sd_irradiance = [sd_irradiance]
 
-    xp = array_namespace(sds_tcs.values, sd_irradiance[0].values)
+    operands = (sds_tcs.values, cmfs.values, *(sd.values for sd in sd_irradiance))
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), operands[0])
 
     irradiance_values = xp.stack(
-        [xp_as_float_array(sd.values, xp=xp) for sd in sd_irradiance]
+        [xp_as_float_array(sd.values, xp=xp, like=like) for sd in sd_irradiance]
     )
+    cmfs = cmfs.copy()
+    cmfs.values = xp_as_float_array(cmfs.values, xp=xp, like=irradiance_values)
     XYZ_t = msds_to_XYZ(
         irradiance_values,
         cmfs,
