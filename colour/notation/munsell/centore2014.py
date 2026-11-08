@@ -127,7 +127,11 @@ if typing.TYPE_CHECKING:
 
 from colour.hints import ArrayLike, NDArrayFloat, cast
 from colour.models import Lab_to_LCHab  # pyright: ignore
-from colour.models import XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
+from colour.models import (
+    XYZ_to_Lab,
+    XYZ_to_xy,
+    xyY_to_XYZ,
+)
 from colour.notation import MUNSELL_COLOURS_ALL
 from colour.notation.munsell.value import munsell_value_ASTMD1535
 from colour.utilities import (
@@ -1139,7 +1143,7 @@ def normalise_munsell_specification(specification: ArrayLike) -> NDArrayFloat:
 
     if is_grey_munsell_colour(specification):
         return specification * xp_as_float_array(
-            [float("nan"), 1, float("nan"), float("nan")], xp=xp
+            [float("nan"), 1, float("nan"), float("nan")], xp=xp, like=specification
         )
 
     hue, value, chroma, code = specification
@@ -2036,7 +2040,7 @@ def LCHab_to_munsell_specification(LCHab: ArrayLike) -> NDArrayFloat:
     array([ 8.0362412..., 10.        ,  3.5013295...,  1.        ])
     """
 
-    L, C, Hab = tsplit(LCHab)
+    L, C, Hab = tsplit(as_ndarray(LCHab))
 
     if Hab == 0:
         code = 8
