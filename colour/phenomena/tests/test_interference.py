@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -72,6 +73,19 @@ light_water_molar_refraction_Schiebener1990` definition.
             0.204829756928,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([500.0, 600.0], 293.15, 1000.0)
+        reference = light_water_molar_refraction_Schiebener1990(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = light_water_molar_refraction_Schiebener1990(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
 
     def test_n_dimensional_light_water_molar_refraction_Schiebener1990(
         self, xp: ModuleType
@@ -150,6 +164,19 @@ light_water_refractive_index_Schiebener1990` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([500.0, 600.0], 293.15, 1000.0)
+        reference = light_water_refractive_index_Schiebener1990(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = light_water_refractive_index_Schiebener1990(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
+
     def test_n_dimensional_light_water_refractive_index_Schiebener1990(
         self, xp: ModuleType
     ) -> None:
@@ -218,7 +245,7 @@ class TestThinFilmTmm:
         assert np.all((T >= 0) & (T <= 1))
 
         # Test energy conservation
-        xp_assert_close(R + T, 1.0, atol=TOLERANCE_ABSOLUTE_TESTS * 10)
+        xp_assert_close(R + T, 1.0, atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06))
 
         # Test multiple wavelengths
         R, T = thin_film_tmm([1.0, 1.5, 1.0], 250, xp_as_array([400, 500, 600], xp=xp))
@@ -334,7 +361,7 @@ class TestMultilayerTmm:
         assert np.all((T >= 0) & (T <= 1))
 
         # Test energy conservation
-        xp_assert_close(R + T, 1.0, atol=TOLERANCE_ABSOLUTE_TESTS * 10)
+        xp_assert_close(R + T, 1.0, atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06))
 
         # Test with different substrate
         R_sub, T_sub = multilayer_tmm([1.0, 1.5, 1.5], [250], xp_as_array(500.0, xp=xp))
@@ -464,4 +491,4 @@ class TestMultilayerTmm:
         R_real, T_real = multilayer_tmm(n_layers_real, thicknesses_real, 550)
 
         # For lossless media: R + T = 1
-        xp_assert_close(R_real + T_real, 1.0, atol=TOLERANCE_ABSOLUTE_TESTS * 10)
+        xp_assert_close(R_real + T_real, 1.0, atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06))

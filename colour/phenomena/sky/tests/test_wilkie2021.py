@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 import typing
+from contextlib import nullcontext
 from dataclasses import fields
 
 if typing.TYPE_CHECKING:
@@ -232,7 +233,7 @@ class TestSkyDatasetWilkie2021:
     class unit tests methods.
     """
 
-    def test_required_attributes(self) -> None:
+    def test_required_attributes(self, xp: ModuleType) -> None:
         """Test the presence of required attributes."""
 
         required_attributes = (
@@ -259,6 +260,84 @@ class TestSkyDatasetWilkie2021:
         field_names = {f.name for f in fields(SkyDataset_Wilkie2021)}
         for attribute in required_attributes:
             assert attribute in field_names
+
+        # A reduced dataset exercises evaluation without the external download.
+        dataset = SkyDataset_Wilkie2021(path="")
+        dataset.channels = 1
+        dataset.channel_start = 400
+        dataset.channel_width = 10
+        for name in (
+            "visibilities_radiance",
+            "albedos_radiance",
+            "altitudes_radiance",
+            "elevations_radiance",
+            "altitudes_transmittance",
+            "visibilities_transmittance",
+        ):
+            setattr(dataset, name, np.array([0.0, 1.0]))
+        metadata = dataset.metadata_radiance
+        metadata.rank = 1
+        metadata.sun_stride = metadata.zenith_stride = 2
+        metadata.zenith_offset = 2
+        metadata.sun_break_points = metadata.zenith_break_points = np.array([0.0, 1.0])
+        metadata.total_coefficients_single_configuration = 4
+        dataset.data_radiance = np.tile([1.0, 2.0, 3.0, 4.0], 16)
+        dataset.altitude_dimension = dataset.distance_dimension = 2
+        dataset.rank_transmittance = 2
+        dataset.data_transmittance_u = np.full(16, 0.5)
+        dataset.data_transmittance_v = np.full(8, 0.5)
+        angles = xp_as_array([0.5, 0.7], xp=xp)
+        parameters = SkyParameters_Wilkie2021(
+            theta=angles,
+            gamma=angles,
+            shadow=angles,
+            zero=angles,
+            elevation=angles * 0 + 0.005,
+            altitude=angles * 0 + 0.5,
+            visibility=0.5,
+            albedo=0.5,
+        )
+        wavelength = xp_as_array([300.0, 405.0], xp=xp)
+        # Explicit device inputs must work independently of the creation default.
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            radiance = sky_radiance_Wilkie2021(dataset, parameters, wavelength)
+            xp_assert_close(
+                radiance, [[0.0, 5.25], [0.0, 6.29]], atol=TOLERANCE_ABSOLUTE_TESTS
+            )
+            transmittance = sky_transmittance_Wilkie2021(
+                dataset, parameters, wavelength, distance=0
+            )
+            xp_assert_close(
+                transmittance, [[0.0, 0.25], [0.0, 0.25]], atol=TOLERANCE_ABSOLUTE_TESTS
+            )
+            for function in (
+                sky_radiance_Wilkie2021,
+                sky_transmittance_Wilkie2021,
+                sun_radiance_Wilkie2021,
+            ):
+                result = function(dataset, parameters, wavelength[:1])
+                xp_assert_equal(result, np.zeros((2, 1)))
+                if hasattr(angles, "device"):
+                    assert result.device == angles.device
+            sun = sun_radiance_Wilkie2021(dataset, parameters, wavelength)
+            xp_assert_equal(sun, np.zeros((2, 2)))
+            parameters.gamma = angles * 0.0
+            sun = sun_radiance_Wilkie2021(dataset, parameters, wavelength)
+            assert np.all(as_ndarray(sun)[..., 1] > 0)
+            for result in (radiance, transmittance, sun):
+                if hasattr(angles, "device"):
+                    assert result.device == angles.device
+
+            # Host wavelength data also follows the native parameter arrays.
+            for function, reference in (
+                (sky_radiance_Wilkie2021, [[0.0, 3.5], [0.0, 3.7]]),
+                (sky_transmittance_Wilkie2021, [[0.0, 0.25], [0.0, 0.25]]),
+                (sun_radiance_Wilkie2021, as_ndarray(sun)),
+            ):
+                result = function(dataset, parameters, as_ndarray(wavelength))
+                xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+                if hasattr(angles, "device"):
+                    assert result.device == angles.device
 
     @pytest.mark.skipif(
         not DATASET_AVAILABLE,
@@ -447,37 +526,37 @@ compute_sky_parameters_Wilkie2021` definition.
             xp_assert_close(
                 parameters.theta,
                 reference["theta"],
-                atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+                atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
                 err_msg=f"{name}: theta",
             )
             xp_assert_close(
                 parameters.gamma,
                 reference["gamma"],
-                atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+                atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
                 err_msg=f"{name}: gamma",
             )
             xp_assert_close(
                 parameters.shadow,
                 reference["shadow"],
-                atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+                atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
                 err_msg=f"{name}: shadow",
             )
             xp_assert_close(
                 parameters.zero,
                 reference["zero"],
-                atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+                atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
                 err_msg=f"{name}: zero",
             )
             xp_assert_close(
                 parameters.elevation,
                 reference["elevation"],
-                atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+                atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
                 err_msg=f"{name}: elevation",
             )
             xp_assert_close(
                 parameters.altitude,
                 reference["altitude"],
-                atol=TOLERANCE_ABSOLUTE_TESTS * 10000,
+                atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.001),
                 err_msg=f"{name}: altitude",
             )
 

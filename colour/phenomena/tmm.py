@@ -44,12 +44,13 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
+from colour.hints import cast
 from colour.utilities import (
     MixinDataclassArithmetic,
     array_namespace,
     as_complex_array,
     as_float_array,
-    as_ndarray,
+    is_non_ndarray,
     xp_as_array,
     xp_as_float_array,
     xp_astype,
@@ -62,7 +63,7 @@ from colour.utilities import (
 )
 
 if TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayComplex, NDArrayFloat, Tuple
+    from colour.hints import Any, ArrayLike, NDArrayComplex, NDArrayFloat, Tuple
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -190,10 +191,21 @@ def snell_law(
 
     theta_i = xp_radians(as_float_array(theta_i))
 
-    xp = array_namespace(theta_i)
+    xp = array_namespace(theta_i, n_1, n_2)
 
-    n_1 = xp_as_float_array(np.real(as_ndarray(n_1)), xp=xp, like=theta_i)
-    n_2 = xp_as_float_array(np.real(as_ndarray(n_2)), xp=xp, like=theta_i)
+    theta_i = xp_as_float_array(
+        theta_i, xp=xp, like=n_1 if is_non_ndarray(n_1) else n_2
+    )
+    n_1 = xp_as_float_array(
+        cast("Any", n_1).real if hasattr(n_1, "real") else np.real(n_1),
+        xp=xp,
+        like=theta_i,
+    )
+    n_2 = xp_as_float_array(
+        cast("Any", n_2).real if hasattr(n_2, "real") else np.real(n_2),
+        xp=xp,
+        like=theta_i,
+    )
 
     # Apply Snell's law: n_i * sin(theta_i) = n_j * sin(theta_j) (Byrnes Eq. 3)
     return xp_degrees(xp.asin(n_1 * xp.sin(theta_i) / n_2))
@@ -255,18 +267,16 @@ np.complex128(1.5+0j))
     theta_i_rad = xp_radians(as_float_array(theta_i))
     theta_t_rad = xp_radians(as_float_array(theta_t))
 
-    xp = array_namespace(theta_i_rad)
+    operands = (n_1, n_2, theta_i_rad, theta_t_rad)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), theta_i_rad)
 
-    n_1 = (
-        xp_as_array(n_1, xp=xp, like=theta_i_rad)
-        if isinstance(n_1, np.ndarray)
-        else n_1
-    )
-    n_2 = (
-        xp_as_array(n_2, xp=xp, like=theta_i_rad)
-        if isinstance(n_2, np.ndarray)
-        else n_2
-    )
+    n_1 = xp_as_array(n_1, xp=xp, like=like)
+    n_2 = xp_as_array(n_2, xp=xp, like=n_1)
+    n_1 = as_complex_array(n_1)
+    n_2 = as_complex_array(n_2)
+    theta_i_rad = xp_as_float_array(theta_i_rad, xp=xp, like=n_1)
+    theta_t_rad = xp_as_float_array(theta_t_rad, xp=xp, like=n_1)
 
     cos_theta_i = xp_astype(xp.cos(theta_i_rad), n_1.dtype, xp=xp)
     cos_theta_t = xp_astype(xp.cos(theta_t_rad), n_1.dtype, xp=xp)
@@ -770,7 +780,11 @@ v_{n+1} \\\\ w_{n+1} \\end{pmatrix}
     theta = as_float_array(theta)
     wavelength = as_float_array(wavelength)
 
-    xp = array_namespace(wavelength, theta)
+    xp = array_namespace(wavelength, theta, t, n)
+
+    operands = (wavelength, theta, t, n)
+    like = next((a for a in operands if is_non_ndarray(a)), wavelength)
+    wavelength = xp_as_float_array(wavelength, xp=xp, like=like)
 
     n = xp_as_array(n, xp=xp, like=wavelength) if isinstance(n, np.ndarray) else n
     t = xp_as_array(t, xp=xp, like=wavelength)

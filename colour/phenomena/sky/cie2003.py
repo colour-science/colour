@@ -22,13 +22,14 @@ import typing
 from dataclasses import dataclass
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
+    from colour.hints import ArrayLike, DTypeFloat, NDArrayFloat
 
 from colour.utilities import (
     MixinDataclassIterable,
     array_namespace,
     as_float,
     as_float_array,
+    is_non_ndarray,
     xp_as_float_array,
 )
 
@@ -292,14 +293,23 @@ def sky_luminance_gradation_CIE2003(
 
     Z = as_float_array(Z)
 
-    xp = array_namespace(Z)
+    operands = (Z, a, b)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), Z)
 
+    Z = xp_as_float_array(Z, xp=xp, like=like)
     a = xp_as_float_array(a, xp=xp, like=Z)
     b = xp_as_float_array(b, xp=xp, like=Z)
 
+    above_horizon = xp.pi / 2 > Z
+    # Mask before evaluating the exponential: just beyond the horizon its
+    # inactive argument can overflow and contaminate reverse-mode gradients.
+    Z_active = xp.where(above_horizon, Z, 0.0)
+    a_active = xp.where(above_horizon, a, 0.0)
+    b_active = xp.where(above_horizon, b, 0.0)
     phi = xp.where(
-        xp.pi / 2 > Z,
-        1 + a * xp.exp(b / xp.cos(Z)),
+        above_horizon,
+        1 + a_active * xp.exp(b_active / xp.cos(Z_active)),
         1.0,
     )
 
@@ -311,7 +321,7 @@ def sky_scattering_indicatrix_CIE2003(
     c: ArrayLike,
     d: ArrayLike,
     e: ArrayLike,
-) -> NDArrayFloat:
+) -> NDArrayFloat | DTypeFloat:
     """
     Compute the *CIE Standard General Sky* scattering indicatrix function
     :math:`f(\\chi)` at the given angular distance :math:`\\chi` between a sky
@@ -349,8 +359,11 @@ def sky_scattering_indicatrix_CIE2003(
 
     chi = as_float_array(chi)
 
-    xp = array_namespace(chi)
+    operands = (chi, c, d, e)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), chi)
 
+    chi = xp_as_float_array(chi, xp=xp, like=like)
     c = xp_as_float_array(c, xp=xp, like=chi)
     d = xp_as_float_array(d, xp=xp, like=chi)
     e = xp_as_float_array(e, xp=xp, like=chi)
@@ -425,8 +438,11 @@ def sky_luminance_distribution_CIE2003(
 
     Z = as_float_array(Z)
 
-    xp = array_namespace(Z)
+    operands = (Z, alpha, Z_s, alpha_s)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), Z)
 
+    Z = xp_as_float_array(Z, xp=xp, like=like)
     alpha = xp_as_float_array(alpha, xp=xp, like=Z)
     Z_s = xp_as_float_array(Z_s, xp=xp, like=Z)
     alpha_s = xp_as_float_array(alpha_s, xp=xp, like=Z)
