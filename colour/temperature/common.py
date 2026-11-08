@@ -29,6 +29,7 @@ from colour.hints import cast
 from colour.utilities import (
     array_namespace,
     as_float_array,
+    is_non_ndarray,
     tstack,
     usage_warning,
     xp_as_float_array,
@@ -201,10 +202,18 @@ def solve_CCT_Newton(
 
     target = as_float_array(target)
 
-    xp = array_namespace(target)
+    operands = (target, x0)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), target)
+
+    target = xp_as_float_array(target, xp=xp, like=like)
+    x0 = xp_as_float_array(x0, xp=xp, like=target)
 
     # Carries ``target``'s namespace and device through the broadcast.
     CCT = xp.zeros_like(target[..., 0]) + xp_as_float_array(x0, xp=xp, like=target)
+
+    if 0 in CCT.shape:
+        return CCT
 
     residual = forward(CCT) - target
     objective = xp.sum(residual * residual, axis=-1)
@@ -218,15 +227,11 @@ def solve_CCT_Newton(
         float(xp.finfo(CCT.dtype).eps) * float(xp.max(xp.abs(CCT))),
     )
 
+    relative_step = max(1e-5, float(xp.finfo(CCT.dtype).eps) ** (1 / 3))
     converged = False
     for _iteration in range(newton_iterations):
-        # Relative step ``1e-5 * |CCT| + 1e-6`` sits near
-        # ``epsilon ** (1 / 3) ~= 6.06e-6`` for float64, the central-
-        # difference truncation/roundoff balance derived in Dennis &
-        # Schnabel (1983), *Numerical Methods for Unconstrained
-        # Optimization and Nonlinear Equations*, Section 5.4. The
-        # additive ``1e-6`` floor prevents zero-step at ``CCT == 0``.
-        h = xp.abs(CCT) * 1e-5 + 1e-6
+        # Balance central-difference truncation against the working precision.
+        h = xp.abs(CCT) * relative_step + 1e-6
         jacobian = (forward(CCT + h) - forward(CCT - h)) / (2 * h[..., None])
 
         # 1-D *Gauss-Newton*: :math:`\\delta T = -(J \\cdot r) /
@@ -360,10 +365,23 @@ def solve_xy_Newton(
 
     target = as_float_array(target)
 
-    xp = array_namespace(target)
+    operands = (target, x0, reference_xy)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), target)
+
+    target = xp_as_float_array(target, xp=xp, like=like)
+    x0 = xp_as_float_array(x0, xp=xp, like=target)
+    reference_xy = xp_as_float_array(reference_xy, xp=xp, like=target)
 
     x0_array = xp_as_float_array(x0, xp=xp, like=target)
-    xy = xp_broadcast_to(x0_array, (*target.shape, x0_array.shape[-1]), xp=xp)
+    xy = cast(
+        "NDArrayFloat",
+        xp_broadcast_to(x0_array, (*target.shape, x0_array.shape[-1]), xp=xp),
+    )
+
+    if 0 in xy.shape:
+        return xy
+
     reference_xy = xp_as_float_array(reference_xy, xp=xp, like=target)
 
     residual = forward(xy) - target
@@ -378,14 +396,13 @@ def solve_xy_Newton(
     # exhausting its budget. See :func:`solve_CCT_Newton`.
     tolerance = max(tolerance, float(xp.finfo(xy.dtype).eps))
 
+    relative_step = max(1e-5, float(xp.finfo(xy.dtype).eps) ** (1 / 3))
     converged = False
     for _iteration in range(newton_iterations):
         x = xy[..., 0]
         y = xy[..., 1]
-        # See ``solve_CCT_Newton`` for the central-difference step
-        # rationale (Dennis & Schnabel 1983, Section 5.4).
-        h_x = xp.abs(x) * 1e-5 + 1e-6
-        h_y = xp.abs(y) * 1e-5 + 1e-6
+        h_x = xp.abs(x) * relative_step + 1e-6
+        h_y = xp.abs(y) * relative_step + 1e-6
         df_dx = (forward(tstack([x + h_x, y])) - forward(tstack([x - h_x, y]))) / (
             2 * h_x
         )

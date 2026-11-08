@@ -40,8 +40,10 @@ from colour.utilities import (
     array_namespace,
     as_float,
     as_float_array,
+    is_non_ndarray,
     optional,
     usage_warning,
+    xp_as_float_array,
     xp_matrix_transpose,
     xp_reshape,
 )
@@ -115,6 +117,11 @@ def uv_to_CCT_Planck1900(
     cmfs, _illuminant = handle_spectral_arguments(cmfs)
     uv = as_float_array(uv)
 
+    operands = (uv, cmfs.values)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), uv)
+    uv = xp_as_float_array(uv, xp=xp, like=like)
+
     def forward(CCT: NDArrayFloat) -> NDArrayFloat:
         return CCT_to_uv_Planck1900(CCT, cmfs)
 
@@ -167,7 +174,13 @@ def CCT_to_uv_Planck1900(
 
     CCT = as_float_array(CCT)
 
-    xp = array_namespace(CCT)
+    cmfs, _illuminant = handle_spectral_arguments(cmfs)
+    operands = (CCT, cmfs.values)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), CCT)
+    CCT = xp_as_float_array(CCT, xp=xp, like=like)
+    cmfs = cmfs.copy()
+    cmfs.values = xp_as_float_array(cmfs.values, xp=xp, like=CCT)
 
     if xp.any(
         xp.logical_or(xp.logical_not(xp.isfinite(CCT)), CCT < _CCT_MINIMAL_PLANCK1900)

@@ -36,6 +36,8 @@ __all__ = [
 class TestUv_to_CCT:
     """Define :func:`colour.temperature.uv_to_CCT` definition unit tests."""
 
+    # Float32 chromaticity rounding shifts the inverse by a few millikelvins.
+    @pytest.mark.mps_tolerance_absolute(0.01)
     def test_locus_methods_uv_to_CCT(self, xp: ModuleType) -> None:
         """Test locus-only methods return correlated colour temperature."""
 
@@ -160,6 +162,8 @@ class TestXy_to_CCT:
     Define :func:`colour.temperature.xy_to_CCT` definition unit tests methods.
     """
 
+    # The inverse amplifies float32 xy rounding to less than 0.05 K.
+    @pytest.mark.mps_tolerance_absolute(0.1)
     def test_xy_to_CCT(self, xp: ModuleType) -> None:
         """Test :func:`colour.temperature.xy_to_CCT` definition."""
 
@@ -169,21 +173,21 @@ class TestXy_to_CCT:
         xp_assert_close(
             xy_to_CCT(xy),
             6508.1175148,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
         )
 
         # Test Hernandez 1999 method
         xp_assert_close(
             xy_to_CCT(xy, "Hernandez 1999"),
             6500.7420431,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
         )
 
         # Test McCamy 1992 method
         xp_assert_close(
             xy_to_CCT(xy, "McCamy 1992"),
             6505.08059131,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
         )
 
 

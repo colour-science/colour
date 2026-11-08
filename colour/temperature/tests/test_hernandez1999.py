@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -42,7 +43,9 @@ class Testxy_to_CCT_Hernandez1999:
     """
 
     @pytest.mark.mps_tolerance_absolute(1e-1)
-    def test_xy_to_CCT_Hernandez1999(self, xp: ModuleType) -> None:
+    def test_xy_to_CCT_Hernandez1999(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.temperature.hernandez1999.xy_to_CCT_McCamy1992`
         definition.
@@ -67,6 +70,34 @@ class Testxy_to_CCT_Hernandez1999:
             64448.11092565,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # The first chromaticity is the integrated 200000 K Planckian
+        # radiator. Both cases overflow an unweighted float32 exponential,
+        # even though their final CCTs and derivatives are representable.
+        for xy, expected in (
+            ([0.24119282938183745, 0.23598464668748229], 208646.4896016103),
+            ([0.25, 0.23], 188999.45429354507),
+        ):
+            native = xp_as_array(xy, xp=xp)
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = xy_to_CCT_Hernandez1999(native)
+            assert xp.isfinite(result)
+            if hasattr(native, "device"):
+                assert result.device == native.device
+
+            n = (native[0] - 0.3356) / (native[1] - 0.1691)
+            control = (
+                36284.48953
+                + xp.exp(np.log(0.00228) - n / 0.07861)
+                + xp.exp(np.log(5.4535e-36) - n / 0.01543)
+            )
+            xp_assert_close(result, control, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if float(xp.finfo(native.dtype).eps) < np.finfo(np.float32).eps:
+                xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(xy_to_CCT_Hernandez1999, xy)
 
     def test_n_dimensional_xy_to_CCT_Hernandez1999(self, xp: ModuleType) -> None:
         """
