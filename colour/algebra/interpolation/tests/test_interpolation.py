@@ -753,7 +753,9 @@ def test_extrapolator_rank_2(
     assert scalar.shape == (2,)
 
 
-def test_extrapolator(backend: tuple[str, Callable[[Any], Any]]) -> None:
+def test_extrapolator(
+    backend: tuple[str, Callable[[Any], Any]], request: pytest.FixtureRequest
+) -> None:
     """Test the dispatching extrapolator against the *NumPy* reference."""
 
     name, cast = backend
@@ -781,6 +783,37 @@ def test_extrapolator(backend: tuple[str, Callable[[Any], Any]]) -> None:
             as_ndarray(reference),
             atol=TOLERANCE_ABSOLUTE_TESTS * 0.001,
         )
+
+    # A fixed boundary value is constant in the finite ordinates, even at an
+    # infinite query. Check each one-sided override as well as the pair.
+    for left, right, points, expected in (
+        (7.0, None, [-np.inf, -1e20], [7.0, 7.0]),
+        (None, 9.0, [np.inf, 1e20], [9.0, 9.0]),
+        (7.0, 9.0, [-np.inf, np.inf], [7.0, 9.0]),
+    ):
+        for values in (y, np.stack([y, y * 2], axis=-1)):
+            expected_values = (
+                expected
+                if values.ndim == 1
+                else np.repeat(np.asarray(expected)[:, None], 2, axis=1)
+            )
+
+            def fixed_extrapolation(
+                values: Any,
+                left: float | None = left,
+                right: float | None = right,
+                points: Any = points,
+            ) -> Any:
+                return Extrapolator(
+                    LinearInterpolator(x, values), left=left, right=right
+                )(points)
+
+            result = fixed_extrapolation(cast(values))
+            xp_assert_equal(result, expected_values)
+            if name != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                _result, (gradient,), _variables = autodiff(fixed_extrapolation, values)
+                xp_assert_equal(gradient, np.zeros_like(values))
 
 
 def test_extrapolator_properties() -> None:
