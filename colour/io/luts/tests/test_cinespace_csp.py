@@ -207,7 +207,7 @@ class TestWriteLUTCinespace:
         )
         xp_assert_close(LUT_4_t.domain, LUT_4_r.domain, atol=TOLERANCE_ABSOLUTE_TESTS)
         xp_assert_close(
-            LUT_4_t.table, LUT_4_r.table, atol=TOLERANCE_ABSOLUTE_TESTS * 500
+            LUT_4_t.table, LUT_4_r.table, atol=max(TOLERANCE_ABSOLUTE_TESTS, 5e-05)
         )
 
         LUT_5_r = cast(

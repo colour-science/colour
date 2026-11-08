@@ -299,7 +299,9 @@ def _test_spectral_image_D65(path: str) -> None:
     xp_assert_close(
         components["S0"][1],
         np.reshape(SDS_ILLUMINANTS["D65"].values, (1, 1, -1)),
-        atol=TOLERANCE_ABSOLUTE_TESTS * 500000,  # OpenEXR *float16* storage precision.
+        atol=max(
+            TOLERANCE_ABSOLUTE_TESTS, 0.05
+        ),  # OpenEXR *float16* storage precision.
     )
 
     components, specification = read_spectral_image_Fichet2021(
@@ -366,7 +368,9 @@ def _test_spectral_image_Ohta1997(path: str) -> None:
     xp_assert_close(
         components["T"][1],
         np.reshape(np.transpose(msds.values), (4, 6, -1)),
-        atol=TOLERANCE_ABSOLUTE_TESTS * 5000,  # OpenEXR *float16* mantissa precision.
+        atol=max(
+            TOLERANCE_ABSOLUTE_TESTS, 0.0005
+        ),  # OpenEXR *float16* mantissa precision.
     )
 
     assert specification.is_emissive is False

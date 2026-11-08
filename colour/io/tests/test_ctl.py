@@ -145,7 +145,7 @@ class TestProcessImageCtl:
                 "-force",
             ),
             0.18 / 2,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         xp_assert_close(
@@ -156,7 +156,7 @@ class TestProcessImageCtl:
                 },
             ),
             [0.18 / 2, 0.18, 0.18 * 2],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         xp_assert_close(
@@ -167,7 +167,7 @@ class TestProcessImageCtl:
                 },
             ),
             [[0.18 / 2, 0.18, 0.18 * 2]],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         xp_assert_close(
@@ -178,7 +178,7 @@ class TestProcessImageCtl:
                 },
             ),
             [[[0.18 / 2, 0.18, 0.18 * 2]]],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         xp_assert_close(
@@ -189,7 +189,7 @@ class TestProcessImageCtl:
                 },
             ),
             full([4, 2, 3], 0.18) * [0.5, 1.0, 2.0],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
 
