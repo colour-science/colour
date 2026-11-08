@@ -38,6 +38,8 @@ from colour.utilities import (
     array_namespace,
     as_float,
     as_float_array,
+    as_ndarray,
+    is_non_ndarray,
     ones,
     tsplit,
     xp_as_float_array,
@@ -126,7 +128,11 @@ def normalised_primary_matrix(
 
     primaries = as_float_array(primaries)
 
-    xp = array_namespace(primaries)
+    xp = array_namespace(primaries, whitepoint)
+
+    reference = next((a for a in (primaries, whitepoint) if is_non_ndarray(a)), None)
+    primaries = xp_as_float_array(primaries, xp=xp, like=reference)
+    whitepoint = xp_as_float_array(whitepoint, xp=xp, like=primaries)
 
     primaries = xp_reshape(primaries, (3, 2), xp=xp)
 
@@ -290,10 +296,8 @@ def RGB_luminance_equation(primaries: ArrayLike, whitepoint: ArrayLike) -> str:
 
     primaries = as_float_array(primaries)
 
-    xp = array_namespace(primaries)
-
     return "Y = {}(R) + {}(G) + {}(B)".format(
-        *xp_reshape(normalised_primary_matrix(primaries, whitepoint), (-1,), xp=xp)[3:6]
+        *as_ndarray(normalised_primary_matrix(primaries, whitepoint)).reshape(-1)[3:6]
     )
 
 
@@ -338,7 +342,14 @@ def RGB_luminance(
 
     RGB = as_float_array(RGB)
 
-    xp = array_namespace(RGB)
+    xp = array_namespace(RGB, primaries, whitepoint)
+
+    reference = next(
+        (a for a in (RGB, primaries, whitepoint) if is_non_ndarray(a)), None
+    )
+    RGB = xp_as_float_array(RGB, xp=xp, like=reference)
+    primaries = xp_as_float_array(primaries, xp=xp, like=RGB)
+    whitepoint = xp_as_float_array(whitepoint, xp=xp, like=RGB)
 
     Y = xp.sum(
         xp_as_float_array(

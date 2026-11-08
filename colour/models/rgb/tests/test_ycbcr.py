@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
+    import pytest
     from colour.hints import ModuleType
 
 from itertools import product
@@ -25,6 +27,7 @@ from colour.models.rgb.ycbcr import (
     round_BT2100,
 )
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
@@ -132,7 +135,7 @@ class TestMatrixYCbCr:
     methods.
     """
 
-    def test_matrix_YCbCr(self, xp: ModuleType) -> None:
+    def test_matrix_YCbCr(self, xp: ModuleType, request: pytest.FixtureRequest) -> None:
         """Test :func:`colour.models.rgb.ycbcr.matrix_YCbCr` definition."""
 
         xp_assert_close(
@@ -204,6 +207,33 @@ class TestMatrixYCbCr:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {"K": [0.2126, 0.0722], "S": [0.5, 0.5]}
+        expected = matrix_YCbCr(**host_arguments)
+        for parameter in ("S",):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = matrix_YCbCr(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: matrix_YCbCr(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
+
+    def test_matrix_YCbCr_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test numerical gradients with respect to luma coefficients."""
+
+        autodiff(matrix_YCbCr, xp_as_array([0.2126, 0.0722], xp=xp))
+
 
 class TestOffsetYCbCr:
     """
@@ -245,7 +275,7 @@ class TestRGB_to_YCbCr:
     methods.
     """
 
-    def test_RGB_to_YCbCr(self, xp: ModuleType) -> None:
+    def test_RGB_to_YCbCr(self, xp: ModuleType, request: pytest.FixtureRequest) -> None:
         """Test :func:`colour.models.rgb.ycbcr.RGB_to_YCbCr` definition."""
 
         xp_assert_close(
@@ -297,6 +327,33 @@ class TestRGB_to_YCbCr:
             [0.53510000, -0.13397672, 0.16784798],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host_arguments: dict[str, typing.Any] = {
+            "RGB": [[0.2, 0.3, 0.4], [0.3, 0.4, 0.5]],
+            "K": [0.2126, 0.0722],
+            "S": [0.5, 0.5],
+            "in_range": [0.0, 1.0],
+            "out_range": [0.0, 1.0, -0.5, 0.5],
+        }
+        expected = RGB_to_YCbCr(**host_arguments)
+        for parameter, host_value in host_arguments.items():
+            native = xp_as_array(host_value, xp=xp)
+            # Keep the physical input device while factories default to CPU.
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                actual = RGB_to_YCbCr(**{**host_arguments, parameter: native})
+                assert array_namespace(actual) is array_namespace(native)
+                assert getattr(actual, "device", None) == getattr(
+                    native, "device", None
+                )
+                xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+                if xp.__name__ != "numpy":
+                    autodiff = request.getfixturevalue("autodiff")
+                    autodiff(
+                        lambda value, parameter=parameter: RGB_to_YCbCr(
+                            **{**host_arguments, parameter: value}
+                        ),
+                        native,
+                    )
 
     def test_n_dimensional_RGB_to_YCbCr(self, xp: ModuleType) -> None:
         """
@@ -373,7 +430,7 @@ class TestYCbCr_to_RGB:
     methods.
     """
 
-    def test_YCbCr_to_RGB(self, xp: ModuleType) -> None:
+    def test_YCbCr_to_RGB(self, xp: ModuleType, request: pytest.FixtureRequest) -> None:
         """Test :func:`colour.models.rgb.ycbcr.YCbCr_to_RGB` definition."""
 
         xp_assert_close(
@@ -417,6 +474,33 @@ class TestYCbCr_to_RGB:
             [0.75, 0.5, 0.25],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host_arguments: dict[str, typing.Any] = {
+            "YCbCr": [[0.2, 0.3, 0.4], [0.3, 0.4, 0.5]],
+            "K": [0.2126, 0.0722],
+            "S": [0.5, 0.5],
+            "in_range": [0.0, 1.0, -0.5, 0.5],
+            "out_range": [0.0, 1.0],
+        }
+        expected = YCbCr_to_RGB(**host_arguments)
+        for parameter, host_value in host_arguments.items():
+            native = xp_as_array(host_value, xp=xp)
+            # Keep the physical input device while factories default to CPU.
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                actual = YCbCr_to_RGB(**{**host_arguments, parameter: native})
+                assert array_namespace(actual) is array_namespace(native)
+                assert getattr(actual, "device", None) == getattr(
+                    native, "device", None
+                )
+                xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+                if xp.__name__ != "numpy":
+                    autodiff = request.getfixturevalue("autodiff")
+                    autodiff(
+                        lambda value, parameter=parameter: YCbCr_to_RGB(
+                            **{**host_arguments, parameter: value}
+                        ),
+                        native,
+                    )
 
     def test_roundtrip_YCbCr_YUV(self, xp: ModuleType) -> None:
         """Test *Y'UV* roundtrip with :func:`colour.models.rgb.ycbcr.RGB_to_YCbCr`
@@ -506,7 +590,9 @@ class TestRGB_to_YcCbcCrc:
     tests methods.
     """
 
-    def test_RGB_to_YcCbcCrc(self, xp: ModuleType) -> None:
+    def test_RGB_to_YcCbcCrc(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """Test :func:`colour.models.rgb.ycbcr.RGB_to_YcCbcCrc` definition."""
 
         xp_assert_close(
@@ -526,6 +612,30 @@ class TestRGB_to_YcCbcCrc:
             [422, 512, 512],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host_arguments: dict[str, typing.Any] = {
+            "RGB": [[0.2, 0.3, 0.4], [0.3, 0.4, 0.5]],
+            "out_range": [0.0, 1.0, -0.5, 0.5],
+        }
+        expected = RGB_to_YcCbcCrc(**host_arguments)
+        for parameter, host_value in host_arguments.items():
+            native = xp_as_array(host_value, xp=xp)
+            # Keep the physical input device while factories default to CPU.
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                actual = RGB_to_YcCbcCrc(**{**host_arguments, parameter: native})
+                assert array_namespace(actual) is array_namespace(native)
+                assert getattr(actual, "device", None) == getattr(
+                    native, "device", None
+                )
+                xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+                if xp.__name__ != "numpy":
+                    autodiff = request.getfixturevalue("autodiff")
+                    autodiff(
+                        lambda value, parameter=parameter: RGB_to_YcCbcCrc(
+                            **{**host_arguments, parameter: value}
+                        ),
+                        native,
+                    )
 
     def test_n_dimensional_RGB_to_YcCbcCrc(self, xp: ModuleType) -> None:
         """
@@ -590,7 +700,9 @@ class TestYcCbcCrc_to_RGB:
     methods.
     """
 
-    def test_YcCbcCrc_to_RGB(self, xp: ModuleType) -> None:
+    def test_YcCbcCrc_to_RGB(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """Test :func:`colour.models.rgb.ycbcr.YCbCr_to_RGB` definition."""
 
         xp_assert_close(
@@ -610,6 +722,30 @@ class TestYcCbcCrc_to_RGB:
             [0.18009037, 0.18009037, 0.18009037],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host_arguments: dict[str, typing.Any] = {
+            "YcCbcCrc": [[0.2, 0.3, 0.4], [0.3, 0.4, 0.5]],
+            "in_range": [0.0, 1.0, -0.5, 0.5],
+        }
+        expected = YcCbcCrc_to_RGB(**host_arguments)
+        for parameter, host_value in host_arguments.items():
+            native = xp_as_array(host_value, xp=xp)
+            # Keep the physical input device while factories default to CPU.
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                actual = YcCbcCrc_to_RGB(**{**host_arguments, parameter: native})
+                assert array_namespace(actual) is array_namespace(native)
+                assert getattr(actual, "device", None) == getattr(
+                    native, "device", None
+                )
+                xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+                if xp.__name__ != "numpy":
+                    autodiff = request.getfixturevalue("autodiff")
+                    autodiff(
+                        lambda value, parameter=parameter: YcCbcCrc_to_RGB(
+                            **{**host_arguments, parameter: value}
+                        ),
+                        native,
+                    )
 
     def test_n_dimensional_YcCbcCrc_to_RGB(self, xp: ModuleType) -> None:
         """
