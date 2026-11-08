@@ -133,7 +133,7 @@ def log_encoding_AppleLogProfile(
             R < R_0,
         ],
         [
-            gamma * xp_log2(R + beta, where=R + beta > 0, xp=xp) + delta,
+            gamma * xp_log2(R + beta, where=R_t <= R, xp=xp) + delta,
             sigma * (R - R_0) ** 2,
             0,
         ],

@@ -6,6 +6,7 @@ apple_log_profile` module.
 from __future__ import annotations
 
 import typing
+from functools import partial
 
 import numpy as np
 
@@ -14,7 +15,11 @@ from colour.models.rgb.transfer_functions import (
     log_decoding_AppleLogProfile,
     log_encoding_AppleLogProfile,
 )
+from colour.models.rgb.transfer_functions.apple_log_profile import (
+    CONSTANTS_APPLE_LOG_PROFILE,
+)
 from colour.utilities import (
+    Structure,
     as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
@@ -24,6 +29,8 @@ from colour.utilities import (
 )
 
 if typing.TYPE_CHECKING:
+    import pytest
+
     from colour.hints import ModuleType
 
 __author__ = "Colour Developers"
@@ -45,7 +52,9 @@ class TestLogEncoding_AppleLogProfile:
 log_encoding_AppleLogProfile` definition unit tests methods.
     """
 
-    def test_log_encoding_AppleLogProfile(self, xp: ModuleType) -> None:
+    def test_log_encoding_AppleLogProfile(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.apple_log_profile.\
 log_encoding_AppleLogProfile` definition.
@@ -68,6 +77,31 @@ log_encoding_AppleLogProfile` definition.
             0.694552983055191,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        constants = Structure(**CONSTANTS_APPLE_LOG_PROFILE)
+        R = xp_as_array([0.1], xp=xp)
+        for beta in (0.01, 0.0, -0.1, -0.2, float("nan")):
+            constants.beta = beta
+            with np.errstate(divide="ignore", invalid="ignore"):
+                expected = (
+                    constants.gamma * np.log2(as_ndarray(R) + beta) + constants.delta
+                )
+                actual = log_encoding_AppleLogProfile(R, constants=constants)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(actual, "device", None) == getattr(R, "device", None)
+        constants.beta = 0.01
+        if xp.__name__ != "numpy":
+            for coefficients in (CONSTANTS_APPLE_LOG_PROFILE, constants):
+                _, (gradient,), _ = request.getfixturevalue("autodiff")(
+                    partial(log_encoding_AppleLogProfile, constants=coefficients),
+                    R,
+                )
+                xp_assert_close(
+                    gradient,
+                    coefficients.gamma
+                    / ((as_ndarray(R) + coefficients.beta) * np.log(2)),
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
 
     def test_n_dimensional_log_encoding_DLog(self, xp: ModuleType) -> None:
         """
