@@ -142,6 +142,38 @@ class TestUv_to_CCT_Ohno2013:
             autodiff = request.getfixturevalue("autodiff")
             autodiff(lambda uv: uv_to_CCT_Ohno2013(uv, spacing=1.05), [0.1978, 0.3122])
             cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+            # The middle distance is exactly zero at an interior table row.
+            # CCT is smooth there even though the unused parabolic norm is not.
+            table = planckian_table(cmfs, 1000, 100000, 1.05)
+            rows = xp_as_array(as_ndarray(table)[[20, 40], 1:], xp=xp)
+
+            def temperatures(uv: typing.Any) -> typing.Any:
+                """Select the smooth temperature component at exact table rows."""
+
+                with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                    return uv_to_CCT_Ohno2013(uv, spacing=1.05)[..., 0]
+
+            autodiff(temperatures, rows)
+            if xp.__name__ == "jax.numpy":
+                import jax  # noqa: PLC0415
+
+                xp_assert_close(
+                    jax.jacfwd(temperatures)(rows),
+                    jax.jacrev(temperatures)(rows),
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
+            def temperatures_cmfs(values: typing.Any) -> typing.Any:
+                """Keep native CMFS on their device with a host creation default."""
+
+                with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                    return uv_to_CCT_Ohno2013(
+                        as_ndarray(rows[0]),
+                        MultiSpectralDistributions(values, cmfs.wavelengths),
+                        spacing=1.05,
+                    )[..., 0]
+
+            autodiff(temperatures_cmfs, cmfs.values)
             autodiff(
                 lambda values: uv_to_CCT_Ohno2013(
                     [0.1978, 0.3122],

@@ -47,6 +47,7 @@ from colour.utilities import (
     xp_as_array,
     xp_as_float_array,
     xp_reshape,
+    xp_sqrt,
 )
 
 __author__ = "Colour Developers"
@@ -296,7 +297,17 @@ def uv_to_CCT_Ohno2013(
     )
     # Recompute only the selected distances so differentiation retains three
     # neighbours per sample rather than every Planckian table row.
-    distances = xp.linalg.vector_norm(neighbours[..., 1:] - uv[:, None, :], axis=-1)
+    differences = neighbours[..., 1:] - uv[:, None, :]
+    nonzero = xp.any(differences != 0, axis=-1)
+    # At an exact table row the middle distance is zero. Its norm is only
+    # needed by the inactive parabolic solution, but JAX still differentiates
+    # that primitive. Guard before taking the norm and restore the zero limit;
+    # retain vector_norm so nonzero values keep its ordinary numerical range.
+    distances = xp.where(
+        nonzero,
+        xp.linalg.vector_norm(xp.where(nonzero[..., None], differences, 1.0), axis=-1),
+        0.0,
+    )
     tables = xp.concat([neighbours, distances[..., None]], axis=-1)
 
     Tip, uip, vip, dip = tsplit(tables[:, 0, :])
@@ -311,7 +322,8 @@ def uv_to_CCT_Ohno2013(
     vtx = vip + (vin - vip) * (x / l)
     sign = xp.sign(uv[..., 1] - vtx)
     radicand = dip**2 - x**2
-    D_uv_t = xp.sqrt(xp.where(radicand > 0, radicand, 0.0)) * sign
+    positive = radicand > 0
+    D_uv_t = xp.where(positive, xp_sqrt(radicand, where=positive, xp=xp), 0.0) * sign
 
     # *Ohno (2014)* Eqs. (26)-(28), parabolic solution.
     X = (Tin - Ti) * (Tip - Tin) * (Ti - Tip)
