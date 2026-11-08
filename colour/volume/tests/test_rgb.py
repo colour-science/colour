@@ -21,6 +21,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -34,6 +35,8 @@ from colour.models import (
     RGB_COLOURSPACE_BT2020,
 )
 from colour.utilities import (
+    xp_as_array,
+    xp_as_float_array,
     xp_assert_close,
 )
 from colour.volume import (
@@ -139,7 +142,7 @@ RGB_colourspace_volume_coverage_MonteCarlo` definition unit tests methods.
     :cite:`Laurent2012a`
     """
 
-    def test_RGB_colourspace_volume_coverage_MonteCarlo(self) -> None:
+    def test_RGB_colourspace_volume_coverage_MonteCarlo(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.volume.rgb.\
 RGB_colourspace_volume_coverage_MonteCarlo` definition.
@@ -155,6 +158,40 @@ RGB_colourspace_volume_coverage_MonteCarlo` definition.
             81.044349070100140,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        points = xp_as_float_array(
+            [[0.2, 0.2, 0.2], [0.4, 0.4, 0.4], [2.0, 2.0, 2.0]], xp=xp
+        )
+        for samples in (points, xp.stack([points, points])):
+
+            def random_generator(
+                _count: int, samples: typing.Any = samples, **_kwargs: typing.Any
+            ) -> typing.Any:
+                """Return deterministic native samples, including trailing batches."""
+
+                return samples
+
+            def coverage_sampler(
+                XYZ: typing.Any, samples: typing.Any = samples
+            ) -> typing.Any:
+                """Keep every sample on the native device."""
+
+                assert XYZ is samples
+                if hasattr(samples, "device"):
+                    assert XYZ.device == samples.device
+                return xp_as_array([True] * XYZ.shape[0], xp=xp, like=XYZ)
+
+            # Two of every three XYZ points lie inside BT.709. Native samples
+            # must also work when the array creation default is the CPU.
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = RGB_colourspace_volume_coverage_MonteCarlo(
+                    RGB_COLOURSPACE_BT709,
+                    coverage_sampler,
+                    samples.shape[0],
+                    random_generator=random_generator,
+                )
+            assert isinstance(result, float)
+            xp_assert_close(result, 100 * 2 / 3, atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestRGB_colourspacePointerGamutCoverageMonteCarlo:
