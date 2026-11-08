@@ -24,6 +24,7 @@ from colour.phenomena.tmm import matrix_transfer_tmm
 from colour.utilities import (
     array_namespace,
     as_float_array,
+    is_non_ndarray,
     tstack,
     xp_as_float_array,
     xp_atleast_1d,
@@ -83,9 +84,17 @@ def light_water_molar_refraction_Schiebener1990(
     :cite:`Schiebener1990`
     """
 
-    wl = as_float_array(wavelength) / 589
-    T = as_float_array(temperature) / 273.15
-    p = as_float_array(density) / 1000
+    operands = (wavelength, temperature, density)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), wavelength)
+
+    wavelength = xp_as_float_array(wavelength, xp=xp, like=like)
+    temperature = xp_as_float_array(temperature, xp=xp, like=wavelength)
+    density = xp_as_float_array(density, xp=xp, like=wavelength)
+
+    wl = wavelength / 589
+    T = temperature / 273.15
+    p = density / 1000
 
     a_0 = 0.243905091
     a_1 = 9.53518094 * 10**-3
@@ -146,7 +155,15 @@ def light_water_refractive_index_Schiebener1990(
     :cite:`Schiebener1990`
     """
 
-    p_s = as_float_array(density) / 1000
+    operands = (wavelength, temperature, density)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), wavelength)
+
+    wavelength = xp_as_float_array(wavelength, xp=xp, like=like)
+    temperature = xp_as_float_array(temperature, xp=xp, like=wavelength)
+    density = xp_as_float_array(density, xp=xp, like=wavelength)
+
+    p_s = density / 1000
 
     LL = light_water_molar_refraction_Schiebener1990(wavelength, temperature, density)
 
@@ -284,7 +301,13 @@ def thin_film_tmm(
 
     wavelength = as_float_array(wavelength)
 
-    xp = array_namespace(wavelength)
+    xp = array_namespace(wavelength, theta, t, n)
+
+    wavelength = xp_as_float_array(
+        wavelength,
+        xp=xp,
+        like=t if is_non_ndarray(t) else theta if is_non_ndarray(theta) else n,
+    )
 
     t = xp_atleast_1d(xp_as_float_array(t, xp=xp, like=wavelength), xp=xp)
 
@@ -419,7 +442,13 @@ def multilayer_tmm(
 
     wavelength = as_float_array(wavelength)
 
-    xp = array_namespace(wavelength)
+    xp = array_namespace(wavelength, theta, t, n)
+
+    wavelength = xp_as_float_array(
+        wavelength,
+        xp=xp,
+        like=t if is_non_ndarray(t) else theta if is_non_ndarray(theta) else n,
+    )
 
     theta = xp_atleast_1d(xp_as_float_array(theta, xp=xp, like=wavelength), xp=xp)
 

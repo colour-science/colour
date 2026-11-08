@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -22,6 +23,7 @@ from colour.utilities import (
     ignore_numpy_errors,
     xp_as_array,
     xp_assert_close,
+    xp_assert_equal,
 )
 
 __author__ = "Colour Developers"
@@ -45,7 +47,9 @@ class TestSkyLuminanceGradationCIE2003:
     definition unit tests methods.
     """
 
-    def test_sky_luminance_gradation_CIE2003(self, xp: ModuleType) -> None:
+    def test_sky_luminance_gradation_CIE2003(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.phenomena.sky.\
 sky_luminance_gradation_CIE2003` definition.
@@ -81,6 +85,41 @@ sky_luminance_gradation_CIE2003` definition.
             1.0,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([0.1, 0.2], 4.0, -0.7)
+        reference = sky_luminance_gradation_CIE2003(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = sky_luminance_gradation_CIE2003(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
+
+        xp_assert_equal(
+            xp.isnan(
+                sky_luminance_gradation_CIE2003(
+                    xp_as_array([0.0], xp=xp), float("nan"), -0.7
+                )
+            ),
+            [True],
+        )
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(sky_luminance_gradation_CIE2003, [0.1, 0.2], 4.0, -0.7)
+            result, gradients, _inputs = autodiff(
+                sky_luminance_gradation_CIE2003,
+                [np.pi / 2, np.pi / 2 + 1e-6],
+                4.0,
+                -0.7,
+            )
+            xp_assert_equal(result, xp.ones_like(result))
+            for gradient in gradients:
+                xp_assert_equal(gradient, xp.zeros_like(gradient))
 
     def test_n_dimensional_sky_luminance_gradation_CIE2003(
         self, xp: ModuleType
@@ -142,6 +181,19 @@ sky_scattering_indicatrix_CIE2003` definition.
             3.32646285329632,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([0.1, 0.2], 10.0, -3.0, 0.45)
+        reference = sky_scattering_indicatrix_CIE2003(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = sky_scattering_indicatrix_CIE2003(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
 
     def test_n_dimensional_sky_scattering_indicatrix_CIE2003(
         self, xp: ModuleType
@@ -229,6 +281,19 @@ sky_luminance_distribution_CIE2003` definition.
             0.45445243068520,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([0.1, 0.2], 0.3, 0.4, 0.5)
+        reference = sky_luminance_distribution_CIE2003(1, *arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = sky_luminance_distribution_CIE2003(1, *mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
 
     def test_sky_type_validation(self) -> None:
         """

@@ -39,6 +39,7 @@ from colour.utilities import (
     as_float,
     as_float_array,
     filter_kwargs,
+    is_non_ndarray,
     xp_as_float_array,
     xp_radians,
     xp_resize,
@@ -227,6 +228,13 @@ def air_refraction_index_Bodhaine1999(
     wavelength = as_float_array(wavelength)
     CO2_concentration = as_float_array(CO2_concentration)
 
+    operands = (wavelength, CO2_concentration)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), wavelength)
+
+    wavelength = xp_as_float_array(wavelength, xp=xp, like=like)
+    CO2_concentration = xp_as_float_array(CO2_concentration, xp=xp, like=wavelength)
+
     # Converting from parts per million (ppm) to parts per volume (ppv).
     CO2_concentration = CO2_concentration * 1e-6
 
@@ -323,7 +331,9 @@ def F_air_Penndorf1957(wavelength: ArrayLike) -> NDArrayFloat:
     xp = array_namespace(wavelength)
 
     return as_float(
-        xp_resize(xp_as_float_array([1.0608], xp=xp), wavelength.shape, xp=xp)
+        xp_resize(
+            xp_as_float_array([1.0608], xp=xp, like=wavelength), wavelength.shape, xp=xp
+        )
     )
 
 
@@ -359,7 +369,9 @@ def F_air_Young1981(wavelength: ArrayLike) -> NDArrayFloat:
     xp = array_namespace(wavelength)
 
     return as_float(
-        xp_resize(xp_as_float_array([1.0480], xp=xp), wavelength.shape, xp=xp)
+        xp_resize(
+            xp_as_float_array([1.0480], xp=xp, like=wavelength), wavelength.shape, xp=xp
+        )
     )
 
 
@@ -421,9 +433,17 @@ def F_air_Bodhaine1999(
     np.float64(1.0487697...)
     """
 
+    CO2_concentration = as_float_array(CO2_concentration)
+
+    operands = (wavelength, CO2_concentration)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), wavelength)
+
+    wavelength = xp_as_float_array(wavelength, xp=xp, like=like)
+    CO2_concentration = xp_as_float_array(CO2_concentration, xp=xp, like=wavelength)
+
     O2 = O2_depolarisation(wavelength)
     N2 = N2_depolarisation(wavelength)
-    CO2_concentration = as_float_array(CO2_concentration)
 
     # Converting from parts per million (ppm) to parts per volume per percent.
     CO2_concentration = CO2_concentration * 1e-4
@@ -471,6 +491,13 @@ def molecular_density(
 
     temperature = as_float_array(temperature)
     avogadro_constant = as_float_array(avogadro_constant)
+
+    operands = (temperature, avogadro_constant)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), temperature)
+
+    temperature = xp_as_float_array(temperature, xp=xp, like=like)
+    avogadro_constant = xp_as_float_array(avogadro_constant, xp=xp, like=temperature)
 
     with sdiv_mode():
         return (avogadro_constant / 22.4141) * sdiv(273.15, temperature) * (1 / 1000)
@@ -543,7 +570,12 @@ def gravity_List1968(
     latitude = as_float_array(latitude)
     altitude = as_float_array(altitude)
 
-    xp = array_namespace(latitude, altitude)
+    operands = (latitude, altitude)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), latitude)
+
+    latitude = xp_as_float_array(latitude, xp=xp, like=like)
+    altitude = xp_as_float_array(altitude, xp=xp, like=latitude)
 
     cos2phi = xp.cos(xp_radians(2 * latitude))
 
@@ -614,7 +646,14 @@ def scattering_cross_section(
     CO2_concentration = as_float_array(CO2_concentration)
     temperature = as_float_array(temperature)
 
-    xp = array_namespace(wavelength, CO2_concentration, temperature)
+    operands = (wavelength, CO2_concentration, temperature, avogadro_constant)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), wavelength)
+
+    wavelength = xp_as_float_array(wavelength, xp=xp, like=like)
+    CO2_concentration = xp_as_float_array(CO2_concentration, xp=xp, like=wavelength)
+    temperature = xp_as_float_array(temperature, xp=xp, like=wavelength)
+    avogadro_constant = xp_as_float_array(avogadro_constant, xp=xp, like=wavelength)
 
     wavelength_micrometers = wavelength * 10e3
 
@@ -710,14 +749,21 @@ def rayleigh_optical_depth(
 
     wavelength = as_float_array(wavelength)
 
-    xp = array_namespace(wavelength)
+    operands = (
+        wavelength,
+        CO2_concentration,
+        temperature,
+        pressure,
+        latitude,
+        altitude,
+        avogadro_constant,
+    )
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), wavelength)
 
-    # All scalar / array inputs are promoted to ``wavelength``'s namespace
-    # and device so that the final ``sigma * P * N_A / (m_a * g)``
-    # multiplication dispatches uniformly; mixing a backend tensor
-    # with a *NumPy* scalar default would fail on non-numpy devices
-    # (e.g. *PyTorch MPS* refusing implicit device round-trips).
+    wavelength = xp_as_float_array(wavelength, xp=xp, like=like)
     CO2_concentration = xp_as_float_array(CO2_concentration, xp=xp, like=wavelength)
+    temperature = xp_as_float_array(temperature, xp=xp, like=wavelength)
     pressure = xp_as_float_array(pressure, xp=xp, like=wavelength)
     latitude = xp_as_float_array(latitude, xp=xp, like=wavelength)
     altitude = xp_as_float_array(altitude, xp=xp, like=wavelength)

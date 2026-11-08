@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -69,7 +70,7 @@ class TestSnellLaw:
         xp_assert_close(
             snell_law(1.5, 1.0, xp_as_array([19.47], xp=xp)),
             30.0,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 100000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.01),
         )
 
         # Test normal incidence (0 degrees)
@@ -142,6 +143,19 @@ class TestPolarisedLightMagnitudeElements:
             1.0, 1.5, xp_as_array([45.0], xp=xp), xp_as_array([30.0], xp=xp)
         )
         assert len(result_45) == 4
+
+        result = polarised_light_magnitude_elements(
+            xp_as_array([1.0, 1.0], xp=xp), 1.5, 0.0, 0.0
+        )
+        for value, expected in zip(result, [1.0, 1.0, 1.5, 1.5], strict=True):
+            xp_assert_close(value, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        integer_index = xp_as_array(1, xp=xp)
+        result = polarised_light_magnitude_elements(integer_index, 1.5, 30.0, 20.0)
+        xp_assert_close(result[0], np.sqrt(3) / 2, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(
+            result[1], np.cos(np.deg2rad(20.0)), atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     def test_n_dimensional_polarised_light_magnitude_elements(
         self, xp: ModuleType
@@ -589,6 +603,19 @@ class TestMatrixTransferTmm:
         # Check transfer matrix properties (should be 2x2 complex)
         assert "complex" in str(result.M_s.dtype)
         assert "complex" in str(result.M_p.dtype)
+
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([1.0, 1.5, 1.0], [250.0], [30.0], [555.0])
+        reference = matrix_transfer_tmm(*arguments).M_s
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = matrix_transfer_tmm(*mixed).M_s
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
 
     def test_matrix_transfer_tmm_multilayer(self, xp: ModuleType) -> None:
         """

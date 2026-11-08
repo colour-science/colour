@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -764,6 +765,19 @@ air_refraction_index_Bodhaine1999` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([0.5, 0.6], 300.0)
+        reference = air_refraction_index_Bodhaine1999(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = air_refraction_index_Bodhaine1999(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
+
     def test_n_dimensional_air_refraction_index_Bodhaine1999(
         self, xp: ModuleType
     ) -> None:
@@ -1127,6 +1141,19 @@ class TestF_airBodhaine1999:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([0.5, 0.6], 300.0)
+        reference = F_air_Bodhaine1999(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = F_air_Bodhaine1999(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
+
     def test_n_dimensional_F_air_Bodhaine1999(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.F_air_Bodhaine1999` definition
@@ -1171,20 +1198,33 @@ class TestMolecularDensity:
         xp_assert_close(
             molecular_density(xp_as_array([200.0], xp=xp)),
             3.669449208173649e19,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1e11,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 10000),
         )
 
         xp_assert_close(
             molecular_density(xp_as_array([300.0], xp=xp)),
             2.4462994721157665e19,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1e11,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 10000),
         )
 
         xp_assert_close(
             molecular_density(xp_as_array([400.0], xp=xp)),
             1.834724604086825e19,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1e11,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 10000),
         )
+
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([280.0, 300.0], 6.022e23)
+        reference = molecular_density(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = molecular_density(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
 
     def test_n_dimensional_molecular_density(self, xp: ModuleType) -> None:
         """
@@ -1329,6 +1369,19 @@ class TestGravityList1968:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([30.0, 40.0], 100.0)
+        reference = gravity_List1968(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = gravity_List1968(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
+
     def test_n_dimensional_gravity_List1968(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.gravity_List1968`
@@ -1429,6 +1482,19 @@ class TestScatteringCrossSection:
             8.376051316540270e-27,
             atol=TOLERANCE_ABSOLUTE_TESTS * 1e-23,
         )
+
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([5e-5, 6e-5], 300.0, 290.0, 6.022e23)
+        reference = scattering_cross_section(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = scattering_cross_section(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS * 1e-23)
+            if hasattr(native, "device"):
+                assert result.device == native.device
 
     def test_n_dimensional_scattering_cross_section(self, xp: ModuleType) -> None:
         """
@@ -1576,6 +1642,19 @@ class TestRayleighOpticalDepth:
             0.093350672894038,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # Exercise a single native operand while every other input stays on the host.
+        arguments = ([5e-5, 6e-5], 300.0, 290.0, 1e5, 30.0, 100.0, 6.022e23)
+        reference = rayleigh_optical_depth(*arguments)
+        for index, argument in enumerate(arguments):
+            native = xp_as_array(argument, xp=xp)
+            mixed: list[typing.Any] = list(arguments)
+            mixed[index] = native
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = rayleigh_optical_depth(*mixed)
+            xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if hasattr(native, "device"):
+                assert result.device == native.device
 
     def test_n_dimensional_rayleigh_optical_depth(self, xp: ModuleType) -> None:
         """
