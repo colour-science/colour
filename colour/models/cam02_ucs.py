@@ -30,7 +30,7 @@ from __future__ import annotations
 import typing
 from dataclasses import dataclass
 
-from colour.algebra import cartesian_to_polar, polar_to_cartesian
+from colour.algebra import polar_to_cartesian
 
 if typing.TYPE_CHECKING:
     from colour.hints import (
@@ -265,7 +265,14 @@ def UCS_Luo2006_to_JMh_CIECAM02(
 
     J = -J_p / (c_1 * J_p - 1 - 100 * c_1)
 
-    M_p, h = tsplit(cartesian_to_polar(tstack([a_p, b_p])))
+    # The inverse CAM Cartesian map has zero chromatic derivative at neutral
+    # input. Avoid evaluating its intermediate polar singularity; this does not
+    # assign a mathematical derivative to the standalone zero-radius hue.
+    neutral = (a_p == 0) & (b_p == 0)
+    a_safe = xp.where(neutral, xp.where(xp.signbit(a_p), -1, 1), a_p)
+    b_safe = xp.where(neutral, xp.where(xp.signbit(b_p), -0.0, 0.0), b_p)
+    M_p = xp.where(neutral, 0, xp.hypot(a_safe, b_safe))
+    h = xp.atan2(b_safe, a_safe)
 
     M = xp.expm1(M_p * c_2) / c_2
 

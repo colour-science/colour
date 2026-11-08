@@ -55,6 +55,7 @@ from colour.utilities import (
     domain_range_scale,
     from_range_1,
     from_range_100,
+    is_non_ndarray,
     to_domain_1,
     to_domain_100,
     validate_method,
@@ -132,7 +133,10 @@ def exponent_hdr_IPT(
 
     Y_s = to_domain_1(Y_s)
 
-    xp = array_namespace(Y_s)
+    xp = array_namespace(Y_s, Y_abs)
+
+    reference = next((a for a in (Y_s, Y_abs) if is_non_ndarray(a)), None)
+    Y_s = xp_as_float_array(Y_s, xp=xp, like=reference)
 
     Y_abs = xp_as_float_array(Y_abs, xp=xp, like=Y_s)
     method = validate_method(method, HDR_IPT_METHODS)
@@ -210,7 +214,12 @@ def XYZ_to_hdr_IPT(
 
     XYZ = to_domain_1(XYZ)
 
-    xp = array_namespace(XYZ)
+    xp = array_namespace(XYZ, Y_s, Y_abs)
+
+    reference = next((a for a in (XYZ, Y_s, Y_abs) if is_non_ndarray(a)), None)
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+    Y_s = xp_as_float_array(Y_s, xp=xp, like=XYZ)
+    Y_abs = xp_as_float_array(Y_abs, xp=xp, like=XYZ)
 
     method = validate_method(method, HDR_IPT_METHODS)
 
@@ -294,7 +303,12 @@ def hdr_IPT_to_XYZ(
 
     IPT_hdr = to_domain_100(IPT_hdr)
 
-    xp = array_namespace(IPT_hdr)
+    xp = array_namespace(IPT_hdr, Y_s, Y_abs)
+
+    reference = next((a for a in (IPT_hdr, Y_s, Y_abs) if is_non_ndarray(a)), None)
+    IPT_hdr = xp_as_float_array(IPT_hdr, xp=xp, like=reference)
+    Y_s = xp_as_float_array(Y_s, xp=xp, like=IPT_hdr)
+    Y_abs = xp_as_float_array(Y_abs, xp=xp, like=IPT_hdr)
 
     method = validate_method(method, HDR_IPT_METHODS)
 

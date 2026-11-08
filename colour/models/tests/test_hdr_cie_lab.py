@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
+    import pytest
     from colour.hints import ModuleType
 
 from itertools import product
@@ -15,6 +16,7 @@ from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import XYZ_to_hdr_CIELab, hdr_CIELab_to_XYZ
 from colour.models.hdr_cie_lab import exponent_hdr_CIELab
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
@@ -74,6 +76,20 @@ class TestExponent_hdr_CIELab:
         xp_assert_close(
             exponent_hdr_CIELab(xp_as_array([0.2], xp=xp), xp_as_array([1000], xp=xp)),
             [0.710776610620225],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        native_surround = xp_as_array(0.2, xp=xp)
+        native_white = xp_as_array(100.0, xp=xp)
+        if xp.__name__ == "torch":
+            native_white = xp.asarray(native_white, device="cpu")
+        result = exponent_hdr_CIELab(native_surround, native_white)
+        assert getattr(result, "device", None) == getattr(
+            native_surround, "device", None
+        )
+        xp_assert_close(
+            result,
+            exponent_hdr_CIELab(0.2, 100.0),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -150,7 +166,9 @@ class TestXYZ_to_hdr_CIELab:
     tests methods.
     """
 
-    def test_XYZ_to_hdr_CIELab(self, xp: ModuleType) -> None:
+    def test_XYZ_to_hdr_CIELab(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """Test :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition."""
 
         xp_assert_close(
@@ -193,6 +211,31 @@ class TestXYZ_to_hdr_CIELab:
             [29.77261805, 62.58315675, 27.31232673],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "XYZ": [0.20654, 0.12197, 0.05137],
+            "Y_s": 0.2,
+            "Y_abs": 100.0,
+            "illuminant": [0.3127, 0.329],
+        }
+        expected = XYZ_to_hdr_CIELab(**host_arguments)
+        for parameter in ("Y_s", "Y_abs", "illuminant"):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = XYZ_to_hdr_CIELab(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: XYZ_to_hdr_CIELab(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_XYZ_to_hdr_CIELab(self, xp: ModuleType) -> None:
         """
@@ -278,7 +321,9 @@ class TestHdr_CIELab_to_XYZ:
     tests methods.
     """
 
-    def test_hdr_CIELab_to_XYZ(self, xp: ModuleType) -> None:
+    def test_hdr_CIELab_to_XYZ(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """Test :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition."""
 
         xp_assert_close(
@@ -323,6 +368,31 @@ class TestHdr_CIELab_to_XYZ:
             [0.20654008, 0.12197225, 0.05136952],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "Lab_hdr": [51.87, 60.47, 32.14],
+            "Y_s": 0.2,
+            "Y_abs": 100.0,
+            "illuminant": [0.3127, 0.329],
+        }
+        expected = hdr_CIELab_to_XYZ(**host_arguments)
+        for parameter in ("Y_s", "Y_abs", "illuminant"):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = hdr_CIELab_to_XYZ(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: hdr_CIELab_to_XYZ(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_hdr_CIELab_to_XYZ(self, xp: ModuleType) -> None:
         """

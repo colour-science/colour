@@ -292,6 +292,8 @@ def xy_to_xyY(xy: ArrayLike, Y: Domain1 = 1) -> Range1:
 
     xp = array_namespace(xy, Y)
 
+    xy = xp_as_float_array(xy, xp=xp, like=Y)
+
     x, y = tsplit(xy)
     Y = xp_as_float_array(Y, xp=xp, like=x)
 

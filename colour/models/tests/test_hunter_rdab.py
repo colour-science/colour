@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
+    import pytest
     from colour.hints import ModuleType
 
 from itertools import product
@@ -15,6 +16,7 @@ from colour.colorimetry import TVS_ILLUMINANTS_HUNTERLAB
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import Hunter_Rdab_to_XYZ, XYZ_to_Hunter_Rdab
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
@@ -42,7 +44,9 @@ class TestXYZ_to_Hunter_Rdab:
     unit tests methods.
     """
 
-    def test_XYZ_to_Hunter_Rdab(self, xp: ModuleType) -> None:
+    def test_XYZ_to_Hunter_Rdab(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """Test :func:`colour.models.hunter_rdab.XYZ_to_Hunter_Rdab` definition."""
 
         xp_assert_close(
@@ -101,6 +105,30 @@ class TestXYZ_to_Hunter_Rdab:
             [12.19722500, 57.11906384, 17.45962317],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "XYZ": [20.654, 12.197, 5.137],
+            "XYZ_n": [95.0, 100.0, 109.0],
+            "K_ab": [175.0, 70.0],
+        }
+        expected = XYZ_to_Hunter_Rdab(**host_arguments)
+        for parameter in ("XYZ_n", "K_ab"):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = XYZ_to_Hunter_Rdab(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: XYZ_to_Hunter_Rdab(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_XYZ_to_Hunter_Rdab(self, xp: ModuleType) -> None:
         """
@@ -183,7 +211,9 @@ class TestHunter_Rdab_to_XYZ:
     unit tests methods.
     """
 
-    def test_Hunter_Rdab_to_XYZ(self, xp: ModuleType) -> None:
+    def test_Hunter_Rdab_to_XYZ(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """Test :func:`colour.models.hunter_rdab.Hunter_Rdab_to_XYZ` definition."""
 
         xp_assert_close(
@@ -242,6 +272,30 @@ class TestHunter_Rdab_to_XYZ:
             xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp) * 100,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "R_d_ab": [50.0, 20.0, 10.0],
+            "XYZ_n": [95.0, 100.0, 109.0],
+            "K_ab": [175.0, 70.0],
+        }
+        expected = Hunter_Rdab_to_XYZ(**host_arguments)
+        for parameter in ("XYZ_n", "K_ab"):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = Hunter_Rdab_to_XYZ(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: Hunter_Rdab_to_XYZ(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_Hunter_Rdab_to_XYZ(self, xp: ModuleType) -> None:
         """

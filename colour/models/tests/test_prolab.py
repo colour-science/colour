@@ -14,7 +14,9 @@ import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import ProLab_to_XYZ, XYZ_to_ProLab
+from colour.models.prolab import projective_transformation
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
@@ -42,7 +44,9 @@ class TestXYZ_to_ProLab:
     tests methods.
     """
 
-    def test_XYZ_to_ProLab(self, xp: ModuleType) -> None:
+    def test_XYZ_to_ProLab(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """Test :func:`colour.models.ProLab.XYZ_to_ProLab` definition."""
 
         xp_assert_close(
@@ -62,6 +66,37 @@ class TestXYZ_to_ProLab:
             [100.0, 5.47367608, 37.26313098],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "XYZ": [0.20654, 0.12197, 0.05137],
+            "illuminant": [0.3127, 0.329],
+        }
+        expected = XYZ_to_ProLab(**host_arguments)
+        for parameter in ("illuminant",):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = XYZ_to_ProLab(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: XYZ_to_ProLab(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
+
+        native_values = xp_as_array([0.2, 0.3, 0.4], xp=xp)
+        native_matrix = xp_as_array(np.eye(4), xp=xp)
+        if xp.__name__ == "torch":
+            native_matrix = xp.asarray(native_matrix, device="cpu")
+        result = projective_transformation(native_values, native_matrix)
+        assert getattr(result, "device", None) == getattr(native_values, "device", None)
+        xp_assert_close(result, [0.2, 0.3, 0.4], atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_n_dimensional_XYZ_to_ProLab(self, xp: ModuleType) -> None:
         """
@@ -117,7 +152,9 @@ class TestProLab_to_XYZ:
     methods.
     """
 
-    def test_ProLab_to_XYZ(self, xp: ModuleType) -> None:
+    def test_ProLab_to_XYZ(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """Test :func:`colour.models.ProLab.ProLab_to_XYZ` definition."""
 
         xp_assert_close(
@@ -137,6 +174,29 @@ class TestProLab_to_XYZ:
             [0.96907232, 1.00000000, 0.12179215],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "ProLab": [50.0, 20.0, 10.0],
+            "illuminant": [0.3127, 0.329],
+        }
+        expected = ProLab_to_XYZ(**host_arguments)
+        for parameter in ("illuminant",):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = ProLab_to_XYZ(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: ProLab_to_XYZ(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_XYZ_to_ProLab(self, xp: ModuleType) -> None:
         """

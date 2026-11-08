@@ -31,6 +31,7 @@ from colour.utilities import (
     array_namespace,
     from_range_100,
     get_domain_range_scale,
+    is_non_ndarray,
     optional,
     to_domain_100,
     tsplit,
@@ -147,7 +148,10 @@ def XYZ_to_Hunter_Lab(
 
     XYZ = to_domain_100(XYZ)
 
-    xp = array_namespace(XYZ)
+    xp = array_namespace(XYZ, XYZ_n, K_ab)
+
+    reference = next((a for a in (XYZ, XYZ_n, K_ab) if is_non_ndarray(a)), None)
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
 
     X, Y, Z = tsplit(XYZ)
     TVS_D65 = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"]["D65"]
@@ -236,7 +240,10 @@ def Hunter_Lab_to_XYZ(
 
     Lab = to_domain_100(Lab)
 
-    xp = array_namespace(Lab)
+    xp = array_namespace(Lab, XYZ_n, K_ab)
+
+    reference = next((a for a in (Lab, XYZ_n, K_ab) if is_non_ndarray(a)), None)
+    Lab = xp_as_float_array(Lab, xp=xp, like=reference)
 
     L, a, b = tsplit(Lab)
     d65 = TVS_ILLUMINANTS_HUNTERLAB["CIE 1931 2 Degree Standard Observer"]["D65"]

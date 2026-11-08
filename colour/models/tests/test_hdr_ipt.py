@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
+    import pytest
     from colour.hints import ModuleType
 
 from itertools import product
@@ -15,6 +16,7 @@ from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import XYZ_to_hdr_IPT, hdr_IPT_to_XYZ
 from colour.models.hdr_ipt import exponent_hdr_IPT
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
@@ -71,6 +73,20 @@ class TestExponent_hdr_IPT:
         xp_assert_close(
             exponent_hdr_IPT(xp_as_array([0.2], xp=xp), xp_as_array([1000], xp=xp)),
             [0.723031379768850],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        native_surround = xp_as_array(0.2, xp=xp)
+        native_white = xp_as_array(100.0, xp=xp)
+        if xp.__name__ == "torch":
+            native_white = xp.asarray(native_white, device="cpu")
+        result = exponent_hdr_IPT(native_surround, native_white)
+        assert getattr(result, "device", None) == getattr(
+            native_surround, "device", None
+        )
+        xp_assert_close(
+            result,
+            exponent_hdr_IPT(0.2, 100.0),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -147,7 +163,9 @@ class TestXYZ_to_hdr_IPT:
     methods.
     """
 
-    def test_XYZ_to_hdr_IPT(self, xp: ModuleType) -> None:
+    def test_XYZ_to_hdr_IPT(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """Test :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition."""
 
         xp_assert_close(
@@ -180,6 +198,30 @@ class TestXYZ_to_hdr_IPT:
             [23.83205010, -5.98739209, -32.74311745],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "XYZ": [0.20654, 0.12197, 0.05137],
+            "Y_s": 0.2,
+            "Y_abs": 100.0,
+        }
+        expected = XYZ_to_hdr_IPT(**host_arguments)
+        for parameter in ("Y_s", "Y_abs"):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = XYZ_to_hdr_IPT(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: XYZ_to_hdr_IPT(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_XYZ_to_hdr_IPT(self, xp: ModuleType) -> None:
         """
@@ -260,7 +302,9 @@ class TestHdr_IPT_to_XYZ:
     methods.
     """
 
-    def test_hdr_IPT_to_XYZ(self, xp: ModuleType) -> None:
+    def test_hdr_IPT_to_XYZ(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """Test :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition."""
 
         xp_assert_close(
@@ -293,6 +337,30 @@ class TestHdr_IPT_to_XYZ:
             [0.07818780, 0.06157201, 0.28099326],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "IPT_hdr": [0.4, 0.1, 0.05],
+            "Y_s": 0.2,
+            "Y_abs": 100.0,
+        }
+        expected = hdr_IPT_to_XYZ(**host_arguments)
+        for parameter in ("Y_s", "Y_abs"):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = hdr_IPT_to_XYZ(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: hdr_IPT_to_XYZ(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_hdr_IPT_to_XYZ(self, xp: ModuleType) -> None:
         """

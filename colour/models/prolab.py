@@ -30,6 +30,7 @@ from colour.utilities import (
     array_namespace,
     as_float_array,
     from_range_1,
+    is_non_ndarray,
     to_domain_1,
     xp_as_float_array,
     xp_matrix_transpose,
@@ -84,6 +85,9 @@ def projective_transformation(a: ArrayLike, Q: ArrayLike) -> NDArrayFloat:
     a = as_float_array(a)
 
     xp = array_namespace(a, Q)
+
+    reference = next((value for value in (a, Q) if is_non_ndarray(value)), None)
+    a = xp_as_float_array(a, xp=xp, like=reference)
 
     Q = xp_as_float_array(Q, xp=xp, like=a)
 
@@ -144,7 +148,11 @@ def XYZ_to_ProLab(
 
     XYZ = to_domain_1(XYZ)
 
-    xp = array_namespace(XYZ)
+    xp = array_namespace(XYZ, illuminant)
+
+    reference = next((a for a in (XYZ, illuminant) if is_non_ndarray(a)), None)
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+    illuminant = xp_as_float_array(illuminant, xp=xp, like=XYZ)
 
     XYZ_n = xp_as_float_array(xyY_to_XYZ(xy_to_xyY(illuminant)), xp=xp, like=XYZ)
 
@@ -202,7 +210,11 @@ def ProLab_to_XYZ(
 
     ProLab = to_domain_1(ProLab)
 
-    xp = array_namespace(ProLab)
+    xp = array_namespace(ProLab, illuminant)
+
+    reference = next((a for a in (ProLab, illuminant) if is_non_ndarray(a)), None)
+    ProLab = xp_as_float_array(ProLab, xp=xp, like=reference)
+    illuminant = xp_as_float_array(illuminant, xp=xp, like=ProLab)
 
     XYZ_n = xp_as_float_array(xyY_to_XYZ(xy_to_xyY(illuminant)), xp=xp, like=ProLab)
 

@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
+    import pytest
     from colour.hints import ModuleType
 
 from itertools import product
@@ -23,6 +25,7 @@ from colour.models import (
     xy_to_Luv_uv,
 )
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
@@ -56,7 +59,7 @@ class TestXYZ_to_Luv:
     methods.
     """
 
-    def test_XYZ_to_Luv(self, xp: ModuleType) -> None:
+    def test_XYZ_to_Luv(self, xp: ModuleType, request: pytest.FixtureRequest) -> None:
         """Test :func:`colour.models.cie_luv.XYZ_to_Luv` definition."""
 
         xp_assert_close(
@@ -103,6 +106,30 @@ class TestXYZ_to_Luv:
             [41.52787529, 90.70925962, 7.08455273],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host_arguments: dict[str, typing.Any] = {
+            "XYZ": [[0.2, 0.3, 0.4], [0.3, 0.4, 0.5]],
+            "illuminant": [0.3127, 0.329],
+        }
+        expected = XYZ_to_Luv(**host_arguments)
+        for parameter, host_value in host_arguments.items():
+            native = xp_as_array(host_value, xp=xp)
+            # Keep the physical input device while factories default to CPU.
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                actual = XYZ_to_Luv(**{**host_arguments, parameter: native})
+                assert array_namespace(actual) is array_namespace(native)
+                assert getattr(actual, "device", None) == getattr(
+                    native, "device", None
+                )
+                xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+                if xp.__name__ != "numpy":
+                    autodiff = request.getfixturevalue("autodiff")
+                    autodiff(
+                        lambda value, parameter=parameter: XYZ_to_Luv(
+                            **{**host_arguments, parameter: value}
+                        ),
+                        native,
+                    )
 
     def test_n_dimensional_XYZ_to_Luv(self, xp: ModuleType) -> None:
         """
@@ -160,7 +187,7 @@ class TestLuv_to_XYZ:
     methods.
     """
 
-    def test_Luv_to_XYZ(self, xp: ModuleType) -> None:
+    def test_Luv_to_XYZ(self, xp: ModuleType, request: pytest.FixtureRequest) -> None:
         """Test :func:`colour.models.cie_luv.Luv_to_XYZ` definition."""
 
         xp_assert_close(
@@ -207,6 +234,30 @@ class TestLuv_to_XYZ:
             [0.20654008, 0.12197225, 0.05136952],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host_arguments: dict[str, typing.Any] = {
+            "Luv": [[50.0, 10.0, 20.0], [60.0, 12.0, 22.0]],
+            "illuminant": [0.3127, 0.329],
+        }
+        expected = Luv_to_XYZ(**host_arguments)
+        for parameter, host_value in host_arguments.items():
+            native = xp_as_array(host_value, xp=xp)
+            # Keep the physical input device while factories default to CPU.
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                actual = Luv_to_XYZ(**{**host_arguments, parameter: native})
+                assert array_namespace(actual) is array_namespace(native)
+                assert getattr(actual, "device", None) == getattr(
+                    native, "device", None
+                )
+                xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+                if xp.__name__ != "numpy":
+                    autodiff = request.getfixturevalue("autodiff")
+                    autodiff(
+                        lambda value, parameter=parameter: Luv_to_XYZ(
+                            **{**host_arguments, parameter: value}
+                        ),
+                        native,
+                    )
 
     def test_n_dimensional_Luv_to_XYZ(self, xp: ModuleType) -> None:
         """
@@ -264,7 +315,7 @@ class TestLuv_to_uv:
     methods.
     """
 
-    def test_Luv_to_uv(self, xp: ModuleType) -> None:
+    def test_Luv_to_uv(self, xp: ModuleType, request: pytest.FixtureRequest) -> None:
         """Test :func:`colour.models.cie_luv.Luv_to_uv` definition."""
 
         xp_assert_close(
@@ -311,6 +362,30 @@ class TestLuv_to_uv:
             [0.37720213, 0.50120264],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host_arguments: dict[str, typing.Any] = {
+            "Luv": [[50.0, 10.0, 20.0], [60.0, 12.0, 22.0]],
+            "illuminant": [0.3127, 0.329],
+        }
+        expected = Luv_to_uv(**host_arguments)
+        for parameter, host_value in host_arguments.items():
+            native = xp_as_array(host_value, xp=xp)
+            # Keep the physical input device while factories default to CPU.
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                actual = Luv_to_uv(**{**host_arguments, parameter: native})
+                assert array_namespace(actual) is array_namespace(native)
+                assert getattr(actual, "device", None) == getattr(
+                    native, "device", None
+                )
+                xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+                if xp.__name__ != "numpy":
+                    autodiff = request.getfixturevalue("autodiff")
+                    autodiff(
+                        lambda value, parameter=parameter: Luv_to_uv(
+                            **{**host_arguments, parameter: value}
+                        ),
+                        native,
+                    )
 
     def test_n_dimensional_Luv_to_uv(self, xp: ModuleType) -> None:
         """
@@ -368,7 +443,7 @@ class Testuv_to_Luv:
     methods.
     """
 
-    def test_uv_to_Luv(self, xp: ModuleType) -> None:
+    def test_uv_to_Luv(self, xp: ModuleType, request: pytest.FixtureRequest) -> None:
         """Test :func:`colour.models.cie_luv.uv_to_Luv` definition."""
 
         xp_assert_close(
@@ -421,6 +496,30 @@ class Testuv_to_Luv:
             [41.52787529, 96.83626054, 17.75210149],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "uv": [0.2, 0.4],
+            "illuminant": [0.3127, 0.329],
+            "L": 50.0,
+        }
+        expected = uv_to_Luv(**host_arguments)
+        for parameter in ("illuminant", "L"):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = uv_to_Luv(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: uv_to_Luv(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_uv_to_Luv(self, xp: ModuleType) -> None:
         """
@@ -591,7 +690,9 @@ class TestXYZ_to_CIE1976UCS:
     methods.
     """
 
-    def test_XYZ_to_CIE1976UCS(self, xp: ModuleType) -> None:
+    def test_XYZ_to_CIE1976UCS(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """Test :func:`colour.models.cie_luv.XYZ_to_CIE1976UCS` definition."""
 
         xp_assert_close(
@@ -638,6 +739,30 @@ class TestXYZ_to_CIE1976UCS:
             [0.37720213, 0.50120264, 41.52787529],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host_arguments: dict[str, typing.Any] = {
+            "XYZ": [[0.2, 0.3, 0.4], [0.3, 0.4, 0.5]],
+            "illuminant": [0.3127, 0.329],
+        }
+        expected = XYZ_to_CIE1976UCS(**host_arguments)
+        for parameter, host_value in host_arguments.items():
+            native = xp_as_array(host_value, xp=xp)
+            # Keep the physical input device while factories default to CPU.
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                actual = XYZ_to_CIE1976UCS(**{**host_arguments, parameter: native})
+                assert array_namespace(actual) is array_namespace(native)
+                assert getattr(actual, "device", None) == getattr(
+                    native, "device", None
+                )
+                xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+                if xp.__name__ != "numpy":
+                    autodiff = request.getfixturevalue("autodiff")
+                    autodiff(
+                        lambda value, parameter=parameter: XYZ_to_CIE1976UCS(
+                            **{**host_arguments, parameter: value}
+                        ),
+                        native,
+                    )
 
     def test_n_dimensional_XYZ_to_CIE1976UCS(self, xp: ModuleType) -> None:
         """
@@ -710,7 +835,9 @@ class TestCIE1976UCS_to_XYZ:
     methods.
     """
 
-    def test_CIE1976UCS_to_XYZ(self, xp: ModuleType) -> None:
+    def test_CIE1976UCS_to_XYZ(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """Test :func:`colour.models.cie_luv.CIE1976UCS_to_XYZ` definition."""
 
         xp_assert_close(
@@ -763,6 +890,30 @@ class TestCIE1976UCS_to_XYZ:
             [0.20654008, 0.12197225, 0.05136952],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host_arguments: dict[str, typing.Any] = {
+            "uvL": [[0.2, 0.4, 50.0], [0.22, 0.41, 60.0]],
+            "illuminant": [0.3127, 0.329],
+        }
+        expected = CIE1976UCS_to_XYZ(**host_arguments)
+        for parameter, host_value in host_arguments.items():
+            native = xp_as_array(host_value, xp=xp)
+            # Keep the physical input device while factories default to CPU.
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                actual = CIE1976UCS_to_XYZ(**{**host_arguments, parameter: native})
+                assert array_namespace(actual) is array_namespace(native)
+                assert getattr(actual, "device", None) == getattr(
+                    native, "device", None
+                )
+                xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+                if xp.__name__ != "numpy":
+                    autodiff = request.getfixturevalue("autodiff")
+                    autodiff(
+                        lambda value, parameter=parameter: CIE1976UCS_to_XYZ(
+                            **{**host_arguments, parameter: value}
+                        ),
+                        native,
+                    )
 
     def test_n_dimensional_CIE1976UCS_to_XYZ(self, xp: ModuleType) -> None:
         """

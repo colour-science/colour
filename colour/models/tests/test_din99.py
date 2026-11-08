@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
+from functools import partial
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -16,6 +18,7 @@ from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import DIN99_to_Lab, DIN99_to_XYZ, Lab_to_DIN99, XYZ_to_DIN99
 from colour.models.din99 import DIN99_METHODS
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
@@ -45,7 +48,7 @@ class TestLab_to_DIN99:
     methods.
     """
 
-    def test_Lab_to_DIN99(self, xp: ModuleType) -> None:
+    def test_Lab_to_DIN99(self, xp: ModuleType, request: pytest.FixtureRequest) -> None:
         """Test :func:`colour.models.din99.Lab_to_DIN99` definition."""
 
         xp_assert_close(
@@ -92,6 +95,46 @@ class TestLab_to_DIN99:
             [45.31204747, 31.42106716, 14.17004652],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        for method, coefficients in DIN99_METHODS.items():
+            native = xp_as_array([50.0, 0.0, 0.0], xp=xp)
+            function = partial(Lab_to_DIN99, method=method)
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                actual = function(native)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual[1:], [0.0, 0.0], atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ == "numpy":
+                continue
+
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(function, native)
+            autodiff(function, xp_as_array([50.0, 12.0, 20.0], xp=xp))
+            if xp.__name__.startswith("jax"):
+                jax = pytest.importorskip("jax")
+                c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8 = coefficients
+                angle_3, angle_7 = np.radians([c_3, c_7])
+                rotation_3 = np.array(
+                    [
+                        [np.cos(angle_3), -np.sin(angle_3)],
+                        [np.sin(angle_3), np.cos(angle_3)],
+                    ]
+                )
+                rotation_7 = np.array(
+                    [
+                        [np.cos(angle_7), -np.sin(angle_7)],
+                        [np.sin(angle_7), np.cos(angle_7)],
+                    ]
+                )
+                expected = np.zeros((3, 3))
+                expected[0, 0] = c_1 * c_2 / (1 + 50 * c_2)
+                expected[1:, 1:] = (
+                    (c_5 * c_6 / c_8) * rotation_7 @ np.diag([1, c_4]) @ rotation_3.T
+                )
+                for jacobian in (jax.jacfwd(function), jax.jacrev(function)):
+                    xp_assert_close(
+                        jacobian(native), expected, atol=TOLERANCE_ABSOLUTE_TESTS
+                    )
 
     def test_n_dimensional_Lab_to_DIN99(self, xp: ModuleType) -> None:
         """
@@ -164,7 +207,7 @@ class TestDIN99_to_Lab:
     methods.
     """
 
-    def test_DIN99_to_Lab(self, xp: ModuleType) -> None:
+    def test_DIN99_to_Lab(self, xp: ModuleType, request: pytest.FixtureRequest) -> None:
         """Test :func:`colour.models.din99.DIN99_to_Lab` definition."""
 
         xp_assert_close(
@@ -211,6 +254,49 @@ class TestDIN99_to_Lab:
             [41.52787529, 52.63858304, 26.92317922],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        for method, coefficients in DIN99_METHODS.items():
+            native = xp_as_array([50.0, 0.0, 0.0], xp=xp)
+            function = partial(DIN99_to_Lab, method=method)
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                actual = function(native)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual[1:], [0.0, 0.0], atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ == "numpy":
+                continue
+
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(function, native)
+            autodiff(function, xp_as_array([50.0, 12.0, 20.0], xp=xp))
+            if xp.__name__.startswith("jax"):
+                jax = pytest.importorskip("jax")
+                c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8 = coefficients
+                angle_3, angle_7 = np.radians([c_3, c_7])
+                rotation_3 = np.array(
+                    [
+                        [np.cos(angle_3), -np.sin(angle_3)],
+                        [np.sin(angle_3), np.cos(angle_3)],
+                    ]
+                )
+                rotation_7 = np.array(
+                    [
+                        [np.cos(angle_7), -np.sin(angle_7)],
+                        [np.sin(angle_7), np.cos(angle_7)],
+                    ]
+                )
+                expected = np.zeros((3, 3))
+                expected[0, 0] = np.exp(50 / c_1) / (c_1 * c_2)
+                expected[1:, 1:] = (
+                    (c_8 / (c_5 * c_6))
+                    * rotation_3
+                    @ np.diag([1, 1 / c_4])
+                    @ rotation_7.T
+                )
+                for jacobian in (jax.jacfwd(function), jax.jacrev(function)):
+                    xp_assert_close(
+                        jacobian(native), expected, atol=TOLERANCE_ABSOLUTE_TESTS
+                    )
 
     def test_n_dimensional_DIN99_to_Lab(self, xp: ModuleType) -> None:
         """

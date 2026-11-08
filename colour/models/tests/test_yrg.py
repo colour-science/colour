@@ -119,19 +119,19 @@ class TestYrg_to_LMS:
         xp_assert_close(
             Yrg_to_LMS(xp_as_array([0.13137801, 0.49037644, 0.37777391], xp=xp)),
             [0.15639195, 0.06741689, 0.03281398],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         xp_assert_close(
             Yrg_to_LMS(xp_as_array([0.23840767, 0.20110504, 0.69668437], xp=xp)),
             [0.23145723, 0.22601133, 0.05033211],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         xp_assert_close(
             Yrg_to_LMS(xp_as_array([1.05911888, 0.22010094, 0.53660290], xp=xp)),
             [1.07423297, 0.91295620, 0.61375713],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
     def test_n_dimensional_Yrg_to_LMS(self, xp: ModuleType) -> None:
@@ -260,19 +260,19 @@ class TestYrg_to_XYZ:
         xp_assert_close(
             Yrg_to_XYZ(xp_as_array([0.13137801, 0.49037645, 0.37777388], xp=xp)),
             [0.20654008, 0.12197225, 0.05136952],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
         )
 
         xp_assert_close(
             Yrg_to_XYZ(xp_as_array([0.23840767, 0.20110503, 0.69668437], xp=xp)),
             [0.14222010, 0.23042768, 0.10495772],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 2000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0002),
         )
 
         xp_assert_close(
             Yrg_to_XYZ(xp_as_array([1.05911888, 0.22010094, 0.53660290], xp=xp)),
             [0.96907232, 1.00000000, 1.12179215],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 2000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0002),
         )
 
     def test_n_dimensional_Yrg_to_XYZ(self, xp: ModuleType) -> None:
@@ -307,7 +307,7 @@ class TestYrg_to_XYZ:
                 xp_assert_close(
                     Yrg_to_XYZ(Yrg * factor),
                     XYZ * factor,
-                    atol=TOLERANCE_ABSOLUTE_TESTS * 1000,
+                    atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0001),
                 )
 
     @ignore_numpy_errors
