@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import itertools
 import typing
+from math import prod
 
 import numpy as np
 
@@ -316,7 +317,7 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
 
     RGB_c = RGB[xp.logical_and(xp.min(RGB, axis=-1) >= 0, xp.max(RGB, axis=-1) <= 1)]
 
-    return 100 * RGB_c.size / XYZ_vs.size
+    return 100 * prod(RGB_c.shape) / prod(XYZ_vs.shape)
 
 
 def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
