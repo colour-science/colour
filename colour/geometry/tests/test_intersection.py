@@ -7,6 +7,8 @@ import typing
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
 
+import contextlib
+
 import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
@@ -68,6 +70,19 @@ class TestExtendLineSegment:
             [1.1043815, 0.03451295],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host = [np.array([[0.9, 0.1], [0.9, 0.1]]), np.array([[0.2, 0.6], [0.2, 0.6]])]
+        native = [xp_as_array(value, xp=xp) for value in host]
+        expected = extend_line_segment(native[0], native[1])
+        for i in range(len(host)):
+            mixed = list(host)
+            mixed[i] = native[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = extend_line_segment(mixed[0], mixed[1])
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native[i], "device", None)
 
 
 class TestIntersectLineSegments:

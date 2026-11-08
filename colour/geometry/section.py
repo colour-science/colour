@@ -110,24 +110,25 @@ def edges_to_chord(edges: ArrayLike, index: int = 0) -> NDArrayFloat:
     edges = as_float_array(edges)
 
     xp = array_namespace(edges)
+    reference = edges
 
     edge_list = cast("List[List[float]]", edges.tolist())
 
     edges_ordered = [edge_list.pop(index)]
-    segment = xp_as_float_array(edges_ordered[0][1], xp=xp)
+    segment = xp_as_float_array(edges_ordered[0][1], xp=xp, like=reference)
 
     while len(edge_list) > 0:
-        edges = xp_as_float_array(edge_list, xp=xp)
+        edges = xp_as_float_array(edge_list, xp=xp, like=reference)
         d_0 = xp.linalg.vector_norm(edges[:, 0, :] - segment, axis=1)
         d_1 = xp.linalg.vector_norm(edges[:, 1, :] - segment, axis=1)
         d_0_argmin, d_1_argmin = int(xp.argmin(d_0)), int(xp.argmin(d_1))
 
         if d_0[d_0_argmin] < d_1[d_1_argmin]:
             edges_ordered.append(edge_list.pop(d_0_argmin))
-            segment = xp_as_float_array(edges_ordered[-1][1], xp=xp)
+            segment = xp_as_float_array(edges_ordered[-1][1], xp=xp, like=reference)
         else:
             edges_ordered.append(edge_list.pop(d_1_argmin))
-            segment = xp_as_float_array(edges_ordered[-1][0], xp=xp)
+            segment = xp_as_float_array(edges_ordered[-1][0], xp=xp, like=reference)
 
     return xp_reshape(
         xp_as_float_array(edges_ordered, xp=xp, like=segment),

@@ -33,6 +33,7 @@ if typing.TYPE_CHECKING:
 from colour.utilities import (
     array_namespace,
     as_float_array,
+    is_non_ndarray,
     tsplit,
     tstack,
     xp_as_float_array,
@@ -92,6 +93,9 @@ def extend_line_segment(
     array([-0.5367248...,  1.1776534...])
     """
 
+    xp = array_namespace(a, b)
+    a = xp_as_float_array(a, xp=xp, like=a if is_non_ndarray(a) else b)
+    b = xp_as_float_array(b, xp=xp, like=a)
     x_a, y_a = tsplit(a)
     x_b, y_b = tsplit(b)
 
@@ -208,6 +212,7 @@ def intersect_line_segments(
 
     xp = array_namespace(l_1, l_2)
 
+    l_1 = xp_as_float_array(l_1, xp=xp, like=l_2)
     l_2 = xp_as_float_array(l_2, xp=xp, like=l_1)
 
     l_1 = xp_reshape(l_1, (-1, 4), xp=xp)
@@ -291,9 +296,12 @@ def intersect_ray_circle_2d(
 
     origin = as_float_array(ray_origin)
 
-    xp = array_namespace(origin)
-
     direction = as_float_array(ray_direction)
+
+    xp = array_namespace(origin, direction)
+
+    origin = xp_as_float_array(origin, xp=xp, like=direction)
+    direction = xp_as_float_array(direction, xp=xp, like=origin)
 
     direction_x = direction[..., 0]
     direction_y = direction[..., 1]
