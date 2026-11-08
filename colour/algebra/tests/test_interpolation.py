@@ -10,6 +10,7 @@ References
 
 from __future__ import annotations
 
+import contextlib
 import typing
 
 if typing.TYPE_CHECKING:
@@ -48,6 +49,7 @@ from colour.utilities import (
     as_ndarray,
     ignore_numpy_errors,
     xp_as_array,
+    xp_as_float_array,
     xp_assert_close,
     xp_assert_equal,
     xp_linspace,
@@ -945,7 +947,9 @@ padding_kwargs` property and rejection of unsupported padding.
         y = np.sin(x / len(x) * np.pi * 6) / (x / len(x)) + np.pi
         x_i = np.linspace(11, 25, 25)
 
-        kernel_interpolator = KernelInterpolator(x, y)
+        kernel_interpolator = KernelInterpolator(
+            xp_as_float_array(x, xp=xp), xp_as_float_array(y, xp=xp)
+        )
         xp_assert_close(
             kernel_interpolator(xp_as_array(x_i, xp=xp)),
             [
@@ -978,7 +982,9 @@ padding_kwargs` property and rejection of unsupported padding.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        kernel_interpolator = KernelInterpolator(x, y, kernel=kernel_sinc)
+        kernel_interpolator = KernelInterpolator(
+            xp_as_float_array(x, xp=xp), xp_as_float_array(y, xp=xp), kernel=kernel_sinc
+        )
         xp_assert_close(
             kernel_interpolator(xp_as_array(x_i, xp=xp)),
             [
@@ -1011,7 +1017,9 @@ padding_kwargs` property and rejection of unsupported padding.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        kernel_interpolator = KernelInterpolator(x, y, window=1)
+        kernel_interpolator = KernelInterpolator(
+            xp_as_float_array(x, xp=xp), xp_as_float_array(y, xp=xp), window=1
+        )
         xp_assert_close(
             kernel_interpolator(xp_as_array(x_i, xp=xp)),
             [
@@ -1044,7 +1052,12 @@ padding_kwargs` property and rejection of unsupported padding.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        kernel_interpolator = KernelInterpolator(x, y, window=1, kernel_kwargs={"a": 1})
+        kernel_interpolator = KernelInterpolator(
+            xp_as_float_array(x, xp=xp),
+            xp_as_float_array(y, xp=xp),
+            window=1,
+            kernel_kwargs={"a": 1},
+        )
         xp_assert_close(
             kernel_interpolator(xp_as_array(x_i, xp=xp)),
             [
@@ -1080,7 +1093,9 @@ padding_kwargs` property and rejection of unsupported padding.
         # Non-reflect padding is rejected consistently across backends.
         with pytest.raises(ValueError):
             KernelInterpolator(
-                x, y, padding_kwargs={"pad_width": (3, 3), "mode": "mean"}
+                xp_as_float_array(x, xp=xp),
+                xp_as_float_array(y, xp=xp),
+                padding_kwargs={"pad_width": (3, 3), "mode": "mean"},
             )
 
         x_1 = np.arange(1, 10, 1)
@@ -1090,19 +1105,37 @@ padding_kwargs` property and rejection of unsupported padding.
         x_i = np.linspace(1, 9, 25)
 
         xp_assert_close(
-            KernelInterpolator(x_1, y)(xp_as_array(x_i, xp=xp)),
-            as_ndarray(KernelInterpolator(x_2, y)(xp_as_array(x_i * 10, xp=xp))),
+            KernelInterpolator(
+                xp_as_float_array(x_1, xp=xp), xp_as_float_array(y, xp=xp)
+            )(xp_as_array(x_i, xp=xp)),
+            as_ndarray(
+                KernelInterpolator(
+                    xp_as_float_array(x_2, xp=xp), xp_as_float_array(y, xp=xp)
+                )(xp_as_array(x_i * 10, xp=xp))
+            ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         xp_assert_close(
-            KernelInterpolator(x_1, y)(xp_as_array(x_i, xp=xp)),
-            as_ndarray(KernelInterpolator(x_3, y)(xp_as_array(x_i / 10, xp=xp))),
+            KernelInterpolator(
+                xp_as_float_array(x_1, xp=xp), xp_as_float_array(y, xp=xp)
+            )(xp_as_array(x_i, xp=xp)),
+            as_ndarray(
+                KernelInterpolator(
+                    xp_as_float_array(x_3, xp=xp), xp_as_float_array(y, xp=xp)
+                )(xp_as_array(x_i / 10, xp=xp))
+            ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        reference = as_ndarray(KernelInterpolator(x_1, y)(xp_as_array(x_i, xp=xp)))
-        kernel_interpolator = KernelInterpolator(x_1, y)
+        reference = as_ndarray(
+            KernelInterpolator(
+                xp_as_float_array(x_1, xp=xp), xp_as_float_array(y, xp=xp)
+            )(xp_as_array(x_i, xp=xp))
+        )
+        kernel_interpolator = KernelInterpolator(
+            xp_as_float_array(x_1, xp=xp), xp_as_float_array(y, xp=xp)
+        )
         kernel_interpolator.y = np.transpose([y, y])
         xp_assert_close(
             as_ndarray(kernel_interpolator(xp_as_array(x_i, xp=xp))),
@@ -1213,7 +1246,9 @@ class TestLinearInterpolator:
 
         interval = 0.1
         x = np.arange(len(DATA_POINTS_A))
-        linear_interpolator = LinearInterpolator(x, DATA_POINTS_A)
+        linear_interpolator = LinearInterpolator(
+            xp_as_float_array(x, xp=xp), xp_as_float_array(DATA_POINTS_A, xp=xp)
+        )
 
         for i, value in enumerate(
             np.arange(0, len(DATA_POINTS_A) - 1 + interval, interval)
@@ -1243,6 +1278,43 @@ class TestLinearInterpolator:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        for knot in (1.0, [1.0]):
+            for value in (2.0, [2.0]):
+                singleton = LinearInterpolator(
+                    xp_as_float_array(knot, xp=xp),
+                    xp_as_float_array(value, xp=xp),
+                )
+                result = singleton(xp_as_float_array(1.0, xp=xp))
+                assert result.shape == ()
+                xp_assert_close(result, 2.0, atol=TOLERANCE_ABSOLUTE_TESTS)
+                singleton.x = xp_as_float_array(1.0, xp=xp)
+                singleton.y = xp_as_float_array(3.0, xp=xp)
+                xp_assert_close(
+                    singleton(xp_as_float_array([1.0], xp=xp)),
+                    [3.0],
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
+        for values in ([2.0], [[2.0, 3.0]]):
+            values_array = xp_as_float_array(values, xp=xp)
+            singleton = LinearInterpolator(
+                xp_as_float_array([1.0], xp=xp), values_array
+            )
+            for shape in ((), (1,), (2, 3), (0, 2)):
+                query = xp_as_float_array(np.ones(shape), xp=xp)
+                result = singleton(query)
+                expected = np.broadcast_to(
+                    np.asarray(values)[0], (*shape, *values_array.shape[1:])
+                )
+                assert result.shape == expected.shape
+                assert getattr(result, "device", None) == getattr(
+                    values_array, "device", None
+                )
+                xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            for outside in (0.0, 2.0):
+                with pytest.raises(ValueError):
+                    singleton(xp_as_float_array(outside, xp=xp))
+
     def test__call__autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
         """Test gradients through vector-valued linear interpolation."""
 
@@ -1258,6 +1330,14 @@ class TestLinearInterpolator:
 
             assert xp.isfinite(gradient).all()
             assert xp.any(gradient != 0)
+
+        for y in (2.0, [2.0], [[2.0, 3.0]]):
+            _result, (gradient,), _inputs = autodiff(
+                lambda values: LinearInterpolator(1.0, values)(np.ones((2, 3))), y
+            )
+            xp_assert_close(
+                gradient, np.full(np.shape(y), 6.0), atol=TOLERANCE_ABSOLUTE_TESTS
+            )
 
     def test_raise_exception___call__(self) -> None:
         """
@@ -1331,7 +1411,9 @@ class TestSpragueInterpolator:
 
         interval = 0.1
         x = np.arange(len(DATA_POINTS_A))
-        sprague_interpolator = SpragueInterpolator(x, DATA_POINTS_A)
+        sprague_interpolator = SpragueInterpolator(
+            xp_as_float_array(x, xp=xp), xp_as_float_array(DATA_POINTS_A, xp=xp)
+        )
 
         for i, value in enumerate(
             np.arange(0, len(DATA_POINTS_A) - 1 + interval, interval)
@@ -1427,15 +1509,19 @@ __call__` method.
         x = np.linspace(0, 1, len(DATA_POINTS_A))
         x_e = xp_linspace(0, 1, num=len(DATA_POINTS_A) * 2, xp=xp)
         xp_assert_close(
-            CubicSplineInterpolator(x, DATA_POINTS_A)(x_e),
+            CubicSplineInterpolator(
+                xp_as_float_array(x, xp=xp), xp_as_float_array(DATA_POINTS_A, xp=xp)
+            )(x_e),
             DATA_POINTS_A_CUBIC_SPLINE_INTERPOLATED_X2_SAMPLES,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
         xp_assert_close(
-            CubicSplineInterpolator(x, np.transpose([DATA_POINTS_A, DATA_POINTS_A]))(
-                x_e
-            ),
+            CubicSplineInterpolator(
+                xp_as_float_array(x, xp=xp),
+                xp_as_float_array(np.transpose([DATA_POINTS_A, DATA_POINTS_A]), xp=xp),
+                axis=0,
+            )(x_e),
             np.transpose(
                 [
                     DATA_POINTS_A_CUBIC_SPLINE_INTERPOLATED_X2_SAMPLES,
@@ -1463,9 +1549,9 @@ __call__` method.
                 ]
             ),
         ):
-            expected = CubicSplineInterpolator(x, y)(x_e)
+            expected = CubicSplineInterpolator(x, y, axis=0)(x_e)
             result, gradients, _inputs = autodiff(
-                lambda values, query: CubicSplineInterpolator(x, values)(query),
+                lambda values, query: CubicSplineInterpolator(x, values, axis=0)(query),
                 y,
                 x_e,
             )
@@ -1643,14 +1729,21 @@ default` property.
         """
 
         x = np.arange(len(DATA_POINTS_A))
-        null_interpolator = NullInterpolator(x, DATA_POINTS_A)
+        null_interpolator = NullInterpolator(
+            xp_as_float_array(x, xp=xp), xp_as_float_array(DATA_POINTS_A, xp=xp)
+        )
         xp_assert_close(
             null_interpolator(xp_as_array([0.75, 2.0, 3.0, 4.75], xp=xp)),
             [np.nan, 12.46, 9.51, np.nan],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        null_interpolator = NullInterpolator(x, DATA_POINTS_A, 0.25, 0.25)
+        null_interpolator = NullInterpolator(
+            xp_as_float_array(x, xp=xp),
+            xp_as_float_array(DATA_POINTS_A, xp=xp),
+            0.25,
+            0.25,
+        )
         x_e = xp_as_array([0.75, 2.0, 3.0, 4.75], xp=xp)
         xp_assert_close(
             null_interpolator(x_e),
@@ -1659,13 +1752,33 @@ default` property.
         )
 
         null_interpolator = NullInterpolator(
-            x, np.transpose([DATA_POINTS_A, DATA_POINTS_A]), 0.25, 0.25
+            xp_as_float_array(x, xp=xp),
+            xp_as_float_array(np.transpose([DATA_POINTS_A, DATA_POINTS_A]), xp=xp),
+            0.25,
+            0.25,
         )
         xp_assert_close(
             null_interpolator(x_e),
             np.transpose([[12.32, 12.46, 9.51, 4.33], [12.32, 12.46, 9.51, 4.33]]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        for knot in (1.0, [1.0]):
+            for value in (2.0, [2.0]):
+                singleton = NullInterpolator(
+                    xp_as_float_array(knot, xp=xp),
+                    xp_as_float_array(value, xp=xp),
+                )
+                result = singleton(xp_as_float_array(1.0, xp=xp))
+                assert result.shape == ()
+                xp_assert_close(result, 2.0, atol=TOLERANCE_ABSOLUTE_TESTS)
+                singleton.x = xp_as_float_array(1.0, xp=xp)
+                singleton.y = xp_as_float_array(3.0, xp=xp)
+                xp_assert_close(
+                    singleton(xp_as_float_array([1.0], xp=xp)),
+                    [3.0],
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
 
     def test_raise_exception___call__(self) -> None:
         """
@@ -1733,7 +1846,9 @@ class TestTableInterpolationTrilinear:
 table_interpolation_trilinear` definition unit tests methods.
     """
 
-    def test_interpolation_trilinear(self, xp: ModuleType) -> None:
+    def test_interpolation_trilinear(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.algebra.interpolation.\
 table_interpolation_trilinear` definition.
@@ -1766,6 +1881,20 @@ table_interpolation_trilinear` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        host_query = np.array([0.1, 0.2, 0.3])
+        native_table = xp_as_array(np.arange(24.0).reshape(2, 2, 2, 3), xp=xp)
+        with contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu"):
+            result = table_interpolation_trilinear(host_query, native_table)
+        xp_assert_close(result, [3.3, 4.3, 5.3], atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert getattr(result, "device", None) == getattr(native_table, "device", None)
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(
+                lambda values: table_interpolation_trilinear(host_query, values),
+                np.arange(24.0).reshape(2, 2, 2, 3),
+            )
+
 
 class TestTableInterpolationTetrahedral:
     """
@@ -1773,7 +1902,9 @@ class TestTableInterpolationTetrahedral:
 table_interpolation_tetrahedral` definition unit tests methods.
     """
 
-    def test_interpolation_tetrahedral(self, xp: ModuleType) -> None:
+    def test_interpolation_tetrahedral(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.algebra.interpolation.\
 table_interpolation_tetrahedral` definition.
@@ -1805,6 +1936,20 @@ table_interpolation_tetrahedral` definition.
             ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host_query = np.array([0.1, 0.2, 0.3])
+        native_table = xp_as_array(np.arange(24.0).reshape(2, 2, 2, 3), xp=xp)
+        with contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu"):
+            result = table_interpolation_tetrahedral(host_query, native_table)
+        xp_assert_close(result, [3.3, 4.3, 5.3], atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert getattr(result, "device", None) == getattr(native_table, "device", None)
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(
+                lambda values: table_interpolation_tetrahedral(host_query, values),
+                np.arange(24.0).reshape(2, 2, 2, 3),
+            )
 
 
 class TestTableInterpolation:

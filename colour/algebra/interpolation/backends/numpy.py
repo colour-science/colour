@@ -6,7 +6,7 @@ Evaluated with *SciPy*, which is the numeric reference for the *NumPy* path.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+import typing
 
 import numpy as np
 import scipy.interpolate
@@ -22,8 +22,8 @@ from ._core import (
 )
 from ._kernels import kernel_lanczos
 
-if TYPE_CHECKING:
-    from collections.abc import Callable
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, Callable, Literal
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -67,22 +67,29 @@ class CubicSplineInterpolator:
     """
 
     def __init__(
-        self, x: Any, y: Any, *args: Any, dtype: Any = None, **kwargs: Any
+        self,
+        x: Any,
+        y: Any,
+        *args: Any,
+        dtype: Any = None,
+        **kwargs: Any,
     ) -> None:
         kwargs["kind"] = "cubic"
-        kwargs.setdefault("axis", 0)
+        kwargs.setdefault("axis", -1)
 
         self._dtype = _resolve_dtype(dtype)
         self._x = np.asarray(x, dtype=self._dtype)
         self._y = np.asarray(y, dtype=self._dtype)
-        self._args = args
-        self._kwargs = kwargs
+        self._args: tuple[Any, ...] = args
+        self._kwargs: dict[str, Any] = kwargs
         self._build()
 
     def _build(self) -> None:
         self._interpolator = scipy.interpolate.interp1d(
             self._x, self._y, *self._args, **self._kwargs
         )
+        self._x = self._interpolator.x
+        self._y = self._interpolator.y
 
     def __call__(self, x: Any) -> np.ndarray:
         """Evaluate the cubic spline at the specified point(s)."""
@@ -122,6 +129,32 @@ class CubicSplineInterpolator:
 
         return self._dtype
 
+    @property
+    def fill_value(self) -> Any:
+        """Getter and setter for the out-of-bounds fill value."""
+
+        return self._interpolator.fill_value
+
+    @fill_value.setter
+    def fill_value(self, value: Any) -> None:
+        """Setter for the **self.fill_value** property."""
+
+        self._interpolator.fill_value = value
+        self._kwargs["fill_value"] = value
+
+    @property
+    def bounds_error(self) -> bool:
+        """Getter and setter for out-of-bounds error handling."""
+
+        return self._interpolator.bounds_error
+
+    @bounds_error.setter
+    def bounds_error(self, value: bool) -> None:
+        """Setter for the **self.bounds_error** property."""
+
+        self._interpolator.bounds_error = value
+        self._kwargs["bounds_error"] = value
+
     def __getattr__(self, name: str) -> Any:
         """
         Delegate unknown attributes to the wrapped *SciPy* ``interp1d``, exposing
@@ -143,14 +176,22 @@ class PchipInterpolator:
     """
 
     def __init__(
-        self, x: Any, y: Any, *args: Any, dtype: Any = None, **kwargs: Any
+        self,
+        x: Any,
+        y: Any,
+        *args: Any,
+        dtype: Any = None,
+        **kwargs: Any,
     ) -> None:
         self._dtype = _resolve_dtype(dtype)
         self._x = np.asarray(x, dtype=self._dtype)
         self._y = np.asarray(y, dtype=self._dtype)
-        self._args = args
-        self._kwargs = kwargs
+        self._args: tuple[Any, ...] = args
+        self._kwargs: dict[str, Any] = kwargs
         self._build()
+        self._extrapolate: bool | Literal["periodic"] | None = (
+            self._interpolator.extrapolate
+        )
 
     def _build(self) -> None:
         self._interpolator = scipy.interpolate.PchipInterpolator(
@@ -189,6 +230,24 @@ class PchipInterpolator:
         """Setter for the **self.y** property; rebuilds the interpolant."""
 
         self._y = np.asarray(value, dtype=self._dtype)
+        self._build()
+
+    @property
+    def extrapolate(self) -> bool | Literal["periodic"] | None:
+        """Getter and setter for extrapolation outside the interpolation range."""
+
+        return self._extrapolate
+
+    @extrapolate.setter
+    def extrapolate(self, value: bool | Literal["periodic"] | None) -> None:
+        """Set extrapolation; assigned *None* masks out-of-domain queries."""
+
+        self._extrapolate = value
+        effective = False if value is None else value
+        if len(self._args) > 1:
+            self._args = (self._args[0], effective, *self._args[2:])
+        else:
+            self._kwargs["extrapolate"] = effective
         self._build()
 
     @property
@@ -235,8 +294,8 @@ class LinearInterpolator:
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
         self._dtype = _resolve_dtype(dtype)
-        self._x = np.asarray(x, dtype=self._dtype)
-        self._y = np.asarray(y, dtype=self._dtype)
+        self._x = np.atleast_1d(np.asarray(x, dtype=self._dtype))
+        self._y = np.atleast_1d(np.asarray(y, dtype=self._dtype))
         validate_dimensions(self._x, self._y)
 
     def __call__(self, x: Any) -> np.ndarray:
@@ -248,6 +307,9 @@ class LinearInterpolator:
         if self._y.ndim == 1:
             # ``numpy.interp`` always returns float64; honour the data dtype.
             return np.interp(x, self._x, self._y).astype(self._dtype)
+
+        if len(self._x) == 1:
+            return np.broadcast_to(self._y[0], (*x.shape, *self._y.shape[1:])).copy()
 
         i = np.clip(np.searchsorted(self._x, x) - 1, 0, len(self._x) - 2)
         t = (x - self._x[i]) / (self._x[i + 1] - self._x[i])
@@ -264,7 +326,7 @@ class LinearInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property."""
 
-        x = np.asarray(value, dtype=self._dtype)
+        x = np.atleast_1d(np.asarray(value, dtype=self._dtype))
         validate_dimensions(x, self._y)
         self._x = x
 
@@ -278,7 +340,7 @@ class LinearInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property."""
 
-        y = np.asarray(value, dtype=self._dtype)
+        y = np.atleast_1d(np.asarray(value, dtype=self._dtype))
         validate_dimensions(self._x, y)
         self._y = y
 
@@ -370,8 +432,8 @@ class NullInterpolator:
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
         self._dtype = _resolve_dtype(dtype)
-        self._x = np.asarray(x, dtype=self._dtype)
-        self._y = np.asarray(y, dtype=self._dtype)
+        self._x = np.atleast_1d(np.asarray(x, dtype=self._dtype))
+        self._y = np.atleast_1d(np.asarray(y, dtype=self._dtype))
         validate_dimensions(self._x, self._y)
         self.absolute_tolerance = absolute_tolerance
         self.relative_tolerance = relative_tolerance
@@ -410,7 +472,7 @@ class NullInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property."""
 
-        x = np.asarray(value, dtype=self._dtype)
+        x = np.atleast_1d(np.asarray(value, dtype=self._dtype))
         validate_dimensions(x, self._y)
         self._x = x
 
@@ -424,7 +486,7 @@ class NullInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property."""
 
-        y = np.asarray(value, dtype=self._dtype)
+        y = np.atleast_1d(np.asarray(value, dtype=self._dtype))
         validate_dimensions(self._x, y)
         self._y = y
 
@@ -631,8 +693,10 @@ class KernelInterpolator:
 
         pad_kwargs = dict(self._padding_kwargs)
         if self._y.ndim == 2:
-            pad_width = pad_kwargs["pad_width"]
-            pad_kwargs["pad_width"] = (pad_width, (0, 0))
+            pad_width = np.broadcast_to(
+                np.asarray(pad_kwargs["pad_width"]).ravel(), (2,)
+            )
+            pad_kwargs["pad_width"] = (tuple(pad_width), (0, 0))
         self._y_p = np.pad(self._y, **pad_kwargs)
 
     def __call__(self, x: Any) -> np.ndarray:
@@ -668,7 +732,9 @@ class KernelInterpolator:
         if self._y.ndim == 2:
             weights = weights[..., None]
 
-        return np.sum(self._y_p[windows] * weights, axis=1)
+        return np.sum(
+            self._y_p[windows] * weights, axis=-2 if self._y.ndim == 2 else -1
+        )
 
     @property
     def x(self) -> np.ndarray:

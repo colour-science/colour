@@ -16,7 +16,7 @@ round-trip). The known knot locations are treated as structural.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+import typing
 
 import numpy as np
 import torch
@@ -31,8 +31,8 @@ from ._core import (
 )
 from ._kernels import kernel_lanczos
 
-if TYPE_CHECKING:
-    from collections.abc import Callable
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, Callable, Literal
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -80,17 +80,33 @@ def _as_float(
     host coordinates are paired with device-resident values.
     """
 
-    a = torch.as_tensor(a)
-    if like is not None:
-        a = _colocate(a, like)
-
-    if dtype is not None:
-        return a.to(getattr(torch, np.dtype(dtype).name))
-
-    if torch.is_floating_point(a):
-        return a
-
-    return a.to(torch.get_default_dtype())
+    target_dtype = (
+        getattr(torch, np.dtype(dtype).name)
+        if dtype is not None
+        else like.dtype
+        if like is not None and torch.is_floating_point(like)
+        else a.dtype
+        if isinstance(a, torch.Tensor) and torch.is_floating_point(a)
+        else getattr(torch, a.dtype.name)
+        if isinstance(a, np.ndarray) and np.issubdtype(a.dtype, np.floating)
+        else torch.get_default_dtype()
+    )
+    device = (
+        like.device
+        if like is not None
+        else a.device
+        if isinstance(a, torch.Tensor)
+        else torch.device("cpu")
+    )
+    if device.type == "mps" and target_dtype == torch.float64:
+        target_dtype = torch.float32
+    if isinstance(a, np.ndarray) and any(stride < 0 for stride in a.strides):
+        a = np.ascontiguousarray(a)
+    return (
+        a.to(device=device, dtype=target_dtype)
+        if isinstance(a, torch.Tensor)
+        else torch.as_tensor(a, dtype=target_dtype, device=device)
+    )
 
 
 def _axis_to_front(y: torch.Tensor, axis: int) -> torch.Tensor:
@@ -160,27 +176,33 @@ class CubicSplineInterpolator:
         x: Any,
         y: Any,
         *,
-        axis: int = 0,
+        axis: int = -1,
         bounds_error: bool | None = None,
         fill_value: Any = float("nan"),
         assume_sorted: bool = False,
         dtype: Any = None,
     ) -> None:
-        y = _as_float(y, dtype)
+        y = _as_float(y, dtype, like=x if isinstance(x, torch.Tensor) else None)
         x = _as_float(x, dtype, like=y)
+        if x.ndim != 1:
+            error = "`x` must be 1-dimensional."
+            raise ValueError(error)
+        if y.ndim == 0:
+            error = "`y` must have at least one dimension."
+            raise ValueError(error)
+        if not -y.ndim <= axis < y.ndim:
+            error = "Interpolation axis is out of bounds for `y`."
+            raise IndexError(error)
         self.axis = int(axis % y.ndim)
+        if y.shape[self.axis] != x.shape[0]:
+            error = "`x` and `y` must match in length along the interpolation axis."
+            raise ValueError(error)
 
         if not assume_sorted:
             order = torch.argsort(x)
             y = torch.index_select(y, self.axis, order)
             x = x[order]
 
-        if x.ndim != 1:
-            error = "`x` must be 1-dimensional."
-            raise ValueError(error)
-        if y.shape[self.axis] != x.shape[0]:
-            error = "`x` and `y` must match in length along the interpolation axis."
-            raise ValueError(error)
         if x.shape[0] < 4:
             error = "Cubic spline interpolation requires at least 4 points."
             raise ValueError(error)
@@ -189,9 +211,11 @@ class CubicSplineInterpolator:
             raise ValueError(error)
 
         self._dtype_arg = dtype
+        self._assume_sorted = assume_sorted
         self._x = x
         self._y = y
 
+        self._fill_value = fill_value
         self._extrapolate = isinstance(fill_value, str) and fill_value == "extrapolate"
         if self._extrapolate and bounds_error:
             error = "Cannot extrapolate and raise at the same time."
@@ -222,16 +246,53 @@ class CubicSplineInterpolator:
         self._intervals = h
         self._second_derivatives = _not_a_knot_second_derivatives(h, self._values)
 
+    @property
+    def bounds_error(self) -> bool:
+        """Getter and setter for out-of-bounds error handling."""
+
+        return self._bounds_error
+
+    @bounds_error.setter
+    def bounds_error(self, value: bool) -> None:
+        """Setter for the **self.bounds_error** property."""
+
+        self._bounds_error = value
+
+    @property
+    def fill_value(self) -> Any:
+        """Getter and setter for the out-of-bounds fill value."""
+
+        return self._fill_value
+
+    @fill_value.setter
+    def fill_value(self, value: Any) -> None:
+        """Setter for the **self.fill_value** property."""
+
+        extrapolate = isinstance(value, str) and value == "extrapolate"
+        if extrapolate and self.bounds_error:
+            error = "Cannot extrapolate and raise at the same time."
+            raise ValueError(error)
+        self._fill_value = value
+        self._extrapolate = extrapolate
+        self._fill_value_below, self._fill_value_above = (
+            value if isinstance(value, tuple) and len(value) == 2 else (value, value)
+        )
+
     def __call__(self, x: Any) -> torch.Tensor:
         """Evaluate the cubic spline at the specified point(s)."""
 
-        x = torch.as_tensor(x, dtype=self._values.dtype, device=self._values.device)
+        x = _as_float(x, like=self._values)
         x_i = self._x
         h = self._intervals
         y_i = self._values
         second = self._second_derivatives
 
-        x_flat = x.reshape(-1)
+        below = x < x_i[0]
+        above = x > x_i[-1]
+        # Filled queries must not evaluate an overflowing inactive polynomial:
+        # masking its result afterwards can still contaminate the gradients.
+        evaluated_x = x if self._extrapolate else torch.where(below | above, x_i[0], x)
+        x_flat = evaluated_x.reshape(-1)
         indices = _interval_indices(x_flat, x_i)
         h_interval = h[indices]
         a = (x_i[indices + 1] - x_flat) / h_interval
@@ -247,10 +308,7 @@ class CubicSplineInterpolator:
             / 6
         )
         values = values.reshape((*x.shape, *self._values_shape[1:]))
-        values = _restore_axis(values, x.ndim, self.axis)
 
-        below = x < x_i[0]
-        above = x > x_i[-1]
         if self.bounds_error and bool(torch.any(below | above)):
             error = "A value in x_new is outside the interpolation range."
             raise ValueError(error)
@@ -258,8 +316,6 @@ class CubicSplineInterpolator:
             remaining_ndim = self._y.ndim - 1
             below = below.reshape((*below.shape, *((1,) * remaining_ndim)))
             above = above.reshape((*above.shape, *((1,) * remaining_ndim)))
-            below = _restore_axis(below, x.ndim, self.axis)
-            above = _restore_axis(above, x.ndim, self.axis)
             values = torch.where(
                 below,
                 torch.as_tensor(
@@ -275,7 +331,7 @@ class CubicSplineInterpolator:
                 values,
             )
 
-        return values
+        return _restore_axis(values, x.ndim, self.axis)
 
     @property
     def x(self) -> torch.Tensor:
@@ -287,8 +343,16 @@ class CubicSplineInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property; re-solves the spline."""
 
-        self._x = _as_float(value, self._dtype_arg, like=self._y)
-        self._solve()
+        implementation = type(self)(
+            _as_float(value, self._dtype_arg, like=self._y),
+            self._y,
+            axis=self.axis,
+            bounds_error=self.bounds_error,
+            fill_value=self.fill_value,
+            assume_sorted=self._assume_sorted,
+            dtype=self._dtype_arg,
+        )
+        vars(self).update(vars(implementation))
 
     @property
     def y(self) -> torch.Tensor:
@@ -300,9 +364,16 @@ class CubicSplineInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property; re-solves the spline."""
 
-        self._y = _as_float(value, self._dtype_arg)
-        self._x = _colocate(self._x, self._y)
-        self._solve()
+        implementation = type(self)(
+            self._x,
+            _as_float(value, self._dtype_arg, like=self._x),
+            axis=self.axis,
+            bounds_error=self.bounds_error,
+            fill_value=self.fill_value,
+            assume_sorted=self._assume_sorted,
+            dtype=self._dtype_arg,
+        )
+        vars(self).update(vars(implementation))
 
     @property
     def dtype(self) -> torch.dtype:
@@ -319,14 +390,19 @@ class PchipInterpolator:
         x: Any,
         y: Any,
         axis: int = 0,
-        extrapolate: bool | None = None,
+        extrapolate: bool | Literal["periodic"] | None = None,
         *,
         dtype: Any = None,
     ) -> None:
-        y = _as_float(y, dtype)
+        y = _as_float(y, dtype, like=x if isinstance(x, torch.Tensor) else None)
         x = _as_float(x, dtype, like=y)
+        if y.ndim == 0:
+            error = "`y` must have at least one dimension."
+            raise ValueError(error)
         self.axis = int(axis % y.ndim)
-        self._extrapolate = True if extrapolate is None else extrapolate
+        self._extrapolate: bool | Literal["periodic"] | None = (
+            True if extrapolate is None else extrapolate
+        )
 
         if x.ndim != 1:
             error = "`x` must be 1-dimensional."
@@ -336,6 +412,11 @@ class PchipInterpolator:
             raise ValueError(error)
         if x.shape[0] < 2:
             error = "PCHIP interpolation requires at least 2 points."
+            raise ValueError(error)
+        if not bool(torch.all(torch.isfinite(x))) or not bool(
+            torch.all(torch.isfinite(y))
+        ):
+            error = "`x` and `y` must contain only finite values."
             raise ValueError(error)
         if bool(torch.any(torch.diff(x) <= 0)):
             error = "`x` must be strictly increasing."
@@ -355,27 +436,90 @@ class PchipInterpolator:
 
         h = torch.diff(self._x)
         self._intervals = h
-        slopes = (self._values[1:] - self._values[:-1]) / h[:, None]
+        # Scale each difference locally so opposite-sign ordinates cannot
+        # overflow before division, while unrelated tiny intervals stay intact.
+        difference_scale = torch.where(
+            torch.maximum(torch.abs(self._values[1:]), torch.abs(self._values[:-1]))
+            > (torch.finfo(self._values.dtype).max / 65536)
+            * torch.clamp(torch.abs(h[:, None]), max=1),
+            torch.full_like(self._values[:-1], 2.0**64),
+            torch.ones_like(self._values[:-1]),
+        )
+        difference_scale = difference_scale.to(dtype=self._values.dtype)
+        slopes = (
+            self._values[1:] / difference_scale - self._values[:-1] / difference_scale
+        ) / h[:, None]
 
         if self._x.shape[0] == 2:
             self._derivatives = torch.stack([slopes[0], slopes[0]])
+            self._derivative_scales = torch.stack(
+                [difference_scale[0], difference_scale[0]]
+            )
             return
 
-        previous = slopes[:-1]
-        following = slopes[1:]
+        previous_original, following_original = slopes[:-1], slopes[1:]
+        previous_scale, following_scale = difference_scale[:-1], difference_scale[1:]
+        pair_scale = torch.maximum(previous_scale, following_scale)
+        previous = previous_original * (previous_scale / pair_scale)
+        following = following_original * (following_scale / pair_scale)
         use_zero = (
-            (previous == 0)
-            | (following == 0)
-            | (torch.sign(previous) != torch.sign(following))
+            (previous_original == 0)
+            | (following_original == 0)
+            | (torch.sign(previous_original) != torch.sign(following_original))
         )
-        safe_previous = torch.where(use_zero, torch.ones_like(previous), previous)
-        safe_following = torch.where(use_zero, torch.ones_like(following), following)
+        previous_smaller = torch.abs(previous) <= torch.abs(following)
+        maximum = torch.maximum(torch.abs(previous), torch.abs(following))
+        minimum = torch.minimum(torch.abs(previous), torch.abs(following))
+        disparate = (
+            minimum <= maximum * (torch.finfo(previous.dtype).eps / 16)
+        ) & ~use_zero
+        ratio_disparate = torch.where(disparate, minimum, 0) / torch.where(
+            disparate, maximum, 1
+        )
+        small_original = torch.where(
+            previous_smaller, previous_original, following_original
+        )
+        small_scale = torch.where(previous_smaller, previous_scale, following_scale)
+        disparate_smaller = torch.where(disparate, small_original, 0)
+        safe_previous = torch.where(
+            use_zero | disparate, torch.ones_like(previous), previous
+        )
+        safe_following = torch.where(
+            use_zero | disparate, torch.ones_like(following), following
+        )
         w_1 = 2 * h[1:, None] + h[:-1, None]
         w_2 = h[1:, None] + 2 * h[:-1, None]
+        # Anchor the harmonic mean at the smaller slope. Its ratio to the
+        # larger slope may underflow harmlessly, but is never inverted.
+        previous_smaller = torch.abs(safe_previous) <= torch.abs(safe_following)
+        smaller = torch.where(previous_smaller, safe_previous, safe_following)
+        larger = torch.where(previous_smaller, safe_following, safe_previous)
+        # Normalize the ratio with a normal binary factor: JAX division
+        # derivatives otherwise lose inverse squares, and MPS flushes factors
+        # at the smallest normal exponent. Keep two bits of exponent headroom.
+        raw_smaller = smaller
+        _, exponent = torch.frexp(torch.abs(larger))
+        limit = -int(np.log2(torch.finfo(larger.dtype).tiny)) - 2
+        factor = torch.exp2(
+            -torch.clamp(exponent, -limit, limit).to(dtype=larger.dtype)
+        )
+        ratio = (smaller * factor) / (larger * factor)
+        denominator = torch.where(
+            previous_smaller, w_1 + w_2 * ratio, w_2 + w_1 * ratio
+        )
+        disparate_denominator = torch.where(
+            previous_smaller, w_1 + w_2 * ratio_disparate, w_2 + w_1 * ratio_disparate
+        )
+        disparate_harmonic = disparate_smaller * ((w_1 + w_2) / disparate_denominator)
         interior = torch.where(
             use_zero,
             torch.zeros_like(previous),
-            (w_1 + w_2) / (w_1 / safe_previous + w_2 / safe_following),
+            torch.where(
+                disparate, disparate_harmonic, raw_smaller * ((w_1 + w_2) / denominator)
+            ),
+        )
+        interior_scale = torch.where(
+            use_zero, 1, torch.where(disparate, small_scale, pair_scale)
         )
 
         def endpoint(
@@ -383,77 +527,145 @@ class PchipInterpolator:
             h_1: torch.Tensor,
             slope_0: torch.Tensor,
             slope_1: torch.Tensor,
-        ) -> torch.Tensor:
-            derivative = ((2 * h_0 + h_1) * slope_0 - h_0 * slope_1) / (h_0 + h_1)
+            scale_0: torch.Tensor,
+            scale_1: torch.Tensor,
+        ) -> tuple[torch.Tensor, torch.Tensor]:
+            scale = torch.maximum(scale_0, scale_1)
+            normalized_0 = slope_0 * (scale_0 / scale)
+            normalized_1 = slope_1 * (scale_1 / scale)
+            derivative = normalized_0 + (h_0 / (h_0 + h_1)) * (
+                normalized_0 - normalized_1
+            )
             opposite = torch.sign(derivative) != torch.sign(slope_0)
             limited = (torch.sign(slope_0) != torch.sign(slope_1)) & (
-                torch.abs(derivative) > 3 * torch.abs(slope_0)
+                torch.abs(derivative) > 3 * torch.abs(normalized_0)
             )
-            return torch.where(
-                opposite,
-                torch.zeros_like(derivative),
-                torch.where(limited, 3 * slope_0, derivative),
+            result = torch.where(
+                opposite, 0, torch.where(limited, 3 * slope_0, derivative)
             )
+            result_scale = torch.where(
+                opposite, 1, torch.where(limited, scale_0, scale)
+            )
+            return result, result_scale
 
+        first, first_scale = endpoint(
+            h[0], h[1], slopes[0], slopes[1], difference_scale[0], difference_scale[1]
+        )
+        last, last_scale = endpoint(
+            h[-1],
+            h[-2],
+            slopes[-1],
+            slopes[-2],
+            difference_scale[-1],
+            difference_scale[-2],
+        )
         self._derivatives = torch.cat(
-            [
-                endpoint(h[0], h[1], slopes[0], slopes[1])[None, ...],
-                interior,
-                endpoint(h[-1], h[-2], slopes[-1], slopes[-2])[None, ...],
-            ],
-            dim=0,
+            [first[None, ...], interior, last[None, ...]], dim=0
+        )
+        self._derivative_scales = torch.cat(
+            [first_scale[None, ...], interior_scale, last_scale[None, ...]], dim=0
         )
 
     def __call__(
-        self, x: Any, nu: int = 0, extrapolate: bool | None = None
+        self, x: Any, nu: int = 0, extrapolate: bool | Literal["periodic"] | None = None
     ) -> torch.Tensor:
         """Evaluate the piecewise cubic interpolant at the specified point(s)."""
 
-        x = torch.as_tensor(x, dtype=self._values.dtype, device=self._values.device)
+        x = _as_float(x, like=self._values)
         x_i = self._x
         h = self._intervals
         y_i = self._values
         derivatives = self._derivatives
+        extrapolate = self._extrapolate if extrapolate is None else extrapolate
+        if extrapolate == "periodic":
+            x = x_i[0] + (x - x_i[0]) % (x_i[-1] - x_i[0])
 
         x_flat = x.reshape(-1)
         indices = _interval_indices(x_flat, x_i)
         h_interval = h[indices, None]
         t = (x_flat - x_i[indices])[:, None] / h_interval
 
-        coefficient_3 = (
-            2 * y_i[indices]
-            - 2 * y_i[indices + 1]
-            + h_interval * (derivatives[indices] + derivatives[indices + 1])
+        y_left, y_right = y_i[indices], y_i[indices + 1]
+        d_left, d_right = derivatives[indices], derivatives[indices + 1]
+        left_scale = self._derivative_scales[indices]
+        right_scale = self._derivative_scales[indices + 1]
+        scale = torch.maximum(
+            torch.where(
+                torch.maximum(torch.abs(y_left), torch.abs(y_right))
+                > torch.finfo(y_i.dtype).max / 65536,
+                torch.full_like(y_left, 2.0**64),
+                torch.ones_like(y_left),
+            ),
+            torch.maximum(left_scale, right_scale),
         )
-        coefficient_2 = (
-            -3 * y_i[indices]
-            + 3 * y_i[indices + 1]
-            - h_interval * (2 * derivatives[indices] + derivatives[indices + 1])
+        y_left, y_right = y_left / scale, y_right / scale
+        d_left, d_right = d_left * (left_scale / scale), d_right * (right_scale / scale)
+        delta = y_right - y_left
+        coefficient_1 = h_interval * d_left
+        right_step = h_interval * d_right
+        coefficient_3 = (coefficient_1 - delta) + (right_step - delta)
+        coefficient_2 = delta - coefficient_1 - coefficient_3
+        remaining = torch.where(
+            scale > 1, (x_i[indices + 1] - x_flat)[:, None] / h_interval, 1 - t
         )
-        coefficient_1 = h_interval * derivatives[indices]
+        right_coefficient_2 = -delta + right_step + coefficient_3
 
         if nu == 0:
-            values = (
-                coefficient_3 * t**3
-                + coefficient_2 * t**2
-                + coefficient_1 * t
-                + y_i[indices]
+            # Anchor at the nearer original ordinate: tiny knot values must
+            # survive next to huge neighbours without subtractive cancellation.
+            ordinary = torch.where(
+                t <= 0.5,
+                coefficient_3 * t**3 + coefficient_2 * t**2 + coefficient_1 * t,
+                -coefficient_3 * remaining**3
+                + right_coefficient_2 * remaining**2
+                - h_interval * d_right * remaining,
             )
+            u = torch.where(t <= 0.5, t, remaining) * 256
+            first_coefficient = torch.where(
+                t <= 0.5, coefficient_1, -h_interval * d_right
+            )
+            second_coefficient = torch.where(
+                t <= 0.5, coefficient_2, right_coefficient_2
+            )
+            third_coefficient = torch.where(t <= 0.5, coefficient_3, -coefficient_3)
+            horner = (
+                (third_coefficient / 256**3 * u + second_coefficient / 256**2) * u
+                + first_coefficient / 256
+            ) * u
+            values = torch.where(scale > 1, horner, ordinary)
         elif nu == 1:
             values = (
-                3 * coefficient_3 * t**2 + 2 * coefficient_2 * t + coefficient_1
-            ) / h_interval
+                torch.where(
+                    t <= 0.5,
+                    (3 * coefficient_3 * t + 2 * coefficient_2) * t + coefficient_1,
+                    -(
+                        (-3 * coefficient_3 * remaining + 2 * right_coefficient_2)
+                        * remaining
+                        - right_step
+                    ),
+                )
+                / h_interval
+            )
         elif nu == 2:
-            values = (6 * coefficient_3 * t + 2 * coefficient_2) / h_interval**2
+            values = (
+                torch.where(
+                    t <= 0.5,
+                    6 * coefficient_3 * t + 2 * coefficient_2,
+                    -6 * coefficient_3 * remaining + 2 * right_coefficient_2,
+                )
+                / h_interval**2
+            )
         elif nu == 3:
             values = 6 * coefficient_3 / h_interval**3
         else:
             values = torch.zeros_like(coefficient_3)
 
+        values = values * scale
+        if nu == 0:
+            values = values + torch.where(t <= 0.5, y_i[indices], y_i[indices + 1])
         values = values.reshape((*x.shape, *self._values_shape[1:]))
         values = _restore_axis(values, x.ndim, self.axis)
 
-        extrapolate = self._extrapolate if extrapolate is None else extrapolate
         if not extrapolate:
             outside = (x < x_i[0]) | (x > x_i[-1])
             remaining_ndim = self._y.ndim - 1
@@ -477,8 +689,16 @@ class PchipInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property; recomputes the derivatives."""
 
-        self._x = _as_float(value, self._dtype_arg, like=self._y)
-        self._solve()
+        implementation = type(self)(
+            _as_float(value, self._dtype_arg, like=self._y),
+            self._y,
+            axis=self.axis,
+            extrapolate=self.extrapolate,
+            dtype=self._dtype_arg,
+        )
+        # An assigned None masks extrapolation, unlike the constructor default.
+        implementation.extrapolate = self.extrapolate
+        vars(self).update(vars(implementation))
 
     @property
     def y(self) -> torch.Tensor:
@@ -490,9 +710,28 @@ class PchipInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property; recomputes the derivatives."""
 
-        self._y = _as_float(value, self._dtype_arg)
-        self._x = _colocate(self._x, self._y)
-        self._solve()
+        implementation = type(self)(
+            self._x,
+            _as_float(value, self._dtype_arg, like=self._x),
+            axis=self.axis,
+            extrapolate=self.extrapolate,
+            dtype=self._dtype_arg,
+        )
+        # An assigned None masks extrapolation, unlike the constructor default.
+        implementation.extrapolate = self.extrapolate
+        vars(self).update(vars(implementation))
+
+    @property
+    def extrapolate(self) -> bool | Literal["periodic"] | None:
+        """Getter and setter for extrapolation outside the interpolation range."""
+
+        return self._extrapolate
+
+    @extrapolate.setter
+    def extrapolate(self, value: bool | Literal["periodic"] | None) -> None:
+        """Set extrapolation; assigned *None* masks out-of-domain queries."""
+
+        self._extrapolate = value
 
     @property
     def dtype(self) -> torch.dtype:
@@ -513,15 +752,22 @@ class LinearInterpolator:
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
         self._dtype_arg = dtype
-        self._y = _as_float(y, dtype)
-        self._x = _as_float(x, dtype, like=self._y)
+        self._y = torch.atleast_1d(
+            _as_float(y, dtype, like=x if isinstance(x, torch.Tensor) else None)
+        )
+        self._x = torch.atleast_1d(_as_float(x, dtype, like=self._y))
         validate_dimensions(self._x, self._y)
 
     def __call__(self, x: Any) -> torch.Tensor:
         """Evaluate the linear interpolant at the specified point(s)."""
 
-        x = torch.as_tensor(x, dtype=self._y.dtype, device=self._y.device)
+        x = _as_float(x, like=self._y)
         _validate_range(x, self._x)
+
+        if len(self._x) == 1:
+            return torch.broadcast_to(
+                self._y[0], (*x.shape, *self._y.shape[1:])
+            ).clone()
 
         i = torch.clamp(torch.searchsorted(self._x, x) - 1, 0, len(self._x) - 2)
         t = (x - self._x[i]) / (self._x[i + 1] - self._x[i])
@@ -540,7 +786,7 @@ class LinearInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property."""
 
-        x = _as_float(value, self._dtype_arg, like=self._y)
+        x = torch.atleast_1d(_as_float(value, self._dtype_arg, like=self._y))
         validate_dimensions(x, self._y)
         self._x = x
 
@@ -554,7 +800,7 @@ class LinearInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property."""
 
-        y = _as_float(value, self._dtype_arg)
+        y = torch.atleast_1d(_as_float(value, self._dtype_arg, like=self._x))
         validate_dimensions(self._x, y)
         self._x = _colocate(self._x, y)
         self._y = y
@@ -578,14 +824,14 @@ class NearestNeighbourInterpolator:
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
         self._dtype_arg = dtype
-        self._y = _as_float(y, dtype)
+        self._y = _as_float(y, dtype, like=x if isinstance(x, torch.Tensor) else None)
         self._x = _as_float(x, dtype, like=self._y)
         validate_dimensions(self._x, self._y)
 
     def __call__(self, x: Any) -> torch.Tensor:
         """Evaluate the nearest-neighbour interpolant at the specified point(s)."""
 
-        x = torch.as_tensor(x, dtype=self._y.dtype, device=self._y.device)
+        x = _as_float(x, like=self._y)
         _validate_range(x, self._x)
 
         right = torch.clamp(torch.searchsorted(self._x, x), 0, len(self._x) - 1)
@@ -618,7 +864,7 @@ class NearestNeighbourInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property."""
 
-        y = _as_float(value, self._dtype_arg)
+        y = _as_float(value, self._dtype_arg, like=self._x)
         validate_dimensions(self._x, y)
         self._x = _colocate(self._x, y)
         self._y = y
@@ -645,8 +891,10 @@ class NullInterpolator:
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
         self._dtype_arg = dtype
-        self._y = _as_float(y, dtype)
-        self._x = _as_float(x, dtype, like=self._y)
+        self._y = torch.atleast_1d(
+            _as_float(y, dtype, like=x if isinstance(x, torch.Tensor) else None)
+        )
+        self._x = torch.atleast_1d(_as_float(x, dtype, like=self._y))
         validate_dimensions(self._x, self._y)
         self.absolute_tolerance = absolute_tolerance
         self.relative_tolerance = relative_tolerance
@@ -655,7 +903,7 @@ class NullInterpolator:
     def __call__(self, x: Any) -> torch.Tensor:
         """Evaluate the null interpolant at the specified point(s)."""
 
-        x = torch.as_tensor(x, dtype=self._y.dtype, device=self._y.device)
+        x = _as_float(x, like=self._y)
         _validate_range(x, self._x)
 
         right = torch.clamp(torch.searchsorted(self._x, x), 0, len(self._x) - 1)
@@ -689,7 +937,7 @@ class NullInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property."""
 
-        x = _as_float(value, self._dtype_arg, like=self._y)
+        x = torch.atleast_1d(_as_float(value, self._dtype_arg, like=self._y))
         validate_dimensions(x, self._y)
         self._x = x
 
@@ -703,7 +951,7 @@ class NullInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property."""
 
-        y = _as_float(value, self._dtype_arg)
+        y = torch.atleast_1d(_as_float(value, self._dtype_arg, like=self._x))
         validate_dimensions(self._x, y)
         self._x = _colocate(self._x, y)
         self._y = y
@@ -763,7 +1011,7 @@ class SpragueInterpolator:
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
         self._dtype_arg = dtype
-        self._y = _as_float(y, dtype)
+        self._y = _as_float(y, dtype, like=x if isinstance(x, torch.Tensor) else None)
         self._x = _as_float(x, dtype, like=self._y)
         validate_dimensions(self._x, self._y)
 
@@ -776,6 +1024,15 @@ class SpragueInterpolator:
     def _solve(self) -> None:
         x = self._x
         y = self._y
+        # A fixed binary scale protects both weighted sums and opposite-sign
+        # differences, without subnormal derivatives of a data-sized scale.
+        unit = torch.ones((), dtype=y.dtype, device=y.device)
+        self._y_scale = torch.where(
+            torch.max(torch.abs(y)) > torch.finfo(y.dtype).max / 65536,
+            unit * 65536,
+            unit,
+        )
+        y = y / self._y_scale
         h = (x[-1] - x[0]) / (x.shape[0] - 1)
         self._x_p = torch.cat(
             [
@@ -791,26 +1048,72 @@ class SpragueInterpolator:
         if y.ndim == 2:
             coefficients = coefficients[..., None]
         windows = torch.stack([y[0:6], y[0:6], y[-6:], y[-6:]])
-        y_boundary = (coefficients * windows).sum(dim=1) / 209
+        # Preserve the common ordinate offset before weighted cancellation.
+        large = self._y_scale > 1
+        origins = torch.where(large, windows[:, 0], 0)
+        slope = torch.where(large, (windows[:, -1] - windows[:, 0]) / 5, 0)
+        ramp = torch.arange(6, dtype=y.dtype, device=y.device)
+        positions = torch.as_tensor([-2, -1, 6, 7], dtype=y.dtype, device=y.device)
+        if y.ndim == 2:
+            ramp = ramp[:, None]
+            positions = positions[:, None]
+        residual = windows - origins[:, None] - slope[:, None] * ramp[None, ...]
+        y_boundary = (
+            origins + slope * positions + (coefficients * residual).sum(dim=1) / 209
+        )
         self._y_p = torch.cat([y_boundary[:2], y, y_boundary[2:]], dim=0)
 
     def __call__(self, x: Any) -> torch.Tensor:
         """Evaluate the *Sprague (1880)* interpolant at the specified point(s)."""
 
-        x = torch.as_tensor(x, dtype=self._y.dtype, device=self._y.device)
+        x = _as_float(x, like=self._y)
         _validate_range(torch.atleast_1d(x), self._x)
 
         x_flat = torch.atleast_1d(x).reshape(-1)
+        large = self._y_scale > 1
         i = torch.searchsorted(self._x_p, x_flat) - 1
+        i = torch.where(
+            large,
+            torch.clamp(
+                torch.searchsorted(self._x_p, x_flat, right=True) - 1, 2, len(self._x)
+            ),
+            i,
+        )
         t = (x_flat - self._x_p[i]) / (self._x_p[i + 1] - self._x_p[i])
+        reverse = large & (t > 0.5)
+        anchor_index = torch.where(reverse, i + 1, i)
+        t = torch.where(reverse, 1 - t, t)
 
         windows = torch.stack([self._y_p[i + k] for k in (-2, -1, 0, 1, 2, 3)])
+        reverse_b = reverse[..., None] if self._y.ndim == 2 else reverse
+        windows = torch.where(
+            reverse_b[None, ...], torch.flip(windows, dims=(0,)), windows
+        )
         weights = torch.as_tensor(
             SPRAGUE_A_COEFFICIENTS, dtype=self._y.dtype, device=self._y.device
         )
         windows_shape = windows.shape
-        a = (weights @ windows.reshape(windows_shape[0], -1) / 24).reshape(
+        large = self._y_scale > 1
+        slope = torch.where(large, (windows[3] - windows[1]) / 2, 0)
+        curvature = torch.where(
+            large, (windows[3] - 2 * windows[2] + windows[1]) / 2, 0
+        )
+        offsets = torch.as_tensor(
+            [-2, -1, 0, 1, 2, 3], dtype=windows.dtype, device=windows.device
+        )
+        offsets = offsets.reshape((6,) + (1,) * (windows.ndim - 1))
+        centered = (
+            windows
+            - torch.where(large, windows[2], 0)[None, ...]
+            - slope[None, ...] * offsets
+            - curvature[None, ...] * offsets**2
+        )
+        a = (weights @ centered.reshape(windows_shape[0], -1) / 24).reshape(
             weights.shape[0], *windows_shape[1:]
+        )
+
+        a = torch.cat(
+            [a[:1] + slope[None, ...], a[1:2] + curvature[None, ...], a[2:]], dim=0
         )
 
         powers = torch.as_tensor(
@@ -821,8 +1124,25 @@ class SpragueInterpolator:
         basis = t**powers
         if self._y.ndim == 2:
             basis = basis[..., None]
-        values = self._y_p[i] + (a * basis).sum(dim=0)
-
+        ordinary = self._y_p[i] + (a * basis).sum(dim=0)
+        # Horner evaluation about the nearer original node keeps both tiny
+        # knot values and reverse-mode query derivatives representable.
+        t_b = (t[..., None] if self._y.ndim == 2 else t) * 256
+        # Binary coordinate scaling keeps individual reverse-mode derivative
+        # terms small until they have cancelled, then restores the query scale.
+        coordinate_powers = torch.as_tensor(
+            [256.0**k for k in range(1, 6)], dtype=a.dtype, device=a.device
+        )
+        coordinate_powers = coordinate_powers.reshape((5,) + (1,) * (a.ndim - 1))
+        horner_a = a / coordinate_powers
+        correction = horner_a[-1]
+        for coefficient in reversed(horner_a[:-1]):
+            correction = correction * t_b + coefficient
+        correction = correction * t_b
+        anchor = self._y[torch.clamp(anchor_index - 2, 0, len(self._y) - 1)]
+        values = torch.where(
+            large, anchor + correction * self._y_scale, ordinary * self._y_scale
+        )
         return values.reshape((*x.shape, *self._y.shape[1:]))
 
     @property
@@ -850,7 +1170,7 @@ class SpragueInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property; rebuilds the boundary extension."""
 
-        y = _as_float(value, self._dtype_arg)
+        y = _as_float(value, self._dtype_arg, like=self._x)
         validate_dimensions(self._x, y)
         self._x = _colocate(self._x, y)
         self._y = y
@@ -908,7 +1228,7 @@ class KernelInterpolator:
         self._kernel_kwargs = {} if kernel_kwargs is None else dict(kernel_kwargs)
         self._padding_kwargs_arg = padding_kwargs
 
-        self._y = _as_float(y, dtype)
+        self._y = _as_float(y, dtype, like=x if isinstance(x, torch.Tensor) else None)
         self._x = _as_float(x, dtype, like=self._y)
         validate_dimensions(self._x, self._y)
 
@@ -934,7 +1254,7 @@ class KernelInterpolator:
     def __call__(self, x: Any) -> torch.Tensor:
         """Evaluate the interpolator at the specified point(s)."""
 
-        x = torch.as_tensor(x, dtype=self._y.dtype, device=self._y.device)
+        x = _as_float(x, like=self._y)
         values = self._evaluate(torch.atleast_1d(x))
 
         return values[0] if x.ndim == 0 else values
@@ -963,7 +1283,9 @@ class KernelInterpolator:
         if self._y.ndim == 2:
             weights = weights[..., None]
 
-        return torch.sum(self._y_p[windows_i] * weights, dim=1)
+        return torch.sum(
+            self._y_p[windows_i] * weights, dim=-2 if self._y.ndim == 2 else -1
+        )
 
     @property
     def x(self) -> torch.Tensor:
@@ -990,7 +1312,7 @@ class KernelInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property; rebuilds the padded values."""
 
-        y = _as_float(value, self._dtype_arg)
+        y = _as_float(value, self._dtype_arg, like=self._x)
         validate_dimensions(self._x, y)
         self._x = _colocate(self._x, y)
         self._y = y
@@ -1143,7 +1465,7 @@ class Extrapolator:
 
         xi = self._interpolator.x
         yi = self._interpolator.y
-        x = torch.as_tensor(x, dtype=yi.dtype, device=yi.device)
+        x = _as_float(x, like=yi)
 
         return self._evaluate(x, xi, yi)
 

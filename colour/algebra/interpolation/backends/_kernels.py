@@ -11,14 +11,14 @@ weights of :class:`KernelInterpolator` depend smoothly on the evaluation points.
 from __future__ import annotations
 
 import importlib
-from typing import TYPE_CHECKING, Any
+import typing
 
 import numpy as np
 
 from colour.constants import DTYPE_FLOAT_DEFAULT
 
-if TYPE_CHECKING:
-    from types import ModuleType
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, ModuleType
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"

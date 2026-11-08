@@ -4,9 +4,14 @@ Backend-agnostic constants shared by the interpolator implementations.
 
 from __future__ import annotations
 
-from typing import Any
+import typing
 
 import numpy as np
+
+from colour.utilities import validate_method
+
+if typing.TYPE_CHECKING:
+    from colour.hints import Any
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -45,15 +50,10 @@ def validate_dimensions(x: Any, y: Any) -> None:
         raise ValueError(error)
 
 
-def validate_extrapolation_method(method: Any) -> str:
-    """Return the lower-cased extrapolation method, raising if unsupported."""
+def validate_extrapolation_method(method: str) -> str:
+    """Return the validated, lower-cased extrapolation method."""
 
-    method = str(method).lower()
-    if method not in ("linear", "constant"):
-        error = f'"method" must be one of "Linear", "Constant", not "{method}"!'
-        raise ValueError(error)
-
-    return method
+    return validate_method(method, ("Linear", "Constant"))
 
 
 def validate_padding_kwargs(padding_kwargs: dict, window: float) -> None:

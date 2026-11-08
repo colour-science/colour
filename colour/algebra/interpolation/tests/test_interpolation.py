@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import importlib
 import inspect
-from typing import TYPE_CHECKING, Any
+import typing
 
 import numpy as np
 import pytest
@@ -30,13 +30,20 @@ from colour.algebra.interpolation import (
 )
 from colour.algebra.interpolation._dispatch import detect_backend
 from colour.algebra.interpolation.backends._core import reflect_indices
-from colour.constants import DTYPE_FLOAT_DEFAULT
-from colour.utilities import array_api_enable
+from colour.constants import DTYPE_FLOAT_DEFAULT, TOLERANCE_ABSOLUTE_TESTS
+from colour.utilities import (
+    array_api_enable,
+    array_namespace,
+    as_ndarray,
+    xp_as_float_array,
+    xp_assert_close,
+    xp_assert_equal,
+)
 
-if TYPE_CHECKING:
-    from collections.abc import Callable, Generator
-
+if typing.TYPE_CHECKING:
     import torch
+
+    from colour.hints import Any, Callable, ModuleType
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -57,21 +64,15 @@ _Y_UNIFORM = np.array([5.92, 9.37, 10.8135, 4.51, 69.59, 27.8007, 86.05])
 _X_E_UNIFORM = np.linspace(0.0, 6.0, 25)
 
 
-def _to_numpy(a: Any) -> np.ndarray:
-    """Return the specified array materialised as a *NumPy* array."""
-
-    return np.asarray(a, dtype=np.float64)
-
-
 def _available_backends() -> list[tuple[str, Callable[[Any], Any]]]:
     """Return ``(name, cast)`` for each usable backend."""
 
-    backends: list[tuple[str, Callable[[Any], Any]]] = [("numpy", _to_numpy)]
+    backends: list[tuple[str, Callable[[Any], Any]]] = [("numpy", as_ndarray)]
 
     try:
         import torch  # noqa: PLC0415
 
-        backends.append(("torch", lambda a: torch.asarray(_to_numpy(a))))
+        backends.append(("torch", lambda a: torch.asarray(as_ndarray(a))))
     except ImportError:
         pass
 
@@ -80,7 +81,7 @@ def _available_backends() -> list[tuple[str, Callable[[Any], Any]]]:
         import jax.numpy as jnp  # noqa: PLC0415
 
         jax.config.update("jax_enable_x64", True)
-        backends.append(("jax", lambda a: jnp.asarray(_to_numpy(a))))
+        backends.append(("jax", lambda a: jnp.asarray(as_ndarray(a))))
     except ImportError:
         pass
 
@@ -103,24 +104,12 @@ _BACKENDS = _available_backends()
 _FRAMEWORK_BACKENDS = [(name, cast) for name, cast in _BACKENDS if name != "numpy"]
 
 
-@pytest.fixture(params=[name for name, _ in _BACKENDS])
-def backend(
-    request: pytest.FixtureRequest,
-) -> Generator[tuple[str, Callable[[Any], Any]], None, None]:
-    """
-    Yield ``(name, cast)`` for each available backend.
+@pytest.fixture
+def backend(xp: ModuleType) -> tuple[str, Callable[[Any], Any]]:
+    """Return the backend and converter selected by the shared fixture."""
 
-    Non-*NumPy* backends enable Array API dispatch for the duration of the test,
-    matching the project-wide ``xp`` fixture: a backend is only engaged when the
-    caller has opted into dispatch.
-    """
-
-    item = next(item for item in _BACKENDS if item[0] == request.param)
-    if item[0] == "numpy":
-        yield item
-    else:
-        with array_api_enable(True):
-            yield item
+    name = xp.__name__.split(".")[0]
+    return name, lambda value: xp_as_float_array(value, xp=xp)
 
 
 def test_detect_backend_numpy() -> None:
@@ -160,7 +149,7 @@ def test_scalar_query(
     interpolator = interpolator_type(cast(x), cast(y))
     result = interpolator(cast(2.5))
 
-    assert _to_numpy(result).shape == ()
+    assert as_ndarray(result).shape == ()
 
 
 @pytest.mark.parametrize(
@@ -180,7 +169,7 @@ def test_empty_query(
     interpolator = interpolator_type(cast(x), cast(y))
     result = interpolator(cast(np.array([])))
 
-    assert _to_numpy(result).shape == (0,)
+    assert as_ndarray(result).shape == (0,)
 
 
 def test_cubic_spline_matches_scipy(
@@ -194,24 +183,32 @@ def test_cubic_spline_matches_scipy(
     assert interpolator.backend == name
 
     reference = scipy.interpolate.interp1d(_X, _Y, kind="cubic")(_X_E)
-    np.testing.assert_allclose(
-        _to_numpy(interpolator(cast(_X_E))), reference, atol=1e-10
+    xp_assert_close(
+        as_ndarray(interpolator(cast(_X_E))),
+        reference,
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.001,
     )
 
 
-def test_cubic_spline_rank_2(backend: tuple[str, Callable[[Any], Any]]) -> None:
+def test_cubic_spline_rank_2(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
     """Test the dispatching cubic spline on rank-2 dependent data."""
 
     _name, cast = backend
     interpolator = CubicSplineInterpolator(cast(_X), cast(_Y2), axis=0)
 
     reference = scipy.interpolate.interp1d(_X, _Y2, kind="cubic", axis=0)(_X_E)
-    np.testing.assert_allclose(
-        _to_numpy(interpolator(cast(_X_E))), reference, atol=1e-10
+    xp_assert_close(
+        as_ndarray(interpolator(cast(_X_E))),
+        reference,
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.001,
     )
 
 
-def test_pchip_matches_scipy(backend: tuple[str, Callable[[Any], Any]]) -> None:
+def test_pchip_matches_scipy(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
     """Test the dispatching PCHIP interpolator against *SciPy*."""
 
     name, cast = backend
@@ -220,8 +217,19 @@ def test_pchip_matches_scipy(backend: tuple[str, Callable[[Any], Any]]) -> None:
     assert interpolator.backend == name
 
     reference = scipy.interpolate.PchipInterpolator(_X, _Y)(_X_E)
-    np.testing.assert_allclose(
-        _to_numpy(interpolator(cast(_X_E))), reference, atol=1e-10
+    xp_assert_close(
+        as_ndarray(interpolator(cast(_X_E))),
+        reference,
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.001,
+    )
+
+    interpolator.extrapolate = False
+    assert np.isnan(as_ndarray(interpolator(cast(-1.0)))).all()
+    interpolator.extrapolate = True
+    xp_assert_close(
+        interpolator(cast(-1.0)),
+        scipy.interpolate.PchipInterpolator(_X, _Y)(-1.0),
+        atol=TOLERANCE_ABSOLUTE_TESTS,
     )
 
 
@@ -235,8 +243,10 @@ def test_y_setter(backend: tuple[str, Callable[[Any], Any]]) -> None:
     interpolator.y = cast(y_new)
 
     reference = scipy.interpolate.interp1d(_X, y_new, kind="cubic")(_X_E)
-    np.testing.assert_allclose(
-        _to_numpy(interpolator(cast(_X_E))), reference, atol=1e-10
+    xp_assert_close(
+        as_ndarray(interpolator(cast(_X_E))),
+        reference,
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.001,
     )
 
 
@@ -251,12 +261,16 @@ def test_x_setter(backend: tuple[str, Callable[[Any], Any]]) -> None:
 
     query = np.linspace(x_new[0], x_new[-1], 11)
     reference = LinearInterpolator(x_new, _Y)(query)
-    np.testing.assert_allclose(
-        _to_numpy(interpolator(cast(query))), _to_numpy(reference), atol=1e-10
+    xp_assert_close(
+        as_ndarray(interpolator(cast(query))),
+        as_ndarray(reference),
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.001,
     )
 
 
-def test_kernel_setters(backend: tuple[str, Callable[[Any], Any]]) -> None:
+def test_kernel_setters(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
     """Test that assigning kernel parameters rebuilds the interpolant."""
 
     _name, cast = backend
@@ -270,8 +284,10 @@ def test_kernel_setters(backend: tuple[str, Callable[[Any], Any]]) -> None:
     reference = KernelInterpolator(
         _X_UNIFORM, _Y_UNIFORM, window=4, kernel=kernel_linear
     )(_X_E_UNIFORM)
-    np.testing.assert_allclose(
-        _to_numpy(interpolator(cast(_X_E_UNIFORM))), _to_numpy(reference), atol=1e-8
+    xp_assert_close(
+        as_ndarray(interpolator(cast(_X_E_UNIFORM))),
+        as_ndarray(reference),
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.1,
     )
 
 
@@ -295,10 +311,12 @@ def test_null_setters(backend: tuple[str, Callable[[Any], Any]]) -> None:
 
     # A query away from any knot does not match within tolerance: the default.
     off_knot = np.array([_X[0] + 0.123])
-    np.testing.assert_allclose(_to_numpy(interpolator(cast(off_knot))), 42.0)
+    xp_assert_close(as_ndarray(interpolator(cast(off_knot))), 42.0)
 
 
-def test_setattr_rejects_shadowing(backend: tuple[str, Callable[[Any], Any]]) -> None:
+def test_setattr_rejects_shadowing(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
     """
     Test that assigning an attribute without a writable property raises rather
     than silently shadowing the delegated implementation.
@@ -319,8 +337,8 @@ def test_scipy_members(backend: tuple[str, Callable[[Any], Any]]) -> None:
     """
     Test that the wrapped *SciPy* members are exposed on the *NumPy* backend.
 
-    ``PchipInterpolator`` methods and ``interp1d.fill_value`` wrap *SciPy* and
-    exist on the *NumPy* backend only.
+    ``PchipInterpolator`` calculus methods wrap *SciPy* on the *NumPy*
+    backend. The cubic ``fill_value`` property is shared by all backends.
     """
 
     name, cast = backend
@@ -334,11 +352,11 @@ def test_scipy_members(backend: tuple[str, Callable[[Any], Any]]) -> None:
             assert callable(getattr(pchip, method))
 
         reference = scipy.interpolate.PchipInterpolator(_X, _Y)
-        np.testing.assert_allclose(
+        xp_assert_close(
             pchip.integrate(_X[0], _X[-1]), reference.integrate(_X[0], _X[-1])
         )
     else:
-        assert not hasattr(cubic, "fill_value")
+        assert hasattr(cubic, "fill_value")
         for method in pchip_methods:
             assert not hasattr(pchip, method)
 
@@ -351,21 +369,35 @@ def test_linear(backend: tuple[str, Callable[[Any], Any]]) -> None:
     assert interpolator.backend == name
 
     reference = LinearInterpolator(_X, _Y)(_X_E)
-    np.testing.assert_allclose(
-        _to_numpy(interpolator(cast(_X_E))), _to_numpy(reference), atol=1e-10
+    xp_assert_close(
+        as_ndarray(interpolator(cast(_X_E))),
+        as_ndarray(reference),
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.001,
+    )
+
+    class CustomLinear(LinearInterpolator):
+        """Define a user-specialised linear interpolator."""
+
+    interpolator = CustomLinear(cast(_X), cast(_Y))
+    xp_assert_close(interpolator(cast(_X_E)), reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+    interpolator.y = cast(2 * _Y)
+    xp_assert_close(
+        interpolator(cast(_X_E)), 2 * reference, atol=TOLERANCE_ABSOLUTE_TESTS
     )
 
 
-def test_nearest_neighbour(backend: tuple[str, Callable[[Any], Any]]) -> None:
+def test_nearest_neighbour(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
     """Test the dispatching nearest-neighbour interpolator."""
 
     _name, cast = backend
     query = np.array([0.3, 1.2, 2.6, 4.9])
     reference = NearestNeighbourInterpolator(_X, _Y)(query)
-    np.testing.assert_allclose(
-        _to_numpy(NearestNeighbourInterpolator(cast(_X), cast(_Y))(cast(query))),
-        _to_numpy(reference),
-        atol=1e-10,
+    xp_assert_close(
+        as_ndarray(NearestNeighbourInterpolator(cast(_X), cast(_Y))(cast(query))),
+        as_ndarray(reference),
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.001,
     )
 
 
@@ -375,11 +407,10 @@ def test_null(backend: tuple[str, Callable[[Any], Any]]) -> None:
     _name, cast = backend
     query = np.array([0.0, 0.5, 1.1, 2.0])  # 0.0, 1.1, 2.0 are knots
     reference = NullInterpolator(_X, _Y)(query)
-    np.testing.assert_allclose(
-        _to_numpy(NullInterpolator(cast(_X), cast(_Y))(cast(query))),
-        _to_numpy(reference),
-        atol=1e-10,
-        equal_nan=True,
+    xp_assert_close(
+        as_ndarray(NullInterpolator(cast(_X), cast(_Y))(cast(query))),
+        as_ndarray(reference),
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.001,
     )
 
 
@@ -391,8 +422,10 @@ def test_sprague(backend: tuple[str, Callable[[Any], Any]]) -> None:
     assert interpolator.backend == name
 
     reference = SpragueInterpolator(_X_UNIFORM, _Y_UNIFORM)(_X_E_UNIFORM)
-    np.testing.assert_allclose(
-        _to_numpy(interpolator(cast(_X_E_UNIFORM))), _to_numpy(reference), atol=1e-8
+    xp_assert_close(
+        as_ndarray(interpolator(cast(_X_E_UNIFORM))),
+        as_ndarray(reference),
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.1,
     )
 
 
@@ -403,15 +436,16 @@ def test_null_rank_2(backend: tuple[str, Callable[[Any], Any]]) -> None:
     y2 = np.stack([_Y, 2.0 * _Y], axis=-1)
     query = np.array([_X[0], 0.5, _X[2], 3.0])  # knots and non-knots, in range
     reference = NullInterpolator(_X, y2)(query)
-    np.testing.assert_allclose(
-        _to_numpy(NullInterpolator(cast(_X), cast(y2))(cast(query))),
-        _to_numpy(reference),
-        atol=1e-10,
-        equal_nan=True,
+    xp_assert_close(
+        as_ndarray(NullInterpolator(cast(_X), cast(y2))(cast(query))),
+        as_ndarray(reference),
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.001,
     )
 
 
-def test_null_attributes(backend: tuple[str, Callable[[Any], Any]]) -> None:
+def test_null_attributes(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
     """Test that null interpolator tolerance attributes are exposed."""
 
     _name, cast = backend
@@ -528,8 +562,19 @@ def test_kernel(backend: tuple[str, Callable[[Any], Any]]) -> None:
     assert interpolator.backend == name
 
     reference = KernelInterpolator(_X_UNIFORM, _Y_UNIFORM)(_X_E_UNIFORM)
-    np.testing.assert_allclose(
-        _to_numpy(interpolator(cast(_X_E_UNIFORM))), _to_numpy(reference), atol=1e-8
+    xp_assert_close(
+        as_ndarray(interpolator(cast(_X_E_UNIFORM))),
+        as_ndarray(reference),
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.1,
+    )
+
+    query = np.array([[0.25, 0.5], [1.25, 2.5]])
+    result = interpolator(cast(query))
+    assert result.shape == query.shape
+    xp_assert_close(
+        result,
+        KernelInterpolator(_X_UNIFORM, _Y_UNIFORM)(query.ravel()).reshape(query.shape),
+        atol=TOLERANCE_ABSOLUTE_TESTS,
     )
 
 
@@ -539,10 +584,22 @@ def test_kernel_rank_2(backend: tuple[str, Callable[[Any], Any]]) -> None:
     _name, cast = backend
     y2 = np.stack([_Y_UNIFORM, _Y_UNIFORM * 2.0], axis=-1)
     reference = KernelInterpolator(_X_UNIFORM, y2)(_X_E_UNIFORM)
-    np.testing.assert_allclose(
-        _to_numpy(KernelInterpolator(cast(_X_UNIFORM), cast(y2))(cast(_X_E_UNIFORM))),
-        _to_numpy(reference),
-        atol=1e-8,
+    xp_assert_close(
+        as_ndarray(KernelInterpolator(cast(_X_UNIFORM), cast(y2))(cast(_X_E_UNIFORM))),
+        as_ndarray(reference),
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.1,
+    )
+
+    query = np.array([[0.25, 0.5], [1.25, 2.5]])
+    interpolator = KernelInterpolator(
+        cast(_X_UNIFORM), cast(y2), padding_kwargs={"mode": "reflect", "pad_width": 3}
+    )
+    result = interpolator(cast(query))
+    assert result.shape == (*query.shape, 2)
+    xp_assert_close(
+        result,
+        KernelInterpolator(_X_UNIFORM, y2)(query.ravel()).reshape((*query.shape, 2)),
+        atol=TOLERANCE_ABSOLUTE_TESTS,
     )
 
 
@@ -585,7 +642,9 @@ def test_kernel_reflect_padding_wider_than_data(
     got = KernelInterpolator(cast(np.array([0.0, 1.0])), cast(np.array([2.0, 4.0])))(
         cast(query)
     )
-    np.testing.assert_allclose(_to_numpy(got), _to_numpy(reference), atol=1e-10)
+    xp_assert_close(
+        as_ndarray(got), as_ndarray(reference), atol=TOLERANCE_ABSOLUTE_TESTS * 0.001
+    )
 
 
 @pytest.mark.parametrize("window", [1, 2, 3, 5, 9])
@@ -601,7 +660,9 @@ def test_kernel_reflect_padding_matches_numpy(
 
     reference = KernelInterpolator(x, y, window=window)(query)
     got = KernelInterpolator(cast(x), cast(y), window=window)(cast(query))
-    np.testing.assert_allclose(_to_numpy(got), _to_numpy(reference), atol=1e-8)
+    xp_assert_close(
+        as_ndarray(got), as_ndarray(reference), atol=TOLERANCE_ABSOLUTE_TESTS * 0.1
+    )
 
 
 @pytest.mark.parametrize(("n", "window"), [(1, 2), (2, 3), (4, 1), (4, 7), (5, 2)])
@@ -629,7 +690,9 @@ def test_kernel_padding_kwargs_rejected(
         )
 
 
-def test_extrapolator_rank_2(backend: tuple[str, Callable[[Any], Any]]) -> None:
+def test_extrapolator_rank_2(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
     """Test the extrapolator on rank-2 data, including a scalar query."""
 
     _name, cast = backend
@@ -638,11 +701,15 @@ def test_extrapolator_rank_2(backend: tuple[str, Callable[[Any], Any]]) -> None:
 
     for query in (1.0, np.array([1.0, 3.5, 8.0])):  # scalar (below) and vector
         reference = Extrapolator(LinearInterpolator(x, y))(query)
-        got = _to_numpy(Extrapolator(LinearInterpolator(cast(x), cast(y)))(cast(query)))
-        np.testing.assert_allclose(got, _to_numpy(reference), atol=1e-10)
+        got = as_ndarray(
+            Extrapolator(LinearInterpolator(cast(x), cast(y)))(cast(query))
+        )
+        xp_assert_close(
+            got, as_ndarray(reference), atol=TOLERANCE_ABSOLUTE_TESTS * 0.001
+        )
 
     # A scalar query returns one value per signal, not a collapsed scalar.
-    scalar = _to_numpy(Extrapolator(LinearInterpolator(cast(x), cast(y)))(cast(1.0)))
+    scalar = as_ndarray(Extrapolator(LinearInterpolator(cast(x), cast(y)))(cast(1.0)))
     assert scalar.shape == (2,)
 
 
@@ -669,8 +736,10 @@ def test_extrapolator(backend: tuple[str, Callable[[Any], Any]]) -> None:
             right=right,
         )
         assert extrapolator.backend == name
-        np.testing.assert_allclose(
-            _to_numpy(extrapolator(cast(query))), _to_numpy(reference), atol=1e-10
+        xp_assert_close(
+            as_ndarray(extrapolator(cast(query))),
+            as_ndarray(reference),
+            atol=TOLERANCE_ABSOLUTE_TESTS * 0.001,
         )
 
 
@@ -839,6 +908,7 @@ def test_extrapolator_jax_autodiff() -> None:
 
 def test_cubic_spline_fill_value(
     backend: tuple[str, Callable[[Any], Any]],
+    request: pytest.FixtureRequest,
 ) -> None:
     """Test scalar and 2-tuple ``fill_value`` outside the interpolation range."""
 
@@ -850,16 +920,93 @@ def test_cubic_spline_fill_value(
     scalar = CubicSplineInterpolator(
         cast(_X), cast(_Y), fill_value=0.0, bounds_error=False
     )(cast(query))
-    scalar = _to_numpy(scalar)
+    scalar = as_ndarray(scalar)
     assert scalar[0] == 0.0
     assert scalar[-1] == 0.0
 
     tupled = CubicSplineInterpolator(
         cast(_X), cast(_Y), fill_value=(-1.0, 9.0), bounds_error=False
     )(cast(query))
-    tupled = _to_numpy(tupled)
+    tupled = as_ndarray(tupled)
     assert tupled[0] == -1.0
     assert tupled[-1] == 9.0
+
+    # Fill values broadcast over the data dimensions, independently of the
+    # shape of the query and the location of the interpolation axis.
+    for shape, axis in (((2, 6), -1), ((2, 6, 3), 1), ((6, 2, 3), 0)):
+        y = np.arange(np.prod(shape), dtype=float).reshape(shape)
+        fill_shape = shape[: axis % len(shape)] + shape[axis % len(shape) + 1 :]
+        below = np.arange(np.prod(fill_shape), dtype=float).reshape(fill_shape)
+        above = below + 10
+        for fill in (below, (below, above), (np.nan, above)):
+            reference = scipy.interpolate.interp1d(
+                _X, y, kind="cubic", axis=axis, bounds_error=False, fill_value=fill
+            )
+            interpolator = CubicSplineInterpolator(
+                cast(_X), cast(y), axis=axis, bounds_error=False, fill_value=fill
+            )
+            for points in (-1.0, 2.5, 6.0, query, query.reshape(3, 1)):
+                xp_assert_close(
+                    interpolator(cast(points)),
+                    reference(points),
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+            interpolator.fill_value = (below, above)
+            reference.fill_value = (below, above)
+            xp_assert_close(
+                interpolator(cast(query)),
+                reference(query),
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
+    knots = cast(np.arange(4.0))
+    ordinates = cast([0.0, 1.0, 0.0, 2.0])
+    huge = 1e20 if as_ndarray(ordinates).dtype == np.float32 else 1e200
+    outside = np.array([-np.inf, -huge, -1.0, 4.0, huge, np.inf])
+    filled = CubicSplineInterpolator(
+        knots, ordinates, bounds_error=False, fill_value=0.0
+    )
+    xp_assert_equal(filled(cast(outside)), np.zeros(6))
+    xp_assert_equal(filled(cast(np.nan)), np.nan)
+
+    if _name != "numpy":
+        autodiff = request.getfixturevalue("autodiff")
+        # Finite offsets let the derivative oracle perturb queries at infinity
+        # without introducing undefined infinity-minus-infinity differences.
+        _result, gradients, _variables = autodiff(
+            lambda values, offsets: CubicSplineInterpolator(
+                np.arange(4.0), values, bounds_error=False, fill_value=0.0
+            )(
+                xp_as_float_array(outside, xp=array_namespace(offsets), like=offsets)
+                + offsets
+            ),
+            ordinates,
+            np.zeros(6),
+        )
+        for gradient in gradients:
+            xp_assert_equal(gradient, np.zeros(gradient.shape))
+        mixed = np.array([-huge, -1.0, 0.5, 1.5, 2.5, 4.0, huge])
+        result, _gradients, _variables = autodiff(
+            lambda values, offsets: CubicSplineInterpolator(
+                np.arange(4.0), values, bounds_error=False, fill_value=0.0
+            )(
+                xp_as_float_array(mixed, xp=array_namespace(offsets), like=offsets)
+                + offsets
+            ),
+            ordinates,
+            np.zeros(7),
+        )
+        reference = scipy.interpolate.interp1d(
+            np.arange(4.0), [0.0, 1.0, 0.0, 2.0], kind="cubic"
+        )
+        expected = np.zeros(7)
+        expected[2:5] = reference([0.5, 1.5, 2.5])
+        xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(
+            filled(cast([0.0, 1.5, 3.0])),
+            reference([0.0, 1.5, 3.0]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
 
 
 def test_cubic_spline_bounds_error(
@@ -890,14 +1037,16 @@ def test_pchip_extrapolate_false(
     values = PchipInterpolator(cast(_X), cast(_Y), extrapolate=False)(
         cast(np.array([-1.0, 2.5, 6.0]))
     )
-    values = _to_numpy(values)
+    values = as_ndarray(values)
 
     assert np.isnan(values[0])
     assert np.isnan(values[-1])
     assert np.isfinite(values[1])
 
 
-def test_pchip_derivatives(backend: tuple[str, Callable[[Any], Any]]) -> None:
+def test_pchip_derivatives(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
     """Test PCHIP derivative orders against the *SciPy* reference."""
 
     _name, cast = backend
@@ -905,15 +1054,17 @@ def test_pchip_derivatives(backend: tuple[str, Callable[[Any], Any]]) -> None:
     reference = scipy.interpolate.PchipInterpolator(_X, _Y)
 
     for nu in (1, 2, 3):
-        np.testing.assert_allclose(
-            _to_numpy(interpolator(cast(_X_E), nu=nu)),
+        xp_assert_close(
+            as_ndarray(interpolator(cast(_X_E), nu=nu)),
             reference(_X_E, nu=nu),
-            atol=1e-8,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 0.1,
         )
 
     # Orders beyond the cubic degree are identically zero.
-    np.testing.assert_allclose(
-        _to_numpy(interpolator(cast(_X_E), nu=4)), np.zeros_like(_X_E), atol=1e-12
+    xp_assert_close(
+        as_ndarray(interpolator(cast(_X_E), nu=4)),
+        np.zeros_like(_X_E),
+        atol=TOLERANCE_ABSOLUTE_TESTS * 1e-05,
     )
 
 
@@ -931,12 +1082,16 @@ def test_cubic_spline_assume_sorted(
         cast(x_shuffled), cast(y_shuffled), assume_sorted=False
     )
     reference = scipy.interpolate.interp1d(_X, _Y, kind="cubic")(_X_E)
-    np.testing.assert_allclose(
-        _to_numpy(interpolator(cast(_X_E))), reference, atol=1e-10
+    xp_assert_close(
+        as_ndarray(interpolator(cast(_X_E))),
+        reference,
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.001,
     )
 
 
-def test_null_tolerance(backend: tuple[str, Callable[[Any], Any]]) -> None:
+def test_null_tolerance(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
     """Test the null interpolator honours tolerance and the default value."""
 
     _name, cast = backend
@@ -944,13 +1099,15 @@ def test_null_tolerance(backend: tuple[str, Callable[[Any], Any]]) -> None:
         cast(_X), cast(_Y), absolute_tolerance=1e-6, default=-1.0
     )
     # A knot returns its value; a point away from any knot returns the default.
-    values = _to_numpy(interpolator(cast(np.array([_X[2], 0.75]))))
+    values = as_ndarray(interpolator(cast(np.array([_X[2], 0.75]))))
 
-    np.testing.assert_allclose(values[0], _Y[2], atol=1e-8)
+    xp_assert_close(values[0], _Y[2], atol=TOLERANCE_ABSOLUTE_TESTS * 0.1)
     assert values[1] == -1.0
 
 
-def test_validation_errors(backend: tuple[str, Callable[[Any], Any]]) -> None:
+def test_validation_errors(
+    backend: tuple[str, Callable[[Any], Any]],
+) -> None:
     """Test the interpolators raise on invalid construction inputs."""
 
     _name, cast = backend
@@ -966,6 +1123,44 @@ def test_validation_errors(backend: tuple[str, Callable[[Any], Any]]) -> None:
 
     with pytest.raises(ValueError):  # Fewer than six points for Sprague.
         SpragueInterpolator(cast(_X[:5]), cast(_Y[:5]))
+
+    # Check the original lengths before a sorting gather can discard values or
+    # manufacture out-of-range entries on a native backend.
+    for constructor in (CubicSplineInterpolator, PchipInterpolator):
+        for values in (_Y[:-1], np.append(_Y, 1.0)):
+            with pytest.raises(ValueError):
+                constructor(cast(_X), cast(values))
+            with pytest.raises(ValueError):
+                constructor(cast(_X), cast(np.stack([values, values])), axis=1)
+        for knots, values in (
+            (np.array(1.0), _Y),
+            (_X[None, :], _Y),
+            (_X, np.array(1.0)),
+        ):
+            with pytest.raises((ValueError, TypeError, IndexError, ZeroDivisionError)):
+                constructor(cast(knots), cast(values))
+
+    with pytest.raises(IndexError):
+        CubicSplineInterpolator(cast(_X), cast(_Y), axis=1)
+
+    for invalid in (float("nan"), float("inf"), -float("inf")):
+        knots = _X.copy()
+        knots[-1] = invalid
+        values = _Y.copy()
+        values[2] = invalid
+        for x, y in ((knots, _Y), (_X, values)):
+            with pytest.raises(ValueError):
+                PchipInterpolator(cast(x), cast(y))
+
+    # interp1d accepts nonfinite cubic data; do not impose PCHIP's finite-data
+    # requirement on this class.
+    values = _Y.copy()
+    values[2] = np.nan
+    assert np.all(
+        np.isnan(
+            as_ndarray(CubicSplineInterpolator(cast(_X), cast(values))(cast(_X_E)))
+        )
+    )
 
 
 @array_api_enable(True)
@@ -985,7 +1180,9 @@ def test_jax_jit() -> None:
     evaluate = jax.jit(interpolator.__call__)
 
     reference = scipy.interpolate.interp1d(_X, _Y, kind="cubic")(_X_E)
-    np.testing.assert_allclose(_to_numpy(evaluate(x_e)), reference, atol=1e-8)
+    xp_assert_close(
+        as_ndarray(evaluate(x_e)), reference, atol=TOLERANCE_ABSOLUTE_TESTS * 0.1
+    )
 
 
 @array_api_enable(True)
@@ -1018,10 +1215,10 @@ def test_jax_jit_range_checked_evaluation() -> None:
             if isinstance(interpolator, KernelInterpolator)
             else x_e
         )
-        np.testing.assert_allclose(
-            _to_numpy(jax.jit(interpolator.__call__)(query)),
-            _to_numpy(interpolator(query)),
-            atol=1e-8,
+        xp_assert_close(
+            as_ndarray(jax.jit(interpolator.__call__)(query)),
+            as_ndarray(interpolator(query)),
+            atol=TOLERANCE_ABSOLUTE_TESTS * 0.1,
         )
 
 
@@ -1042,10 +1239,10 @@ def test_jax_jit_extrapolator() -> None:
     query = jnp.asarray(np.linspace(_X[0] - 1.0, _X[-1] + 1.0, 29))
 
     extrapolator = Extrapolator(CubicSplineInterpolator(x, y, fill_value="extrapolate"))
-    np.testing.assert_allclose(
-        _to_numpy(jax.jit(extrapolator)(query)),
-        _to_numpy(extrapolator(query)),
-        atol=1e-8,
+    xp_assert_close(
+        as_ndarray(jax.jit(extrapolator)(query)),
+        as_ndarray(extrapolator(query)),
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.1,
     )
 
 
@@ -1069,10 +1266,10 @@ def test_backend_interpolators_standalone(
     reference = module.KernelInterpolator(
         cast(_X_UNIFORM), cast(_Y_UNIFORM), window=4, kernel=kernel_linear
     )
-    np.testing.assert_allclose(
-        _to_numpy(kernel(cast(_X_E_UNIFORM))),
-        _to_numpy(reference(cast(_X_E_UNIFORM))),
-        atol=1e-8,
+    xp_assert_close(
+        as_ndarray(kernel(cast(_X_E_UNIFORM))),
+        as_ndarray(reference(cast(_X_E_UNIFORM))),
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.1,
     )
 
     null = module.NullInterpolator(cast(_X), cast(_Y))
@@ -1100,10 +1297,10 @@ def test_mutate_between_calls_in_place(
     assert interpolator._impl is cached  # noqa: SLF001
 
     reference = KernelInterpolator(cast(_X_UNIFORM), cast(_Y_UNIFORM), window=4)
-    np.testing.assert_allclose(
-        _to_numpy(interpolator(cast(_X_E_UNIFORM))),
-        _to_numpy(reference(cast(_X_E_UNIFORM))),
-        atol=1e-8,
+    xp_assert_close(
+        as_ndarray(interpolator(cast(_X_E_UNIFORM))),
+        as_ndarray(reference(cast(_X_E_UNIFORM))),
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.1,
     )
 
 
@@ -1117,7 +1314,7 @@ def test_set_raises_and_preserves_on_rejected_value(
 
     _name, cast = backend
     interpolator = KernelInterpolator(cast(_X_UNIFORM), cast(_Y_UNIFORM))
-    reference = _to_numpy(interpolator(cast(_X_E_UNIFORM)))
+    reference = as_ndarray(interpolator(cast(_X_E_UNIFORM)))
     cached = interpolator._impl  # noqa: SLF001
 
     with pytest.raises(ValueError):
@@ -1127,8 +1324,10 @@ def test_set_raises_and_preserves_on_rejected_value(
     # implementation by reference (e.g. an Extrapolator) stays attached.
     assert interpolator._impl is cached  # noqa: SLF001
     assert interpolator.padding_kwargs["mode"] == "reflect"
-    np.testing.assert_allclose(
-        _to_numpy(interpolator(cast(_X_E_UNIFORM))), reference, atol=1e-8
+    xp_assert_close(
+        as_ndarray(interpolator(cast(_X_E_UNIFORM))),
+        reference,
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.1,
     )
 
 
@@ -1180,9 +1379,65 @@ def test_x_setter_cubic_pchip(
     )
     for interp in (dispatching, standalone):
         interp.x = cast(new_x)
-        np.testing.assert_allclose(
-            _to_numpy(interp(query)), _to_numpy(reference(query)), atol=1e-8
+        xp_assert_close(
+            as_ndarray(interp(query)),
+            as_ndarray(reference(query)),
+            atol=TOLERANCE_ABSOLUTE_TESTS * 0.1,
         )
+
+        invalid_x = [new_x[:-1], np.array(1.0), new_x[None, :]]
+        duplicates = new_x.copy()
+        duplicates[2] = duplicates[1]
+        invalid_x.append(duplicates)
+        invalid_y = [_Y_UNIFORM[:-1], np.append(_Y_UNIFORM, 1.0), np.array(1.0)]
+        if interpolator is PchipInterpolator:
+            invalid_x.append(new_x[::-1].copy())
+            for nonfinite in (float("nan"), float("inf"), -float("inf")):
+                knots = new_x.copy()
+                knots[-1] = nonfinite
+                values = _Y_UNIFORM.copy()
+                values[2] = nonfinite
+                invalid_x.append(knots)
+                invalid_y.append(values)
+
+        # The dispatcher and standalone native classes both retain their last
+        # valid data and evaluation after a rejected replacement.
+        if interp is dispatching or name != "numpy":
+            expected_x = as_ndarray(interp.x).copy()
+            expected_y = as_ndarray(interp.y).copy()
+            expected = as_ndarray(interp(query)).copy()
+            for attribute, replacements in (("x", invalid_x), ("y", invalid_y)):
+                for values in replacements:
+                    with pytest.raises(
+                        (ValueError, TypeError, IndexError, ZeroDivisionError)
+                    ):
+                        setattr(interp, attribute, cast(values))
+                    xp_assert_equal(interp.x, expected_x)
+                    xp_assert_equal(interp.y, expected_y)
+                    xp_assert_close(interp(query), expected)
+
+        if interpolator is CubicSplineInterpolator:
+            if interp is dispatching or name != "numpy":
+                strict = type(interp)(cast(new_x), cast(_Y_UNIFORM), assume_sorted=True)
+                expected = as_ndarray(strict(query)).copy()
+                with pytest.raises(ValueError):
+                    strict.x = cast(new_x[::-1].copy())
+                xp_assert_equal(strict.x, new_x)
+                xp_assert_close(strict(query), expected)
+            # Default cubic sorting remains supported by data setters.
+            interp.x = cast(new_x[::-1].copy())
+            sorted_reference = interpolator(cast(new_x[::-1].copy()), cast(_Y_UNIFORM))
+            xp_assert_close(interp(query), sorted_reference(query))
+            values = _Y_UNIFORM.copy()
+            values[2] = np.nan
+            interp.y = cast(values)
+            assert np.all(np.isnan(as_ndarray(interp(query))))
+        elif name != "numpy":
+            for extrapolate in (False, None):
+                interp.extrapolate = extrapolate
+                interp.y = cast(_Y_UNIFORM)
+                assert interp.extrapolate is extrapolate
+                assert np.all(np.isnan(as_ndarray(interp(cast(new_x[-1] + 1)))))
 
 
 def test_extrapolator_sees_interpolator_mutation(
@@ -1202,8 +1457,10 @@ def test_extrapolator_sees_interpolator_mutation(
 
     reference = Extrapolator(LinearInterpolator(x, cast(np.array([10.0, 20.0, 30.0]))))
     query = cast(np.array([1.0]))
-    np.testing.assert_allclose(
-        _to_numpy(extrapolator(query)), _to_numpy(reference(query)), atol=1e-10
+    xp_assert_close(
+        as_ndarray(extrapolator(query)),
+        as_ndarray(reference(query)),
+        atol=TOLERANCE_ABSOLUTE_TESTS * 0.001,
     )
 
 
@@ -1227,8 +1484,10 @@ def test_set_data_switches_backend(
 
         reference = LinearInterpolator(cast(_X), cast(_Y))
         query = cast(np.array([2.5]))
-        np.testing.assert_allclose(
-            _to_numpy(interpolator(query)), _to_numpy(reference(query)), atol=1e-8
+        xp_assert_close(
+            as_ndarray(interpolator(query)),
+            as_ndarray(reference(query)),
+            atol=TOLERANCE_ABSOLUTE_TESTS * 0.1,
         )
 
 
@@ -1252,7 +1511,9 @@ def test_switch_replays_recorded_overrides(
 
 
 @pytest.mark.parametrize("cast", [cast for _, cast in _FRAMEWORK_BACKENDS])
-def test_switch_rollback_on_failed_rebuild(cast: Callable[[Any], Any]) -> None:
+def test_switch_rollback_on_failed_rebuild(
+    cast: Callable[[Any], Any],
+) -> None:
     """
     Test that a backend switch whose rebuild fails leaves the interpolator
     unchanged and still evaluable (no half-applied state).
@@ -1261,13 +1522,17 @@ def test_switch_rollback_on_failed_rebuild(cast: Callable[[Any], Any]) -> None:
     with array_api_enable(True):
         interpolator = LinearInterpolator(_X, _Y)  # *NumPy* data.
         query = np.array([2.5])
-        reference = _to_numpy(interpolator(query))
+        reference = as_ndarray(interpolator(query))
 
         with pytest.raises(ValueError):
             interpolator.x = cast(_X[:-1])  # Framework array, mismatched length.
 
         assert interpolator.backend == "numpy"
-        np.testing.assert_allclose(_to_numpy(interpolator(query)), reference, atol=1e-8)
+        xp_assert_close(
+            as_ndarray(interpolator(query)),
+            reference,
+            atol=TOLERANCE_ABSOLUTE_TESTS * 0.1,
+        )
 
 
 @pytest.mark.skipif(
@@ -1318,8 +1583,10 @@ def test_extrapolator_tracks_wrapped_backend_switch(
         assert detect_backend(result) == name
 
         reference = Extrapolator(LinearInterpolator(cast(_X), cast(_Y)))
-        np.testing.assert_allclose(
-            _to_numpy(result), _to_numpy(reference(query)), atol=1e-8
+        xp_assert_close(
+            as_ndarray(result),
+            as_ndarray(reference(query)),
+            atol=TOLERANCE_ABSOLUTE_TESTS * 0.1,
         )
 
 
@@ -1374,9 +1641,433 @@ def test_dtype_honoured(
 
     interpolator = interpolator_type(cast(x), cast(y), dtype=dtype)
 
-    assert np.asarray(interpolator.x).dtype == np.dtype(dtype)
-    assert np.asarray(interpolator.y).dtype == np.dtype(dtype)
-    assert np.asarray(interpolator(cast(2.5))).dtype == np.dtype(dtype)
+    dtype = (
+        np.float32
+        if str(getattr(interpolator.x, "device", "")).startswith("mps")
+        else dtype
+    )
+    assert as_ndarray(interpolator.x).dtype == np.dtype(dtype)
+    assert as_ndarray(interpolator.y).dtype == np.dtype(dtype)
+    assert as_ndarray(interpolator(cast(2.5))).dtype == np.dtype(dtype)
+
+    if _name == "jax" and interpolator_type is CubicSplineInterpolator:
+        for x_dtype, y_dtype in ((np.float32, np.float64), (np.float64, np.float32)):
+            knots = cast(x.astype(x_dtype))
+            ordinates = cast(y.astype(y_dtype))
+            mixed = interpolator_type(knots, ordinates)
+            expected_dtype = np.result_type(x_dtype, y_dtype)
+            assert as_ndarray(mixed.x).dtype == expected_dtype
+            assert as_ndarray(mixed.y).dtype == expected_dtype
+            xp_assert_close(
+                mixed(2.5),
+                interpolator_type(x, y)(2.5),
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+            mixed = interpolator_type(
+                cast(x.astype(np.float32)), cast(y.astype(np.float32))
+            )
+            mixed.y = ordinates
+            mixed.x = knots
+            assert as_ndarray(mixed.x).dtype == expected_dtype
+            assert as_ndarray(mixed.y).dtype == expected_dtype
+            xp_assert_close(
+                mixed(2.5),
+                interpolator_type(x, y)(2.5),
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
+    if _name == "torch" and dtype == np.float64:
+        import torch  # noqa: PLC0415
+
+        original_dtype = torch.get_default_dtype()
+        torch.set_default_dtype(torch.float32)
+        try:
+            precise_x = [1.0 + i * 1e-8 for i in range(6)]
+            precise_y = torch.arange(6, dtype=torch.float64, device="cpu")
+            precise = interpolator_type(precise_x, precise_y, dtype=np.float64)
+            assert bool(torch.all(precise.x[1:] > precise.x[:-1]))
+            xp_assert_close(precise.x, np.array(precise_x), atol=0, rtol=0)
+            query = torch.tensor(1.0 + 2.5e-8, dtype=torch.float64, device="cpu")
+            expected = interpolator_type(np.array(precise_x), np.arange(6.0))(
+                float(query)
+            )
+            xp_assert_close(precise(query), expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            implicit = interpolator_type(precise_x, precise_y)
+            xp_assert_close(implicit.x, np.array(precise_x), atol=0, rtol=0)
+            precise.x = precise_x
+            precise.y = [float(i) + 1e-8 for i in range(6)]
+            xp_assert_close(precise.y, np.arange(6.0) + 1e-8, atol=0, rtol=0)
+        finally:
+            torch.set_default_dtype(original_dtype)
+
+    # Host views must remain valid in mixed constructors, setters and queries.
+    x_view = np.asarray(x)[::-1].copy()[::-1]
+    y_view = np.asarray(y)[::-1]
+    query_view = np.array([2.5, 2.5])[::-1]
+    reference = interpolator_type(x_view, y_view, dtype=dtype)(query_view)
+    for knots, values in ((cast(x_view), y_view), (x_view, cast(y_view))):
+        viewed = interpolator_type(knots, values, dtype=dtype)
+        xp_assert_close(viewed(query_view), reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+        viewed.x = x_view
+        viewed.y = y_view
+        xp_assert_close(viewed(query_view), reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+    if dtype == np.float32 and interpolator_type in (
+        PchipInterpolator,
+        SpragueInterpolator,
+    ):
+        # Reference calculations use the exact rounded float32 ordinates in
+        # float64, so the comparison does not hide input quantization.
+        knots = np.arange(6, dtype=np.float32)
+        queries = np.array([1.25, 2.5], dtype=np.float32)
+        offset_values = (2e38 + np.arange(6) * 1e36).astype(np.float32)
+        profiles = (
+            np.full(6, 2e38, dtype=np.float32),
+            offset_values,
+            np.full(6, 1e36, dtype=np.float32),
+            np.array([-2e38, -1e38, 0, 1e38, 2e38, 2.5e38], dtype=np.float32),
+        )
+        devices: list[Any] = [None]
+        if _name == "torch":
+            import torch  # noqa: PLC0415
+
+            devices = [torch.device("cpu")]
+            if torch.backends.mps.is_available():
+                devices.append(torch.device("mps"))
+
+        for device in devices:
+
+            def native(a: Any, device_: Any = device) -> Any:
+                if _name == "torch":
+                    return torch.as_tensor(a, dtype=torch.float32, device=device_)
+                result = cast(a)
+                return result.astype(np.float32) if _name == "jax" else result
+
+            for values in profiles:
+                expected = interpolator_type(knots, values, dtype=np.float64)(queries)
+                ordinates = native(values)
+                large = interpolator_type(native(knots), ordinates)
+                result = large(native(queries))
+                assert result.dtype == ordinates.dtype
+                assert getattr(result, "device", None) == getattr(
+                    ordinates, "device", None
+                )
+                xp_assert_close(
+                    as_ndarray(result) / 1e38,
+                    as_ndarray(expected) / 1e38,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
+            if _name == "numpy":
+                continue
+
+            # A scalar objective avoids overflowing a sum of large outputs;
+            # raw ordinate derivatives remain ordinary interpolation weights.
+            query = native(np.float32(1.25))
+            ordinates = native(offset_values)
+            x_native = native(knots)
+
+            def evaluate(values: Any, point: Any, knots_: Any = x_native) -> Any:
+                return interpolator_type(knots_, values)(point)
+
+            values_64 = offset_values.astype(np.float64)
+            reference = interpolator_type(knots, values_64, dtype=np.float64)
+            step = 1e31
+            weights = []
+            for index in range(len(values_64)):
+                perturbation = np.zeros_like(values_64)
+                perturbation[index] = step
+                weights.append(
+                    (
+                        interpolator_type(
+                            knots, values_64 + perturbation, dtype=np.float64
+                        )(1.25)
+                        - interpolator_type(
+                            knots, values_64 - perturbation, dtype=np.float64
+                        )(1.25)
+                    )
+                    / (2 * step)
+                )
+            query_derivative = (
+                scipy.interpolate.PchipInterpolator(knots, values_64)(1.25, nu=1)
+                if interpolator_type is PchipInterpolator
+                else (reference(1.251) - reference(1.249)) / 0.002
+            )
+            if _name == "torch":
+                ordinates = ordinates.clone().requires_grad_(True)
+                query = query.clone().requires_grad_(True)
+                offset_result = interpolator_type(x_native, ordinates)(query)
+                gradients = [torch.autograd.grad(offset_result, (ordinates, query))]
+            else:
+                import jax  # noqa: PLC0415
+
+                gradients = [
+                    jax.jacfwd(evaluate, argnums=(0, 1))(ordinates, query),
+                    jax.jacrev(evaluate, argnums=(0, 1))(ordinates, query),
+                ]
+            for gradient_y, gradient_query in gradients:
+                assert getattr(gradient_y, "device", None) == ordinates.device
+                assert getattr(gradient_query, "device", None) == query.device
+                xp_assert_close(gradient_y, weights, atol=TOLERANCE_ABSOLUTE_TESTS)
+                xp_assert_close(
+                    as_ndarray(gradient_query) / 1e36,
+                    query_derivative / 1e36,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
+            if interpolator_type is SpragueInterpolator:
+                knot_profiles = []
+                for index in (0, 2, 5):
+                    values = np.full(6, 1e38, dtype=np.float32)
+                    values[index] = 1e-35
+                    knot_profiles.append(
+                        (values, (float(index), min(index + 0.75, 4.75)))
+                    )
+                knot_profiles.extend(
+                    (values, (1.25, 4.75)) for values in (offset_values, profiles[-1])
+                )
+                for values, points in knot_profiles:
+                    for rank_2 in (False, True):
+                        data = (
+                            np.stack([values, values / 2], axis=-1)
+                            if rank_2
+                            else values
+                        )
+                        ordinates = native(data)
+                        short_knots = native(knots)
+
+                        def sprague(
+                            data_: Any,
+                            point_: Any,
+                            knots_: Any = short_knots,
+                            rank_2_: bool = rank_2,
+                        ) -> Any:
+                            result_ = SpragueInterpolator(knots_, data_)(point_)
+                            return result_[0] if rank_2_ else result_
+
+                        # Unit-basis interpolation is an independent ordinate
+                        # Jacobian oracle for this linear-in-data interpolator.
+                        basis = np.eye(6)
+                        control = SpragueInterpolator(
+                            knots, data.astype(np.float64), dtype=np.float64
+                        )
+                        query_control = SpragueInterpolator(
+                            knots, values.astype(np.float64) / 1e38, dtype=np.float64
+                        )
+                        for point in points:
+                            query = native(np.float32(point))
+                            result = SpragueInterpolator(short_knots, ordinates)(query)
+                            assert getattr(result, "device", None) == ordinates.device
+                            if point in knots:
+                                xp_assert_equal(result, ordinates[int(point)])
+                            else:
+                                xp_assert_close(
+                                    as_ndarray(result).astype(np.float64) / 1e38,
+                                    control(point) / 1e38,
+                                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                                )
+                            weights = np.array(
+                                [
+                                    SpragueInterpolator(
+                                        knots, column, dtype=np.float64
+                                    )(point)
+                                    for column in basis
+                                ]
+                            )
+                            if rank_2:
+                                weights = np.stack(
+                                    [weights, np.zeros_like(weights)], axis=-1
+                                )
+                            step = 1e-5
+                            if point == 0:
+                                query_derivative = (
+                                    -3 * query_control(point)
+                                    + 4 * query_control(point + step)
+                                    - query_control(point + 2 * step)
+                                ) / (2 * step)
+                            elif point == 5:
+                                query_derivative = (
+                                    3 * query_control(point)
+                                    - 4 * query_control(point - step)
+                                    + query_control(point - 2 * step)
+                                ) / (2 * step)
+                            else:
+                                query_derivative = (
+                                    query_control(point + step)
+                                    - query_control(point - step)
+                                ) / (2 * step)
+                            if _name == "torch":
+                                tracked = ordinates.clone().requires_grad_(True)
+                                tracked_query = query.clone().requires_grad_(True)
+                                gradients = [
+                                    torch.autograd.grad(
+                                        sprague(tracked, tracked_query),
+                                        (tracked, tracked_query),
+                                    )
+                                ]
+                            else:
+                                gradients = [
+                                    jax.jacfwd(sprague, argnums=(0, 1))(
+                                        ordinates, query
+                                    ),
+                                    jax.jacrev(sprague, argnums=(0, 1))(
+                                        ordinates, query
+                                    ),
+                                ]
+                            for gradient_y, gradient_query in gradients:
+                                assert (
+                                    getattr(gradient_y, "device", None)
+                                    == ordinates.device
+                                )
+                                assert (
+                                    getattr(gradient_query, "device", None)
+                                    == query.device
+                                )
+                                xp_assert_close(
+                                    gradient_y, weights, atol=TOLERANCE_ABSOLUTE_TESTS
+                                )
+                                xp_assert_close(
+                                    as_ndarray(gradient_query).astype(np.float64)
+                                    / 1e38,
+                                    query_derivative,
+                                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                                )
+
+            if interpolator_type is PchipInterpolator:
+                # Tiny/huge adjacent slopes must not invert an underflowed
+                # ratio. The weights follow from the Hermite basis at t=1/2.
+                slope_cases = (
+                    ([0, 1, 2], [0, 1e-20, 1e38], 0.5, [0.75, 0.25, 0], 1e-20),
+                    ([0, 1, 2], [-1e38, -1e-20, 0], 1.5, [0, 0.25, 0.75], 1e-20),
+                    ([0, 1, 2], [0, 1e-20, 2e-20], 0.5, [0.375, 0.75, -0.125], 1e-20),
+                    ([0, 1, 2], [0, 1e20, 2e20], 0.5, [0.375, 0.75, -0.125], 1e20),
+                    ([0, 1, 2], [-2e38, 0, 2e38], 0.5, [0.375, 0.75, -0.125], 1e38),
+                    ([0, 1, 3], [0, 2e38, -2e38], 0.5, [1 / 3, 0.6875, -1 / 48], 1e38),
+                    ([0, 1, 2], [0, 1e-35, 1e38], 0.5, [0.75, 0.25, 0], 1e-35),
+                    ([0, 1, 2], [1e-35, 1e38, 2e38], 0.0, [1, 0, 0], 1e-35),
+                    ([0, 1, 2], [2e38, 1e38, 1e-35], 2.0, [0, 0, 1], 1e-35),
+                    ([0, 1, 2], [-2e38, 1e-35, 2e38], 1.0, [0, 1, 0], 1e-35),
+                )
+                peak_cases = []
+                for span in (np.float32(1), np.float32(1e-6)):
+                    grid = (np.arange(3, dtype=np.float32) * span).tolist()
+                    points = (
+                        float(span * np.float32(0.75)),
+                        float(span),
+                        float(span * np.float32(1.25)),
+                        float(np.nextafter(span, np.float32(0))),
+                        float(np.nextafter(span, np.float32(2))),
+                    )
+                    if span != 1:
+                        # Away from this narrow peak the true query derivative
+                        # exceeds float32; keep representable knot/neighbor
+                        # controls.
+                        points = points[1:2] + points[3:]
+                    for point in points:
+                        t = point / float(span)
+                        if t <= 1:
+                            weights = [
+                                0.5 * t**3 - 1.5 * t + 1,
+                                -(t**2) + 2 * t,
+                                -0.5 * t**3 + t**2 - 0.5 * t,
+                            ]
+                        else:
+                            u = t - 1
+                            weights = [
+                                0.5 * (u**3 - u**2),
+                                1 - u**2,
+                                -0.5 * u**3 + 1.5 * u**2,
+                            ]
+                        peak_cases.append(
+                            (grid, [-2e38, 2e38, -2e38], point, weights, 1e38)
+                        )
+                slope_cases = (*slope_cases, *peak_cases)
+                for grid, raw, point, expected_weights, magnitude in slope_cases:
+                    rounded = np.asarray(raw, dtype=np.float32)
+                    ordinates = native(rounded)
+                    query = native(np.float32(point))
+                    short_knots = native(np.asarray(grid, dtype=np.float32))
+
+                    def pchip(
+                        values: Any, point: Any, knots_: Any = short_knots
+                    ) -> Any:
+                        return PchipInterpolator(knots_, values)(point)
+
+                    control = scipy.interpolate.PchipInterpolator(
+                        grid, rounded.astype(np.float64)
+                    )
+                    value = pchip(ordinates, query)
+                    assert getattr(value, "device", None) == ordinates.device
+                    # At an exact knot the supplied ordinate is the oracle;
+                    # even float64 polynomial evaluation can cancel tiny values.
+                    expected_value = (
+                        float(
+                            rounded[
+                                next(
+                                    index
+                                    for index, knot in enumerate(grid)
+                                    if point == knot
+                                )
+                            ]
+                        )
+                        if point in grid
+                        else control(point)
+                    )
+                    xp_assert_close(
+                        as_ndarray(value).astype(np.float64) / magnitude,
+                        expected_value / magnitude,
+                        atol=TOLERANCE_ABSOLUTE_TESTS,
+                    )
+                    for order in (1, 2, 3):
+                        expected = control(point, nu=order)
+                        if abs(expected) <= np.finfo(np.float32).max:
+                            derivative = PchipInterpolator(short_knots, ordinates)(
+                                query, nu=order
+                            )
+                            xp_assert_close(
+                                as_ndarray(derivative).astype(np.float64) / magnitude,
+                                expected / magnitude,
+                                atol=TOLERANCE_ABSOLUTE_TESTS,
+                                err_msg=f"{grid=} {raw=} {point=} {order=}",
+                            )
+                    if _name == "torch":
+                        ordinates = ordinates.clone().requires_grad_(True)
+                        query = query.clone().requires_grad_(True)
+                        gradients = [
+                            torch.autograd.grad(
+                                pchip(ordinates, query), (ordinates, query)
+                            )
+                        ]
+                    else:
+                        gradients = [
+                            jax.jacfwd(pchip, argnums=(0, 1))(ordinates, query),
+                            jax.jacrev(pchip, argnums=(0, 1))(ordinates, query),
+                        ]
+                    for gradient_y, gradient_query in gradients:
+                        assert getattr(gradient_y, "device", None) == ordinates.device
+                        assert getattr(gradient_query, "device", None) == query.device
+                        xp_assert_close(
+                            gradient_y,
+                            expected_weights,
+                            atol=TOLERANCE_ABSOLUTE_TESTS,
+                            err_msg=f"{grid=} {raw=} {point=}",
+                        )
+                        query_reference = control(point, nu=1)
+                        query_scale = magnitude
+                        if raw[0] == raw[2] == -raw[1]:
+                            span = float(grid[1])
+                            query_reference = (
+                                -4 * float(rounded[1]) * (point - span) / span**2
+                            )
+                            query_scale = (
+                                abs(query_reference) if query_reference else magnitude
+                            )
+                        xp_assert_close(
+                            as_ndarray(gradient_query).astype(np.float64) / query_scale,
+                            query_reference / query_scale,
+                            atol=TOLERANCE_ABSOLUTE_TESTS,
+                            err_msg=f"{grid=} {raw=} {point=}",
+                        )
 
 
 @pytest.mark.parametrize(
@@ -1392,7 +2083,7 @@ def test_dtype_positional(
 
     interpolator = interpolator_type(cast(_X), cast(_Y), np.float32)
 
-    assert np.asarray(interpolator.x).dtype == np.dtype(np.float32)
+    assert as_ndarray(interpolator.x).dtype == np.dtype(np.float32)
 
 
 def test_default_dtype_numpy() -> None:
@@ -1426,4 +2117,4 @@ def test_setter_preserves_dtype(
     interpolator = LinearInterpolator(cast(_X), cast(_Y), dtype=np.float32)
     interpolator.y = cast(_Y)  # ``cast`` yields float64 data.
 
-    assert np.asarray(interpolator.y).dtype == np.float32
+    assert as_ndarray(interpolator.y).dtype == np.float32

@@ -114,6 +114,7 @@ from colour.hints import NDArrayFloat, NDArrayReal, cast
 from colour.utilities import (
     CanonicalMapping,
     array_namespace,
+    is_non_ndarray,
     validate_method,
     xp_as_float_array,
     xp_as_int_array,
@@ -258,7 +259,9 @@ def table_interpolation_trilinear(V_xyz: ArrayLike, table: ArrayLike) -> NDArray
 
     V_xyz = cast("NDArrayFloat", V_xyz)
 
-    xp = array_namespace(V_xyz)
+    xp = array_namespace(V_xyz, table)
+    reference = V_xyz if is_non_ndarray(V_xyz) else table
+    V_xyz = xp_as_float_array(V_xyz, xp=xp, like=reference)
 
     original_shape = V_xyz.shape
 
@@ -361,7 +364,9 @@ def table_interpolation_tetrahedral(V_xyz: ArrayLike, table: ArrayLike) -> NDArr
 
     V_xyz = cast("NDArrayFloat", V_xyz)
 
-    xp = array_namespace(V_xyz)
+    xp = array_namespace(V_xyz, table)
+    reference = V_xyz if is_non_ndarray(V_xyz) else table
+    V_xyz = xp_as_float_array(V_xyz, xp=xp, like=reference)
 
     original_shape = V_xyz.shape
 

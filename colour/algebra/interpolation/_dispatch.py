@@ -11,12 +11,11 @@ from __future__ import annotations
 
 import importlib
 import inspect
+import typing
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Any, TypeVar
 
-if TYPE_CHECKING:
-    from collections.abc import Callable
-    from types import ModuleType
+if typing.TYPE_CHECKING:
+    from colour.hints import Any, Callable, ModuleType
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -190,7 +189,11 @@ class _BackendDispatcher(ABC):
         self._overrides[name] = value
 
     def _reassign(
-        self, backend: str, source_attr: str, value: Any, mutate: Callable[[], None]
+        self,
+        backend: str,
+        source_attr: str,
+        value: Any,
+        mutate: Callable[[], None],
     ) -> None:
         """
         Reassign a data source, switching backend when it changed.
@@ -263,7 +266,7 @@ class _BackendDispatcher(ABC):
         return self._backend
 
 
-_C = TypeVar("_C", bound=type)
+_C = typing.TypeVar("_C", bound=type)
 
 
 def _forwarded_property(name: str, *, writable: bool) -> property:
@@ -333,18 +336,33 @@ class _DispatchingInterpolator(_BackendDispatcher):
     def __init__(self, x: Any, y: Any, *args: Any, **kwargs: Any) -> None:
         self._x_source = x
         self._y_source = y
+        self._x_data = x
+        self._y_data = y
         self._args = args
         self._kwargs = kwargs
         self._overrides = {}
 
         backend = _resolve_backend(x, y)
         self._init_dispatch(backend, self._construct(backend))
+        self._x_data, self._y_data = self._impl.x, self._impl.y
 
     def _construct(self, backend: str) -> Any:
-        """Build a fresh implementation from the construction inputs."""
+        """Build from canonical data while retaining source backend provenance."""
 
-        return getattr(_backend_module(backend), type(self).__name__)(
-            self._x_source, self._y_source, *self._args, **self._kwargs
+        from colour.utilities import as_ndarray  # noqa: PLC0415
+
+        interpolator_type = next(
+            cls.__name__
+            for cls in type(self).__mro__
+            if cls.__module__ == __name__ and cls.__name__ in __all__
+        )
+
+        x, y = self._x_data, self._y_data
+        if backend == "numpy":
+            x, y = as_ndarray(x), as_ndarray(y)
+
+        return getattr(_backend_module(backend), interpolator_type)(
+            x, y, *self._args, **self._kwargs
         )
 
     def _set_data(self, name: str, value: Any) -> None:
@@ -362,9 +380,27 @@ class _DispatchingInterpolator(_BackendDispatcher):
         y = value if name == "y" else self._y_source
         backend = _resolve_backend(x, y)
 
-        self._reassign(
-            backend, f"_{name}_source", value, lambda: setattr(self._impl, name, value)
-        )
+        if backend == self._backend:
+            self._apply_in_place(lambda: setattr(self._impl, name, value))
+            setattr(self, f"_{name}_source", value)
+        else:
+            data_attr = f"_{name}_data"
+            previous = getattr(self, data_attr)
+            setattr(self, data_attr, value)
+            try:
+                self._reassign(
+                    backend,
+                    f"_{name}_source",
+                    value,
+                    lambda: setattr(self._impl, name, value),
+                )
+            except Exception:
+                setattr(self, data_attr, previous)
+                raise
+
+        # A backend may sort paired data. Keep those actual values separately
+        # from the original namespaces that govern deliberate backend switches.
+        self._x_data, self._y_data = self._impl.x, self._impl.y
 
     @property
     def x(self) -> Any:
@@ -396,9 +432,56 @@ class LinearInterpolator(_DispatchingInterpolator):
     """
     Perform linear interpolation of a 1-D function.
 
-    Resolve the backend from the input data and delegate to the matching
-    backend-specialised implementation, raising for evaluation points outside
-    the interpolation range.
+    This class provides a wrapper around NumPy's linear interpolation
+    functionality for interpolating between specified data points.
+
+    Parameters
+    ----------
+    x
+        Independent :math:`x` variable values corresponding with :math:`y`
+        variable.
+    y
+        Dependent and already known :math:`y` variable values to
+        interpolate.
+    dtype
+        Data type used for internal conversions.
+
+    Attributes
+    ----------
+    -   :attr:`~colour.LinearInterpolator.x`
+    -   :attr:`~colour.LinearInterpolator.y`
+
+    Methods
+    -------
+    -   :meth:`~colour.LinearInterpolator.__init__`
+    -   :meth:`~colour.LinearInterpolator.__call__`
+
+    Notes
+    -----
+    -   This class is a wrapper around *numpy.interp* definition.
+
+    Examples
+    --------
+    Interpolating a single numeric variable:
+
+    >>> import numpy as np
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
+    >>> x = np.arange(len(y))
+    >>> f = LinearInterpolator(x, y)
+    >>> f(0.5)  # doctest: +ELLIPSIS
+    np.float64(7.64...)
+
+    Interpolating an `ArrayLike` variable:
+
+    >>> f([0.25, 0.75])
+    array([6.7825, 8.5075])
+
+    Notes
+    -----
+    Input arrays select the backend when Array API dispatch is enabled.
+    *NumPy* inputs use *SciPy* or *NumPy*; *PyTorch* and *JAX* arrays use
+    native operations that preserve device placement and differentiation.
+    Assigning ``x`` or ``y`` can select a different backend.
     """
 
 
@@ -407,9 +490,37 @@ class NearestNeighbourInterpolator(_DispatchingInterpolator):
     """
     Perform nearest-neighbour interpolation on discrete data.
 
-    Resolve the backend from the input data and delegate to the matching
-    backend-specialised implementation, selecting the closest known data point
-    for each query position.
+    Implement a kernel-based interpolator that selects the closest known
+    data point for each query position. This interpolator provides fast,
+    discontinuous interpolation suitable for categorical data or when
+    preserving exact measured values is required.
+
+    Other Parameters
+    ----------------
+    dtype
+        Data type used for internal conversions.
+    padding_kwargs
+        Arguments to use when padding :math:`y` variable values with the
+        :func:`np.pad` definition.
+    window
+        Width of the window in samples on each side.
+    x
+        Independent :math:`x` variable values corresponding with :math:`y`
+        variable.
+    y
+        Dependent and already known :math:`y` variable values to
+        interpolate.
+
+    Methods
+    -------
+    -   :meth:`~colour.NearestNeighbourInterpolator.__init__`
+
+    Notes
+    -----
+    Input arrays select the backend when Array API dispatch is enabled.
+    *NumPy* inputs use *SciPy* or *NumPy*; *PyTorch* and *JAX* arrays use
+    native operations that preserve device placement and differentiation.
+    Assigning ``x`` or ``y`` can select a different backend.
     """
 
 
@@ -418,9 +529,62 @@ class NullInterpolator(_DispatchingInterpolator):
     """
     Implement 1-D function null interpolation.
 
-    Return the dependent value when the query matches a knot within tolerance,
-    else the default value. ``absolute_tolerance``, ``relative_tolerance`` and
-    ``default`` are writable.
+    This interpolator returns existing :math:`y` values when called with
+    :math:`x` values within specified tolerances, and returns a default
+    value when outside tolerances. Unlike traditional interpolators that
+    estimate intermediate values, this null interpolator only returns exact
+    matches within tolerance bounds.
+
+    Parameters
+    ----------
+    x
+        Independent :math:`x` variable values corresponding with :math:`y`
+        variable.
+    y
+        Dependent and already known :math:`y` variable values to
+        interpolate.
+    absolute_tolerance
+        Absolute tolerance.
+    relative_tolerance
+        Relative tolerance.
+    default
+        Default value for interpolation outside tolerances.
+    dtype
+        Data type used for internal conversions.
+
+    Attributes
+    ----------
+    -   :attr:`~colour.NullInterpolator.x`
+    -   :attr:`~colour.NullInterpolator.y`
+    -   :attr:`~colour.NullInterpolator.relative_tolerance`
+    -   :attr:`~colour.NullInterpolator.absolute_tolerance`
+    -   :attr:`~colour.NullInterpolator.default`
+
+    Methods
+    -------
+    -   :meth:`~colour.NullInterpolator.__init__`
+    -   :meth:`~colour.NullInterpolator.__call__`
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
+    >>> x = np.arange(len(y))
+    >>> f = NullInterpolator(x, y)
+    >>> f(0.5)
+    array(nan)
+    >>> f(1.0)
+    array(9.37)
+    >>> f = NullInterpolator(x, y, absolute_tolerance=0.01)
+    >>> f(1.01)
+    array(9.37)
+
+    Notes
+    -----
+    Input arrays select the backend when Array API dispatch is enabled.
+    *NumPy* inputs use *SciPy* or *NumPy*; *PyTorch* and *JAX* arrays use
+    native operations that preserve device placement and differentiation.
+    Assigning ``x`` or ``y`` can select a different backend.
     """
 
 
@@ -430,27 +594,109 @@ class SpragueInterpolator(_DispatchingInterpolator):
     Perform fifth-order polynomial interpolation using the *Sprague (1880)*
     method for uniformly spaced data.
 
-    A minimum of 6 data points is required.
+    Implement the *Sprague (1880)* interpolation method recommended by the
+    *CIE* for interpolating functions with uniformly spaced independent
+    variables. This interpolator constructs a fifth-order polynomial that
+    passes through specified dependent variable values, providing smooth
+    interpolation suitable for spectral data and other colour science
+    applications.
+
+    Parameters
+    ----------
+    x
+        Independent :math:`x` variable values corresponding with :math:`y`
+        variable.
+    y
+        Dependent and already known :math:`y` variable values to
+        interpolate.
+    dtype
+        Data type used for internal conversions.
+
+    Attributes
+    ----------
+    -   :attr:`~colour.SpragueInterpolator.x`
+    -   :attr:`~colour.SpragueInterpolator.y`
+
+    Methods
+    -------
+    -   :meth:`~colour.SpragueInterpolator.__init__`
+    -   :meth:`~colour.SpragueInterpolator.__call__`
+
+    Notes
+    -----
+    -   The minimum number :math:`k` of data points required along the
+        interpolation axis is :math:`k=6`.
 
     References
     ----------
     :cite:`CIETC1-382005f`, :cite:`Westland2012h`
+
+    Examples
+    --------
+    Interpolating a single numeric variable:
+
+    >>> import numpy as np
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500])
+    >>> x = np.arange(len(y))
+    >>> f = SpragueInterpolator(x, y)
+    >>> f(0.5)  # doctest: +ELLIPSIS
+    array(7.2185025...)
+
+    Interpolating an `ArrayLike` variable:
+
+    >>> f([0.25, 0.75])  # doctest: +ELLIPSIS
+    array([6.7295161..., 7.8140625...])
+
+    Notes
+    -----
+    Input arrays select the backend when Array API dispatch is enabled.
+    *NumPy* inputs use *SciPy* or *NumPy*; *PyTorch* and *JAX* arrays use
+    native operations that preserve device placement and differentiation.
+    Assigning ``x`` or ``y`` can select a different backend.
     """
 
 
 @_forward_properties
 class CubicSplineInterpolator(_DispatchingInterpolator):
     """
-    Perform *not-a-knot* cubic spline interpolation on one-dimensional data.
+    Perform cubic spline interpolation on one-dimensional data.
 
-    Provide smooth interpolation through specified data points using piecewise
-    cubic polynomials. *NumPy* arrays are evaluated with *SciPy*, other array
-    namespaces use an equivalent native *not-a-knot* cubic spline that preserves
-    automatic differentiation graphs.
+    Provide smooth interpolation through specified data points using
+    piecewise cubic polynomials. The resulting interpolant maintains
+    continuity in the function and its first two derivatives at data
+    points, making it suitable for spectral data and colour science
+    applications requiring smooth transitions between measured values.
 
-    On the *NumPy* backend, attributes absent here fall through to the wrapped
-    *SciPy* ``interp1d``, exposing its members such as ``fill_value``. ``axis``
-    and ``bounds_error`` are available on every backend.
+    Parameters
+    ----------
+    x
+        One-dimensional independent variable values.
+    y
+        Dependent values. The length along ``axis`` must match ``x``.
+    axis
+        Interpolation axis of ``y``. The default is ``-1``.
+    bounds_error
+        Whether queries outside the interpolation range raise an error.
+    fill_value
+        Value, or pair of lower and upper values, used outside the range.
+        ``"extrapolate"`` extends the cubic polynomial.
+    assume_sorted
+        Whether the input knots are already strictly increasing.
+    dtype
+        Data type used for internal conversions.
+
+    Methods
+    -------
+    -   :meth:`~colour.CubicSplineInterpolator.__init__`
+
+    Notes
+    -----
+    The *NumPy* implementation wraps :class:`scipy.interpolate.interp1d`.
+
+    Input arrays select the backend when Array API dispatch is enabled.
+    *NumPy* inputs use *SciPy* or *NumPy*; *PyTorch* and *JAX* arrays use
+    native operations that preserve device placement and differentiation.
+    Assigning ``x`` or ``y`` can select a different backend.
     """
 
 
@@ -460,13 +706,46 @@ class PchipInterpolator(_DispatchingInterpolator):
     Interpolate a 1-D function using Piecewise Cubic Hermite Interpolating
     Polynomial (PCHIP) interpolation.
 
-    *NumPy* arrays are evaluated with *SciPy*, other array namespaces use an
-    equivalent native implementation that preserves automatic differentiation
-    graphs.
+    PCHIP interpolation constructs a smooth curve through specified data
+    points while preserving monotonicity between consecutive points. This
+    method ensures that the interpolated values do not exhibit spurious
+    oscillations, making it particularly suitable for colour science
+    applications where physical constraints must be respected.
 
-    On the *NumPy* backend the wrapped *SciPy* ``PchipInterpolator`` methods
-    ``derivative``, ``integrate``, ``roots`` and ``solve`` are exposed; they are
-    unavailable for other backends.
+    Parameters
+    ----------
+    x
+        One-dimensional independent variable values.
+    y
+        Dependent values. The length along ``axis`` must match ``x``.
+    axis
+        Interpolation axis of ``y``. The default is ``0``.
+    extrapolate
+        Whether to extrapolate using the first and last cubic intervals.
+        ``"periodic"`` wraps queries into the interpolation domain. *None*
+        defaults to *True* at construction; assigning *None* to the property
+        masks out-of-domain queries, matching *SciPy*.
+    dtype
+        Data type used for internal conversions.
+
+    Attributes
+    ----------
+    -   :attr:`~colour.PchipInterpolator.y`
+
+    Methods
+    -------
+    -   :meth:`~colour.PchipInterpolator.__init__`
+
+    Notes
+    -----
+    The *NumPy* implementation wraps :class:`scipy.interpolate.PchipInterpolator`.
+    Its ``derivative``, ``integrate``, ``roots`` and ``solve`` methods are
+    available on the *NumPy* backend.
+
+    Input arrays select the backend when Array API dispatch is enabled.
+    *NumPy* inputs use *SciPy* or *NumPy*; *PyTorch* and *JAX* arrays use
+    native operations that preserve device placement and differentiation.
+    Assigning ``x`` or ``y`` can select a different backend.
     """
 
 
@@ -475,13 +754,45 @@ class KernelInterpolator(_DispatchingInterpolator):
     """
     Perform kernel-based (convolution) interpolation of a 1-D function.
 
-    Reconstruct a continuous signal from discrete samples as the convolution of
-    the data with a continuous interpolation kernel. ``window``, ``kernel``,
-    ``kernel_kwargs`` and ``padding_kwargs`` are writable. Only reflect padding
-    with a ``pad_width`` equal to ``window`` is supported; other
-    ``padding_kwargs`` raise.
+    Parameters
+    ----------
+    x
+        One-dimensional, uniformly spaced independent variable values.
+    y
+        Dependent values, with the interpolation axis first.
+    window
+        Number of neighbouring samples on each side of a query.
+    kernel
+        Interpolation kernel. The default is :func:`kernel_lanczos`.
+    kernel_kwargs
+        Keyword arguments passed to the kernel.
+    padding_kwargs
+        Reflect padding options. Only ``mode="reflect"`` and ``pad_width``
+        equal to ``window`` are supported.
+    dtype
+        Data type used for internal conversions.
+
+    Attributes
+    ----------
+    x, y, window, kernel, kernel_kwargs, padding_kwargs
+        Writable interpolation data and options.
+
+    Notes
+    -----
+    Queries outside the interpolation range raise an error. Trailing signal
+    dimensions are preserved after the query dimensions.
+    Input arrays select the backend when Array API dispatch is enabled.
+    *PyTorch* and *JAX* arrays use native operations that preserve device
+    placement and differentiation. Assigning ``x`` or ``y`` can select a
+    different backend.
 
     References
     ----------
     :cite:`Burger2009b`, :cite:`Wikipedia2005b`
+
+    Examples
+    --------
+    >>> f = KernelInterpolator([0, 1, 2, 3], [0, 1, 2, 3])
+    >>> f(1.0)
+    np.float64(1.0)
     """
