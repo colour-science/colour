@@ -104,6 +104,15 @@ enabling alternative backends such as `JAX <https://jax.readthedocs.io>`__,
 Enabling Array API Dispatch
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Install the ``array-api`` extra to supply the compatibility dependencies:
+
+.. code-block:: bash
+
+    pip install "colour-science[array-api]"
+
+Install the desired backend, such as *JAX* or *PyTorch*, following its
+platform-specific installation instructions.
+
 Array API dispatch is **disabled by default**. *NumPy* remains the sole
 backend unless explicitly opted in:
 
@@ -148,6 +157,7 @@ From :func:`colour.intermediate_lightness_function_CIE1976`:
 
         xp = array_namespace(Y, Y_n)
 
+        Y = xp_as_float_array(Y, xp=xp, like=Y_n)
         Y_n = xp_as_float_array(Y_n, xp=xp, like=Y)
 
         Y_Y_n = Y / Y_n
@@ -174,10 +184,10 @@ From :func:`colour.intermediate_lightness_function_CIE1976`:
    provide as a backend tensor. Pass converted names only: never inline a
    call (``array_namespace(as_float_array(a))``), never pass a raw name
    when the converted one exists, and never call with zero arguments when
-   the function has an array input. Module-level constants (matrices,
-   lookup tables) and scalar curve parameters with library defaults (e.g.
-   the ``r`` exponent of *ARIB STD-B67*) do not need to be included; the
-   latter are promoted per convention 4 instead.
+   the function has an array input. Include optional curve parameters when
+   they accept arrays, even if their defaults are scalars. Fixed module-level
+   constants (matrices, lookup tables) are promoted after selecting the caller's
+   namespace.
 
 3. **Blank line before and after** ``xp = array_namespace(...)``.
 
@@ -189,20 +199,19 @@ From :func:`colour.intermediate_lightness_function_CIE1976`:
    integer data, use ``xp_as_int_array``. For data that should preserve its
    original dtype, use ``xp_as_array``.
 
-5. **Do not promote the primary input after** ``to_domain_*``.
-   ``to_domain_*`` functions are backend-aware and return arrays in the
-   correct namespace and dtype. However, **secondary parameters** that went
-   through ``to_domain_*`` but could be scalars (e.g. ``Y`` when the primary
-   is ``xy``) still need ``xp_as_float_array`` promotion because
-   ``to_domain_*(scalar)`` returns a *NumPy* array regardless of the target
-   backend.
+5. **Co-locate mixed inputs before arithmetic.** ``to_domain_*`` preserves
+   each input's own namespace and device; it does not reconcile independently
+   supplied inputs. If a secondary parameter is the only native array, promote
+   the primary input too. Choose an actual native operand as the ``like``
+   reference and promote all operands into that namespace and device. A host
+   list or *NumPy* array cannot supply the target device.
 
 6. **Promote dataclass-extracted variables.** When a function receives a
    dataclass (e.g. ``CAM_Specification_CIECAM02``) and extracts fields via
    ``astuple`` or ``tsplit``, those fields may be *NumPy* arrays even when
-   other arguments are backend tensors. After ``to_domain_*`` scaling, these
-   variables still need ``xp_as_float_array`` promotion because the dataclass
-   fields do not carry backend information.
+   other arguments are backend tensors. Include the extracted fields when
+   selecting the namespace and native reference. After ``to_domain_*`` scaling,
+   co-locate fields and viewing parameters with ``xp_as_float_array``.
 
 7. **Use** ``xp.*`` **for standard operations:** ``xp.sqrt``, ``xp.exp``,
    ``xp.log``, ``xp.where``, ``xp.stack``, ``xp.zeros``, ``xp.ones``,
@@ -212,7 +221,7 @@ From :func:`colour.intermediate_lightness_function_CIE1976`:
 8. **Use** ``float("nan")`` **and** ``float("inf")`` **instead of**
    ``np.nan`` **and** ``np.inf`` as array fill values inside backend-aware
    code (e.g. in ``xp.full``, ``xp.where``). Scalar constants like
-   ``np.pi`` are plain Python floats and are fine to use anywhere.
+   ``np.pi`` are plain *Python* floats and are fine to use anywhere.
 
 9. **Return arrays in the caller's namespace.** Functions like ``tstack``,
    ``from_range_100``, and ``as_float_array`` are already namespace-aware and
@@ -235,7 +244,7 @@ inside a backend-aware function:
     (scalars, lists, module-level constants) into a namespace that has
     already been resolved via :func:`array_namespace`. The ``like``
     parameter matches the device of an existing primary array, which is
-    how a Python float or a *NumPy* matrix lands on the right *PyTorch
+    how a *Python* float or a *NumPy* matrix lands on the right *PyTorch
     MPS* / *CUDA* / *JAX* device.
 
 The split mirrors a real semantic distinction: primary inputs *carry*
@@ -243,8 +252,10 @@ namespace information (so the helper can discover it), secondary inputs
 typically *do not* (so the caller has to push it in along with a device
 target). Mixing the two roles is the most common mis-use; if a value
 comes in via the function signature as the load-bearing array argument,
-it is a primary, use ``as_float_array``. Everything else is a secondary,
-use ``xp_as_float_array`` with ``xp=xp, like=primary``.
+it is a primary, use ``as_float_array`` initially. After namespace selection,
+co-locate mixed inputs with ``xp_as_float_array`` using an actual native input
+as the reference. Once promoted, the primary can anchor constants and other
+secondary inputs with ``xp=xp, like=primary``.
 
 The explicit-namespace helpers in detail:
 
@@ -276,6 +287,49 @@ If a function only uses these utilities and standard arithmetic
 (``+``, ``-``, ``*``, ``/``, ``**``), it is already backend-aware without
 calling ``array_namespace`` explicitly.
 
+Guarding Inactive Mathematical Branches
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Both expressions passed to ``xp.where`` are evaluated before selection.
+An unused logarithm, square root or power can therefore introduce a
+nonfinite derivative even when the selected result is finite. Guard the
+operation with :func:`colour.utilities.xp_log`,
+:func:`colour.utilities.xp_log2`, :func:`colour.utilities.xp_log10`,
+:func:`colour.utilities.xp_sqrt` or :func:`colour.utilities.xp_power`.
+
+The ``where`` argument identifies entries whose original operands are used.
+Other entries use benign operands of one: the logarithms return zero there,
+while the square-root and power helpers return one. ``xp_power`` guards both
+the base and exponent. Active operands retain their normal mathematical
+behaviour, including invalid values. With ``where=None``, the helpers perform
+the ordinary operation.
+
+For a transfer curve with linear and logarithmic segments, use the same
+selection mask for the outer branch and its complement for the logarithm:
+
+.. code-block:: python
+
+    linear = L_in < cut1
+    V_out = xp.where(
+        linear,
+        5.6 * L_in + 0.125,
+        c * xp_log10(L_in + b, where=~linear, xp=xp) + d,
+    )
+
+Here ``~linear`` preserves the outer selection's behaviour for *NaN* inputs.
+Rewriting it as ``L_in >= cut1`` would give a different mask for *NaN*.
+Use the corresponding pattern for a square root or power:
+
+.. code-block:: python
+
+    xp_sqrt(value, where=active, xp=xp)
+    xp_power(value, exponent, where=active, xp=xp)
+
+These helpers guard the named operation. Arithmetic already evaluated while
+constructing its arguments still requires valid operands. They preserve
+native arrays and device placement, so no host conversion is needed for
+automatic differentiation.
+
 Compatibility Helpers (``xp_*``)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -305,7 +359,7 @@ section above. The remaining creation helpers are:
 -   ``xp_broadcast_to(a, shape, *, xp=None)`` : ``np.broadcast_to``.
 -   ``xp_pad(a, pad_width, *args, xp=None, **kwargs)`` : ``np.pad``.
 -   ``xp_insert(a, indices, values, *, axis=None, xp=None)`` : ``np.insert``.
--   ``xp_resize(a, new_shape, *, xp=None)`` : ``np.resize`` (NumPy fallback).
+-   ``xp_resize(a, new_shape, *, xp=None)`` : ``np.resize`` (*NumPy* fallback).
 -   ``xp_squeeze(a, *, axis=None, xp=None)`` : ``np.squeeze``. When ``axis`` is
     ``None``, all size-1 dimensions are squeezed (the *Array API* standard
     requires an explicit ``axis``).
@@ -313,22 +367,27 @@ section above. The remaining creation helpers are:
 **Math and Statistics**
 
 -   ``xp_average(a, *, axis=None, weights=None, xp=None)`` : ``np.average``.
--   ``xp_median(a, *, axis=None, xp=None)`` : ``np.median`` (NumPy fallback).
+-   ``xp_median(a, *, axis=None, xp=None)`` : ``np.median`` (*NumPy* fallback).
 -   ``xp_nanmean(a, *, axis=None, xp=None)`` : ``np.nanmean``.
 -   ``xp_gradient(f, *varargs, xp=None, axis=None)`` : ``np.gradient``
-    (NumPy fallback).
+    (*NumPy* fallback).
 -   ``xp_trapezoid(y, *, x=None, dx=1.0, axis=-1, xp=None)`` :
-    ``np.trapezoid`` (NumPy fallback).
+    ``np.trapezoid`` (*NumPy* fallback).
 -   ``xp_radians(a, *, xp=None)`` / ``xp_degrees(a, *, xp=None)`` : Angle
     conversion (namespace derived from ``a``).
 -   ``xp_round(a, *, decimals=0, xp=None)`` : ``np.round``.
 -   ``xp_sinc(a, *, xp=None)`` : ``np.sinc``.
+-   ``xp_log(a, *, where=None, xp=None)`` / ``xp_log2`` / ``xp_log10`` :
+    Logarithms with optional guarded operands.
+-   ``xp_sqrt(a, *, where=None, xp=None)`` : Square root with an optional guard.
+-   ``xp_power(a, exponent, *, where=None, xp=None)`` : Power with optional
+    guards on both operands.
 
 **Selection and Comparison**
 
 -   ``xp_select(condlist, choicelist, *, default=0, xp=None)`` : ``np.select``
     (native Array API implementation using ``xp.where``).
--   ``xp_interp(x, x_data, fp, *, xp=None)`` : ``np.interp`` (NumPy fallback).
+-   ``xp_interp(x, x_data, fp, *, xp=None)`` : ``np.interp`` (*NumPy* fallback).
 -   ``xp_nan_to_num(a, *, nan=0.0, posinf=None, neginf=None, xp=None)`` :
     ``np.nan_to_num``.
 -   ``xp_isclose(a, b, *, rtol=1e-5, atol=1e-8, xp=None)`` : ``np.isclose``.
@@ -337,8 +396,8 @@ section above. The remaining creation helpers are:
 **Linear Algebra**
 
 -   ``xp_lstsq(a, b, *, rcond=None, xp=None)`` : ``np.linalg.lstsq``.
--   ``xp_eig(a, *, xp=None)`` : ``np.linalg.eig`` (NumPy fallback for MPS).
--   ``xp_eigh(a, *, xp=None)`` : ``np.linalg.eigh`` (NumPy fallback for MPS).
+-   ``xp_eig(a, *, xp=None)`` : ``np.linalg.eig`` (*NumPy* fallback for *MPS*).
+-   ``xp_eigh(a, *, xp=None)`` : ``np.linalg.eigh`` (*NumPy* fallback for *MPS*).
 -   ``xp_create_diagonal(a, *, xp=None)`` : ``np.diag``.
 -   ``xp_matrix_transpose(a, *, xp=None)`` : Matrix transpose materialised as
     a C-contiguous array.
@@ -412,6 +471,10 @@ From :func:`colour.adaptation.matrix_chromatic_adaptation_VonKries`:
 
         xp = array_namespace(XYZ_w, XYZ_wr)
 
+        reference = XYZ_wr if is_non_ndarray(XYZ_wr) else XYZ_w
+        XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=reference)
+        XYZ_wr = xp_as_float_array(XYZ_wr, xp=xp, like=XYZ_w)
+
         M = xp_as_float_array(CHROMATIC_ADAPTATION_TRANSFORMS[transform], xp=xp, like=XYZ_w)
 
         RGB_w = vecmul(M, XYZ_w)
@@ -431,10 +494,10 @@ Domain/Range Functions and Promotion
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Parameters that go through ``to_domain_*`` (e.g. ``to_domain_100``,
-``to_domain_1``) are already backend-aware; they preserve the input
-namespace and return float arrays. These do **not** need a subsequent
-``xp_as_float_array`` call. Only raw scalars and optional parameters that
-did not go through ``to_domain_*`` need promotion.
+``to_domain_1``) preserve their individual namespaces and return float arrays.
+When inputs mix host data and native arrays, promote them together after
+namespace selection. Choose a native reference before promoting the primary,
+then use the promoted primary to anchor the remaining operands.
 From :func:`colour.adaptation.chromatic_adaptation_forward_CMCCAT2000`:
 
 .. code-block:: python
@@ -442,14 +505,19 @@ From :func:`colour.adaptation.chromatic_adaptation_forward_CMCCAT2000`:
     def chromatic_adaptation_forward_CMCCAT2000(
         XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, surround=...
     ):
-        # to_domain_* handles dtype and backend; no further promotion needed.
         XYZ = to_domain_100(XYZ)
         XYZ_w = to_domain_100(XYZ_w)
         XYZ_wr = to_domain_100(XYZ_wr)
 
         xp = array_namespace(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
 
-        # Only raw scalars need promotion.
+        reference = next(
+            (a for a in (XYZ, XYZ_w, XYZ_wr, L_A1, L_A2) if is_non_ndarray(a)),
+            None,
+        )
+        XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+        XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=XYZ)
+        XYZ_wr = xp_as_float_array(XYZ_wr, xp=xp, like=XYZ)
         L_A1 = xp_as_float_array(L_A1, xp=xp, like=XYZ)
         L_A2 = xp_as_float_array(L_A2, xp=xp, like=XYZ)
 
@@ -489,19 +557,19 @@ From ``colour/models/tests/test_igpgtg.py``:
 
 -   **Inputs**: Use ``xp_as_array([...], xp=xp)`` for all data passed to the
     function under test.
--   **Expected values**: Use **plain Python lists** as the second argument to
+-   **Expected values**: Use plain *Python* lists as the second argument to
     ``xp_assert_close`` / ``xp_assert_equal``. No ``np.array`` wrapping
     needed : the assertion helpers convert internally.
 -   **Element-wise arithmetic on expected values**: For arithmetic
     like ``expected * 100``, use ``xp_as_array([...], xp=xp) * 100`` since
-    ``[...] * 100`` is Python list repetition.
+    ``[...] * 100`` is *Python* list repetition.
 -   **n-dimensional tiling**: Use ``xp.tile`` and ``xp_reshape`` for shape
     tests.
 -   **Scalar-input tests**: If a test only passes scalars (not arrays), add
     ``xp: ModuleType  # noqa: ARG002`` to ensure it runs across backends even
     though ``xp`` is not directly referenced.
 -   **NumPy-only functions**: If the function under test is inherently
-    *NumPy*-only (e.g. uses ``SpectralDistribution``, ``scipy.optimize``, or
+    *NumPy*-only (e.g. uses ``scipy.optimize`` or
     in-place assignment), add ``xp: ModuleType  # noqa: ARG002`` and keep
     inputs as ``np.array``.
 
@@ -512,13 +580,16 @@ From ``colour/models/tests/test_igpgtg.py``:
     ``xp_as_float_array`` is for source code where ``DTYPE_FLOAT_DEFAULT``
     enforcement matters.
 
+Spectral classes retain their numeric arrays in the supplied backend.
+Interpolation, arithmetic and supported integration paths preserve device
+placement and differentiation; explicit external-library and string boundaries
+materialise host arrays.
+
 What Stays NumPy-Only
 ~~~~~~~~~~~~~~~~~~~~~
 
 Not everything needs backend support. The following are intentionally *NumPy*-only:
 
--   **Spectral classes**: ``SpectralDistribution``, ``MultiSpectralDistributions``,
-    ``Signal``, ``MultiSignals`` : these use *Pandas* internally.
 -   **I/O operations**: File reading/writing, image loading.
 -   **Scipy-dependent optimisation**: Functions using ``scipy.optimize``,
     ``scipy.interpolate`` : callbacks must receive *NumPy* arrays. Use

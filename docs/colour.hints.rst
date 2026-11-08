@@ -64,7 +64,7 @@ Annotation Type Hints
     PathLike
     Protocol
     ProtocolArrayNamespace
-    ProtocolArrayNamespaceFft
+    ProtocolArrayNamespaceFFT
     ProtocolArrayNamespaceLinalg
     ProtocolExtrapolator
     ProtocolInterpolator
