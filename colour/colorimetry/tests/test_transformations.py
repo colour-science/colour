@@ -61,19 +61,19 @@ RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition.
         xp_assert_close(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
             cmfs[435],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 25000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0025),
         )
 
         xp_assert_close(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(545),
             cmfs[545],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 25000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0025),
         )
 
         xp_assert_close(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700),
             cmfs[700],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 25000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0025),
         )
 
     def test_n_dimensional_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(
@@ -140,19 +140,19 @@ RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition.
         xp_assert_close(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),
             cmfs[435],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 250000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.025),
         )
 
         xp_assert_close(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(545),
             cmfs[545],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 250000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.025),
         )
 
         xp_assert_close(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700),
             cmfs[700],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 250000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.025),
         )
 
     def test_n_dimensional_RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(
@@ -219,19 +219,19 @@ RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition.
         xp_assert_close(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(435),
             cmfs[435],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 25000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0025),
         )
 
         xp_assert_close(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(545),
             cmfs[545],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 25000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0025),
         )
 
         xp_assert_close(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700),
             cmfs[700],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 25000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0025),
         )
 
     def test_n_dimensional_RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(
@@ -298,19 +298,19 @@ LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition.
         xp_assert_close(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
             cmfs[435],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1500,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.00015),
         )
 
         xp_assert_close(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(545),
             cmfs[545],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1500,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.00015),
         )
 
         xp_assert_close(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700),
             cmfs[700],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1500,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.00015),
         )
 
     def test_n_dimensional_LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(
@@ -377,19 +377,19 @@ LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition.
         xp_assert_close(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),
             cmfs[435],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1500,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.00015),
         )
 
         xp_assert_close(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(545),
             cmfs[545],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1500,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.00015),
         )
 
         xp_assert_close(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700),
             cmfs[700],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 1500,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.00015),
         )
 
     def test_n_dimensional_LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(

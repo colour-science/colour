@@ -11,6 +11,7 @@ References
 
 from __future__ import annotations
 
+import contextlib
 import typing
 
 import numpy as np
@@ -51,6 +52,8 @@ if typing.TYPE_CHECKING:
     from colour.hints import NDArrayFloat, ModuleType
 
 from colour.utilities import (
+    array_namespace,
+    as_ndarray,
     domain_range_scale,
     xp_as_array,
     xp_assert_close,
@@ -761,7 +764,7 @@ class TestTristimulusWeightingFactorsASTME2022:
 tristimulus_weighting_factors_ASTME2022` definition unit tests methods.
     """
 
-    def test_tristimulus_weighting_factors_ASTME2022(self) -> None:
+    def test_tristimulus_weighting_factors_ASTME2022(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 tristimulus_weighting_factors_ASTME2022` definition.
@@ -784,14 +787,18 @@ tristimulus_weighting_factors_ASTME2022` definition.
             cmfs, A, SpectralShape(360, 830, 10)
         )
         xp_assert_close(
-            np.around(twf, 3), TWF_A_CIE_1964_10_10, atol=TOLERANCE_ABSOLUTE_TESTS * 100
+            np.around(twf, 3),
+            TWF_A_CIE_1964_10_10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-05),
         )
 
         twf = tristimulus_weighting_factors_ASTME2022(
             cmfs, A, SpectralShape(360, 830, 20)
         )
         xp_assert_close(
-            np.around(twf, 3), TWF_A_CIE_1964_10_20, atol=TOLERANCE_ABSOLUTE_TESTS * 100
+            np.around(twf, 3),
+            TWF_A_CIE_1964_10_20,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-05),
         )
 
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
@@ -833,6 +840,38 @@ tristimulus_weighting_factors_ASTME2022` definition.
             TWF_A_CIE_1964_10_10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # Host CMFS follow a native illuminant under a CPU default.
+        wavelengths = np.arange(400.0, 501.0)
+        cmfs = MultiSpectralDistributions(
+            MSDS_CMFS["CIE 1931 2 Degree Standard Observer"][wavelengths],
+            wavelengths,
+        )
+        native = xp_as_array(np.linspace(1.0, 2.0, len(wavelengths)), xp=xp)
+        illuminant = SpectralDistribution(native, wavelengths)
+        shape = SpectralShape(400, 500, 10)
+        expected = tristimulus_weighting_factors_ASTME2022(
+            cmfs,
+            SpectralDistribution(np.linspace(1.0, 2.0, len(wavelengths)), wavelengths),
+            shape,
+        )
+        with contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu"):
+            result = tristimulus_weighting_factors_ASTME2022(cmfs, illuminant, shape)
+        xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert getattr(result, "device", None) == getattr(native, "device", None)
+
+        if xp.__name__ == "torch":
+            k = xp.asarray(1.0, device=native.device)
+            with xp.device("cpu"):
+                initial = tristimulus_weighting_factors_ASTME2022(
+                    cmfs, illuminant, shape, k=k
+                )
+                k.mul_(2)
+                updated = tristimulus_weighting_factors_ASTME2022(
+                    cmfs, illuminant, shape, k=k
+                )
+            xp_assert_close(updated, 2 * initial, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert updated.device == k.device
 
     def test_raise_exception_tristimulus_weighting_factors_ASTME2022(self) -> None:
         """
@@ -877,6 +916,16 @@ tristimulus_weighting_factors_ASTME2022` definition raised exception.
         for gradient in gradients:
             assert xp.isfinite(gradient).all()
             assert xp.any(gradient != 0)
+
+        autodiff(
+            lambda k: tristimulus_weighting_factors_ASTME2022(
+                MultiSpectralDistributions(cmfs_values, wavelengths),
+                SpectralDistribution(illuminant_values, wavelengths),
+                SpectralShape(400, 500, interval),
+                k=k,
+            ),
+            1.0,
+        )
 
 
 class TestTristimulusWeightingFactorsIntegration:
@@ -948,6 +997,18 @@ adjust_tristimulus_weighting_factors_ASTME308` definition.
             TWF_D65_CIE_1931_2_20_A,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # Adjustment masks follow an explicit table device under a CPU default.
+        values = xp_as_array(np.ones((43, 3)), xp=xp)
+        with contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu"):
+            result = adjust_tristimulus_weighting_factors_ASTME308(
+                values, SpectralShape(360, 780, 10), SpectralShape(400, 700, 10)
+            )
+        expected = np.ones((31, 3))
+        expected[0] = 5
+        expected[-1] = 9
+        xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert getattr(result, "device", None) == getattr(values, "device", None)
 
 
 class TestSd_to_XYZ_integration:
@@ -1559,7 +1620,7 @@ class TestSd_to_XYZ:
         self._A = sd_CIE_standard_illuminant_A(self._cmfs.shape)
         self._sd = reshape_sd(SD_SAMPLE, self._cmfs.shape)
 
-    def test_sd_to_XYZ(self) -> None:
+    def test_sd_to_XYZ(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.sd_to_XYZ`
         definition.
@@ -1627,6 +1688,20 @@ class TestSd_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        if xp.__name__ == "torch":
+            for method in ("Integration", "ASTM E308"):
+                k = xp.asarray(1.0)
+                with xp.device("cpu"):
+                    initial = sd_to_XYZ(
+                        self._sd, self._cmfs, self._A, k=k, method=method
+                    )
+                    k.mul_(2)
+                    updated = sd_to_XYZ(
+                        self._sd, self._cmfs, self._A, k=k, method=method
+                    )
+                xp_assert_close(updated, 2 * initial, atol=TOLERANCE_ABSOLUTE_TESTS)
+                assert updated.device == k.device
+
     def test_sd_to_XYZ_autodiff(
         self, xp: ModuleType, autodiff: typing.Callable
     ) -> None:
@@ -1646,6 +1721,13 @@ class TestSd_to_XYZ:
 
         assert xp.isfinite(gradient).all()
         assert xp.any(gradient != 0)
+
+        autodiff(
+            lambda normalisation: sd_to_XYZ(
+                sd_ones(shape), method="Integration", k=normalisation, shape=shape
+            ),
+            1.0,
+        )
 
     def test_sd_to_XYZ_illuminant_autodiff(
         self, xp: ModuleType, autodiff: typing.Callable
@@ -1750,7 +1832,7 @@ class TestMsds_to_XYZ_integration:
 msds_to_XYZ_integration` definition unit tests methods.
     """
 
-    def test_msds_to_XYZ_integration(self) -> None:
+    def test_msds_to_XYZ_integration(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.tristimulus_values.\
 msds_to_XYZ_integration` definition.
@@ -1785,6 +1867,32 @@ msds_to_XYZ_integration` definition.
             TVS_D65_ARRAY_K1_INTEGRATION,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        shape = SpectralShape(400, 500, 10)
+        samples = MultiSpectralDistributions(np.ones((11, 2)), shape)
+        observer = reshape_msds(MSDS_CMFS["CIE 1931 2 Degree Standard Observer"], shape)
+        source = SpectralDistribution(np.ones(11), shape)
+        host = [samples.copy(xp=np), observer.copy(xp=np), source.copy(xp=np)]
+        native_values = [xp_as_array(value.values, xp=xp) for value in host]
+        for i in range(3):
+            mixed = [value.copy(xp=np) for value in host]
+            mixed[i].values = native_values[i]
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = msds_to_XYZ_integration(*mixed)
+            expected = msds_to_XYZ_integration(*host)
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(
+                native_values[i], "device", None
+            )
+
+        native_k = xp_as_array(1.7, xp=xp)
+        with contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu"):
+            result = msds_to_XYZ_integration(host[0], host[1], host[2], k=native_k)
+        expected = msds_to_XYZ_integration(host[0], host[1], host[2], k=1.7)
+        xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert getattr(result, "device", None) == getattr(native_k, "device", None)
 
     def test_domain_range_scale_msds_to_XYZ_integration(self, xp: ModuleType) -> None:  # noqa: ARG002
         """
@@ -2010,7 +2118,7 @@ class TestAbsoluteIntegrationToXYZ:
             XYZ = method(sd, k=k)
             XYZ = np.reshape(XYZ, 3) if len(XYZ.shape) > 1 else XYZ
             (
-                xp_assert_close(XYZ[1], k, atol=TOLERANCE_ABSOLUTE_TESTS * 500),
+                xp_assert_close(XYZ[1], k, atol=max(TOLERANCE_ABSOLUTE_TESTS, 5e-05)),
                 (
                     "1 watt @ 555nm should be approximately 683 candela."
                     f" Failed method: {method}"
@@ -2024,7 +2132,7 @@ class TestAbsoluteIntegrationToXYZ:
             if len(XYZ.shape) > 1:
                 XYZ = np.reshape(XYZ, 3)
             (
-                xp_assert_close(XYZ[1], k, atol=TOLERANCE_ABSOLUTE_TESTS * 500),
+                xp_assert_close(XYZ[1], k, atol=max(TOLERANCE_ABSOLUTE_TESTS, 5e-05)),
                 (
                     "1 watt @ 555nm should be approximately 683 candela."
                     f" Failed method: {method}"
@@ -2059,7 +2167,7 @@ class TestAbsoluteIntegrationToXYZ:
             XYZ: np.ndarray = method(sd, k=k)
             XYZ = np.reshape(XYZ, 3) if len(XYZ.shape) > 1 else XYZ
             (
-                xp_assert_close(XYZ[1], k, atol=TOLERANCE_ABSOLUTE_TESTS * 500000),
+                xp_assert_close(XYZ[1], k, atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05)),
                 (
                     "1 watt @ 555nm should be approximately 683 candela. "
                     f"Failed method: {method}"
@@ -2073,7 +2181,7 @@ class TestAbsoluteIntegrationToXYZ:
             if len(XYZ.shape) > 1:
                 XYZ = np.reshape(XYZ, 3)
             (
-                xp_assert_close(XYZ[1], k, atol=TOLERANCE_ABSOLUTE_TESTS * 500000),
+                xp_assert_close(XYZ[1], k, atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05)),
                 (
                     "1 watt @ 555nm should be approximately 683 candela."
                     f"Failed method: {method}"
@@ -2119,6 +2227,28 @@ class TestWavelength_to_XYZ:
             [0.44575583, 0.18184213, 0.00000000],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"].copy()
+        cmfs.values = xp_as_array(cmfs.values, xp=xp)
+        for query in (480.0, np.array([480.0])):
+            result = wavelength_to_XYZ(query, cmfs)
+            xp_assert_close(
+                result,
+                np.broadcast_to([0.09564, 0.13902, 0.81295], result.shape),
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+            assert array_namespace(result) is array_namespace(cmfs.values)
+            assert getattr(result, "device", None) == getattr(
+                cmfs.values, "device", None
+            )
+        if xp.__name__ == "torch":
+            values = xp.tensor(as_ndarray(cmfs.values), requires_grad=True)
+            cmfs.values = values
+            result = wavelength_to_XYZ(480.0, cmfs)
+            assert getattr(result, "requires_grad", False)
+            gradient = xp.autograd.grad(xp.sum(result), values)[0]
+            assert bool(xp.all(xp.isfinite(gradient)))
+            assert bool(xp.any(gradient != 0))
 
     def test_raise_exception_wavelength_to_XYZ(self) -> None:
         """

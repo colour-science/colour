@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 from itertools import product
 
 import numpy as np
@@ -19,10 +20,11 @@ from colour.colorimetry import (
     sd_blackbody,
     sd_rayleigh_jeans,
 )
+from colour.colorimetry.blackbody import CONSTANT_C1, CONSTANT_C2
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 
 if typing.TYPE_CHECKING:
-    from colour.hints import NDArrayFloat, ModuleType
+    from colour.hints import ModuleType, NDArrayFloat
 
 from colour.utilities import (
     as_ndarray,
@@ -1229,13 +1231,15 @@ class TestPlanckLaw:
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-    def test_n_dimensional_planck_law(self, xp: ModuleType) -> None:
+    def test_n_dimensional_planck_law(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.colorimetry.blackbody.planck_law` definition
         n-dimensional arrays support.
         """
 
-        wl = 500 * 1e-9
+        wl = xp_as_array(500 * 1e-9, xp=xp)
         p = as_ndarray(planck_law(wl, 5500))
 
         wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
@@ -1266,13 +1270,60 @@ class TestPlanckLaw:
 
         # The "colour.colorimetry.planck_law" definition behaviour with
         # n-dimensional arrays is unusual.
-        p = as_ndarray(planck_law(500 * 1e-9, [5000, 5500, 6000]))
+        p = as_ndarray(planck_law(xp_as_array(500 * 1e-9, xp=xp), [5000, 5500, 6000]))
         p = xp.tile(xp_as_array(p, xp=xp), (6, 1))
         xp_assert_close(
             planck_law(wl, [5000, 5500, 6000]),
             p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            # Nanometres keep finite differences local to positive wavelengths.
+            autodiff(
+                lambda wavelength_nm, temperature: planck_law(
+                    wavelength_nm * 1e-9, temperature
+                ),
+                [400.0, 500.0],
+                [4500.0, 6500.0],
+            )
+
+        # Normalise by independent float64 radiances so absolute tolerances
+        # cannot accept a zero Wien tail or its vanished derivatives.
+        for temperature in (300.0, 500.0, 1000.0, 4500.0, 6500.0, 25000.0):
+            wavelength_nm = xp_as_array([450.0, 500.0, 650.0], xp=xp)
+            wavelength = wavelength_nm * 1e-9
+            wavelength_reference = as_ndarray(wavelength).astype(np.float64)
+            exponent = CONSTANT_C2 / (wavelength_reference * temperature)
+            reference = (
+                CONSTANT_C1 / np.pi / wavelength_reference**5 / np.expm1(exponent)
+            )
+            normalisation = float(reference[1])
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = planck_law(wavelength, temperature)
+            xp_assert_close(
+                result
+                / xp_as_array(
+                    reference, dtype=wavelength.dtype, xp=xp, like=wavelength
+                ),
+                [1.0, 1.0, 1.0],
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+            if hasattr(wavelength, "device"):
+                assert result.device == wavelength.device
+
+            if xp.__name__ != "numpy":
+                autodiff(
+                    lambda wavelength_nm,
+                    temperature,
+                    normalisation=normalisation: planck_law(
+                        wavelength_nm * 1e-9, temperature
+                    )
+                    / normalisation,
+                    [500.0],
+                    temperature,
+                )
 
     def test_raise_exception_planck_law(self) -> None:
         """
@@ -1359,13 +1410,15 @@ class TestRayleighJeansLaw:
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-    def test_n_dimensional_rayleigh_jeans_law(self, xp: ModuleType) -> None:
+    def test_n_dimensional_rayleigh_jeans_law(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.colorimetry.blackbody.rayleigh_jeans_law` definition
         n-dimensional arrays support.
         """
 
-        wl = 500 * 1e-9
+        wl = xp_as_array(500 * 1e-9, xp=xp)
         p = as_ndarray(rayleigh_jeans_law(wl, 5500))
 
         wl = xp.tile(xp_as_array(wl, xp=xp), (6,))
@@ -1396,13 +1449,26 @@ class TestRayleighJeansLaw:
 
         # The "colour.colorimetry.rayleigh_jeans_law" definition behaviour with
         # n-dimensional arrays is unusual.
-        p = as_ndarray(rayleigh_jeans_law(500 * 1e-9, [5000, 5500, 6000]))
+        p = as_ndarray(
+            rayleigh_jeans_law(xp_as_array(500 * 1e-9, xp=xp), [5000, 5500, 6000])
+        )
         p = xp.tile(xp_as_array(p, xp=xp), (6, 1))
         xp_assert_close(
             rayleigh_jeans_law(wl, [5000, 5500, 6000]),
             p,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            # Nanometres keep finite differences local to positive wavelengths.
+            autodiff(
+                lambda wavelength_nm, temperature: rayleigh_jeans_law(
+                    wavelength_nm * 1e-9, temperature
+                ),
+                [400.0, 500.0],
+                [4500.0, 6500.0],
+            )
 
     @ignore_numpy_errors
     def test_nan_rayleigh_jeans_law(self) -> None:

@@ -17,6 +17,7 @@ References
 from __future__ import annotations
 
 import typing
+from math import log
 
 from colour.colorimetry import (
     SPECTRAL_SHAPE_DEFAULT,
@@ -153,8 +154,38 @@ def planck_law(
     l = xp_reshape(l, (-1,), xp=xp)[..., None]  # noqa: E741
     t = xp_reshape(t, (-1,), xp=xp)[None, ...]
 
-    d = 1 / xp.expm1(c2 / (n * l * t))
-    p = ((c1 * n**-2 * l**-5) / xp.pi) * d
+    # Exact binary scaling keeps visible-wavelength powers and their
+    # derivatives representable on float32 backends.
+    wavelength_scale = 2**20
+    l = l * wavelength_scale  # noqa: E741
+    exponent = (c2 * wavelength_scale) / (n * l * t)
+    wien_tail = exponent > 20
+
+    # In the Wien tail, neither expm1(exponent) nor the derivative of its
+    # reciprocal need be representable, even when the radiance is. Combine
+    # the prefactor with the decaying exponential before exponentiating;
+    # exp(-exponent) alone can also underflow on float32 devices.
+    # Mask both branches before evaluation to keep inactive overflows out
+    # of reverse-mode differentiation. Retain the ordinary expression's
+    # rounding away from the tail.
+    l_regular = xp.where(wien_tail, 1.0, l)
+    exponent_regular = xp.where(wien_tail, 1.0, exponent)
+    d = 1 / xp.expm1(exponent_regular)
+    p_regular = ((c1 * wavelength_scale**5 * n**-2 * l_regular**-5) / xp.pi) * d
+
+    l_tail = xp.where(wien_tail, l, 1.0)
+    exponent_tail = xp.where(wien_tail, exponent, 1.0)
+    log_factor = (
+        log(abs(c1)) + 5 * log(wavelength_scale) - 2 * log(abs(n)) - log(xp.pi)
+        if c1 != 0
+        else -float("inf")
+    )
+    p_tail = (
+        (-1 if c1 < 0 else 1)
+        * xp.exp(log_factor - 5 * xp.log(l_tail) - exponent_tail)
+        / -xp.expm1(-exponent_tail)
+    )
+    p = xp.where(wien_tail, p_tail, p_regular)
 
     return as_float(xp_squeeze(p, xp=xp))
 
@@ -363,7 +394,10 @@ def rayleigh_jeans_law(wavelength: ArrayLike, temperature: ArrayLike) -> NDArray
     c = CONSTANT_LIGHT_SPEED
     k_B = CONSTANT_BOLTZMANN
 
-    B = (2 * c * k_B * t) / (l**4)
+    # Scale before taking powers to avoid underflow in float32 derivatives.
+    wavelength_scale = 2**20
+    l = l * wavelength_scale  # noqa: E741
+    B = (2 * c * k_B * wavelength_scale**4 * t) / (l**4)
 
     return as_float(xp_squeeze(B, xp=xp))
 

@@ -61,7 +61,7 @@ from colour.utilities import (
     array_namespace,
     as_float_array,
     full,
-    ones,
+    is_non_ndarray,
     validate_method,
     xp_as_float_array,
     xp_resize,
@@ -380,8 +380,8 @@ def msds_ones(
 
 
 def sd_gaussian_normal(
-    mu: float,
-    sigma: float,
+    mu: ArrayLike,
+    sigma: ArrayLike,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     **kwargs: Any,
 ) -> SpectralDistribution:
@@ -433,7 +433,12 @@ def sd_gaussian_normal(
 
     xp = array_namespace(mu, sigma)
 
-    wavelengths = xp_as_float_array(shape.wavelengths, xp=xp)
+    wavelengths = xp_as_float_array(
+        shape.wavelengths, xp=xp, like=mu if is_non_ndarray(mu) else sigma
+    )
+
+    mu = xp_as_float_array(mu, xp=xp, like=wavelengths)
+    sigma = xp_as_float_array(sigma, xp=xp, like=wavelengths)
 
     values = xp.exp(-((wavelengths - mu) ** 2) / (2 * sigma**2))
 
@@ -441,8 +446,8 @@ def sd_gaussian_normal(
 
 
 def sd_gaussian_fwhm(
-    peak_wavelength: float,
-    fwhm: float,
+    peak_wavelength: ArrayLike,
+    fwhm: ArrayLike,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     **kwargs: Any,
 ) -> SpectralDistribution:
@@ -493,7 +498,14 @@ def sd_gaussian_fwhm(
 
     xp = array_namespace(peak_wavelength, fwhm)
 
-    wavelengths = xp_as_float_array(shape.wavelengths, xp=xp)
+    wavelengths = xp_as_float_array(
+        shape.wavelengths,
+        xp=xp,
+        like=peak_wavelength if is_non_ndarray(peak_wavelength) else fwhm,
+    )
+
+    peak_wavelength = xp_as_float_array(peak_wavelength, xp=xp, like=wavelengths)
+    fwhm = xp_as_float_array(fwhm, xp=xp, like=wavelengths)
 
     mu, sigma = peak_wavelength, fwhm / (2 * math.sqrt(2 * math.log(2)))
     values = xp.exp(-((wavelengths - mu) ** 2) / (2 * sigma**2))
@@ -502,8 +514,8 @@ def sd_gaussian_fwhm(
 
 
 def sd_gaussian_super_clamped(
-    peak_wavelength: float,
-    fwhm: float,
+    peak_wavelength: ArrayLike,
+    fwhm: ArrayLike,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     clamp: Literal["none", "left", "right"] | str = "none",
     exponent: float = 2.0,
@@ -568,7 +580,14 @@ def sd_gaussian_super_clamped(
 
     xp = array_namespace(peak_wavelength, fwhm)
 
-    wavelengths = xp_as_float_array(shape.wavelengths, xp=xp)
+    wavelengths = xp_as_float_array(
+        shape.wavelengths,
+        xp=xp,
+        like=peak_wavelength if is_non_ndarray(peak_wavelength) else fwhm,
+    )
+
+    peak_wavelength = xp_as_float_array(peak_wavelength, xp=xp, like=wavelengths)
+    fwhm = xp_as_float_array(fwhm, xp=xp, like=wavelengths)
 
     # Convert FWHM to sigma: FWHM = 2 * sigma * (2 * ln(2))^(1/exponent)
     sigma = fwhm / (2 * (2 * math.log(2)) ** (1 / exponent))
@@ -599,8 +618,8 @@ Supported gaussian spectral distribution generation methods.
 
 
 def sd_gaussian(
-    mu_peak_wavelength: float,
-    sigma_fwhm: float,
+    mu_peak_wavelength: ArrayLike,
+    sigma_fwhm: ArrayLike,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     method: Literal["Normal", "FWHM", "Super-Gaussian Clamped"] | str = "Normal",
     **kwargs: Any,
@@ -673,8 +692,8 @@ def sd_gaussian(
 
 
 def sd_single_led_Ohno2005(
-    peak_wavelength: float,
-    half_spectral_width: float,
+    peak_wavelength: ArrayLike,
+    half_spectral_width: ArrayLike,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     **kwargs: Any,
 ) -> SpectralDistribution:
@@ -729,7 +748,18 @@ def sd_single_led_Ohno2005(
 
     xp = array_namespace(peak_wavelength, half_spectral_width)
 
-    wavelengths = xp_as_float_array(shape.wavelengths, xp=xp)
+    wavelengths = xp_as_float_array(
+        shape.wavelengths,
+        xp=xp,
+        like=(
+            peak_wavelength if is_non_ndarray(peak_wavelength) else half_spectral_width
+        ),
+    )
+
+    peak_wavelength = xp_as_float_array(peak_wavelength, xp=xp, like=wavelengths)
+    half_spectral_width = xp_as_float_array(
+        half_spectral_width, xp=xp, like=wavelengths
+    )
 
     values = xp.exp(-(((wavelengths - peak_wavelength) / half_spectral_width) ** 2))
     values = (values + 2 * values**5) / 3
@@ -748,7 +778,7 @@ Supported single *LED* spectral distribution computation methods.
 
 
 def sd_single_led(
-    peak_wavelength: float,
+    peak_wavelength: ArrayLike,
     shape: SpectralShape = SPECTRAL_SHAPE_DEFAULT,
     method: Literal["Ohno 2005"] | str = "Ohno 2005",
     **kwargs: Any,
@@ -869,15 +899,24 @@ def sd_multi_leds_Ohno2005(
 
     peak_wavelengths = as_float_array(peak_wavelengths)
 
-    xp = array_namespace(peak_wavelengths)
+    arrays = (peak_wavelengths, half_spectral_widths, peak_power_ratios)
+    xp = array_namespace(*arrays)
+    reference = next((a for a in arrays if is_non_ndarray(a)), peak_wavelengths)
+    peak_wavelengths = xp_as_float_array(peak_wavelengths, xp=xp, like=reference)
 
     half_spectral_widths = xp_resize(
-        half_spectral_widths, peak_wavelengths.shape, xp=xp
+        xp_as_float_array(half_spectral_widths, xp=xp, like=peak_wavelengths),
+        peak_wavelengths.shape,
+        xp=xp,
     )
     if peak_power_ratios is None:
-        peak_power_ratios = ones(peak_wavelengths.shape)
+        peak_power_ratios = xp.ones_like(peak_wavelengths)
     else:
-        peak_power_ratios = xp_resize(peak_power_ratios, peak_wavelengths.shape, xp=xp)
+        peak_power_ratios = xp_resize(
+            xp_as_float_array(peak_power_ratios, xp=xp, like=peak_wavelengths),
+            peak_wavelengths.shape,
+            xp=xp,
+        )
 
     sd = sd_zeros(shape)
     # The accumulator is seeded in the input namespace so a backend

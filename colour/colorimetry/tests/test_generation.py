@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import typing
 
 if typing.TYPE_CHECKING:
@@ -185,7 +186,7 @@ class TestSdGaussianNormal:
     definition unit tests methods.
     """
 
-    def test_sd_gaussian_normal(self) -> None:
+    def test_sd_gaussian_normal(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.generation.sd_gaussian_normal`
         definition.
@@ -199,6 +200,13 @@ class TestSdGaussianNormal:
 
         xp_assert_close(sd[580], 0.606530659712633, atol=TOLERANCE_ABSOLUTE_TESTS)
 
+        sd_native = sd_gaussian_normal(555.0, xp_as_array(25.0, xp=xp))
+        xp_assert_close(sd_native.values, sd.values, atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert (
+            type(sd_native.values).__module__.split(".")[0]
+            == type(xp_as_array([1.0], xp=xp)).__module__.split(".")[0]
+        )
+
 
 class TestSdGaussianFwhm:
     """
@@ -206,7 +214,7 @@ class TestSdGaussianFwhm:
     unit tests methods.
     """
 
-    def test_sd_gaussian_fwhm(self) -> None:
+    def test_sd_gaussian_fwhm(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.generation.sd_gaussian_fwhm` definition.
         """
@@ -220,6 +228,13 @@ class TestSdGaussianFwhm:
         xp_assert_close(sd[580], 0.062499999999999, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         xp_assert_close(sd[555 - 25 / 2], 0.5, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        sd_native = sd_gaussian_fwhm(555.0, xp_as_array(25.0, xp=xp))
+        xp_assert_close(sd_native.values, sd.values, atol=TOLERANCE_ABSOLUTE_TESTS)
+        assert (
+            type(sd_native.values).__module__.split(".")[0]
+            == type(xp_as_array([1.0], xp=xp)).__module__.split(".")[0]
+        )
 
 
 class TestSdGaussianSuperClamped:
@@ -350,6 +365,23 @@ class TestSdMultiLedsOhno2005:
         xp_assert_close(sd[570], 0.058539618824187, atol=TOLERANCE_ABSOLUTE_TESTS)
 
         xp_assert_close(sd[640], 0.070140708922879, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        host = [
+            np.array([457.0, 530.0, 615.0]),
+            np.array([20.0, 30.0, 20.0]),
+            np.array([0.731, 1.0, 1.660]),
+        ]
+        expected = sd_multi_leds_Ohno2005(host[0], host[1], host[2]).values
+        for i in range(3):
+            native = xp_as_array(host[i], xp=xp)
+            mixed = list(host)
+            mixed[i] = native
+            with (
+                contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu")
+            ):
+                result = sd_multi_leds_Ohno2005(mixed[0], mixed[1], mixed[2]).values
+            xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            assert getattr(result, "device", None) == getattr(native, "device", None)
 
 
 class TestSdMultiLeds:

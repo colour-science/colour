@@ -299,7 +299,7 @@ class SpectralShape:
     def boundaries(self, value: ArrayLike) -> None:
         """Setter for the **self.boundaries** property."""
 
-        value = as_float_array(value)
+        value = as_ndarray(as_float_array(value))
 
         attest(
             value.size == 2,
@@ -2897,7 +2897,7 @@ class MultiSpectralDistributions(MultiSignals):
         xp = array_namespace(self.values)
 
         with sdiv_mode():
-            self *= sdiv(1, xp.max(self.values, axis=0)) * factor
+            self *= sdiv(1, xp.max(self.values, axis=0))[None, :] * factor
 
         return self
 

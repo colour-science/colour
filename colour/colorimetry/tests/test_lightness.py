@@ -234,6 +234,16 @@ intermediate_lightness_function_CIE1976` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        xp_assert_close(
+            intermediate_lightness_function_CIE1976(
+                [2.0, 3.0], xp_as_array([100.0, 100.0], xp=xp)
+            ),
+            intermediate_lightness_function_CIE1976(
+                xp_as_array([2.0, 3.0], xp=xp), 100.0
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_intermediate_lightness_function_CIE1976(
         self, xp: ModuleType
     ) -> None:

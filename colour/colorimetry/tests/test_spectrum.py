@@ -25,9 +25,11 @@ from colour.colorimetry.spectrum import (
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     is_caching_enabled,
     tstack,
+    xp_as_array,
     xp_assert_close,
     xp_assert_equal,
 )
@@ -1343,7 +1345,7 @@ class TestSpectralShape:
 
         assert SpectralShape(360, 830, 1).interval == 1
 
-    def test_boundaries(self) -> None:
+    def test_boundaries(self, xp: ModuleType) -> None:
         """
         Test :attr:`colour.colorimetry.spectrum.SpectralShape.boundaries`
         property.
@@ -1354,6 +1356,10 @@ class TestSpectralShape:
 
         assert shape.start == 360
         assert shape.end == 830
+
+        shape = SpectralShape(400, 700, 10)
+        shape.boundaries = xp_as_array([410.0, 690.0], xp=xp)
+        assert shape.boundaries == (410.0, 690.0)
 
     def test_wavelengths(self) -> None:
         """
@@ -2017,6 +2023,16 @@ MultiSpectralDistributions.trim` method.
         xp_assert_close(
             self._sample_msds.copy(xp=xp).normalise(100).values,
             tstack([DATA_SAMPLE_NORMALISED] * 3),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        values = xp_as_array(
+            [[1.0, 4.0, 2.0], [2.0, 8.0, 4.0], [4.0, 16.0, 8.0]], xp=xp
+        )
+        msds = MultiSpectralDistributions(values, [400, 500, 600]).normalise()
+        xp_assert_close(
+            array_namespace(msds.values).max(msds.values, axis=0),
+            [1.0, 1.0, 1.0],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
