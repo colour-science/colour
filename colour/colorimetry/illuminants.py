@@ -48,6 +48,7 @@ from colour.utilities import (
     as_float,
     as_float_array,
     as_ndarray,
+    is_gradient_tracked,
     xp_as_float_array,
     xp_round,
 )
@@ -496,7 +497,15 @@ def msds_CIE_illuminant_D_series(
 
     xy = as_float_array(xy)
 
-    xy_labels = as_ndarray(xy)
+    # Physical labels are metadata, and cannot be materialised from JAX
+    # tracers. Let the constructor supply static labels while tracing.
+    labels = None
+    if not (array_namespace(xy).__name__ == "jax.numpy" and is_gradient_tracked(xy)):
+        xy_labels = as_ndarray(xy)
+        labels = [
+            f"CIE xy ({xy_labels[i, 0]}, {xy_labels[i, 1]}) - CIE Illuminant D Series"
+            for i in range(xy_labels.shape[0])
+        ]
 
     # The multi-spectral distributions are built at the basis resolution and
     # ``shape`` is applied below via ``align`` rather than the kernel's
@@ -505,10 +514,7 @@ def msds_CIE_illuminant_D_series(
     msds = MultiSpectralDistributions(
         CIE_illuminant_D_series(xy, M1_M2_rounding),
         SDS_BASIS_FUNCTIONS_CIE_ILLUMINANT_D_SERIES["S0"].wavelengths,
-        labels=[
-            f"CIE xy ({xy_labels[i, 0]}, {xy_labels[i, 1]}) - CIE Illuminant D Series"
-            for i in range(xy_labels.shape[0])
-        ],
+        labels=labels,
         interpolator=LinearInterpolator,
     )
 

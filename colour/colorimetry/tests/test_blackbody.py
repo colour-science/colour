@@ -27,6 +27,7 @@ if typing.TYPE_CHECKING:
     from colour.hints import ModuleType, NDArrayFloat
 
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     ignore_numpy_errors,
     xp_as_array,
@@ -1444,7 +1445,9 @@ class TestMsdsBlackbody:
     unit tests methods.
     """
 
-    def test_msds_blackbody(self) -> None:
+    def test_msds_blackbody(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.colorimetry.blackbody.msds_blackbody` definition.
         """
@@ -1458,6 +1461,25 @@ class TestMsdsBlackbody:
                 msds.values[:, i],
                 sd_blackbody(T, SpectralShape(360, 830, 1)).values,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
+        native = xp_as_array(temperatures, xp=xp)
+        shape = SpectralShape(400, 700, 10)
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            result = msds_blackbody(native, shape)
+        assert result.labels == msds.labels
+        assert array_namespace(result.values) is array_namespace(native)
+        assert getattr(result.values, "device", None) == getattr(native, "device", None)
+        xp_assert_close(
+            result.values,
+            planck_law(shape.wavelengths * 1e-9, native) * 1e-9,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(
+                lambda values: msds_blackbody(values, shape).values / 10000,
+                temperatures,
             )
 
 
@@ -1579,7 +1601,9 @@ class TestMsdsRayleighJeans:
     definition unit tests methods.
     """
 
-    def test_msds_rayleigh_jeans(self) -> None:
+    def test_msds_rayleigh_jeans(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.colorimetry.blackbody.msds_rayleigh_jeans`
         definition.
@@ -1594,4 +1618,23 @@ class TestMsdsRayleighJeans:
                 msds.values[:, i],
                 sd_rayleigh_jeans(T, SpectralShape(360, 830, 1)).values,
                 atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
+        native = xp_as_array(temperatures, xp=xp)
+        shape = SpectralShape(400, 700, 10)
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            result = msds_rayleigh_jeans(native, shape)
+        assert result.labels == msds.labels
+        assert array_namespace(result.values) is array_namespace(native)
+        assert getattr(result.values, "device", None) == getattr(native, "device", None)
+        xp_assert_close(
+            result.values,
+            rayleigh_jeans_law(shape.wavelengths * 1e-9, native) * 1e-9,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(
+                lambda values: msds_rayleigh_jeans(values, shape).values / 1000000,
+                temperatures,
             )
