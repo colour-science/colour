@@ -657,7 +657,11 @@ def scattering_cross_section(
 
     wavelength_micrometers = wavelength * 10e3
 
-    N_s = molecular_density(temperature, avogadro_constant)
+    # Compute the density in units of 2**64 molecules/cm^3 directly: scaling
+    # an already computed N_s would still send reverse-mode cotangents through
+    # its ~2.5e19 magnitude, where float32 derivatives can underflow.
+    N_s_scaled = molecular_density(temperature, avogadro_constant * 2**-64)
+    wavelength_scaled = wavelength * 2**14
     n_s = n_s_function(wavelength_micrometers)
     F_air = F_air_function(
         **filter_kwargs(
@@ -673,19 +677,17 @@ def scattering_cross_section(
     #             ----------------------------- * F(air)
     #             wavelength^4 * N_s^2 * (n_s^2 + 2)^2
     #
-    # ``N_s`` is Avogadro-scale (~2.5e19) so ``N_s ** 2 ~ 6.3e38`` overflows
-    # the ~3.4e38 float32 normal range; the algebraically equivalent
-    # ``/ N_s / N_s`` keeps every intermediate within float32 (largest
-    # ~3e12, smallest ~4e-27) and so dispatches cleanly across every
-    # *Array API* backend including *PyTorch MPS*.
+    # With lambda' = lambda * 2**14 and N_s' = N_s * 2**-64, the denominator
+    # lambda**4 * N_s**2 = lambda'**4 * N_s'**2 * 2**72. Both scaled variables
+    # are order unity for visible wavelengths and atmospheric temperatures.
+    # The exact binary prefactor keeps variable squares and divisors modest
+    # in both forward and backward arithmetic, including on *PyTorch MPS*.
     return (
-        24
+        (24 * 2**-72)
         * xp.pi**3
         * (n_s**2 - 1) ** 2
         * F_air
-        / (wavelength**4 * (n_s**2 + 2) ** 2)
-        / N_s
-        / N_s
+        / (wavelength_scaled**4 * N_s_scaled**2 * (n_s**2 + 2) ** 2)
     )
 
 

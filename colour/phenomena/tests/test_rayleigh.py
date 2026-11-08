@@ -6,11 +6,17 @@ import typing
 from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
+    import pytest
+
     from colour.hints import ModuleType
 
 import numpy as np
 
-from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.constants import (
+    CONSTANT_AVOGADRO,
+    DTYPE_FLOAT_DEFAULT,
+    TOLERANCE_ABSOLUTE_TESTS,
+)
 from colour.phenomena import (
     rayleigh_optical_depth,
     scattering_cross_section,
@@ -33,7 +39,9 @@ from colour.phenomena.rayleigh import (
 )
 from colour.utilities import (
     ignore_numpy_errors,
+    set_default_float_dtype,
     xp_as_array,
+    xp_as_float_array,
     xp_assert_close,
     xp_reshape,
 )
@@ -1417,7 +1425,9 @@ class TestScatteringCrossSection:
     definition unit tests methods.
     """
 
-    def test_scattering_cross_section(self, xp: ModuleType) -> None:
+    def test_scattering_cross_section(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.scattering_cross_section`
         definition.
@@ -1496,6 +1506,62 @@ class TestScatteringCrossSection:
             if hasattr(native, "device"):
                 assert result.device == native.device
 
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            dtype_original = DTYPE_FLOAT_DEFAULT
+            try:
+                for dtype in dict.fromkeys((dtype_original, np.float32)):
+                    set_default_float_dtype(dtype)
+
+                    def function(parameters: typing.Any) -> typing.Any:
+                        """Use dimensionless parameters and a scaled cross-section."""
+
+                        with (
+                            xp.device("cpu")
+                            if xp.__name__ == "torch"
+                            else nullcontext()
+                        ):
+                            scales = xp_as_float_array(
+                                [5.55e-5, 300.0, 288.15, CONSTANT_AVOGADRO],
+                                xp=xp,
+                                like=parameters,
+                            )
+                            return (
+                                scattering_cross_section(*(parameters * scales))
+                                * 2.0**84
+                            )
+
+                    value, (gradient,), (parameters,) = autodiff(function, [1.0] * 4)
+                    assert parameters.dtype == getattr(xp, np.dtype(dtype).name)
+                    assert xp.all(gradient != 0)
+                    # sigma is proportional to T**2 / N_A**2. Compare the
+                    # dimensionless sensitivities so tiny raw derivatives
+                    # cannot pass on an absolute tolerance alone.
+                    xp_assert_close(
+                        gradient[2] * parameters[2],
+                        2 * value,
+                        atol=TOLERANCE_ABSOLUTE_TESTS,
+                    )
+                    xp_assert_close(
+                        gradient[3] * parameters[3],
+                        -2 * value,
+                        atol=TOLERANCE_ABSOLUTE_TESTS,
+                    )
+
+                    value, (gradient,), (temperature,) = autodiff(
+                        lambda temperature: scattering_cross_section(
+                            5.55e-5, temperature=temperature
+                        ),
+                        288.15,
+                    )
+                    xp_assert_close(
+                        gradient * temperature * 2.0**84,
+                        2 * value * 2.0**84,
+                        atol=TOLERANCE_ABSOLUTE_TESTS,
+                    )
+            finally:
+                set_default_float_dtype(dtype_original)
+
     def test_n_dimensional_scattering_cross_section(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.scattering_cross_section`
@@ -1537,7 +1603,9 @@ class TestRayleighOpticalDepth:
     definition unit tests methods.
     """
 
-    def test_rayleigh_optical_depth(self, xp: ModuleType) -> None:
+    def test_rayleigh_optical_depth(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.phenomena.rayleigh.rayleigh_optical_depth`
         definition.
@@ -1655,6 +1723,52 @@ class TestRayleighOpticalDepth:
             xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
             if hasattr(native, "device"):
                 assert result.device == native.device
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            dtype_original = DTYPE_FLOAT_DEFAULT
+            try:
+                for dtype in dict.fromkeys((dtype_original, np.float32)):
+                    set_default_float_dtype(dtype)
+
+                    def function(parameters: typing.Any) -> typing.Any:
+                        """Use dimensionless parameters and optical depth."""
+
+                        with (
+                            xp.device("cpu")
+                            if xp.__name__ == "torch"
+                            else nullcontext()
+                        ):
+                            scales = xp_as_float_array(
+                                [5.55e-5, 300.0, 288.15, CONSTANT_AVOGADRO],
+                                xp=xp,
+                                like=parameters,
+                            )
+                            wavelength, CO2, temperature, avogadro = parameters * scales
+                            return rayleigh_optical_depth(
+                                wavelength,
+                                CO2,
+                                temperature,
+                                avogadro_constant=avogadro,
+                            )
+
+                    value, (gradient,), (parameters,) = autodiff(function, [1.0] * 4)
+                    assert parameters.dtype == getattr(xp, np.dtype(dtype).name)
+                    assert xp.all(gradient != 0)
+                    # Optical depth is proportional to T**2 / N_A: its
+                    # column density contributes one Avogadro factor.
+                    xp_assert_close(
+                        gradient[2] * parameters[2],
+                        2 * value,
+                        atol=TOLERANCE_ABSOLUTE_TESTS,
+                    )
+                    xp_assert_close(
+                        gradient[3] * parameters[3],
+                        -value,
+                        atol=TOLERANCE_ABSOLUTE_TESTS,
+                    )
+            finally:
+                set_default_float_dtype(dtype_original)
 
     def test_n_dimensional_rayleigh_optical_depth(self, xp: ModuleType) -> None:
         """
