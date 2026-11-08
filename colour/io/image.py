@@ -456,6 +456,11 @@ def read_image_OpenImageIO(
     bit_depth_specification = MAPPING_BIT_DEPTH[bit_depth]
 
     image_input = ImageInput.open(path)
+
+    if image_input is None:
+        message = f'Unable to open image "{path}"!'
+        raise OSError(message)
+
     image_specification = image_input.spec()
 
     shape = (
@@ -733,6 +738,7 @@ def write_image_OpenImageIO(
     """
 
     from OpenImageIO import ImageOutput  # noqa: PLC0415
+    from OpenImageIO import ImageSpec as ImageSpec_OpenImageIO  # noqa: PLC0415
 
     image = as_float_array(image)
     path = str(path)
@@ -758,18 +764,22 @@ def write_image_OpenImageIO(
     else:
         height, width, channels = image.shape
 
-    image_specification = image_specification_OpenImageIO(
-        width, height, channels, bit_depth, attributes
+    image_specification = cast(
+        "ImageSpec_OpenImageIO",
+        image_specification_OpenImageIO(width, height, channels, bit_depth, attributes),
     )
 
     image_output = ImageOutput.create(path)
+    if image_output is None:
+        return False
 
-    image_output.open(path, image_specification)  # pyright: ignore
-    success = image_output.write_image(image)
+    try:
+        if not image_output.open(path, image_specification):
+            return False
 
-    image_output.close()
-
-    return success
+        return image_output.write_image(image)
+    finally:
+        image_output.close()
 
 
 @required("Imageio")

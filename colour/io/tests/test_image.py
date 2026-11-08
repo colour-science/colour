@@ -125,7 +125,7 @@ class TestConvertBitDepth:
                 0.8900,
                 1.0000,
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 5000,  # *float16* mantissa precision.
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0005),  # *float16* mantissa precision.
         )
 
         assert convert_bit_depth(a, "float32").dtype is np.dtype("float32")
@@ -177,7 +177,7 @@ class TestConvertBitDepth:
                 1.0000,
             ],
             # Coarse *float16* quantisation across this batch.
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500000,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.05),
         )
 
         assert convert_bit_depth(a, "float32").dtype is np.dtype("float32")
@@ -244,7 +244,7 @@ class TestConvertBitDepth:
                 0.8887,
                 1.0000,
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 5000,  # *float16* mantissa precision.
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 0.0005),  # *float16* mantissa precision.
         )
 
         assert convert_bit_depth(a, "float32").dtype is np.dtype("float32")

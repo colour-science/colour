@@ -376,6 +376,11 @@ class Specification_Fichet2021:
         )
 
         image_input = ImageInput.open(path)
+
+        if image_input is None:
+            message = f'Unable to open spectral image "{path}"!'
+            raise OSError(message)
+
         image_specification = image_input.spec()
         channels = image_specification.channelnames
 
@@ -530,6 +535,10 @@ def read_spectral_image_Fichet2021(
 
     specification = Specification_Fichet2021.from_spectral_image(path)
     image_input = ImageInput.open(path)
+    if image_input is None:
+        message = f'Unable to open spectral image "{path}"!'
+        raise OSError(message)
+
     image = image_input.read_image(bit_depth_specification.openimageio)
     image_input.close()
 
@@ -880,7 +889,7 @@ def write_spectral_image_Fichet2021(
     for channel_name, channel_data in channels.items():
         channel_buffer = ImageBuf(channel_data.astype(bit_depth_specification.numpy))
         channel_specification = channel_buffer.specmod()
-        channel_specification.channelnames = [channel_name]  # pyright: ignore
+        channel_specification.channelnames = [channel_name]
         image_buffer = (
             ImageBufAlgo.channel_append(image_buffer, channel_buffer)
             if image_buffer.initialized
