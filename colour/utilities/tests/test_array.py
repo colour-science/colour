@@ -584,6 +584,91 @@ class TestXpAsArray:
 
         if xp.__name__ == "jax.numpy":
             jax = importlib.import_module("jax")
+            from colour.algebra import euclidean_distance, vecmul  # noqa: PLC0415
+
+            xp_assert_equal(
+                xp_as_array([3.0, 4.0], xp=xp, like=np.array([1.0, 2.0])),
+                [3.0, 4.0],
+            )
+            for device in jax.devices():
+                for dtype in (np.float32, np.float64):
+                    reference = jax.device_put(
+                        xp.asarray([1.0, 2.0], dtype=dtype), device
+                    )
+                    for copy in (None, True):
+                        for host in (3.0, [3.0, 4.0], np.array([3.0, 4.0])):
+                            promoted = xp_as_array(
+                                host, xp=xp, like=reference, dtype=dtype, copy=copy
+                            )
+                            repeated = xp_as_array(
+                                host, xp=xp, like=reference, dtype=dtype, copy=copy
+                            )
+                            xp_assert_equal(promoted, host)
+                            assert promoted.dtype == repeated.dtype == reference.dtype
+                            assert promoted.device == repeated.device == device
+                            assert promoted is not repeated
+
+                        def objective(
+                            values: Any,
+                            reference: Any = reference,
+                            dtype: Any = dtype,
+                            copy: bool | None = copy,
+                        ) -> Any:
+                            coefficients = xp_as_array(
+                                [3.0, 4.0],
+                                xp=xp,
+                                like=reference,
+                                dtype=dtype,
+                                copy=copy,
+                            )
+                            converted = xp_as_array(
+                                values,
+                                xp=xp,
+                                like=reference,
+                                dtype=dtype,
+                                copy=copy,
+                            )
+                            return xp.sum(coefficients * converted**2)
+
+                        primal = objective(reference)
+                        xp_assert_equal(primal, 19.0)
+                        assert primal.device == device
+                        for differentiate in (jax.jacfwd, jax.jacrev):
+                            gradient = differentiate(objective)(reference)
+                            xp_assert_equal(gradient, [6.0, 16.0])
+                            assert gradient.dtype == reference.dtype
+                            assert gradient.device == device
+
+                product = vecmul(np.eye(2), reference)
+                distance = euclidean_distance(np.array([2.0, 4.0]), reference)
+                xp_assert_equal(product, [1.0, 2.0])
+                xp_assert_close(distance, np.sqrt(5.0))
+                assert product.dtype == distance.dtype == reference.dtype
+                assert product.device == distance.device == device
+                matrix = xp_as_array(np.eye(2), xp=xp, like=reference)
+                points = xp_as_array([2.0, 4.0], xp=xp, like=reference)
+                for function, value, derivative in (
+                    (
+                        lambda values, matrix=matrix: xp.sum(vecmul(matrix, values**2)),
+                        5.0,
+                        [2.0, 4.0],
+                    ),
+                    (
+                        lambda values, points=points: euclidean_distance(
+                            points, values**2
+                        ),
+                        1.0,
+                        [-2.0, 0.0],
+                    ),
+                ):
+                    primal = function(reference)
+                    xp_assert_equal(primal, value)
+                    assert primal.device == device
+                    for differentiate in (jax.jacfwd, jax.jacrev):
+                        gradient = differentiate(function)(reference)
+                        xp_assert_equal(gradient, derivative)
+                        assert gradient.dtype == reference.dtype
+                        assert gradient.device == device
 
             for copy in (None, True):
                 convert = partial(
