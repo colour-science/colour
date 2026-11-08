@@ -29,6 +29,7 @@ if typing.TYPE_CHECKING:
 from colour.utilities import (
     array_namespace,
     from_range_100,
+    is_non_ndarray,
     ones,
     to_domain_100,
     xp_as_float_array,
@@ -130,8 +131,13 @@ def chromatic_adaptation_Li2025(
 
     xp = array_namespace(XYZ_s, XYZ_ws, XYZ_wd, L_A, F_surround)
 
-    XYZ_s = xp_as_float_array(XYZ_s, xp=xp, like=XYZ_ws)
-    XYZ_wd = xp_as_float_array(XYZ_wd, xp=xp, like=XYZ_ws)
+    reference = next(
+        (a for a in (XYZ_s, XYZ_ws, XYZ_wd, L_A, F_surround) if is_non_ndarray(a)), None
+    )
+    XYZ_s = xp_as_float_array(XYZ_s, xp=xp, like=reference)
+
+    XYZ_ws = xp_as_float_array(XYZ_ws, xp=xp, like=XYZ_s)
+    XYZ_wd = xp_as_float_array(XYZ_wd, xp=xp, like=XYZ_s)
 
     L_A = xp_as_float_array(L_A, xp=xp, like=XYZ_s)
     F_surround = xp_as_float_array(F_surround, xp=xp, like=XYZ_s)

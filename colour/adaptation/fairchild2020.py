@@ -42,6 +42,7 @@ from colour.utilities import (
     as_float_array,
     from_range_1,
     get_domain_range_scale,
+    is_non_ndarray,
     optional,
     row_as_diagonal,
     to_domain_1,
@@ -218,6 +219,10 @@ def matrix_chromatic_adaptation_vk20(
 
     xp = array_namespace(XYZ_n, XYZ_r, XYZ_p)
 
+    reference = next((a for a in (XYZ_n, XYZ_r, XYZ_p) if is_non_ndarray(a)), None)
+    XYZ_n = xp_as_float_array(XYZ_n, xp=xp, like=reference)
+    XYZ_p = xp_as_float_array(XYZ_p, xp=xp, like=XYZ_n)
+
     XYZ_r = xp_as_float_array(XYZ_r, xp=xp, like=XYZ_n)
 
     transform = validate_method(
@@ -352,6 +357,11 @@ def chromatic_adaptation_vK20(
 
     xp = array_namespace(XYZ, XYZ_p, XYZ_n, XYZ_r)
 
+    reference = next((a for a in (XYZ, XYZ_p, XYZ_n, XYZ_r) if is_non_ndarray(a)), None)
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+
+    XYZ_p = xp_as_float_array(XYZ_p, xp=xp, like=XYZ)
+    XYZ_n = xp_as_float_array(XYZ_n, xp=xp, like=XYZ)
     XYZ_r = xp_as_float_array(XYZ_r, xp=xp, like=XYZ)
 
     M_CAT = matrix_chromatic_adaptation_vk20(

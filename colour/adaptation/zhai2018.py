@@ -33,6 +33,7 @@ from colour.utilities import (
     array_namespace,
     from_range_100,
     get_domain_range_scale,
+    is_non_ndarray,
     optional,
     to_domain_100,
     validate_method,
@@ -164,6 +165,12 @@ def chromatic_adaptation_Zhai2018(
     )
 
     xp = array_namespace(XYZ_b, XYZ_wb, XYZ_wd, XYZ_wo, D_b, D_d)
+
+    reference = next(
+        (a for a in (XYZ_b, XYZ_wb, XYZ_wd, XYZ_wo, D_b, D_d) if is_non_ndarray(a)),
+        None,
+    )
+    XYZ_b = xp_as_float_array(XYZ_b, xp=xp, like=reference)
 
     XYZ_wb = xp_as_float_array(XYZ_wb, xp=xp, like=XYZ_b)
     XYZ_wd = xp_as_float_array(XYZ_wd, xp=xp, like=XYZ_b)

@@ -85,6 +85,21 @@ class TestChromaticAdaptationCIE1994:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        xp_assert_close(
+            chromatic_adaptation_CIE1994(
+                xp_as_array([19.01, 20.0, 21.78], xp=xp),
+                [0.3127, 0.329],
+                [0.3457, 0.3585],
+                20,
+                1000,
+                1000,
+            ),
+            chromatic_adaptation_CIE1994(
+                [19.01, 20.0, 21.78], [0.3127, 0.329], [0.3457, 0.3585], 20, 1000, 1000
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_chromatic_adaptation_CIE1994(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`

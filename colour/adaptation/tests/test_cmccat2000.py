@@ -375,3 +375,21 @@ chromatic_adaptation_CMCCAT2000` wrapper definition.
             xp_as_array([0.14222010, 0.23042768, 0.10495772], xp=xp) * 100,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        xp_assert_close(
+            chromatic_adaptation_CMCCAT2000(
+                xp_as_array([19.01, 20.0, 21.78], xp=xp),
+                [95.05, 100.0, 108.88],
+                [109.85, 100.0, 35.585],
+                200,
+                200,
+            ),
+            chromatic_adaptation_CMCCAT2000(
+                [19.01, 20.0, 21.78],
+                [95.05, 100.0, 108.88],
+                [109.85, 100.0, 35.585],
+                200,
+                200,
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )

@@ -45,6 +45,7 @@ from colour.utilities import (
     MixinDataclassIterable,
     array_namespace,
     from_range_100,
+    is_non_ndarray,
     to_domain_100,
     validate_method,
     xp_as_float_array,
@@ -197,6 +198,14 @@ def chromatic_adaptation_forward_CMCCAT2000(
 
     xp = array_namespace(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
 
+    reference = next(
+        (a for a in (XYZ, XYZ_w, XYZ_wr, L_A1, L_A2) if is_non_ndarray(a)),
+        None,
+    )
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+    XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=XYZ)
+    XYZ_wr = xp_as_float_array(XYZ_wr, xp=xp, like=XYZ)
+
     L_A1 = xp_as_float_array(L_A1, xp=xp, like=XYZ)
     L_A2 = xp_as_float_array(L_A2, xp=xp, like=XYZ)
 
@@ -294,6 +303,14 @@ def chromatic_adaptation_inverse_CMCCAT2000(
     XYZ_wr = to_domain_100(XYZ_wr)
 
     xp = array_namespace(XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2)
+
+    reference = next(
+        (a for a in (XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2) if is_non_ndarray(a)),
+        None,
+    )
+    XYZ_c = xp_as_float_array(XYZ_c, xp=xp, like=reference)
+    XYZ_w = xp_as_float_array(XYZ_w, xp=xp, like=XYZ_c)
+    XYZ_wr = xp_as_float_array(XYZ_wr, xp=xp, like=XYZ_c)
 
     L_A1 = xp_as_float_array(L_A1, xp=xp, like=XYZ_c)
     L_A2 = xp_as_float_array(L_A2, xp=xp, like=XYZ_c)
