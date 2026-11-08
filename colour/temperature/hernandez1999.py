@@ -23,6 +23,7 @@ References
 from __future__ import annotations
 
 import typing
+from math import log
 
 from colour.algebra import sdiv, sdiv_mode
 
@@ -89,18 +90,26 @@ def xy_to_CCT_Hernandez1999(xy: ArrayLike) -> NDArrayFloat:
 
     CCT = (
         -949.86315
-        + 6253.80338 * xp.exp(-n / 0.92159)
-        + 28.70599 * xp.exp(-n / 0.20039)
-        + 0.00004 * xp.exp(-n / 0.07125)
+        + xp.exp(log(6253.80338) - n / 0.92159)
+        + xp.exp(log(28.70599) - n / 0.20039)
+        + xp.exp(log(0.00004) - n / 0.07125)
     )
 
-    n = xp.where(CCT > 50000, (x - 0.3356) / (y - 0.1691), n)
+    high_temperature = CCT > 50000
+    # Mask before division so an inactive high-temperature epicentre cannot
+    # introduce an infinite derivative into the selected low-temperature fit.
+    x_high = xp.where(high_temperature, x, 0.3356)
+    y_high = xp.where(high_temperature, y, 1.1691)
+    n_high = (x_high - 0.3356) / (y_high - 0.1691)
 
+    # Include the coefficient in the exponent: the unweighted exponential
+    # exceeds float32's range for valid high CCTs although its contribution
+    # to the result remains representable.
     CCT = xp.where(
-        CCT > 50000,
+        high_temperature,
         36284.48953
-        + 0.00228 * xp.exp(-n / 0.07861)
-        + 5.4535e-36 * xp.exp(-n / 0.01543),
+        + xp.exp(log(0.00228) - n_high / 0.07861)
+        + xp.exp(log(5.4535e-36) - n_high / 0.01543),
         CCT,
     )
 

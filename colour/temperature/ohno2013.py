@@ -38,10 +38,13 @@ from colour.utilities import (
     as_float_array,
     attest,
     is_caching_enabled,
+    is_gradient_tracked,
+    is_non_ndarray,
     optional,
     runtime_warning,
     tsplit,
     tstack,
+    xp_as_array,
     xp_as_float_array,
     xp_reshape,
 )
@@ -68,11 +71,7 @@ CCT_MINIMAL_OHNO2013: float = 1000
 CCT_MAXIMAL_OHNO2013: float = 100000
 CCT_DEFAULT_SPACING_OHNO2013: float = 1.001
 
-# Finite-difference step :math:`\\Delta T = 0.01\\ K` used by
-# :func:`CCT_to_XYZ_Ohno2013` to evaluate the *Planckian* derivative
-# numerically. The value is small enough to remain accurate at
-# ``CCT_MINIMAL_OHNO2013`` (relative error ~1e-5) and large enough not
-# to be lost to float32 round-off at ``CCT_MAXIMAL_OHNO2013``.
+# Minimum spacing for the Planckian tangent central difference.
 _FINITE_DIFFERENCE_STEP_OHNO2013: float = 0.01
 
 _CACHE_PLANCKIAN_TABLE: dict = CACHE_REGISTRY.register_cache(
@@ -131,9 +130,20 @@ def planckian_table(
            [1.01000000e+03, 4.4563515...e-01, 3.5483063...e-01]])
     """
 
-    hash_key = hash((cmfs, start, end, spacing))
-    if is_caching_enabled() and hash_key in _CACHE_PLANCKIAN_TABLE:
-        table = _CACHE_PLANCKIAN_TABLE[hash_key].copy()
+    cache = is_caching_enabled() and not is_gradient_tracked(cmfs.values)
+    hash_key = (
+        (
+            hash((cmfs, start, end, spacing)),
+            type(cmfs.values).__module__,
+            str(getattr(cmfs.values, "device", None)),
+            str(cmfs.values.dtype),
+        )
+        if cache
+        else None
+    )
+    if cache and hash_key in _CACHE_PLANCKIAN_TABLE:
+        cached = _CACHE_PLANCKIAN_TABLE[hash_key]
+        table = xp_as_array(cached, xp=array_namespace(cached), copy=True)
     else:
         attest(spacing > 1, "Spacing value must be greater than 1!")
 
@@ -151,15 +161,18 @@ def planckian_table(
             next_spacing = spacing * (1 - D) + (1 + (spacing - 1) / 10) * D
         Ti = as_float_array(Ti)
 
-        xp = array_namespace(Ti)
+        operands = (Ti, cmfs.values)
+        xp = array_namespace(*operands)
+        like = next((a for a in operands if is_non_ndarray(a)), Ti)
+        Ti = xp_as_float_array(Ti, xp=xp, like=like)
 
-        Ti = xp.concat([Ti, xp_as_float_array([end - 1, end], xp=xp)])
+        Ti = xp.concat([Ti, xp_as_float_array([end - 1, end], xp=xp, like=Ti)])
 
         table = xp.concat(
             [xp_reshape(Ti, (-1, 1), xp=xp), CCT_to_uv_Planck1900(Ti, cmfs)], axis=1
         )
-        if is_caching_enabled():
-            _CACHE_PLANCKIAN_TABLE[hash_key] = table.copy()
+        if cache:
+            _CACHE_PLANCKIAN_TABLE[hash_key] = xp_as_array(table, xp=xp, copy=True)
 
     return table
 
@@ -220,9 +233,11 @@ def uv_to_CCT_Ohno2013(
 
     uv = as_float_array(uv)
 
-    xp = array_namespace(uv)
-
     cmfs, _illuminant = handle_spectral_arguments(cmfs)
+    operands = (uv, cmfs.values)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), uv)
+    uv = xp_as_float_array(uv, xp=xp, like=like)
     start = optional(start, CCT_MINIMAL_OHNO2013)
     end = optional(end, CCT_MAXIMAL_OHNO2013)
     spacing = optional(spacing, CCT_DEFAULT_SPACING_OHNO2013)
@@ -361,16 +376,25 @@ def CCT_to_uv_Ohno2013(
     array([0.1977999..., 0.3122004...])
     """
 
-    xp = array_namespace(CCT_D_uv)
+    cmfs, _illuminant = handle_spectral_arguments(cmfs)
+    operands = (CCT_D_uv, cmfs.values)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), CCT_D_uv)
+    CCT_D_uv = xp_as_float_array(CCT_D_uv, xp=xp, like=like)
+    cmfs = cmfs.copy()
+    cmfs.values = xp_as_float_array(cmfs.values, xp=xp, like=CCT_D_uv)
 
     CCT, D_uv = tsplit(CCT_D_uv)
 
-    cmfs, _illuminant = handle_spectral_arguments(cmfs)
-
     uv_0 = CCT_to_uv_Planck1900(CCT, cmfs)
-    uv_1 = CCT_to_uv_Planck1900(CCT + _FINITE_DIFFERENCE_STEP_OHNO2013, cmfs)
+    step = xp.maximum(
+        xp.abs(CCT) * float(xp.finfo(CCT.dtype).eps) ** (1 / 3),
+        _FINITE_DIFFERENCE_STEP_OHNO2013,
+    )
+    uv_lower = CCT_to_uv_Planck1900(xp.maximum(CCT - step, CCT_MINIMAL_OHNO2013), cmfs)
+    uv_upper = CCT_to_uv_Planck1900(CCT + step, cmfs)
 
-    du, dv = tsplit(uv_0 - uv_1)
+    du, dv = tsplit(uv_lower - uv_upper)
 
     h = xp.hypot(du, dv)
 

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -12,6 +13,7 @@ from itertools import product
 import numpy as np
 import pytest
 
+from colour.colorimetry import MSDS_CMFS
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.temperature import CCT_to_uv_Planck1900, uv_to_CCT_Planck1900
 from colour.utilities import (
@@ -72,6 +74,21 @@ class TestUv_to_CCT_Planck1900:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        cmfs_native = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"].copy(xp=xp)
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            mixed_result = uv_to_CCT_Planck1900([0.2, 0.31], cmfs_native)
+        xp_assert_close(
+            mixed_result,
+            uv_to_CCT_Planck1900(
+                [0.2, 0.31], MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        if hasattr(cmfs_native.values, "device"):
+            assert mixed_result.device == cmfs_native.values.device
+
+    # Scalar and batched float32 kernels differ by a few ULPs at 4000 K.
+    @pytest.mark.mps_tolerance_absolute(0.01)
     def test_n_dimensional_uv_to_CCT_Planck1900(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.temperature.planck1900.uv_to_CCT_Planck1900`
@@ -130,6 +147,19 @@ class TestCCT_to_uv_Planck1900:
             [[0.182932683590136, 0.274073232217536]],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        cmfs_native = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"].copy(xp=xp)
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            mixed_result = CCT_to_uv_Planck1900([6500.0], cmfs_native)
+        xp_assert_close(
+            mixed_result,
+            CCT_to_uv_Planck1900(
+                [6500.0], MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        if hasattr(cmfs_native.values, "device"):
+            assert mixed_result.device == cmfs_native.values.device
 
     def test_n_dimensional_CCT_to_uv_Planck1900(self, xp: ModuleType) -> None:
         """

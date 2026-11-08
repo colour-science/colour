@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType, NDArrayFloat
@@ -11,7 +12,13 @@ import numpy as np
 import pytest
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
-from colour.temperature import solve_CCT_Newton, solve_xy_Newton, x0_CCT_grid
+from colour.temperature import (
+    CCT_to_uv_Krystek1985,
+    solve_CCT_Newton,
+    solve_xy_Newton,
+    x0_CCT_grid,
+    xy_to_CCT_McCamy1992,
+)
 from colour.utilities import (
     ColourUsageWarning,
     tstack,
@@ -194,6 +201,19 @@ class TestSolve_CCT_Newton:
                 newton_iterations=0,
             )
 
+        native_guess = xp_as_array(6500.0, xp=xp)
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            result = solve_CCT_Newton(
+                CCT_to_uv_Krystek1985, [0.2, 0.31], x0=native_guess
+            )
+        xp_assert_close(
+            result,
+            solve_CCT_Newton(CCT_to_uv_Krystek1985, [0.2, 0.31]),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        if hasattr(native_guess, "device"):
+            assert result.device == native_guess.device
+
     def test_n_dimensional_solve_CCT_Newton(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.temperature.common.solve_CCT_Newton` definition
@@ -208,6 +228,11 @@ class TestSolve_CCT_Newton:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        result = solve_CCT_Newton(
+            _forward_linear, xp_as_array(np.empty((2, 0, 2)), xp=xp)
+        )
+        assert result.shape == (2, 0)
+
 
 class TestSolve_xy_Newton:
     """
@@ -216,7 +241,9 @@ class TestSolve_xy_Newton:
     """
 
     @pytest.mark.mps_tolerance_absolute(1e-1)
-    def test_solve_xy_Newton(self, xp: ModuleType) -> None:
+    def test_solve_xy_Newton(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """
         Test :func:`colour.temperature.common.solve_xy_Newton` definition.
         """
@@ -284,6 +311,31 @@ class TestSolve_xy_Newton:
                 newton_iterations=0,
             )
 
+        for key in ("x0", "reference_xy"):
+            native_anchor = xp_as_array([0.3127, 0.329], xp=xp)
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                result = (
+                    solve_xy_Newton(xy_to_CCT_McCamy1992, 6500.0, x0=native_anchor)
+                    if key == "x0"
+                    else solve_xy_Newton(
+                        xy_to_CCT_McCamy1992, 6500.0, reference_xy=native_anchor
+                    )
+                )
+            xp_assert_close(
+                xy_to_CCT_McCamy1992(result), 6500.0, atol=TOLERANCE_ABSOLUTE_TESTS
+            )
+            if hasattr(native_anchor, "device"):
+                assert result.device == native_anchor.device
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(
+                lambda anchor: solve_xy_Newton(
+                    _forward_xy_linear, 1.0, reference_xy=anchor
+                ),
+                [0.3, 0.3],
+            )
+
     def test_n_dimensional_solve_xy_Newton(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.temperature.common.solve_xy_Newton` definition
@@ -296,3 +348,8 @@ class TestSolve_xy_Newton:
             target,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        result = solve_xy_Newton(
+            _forward_xy_linear, xp_as_array(np.empty((2, 0)), xp=xp)
+        )
+        assert result.shape == (2, 0, 2)

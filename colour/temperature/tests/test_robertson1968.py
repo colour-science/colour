@@ -276,11 +276,16 @@ class TestUv_to_CCT_Robertson1968:
         """
 
         for key, value in TEMPERATURE_DUV_TO_UV.items():
+            uv = xp_as_array(value, xp=xp)
+            CCT_D_uv = uv_to_CCT_Robertson1968(uv)
+            # Float32 uv rounding is amplified by the high-temperature inverse.
+            temperature_tolerance = 0.5 if as_ndarray(uv).dtype.itemsize == 4 else 0.25
             xp_assert_close(
-                uv_to_CCT_Robertson1968(xp_as_array(value, xp=xp)),
-                key,
-                atol=TOLERANCE_ABSOLUTE_TESTS * 2500000,
+                CCT_D_uv[0],
+                key[0],
+                atol=max(TOLERANCE_ABSOLUTE_TESTS, temperature_tolerance),
             )
+            xp_assert_close(CCT_D_uv[1], key[1], atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_n_dimensional_uv_to_CCT_Robertson1968(self, xp: ModuleType) -> None:
         """

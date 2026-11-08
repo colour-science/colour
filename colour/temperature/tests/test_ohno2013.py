@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -86,7 +87,7 @@ class TestPlanckianTable:
                 [5.99900000e03, 2.03314296e-01, 3.14125803e-01],
                 [6.00000000e03, 2.03307932e-01, 3.14117832e-01],
             ],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
 
@@ -111,7 +112,7 @@ class TestUv_to_CCT_Ohno2013:
         table_t = as_ndarray(uv_to_CCT_Ohno2013(CCT_to_uv_Ohno2013(table_r)))
 
         xp_assert_close(
-            table_t[1, :], table_r[1, :], atol=TOLERANCE_ABSOLUTE_TESTS * 10000000
+            table_t[1, :], table_r[1, :], atol=max(TOLERANCE_ABSOLUTE_TESTS, 1)
         )
 
         xp_assert_close(
@@ -191,6 +192,28 @@ class TestCCT_to_uv_Ohno2013:
             [0.29247364, 0.27215157],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        cmfs_native = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"].copy(xp=xp)
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            mixed_result = CCT_to_uv_Ohno2013([6500.0, 0.003], cmfs_native)
+        xp_assert_close(
+            mixed_result,
+            CCT_to_uv_Ohno2013(
+                [6500.0, 0.003], MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
+            ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        if hasattr(cmfs_native.values, "device"):
+            assert mixed_result.device == cmfs_native.values.device
+
+        with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+            inverse = uv_to_CCT_Ohno2013([0.2, 0.31], cmfs_native, spacing=1.05)
+        reference = uv_to_CCT_Ohno2013(
+            [0.2, 0.31], MSDS_CMFS["CIE 1931 2 Degree Standard Observer"], spacing=1.05
+        )
+        xp_assert_close(inverse, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+        if hasattr(cmfs_native.values, "device"):
+            assert inverse.device == cmfs_native.values.device
 
     def test_n_dimensional_CCT_to_uv_Ohno2013(self, xp: ModuleType) -> None:
         """
@@ -294,7 +317,7 @@ class Test_CCT_to_XYZ_Ohno2013:
         xp_assert_close(
             CCT_to_XYZ_Ohno2013(xp_as_array([6503.30711709, 0.00321729], xp=xp)),
             xp_as_array([95.04, 100.00, 108.88], xp=xp) / 100,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
     @pytest.mark.mps_tolerance_absolute(1e-2)
