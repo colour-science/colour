@@ -5,6 +5,7 @@ from __future__ import annotations
 import pickle
 import textwrap
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
@@ -23,6 +24,7 @@ from colour.constants import DTYPE_FLOAT_DEFAULT, TOLERANCE_ABSOLUTE_TESTS
 from colour.continuous import MultiSignals, Signal
 from colour.utilities import (
     ColourRuntimeWarning,
+    array_api_enable,
     as_ndarray,
     attest,
     is_pandas_installed,
@@ -208,6 +210,40 @@ class TestMultiSignals:
             * 10,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        reference = xp_as_array(self._range_2, xp=xp)
+        for enabled in (False, True) if xp.__name__ == "numpy" else (True,):
+            with (
+                array_api_enable(enabled),
+                xp.device("cpu") if xp.__name__ == "torch" else nullcontext(),
+            ):
+                for raw in (2.0, self._range_1, self._range_1[:, None]):
+                    source = xp_as_array(
+                        raw, dtype=DTYPE_FLOAT_DEFAULT, xp=xp, like=reference
+                    )
+                    original = xp_as_array(source, xp=xp, copy=True)
+                    multi_signals.range = source
+                    result = multi_signals.range
+                    assert result.dtype == source.dtype
+                    assert getattr(result, "device", None) == getattr(
+                        source, "device", None
+                    )
+                    expected = np.broadcast_to(
+                        np.asarray(raw)[..., None] if np.ndim(raw) == 1 else raw,
+                        self._range_2.shape,
+                    ).copy()
+                    xp_assert_equal(result, expected)
+
+                    multi_signals[:2] = 7
+                    expected[:2] = 7
+                    xp_assert_equal(multi_signals.range, expected)
+                    multi_signals += 1
+                    expected += 1
+                    xp_assert_equal(multi_signals.range, expected)
+                    multi_signals += xp_as_array([[1, 2, 4]], xp=xp)
+                    expected += [1, 2, 4]
+                    xp_assert_equal(multi_signals.range, expected)
+                    xp_assert_equal(source, original)
 
     def test_interpolator(self, xp: ModuleType) -> None:
         """
@@ -1169,6 +1205,17 @@ domain_distance` method.
             ).range
 
         autodiff(operation, xp_as_array([[1.0, 2.0], [2.0, 3.0], [3.0, 4.0]], xp=xp))
+
+        def broadcast(values: typing.Any) -> typing.Any:
+            signals = MultiSignals([[0.0, 0.0]] * 3, [0, 1, 2])
+            signals.range = values
+            return signals.range
+
+        for raw in (2.0, [1.0, 2.0, 3.0], [[1.0], [2.0], [3.0]]):
+            _, (gradient,), (values,) = autodiff(broadcast, xp_as_array(raw, xp=xp))
+            xp_assert_equal(
+                gradient, xp.full_like(values, 6 if values.ndim == 0 else 2)
+            )
 
     def test_multi_signals_unpack_data_backend(self, xp: ModuleType) -> None:
         """Test round-tripping the unpacked representation with native axes."""
