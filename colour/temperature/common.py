@@ -28,6 +28,7 @@ if typing.TYPE_CHECKING:
 from colour.hints import cast
 from colour.utilities import (
     array_namespace,
+    as_float,
     as_float_array,
     is_gradient_tracked,
     is_non_ndarray,
@@ -465,7 +466,7 @@ def solve_CCT_Newton(
     if converged:
         CCT, _stationary = _stationary_CCT(forward, target, CCT, tolerance)
 
-    return xp.where(initial_stationary, initial_CCT, CCT)
+    return as_float(xp.where(initial_stationary, initial_CCT, CCT))
 
 
 def solve_xy_Newton(
