@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
+    import pytest
     from colour.hints import ModuleType
 
 from itertools import product
@@ -14,6 +15,7 @@ import numpy as np
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import UVW_to_XYZ, XYZ_to_UVW
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
@@ -41,7 +43,7 @@ class TestXYZ_to_UVW:
     methods.
     """
 
-    def test_XYZ_to_UVW(self, xp: ModuleType) -> None:
+    def test_XYZ_to_UVW(self, xp: ModuleType, request: pytest.FixtureRequest) -> None:
         """Test :func:`colour.models.cie_uvw.XYZ_to_UVW` definition."""
 
         xp_assert_close(
@@ -88,6 +90,29 @@ class TestXYZ_to_UVW:
             [88.56798946, 4.61154385, 40.54757405],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "XYZ": [20.654, 12.197, 5.137],
+            "illuminant": [0.3127, 0.329],
+        }
+        expected = XYZ_to_UVW(**host_arguments)
+        for parameter in ("illuminant",):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = XYZ_to_UVW(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: XYZ_to_UVW(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_XYZ_to_UVW(self, xp: ModuleType) -> None:
         """
@@ -145,7 +170,7 @@ class TestUVW_to_XYZ:
     methods.
     """
 
-    def test_UVW_to_XYZ(self, xp: ModuleType) -> None:
+    def test_UVW_to_XYZ(self, xp: ModuleType, request: pytest.FixtureRequest) -> None:
         """Test :func:`colour.models.cie_uvw.UVW_to_XYZ` definition."""
 
         xp_assert_close(
@@ -192,6 +217,29 @@ class TestUVW_to_XYZ:
             xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp) * 100,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A native secondary operand must retain its backend, device and graph
+        # while every other operand remains a host array.
+        host_arguments: dict[str, typing.Any] = {
+            "UVW": [94.55, 11.55, 40.54],
+            "illuminant": [0.3127, 0.329],
+        }
+        expected = UVW_to_XYZ(**host_arguments)
+        for parameter in ("illuminant",):
+            native = xp_as_array(host_arguments[parameter], xp=xp)
+            arguments = {**host_arguments, parameter: native}
+            actual = UVW_to_XYZ(**arguments)
+            assert array_namespace(actual) is array_namespace(native)
+            assert getattr(actual, "device", None) == getattr(native, "device", None)
+            xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+            if xp.__name__ != "numpy":
+                autodiff = request.getfixturevalue("autodiff")
+                autodiff(
+                    lambda value, parameter=parameter: UVW_to_XYZ(
+                        **{**host_arguments, parameter: value}
+                    ),
+                    native,
+                )
 
     def test_n_dimensional_UVW_to_XYZ(self, xp: ModuleType) -> None:
         """

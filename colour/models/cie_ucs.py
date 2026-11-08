@@ -34,6 +34,7 @@ from colour.hints import (  # noqa: TC001
 from colour.utilities import (
     array_namespace,
     from_range_1,
+    is_non_ndarray,
     to_domain_1,
     tsplit,
     tstack,
@@ -247,6 +248,8 @@ def uv_to_UCS(uv: ArrayLike, V: Domain1 = 1) -> Range1:
     V = to_domain_1(V)
 
     xp = array_namespace(uv, V)
+    reference = uv if is_non_ndarray(uv) else V
+    uv = xp_as_float_array(uv, xp=xp, like=reference)
 
     u, v = tsplit(uv)
     V = xp_as_float_array(V, xp=xp, like=u)

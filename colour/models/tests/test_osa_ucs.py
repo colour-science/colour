@@ -135,7 +135,7 @@ class TestOSA_UCS_to_XYZ:
                 {"disp": False},
             ),
             xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp) * 100,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 5e-05),
         )
 
         xp_assert_close(
@@ -144,7 +144,7 @@ class TestOSA_UCS_to_XYZ:
                 {"disp": False},
             ),
             xp_as_array([0.14222010, 0.23042768, 0.10495772], xp=xp) * 100,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 5e-05),
         )
 
         xp_assert_close(
@@ -153,7 +153,7 @@ class TestOSA_UCS_to_XYZ:
                 {"disp": False},
             ),
             xp_as_array([0.07818780, 0.06157201, 0.28099326], xp=xp) * 100,
-            atol=TOLERANCE_ABSOLUTE_TESTS * 500,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 5e-05),
         )
 
     def test_n_dimensional_OSA_UCS_to_XYZ(self, xp: ModuleType) -> None:

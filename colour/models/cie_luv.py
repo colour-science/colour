@@ -49,6 +49,7 @@ from colour.utilities import (
     from_range_1,
     from_range_100,
     get_domain_range_scale,
+    is_non_ndarray,
     optional,
     to_domain_1,
     to_domain_100,
@@ -128,7 +129,12 @@ def XYZ_to_Luv(
     array([41.5278752..., 96.8362605..., 17.7521014...])
     """
 
-    X, Y, Z = tsplit(to_domain_1(XYZ))
+    XYZ = to_domain_1(XYZ)
+    xp = array_namespace(XYZ, illuminant)
+    reference = XYZ if is_non_ndarray(XYZ) else illuminant
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+    illuminant = xp_as_float_array(illuminant, xp=xp, like=XYZ)
+    X, Y, Z = tsplit(XYZ)
 
     X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
@@ -198,7 +204,12 @@ def Luv_to_XYZ(
     array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
-    L, u, v = tsplit(to_domain_100(Luv))
+    Luv = to_domain_100(Luv)
+    xp = array_namespace(Luv, illuminant)
+    reference = Luv if is_non_ndarray(Luv) else illuminant
+    Luv = xp_as_float_array(Luv, xp=xp, like=reference)
+    illuminant = xp_as_float_array(illuminant, xp=xp, like=Luv)
+    L, u, v = tsplit(Luv)
 
     X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
@@ -336,7 +347,11 @@ def uv_to_Luv(
         optional(L, 100 if get_domain_range_scale() == "reference" else 1)
     )
 
-    xp = array_namespace(uv)
+    xp = array_namespace(uv, illuminant, L)
+
+    reference = next((a for a in (uv, illuminant, L) if is_non_ndarray(a)), None)
+    uv = xp_as_float_array(uv, xp=xp, like=reference)
+    illuminant = xp_as_float_array(illuminant, xp=xp, like=uv)
 
     u, v = tsplit(uv)
     L = xp_as_float_array(L, xp=xp, like=uv)

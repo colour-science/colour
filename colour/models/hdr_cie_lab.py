@@ -50,6 +50,7 @@ from colour.utilities import (
     domain_range_scale,
     from_range_1,
     from_range_100,
+    is_non_ndarray,
     to_domain_1,
     to_domain_100,
     tsplit,
@@ -129,7 +130,10 @@ def exponent_hdr_CIELab(
 
     Y_s = to_domain_1(Y_s)
 
-    xp = array_namespace(Y_s)
+    xp = array_namespace(Y_s, Y_abs)
+
+    reference = next((a for a in (Y_s, Y_abs) if is_non_ndarray(a)), None)
+    Y_s = xp_as_float_array(Y_s, xp=xp, like=reference)
 
     Y_abs = xp_as_float_array(Y_abs, xp=xp, like=Y_s)
     method = validate_method(method, HDR_CIELAB_METHODS)
@@ -218,7 +222,16 @@ def XYZ_to_hdr_CIELab(
     array([ 31.9962111..., 128.0076303...,  48.7695230...])
     """
 
-    X, Y, Z = tsplit(to_domain_1(XYZ))
+    XYZ = to_domain_1(XYZ)
+    xp = array_namespace(XYZ, illuminant, Y_s, Y_abs)
+    reference = next(
+        (a for a in (XYZ, illuminant, Y_s, Y_abs) if is_non_ndarray(a)), None
+    )
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+    illuminant = xp_as_float_array(illuminant, xp=xp, like=XYZ)
+    Y_s = xp_as_float_array(Y_s, xp=xp, like=XYZ)
+    Y_abs = xp_as_float_array(Y_abs, xp=xp, like=XYZ)
+    X, Y, Z = tsplit(XYZ)
     method = validate_method(method, HDR_CIELAB_METHODS)
 
     X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
@@ -307,7 +320,16 @@ def hdr_CIELab_to_XYZ(
     array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
-    L_hdr, a_hdr, b_hdr = tsplit(to_domain_100(Lab_hdr))
+    Lab_hdr = to_domain_100(Lab_hdr)
+    xp = array_namespace(Lab_hdr, illuminant, Y_s, Y_abs)
+    reference = next(
+        (a for a in (Lab_hdr, illuminant, Y_s, Y_abs) if is_non_ndarray(a)), None
+    )
+    Lab_hdr = xp_as_float_array(Lab_hdr, xp=xp, like=reference)
+    illuminant = xp_as_float_array(illuminant, xp=xp, like=Lab_hdr)
+    Y_s = xp_as_float_array(Y_s, xp=xp, like=Lab_hdr)
+    Y_abs = xp_as_float_array(Y_abs, xp=xp, like=Lab_hdr)
+    L_hdr, a_hdr, b_hdr = tsplit(Lab_hdr)
     method = validate_method(method, HDR_CIELAB_METHODS)
 
     X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))

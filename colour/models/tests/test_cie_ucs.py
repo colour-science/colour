@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import typing
+from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
+    import pytest
     from colour.hints import ModuleType
 
 from itertools import product
@@ -23,6 +25,7 @@ from colour.models import (
     xy_to_UCS_uv,
 )
 from colour.utilities import (
+    array_namespace,
     as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
@@ -269,7 +272,7 @@ class Testuv_to_UCS:
     methods.
     """
 
-    def test_uv_to_UCS(self, xp: ModuleType) -> None:
+    def test_uv_to_UCS(self, xp: ModuleType, request: pytest.FixtureRequest) -> None:
         """Test :func:`colour.models.cie_ucs.uv_to_UCS` definition."""
 
         xp_assert_close(
@@ -295,6 +298,30 @@ class Testuv_to_UCS:
             [0.20320040, 0.18000000, 0.15550388],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        host_arguments: dict[str, typing.Any] = {
+            "uv": [[0.2, 0.3], [0.21, 0.31]],
+            "V": [0.5, 0.7],
+        }
+        expected = uv_to_UCS(**host_arguments)
+        for parameter, host_value in host_arguments.items():
+            native = xp_as_array(host_value, xp=xp)
+            # Keep the physical input device while factories default to CPU.
+            with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                actual = uv_to_UCS(**{**host_arguments, parameter: native})
+                assert array_namespace(actual) is array_namespace(native)
+                assert getattr(actual, "device", None) == getattr(
+                    native, "device", None
+                )
+                xp_assert_close(actual, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+                if xp.__name__ != "numpy":
+                    autodiff = request.getfixturevalue("autodiff")
+                    autodiff(
+                        lambda value, parameter=parameter: uv_to_UCS(
+                            **{**host_arguments, parameter: value}
+                        ),
+                        native,
+                    )
 
     def test_n_dimensional_uv_to_UCS(self, xp: ModuleType) -> None:
         """

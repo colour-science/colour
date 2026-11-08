@@ -165,14 +165,28 @@ def Lab_to_DIN99(
 
     e = cos_c * a + sin_c * b
     f = c_4 * (-sin_c * a + cos_c * b)
-    G = spow(e**2 + f**2, 0.5)
-    h_ef = xp.atan2(f, e) + xp_radians(c_7)
+    # Evaluate the Cartesian radial factor at its finite neutral limit instead
+    # of differentiating a hue angle or a square root at zero chroma.
+    G_squared = e**2 + f**2
+    neutral = G_squared == 0
+    G = xp.sqrt(xp.where(neutral, 1, G_squared))
+    finite = xp.isfinite(G)
+    G_safe = xp.where(finite, G, 1)
+    scale = c_5 / (c_8 * k_CH * k_E)
+    factor = scale * xp.where(neutral, c_6, xp.log1p(c_6 * G_safe) / G_safe)
+    cos_h = xp.cos(xp_as_float_array(xp_radians(c_7), xp=xp, like=L))
+    sin_h = xp.sin(xp_as_float_array(xp_radians(c_7), xp=xp, like=L))
+    a_99 = factor * (e * cos_h - f * sin_h)
+    b_99 = factor * (e * sin_h + f * cos_h)
 
-    C_99 = c_5 * (xp.log1p(c_6 * G)) / (c_8 * k_CH * k_E)
-    # Hue angle is unused currently.
-    # h_99 = np.degrees(h_ef)
-    a_99 = C_99 * xp.cos(h_ef)
-    b_99 = C_99 * xp.sin(h_ef)
+    # Preserve the polar formula's nonfinite values without evaluating its
+    # singular neutral operands on the differentiable Cartesian path.
+    e_polar = xp.where(finite, 1, e)
+    f_polar = xp.where(finite, 0, f)
+    h_ef = xp.atan2(f_polar, e_polar) + xp_radians(c_7)
+    C_99 = scale * xp.log1p(c_6 * spow(e_polar**2 + f_polar**2, 0.5))
+    a_99 = xp.where(finite, a_99, C_99 * xp.cos(h_ef))
+    b_99 = xp.where(finite, b_99, C_99 * xp.sin(h_ef))
     L_99 = c_1 * (xp.log1p(c_2 * L)) * k_E
 
     Lab_99 = tstack([L_99, a_99, b_99])
@@ -254,13 +268,25 @@ def DIN99_to_Lab(
     cos = xp.cos(xp_as_float_array(xp_radians(c_3), xp=xp, like=L_99))
     sin = xp.sin(xp_as_float_array(xp_radians(c_3), xp=xp, like=L_99))
 
-    h_99 = xp.atan2(b_99, a_99) - xp_radians(c_7)
+    neutral = (a_99 == 0) & (b_99 == 0)
+    C_99 = xp.hypot(xp.where(neutral, 1, a_99), xp.where(neutral, 0, b_99))
+    finite = xp.isfinite(C_99)
+    C_safe = xp.where(finite, C_99, 1)
+    scale = (c_8 / c_5) * k_CH * k_E
+    G = xp.expm1(scale * C_safe) / c_6
+    finite = finite & xp.isfinite(G)
+    factor = xp.where(neutral, scale / c_6, xp.where(finite, G, 0) / C_safe)
+    cos_h = xp.cos(xp_as_float_array(xp_radians(c_7), xp=xp, like=L_99))
+    sin_h = xp.sin(xp_as_float_array(xp_radians(c_7), xp=xp, like=L_99))
+    e = factor * (a_99 * cos_h + b_99 * sin_h)
+    f = factor * (b_99 * cos_h - a_99 * sin_h)
 
-    C_99 = xp.hypot(a_99, b_99)
-    G = xp.expm1((c_8 / c_5) * C_99 * k_CH * k_E) / c_6
-
-    e = G * xp.cos(h_99)
-    f = G * xp.sin(h_99)
+    a_polar = xp.where(finite, 1, a_99)
+    b_polar = xp.where(finite, 0, b_99)
+    h_99 = xp.atan2(b_polar, a_polar) - xp_radians(c_7)
+    G = xp.expm1(scale * xp.hypot(a_polar, b_polar)) / c_6
+    e = xp.where(finite, e, G * xp.cos(h_99))
+    f = xp.where(finite, f, G * xp.sin(h_99))
 
     a = e * cos - (f / c_4) * sin
     b = e * sin + (f / c_4) * cos

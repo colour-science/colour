@@ -314,19 +314,19 @@ class TestJzazbz_to_XYZ:
         xp_assert_close(
             Jzazbz_to_XYZ(xp_as_array([0.00535048, 0.00924302, 0.00526007], xp=xp)),
             [0.20654008, 0.12197225, 0.05136952],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
         xp_assert_close(
             Jzazbz_to_XYZ(xp_as_array([0.00619681, -0.00608426, 0.00534077], xp=xp)),
             [0.14222010, 0.23042768, 0.10495772],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
         xp_assert_close(
             Jzazbz_to_XYZ(xp_as_array([0.01766826, 0.00064174, -0.00052906], xp=xp)),
             [0.96907232, 1.00000000, 1.12179215],
-            atol=TOLERANCE_ABSOLUTE_TESTS * 10,
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
     def test_n_dimensional_Jzazbz_to_XYZ(self, xp: ModuleType) -> None:

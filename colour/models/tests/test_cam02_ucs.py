@@ -7,9 +7,11 @@ import typing
 if typing.TYPE_CHECKING:
     from colour.hints import ModuleType
 
+from contextlib import nullcontext
 from itertools import product
 
 import numpy as np
+import pytest
 
 from colour.appearance import (
     VIEWING_CONDITIONS_CIECAM02,
@@ -24,6 +26,9 @@ from colour.models import (
     CAM02SCD_to_XYZ,
     CAM02UCS_to_JMh_CIECAM02,
     CAM02UCS_to_XYZ,
+    CAM16LCD_to_XYZ,
+    CAM16SCD_to_XYZ,
+    CAM16UCS_to_XYZ,
     JMh_CIECAM02_to_CAM02LCD,
     JMh_CIECAM02_to_CAM02SCD,
     JMh_CIECAM02_to_CAM02UCS,
@@ -45,6 +50,7 @@ from colour.utilities import (
     ignore_numpy_errors,
     xp_as_array,
     xp_assert_close,
+    xp_degrees,
     xp_reshape,
 )
 
@@ -258,6 +264,21 @@ class TestUCS_Luo2006_to_JMh_CIECAM02:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # Safe neutral operands must retain atan2's signed-zero convention.
+        zeros = np.array([[0.0, 0.0], [0.0, -0.0], [-0.0, 0.0], [-0.0, -0.0]])
+        neutral = np.column_stack([np.full(4, 50.0), zeros])
+        native_zeros = xp_as_array(zeros, xp=xp)
+        expected_hue = (
+            xp_degrees(xp.atan2(native_zeros[:, 1], native_zeros[:, 0])) % 360
+        )
+        actual = UCS_Luo2006_to_JMh_CIECAM02(
+            xp_as_array(neutral, xp=xp), COEFFICIENTS_UCS_LUO2006["CAM02-UCS"]
+        )
+        xp_assert_close(actual[:, 2], expected_hue, atol=TOLERANCE_ABSOLUTE_TESTS)
+        np.testing.assert_array_equal(
+            np.signbit(as_ndarray(actual[:, 2])), np.signbit(as_ndarray(expected_hue))
+        )
+
     def test_n_dimensional_UCS_Luo2006_to_JMh_CIECAM02(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_JMh_CIECAM02`
@@ -459,7 +480,9 @@ class TestUCS_Luo2006_to_XYZ:
     unit tests methods.
     """
 
-    def test_UCS_Luo2006_to_XYZ(self, xp: ModuleType) -> None:
+    def test_UCS_Luo2006_to_XYZ(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
         """Test :func:`colour.models.cam02_ucs.UCS_Luo2006_to_XYZ` definition."""
 
         xp_assert_close(
@@ -515,6 +538,63 @@ class TestUCS_Luo2006_to_XYZ:
             CAM02UCS_to_XYZ([46.61386154, 39.35760236, 15.96730435]),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            for function in (
+                CAM02LCD_to_XYZ,
+                CAM02SCD_to_XYZ,
+                CAM02UCS_to_XYZ,
+                CAM16LCD_to_XYZ,
+                CAM16SCD_to_XYZ,
+                CAM16UCS_to_XYZ,
+            ):
+                native = xp_as_array([50.0, 0.0, 0.0], xp=xp)
+                # The inverse CAM chromatic response is O(r**(1 / 0.9));
+                # its Cartesian first derivative at r=0 is exactly zero.
+                step = xp_as_array([0.001, 0.0, 0.0], xp=xp)
+                J_derivative = (
+                    function(native + step) - function(native - step)
+                ) / 0.002
+                expected = xp.stack(
+                    [
+                        J_derivative,
+                        xp.zeros_like(J_derivative),
+                        xp.zeros_like(J_derivative),
+                    ],
+                    axis=-1,
+                )
+                with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
+                    if xp.__name__ == "torch":
+                        jacobians = (xp.autograd.functional.jacobian(function, native),)
+                    else:
+                        jax = pytest.importorskip("jax")
+                        jacobians = (
+                            jax.jacfwd(function)(native),
+                            jax.jacrev(function)(native),
+                        )
+                    for jacobian in jacobians:
+                        assert getattr(jacobian, "device", None) == getattr(
+                            native, "device", None
+                        )
+                        xp_assert_close(
+                            jacobian, expected, atol=TOLERANCE_ABSOLUTE_TESTS
+                        )
+                    autodiff(function, [50.0, 12.0, 20.0])
+                    autodiff(
+                        lambda white,
+                        luminance,
+                        background,
+                        function=function: function(
+                            [50.0, 0.0, 0.0],
+                            XYZ_w=white,
+                            L_A=luminance,
+                            Y_b=background,
+                        ),
+                        [0.9505, 1.0, 1.0888],
+                        318.31,
+                        20.0,
+                    )
 
     def test_n_dimensional_UCS_Luo2006_to_XYZ(self, xp: ModuleType) -> None:
         """

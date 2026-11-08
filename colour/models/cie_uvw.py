@@ -27,6 +27,7 @@ from colour.models import UCS_uv_to_xy, XYZ_to_xy, xy_to_UCS_uv, xyY_to_xy, xyY_
 from colour.utilities import (
     array_namespace,
     from_range_100,
+    is_non_ndarray,
     to_domain_100,
     tsplit,
     tstack,
@@ -99,7 +100,11 @@ def XYZ_to_UVW(
 
     XYZ = to_domain_100(XYZ)
 
-    xp = array_namespace(XYZ)
+    xp = array_namespace(XYZ, illuminant)
+
+    reference = next((a for a in (XYZ, illuminant) if is_non_ndarray(a)), None)
+    XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
+    illuminant = xp_as_float_array(illuminant, xp=xp, like=XYZ)
 
     xy = XYZ_to_xy(XYZ / 100)
     xy_n = xyY_to_xy(illuminant)
@@ -167,9 +172,17 @@ def UVW_to_XYZ(
     array([20.654008, 12.197225,  5.136952])
     """
 
-    U, V, W = tsplit(to_domain_100(UVW))
+    UVW = to_domain_100(UVW)
+    xp = array_namespace(UVW, illuminant)
+    reference = next((a for a in (UVW, illuminant) if is_non_ndarray(a)), None)
+    UVW = xp_as_float_array(UVW, xp=xp, like=reference)
+    illuminant = xp_as_float_array(illuminant, xp=xp, like=UVW)
+    U, V, W = tsplit(UVW)
 
     u_0, v_0 = tsplit(xy_to_UCS_uv(xyY_to_xy(illuminant)))
+
+    u_0 = xp_as_float_array(u_0, xp=xp, like=U)
+    v_0 = xp_as_float_array(v_0, xp=xp, like=U)
 
     Y = spow((W + 17) / 25, 3)
 
