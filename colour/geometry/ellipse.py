@@ -26,6 +26,7 @@ import typing
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, Literal, NDArrayFloat
 
+from colour.hints import cast
 from colour.utilities import (
     CanonicalMapping,
     array_namespace,
@@ -115,7 +116,7 @@ def ellipse_coefficients_general_form(coefficients: ArrayLike) -> NDArrayFloat:
     e = -b * x_c - 2 * c * y_c
     f = a * x_c**2 + b * x_c * y_c + c * y_c**2 - a_a_2 * a_b_2
 
-    return xp_as_float_array([a, b, c, d, e, f], xp=xp)
+    return xp.stack([a, b, c, d, e, f])
 
 
 def ellipse_coefficients_canonical_form(
@@ -170,21 +171,30 @@ def ellipse_coefficients_canonical_form(
 
     x_c = (2 * c * d - b * e) / d_1
     y_c = (2 * a * e - b * d) / d_1
+    # Rationalising the angle argument avoids cancellation and retains its
+    # smooth derivative at ``b == 0, a < c``. Subtracting from zero preserves
+    # the positive-zero angle. Both candidate divisions have finite inactive
+    # operands; the circle's orientation remains zero.
+    difference = c - a
+    denominator = difference + n_p_2
+    angle_argument = xp.where(
+        difference >= 0,
+        (0 - b) / xp.where(denominator == 0, 1, denominator),
+        (difference - n_p_2) / xp.where(b == 0, 1, b),
+    )
     theta = xp_select(
         [
-            xp.logical_and(b == 0, a < c),
             xp.logical_and(b == 0, a > c),
-            b != 0,
+            xp.logical_or(b != 0, a < c),
         ],
         [
-            0,
             90,
-            xp_degrees(xp.arctan((c - a - n_p_2) / b)),
+            xp_degrees(xp.arctan(angle_argument)),
         ],
         xp=xp,
     )
 
-    return xp_as_float_array([x_c, y_c, a_a, a_b, theta], xp=xp)
+    return xp.stack([x_c, y_c, a_a, a_b, theta])
 
 
 def point_at_angle_on_ellipse(phi: ArrayLike, coefficients: ArrayLike) -> NDArrayFloat:
@@ -219,6 +229,7 @@ def point_at_angle_on_ellipse(phi: ArrayLike, coefficients: ArrayLike) -> NDArra
     phi = xp_radians(phi)
 
     xp = array_namespace(phi, coefficients)
+    phi = xp_as_float_array(phi, xp=xp, like=coefficients)
     coefficients = xp_as_float_array(coefficients, xp=xp, like=phi)
 
     x_c, y_c, a_a, a_b, theta = tsplit(coefficients)
@@ -294,10 +305,12 @@ def ellipse_fitting_Halir1998(a: ArrayLike) -> NDArrayFloat:
     # Linear part of the scatter matrix.
     S3 = xp.matmul(D2_T, D2)
 
-    T = -xp.matmul(xp.linalg.inv(S3), xp_matrix_transpose(S2, xp=xp))
+    T = -cast(
+        "NDArrayFloat", xp.matmul(xp.linalg.inv(S3), xp_matrix_transpose(S2, xp=xp))
+    )
 
     # Reduced scatter matrix.
-    M = S1 + xp.matmul(S2, T)
+    M = cast("NDArrayFloat", S1 + xp.matmul(S2, T))
     M = xp.stack([M[2, :] / 2, -M[1, :], M[0, :] / 2])
 
     _w, v = xp_eig(M, xp=xp)

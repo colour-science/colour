@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import typing
 
 if typing.TYPE_CHECKING:
@@ -97,6 +98,14 @@ class TestEdgesToChord:
             ],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        native_edges = xp_as_array(
+            [[[0.0, 0.0], [1.0, 0.0]], [[1.0, 0.0], [1.0, 1.0]]], xp=xp
+        )
+        with contextlib.nullcontext() if xp.__name__ != "torch" else xp.device("cpu"):
+            result = edges_to_chord(native_edges)
+        xp_assert_close(result, [[0.0, 0.0], [1.0, 0.0], [1.0, 0.0], [1.0, 1.0]])
+        assert getattr(result, "device", None) == getattr(native_edges, "device", None)
 
 
 class TestCloseChord:

@@ -60,6 +60,22 @@ ellipse_coefficients_canonical_form` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+    def test_ellipse_coefficients_canonical_form_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test gradients through the ellipse coefficient conversion."""
+
+        autodiff(
+            ellipse_coefficients_canonical_form,
+            xp_as_array([4.0, 1.0, 3.0, 0.2, 0.4, -1.0], xp=xp),
+        )
+
+        _result, (gradient,), _inputs = autodiff(
+            ellipse_coefficients_canonical_form,
+            xp_as_array([1.0, 0.0, 4.0, 0.0, 0.0, -4.0], xp=xp),
+        )
+        xp_assert_close(gradient[1], -180 / xp.pi / 6, atol=TOLERANCE_ABSOLUTE_TESTS)
+
 
 class TestEllipseCoefficientsGeneralForm:
     """
@@ -83,6 +99,16 @@ class TestEllipseCoefficientsGeneralForm:
             ellipse_coefficients_general_form(xp_as_array([0.0, 0.0, 1, 1, 0], xp=xp)),
             [1.0, 0.0, 1.0, 0.0, 0.0, -1.0],
             atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    def test_ellipse_coefficients_general_form_autodiff(
+        self, xp: ModuleType, autodiff: typing.Callable
+    ) -> None:
+        """Test gradients through the ellipse coefficient conversion."""
+
+        autodiff(
+            ellipse_coefficients_general_form,
+            xp_as_array([0.5, 0.4, 2.0, 1.0, 30.0], xp=xp),
         )
 
 
