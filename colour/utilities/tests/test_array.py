@@ -1854,6 +1854,17 @@ class TestXpLstsq:
             xp_assert_close(result, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
             assert getattr(result, "device", None) == getattr(native[i], "device", None)
 
+        # Integer systems must promote to a floating-point solution.
+        coefficients = xp_as_array([[2, 0], [0, 2], [2, 2]], xp=xp)
+        ordinates = xp_as_array([1, 3, 4], xp=xp)
+        solution = xp_lstsq(coefficients, ordinates)
+        xp_assert_close(solution, [0.5, 1.5], atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_equal(coefficients, [[2, 0], [0, 2], [2, 2]])
+        xp_assert_equal(ordinates, [1, 3, 4])
+        assert getattr(solution, "device", None) == getattr(
+            coefficients, "device", None
+        )
+
         if xp.__name__ != "numpy":
             autodiff = request.getfixturevalue("autodiff")
             autodiff(lambda rhs: xp_lstsq(np.eye(2), rhs), np.array([2.0, 3.0]))
@@ -2197,6 +2208,22 @@ class TestXpInsert:
                 xp_insert(xp_as_array(base, xp=xp), index, [3, 4], xp=xp),
                 np.insert(base, index, [3, 4]),
             )
+
+        # Boolean metadata selects insertion positions, rather than values.
+        source = xp_as_array([10, 20, 30], xp=xp)
+        for mask in (np.array([True, False, True]), np.array([False, False, False])):
+            xp_assert_equal(
+                xp_insert(source, mask, 99, xp=xp),
+                np.insert([10, 20, 30], mask, 99),
+            )
+        with pytest.raises(ValueError):
+            xp_insert(source, np.array([[True, False, True]]), 99, xp=xp)
+        for axis in (-2, 1):
+            with pytest.raises(np.exceptions.AxisError):
+                xp_insert(source, [0], 99, axis=axis, xp=xp)
+        with pytest.raises(ValueError):
+            xp_insert(source, [0, 2], [[1, 2], [3, 4]], xp=xp)
+        xp_assert_equal(source, [10, 20, 30])
 
 
 class TestXpSetxor1d:
