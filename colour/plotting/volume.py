@@ -15,6 +15,7 @@ import typing
 import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+from mpl_toolkits.mplot3d.axes3d import Axes3D
 
 from colour.constants import EPSILON
 from colour.geometry import primitive_vertices_cube_mpl, primitive_vertices_grid_mpl
@@ -22,7 +23,6 @@ from colour.graph import convert
 
 if typing.TYPE_CHECKING:
     from matplotlib.figure import Figure
-    from mpl_toolkits.mplot3d.axes3d import Axes3D
     from colour.colorimetry import MultiSpectralDistributions
     from colour.hints import (
         Any,
@@ -529,7 +529,10 @@ def plot_RGB_colourspaces_gamuts(
     settings.update(kwargs)
 
     figure = plt.figure()
-    axes = cast("Axes3D", figure.add_subplot(111, projection="3d"))
+    axes = figure.add_subplot(111, projection="3d")
+    if not isinstance(axes, Axes3D):
+        error = 'The "3d" projection must create an "Axes3D" instance.'
+        raise TypeError(error)
 
     points = zeros((4, 3))
     if show_spectral_locus:

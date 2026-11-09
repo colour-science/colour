@@ -889,7 +889,7 @@ def write_spectral_image_Fichet2021(
     for channel_name, channel_data in channels.items():
         channel_buffer = ImageBuf(channel_data.astype(bit_depth_specification.numpy))
         channel_specification = channel_buffer.specmod()
-        channel_specification.channelnames = [channel_name]
+        channel_specification.channelnames = (channel_name,)
         image_buffer = (
             ImageBufAlgo.channel_append(image_buffer, channel_buffer)
             if image_buffer.initialized

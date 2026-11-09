@@ -88,8 +88,8 @@ class CubicSplineInterpolator:
         self._interpolator = scipy.interpolate.interp1d(
             self._x, self._y, *self._args, **self._kwargs
         )
-        self._x = self._interpolator.x
-        self._y = self._interpolator.y
+        self._x = np.asarray(self._interpolator.x, dtype=self._dtype)
+        self._y = np.asarray(self._interpolator.y, dtype=self._dtype)
 
     def __call__(self, x: Any) -> np.ndarray:
         """Evaluate the cubic spline at the specified point(s)."""
