@@ -60,6 +60,14 @@ jobs:
         run: |
           uv run python -W ignore -m pytest --doctest-modules --ignore=$CI_PACKAGE/examples --cov=$CI_PACKAGE $CI_PACKAGE
         shell: bash
+      - name: Collect Backend Coverage
+        if: matrix.os == 'macOS-latest' && matrix.python-version == '3.13'
+        run: |
+          for backend in torch jax; do
+            uv sync --all-extras --group "$backend"
+            COLOUR_SCIENCE__TEST_BACKENDS="$backend" uv run --group "$backend" python -W ignore -m pytest --ignore=$CI_PACKAGE/examples --cov=$CI_PACKAGE --cov-append $CI_PACKAGE
+          done
+        shell: bash
       - name: Upload Coverage to coveralls.io
         if: matrix.os == 'macOS-latest' && matrix.python-version == '3.13'
         run: |
