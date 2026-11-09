@@ -1794,7 +1794,13 @@ def test_dtype_honoured(
     x_view = np.asarray(x)[::-1].copy()[::-1]
     y_view = np.asarray(y)[::-1]
     query_view = np.array([2.5, 2.5])[::-1]
-    reference = interpolator_type(x_view, y_view, dtype=dtype)(query_view)
+    # Compare views with contiguous data on the same backend: this checks
+    # layout handling independently of platform-specific float32 rounding.
+    reference = interpolator_type(
+        cast(np.ascontiguousarray(x_view)),
+        cast(np.ascontiguousarray(y_view)),
+        dtype=dtype,
+    )(cast(np.ascontiguousarray(query_view)))
     for knots, values in ((cast(x_view), y_view), (x_view, cast(y_view))):
         viewed = interpolator_type(knots, values, dtype=dtype)
         xp_assert_close(viewed(query_view), reference, atol=TOLERANCE_ABSOLUTE_TESTS)
