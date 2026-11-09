@@ -535,10 +535,6 @@ SkyDataset_Wilkie2021` class.
             SkyDataset_Wilkie2021("/nonexistent/path.dat")
 
 
-@pytest.mark.skipif(
-    not DATASET_AVAILABLE,
-    reason=f"Prague Sky Model dataset not found at {DATASET_PATH}",
-)
 class TestComputeSkyParametersWilkie2021:
     """
     Define :func:`colour.phenomena.sky.wilkie2021.\

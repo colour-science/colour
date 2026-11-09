@@ -881,8 +881,6 @@ def compute_sky_parameters_Wilkie2021(
     distance_to_view = (
         xp.linalg.vector_norm(to_view_point) + CONSTANTS_WILKIE2021.safety_altitude
     )
-    to_shifted_view_point = to_view_point_normalised * distance_to_view
-    shifted_view_point = center + to_shifted_view_point
 
     altitude = xp.maximum(
         distance_to_view - CONSTANTS_WILKIE2021.planet_radius,
@@ -906,18 +904,16 @@ def compute_sky_parameters_Wilkie2021(
 
     # Altitude-corrected view direction.
     if distance_to_view > CONSTANTS_WILKIE2021.planet_radius:
-        look_at_point = shifted_view_point + view_direction_array
         correction = (
             xp.sqrt(
-                xp_as_float_array(
-                    distance_to_view**2 - CONSTANTS_WILKIE2021.planet_radius**2, xp=xp
-                )
+                (distance_to_view - CONSTANTS_WILKIE2021.planet_radius)
+                * (distance_to_view + CONSTANTS_WILKIE2021.planet_radius)
             )
             / distance_to_view
         )
-        to_new_origin = to_view_point_normalised * (distance_to_view - correction)
-        new_origin = center + to_new_origin
-        correct_view = look_at_point - new_origin
+        # Cancel the shared planet-scale origin algebraically so the small
+        # altitude correction survives float32 arithmetic.
+        correct_view = view_direction_array + to_view_point_normalised * correction
         correct_view_n = correct_view / xp.linalg.vector_norm(
             correct_view, axis=-1, keepdims=True
         )
