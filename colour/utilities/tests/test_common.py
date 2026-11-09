@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import os
-import shutil
 import tempfile
 import typing
 import unicodedata
@@ -14,6 +13,8 @@ import numpy as np
 import pytest
 
 if typing.TYPE_CHECKING:
+    from pathlib import Path
+
     from colour.hints import Any, Tuple
 
 from colour.utilities import (
@@ -606,61 +607,40 @@ class TestDownloadUrl:
     tests methods.
     """
 
-    def test_download_url(self) -> None:
+    def test_download_url(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
         """Test :func:`colour.utilities.common.download_url` definition."""
 
-        target = os.path.join(
-            tempfile.mkdtemp(), "multi_mlp_normalization_parameters.npz"
-        )
+        source = tmp_path / "source.bin"
+        payload = b"colour-science" * 10000
+        source.write_bytes(payload)
+        url = source.as_uri()
+        target = tmp_path / "downloads" / "target.bin"
+        digest = hash_sha256(str(source))
 
-        try:
-            path = download_url(
-                "https://huggingface.co/colour-science/"
-                "learning-munsell/resolve/main/"
-                "models/to_xyY/"
-                "multi_mlp_normalization_parameters.npz",
-                filename=target,
-            )
+        assert download_url(url, str(target)) == str(target)
+        assert target.read_bytes() == payload
+        assert download_url(url, str(target)) == str(target)
+        assert download_url(url, str(target), digest.upper()) == str(target)
 
-            assert os.path.isfile(path)
-            assert path == target
+        target.write_bytes(b"incomplete")
+        assert download_url(url, str(target), digest) == str(target)
+        assert target.read_bytes() == payload
 
-            # Cached second call returns same path.
-            assert (
-                download_url(
-                    "https://huggingface.co/colour-science/"
-                    "learning-munsell/resolve/main/"
-                    "models/to_xyY/"
-                    "multi_mlp_normalization_parameters.npz",
-                    filename=target,
-                )
-                == path
-            )
+        target.unlink()
+        with pytest.raises(ValueError, match="does not match"):
+            download_url(url, str(target), "0" * 64, retries=1)
+        assert not target.exists()
+        assert list(target.parent.iterdir()) == []
 
-            # SHA-256 verification.
-            sha = hash_sha256(path)
-            assert (
-                download_url(
-                    "https://huggingface.co/colour-science/"
-                    "learning-munsell/resolve/main/"
-                    "models/to_xyY/"
-                    "multi_mlp_normalization_parameters.npz",
-                    filename=target,
-                    sha256=sha,
-                )
-                == path
-            )
+        with pytest.raises(OSError):
+            download_url((tmp_path / "missing.bin").as_uri(), str(target), retries=2)
+        assert not target.exists()
+        assert list(target.parent.iterdir()) == []
 
-            # Wrong SHA-256 triggers re-download and raises.
-            with pytest.raises(ValueError):
-                download_url(
-                    "https://huggingface.co/colour-science/"
-                    "learning-munsell/resolve/main/"
-                    "models/to_xyY/"
-                    "multi_mlp_normalization_parameters.npz",
-                    target,
-                    "0" * 64,
-                    1,
-                )
-        finally:
-            shutil.rmtree(os.path.dirname(target))
+        cache = tmp_path / "cache"
+        monkeypatch.setattr("colour.ROOT_COLOUR_SCIENCE", str(cache))
+        cached = download_url(url)
+        assert cached == str(cache / source.as_posix().lstrip("/"))
+        assert hash_sha256(cached) == digest
