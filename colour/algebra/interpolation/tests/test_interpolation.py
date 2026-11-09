@@ -1110,6 +1110,20 @@ def test_cubic_spline_bounds_error(
     with pytest.raises(ValueError):
         interpolator(cast(np.array([-1.0])))
 
+    with pytest.raises(ValueError):
+        interpolator.fill_value = "extrapolate"
+
+    interpolator.bounds_error = False
+    assert not interpolator.bounds_error
+    interpolator.fill_value = -1.0
+    xp_assert_close(
+        interpolator(cast([-1.0, 6.0])), [-1.0, -1.0], atol=TOLERANCE_ABSOLUTE_TESTS
+    )
+    interpolator.bounds_error = True
+    assert interpolator.bounds_error
+    with pytest.raises(ValueError):
+        interpolator(cast([6.0]))
+
 
 def test_cubic_spline_extrapolate_and_raise() -> None:
     """Test combining ``fill_value="extrapolate"`` with ``bounds_error``."""
