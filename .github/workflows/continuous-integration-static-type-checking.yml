@@ -30,7 +30,7 @@ jobs:
           echo "IMAGEIO_FREEIMAGE_LIB=/opt/homebrew/Cellar/freeimage/3.18.0/lib/libfreeimage.3.18.0.dylib" >> $GITHUB_ENV
       - name: Install Package Dependencies
         run: |
-          cat requirements.txt | grep -Eo '(^[^#]+)' | xargs -n 1 pip install || true
+          pip install -r requirements.txt
       - name: Static Type Checking
         run: |
           pyright --threads --skipunannotated
