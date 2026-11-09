@@ -38,6 +38,13 @@ def test_tps3d_maps_control_points(
 
     assert np.max(np.abs(as_ndarray(mapped) - M_R_np)) < TOLERANCE_ABSOLUTE_TESTS
 
+    parameters = tps3d_parameters(M_T, M_R, smoothing=1e-10, kernel="Polyharmonic 3D")
+    xp_assert_close(
+        apply_tps3d(M_T, *parameters, kernel="Polyharmonic 3D", clip=False),
+        M_R,
+        atol=TOLERANCE_ABSOLUTE_TESTS,
+    )
+
     for mixed_source, mixed_destination in ((M_T_np, M_R), (M_T, M_R_np)):
         with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
             mixed_W, mixed_A, mixed_ctrl = tps3d_parameters(
@@ -82,6 +89,9 @@ def test_tps3d_identity_is_identity(xp: ModuleType) -> None:
     rng = np.random.default_rng(123)
     M_T = xp_as_array(rng.random((24, 3)), xp=xp)
     W, A, ctrl = tps3d_parameters(M_T, M_T, smoothing=1e-12)
+
+    empty = xp_as_array(np.empty((0, 3)), xp=xp)
+    assert apply_tps3d(empty, W, A, ctrl).shape == (0, 3)
 
     img_np = rng.random((16, 17, 3))
     img = xp_as_array(img_np, xp=xp)
