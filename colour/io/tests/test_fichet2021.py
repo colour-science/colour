@@ -7,6 +7,7 @@ import shutil
 import tempfile
 
 import numpy as np
+import pytest
 
 from colour.characterisation import SDS_COLOURCHECKERS
 from colour.colorimetry import (
@@ -459,6 +460,10 @@ class TestReadSpectralImageFichet2021:
         Test :func:`colour.io.fichet2021.read_spectral_image_Fichet2021`
         definition.
         """
+
+        path = os.path.join(ROOT_RESOURCES, "missing.exr")
+        with pytest.raises(OSError, match="Unable to open spectral image"):
+            read_spectral_image_Fichet2021(path)
 
         _test_spectral_image_D65(os.path.join(ROOT_RESOURCES, "D65.exr"))
 

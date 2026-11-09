@@ -271,6 +271,9 @@ class TestReadImageOpenImageIO:
     def test_read_image_OpenImageIO(self) -> None:  # pragma: no cover
         """Test :func:`colour.io.image.read_image_OpenImageIO` definition."""
 
+        with pytest.raises(OSError, match="Unable to open image"):
+            read_image_OpenImageIO(os.path.join(ROOT_RESOURCES, "missing.exr"))
+
         image = read_image_OpenImageIO(
             os.path.join(ROOT_RESOURCES, "CMS_Test_Pattern.exr"),
             additional_data=False,
@@ -364,6 +367,14 @@ class TestWriteImageOpenImageIO:
         """Test :func:`colour.io.image.write_image_OpenImageIO` definition."""
 
         from OpenImageIO import TypeDesc  # noqa: PLC0415
+
+        image = np.zeros((1, 1, 3), dtype=np.float32)
+        for path in (
+            os.path.join(self._temporary_directory, "unsupported.invalid"),
+            os.path.join(self._temporary_directory, "missing", "image.exr"),
+        ):
+            assert not write_image_OpenImageIO(image, path)
+            assert not os.path.exists(path)
 
         path = os.path.join(self._temporary_directory, "8-bit.png")
         RGB = full((1, 1, 3), 255, np.uint8)
