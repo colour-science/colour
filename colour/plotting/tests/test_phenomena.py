@@ -407,15 +407,21 @@ plot_sky_luminance_distribution_CIE2003` definition unit tests methods.
 plot_sky_luminance_distribution_CIE2003` definition.
         """
 
-        figure, axes = plot_sky_luminance_distribution_CIE2003(1)
+        figure, axes = plot_sky_luminance_distribution_CIE2003(
+            1, imshow_kwargs={"cmap": "viridis"}
+        )
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
+        assert axes.collections[-1].get_cmap().name == "viridis"
 
-        figure, axes = plot_sky_luminance_distribution_CIE2003(12, method="Latlong")
+        figure, axes = plot_sky_luminance_distribution_CIE2003(
+            12, method="Latlong", imshow_kwargs={"cmap": "viridis"}
+        )
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
+        assert axes.images[-1].get_cmap().name == "viridis"
 
 
 DATASET_PATH = PATH_PRAGUE_SKY_MODEL_DATASET_GROUND
@@ -440,15 +446,21 @@ plot_sky_radiance_Wilkie2021` definition.
 
         ds = SkyDataset_Wilkie2021(DATASET_PATH)
 
-        figure, axes = plot_sky_radiance_Wilkie2021(ds)
+        figure, axes = plot_sky_radiance_Wilkie2021(
+            ds, imshow_kwargs={"cmap": "viridis"}
+        )
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
+        assert axes.collections[-1].get_cmap().name == "viridis"
 
-        figure, axes = plot_sky_radiance_Wilkie2021(ds, method="Latlong")
+        figure, axes = plot_sky_radiance_Wilkie2021(
+            ds, method="Latlong", imshow_kwargs={"cmap": "viridis"}
+        )
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
+        assert axes.images[-1].get_cmap().name == "viridis"
 
 
 @pytest.mark.skipif(
@@ -469,10 +481,13 @@ plot_sky_colour_Wilkie2021` definition.
 
         ds = SkyDataset_Wilkie2021(DATASET_PATH)
 
-        figure, axes = plot_sky_colour_Wilkie2021(ds)
+        figure, axes = plot_sky_colour_Wilkie2021(
+            ds, imshow_kwargs={"interpolation": "nearest"}
+        )
 
         assert isinstance(figure, Figure)
         assert isinstance(axes, Axes)
+        assert axes.images[-1].get_interpolation() == "nearest"
 
 
 class TestPlotRay:
