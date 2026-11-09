@@ -63,6 +63,7 @@ from colour.graph import colourspace_model_to_reference, convert
 if typing.TYPE_CHECKING:
     from matplotlib.axes import Axes
     from matplotlib.figure import Figure
+
     from colour.colorimetry import MultiSpectralDistributions
     from colour.hints import (
         Any,
@@ -79,8 +80,7 @@ if typing.TYPE_CHECKING:
     )
 
 from colour.hints import List, cast
-from colour.models import LCHab_to_Lab  # pyright: ignore
-from colour.models import (
+from colour.models import (  # pyright: ignore
     CCS_ILLUMINANT_POINTER_GAMUT,
     CCS_POINTER_GAMUT_BOUNDARY,
     CCTF_DECODINGS,
@@ -89,6 +89,7 @@ from colour.models import (
     DATA_MACADAM_1942_ELLIPSES,
     DATA_POINTER_GAMUT_VOLUME,
     Lab_to_XYZ,
+    LCHab_to_Lab,
     RGB_Colourspace,
     RGB_to_RGB,
     RGB_to_XYZ,

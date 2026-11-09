@@ -40,7 +40,7 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Any, ArrayLike, NDArrayFloat, Literal
+    from colour.hints import Any, ArrayLike, Literal, NDArrayFloat
 
 from colour.utilities import (
     CanonicalMapping,

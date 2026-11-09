@@ -21,7 +21,7 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
-    from colour.hints import NDArrayFloat, Literal
+    from colour.hints import Literal, NDArrayFloat
 
 from dataclasses import dataclass, field
 

@@ -45,7 +45,7 @@ import typing
 from typing import overload
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Any, ArrayLike, NDArrayFloat, Literal, LiteralDeltaEMethod
+    from colour.hints import Any, ArrayLike, Literal, LiteralDeltaEMethod, NDArrayFloat
 
 from colour.utilities import (
     CanonicalMapping,

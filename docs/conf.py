@@ -35,7 +35,7 @@ if os.environ.get("READTHEDOCS") == "True":
 
     print(f"Using artifact url: {url}")  # noqa: T201
 
-    urllib.request.urlretrieve(url, filename=archive)  # noqa: S310
+    urllib.request.urlretrieve(url, filename=archive)
     shutil.unpack_archive(archive, "_static")
 
 # -- General configuration ------------------------------------------------
