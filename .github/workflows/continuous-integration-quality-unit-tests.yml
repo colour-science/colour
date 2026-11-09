@@ -47,6 +47,17 @@ jobs:
           uv sync --all-extras
           uv run python -c "import imageio;imageio.plugins.freeimage.download()"
         shell: bash
+      - name: Cache Sky Model Dataset
+        if: matrix.os == 'macOS-latest' && matrix.python-version == '3.13'
+        uses: actions/cache@v4
+        with:
+          path: ~/.colour-science/colour-datasets/19140728/dataset
+          key: prague-sky-model-ground-19140728
+      - name: Prepare Sky Model Dataset
+        if: matrix.os == 'macOS-latest' && matrix.python-version == '3.13'
+        run: |
+          uv run python -c "from colour.phenomena.sky import SkyDataset_Wilkie2021; SkyDataset_Wilkie2021()"
+        shell: bash
       - name: Prek (All Files)
         if: matrix.os == 'macOS-latest'
         run: |
