@@ -851,6 +851,10 @@ function` property raised exception.
 
         assert signal_1 == signal_2
 
+        assert signal_1 != MultiSignals(xp_as_array(self._range_2[:-1], xp=xp))
+        if xp.__name__ != "numpy":
+            assert signal_1 != MultiSignals(self._range_2)
+
         assert signal_1 != ()
 
         precise_domain = 1 + np.arange(10) * 1e-9

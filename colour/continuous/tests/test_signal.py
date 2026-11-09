@@ -530,6 +530,10 @@ class TestSignal:
 
         assert signal_1 == signal_2
 
+        assert signal_1 != Signal(xp_as_array(self._range[:-1], xp=xp))
+        if xp.__name__ != "numpy":
+            assert signal_1 != Signal(self._range)
+
         precise_domain = 1 + np.arange(10) * 1e-9
         host_domain = Signal(xp_as_array(self._range, xp=xp), precise_domain)
         matching = Signal(xp_as_array(self._range, xp=xp), precise_domain)
