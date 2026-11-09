@@ -28,8 +28,8 @@ from colour.colorimetry import (
 )
 
 if typing.TYPE_CHECKING:
-    from colour.models import RGB_Colourspace
     from colour.hints import Callable, Domain1
+    from colour.models import RGB_Colourspace
 
 from colour.hints import Domain1  # noqa: TC001
 from colour.recovery import MSDS_BASIS_FUNCTIONS_sRGB_MALLETT2019

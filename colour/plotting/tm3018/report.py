@@ -15,8 +15,8 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
-    from matplotlib.figure import Figure
     from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
 
 import matplotlib.pyplot as plt
 

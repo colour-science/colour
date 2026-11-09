@@ -15,8 +15,18 @@ from __future__ import annotations
 
 import typing
 from collections.abc import Iterator, KeysView, Mapping, Sequence, ValuesView
-from operator import pow  # noqa: A004
-from operator import add, iadd, imul, ipow, isub, itruediv, mul, sub, truediv
+from operator import (
+    add,
+    iadd,
+    imul,
+    ipow,
+    isub,
+    itruediv,
+    mul,
+    pow,
+    sub,
+    truediv,
+)
 
 import numpy as np
 

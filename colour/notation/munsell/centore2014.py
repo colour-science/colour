@@ -126,8 +126,12 @@ if typing.TYPE_CHECKING:
     )
 
 from colour.hints import ArrayLike, NDArrayFloat, cast
-from colour.models import Lab_to_LCHab  # pyright: ignore
-from colour.models import XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
+from colour.models import (  # pyright: ignore
+    Lab_to_LCHab,
+    XYZ_to_Lab,
+    XYZ_to_xy,
+    xyY_to_XYZ,
+)
 from colour.notation import MUNSELL_COLOURS_ALL
 from colour.notation.munsell.value import munsell_value_ASTMD1535
 from colour.utilities import (

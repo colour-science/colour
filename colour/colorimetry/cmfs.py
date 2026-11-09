@@ -25,6 +25,7 @@ from colour.colorimetry import (
 
 if typing.TYPE_CHECKING:
     from collections.abc import KeysView, ValuesView
+
     from colour.continuous import MultiSignals, Signal
     from colour.hints import (
         Any,
