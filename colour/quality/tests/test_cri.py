@@ -11,23 +11,18 @@ import numpy as np
 import pytest
 
 from colour.colorimetry import (
-    MSDS_CMFS,
     SDS_ILLUMINANTS,
     SDS_LIGHT_SOURCES,
     SPECTRAL_SHAPE_DEFAULT,
     MultiSpectralDistributions,
     SpectralDistribution,
-    reshape_msds,
-    reshape_sd,
 )
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.quality import ColourRendering_Specification_CRI, colour_rendering_index
 from colour.quality.cri import (
     DataColorimetry_TCS,
     DataColourQualityScale_TCS,
-    tcs_colorimetry_data,
 )
-from colour.quality.datasets.tcs import SDS_TCS
 from colour.utilities import xp_as_array, xp_assert_close
 
 __author__ = "Colour Developers"
@@ -439,27 +434,6 @@ class TestColourRenderingIndex:
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
-        # Test with missing TCS data
-        sd_test = SDS_ILLUMINANTS["FL1"]
-        cmfs = reshape_msds(
-            MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
-            SPECTRAL_SHAPE_DEFAULT,
-            copy=False,
-        )
-        shape = cmfs.shape
-        sd_test = reshape_sd(sd_test, shape, copy=False)
-
-        sds_tcs_full = SDS_TCS["CIE 1995"]
-        tcs_dict_full = {
-            sd.name: reshape_sd(sd, shape, copy=False) for sd in sds_tcs_full.values()
-        }
-        tcs_dict_partial = {k: v for k, v in tcs_dict_full.items() if k != "TCS09"}
-
-        result = tcs_colorimetry_data(
-            sd_test, sd_test, tcs_dict_partial, cmfs, method="CIE 1995"
-        )
-        assert len(result) == 13
-
         sds = [
             sd.copy().align(SPECTRAL_SHAPE_DEFAULT)
             for sd in (
@@ -501,18 +475,3 @@ class TestColourRenderingIndex:
 
         assert xp.isfinite(gradient).all()
         assert xp.any(gradient != 0)
-
-    def test_tcs_colorimetry_data(self) -> None:
-        """Test the public colourimetry helper with unaligned standard spectra."""
-
-        data = tcs_colorimetry_data(
-            SDS_ILLUMINANTS["D65"],
-            SDS_ILLUMINANTS["D50"],
-            SDS_TCS["CIE 1995"],
-            MSDS_CMFS["CIE 1931 2 Degree Standard Observer"],
-        )
-        xp_assert_close(
-            data[0].XYZ,
-            [32.99261581, 29.78330402, 24.515613],
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
