@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import contextlib
 import importlib
+import sys
 import types
 import typing
 from copy import deepcopy
@@ -124,6 +125,7 @@ from colour.utilities import (
     to_domain_100,
     to_domain_degrees,
     to_domain_int,
+    trace_array_namespace,
     tsplit,
     tstack,
     xp_as_array,
@@ -183,6 +185,7 @@ __all__ = [
     "TestSetArrayApiEnabled",
     "TestArrayApiEnable",
     "TestArrayNamespace",
+    "TestTraceArrayNamespace",
     "TestIsNumpyNamespace",
     "TestIsNonnumpyArray",
     "TestAsNdarray",
@@ -352,6 +355,33 @@ class TestArrayNamespace:
             assert array_namespace() is np
             assert array_namespace(1.0, 2.0) is np
             assert array_namespace(None) is np
+
+
+class TestTraceArrayNamespace:
+    """Define :class:`colour.utilities.trace_array_namespace` unit tests."""
+
+    def test_trace_array_namespace(
+        self, xp: ModuleType, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """Test tracing reports array flow and restores the previous hook."""
+
+        native = xp_as_array([1.0, 2.0], xp=xp)
+        previous = sys.gettrace()
+        with trace_array_namespace():
+            result = xp_lstsq(np.eye(2), native)
+        assert sys.gettrace() is previous
+        xp_assert_close(result, [1.0, 2.0], atol=TOLERANCE_ABSOLUTE_TESTS)
+        output = capsys.readouterr().out
+        assert "xp_lstsq(" in output
+        assert "ndarray[2, 2]" in output
+        assert "-> " in output
+        if xp.__name__ != "numpy":
+            assert "[MIXED]" in output
+
+        with pytest.raises(ValueError, match="stop tracing"), trace_array_namespace():
+            error = "stop tracing"
+            raise ValueError(error)
+        assert sys.gettrace() is previous
 
 
 class TestIsNumpyNamespace:
