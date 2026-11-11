@@ -59,6 +59,7 @@ from colour.utilities import (
     full,
     int_digest,
     is_iterable,
+    is_jax_namespace,
     is_non_ndarray,
     is_pandas_installed,
     multiline_repr,
@@ -350,7 +351,7 @@ class MultiSignals(AbstractContinuousFunction):
         super().__init__(kwargs.get("name"))
 
         self._signal_type: Type[Signal] = kwargs.get("signal_type", Signal)
-        self._dtype: Type[DTypeFloat] = kwargs.get("dtype", DTYPE_FLOAT_DEFAULT)
+        self._dtype: Type[DTypeFloat] = kwargs.pop("dtype", DTYPE_FLOAT_DEFAULT)
 
         # Canonical storage owned at the parent level.
         self._domain: NDArrayFloat = as_float_array([], self._dtype)
@@ -381,7 +382,7 @@ class MultiSignals(AbstractContinuousFunction):
             domain,
             labels,
             dtype=self._dtype,
-            **{key: value for key, value in kwargs.items() if key != "dtype"},
+            **kwargs,
         )
         self.domain = self._domain
 
@@ -1167,7 +1168,9 @@ class MultiSignals(AbstractContinuousFunction):
             sliced = values[..., x_c]  # pyright: ignore
             if not is_non_ndarray(self._range):
                 self._range[index, x_c] = sliced  # pyright: ignore
-            elif hasattr(self._range, "at"):
+            elif is_jax_namespace(
+                getattr(self._range, "__array_namespace__", lambda: xp)()
+            ):
                 self._range = self._range.at[index, x_c].set(sliced)  # pyright: ignore  # noqa: PD008
             else:
                 range_ = xp_as_array(self._range, xp=xp, copy=True)

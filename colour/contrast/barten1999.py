@@ -42,6 +42,7 @@ from colour.utilities import (
     as_float_array,
     is_non_ndarray,
     xp_as_float_array,
+    xp_as_float_arrays,
 )
 
 __author__ = "Colour Developers"
@@ -329,12 +330,7 @@ def maximum_angular_size_Barten1999(
 
     operands = (u, X_0, X_max, N_max)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), u)
-
-    u = xp_as_float_array(u, xp=xp, like=like)
-    X_0 = xp_as_float_array(X_0, xp=xp, like=u)
-    X_max = xp_as_float_array(X_max, xp=xp, like=u)
-    N_max = xp_as_float_array(N_max, xp=xp, like=u)
+    u, X_0, X_max, N_max = xp_as_float_arrays(*operands, xp=xp)
 
     return as_float((1 / X_0**2 + 1 / X_max**2 + u**2 / N_max**2) ** -0.5)
 

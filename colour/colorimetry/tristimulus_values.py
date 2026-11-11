@@ -85,6 +85,7 @@ from colour.utilities import (
     int_digest,
     is_caching_enabled,
     is_gradient_tracked,
+    is_jax_namespace,
     is_non_ndarray,
     is_numpy_namespace,
     optional,
@@ -148,7 +149,7 @@ def _is_cache_safe(a: Any) -> bool:
     """Return whether the specified value can safely key a result cache."""
 
     namespace = getattr(a, "__array_namespace__", None)
-    if namespace is not None and namespace().__name__ == "jax.numpy":
+    if namespace is not None and is_jax_namespace(namespace()):
         return False
 
     return not is_gradient_tracked(a)

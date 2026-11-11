@@ -39,9 +39,8 @@ from colour.utilities import (
     as_float,
     as_float_array,
     filter_kwargs,
-    is_non_ndarray,
     validate_method,
-    xp_as_float_array,
+    xp_as_float_arrays,
 )
 
 __author__ = "Colour Developers"
@@ -104,11 +103,7 @@ def reaction_rate_MichaelisMenten_Michaelis1913(
 
     operands = (S, V_max, K_m)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), S)
-
-    S = xp_as_float_array(S, xp=xp, like=like)
-    V_max = xp_as_float_array(V_max, xp=xp, like=S)
-    K_m = xp_as_float_array(K_m, xp=xp, like=S)
+    S, V_max, K_m = xp_as_float_arrays(*operands, xp=xp)
 
     v = (V_max * S) / (K_m + S)
 
@@ -161,12 +156,7 @@ def reaction_rate_MichaelisMenten_Abebe2017(
 
     operands = (S, V_max, K_m, b_m)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), S)
-
-    S = xp_as_float_array(S, xp=xp, like=like)
-    V_max = xp_as_float_array(V_max, xp=xp, like=S)
-    K_m = xp_as_float_array(K_m, xp=xp, like=S)
-    b_m = xp_as_float_array(b_m, xp=xp, like=S)
+    S, V_max, K_m, b_m = xp_as_float_arrays(*operands, xp=xp)
 
     v = (V_max * S) / (b_m * S + K_m)
 
@@ -287,11 +277,7 @@ def substrate_concentration_MichaelisMenten_Michaelis1913(
 
     operands = (v, V_max, K_m)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), v)
-
-    v = xp_as_float_array(v, xp=xp, like=like)
-    V_max = xp_as_float_array(V_max, xp=xp, like=v)
-    K_m = xp_as_float_array(K_m, xp=xp, like=v)
+    v, V_max, K_m = xp_as_float_arrays(*operands, xp=xp)
 
     S = (v * K_m) / (V_max - v)
 
@@ -344,12 +330,7 @@ def substrate_concentration_MichaelisMenten_Abebe2017(
 
     operands = (v, V_max, K_m, b_m)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), v)
-
-    v = xp_as_float_array(v, xp=xp, like=like)
-    V_max = xp_as_float_array(V_max, xp=xp, like=v)
-    K_m = xp_as_float_array(K_m, xp=xp, like=v)
-    b_m = xp_as_float_array(b_m, xp=xp, like=v)
+    v, V_max, K_m, b_m = xp_as_float_arrays(*operands, xp=xp)
 
     S = (v * K_m) / (V_max - b_m * v)
 

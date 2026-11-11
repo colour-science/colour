@@ -114,12 +114,16 @@ __all__ = [
     "trace_array_namespace",
     "array_namespace",
     "is_numpy_namespace",
+    "is_jax_namespace",
+    "is_torch_namespace",
+    "is_same_array_namespace",
     "is_gradient_tracked",
     "is_non_ndarray",
     "as_ndarray",
     "cast_non_ndarray",
     "xp_as_array",
     "xp_as_float_array",
+    "xp_as_float_arrays",
     "xp_as_int_array",
     "xp_ascontiguousarray",
     "xp_astype",
@@ -622,6 +626,87 @@ def is_numpy_namespace(xp: ProtocolArrayNamespace | ModuleType) -> bool:
     return False
 
 
+def is_jax_namespace(xp: ProtocolArrayNamespace | ModuleType) -> bool:
+    """
+    Determine whether the specified namespace belongs to *JAX*.
+
+    Parameters
+    ----------
+    xp
+        Namespace module to test, including an *Array API Compat* wrapper.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether the namespace belongs to *JAX*.
+
+    Examples
+    --------
+    >>> is_jax_namespace(np)
+    False
+    """
+
+    if xpc is not None:
+        return xpc.is_jax_namespace(xp)
+
+    return xp.__name__ == "jax.numpy"
+
+
+def is_torch_namespace(xp: ProtocolArrayNamespace | ModuleType) -> bool:
+    """
+    Determine whether the specified namespace belongs to *PyTorch*.
+
+    Parameters
+    ----------
+    xp
+        Namespace module to test, including an *Array API Compat* wrapper.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether the namespace belongs to *PyTorch*.
+
+    Examples
+    --------
+    >>> is_torch_namespace(np)
+    False
+    """
+
+    if xpc is not None:
+        return xpc.is_torch_namespace(xp)
+
+    return xp.__name__ == "torch"
+
+
+def is_same_array_namespace(
+    a: ProtocolArrayNamespace | ModuleType,
+    b: ProtocolArrayNamespace | ModuleType,
+) -> bool:
+    """
+    Determine whether two namespaces represent the same array backend.
+
+    Parameters
+    ----------
+    a, b
+        Namespace modules to compare.
+
+    Returns
+    -------
+    :class:`bool`
+        Whether the namespaces represent the same backend. An *Array API
+        Compat* wrapper and its underlying namespace compare equal.
+
+    Examples
+    --------
+    >>> is_same_array_namespace(np, np)
+    True
+    """
+
+    return a.__name__.removeprefix("array_api_compat.") == b.__name__.removeprefix(
+        "array_api_compat."
+    )
+
+
 def is_gradient_tracked(a: Any) -> bool:
     """
     Determine whether the specified backend array tracks automatic
@@ -648,7 +733,7 @@ def is_gradient_tracked(a: Any) -> bool:
         return True
 
     namespace = getattr(a, "__array_namespace__", None)
-    if namespace is None or namespace().__name__ != "jax.numpy":
+    if namespace is None or not is_jax_namespace(namespace()):
         return False
 
     from jax.core import Tracer  # noqa: PLC0415
@@ -856,7 +941,7 @@ def xp_as_array(
             result = xp_astype(result, xp.float32, xp=xp)
         if device_like is not None and getattr(result, "device", None) != device_like:
             try:
-                if xp.__name__ == "jax.numpy":
+                if is_jax_namespace(xp):
                     # ``asarray(device=...)`` fails under forward-mode
                     # transformations; ``device_put`` supports traced values
                     # while retaining placement for concrete arrays too.
@@ -964,7 +1049,7 @@ def xp_as_array(
         asarray_kwargs.pop("dtype", None)
         result = xp.asarray(a, **asarray_kwargs)
 
-    if xp.__name__ == "jax.numpy" and device is not None:
+    if is_jax_namespace(xp) and device is not None:
         # JAX devices have no ``type`` attribute. Use the same public transfer
         # as the native-input branch, which also supports traced values.
         result = importlib.import_module("jax").device_put(result, device)
@@ -1022,6 +1107,42 @@ def xp_as_float_array(
     """
 
     return xp_as_array(a, dtype=DTYPE_FLOAT_DEFAULT, xp=xp, like=like)
+
+
+def xp_as_float_arrays(
+    *arrays: ArrayLike,
+    xp: ProtocolArrayNamespace | ModuleType | None = None,
+    like: Any = None,
+) -> tuple[NDArrayFloat, ...]:
+    """
+    Convert numerical operands to float arrays in a shared namespace and device.
+
+    Parameters
+    ----------
+    arrays
+        Arrays, scalars or sequences to convert.
+    xp
+        Array namespace module. If *None*, derived from the inputs and *like*.
+    like
+        Reference array whose device to match. If *None*, use the first
+        non-*NumPy* input array.
+
+    Returns
+    -------
+    :class:`tuple`
+        Arrays in input order, using :attr:`colour.constants.DTYPE_FLOAT_DEFAULT`
+        in the selected namespace. Native conversions preserve differentiation.
+
+    Examples
+    --------
+    >>> xp_as_float_arrays([1, 2], 3, xp=np)
+    (array([1., 2.]), array(3.))
+    """
+
+    xp = array_namespace(*arrays, like) if xp is None else xp
+    like = _native_reference(*arrays) if like is None else like
+
+    return tuple(xp_as_float_array(a, xp=xp, like=like) for a in arrays)
 
 
 def xp_as_int_array(
@@ -1344,7 +1465,7 @@ def xp_log(
     *,
     where: ArrayLike | None = None,
     xp: ProtocolArrayNamespace | ModuleType | None = None,
-) -> NDArrayFloat:
+) -> NDArray:
     """
     Evaluate :func:`numpy.log` with optional guarded operands.
 
@@ -1361,7 +1482,7 @@ def xp_log(
 
     Returns
     -------
-    :class:`object`
+    :class:`numpy.ndarray` or equivalent backend result
         Log values at active positions and zero at inactive positions.
         Active inputs, including NaNs, retain the ordinary operation's behavior.
 
@@ -1381,7 +1502,7 @@ def xp_log2(
     *,
     where: ArrayLike | None = None,
     xp: ProtocolArrayNamespace | ModuleType | None = None,
-) -> NDArrayFloat:
+) -> NDArray:
     """
     Evaluate :func:`numpy.log2` with optional guarded operands.
 
@@ -1398,7 +1519,7 @@ def xp_log2(
 
     Returns
     -------
-    :class:`object`
+    :class:`numpy.ndarray` or equivalent backend result
         Log2 values at active positions and zero at inactive positions.
         Active inputs, including NaNs, retain the ordinary operation's behavior.
 
@@ -1418,7 +1539,7 @@ def xp_log10(
     *,
     where: ArrayLike | None = None,
     xp: ProtocolArrayNamespace | ModuleType | None = None,
-) -> NDArrayFloat:
+) -> NDArray:
     """
     Evaluate :func:`numpy.log10` with optional guarded operands.
 
@@ -1435,7 +1556,7 @@ def xp_log10(
 
     Returns
     -------
-    :class:`object`
+    :class:`numpy.ndarray` or equivalent backend result
         Log10 values at active positions and zero at inactive positions.
         Active inputs, including NaNs, retain the ordinary operation's behavior.
 
@@ -1455,7 +1576,7 @@ def xp_sqrt(
     *,
     where: ArrayLike | None = None,
     xp: ProtocolArrayNamespace | ModuleType | None = None,
-) -> NDArrayFloat:
+) -> NDArray:
     """
     Evaluate :func:`numpy.sqrt` with optional guarded operands.
 
@@ -1472,7 +1593,7 @@ def xp_sqrt(
 
     Returns
     -------
-    :class:`object`
+    :class:`numpy.ndarray` or equivalent backend result
         Sqrt values at active positions and one at inactive positions.
         Active inputs, including NaNs, retain the ordinary operation's behavior.
 
@@ -1493,7 +1614,7 @@ def xp_power(
     *,
     where: ArrayLike | None = None,
     xp: ProtocolArrayNamespace | ModuleType | None = None,
-) -> NDArrayFloat:
+) -> NDArray:
     """
     Evaluate :func:`numpy.power` with optional guarded operands.
 
@@ -1512,7 +1633,7 @@ def xp_power(
 
     Returns
     -------
-    :class:`object`
+    :class:`numpy.ndarray` or equivalent backend result
         Power values at active positions and one at inactive positions.
         Active inputs, including NaNs, retain the ordinary operation's behavior.
 
@@ -2608,6 +2729,28 @@ def xp_isin(
     return xp_as_array(result, xp=xp, like=element)
 
 
+def _linspace_dtypes(dtype: Any) -> tuple[np.dtype, Any]:
+    """
+    Return the *NumPy* output dtype and the dtype used to generate samples.
+
+    Convert backend dtype names such as ``torch.int64`` to their *NumPy*
+    equivalents. Integer output is sampled in *Colour*'s default float dtype
+    so the samples can be floored before casting, as in :func:`numpy.linspace`.
+    For other output types, sample in the requested dtype.
+    """
+
+    try:
+        output_dtype = np.dtype(dtype)
+    except TypeError:
+        output_dtype = np.dtype(str(dtype).rsplit(".", 1)[-1])
+
+    sample_dtype = (
+        DTYPE_FLOAT_DEFAULT if np.issubdtype(output_dtype, np.integer) else dtype
+    )
+
+    return output_dtype, sample_dtype
+
+
 def xp_linspace(
     start: ArrayLike,
     stop: ArrayLike,
@@ -2661,12 +2804,8 @@ def xp_linspace(
     # otherwise silently determine the precision of the samples; the *Colour*
     # default float dtype is requested instead unless the caller specifies one.
     dtype = kwargs.pop("dtype", DTYPE_FLOAT_DEFAULT)
-    try:
-        numpy_dtype = np.dtype(dtype)
-    except TypeError:
-        numpy_dtype = np.dtype(str(dtype).rsplit(".", 1)[-1])
+    numpy_dtype, sample_dtype = _linspace_dtypes(dtype)
     integer_output = np.issubdtype(numpy_dtype, np.integer)
-    sample_dtype = DTYPE_FLOAT_DEFAULT if integer_output else dtype
     if getattr(device, "type", None) == "mps" and _resolve_backend_dtype(
         xp, sample_dtype
     ) == getattr(xp, "float64", None):

@@ -182,39 +182,9 @@ class CubicSplineInterpolator:
         assume_sorted: bool = False,
         dtype: Any = None,
     ) -> None:
-        y = _as_float(y, dtype, like=x if isinstance(x, torch.Tensor) else None)
-        x = _as_float(x, dtype, like=y)
-        if x.ndim != 1:
-            error = "`x` must be 1-dimensional."
-            raise ValueError(error)
-        if y.ndim == 0:
-            error = "`y` must have at least one dimension."
-            raise ValueError(error)
-        if not -y.ndim <= axis < y.ndim:
-            error = "Interpolation axis is out of bounds for `y`."
-            raise IndexError(error)
-        self.axis = int(axis % y.ndim)
-        if y.shape[self.axis] != x.shape[0]:
-            error = "`x` and `y` must match in length along the interpolation axis."
-            raise ValueError(error)
-
-        if not assume_sorted:
-            order = torch.argsort(x)
-            y = torch.index_select(y, self.axis, order)
-            x = x[order]
-
-        if x.shape[0] < 4:
-            error = "Cubic spline interpolation requires at least 4 points."
-            raise ValueError(error)
-        if bool(torch.any(torch.diff(x) <= 0)):
-            error = "`x` must be strictly increasing."
-            raise ValueError(error)
-
         self._dtype_arg = dtype
+        self.axis = axis
         self._assume_sorted = assume_sorted
-        self._x = x
-        self._y = y
-
         self._fill_value = fill_value
         self._extrapolate = isinstance(fill_value, str) and fill_value == "extrapolate"
         if self._extrapolate and bounds_error:
@@ -228,23 +198,54 @@ class CubicSplineInterpolator:
         else:
             self._fill_value_below = self._fill_value_above = fill_value
 
-        self._solve()
+        self._set_data(x, y)
 
-    def _solve(self) -> None:
-        """
-        Solve the not-a-knot second-derivative system for the current data.
+    def _set_data(
+        self, x: Any, y: Any, *, reference: torch.Tensor | None = None
+    ) -> None:
+        """Validate and solve before replacing the interpolation data."""
 
-        The moment system is assembled densely and solved on device with
-        :func:`torch.linalg.solve`, keeping the whole solve differentiable.
-        """
+        if reference is None and isinstance(x, torch.Tensor):
+            reference = x
+        y = _as_float(y, self._dtype_arg, like=reference)
+        x = _as_float(x, self._dtype_arg, like=y)
+        if x.ndim != 1:
+            error = "`x` must be 1-dimensional."
+            raise ValueError(error)
+        if y.ndim == 0:
+            error = "`y` must have at least one dimension."
+            raise ValueError(error)
+        if not -y.ndim <= self.axis < y.ndim:
+            error = "Interpolation axis is out of bounds for `y`."
+            raise IndexError(error)
+        axis = int(self.axis % y.ndim)
+        if y.shape[axis] != x.shape[0]:
+            error = "`x` and `y` must match in length along the interpolation axis."
+            raise ValueError(error)
 
-        values = _axis_to_front(self._y, self.axis)
-        self._values_shape = tuple(values.shape)
-        self._values = values.reshape(self._values_shape[0], -1)
+        if not self._assume_sorted:
+            order = torch.argsort(x)
+            y = torch.index_select(y, axis, order)
+            x = x[order]
 
-        h = torch.diff(self._x)
-        self._intervals = h
-        self._second_derivatives = _not_a_knot_second_derivatives(h, self._values)
+        if x.shape[0] < 4:
+            error = "Cubic spline interpolation requires at least 4 points."
+            raise ValueError(error)
+        if bool(torch.any(torch.diff(x) <= 0)):
+            error = "`x` must be strictly increasing."
+            raise ValueError(error)
+
+        values = _axis_to_front(y, axis)
+        values_shape = tuple(values.shape)
+        values = values.reshape(values_shape[0], -1)
+        intervals = torch.diff(x)
+        second_derivatives = _not_a_knot_second_derivatives(intervals, values)
+
+        self.axis = axis
+        self._x, self._y = x, y
+        self._values_shape, self._values = values_shape, values
+        self._intervals = intervals
+        self._second_derivatives = second_derivatives
 
     @property
     def bounds_error(self) -> bool:
@@ -343,16 +344,7 @@ class CubicSplineInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property; re-solves the spline."""
 
-        implementation = type(self)(
-            _as_float(value, self._dtype_arg, like=self._y),
-            self._y,
-            axis=self.axis,
-            bounds_error=self.bounds_error,
-            fill_value=self.fill_value,
-            assume_sorted=self._assume_sorted,
-            dtype=self._dtype_arg,
-        )
-        vars(self).update(vars(implementation))
+        self._set_data(value, self._y, reference=self._y)
 
     @property
     def y(self) -> torch.Tensor:
@@ -364,16 +356,7 @@ class CubicSplineInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property; re-solves the spline."""
 
-        implementation = type(self)(
-            self._x,
-            _as_float(value, self._dtype_arg, like=self._x),
-            axis=self.axis,
-            bounds_error=self.bounds_error,
-            fill_value=self.fill_value,
-            assume_sorted=self._assume_sorted,
-            dtype=self._dtype_arg,
-        )
-        vars(self).update(vars(implementation))
+        self._set_data(self._x, value, reference=self._x)
 
     @property
     def dtype(self) -> torch.dtype:
@@ -394,20 +377,31 @@ class PchipInterpolator:
         *,
         dtype: Any = None,
     ) -> None:
-        y = _as_float(y, dtype, like=x if isinstance(x, torch.Tensor) else None)
-        x = _as_float(x, dtype, like=y)
-        if y.ndim == 0:
-            error = "`y` must have at least one dimension."
-            raise ValueError(error)
-        self.axis = int(axis % y.ndim)
+        self._dtype_arg = dtype
+        self.axis = axis
         self._extrapolate: bool | Literal["periodic"] | None = (
             True if extrapolate is None else extrapolate
         )
+        self._set_data(x, y)
+
+    def _set_data(
+        self, x: Any, y: Any, *, reference: torch.Tensor | None = None
+    ) -> None:
+        """Validate and solve before replacing the interpolation data."""
+
+        if reference is None and isinstance(x, torch.Tensor):
+            reference = x
+        y = _as_float(y, self._dtype_arg, like=reference)
+        x = _as_float(x, self._dtype_arg, like=y)
+        if y.ndim == 0:
+            error = "`y` must have at least one dimension."
+            raise ValueError(error)
+        axis = int(self.axis % y.ndim)
 
         if x.ndim != 1:
             error = "`x` must be 1-dimensional."
             raise ValueError(error)
-        if y.shape[self.axis] != x.shape[0]:
+        if y.shape[axis] != x.shape[0]:
             error = "`x` and `y` must match in length along the interpolation axis."
             raise ValueError(error)
         if x.shape[0] < 2:
@@ -422,40 +416,42 @@ class PchipInterpolator:
             error = "`x` must be strictly increasing."
             raise ValueError(error)
 
-        self._dtype_arg = dtype
-        self._x = x
-        self._y = y
-        self._solve()
+        values = _axis_to_front(y, axis)
+        values_shape = tuple(values.shape)
+        values = values.reshape(values_shape[0], -1)
+        intervals = torch.diff(x)
+        derivatives, derivative_scales = self._solve(intervals, values)
 
-    def _solve(self) -> None:
-        """Compute the shape-preserving derivatives for the current data."""
+        self.axis = axis
+        self._x, self._y = x, y
+        self._values_shape, self._values = values_shape, values
+        self._intervals = intervals
+        self._derivatives, self._derivative_scales = derivatives, derivative_scales
 
-        values = _axis_to_front(self._y, self.axis)
-        self._values_shape = tuple(values.shape)
-        self._values = values.reshape(self._values_shape[0], -1)
+    @staticmethod
+    def _solve(
+        h: torch.Tensor, values: torch.Tensor
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        """Compute the shape-preserving derivatives for the specified data."""
 
-        h = torch.diff(self._x)
-        self._intervals = h
         # Scale each difference locally so opposite-sign ordinates cannot
         # overflow before division, while unrelated tiny intervals stay intact.
         difference_scale = torch.where(
-            torch.maximum(torch.abs(self._values[1:]), torch.abs(self._values[:-1]))
-            > (torch.finfo(self._values.dtype).max / 65536)
+            torch.maximum(torch.abs(values[1:]), torch.abs(values[:-1]))
+            > (torch.finfo(values.dtype).max / 65536)
             * torch.clamp(torch.abs(h[:, None]), max=1),
-            torch.full_like(self._values[:-1], 2.0**64),
-            torch.ones_like(self._values[:-1]),
+            torch.full_like(values[:-1], 2.0**64),
+            torch.ones_like(values[:-1]),
         )
-        difference_scale = difference_scale.to(dtype=self._values.dtype)
-        slopes = (
-            self._values[1:] / difference_scale - self._values[:-1] / difference_scale
-        ) / h[:, None]
+        difference_scale = difference_scale.to(dtype=values.dtype)
+        slopes = (values[1:] / difference_scale - values[:-1] / difference_scale) / h[
+            :, None
+        ]
 
-        if self._x.shape[0] == 2:
-            self._derivatives = torch.stack([slopes[0], slopes[0]])
-            self._derivative_scales = torch.stack(
-                [difference_scale[0], difference_scale[0]]
-            )
-            return
+        if values.shape[0] == 2:
+            derivatives = torch.stack([slopes[0], slopes[0]])
+            derivative_scales = torch.stack([difference_scale[0], difference_scale[0]])
+            return derivatives, derivative_scales
 
         previous_original, following_original = slopes[:-1], slopes[1:]
         previous_scale, following_scale = difference_scale[:-1], difference_scale[1:]
@@ -560,12 +556,11 @@ class PchipInterpolator:
             difference_scale[-1],
             difference_scale[-2],
         )
-        self._derivatives = torch.cat(
-            [first[None, ...], interior, last[None, ...]], dim=0
-        )
-        self._derivative_scales = torch.cat(
+        derivatives = torch.cat([first[None, ...], interior, last[None, ...]], dim=0)
+        derivative_scales = torch.cat(
             [first_scale[None, ...], interior_scale, last_scale[None, ...]], dim=0
         )
+        return derivatives, derivative_scales
 
     def __call__(
         self, x: Any, nu: int = 0, extrapolate: bool | Literal["periodic"] | None = None
@@ -690,16 +685,7 @@ class PchipInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property; recomputes the derivatives."""
 
-        implementation = type(self)(
-            _as_float(value, self._dtype_arg, like=self._y),
-            self._y,
-            axis=self.axis,
-            extrapolate=self.extrapolate,
-            dtype=self._dtype_arg,
-        )
-        # An assigned None masks extrapolation, unlike the constructor default.
-        implementation.extrapolate = self.extrapolate
-        vars(self).update(vars(implementation))
+        self._set_data(value, self._y, reference=self._y)
 
     @property
     def y(self) -> torch.Tensor:
@@ -711,16 +697,7 @@ class PchipInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property; recomputes the derivatives."""
 
-        implementation = type(self)(
-            self._x,
-            _as_float(value, self._dtype_arg, like=self._x),
-            axis=self.axis,
-            extrapolate=self.extrapolate,
-            dtype=self._dtype_arg,
-        )
-        # An assigned None masks extrapolation, unlike the constructor default.
-        implementation.extrapolate = self.extrapolate
-        vars(self).update(vars(implementation))
+        self._set_data(self._x, value, reference=self._x)
 
     @property
     def extrapolate(self) -> bool | Literal["periodic"] | None:

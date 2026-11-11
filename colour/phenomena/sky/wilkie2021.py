@@ -50,6 +50,7 @@ from colour.utilities import (
     is_non_ndarray,
     xp_as_array,
     xp_as_float_array,
+    xp_as_float_arrays,
     xp_as_int_array,
     xp_astype,
     xp_atleast_1d,
@@ -1461,11 +1462,7 @@ def _compute_transmittance_parameters(
 
     operands = (theta, distance, altitude)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), theta)
-
-    theta = xp_as_float_array(theta, xp=xp, like=like)
-    distance_array = xp_as_float_array(distance, xp=xp, like=theta)
-    altitude = xp_as_float_array(altitude, xp=xp, like=theta)
+    theta, distance_array, altitude = xp_as_float_arrays(*operands, xp=xp)
 
     ray_direction_x = xp.sin(theta)
     ray_direction_y = xp.cos(theta)

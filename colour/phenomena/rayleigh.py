@@ -39,8 +39,8 @@ from colour.utilities import (
     as_float,
     as_float_array,
     filter_kwargs,
-    is_non_ndarray,
     xp_as_float_array,
+    xp_as_float_arrays,
     xp_radians,
     xp_resize,
 )
@@ -230,10 +230,7 @@ def air_refraction_index_Bodhaine1999(
 
     operands = (wavelength, CO2_concentration)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), wavelength)
-
-    wavelength = xp_as_float_array(wavelength, xp=xp, like=like)
-    CO2_concentration = xp_as_float_array(CO2_concentration, xp=xp, like=wavelength)
+    wavelength, CO2_concentration = xp_as_float_arrays(*operands, xp=xp)
 
     # Converting from parts per million (ppm) to parts per volume (ppv).
     CO2_concentration = CO2_concentration * 1e-6
@@ -437,10 +434,7 @@ def F_air_Bodhaine1999(
 
     operands = (wavelength, CO2_concentration)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), wavelength)
-
-    wavelength = xp_as_float_array(wavelength, xp=xp, like=like)
-    CO2_concentration = xp_as_float_array(CO2_concentration, xp=xp, like=wavelength)
+    wavelength, CO2_concentration = xp_as_float_arrays(*operands, xp=xp)
 
     O2 = O2_depolarisation(wavelength)
     N2 = N2_depolarisation(wavelength)
@@ -494,10 +488,7 @@ def molecular_density(
 
     operands = (temperature, avogadro_constant)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), temperature)
-
-    temperature = xp_as_float_array(temperature, xp=xp, like=like)
-    avogadro_constant = xp_as_float_array(avogadro_constant, xp=xp, like=temperature)
+    temperature, avogadro_constant = xp_as_float_arrays(*operands, xp=xp)
 
     with sdiv_mode():
         return (avogadro_constant / 22.4141) * sdiv(273.15, temperature) * (1 / 1000)
@@ -572,10 +563,7 @@ def gravity_List1968(
 
     operands = (latitude, altitude)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), latitude)
-
-    latitude = xp_as_float_array(latitude, xp=xp, like=like)
-    altitude = xp_as_float_array(altitude, xp=xp, like=latitude)
+    latitude, altitude = xp_as_float_arrays(*operands, xp=xp)
 
     cos2phi = xp.cos(xp_radians(2 * latitude))
 
@@ -648,12 +636,9 @@ def scattering_cross_section(
 
     operands = (wavelength, CO2_concentration, temperature, avogadro_constant)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), wavelength)
-
-    wavelength = xp_as_float_array(wavelength, xp=xp, like=like)
-    CO2_concentration = xp_as_float_array(CO2_concentration, xp=xp, like=wavelength)
-    temperature = xp_as_float_array(temperature, xp=xp, like=wavelength)
-    avogadro_constant = xp_as_float_array(avogadro_constant, xp=xp, like=wavelength)
+    wavelength, CO2_concentration, temperature, avogadro_constant = xp_as_float_arrays(
+        *operands, xp=xp
+    )
 
     wavelength_micrometers = wavelength * 10e3
 
@@ -761,15 +746,15 @@ def rayleigh_optical_depth(
         avogadro_constant,
     )
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), wavelength)
-
-    wavelength = xp_as_float_array(wavelength, xp=xp, like=like)
-    CO2_concentration = xp_as_float_array(CO2_concentration, xp=xp, like=wavelength)
-    temperature = xp_as_float_array(temperature, xp=xp, like=wavelength)
-    pressure = xp_as_float_array(pressure, xp=xp, like=wavelength)
-    latitude = xp_as_float_array(latitude, xp=xp, like=wavelength)
-    altitude = xp_as_float_array(altitude, xp=xp, like=wavelength)
-    avogadro_constant = xp_as_float_array(avogadro_constant, xp=xp, like=wavelength)
+    (
+        wavelength,
+        CO2_concentration,
+        temperature,
+        pressure,
+        latitude,
+        altitude,
+        avogadro_constant,
+    ) = xp_as_float_arrays(*operands, xp=xp)
 
     sigma = scattering_cross_section(
         wavelength,
