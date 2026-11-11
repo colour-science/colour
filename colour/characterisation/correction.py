@@ -85,13 +85,14 @@ from colour.utilities import (
     as_int,
     closest,
     filter_kwargs,
-    is_non_ndarray,
+    is_jax_namespace,
     ones,
     tsplit,
     tstack,
     validate_method,
     xp_as_array,
     xp_as_float_array,
+    xp_as_float_arrays,
     xp_lstsq,
     xp_matrix_transpose,
     xp_reshape,
@@ -1086,10 +1087,7 @@ def apply_matrix_colour_correction_Cheung2004(
 
     operands = (RGB, CCM)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), RGB)
-
-    RGB = xp_as_float_array(RGB, xp=xp, like=like)
-    CCM = xp_as_float_array(CCM, xp=xp, like=RGB)
+    RGB, CCM = xp_as_float_arrays(*operands, xp=xp)
     shape = RGB.shape
 
     RGB = xp_reshape(RGB, (-1, 3), xp=xp)
@@ -1150,10 +1148,7 @@ def apply_matrix_colour_correction_Finlayson2015(
 
     operands = (RGB, CCM)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), RGB)
-
-    RGB = xp_as_float_array(RGB, xp=xp, like=like)
-    CCM = xp_as_float_array(CCM, xp=xp, like=RGB)
+    RGB, CCM = xp_as_float_arrays(*operands, xp=xp)
     shape = RGB.shape
 
     RGB = xp_reshape(RGB, (-1, 3), xp=xp)
@@ -1209,10 +1204,7 @@ def apply_matrix_colour_correction_Vandermonde(
 
     operands = (RGB, CCM)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), RGB)
-
-    RGB = xp_as_float_array(RGB, xp=xp, like=like)
-    CCM = xp_as_float_array(CCM, xp=xp, like=RGB)
+    RGB, CCM = xp_as_float_arrays(*operands, xp=xp)
     shape = RGB.shape
 
     RGB = xp_reshape(RGB, (-1, 3), xp=xp)
@@ -1555,10 +1547,7 @@ def tps3d_parameters(
 
     operands = (ctrl, dest)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), ctrl)
-
-    ctrl = xp_as_float_array(ctrl, xp=xp, like=like)
-    dest = xp_as_float_array(dest, xp=xp, like=ctrl)
+    ctrl, dest = xp_as_float_arrays(*operands, xp=xp)
 
     if ctrl.ndim != 2 or ctrl.shape[1] != 3:
         message = '"source_points" must be an (N, 3) array!'
@@ -1609,7 +1598,7 @@ def tps3d_parameters(
 
     # Solve L * params = V
     # Use solve when possible; fallback to lstsq for robustness.
-    if xp.__name__.startswith("jax"):
+    if is_jax_namespace(xp):
         import jax  # noqa: PLC0415
         import jax.numpy as jnp  # noqa: PLC0415
 
@@ -1670,12 +1659,7 @@ def apply_tps3d(
 
     operands = (RGB, W, A, ctrl)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), RGB)
-
-    RGB = xp_as_float_array(RGB, xp=xp, like=like)
-    W = xp_as_float_array(W, xp=xp, like=RGB)
-    A = xp_as_float_array(A, xp=xp, like=RGB)
-    ctrl = xp_as_float_array(ctrl, xp=xp, like=RGB)
+    RGB, W, A, ctrl = xp_as_float_arrays(*operands, xp=xp)
 
     shape = RGB.shape
 

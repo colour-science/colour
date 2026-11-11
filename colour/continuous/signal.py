@@ -56,6 +56,7 @@ from colour.utilities import (
     attest,
     fill_nan,
     full,
+    is_jax_namespace,
     is_non_ndarray,
     is_pandas_installed,
     multiline_repr,
@@ -834,7 +835,9 @@ class Signal(AbstractContinuousFunction):
 
             if not is_non_ndarray(self._range):
                 self._range[index] = values  # pyright: ignore
-            elif hasattr(self._range, "at"):
+            elif is_jax_namespace(
+                getattr(self._range, "__array_namespace__", lambda: xp)()
+            ):
                 self._range = self._range.at[index].set(values)  # pyright: ignore  # noqa: PD008
             else:
                 range_ = xp_as_array(self._range, xp=xp, copy=True)

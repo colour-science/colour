@@ -164,6 +164,9 @@ Array API
     is_array_api_enabled
     is_non_ndarray
     is_numpy_namespace
+    is_jax_namespace
+    is_torch_namespace
+    is_same_array_namespace
     set_array_api_enabled
 
 **Boundary Conversion**
@@ -175,6 +178,7 @@ Array API
     cast_non_ndarray
     xp_as_array
     xp_as_float_array
+    xp_as_float_arrays
     xp_as_int_array
 
 **Assertion Helpers**

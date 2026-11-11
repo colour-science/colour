@@ -55,6 +55,7 @@ from colour.utilities import (
     domain_range_scale,
     filter_kwargs,
     from_range_1,
+    is_non_ndarray,
     multiline_repr,
     multiline_str,
     optional,
@@ -374,9 +375,10 @@ class RGB_Colourspace:
         """Setter for the **self.whitepoint** property."""
 
         attest(
-            isinstance(value, (tuple, list, np.ndarray, np.matrix)),
+            isinstance(value, (tuple, list, np.ndarray, np.matrix))
+            or is_non_ndarray(value),
             f'"whitepoint" property: "{value!r}" is not a "tuple", '
-            f'"list", "ndarray" or "matrix" instance!',
+            f'"list", "ndarray", "matrix" or backend array instance!',
         )
 
         value = as_float_array(value)

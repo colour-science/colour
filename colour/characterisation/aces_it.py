@@ -59,10 +59,7 @@ from __future__ import annotations
 import os
 import typing
 
-from colour.adaptation import (
-    chromatic_adaptation_VonKries,
-    matrix_chromatic_adaptation_VonKries,
-)
+from colour.adaptation import matrix_chromatic_adaptation_VonKries
 from colour.algebra import euclidean_distance, vecmul
 from colour.characterisation import (
     MSDS_ACES_RICD,
@@ -102,8 +99,9 @@ from colour.io import read_sds_from_csv_file
 from colour.models import XYZ_to_Jzazbz, XYZ_to_Lab, XYZ_to_Oklab, XYZ_to_xy, xy_to_XYZ
 from colour.models.rgb import (
     RGB_COLOURSPACE_ACES2065_1,
+    RGB_Colourspace,
+    RGB_to_XYZ,
     XYZ_to_RGB,
-    normalised_primary_matrix,
 )
 from colour.temperature import CCT_to_xy_CIE_D
 from colour.utilities import (
@@ -116,9 +114,9 @@ from colour.utilities import (
     optional,
     required,
     runtime_warning,
-    to_domain_1,
     tsplit,
     xp_as_float_array,
+    xp_as_float_arrays,
     xp_matrix_transpose,
     xp_reshape,
     zeros,
@@ -248,12 +246,8 @@ def sd_to_aces_relative_exposure_values(
     s_v = sd.values
     i_v = illuminant.values
 
-    operands = (s_v, i_v)
-    xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), s_v)
-
-    s_v = xp_as_float_array(s_v, xp=xp, like=like)
-    i_v = xp_as_float_array(i_v, xp=xp, like=s_v)
+    xp = array_namespace(s_v, i_v)
+    s_v, i_v = xp_as_float_arrays(s_v, i_v, xp=xp)
     r_bar, g_bar, b_bar = tsplit(
         xp_as_float_array(MSDS_ACES_RICD.values, xp=xp, like=s_v)
     )
@@ -279,17 +273,18 @@ def sd_to_aces_relative_exposure_values(
 
     if chromatic_adaptation_transform is not None:
         source_white = XYZ_to_xy(sd_to_XYZ(illuminant) / 100)
-        source_matrix = normalised_primary_matrix(
-            RGB_COLOURSPACE_ACES2065_1.primaries, source_white
+        source_colourspace = RGB_Colourspace(
+            "~ACES2065-1",
+            RGB_COLOURSPACE_ACES2065_1.primaries,
+            source_white,
+            illuminant.name,
         )
-        XYZ = vecmul(source_matrix, to_domain_1(E_rgb))
-        XYZ = chromatic_adaptation_VonKries(
-            XYZ,
-            xy_to_XYZ(source_white),
-            xy_to_XYZ(RGB_COLOURSPACE_ACES2065_1.whitepoint),
+        XYZ = RGB_to_XYZ(
+            E_rgb,
+            source_colourspace,
+            RGB_COLOURSPACE_ACES2065_1.whitepoint,
             chromatic_adaptation_transform,
         )
-        XYZ = from_range_1(XYZ)
         E_rgb = XYZ_to_RGB(XYZ, RGB_COLOURSPACE_ACES2065_1)
 
     return from_range_1(E_rgb)
@@ -463,12 +458,8 @@ def white_balance_multipliers(
         illuminant = reshape_sd(illuminant, shape, copy=False)
 
     s_v, i_v = sensitivities.values, illuminant.values
-    operands = (s_v, i_v)
-    xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), s_v)
-
-    s_v = xp_as_float_array(s_v, xp=xp, like=like)
-    i_v = xp_as_float_array(i_v, xp=xp, like=s_v)
+    xp = array_namespace(s_v, i_v)
+    s_v, i_v = xp_as_float_arrays(s_v, i_v, xp=xp)
 
     RGB_w = 1 / xp.sum(s_v * i_v[..., None], axis=0)
 
@@ -586,12 +577,8 @@ def normalise_illuminant(
         illuminant = reshape_sd(illuminant, shape)
 
     s_v, i_v = sensitivities.values, illuminant.values
-    operands = (s_v, i_v)
-    xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), s_v)
-
-    s_v = xp_as_float_array(s_v, xp=xp, like=like)
-    i_v = xp_as_float_array(i_v, xp=xp, like=s_v)
+    xp = array_namespace(s_v, i_v)
+    s_v, i_v = xp_as_float_arrays(s_v, i_v, xp=xp)
 
     c_i = xp.argmax(xp.max(s_v, axis=0))
     k = 1 / xp.sum(i_v * s_v[..., c_i])
@@ -658,13 +645,8 @@ def training_data_sds_to_RGB(
         training_data = reshape_msds(training_data, shape, copy=False)
 
     t_v, s_v, i_v = training_data.values, sensitivities.values, illuminant.values
-    operands = (t_v, s_v, i_v)
-    xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), t_v)
-
-    t_v = xp_as_float_array(t_v, xp=xp, like=like)
-    s_v = xp_as_float_array(s_v, xp=xp, like=t_v)
-    i_v = xp_as_float_array(i_v, xp=xp, like=t_v)
+    xp = array_namespace(t_v, s_v, i_v)
+    t_v, s_v, i_v = xp_as_float_arrays(t_v, s_v, i_v, xp=xp)
 
     RGB_w = 1 / xp.sum(s_v * i_v[..., None], axis=0)
     RGB_w = RGB_w * (1 / xp.min(RGB_w))
@@ -744,13 +726,8 @@ def training_data_sds_to_XYZ(
         training_data = reshape_msds(training_data, shape, copy=False)
 
     t_v, c_v, i_v = training_data.values, cmfs.values, illuminant.values
-    operands = (t_v, c_v, i_v)
-    xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), t_v)
-
-    t_v = xp_as_float_array(t_v, xp=xp, like=like)
-    c_v = xp_as_float_array(c_v, xp=xp, like=t_v)
-    i_v = xp_as_float_array(i_v, xp=xp, like=t_v)
+    xp = array_namespace(t_v, c_v, i_v)
+    t_v, c_v, i_v = xp_as_float_arrays(t_v, c_v, i_v, xp=xp)
 
     XYZ = xp.matmul(xp_matrix_transpose(i_v[..., None] * t_v, xp=xp), c_v)
 
@@ -850,13 +827,8 @@ def optimisation_factory_rawtoaces_v1() -> Tuple[
     ) -> DTypeFloat:
         """Objective function according to *RAW to ACES* v1."""
 
-        operands = (M, RGB, Lab)
-        xp = array_namespace(*operands)
-        like = next((a for a in operands if is_non_ndarray(a)), M)
-
-        M = xp_as_float_array(M, xp=xp, like=like)
-        RGB = xp_as_float_array(RGB, xp=xp, like=M)
-        Lab = xp_as_float_array(Lab, xp=xp, like=M)
+        xp = array_namespace(M, RGB, Lab)
+        M, RGB, Lab = xp_as_float_arrays(M, RGB, Lab, xp=xp)
 
         M = finaliser_function(M)
 
@@ -932,13 +904,8 @@ finaliser_function at 0x...>)
     def objective_function(M: ArrayLike, RGB: ArrayLike, Jab: ArrayLike) -> DTypeFloat:
         """:math:`J_za_zb_z` colourspace based objective function."""
 
-        operands = (M, RGB, Jab)
-        xp = array_namespace(*operands)
-        like = next((a for a in operands if is_non_ndarray(a)), M)
-
-        M = xp_as_float_array(M, xp=xp, like=like)
-        RGB = xp_as_float_array(RGB, xp=xp, like=M)
-        Jab = xp_as_float_array(Jab, xp=xp, like=M)
+        xp = array_namespace(M, RGB, Jab)
+        M, RGB, Jab = xp_as_float_arrays(M, RGB, Jab, xp=xp)
 
         M = finaliser_function(M)
 
@@ -1023,13 +990,8 @@ finaliser_function at 0x...>)
 
         M = finaliser_function(M)
 
-        operands = (M, RGB, Jab)
-        xp = array_namespace(*operands)
-        like = next((a for a in operands if is_non_ndarray(a)), M)
-
-        M = xp_as_float_array(M, xp=xp, like=like)
-        RGB = xp_as_float_array(RGB, xp=xp, like=M)
-        Jab = xp_as_float_array(Jab, xp=xp, like=M)
+        xp = array_namespace(M, RGB, Jab)
+        M, RGB, Jab = xp_as_float_arrays(M, RGB, Jab, xp=xp)
 
         XYZ_t = xp_matrix_transpose(
             xp.matmul(
@@ -1347,14 +1309,8 @@ def camera_RGB_to_ACES2065_1(
 
     RGB = as_float_array(RGB)
 
-    operands = (RGB, B, b, k)
-    xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), RGB)
-
-    RGB = xp_as_float_array(RGB, xp=xp, like=like)
-    B = xp_as_float_array(B, xp=xp, like=RGB)
-    b = xp_as_float_array(b, xp=xp, like=RGB)
-    k = xp_as_float_array(k, xp=xp, like=RGB)
+    xp = array_namespace(RGB, B, b, k)
+    RGB, B, b, k = xp_as_float_arrays(RGB, B, b, k, xp=xp)
 
     RGB_r = b * RGB / xp.min(b)
 

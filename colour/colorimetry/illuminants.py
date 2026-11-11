@@ -49,6 +49,7 @@ from colour.utilities import (
     as_float_array,
     as_ndarray,
     is_gradient_tracked,
+    is_jax_namespace,
     xp_as_float_array,
     xp_round,
 )
@@ -500,7 +501,7 @@ def msds_CIE_illuminant_D_series(
     # Physical labels are metadata, and cannot be materialised from JAX
     # tracers. Let the constructor supply static labels while tracing.
     labels = None
-    if not (array_namespace(xy).__name__ == "jax.numpy" and is_gradient_tracked(xy)):
+    if not (is_jax_namespace(array_namespace(xy)) and is_gradient_tracked(xy)):
         xy_labels = as_ndarray(xy)
         labels = [
             f"CIE xy ({xy_labels[i, 0]}, {xy_labels[i, 1]}) - CIE Illuminant D Series"

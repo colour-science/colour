@@ -1138,11 +1138,19 @@ def test_pchip_extrapolate_false(
     """Test PCHIP returns *NaN* outside the range when not extrapolating."""
 
     _name, cast = backend
-    values = PchipInterpolator(cast(_X), cast(_Y), extrapolate=False)(
-        cast(np.array([-1.0, 2.5, 6.0]))
-    )
-    values = as_ndarray(values)
+    query = cast(np.array([-1.0, 2.5, 6.0]))
+    interpolator = PchipInterpolator(cast(_X), cast(_Y), extrapolate=False)
 
+    values = as_ndarray(interpolator(query))
+    assert np.isnan(values[0])
+    assert np.isnan(values[-1])
+    assert np.isfinite(values[1])
+
+    interpolator.extrapolate = None
+    interpolator.x = cast(_X + 0.5)
+    interpolator.y = cast(_Y + 1.0)
+    assert interpolator.extrapolate is None
+    values = as_ndarray(interpolator(query))
     assert np.isnan(values[0])
     assert np.isnan(values[-1])
     assert np.isfinite(values[1])

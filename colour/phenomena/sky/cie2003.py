@@ -29,8 +29,7 @@ from colour.utilities import (
     array_namespace,
     as_float,
     as_float_array,
-    is_non_ndarray,
-    xp_as_float_array,
+    xp_as_float_arrays,
 )
 
 __author__ = "Colour Developers"
@@ -295,11 +294,7 @@ def sky_luminance_gradation_CIE2003(
 
     operands = (Z, a, b)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), Z)
-
-    Z = xp_as_float_array(Z, xp=xp, like=like)
-    a = xp_as_float_array(a, xp=xp, like=Z)
-    b = xp_as_float_array(b, xp=xp, like=Z)
+    Z, a, b = xp_as_float_arrays(*operands, xp=xp)
 
     above_horizon = xp.pi / 2 > Z
     # Mask before evaluating the exponential: just beyond the horizon its
@@ -361,12 +356,7 @@ def sky_scattering_indicatrix_CIE2003(
 
     operands = (chi, c, d, e)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), chi)
-
-    chi = xp_as_float_array(chi, xp=xp, like=like)
-    c = xp_as_float_array(c, xp=xp, like=chi)
-    d = xp_as_float_array(d, xp=xp, like=chi)
-    e = xp_as_float_array(e, xp=xp, like=chi)
+    chi, c, d, e = xp_as_float_arrays(*operands, xp=xp)
 
     f = 1 + c * (xp.exp(d * chi) - xp.exp(d * xp.pi / 2)) + e * xp.cos(chi) ** 2
 
@@ -440,12 +430,7 @@ def sky_luminance_distribution_CIE2003(
 
     operands = (Z, alpha, Z_s, alpha_s)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), Z)
-
-    Z = xp_as_float_array(Z, xp=xp, like=like)
-    alpha = xp_as_float_array(alpha, xp=xp, like=Z)
-    Z_s = xp_as_float_array(Z_s, xp=xp, like=Z)
-    alpha_s = xp_as_float_array(alpha_s, xp=xp, like=Z)
+    Z, alpha, Z_s, alpha_s = xp_as_float_arrays(*operands, xp=xp)
 
     parameters = CIE_STANDARD_SKY_PARAMETERS[sky_type]
     a = parameters.a

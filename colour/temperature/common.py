@@ -31,10 +31,13 @@ from colour.utilities import (
     as_float,
     as_float_array,
     is_gradient_tracked,
+    is_jax_namespace,
     is_non_ndarray,
+    is_torch_namespace,
     tstack,
     usage_warning,
     xp_as_float_array,
+    xp_as_float_arrays,
     xp_broadcast_to,
     xp_linspace,
 )
@@ -80,7 +83,7 @@ def _forward_derivatives(
     """Evaluate local pointwise derivatives without probing neighboring pieces."""
 
     xp = array_namespace(point)
-    if xp.__name__.endswith("torch"):
+    if is_torch_namespace(xp):
         import torch  # noqa: PLC0415
 
         # Clone without detaching: callers and captured model parameters keep
@@ -111,6 +114,10 @@ def _forward_derivatives(
             hessian = xp.stack([gradient(value) for value in derivatives], axis=-1)
 
         return centre, jacobian, hessian
+
+    if not is_jax_namespace(xp):
+        error = f'Automatic differentiation is unsupported for "{xp.__name__}".'
+        raise NotImplementedError(error)
 
     import jax  # noqa: PLC0415
 
@@ -379,10 +386,7 @@ def solve_CCT_Newton(
 
     operands = (target, x0)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), target)
-
-    target = xp_as_float_array(target, xp=xp, like=like)
-    x0 = xp_as_float_array(x0, xp=xp, like=target)
+    target, x0 = xp_as_float_arrays(*operands, xp=xp)
 
     # Carries ``target``'s namespace and device through the broadcast.
     CCT = xp.zeros_like(target[..., 0]) + xp_as_float_array(x0, xp=xp, like=target)

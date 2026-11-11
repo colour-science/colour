@@ -108,6 +108,7 @@ from colour.utilities import (
     is_networkx_installed,
     is_non_ndarray,
     is_numpy_namespace,
+    is_same_array_namespace,
     is_uniform,
     ndarray_copy,
     ndarray_copy_enable,
@@ -130,6 +131,7 @@ from colour.utilities import (
     tstack,
     xp_as_array,
     xp_as_float_array,
+    xp_as_float_arrays,
     xp_as_int_array,
     xp_ascontiguousarray,
     xp_assert_close,
@@ -192,6 +194,7 @@ __all__ = [
     "TestCastNonNdarray",
     "TestXpAsArray",
     "TestXpAsFloatArray",
+    "TestXpAsFloatArrays",
     "TestXpAsIntArray",
     "TestXpAscontiguousarray",
     "TestXpAstype",
@@ -826,6 +829,43 @@ class TestXpAsFloatArray:
                 result = function(host, native)
                 assert isinstance(result, np.ndarray)
                 xp_assert_equal(result, host)
+
+
+class TestXpAsFloatArrays:
+    """Define :func:`colour.utilities.xp_as_float_arrays` unit tests."""
+
+    def test_xp_as_float_arrays(
+        self, xp: ModuleType, request: pytest.FixtureRequest
+    ) -> None:
+        """Test shared placement, float conversion and differentiation."""
+
+        host = np.array([1, 2])
+        native = xp_as_array([3, 4], xp=xp)
+        with xp.device("cpu") if xp.__name__ == "torch" else contextlib.nullcontext():
+            converted = xp_as_float_arrays(host, native, 5)
+            anchored = xp_as_float_arrays(host, 5, like=native)
+        for arrays, expected in (
+            (converted, ([1.0, 2.0], [3.0, 4.0], 5.0)),
+            (anchored, ([1.0, 2.0], 5.0)),
+        ):
+            for array, values in zip(arrays, expected, strict=True):
+                xp_assert_equal(array, values)
+                assert is_same_array_namespace(array_namespace(array), xp)
+                assert array.dtype == xp_as_float_array(native, xp=xp).dtype
+                assert getattr(array, "device", None) == getattr(native, "device", None)
+        xp_assert_equal(host, [1, 2])
+        xp_assert_equal(native, [3, 4])
+        assert xp_as_float_arrays() == ()
+        with array_api_enable(False):
+            arrays = xp_as_float_arrays(host, native)
+            assert all(isinstance(array, np.ndarray) for array in arrays)
+
+        if xp.__name__ != "numpy":
+            autodiff = request.getfixturevalue("autodiff")
+            autodiff(
+                lambda values: xp_as_float_arrays([1.0, 2.0], values)[1] * 2,
+                np.array([3.0, 4.0]),
+            )
 
 
 class TestXpAsIntArray:

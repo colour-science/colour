@@ -432,9 +432,6 @@ class LinearInterpolator(_DispatchingInterpolator):
     """
     Perform linear interpolation of a 1-D function.
 
-    This class provides a wrapper around NumPy's linear interpolation
-    functionality for interpolating between specified data points.
-
     Parameters
     ----------
     x
@@ -456,10 +453,6 @@ class LinearInterpolator(_DispatchingInterpolator):
     -   :meth:`~colour.LinearInterpolator.__init__`
     -   :meth:`~colour.LinearInterpolator.__call__`
 
-    Notes
-    -----
-    -   This class is a wrapper around *numpy.interp* definition.
-
     Examples
     --------
     Interpolating a single numeric variable:
@@ -479,8 +472,9 @@ class LinearInterpolator(_DispatchingInterpolator):
     Notes
     -----
     Input arrays select the backend when Array API dispatch is enabled.
-    *NumPy* inputs use *SciPy* or *NumPy*; *PyTorch* and *JAX* arrays use
-    native operations that preserve device placement and differentiation.
+    For one-dimensional data, the *NumPy* backend uses :func:`numpy.interp`.
+    *PyTorch* and *JAX* arrays use native operations that preserve device
+    placement and differentiation.
     Assigning ``x`` or ``y`` can select a different backend.
     """
 
@@ -627,6 +621,11 @@ class SpragueInterpolator(_DispatchingInterpolator):
     -   The minimum number :math:`k` of data points required along the
         interpolation axis is :math:`k=6`.
 
+    Input arrays select the backend when Array API dispatch is enabled.
+    *NumPy* inputs use *SciPy* or *NumPy*; *PyTorch* and *JAX* arrays use
+    native operations that preserve device placement and differentiation.
+    Assigning ``x`` or ``y`` can select a different backend.
+
     References
     ----------
     :cite:`CIETC1-382005f`, :cite:`Westland2012h`
@@ -646,13 +645,6 @@ class SpragueInterpolator(_DispatchingInterpolator):
 
     >>> f([0.25, 0.75])  # doctest: +ELLIPSIS
     array([6.7295161..., 7.8140625...])
-
-    Notes
-    -----
-    Input arrays select the backend when Array API dispatch is enabled.
-    *NumPy* inputs use *SciPy* or *NumPy*; *PyTorch* and *JAX* arrays use
-    native operations that preserve device placement and differentiation.
-    Assigning ``x`` or ``y`` can select a different backend.
     """
 
 

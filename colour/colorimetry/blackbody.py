@@ -39,6 +39,7 @@ from colour.utilities import (
     as_float_array,
     as_ndarray,
     is_gradient_tracked,
+    is_jax_namespace,
     is_non_ndarray,
     xp_as_float_array,
     xp_log,
@@ -339,7 +340,7 @@ def msds_blackbody(
     # the host, so retain the constructor's static labels during tracing.
     labels = (
         None
-        if array_namespace(temperatures).__name__ == "jax.numpy"
+        if is_jax_namespace(array_namespace(temperatures))
         and is_gradient_tracked(temperatures)
         else [f"{T}K Blackbody" for T in as_ndarray(temperatures)]
     )
@@ -549,7 +550,7 @@ def msds_rayleigh_jeans(
     # Keep numerical temperature derivatives independent of label formatting.
     labels = (
         None
-        if array_namespace(temperatures).__name__ == "jax.numpy"
+        if is_jax_namespace(array_namespace(temperatures))
         and is_gradient_tracked(temperatures)
         else [f"{T}K Rayleigh-Jeans" for T in as_ndarray(temperatures)]
     )

@@ -38,6 +38,7 @@ from colour.utilities import (
     as_ndarray,
     attest,
     closest,
+    is_same_array_namespace,
     is_uniform,
     optional,
     xp_as_array,
@@ -899,8 +900,7 @@ arithmetical_operation`
 
         range_input = (
             source_range
-            if target_xp.__name__.removeprefix("array_api_compat.")
-            == source_xp.__name__.removeprefix("array_api_compat.")
+            if is_same_array_namespace(target_xp, source_xp)
             else as_ndarray(source_range)
         )
         range_copy = xp_as_array(range_input, xp=target_xp, copy=True)

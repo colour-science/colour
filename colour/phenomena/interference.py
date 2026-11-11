@@ -27,6 +27,7 @@ from colour.utilities import (
     is_non_ndarray,
     tstack,
     xp_as_float_array,
+    xp_as_float_arrays,
     xp_atleast_1d,
     xp_radians,
 )
@@ -86,11 +87,7 @@ def light_water_molar_refraction_Schiebener1990(
 
     operands = (wavelength, temperature, density)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), wavelength)
-
-    wavelength = xp_as_float_array(wavelength, xp=xp, like=like)
-    temperature = xp_as_float_array(temperature, xp=xp, like=wavelength)
-    density = xp_as_float_array(density, xp=xp, like=wavelength)
+    wavelength, temperature, density = xp_as_float_arrays(*operands, xp=xp)
 
     wl = wavelength / 589
     T = temperature / 273.15
@@ -157,11 +154,7 @@ def light_water_refractive_index_Schiebener1990(
 
     operands = (wavelength, temperature, density)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), wavelength)
-
-    wavelength = xp_as_float_array(wavelength, xp=xp, like=like)
-    temperature = xp_as_float_array(temperature, xp=xp, like=wavelength)
-    density = xp_as_float_array(density, xp=xp, like=wavelength)
+    wavelength, temperature, density = xp_as_float_arrays(*operands, xp=xp)
 
     p_s = density / 1000
 
