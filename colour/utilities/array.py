@@ -462,7 +462,7 @@ class trace_array_namespace:
     def _is_colour_frame(self, frame: Any) -> bool:
         """Check whether the specified frame belongs to *Colour*."""
 
-        filename = frame.f_code.co_filename or ""
+        filename = (frame.f_code.co_filename or "").replace("\\", "/")
 
         return "colour/" in filename and "/site-packages/" not in filename
 
@@ -647,7 +647,7 @@ def is_jax_namespace(xp: ProtocolArrayNamespace | ModuleType) -> bool:
     """
 
     if xpc is not None:
-        return xpc.is_jax_namespace(xp)
+        return xpc.is_jax_namespace(cast("ModuleType", xp))
 
     return xp.__name__ == "jax.numpy"
 

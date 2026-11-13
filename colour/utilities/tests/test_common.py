@@ -641,6 +641,12 @@ class TestDownloadUrl:
 
         cache = tmp_path / "cache"
         monkeypatch.setattr("colour.ROOT_COLOUR_SCIENCE", str(cache))
-        cached = download_url(url)
-        assert cached == str(cache / source.as_posix().lstrip("/"))
+        monkeypatch.setattr("urllib.request.urlopen", lambda _url: source.open("rb"))
+        cached = download_url(
+            "https://huggingface.co/colour-science/learning-munsell/"
+            "resolve/main/models/source.bin"
+        )
+        assert os.path.normpath(cached) == str(
+            cache / "learning-munsell" / "models" / "source.bin"
+        )
         assert hash_sha256(cached) == digest

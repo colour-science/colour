@@ -1823,12 +1823,19 @@ def test_dtype_honoured(
         cast(np.ascontiguousarray(y_view)),
         dtype=dtype,
     )(cast(np.ascontiguousarray(query_view)))
+    host_reference = interpolator_type(
+        np.ascontiguousarray(x_view), np.ascontiguousarray(y_view), dtype=dtype
+    )(np.ascontiguousarray(query_view))
     for knots, values in ((cast(x_view), y_view), (x_view, cast(y_view))):
         viewed = interpolator_type(knots, values, dtype=dtype)
         xp_assert_close(viewed(query_view), reference, atol=TOLERANCE_ABSOLUTE_TESTS)
         viewed.x = x_view
         viewed.y = y_view
-        xp_assert_close(viewed(query_view), reference, atol=TOLERANCE_ABSOLUTE_TESTS)
+        # Both sources are now host arrays, so dispatch selects NumPy.
+        assert isinstance(viewed.x, np.ndarray)
+        xp_assert_close(
+            viewed(query_view), host_reference, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
 
     if interpolator_type is PchipInterpolator:
         # Nonuniform intervals distinguish the harmonic-mean weights when
