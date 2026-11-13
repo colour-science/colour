@@ -1,0 +1,7 @@
+# Match the existing Ruff exclusions in pyproject.toml.
+pydocstyle:
+  disable:
+    - D202
+mccabe:
+  disable:
+    - MC0001

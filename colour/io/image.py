@@ -14,6 +14,8 @@ from dataclasses import dataclass, field
 import numpy as np
 
 if typing.TYPE_CHECKING:
+    from OpenImageIO import ImageSpec as ImageSpec_OpenImageIO
+
     from colour.hints import (
         Any,
         ArrayLike,
@@ -738,7 +740,6 @@ def write_image_OpenImageIO(
     """
 
     from OpenImageIO import ImageOutput  # noqa: PLC0415
-    from OpenImageIO import ImageSpec as ImageSpec_OpenImageIO  # noqa: PLC0415
 
     image = as_float_array(image)
     path = str(path)

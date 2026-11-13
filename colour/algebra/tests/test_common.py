@@ -413,7 +413,7 @@ class TestSpow:
         if not is_numpy_namespace(xp):
             autodiff = request.getfixturevalue("autodiff")
             _result, gradients, _inputs = autodiff(
-                lambda a, p: spow(a, p), np.array([0.0, 2.0]), np.ones(2)
+                spow, np.array([0.0, 2.0]), np.ones(2)
             )
             xp_assert_close(gradients[0], [1.0, 1.0], atol=TOLERANCE_ABSOLUTE_TESTS)
             xp_assert_close(
