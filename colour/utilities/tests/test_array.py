@@ -364,22 +364,29 @@ class TestTraceArrayNamespace:
     """Define :class:`colour.utilities.trace_array_namespace` unit tests."""
 
     def test_trace_array_namespace(
-        self, xp: ModuleType, capsys: pytest.CaptureFixture[str]
+        self,
+        xp: ModuleType,
+        capsys: pytest.CaptureFixture[str],
+        monkeypatch: pytest.MonkeyPatch,
     ) -> None:
         """Test tracing reports array flow and restores the previous hook."""
 
         native = xp_as_array([1.0, 2.0], xp=xp)
         previous = sys.gettrace()
-        with trace_array_namespace():
-            result = xp_lstsq(np.eye(2), native)
-        assert sys.gettrace() is previous
-        xp_assert_close(result, [1.0, 2.0], atol=TOLERANCE_ABSOLUTE_TESTS)
-        output = capsys.readouterr().out
-        assert "xp_lstsq(" in output
-        assert "ndarray[2, 2]" in output
-        assert "-> " in output
-        if xp.__name__ != "numpy":
-            assert "[MIXED]" in output
+        code = xp_lstsq.__code__
+        for filename in (code.co_filename, r"C:\project\colour\utilities\array.py"):
+            with monkeypatch.context() as patch:
+                patch.setattr(xp_lstsq, "__code__", code.replace(co_filename=filename))
+                with trace_array_namespace():
+                    result = xp_lstsq(np.eye(2), native)
+            assert sys.gettrace() is previous
+            xp_assert_close(result, [1.0, 2.0], atol=TOLERANCE_ABSOLUTE_TESTS)
+            output = capsys.readouterr().out
+            assert "xp_lstsq(" in output
+            assert "ndarray[2, 2]" in output
+            assert "-> " in output
+            if xp.__name__ != "numpy":
+                assert "[MIXED]" in output
 
         with pytest.raises(ValueError, match="stop tracing"), trace_array_namespace():
             error = "stop tracing"
