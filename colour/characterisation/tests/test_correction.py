@@ -979,7 +979,7 @@ apply_matrix_colour_correction_Cheung2004` definition.
             mixed: list[typing.Any] = list(arguments)
             mixed[index] = native
             with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
-                result = apply_matrix_colour_correction_Cheung2004(*mixed)
+                result = apply_matrix_colour_correction_Cheung2004(mixed[0], mixed[1])
             xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
             if hasattr(native, "device"):
                 assert result.device == native.device
@@ -1077,7 +1077,9 @@ apply_matrix_colour_correction_Finlayson2015` definition.
             mixed: list[typing.Any] = list(arguments)
             mixed[index] = native
             with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
-                result = apply_matrix_colour_correction_Finlayson2015(*mixed)
+                result = apply_matrix_colour_correction_Finlayson2015(
+                    mixed[0], mixed[1]
+                )
             xp_assert_close(result, reference, atol=TOLERANCE_ABSOLUTE_TESTS)
             if hasattr(native, "device"):
                 assert result.device == native.device

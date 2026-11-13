@@ -787,9 +787,9 @@ def test_extrapolator(
     # A fixed boundary value is constant in the finite ordinates, even at an
     # infinite query. Check each one-sided override as well as the pair.
     for left, right, points, expected in (
-        (7.0, None, [-np.inf, -1e20], [7.0, 7.0]),
-        (None, 9.0, [np.inf, 1e20], [9.0, 9.0]),
-        (7.0, 9.0, [-np.inf, np.inf], [7.0, 9.0]),
+        (7.0, None, (-np.inf, -1e20), [7.0, 7.0]),
+        (None, 9.0, (np.inf, 1e20), [9.0, 9.0]),
+        (7.0, 9.0, (-np.inf, np.inf), [7.0, 9.0]),
     ):
         for values in (y, np.stack([y, y * 2], axis=-1)):
             expected_values = (

@@ -243,8 +243,8 @@ intersect_ray_circle_2d` definition.
 
         radius = xp_as_array(10.0, xp=xp)
         for origin, direction, offsets in (
-            ([0.0, 5.0], [0.0, 1.0], np.array(5.0)),
-            ([[0.0, 5.0], [3.0, 0.0]], [[0.0, 1.0], [1.0, 0.0]], np.array([5.0, 3.0])),
+            ((0.0, 5.0), (0.0, 1.0), np.array(5.0)),
+            (((0.0, 5.0), (3.0, 0.0)), ((0.0, 1.0), (1.0, 0.0)), np.array([5.0, 3.0])),
         ):
 
             def intersect(
