@@ -108,7 +108,7 @@ def cctf_encoding_ROMMRGB(
     +------------+-----------------------+---------------+
 
     -   This definition has an output int switch, thus the domain-range
-     scale information is only specified for the floating point mode.
+        scale information is only specified for the floating point mode.
 
     References
     ----------

@@ -39,9 +39,6 @@ Common
 .. autosummary::
     :toctree: generated/
 
-    DTYPE_COMPLEX_DEFAULT
-    DTYPE_FLOAT_DEFAULT
-    DTYPE_INT_DEFAULT
     EPSILON
     PATTERN_FLOATING_POINT_NUMBER
     THRESHOLD_INTEGER
@@ -49,3 +46,11 @@ Common
     TOLERANCE_ABSOLUTE_TESTS
     TOLERANCE_RELATIVE_DEFAULT
     TOLERANCE_RELATIVE_TESTS
+
+.. autosummary::
+    :toctree: generated/
+    :template: type.rst
+
+    DTYPE_COMPLEX_DEFAULT
+    DTYPE_FLOAT_DEFAULT
+    DTYPE_INT_DEFAULT

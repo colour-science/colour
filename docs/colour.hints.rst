@@ -13,7 +13,6 @@ Annotation Type Hints
     Callable
     cast
     ClassVar
-    Dataclass
     Dict
     Domain1
     Domain10
@@ -21,7 +20,6 @@ Annotation Type Hints
     Domain360
     Domain100_100_360
     DType
-    DTypeBoolean
     DTypeComplex
     DTypeFloat
     DTypeInt
@@ -50,7 +48,6 @@ Annotation Type Hints
     LiteralRGBColourspace
     LiteralWarning
     Mapping
-    ModuleType
     NDArray
     NDArrayBoolean
     NDArrayComplex
@@ -86,3 +83,11 @@ Annotation Type Hints
     Type
     TypedDict
     TypeVar
+
+.. autosummary::
+    :toctree: generated/
+    :template: type.rst
+
+    DTypeBoolean
+    Dataclass
+    ModuleType

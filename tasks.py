@@ -367,11 +367,11 @@ def docs(
     with ctx.prefix("export COLOUR_SCIENCE__DOCUMENTATION_BUILD=True"), ctx.cd("docs"):
         if html:
             message_box('Building "HTML" documentation...')
-            ctx.run("make html")
+            ctx.run("make html SPHINXOPTS='-W --keep-going'")
 
         if pdf:
             message_box('Building "PDF" documentation...')
-            ctx.run("make latexpdf")
+            ctx.run("make latexpdf SPHINXOPTS='-W --keep-going'")
 
 
 @task

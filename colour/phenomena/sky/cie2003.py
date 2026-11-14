@@ -11,8 +11,9 @@ defined in *CIE S 011/E:2003* and *ISO 15469:2004(E)*.
 
 References
 ----------
--   :cite:`CIE2003` : CIE. (2003). International Organization for
-    Standardization. (2004). INTERNATIONAL STANDARD ISO 15469 CIE S 011/E -
+-   :cite:`InternationalOrganizationforStandardization2004` : International
+    Organization for Standardization. (2004). INTERNATIONAL STANDARD ISO 15469
+    CIE S 011/E -
     Spatial distribution of daylight - CIE standard general sky.
 """
 
@@ -75,7 +76,7 @@ class SkyType_CIE2003(MixinDataclassIterable):
 
     References
     ----------
-    :cite:`CIE2003`
+    :cite:`InternationalOrganizationforStandardization2004`
     """
 
     gradation_group: int
@@ -248,7 +249,7 @@ CIE_STANDARD_SKY_PARAMETERS: dict[int, SkyType_CIE2003] = {
 
 References
 ----------
-:cite:`CIE2003`
+:cite:`InternationalOrganizationforStandardization2004`
 """
 
 
@@ -277,7 +278,7 @@ def sky_luminance_gradation_CIE2003(
 
     References
     ----------
-    :cite:`CIE2003`
+    :cite:`InternationalOrganizationforStandardization2004`
 
     Examples
     --------
@@ -341,7 +342,7 @@ def sky_scattering_indicatrix_CIE2003(
 
     References
     ----------
-    :cite:`CIE2003`
+    :cite:`InternationalOrganizationforStandardization2004`
 
     Examples
     --------
@@ -407,7 +408,7 @@ def sky_luminance_distribution_CIE2003(
 
     References
     ----------
-    :cite:`CIE2003`
+    :cite:`InternationalOrganizationforStandardization2004`
 
     Examples
     --------
@@ -481,7 +482,7 @@ def sky_luminance_distribution_overcast_CIE2003(
 
     References
     ----------
-    :cite:`CIE2003`
+    :cite:`InternationalOrganizationforStandardization2004`
 
     Examples
     --------

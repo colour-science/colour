@@ -1035,6 +1035,6 @@ Pointer's Gamut
 .. autosummary::
     :toctree: generated/
 
-    CCS_ILLUMINANT_POINTER_GAMUT
-    CCS_POINTER_GAMUT_BOUNDARY
-    DATA_POINTER_GAMUT_VOLUME
+    datasets.pointer_gamut.CCS_ILLUMINANT_POINTER_GAMUT
+    datasets.pointer_gamut.CCS_POINTER_GAMUT_BOUNDARY
+    datasets.pointer_gamut.DATA_POINTER_GAMUT_VOLUME
