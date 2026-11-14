@@ -374,7 +374,12 @@ class TestTraceArrayNamespace:
         native = xp_as_array([1.0, 2.0], xp=xp)
         previous = sys.gettrace()
         code = xp_lstsq.__code__
-        for filename in (code.co_filename, r"C:\project\colour\utilities\array.py"):
+        for filename in (
+            code.co_filename,
+            r"C:\project\colour\utilities\array.py",
+            "/venv/lib/python3.13/site-packages/colour/utilities/array.py",
+            r"C:\venv\Lib\site-packages\colour\utilities\array.py",
+        ):
             with monkeypatch.context() as patch:
                 patch.setattr(xp_lstsq, "__code__", code.replace(co_filename=filename))
                 with trace_array_namespace():

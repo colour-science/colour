@@ -464,7 +464,7 @@ class trace_array_namespace:
 
         filename = (frame.f_code.co_filename or "").replace("\\", "/")
 
-        return "colour/" in filename and "/site-packages/" not in filename
+        return "/colour/" in f"/{filename}"
 
     def _trace(self, frame: Any, event: str, arg: Any) -> Any:
         """Trace function for :func:`sys.settrace`."""
