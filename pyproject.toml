@@ -89,6 +89,7 @@ conflicts = [[{ group = "jax" }, { group = "torch" }]]
 
 [dependency-groups]
 dev = [
+    "biblib-simple",
     "coverage",
     "coveralls",
     "griffe",

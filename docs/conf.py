@@ -53,6 +53,8 @@ extensions = [
     "sphinxcontrib.bibtex",
 ]
 
+intersphinx_timeout = 10
+
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "matplotlib": ("https://matplotlib.org/stable", None),

@@ -36,7 +36,6 @@ Interpolation
     :toctree: generated/
 
     lagrange_coefficients
-    linear_interpolation_index_and_factor
     table_interpolation
     TABLE_INTERPOLATION_METHODS
 
@@ -62,6 +61,7 @@ Interpolation
 .. autosummary::
     :toctree: generated/
 
+    linear_interpolation_index_and_factor
     table_interpolation_tetrahedral
     table_interpolation_trilinear
 
