@@ -447,7 +447,7 @@ def build(ctx: Context) -> None:
         flags=re.DOTALL,
     )
     try:
-        readme_path.write_text(readme_content, encoding="utf-8")
+        readme_path.write_text(readme_content, encoding="utf-8", newline="")
         ctx.run("uv build")
     finally:
         readme_path.write_bytes(original_readme)
@@ -530,7 +530,7 @@ def virtualise(ctx: Context, tests: bool = True) -> None:
 
 
 @task
-def tag(ctx: Context) -> None:
+def tag(ctx: Context, remote_name: str = "upstream") -> None:
     """
     Tag the repository according to defined version using *git-flow*.
 
@@ -538,6 +538,8 @@ def tag(ctx: Context) -> None:
     ----------
     ctx
         Context.
+    remote_name
+        Name of the remote repository.
     """
 
     message_box("Tagging...")
@@ -568,18 +570,20 @@ def tag(ctx: Context) -> None:
 
         version = f"{major_version}.{minor_version}.{change_version}"
 
-        result = ctx.run("git ls-remote --tags upstream", hide="both")
+        result = ctx.run(
+            f"git ls-remote --tags --refs {quote(remote_name)}", hide="both"
+        )
         if result is None:
             error = "Failed to list remote tags."
 
             raise RuntimeError(error)
 
-        remote_tags = result.stdout.strip().split("\n")
-        tags = set()
-        for remote_tag in remote_tags:
-            tags.add(remote_tag.split("refs/tags/")[1].replace("refs/tags/", "^{}"))
-        version_tags = sorted(tags)
-        if f"v{version}" in version_tags:
+        tags = {
+            ref.removeprefix("refs/tags/").removesuffix("^{}")
+            for line in result.stdout.splitlines()
+            if (ref := line.partition("\t")[2]).startswith("refs/tags/")
+        }
+        if f"v{version}" in tags:
             error = (
                 f'A "{PYTHON_PACKAGE_NAME}" "v{version}" tag already exists in '
                 f"remote repository!"
