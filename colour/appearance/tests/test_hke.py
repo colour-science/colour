@@ -6,6 +6,7 @@ import typing
 
 if typing.TYPE_CHECKING:
     import pytest
+
     from colour.hints import ModuleType
 
 from itertools import product
@@ -97,9 +98,10 @@ HelmholtzKohlrausch_effect_object_Nayatani1997` definition.
             if xp.__name__ != "numpy":
                 autodiff = request.getfixturevalue("autodiff")
                 autodiff(
-                    lambda value,
-                    parameter=parameter: HelmholtzKohlrausch_effect_object_Nayatani1997(
-                        **{**host_arguments, parameter: value}
+                    lambda value, parameter=parameter: (
+                        HelmholtzKohlrausch_effect_object_Nayatani1997(
+                            **{**host_arguments, parameter: value}
+                        )
                     ),
                     native,
                 )

@@ -288,9 +288,12 @@ class TestSolve_CCT_Newton:
                 else:
                     autodiff(
                         lambda values, seed=seed: (
-                            solve_CCT_Newton(CCT_to_xy_Kang2002, values, x0=seed) - seed
-                        )
-                        / seed,
+                            (
+                                solve_CCT_Newton(CCT_to_xy_Kang2002, values, x0=seed)
+                                - seed
+                            )
+                            / seed
+                        ),
                         native_target,
                     )
             assert not caught
@@ -508,10 +511,9 @@ class TestSolve_xy_Newton:
             sensitivity = jacobian / (np.sum(jacobian**2) + 1e-6)
             for index in range(2):
                 _result, (gradient,), _inputs = autodiff(
-                    lambda target, index=index: solve_xy_Newton(
-                        xy_to_CCT_McCamy1992, target
-                    )[..., index]
-                    * 1e5,
+                    lambda target, index=index: (
+                        solve_xy_Newton(xy_to_CCT_McCamy1992, target)[..., index] * 1e5
+                    ),
                     native_target,
                 )
                 xp_assert_close(

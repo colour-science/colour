@@ -21,7 +21,7 @@ from __future__ import annotations
 import typing
 
 if typing.TYPE_CHECKING:
-    from colour.hints import Any, NDArrayFloat, Literal
+    from colour.hints import Any, Literal, NDArrayFloat
 
 from colour.utilities import (
     CanonicalMapping,

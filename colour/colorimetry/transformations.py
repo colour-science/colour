@@ -43,8 +43,8 @@ from colour.colorimetry import (
 )
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, NDArrayFloat
     from colour.colorimetry import MultiSpectralDistributions
+    from colour.hints import ArrayLike, NDArrayFloat
 
 from colour.utilities import (
     array_namespace,

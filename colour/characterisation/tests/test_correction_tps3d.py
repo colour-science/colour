@@ -11,6 +11,7 @@ import numpy as np
 
 if typing.TYPE_CHECKING:
     import pytest
+
     from colour.hints import ModuleType
 
 from colour.characterisation.correction import (

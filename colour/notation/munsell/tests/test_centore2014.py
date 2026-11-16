@@ -15,7 +15,7 @@ import pytest
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 
 if typing.TYPE_CHECKING:
-    from colour.hints import NDArrayFloat, ModuleType
+    from colour.hints import ModuleType, NDArrayFloat
 
 from colour.notation.munsell import (
     CCS_ILLUMINANT_MUNSELL,

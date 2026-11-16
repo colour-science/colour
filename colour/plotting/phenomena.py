@@ -17,8 +17,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 if typing.TYPE_CHECKING:
-    from matplotlib.figure import Figure
     from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
 
 from colour.algebra import normalise_maximum
 from colour.colorimetry import (

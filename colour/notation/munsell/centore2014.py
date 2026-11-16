@@ -126,8 +126,8 @@ if typing.TYPE_CHECKING:
     )
 
 from colour.hints import ArrayLike, NDArrayFloat, cast
-from colour.models import Lab_to_LCHab  # pyright: ignore
-from colour.models import (
+from colour.models import (  # pyright: ignore
+    Lab_to_LCHab,
     XYZ_to_Lab,
     XYZ_to_xy,
     xyY_to_XYZ,
