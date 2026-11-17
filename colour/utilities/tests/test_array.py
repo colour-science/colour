@@ -363,6 +363,28 @@ class TestArrayNamespace:
 class TestTraceArrayNamespace:
     """Define :class:`colour.utilities.trace_array_namespace` unit tests."""
 
+    @pytest.mark.parametrize(
+        ("module_name", "expected"),
+        [
+            ("colour", True),
+            ("colour.utilities.array", True),
+            ("jax._src.core", False),
+            ("numpy.linalg", False),
+            ("colourful", False),
+            ("", False),
+        ],
+    )
+    def test_is_colour_frame(self, module_name: str, expected: bool) -> None:
+        """Exclude dependency frames even inside a checkout named colour."""
+        frame = types.SimpleNamespace(
+            f_globals={"__name__": module_name},
+            f_code=types.SimpleNamespace(
+                co_filename="/work/colour/colour/.venv/site-packages/jax/core.py"
+            ),
+        )
+        tracer = trace_array_namespace()
+        assert tracer._is_colour_frame(frame) is expected  # noqa: SLF001
+
     def test_trace_array_namespace(
         self,
         xp: ModuleType,
