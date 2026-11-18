@@ -310,6 +310,47 @@ Most of the objects are available from the ``colour`` namespace:
 
     import colour
 
+Array API Support
+~~~~~~~~~~~~~~~~~
+
+*Colour* supports opt-in *Array API* dispatch with *NumPy*, *PyTorch* and
+*JAX*, enabling GPU computation and automatic differentiation for compatible
+functions.
+
+From a source checkout, install the ``array-api`` extra with *pip* or *uv*:
+
+.. code-block:: bash
+
+    # pip
+    python -m pip install -e ".[array-api]"
+
+    # uv
+    uv sync --no-dev --extra array-api
+
+Install *PyTorch* or *JAX* separately. *NumPy* remains the default; enable
+dispatch to use backend-native arrays:
+
+.. code-block:: python
+
+    import colour
+    import torch
+    from colour.utilities import array_api_enable
+
+    XYZ = torch.tensor(
+        [0.20654008, 0.12197225, 0.05136952],
+        dtype=torch.float64,
+        requires_grad=True,
+    )
+    with array_api_enable(True):
+        Lab = colour.XYZ_to_Lab(XYZ)
+
+    Lab.sum().backward()
+
+Backend coverage and differentiability depend on the function and backend.
+
+See the `Array API utilities <https://colour.readthedocs.io/en/develop/colour.utilities.html#array-api>`__
+for dispatch controls.
+
 Automatic Colour Conversion Graph - ``colour.graph``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
