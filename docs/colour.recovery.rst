@@ -143,8 +143,8 @@ Gaussian Basis
 .. autosummary::
     :toctree: generated/
 
-    FWHM_GAUSSIAN_BASIS
-    PEAK_WAVELENGTHS_GAUSSIAN_BASIS
+    gaussian.FWHM_GAUSSIAN_BASIS
+    gaussian.PEAK_WAVELENGTHS_GAUSSIAN_BASIS
     generate_gaussian_basis
     optimise_gaussian_basis_parameters
 

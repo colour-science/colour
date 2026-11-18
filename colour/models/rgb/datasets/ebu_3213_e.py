@@ -78,7 +78,7 @@ RGB_COLOURSPACE_EBU_3213_E: RGB_Colourspace = RGB_Colourspace(
     linear_function,
 )
 RGB_COLOURSPACE_EBU_3213_E.__doc__ = """
-*EBU Tech. 3213-E* colourspace.
+*EBU Tech.\\ 3213-E* colourspace.
 
 References
 ----------

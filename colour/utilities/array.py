@@ -462,9 +462,9 @@ class trace_array_namespace:
     def _is_colour_frame(self, frame: Any) -> bool:
         """Check whether the specified frame belongs to *Colour*."""
 
-        filename = (frame.f_code.co_filename or "").replace("\\", "/")
+        module_name = frame.f_globals.get("__name__", "")
 
-        return "colour/" in filename and "/site-packages/" not in filename
+        return module_name == "colour" or module_name.startswith("colour.")
 
     def _trace(self, frame: Any, event: str, arg: Any) -> Any:
         """Trace function for :func:`sys.settrace`."""

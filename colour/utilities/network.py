@@ -2514,12 +2514,12 @@ class ThreadPoolExecutorManager:
 
     Attributes
     ----------
-    -   :attr:`~colour.utilities.ThreadPoolExecutorManager.ThreadPoolExecutor`
+    -   :attr:`~colour.utilities.network.ThreadPoolExecutorManager.ThreadPoolExecutor`
 
     Methods
     -------
-    -   :meth:`~colour.utilities.ThreadPoolExecutorManager.get_executor`
-    -   :meth:`~colour.utilities.ThreadPoolExecutorManager.shutdown_executor`
+    -   :meth:`~colour.utilities.network.ThreadPoolExecutorManager.get_executor`
+    -   :meth:`~colour.utilities.network.ThreadPoolExecutorManager.shutdown_executor`
     """
 
     ThreadPoolExecutor: concurrent.futures.ThreadPoolExecutor | None = None
@@ -2697,12 +2697,12 @@ class ProcessPoolExecutorManager:
 
     Attributes
     ----------
-    -   :attr:`~colour.utilities.ProcessPoolExecutorManager.ProcessPoolExecutor`
+    -   :attr:`~colour.utilities.network.ProcessPoolExecutorManager.ProcessPoolExecutor`
 
     Methods
     -------
-    -   :meth:`~colour.utilities.ProcessPoolExecutorManager.get_executor`
-    -   :meth:`~colour.utilities.ProcessPoolExecutorManager.shutdown_executor`
+    -   :meth:`~colour.utilities.network.ProcessPoolExecutorManager.get_executor`
+    -   :meth:`~colour.utilities.network.ProcessPoolExecutorManager.shutdown_executor`
     """
 
     ProcessPoolExecutor: concurrent.futures.ProcessPoolExecutor | None = None

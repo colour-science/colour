@@ -106,18 +106,18 @@ Von Kries
 .. autosummary::
     :toctree: generated/
 
-    CAT_BIANCO2010
-    CAT_BRADFORD
-    CAT_CAT02
-    CAT_CAT02_BRILL2008
-    CAT_CAT16
-    CAT_CMCCAT2000
-    CAT_CMCCAT97
-    CAT_FAIRCHILD
-    CAT_PC_BIANCO2010
-    CAT_SHARP
-    CAT_VON_KRIES
-    CAT_XYZ_SCALING
+    datasets.cat.CAT_BIANCO2010
+    datasets.cat.CAT_BRADFORD
+    datasets.cat.CAT_CAT02
+    datasets.cat.CAT_CAT02_BRILL2008
+    datasets.cat.CAT_CAT16
+    datasets.cat.CAT_CMCCAT2000
+    datasets.cat.CAT_CMCCAT97
+    datasets.cat.CAT_FAIRCHILD
+    datasets.cat.CAT_PC_BIANCO2010
+    datasets.cat.CAT_SHARP
+    datasets.cat.CAT_VON_KRIES
+    datasets.cat.CAT_XYZ_SCALING
 
 **Ancillary Objects**
 

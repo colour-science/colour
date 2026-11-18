@@ -282,9 +282,9 @@ Network
     ExecutionNode
     ControlFlowNode
     For
-    ThreadPoolExecutorManager
+    network.ThreadPoolExecutorManager
     ParallelForThread
-    ProcessPoolExecutorManager
+    network.ProcessPoolExecutorManager
     ParallelForMultiprocess
     NodePassthrough
     NodeLog

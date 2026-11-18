@@ -1288,7 +1288,7 @@ def plot_sky_luminance_distribution_CIE2003(
 
     References
     ----------
-    :cite:`CIE2003`
+    :cite:`InternationalOrganizationforStandardization2004`
 
     Examples
     --------
