@@ -677,7 +677,7 @@ class MultiSignals(AbstractContinuousFunction):
             # ``self.range``'s backend so the interpolator sees both
             # variables on the same device, and downstream ``like=``
             # references can canonically use the stored ``x`` axis.
-            if len(self.domain) != 0 and len(self.range) != 0:
+            if self._domain.shape[0] and self._range.shape[0]:
                 xp = array_namespace(self.domain, self.range)
                 domain = xp_as_float_array(self.domain, xp=xp, like=self.range)
                 interpolator_kwargs = dict(self.interpolator_kwargs)

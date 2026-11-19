@@ -2228,6 +2228,15 @@ class TestWavelength_to_XYZ:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        query = xp_as_array([480.5, 555.0], xp=xp)
+        XYZ = wavelength_to_XYZ(query)
+        assert XYZ.device == query.device
+        xp_assert_close(
+            XYZ,
+            [[0.0914287612, 0.141835045, 0.791572686], [0.5120501, 1.0, 0.005749999]],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
         cmfs = MSDS_CMFS["CIE 1931 2 Degree Standard Observer"].copy()
         cmfs.values = xp_as_array(cmfs.values, xp=xp)
         for query in (480.0, np.array([480.0])):
