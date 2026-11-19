@@ -248,6 +248,11 @@ class ProtocolArrayNamespace(Protocol):  # pragma: no cover
         ...
 
     @property
+    def nan(self) -> float:
+        """Return a floating-point NaN."""
+        ...
+
+    @property
     def linalg(self) -> ProtocolArrayNamespaceLinalg:
         """Return the linear algebra extension."""
         ...
@@ -257,6 +262,8 @@ class ProtocolArrayNamespace(Protocol):  # pragma: no cover
         """Return the fast Fourier transform extension."""
         ...
 
+    complex64: Any
+    complex128: Any
     float32: Any
     float64: Any
     int32: Any
@@ -285,6 +292,7 @@ class ProtocolArrayNamespace(Protocol):  # pragma: no cover
     broadcast_to: Callable[..., NDArray[Any]]
     clip: Callable[..., NDArray[Any]]
     concat: Callable[..., NDArray[Any]]
+    conj: Callable[..., NDArray[Any]]
     cos: Callable[..., NDArray[Any]]
     cumsum: Callable[..., NDArray[Any]]
     cumulative_sum: Callable[..., NDArray[Any]]
@@ -300,6 +308,7 @@ class ProtocolArrayNamespace(Protocol):  # pragma: no cover
     full_like: Callable[..., NDArray[Any]]
     gradient: Callable[..., Any]
     hypot: Callable[..., NDArray[Any]]
+    imag: Callable[..., NDArray[Any]]
     interp: Callable[..., NDArray[Any]]
     isfinite: Callable[..., NDArray[Any]]
     isin: Callable[..., NDArray[Any]]
