@@ -981,7 +981,7 @@ def xp_as_array(
     # when ``copy=True`` so callers asking for a fresh copy cannot
     # accidentally mutate the cached entry.
     device = getattr(like, "device", None) if is_non_ndarray(like) else None
-    device_kwarg = device if device is not None and hasattr(device, "type") else None
+    device_kwarg = None if is_jax_namespace(xp) else device
     xp_target_dtype = _resolve_backend_dtype(xp, dtype) if dtype is not None else None
 
     cache_key = None
@@ -1050,8 +1050,8 @@ def xp_as_array(
         result = xp.asarray(a, **asarray_kwargs)
 
     if is_jax_namespace(xp) and device is not None:
-        # JAX devices have no ``type`` attribute. Use the same public transfer
-        # as the native-input branch, which also supports traced values.
+        # Use the same public transfer as the native-input branch, which
+        # also supports traced values.
         result = importlib.import_module("jax").device_put(result, device)
 
     if (

@@ -134,9 +134,9 @@ def XYZ_to_Luv(
     reference = XYZ if is_non_ndarray(XYZ) else illuminant
     XYZ = xp_as_float_array(XYZ, xp=xp, like=reference)
     illuminant = xp_as_float_array(illuminant, xp=xp, like=XYZ)
-    X, Y, Z = tsplit(XYZ)
+    X, Y, Z = xp.unstack(tsplit(XYZ))
 
-    X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
+    X_r, Y_r, Z_r = xp.unstack(tsplit(xyY_to_XYZ(xy_to_xyY(illuminant))))
 
     with domain_range_scale("ignore"):
         L = lightness_CIE1976(Y, Y_r)
@@ -209,9 +209,9 @@ def Luv_to_XYZ(
     reference = Luv if is_non_ndarray(Luv) else illuminant
     Luv = xp_as_float_array(Luv, xp=xp, like=reference)
     illuminant = xp_as_float_array(illuminant, xp=xp, like=Luv)
-    L, u, v = tsplit(Luv)
+    L, u, v = xp.unstack(tsplit(Luv))
 
-    X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
+    X_r, Y_r, Z_r = xp.unstack(tsplit(xyY_to_XYZ(xy_to_xyY(illuminant))))
 
     with domain_range_scale("ignore"):
         Y = luminance_CIE1976(L, Y_r)
@@ -283,7 +283,8 @@ def Luv_to_uv(
 
     Luv = to_domain_100(Luv)
 
-    X, Y, Z = tsplit(Luv_to_XYZ(Luv, illuminant))
+    XYZ = Luv_to_XYZ(Luv, illuminant)
+    X, Y, Z = array_namespace(XYZ).unstack(tsplit(XYZ))
 
     X_Y_Z = X + 15 * Y + 3 * Z
 

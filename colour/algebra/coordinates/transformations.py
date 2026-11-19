@@ -97,7 +97,7 @@ def cartesian_to_spherical(a: ArrayLike) -> NDArrayFloat:
 
     xp = array_namespace(a)
 
-    x, y, z = tsplit(a)
+    x, y, z = xp.unstack(tsplit(a))
     rho = xp.linalg.vector_norm(a, axis=-1)
     with sdiv_mode():
         theta = xp.acos(sdiv(z, rho))
@@ -141,7 +141,7 @@ def spherical_to_cartesian(a: ArrayLike) -> NDArrayFloat:
 
     xp = array_namespace(a)
 
-    rho, theta, phi = tsplit(a)
+    rho, theta, phi = xp.unstack(tsplit(a))
 
     x = rho * xp.sin(theta) * xp.cos(phi)
     y = rho * xp.sin(theta) * xp.sin(phi)
