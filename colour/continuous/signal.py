@@ -413,7 +413,7 @@ class Signal(AbstractContinuousFunction):
 
         # Empty domain occurs during __init__ because range is set before domain
         attest(
-            self._domain.size in (0, self._domain.size),
+            self._domain.shape in ((0,), value.shape),
             '"domain" and "range" variables must have same size!',
         )
 
