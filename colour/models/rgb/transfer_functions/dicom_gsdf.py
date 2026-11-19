@@ -39,6 +39,7 @@ from colour.utilities import (
     Structure,
     array_namespace,
     as_float,
+    as_float_array,
     as_int,
     from_range_1,
     optional,
@@ -218,7 +219,7 @@ def eotf_DICOMGSDF(
     np.float64(130.0652840...)
     """
 
-    J = to_domain_1(J)
+    J = as_float_array(J) if in_int else to_domain_1(J)
 
     xp = array_namespace(J)
 
