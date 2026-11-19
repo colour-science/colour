@@ -287,6 +287,15 @@ class TestUv_to_CCT_Robertson1968:
             )
             xp_assert_close(CCT_D_uv[1], key[1], atol=TOLERANCE_ABSOLUTE_TESTS)
 
+        # Signed-distance interpolation between the zero- and ten-mired lines.
+        uv = xp_as_array([0.18036, 0.264705], xp=xp)
+        CCT = uv_to_CCT_Robertson1968(uv)[0]
+        xp_assert_close(
+            CCT / 200004.1046,
+            1,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_uv_to_CCT_Robertson1968(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.temperature.robertson1968.uv_to_CCT_Robertson1968`
