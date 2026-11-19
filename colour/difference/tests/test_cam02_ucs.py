@@ -20,6 +20,7 @@ from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006
 from colour.utilities import (
     array_namespace,
     as_ndarray,
+    domain_range_scale,
     ignore_numpy_errors,
     xp_as_array,
     xp_assert_close,
@@ -222,6 +223,39 @@ class TestDelta_E_Luo2006:
             ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+    def test_domain_range_scale_delta_E_Luo2006(self, xp: ModuleType) -> None:
+        """
+        Test :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition
+        domain and range scale support.
+        """
+
+        Jpapbp_1 = xp_as_array([50, 10, 20], xp=xp)
+        Jpapbp_2 = xp_as_array([60, 20, 25], xp=xp)
+        delta_E = delta_E_CAM02UCS(Jpapbp_1, Jpapbp_2)
+        additional_data = delta_E_CAM02UCS(Jpapbp_1, Jpapbp_2, additional_data=True)
+
+        d_r = (("reference", 1), ("1", 0.01), ("100", 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                xp_assert_close(
+                    delta_E_CAM02UCS(Jpapbp_1 * factor, Jpapbp_2 * factor),
+                    delta_E,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+                xp_assert_close(
+                    xp.stack(
+                        list(
+                            delta_E_CAM02UCS(
+                                Jpapbp_1 * factor,
+                                Jpapbp_2 * factor,
+                                additional_data=True,
+                            ).values
+                        )
+                    ),
+                    xp.stack(list(additional_data.values)),
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
 
     @ignore_numpy_errors
     def test_nan_delta_E_Luo2006(self) -> None:

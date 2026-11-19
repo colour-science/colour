@@ -33,6 +33,7 @@ from colour.utilities import (
     as_float,
     as_float_array,
     is_non_ndarray,
+    to_domain_100,
     tsplit,
     xp_as_float_array,
 )
@@ -167,6 +168,9 @@ def delta_E_Luo2006(
 dJ=np.float64(0.1309140...), da=np.float64(3.8848968...), \
 db=np.float64(13.5073618...))
     """
+
+    Jpapbp_1 = to_domain_100(Jpapbp_1)
+    Jpapbp_2 = to_domain_100(Jpapbp_2)
 
     xp = array_namespace(Jpapbp_1, Jpapbp_2)
     reference = Jpapbp_1 if is_non_ndarray(Jpapbp_1) else Jpapbp_2
