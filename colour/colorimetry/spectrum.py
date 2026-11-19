@@ -982,9 +982,17 @@ class SpectralDistribution(Signal):
         domain: ArrayLike | SpectralShape | KeysView | None = None,
         **kwargs: Any,
     ) -> None:
-        domain = domain.wavelengths if isinstance(domain, SpectralShape) else domain
+        dtype = kwargs.get("dtype")
+        if isinstance(domain, SpectralShape):
+            # Narrowing the coordinates before sampling can change the grid size.
+            shape_dtype = np.promote_types(
+                optional(dtype, DTYPE_FLOAT_DEFAULT), DTYPE_FLOAT_DEFAULT
+            ).type
+            domain = domain.range(dtype=shape_dtype)
 
-        domain_unpacked, range_unpacked = self.signal_unpack_data(data, domain)
+        domain_unpacked, range_unpacked = self.signal_unpack_data(
+            data, domain, dtype=dtype
+        )
 
         # Initialising with *CIE 15:2004* and *CIE 167:2005* recommendations
         # defaults.
@@ -2084,9 +2092,15 @@ class MultiSpectralDistributions(MultiSignals):
         labels: Sequence | None = None,
         **kwargs: Any,
     ) -> None:
-        domain = domain.wavelengths if isinstance(domain, SpectralShape) else domain
+        dtype = kwargs.get("dtype")
+        if isinstance(domain, SpectralShape):
+            # Narrowing the coordinates before sampling can change the grid size.
+            shape_dtype = np.promote_types(
+                optional(dtype, DTYPE_FLOAT_DEFAULT), DTYPE_FLOAT_DEFAULT
+            ).type
+            domain = domain.range(dtype=shape_dtype)
         domain_unpacked, range_unpacked, labels_unpacked = (
-            self.multi_signals_unpack_data(data, domain, labels)
+            self.multi_signals_unpack_data(data, domain, labels, dtype=dtype)
         )
 
         uniform = is_uniform(domain_unpacked) if len(domain_unpacked) > 0 else True

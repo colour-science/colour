@@ -279,9 +279,10 @@ class Signal(AbstractContinuousFunction):
             "right": float("nan"),
         }
 
-        self.range, self.domain = self.signal_unpack_data(data, domain)[::-1]
-
         self.dtype = kwargs.get("dtype", self._dtype)
+        self.range, self.domain = self.signal_unpack_data(data, domain, self.dtype)[
+            ::-1
+        ]
 
         self.interpolator = kwargs.get("interpolator", self._interpolator)
         self.interpolator_kwargs = kwargs.get(
@@ -1287,28 +1288,33 @@ class Signal(AbstractContinuousFunction):
 
         dtype = optional(dtype, DTYPE_FLOAT_DEFAULT)
 
-        domain_unpacked: NDArrayFloat = as_float_array([])
-        range_unpacked: NDArrayFloat = as_float_array([])
+        domain_unpacked: NDArrayFloat = as_float_array([], dtype)
+        range_unpacked: NDArrayFloat = as_float_array([], dtype)
 
         if isinstance(data, Signal):
             domain_unpacked = data.domain
             range_unpacked = data.range
         elif is_non_ndarray(data):
-            data_array = as_float_array(data)  # pyright: ignore
+            data_array = as_float_array(data, dtype)  # pyright: ignore
 
             attest(data_array.ndim == 1, 'User "data" must be 1-dimensional!')
 
             xp = array_namespace(data_array)
 
             domain_unpacked = xp_linspace(  # pyright: ignore
-                0, data_array.shape[0] - 1, num=data_array.shape[0], xp=xp
+                0,
+                data_array.shape[0] - 1,
+                num=data_array.shape[0],
+                xp=xp,
+                like=data_array,
+                dtype=dtype,
             )
             range_unpacked = data_array
         elif issubclass(type(data), Sequence) or isinstance(
             data, (tuple, list, np.ndarray, Iterator, ValuesView)
         ):
             data_array = (
-                tsplit(list(cast("Sequence", data)))
+                as_float_array(list(cast("Sequence", data)), dtype)
                 if not isinstance(data, np.ndarray)
                 else data
             )
@@ -1321,7 +1327,7 @@ class Signal(AbstractContinuousFunction):
             )
         elif issubclass(type(data), Mapping) or isinstance(data, dict):
             domain_unpacked, range_unpacked = tsplit(
-                sorted(cast("Mapping", data).items())
+                sorted(cast("Mapping", data).items()), dtype=dtype
             )
         elif is_pandas_installed() and isinstance(data, Series):
             domain_unpacked = as_float_array(data.index.values, dtype)  # pyright: ignore

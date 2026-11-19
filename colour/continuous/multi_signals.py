@@ -391,7 +391,9 @@ class MultiSignals(AbstractContinuousFunction):
             # Promote ``_domain`` onto ``_range``'s backend so they live on
             # the same device for downstream evaluation; mirrors the per-
             # signal promotion in :class:`Signal.function`.
-            self._domain = xp_as_float_array(self._domain, xp=xp, like=self._range)
+            self._domain = xp_as_array(
+                self._domain, dtype=self._dtype, xp=xp, like=self._range
+            )
             if not bool(xp.all(xp.isfinite(self._range))):
                 runtime_warning(
                     f'"{self.name}" new "range" variable is not finite: '
@@ -1832,7 +1834,8 @@ class MultiSignals(AbstractContinuousFunction):
                     [
                         as_float_array(signal[domain_unpacked], dtype)
                         for signal in data_sequence
-                    ]
+                    ],
+                    dtype=dtype,
                 )
                 if range_unpacked.ndim == 1:
                     range_unpacked = xp_reshape(range_unpacked, (-1, 1))
@@ -1870,7 +1873,8 @@ class MultiSignals(AbstractContinuousFunction):
                     [
                         as_float_array(signal[domain_unpacked], dtype)
                         for signal in data_mapping.values()
-                    ]
+                    ],
+                    dtype=dtype,
                 )
                 if range_unpacked.ndim == 1:
                     range_unpacked = xp_reshape(range_unpacked, (-1, 1))

@@ -26,6 +26,7 @@ from colour.utilities import (
     as_ndarray,
     attest,
     is_pandas_installed,
+    set_default_float_dtype,
     xp_as_array,
     xp_assert_close,
     xp_assert_equal,
@@ -114,6 +115,22 @@ class TestSignal:
         signal = signal.copy()
         signal.dtype = np.float32
         assert signal.dtype == np.float32
+
+        if xp.__name__ == "numpy":
+            dtype = DTYPE_FLOAT_DEFAULT
+            samples = [0.12345678912345678, 0.5678912345678912]
+            domain = [400.123456789, 500.123456789]
+            try:
+                set_default_float_dtype(np.float32)
+                for signal in (
+                    Signal(samples, domain, dtype=np.float64),
+                    Signal(dict(zip(domain, samples, strict=True)), dtype=np.float64),
+                ):
+                    assert signal.range.dtype == np.float64
+                    xp_assert_equal(signal.range, samples)
+                    xp_assert_equal(signal.domain, domain)
+            finally:
+                set_default_float_dtype(dtype)
 
     def test_domain(self, xp: ModuleType) -> None:
         """Test :func:`colour.continuous.signal.Signal.domain` property."""
