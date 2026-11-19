@@ -413,6 +413,32 @@ class Testxy_to_xyY:
         xyY = xp_reshape(xp_as_array(xyY, xp=xp), (2, 3, 3), xp=xp)
         xp_assert_close(xy_to_xyY(xy), xyY, atol=TOLERANCE_ABSOLUTE_TESTS)
 
+        # Independent luminances must broadcast over a single chromaticity.
+        xp_assert_close(
+            xy_to_xyY(
+                xp_as_array([0.31, 0.33], xp=xp),
+                xp_as_array([0.25, 0.75], xp=xp),
+            ),
+            [[0.31, 0.33, 0.25], [0.31, 0.33, 0.75]],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # A retained luminance channel stays paired with each chromaticity.
+        xy = xp_as_array(
+            [
+                [[0.31, 0.33], [0.25, 0.35], [0.4, 0.3]],
+                [[0.3, 0.4], [0.2, 0.3], [0.35, 0.3]],
+            ],
+            xp=xp,
+        )
+        Y = xp_as_array([[[0.2], [0.8], [0.5]], [[0.9], [0.3], [0.6]]], xp=xp)
+        for luminance in (Y, Y[:1]):
+            xp_assert_close(
+                xy_to_xyY(xy, luminance),
+                xp.concat([xy, xp.broadcast_to(luminance, (2, 3, 1))], axis=-1),
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
     def test_domain_range_scale_xy_to_xyY(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.cie_xyy.xy_to_xyY` definition domain and
