@@ -767,6 +767,25 @@ class TestMatrixTransferTmm:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # A finite low-index film transmits through an evanescent field.
+        result = matrix_transfer_tmm(
+            n=[1.5, 1.0, 1.5],
+            t=[100],
+            theta=xp_as_array([60.0, -60.0], xp=xp),
+            wavelength=550,
+        )
+        # Byrnes Eqs. 8 and 10-15, with identical incident and exit media.
+        xp_assert_close(
+            xp.abs(1 / result.M_s[0, :, 0, 0, 0]) ** 2,
+            [0.4520908035683187, 0.4520908035683187],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        xp_assert_close(
+            xp.abs(1 / result.M_p[0, :, 0, 0, 0]) ** 2,
+            [0.28535793423656647, 0.28535793423656647],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_matrix_transfer_tmm_energy_consistency(self, xp: ModuleType) -> None:
         """
         Test that transfer matrices from transfer_matrix_tmm give

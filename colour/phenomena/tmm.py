@@ -44,6 +44,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
+from colour.constants import DTYPE_COMPLEX_DEFAULT
 from colour.hints import cast
 from colour.utilities import (
     MixinDataclassArithmetic,
@@ -52,6 +53,8 @@ from colour.utilities import (
     as_complex_array,
     as_float_array,
     is_non_ndarray,
+    tsplit,
+    tstack,
     xp_as_array,
     xp_as_float_array,
     xp_astype,
@@ -83,64 +86,6 @@ __all__ = [
     "TransferMatrixResult",
     "matrix_transfer_tmm",
 ]
-
-
-def _tsplit_complex(a: ArrayLike) -> NDArrayComplex:
-    """
-    Split the specified stacked array along the last axis (tail)
-    to produce an array of complex arrays.
-
-    Convenience wrapper that ensures complex dtype via
-    :func:`colour.utilities.as_complex_array` (which handles backends
-    that do not support ``complex128``, e.g. *MPS*) before splitting.
-
-    Parameters
-    ----------
-    a
-        Stacked array to split.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Array of complex arrays.
-    """
-
-    a = as_complex_array(a)
-
-    xp = array_namespace(a)
-
-    return xp.stack([a[..., x] for x in range(a.shape[-1])])
-
-
-def _tstack_complex(a: ArrayLike) -> NDArrayComplex:
-    """
-    Stack the specified array of arrays along the last axis (tail)
-    to produce a stacked complex array.
-
-    Convenience wrapper that ensures complex dtype via
-    :func:`colour.utilities.as_complex_array` (which handles backends
-    that do not support ``complex128``, e.g. *MPS*) before stacking.
-
-    Parameters
-    ----------
-    a
-        Array of arrays to stack along the last axis.
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Stacked complex array.
-
-    References
-    ----------
-    :cite:`Byrnes2016`
-    """
-
-    a = [as_complex_array(x) for x in a]  # pyright: ignore
-
-    xp = array_namespace(a[0])
-
-    return xp.stack(a, axis=-1)
 
 
 def snell_law(
@@ -367,7 +312,7 @@ def polarised_light_reflection_amplitude(
     r_s = (n_1_cos_theta_i - n_2_cos_theta_t) / (n_1_cos_theta_i + n_2_cos_theta_t)
     r_p = (n_1_cos_theta_t - n_2_cos_theta_i) / (n_1_cos_theta_t + n_2_cos_theta_i)
 
-    return _tstack_complex([r_s, r_p])
+    return tstack([r_s, r_p], dtype=DTYPE_COMPLEX_DEFAULT)
 
 
 def polarised_light_reflection_coefficient(
@@ -511,7 +456,7 @@ def polarised_light_transmission_amplitude(
     t_s = two_n_1_cos_theta_i / (n_1_cos_theta_i + n_2_cos_theta_t)
     t_p = two_n_1_cos_theta_i / (n_2_cos_theta_i + n_1_cos_theta_t)
 
-    return _tstack_complex([t_s, t_p])
+    return tstack([t_s, t_p], dtype=DTYPE_COMPLEX_DEFAULT)
 
 
 def polarised_light_transmission_coefficient(
@@ -629,7 +574,9 @@ class TransferMatrixResult(MixinDataclassArithmetic):
         (..., wavelengths_count, 2, 2).
     theta
         Propagation angles in each layer :math:`\\theta_j` (degrees), shape
-        (..., n_layers+2). Includes [incident, layer_1, ..., layer_n, substrate].
+        (..., n_layers+2). The angles are calculated from the real refractive
+        indices at the first wavelength, from incident medium to substrate.
+        Evanescent angles are NaN.
     n
         Complete multilayer stack :math:`n_j`, shape
         (..., n_layers+2, wavelengths_count). Includes
@@ -830,55 +777,46 @@ v_{n+1} \\\\ w_{n+1} \\end{pmatrix}
     media_count = n.shape[0]
     layers_count = media_count - 2
 
-    n_0 = n[0, 0] if n.ndim == 2 else n[0]
+    theta_radians = xp_radians(theta)
+    sin_theta = xp.sin(theta_radians)[:, None, None]
 
-    # Snell's law: n_i * sin(theta_i) = n_j * sin(theta_j) (Byrnes Eq. 3)
-    # Broadcasting: theta (A,) → theta_media (A, M)
-    theta_media = xp_matrix_transpose(
-        snell_law(
-            n_0,
-            (n[:, 0] if n.ndim == 2 else n)[:, None],
-            theta[None, :],
-        ),
-        xp=xp,
+    # Retain the real, first-wavelength angle metadata. An evanescent
+    # angle has no real value.
+    n_real = xp.real(n[:, 0])
+    sin_theta_media = sin_theta[..., 0] * n_real[0, ...] / n_real[None, :]
+    theta_media = xp_degrees(
+        xp.asin(xp.where(xp.abs(sin_theta_media) <= 1, sin_theta_media, xp.nan))
     )
 
-    # Fresnel coefficients (Byrnes Eq. 6)
-    # Broadcasting: n (M, W), theta_media (A, M) → coefficients (A, M-1, W)
-    n_1 = n[:-1, :]  # (M-1, W)
-    n_2 = n[1:, :]  # (M-1, W)
-    theta_1 = theta_media[:, :-1]  # (A, M-1)
-    theta_2 = theta_media[:, 1:]  # (A, M-1)
+    # Conserve the transverse wavevector at each wavelength (Byrnes Eq. 3).
+    sin_theta_media_complex = n[None, :1, :] * sin_theta / n[None, :, :]
+    theta_media_complex = xp.asin(sin_theta_media_complex)
+    cos_theta_media = xp.cos(theta_media_complex)
 
-    r_media_s, r_media_p = _tsplit_complex(
-        polarised_light_reflection_amplitude(
-            n_1[None, :, :],  # (1, M-1, W)
-            n_2[None, :, :],  # (1, M-1, W)
-            theta_1[:, :, None],  # (A, M-1, 1)
-            theta_2[:, :, None],  # (A, M-1, 1)
-        )
-    )  # Output: (A, M-1, W)
+    # A real propagating wave uses the principal angle. Only use the
+    # imaginary wavevector to select a branch when decay is present.
+    propagating = (
+        (xp.imag(n[None, :, :]) == 0)
+        & (xp.imag(sin_theta_media_complex) == 0)
+        & (xp.abs(xp.real(sin_theta_media_complex)) <= 1)
+    )
+    reverse = (~propagating) & (xp.imag(n[None, :, :] * cos_theta_media) < 0)
+    theta_media_complex = xp.where(
+        reverse, np.pi - theta_media_complex, theta_media_complex
+    )
 
-    t_media_s, t_media_p = _tsplit_complex(
-        polarised_light_transmission_amplitude(
-            n_1[None, :, :],  # (1, M-1, W)
-            n_2[None, :, :],  # (1, M-1, W)
-            theta_1[:, :, None],  # (A, M-1, 1)
-            theta_2[:, :, None],  # (A, M-1, 1)
-        )
-    )  # Output: (A, M-1, W)
+    n_1 = n[None, :-1, :]
+    n_2 = n[None, 1:, :]
+    theta_1 = theta_media_complex[:, :-1, :] * (180 / np.pi)
+    theta_2 = theta_media_complex[:, 1:, :] * (180 / np.pi)
 
-    # Phase accumulation: delta = d * k_z (Byrnes Eq. 8)
-    # Broadcasting directly in (W, A, T, L) order
-    n_previous = n[0:layers_count, :]  # (L, W) - Media before each layer
-    n_layer = n[1 : layers_count + 1, :]  # (L, W) - Each layer's refractive index
-    theta_layer = theta_media[:, 0:layers_count]  # (A, L)
+    r_media = polarised_light_reflection_amplitude(n_1, n_2, theta_1, theta_2)
+    t_media = polarised_light_transmission_amplitude(n_1, n_2, theta_1, theta_2)
+    r_media_s, r_media_p = xp.unstack(tsplit(r_media, dtype=DTYPE_COMPLEX_DEFAULT))
+    t_media_s, t_media_p = xp.unstack(tsplit(t_media, dtype=DTYPE_COMPLEX_DEFAULT))
 
-    theta_radians = xp_radians(theta_layer)[:, :, None]  # (A, L, 1)
-    k_z_layers = xp.sqrt(
-        n_layer[None, :, :] ** 2
-        - n_previous[None, :, :] ** 2 * xp.sin(theta_radians) ** 2
-    )  # (A, L, W)
+    # Phase accumulation: delta = d * k_z (Byrnes Eq. 8).
+    k_z_layers = (n[None, :, :] * xp.cos(theta_media_complex))[:, 1:-1, :]
 
     # Compute phase: delta = (2π/λ) * d * k_z
     phase_factor = 2 * np.pi / wavelength[:, None, None, None]  # (W, 1, 1, 1)

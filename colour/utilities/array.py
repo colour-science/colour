@@ -5819,7 +5819,7 @@ def in_array(a: ArrayLike, b: ArrayLike, tolerance: Real = EPSILON) -> NDArray:
 
 def tstack(
     a: ArrayLike,
-    dtype: Type[DTypeBoolean] | Type[DTypeReal] | None = None,
+    dtype: Type[DTypeBoolean] | Type[DTypeReal] | Type[DTypeComplex] | None = None,
 ) -> NDArray:
     """
     Stack the specified array of arrays :math:`a` along the last axis (tail)
@@ -5913,7 +5913,7 @@ def tstack(
 
 def tsplit(
     a: ArrayLike,
-    dtype: Type[DTypeBoolean] | Type[DTypeReal] | None = None,
+    dtype: Type[DTypeBoolean] | Type[DTypeReal] | Type[DTypeComplex] | None = None,
 ) -> NDArray:
     """
     Split the specified stacked array :math:`a` along the last axis (tail)
