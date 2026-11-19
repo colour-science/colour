@@ -203,9 +203,9 @@ def full_to_legal(
 
     MV = 2**bit_depth - 1
 
-    CV_legal = as_int_array(xp.round(CV / MV)) if in_int else CV
+    CV_legal = xp.round(CV) / MV if in_int else CV
 
-    B, W = CV_range(bit_depth, True, True)
+    B, W = map(int, CV_range(bit_depth, True, True))
 
     CV_legal = (W - B) * CV_legal + B
 

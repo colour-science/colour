@@ -225,6 +225,18 @@ class TestFullToLegal:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # Preserve interior codes on either side of the full-range midpoint.
+        codes = xp_as_array([255, 511, 512, 768], xp=xp)
+        xp_assert_equal(
+            full_to_legal(codes, in_int=True, out_int=True),
+            [282, 502, 502, 722],
+        )
+        xp_assert_close(
+            full_to_legal(codes, in_int=True),
+            [(64 + 876 * code / 1023) / 1023 for code in (255, 511, 512, 768)],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_full_to_legal(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.rgb.transfer_functions.common.full_to_legal`
