@@ -3918,6 +3918,13 @@ class TestClosest:
             assert getattr(result, "device", None) == getattr(
                 native_values, "device", None
             )
+        xp_assert_equal(
+            closest(
+                xp_as_array([[1, 2], [3, 4]], xp=xp),
+                xp_as_array([[4, 2], [1, 3]], xp=xp),
+            ),
+            [4, 2, 1, 3],
+        )
         xp_assert_equal(closest(native_values, 2.0), [1.0])
         xp_assert_equal(closest(native_values, []), [])
         xp_assert_equal(
