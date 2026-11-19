@@ -157,7 +157,6 @@ class TestRGB_COLOURSPACES:
                 atol=tolerance.get(colourspace.name, TOLERANCE_ABSOLUTE_TESTS),
             )
 
-    @pytest.mark.mps_xfail("MPS float32; test uses hard-coded tolerance literals")
     def test_n_dimensional_cctf(self, xp: ModuleType) -> None:
         """
         Test colour component transfer functions from the
