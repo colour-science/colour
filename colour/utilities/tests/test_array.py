@@ -496,6 +496,28 @@ class TestAsNdarray:
         with array_api_enable(False):
             xp_assert_equal(as_ndarray(_DeviceArray([7.0, 8.0])), [7.0, 8.0])
 
+        class _DLPackArray(_DeviceArray):
+            """Expose an array buffer through the DLPack protocol only."""
+
+            def __array_namespace__(self, *, api_version: str | None = None) -> Any:
+                """Return no namespace for the fallback hand-off."""
+
+                return None
+
+            def __dlpack_device__(self) -> Any:
+                """Return the DLPack device for the underlying array."""
+
+                return self.values.__dlpack_device__()
+
+            def __dlpack__(self, **kwargs: Any) -> Any:
+                """Export the underlying array through DLPack."""
+
+                return self.values.__dlpack__(**kwargs)
+
+        xp_assert_equal(as_ndarray(_DLPackArray(np.array([9.0, 10.0]))), [9.0, 10.0])
+        with pytest.raises(TypeError):
+            as_ndarray(_DLPackArray(np.array([None], dtype=object)))
+
     def test_raise_exception_as_ndarray(self) -> None:
         """Test :func:`colour.utilities.as_ndarray` definition raised exception."""
 

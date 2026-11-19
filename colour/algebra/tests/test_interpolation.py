@@ -42,6 +42,12 @@ from colour.algebra import (
     table_interpolation_tetrahedral,
     table_interpolation_trilinear,
 )
+from colour.algebra.interpolation.backends.numpy import (
+    LinearInterpolator as NumpyLinearInterpolator,
+)
+from colour.algebra.interpolation.backends.numpy import (
+    SpragueInterpolator as NumpySpragueInterpolator,
+)
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.hints import NDArrayFloat, cast
 from colour.io import LUT3D, read_LUT
@@ -1285,14 +1291,16 @@ class TestLinearInterpolator:
             ([magnitude, -magnitude], [0]),
             ([[magnitude, 0], [-magnitude, 1]], [[0, 0.5]]),
         ):
-            linear_interpolator = LinearInterpolator(
-                knots, xp_as_float_array(samples, xp=xp)
-            )
-            xp_assert_close(
-                linear_interpolator(xp_as_float_array([0.03125], xp=xp)),
-                expected,
-                atol=TOLERANCE_ABSOLUTE_TESTS,
-            )
+            # The fallback implementation also accepts native Array API inputs.
+            for interpolator in (LinearInterpolator, NumpyLinearInterpolator):
+                linear_interpolator = interpolator(
+                    knots, xp_as_float_array(samples, xp=xp)
+                )
+                xp_assert_close(
+                    linear_interpolator(xp_as_float_array([0.03125], xp=xp)),
+                    expected,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
 
         for knot in (1.0, [1.0]):
             for value in (2.0, [2.0]):
@@ -1456,6 +1464,18 @@ class TestSpragueInterpolator:
                     DATA_POINTS_A_SPRAGUE_INTERPOLATED_10_SAMPLES,
                 ]
             ),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # Updating the fallback knots keeps subsequent queries on their device.
+        knots = xp_as_float_array(x, xp=xp)
+        fallback = NumpySpragueInterpolator(
+            knots, xp_as_float_array(DATA_POINTS_A, xp=xp)
+        )
+        fallback.x = knots + 10
+        xp_assert_close(
+            fallback(xp_as_float_array([11.5], xp=xp)),
+            DATA_POINTS_A_SPRAGUE_INTERPOLATED_10_SAMPLES[15],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 

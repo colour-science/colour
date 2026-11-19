@@ -1738,18 +1738,22 @@ SpectralDistribution.align` method.
         xp_assert_close(aligned.wavelengths, shape.wavelengths)
         xp_assert_close(aligned.values, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
 
-        # A single interior wavelength uses the original data.
+        # Sparse target grids may have no interior points or only one point.
         wavelengths = [400, 410, 420, 430]
-        shape = SpectralShape(385, 455, 35)
-        aligned = (
-            SpectralDistribution(
-                [0, 100, 400, 900], wavelengths, interpolator=LinearInterpolator
+        for shape, expected in (
+            (SpectralShape(385, 455, 35), [0, 400, 900]),
+            (SpectralShape(395, 455, 60), [0, 900]),
+            (SpectralShape(400, 440, 40), [0, 900]),
+        ):
+            aligned = (
+                SpectralDistribution(
+                    [0, 100, 400, 900], wavelengths, interpolator=LinearInterpolator
+                )
+                .copy(xp=xp)
+                .align(shape)
             )
-            .copy(xp=xp)
-            .align(shape)
-        )
-        xp_assert_equal(aligned.wavelengths, shape.wavelengths)
-        xp_assert_equal(aligned.values, [0, 400, 900])
+            xp_assert_equal(aligned.wavelengths, shape.wavelengths)
+            xp_assert_equal(aligned.values, expected)
 
         # Fractional extrapolation must not generate extra grid points.
         shape = SpectralShape(399.9, 700.1, 0.1)
@@ -2126,20 +2130,24 @@ MultiSpectralDistributions.align` method.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        # A single interior wavelength uses the original data.
+        # Sparse target grids may have no interior points or only one point.
         wavelengths = [400, 410, 420, 430]
-        shape = SpectralShape(385, 455, 35)
-        aligned = (
-            MultiSpectralDistributions(
-                [[0, 0], [100, 200], [400, 800], [900, 1800]],
-                wavelengths,
-                interpolator=LinearInterpolator,
+        for shape, expected in (
+            (SpectralShape(385, 455, 35), [[0, 0], [400, 800], [900, 1800]]),
+            (SpectralShape(395, 455, 60), [[0, 0], [900, 1800]]),
+            (SpectralShape(400, 440, 40), [[0, 0], [900, 1800]]),
+        ):
+            aligned = (
+                MultiSpectralDistributions(
+                    [[0, 0], [100, 200], [400, 800], [900, 1800]],
+                    wavelengths,
+                    interpolator=LinearInterpolator,
+                )
+                .copy(xp=xp)
+                .align(shape)
             )
-            .copy(xp=xp)
-            .align(shape)
-        )
-        xp_assert_equal(aligned.wavelengths, shape.wavelengths)
-        xp_assert_equal(aligned.values, [[0, 0], [400, 800], [900, 1800]])
+            xp_assert_equal(aligned.wavelengths, shape.wavelengths)
+            xp_assert_equal(aligned.values, expected)
 
     def test_trim(self, xp: ModuleType) -> None:
         """

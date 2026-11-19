@@ -634,6 +634,9 @@ class TestEuclideanDistance:
             distance = euclidean_distance(point, xp.zeros_like(point))
             xp_assert_close(distance / magnitude, 2**0.5, atol=TOLERANCE_ABSOLUTE_TESTS)
 
+        empty = xp_as_array(np.empty((2, 0)), xp=xp)
+        xp_assert_close(euclidean_distance(empty, empty), [0, 0])
+
     def test_n_dimensional_euclidean_distance(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.algebra.common.euclidean_distance` definition
