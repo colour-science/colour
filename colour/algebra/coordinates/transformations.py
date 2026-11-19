@@ -38,8 +38,6 @@ from __future__ import annotations
 
 import typing
 
-from colour.algebra import sdiv, sdiv_mode
-
 if typing.TYPE_CHECKING:
     from colour.hints import ArrayLike, NDArrayFloat
 
@@ -99,8 +97,10 @@ def cartesian_to_spherical(a: ArrayLike) -> NDArrayFloat:
 
     x, y, z = xp.unstack(tsplit(a))
     rho = xp.linalg.vector_norm(a, axis=-1)
-    with sdiv_mode():
-        theta = xp.acos(sdiv(z, rho))
+    radial = xp.hypot(x, y)
+    # Preserve the inclination convention for zero and nonfinite inputs.
+    degenerate = ((radial == 0) & (z == 0)) | ~xp.all(xp.isfinite(a), axis=-1)
+    theta = xp.where(degenerate, xp.pi / 2, xp.atan2(radial, z))
     phi = xp.atan2(y, x)
 
     return tstack([rho, theta, phi])
