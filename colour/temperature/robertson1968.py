@@ -240,8 +240,10 @@ def uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArrayFloat:
     shape = uv.shape
     uv = xp_reshape(uv, (-1, 2), xp=xp)
 
-    r_itl, u_itl, v_itl, t_itl = tsplit(
-        xp_as_float_array(DATA_ISOTEMPERATURE_LINES_ROBERTSON1968, xp=xp, like=uv)
+    r_itl, u_itl, v_itl, t_itl = xp.unstack(
+        tsplit(
+            xp_as_float_array(DATA_ISOTEMPERATURE_LINES_ROBERTSON1968, xp=xp, like=uv)
+        )
     )
 
     # Normalized direction vectors
@@ -249,39 +251,32 @@ def uv_to_CCT_Robertson1968(uv: ArrayLike) -> NDArrayFloat:
     du_itl = 1.0 / length
     dv_itl = t_itl / length
 
-    # Vectorized computation for all UV pairs at once
-    u, v = tsplit(uv)
-    u = u[:, None]  # Shape (N, 1)
-    v = v[:, None]  # Shape (N, 1)
+    u, v = xp.unstack(tsplit(uv))
+    u, v = u[:, None], v[:, None]
+    dt = -(u - u_itl) * dv_itl + (v - v_itl) * du_itl
 
-    # Compute distances for all UV pairs against all isotemperature lines
-    # Broadcasting: (N, 1) - (30,) = (N, 30)
-    uu = u - u_itl[1:]  # Shape (N, 30)
-    vv = v - v_itl[1:]  # Shape (N, 30)
-    dt = -uu * dv_itl[1:] + vv * du_itl[1:]  # Shape (N, 30)
-
-    # Find the first crossing point for each UV pair
-    mask = xp_astype(dt <= 0, DTYPE_INT_DEFAULT, xp=xp)
+    # Find the first crossing among intervals bounded by two lines.
+    mask = xp_astype(dt[:, 1:] <= 0, DTYPE_INT_DEFAULT, xp=xp)
     i = xp.where(xp.any(mask, axis=1), xp.argmax(mask, axis=1) + 1, 30)
+    j = i - 1
 
-    # Interpolation factor
-    idx = xp.arange(len(i))
-    dt_current = -xp.clip(dt[idx, i - 1], max=0.0)
-    dt_previous = dt[idx, i - 2]
-    f = xp.where(
-        i == 1, 0.0, xp.where(i > 1, dt_current / (dt_previous + dt_current), 0.0)
+    dt_current = xp.take_along_axis(dt, i[:, None], axis=1)[:, 0]
+    dt_previous = xp.take_along_axis(dt, j[:, None], axis=1)[:, 0]
+    dt_current = -xp.clip(dt_current, max=0.0)
+
+    # Retain the first finite table value for points beyond the zero-mired line.
+    beyond_table = (i == 1) & (dt_previous <= 0)
+    f = xp.where(beyond_table, 0.0, dt_current) / xp.where(
+        beyond_table, 1.0, dt_previous + dt_current
     )
 
-    # Interpolate temperature
-    T = mired_to_CCT(r_itl[i - 1] * f + r_itl[i] * (1 - f))
-
-    # Interpolate uv position
-    u_i = u_itl[i - 1] * f + u_itl[i] * (1 - f)
-    v_i = v_itl[i - 1] * f + v_itl[i] * (1 - f)
-
-    # Interpolate direction vectors
-    du_i = du_itl[i] * (1 - f) + du_itl[i - 1] * f
-    dv_i = dv_itl[i] * (1 - f) + dv_itl[i - 1] * f
+    T = mired_to_CCT(
+        xp.take(r_itl, j, axis=0) * f + xp.take(r_itl, i, axis=0) * (1 - f)
+    )
+    u_i = xp.take(u_itl, j, axis=0) * f + xp.take(u_itl, i, axis=0) * (1 - f)
+    v_i = xp.take(v_itl, j, axis=0) * f + xp.take(v_itl, i, axis=0) * (1 - f)
+    du_i = xp.take(du_itl, i, axis=0) * (1 - f) + xp.take(du_itl, j, axis=0) * f
+    dv_i = xp.take(dv_itl, i, axis=0) * (1 - f) + xp.take(dv_itl, j, axis=0) * f
 
     # Normalize interpolated direction
     length_i = xp.hypot(du_i, dv_i)
