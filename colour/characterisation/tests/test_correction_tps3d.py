@@ -45,6 +45,45 @@ def test_tps3d_maps_control_points(
         atol=TOLERANCE_ABSOLUTE_TESTS,
     )
 
+    # Off-control predictions distinguish the kernels for a nonlinear fit.
+    source = xp_as_array(
+        [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 1, 1], [0.45, 0.35, 0.7]],
+        xp=xp,
+    )
+    destination = xp_as_array(
+        [
+            [0, 0, 0],
+            [1, 0, 0.1],
+            [0, 1.1, 0],
+            [0.1, 0, 1],
+            [1.1, 1.1, 1.1],
+            [0.2725, 0.1575, 0.535],
+        ],
+        xp=xp,
+    )
+    sample = xp_as_array([[0.15, 0.45, 0.6]], xp=xp)
+    # Reference values from a direct block solve with each radial kernel.
+    for kernel, expected in (
+        ("bOoKsTeIn", [[0.036862089269, 0.335853031550, 0.468095106046]]),
+        ("Polyharmonic 3D", [[0.077941573984, 0.373612961945, 0.502950426410]]),
+    ):
+        xp_assert_close(
+            colour_correction_TPS3D(
+                sample, source, destination, kernel=kernel, clip=False
+            ),
+            expected,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+    # The Bookstein kernel vanishes at coincident points, including near black.
+    source = source * 1e-5
+    destination = destination * 1e-3
+    xp_assert_close(
+        colour_correction_TPS3D(source, source, destination, clip=False),
+        destination,
+        atol=TOLERANCE_ABSOLUTE_TESTS,
+    )
+
     for mixed_source, mixed_destination in ((M_T_np, M_R), (M_T, M_R_np)):
         with xp.device("cpu") if xp.__name__ == "torch" else nullcontext():
             mixed_W, mixed_A, mixed_ctrl = tps3d_parameters(

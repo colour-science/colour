@@ -1456,7 +1456,7 @@ def colour_correction_Vandermonde(
 # =============================================================================
 
 
-def _tps3d_kernel_bookstein(r: np.ndarray, eps: float = 1e-12) -> np.ndarray:
+def _tps3d_kernel_bookstein(r: np.ndarray) -> np.ndarray:
     """
     Bookstein TPS kernel (commonly used in TPS): phi(r) = r^2 log(r^2)
     which is equivalent to 2 * r^2 * log(r).
@@ -1473,8 +1473,8 @@ def _tps3d_kernel_bookstein(r: np.ndarray, eps: float = 1e-12) -> np.ndarray:
 
     xp = array_namespace(r)
 
-    r2 = xp.clip(r * r, min=eps)
-    return r2 * xp.log(r2)
+    r2 = r * r
+    return r2 * xp.log(xp.where(r2 == 0, 1, r2))
 
 
 def _tps3d_kernel_polyharmonic_3d(r: np.ndarray) -> np.ndarray:
@@ -1569,7 +1569,7 @@ def tps3d_parameters(
 
     # K: (N,N) from pairwise distances
     r = _pairwise_distances_euclidean(ctrl, ctrl)
-    if kernel == "Bookstein":
+    if kernel == "bookstein":
         K = _tps3d_kernel_bookstein(r)
         diag_mask = xp_as_array(np.eye(K.shape[0], dtype=bool), xp=xp, like=ctrl)
         K = xp.where(diag_mask, 0.0, K)
@@ -1683,7 +1683,7 @@ def apply_tps3d(
         )  # (m,4)
         r = _pairwise_distances_euclidean(X, ctrl)  # (m,N)
 
-        if kernel == "Bookstein":
+        if kernel == "bookstein":
             U = _tps3d_kernel_bookstein(r)
         else:
             U = _tps3d_kernel_polyharmonic_3d(r)
