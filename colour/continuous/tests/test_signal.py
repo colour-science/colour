@@ -168,6 +168,14 @@ class TestSignal:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # Reject a mismatched range before altering the samples or evaluator.
+        previous_range = signal.range
+        previous_function = signal.function
+        with pytest.raises(AssertionError, match="must have same size"):
+            signal.range = xp_as_array([1, 2], xp=xp)
+        xp_assert_equal(signal.range, previous_range)
+        assert signal.function is previous_function
+
         def assert_warns() -> None:
             """Help to test the runtime warning."""
 
