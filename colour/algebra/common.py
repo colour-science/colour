@@ -1072,8 +1072,8 @@ def eigen_decomposition(
     Parameters
     ----------
     a
-        Array to compute the eigenvalues :math:`w` and eigenvectors :math:`v`
-        for.
+        Matrices with shape ``(..., M, M)``. With ``covariance_matrix=True``,
+        observations may have shape ``(..., N, M)``.
     eigen_w_v_count
         Number of eigenvalues :math:`w` and eigenvectors :math:`v` to return.
     descending_order
@@ -1089,8 +1089,8 @@ def eigen_decomposition(
     :class:`tuple`
         Tuple of eigenvalues :math:`w` and eigenvectors :math:`v`. The
         eigenvalues are in the specified order, each repeated according to
-        its multiplicity. The column ``v[:, i]`` is the normalized eigenvector
-        corresponding to the eigenvalue ``w[i]``.
+        its multiplicity. The column ``v[..., :, i]`` is the normalised eigenvector
+        corresponding to the eigenvalue ``w[..., i]``.
 
     Examples
     --------
@@ -1135,11 +1135,11 @@ def eigen_decomposition(
     w, v = xp_eigh(A, xp=xp)
 
     if eigen_w_v_count is not None:
-        w = w[-eigen_w_v_count:]
+        w = w[..., -eigen_w_v_count:]
         v = v[..., -eigen_w_v_count:]
 
     if descending_order:
-        w = xp.flip(w, axis=0)
-        v = xp.flip(v, axis=1)
+        w = xp.flip(w, axis=-1)
+        v = xp.flip(v, axis=-1)
 
     return w, v
