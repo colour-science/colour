@@ -23,11 +23,12 @@ from colour.colorimetry.spectrum import (
     sds_and_msds_to_msds,
     sds_and_msds_to_sds,
 )
-from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.constants import DTYPE_FLOAT_DEFAULT, TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
     array_namespace,
     as_ndarray,
     is_caching_enabled,
+    set_default_float_dtype,
     tstack,
     xp_as_array,
     xp_assert_close,
@@ -1563,6 +1564,27 @@ SpectralDistribution` class can be pickled.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        if xp.__name__ == "numpy":
+            dtype = DTYPE_FLOAT_DEFAULT
+            values = [0.12345678912345678, 0.5678912345678912]
+            wavelengths = [400.123456789, 500.123456789]
+            try:
+                set_default_float_dtype(np.float32)
+                for domain in (wavelengths, SpectralShape(*wavelengths, 100)):
+                    distribution = SpectralDistribution(
+                        values, domain, dtype=np.float64
+                    )
+                    assert distribution.values.dtype == np.float64
+                    xp_assert_equal(distribution.values, values)
+                    xp_assert_equal(distribution.wavelengths, wavelengths)
+            finally:
+                set_default_float_dtype(dtype)
+
+            distribution = SpectralDistribution(
+                [1, 2], SpectralShape(400, 400.375, 0.375), dtype=np.float16
+            )
+            xp_assert_equal(distribution.wavelengths, [400, 400.5])
+
     @pytest.mark.mps_tolerance_absolute(1e-1)
     def test_interpolate(self, xp: ModuleType) -> None:
         """
@@ -1961,6 +1983,27 @@ MultiSpectralDistributions.__init__` method.
             .wavelengths,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        if xp.__name__ == "numpy":
+            dtype = DTYPE_FLOAT_DEFAULT
+            values = [[0.12345678912345678], [0.5678912345678912]]
+            wavelengths = [400.123456789, 500.123456789]
+            try:
+                set_default_float_dtype(np.float32)
+                for domain in (wavelengths, SpectralShape(*wavelengths, 100)):
+                    distribution = MultiSpectralDistributions(
+                        values, domain, dtype=np.float64
+                    )
+                    assert distribution.values.dtype == np.float64
+                    xp_assert_equal(distribution.values, values)
+                    xp_assert_equal(distribution.wavelengths, wavelengths)
+            finally:
+                set_default_float_dtype(dtype)
+
+            distribution = MultiSpectralDistributions(
+                [[1], [2]], SpectralShape(400, 400.375, 0.375), dtype=np.float16
+            )
+            xp_assert_equal(distribution.wavelengths, [400, 400.5])
 
     @pytest.mark.mps_tolerance_absolute(1e-1)
     def test_interpolate(self, xp: ModuleType) -> None:
