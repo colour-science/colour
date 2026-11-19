@@ -188,6 +188,8 @@ eotf_DICOMGSDF` definition domain and range scale support.
 
         J = 0.500486263438448
         L = as_ndarray(eotf_DICOMGSDF(xp_as_array(J, xp=xp)))
+        J_int = xp_as_array([1, 512, 1023], xp=xp)
+        L_int = eotf_DICOMGSDF(J_int / 1023)
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
@@ -195,6 +197,12 @@ eotf_DICOMGSDF` definition domain and range scale support.
                 xp_assert_close(
                     eotf_DICOMGSDF(xp_as_array(J * factor, xp=xp)),
                     L * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
+                xp_assert_close(
+                    eotf_DICOMGSDF(J_int, in_int=True),
+                    L_int * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
