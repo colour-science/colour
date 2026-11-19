@@ -448,6 +448,14 @@ class TestNormaliseVector:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        for magnitude in (1e20, 1e-24):
+            vector = xp_as_array([magnitude, magnitude], xp=xp)
+            xp_assert_close(
+                normalise_vector(vector),
+                [2**-0.5, 2**-0.5],
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
 
 class TestNormaliseMaximum:
     """
@@ -620,6 +628,11 @@ class TestEuclideanDistance:
             346.06489172,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        for magnitude in (1e20, 1e-24):
+            point = xp_as_array([magnitude, magnitude], xp=xp)
+            distance = euclidean_distance(point, xp.zeros_like(point))
+            xp_assert_close(distance / magnitude, 2**0.5, atol=TOLERANCE_ABSOLUTE_TESTS)
 
     def test_n_dimensional_euclidean_distance(self, xp: ModuleType) -> None:
         """
