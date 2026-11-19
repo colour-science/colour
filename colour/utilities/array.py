@@ -936,13 +936,15 @@ def xp_as_array(
         # A ``like`` reference on another device moves the array onto it first:
         # an operand pair split across, say, CPU and *MPS* would otherwise
         # reach the arithmetic unmoved and fail with a device mismatch. The
-        # move precedes the dtype cast so that the cast is evaluated against
-        # the destination device's capabilities, e.g. *MPS* has no float64.
+        # move precedes the dtype cast, except that *MPS* cannot receive
+        # double-precision operands.
         device_like = getattr(like, "device", None) if is_non_ndarray(like) else None
-        if getattr(device_like, "type", None) == "mps" and getattr(
-            result, "dtype", None
-        ) == getattr(xp, "float64", None):
-            result = xp_astype(result, xp.float32, xp=xp)
+        if getattr(device_like, "type", None) == "mps":
+            source_dtype = getattr(result, "dtype", None)
+            if source_dtype == getattr(xp, "float64", None):
+                result = xp_astype(result, xp.float32, xp=xp)
+            elif source_dtype == getattr(xp, "complex128", None):
+                result = xp_astype(result, xp.complex64, xp=xp)
         if device_like is not None and getattr(result, "device", None) != device_like:
             try:
                 if is_jax_namespace(xp):
@@ -952,6 +954,8 @@ def xp_as_array(
                     result = importlib.import_module("jax").device_put(
                         result, device_like
                     )
+                elif is_torch_namespace(xp):
+                    result = xpc.to_device(result, device_like)
                 else:
                     result = xp.asarray(result, device=device_like)
             except (TypeError, RuntimeError, ValueError):

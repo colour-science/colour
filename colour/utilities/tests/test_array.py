@@ -807,6 +807,21 @@ class TestXpAsArray:
             finally:
                 xp.set_default_dtype(original_dtype)
 
+            if xp.backends.mps.is_available():
+                source = xp.tensor(
+                    [1 + 2j, -3 + 4j],
+                    device="cpu",
+                    dtype=xp.complex128,
+                    requires_grad=True,
+                )
+                reference = xp.ones(1, dtype=xp.float32, device="mps")
+                moved = xp_as_array(source, xp=xp, like=reference)
+                assert moved.device == reference.device
+                assert moved.dtype == xp.complex64
+                xp_assert_equal(moved, [1 + 2j, -3 + 4j])
+                (gradient,) = xp.autograd.grad(xp.real(moved).sum(), source)
+                xp_assert_equal(gradient, [1 + 0j, 1 + 0j])
+
     def test_xp_as_array_copy_autodiff(
         self, xp: ModuleType, autodiff: typing.Callable
     ) -> None:
