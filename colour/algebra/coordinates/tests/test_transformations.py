@@ -78,6 +78,13 @@ cartesian_to_spherical` definition.
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        xyz = xp_as_array([[1e-9, 0, 1], [0, 0, 0], [0, 0, np.inf]], xp=xp)
+        spherical = cartesian_to_spherical(xyz)
+        xp_assert_close(spherical[0, 1] / 1e-9, 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+        xp_assert_close(
+            spherical[1:, 1], [np.pi / 2] * 2, atol=TOLERANCE_ABSOLUTE_TESTS
+        )
+
     def test_n_dimensional_cartesian_to_spherical(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.algebra.coordinates.transformations.\
