@@ -65,6 +65,7 @@ from colour.utilities import (
     Structure,
     array_namespace,
     as_float,
+    as_float_array,
     as_int,
     from_range_1,
     optional,
@@ -235,6 +236,7 @@ def log_decoding_ACESproxy(
     in_int
         Whether to treat the input value as integer code value or floating
         point equivalent of a code value at specified bit-depth.
+        Integer code values are independent of domain-range scaling.
     constants
         *ACESproxy* constants.
 
@@ -275,7 +277,7 @@ def log_decoding_ACESproxy(
     np.float64(0.1...)
     """
 
-    ACESproxy = to_domain_1(ACESproxy)
+    ACESproxy = as_float_array(ACESproxy) if in_int else to_domain_1(ACESproxy)
     constants = optional(constants, CONSTANTS_ACES_PROXY)
 
     mid_CV_offset = constants[bit_depth].mid_CV_offset
