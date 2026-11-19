@@ -48,6 +48,7 @@ from colour.hints import cast
 from colour.utilities import (
     MixinDataclassArithmetic,
     array_namespace,
+    as_array,
     as_complex_array,
     as_float_array,
     is_non_ndarray,
@@ -264,19 +265,30 @@ np.complex128(1.5+0j))
     n_1 = as_complex_array(n_1)
     n_2 = as_complex_array(n_2)
 
-    theta_i_rad = xp_radians(as_float_array(theta_i))
-    theta_t_rad = xp_radians(as_float_array(theta_t))
+    theta_i = as_array(theta_i)
+    theta_t = as_array(theta_t)
 
-    operands = (n_1, n_2, theta_i_rad, theta_t_rad)
+    operands = (n_1, n_2, theta_i, theta_t)
     xp = array_namespace(*operands)
-    like = next((a for a in operands if is_non_ndarray(a)), theta_i_rad)
+    like = next((a for a in operands if is_non_ndarray(a)), theta_i)
 
     n_1 = xp_as_array(n_1, xp=xp, like=like)
     n_2 = xp_as_array(n_2, xp=xp, like=n_1)
     n_1 = as_complex_array(n_1)
     n_2 = as_complex_array(n_2)
-    theta_i_rad = xp_as_float_array(theta_i_rad, xp=xp, like=n_1)
-    theta_t_rad = xp_as_float_array(theta_t_rad, xp=xp, like=n_1)
+    theta_i = xp_as_array(theta_i, xp=xp, like=n_1)
+    theta_t = xp_as_array(theta_t, xp=xp, like=n_1)
+    complex_dtypes = (xp.complex64, xp.complex128)
+    theta_i_rad = (
+        theta_i * (np.pi / 180)
+        if theta_i.dtype in complex_dtypes
+        else xp_radians(theta_i, xp=xp)
+    )
+    theta_t_rad = (
+        theta_t * (np.pi / 180)
+        if theta_t.dtype in complex_dtypes
+        else xp_radians(theta_t, xp=xp)
+    )
 
     cos_theta_i = xp_astype(xp.cos(theta_i_rad), n_1.dtype, xp=xp)
     cos_theta_t = xp_astype(xp.cos(theta_t_rad), n_1.dtype, xp=xp)
@@ -539,12 +551,10 @@ def polarised_light_transmission_coefficient(
 
     .. math::
 
-        T_s &= \\frac{n_2 \\cos \\theta_t}{n_1 \\cos \\theta_i} |t_s|^2 = \
-\\frac{n_2 \\cos \\theta_t}{n_1 \\cos \\theta_i} \\left|\\frac{2n_1 \\cos \
-\\theta_i}{n_1 \\cos \\theta_i + n_2 \\cos \\theta_t}\\right|^2 \\\\
-        T_p &= \\frac{n_2 \\cos \\theta_t}{n_1 \\cos \\theta_i} |t_p|^2 = \
-\\frac{n_2 \\cos \\theta_t}{n_1 \\cos \\theta_i} \\left|\\frac{2n_1 \\cos \
-\\theta_i}{n_2 \\cos \\theta_i + n_1 \\cos \\theta_t}\\right|^2
+        T_s &= \\frac{\\mathrm{Re}(n_2 \\cos \\theta_t)}
+        {\\mathrm{Re}(n_1 \\cos \\theta_i)} |t_s|^2 \\\\
+        T_p &= \\frac{\\mathrm{Re}(n_2 \\cos \\theta_t^*)}
+        {\\mathrm{Re}(n_1 \\cos \\theta_i^*)} |t_p|^2
 
     Where:
 
@@ -556,15 +566,10 @@ def polarised_light_transmission_coefficient(
     -   The s-polarisation electric field is perpendicular to the plane of incidence
     -   The p-polarisation electric field is parallel to the plane of incidence
 
-    The refractive index factor
-    :math:`\\frac{n_2 \\cos \\theta_t}{n_1 \\cos \\theta_i}` accounts for the
-    change in beam cross-section and energy density in the transmission medium.
-
-    **Energy Conservation**: For non-absorbing media:
-    :math:`R_s + T_s = 1` and :math:`R_p + T_p = 1`, where :math:`R_s, R_p` are the
-    corresponding reflectance coefficients.
-
-    The transmittance values satisfy: :math:`0 \\leq T_s, T_p \\leq 1`.
+    The ratios normalise transmitted power by the incident normal flux
+    (Equations 21 and 22 in :cite:`Byrnes2016`). For non-absorbing media,
+    :math:`R_s + T_s = 1` and :math:`R_p + T_p = 1`. For an absorbing
+    incident medium, this normalisation can give :math:`T > 1`.
 
     References
     ----------
@@ -578,18 +583,35 @@ def polarised_light_transmission_coefficient(
 
     n_1 = as_complex_array(n_1)
     n_2 = as_complex_array(n_2)
+    theta_i = as_array(theta_i)
+    theta_t = as_array(theta_t)
 
-    n_1_cos_theta_i, _n_1_cos_theta_t, _n_2_cos_theta_i, n_2_cos_theta_t = (
-        polarised_light_magnitude_elements(n_1, n_2, theta_i, theta_t)
+    operands = (n_1, n_2, theta_i, theta_t)
+    xp = array_namespace(*operands)
+    like = next((a for a in operands if is_non_ndarray(a)), theta_i)
+
+    n_1 = xp_as_array(n_1, xp=xp, like=like)
+    n_2 = xp_as_array(n_2, xp=xp, like=like)
+    theta_i = xp_as_array(theta_i, xp=xp, like=like)
+    theta_t = xp_as_array(theta_t, xp=xp, like=like)
+
+    # Unit refractive indices give the angle cosines directly.
+    cos_theta_i, cos_theta_t, _, _ = polarised_light_magnitude_elements(
+        1, 1, theta_i, theta_t
     )
 
-    # Transmittance with beam cross-section correction (Byrnes Eq. 21-22)
-    t_amp = polarised_light_transmission_amplitude(n_1, n_2, theta_i, theta_t)
+    n_1_cos_theta_i = n_1 * cos_theta_i
+    n_2_cos_theta_t = n_2 * cos_theta_t
 
-    xp = array_namespace(t_amp)
+    # Reuse the angle cosines for the amplitudes and normal power flux.
+    t_s = 2 * n_1_cos_theta_i / (n_1_cos_theta_i + n_2_cos_theta_t)
+    t_p = 2 * n_1_cos_theta_i / (n_2 * cos_theta_i + n_1 * cos_theta_t)
+    flux_s = xp.real(n_2_cos_theta_t) / xp.real(n_1_cos_theta_i)
+    flux_p = xp.real(n_2 * xp.conj(cos_theta_t)) / xp.real(n_1 * xp.conj(cos_theta_i))
 
-    T = (n_2_cos_theta_t / n_1_cos_theta_i)[..., None] * xp.abs(t_amp) ** 2
-    return as_complex_array(T)
+    return as_complex_array(
+        xp.stack([flux_s * xp.abs(t_s) ** 2, flux_p * xp.abs(t_p) ** 2], axis=-1)
+    )
 
 
 @dataclass

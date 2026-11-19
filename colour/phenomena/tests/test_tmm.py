@@ -10,7 +10,7 @@ if typing.TYPE_CHECKING:
 
 import numpy as np
 
-from colour.constants import TOLERANCE_ABSOLUTE_TESTS
+from colour.constants import DTYPE_COMPLEX_DEFAULT, TOLERANCE_ABSOLUTE_TESTS
 from colour.phenomena.interference import matrix_transfer_tmm
 from colour.phenomena.tmm import (
     polarised_light_magnitude_elements,
@@ -23,6 +23,7 @@ from colour.phenomena.tmm import (
 from colour.utilities import (
     as_ndarray,
     ignore_numpy_errors,
+    set_default_complex_dtype,
     xp_as_array,
     xp_assert_close,
     xp_reshape,
@@ -506,6 +507,39 @@ class TestPolarisedLightTransmissionCoefficient:
             )
         )
         xp_assert_close(np.real(R + T), [[1.0, 1.0]], atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        # Reference interface evaluated using Byrnes, Equations 21 and 22.
+        theta_i = xp_as_array([60.0], xp=xp)
+        theta_t = xp_as_array([35.0413240857426 - 2.680657754675013j], xp=xp)
+        xp_assert_close(
+            polarised_light_transmission_coefficient(1.0, 1.5 + 0.1j, theta_i, theta_t),
+            [[0.8187528811376718, 0.9978200213003096]],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        if xp.__name__ == "numpy":
+            # Complex storage precision must not quantise real angles.
+            complex_dtype = DTYPE_COMPLEX_DEFAULT
+            try:
+                set_default_complex_dtype(np.complex64)
+                theta_i = 89.999999
+                theta_t = snell_law(1.0, 1.5, theta_i)
+                assert all(
+                    value.dtype == np.complex64
+                    for value in polarised_light_magnitude_elements(
+                        1.0, 1.5, theta_i, theta_t
+                    )
+                )
+                xp_assert_close(
+                    polarised_light_transmission_coefficient(
+                        1.0, 1.5, theta_i, theta_t
+                    ),
+                    [6.2442801e-8, 1.4049628e-7],
+                    atol=0,
+                    rtol=4 * np.finfo(np.float32).eps,
+                )
+            finally:
+                set_default_complex_dtype(complex_dtype)
 
     def test_n_dimensional_polarised_light_transmission_coefficient(
         self, xp: ModuleType
