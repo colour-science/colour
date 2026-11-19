@@ -15,6 +15,7 @@ from colour.models.rgb.transfer_functions import (
     oetf_inverse_ARIBSTDB67,
 )
 from colour.utilities import (
+    Structure,
     as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
@@ -176,6 +177,17 @@ oetf_inverse_ARIBSTDB67` definition.
         xp_assert_close(
             oetf_inverse_ARIBSTDB67(xp_as_array(1.302858098046995, xp=xp)),
             64.0,
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # For a continuous custom curve, the encoded breakpoint is r.
+        r = 0.75
+        a, b = 0.17883277, 0.28466892
+        constants = Structure(a=a, b=b, c=r - a * np.log(1 - b))
+        E = xp_as_array([0.25, 0.64, 1.0, 2.0], xp=xp)
+        xp_assert_close(
+            oetf_inverse_ARIBSTDB67(oetf_ARIBSTDB67(E, r, constants), r, constants),
+            E,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 

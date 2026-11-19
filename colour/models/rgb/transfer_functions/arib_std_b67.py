@@ -199,7 +199,7 @@ def oetf_inverse_ARIBSTDB67(
 
     with domain_range_scale("ignore"):
         E = xp.where(
-            E_p <= oetf_ARIBSTDB67(1),
+            E_p <= oetf_ARIBSTDB67(1, r, constants),
             gamma_function((E_p / r), 2, "mirror"),
             xp.exp((E_p - c) / a) + b,
         )
