@@ -235,7 +235,7 @@ log_decoding_ACESproxy` definition n-dimensional arrays support.
 log_decoding_ACESproxy` definition domain and range scale support.
         """
 
-        ACESproxy = 426.0
+        ACESproxy = 426 / (2**10 - 1)
         lin_AP1 = as_ndarray(log_decoding_ACESproxy(xp_as_array(ACESproxy, xp=xp)))
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
@@ -246,6 +246,19 @@ log_decoding_ACESproxy` definition domain and range scale support.
                     lin_AP1 * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
+
+        for bit_depth, codes in ((10, [64, 512, 940]), (12, [256, 2048, 3760])):
+            ACESproxy_int = xp_as_array(codes, xp=xp)
+            lin_AP1_int = log_decoding_ACESproxy(
+                ACESproxy_int / (2**bit_depth - 1), bit_depth
+            )
+            for scale, factor in d_r:
+                with domain_range_scale(scale):
+                    xp_assert_close(
+                        log_decoding_ACESproxy(ACESproxy_int, bit_depth, in_int=True),
+                        lin_AP1_int * factor,
+                        atol=TOLERANCE_ABSOLUTE_TESTS,
+                    )
 
     @ignore_numpy_errors
     def test_nan_log_decoding_ACESproxy(self) -> None:
