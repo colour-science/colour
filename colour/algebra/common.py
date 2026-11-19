@@ -731,10 +731,10 @@ def normalise_maximum(
 
     xp = array_namespace(a)
 
-    maximum = xp.max(a, axis=axis)
+    maximum = xp.max(a, axis=axis, keepdims=True)
 
     with sdiv_mode():
-        a = a * sdiv(1, maximum[..., None]) * factor
+        a = a * sdiv(1, maximum) * factor
 
     return xp.clip(a, 0, factor) if clip else a
 

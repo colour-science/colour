@@ -527,6 +527,14 @@ class TestNormaliseMaximum:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # A non-final reduction axis must broadcast against its original axis.
+        xp_assert_close(
+            normalise_maximum(
+                xp_as_array([[1, 10], [2, 30]], xp=xp), axis=0, clip=False
+            ),
+            [[0.5, 1 / 3], [1, 1]],
+        )
+
 
 class TestVectorDot:
     """
