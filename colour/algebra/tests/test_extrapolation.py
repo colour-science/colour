@@ -18,6 +18,9 @@ from colour.algebra import (
     LinearInterpolator,
     PchipInterpolator,
 )
+from colour.algebra.interpolation.backends.numpy import (
+    Extrapolator as NumpyExtrapolator,
+)
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.utilities import (
     as_ndarray,
@@ -127,6 +130,10 @@ class TestExtrapolator:
         )
         xp_assert_equal(extrapolator(xp_as_array([4, 8], xp=xp)), (4, 8))
         xp_assert_equal(extrapolator(xp_as_array([4], xp=xp)), [4])
+
+        # Exercise the fallback with exterior and interior queries on one device.
+        fallback = NumpyExtrapolator(extrapolator.interpolator)
+        xp_assert_equal(fallback(xp_as_array([4, 6, 8], xp=xp)), [4, 6, 8])
 
         extrapolator = Extrapolator(
             LinearInterpolator(
