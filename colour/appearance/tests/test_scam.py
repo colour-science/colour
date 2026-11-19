@@ -282,7 +282,7 @@ class TestsCAM_to_XYZ:
         L_A = 318.31
         xp_assert_close(
             sCAM_to_XYZ(specification, XYZ_w, L_A, Y_b, surround),
-            [3.53256359, 6.56009775, 2.15585716],
+            [3.53, 6.56, 2.14],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
@@ -327,6 +327,25 @@ class TestsCAM_to_XYZ:
             XYZ,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        # A non-D65 viewing white exposes the partial-adaptation inverse error.
+        XYZ_w = xp_as_array([109.85, 100, 35.585], xp=xp)
+        for discount in (False, True):
+            specification = XYZ_to_sCAM(
+                XYZ, XYZ_w, 20, Y_b, surround, discount_illuminant=discount
+            )
+            xp_assert_close(
+                sCAM_to_XYZ(
+                    specification,
+                    XYZ_w,
+                    20,
+                    Y_b,
+                    surround,
+                    discount_illuminant=discount,
+                ),
+                XYZ,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
 
     @ignore_numpy_errors
     def test_domain_range_scale_sCAM_to_XYZ(self, xp: ModuleType) -> None:
