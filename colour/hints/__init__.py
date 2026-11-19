@@ -364,6 +364,7 @@ class ProtocolArrayNamespace(Protocol):  # pragma: no cover
     tril: Callable[..., NDArray[Any]]
     unique: Callable[..., Any]
     unique_values: Callable[..., NDArray[Any]]
+    unstack: Callable[..., tuple[NDArray[Any], ...]]
     where: Callable[..., NDArray[Any]]
     zeros: Callable[..., NDArray[Any]]
     zeros_like: Callable[..., NDArray[Any]]

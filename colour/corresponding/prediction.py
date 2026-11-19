@@ -382,7 +382,8 @@ def corresponding_chromaticities_prediction_Fairchild1990(
 
     with domain_range_scale("1"):
         XYZ_t, XYZ_r = experiment_results.XYZ_t, experiment_results.XYZ_r
-        xy_t, xy_r = XYZ_to_xy([XYZ_t, XYZ_r])
+        xy = XYZ_to_xy([XYZ_t, XYZ_r])
+        xy_t, xy_r = xy[0, ...], xy[1, ...]
 
         uv_t = Luv_to_uv(XYZ_to_Luv(experiment_results.XYZ_ct, xy_t), xy_t)
         uv_m = Luv_to_uv(XYZ_to_Luv(experiment_results.XYZ_cr, xy_r), xy_r)
@@ -395,9 +396,9 @@ def corresponding_chromaticities_prediction_Fairchild1990(
 
         return tuple(
             CorrespondingChromaticitiesPrediction(
-                experiment_results.name, uv_t[i], uv_m[i], uv_p[i]
+                experiment_results.name, uv_t[i, ...], uv_m[i, ...], uv_p[i, ...]
             )
-            for i in range(len(uv_t))
+            for i in range(uv_t.shape[0])
         )
 
 

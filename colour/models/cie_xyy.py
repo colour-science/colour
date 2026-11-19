@@ -100,7 +100,7 @@ def XYZ_to_xyY(XYZ: Domain1) -> Range1:
 
     XYZ = to_domain_1(XYZ)
 
-    X, Y, Z = tsplit(XYZ)
+    X, Y, Z = array_namespace(XYZ).unstack(tsplit(XYZ))
 
     X_Y_Z = X + Y + Z
 
@@ -154,7 +154,7 @@ def xyY_to_XYZ(xyY: Domain1) -> Range1:
 
     xyY = as_float_array(xyY)
 
-    x, y, Y = tsplit(xyY)
+    x, y, Y = array_namespace(xyY).unstack(tsplit(xyY))
     Y = to_domain_1(Y)
 
     with sdiv_mode():
@@ -295,7 +295,7 @@ def xy_to_xyY(xy: ArrayLike, Y: Domain1 = 1) -> Range1:
     reference = xy if is_non_ndarray(xy) else Y
     xy = xp_as_float_array(xy, xp=xp, like=reference)
 
-    x, y = tsplit(xy)
+    x, y = xp.unstack(tsplit(xy))
     Y = xp_as_float_array(Y, xp=xp, like=x)
     if (
         Y.ndim == xy.ndim

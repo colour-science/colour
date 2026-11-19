@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import typing
+from dataclasses import replace
 
 import numpy as np
 
@@ -300,6 +301,24 @@ corresponding_chromaticities_prediction_Fairchild1990` definition.
             DATA_PREDICTION_FAIRCHILD1990,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        dataset = DATASET_CORRESPONDING_COLOUR_1
+        native_dataset = replace(
+            dataset,
+            XYZ_r=xp_as_array(dataset.XYZ_r, xp=xp),
+            XYZ_t=xp_as_array(dataset.XYZ_t, xp=xp),
+            XYZ_cr=xp_as_array(dataset.XYZ_cr, xp=xp),
+            XYZ_ct=xp_as_array(dataset.XYZ_ct, xp=xp),
+        )
+        predictions = corresponding_chromaticities_prediction_Fairchild1990(
+            native_dataset
+        )
+        for prediction, expected in zip(
+            predictions, DATA_PREDICTION_FAIRCHILD1990, strict=True
+        ):
+            assert prediction.uv_p.device == native_dataset.XYZ_ct.device
+            xp_assert_close(prediction.uv_m, expected[0], atol=TOLERANCE_ABSOLUTE_TESTS)
+            xp_assert_close(prediction.uv_p, expected[1], atol=TOLERANCE_ABSOLUTE_TESTS)
 
 
 class TestCorrespondingChromaticitiesPredictionCIE1994:

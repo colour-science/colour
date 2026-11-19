@@ -30,12 +30,15 @@ from colour.hints import (  # noqa: TC001
 )
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import (
+    array_namespace,
     from_range_1,
     from_range_100,
+    is_non_ndarray,
     to_domain_1,
     to_domain_100,
     tsplit,
     tstack,
+    xp_as_float_array,
 )
 
 __author__ = "Colour Developers"
@@ -169,9 +172,15 @@ def Lab_to_XYZ(
     array([0.2065400..., 0.1219722..., 0.0513695...])
     """
 
-    L, a, b = tsplit(to_domain_100(Lab))
+    Lab = to_domain_100(Lab)
+    xp = array_namespace(Lab, illuminant)
+    reference = Lab if is_non_ndarray(Lab) else illuminant
+    Lab = xp_as_float_array(Lab, xp=xp, like=reference)
+    illuminant = xp_as_float_array(illuminant, xp=xp, like=Lab)
 
-    X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
+    L, a, b = xp.unstack(tsplit(Lab))
+
+    X_n, Y_n, Z_n = xp.unstack(tsplit(xyY_to_XYZ(xy_to_xyY(illuminant))))
 
     f_Y_Y_n = (L + 16) / 116
     f_X_X_n = a / 500 + f_Y_Y_n
