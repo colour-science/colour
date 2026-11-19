@@ -361,6 +361,14 @@ class TestXYZ_to_Hunt:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # The omitted proximal field uses all three background components.
+        settings = dict(p=0.5, CCT_w=CCT_w)
+        xp_assert_close(
+            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, **settings),
+            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, XYZ_p=XYZ_b, **settings),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     @ignore_numpy_errors
     def test_nan_XYZ_to_Hunt(self) -> None:
         """
