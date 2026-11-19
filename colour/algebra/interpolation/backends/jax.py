@@ -738,12 +738,20 @@ class LinearInterpolator:
         if len(self._x) == 1:
             return jnp.broadcast_to(self._y[0], (*x.shape, *self._y.shape[1:]))
 
-        i = jnp.clip(jnp.searchsorted(self._x, x) - 1, 0, len(self._x) - 2)
-        t = (x - self._x[i]) / (self._x[i + 1] - self._x[i])
+        left = jnp.searchsorted(self._x, x)
+        right = jnp.searchsorted(self._x, x, side="right")
+        repeated = right - left > 1
+        index = jnp.where(repeated, right, left)
+        i = jnp.clip(index - 1, 0, len(self._x) - 2)
+        width = self._x[i + 1] - self._x[i]
+        t = (x - self._x[i]) / jnp.where(width == 0, 1, width)
+        at_end = repeated & (right == len(self._x))
         if self._y.ndim > 1:
             t = t[..., None]
+            at_end = at_end[..., None]
 
-        return self._y[i] + (self._y[i + 1] - self._y[i]) * t
+        result = self._y[i] + (self._y[i + 1] - self._y[i]) * t
+        return jnp.where(at_end, self._y[-1], result)
 
     @property
     def x(self) -> jnp.ndarray:
