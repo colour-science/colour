@@ -211,6 +211,8 @@ cctf_decoding_ROMMRGB` definition domain and range scale support.
 
         X_p = 0.385711424751138
         X = as_ndarray(cctf_decoding_ROMMRGB(xp_as_array(X_p, xp=xp)))
+        X_p_int = xp_as_array([0, 8, 128, 255], xp=xp)
+        X_int = cctf_decoding_ROMMRGB(X_p_int / 255)
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
@@ -218,6 +220,12 @@ cctf_decoding_ROMMRGB` definition domain and range scale support.
                 xp_assert_close(
                     cctf_decoding_ROMMRGB(xp_as_array(X_p * factor, xp=xp)),
                     X * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
+                xp_assert_close(
+                    cctf_decoding_ROMMRGB(X_p_int, in_int=True),
+                    X_int * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
@@ -395,6 +403,8 @@ cctf_decoding_RIMMRGB` definition domain and range scale support.
 
         X_p = 0.291673732475746
         X = as_ndarray(cctf_decoding_RIMMRGB(xp_as_array(X_p, xp=xp)))
+        X_p_int = xp_as_array([0, 8, 128, 255], xp=xp)
+        X_int = cctf_decoding_RIMMRGB(X_p_int / 255)
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
@@ -402,6 +412,12 @@ cctf_decoding_RIMMRGB` definition domain and range scale support.
                 xp_assert_close(
                     cctf_decoding_RIMMRGB(xp_as_array(X_p * factor, xp=xp)),
                     X * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
+                xp_assert_close(
+                    cctf_decoding_RIMMRGB(X_p_int, in_int=True),
+                    X_int * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
@@ -579,6 +595,8 @@ log_decoding_ERIMMRGB` definition domain and range scale support.
 
         X_p = 0.410052389492129
         X = as_ndarray(log_decoding_ERIMMRGB(xp_as_array(X_p, xp=xp)))
+        X_p_int = xp_as_array([0, 8, 128, 255], xp=xp)
+        X_int = log_decoding_ERIMMRGB(X_p_int / 255)
 
         d_r = (("reference", 1), ("1", 1), ("100", 100))
         for scale, factor in d_r:
@@ -586,6 +604,12 @@ log_decoding_ERIMMRGB` definition domain and range scale support.
                 xp_assert_close(
                     log_decoding_ERIMMRGB(xp_as_array(X_p * factor, xp=xp)),
                     X * factor,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
+                xp_assert_close(
+                    log_decoding_ERIMMRGB(X_p_int, in_int=True),
+                    X_int * factor,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 

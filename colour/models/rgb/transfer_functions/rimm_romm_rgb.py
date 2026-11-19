@@ -156,6 +156,7 @@ def cctf_decoding_ROMMRGB(
     in_int
         Whether to treat the input value as integer code value or floating
         point equivalent of a code value at a specified bit-depth.
+        Integer code values are independent of domain-range scaling.
 
     Returns
     -------
@@ -191,7 +192,7 @@ def cctf_decoding_ROMMRGB(
     np.float64(0.1...)
     """
 
-    X_p = to_domain_1(X_p)
+    X_p = as_float_array(X_p) if in_int else to_domain_1(X_p)
 
     xp = array_namespace(X_p)
 
@@ -325,6 +326,7 @@ def cctf_decoding_RIMMRGB(
     in_int
         Whether to treat the input value as integer code value or floating
         point equivalent of a code value at a specified bit-depth.
+        Integer code values are independent of domain-range scaling.
     E_clip
         Maximum exposure limit.
 
@@ -362,7 +364,7 @@ def cctf_decoding_RIMMRGB(
     np.float64(0.1...)
     """
 
-    X_p = to_domain_1(X_p)
+    X_p = as_float_array(X_p) if in_int else to_domain_1(X_p)
 
     xp = array_namespace(X_p)
 
@@ -496,6 +498,7 @@ def log_decoding_ERIMMRGB(
     in_int
         Whether to treat the input value as integer code value or floating
         point equivalent of a code value at a specified bit-depth.
+        Integer code values are independent of domain-range scaling.
     E_min
         Minimum exposure limit.
     E_clip
@@ -535,7 +538,7 @@ def log_decoding_ERIMMRGB(
     np.float64(0.1...)
     """
 
-    X_p = to_domain_1(X_p)
+    X_p = as_float_array(X_p) if in_int else to_domain_1(X_p)
 
     xp = array_namespace(X_p)
 
