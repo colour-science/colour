@@ -462,6 +462,14 @@ class TestXYZ_to_UCS_Luo2006:
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
+                xp_assert_close(
+                    XYZ_to_UCS_Luo2006(
+                        XYZ * factor_a, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
+                    ),
+                    Jpapbp * factor_b,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
     @ignore_numpy_errors
     def test_nan_XYZ_to_UCS_Luo2006(self) -> None:
         """
@@ -643,6 +651,14 @@ class TestUCS_Luo2006_to_XYZ:
                         Jpapbp * xp_as_array(factor_a, xp=xp),
                         COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
                         XYZ_w=XYZ_w * factor_c,
+                    ),
+                    XYZ * factor_b,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
+                xp_assert_close(
+                    UCS_Luo2006_to_XYZ(
+                        Jpapbp * factor_a, COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
                     ),
                     XYZ * factor_b,
                     atol=TOLERANCE_ABSOLUTE_TESTS,
