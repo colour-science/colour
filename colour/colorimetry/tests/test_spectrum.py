@@ -12,7 +12,7 @@ import numpy as np
 import pytest
 
 import colour
-from colour.algebra import CubicSplineInterpolator
+from colour.algebra import CubicSplineInterpolator, LinearInterpolator
 from colour.colorimetry.spectrum import (
     SPECTRAL_SHAPE_DEFAULT,
     MultiSpectralDistributions,
@@ -1702,6 +1702,64 @@ SpectralDistribution.align` method.
         shape = SpectralShape(600, 650, 1)
         assert self._sd.copy(xp=xp).align(shape).shape == shape
 
+        # A target that starts between source-grid phases must keep its grid.
+        wavelengths = np.arange(405.0, 706.0, 20.0)
+        values = ((wavelengths - 400) / 300) ** 2
+        shape = SpectralShape(400, 700, 10)
+        aligned = (
+            SpectralDistribution(values, wavelengths, interpolator=LinearInterpolator)
+            .copy(xp=xp)
+            .align(shape)
+        )
+        expected = np.interp(shape.wavelengths, wavelengths, values)
+        xp_assert_close(aligned.wavelengths, shape.wavelengths)
+        xp_assert_close(aligned.values, expected, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        # A single interior wavelength uses the original data.
+        wavelengths = [400, 410, 420, 430]
+        shape = SpectralShape(385, 455, 35)
+        aligned = (
+            SpectralDistribution(
+                [0, 100, 400, 900], wavelengths, interpolator=LinearInterpolator
+            )
+            .copy(xp=xp)
+            .align(shape)
+        )
+        xp_assert_equal(aligned.wavelengths, shape.wavelengths)
+        xp_assert_equal(aligned.values, [0, 400, 900])
+
+        # Fractional extrapolation must not generate extra grid points.
+        shape = SpectralShape(399.9, 700.1, 0.1)
+        aligned = (
+            SpectralDistribution(
+                np.arange(31.0),
+                np.arange(400.0, 701.0, 10.0),
+                interpolator=LinearInterpolator,
+            )
+            .copy(xp=xp)
+            .align(shape)
+        )
+        xp_assert_equal(aligned.wavelengths, shape.wavelengths)
+
+        # Linear extrapolation uses the endpoint samples after interpolation.
+        wavelengths = np.linspace(500.1, 1000.1, 11)
+        values = np.linspace(0, 1, 11) ** 2
+        shape = SpectralShape(400.1, 1050.1, 5)
+        aligned = (
+            SpectralDistribution(values, wavelengths, interpolator=LinearInterpolator)
+            .copy(xp=xp)
+            .align(
+                shape, CubicSplineInterpolator, extrapolator_kwargs={"method": "Linear"}
+            )
+        )
+        xp_assert_equal(aligned.wavelengths, shape.wavelengths)
+        values = aligned.values
+        xp_assert_close(
+            xp.stack((values[0], values[-1])),
+            [-0.002, 1.199],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_trim(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.colorimetry.spectrum.\
@@ -2001,6 +2059,42 @@ MultiSpectralDistributions.align` method.
 
         shape = SpectralShape(600, 650, 1)
         assert msds.align(shape).shape == shape
+
+        # A target that starts between source-grid phases must keep its grid.
+        wavelengths = np.arange(405.0, 706.0, 20.0)
+        values = ((wavelengths - 400) / 300) ** 2
+        shape = SpectralShape(400, 700, 10)
+        aligned = (
+            MultiSpectralDistributions(
+                np.stack([values, 2 * values], axis=-1),
+                wavelengths,
+                interpolator=LinearInterpolator,
+            )
+            .copy(xp=xp)
+            .align(shape)
+        )
+        expected = np.interp(shape.wavelengths, wavelengths, values)
+        xp_assert_close(aligned.wavelengths, shape.wavelengths)
+        xp_assert_close(
+            aligned.values,
+            np.stack([expected, 2 * expected], axis=-1),
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # A single interior wavelength uses the original data.
+        wavelengths = [400, 410, 420, 430]
+        shape = SpectralShape(385, 455, 35)
+        aligned = (
+            MultiSpectralDistributions(
+                [[0, 0], [100, 200], [400, 800], [900, 1800]],
+                wavelengths,
+                interpolator=LinearInterpolator,
+            )
+            .copy(xp=xp)
+            .align(shape)
+        )
+        xp_assert_equal(aligned.wavelengths, shape.wavelengths)
+        xp_assert_equal(aligned.values, [[0, 0], [400, 800], [900, 1800]])
 
     def test_trim(self, xp: ModuleType) -> None:
         """
