@@ -362,10 +362,11 @@ class TestXYZ_to_Hunt:
         )
 
         # The omitted proximal field uses all three background components.
-        settings = dict(p=0.5, CCT_w=CCT_w)
         xp_assert_close(
-            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, **settings),
-            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, XYZ_p=XYZ_b, **settings),
+            XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, p=0.5, CCT_w=CCT_w),
+            XYZ_to_Hunt(
+                XYZ, XYZ_w, XYZ_b, L_A, surround, XYZ_p=XYZ_b, p=0.5, CCT_w=CCT_w
+            ),
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
