@@ -363,7 +363,7 @@ class _DispatchingInterpolator(_BackendDispatcher):
 
         x, y = self._x_data, self._y_data
         if backend == "numpy" and (
-            interpolator_type != "LinearInterpolator"
+            interpolator_type not in ("LinearInterpolator", "SpragueInterpolator")
             or not is_array_api_enabled()
             or not (is_non_ndarray(self._x_source) or is_non_ndarray(self._y_source))
         ):

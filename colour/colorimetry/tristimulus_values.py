@@ -2609,7 +2609,7 @@ def wavelength_to_XYZ(
     wavelength = xp_as_float_array(wavelength, xp=xp, like=reference)
 
     shape = cmfs.shape
-    if xp.min(wavelength) < shape.start or xp.max(wavelength) > shape.end:
+    if xp.min(wavelength) < float(shape.start) or xp.max(wavelength) > float(shape.end):
         error = (
             f'"{wavelength}nm" wavelength is not in '
             f'"[{shape.start}, {shape.end}]" domain!'

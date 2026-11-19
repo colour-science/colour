@@ -585,11 +585,13 @@ class SpragueInterpolator:
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
         self._dtype = _resolve_dtype(dtype)
-        self._x = np.asarray(x, dtype=self._dtype)
-        self._y = np.asarray(y, dtype=self._dtype)
+        xp = array_namespace(x, y)
+        reference = x if is_non_ndarray(x) else y
+        self._x = xp_as_array(x, dtype=self._dtype, xp=xp, like=reference)
+        self._y = xp_as_array(y, dtype=self._dtype, xp=xp, like=self._x)
         validate_dimensions(self._x, self._y)
 
-        if len(self._y) < 6:
+        if self._y.shape[0] < 6:
             error = "Sprague interpolation requires at least 6 points."
             raise ValueError(error)
 
@@ -598,44 +600,65 @@ class SpragueInterpolator:
     def _build(self) -> None:
         x = self._x
         y = self._y
-        h = (x[-1] - x[0]) / (len(x) - 1)
-        self._x_p = np.concatenate(
-            [[x[0] - 2 * h, x[0] - h], x, [x[-1] + h, x[-1] + 2 * h]]
+        xp = array_namespace(x)
+        h = (x[-1] - x[0]) / (x.shape[0] - 1)
+        self._x_p = xp.concat(
+            [
+                xp.stack([x[0] - 2 * h, x[0] - h]),
+                x,
+                xp.stack([x[-1] + h, x[-1] + 2 * h]),
+            ]
         )
 
-        coefficients = np.asarray(SPRAGUE_C_COEFFICIENTS, dtype=self._dtype)
+        coefficients = xp_as_array(
+            SPRAGUE_C_COEFFICIENTS, dtype=self._dtype, xp=xp, like=x
+        )
         if y.ndim == 2:
             coefficients = coefficients[..., None]
         y_boundary = (
-            np.sum(coefficients * np.stack([y[0:6], y[0:6], y[-6:], y[-6:]]), axis=1)
+            xp.sum(
+                coefficients
+                * xp.stack([y[0:6, ...], y[0:6, ...], y[-6:, ...], y[-6:, ...]]),
+                axis=1,
+            )
             / 209
         )
-        self._y_p = np.concatenate([y_boundary[:2], y, y_boundary[2:]], axis=0)
+        self._y_p = xp.concat([y_boundary[:2, ...], y, y_boundary[2:, ...]], axis=0)
 
     def __call__(self, x: Any) -> np.ndarray:
         """Evaluate the *Sprague (1880)* interpolant at the specified point(s)."""
 
-        x = np.asarray(x, dtype=self._dtype)
-        _validate_range(np.atleast_1d(x), self._x)
+        xp = array_namespace(self._x)
+        x = xp_as_array(x, dtype=self._dtype, xp=xp, like=self._x)
+        _validate_range(x, self._x)
 
-        x_flat = np.atleast_1d(x).reshape(-1)
-        i = np.searchsorted(self._x_p, x_flat) - 1
-        t = (x_flat - self._x_p[i]) / (self._x_p[i + 1] - self._x_p[i])
+        x_flat = xp.reshape(x, (-1,))
+        i = xp.searchsorted(self._x_p, x_flat) - 1
+        lower = xp.take(self._x_p, i, axis=0)
+        upper = xp.take(self._x_p, i + 1, axis=0)
+        t = (x_flat - lower) / (upper - lower)
 
-        windows = np.stack([self._y_p[i + k] for k in (-2, -1, 0, 1, 2, 3)])
-        weights = np.asarray(SPRAGUE_A_COEFFICIENTS, dtype=self._dtype)
+        windows = xp.stack(
+            [xp.take(self._y_p, i + k, axis=0) for k in (-2, -1, 0, 1, 2, 3)]
+        )
+        weights = xp_as_array(SPRAGUE_A_COEFFICIENTS, dtype=self._dtype, xp=xp, like=x)
         windows_shape = windows.shape
-        a = (weights @ windows.reshape(windows_shape[0], -1) / 24).reshape(
-            weights.shape[0], *windows_shape[1:]
+        flat_windows = xp.reshape(windows, (windows_shape[0], -1))
+        a = xp.reshape(
+            xp.matmul(weights, flat_windows) / 24,
+            (weights.shape[0], *windows_shape[1:]),
         )
 
         # An integer exponent array would promote ``t`` to float64.
-        basis = t ** np.array([[1], [2], [3], [4], [5]], dtype=self._dtype)
+        powers = xp_as_array(
+            [[1], [2], [3], [4], [5]], dtype=self._dtype, xp=xp, like=x
+        )
+        basis = t**powers
         if self._y.ndim == 2:
             basis = basis[..., None]
-        values = self._y_p[i] + (a * basis).sum(axis=0)
+        values = xp.take(self._y_p, i, axis=0) + xp.sum(a * basis, axis=0)
 
-        return values.reshape((*np.shape(x), *self._y.shape[1:]))
+        return xp.reshape(values, (*x.shape, *self._y.shape[1:]))
 
     @property
     def x(self) -> np.ndarray:
@@ -647,7 +670,8 @@ class SpragueInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property; rebuilds the boundary extension."""
 
-        x = np.asarray(value, dtype=self._dtype)
+        xp = array_namespace(self._y)
+        x = xp_as_array(value, dtype=self._dtype, xp=xp, like=self._y)
         validate_dimensions(x, self._y)
         self._x = x
         self._build()
@@ -662,7 +686,8 @@ class SpragueInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property; rebuilds the boundary extension."""
 
-        y = np.asarray(value, dtype=self._dtype)
+        xp = array_namespace(self._x)
+        y = xp_as_array(value, dtype=self._dtype, xp=xp, like=self._x)
         validate_dimensions(self._x, y)
         self._y = y
         self._build()
