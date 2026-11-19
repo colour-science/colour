@@ -421,9 +421,7 @@ def XYZ_to_Jzazbz(
     XYZ_D65 = as_float_array(XYZ_D65)
 
     with domain_range_scale("ignore"):
-        I_z, a_z, b_z = tsplit(
-            XYZ_to_Izazbz(XYZ_D65, CONSTANTS_JZAZBZ_SAFDAR2017, "Safdar 2017")
-        )
+        I_z, a_z, b_z = tsplit(XYZ_to_Izazbz(XYZ_D65, constants, "Safdar 2017"))
 
     J_z = ((1 + constants.d) * I_z) / (1 + constants.d * I_z) - constants.d_0
 
@@ -496,6 +494,4 @@ def Jzazbz_to_XYZ(
     )
 
     with domain_range_scale("ignore"):
-        return Izazbz_to_XYZ(
-            tstack([I_z, a_z, b_z]), CONSTANTS_JZAZBZ_SAFDAR2017, "Safdar 2017"
-        )
+        return Izazbz_to_XYZ(tstack([I_z, a_z, b_z]), constants, "Safdar 2017")

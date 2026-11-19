@@ -13,7 +13,9 @@ import numpy as np
 
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 from colour.models import Izazbz_to_XYZ, Jzazbz_to_XYZ, XYZ_to_Izazbz, XYZ_to_Jzazbz
+from colour.models.jzazbz import CONSTANTS_JZAZBZ_SAFDAR2017
 from colour.utilities import (
+    Structure,
     as_ndarray,
     domain_range_scale,
     ignore_numpy_errors,
@@ -259,6 +261,17 @@ class TestXYZ_to_Jzazbz:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # Safdar (2017) evaluated with b = 1.25.
+        constants = Structure(**CONSTANTS_JZAZBZ_SAFDAR2017)
+        constants.b = 1.25
+        xp_assert_close(
+            XYZ_to_Jzazbz(
+                xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp), constants
+            ),
+            [0.005381453010820, 0.011129248074634, 0.005145607551768],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
     def test_n_dimensional_XYZ_to_Jzazbz(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.models.jzazbz.XYZ_to_Jzazbz` definition
@@ -326,6 +339,20 @@ class TestJzazbz_to_XYZ:
         xp_assert_close(
             Jzazbz_to_XYZ(xp_as_array([0.01766826, 0.00064174, -0.00052906], xp=xp)),
             [0.96907232, 1.00000000, 1.12179215],
+            atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
+        )
+
+        # Safdar (2017) evaluated with b = 1.25.
+        constants = Structure(**CONSTANTS_JZAZBZ_SAFDAR2017)
+        constants.b = 1.25
+        xp_assert_close(
+            Jzazbz_to_XYZ(
+                xp_as_array(
+                    [0.005381453010820, 0.011129248074634, 0.005145607551768], xp=xp
+                ),
+                constants,
+            ),
+            [0.20654008, 0.12197225, 0.05136952],
             atol=max(TOLERANCE_ABSOLUTE_TESTS, 1e-06),
         )
 
