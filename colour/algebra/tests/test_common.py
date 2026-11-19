@@ -890,7 +890,7 @@ class TestEigenDecomposition:
     tests methods.
     """
 
-    def test_is_identity(self, xp: ModuleType) -> None:
+    def test_eigen_decomposition(self, xp: ModuleType) -> None:
         """Test :func:`colour.algebra.common.eigen_decomposition` definition."""
 
         a = xp_create_diagonal(xp_as_array([1, 2, 3], xp=xp), xp=xp)
@@ -926,3 +926,22 @@ class TestEigenDecomposition:
             as_ndarray(v),
             [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]],
         )
+
+        # Compare batched eigenpairs with the same matrices evaluated separately.
+        a = xp_as_array([[[[3, 1], [1, 2]]], [[[5, 2], [2, 4]]]], xp=xp)
+        for covariance_matrix in (False, True):
+            for descending_order in (False, True):
+                for count in (None, 1):
+                    w, v = eigen_decomposition(
+                        a, count, descending_order, covariance_matrix
+                    )
+                    for index in range(a.shape[0]):
+                        expected_w, expected_v = eigen_decomposition(
+                            a[index, 0, ...], count, descending_order, covariance_matrix
+                        )
+                        xp_assert_close(w[index, 0, ...], expected_w)
+                        # Eigenvector signs can differ between eigensolver calls.
+                        xp_assert_close(
+                            xp.abs(xp.sum(v[index, 0, ...] * expected_v, axis=0)),
+                            xp.ones_like(expected_w),
+                        )
