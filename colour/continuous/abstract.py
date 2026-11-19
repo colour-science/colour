@@ -40,6 +40,7 @@ from colour.utilities import (
     closest,
     is_same_array_namespace,
     is_uniform,
+    ndarray_copy,
     optional,
     xp_as_array,
     xp_as_float_array,
@@ -125,6 +126,7 @@ arithmetical_operation`
     -   :meth:`~colour.continuous.AbstractContinuousFunction.copy`
     """
 
+    _domain: NDArrayFloat
     _range: NDArrayFloat
 
     def __init__(self, name: str | None = None) -> None:
@@ -906,10 +908,12 @@ arithmetical_operation`
         range_copy = xp_as_array(range_input, xp=target_xp, copy=True)
 
         # PyTorch deliberately rejects ``deepcopy`` for non-leaf tensors.
-        # Supply the graph-preserving range copy through the memo and discard
-        # any cached interpolator, which can retain another reference to the
-        # original range.
-        memo: dict[int, object] = {id(source_range): range_copy}
+        # Supply graph-preserving copies through the memo and discard any
+        # cached interpolator, which can retain references to the inputs.
+        memo: dict[int, object] = {
+            id(self._domain): ndarray_copy(self._domain),
+            id(source_range): range_copy,
+        }
         function = getattr(self, "_function", None)
         if function is not None:
             memo[id(function)] = None

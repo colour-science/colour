@@ -80,6 +80,7 @@ from colour.utilities import (
     runtime_warning,
     tstack,
     validate_method,
+    xp_as_array,
     xp_as_float_array,
     xp_isin,
     xp_linspace,
@@ -1568,8 +1569,8 @@ class SpectralDistribution(Signal):
         extrapolator_kwargs: dict | None = None,
     ) -> Self:
         """
-        Align the spectral distribution in-place to the specified spectral
-        shape: Interpolate first then extrapolate to fit the specified range.
+        Align the spectral distribution in-place to the specified
+        wavelengths. Extrapolation uses the samples after interpolation.
 
         Interpolation is performed according to *CIE 167:2005*
         recommendation (if the interpolator has not been changed at
@@ -1699,8 +1700,59 @@ class SpectralDistribution(Signal):
          [565.           0.0922541...]]
         """
 
-        self.interpolate(shape, interpolator, interpolator_kwargs)
-        self.extrapolate(shape, extrapolator, extrapolator_kwargs)
+        shape = SpectralShape(shape.start, shape.end, shape.interval)
+        wavelengths = shape.wavelengths
+        resampled = self.copy().interpolate(shape, interpolator, interpolator_kwargs)
+        sampled_wavelengths = resampled.wavelengths
+        start = np.searchsorted(wavelengths, sampled_wavelengths[0])
+        end = np.searchsorted(wavelengths, sampled_wavelengths[-1], side="right")
+        interior = wavelengths[start:end]
+
+        if np.array_equal(interior, sampled_wavelengths):
+            values = resampled.range
+        elif interior.size > 1:
+            # Interpolate the original samples at the requested grid phase.
+            values = (
+                self.copy()
+                .interpolate(
+                    SpectralShape(interior[0], interior[-1], shape.interval),
+                    interpolator,
+                    interpolator_kwargs,
+                )
+                .range
+            )
+        elif not interior.size:
+            values = resampled.range[:0]
+        elif sampled_wavelengths[0] < interior[0] < sampled_wavelengths[-1]:
+            # SpectralShape requires two distinct bounds.
+            left, right = sampled_wavelengths[0], interior[0]
+            values = (
+                self.copy()
+                .interpolate(
+                    SpectralShape(left, right, right - left),
+                    interpolator,
+                    interpolator_kwargs,
+                )
+                .range[-1:]
+            )
+        else:
+            values = resampled[interior]
+
+        if start or end < len(wavelengths):
+            # Keep the same resampled support for the extrapolator at either edge.
+            resampled.extrapolator = optional(extrapolator, Extrapolator)
+            resampled.extrapolator_kwargs = optional(
+                extrapolator_kwargs, {"method": "Constant", "left": None, "right": None}
+            )
+            exterior = resampled[
+                np.concatenate((wavelengths[:start], wavelengths[end:]))
+            ]
+            xp = array_namespace(values)
+            values = xp.concat((exterior[:start], values, exterior[start:]), axis=0)
+            wavelengths = xp_as_array(wavelengths, dtype=self.dtype, xp=xp, like=values)
+
+        self.wavelengths = wavelengths
+        self.values = values
 
         return self
 
@@ -2635,8 +2687,8 @@ class MultiSpectralDistributions(MultiSignals):
         extrapolator_kwargs: dict | None = None,
     ) -> Self:
         """
-        Align the multi-spectral distributions in-place to the specified spectral
-        shape: Interpolates first then extrapolates to fit the specified range.
+        Align the multi-spectral distributions in-place to the specified
+        wavelengths. Extrapolation uses the samples after interpolation.
 
         Interpolation is performed according to *CIE 167:2005* recommendation
         (if the interpolator has not been changed at instantiation time) or
@@ -2767,8 +2819,59 @@ class MultiSpectralDistributions(MultiSignals):
          [565.           0.5945   ...   0.995    ...   0.0039   ...]]
         """
 
-        self.interpolate(shape, interpolator, interpolator_kwargs)
-        self.extrapolate(shape, extrapolator, extrapolator_kwargs)
+        shape = SpectralShape(shape.start, shape.end, shape.interval)
+        wavelengths = shape.wavelengths
+        resampled = self.copy().interpolate(shape, interpolator, interpolator_kwargs)
+        sampled_wavelengths = resampled.wavelengths
+        start = np.searchsorted(wavelengths, sampled_wavelengths[0])
+        end = np.searchsorted(wavelengths, sampled_wavelengths[-1], side="right")
+        interior = wavelengths[start:end]
+
+        if np.array_equal(interior, sampled_wavelengths):
+            values = resampled.range
+        elif interior.size > 1:
+            # Interpolate the original samples at the requested grid phase.
+            values = (
+                self.copy()
+                .interpolate(
+                    SpectralShape(interior[0], interior[-1], shape.interval),
+                    interpolator,
+                    interpolator_kwargs,
+                )
+                .range
+            )
+        elif not interior.size:
+            values = resampled.range[:0]
+        elif sampled_wavelengths[0] < interior[0] < sampled_wavelengths[-1]:
+            # SpectralShape requires two distinct bounds.
+            left, right = sampled_wavelengths[0], interior[0]
+            values = (
+                self.copy()
+                .interpolate(
+                    SpectralShape(left, right, right - left),
+                    interpolator,
+                    interpolator_kwargs,
+                )
+                .range[-1:]
+            )
+        else:
+            values = resampled[interior]
+
+        if start or end < len(wavelengths):
+            # Keep the same resampled support for the extrapolator at either edge.
+            resampled.extrapolator = optional(extrapolator, Extrapolator)
+            resampled.extrapolator_kwargs = optional(
+                extrapolator_kwargs, {"method": "Constant", "left": None, "right": None}
+            )
+            exterior = resampled[
+                np.concatenate((wavelengths[:start], wavelengths[end:]))
+            ]
+            xp = array_namespace(values)
+            values = xp.concat((exterior[:start], values, exterior[start:]), axis=0)
+            wavelengths = xp_as_array(wavelengths, dtype=self.dtype, xp=xp, like=values)
+
+        self.wavelengths = wavelengths
+        self.values = values
 
         return self
 
