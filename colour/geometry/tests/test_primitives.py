@@ -171,6 +171,16 @@ class TestPrimitiveGrid:
                 atol=TOLERANCE_ABSOLUTE_TESTS,
             )
 
+        for axis in ("-x", "+x", "-y", "+y", "-z", "+z"):
+            vertices, faces, _outline = primitive_grid(axis=axis)
+            triangles = vertices["position"][faces]
+            face_normals = np.cross(
+                triangles[:, 1] - triangles[:, 0], triangles[:, 2] - triangles[:, 0]
+            )
+            assert np.all(
+                np.sum(face_normals * vertices["normal"][faces[:, 0]], axis=-1) > 0
+            )
+
 
 class TestPrimitiveCube:
     """

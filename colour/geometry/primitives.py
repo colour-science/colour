@@ -211,6 +211,8 @@ def primitive_grid(
         shift, zero_axis = 0, 2
 
     sign = -1 if "-" in axis else 1
+    if sign < 0:
+        faces = xp.asarray(xp.flip(faces, axis=1), copy=True)
 
     positions = xp.roll(positions, shift, axis=-1)
     normals = cast("NDArrayFloat", xp.roll(normals, shift, axis=-1)) * sign
@@ -406,27 +408,24 @@ def primitive_cube(
 
     planes_p = []
     if "-z" in axis:
-        planes_p.append(list(primitive_grid(width, depth, w_s, d_s, "-z")))
+        planes_p.append(primitive_grid(width, depth, w_s, d_s, "-z"))
         planes_p[-1][0]["position"][..., 2] -= height / 2
-        planes_p[-1][1] = xp.flip(planes_p[-1][1], axis=1)
     if "+z" in axis:
-        planes_p.append(list(primitive_grid(width, depth, w_s, d_s, "+z")))
+        planes_p.append(primitive_grid(width, depth, w_s, d_s, "+z"))
         planes_p[-1][0]["position"][..., 2] += height / 2
 
     if "-y" in axis:
-        planes_p.append(list(primitive_grid(height, width, h_s, w_s, "-y")))
+        planes_p.append(primitive_grid(height, width, h_s, w_s, "-y"))
         planes_p[-1][0]["position"][..., 1] -= depth / 2
-        planes_p[-1][1] = xp.flip(planes_p[-1][1], axis=1)
     if "+y" in axis:
-        planes_p.append(list(primitive_grid(height, width, h_s, w_s, "+y")))
+        planes_p.append(primitive_grid(height, width, h_s, w_s, "+y"))
         planes_p[-1][0]["position"][..., 1] += depth / 2
 
     if "-x" in axis:
-        planes_p.append(list(primitive_grid(depth, height, d_s, h_s, "-x")))
+        planes_p.append(primitive_grid(depth, height, d_s, h_s, "-x"))
         planes_p[-1][0]["position"][..., 0] -= width / 2
-        planes_p[-1][1] = xp.flip(planes_p[-1][1], axis=1)
     if "+x" in axis:
-        planes_p.append(list(primitive_grid(depth, height, d_s, h_s, "+x")))
+        planes_p.append(primitive_grid(depth, height, d_s, h_s, "+x"))
         planes_p[-1][0]["position"][..., 0] += width / 2
     uvs = zeros((0, 2))
     normals = zeros((0, 3))
