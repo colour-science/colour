@@ -81,15 +81,17 @@ class TestXYZ_to_UCS_Li2017(TestXYZ_to_UCS_Luo2006):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        xp_assert_close(
-            XYZ_to_UCS_Li2017(
-                xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp),
-                COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
-                XYZ_w=xp_as_array([0.95047, 1.0, 1.08883], xp=xp),
-            ),
-            [46.06573617, 41.07444159, 14.50807598],
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
+        whitepoint = [0.95047, 1.0, 1.08883]
+        for XYZ_w in (whitepoint, xp_as_array(whitepoint, xp=xp)):
+            xp_assert_close(
+                XYZ_to_UCS_Li2017(
+                    xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp),
+                    COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
+                    XYZ_w=XYZ_w,
+                ),
+                [46.06573617, 41.07444159, 14.50807598],
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
 
     def test_domain_range_scale_XYZ_to_UCS_Li2017(self, xp: ModuleType) -> None:
         """
@@ -129,15 +131,17 @@ class TestUCS_Li2017_to_XYZ(TestUCS_Luo2006_to_XYZ):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        xp_assert_close(
-            UCS_Li2017_to_XYZ(
-                xp_as_array([46.06586033, 41.07586491, 14.51025826], xp=xp),
-                COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
-                XYZ_w=xp_as_array([0.95047, 1.0, 1.08883], xp=xp),
-            ),
-            [0.2065444, 0.12197263, 0.05136016],
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
+        whitepoint = [0.95047, 1.0, 1.08883]
+        for XYZ_w in (whitepoint, xp_as_array(whitepoint, xp=xp)):
+            xp_assert_close(
+                UCS_Li2017_to_XYZ(
+                    xp_as_array([46.06586033, 41.07586491, 14.51025826], xp=xp),
+                    COEFFICIENTS_UCS_LUO2006["CAM02-LCD"],
+                    XYZ_w=XYZ_w,
+                ),
+                [0.2065444, 0.12197263, 0.05136016],
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
 
     def test_domain_range_scale_UCS_Li2017_to_XYZ(self, xp: ModuleType) -> None:
         """
