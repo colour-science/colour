@@ -415,8 +415,10 @@ def multilayer_tmm(
 
     .. math::
 
-        T = |t|^2 \\frac{\\text{Re}[n_{\\text{substrate}} \
-\\cos \\theta_{\\text{final}}]}{\\text{Re}[n_{\\text{incident}} \\cos \\theta_i]}
+        T_s &= |t_s|^2 \\frac{\\mathrm{Re}(n_f \\cos \\theta_f)}
+        {\\mathrm{Re}(n_i \\cos \\theta_i)} \\\\
+        T_p &= |t_p|^2 \\frac{\\mathrm{Re}(n_f \\cos \\theta_f^*)}
+        {\\mathrm{Re}(n_i \\cos \\theta_i)}
 
     Where:
 
@@ -452,12 +454,6 @@ def multilayer_tmm(
         wavelength=wavelength,
     )
 
-    # Extract n_incident and n_substrate from result.n
-    # result.n has shape (media_count, wavelengths_count)
-    n_incident = result.n[0, 0]
-    n_substrate = result.n[-1, 0]
-
-    # T = thickness_count, A = angles_count, W = wavelengths_count
     # Reflectance (Byrnes Eq. 15, 23)
     r_s = xp.abs(result.M_s[:, :, :, 1, 0] / result.M_s[:, :, :, 0, 0]) ** 2
     r_p = xp.abs(result.M_p[:, :, :, 1, 0] / result.M_p[:, :, :, 0, 0]) ** 2
@@ -466,21 +462,24 @@ def multilayer_tmm(
     t_s = 1 / result.M_s[:, :, :, 0, 0]
     t_p = 1 / result.M_p[:, :, :, 0, 0]
 
-    # Transmittance correction factor: Re[n_f cos(θ_f) / n_i cos(θ_i)]
-    # result.theta has shape (A, M) where M = media_count
-    cos_theta_i = xp.cos(xp_radians(theta))[:, None]  # (A, 1)
-    cos_theta_f = xp.cos(xp_radians(result.theta[:, -1]))[:, None]  # (A, 1)
-    transmittance_correction = xp.real(
-        (n_substrate * cos_theta_f) / (n_incident * cos_theta_i)
-    )  # (A, 1)
+    # Normal power flux at each wavelength (Byrnes Eqs. 21 and 22).
+    n_incident, n_substrate = result.n[0, :, None], result.n[-1, :, None]
+    theta_i = xp_radians(theta)[None, :]
+    cos_theta_i = xp.cos(theta_i)
+    sin_theta_f = n_incident * xp.sin(theta_i) / n_substrate
+    cos_theta_f = xp.cos(xp.asin(sin_theta_f))
+    real_refraction = (xp.imag(n_substrate) == 0) & (xp.imag(sin_theta_f) == 0)
+    evanescent = real_refraction & (xp.abs(xp.real(sin_theta_f)) > 1)
+    propagating = real_refraction & (xp.abs(xp.real(sin_theta_f)) <= 1)
+    reverse = (~propagating) & (xp.imag(n_substrate * cos_theta_f) < 0)
+    cos_theta_f = xp.where(reverse, -cos_theta_f, cos_theta_f)
 
-    # Broadcast to thickness dimension: (1, A, 1)
-    transmittance_correction = transmittance_correction[None, :, :]
+    flux_i = xp.real(n_incident * cos_theta_i)
+    flux_s = xp.where(evanescent, 0, xp.real(n_substrate * cos_theta_f))
+    flux_p = xp.where(evanescent, 0, xp.real(n_substrate * xp.conj(cos_theta_f)))
+    t_s = xp.abs(t_s) ** 2 * (flux_s / flux_i)[..., None]
+    t_p = xp.abs(t_p) ** 2 * (flux_p / flux_i)[..., None]
 
-    t_s = xp.abs(t_s) ** 2 * transmittance_correction  # (T, A, W)
-    t_p = xp.abs(t_p) ** 2 * transmittance_correction  # (T, A, W)
-
-    # Stack results: (T, A, W, 2)
     R = tstack([r_s, r_p])
     T = tstack([t_s, t_p])
 

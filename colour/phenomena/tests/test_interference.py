@@ -369,6 +369,21 @@ class TestMultilayerTmm:
         assert R_sub.shape == (1, 1, 1, 2)
         assert T_sub.shape == (1, 1, 1, 2)
 
+        # The first wavelength tunnels through the film. The second has
+        # total internal reflection at the exit interface.
+        R, T = multilayer_tmm(
+            [[1.5, 1.5], [1.0, 1.5], [1.5, 1.0]],
+            [100],
+            xp_as_array([550, 650], xp=xp),
+            60,
+        )
+        xp_assert_close(
+            T[:, 0, 0, :],
+            [[0.4520908035683187, 0.28535793423656647], [0, 0]],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+        xp_assert_close(R + T, 1, atol=TOLERANCE_ABSOLUTE_TESTS)
+
     def test_n_dimensional_multilayer_tmm(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.phenomena.interference.multilayer_tmm`
