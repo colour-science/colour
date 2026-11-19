@@ -204,6 +204,7 @@ Array API
     xp_degrees
     xp_eig
     xp_eigh
+    xp_fallback_numpy
     xp_gradient
     xp_insert
     xp_interp

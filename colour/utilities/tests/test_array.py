@@ -7,6 +7,7 @@ import importlib
 import sys
 import types
 import typing
+import warnings
 from copy import deepcopy
 from dataclasses import dataclass, field, fields
 from functools import partial
@@ -145,6 +146,7 @@ from colour.utilities import (
     xp_degrees,
     xp_eig,
     xp_eigh,
+    xp_fallback_numpy,
     xp_gradient,
     xp_insert,
     xp_interp,
@@ -1930,12 +1932,19 @@ class TestXpBroadcastTo:
 
 
 class TestXpFallbackNumpy:
-    """Define :func:`colour.utilities.array._xp_fallback_numpy` unit tests."""
+    """Define :func:`colour.utilities.xp_fallback_numpy` unit tests."""
 
     def test_xp_fallback_numpy(self, xp: ModuleType) -> None:
-        """Test :func:`colour.utilities.array._xp_fallback_numpy` definition."""
+        """Test :func:`colour.utilities.xp_fallback_numpy` definition."""
 
-        xp_fallback_numpy = utilities_array._xp_fallback_numpy  # noqa: SLF001
+        if is_numpy_namespace(xp):
+            with warnings.catch_warnings():
+                warnings.simplefilter("error")
+                result = xp_fallback_numpy(
+                    "np.median", np.median, np.array([1.0, 3.0, 2.0]), xp=xp
+                )
+            assert result == 2.0
+            return
 
         def assert_native(result: Any, reference: Any) -> None:
             assert type(result) is type(reference)

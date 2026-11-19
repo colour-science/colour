@@ -350,6 +350,9 @@ section above. The remaining creation helpers are:
 -   ``xp_ascontiguousarray(a, *, xp=None)`` : Materialise a C-contiguous array.
 -   ``xp_linspace(start, stop, *, num=50, xp=None, like=None, **kwargs)`` :
     ``np.linspace``.
+-   ``xp_fallback_numpy(name, function, *arrays, xp, like=None, **kwargs)`` :
+    Evaluate a host *NumPy* / *SciPy* function and return the result in
+    ``xp``, on the input device.
 
 **Shape Manipulation**
 

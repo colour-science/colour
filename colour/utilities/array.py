@@ -133,6 +133,7 @@ __all__ = [
     "xp_log10",
     "xp_sqrt",
     "xp_power",
+    "xp_fallback_numpy",
     "xp_select",
     "xp_interp",
     "xp_trapezoid",
@@ -1400,14 +1401,14 @@ def _runtime_warning_xp_fallback(name: str) -> None:
     alternative = _XP_FALLBACK_ALTERNATIVES.get(name, _XP_FALLBACK_ALTERNATIVE_DEFAULT)
 
     runtime_warning(
-        f'"{name}" is falling back to "NumPy" for non-"NumPy" '
-        "arrays, this will incur a performance penalty due to array "
-        "conversion and will not preserve automatic differentiation graphs. "
+        f'"{name}" is evaluated on the host for non-"NumPy" arrays, this '
+        "will incur a performance penalty due to array conversion and will "
+        "not preserve automatic differentiation graphs. "
         f"{alternative}"
     )
 
 
-def _xp_fallback_numpy(
+def xp_fallback_numpy(
     name: str,
     function: Callable,
     *arrays: Any,
@@ -1416,15 +1417,44 @@ def _xp_fallback_numpy(
     **kwargs: Any,
 ) -> Any:
     """
-    Evaluate *NumPy* ``function`` on ``arrays`` and return the result in
-    ``xp``, on the device of ``like``.
+    Evaluate the host *NumPy* / *SciPy* ``function`` on ``arrays`` and return
+    the result in ``xp``, on the device of ``like``.
 
     ``like`` defaults to the first non-*NumPy* array of ``arrays``. Floating
     results are cast to the promoted dtype of the floating inputs, e.g.
     :func:`numpy.interp` always returns float64. Array elements of a tuple
     result are converted, other elements, e.g. the :func:`numpy.linspace`
-    step, are returned unchanged.
+    step, are returned unchanged. With a *NumPy* ``xp``, ``function`` is
+    called directly and no warning is emitted.
+
+    Parameters
+    ----------
+    name
+        Name reported in the fallback warning.
+    function
+        Host function called with the *NumPy* ``arrays`` and ``kwargs``.
+    arrays
+        Array arguments converted to *NumPy*.
+    xp
+        Array namespace module of the result.
+    like
+        Reference array whose device to match.
+    kwargs
+        Keyword arguments passed to ``function``.
+
+    Returns
+    -------
+    :class:`object`
+        Result of ``function`` in ``xp``.
+
+    Examples
+    --------
+    >>> xp_fallback_numpy("np.median", np.median, np.array([1.0, 3.0, 2.0]), xp=np)
+    np.float64(2.0)
     """
+
+    if is_numpy_namespace(xp):
+        return function(*arrays, **kwargs)
 
     _runtime_warning_xp_fallback(name)
 
@@ -1800,7 +1830,7 @@ def xp_interp(
     except (AttributeError, TypeError):
         pass
 
-    return _xp_fallback_numpy("xp_interp", np.interp, x, x_data, fp, xp=xp)
+    return xp_fallback_numpy("xp_interp", np.interp, x, x_data, fp, xp=xp)
 
 
 def xp_trapezoid(
@@ -1851,7 +1881,7 @@ def xp_trapezoid(
 
     arrays = (y,) if x is None else (y, x)
 
-    return _xp_fallback_numpy(
+    return xp_fallback_numpy(
         "xp_trapezoid", np.trapezoid, *arrays, xp=xp, dx=dx, axis=axis
     )
 
@@ -1968,7 +1998,7 @@ def xp_gradient(
             return result[0]
         return result  # pyright: ignore
 
-    return _xp_fallback_numpy("xp_gradient", np.gradient, f, *varargs, xp=xp, axis=axis)
+    return xp_fallback_numpy("xp_gradient", np.gradient, f, *varargs, xp=xp, axis=axis)
 
 
 def xp_resize(
@@ -2094,10 +2124,7 @@ def xp_median(
 
     xp = array_namespace(a) if xp is None else xp
 
-    if is_numpy_namespace(xp):
-        return np.median(a, axis=axis)  # pyright: ignore
-
-    return _xp_fallback_numpy("xp_median", np.median, a, xp=xp, axis=axis)
+    return xp_fallback_numpy("xp_median", np.median, a, xp=xp, axis=axis)
 
 
 def xp_round(
@@ -2609,7 +2636,7 @@ def xp_lstsq(
     except (AttributeError, TypeError, NotImplementedError, RuntimeError):
         pass
 
-    return _xp_fallback_numpy(
+    return xp_fallback_numpy(
         "xp_lstsq", lambda a, b: np.linalg.lstsq(a, b, rcond=rcond)[0], a, b, xp=xp
     )
 
@@ -2622,7 +2649,7 @@ def _xp_eig_generic(
     try:
         return getattr(xp.linalg, name)(a)
     except (AttributeError, TypeError, NotImplementedError, RuntimeError):
-        return _xp_fallback_numpy(f"xp_{name}", getattr(np.linalg, name), a, xp=xp)
+        return xp_fallback_numpy(f"xp_{name}", getattr(np.linalg, name), a, xp=xp)
 
 
 def xp_eig(
@@ -2735,7 +2762,7 @@ def xp_isin(
     except (AttributeError, TypeError):
         pass
 
-    return _xp_fallback_numpy(
+    return xp_fallback_numpy(
         "xp_isin", np.isin, element, test_elements, xp=xp, like=reference
     )
 
@@ -2838,7 +2865,7 @@ def xp_linspace(
     except (AttributeError, TypeError):
         # ``start`` and ``stop`` are converted in the closure so that they do
         # not override the requested ``dtype``.
-        return _xp_fallback_numpy(
+        return xp_fallback_numpy(
             "xp_linspace",
             lambda: np.linspace(
                 as_ndarray(start), as_ndarray(stop), num, dtype=numpy_dtype, **kwargs
@@ -2890,7 +2917,7 @@ def xp_pad(
     except (AttributeError, TypeError):
         pass
 
-    return _xp_fallback_numpy(
+    return xp_fallback_numpy(
         "xp_pad", lambda a: np.pad(a, pad_width, *args, **kwargs), a, xp=xp
     )
 
@@ -2935,7 +2962,7 @@ def xp_unique(
     except (AttributeError, TypeError):
         pass
 
-    return _xp_fallback_numpy("xp_unique", np.unique, a, xp=xp, **kwargs)
+    return xp_fallback_numpy("xp_unique", np.unique, a, xp=xp, **kwargs)
 
 
 def xp_insert(

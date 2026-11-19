@@ -15,11 +15,12 @@ from colour.constants import EPSILON
 from colour.utilities import (
     CACHE_REGISTRY,
     array_namespace,
+    as_array,
     as_ndarray,
     int_digest,
     is_caching_enabled,
     required,
-    xp_as_array,
+    xp_fallback_numpy,
 )
 
 if typing.TYPE_CHECKING:
@@ -99,6 +100,10 @@ def is_within_mesh_volume(
         if is_caching_enabled():
             _CACHE_DELAUNAY[cache_key] = triangulation
 
-    simplex = triangulation.find_simplex(as_ndarray(points), tol=tolerance)
-
-    return xp_as_array(simplex >= 0, xp=xp, like=points)
+    # ``as_array`` keeps the *NumPy* result of a single point a 0-d array.
+    return xp_fallback_numpy(
+        "is_within_mesh_volume",
+        lambda points: as_array(triangulation.find_simplex(points, tol=tolerance) >= 0),
+        points,
+        xp=xp,
+    )
