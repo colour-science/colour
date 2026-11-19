@@ -43,9 +43,10 @@ def validate_dimensions(x: Any, y: Any) -> None:
         error = '"x" independent variable must have exactly one dimension!'
         raise ValueError(error)
 
-    if len(x) != len(y):
+    if x.shape[0] != y.shape[0]:
         error = (
-            f'"x" and "y" variables have different dimensions: "{len(x)}", "{len(y)}"'
+            '"x" and "y" variables have different dimensions: '
+            f'"{x.shape[0]}", "{y.shape[0]}"'
         )
         raise ValueError(error)
 

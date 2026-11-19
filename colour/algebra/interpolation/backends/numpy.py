@@ -12,6 +12,14 @@ import numpy as np
 import scipy.interpolate
 
 from colour.constants import DTYPE_FLOAT_DEFAULT
+from colour.utilities import (
+    array_namespace,
+    is_non_ndarray,
+    is_numpy_namespace,
+    xp_as_array,
+    xp_as_float_array,
+    xp_atleast_1d,
+)
 
 from ._core import (
     SPRAGUE_A_COEFFICIENTS,
@@ -53,7 +61,8 @@ def _resolve_dtype(dtype: Any) -> np.dtype:
 def _validate_range(x: np.ndarray, x_i: np.ndarray) -> None:
     """Raise if any query value lies outside the interpolation range."""
 
-    if bool(np.any(x < x_i[0])) or bool(np.any(x > x_i[-1])):
+    xp = array_namespace(x, x_i)
+    if bool(xp.any(x < x_i[0])) or bool(xp.any(x > x_i[-1])):
         error = "A value in x is outside the interpolation range."
         raise ValueError(error)
 
@@ -294,15 +303,40 @@ class LinearInterpolator:
         **kwargs: Any,  # noqa: ARG002
     ) -> None:
         self._dtype = _resolve_dtype(dtype)
-        self._x = np.atleast_1d(np.asarray(x, dtype=self._dtype))
-        self._y = np.atleast_1d(np.asarray(y, dtype=self._dtype))
+        xp = array_namespace(x, y)
+        reference = x if is_non_ndarray(x) else y
+        self._x = xp_atleast_1d(
+            xp_as_array(x, dtype=self._dtype, xp=xp, like=reference), xp=xp
+        )
+        self._y = xp_atleast_1d(
+            xp_as_array(y, dtype=self._dtype, xp=xp, like=self._x), xp=xp
+        )
         validate_dimensions(self._x, self._y)
 
     def __call__(self, x: Any) -> np.ndarray:
         """Evaluate the linear interpolant at the specified point(s)."""
 
-        x = np.asarray(x, dtype=self._dtype)
+        xp = array_namespace(self._x)
+        x = xp_as_array(x, dtype=self._dtype, xp=xp, like=self._x)
         _validate_range(x, self._x)
+
+        if not is_numpy_namespace(xp):
+            xi, yi = self._x, self._y
+            if xi.shape[0] == 1:
+                return xp.broadcast_to(yi[0, ...], (*x.shape, *yi.shape[1:]))
+            query = xp.reshape(x, (-1,))
+            upper = xp.clip(
+                xp.searchsorted(xi, query, side="right"), 1, xi.shape[0] - 1
+            )
+            lower = upper - 1
+            a, b = xp.take(xi, lower, axis=0), xp.take(xi, upper, axis=0)
+            factor = xp.where(b == a, 0, (query - a) / xp.where(b == a, 1, b - a))
+            broadcast_shape = (query.shape[0],) + (1,) * (yi.ndim - 1)
+            factor = xp.reshape(factor, broadcast_shape)
+            at_end = xp.reshape(query == xi[-1], broadcast_shape)
+            y_0, y_1 = xp.take(yi, lower, axis=0), xp.take(yi, upper, axis=0)
+            result = xp.where(at_end, yi[-1, ...], y_0 + (y_1 - y_0) * factor)
+            return xp.reshape(result, (*x.shape, *yi.shape[1:]))
 
         if self._y.ndim == 1:
             # ``numpy.interp`` always returns float64; honour the data dtype.
@@ -326,7 +360,10 @@ class LinearInterpolator:
     def x(self, value: Any) -> None:
         """Setter for the **self.x** property."""
 
-        x = np.atleast_1d(np.asarray(value, dtype=self._dtype))
+        xp = array_namespace(self._y)
+        x = xp_atleast_1d(
+            xp_as_array(value, dtype=self._dtype, xp=xp, like=self._y), xp=xp
+        )
         validate_dimensions(x, self._y)
         self._x = x
 
@@ -340,7 +377,10 @@ class LinearInterpolator:
     def y(self, value: Any) -> None:
         """Setter for the **self.y** property."""
 
-        y = np.atleast_1d(np.asarray(value, dtype=self._dtype))
+        xp = array_namespace(self._x)
+        y = xp_atleast_1d(
+            xp_as_array(value, dtype=self._dtype, xp=xp, like=self._x), xp=xp
+        )
         validate_dimensions(self._x, y)
         self._y = y
 
@@ -900,15 +940,16 @@ class Extrapolator:
     def __call__(self, x: Any) -> np.ndarray:
         """Evaluate the extrapolator at the specified point(s)."""
 
-        x = np.asarray(x, dtype=DTYPE_FLOAT_DEFAULT)
-
-        return self._evaluate(x)
+        xi = self._interpolator.x
+        xp = array_namespace(xi)
+        return self._evaluate(xp_as_float_array(x, xp=xp, like=xi))
 
     def _evaluate(self, x: np.ndarray) -> np.ndarray:
         """Perform the extrapolating evaluation at the specified point(s)."""
 
-        xi = np.asarray(self._interpolator.x, dtype=DTYPE_FLOAT_DEFAULT)
-        yi = np.asarray(self._interpolator.y, dtype=DTYPE_FLOAT_DEFAULT)
+        xp = array_namespace(x)
+        xi = xp_as_float_array(self._interpolator.x, xp=xp, like=x)
+        yi = xp_as_float_array(self._interpolator.y, xp=xp, like=x)
 
         input_rank = yi.ndim
         if input_rank == 1:
@@ -916,35 +957,43 @@ class Extrapolator:
 
         below = x < xi[0]
         above = x > xi[-1]
-        in_range = np.logical_and(x >= xi[0], x <= xi[-1])
+        in_range = xp.logical_and(x >= xi[0], x <= xi[-1])
 
-        y = np.zeros_like(x[..., None] + yi[0])
+        y = xp.zeros_like(x[..., None] + yi[0, ...])
         below_b = below[..., None]
         above_b = above[..., None]
         x_offset_low = (x - xi[0])[..., None]
         x_offset_high = (x - xi[-1])[..., None]
 
-        if self._method == "linear":
-            y = np.where(
+        if self._method == "linear" and xi.shape[0] > 1:
+            y = xp.where(
                 below_b,
-                yi[0] + x_offset_low * _safe_divide(yi[1] - yi[0], xi[1] - xi[0]),
+                yi[0, ...]
+                + x_offset_low * _safe_divide(yi[1, ...] - yi[0, ...], xi[1] - xi[0]),
                 y,
             )
-            y = np.where(
+            y = xp.where(
                 above_b,
-                yi[-1] + x_offset_high * _safe_divide(yi[-1] - yi[-2], xi[-1] - xi[-2]),
+                yi[-1, ...]
+                + x_offset_high
+                * _safe_divide(yi[-1, ...] - yi[-2, ...], xi[-1] - xi[-2]),
                 y,
             )
-        elif self._method == "constant":
-            y = np.where(below_b, yi[0], y)
-            y = np.where(above_b, yi[-1], y)
+        else:
+            y = xp.where(below_b, yi[0, ...], y)
+            y = xp.where(above_b, yi[-1, ...], y)
 
         if self._left is not None:
-            y = np.where(below_b, self._left, y)
+            y = xp.where(below_b, self._left, y)
         if self._right is not None:
-            y = np.where(above_b, self._right, y)
+            y = xp.where(above_b, self._right, y)
 
-        if bool(np.any(in_range)):
+        if not is_numpy_namespace(xp):
+            interpolated = self._interpolator(xp.where(in_range, x, xi[0]))
+            if input_rank == 1:
+                interpolated = interpolated[..., None]
+            y = xp.where(in_range[..., None], interpolated, y)
+        elif bool(np.any(in_range)):
             x_ravel = np.reshape(x, (-1,))
             in_range_ravel = np.reshape(in_range, (-1,))
             y_ravel = np.reshape(y, (-1, yi.shape[1]))
@@ -955,7 +1004,7 @@ class Extrapolator:
 
             dense_idx = np.cumsum(in_range_ravel.astype(int)) - 1
             safe_idx = np.clip(dense_idx, 0, interpolated.shape[0] - 1)
-            y_ravel = np.where(
+            y_ravel = xp.where(
                 in_range_ravel[..., None], interpolated[safe_idx], y_ravel
             )
             y = np.reshape(y_ravel, (*x.shape, yi.shape[1]))
@@ -963,10 +1012,11 @@ class Extrapolator:
         if input_rank == 1:
             y = y[..., 0]
 
-        return y[()] if x.ndim == 0 else y
+        return y[()] if x.ndim == 0 and is_numpy_namespace(xp) else y
 
 
 def _safe_divide(a: np.ndarray, b: np.ndarray) -> np.ndarray:
     """Divide ``a`` by ``b``, returning 0 where ``b`` is 0 (degenerate knots)."""
 
-    return np.where(b == 0, np.zeros_like(a + b), a / np.where(b == 0, 1, b))
+    xp = array_namespace(a, b)
+    return xp.where(b == 0, xp.zeros_like(a + b), a / xp.where(b == 0, 1, b))

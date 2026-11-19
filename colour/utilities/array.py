@@ -249,19 +249,19 @@ _CACHE_SCALAR_PROMOTION: dict = CACHE_REGISTRY.register_cache(
 _CACHE_BACKEND_DTYPE: dict = CACHE_REGISTRY.register_cache(
     f"{__name__}._CACHE_BACKEND_DTYPE"
 )
-"""Cache mapping ``(id(xp), dtype)`` pairs to the backend-native dtype."""
+"""Cache mapping ``(id(xp), type(dtype), dtype)`` pairs to the backend-native dtype."""
 
 
 def _resolve_backend_dtype(xp: ProtocolArrayNamespace | ModuleType, dtype: Any) -> Any:
     """Resolve a *NumPy* dtype to the equivalent dtype in ``xp``.
 
     Resolution is memoised through :attr:`_CACHE_BACKEND_DTYPE` (keyed by
-    ``(id(xp), dtype)``) when caching is enabled to avoid the
+    ``(id(xp), type(dtype), dtype)``) when caching is enabled to avoid the
     ``np.dtype(...).name`` + ``getattr`` lookups on every call. Falls back
     to ``dtype`` unchanged when it is already a backend-native type.
     """
 
-    key = (id(xp), dtype)
+    key = (id(xp), type(dtype), dtype)
 
     if is_caching_enabled():
         resolved = _CACHE_BACKEND_DTYPE.get(key)
@@ -967,7 +967,7 @@ def xp_as_array(
 
         if dtype is not None:
             a_dtype = getattr(result, "dtype", None)
-            if a_dtype is not None and a_dtype != dtype:
+            if a_dtype is not None:
                 xp_target_dtype = _resolve_backend_dtype(xp, dtype)
                 if a_dtype != xp_target_dtype:
                     try:

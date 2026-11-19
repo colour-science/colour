@@ -46,6 +46,7 @@ if typing.TYPE_CHECKING:
 
 from colour.hints import List, cast
 from colour.utilities import (
+    array_namespace,
     as_array,
     as_float_array,
     as_int,
@@ -54,6 +55,7 @@ from colour.utilities import (
     attest,
     full,
     is_iterable,
+    is_non_ndarray,
     is_numeric,
     multiline_repr,
     multiline_str,
@@ -64,6 +66,7 @@ from colour.utilities import (
     tstack,
     usage_warning,
     validate_method,
+    xp_as_float_array,
 )
 
 __author__ = "Colour Developers"
@@ -1160,8 +1163,14 @@ class LUT1D(AbstractLUT):
             domain_min, domain_max = LUT.domain
             samples = np.linspace(domain_min, domain_max, LUT.size)
 
+        table = LUT.table
+        if is_non_ndarray(RGB):
+            xp = array_namespace(RGB)
+            samples = xp_as_float_array(samples, xp=xp, like=RGB)
+            table = xp_as_float_array(table, xp=xp, like=RGB)
+
         RGB_interpolator = extrapolator(
-            interpolator(samples, LUT.table, **interpolator_kwargs),
+            interpolator(samples, table, **interpolator_kwargs),
             **extrapolator_kwargs,
         )
 

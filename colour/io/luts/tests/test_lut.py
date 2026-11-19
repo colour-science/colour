@@ -20,7 +20,7 @@ from colour.algebra import (
 from colour.constants import TOLERANCE_ABSOLUTE_TESTS
 
 if typing.TYPE_CHECKING:
-    from colour.hints import NDArrayFloat
+    from colour.hints import ModuleType, NDArrayFloat
 
 from colour.io.luts import LUT1D, LUT3D, LUT3x1D, LUT_to_LUT
 from colour.io.luts.lut import AbstractLUT
@@ -28,6 +28,7 @@ from colour.utilities import (
     as_float_array,
     tsplit,
     tstack,
+    xp_as_array,
     xp_assert_close,
     xp_assert_equal,
 )
@@ -577,7 +578,7 @@ class TestLUT1D:
         except NotImplementedError:  # pragma: no cover
             pass
 
-    def test_apply(self) -> None:
+    def test_apply(self, xp: ModuleType) -> None:
         """
         Test :class:`colour.io.luts.lut.LUT1D.apply` method.
         """
@@ -620,6 +621,15 @@ class TestLUT1D:
             self._applied_4,
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+        samples = xp_as_array([[-0.25, 0.25], [0.75, 1.25]], xp=xp)
+        applied = LUT1D([0, 0.5, 1]).apply(samples)
+        assert applied.device == samples.device
+        xp_assert_close(applied, samples, atol=TOLERANCE_ABSOLUTE_TESTS)
+
+        # NumPy's linear lookup uses the last sample at a repeated upper knot.
+        LUT = LUT1D([0, 1, 2], domain=np.array([0.0, 1.0, 1.0]))
+        xp_assert_equal(LUT.apply(xp_as_array([1.0], xp=xp)), [2.0])
 
 
 class TestLUT3x1D:

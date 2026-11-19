@@ -349,7 +349,11 @@ class _DispatchingInterpolator(_BackendDispatcher):
     def _construct(self, backend: str) -> Any:
         """Build from canonical data while retaining source backend provenance."""
 
-        from colour.utilities import as_ndarray  # noqa: PLC0415
+        from colour.utilities import (  # noqa: PLC0415
+            as_ndarray,
+            is_array_api_enabled,
+            is_non_ndarray,
+        )
 
         interpolator_type = next(
             cls.__name__
@@ -358,7 +362,11 @@ class _DispatchingInterpolator(_BackendDispatcher):
         )
 
         x, y = self._x_data, self._y_data
-        if backend == "numpy":
+        if backend == "numpy" and (
+            interpolator_type != "LinearInterpolator"
+            or not is_array_api_enabled()
+            or not (is_non_ndarray(self._x_source) or is_non_ndarray(self._y_source))
+        ):
             x, y = as_ndarray(x), as_ndarray(y)
 
         return getattr(_backend_module(backend), interpolator_type)(
