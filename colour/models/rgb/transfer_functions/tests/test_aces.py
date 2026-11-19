@@ -32,7 +32,7 @@ from colour.utilities import (
 if typing.TYPE_CHECKING:
     import pytest
 
-    from colour.hints import ModuleType
+    from colour.hints import Literal, ModuleType
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -247,7 +247,11 @@ log_decoding_ACESproxy` definition domain and range scale support.
                     atol=TOLERANCE_ABSOLUTE_TESTS,
                 )
 
-        for bit_depth, codes in ((10, [64, 512, 940]), (12, [256, 2048, 3760])):
+        cases: tuple[tuple[Literal[10, 12], list[int]], ...] = (
+            (10, [64, 512, 940]),
+            (12, [256, 2048, 3760]),
+        )
+        for bit_depth, codes in cases:
             ACESproxy_int = xp_as_array(codes, xp=xp)
             lin_AP1_int = log_decoding_ACESproxy(
                 ACESproxy_int / (2**bit_depth - 1), bit_depth

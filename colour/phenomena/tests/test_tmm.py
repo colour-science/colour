@@ -536,7 +536,7 @@ class TestPolarisedLightTransmissionCoefficient:
                     ),
                     [6.2442801e-8, 1.4049628e-7],
                     atol=0,
-                    rtol=4 * np.finfo(np.float32).eps,
+                    rtol=4 * float(np.finfo(np.float32).eps),
                 )
             finally:
                 set_default_complex_dtype(complex_dtype)

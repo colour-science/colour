@@ -333,7 +333,7 @@ def matrix_anomalous_trichromacy_Machado2009(
 
 def matrix_cvd_Machado2009(
     deficiency: Literal["Deuteranomaly", "Protanomaly", "Tritanomaly"] | str,
-    severity: float,
+    severity: ArrayLike,
 ) -> NDArrayFloat:
     """
     Compute the *Machado et al. (2009)* colour vision deficiency matrix for
