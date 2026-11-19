@@ -219,6 +219,7 @@ __all__ = [
     "TestXpNanToNum",
     "TestXpCreateDiagonal",
     "TestXpReshape",
+    "TestXpFallbackNumpy",
     "TestXpEig",
     "TestXpEigh",
     "TestXpLstsq",
@@ -1926,6 +1927,48 @@ class TestXpBroadcastTo:
             xp_assert_equal(result, [[1, 2], [1, 2]])
             if isinstance(host, np.ndarray):
                 assert as_ndarray(result).dtype == np.int32
+
+
+class TestXpFallbackNumpy:
+    """Define :func:`colour.utilities.array._xp_fallback_numpy` unit tests."""
+
+    def test_xp_fallback_numpy(self, xp: ModuleType) -> None:
+        """Test :func:`colour.utilities.array._xp_fallback_numpy` definition."""
+
+        xp_fallback_numpy = utilities_array._xp_fallback_numpy  # noqa: SLF001
+
+        def assert_native(result: Any, reference: Any) -> None:
+            assert type(result) is type(reference)
+            assert getattr(result, "device", None) == getattr(reference, "device", None)
+
+        x = xp_as_array([0.5, 1.5], dtype=np.float32, xp=xp)
+        x_data = xp_as_array([0.0, 1.0, 2.0], dtype=np.float32, xp=xp)
+        fp = xp_as_array([0.0, 10.0, 20.0], dtype=np.float32, xp=xp)
+        with pytest.warns(ColourRuntimeWarning):
+            result = xp_fallback_numpy("np.interp", np.interp, x, x_data, fp, xp=xp)
+        assert_native(result, x)
+        assert result.dtype == x.dtype
+        xp_assert_close(result, [5.0, 15.0])
+
+        a = xp_as_array([2, 1, 2], xp=xp)
+        with pytest.warns(ColourRuntimeWarning):
+            values, indexes = xp_fallback_numpy(
+                "np.unique", np.unique, a, xp=xp, return_index=True
+            )
+        assert_native(values, a)
+        assert_native(indexes, a)
+        xp_assert_equal(values, [1, 2])
+        xp_assert_equal(indexes, [1, 0])
+
+        with pytest.warns(ColourRuntimeWarning):
+            samples, step = xp_fallback_numpy(
+                "np.linspace",
+                lambda: np.linspace(0, 1, 3, retstep=True),
+                xp=xp,
+                like=x,
+            )
+        assert_native(samples, x)
+        assert isinstance(step, float)
 
 
 class TestXpEig:

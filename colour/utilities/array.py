@@ -1407,6 +1407,53 @@ def _runtime_warning_xp_fallback(name: str) -> None:
     )
 
 
+def _xp_fallback_numpy(
+    name: str,
+    function: Callable,
+    *arrays: Any,
+    xp: ProtocolArrayNamespace | ModuleType,
+    like: Any = None,
+    **kwargs: Any,
+) -> Any:
+    """
+    Evaluate *NumPy* ``function`` on ``arrays`` and return the result in
+    ``xp``, on the device of ``like``.
+
+    ``like`` defaults to the first non-*NumPy* array of ``arrays``. Floating
+    results are cast to the promoted dtype of the floating inputs, e.g.
+    :func:`numpy.interp` always returns float64. Array elements of a tuple
+    result are converted, other elements, e.g. the :func:`numpy.linspace`
+    step, are returned unchanged.
+    """
+
+    _runtime_warning_xp_fallback(name)
+
+    if like is None:
+        like = _native_reference(*arrays)
+
+    arrays_numpy = [as_ndarray(a) for a in arrays]
+    dtypes_inexact = [a.dtype for a in arrays_numpy if a.dtype.kind in "fc"]
+    dtype = np.result_type(*dtypes_inexact) if dtypes_inexact else None
+
+    def to_xp(result: Any) -> Any:
+        if not isinstance(result, np.ndarray):
+            return result
+
+        if dtype is not None and result.dtype.kind == dtype.kind:
+            result = result.astype(dtype, copy=False)
+
+        # ``copy=True`` bypasses the scalar-promotion cache, which must not
+        # hold transient results.
+        return xp_as_array(result, xp=xp, like=like, copy=True)
+
+    result = function(*arrays_numpy, **kwargs)
+
+    if isinstance(result, tuple):
+        return tuple(to_xp(r) for r in result)
+
+    return to_xp(np.asarray(result))
+
+
 def _runtime_warning_xp_downcast(
     xp: ProtocolArrayNamespace | ModuleType, dtype: Any, dtype_target: Any
 ) -> None:
@@ -1753,26 +1800,7 @@ def xp_interp(
     except (AttributeError, TypeError):
         pass
 
-    _runtime_warning_xp_fallback("xp_interp")
-
-    fp_nd = as_ndarray(fp)
-    result = np.interp(as_ndarray(x), as_ndarray(x_data), fp_nd)
-    if np.issubdtype(fp_nd.dtype, np.inexact):
-        result = result.astype(fp_nd.dtype)
-
-    device = getattr(x, "device", None)
-    if device is not None and hasattr(device, "type"):
-        like = x
-        like_dtype = getattr(like, "dtype", None)
-        like_is_f32 = like_dtype is not None and (
-            getattr(like_dtype, "name", None) == "float32"
-            or str(like_dtype) in ("torch.float32", "float32")
-        )
-        if like_is_f32 and result.dtype == np.float64:
-            result = result.astype(np.float32)
-        return xp.asarray(result, device=device)
-
-    return xp_as_array(result, xp=xp, like=x)
+    return _xp_fallback_numpy("xp_interp", np.interp, x, x_data, fp, xp=xp)
 
 
 def xp_trapezoid(
@@ -1821,13 +1849,11 @@ def xp_trapezoid(
     except (AttributeError, TypeError):
         pass
 
-    _runtime_warning_xp_fallback("xp_trapezoid")
+    arrays = (y,) if x is None else (y, x)
 
-    result = np.trapezoid(
-        as_ndarray(y), x=as_ndarray(x) if x is not None else None, dx=dx, axis=axis
+    return _xp_fallback_numpy(
+        "xp_trapezoid", np.trapezoid, *arrays, xp=xp, dx=dx, axis=axis
     )
-
-    return xp_as_array(result, xp=xp, like=y)
 
 
 def xp_average(
@@ -1942,14 +1968,7 @@ def xp_gradient(
             return result[0]
         return result  # pyright: ignore
 
-    _runtime_warning_xp_fallback("xp_gradient")
-
-    result = np.gradient(as_ndarray(f), *(as_ndarray(v) for v in varargs), axis=axis)
-
-    if isinstance(result, (list, tuple)):
-        return [xp_as_array(r, xp=xp, like=f) for r in result]
-
-    return xp_as_array(result, xp=xp, like=f)
+    return _xp_fallback_numpy("xp_gradient", np.gradient, f, *varargs, xp=xp, axis=axis)
 
 
 def xp_resize(
@@ -2078,11 +2097,7 @@ def xp_median(
     if is_numpy_namespace(xp):
         return np.median(a, axis=axis)  # pyright: ignore
 
-    _runtime_warning_xp_fallback("xp_median")
-
-    result = np.median(as_ndarray(a), axis=axis)
-
-    return xp_as_array(result, xp=xp, like=a)
+    return _xp_fallback_numpy("xp_median", np.median, a, xp=xp, axis=axis)
 
 
 def xp_round(
@@ -2594,13 +2609,9 @@ def xp_lstsq(
     except (AttributeError, TypeError, NotImplementedError, RuntimeError):
         pass
 
-    _runtime_warning_xp_fallback("xp_lstsq")
-
-    a_nd = as_ndarray(a)
-    result = np.linalg.lstsq(a_nd, as_ndarray(b), rcond=rcond)[0]
-    result = result.astype(a_nd.dtype)
-
-    return xp_as_array(result, xp=xp, like=a)
+    return _xp_fallback_numpy(
+        "xp_lstsq", lambda a, b: np.linalg.lstsq(a, b, rcond=rcond)[0], a, b, xp=xp
+    )
 
 
 def _xp_eig_generic(
@@ -2611,13 +2622,7 @@ def _xp_eig_generic(
     try:
         return getattr(xp.linalg, name)(a)
     except (AttributeError, TypeError, NotImplementedError, RuntimeError):
-        _runtime_warning_xp_fallback(f"xp_{name}")
-
-        w, v = getattr(np.linalg, name)(as_ndarray(a))
-
-        # ``a`` is passed as the device reference so that the host round-trip
-        # returns the results on the input's device rather than the default.
-        return xp_as_array(w, xp=xp, like=a), xp_as_array(v, xp=xp, like=a)
+        return _xp_fallback_numpy(f"xp_{name}", getattr(np.linalg, name), a, xp=xp)
 
 
 def xp_eig(
@@ -2730,11 +2735,9 @@ def xp_isin(
     except (AttributeError, TypeError):
         pass
 
-    _runtime_warning_xp_fallback("xp_isin")
-
-    result = np.isin(as_ndarray(element), as_ndarray(test_elements))
-
-    return xp_as_array(result, xp=xp, like=element)
+    return _xp_fallback_numpy(
+        "xp_isin", np.isin, element, test_elements, xp=xp, like=reference
+    )
 
 
 def _linspace_dtypes(dtype: Any) -> tuple[np.dtype, Any]:
@@ -2833,23 +2836,16 @@ def xp_linspace(
         # integer linspace instead truncates negative samples towards zero.
         return xp_astype(xp.floor(result), dtype, xp=xp) if integer_output else result
     except (AttributeError, TypeError):
-        _runtime_warning_xp_fallback("xp_linspace")
-
-        result = np.linspace(
-            as_ndarray(start), as_ndarray(stop), num, dtype=numpy_dtype, **kwargs
+        # ``start`` and ``stop`` are converted in the closure so that they do
+        # not override the requested ``dtype``.
+        return _xp_fallback_numpy(
+            "xp_linspace",
+            lambda: np.linspace(
+                as_ndarray(start), as_ndarray(stop), num, dtype=numpy_dtype, **kwargs
+            ),
+            xp=xp,
+            like=like,
         )
-
-        def _to_backend(arr: NDArrayFloat) -> NDArrayFloat:
-            try:
-                return xp.asarray(arr, device=device)
-            except TypeError:
-                _runtime_warning_xp_downcast(xp, arr.dtype, "float32")
-                return xp.asarray(arr.astype(np.float32), device=device)
-
-        if isinstance(result, tuple):
-            return _to_backend(np.asarray(result[0])), result[1]
-
-        return _to_backend(np.asarray(result))
 
 
 def xp_pad(
@@ -2894,11 +2890,9 @@ def xp_pad(
     except (AttributeError, TypeError):
         pass
 
-    _runtime_warning_xp_fallback("xp_pad")
-
-    result = np.pad(as_ndarray(a), pad_width, *args, **kwargs)
-
-    return xp_as_array(result, xp=xp, like=a)
+    return _xp_fallback_numpy(
+        "xp_pad", lambda a: np.pad(a, pad_width, *args, **kwargs), a, xp=xp
+    )
 
 
 def xp_unique(
@@ -2941,14 +2935,7 @@ def xp_unique(
     except (AttributeError, TypeError):
         pass
 
-    _runtime_warning_xp_fallback("xp_unique")
-
-    result = np.unique(as_ndarray(a), **kwargs)
-
-    if isinstance(result, tuple):
-        return tuple(xp_as_array(r, xp=xp, like=a) for r in result)
-
-    return xp_as_array(result, xp=xp, like=a)
+    return _xp_fallback_numpy("xp_unique", np.unique, a, xp=xp, **kwargs)
 
 
 def xp_insert(
