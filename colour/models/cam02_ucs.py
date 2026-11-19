@@ -710,6 +710,7 @@ def XYZ_to_UCS_Luo2006(
     domain_range_reference = get_domain_range_scale() == "reference"
 
     settings = CAM_KWARGS_CIECAM02_sRGB.copy()
+    settings["XYZ_w"] = from_range_100(settings["XYZ_w"])
     settings.update(**kwargs)
     XYZ_w = kwargs.get("XYZ_w")
 
@@ -801,6 +802,7 @@ def UCS_Luo2006_to_XYZ(
     domain_range_reference = get_domain_range_scale() == "reference"
 
     settings = CAM_KWARGS_CIECAM02_sRGB.copy()
+    settings["XYZ_w"] = from_range_100(settings["XYZ_w"])
     settings.update(**kwargs)
     XYZ_w = kwargs.get("XYZ_w")
 

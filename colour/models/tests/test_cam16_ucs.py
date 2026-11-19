@@ -20,7 +20,7 @@ from colour.models.tests.test_cam02_ucs import (
     TestUCS_Luo2006_to_XYZ,
     TestXYZ_to_UCS_Luo2006,
 )
-from colour.utilities import xp_as_array, xp_assert_close
+from colour.utilities import domain_range_scale, xp_as_array, xp_assert_close
 
 __author__ = "Colour Developers"
 __copyright__ = "Copyright 2013 Colour Developers"
@@ -91,6 +91,25 @@ class TestXYZ_to_UCS_Li2017(TestXYZ_to_UCS_Luo2006):
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+    def test_domain_range_scale_XYZ_to_UCS_Li2017(self, xp: ModuleType) -> None:
+        """
+        Test :func:`colour.models.cam16_ucs.XYZ_to_UCS_Li2017` definition
+        domain and range scale support.
+        """
+
+        XYZ = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
+        Jpapbp = xp_as_array([46.06586033, 41.07586491, 14.51025826], xp=xp)
+        coefficients = COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
+
+        d_r = (("reference", 1, 1), ("1", 1, 0.01), ("100", 100, 1))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                xp_assert_close(
+                    XYZ_to_UCS_Li2017(XYZ * factor_a, coefficients),
+                    Jpapbp * factor_b,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
 
 class TestUCS_Li2017_to_XYZ(TestUCS_Luo2006_to_XYZ):
     """
@@ -119,3 +138,22 @@ class TestUCS_Li2017_to_XYZ(TestUCS_Luo2006_to_XYZ):
             [0.2065444, 0.12197263, 0.05136016],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
+
+    def test_domain_range_scale_UCS_Li2017_to_XYZ(self, xp: ModuleType) -> None:
+        """
+        Test :func:`colour.models.cam16_ucs.UCS_Li2017_to_XYZ` definition
+        domain and range scale support.
+        """
+
+        Jpapbp = xp_as_array([46.06586033, 41.07586491, 14.51025826], xp=xp)
+        XYZ = xp_as_array([0.20654008, 0.12197225, 0.05136952], xp=xp)
+        coefficients = COEFFICIENTS_UCS_LUO2006["CAM02-LCD"]
+
+        d_r = (("reference", 1, 1), ("1", 0.01, 1), ("100", 1, 100))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                xp_assert_close(
+                    UCS_Li2017_to_XYZ(Jpapbp * factor_a, coefficients),
+                    XYZ * factor_b,
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
