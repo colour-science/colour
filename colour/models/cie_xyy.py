@@ -38,7 +38,6 @@ from colour.utilities import (
     tsplit,
     tstack,
     xp_as_float_array,
-    xp_resize,
 )
 
 __author__ = "Colour Developers"
@@ -298,8 +297,20 @@ def xy_to_xyY(xy: ArrayLike, Y: Domain1 = 1) -> Range1:
 
     x, y = tsplit(xy)
     Y = xp_as_float_array(Y, xp=xp, like=x)
+    if (
+        Y.ndim == xy.ndim
+        and Y.shape[-1] == 1
+        and all(
+            luminance_size == chromaticity_size
+            or 1 in (luminance_size, chromaticity_size)
+            for luminance_size, chromaticity_size in zip(
+                Y.shape[:-1], x.shape, strict=True
+            )
+        )
+    ):
+        Y = Y[..., 0]
 
-    xyY = tstack([x, y, xp_resize(Y, x.shape, xp=xp)])
+    xyY = tstack(xp.broadcast_arrays(x, y, Y))
 
     return from_range_1(xyY, [1, 1, 100])
 
