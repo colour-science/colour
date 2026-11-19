@@ -824,18 +824,22 @@ def as_ndarray(a: Any) -> np.ndarray:
     except (TypeError, RuntimeError):
         pass
 
-    # *PyTorch* tensors on a non-*CPU* device or with ``requires_grad=True``
-    # need ``detach().cpu()`` before ``__array__`` can succeed; for other
-    # backends, ``array_namespace(a).to_device(a, "cpu")`` is the *Array API*
-    # standard host hand-off.
+    # Tracked and device-resident *PyTorch* tensors may decline to export
+    # a DLPack buffer.
     if hasattr(a, "detach") and hasattr(a, "cpu"):
         return np.asarray(a.detach().cpu())
 
-    # The array's own namespace is asked for the hand-off: dispatch being
-    # disabled returns the *NumPy* fallback, which has no ``to_device``.
+    # DLPack can request host memory without assuming a backend's device name.
+    if hasattr(a, "__dlpack__") and hasattr(a, "__dlpack_device__"):
+        try:
+            return np.from_dlpack(a, device="cpu")
+        except (BufferError, TypeError):
+            pass
+
     namespace = getattr(a, "__array_namespace__", None)
-    if namespace is not None:
-        return cast("NDArray", np.asarray(namespace().to_device(a, "cpu")))
+    to_device = getattr(namespace(), "to_device", None) if namespace else None
+    if to_device is not None:
+        return np.asarray(to_device(a, "cpu"))
 
     error = f'"{type(a)}" cannot be converted to a "numpy.ndarray"!'
 
