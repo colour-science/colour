@@ -320,10 +320,40 @@ class LinearInterpolator:
         x = xp_as_array(x, dtype=self._dtype, xp=xp, like=self._x)
         _validate_range(x, self._x)
 
-        if not is_numpy_namespace(xp):
-            xi, yi = self._x, self._y
-            if xi.shape[0] == 1:
-                return xp.broadcast_to(yi[0, ...], (*x.shape, *yi.shape[1:]))
+        xi, yi = self._x, self._y
+        numpy = is_numpy_namespace(xp)
+        if numpy and yi.ndim == 1:
+            # NumPy's interpolator uses float64, irrespective of the input dtype.
+            result = np.asarray(np.interp(x, xi, yi))
+            nonfinite = ~np.isfinite(result)
+            if xi.size > 1 and np.any(nonfinite):
+                query = x[nonfinite]
+                i = np.clip(
+                    np.searchsorted(xi, query, side="right") - 1, 0, xi.size - 2
+                )
+                a, b = xi[i], xi[i + 1]
+                y_0, y_1 = yi[i], yi[i + 1]
+                interior = (
+                    (query > a) & (query < b) & np.isfinite(y_0) & np.isfinite(y_1)
+                )
+                # Compute the fraction first so even a very steep slope stays finite.
+                factor = (query[interior] - a[interior]) / (b[interior] - a[interior])
+                recovered = result[nonfinite]
+                recovered[interior] = (1 - factor) * y_0[interior] + factor * y_1[
+                    interior
+                ]
+                result[nonfinite] = recovered
+            return result.astype(self._dtype)[()]
+
+        if xi.shape[0] == 1:
+            result = xp.broadcast_to(yi[0, ...], (*x.shape, *yi.shape[1:]))
+            return result.copy() if numpy else result
+
+        if numpy:
+            i = np.clip(np.searchsorted(xi, x) - 1, 0, len(xi) - 2)
+            factor = ((x - xi[i]) / (xi[i + 1] - xi[i]))[..., None]
+            y_0, y_1 = yi[i], yi[i + 1]
+        else:
             query = xp.reshape(x, (-1,))
             upper = xp.clip(
                 xp.searchsorted(xi, query, side="right"), 1, xi.shape[0] - 1
@@ -335,20 +365,24 @@ class LinearInterpolator:
             factor = xp.reshape(factor, broadcast_shape)
             at_end = xp.reshape(query == xi[-1], broadcast_shape)
             y_0, y_1 = xp.take(yi, lower, axis=0), xp.take(yi, upper, axis=0)
-            result = xp.where(at_end, yi[-1, ...], y_0 + (y_1 - y_0) * factor)
-            return xp.reshape(result, (*x.shape, *yi.shape[1:]))
 
-        if self._y.ndim == 1:
-            # ``numpy.interp`` always returns float64; honour the data dtype.
-            return np.interp(x, self._x, self._y).astype(self._dtype)
+        # Halve opposite-sign endpoints before a difference that would overflow.
+        limit = float(xp.finfo(y_0.dtype).max)
+        wide = (
+            (xp.signbit(y_0) != xp.signbit(y_1))
+            & xp.isfinite(y_0)
+            & xp.isfinite(y_1)
+            & (xp.abs(y_1) > limit - xp.abs(y_0))
+        )
+        scale = xp.where(wide, xp.full_like(y_0, 2), 1)
+        y_0, y_1 = y_0 / scale, y_1 / scale
+        result = (y_0 + (y_1 - y_0) * factor) * scale
 
-        if len(self._x) == 1:
-            return np.broadcast_to(self._y[0], (*x.shape, *self._y.shape[1:])).copy()
+        if numpy:
+            return result
 
-        i = np.clip(np.searchsorted(self._x, x) - 1, 0, len(self._x) - 2)
-        t = (x - self._x[i]) / (self._x[i + 1] - self._x[i])
-
-        return self._y[i] + (self._y[i + 1] - self._y[i]) * t[..., None]
+        result = xp.where(at_end, yi[-1, ...], result)
+        return xp.reshape(result, (*x.shape, *yi.shape[1:]))
 
     @property
     def x(self) -> np.ndarray:

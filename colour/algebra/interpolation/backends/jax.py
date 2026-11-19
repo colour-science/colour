@@ -750,7 +750,18 @@ class LinearInterpolator:
             t = t[..., None]
             at_end = at_end[..., None]
 
-        result = self._y[i] + (self._y[i + 1] - self._y[i]) * t
+        y_0, y_1 = self._y[i], self._y[i + 1]
+        # Halve opposite-sign endpoints before a difference that would overflow.
+        limit = float(jnp.finfo(y_0.dtype).max)
+        wide = (
+            (jnp.signbit(y_0) != jnp.signbit(y_1))
+            & jnp.isfinite(y_0)
+            & jnp.isfinite(y_1)
+            & (jnp.abs(y_1) > limit - jnp.abs(y_0))
+        )
+        scale = jnp.where(wide, jnp.full_like(y_0, 2), 1)
+        y_0, y_1 = y_0 / scale, y_1 / scale
+        result = (y_0 + (y_1 - y_0) * t) * scale
         return jnp.where(at_end, self._y[-1], result)
 
     @property

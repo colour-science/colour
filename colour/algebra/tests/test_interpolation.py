@@ -1278,6 +1278,22 @@ class TestLinearInterpolator:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # A short interval would overflow a slope formed before normalising.
+        knots = xp_as_float_array([0, 0.0625], xp=xp)
+        magnitude = float(np.finfo(as_ndarray(knots).dtype).max) * 0.75
+        for samples, expected in (
+            ([magnitude, -magnitude], [0]),
+            ([[magnitude, 0], [-magnitude, 1]], [[0, 0.5]]),
+        ):
+            linear_interpolator = LinearInterpolator(
+                knots, xp_as_float_array(samples, xp=xp)
+            )
+            xp_assert_close(
+                linear_interpolator(xp_as_float_array([0.03125], xp=xp)),
+                expected,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
+
         for knot in (1.0, [1.0]):
             for value in (2.0, [2.0]):
                 singleton = LinearInterpolator(
