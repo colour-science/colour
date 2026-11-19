@@ -62,6 +62,13 @@ class TestGeneratePulseWaves:
         definition.
         """
 
+        for order in ("Bins", "Pulse Wave Width"):
+            for filter_jagged_pulses in (False, True):
+                xp_assert_equal(
+                    generate_pulse_waves(1, order, filter_jagged_pulses),
+                    [[0], [1]],
+                )
+
         xp_assert_equal(
             generate_pulse_waves(5),
             [

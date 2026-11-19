@@ -226,9 +226,9 @@ def generate_pulse_waves(
         '"{0}" pulse order is invalid, it must be one of {1}!',
     )
 
-    square_waves = []
-
     xp = array_namespace()
+
+    square_waves = []
 
     square_waves_basis = xp.tril(xp.ones((bins, bins), dtype=DTYPE_FLOAT_DEFAULT))[
         0:-1, :
@@ -246,7 +246,7 @@ def generate_pulse_waves(
         if filter_jagged_pulses:
             square_waves = square_waves[::2]
 
-    square_waves_array = xp.stack(square_waves)
+    square_waves_array = square_waves_basis if bins == 1 else xp.stack(square_waves)
 
     return xp.concat(
         [
