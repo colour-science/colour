@@ -2823,6 +2823,11 @@ class TestAsArray:
             [1, 2, 3],
         )
 
+        a = as_array(
+            [xp_as_array(1, xp=xp), xp_as_array(2, xp=xp)], DTYPE_FLOAT_DEFAULT
+        )
+        assert as_ndarray(a).dtype.kind == "f"
+
     def test_as_array_autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
         """Test that conversion preserves automatic differentiation."""
 
