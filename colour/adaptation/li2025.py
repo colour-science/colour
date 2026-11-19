@@ -24,16 +24,15 @@ from colour.adaptation import CAT_CAT16
 from colour.algebra import sdiv, sdiv_mode, vecmul
 
 if typing.TYPE_CHECKING:
-    from colour.hints import ArrayLike, Domain100, NDArrayFloat, Range100
+    from colour.hints import ArrayLike, Domain100, Literal, NDArrayFloat, Range100
 
 from colour.utilities import (
     array_namespace,
     from_range_100,
     is_non_ndarray,
-    ones,
     to_domain_100,
+    validate_method,
     xp_as_float_array,
-    xp_atleast_1d,
 )
 
 __author__ = "Colour Developers"
@@ -59,6 +58,8 @@ def chromatic_adaptation_Li2025(
     L_A: ArrayLike,
     F_surround: ArrayLike,
     discount_illuminant: bool = False,
+    *,
+    direction: Literal["Forward", "Inverse"] | str = "Forward",
 ) -> Range100:
     """
     Adapt the specified stimulus *CIE XYZ* tristimulus values from test
@@ -72,7 +73,8 @@ def chromatic_adaptation_Li2025(
     Parameters
     ----------
     XYZ_s
-        *CIE XYZ* tristimulus values of stimulus under source illuminant.
+        *CIE XYZ* tristimulus values of stimulus under the source illuminant,
+        or under the destination illuminant when inverting the adaptation.
     XYZ_ws
         *CIE XYZ* tristimulus values of source whitepoint.
     XYZ_wd
@@ -84,6 +86,9 @@ def chromatic_adaptation_Li2025(
         conditions.
     discount_illuminant
         Truth value indicating if the illuminant should be discounted.
+    direction
+        Invert the adaptation with the same source and destination whitepoints
+        and viewing conditions as in the forward transform.
 
     Returns
     -------
@@ -125,6 +130,8 @@ def chromatic_adaptation_Li2025(
     array([40.0072581..., 43.7014895..., 21.3290293...])
     """
 
+    direction = validate_method(direction, ("Forward", "Inverse"))
+
     XYZ_s = to_domain_100(XYZ_s)
     XYZ_ws = to_domain_100(XYZ_ws)
     XYZ_wd = to_domain_100(XYZ_wd)
@@ -146,18 +153,18 @@ def chromatic_adaptation_Li2025(
     LMS_w_s = vecmul(CAT_CAT16, XYZ_ws)
     LMS_w_d = vecmul(CAT_CAT16, XYZ_wd)
 
-    Y_w_s = XYZ_ws[..., 1] if XYZ_ws.ndim > 1 else XYZ_ws[1]
-    Y_w_d = XYZ_wd[..., 1] if XYZ_wd.ndim > 1 else XYZ_wd[1]
+    Y_w_s = XYZ_ws[..., 1]
+    Y_w_d = XYZ_wd[..., 1]
     if discount_illuminant:
-        D = xp_as_float_array(ones(L_A.shape), xp=xp, like=XYZ_s)
+        D = xp.ones_like(xp.broadcast_arrays(L_A, F_surround)[0])
     else:
         D = F_surround * (1 - (1 / 3.6) * xp.exp((-L_A - 42) / 92))
         D = xp.clip(D, 0, 1)
-    D = xp_atleast_1d(D, xp=xp)[..., None] if LMS_s.ndim > 1 else D
+    D = D[..., None]
 
     with sdiv_mode():
-        Y_ratio = sdiv(Y_w_s, Y_w_d)
-        Y_ratio = Y_ratio[..., None] if LMS_s.ndim > 1 else Y_ratio
-        LMS_a = LMS_s * (D * Y_ratio * sdiv(LMS_w_d, LMS_w_s) + (1 - D))
+        Y_ratio = sdiv(Y_w_s, Y_w_d)[..., None]
+        gain = D * Y_ratio * sdiv(LMS_w_d, LMS_w_s) + (1 - D)
+        LMS_a = sdiv(LMS_s, gain) if direction == "inverse" else LMS_s * gain
 
     return from_range_100(vecmul(CAT_CAT16_INVERSE, LMS_a))

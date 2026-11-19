@@ -509,11 +509,12 @@ def sCAM_to_XYZ(
     with domain_range_scale("ignore"):
         XYZ = chromatic_adaptation_Li2025(
             XYZ_D65,
-            XYZ_w_D65,
             XYZ_w,
+            XYZ_w_D65,
             L_A,
             surround.F,
             discount_illuminant,
+            direction="Inverse",
         )
 
     return from_range_100(XYZ)

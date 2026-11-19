@@ -140,6 +140,50 @@ class TestChromaticAdaptationLi2025:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
+        # Independent viewing-condition batches work in both directions.
+        XYZ_s, XYZ_ws, XYZ_wd = XYZ_s[0, 0], XYZ_ws[0, 0], XYZ_wd[0, 0]
+        F_surround = xp_as_array([[0.8], [1.0]], xp=xp)
+        for luminances in ([20, 40], [20, 40, 80]):
+            L_A = xp_as_array(luminances, xp=xp)
+            for discount in (False, True):
+                XYZ_d = chromatic_adaptation_Li2025(
+                    XYZ_s, XYZ_ws, XYZ_wd, L_A, F_surround, discount
+                )
+                xp_assert_close(
+                    chromatic_adaptation_Li2025(
+                        XYZ_d,
+                        XYZ_ws,
+                        XYZ_wd,
+                        L_A,
+                        F_surround,
+                        discount,
+                        direction="Inverse",
+                    ),
+                    xp.broadcast_to(XYZ_s, (2, len(luminances), 3)),
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+                xp_assert_close(
+                    chromatic_adaptation_Li2025(
+                        XYZ_d[0, 0],
+                        XYZ_ws,
+                        XYZ_wd,
+                        L_A,
+                        0.8,
+                        discount,
+                        direction="Inverse",
+                    ),
+                    chromatic_adaptation_Li2025(
+                        xp.broadcast_to(XYZ_d[0, 0], (len(luminances), 3)),
+                        XYZ_ws,
+                        XYZ_wd,
+                        L_A,
+                        0.8,
+                        discount,
+                        direction="Inverse",
+                    ),
+                    atol=TOLERANCE_ABSOLUTE_TESTS,
+                )
+
     def test_domain_range_scale_chromatic_adaptation_Li2025(
         self, xp: ModuleType
     ) -> None:
