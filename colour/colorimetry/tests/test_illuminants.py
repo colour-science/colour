@@ -194,12 +194,12 @@ class TestCIEIlluminantDSeries:
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 
-        shape = SpectralShape(380, 780, 5)
-        xp_assert_close(
-            CIE_illuminant_D_series(xy_batch, shape=shape),
-            msds_CIE_illuminant_D_series(xy_batch, shape=shape).values,
-            atol=TOLERANCE_ABSOLUTE_TESTS,
-        )
+        for shape in (SpectralShape(380, 780, 5), SpectralShape(280, 850, 10)):
+            xp_assert_close(
+                CIE_illuminant_D_series(xy_batch, shape=shape),
+                msds_CIE_illuminant_D_series(xy_batch, shape=shape).values,
+                atol=TOLERANCE_ABSOLUTE_TESTS,
+            )
 
         shape = SpectralShape(400, 700, 1)
         natural = CIE_illuminant_D_series(xy_batch)
