@@ -1570,7 +1570,8 @@ SpectralDistribution` class can be pickled.
             wavelengths = [400.123456789, 500.123456789]
             try:
                 set_default_float_dtype(np.float32)
-                for domain in (wavelengths, SpectralShape(*wavelengths, 100)):
+                shape = SpectralShape(wavelengths[0], wavelengths[1], 100)
+                for domain in (wavelengths, shape):
                     distribution = SpectralDistribution(
                         values, domain, dtype=np.float64
                     )
@@ -1990,7 +1991,8 @@ MultiSpectralDistributions.__init__` method.
             wavelengths = [400.123456789, 500.123456789]
             try:
                 set_default_float_dtype(np.float32)
-                for domain in (wavelengths, SpectralShape(*wavelengths, 100)):
+                shape = SpectralShape(wavelengths[0], wavelengths[1], 100)
+                for domain in (wavelengths, shape):
                     distribution = MultiSpectralDistributions(
                         values, domain, dtype=np.float64
                     )
