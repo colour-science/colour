@@ -267,7 +267,7 @@ def XYZ_to_UCS_Li2017(
     settings.update(**kwargs)
     XYZ_w = kwargs.get("XYZ_w")
     if XYZ_w is not None and domain_range_reference:
-        settings["XYZ_w"] = XYZ_w * 100
+        settings["XYZ_w"] = as_float_array(XYZ_w) * 100
 
     if domain_range_reference:
         XYZ = as_float_array(XYZ) * 100
@@ -368,7 +368,7 @@ def UCS_Li2017_to_XYZ(
     XYZ_w = kwargs.get("XYZ_w")
 
     if XYZ_w is not None and domain_range_reference:
-        settings["XYZ_w"] = XYZ_w * 100
+        settings["XYZ_w"] = as_float_array(XYZ_w) * 100
 
     J, M, h = tsplit(UCS_Li2017_to_JMh_CAM16(Jpapbp, coefficients))
 
