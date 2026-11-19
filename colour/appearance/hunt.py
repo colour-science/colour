@@ -387,15 +387,13 @@ M=np.float64(0.1238964...), H=None, HC=None)
 
     _X, Y, _Z = tsplit(XYZ)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
-    X_b, Y_b, _Z_b = tsplit(XYZ_b)
+    X_b, Y_b, Z_b = tsplit(XYZ_b)
 
     # Arguments handling.
     if XYZ_p is not None:
         X_p, Y_p, Z_p = tsplit(to_domain_100(XYZ_p))
     else:
-        X_p = X_b
-        Y_p = Y_b
-        Z_p = Y_b
+        X_p, Y_p, Z_p = X_b, Y_b, Z_b
         usage_warning(
             'Unspecified proximal field "XYZ_p" argument, using '
             'background "XYZ_b" as approximation!'
