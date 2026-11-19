@@ -372,7 +372,7 @@ class TestMatrixCvdMachado2009:
     definition unit tests methods.
     """
 
-    def test_matrix_cvd_Machado2009(self, xp: ModuleType) -> None:  # noqa: ARG002
+    def test_matrix_cvd_Machado2009(self, xp: ModuleType) -> None:
         """
         Test :func:`colour.blindness.machado2009.matrix_cvd_Machado2009`
         definition.
@@ -411,10 +411,18 @@ class TestMatrixCvdMachado2009:
         xp_assert_close(
             matrix_cvd_Machado2009("Tritanomaly", 0.55),
             [
-                [1.06088700, -0.01504350, -0.04584350],
-                [-0.01895750, 0.96774750, 0.05121150],
-                [0.00317700, 0.27513700, 0.72168600],
+                [1.06113650, -0.00980200, -0.05133450],
+                [-0.01912500, 0.96505700, 0.05406850],
+                [0.00385750, 0.28331500, 0.71282750],
             ],
+            atol=TOLERANCE_ABSOLUTE_TESTS,
+        )
+
+        # Machado (2010), Appendix A uses the 0.8 and 0.9 matrices.
+        matrices = CVD_MATRICES_MACHADO2010["Protanomaly"]
+        xp_assert_close(
+            matrix_cvd_Machado2009("Protanomaly", xp_as_array(0.873, xp=xp)),
+            0.27 * matrices[0.8] + 0.73 * matrices[0.9],
             atol=TOLERANCE_ABSOLUTE_TESTS,
         )
 

@@ -45,9 +45,6 @@ if typing.TYPE_CHECKING:
 
 from colour.utilities import (
     array_namespace,
-    as_float_array,
-    as_float_scalar,
-    as_int_scalar,
     as_ndarray,
     is_non_ndarray,
     tsplit,
@@ -367,14 +364,14 @@ def matrix_cvd_Machado2009(
     References
     ----------
     :cite:`Colblindorb`, :cite:`Colblindora`, :cite:`Colblindorc`,
-    :cite:`Machado2009`
+    :cite:`Machado2009`, :cite:`Machado2010a`
 
     Examples
     --------
     >>> matrix_cvd_Machado2009("Protanomaly", 0.15)  # doctest: +ELLIPSIS
-    array([[ 0.7869875...,  0.2694875..., -0.0564735...],
-           [ 0.0431695...,  0.933774 ...,  0.023058 ...],
-           [-0.004238 ..., -0.0024515...,  1.0066895...]])
+    array([[ 0.7954665...,  0.258455 ..., -0.053921 ...],
+           [ 0.040591 ...,  0.9371565...,  0.0222535...],
+           [-0.003904 ..., -0.002886 ...,  1.00679  ...]])
     """
 
     if deficiency.lower() == "tritanomaly":
@@ -387,34 +384,30 @@ def matrix_cvd_Machado2009(
             "deuteranomaly simulation."
         )
 
-    severity_value = as_float_scalar(severity)
-
     matrices = CVD_MATRICES_MACHADO2010[deficiency]
-    keys = sorted(matrices.keys())
-    samples = as_float_array(keys)
-
-    xp = array_namespace(samples)
-
-    index = as_int_scalar(
-        xp.clip(xp.searchsorted(samples, severity_value), 0, len(samples) - 1)
+    keys = sorted(matrices)
+    xp = array_namespace(severity)
+    severity_array = xp.reshape(xp_as_float_array(severity, xp=xp), ())
+    device = getattr(severity_array, "device", None)
+    dtype = severity_array.dtype
+    samples = xp.asarray(keys, dtype=dtype, device=device)
+    table = xp.stack(
+        [xp.asarray(matrices[key], dtype=dtype, device=device) for key in keys]
     )
 
-    a = keys[index]
-    b = keys[min(index + 1, len(keys) - 1)]
+    # Interpolate between the tabulated severities that bound the input.
+    last = len(keys) - 1
+    index = xp.searchsorted(samples, severity_array, side="right")
+    lower = xp.clip(index - 1, 0, last)
+    upper = xp.clip(index, 1, last)
+    indices = xp.stack([lower, upper])
+    bounds = xp.take(samples, indices, axis=0)
+    endpoints = xp.take(table, indices, axis=0)
+    a, b = bounds[0], bounds[1]
+    m_1, m_2 = endpoints[0, ...], endpoints[1, ...]
 
-    m1, m2 = matrices[a], matrices[b]
+    at_upper_limit = lower == upper
+    offset = xp.where(at_upper_limit, a, severity_array) - a
+    interval = xp.where(at_upper_limit, 1, b - a)
 
-    # The output namespace follows the ``severity`` input so a backend
-    # ``severity`` yields a backend matrix; the pre-computed matrices are
-    # promoted into it. ``severity`` itself is converted so that any
-    # ``ArrayLike``, e.g. a list or a tuple, is supported as before.
-    xp = array_namespace(severity)
-    severity_array = xp_as_float_array(severity, xp=xp)
-
-    if a == b:
-        return xp_as_float_array(m1, xp=xp, like=severity_array)
-
-    m1 = xp_as_float_array(m1, xp=xp, like=severity_array)
-    m2 = xp_as_float_array(m2, xp=xp, like=severity_array)
-
-    return m1 + (severity_array - a) * ((m2 - m1) / (b - a))
+    return m_1 + offset * ((m_2 - m_1) / interval)
