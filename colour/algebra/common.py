@@ -690,6 +690,11 @@ def normalise_vector(a: ArrayLike) -> NDArrayFloat:
 
     xp = array_namespace(a)
 
+    if a.size:
+        magnitude = xp.max(xp.abs(a))
+        scale = xp.where((magnitude > 0) & xp.isfinite(magnitude), magnitude, 1)
+        a = a / scale
+
     with sdiv_mode():
         return sdiv(a, xp.linalg.vector_norm(a))
 
@@ -834,7 +839,19 @@ def euclidean_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
     a = xp_as_float_array(a, xp=xp, like=b)
     b = xp_as_float_array(b, xp=xp, like=a)
 
-    return as_float(xp.linalg.vector_norm(a - b, axis=-1))
+    difference = a - b
+    if not difference.ndim or not difference.shape[-1]:
+        return as_float(xp.linalg.vector_norm(difference, axis=-1))
+
+    magnitude = xp.max(xp.abs(difference), axis=-1, keepdims=True)
+    # Keep the reciprocal of the scale finite for subnormal differences.
+    minimum = xp.finfo(difference.dtype).smallest_normal
+    scale = xp.where(
+        (magnitude > 0) & xp.isfinite(magnitude), xp.maximum(magnitude, minimum), 1
+    )
+    norm = xp.linalg.vector_norm(difference / scale, axis=-1)
+
+    return as_float(norm * scale[..., 0])
 
 
 def manhattan_distance(a: ArrayLike, b: ArrayLike) -> NDArrayFloat:
