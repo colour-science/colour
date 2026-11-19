@@ -5569,6 +5569,10 @@ def closest_indexes(a: ArrayLike, b: ArrayLike) -> NDArray:
     :class:`numpy.ndarray`
         Closest array :math:`a` element indexes.
 
+    Notes
+    -----
+    Candidates and reference values are both flattened in row-major order.
+
     Examples
     --------
     >>> a = np.array(
@@ -5596,7 +5600,7 @@ def closest_indexes(a: ArrayLike, b: ArrayLike) -> NDArray:
     a = xp_reshape(a, (-1,), xp=xp)[:, None]
     b = xp_reshape(b, (-1,), xp=xp)[None, :]
 
-    return xp.abs(a - b).argmin(axis=0)
+    return xp.argmin(xp.abs(a - b), axis=0)
 
 
 def closest(a: ArrayLike, b: ArrayLike) -> NDArray:
@@ -5615,6 +5619,10 @@ def closest(a: ArrayLike, b: ArrayLike) -> NDArray:
     -------
     :class:`numpy.ndarray`
         Closest array :math:`a` elements.
+
+    Notes
+    -----
+    Candidates and reference values are both flattened in row-major order.
 
     Examples
     --------
@@ -5640,7 +5648,7 @@ def closest(a: ArrayLike, b: ArrayLike) -> NDArray:
     a = xp_as_array(a, xp=xp, like=reference)
     b = xp_as_array(b, xp=xp, like=a)
 
-    return a[closest_indexes(a, b)]
+    return xp.take(xp_reshape(a, (-1,), xp=xp), closest_indexes(a, b), axis=0)
 
 
 _CACHE_DISTRIBUTION_INTERVAL: dict = CACHE_REGISTRY.register_cache(
