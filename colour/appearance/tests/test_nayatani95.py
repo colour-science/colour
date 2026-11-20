@@ -201,9 +201,11 @@ class TestXYZ_to_Nayatani95:
                 )
             if xp.__name__ != "numpy":
                 request.getfixturevalue("autodiff")(
-                    lambda value, parameter=parameter: XYZ_to_Nayatani95(
-                        **{**host_arguments, parameter: value}
-                    ).L_star_N,
+                    lambda value, parameter=parameter: (
+                        XYZ_to_Nayatani95(
+                            **{**host_arguments, parameter: value}
+                        ).L_star_N
+                    ),
                     native,
                 )
 

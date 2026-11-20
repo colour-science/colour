@@ -15,7 +15,6 @@ from __future__ import annotations
 
 import typing
 from collections.abc import Iterator, KeysView, Mapping, ValuesView
-from operator import pow  # noqa: A004
 from operator import (
     add,
     iadd,
@@ -24,6 +23,7 @@ from operator import (
     isub,
     itruediv,
     mul,
+    pow,
     sub,
     truediv,
 )

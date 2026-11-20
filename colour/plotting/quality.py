@@ -20,8 +20,8 @@ if typing.TYPE_CHECKING:
 from itertools import cycle
 
 if typing.TYPE_CHECKING:
-    from matplotlib.figure import Figure
     from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
 
 from contextlib import suppress
 

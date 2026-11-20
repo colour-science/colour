@@ -7,18 +7,18 @@ if typing.TYPE_CHECKING:
     from colour.hints import (
         Any,
         ArrayLike,
-        NDArrayFloat,
-        NDArrayInt,
-        LiteralLogEncoding,
-        LiteralLogDecoding,
-        LiteralOETF,
-        LiteralOETFInverse,
+        LiteralCCTFDecoding,
+        LiteralCCTFEncoding,
         LiteralEOTF,
         LiteralEOTFInverse,
-        LiteralCCTFEncoding,
-        LiteralCCTFDecoding,
+        LiteralLogDecoding,
+        LiteralLogEncoding,
+        LiteralOETF,
+        LiteralOETFInverse,
         LiteralOOTF,
         LiteralOOTFInverse,
+        NDArrayFloat,
+        NDArrayInt,
     )
 
 from colour.utilities import (

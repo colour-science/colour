@@ -6,6 +6,7 @@ import typing
 
 if typing.TYPE_CHECKING:
     import pytest
+
     from colour.hints import ModuleType
 
 import numpy as np

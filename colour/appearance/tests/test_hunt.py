@@ -7,6 +7,7 @@ from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     import pytest
+
     from colour.hints import ModuleType
 
 import contextlib
@@ -182,11 +183,9 @@ class TestXYZ_to_Hunt:
                 if xp.__name__ != "numpy":
                     autodiff = request.getfixturevalue("autodiff")
                     autodiff(
-                        lambda value,
-                        parameter=parameter,
-                        active_arguments=active_arguments: XYZ_to_Hunt(
-                            **{**active_arguments, parameter: value}
-                        ).M,
+                        lambda value, parameter=parameter, active_arguments=active_arguments: (
+                            XYZ_to_Hunt(**{**active_arguments, parameter: value}).M
+                        ),
                         native,
                     )
         inactive_arguments = dict(host_arguments)
