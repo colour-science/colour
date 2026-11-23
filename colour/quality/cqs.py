@@ -51,8 +51,8 @@ if typing.TYPE_CHECKING:
         Tuple,
     )
 
-from colour.models import Lab_to_LCHab  # pyright: ignore
-from colour.models import (
+from colour.models import (  # pyright: ignore
+    Lab_to_LCHab,
     UCS_to_uv,
     XYZ_to_Lab,
     XYZ_to_UCS,

@@ -29,7 +29,6 @@ __status__ = "Production"
 __all__ = [
     "TestLinesPlanckianLocus",
     "TestPlotDaylightLocus",
-    "TestLinesPlanckianLocus",
     "TestPlotPlanckianLocus",
     "TestPlotPlanckianLocusInChromaticityDiagram",
     "TestPlotPlanckianLocusInChromaticityDiagramCIE1931",

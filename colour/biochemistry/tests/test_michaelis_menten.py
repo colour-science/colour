@@ -10,6 +10,7 @@ from contextlib import nullcontext
 
 if typing.TYPE_CHECKING:
     import pytest
+
     from colour.hints import ModuleType
 
 from itertools import product

@@ -23,6 +23,7 @@ from colour.graph import convert
 
 if typing.TYPE_CHECKING:
     from matplotlib.figure import Figure
+
     from colour.colorimetry import MultiSpectralDistributions
     from colour.hints import (
         Any,
