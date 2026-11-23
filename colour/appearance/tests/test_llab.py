@@ -153,9 +153,9 @@ class TestXYZ_to_LLAB:
             if xp.__name__ != "numpy":
                 autodiff = request.getfixturevalue("autodiff")
                 autodiff(
-                    lambda value, parameter=parameter: XYZ_to_LLAB(
-                        **{**host_arguments, parameter: value}
-                    ).M,
+                    lambda value, parameter=parameter: (
+                        XYZ_to_LLAB(**{**host_arguments, parameter: value}).M
+                    ),
                     native,
                 )
 

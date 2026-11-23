@@ -177,20 +177,22 @@ sd_to_aces_relative_exposure_values` definition.
             )
             for transform in (None, "CAT02"):
                 autodiff(
-                    lambda values,
-                    transform=transform: sd_to_aces_relative_exposure_values(
-                        sd_test,
-                        SpectralDistribution(values, shape),
-                        chromatic_adaptation_transform=transform,
+                    lambda values, transform=transform: (
+                        sd_to_aces_relative_exposure_values(
+                            sd_test,
+                            SpectralDistribution(values, shape),
+                            chromatic_adaptation_transform=transform,
+                        )
                     ),
                     illuminant.values,
                 )
                 autodiff(
-                    lambda values,
-                    transform=transform: sd_to_aces_relative_exposure_values(
-                        SpectralDistribution(values, shape),
-                        illuminant,
-                        chromatic_adaptation_transform=transform,
+                    lambda values, transform=transform: (
+                        sd_to_aces_relative_exposure_values(
+                            SpectralDistribution(values, shape),
+                            illuminant,
+                            chromatic_adaptation_transform=transform,
+                        )
                     ),
                     sd_test.values,
                 )

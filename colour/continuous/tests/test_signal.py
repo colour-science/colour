@@ -763,9 +763,9 @@ class TestSignal:
 
         for namespace in (xp, array_namespace(xp_as_array(self._range, xp=xp))):
             copied, (gradient,), _inputs = autodiff(
-                lambda values, namespace=namespace: Signal(values, self._domain)
-                .copy(xp=namespace)
-                .range,
+                lambda values, namespace=namespace: (
+                    Signal(values, self._domain).copy(xp=namespace).range
+                ),
                 self._range,
             )
             xp_assert_close(copied, self._range)
@@ -876,7 +876,7 @@ class TestSignal:
 
         autodiff(
             lambda values: (
-                Signal([2.0, 3.0, 4.0], [0, 1, 2]) * Signal(values, [0, 1, 2])
-            ).range,
+                (Signal([2.0, 3.0, 4.0], [0, 1, 2]) * Signal(values, [0, 1, 2])).range
+            ),
             xp_as_array([1.0, 2.0, 3.0], xp=xp),
         )

@@ -328,9 +328,11 @@ msds_CIE_illuminant_D_series` definition.
         if xp.__name__ != "numpy":
             autodiff = request.getfixturevalue("autodiff")
             autodiff(
-                lambda values: msds_CIE_illuminant_D_series(
-                    values, M1_M2_rounding=False, shape=shape
-                ).values,
+                lambda values: (
+                    msds_CIE_illuminant_D_series(
+                        values, M1_M2_rounding=False, shape=shape
+                    ).values
+                ),
                 xy_batch,
             )
 

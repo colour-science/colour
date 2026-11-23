@@ -590,14 +590,13 @@ class TestUCS_Luo2006_to_XYZ:
                         )
                     autodiff(function, [50.0, 12.0, 20.0])
                     autodiff(
-                        lambda white,
-                        luminance,
-                        background,
-                        function=function: function(
-                            [50.0, 0.0, 0.0],
-                            XYZ_w=white,
-                            L_A=luminance,
-                            Y_b=background,
+                        lambda white, luminance, background, function=function: (
+                            function(
+                                [50.0, 0.0, 0.0],
+                                XYZ_w=white,
+                                L_A=luminance,
+                                Y_b=background,
+                            )
                         ),
                         [0.9505, 1.0, 1.0888],
                         318.31,

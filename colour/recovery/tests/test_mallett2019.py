@@ -172,9 +172,11 @@ class TestRGB_to_sd_Mallett2019(FixtureMallett2019):
         if xp.__name__ != "numpy":
             autodiff = request.getfixturevalue("autodiff")
             autodiff(
-                lambda values: RGB_to_sd_Mallett2019(
-                    np.array([0.2, 0.3, 0.4]),
-                    type(self._basis)(values, self._basis.wavelengths),
-                ).values,
+                lambda values: (
+                    RGB_to_sd_Mallett2019(
+                        np.array([0.2, 0.3, 0.4]),
+                        type(self._basis)(values, self._basis.wavelengths),
+                    ).values
+                ),
                 self._basis.values,
             )

@@ -1316,12 +1316,9 @@ class TestPlanckLaw:
 
             if xp.__name__ != "numpy":
                 autodiff(
-                    lambda wavelength_nm,
-                    temperature,
-                    normalisation=normalisation: planck_law(
-                        wavelength_nm * 1e-9, temperature
-                    )
-                    / normalisation,
+                    lambda wavelength_nm, temperature, normalisation=normalisation: (
+                        planck_law(wavelength_nm * 1e-9, temperature) / normalisation
+                    ),
                     [500.0],
                     temperature,
                 )
