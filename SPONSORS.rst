@@ -205,7 +205,7 @@ If you'd like to join them, please consider
             <tr>
                 <td align="center" valign="middle">
                     <a href="https://www.jetbrains.com/" target="_blank">
-                        <img height="176px" src="https://i.imgur.com/nN1VDUG.png">
+                        <img width="176" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg" alt="JetBrains">
                     </a>
                     <p><a href="https://www.jetbrains.com/" target="_blank">JetBrains</a></p>
                 </td>
@@ -237,7 +237,7 @@ If you'd like to join them, please consider
             <tr>
                 <td align="center" valign="middle">
                     <a href="https://www.artstation.com/monsieur_lixm" target="_blank">
-                        <img width="176px" src="https://pbs.twimg.com/profile_images/1469781977280786433/NncWAxCW.jpg">
+                        <img width="176px" src="https://avatars.githubusercontent.com/u/64362465?s=352" alt="Liam Collod">
                     </a>
                     <p><a href="https://www.artstation.com/monsieur_lixm" target="_blank">Liam Collod</a></p>
                 </td>
@@ -275,7 +275,7 @@ If you'd like to join them, please consider
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://chrisbrejon.com/" target="_blank">
-                        <img width="176px" src="https://i.imgur.com/Zhs53S9.png">
+                        <img width="176px" src="https://images.opencollective.com/christophe-brejon/e0951ef/avatar/256.png" alt="Christophe Brejon">
                     </a>
                     <p><a href="https://chrisbrejon.com/" target="_blank">Christophe Brejon</a></p>
                 </td>
@@ -317,7 +317,7 @@ If you'd like to join them, please consider
                 </td>
                 <td align="center" valign="middle">
                     <a href="https://twitter.com/CLVPTY" target="_blank">
-                        <img width="98px" src="https://pbs.twimg.com/profile_images/1828737659918774273/uML8EAPp_400x400.jpg">
+                        <img width="98px" src="https://avatars.githubusercontent.com/u/8034084?s=196" alt="Cedric Lejeune">
                     </a>
                     <p><a href="https://twitter.com/CLVPTY" target="_blank">Cedric Lejeune</a></p>
                 </td>
