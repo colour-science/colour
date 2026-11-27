@@ -466,9 +466,6 @@ def tristimulus_weighting_factors_ASTME2022(
 
     interval_i = int(shape.interval)
 
-    # The colour matching functions and illuminant values are promoted to a
-    # single namespace so that the products below dispatch for a backend
-    # ``cmfs`` or ``illuminant``.
     reference = next(
         (a for a in (cmfs.values, illuminant.values, k) if is_non_ndarray(a)),
         cmfs.values,
@@ -478,10 +475,7 @@ def tristimulus_weighting_factors_ASTME2022(
 
     W = S[::interval_i, None] * Y[::interval_i, :]
 
-    # First and last measurement intervals *Lagrange Coefficients*. The
-    # coefficients are host *NumPy* constants and are promoted to the input
-    # namespace so the products with the backend ``S`` and ``Y`` values
-    # dispatch correctly.
+    # First and last measurement intervals *Lagrange Coefficients*.
     c_c = xp_as_float_array(
         lagrange_coefficients_ASTME2022(interval_i, "boundary"), xp=xp, like=W
     )
@@ -511,8 +505,6 @@ def tristimulus_weighting_factors_ASTME2022(
         W = xp.concat([W[:3, :] + first_interval, W[3:, :]], axis=0)
 
         # Last interval: W[i_cm-2:i_cm+1, :] += contributions with reversed c_c.
-        # ``xp.flip`` is used rather than a ``[::-1]`` slice: backends such as
-        # *PyTorch* reject a negative slice step.
         last_interval = xp.sum(
             xp.flip(c_c, axis=0)[:, :, None]
             * (S[w_lif : w_lif + r_c, None, None] * Y[w_lif : w_lif + r_c, None, :]),

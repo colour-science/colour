@@ -293,9 +293,6 @@ def x0_CCT_grid(
 
     xp = array_namespace(target)
 
-    # ``like=target`` creates the seed grid on the target's device; without
-    # it ``xp.linspace`` defaults to the host device and mismatches a
-    # device-resident ``target`` (e.g. *PyTorch* on *MPS*).
     grid_CCT = cast(
         "NDArrayFloat",
         xp_linspace(domain[0], domain[1], num=samples, xp=xp, like=target),

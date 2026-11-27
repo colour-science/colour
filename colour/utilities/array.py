@@ -4,6 +4,26 @@ Array Utilities
 
 Provide utilities for array manipulation and computational operations.
 
+Backend rules
+-------------
+Definitions dispatching on the *Array API* follow these rules:
+
+-   Host constants, e.g. matrices, coefficients and *Python* scalar
+    defaults, are promoted with ``xp_as_float_array(..., like=a)``.
+    Creation functions without ``like`` allocate on the default device, the
+    host for *PyTorch* even with *MPS* or *CUDA* inputs.
+-   The *Colour* float dtype is set explicitly with
+    :func:`xp_as_float_array` or :func:`xp_linspace`. Integer arrays and bare
+    *Python* scalars, e.g. from ``xp.arange`` or both ``xp.where`` branches,
+    otherwise adopt the backend default, float32 for *PyTorch*.
+-   0-d results stay arrays: ``float(a)`` and ``a.item()`` move to the host.
+-   ``xp.flip`` replaces negative slice steps, which *PyTorch* rejects.
+-   ``xp.stack`` builds arrays from lists of backend arrays; ``xp.asarray``
+    rejects them on *PyTorch*.
+-   Arrays are immutable on *JAX*: results are built with ``xp.stack`` or
+    ``xp.where``, or sequential in-place algorithms run on a *NumPy* copy.
+-   *MPS* lacks integer-tensor advanced indexing: gathers run on the host.
+
 References
 ----------
 -   :cite:`Castro2014a` : Castro, S. (2014). Numpy: Fastest way of computing

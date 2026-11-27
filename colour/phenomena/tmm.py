@@ -764,10 +764,8 @@ v_{n+1} \\\\ w_{n+1} \\end{pmatrix}
 
     if n.ndim == 1:
         n = xp_matrix_transpose(xp_atleast_2d(n, xp=xp), xp=xp)
-        # ``broadcast_to`` is equivalent to ``tile`` for an ``(M, 1)`` ->
-        # ``(M, W)`` expansion, works on every backend (*MPS* does not
-        # support ``tile`` on complex tensors) and avoids the copy; ``n``
-        # is only ever read downstream.
+        # ``broadcast_to`` avoids the copy of ``tile``, which *MPS* lacks for
+        # complex tensors; ``n`` is read only.
         n = xp_broadcast_to(n, (n.shape[0], wavelengths_count), xp=xp)
 
     # (1, layers_count)

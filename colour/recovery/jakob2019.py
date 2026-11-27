@@ -302,9 +302,6 @@ def error_function(
     target = xp_as_float_array(target, xp=xp, like=reference)
     c_0, c_1, c_2 = xp_as_float_array(coefficients, xp=xp, like=target)
 
-    # ``xp_linspace`` anchors the dtype to the *Colour* default rather than
-    # the backend default, which would otherwise be float32 for stock
-    # *PyTorch* and degrade the optimisation.
     wv = cast(
         "NDArrayFloat", xp_linspace(0, 1, num=len(cmfs.shape), xp=xp, like=target)
     )
@@ -314,9 +311,6 @@ def error_function(
     R = 1 / 2 + U / (2 * t1)
 
     t2 = 1 / (2 * t1) - U**2 / (2 * t1**3)
-    # ``xp.stack`` is used rather than ``xp_as_float_array`` because the
-    # elements are already backend arrays and a backend such as *PyTorch*
-    # rejects a list of tensors passed to ``asarray``.
     dR = xp.stack([wv**2 * t2, wv * t2, t2])
 
     XYZ = sd_to_XYZ_integration(R, cmfs, illuminant, shape=cmfs.shape) / 100

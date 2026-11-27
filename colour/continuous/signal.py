@@ -553,14 +553,8 @@ class Signal(AbstractContinuousFunction):
         """
 
         if self._function is None:
-            # Create the underlying continuous function. Each interpolator
-            # owns its own input conversion, so backend tensors flow
-            # straight through array-aware ones (Sprague / Linear / Kernel
-            # / Null) and only get coerced to *NumPy* by the scipy-bound
-            # ones (CubicSpline / Pchip). ``self._domain`` is promoted to
-            # ``self._range``'s backend so the interpolator sees both
-            # variables on the same device, and downstream ``like=``
-            # references can canonically use the stored ``x`` axis.
+            # Interpolators convert their own inputs; ``like=`` references
+            # use the stored domain.
             if len(self._domain) != 0 and len(self._range) != 0:
                 xp = array_namespace(self._domain, self._range)
                 domain = xp_as_float_array(self._domain, xp=xp, like=self._range)

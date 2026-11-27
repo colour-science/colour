@@ -919,17 +919,11 @@ def sd_multi_leds_Ohno2005(
         )
 
     sd = sd_zeros(shape)
-    # The accumulator is seeded in the input namespace so a backend
-    # ``peak_wavelengths`` yields a backend-valued distribution rather than
-    # being written back into a host range by the summation below.
     sd.range = xp_as_float_array(sd.range, xp=xp, like=peak_wavelengths)
 
     for peak_wavelength, half_spectral_width, peak_power_ratio in zip(
         peak_wavelengths, half_spectral_widths, peak_power_ratios, strict=True
     ):
-        # The 0-d array elements are passed through rather than collapsed with
-        # ``.item()`` so a backend ``peak_wavelengths`` etc. dispatches and the
-        # resulting distribution stays in the input namespace.
         sd += (
             sd_single_led_Ohno2005(peak_wavelength, half_spectral_width, **kwargs)
             * peak_power_ratio
