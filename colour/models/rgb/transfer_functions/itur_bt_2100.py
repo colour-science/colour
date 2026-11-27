@@ -418,7 +418,7 @@ WEIGHTS_BT2100_HLG: NDArrayFloat = np.array([0.2627, 0.6780, 0.0593])
 CONSTANTS_BT2100_HLG: Structure = Structure(
     a=CONSTANTS_ARIBSTDB67.a,
     b=1 - 4 * CONSTANTS_ARIBSTDB67.a,
-    c=0.5 - CONSTANTS_ARIBSTDB67.a * np.log(4 * CONSTANTS_ARIBSTDB67.a),
+    c=0.5 - CONSTANTS_ARIBSTDB67.a * math.log(4 * CONSTANTS_ARIBSTDB67.a),
 )
 """
 *Recommendation ITU-R BT.2100* *Reference HLG* constants expressed in their

@@ -5837,7 +5837,7 @@ def in_array(a: ArrayLike, b: ArrayLike, tolerance: Real = EPSILON) -> NDArray:
 
     d = xp.abs(xp_reshape(a, (-1,), xp=xp) - b[..., None])
 
-    return xp_reshape(xp.any(d <= tolerance, axis=0), a.shape, xp=xp)
+    return xp_reshape(xp.any(d <= float(tolerance), axis=0), a.shape, xp=xp)
 
 
 def tstack(

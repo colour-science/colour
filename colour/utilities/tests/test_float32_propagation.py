@@ -43,10 +43,8 @@ __status__ = "Production"
 
 __all__ = [
     "NODES",
-    "NODES_LEAKING_FLOAT64",
     "NODES_MENG2015",
     "DEFINITIONS",
-    "DEFINITIONS_LEAKING_FLOAT64",
     "count_float64_bindings",
     "TestFloat32Propagation",
 ]
@@ -68,9 +66,6 @@ def _nodes_from_XYZ() -> list[str]:
 
 NODES: list[str] = _nodes_from_XYZ()
 """Conversion graph nodes reachable from *CIE XYZ*."""
-
-NODES_LEAKING_FLOAT64: frozenset = frozenset({"din99"})
-"""Conversion graph nodes known to compute float64 intermediates."""
 
 NODES_MENG2015: frozenset = frozenset(
     {
@@ -115,16 +110,6 @@ DEFINITIONS: dict[str, Callable[[], Any]] = {
         _f32(60.25, 2.68, 7.92), _f32(59.17, 2.82, 6.73)
     ),
 }
-
-DEFINITIONS_LEAKING_FLOAT64: frozenset = frozenset(
-    {
-        "in_array",
-        "RGB_to_ICtCp HLG",
-        "ICtCp_to_RGB HLG",
-        "delta_E_DIN99",
-    }
-)
-"""Definitions known to compute float64 intermediates."""
 
 
 def _arrays(result: Any) -> Any:
@@ -172,22 +157,11 @@ def float32() -> Generator[None, None, None]:
         set_default_float_dtype(np.float64)
 
 
-def _xfail_if(name: str, leaking: frozenset) -> list:
-    if name in NODES_MENG2015:
-        return [
-            pytest.mark.xfail(
-                reason="Meng 2015 does not converge at float32.",
-                raises=RuntimeError,
-                strict=True,
-            )
-        ]
-
-    if name in leaking:
-        return [
-            pytest.mark.xfail(reason="Computes float64 intermediates.", strict=True)
-        ]
-
-    return []
+_XFAIL_MENG2015 = pytest.mark.xfail(
+    reason="Meng 2015 does not converge at float32.",
+    raises=RuntimeError,
+    strict=True,
+)
 
 
 @pytest.mark.usefixtures("float32")
@@ -198,7 +172,9 @@ class TestFloat32Propagation:
     @pytest.mark.parametrize(
         "node",
         [
-            pytest.param(node, marks=_xfail_if(node, NODES_LEAKING_FLOAT64))
+            pytest.param(
+                node, marks=[_XFAIL_MENG2015] if node in NODES_MENG2015 else []
+            )
             for node in NODES
         ],
     )
@@ -209,13 +185,7 @@ class TestFloat32Propagation:
 
         assert count_float64_bindings(lambda: colour.convert(XYZ, "CIE XYZ", node)) == 0
 
-    @pytest.mark.parametrize(
-        "name",
-        [
-            pytest.param(name, marks=_xfail_if(name, DEFINITIONS_LEAKING_FLOAT64))
-            for name in DEFINITIONS
-        ],
-    )
+    @pytest.mark.parametrize("name", list(DEFINITIONS))
     def test_definitions(self, name: str) -> None:
         """Test definitions outside the conversion graph."""
 
