@@ -3733,10 +3733,16 @@ def cast_non_ndarray(a: ArrayLike, dtype: Any) -> Any | None:
 
     xp = array_namespace(a)
 
-    xp_dtype = getattr(xp, np.dtype(dtype).name, None)
+    xp_dtype = _resolve_backend_dtype(xp, dtype)
 
-    if xp_dtype is None:
-        return None
+    # An unchanged dtype is either a backend dtype or a *NumPy* dtype without
+    # an equivalent in ``xp``.
+    if xp_dtype is dtype:
+        try:
+            if not hasattr(xp, np.dtype(dtype).name):
+                return None
+        except TypeError:  # Backend dtype, e.g. ``torch.float32``.
+            pass
 
     if a.dtype == xp_dtype:  # pyright: ignore
         return a
@@ -3813,7 +3819,7 @@ def as_array(
 
         if result is None:
             if dtype is not None and not is_numpy_namespace(xp):
-                dtype = getattr(xp, np.dtype(dtype).name, dtype)
+                dtype = _resolve_backend_dtype(xp, dtype)
 
             try:
                 result = xp.asarray(a, dtype=dtype)

@@ -568,6 +568,12 @@ class TestCastNonNdarray:
             a = xp_as_array([1.0, 2.0], xp=xp)
             assert cast_non_ndarray(a, as_ndarray(a).dtype) is a
 
+            # Backend dtypes are accepted.
+            a = xp_as_array([1.0, 2.0], xp=xp)
+            result = cast_non_ndarray(a, xp.float32)
+            assert result is not None
+            assert result.dtype == xp.float32
+
 
 class TestXpAsArray:
     """Define :func:`colour.utilities.xp_as_array` unit tests."""
