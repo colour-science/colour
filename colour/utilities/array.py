@@ -247,14 +247,8 @@ _ARRAY_API_ENABLED: contextvars.ContextVar[bool] = contextvars.ContextVar(
     "_ARRAY_API_ENABLED", default=_ARRAY_API_ENABLED_DEFAULT
 )
 """
-:class:`contextvars.ContextVar` storing the current *Colour* Array API
-dispatch enabled state. The :class:`contextvars.ContextVar` keeps nested
-:class:`array_api_enable` contexts independent across concurrent threads
-and async tasks. Read it via :func:`is_array_api_enabled` and toggle it
-via :func:`set_array_api_enabled` or :class:`array_api_enable`. The
-environment value is seeded as the :class:`contextvars.ContextVar`
-``default`` so that fresh threads and async tasks observe it, rather than
-via a module-level ``set`` that only applies to the importing context.
+*Colour* Array API dispatch state, per thread and async task. Seeded through
+``default`` so that new threads observe the environment value.
 """
 
 _CACHE_ARRAY_NAMESPACE: dict = CACHE_REGISTRY.register_cache(
@@ -1216,11 +1210,8 @@ def xp_ascontiguousarray(
     *Array API* compatible implementation of :func:`numpy.ascontiguousarray`.
 
     Materialise ``a`` into a C-contiguous array with the same shape and
-    dtype. The lazy stride-permuted view returned by
-    :func:`xp.matrix_transpose` (and ``.T`` / ``.mT``) poisons downstream
-    broadcasts and forces *BLAS* to copy internally on every subsequent
-    ``matmul``; calling this function at the transpose boundary cascades
-    the contiguous layout through all downstream operations.
+    dtype. Transposed views propagate their strides into broadcast outputs
+    and make *BLAS* copy on every ``matmul``.
 
     Parameters
     ----------
@@ -1265,14 +1256,8 @@ def xp_matrix_transpose(
     materialising the result to a C-contiguous array.
 
     Equivalent to ``xp.matrix_transpose(a)`` followed by
-    :func:`xp_ascontiguousarray`. Use whenever the transposed array will
-    participate in subsequent broadcasts or ``matmul`` operations; the
-    lazy stride-permuted view returned by the standard
-    ``matrix_transpose`` poisons broadcast outputs (the *NumPy* broadcast
-    machinery inherits the strided layout into the freshly-allocated
-    output) and forces *BLAS* to copy internally on every matmul. The
-    cost of materialising once is amortised by keeping all downstream
-    broadcasts and matmuls on contiguous memory.
+    :func:`xp_ascontiguousarray`, for transposes used in later broadcasts or
+    ``matmul`` operations.
 
     Parameters
     ----------
@@ -2530,17 +2515,10 @@ def xp_reshape(
     """
     *Array API* compatible implementation of :func:`numpy.reshape`.
 
-    This typed wrapper exists because ``xp`` is typed as :class:`Any`, so
-    ``xp.reshape(...)`` returns :class:`Any`. When the result is assigned
-    back to a variable that was originally a function parameter (e.g.,
-    ``a: ArrayLike``), *Pyright* reverts the variable to its declared type
-    instead of narrowing it. This wrapper declares ``-> NDArray`` so
-    that *Pyright* can track the narrowed type through reassignments.
-
-    Callers must promote *Python* scalars / lists to the backend
-    namespace beforehand (e.g. via :func:`xp_as_float_array`), since
-    strict backends like *PyTorch* reject raw scalars and the wrapper
-    cannot infer the target device for a scalar input.
+    The ``-> NDArray`` return type lets *Pyright* narrow parameters
+    reassigned with the result. *Python* scalars and lists must be promoted
+    beforehand, e.g. with :func:`xp_as_float_array`: *PyTorch* rejects them
+    and their device is unknown.
 
     Parameters
     ----------
@@ -2568,18 +2546,7 @@ def xp_broadcast_to(
     """
     *Array API* compatible implementation of :func:`numpy.broadcast_to`.
 
-    This typed wrapper exists because ``xp`` is typed as :class:`Any`, so
-    ``xp.broadcast_to(...)`` returns :class:`Any`. When the result is
-    assigned back to a variable that was originally a function parameter
-    (e.g., ``a: ArrayLike``), *Pyright* reverts the variable to its
-    declared type instead of narrowing it. This wrapper declares ``->
-    NDArray`` so that *Pyright* can track the narrowed type through
-    reassignments.
-
-    Callers must promote *Python* scalars / lists to the backend
-    namespace beforehand (e.g. via :func:`xp_as_float_array`), since
-    strict backends like *PyTorch* reject raw scalars and the wrapper
-    cannot infer the target device for a scalar input.
+    Typed as :func:`xp_reshape`, with the same input requirements.
 
     Parameters
     ----------

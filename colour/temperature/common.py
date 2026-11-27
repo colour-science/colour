@@ -433,15 +433,9 @@ def solve_CCT_Newton(
             denominator > _JACOBIAN_FLOOR, denominator, _JACOBIAN_FLOOR
         )
 
-        # Backtracking line search. Halve per-sample until every sample's
-        # squared residual decreases; guards against the local
-        # linearisation overshooting on highly non-linear forwards
-        # (e.g. *Krystek (1985)*'s rational polynomial) without
-        # sacrificing the quadratic regime inside the trust region.
-        # Runs the full iteration count rather than early-exiting on
-        # ``xp.all(improved)`` so the inner loop stays free of
-        # device-host syncs on ``jax`` / ``torch``; per-sample masking
-        # naturally freezes the step once a sample improves.
+        # Backtracking line search, see *Notes*. It runs the full iteration
+        # count: an early exit on ``xp.all(improved)`` would synchronise
+        # device and host. Improved samples keep their step.
         for _backtrack in range(backtrack_iterations):
             residual_trial = forward(CCT + step) - target
             objective_trial = xp.sum(residual_trial * residual_trial, axis=-1)
@@ -635,14 +629,7 @@ def solve_xy_Newton(
         )
         step = tstack([step_x, step_y])
 
-        # Backtracking line search on the augmented squared residual.
-        # Halve per-sample until every sample's augmented squared
-        # residual decreases; guards against overshooting on highly
-        # non-linear forwards (e.g. *McCamy (1992)*'s rational
-        # ``n``-polynomial). Runs the full iteration count rather than
-        # early-exiting on ``xp.all(improved)`` so the inner loop stays
-        # free of device-host syncs on ``jax`` / ``torch``; per-sample
-        # masking naturally freezes the step once a sample improves.
+        # Backtracking line search, see *Notes* and :func:`solve_CCT_Newton`.
         for _backtrack in range(backtrack_iterations):
             xy_trial = xy + step
             residual_trial = forward(xy_trial) - target
