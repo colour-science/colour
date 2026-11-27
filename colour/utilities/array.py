@@ -2186,25 +2186,27 @@ def _scale_by(
     *,
     xp: ProtocolArrayNamespace | ModuleType | None = None,
 ) -> NDArrayFloat:
-    """Multiply array :math:`a` by a scalar factor in its native namespace."""
+    """
+    Multiply :math:`a`, converted to ``xp``, by the *Python* float ``factor``
+    so that the dtype of :math:`a` is kept.
+    """
 
     a = as_float_array(a)
 
-    if not is_array_api_enabled():
-        return a * factor
+    if is_array_api_enabled():
+        a = xp_as_float_array(a, xp=array_namespace(a) if xp is None else xp)
 
-    xp = array_namespace(a) if xp is None else xp
-
-    a = xp_as_float_array(a, xp=xp)
-
-    return a * xp_as_float_array(factor, xp=xp, like=a)
+    return a * factor
 
 
 def xp_radians(
     a: ArrayLike, *, xp: ProtocolArrayNamespace | ModuleType | None = None
 ) -> NDArrayFloat:
     """
-    *Array API* compatible implementation of :func:`numpy.radians`.
+    Convert specified angle :math:`a` from degrees to radians.
+
+    *Array API* compatible implementation of :func:`numpy.radians`. The
+    factor is a *Python* float, so the result keeps the default float dtype.
 
     Parameters
     ----------
@@ -2217,6 +2219,11 @@ def xp_radians(
     -------
     :class:`object`
         Angle in radians.
+
+    Examples
+    --------
+    >>> xp_radians(np.array([90, 180]))
+    array([1.57079633, 3.14159265])
     """
 
     return _scale_by(a, np.pi / 180, xp=xp)
@@ -2226,7 +2233,10 @@ def xp_degrees(
     a: ArrayLike, *, xp: ProtocolArrayNamespace | ModuleType | None = None
 ) -> NDArrayFloat:
     """
-    *Array API* compatible implementation of :func:`numpy.degrees`.
+    Convert specified angle :math:`a` from radians to degrees.
+
+    *Array API* compatible implementation of :func:`numpy.degrees`. The
+    factor is a *Python* float, so the result keeps the default float dtype.
 
     Parameters
     ----------
@@ -2239,6 +2249,11 @@ def xp_degrees(
     -------
     :class:`object`
         Angle in degrees.
+
+    Examples
+    --------
+    >>> xp_degrees(np.array([np.pi / 2, np.pi]))
+    array([ 90., 180.])
     """
 
     return _scale_by(a, 180 / np.pi, xp=xp)

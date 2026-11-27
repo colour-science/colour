@@ -377,7 +377,7 @@ section above. The remaining creation helpers are:
 -   ``xp_trapezoid(y, *, x=None, dx=1.0, axis=-1, xp=None)`` :
     ``np.trapezoid`` (*NumPy* fallback).
 -   ``xp_radians(a, *, xp=None)`` / ``xp_degrees(a, *, xp=None)`` : Angle
-    conversion (namespace derived from ``a``).
+    conversion by a *Python* float factor.
 -   ``xp_round(a, *, decimals=0, xp=None)`` : ``np.round``.
 -   ``xp_sinc(a, *, xp=None)`` : ``np.sinc``.
 -   ``xp_log(a, *, where=None, xp=None)`` / ``xp_log2`` / ``xp_log10`` :
