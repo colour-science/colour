@@ -12,65 +12,14 @@ emits :class:`BenchmarkResult` records accumulated in a
 A :class:`BenchmarkRunner` orchestrates shared execution concerns (backend
 dispatch, warmup / timed runs, memory release).
 
-Currently implemented suites:
+Suites are registered in :attr:`BENCHMARK_SUITES` and selected with
+``--suites``. Name suffixes mark the code path:
 
--   :class:`BenchmarkSuite_ConversionGraph`, walks the array-path of the
-    *Colour* automatic conversion graph (iterative methods filtered out
-    via :attr:`BenchmarkConfiguration.iterative_graph_cases`).
--   :class:`BenchmarkSuite_ConversionGraphIterative`, walks the same
-    graph but yields only methods backed by ``solve_CCT_Newton`` or
-    ``scipy.spatial.distance.cdist``; measures Python-loop overhead.
--   :class:`BenchmarkSuite_Difference`, colour difference functions
-    (Delta E family).
--   :class:`BenchmarkSuite_IntegrationArray`, spectral integration
-    array-path (``sd_to_XYZ`` / ``msds_to_XYZ`` with raw ``ArrayLike``
-    inputs and ``method="Integration"``); dispatches through the *Array
-    API*.
--   :class:`BenchmarkSuite_IntegrationObject`, spectral integration
-    object-path (``SpectralDistribution`` / ``MultiSpectralDistributions``
-    inputs across all methods); spectral values follow the selected backend.
--   :class:`BenchmarkSuite_TransferFunction`, CCTF encoding / decoding.
--   :class:`BenchmarkSuite_Adaptation`, direct chromatic adaptation
-    transforms.
--   :class:`BenchmarkSuite_Characterisation`, colour correction matrix
-    methods.
--   :class:`BenchmarkSuite_RecoveryArray`, vectorisable spectral
-    reflectance recovery (*Smits 1999*, *Gaussian*, *Mallett 2019*,
-    *Jakob 2019* LUT runtime).
--   :class:`BenchmarkSuite_RecoveryObject`, per-pixel spectral
-    reflectance recovery solvers (*Jakob 2019*, *Meng 2015*, *Otsu 2018*).
--   :class:`BenchmarkSuite_QualityArray`, batched
-    :class:`MultiSpectralDistributions` paths for *CRI* / *CFI* / *CQS*;
-    captures the win from computing the *Planckian* / *CIE D Series*
-    references via the array kernels (``planck_law``,
-    ``CIE_illuminant_D_series``) rather than per-entry
-    :class:`MultiSpectralDistributions` construction.
--   :class:`BenchmarkSuite_QualityObject`, light-source quality indices
-    (CRI / CFI / CQS / SSI) on single :class:`SpectralDistribution`
-    inputs with backend-typed spectral values.
--   :class:`BenchmarkSuite_Volume`, gamut volume on ``RGB_Colourspace``
-    instances (``Monte Carlo``, ``RGB_colourspace_limits``).
--   :class:`BenchmarkSuite_VolumeIterative`, ``scipy.spatial.Delaunay``-
-    backed gamut containment checks (``is_within_visible_spectrum``,
-    ``is_within_macadam_limits``).
--   :class:`BenchmarkSuite_Phenomena`, sky models and Rayleigh scattering.
--   :class:`BenchmarkSuite_TemperatureArray`, closed-form *CIE xy*
-    <-> ``CCT`` methods that dispatch as one-shot *Array API* operations.
--   :class:`BenchmarkSuite_TemperatureIterative`, *CIE xy* <-> ``CCT``
-    methods backed by :func:`solve_CCT_Newton` /
-    :func:`solve_xy_Newton`; iteration cost scales with batch size.
--   :class:`BenchmarkSuite_Blindness`, colour-vision deficiency models.
--   :class:`BenchmarkSuite_Contrast`, contrast sensitivity functions.
--   :class:`BenchmarkSuite_GeneratorsArray`, vectorised spectral
-    generators (``planck_law``, ``rayleigh_jeans_law``); array-path,
-    dispatches through the *Array API*.
--   :class:`BenchmarkSuite_GeneratorsObject`, per-:class:`SpectralDistribution`
-    generators (``sd_blackbody``, ``sd_rayleigh_jeans``,
-    ``sd_CIE_illuminant_D_series``, ``msds_*`` variants); scalar ``sd_*``
-    cases use *NumPy*, while ``msds_*`` cases follow the selected backend.
--   :class:`BenchmarkSuite_Photometry`, photometric measures over a
-    :class:`SpectralDistribution` (``luminous_flux``,
-    ``luminous_efficacy``, ``luminous_efficiency``) with backend-typed values.
+-   *Array*: dispatches through the *Array API*.
+-   *Object*: :class:`SpectralDistribution` and
+    :class:`MultiSpectralDistributions` inputs.
+-   *Iterative*: *Python* loops or host *SciPy* calls, e.g.
+    :func:`solve_CCT_Newton` or :class:`scipy.spatial.Delaunay`.
 
 Usage::
 
@@ -1904,10 +1853,8 @@ class BenchmarkSuite_QualityArray(BenchmarkSuite):
     :class:`SpectralDistribution` only and is not exercised here. The
     batch path computes the *Planckian* / *CIE D Series* references via
     the array kernels (``planck_law``, ``CIE_illuminant_D_series``)
-    rather than building an :class:`MSDS` for each batch entry, so this
-    suite captures the win from skipping that construction. The
-    :class:`MultiSpectralDistributions` values are promoted to the
-    requested backend in :meth:`cases` so that *Array API* dispatch
+    without an :class:`MSDS` per batch entry. The values are promoted to
+    the requested backend in :meth:`cases` so that *Array API* dispatch
     propagates through the entire pipeline.
     """
 
