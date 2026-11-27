@@ -12,6 +12,10 @@ Definitions dispatching on the *Array API* follow these rules:
     parameter defaults, are promoted with ``xp_as_float_array(..., like=a)``.
     Creation functions without ``like`` allocate on the default device, the
     host for *PyTorch* even with *MPS* or *CUDA* inputs.
+-   Floating inputs are cast to :attr:`colour.constants.DTYPE_FLOAT_DEFAULT`.
+    float32 computation is selected with ``set_default_float_dtype(np.float32)``,
+    not by float32 inputs. ``test_float32_propagation`` checks that no float64
+    intermediates remain.
 -   The *Colour* float dtype is set explicitly with
     :func:`xp_as_float_array` or :func:`xp_linspace`, or taken from the
     input, e.g. ``xp.eye(n, dtype=a.dtype)``. Creation functions without
