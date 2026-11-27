@@ -16,8 +16,6 @@ References
 
 from __future__ import annotations
 
-import typing
-
 import numpy as np
 
 from colour.colorimetry import (
@@ -25,17 +23,10 @@ from colour.colorimetry import (
     SpectralDistribution,
     SpectralShape,
     handle_spectral_arguments,
-    sd_ones,
     sd_to_XYZ_integration,
 )
-
-if typing.TYPE_CHECKING:
-    from colour.hints import DTypeFloat
-
 from colour.hints import Domain1, NDArrayFloat  # noqa: TC001
 from colour.utilities import (
-    array_namespace,
-    as_float_array,
     as_ndarray,
     from_range_100,
     required,
@@ -188,32 +179,29 @@ def XYZ_to_sd_Meng2015(
 
     warn_if_optimisation_detaches(XYZ, "Meng 2015")
 
-    XYZ = as_ndarray(to_domain_1(XYZ))
+    XYZ = as_ndarray(to_domain_1(XYZ)).astype(np.float64)
 
     cmfs, illuminant = handle_spectral_arguments(
         cmfs, illuminant, shape_default=SPECTRAL_SHAPE_MENG2015
     )
 
-    sd = sd_ones(cmfs.shape)
+    # *SLSQP* differentiates numerically with steps of ~1e-8, below the float32
+    # resolution: the optimisation runs in float64. The constraint is linear,
+    # its weights are the tristimulus values of the unit basis.
+    bins = len(cmfs.wavelengths)
+    A = as_ndarray(
+        sd_to_XYZ_integration(np.identity(bins), cmfs, illuminant, shape=cmfs.shape)
+    ).astype(np.float64)
 
-    def objective_function(a: NDArrayFloat) -> DTypeFloat:
+    def objective_function(a: NDArrayFloat) -> float:
         """Define the objective function."""
 
-        a = as_float_array(a)
-
-        xp = array_namespace(a)
-
-        return xp.sum(xp.square(xp.diff(a)))
+        return float(np.sum(np.diff(a) ** 2))
 
     def constraint_function(a: NDArrayFloat) -> NDArrayFloat:
         """Define the constraint function."""
 
-        sd[:] = a
-
-        return sd_to_XYZ_integration(sd, cmfs=cmfs, illuminant=illuminant) - XYZ
-
-    wavelengths = sd.wavelengths
-    bins = wavelengths.size
+        return a @ A - XYZ
 
     optimisation_settings = {
         "method": "SLSQP",
@@ -226,7 +214,7 @@ def XYZ_to_sd_Meng2015(
     if optimisation_kwargs is not None:
         optimisation_settings.update(optimisation_kwargs)
 
-    result = minimize(objective_function, sd.values, **optimisation_settings)
+    result = minimize(objective_function, np.ones(bins), **optimisation_settings)
 
     if not result.success:
         error = (
@@ -238,6 +226,6 @@ def XYZ_to_sd_Meng2015(
 
     return SpectralDistribution(
         from_range_100(result.x * 100),
-        wavelengths,
+        cmfs.wavelengths,
         name=f"{XYZ} (XYZ) - Meng (2015)",
     )

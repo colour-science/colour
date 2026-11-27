@@ -43,7 +43,6 @@ __status__ = "Production"
 
 __all__ = [
     "NODES",
-    "NODES_MENG2015",
     "DEFINITIONS",
     "count_float64_bindings",
     "TestFloat32Propagation",
@@ -66,21 +65,6 @@ def _nodes_from_XYZ() -> list[str]:
 
 NODES: list[str] = _nodes_from_XYZ()
 """Conversion graph nodes reachable from *CIE XYZ*."""
-
-NODES_MENG2015: frozenset = frozenset(
-    {
-        "cqs",
-        "cri",
-        "luminous efficacy",
-        "luminous efficiency",
-        "luminous flux",
-        "spectral distribution",
-    }
-)
-"""
-Conversion graph nodes reached through :func:`colour.recovery.XYZ_to_sd_Meng2015`,
-whose optimisation does not converge at float32.
-"""
 
 
 def _f32(*values: float) -> Any:
@@ -157,27 +141,12 @@ def float32() -> Generator[None, None, None]:
         set_default_float_dtype(np.float64)
 
 
-_XFAIL_MENG2015 = pytest.mark.xfail(
-    reason="Meng 2015 does not converge at float32.",
-    raises=RuntimeError,
-    strict=True,
-)
-
-
 @pytest.mark.usefixtures("float32")
 class TestFloat32Propagation:
     """Define float32 propagation unit tests methods."""
 
     @pytest.mark.skipif(not is_networkx_installed(), reason="Requires NetworkX.")
-    @pytest.mark.parametrize(
-        "node",
-        [
-            pytest.param(
-                node, marks=[_XFAIL_MENG2015] if node in NODES_MENG2015 else []
-            )
-            for node in NODES
-        ],
-    )
+    @pytest.mark.parametrize("node", NODES)
     def test_conversion_graph(self, node: str) -> None:
         """Test the conversions from *CIE XYZ* along the conversion graph."""
 
