@@ -8,14 +8,19 @@ Backend rules
 -------------
 Definitions dispatching on the *Array API* follow these rules:
 
--   Host constants, e.g. matrices, coefficients and *Python* scalar
-    defaults, are promoted with ``xp_as_float_array(..., like=a)``.
+-   Host constant arrays and parameters, e.g. matrices, basis functions and
+    parameter defaults, are promoted with ``xp_as_float_array(..., like=a)``.
     Creation functions without ``like`` allocate on the default device, the
     host for *PyTorch* even with *MPS* or *CUDA* inputs.
 -   The *Colour* float dtype is set explicitly with
-    :func:`xp_as_float_array` or :func:`xp_linspace`. Integer arrays and bare
-    *Python* scalars, e.g. from ``xp.arange`` or both ``xp.where`` branches,
-    otherwise adopt the backend default, float32 for *PyTorch*.
+    :func:`xp_as_float_array` or :func:`xp_linspace`, or taken from the
+    input, e.g. ``xp.eye(n, dtype=a.dtype)``. Creation functions without
+    ``dtype``, integer arrays and bare *Python* scalars, e.g. both
+    ``xp.where`` branches, otherwise adopt the backend default: float32 for
+    *PyTorch*, float64 for *JAX* with ``jax_enable_x64``.
+-   Scalar coefficients are *Python* floats, e.g. unpacked with
+    ``.tolist()``. *NumPy* scalars are strongly typed and promote float32
+    arrays to float64.
 -   0-d results stay arrays: ``float(a)`` and ``a.item()`` move to the host.
 -   ``xp.flip`` replaces negative slice steps, which *PyTorch* rejects.
 -   ``xp.stack`` builds arrays from lists of backend arrays; ``xp.asarray``
