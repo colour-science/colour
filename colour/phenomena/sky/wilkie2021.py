@@ -992,9 +992,6 @@ def _reconstruct_sky_model(
 
     result = xp.zeros_like(offsets, dtype=gamma_factor.dtype)
 
-    # When running on a non-CPU device (e.g., MPS), convert the coefficient
-    # data array to a device tensor once so that advanced indexing works
-    # without round-tripping through numpy.
     data = xp_as_float_array(data, xp=xp, like=gamma_factor)
 
     for rank_index in range(metadata.rank):
@@ -1165,8 +1162,7 @@ def _evaluate_sky_model(
     total_coefficients_single = metadata.total_coefficients_single_configuration
 
     # 16-point interpolation grid over (visibility, albedo, altitude, elevation),
-    # shape ``(16, *S, n_valid)``. Building via ``stack`` rather than indexed
-    # assignment keeps the path Array API compatible across backends.
+    # shape ``(16, *S, n_valid)``.
     grid_parts = []
 
     for i in range(16):

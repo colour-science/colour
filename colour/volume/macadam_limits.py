@@ -18,11 +18,11 @@ from colour.models import xyY_to_XYZ
 from colour.utilities import (
     CACHE_REGISTRY,
     array_namespace,
-    as_ndarray,
+    as_array,
     is_caching_enabled,
     required,
     validate_method,
-    xp_as_array,
+    xp_fallback_numpy,
 )
 from colour.volume import OPTIMAL_COLOUR_STIMULI_ILLUMINANTS
 
@@ -140,8 +140,10 @@ def is_within_macadam_limits(
 
     XYZ = xyY_to_XYZ(xyY)
 
-    xp = array_namespace(XYZ)
-
-    simplex = triangulation.find_simplex(as_ndarray(XYZ), tol=tolerance)
-
-    return xp_as_array(simplex >= 0, xp=xp, like=XYZ)
+    # ``as_array`` keeps the *NumPy* result of a single point a 0-d array.
+    return xp_fallback_numpy(
+        "is_within_macadam_limits",
+        lambda XYZ: as_array(triangulation.find_simplex(XYZ, tol=tolerance) >= 0),
+        XYZ,
+        xp=array_namespace(XYZ),
+    )

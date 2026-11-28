@@ -181,7 +181,9 @@ def CIE_illuminant_D_series(
     shape
         Optional target spectral shape. When provided the natural
         ``(300, 830, 10)`` basis is linearly interpolated to
-        ``shape.wavelengths`` along the wavelength axis.
+        ``shape.wavelengths`` along the wavelength axis and extrapolated with
+        constant edge values, matching
+        :func:`colour.msds_CIE_illuminant_D_series`.
 
     Returns
     -------
@@ -246,7 +248,11 @@ def CIE_illuminant_D_series(
         return distribution
 
     basis_wavelengths = xp_as_float_array(S0.wavelengths, xp=xp, like=M1)
-    target_wavelengths = xp_as_float_array(shape.wavelengths, xp=xp, like=M1)
+    target_wavelengths = xp.clip(
+        xp_as_float_array(shape.wavelengths, xp=xp, like=M1),
+        min=float(S0.wavelengths[0]),
+        max=float(S0.wavelengths[-1]),
+    )
 
     return LinearInterpolator(basis_wavelengths, distribution)(target_wavelengths)
 

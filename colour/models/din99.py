@@ -152,7 +152,7 @@ def Lab_to_DIN99(
 
     c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8 = DIN99_METHODS[
         validate_method(method, tuple(DIN99_METHODS))
-    ]
+    ].tolist()
 
     Lab = to_domain_100(Lab)
 
@@ -257,7 +257,7 @@ def DIN99_to_Lab(
 
     c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8 = DIN99_METHODS[
         validate_method(method, tuple(DIN99_METHODS))
-    ]
+    ].tolist()
 
     Lab_99 = to_domain_100(Lab_99)
 

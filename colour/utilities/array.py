@@ -4,6 +4,35 @@ Array Utilities
 
 Provide utilities for array manipulation and computational operations.
 
+Backend rules
+-------------
+Definitions dispatching on the *Array API* follow these rules:
+
+-   Host constant arrays and parameters, e.g. matrices, basis functions and
+    parameter defaults, are promoted with ``xp_as_float_array(..., like=a)``.
+    Creation functions without ``like`` allocate on the default device, the
+    host for *PyTorch* even with *MPS* or *CUDA* inputs.
+-   Floating inputs are cast to :attr:`colour.constants.DTYPE_FLOAT_DEFAULT`.
+    float32 computation is selected with ``set_default_float_dtype(np.float32)``,
+    not by float32 inputs. ``test_float32_propagation`` checks that no float64
+    intermediates remain.
+-   The *Colour* float dtype is set explicitly with
+    :func:`xp_as_float_array` or :func:`xp_linspace`, or taken from the
+    input, e.g. ``xp.eye(n, dtype=a.dtype)``. Creation functions without
+    ``dtype``, integer arrays and bare *Python* scalars, e.g. both
+    ``xp.where`` branches, otherwise adopt the backend default: float32 for
+    *PyTorch*, float64 for *JAX* with ``jax_enable_x64``.
+-   Scalar coefficients are *Python* floats, e.g. unpacked with
+    ``.tolist()``. *NumPy* scalars are strongly typed and promote float32
+    arrays to float64.
+-   0-d results stay arrays: ``float(a)`` and ``a.item()`` move to the host.
+-   ``xp.flip`` replaces negative slice steps, which *PyTorch* rejects.
+-   ``xp.stack`` builds arrays from lists of backend arrays; ``xp.asarray``
+    rejects them on *PyTorch*.
+-   Arrays are immutable on *JAX*: results are built with ``xp.stack`` or
+    ``xp.where``, or sequential in-place algorithms run on a *NumPy* copy.
+-   *MPS* lacks integer-tensor advanced indexing: gathers run on the host.
+
 References
 ----------
 -   :cite:`Castro2014a` : Castro, S. (2014). Numpy: Fastest way of computing
@@ -133,6 +162,7 @@ __all__ = [
     "xp_log10",
     "xp_sqrt",
     "xp_power",
+    "xp_fallback_numpy",
     "xp_select",
     "xp_interp",
     "xp_trapezoid",
@@ -226,14 +256,8 @@ _ARRAY_API_ENABLED: contextvars.ContextVar[bool] = contextvars.ContextVar(
     "_ARRAY_API_ENABLED", default=_ARRAY_API_ENABLED_DEFAULT
 )
 """
-:class:`contextvars.ContextVar` storing the current *Colour* Array API
-dispatch enabled state. The :class:`contextvars.ContextVar` keeps nested
-:class:`array_api_enable` contexts independent across concurrent threads
-and async tasks. Read it via :func:`is_array_api_enabled` and toggle it
-via :func:`set_array_api_enabled` or :class:`array_api_enable`. The
-environment value is seeded as the :class:`contextvars.ContextVar`
-``default`` so that fresh threads and async tasks observe it, rather than
-via a module-level ``set`` that only applies to the importing context.
+*Colour* Array API dispatch state, per thread and async task. Seeded through
+``default`` so that new threads observe the environment value.
 """
 
 _CACHE_ARRAY_NAMESPACE: dict = CACHE_REGISTRY.register_cache(
@@ -1195,11 +1219,8 @@ def xp_ascontiguousarray(
     *Array API* compatible implementation of :func:`numpy.ascontiguousarray`.
 
     Materialise ``a`` into a C-contiguous array with the same shape and
-    dtype. The lazy stride-permuted view returned by
-    :func:`xp.matrix_transpose` (and ``.T`` / ``.mT``) poisons downstream
-    broadcasts and forces *BLAS* to copy internally on every subsequent
-    ``matmul``; calling this function at the transpose boundary cascades
-    the contiguous layout through all downstream operations.
+    dtype. Transposed views propagate their strides into broadcast outputs
+    and make *BLAS* copy on every ``matmul``.
 
     Parameters
     ----------
@@ -1244,14 +1265,8 @@ def xp_matrix_transpose(
     materialising the result to a C-contiguous array.
 
     Equivalent to ``xp.matrix_transpose(a)`` followed by
-    :func:`xp_ascontiguousarray`. Use whenever the transposed array will
-    participate in subsequent broadcasts or ``matmul`` operations; the
-    lazy stride-permuted view returned by the standard
-    ``matrix_transpose`` poisons broadcast outputs (the *NumPy* broadcast
-    machinery inherits the strided layout into the freshly-allocated
-    output) and forces *BLAS* to copy internally on every matmul. The
-    cost of materialising once is amortised by keeping all downstream
-    broadcasts and matmuls on contiguous memory.
+    :func:`xp_ascontiguousarray`, for transposes used in later broadcasts or
+    ``matmul`` operations.
 
     Parameters
     ----------
@@ -1400,11 +1415,87 @@ def _runtime_warning_xp_fallback(name: str) -> None:
     alternative = _XP_FALLBACK_ALTERNATIVES.get(name, _XP_FALLBACK_ALTERNATIVE_DEFAULT)
 
     runtime_warning(
-        f'"{name}" is falling back to "NumPy" for non-"NumPy" '
-        "arrays, this will incur a performance penalty due to array "
-        "conversion and will not preserve automatic differentiation graphs. "
+        f'"{name}" is evaluated on the host for non-"NumPy" arrays, this '
+        "will incur a performance penalty due to array conversion and will "
+        "not preserve automatic differentiation graphs. "
         f"{alternative}"
     )
+
+
+def xp_fallback_numpy(
+    name: str,
+    function: Callable,
+    *arrays: Any,
+    xp: ProtocolArrayNamespace | ModuleType,
+    like: Any = None,
+    **kwargs: Any,
+) -> Any:
+    """
+    Evaluate the host *NumPy* / *SciPy* ``function`` on ``arrays`` and return
+    the result in ``xp``, on the device of ``like``.
+
+    ``like`` defaults to the first non-*NumPy* array of ``arrays``. Floating
+    results are cast to the promoted dtype of the floating inputs, e.g.
+    :func:`numpy.interp` always returns float64. Array elements of a tuple
+    result are converted, other elements, e.g. the :func:`numpy.linspace`
+    step, are returned unchanged. With a *NumPy* ``xp``, ``function`` is
+    called directly and no warning is emitted.
+
+    Parameters
+    ----------
+    name
+        Name reported in the fallback warning.
+    function
+        Host function called with the *NumPy* ``arrays`` and ``kwargs``.
+    arrays
+        Array arguments converted to *NumPy*.
+    xp
+        Array namespace module of the result.
+    like
+        Reference array whose device to match.
+    kwargs
+        Keyword arguments passed to ``function``.
+
+    Returns
+    -------
+    :class:`object`
+        Result of ``function`` in ``xp``.
+
+    Examples
+    --------
+    >>> xp_fallback_numpy("np.median", np.median, np.array([1.0, 3.0, 2.0]), xp=np)
+    np.float64(2.0)
+    """
+
+    if is_numpy_namespace(xp):
+        return function(*arrays, **kwargs)
+
+    _runtime_warning_xp_fallback(name)
+
+    if like is None:
+        like = _native_reference(*arrays)
+
+    arrays_numpy = [as_ndarray(a) for a in arrays]
+    dtypes_inexact = [a.dtype for a in arrays_numpy if a.dtype.kind in "fc"]
+    dtype = np.result_type(*dtypes_inexact) if dtypes_inexact else None
+
+    def to_xp(result: Any) -> Any:
+        if not isinstance(result, np.ndarray):
+            return result
+
+        if dtype is not None and result.dtype.kind == dtype.kind:
+            result = result.astype(dtype, copy=False)
+
+        # ``copy=True`` bypasses the scalar-promotion cache, which must not
+        # hold transient results.
+        return xp_as_array(result, xp=xp, like=like, copy=True)
+
+    result = function(*arrays_numpy, **kwargs)
+
+    if isinstance(result, tuple):
+        return tuple(to_xp(r) for r in result)
+
+    return to_xp(np.asarray(result))
 
 
 def _runtime_warning_xp_downcast(
@@ -1753,26 +1844,7 @@ def xp_interp(
     except (AttributeError, TypeError):
         pass
 
-    _runtime_warning_xp_fallback("xp_interp")
-
-    fp_nd = as_ndarray(fp)
-    result = np.interp(as_ndarray(x), as_ndarray(x_data), fp_nd)
-    if np.issubdtype(fp_nd.dtype, np.inexact):
-        result = result.astype(fp_nd.dtype)
-
-    device = getattr(x, "device", None)
-    if device is not None and hasattr(device, "type"):
-        like = x
-        like_dtype = getattr(like, "dtype", None)
-        like_is_f32 = like_dtype is not None and (
-            getattr(like_dtype, "name", None) == "float32"
-            or str(like_dtype) in ("torch.float32", "float32")
-        )
-        if like_is_f32 and result.dtype == np.float64:
-            result = result.astype(np.float32)
-        return xp.asarray(result, device=device)
-
-    return xp_as_array(result, xp=xp, like=x)
+    return xp_fallback_numpy("xp_interp", np.interp, x, x_data, fp, xp=xp)
 
 
 def xp_trapezoid(
@@ -1821,13 +1893,11 @@ def xp_trapezoid(
     except (AttributeError, TypeError):
         pass
 
-    _runtime_warning_xp_fallback("xp_trapezoid")
+    arrays = (y,) if x is None else (y, x)
 
-    result = np.trapezoid(
-        as_ndarray(y), x=as_ndarray(x) if x is not None else None, dx=dx, axis=axis
+    return xp_fallback_numpy(
+        "xp_trapezoid", np.trapezoid, *arrays, xp=xp, dx=dx, axis=axis
     )
-
-    return xp_as_array(result, xp=xp, like=y)
 
 
 def xp_average(
@@ -1942,14 +2012,7 @@ def xp_gradient(
             return result[0]
         return result  # pyright: ignore
 
-    _runtime_warning_xp_fallback("xp_gradient")
-
-    result = np.gradient(as_ndarray(f), *(as_ndarray(v) for v in varargs), axis=axis)
-
-    if isinstance(result, (list, tuple)):
-        return [xp_as_array(r, xp=xp, like=f) for r in result]
-
-    return xp_as_array(result, xp=xp, like=f)
+    return xp_fallback_numpy("xp_gradient", np.gradient, f, *varargs, xp=xp, axis=axis)
 
 
 def xp_resize(
@@ -2075,14 +2138,7 @@ def xp_median(
 
     xp = array_namespace(a) if xp is None else xp
 
-    if is_numpy_namespace(xp):
-        return np.median(a, axis=axis)  # pyright: ignore
-
-    _runtime_warning_xp_fallback("xp_median")
-
-    result = np.median(as_ndarray(a), axis=axis)
-
-    return xp_as_array(result, xp=xp, like=a)
+    return xp_fallback_numpy("xp_median", np.median, a, xp=xp, axis=axis)
 
 
 def xp_round(
@@ -2134,25 +2190,27 @@ def _scale_by(
     *,
     xp: ProtocolArrayNamespace | ModuleType | None = None,
 ) -> NDArrayFloat:
-    """Multiply array :math:`a` by a scalar factor in its native namespace."""
+    """
+    Multiply :math:`a`, converted to ``xp``, by the *Python* float ``factor``
+    so that the dtype of :math:`a` is kept.
+    """
 
     a = as_float_array(a)
 
-    if not is_array_api_enabled():
-        return a * factor
+    if is_array_api_enabled():
+        a = xp_as_float_array(a, xp=array_namespace(a) if xp is None else xp)
 
-    xp = array_namespace(a) if xp is None else xp
-
-    a = xp_as_float_array(a, xp=xp)
-
-    return a * xp_as_float_array(factor, xp=xp, like=a)
+    return a * factor
 
 
 def xp_radians(
     a: ArrayLike, *, xp: ProtocolArrayNamespace | ModuleType | None = None
 ) -> NDArrayFloat:
     """
-    *Array API* compatible implementation of :func:`numpy.radians`.
+    Convert specified angle :math:`a` from degrees to radians.
+
+    *Array API* compatible implementation of :func:`numpy.radians`. The
+    factor is a *Python* float, so the result keeps the default float dtype.
 
     Parameters
     ----------
@@ -2165,6 +2223,11 @@ def xp_radians(
     -------
     :class:`object`
         Angle in radians.
+
+    Examples
+    --------
+    >>> xp_radians(np.array([90, 180]))
+    array([1.57079633, 3.14159265])
     """
 
     return _scale_by(a, np.pi / 180, xp=xp)
@@ -2174,7 +2237,10 @@ def xp_degrees(
     a: ArrayLike, *, xp: ProtocolArrayNamespace | ModuleType | None = None
 ) -> NDArrayFloat:
     """
-    *Array API* compatible implementation of :func:`numpy.degrees`.
+    Convert specified angle :math:`a` from radians to degrees.
+
+    *Array API* compatible implementation of :func:`numpy.degrees`. The
+    factor is a *Python* float, so the result keeps the default float dtype.
 
     Parameters
     ----------
@@ -2187,6 +2253,11 @@ def xp_degrees(
     -------
     :class:`object`
         Angle in degrees.
+
+    Examples
+    --------
+    >>> xp_degrees(np.array([np.pi / 2, np.pi]))
+    array([ 90., 180.])
     """
 
     return _scale_by(a, 180 / np.pi, xp=xp)
@@ -2468,17 +2539,10 @@ def xp_reshape(
     """
     *Array API* compatible implementation of :func:`numpy.reshape`.
 
-    This typed wrapper exists because ``xp`` is typed as :class:`Any`, so
-    ``xp.reshape(...)`` returns :class:`Any`. When the result is assigned
-    back to a variable that was originally a function parameter (e.g.,
-    ``a: ArrayLike``), *Pyright* reverts the variable to its declared type
-    instead of narrowing it. This wrapper declares ``-> NDArray`` so
-    that *Pyright* can track the narrowed type through reassignments.
-
-    Callers must promote *Python* scalars / lists to the backend
-    namespace beforehand (e.g. via :func:`xp_as_float_array`), since
-    strict backends like *PyTorch* reject raw scalars and the wrapper
-    cannot infer the target device for a scalar input.
+    The ``-> NDArray`` return type lets *Pyright* narrow parameters
+    reassigned with the result. *Python* scalars and lists must be promoted
+    beforehand, e.g. with :func:`xp_as_float_array`: *PyTorch* rejects them
+    and their device is unknown.
 
     Parameters
     ----------
@@ -2506,18 +2570,7 @@ def xp_broadcast_to(
     """
     *Array API* compatible implementation of :func:`numpy.broadcast_to`.
 
-    This typed wrapper exists because ``xp`` is typed as :class:`Any`, so
-    ``xp.broadcast_to(...)`` returns :class:`Any`. When the result is
-    assigned back to a variable that was originally a function parameter
-    (e.g., ``a: ArrayLike``), *Pyright* reverts the variable to its
-    declared type instead of narrowing it. This wrapper declares ``->
-    NDArray`` so that *Pyright* can track the narrowed type through
-    reassignments.
-
-    Callers must promote *Python* scalars / lists to the backend
-    namespace beforehand (e.g. via :func:`xp_as_float_array`), since
-    strict backends like *PyTorch* reject raw scalars and the wrapper
-    cannot infer the target device for a scalar input.
+    Typed as :func:`xp_reshape`, with the same input requirements.
 
     Parameters
     ----------
@@ -2594,13 +2647,9 @@ def xp_lstsq(
     except (AttributeError, TypeError, NotImplementedError, RuntimeError):
         pass
 
-    _runtime_warning_xp_fallback("xp_lstsq")
-
-    a_nd = as_ndarray(a)
-    result = np.linalg.lstsq(a_nd, as_ndarray(b), rcond=rcond)[0]
-    result = result.astype(a_nd.dtype)
-
-    return xp_as_array(result, xp=xp, like=a)
+    return xp_fallback_numpy(
+        "xp_lstsq", lambda a, b: np.linalg.lstsq(a, b, rcond=rcond)[0], a, b, xp=xp
+    )
 
 
 def _xp_eig_generic(
@@ -2611,13 +2660,7 @@ def _xp_eig_generic(
     try:
         return getattr(xp.linalg, name)(a)
     except (AttributeError, TypeError, NotImplementedError, RuntimeError):
-        _runtime_warning_xp_fallback(f"xp_{name}")
-
-        w, v = getattr(np.linalg, name)(as_ndarray(a))
-
-        # ``a`` is passed as the device reference so that the host round-trip
-        # returns the results on the input's device rather than the default.
-        return xp_as_array(w, xp=xp, like=a), xp_as_array(v, xp=xp, like=a)
+        return xp_fallback_numpy(f"xp_{name}", getattr(np.linalg, name), a, xp=xp)
 
 
 def xp_eig(
@@ -2730,11 +2773,9 @@ def xp_isin(
     except (AttributeError, TypeError):
         pass
 
-    _runtime_warning_xp_fallback("xp_isin")
-
-    result = np.isin(as_ndarray(element), as_ndarray(test_elements))
-
-    return xp_as_array(result, xp=xp, like=element)
+    return xp_fallback_numpy(
+        "xp_isin", np.isin, element, test_elements, xp=xp, like=reference
+    )
 
 
 def _linspace_dtypes(dtype: Any) -> tuple[np.dtype, Any]:
@@ -2833,23 +2874,16 @@ def xp_linspace(
         # integer linspace instead truncates negative samples towards zero.
         return xp_astype(xp.floor(result), dtype, xp=xp) if integer_output else result
     except (AttributeError, TypeError):
-        _runtime_warning_xp_fallback("xp_linspace")
-
-        result = np.linspace(
-            as_ndarray(start), as_ndarray(stop), num, dtype=numpy_dtype, **kwargs
+        # ``start`` and ``stop`` are converted in the closure so that they do
+        # not override the requested ``dtype``.
+        return xp_fallback_numpy(
+            "xp_linspace",
+            lambda: np.linspace(
+                as_ndarray(start), as_ndarray(stop), num, dtype=numpy_dtype, **kwargs
+            ),
+            xp=xp,
+            like=like,
         )
-
-        def _to_backend(arr: NDArrayFloat) -> NDArrayFloat:
-            try:
-                return xp.asarray(arr, device=device)
-            except TypeError:
-                _runtime_warning_xp_downcast(xp, arr.dtype, "float32")
-                return xp.asarray(arr.astype(np.float32), device=device)
-
-        if isinstance(result, tuple):
-            return _to_backend(np.asarray(result[0])), result[1]
-
-        return _to_backend(np.asarray(result))
 
 
 def xp_pad(
@@ -2894,11 +2928,9 @@ def xp_pad(
     except (AttributeError, TypeError):
         pass
 
-    _runtime_warning_xp_fallback("xp_pad")
-
-    result = np.pad(as_ndarray(a), pad_width, *args, **kwargs)
-
-    return xp_as_array(result, xp=xp, like=a)
+    return xp_fallback_numpy(
+        "xp_pad", lambda a: np.pad(a, pad_width, *args, **kwargs), a, xp=xp
+    )
 
 
 def xp_unique(
@@ -2941,14 +2973,7 @@ def xp_unique(
     except (AttributeError, TypeError):
         pass
 
-    _runtime_warning_xp_fallback("xp_unique")
-
-    result = np.unique(as_ndarray(a), **kwargs)
-
-    if isinstance(result, tuple):
-        return tuple(xp_as_array(r, xp=xp, like=a) for r in result)
-
-    return xp_as_array(result, xp=xp, like=a)
+    return xp_fallback_numpy("xp_unique", np.unique, a, xp=xp, **kwargs)
 
 
 def xp_insert(
@@ -3719,10 +3744,16 @@ def cast_non_ndarray(a: ArrayLike, dtype: Any) -> Any | None:
 
     xp = array_namespace(a)
 
-    xp_dtype = getattr(xp, np.dtype(dtype).name, None)
+    xp_dtype = _resolve_backend_dtype(xp, dtype)
 
-    if xp_dtype is None:
-        return None
+    # An unchanged dtype is either a backend dtype or a *NumPy* dtype without
+    # an equivalent in ``xp``.
+    if xp_dtype is dtype:
+        try:
+            if not hasattr(xp, np.dtype(dtype).name):
+                return None
+        except TypeError:  # Backend dtype, e.g. ``torch.float32``.
+            pass
 
     if a.dtype == xp_dtype:  # pyright: ignore
         return a
@@ -3799,7 +3830,7 @@ def as_array(
 
         if result is None:
             if dtype is not None and not is_numpy_namespace(xp):
-                dtype = getattr(xp, np.dtype(dtype).name, dtype)
+                dtype = _resolve_backend_dtype(xp, dtype)
 
             try:
                 result = xp.asarray(a, dtype=dtype)
@@ -5830,7 +5861,7 @@ def in_array(a: ArrayLike, b: ArrayLike, tolerance: Real = EPSILON) -> NDArray:
 
     d = xp.abs(xp_reshape(a, (-1,), xp=xp) - b[..., None])
 
-    return xp_reshape(xp.any(d <= tolerance, axis=0), a.shape, xp=xp)
+    return xp_reshape(xp.any(d <= float(tolerance), axis=0), a.shape, xp=xp)
 
 
 def tstack(

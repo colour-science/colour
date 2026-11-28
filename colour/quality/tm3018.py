@@ -235,9 +235,6 @@ def colour_fidelity_index_ANSIIESTM3018(
 
     # Angles bisecting the 16 hue bins of width ``360 / 16 = 22.5`` degrees,
     # offset by half a bin (*ANSI/IES TM-30-18*, Section 4.5).
-    # ``xp.arange`` yields an integer array whose promotion would adopt the
-    # backend default float dtype, e.g. float32 for stock *PyTorch*; the
-    # samples are anchored to the *Colour* default float dtype instead.
     angles = (
         (22.5 * xp_as_float_array(xp.arange(16), xp=xp, like=averages_test) + 11.25)
         / 180

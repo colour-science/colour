@@ -7,6 +7,7 @@ import importlib
 import sys
 import types
 import typing
+import warnings
 from copy import deepcopy
 from dataclasses import dataclass, field, fields
 from functools import partial
@@ -145,6 +146,7 @@ from colour.utilities import (
     xp_degrees,
     xp_eig,
     xp_eigh,
+    xp_fallback_numpy,
     xp_gradient,
     xp_insert,
     xp_interp,
@@ -219,6 +221,7 @@ __all__ = [
     "TestXpNanToNum",
     "TestXpCreateDiagonal",
     "TestXpReshape",
+    "TestXpFallbackNumpy",
     "TestXpEig",
     "TestXpEigh",
     "TestXpLstsq",
@@ -564,6 +567,12 @@ class TestCastNonNdarray:
             # :func:`cast_non_ndarray` resolves back to the native dtype.
             a = xp_as_array([1.0, 2.0], xp=xp)
             assert cast_non_ndarray(a, as_ndarray(a).dtype) is a
+
+            # Backend dtypes are accepted.
+            a = xp_as_array([1.0, 2.0], xp=xp)
+            result = cast_non_ndarray(a, xp.float32)
+            assert result is not None
+            assert result.dtype == xp.float32
 
 
 class TestXpAsArray:
@@ -1928,6 +1937,55 @@ class TestXpBroadcastTo:
                 assert as_ndarray(result).dtype == np.int32
 
 
+class TestXpFallbackNumpy:
+    """Define :func:`colour.utilities.xp_fallback_numpy` unit tests."""
+
+    def test_xp_fallback_numpy(self, xp: ModuleType) -> None:
+        """Test :func:`colour.utilities.xp_fallback_numpy` definition."""
+
+        if is_numpy_namespace(xp):
+            with warnings.catch_warnings():
+                warnings.simplefilter("error")
+                result = xp_fallback_numpy(
+                    "np.median", np.median, np.array([1.0, 3.0, 2.0]), xp=xp
+                )
+            assert result == 2.0
+            return
+
+        def assert_native(result: Any, reference: Any) -> None:
+            assert type(result) is type(reference)
+            assert getattr(result, "device", None) == getattr(reference, "device", None)
+
+        x = xp_as_array([0.5, 1.5], dtype=np.float32, xp=xp)
+        x_data = xp_as_array([0.0, 1.0, 2.0], dtype=np.float32, xp=xp)
+        fp = xp_as_array([0.0, 10.0, 20.0], dtype=np.float32, xp=xp)
+        with pytest.warns(ColourRuntimeWarning):
+            result = xp_fallback_numpy("np.interp", np.interp, x, x_data, fp, xp=xp)
+        assert_native(result, x)
+        assert result.dtype == x.dtype
+        xp_assert_close(result, [5.0, 15.0])
+
+        a = xp_as_array([2, 1, 2], xp=xp)
+        with pytest.warns(ColourRuntimeWarning):
+            values, indexes = xp_fallback_numpy(
+                "np.unique", np.unique, a, xp=xp, return_index=True
+            )
+        assert_native(values, a)
+        assert_native(indexes, a)
+        xp_assert_equal(values, [1, 2])
+        xp_assert_equal(indexes, [1, 0])
+
+        with pytest.warns(ColourRuntimeWarning):
+            samples, step = xp_fallback_numpy(
+                "np.linspace",
+                lambda: np.linspace(0, 1, 3, retstep=True),
+                xp=xp,
+                like=x,
+            )
+        assert_native(samples, x)
+        assert isinstance(step, float)
+
+
 class TestXpEig:
     """Define :func:`colour.utilities.xp_eig` unit tests."""
 
@@ -2822,6 +2880,11 @@ class TestAsArray:
             as_array(dict(zip("abc", [1, 2, 3], strict=True)).values()),
             [1, 2, 3],
         )
+
+        a = as_array(
+            [xp_as_array(1, xp=xp), xp_as_array(2, xp=xp)], DTYPE_FLOAT_DEFAULT
+        )
+        assert as_ndarray(a).dtype.kind == "f"
 
     def test_as_array_autodiff(self, xp: ModuleType, autodiff: typing.Callable) -> None:
         """Test that conversion preserves automatic differentiation."""

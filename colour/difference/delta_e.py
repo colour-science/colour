@@ -371,9 +371,6 @@ dH=np.float64(0.0015891...))
     Lab_2 = to_domain_100(Lab_2)
 
     xp = array_namespace(Lab_1, Lab_2)
-    # Each operand is promoted with the other as the device reference so that
-    # a backend operand on a non-default device, e.g. *MPS*, pulls the host
-    # operand onto that same device.
     Lab_1 = xp_as_float_array(Lab_1, xp=xp, like=Lab_2)
     Lab_2 = xp_as_float_array(Lab_2, xp=xp, like=Lab_1)
 
@@ -511,9 +508,6 @@ delta_H_p=np.float64(0.0105030...), R_T=np.float64(-3...))
     Lab_2 = to_domain_100(Lab_2)
 
     xp = array_namespace(Lab_1, Lab_2)
-    # Each operand is promoted with the other as the device reference so that
-    # a backend operand on a non-default device, e.g. *MPS*, pulls the host
-    # operand onto that same device.
     Lab_1 = xp_as_float_array(Lab_1, xp=xp, like=Lab_2)
     Lab_2 = xp_as_float_array(Lab_2, xp=xp, like=Lab_1)
 
@@ -911,9 +905,6 @@ dH=np.float64(0.0037676...))
     Lab_2 = to_domain_100(Lab_2)
 
     xp = array_namespace(Lab_1, Lab_2)
-    # Each operand is promoted with the other as the device reference so that
-    # a backend operand on a non-default device, e.g. *MPS*, pulls the host
-    # operand onto that same device.
     Lab_1 = xp_as_float_array(Lab_1, xp=xp, like=Lab_2)
     Lab_2 = xp_as_float_array(Lab_2, xp=xp, like=Lab_1)
 

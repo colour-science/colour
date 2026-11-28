@@ -182,12 +182,8 @@ def spectral_primary_decomposition_Mallett2019(
 
     N = len(cmfs.shape)
 
-    # ``scipy.optimize.minimize``, ``scipy.optimize.LinearConstraint`` and
-    # ``scipy.linalg.block_diag`` only operate on *NumPy* arrays, so the whole
-    # decomposition is pinned to *NumPy* at this boundary rather than dressing
-    # scipy-bound values in array-namespace calls. The returned basis functions
-    # are a fixed property of the colourspace and observer, not of any caller
-    # backend.
+    # The *SciPy* optimisation requires *NumPy*. The basis functions depend on
+    # the colourspace and observer only, not on the caller backend.
     cmfs_values = as_ndarray(cmfs.values)
     illuminant_values = as_ndarray(illuminant.values)
 

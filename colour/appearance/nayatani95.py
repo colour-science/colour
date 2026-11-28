@@ -301,17 +301,12 @@ L_star_N=np.float64(75.8970185...))
     # Computing exponential factors :math:`\\beta_1(R_o)`,
     # :math:`\\beta_1(G_o)`, :math:`\\beta_2(B_o)` and the normalising
     # :math:`\\beta_1(B_{or})` (*CIE 1994* chromatic adaptation primitives).
-    # Cast back to the active backend dtype for consistent propagation.
     bRGB_o = xp_as_float_array(exponential_factors(RGB_o), xp=xp, like=XYZ)
     bR_o, bG_o, bB_o = tsplit(bRGB_o)
     bL_or = xp_as_float_array(beta_1(L_or), xp=xp, like=XYZ)
 
     # Computing scaling coefficients :math:`e(R)` and :math:`e(G)`: 1.758 when
     # the cone response exceeds 20 times the intermediate value, otherwise 1.
-    # Both ``xp.where`` branches are bare *Python* scalars, so nothing anchors
-    # the result dtype and the backend default, e.g. float32 for stock
-    # *PyTorch*, would be adopted; the branches are promoted to the *Colour*
-    # default float dtype first.
     one = xp_as_float_array(1, xp=xp, like=XYZ)
     eR = xp.where((20 * xi) <= R, xp_as_float_array(1.758, xp=xp, like=XYZ), one)
     eG = xp.where((20 * eta) <= G, xp_as_float_array(1.758, xp=xp, like=XYZ), one)

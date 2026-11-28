@@ -388,9 +388,6 @@ class MultiSignals(AbstractContinuousFunction):
 
         if len(self._range) > 0 and self._range.shape[-1] > 0:
             xp = array_namespace(self._range)
-            # Promote ``_domain`` onto ``_range``'s backend so they live on
-            # the same device for downstream evaluation; mirrors the per-
-            # signal promotion in :class:`Signal.function`.
             self._domain = xp_as_array(
                 self._domain, dtype=self._dtype, xp=xp, like=self._range
             )
@@ -669,14 +666,8 @@ class MultiSignals(AbstractContinuousFunction):
         """
 
         if self._function is None:
-            # Create the underlying continuous function. Each interpolator
-            # owns its own input conversion, so backend tensors flow
-            # straight through array-aware ones (Sprague / Linear / Kernel
-            # / Null) and only get coerced to *NumPy* by the scipy-bound
-            # ones (CubicSpline / Pchip). ``self.domain`` is promoted to
-            # ``self.range``'s backend so the interpolator sees both
-            # variables on the same device, and downstream ``like=``
-            # references can canonically use the stored ``x`` axis.
+            # Interpolators convert their own inputs; ``like=`` references
+            # use the stored domain.
             if self._domain.shape[0] and self._range.shape[0]:
                 xp = array_namespace(self.domain, self.range)
                 domain = xp_as_float_array(self.domain, xp=xp, like=self.range)
